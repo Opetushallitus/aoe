@@ -1,0 +1,30 @@
+// Custom styles
+
+
+.app {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.font-weigh-medium {
+  font-weight: 500;
+}
+
+
+.font-navbar {
+  font-size: 15px;
+  font-weight: 500;
+  //line-height: 18px;
+}
+
+
+.app-footer {
+  background: $gray-800;
+  color: #fff;
+
+}
+
+.base-heading-style {
+  font-weight: 400;
+  font-size:24px;
+}

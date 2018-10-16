@@ -1,0 +1,202 @@
+// Bootstrap overrides
+
+//
+// Color system
+//
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+
+
+// Project theme colors
+$white:                           #fff;
+$gray-100:                        #F9F9F9;
+$gray-200:                        #D5D4D4;
+$gray-700:                        #747171;
+$gray-800:                        #616161;
+$gray-900:                        #373737;
+$black:                           #000 !default;
+
+
+
+// Bootstrap base colors
+$gray-300:                        #a4b7c1;
+$gray-400:                        #869fac;
+$gray-500:                        #678898;
+$gray-600:                        #536c79;
+
+
+
+
+$blue:                            #20a8d8;
+$indigo:                          #6610f2 !default;
+$purple:                          #6f42c1 !default;
+$pink:                            #e83e8c !default;
+$red:                             #f86c6b;
+$orange:                          #f8cb00;
+$yellow:                          #ffc107 !default;
+$green:                           #4dbd74;
+$teal:                            #20c997 !default;
+$cyan:                            #63c2de;
+
+
+$colors: (
+  blue:                           $blue,
+  indigo:                         $indigo,
+  purple:                         $purple,
+  pink:                           $pink,
+  red:                            $red,
+  orange:                         $orange,
+  yellow:                         $yellow,
+  green:                          $green,
+  teal:                           $teal,
+  cyan:                           $cyan,
+  white:                          $white,
+  gray:                           $gray-800,
+  gray-dark:                      $gray-900
+);
+
+$theme-colors: (
+  primary:                        #41DD46,
+  secondary:                      $gray-300,
+  success:                        $green,
+  info:                           $cyan,
+  warning:                        $yellow,
+  danger:                         $red,
+  light:                          $gray-100,
+  dark:                           $gray-900,
+  gray:                           $gray-800
+);
+
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+
+$enable-transitions:              true;
+$enable-rounded:                  false;
+
+// Body
+//
+// Settings for the `<body>` element.
+
+$body-bg:                         #FFFFFF;
+$body-color:                      $gray-900 !default;
+
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-size-base:                  0.875rem;
+
+// Breadcrumbs
+
+$breadcrumb-bg:                   #fff;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+) !default;
+
+
+// Cards
+
+$card-border-color:               $gray-200;
+$card-cap-bg:                     $gray-100;
+
+// Dropdowns
+
+$dropdown-padding-y:              0;
+$dropdown-border-color:           $gray-200;
+$dropdown-divider-bg:             $gray-100;
+
+// Buttons
+
+$btn-secondary-border:            $gray-300;
+
+// Progress bars
+
+$progress-bg:                     $gray-100;
+
+// Tables
+
+$table-bg-accent:                 $gray-100;
+$table-bg-hover:                  $gray-100;
+
+// Forms
+
+$input-group-addon-bg:            $gray-100;
+$input-border-color:              $gray-200;
+$input-group-addon-border-color:  $gray-200;
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:      'Roboto', sans-serif !default;
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:            $font-family-sans-serif !default;
+// stylelint-enable value-keyword-case
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                ($font-size-base * 1.25) !default;
+$font-size-sm:                ($font-size-base * .875) !default;
+
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-bold:            700 !default;
+
+$font-weight-base:            $font-weight-normal !default;
+$line-height-base:            1.5 !default;
+
+$h1-font-size:                $font-size-base * 2.5 !default;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.25 !default;
+$h6-font-size:                $font-size-base !default;
+
+//$headings-margin-bottom:      ($spacer / 2) !default;
+$headings-font-family:        inherit !default;
+$headings-font-weight:        500 !default;
+$headings-line-height:        1.2 !default;
+$headings-color:              #373737 !default;
+
+$display1-size:               6rem !default;
+$display2-size:               5.5rem !default;
+$display3-size:               4.5rem !default;
+$display4-size:               3.5rem !default;
+
+$display1-weight:             300 !default;
+$display2-weight:             300 !default;
+$display3-weight:             300 !default;
+$display4-weight:             300 !default;
+$display-line-height:         $headings-line-height !default;
+
+$lead-font-size:              ($font-size-base * 1.25) !default;
+$lead-font-weight:            300 !default;
+
+$small-font-size:             80% !default;
+
+$text-muted:                  $gray-600 !default;
+
+$blockquote-small-color:      $gray-600 !default;
+$blockquote-font-size:        ($font-size-base * 1.25) !default;
+
+$hr-border-color:             rgba($black, .1) !default;
+//$hr-border-width:             $border-width !default;
+
+$mark-padding:                .2em !default;
+
+$dt-font-weight:              $font-weight-bold !default;
+
+$kbd-box-shadow:              inset 0 -.1rem 0 rgba($black, .25) !default;
+$nested-kbd-font-weight:      $font-weight-bold !default;
+
+$list-inline-padding:         .5rem !default;
+
+$mark-bg:                     #fcf8e3 !default;
+
+//$hr-margin-y:                 $spacer !default;
