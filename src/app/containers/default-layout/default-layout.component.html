@@ -1,13 +1,17 @@
 <nav class="navbar navbar-expand-lg bg-primary" style="height: 73px;">
-  <a class="navbar-brand font-xl text-white font-weight-bold font-2xl" href="#">Opit</a>
-  <a class="navbar-brand text-white font-xl" href="#">Avoimet oppimateriaalit</a>
+
+  <div class="navbar-header col-md-4">
+  <a class="navbar-brand font-xl text-white font-weight-bold font-2xl" [routerLink]="['/']">Opit</a>
+  <a class="navbar-brand text-white font-xl" [routerLink]="['/']">Avoimet oppimateriaalit</a>
+  </div>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav text-white position-absolute m-auto justify-content-center" style="left:0; right:0">
-      <li class="nav-item active">
+    <ul class="navbar-nav text-white" >
+
+      <li class="nav-item">
         <a class="nav-link text-white font-navbar" href="#"><img src="/assets/img/icons/ic_assignment_24px.png" class="mr-2">Omat materiaalit </a>
       </li>
       <li class="nav-item px-4">
-        <a class="nav-link text-white font-navbar" href="#"><img src="/assets/img/icons/ic_lisaa.svg" class="mr-2">Lisää materiaaleja</a>
+        <a class="nav-link text-white font-navbar" [routerLink]="['/lisaa-materiaaleja']"><img src="/assets/img/icons/ic_lisaa.svg" class="mr-2">Lisää materiaaleja</a>
       </li>
       <li class="nav-item">
         <a class="nav-link text-white font-navbar" href="#"><img src="/assets/img/icons/ic_asetukset.svg" class="mr-2">Asetukset</a>
@@ -20,8 +24,12 @@
       <li class="nav-item d-md-down-none">
       <a class="nav-link font-navbar text-white" href="#">Kirjaudu ulos</a>
       </li>
+
     </ul>
   </div>
+  <!--</div>-->
+
+
 </nav>
 
 <div class="app-body">
