@@ -1,7 +1,70 @@
 <div class="container py-4 px-0">
+
+  <section class="border-bottom">
   <div class="row">
     <div class="col-md-12">
-      <div class="base-heading-style">Lisää materiaaleja</div>
+      <h1 class="mt-5">Lisää materiaaleja</h1>
     </div>
   </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mt-5 pb-3">Perustiedot</h2>
+    </div>
+  </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group mb-4">
+        <label for="materialname">Materiaalin nimi *</label>
+        <input class="form-control hint-text" id="materialname" placeholder="Oletusnimi materiaalista tähän" type="text">
+      </div>
+    </div>
+  </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group mb-4">
+        <label for="topic">Aihe *</label>
+        <input class="form-control hint-text" id="topic" placeholder="Kirjoita aihe" type="text">
+      </div>
+    </div>
+  </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group mb-4">
+        <label for="authorname">Tekijän nimi *</label>
+        <input class="form-control hint-text" id="authorname" placeholder="Kirjoita tekijän nimi" type="text">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group mb-4">
+        <label for="publisher">Julkaisija *</label>
+        <input class="form-control hint-text" id="publisher" placeholder="Kirjoita julkaisijan nimi" type="text">
+      </div>
+    </div>
+  </div><!--/.row-->
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group mb-4">
+        <label class="" for="select1">Oppimateriaalin tyyppi</label>
+          <select class="form-control hint-text-select" id="select1" name="select1">
+            <option value="0" disabled>Valitse tyyppi</option>
+            <option value="1">Option #1</option>
+            <option value="2">Option #2</option>
+            <option value="3">Option #3</option>
+          </select>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="form-group mb-4">
+        <label for="publisher">Opiskeluaika (min) *</label>
+        <input class="form-control hint-text" id="studytime" placeholder="Opiskeluaika" type="text">
+      </div>
+    </div>
+  </div><!--/.row-->
+  </section>
+
 </div><!--/.container-->

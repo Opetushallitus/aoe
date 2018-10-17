@@ -1,4 +1,4 @@
-// Bootstrap overrides
+// Bootstrap variable overrides
 
 //
 // Color system
@@ -100,6 +100,7 @@ $grid-breakpoints: (
 ) !default;
 
 
+
 // Cards
 
 $card-border-color:               $gray-200;
@@ -127,7 +128,7 @@ $table-bg-hover:                  $gray-100;
 // Forms
 
 $input-group-addon-bg:            $gray-100;
-$input-border-color:              $gray-200;
+$input-border-color:              #DEDEDE;
 $input-group-addon-border-color:  $gray-200;
 
 // Fonts
@@ -151,8 +152,8 @@ $font-weight-bold:            700 !default;
 $font-weight-base:            $font-weight-normal !default;
 $line-height-base:            1.5 !default;
 
-$h1-font-size:                $font-size-base * 2.5 !default;
-$h2-font-size:                $font-size-base * 2 !default;
+$h1-font-size:                32px !default;
+$h2-font-size:                24px !default;
 $h3-font-size:                $font-size-base * 1.75 !default;
 $h4-font-size:                $font-size-base * 1.5 !default;
 $h5-font-size:                $font-size-base * 1.25 !default;
@@ -160,7 +161,7 @@ $h6-font-size:                $font-size-base !default;
 
 //$headings-margin-bottom:      ($spacer / 2) !default;
 $headings-font-family:        inherit !default;
-$headings-font-weight:        500 !default;
+$headings-font-weight:        400 !default;
 $headings-line-height:        1.2 !default;
 $headings-color:              #373737 !default;
 
@@ -184,6 +185,8 @@ $text-muted:                  $gray-600 !default;
 
 $blockquote-small-color:      $gray-600 !default;
 $blockquote-font-size:        ($font-size-base * 1.25) !default;
+
+$border-color:                #DEDEDE;
 
 $hr-border-color:             rgba($black, .1) !default;
 //$hr-border-width:             $border-width !default;
