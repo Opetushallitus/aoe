@@ -20,10 +20,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+	"build": "ng build",
+	"build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+	"compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json"
   },
   "private": true,
   "dependencies": {
@@ -83,8 +85,5 @@
   "engines": {
     "node": ">= 8.9.4",
     "npm": ">= 5.6.0"
-  },
-  "scripts": {
-	"compodoc": "./node_modules/.bin/compodoc -p src/tsconfig.app.json"
-	}
+  }
 }
