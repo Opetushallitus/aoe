@@ -9,12 +9,13 @@ dotenv.config();
 
 const app = express();
 
+// Configuration
 app.set("port", 3000);
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/testi", eperusteetKoodisto.getTesti);
+// Get requests
 app.get("/lukionkurssit", eperusteetKoodisto.getLukionkurssit);
 
 export default app;
