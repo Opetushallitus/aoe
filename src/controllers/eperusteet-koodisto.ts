@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import request from "request";
 
 export let getTesti = (req: Request, res: Response) => {
-  request.get("https://virkailija.opintopolku.fi/koodisto-service/rest/json/tutkinto/koodi?onlyValidKoodis=false", (error, response, body) => {
+  request.get(`${process.env.VIRKAILIJA_URL}/koodisto-service/rest/json/tutkinto/koodi?onlyValidKoodis=false`, (error, response, body) => {
     if (error) {
       console.log(error);
     }
