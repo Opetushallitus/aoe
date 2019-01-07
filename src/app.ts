@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 import * as eperusteetKoodisto from "./controllers/eperusteet-koodisto";
+import * as ePerusteetAmosaa from "./controllers/eperusteet-amosaa";
 
 dotenv.config();
 
@@ -17,5 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Get requests
 app.get("/lukionkurssit", eperusteetKoodisto.getLukionkurssit);
+app.get("/opetussuunnitelmat", ePerusteetAmosaa.getOpetussuunnitelmat);
 
 export default app;
