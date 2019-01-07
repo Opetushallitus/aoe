@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import request from "request";
+import { parseString, processors } from "xml2js";
 
-function getResults(url: string): Promise<Object[]> {
+function getResults(url: string) {
   return new Promise((resolve, reject) => {
     const options = {
       url: `${process.env.FINTO_URL}${url}`,
@@ -14,7 +15,20 @@ function getResults(url: string): Promise<Object[]> {
       if (error) {
         reject(error);
       } else {
-        resolve(body);
+        const options = {
+          tagNameProcessors: [processors.stripPrefix],
+          attrNameProcessors: [processors.stripPrefix],
+          valueProcessors: [processors.stripPrefix],
+          attrValueProcessors: [processors.stripPrefix]
+        };
+
+        parseString(body, options, (error, result) => {
+          if (error) {
+            console.log(error);
+          }
+
+          resolve(result);
+        });
       }
     });
   });
@@ -23,8 +37,6 @@ function getResults(url: string): Promise<Object[]> {
 export const getYsoOntologia = (req: Request, res: Response) => {
   getResults("/yso/data")
     .then(data => {
-      res.status(200)
-        .set("Content-type", "application/rdf+xml")
-        .send(data);
+      res.status(200).json({data});
     });
 };
