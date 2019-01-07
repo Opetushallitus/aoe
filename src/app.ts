@@ -15,5 +15,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/testi", eperusteetKoodisto.getTesti);
+app.get("/lukionkurssit", eperusteetKoodisto.getLukionkurssit);
 
 export default app;
