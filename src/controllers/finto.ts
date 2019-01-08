@@ -24,10 +24,22 @@ function getResults(url: string) {
 
         parseString(body, options, (error, result) => {
           if (error) {
-            console.log(error);
+            reject(error);
           }
 
-          resolve(result);
+          const data = result.RDF.Concept.map((concept: any) => {
+            const labels: any = {};
+
+            concept.prefLabel.forEach((label: any) => {
+              labels[label.$.lang] = label._;
+            });
+
+            return {
+              "concept": labels
+            };
+          });
+
+          resolve(data);
         });
       }
     });
