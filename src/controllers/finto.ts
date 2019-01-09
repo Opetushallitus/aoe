@@ -20,10 +20,6 @@ export const getYsoOntologia = (req: Request, res: Response) => {
     };
 
     parseString(body, options, (err, result) => {
-      if (error) {
-        res.status(response.statusCode).send(err);
-      }
-
       const data = result.RDF.Concept.map((concept: any) => {
         const labels: any = {};
 
