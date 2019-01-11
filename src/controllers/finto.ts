@@ -28,11 +28,11 @@ export const getYsoOntologia = (req: Request, res: Response) => {
         });
 
         return {
-          "concept": labels
+          [concept.$.about]: labels
         };
       });
 
-      res.status(response.statusCode).json({data});
+      res.status(response.statusCode).json(data);
     });
   });
 };
