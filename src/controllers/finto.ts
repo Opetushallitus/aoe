@@ -20,16 +20,17 @@ export const getYsoOntologia = (req: Request, res: Response) => {
     };
 
     parseString(body, options, (err, result) => {
-      const data = result.RDF.Concept.map((concept: any) => {
-        const labels: any = {};
+      const data: object[] = [];
 
-        concept.prefLabel.forEach((label: any) => {
-          labels[label.$.lang] = label._;
+      result.RDF.Concept.map((concept: any) => {
+        const lang = "fi"; // temp hard coded
+
+        const label = concept.prefLabel.find((e: any) => e.$.lang === lang);
+
+        data.push({
+          "arvo": concept.$.about,
+          "selite": label._,
         });
-
-        return {
-          [concept.$.about]: labels
-        };
       });
 
       res.status(response.statusCode).json(data);
