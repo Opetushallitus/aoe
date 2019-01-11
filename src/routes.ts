@@ -12,8 +12,8 @@ router.get("/opetussuunnitelmat", ePerusteetAmosaa.getOpetussuunnitelmat);
 router.get("/yso", finto.getYsoOntologia);
 
 // Actual routes
-// router.get("/aiheet/:lang/:search", handler.function);
-// router.get("/oppiaineet/:lang/:search", handler.function);
-// router.get("/opetussuunnitelmat/:lang/:search", handler.function);
+// router.get("/aiheet/:search", handler.function);
+// router.get("/oppiaineet/:search", handler.function);
+// router.get("/opetussuunnitelmat/:search", handler.function);
 
 export default router;
