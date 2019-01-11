@@ -3,9 +3,6 @@ import compression from "compression"; // compress requests
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
-import * as eperusteetKoodisto from "./controllers/eperusteet-koodisto";
-import * as ePerusteetAmosaa from "./controllers/eperusteet-amosaa";
-import * as finto from "./controllers/finto";
 import router from "./routes";
 
 dotenv.config();
