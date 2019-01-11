@@ -1,39 +1,50 @@
 import { Request, Response } from "express";
-import request from "request";
+import rp from "request-promise";
 import { parseString, processors } from "xml2js";
 
-export const getYsoOntologia = (req: Request, res: Response) => {
+async function getData(endpoint: string, lang: string) {
   const options = {
-    url: `${process.env.FINTO_URL}/yso/data`,
+    url: `${process.env.FINTO_URL}${endpoint}`,
     headers: {
       "Accept": "application/rdf+xml"
     }
   };
 
-  // TODO: Error handling
-  request.get(options, (error, response, body) => {
-    const options = {
+  try {
+    const body = await rp.get(options);
+
+    const parseOptions = {
       tagNameProcessors: [processors.stripPrefix],
       attrNameProcessors: [processors.stripPrefix],
       valueProcessors: [processors.stripPrefix],
       attrValueProcessors: [processors.stripPrefix]
     };
 
-    parseString(body, options, (err, result) => {
-      const data: object[] = [];
+    return await new Promise((resolve, reject) => {
+      parseString(body, parseOptions, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          const data: object[] = [];
 
-      result.RDF.Concept.map((concept: any) => {
-        const lang = "fi"; // temp hard coded
+          result.RDF.Concept.map((concept: any) => {
+            const label = concept.prefLabel.find((e: any) => e.$.lang === lang);
 
-        const label = concept.prefLabel.find((e: any) => e.$.lang === lang);
+            data.push({
+              "arvo": concept.$.about,
+              "selite": label._,
+            });
+          });
 
-        data.push({
-          "arvo": concept.$.about,
-          "selite": label._,
-        });
+          resolve(data);
+        }
       });
-
-      res.status(response.statusCode).json(data);
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getYsoOntologia = async (req: Request, res: Response) => {
+  res.status(200).json(await getData("/yso/data", "fi"));
 };
