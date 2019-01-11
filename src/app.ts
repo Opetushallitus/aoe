@@ -15,6 +15,7 @@ app.use(session({
   cookie: {
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   },
+  resave: false,
   saveUninitialized: true,
   secret: "ygDe7*1d@Z%PJLXE6FBGli5mN!%v^E",
   // store: new RedisStore(),
