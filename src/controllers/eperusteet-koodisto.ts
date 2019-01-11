@@ -31,6 +31,6 @@ function getResults(url: string): Promise<Object[]> {
 export const getLukionkurssit = (req: Request, res: Response) => {
   getResults("/lukionkurssit/koodi?onlyValidKoodis=false")
     .then(data => {
-      res.status(200).json({data});
+      res.status(200).json(data);
     });
 };
