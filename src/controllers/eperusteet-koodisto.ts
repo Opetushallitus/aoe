@@ -4,7 +4,7 @@ import rp from "request-promise";
 async function getData(endpoint: string, lang: string) {
   try {
     const options = {
-      url: `${process.env.KOODISTO_SERVICE_URL}${endpoint}`,
+      url: process.env.KOODISTO_SERVICE_URL + endpoint,
       headers: {
         "Accept": "application/json"
       }
