@@ -2,14 +2,14 @@ import { Request, Response } from "express";
 import rp from "request-promise";
 
 async function getData(endpoint: string, lang: string) {
-  const options = {
-    url: `${process.env.KOODISTO_SERVICE_URL}${endpoint}`,
-    headers: {
-      "Accept": "application/json"
-    }
-  };
-
   try {
+    const options = {
+      url: `${process.env.KOODISTO_SERVICE_URL}${endpoint}`,
+      headers: {
+        "Accept": "application/json"
+      }
+    };
+
     const body = await rp.get(options);
     const results = JSON.parse(body);
 

@@ -3,14 +3,14 @@ import rp from "request-promise";
 import { parseString, processors } from "xml2js";
 
 async function getData(endpoint: string, lang: string) {
-  const options = {
-    url: `${process.env.FINTO_URL}${endpoint}`,
-    headers: {
-      "Accept": "application/rdf+xml"
-    }
-  };
-
   try {
+    const options = {
+      url: `${process.env.FINTO_URL}${endpoint}`,
+      headers: {
+        "Accept": "application/rdf+xml"
+      }
+    };
+
     const body = await rp.get(options);
 
     const parseOptions = {
