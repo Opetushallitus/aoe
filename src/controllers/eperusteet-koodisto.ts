@@ -1,36 +1,31 @@
 import { Request, Response } from "express";
-import request from "request";
+import rp from "request-promise";
 
-function getResults(url: string): Promise<Object[]> {
-  return new Promise((resolve, reject) => {
-    request.get(`${process.env.KOODISTO_SERVICE_URL}${url}`, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        const results = JSON.parse(body);
+async function getData(endpoint: string, lang: string) {
+  const options = {
+    url: `${process.env.KOODISTO_SERVICE_URL}${endpoint}`,
+    headers: {
+      "Accept": "application/json"
+    }
+  };
 
-        const data = results.map((koodi: any) => {
-          const metadata: any = {};
+  try {
+    const body = await rp.get(options);
+    const results = JSON.parse(body);
 
-          koodi.metadata.forEach((obj: any) => {
-            metadata[obj.kieli.toLowerCase()] = obj.nimi;
-          });
+    return results.map((koodi: any) => {
+      const metadata = koodi.metadata.find((e: any) => e.kieli.toLowerCase() === lang);
 
-          return {
-            "arvo": koodi.koodiUri,
-            "selite": metadata
-          };
-        });
-
-        resolve(data);
-      }
+      return {
+        "arvo": koodi.koodiUri,
+        "selite": metadata ? metadata.nimi : undefined,
+      };
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export const getLukionkurssit = (req: Request, res: Response) => {
-  getResults("/lukionkurssit/koodi?onlyValidKoodis=false")
-    .then(data => {
-      res.status(200).json(data);
-    });
+export const getLukionkurssit = async (req: Request, res: Response) => {
+  res.status(200).json(await getData("/lukionkurssit/koodi?onlyValidKoodis=false", "sv"));
 };
