@@ -1,30 +1,29 @@
 import { Request, Response } from "express";
-import request from "request";
+import rp from "request-promise";
 
-function getResults(url: string, lang: string): Promise<Object[]> {
-  return new Promise((resolve, reject) => {
-    request.get(`${process.env.EPERUSTEET_AMOSAA_URL}${url}`, (error, response, body) => {
-      if (error) {
-        reject(error);
-      } else {
-        const results = JSON.parse(body);
-
-        const data = results.data.map((koodi: any) => {
-          return {
-            "arvo": koodi.id,
-            "selite": koodi.nimi[lang]
-          };
-        });
-
-        resolve(data);
+async function getData(endpoint: string, lang: string) {
+  try {
+    const options = {
+      url: process.env.EPERUSTEET_AMOSAA_URL + endpoint,
+      headers: {
+        "Accept": "application/json"
       }
+    };
+
+    const body = await rp.get(options);
+    const results = JSON.parse(body);
+
+    return results.data.map((koodi: any) => {
+      return {
+        "arvo": koodi.perusteDiaarinumero,
+        "selite": koodi.nimi[lang],
+      };
     });
-  });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-export const getOpetussuunnitelmat = (req: Request, res: Response) => {
-  getResults("/opetussuunnitelmat", "fi")
-    .then(data => {
-      res.status(200).json(data);
-    });
+export const getOpetussuunnitelmat = async (req: Request, res: Response) => {
+  res.status(200).json(await getData("/opetussuunnitelmat", "fi"));
 };
