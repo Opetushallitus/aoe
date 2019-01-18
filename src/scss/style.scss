@@ -1,8 +1,8 @@
-// If you want to override variables do it here
-@import "variables";
-
 // Override Boostrap variables
 @import "bootstrap-variables";
+
+// If you want to override variables do it here
+@import "variables";
 
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
