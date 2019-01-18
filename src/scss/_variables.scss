@@ -1,8 +1,14 @@
-// Generic variables
 
+// Bootstrap variables override
 
-$form-border-color: #DEDEDE;
-$input-label-color: #464646;
+$primary-theme-color: #41DD46;
+$blue: #1F79BF;
+
+$theme-colors: (
+  primary:  $primary-theme-color,
+  blue: $blue
+
+);
 
 
 

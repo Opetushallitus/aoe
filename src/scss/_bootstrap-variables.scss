@@ -1,30 +1,18 @@
-// Bootstrap variable overrides
-
 //
 // Color system
 //
 
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
-
-
-// Project theme colors
-$white:                           #fff;
-$gray-100:                        #F9F9F9;
-$gray-200:                        #D5D4D4;
-$gray-700:                        #747171;
-$gray-800:                        #616161;
-$gray-900:                        #373737;
-$black:                           #000 !default;
-
-
-
-// Bootstrap base colors
-$gray-300:                        #a4b7c1;
-$gray-400:                        #869fac;
-$gray-500:                        #678898;
-$gray-600:                        #536c79;
-
-
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
 
 
 $blue:                            #20a8d8;
@@ -56,7 +44,7 @@ $colors: (
 );
 
 $theme-colors: (
-  primary:                        #41DD46,
+  primary:                        $blue,
   secondary:                      $gray-300,
   success:                        $green,
   info:                           $cyan,
