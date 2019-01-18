@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="67325b7a30e05af98157337abfeb78f73f8267a3" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="f5b14fe4dc412911b8ca0831d6e8503ae466b407" datatype="html">
+        <source>Kokoelmahaku</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="2ff72d69d96e62a481f887895fe73751c86ea65b" datatype="html">
+        <source>Help</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="d977fa6fed0a8beecde8570914013dac3ee8e40b" datatype="html">
+        <source>FI</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="ef1d23f20d3bd8bedbc69eb9344258efeca76ec1" datatype="html">
+        <source>EN</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="8abe125d1008b618a7c2593bd0efeb11d3feddf6" datatype="html">
+        <source>SV</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+      <trans-unit id="bd9ab95639a2b94b5e9e55a1d3163512c300aed1" datatype="html">
+        <source>Log in</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/containers/default-layout/default-layout.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">Navbar</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
