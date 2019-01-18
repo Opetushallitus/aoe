@@ -46,6 +46,19 @@
 
 <app-footer>
   <div>
-  Avoimet oppimateriaalit
+    <p i18n>e-Reppu</p>
+    <p i18n>Yhteystiedot</p>
+
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/kayttoehdot']" i18n="Footer">Käyttöehdot</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/rekisteriseloste']" i18n="Footer">Rekisteriseloste</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/saavutettavuusseloste']" i18n="Footer">Saavutettavuusseloste</a>
+      </li>
+    </ul>
   </div>
 </app-footer>
