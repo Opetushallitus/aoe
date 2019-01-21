@@ -6,6 +6,7 @@
 
 $form-border-color: #DEDEDE;
 $input-label-color: #464646;
+$navbar-bg-hover: #1D661F;
 
 body {
   font-size: 16px;
@@ -88,6 +89,34 @@ h2 {
   color: $primary-theme-color;
   font-size: 24px;
   margin-bottom: 24px;
+}
+
+// Navigation
+#main-navigation {
+  padding: 0 1rem;
+
+  .navbar-brand {
+    color: $white;
+  }
+
+  .nav-link {
+    color: $white;
+    font-size: .9375rem;
+    font-weight: 500;
+    padding: 1.5rem 2rem;
+
+    .active,
+    &:active,
+    &:hover {
+      background-color: $navbar-bg-hover;
+    }
+  }
+
+  .nav-languages {
+    .nav-link {
+      padding: .5rem;
+    }
+  }
 }
 
 
