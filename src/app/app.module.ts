@@ -47,14 +47,14 @@ import { AddMaterialComponent } from './views/add-material/add-material.componen
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
     LoginComponent,
-    AddMaterialComponent
+    AddMaterialComponent,
   ],
   providers: [{
     provide: LocationStrategy,
