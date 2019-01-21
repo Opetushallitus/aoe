@@ -126,12 +126,13 @@ h2 {
 
 // Oppimateriaali card
 .card-oppimateriaali {
-  background-color: $white;
+  background-color: map_get($theme-colors, 'light');
   margin-bottom: 1rem;
   padding: 1rem;
 
   .media {
-    border-bottom: 2px solid $body-bg;
+    border-bottom: 2px solid;
+    border-color: $body-bg;
     padding-bottom: .25rem;
 
     .media-body {
@@ -145,7 +146,8 @@ h2 {
   }
 
   .tags {
-    border-bottom: 2px solid $body-bg;
+    border-bottom: 2px solid;
+    border-color: $body-bg;
     padding-top: .25rem;
 
     .badge {
@@ -185,6 +187,20 @@ h2 {
 
     .license {
       font-weight: 700;
+    }
+  }
+}
+
+.bg-light {
+  .card-oppimateriaali {
+    background-color: $white;
+
+    .media {
+      border-color: map_get($theme-colors, 'light');
+    }
+
+    .tags {
+      border-color: map_get($theme-colors, 'light');
     }
   }
 }
