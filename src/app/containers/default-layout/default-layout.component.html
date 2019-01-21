@@ -1,69 +1,71 @@
 <nav class="navbar navbar-expand-lg bg-primary" id="main-navigation">
-  <a class="navbar-brand font-weight-bold font-4xl" [routerLink]="['/']">e-Reppu</a>
+  <div class="container">
+    <a class="navbar-brand font-weight-bold font-4xl" [routerLink]="['/']">e-Reppu</a>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link active" [routerLink]="['/']" i18n="Navbar">Etusivu</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/kokoelmahaku']" i18n="Navbar">Kokoelmahaku</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/ohje']" i18n="Navbar">Ohje</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" [routerLink]="['/']" i18n="Navbar">Etusivu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/kokoelmahaku']" i18n="Navbar">Kokoelmahaku</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/ohje']" i18n="Navbar">Ohje</a>
+        </li>
+      </ul>
 
-    <ul class="nav navbar-nav ml-auto nav-languages">
-      <li class="nav-item">
-        <a class="nav-link active" [routerLink]="['/fi']" i18n="Navbar">FI</a>
-      </li>
-      <span class="navbar-text">|</span>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/en']" i18n="Navbar">EN</a>
-      </li>
-      <span class="navbar-text">|</span>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/sv']" i18n="Navbar">SV</a>
-      </li>
-    </ul>
+      <ul class="nav navbar-nav ml-auto nav-languages">
+        <li class="nav-item">
+          <a class="nav-link active" [routerLink]="['/fi']" i18n="Navbar">FI</a>
+        </li>
+        <span class="navbar-text">|</span>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/en']" i18n="Navbar">EN</a>
+        </li>
+        <span class="navbar-text">|</span>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/sv']" i18n="Navbar">SV</a>
+        </li>
+      </ul>
 
-    <ul class="nav navbar-nav">
-      <li class="nav-item d-md-down-none">
-        <a class="nav-link" [routerLink]="['/kirjaudu']" i18n="Navbar">Kirjaudu sisään</a>
-      </li>
-    </ul>
+      <ul class="nav navbar-nav">
+        <li class="nav-item d-md-down-none">
+          <a class="nav-link" [routerLink]="['/kirjaudu']" i18n="Navbar">Kirjaudu sisään</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
 <div class="app-body">
   <!-- Main content -->
   <main class="main">
-    <div class="container-fluid p-0">
-      <router-outlet></router-outlet>
-    </div><!-- /.container-fluid -->
+    <router-outlet></router-outlet>
   </main>
 </div>
 
 <app-footer>
-  <div>
-    <p i18n="Footer">e-Reppu</p>
-    <p i18n="Footer">Yhteystiedot</p>
+  <div class="container">
+    <div>
+      <p i18n="Footer">e-Reppu</p>
+      <p i18n="Footer">Yhteystiedot</p>
 
-    <ul class="nav justify-content-center">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/kayttoehdot']" i18n="Footer">Käyttöehdot</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/rekisteriseloste']" i18n="Footer">Rekisteriseloste</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/saavutettavuusseloste']" i18n="Footer">Saavutettavuusseloste</a>
-      </li>
-    </ul>
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/kayttoehdot']" i18n="Footer">Käyttöehdot</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/rekisteriseloste']" i18n="Footer">Rekisteriseloste</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/saavutettavuusseloste']" i18n="Footer">Saavutettavuusseloste</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </app-footer>
