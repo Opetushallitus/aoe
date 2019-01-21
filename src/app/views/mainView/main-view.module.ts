@@ -6,6 +6,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 import { MainViewComponent } from './main-view.component';
 import { MainViewRoutingModule } from './main-view-routing.module';
+import { OppiaineCardComponent } from '../../components/oppiaine-card/oppiaine-card.component';
 
 @NgModule({
   imports: [
@@ -13,8 +14,11 @@ import { MainViewRoutingModule } from './main-view-routing.module';
     MainViewRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
   ],
-  declarations: [ MainViewComponent ]
+  declarations: [
+    MainViewComponent,
+    OppiaineCardComponent
+  ]
 })
 export class MainViewModule { }
