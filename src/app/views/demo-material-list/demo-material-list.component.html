@@ -1,0 +1,19 @@
+<div class="bg-light py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col justify-content-center">
+        <div class="text-center">
+          <h2 i18n>Avoimet oppimateriaalit</h2>
+        </div>
+      </div>
+    </div><!--/.row-->
+
+    <div class="row">
+      <div class="col-md-4" *ngFor="let demoMaterial of demoMaterials">
+        <app-oppimateriaali-card
+          [demoMaterial]="demoMaterial">
+        </app-oppimateriaali-card>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
