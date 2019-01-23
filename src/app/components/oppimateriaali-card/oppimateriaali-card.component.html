@@ -2,24 +2,23 @@
   <div class="media">
     <img src="https://via.placeholder.com/100x135" class="mr-3" alt="...">
     <div class="media-body">
-      <a href="#"><h5>Lorem ipsum dolor sit amet consectetur adipiscing</h5></a>
-      Lorem ipsum dolor sit amet consectetur adipiscing...
+      <a [routerLink]="['/demo/materiaali', demoMaterial.id]"><h5> {{ demoMaterial.name }}</h5></a>
+      {{ demoMaterial.description | truncate:[50] }}
     </div>
   </div>
 
   <div class="tags">
-    <a href="#" class="badge badge-light">elämänkatsomustieto</a>
-    <a href="#" class="badge badge-light">uskonto</a>
-    <a href="#" class="badge badge-light">uskonto</a>
-    <a href="#" class="badge badge-light">uskonto</a>
-    <a href="#" class="badge badge-light">elämänkatsomustieto</a>
-    <a href="#" class="badge badge-light">uskonto</a>
-    <a href="#" class="badge badge-light">elämänkatsomustieto</a>
+    <a href="#" class="badge badge-light"
+       *ngFor="let subject of demoMaterial.educationalSubject">
+      {{ subject | lowercase }}
+    </a>
   </div>
 
   <div class="tags">
-    <a href="#" class="badge badge-light">yläaste</a>
-    <a href="#" class="badge badge-light">lukio</a>
+    <a href="#" class="badge badge-light"
+      *ngFor="let audience of demoMaterial.educationalLevel">
+      {{ audience | lowercase }}
+    </a>
   </div>
 
   <div class="details">
@@ -31,7 +30,7 @@
           <img src="assets/img/icons/ic_star.svg" alt="...">
           <img src="assets/img/icons/ic_star.svg" alt="...">
         </span>
-    <span class="license">CC-BY</span>
-    <span class="type pull-right">video</span>
+    <span class="license">{{ demoMaterial.license }}</span>
+    <span class="type pull-right">{{ demoMaterial.learningResourceType[0] }}</span>
   </div>
 </div>
