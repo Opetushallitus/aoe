@@ -7,6 +7,7 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { AddMaterialComponent } from './views/add-material/add-material.component';
+import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,10 @@ export const routes: Routes = [
       {
         path: 'lisaa-materiaaleja',
         component: AddMaterialComponent
+      },
+      {
+        path: 'demo/materiaali/:id',
+        component: DemoMaterialViewComponent
       }
     ]
   }

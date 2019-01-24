@@ -1,0 +1,128 @@
+<div class="py-4 px-0" id="material-view">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col">
+        <a href="#" i18n>&lsaquo; Takaisin</a>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h1>{{ demoMaterial.name }}</h1>
+      </div>
+
+      <div class="col-md-6 text-md-right">
+        <a href="#" class="btn btn-link disabled">muokkaa</a>
+        <a href="#" class="btn btn-link disabled">poista</a>
+        <a href="#" class="btn btn-link disabled">lisää kokoelmaan</a>
+        <a href="#" class="btn btn-link">lataa</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">
+        <div class="material-sidebar-left">
+          <img src="https://via.placeholder.com/207x277" alt="" class="img-fluid mb-4">
+
+          <ul class="list-unstyled">
+            <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
+              {{ learningResourceType }}
+            </li>
+            <li class="text-muted">0 <span i18n>latauskertaa</span></li>
+            <li class="text-muted">0 <span i18n>näyttökertaa</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="material-content">
+          <p>{{ demoMaterial.description }}</p>
+          <span>{{ demoMaterial.author }}</span>
+
+          <pre>-- preview --</pre>
+
+          <div class="row">
+            <div class="col-md-4">
+              <h4 i18n>Kohderyhmä</h4>
+
+              <div class="tags">
+                <a href="#" class="badge badge-light"
+                   *ngFor="let audience of demoMaterial.educationalLevel">
+                  {{ audience | lowercase }}
+                </a>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <h4 i18n>Oppiaine</h4>
+
+              <div class="tags">
+                <a href="#" class="badge badge-light"
+                   *ngFor="let subject of demoMaterial.educationalSubject">
+                  {{ subject | lowercase }}
+                </a>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <h4 i18n>Kieli</h4>
+              {{ demoMaterial.inLanguage }}
+            </div>
+
+            <div class="col-md-2">
+              <h4 i18n>Kesto</h4>
+              {{ demoMaterial.timeRequired }}
+            </div>
+          </div>
+
+          <h2 i18n>Muut tiedostot</h2>
+
+          <ul class="list-unstyled">
+            <li>tiedosto.txt</li>
+            <li>tiedosto.pdf</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="material-sidebar-right">
+          <h2 i18n="Single material">Käyttäjien kuvailut</h2>
+
+          <h4 i18n>Kohderyhmä</h4>
+
+          <div class="tags">
+            <a href="#" class="badge badge-dark"
+               *ngFor="let audience of demoMaterial.educationalLevel">
+              {{ audience | lowercase }} &times;
+            </a>
+          </div>
+
+          <h4 i18n>Oppiaine</h4>
+
+          <div class="tags">
+            <a href="#" class="badge badge-dark"
+               *ngFor="let subject of demoMaterial.educationalSubject">
+              {{ subject | lowercase }} &times;
+            </a>
+          </div>
+
+          <h2 i18n="Single material">Käyttäjien arviot</h2>
+
+          <h4 i18n>Arvostelu (3)</h4>
+
+          <span class="rating">
+            <img src="assets/img/icons/ic_star.svg" alt="...">
+            <img src="assets/img/icons/ic_star.svg" alt="...">
+            <img src="assets/img/icons/ic_star.svg" alt="...">
+            <img src="assets/img/icons/ic_star.svg" alt="...">
+            <img src="assets/img/icons/ic_star.svg" alt="...">
+
+            + Lisää arvio
+          </span>
+
+          <h4 i18n>Kommentteja (10)</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

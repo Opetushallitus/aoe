@@ -10,6 +10,11 @@ $navbar-bg-hover: #1D661F;
 
 $media-body-color: #696868;
 
+$badge-light-bg: #EAEAEA;
+$badge-light-bg-hover: darken($badge-light-bg, 15%);
+$badge-dark-bg: #9A937D;
+$badge-dark-bg-hover: darken($badge-dark-bg, 15%);
+
 body {
   font-size: 16px;
 }
@@ -124,6 +129,38 @@ h2 {
   }
 }
 
+// Tags
+.tags {
+  .badge {
+    font-size: .875rem;
+    font-weight: 400;
+    margin-bottom: .25rem;
+    padding: .5rem;
+
+    &:not(:last-child) {
+      margin-right: .25rem;
+    }
+  }
+
+  .badge-light {
+    background-color: $badge-light-bg;
+
+    &:focus,
+    &:hover {
+      background-color: $badge-light-bg-hover;
+    }
+  }
+
+  .badge-dark {
+    background-color: $badge-dark-bg;
+
+    &:focus,
+    &:hover {
+      background-color: $badge-dark-bg-hover;
+    }
+  }
+}
+
 // Oppimateriaali card
 .card-oppimateriaali {
   background-color: map_get($theme-colors, 'light');
@@ -152,14 +189,6 @@ h2 {
 
     .badge {
       border-radius: 0;
-      font-size: .875rem;
-      font-weight: 400;
-      margin-bottom: .25rem;
-      padding: .5rem;
-
-      &:not(:last-child) {
-        margin-right: .25rem;
-      }
     }
   }
 
@@ -205,5 +234,35 @@ h2 {
   }
 }
 
+// Oppimateriaali SingleView
+#material-view {
+  h4 {
+    font-size: .875rem;
+  }
 
+  .tags {
+    margin-bottom: 1rem;
+  }
+}
 
+.material-content {
+  h2 {
+    color: $black;
+    margin-bottom: .5rem;
+  }
+}
+
+.material-sidebar-left {
+}
+
+.material-sidebar-right {
+  h2 {
+    background-color: $primary-theme-color;
+    color: $white;
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    padding: .5rem 1rem;
+  }
+}
