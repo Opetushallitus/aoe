@@ -24,7 +24,7 @@ import { DemoMaterialListComponent } from '../demo-material-list/demo-material-l
     MainViewComponent,
     TruncatePipe,
     OppimateriaaliCardComponent,
-    DemoMaterialListComponent
+    DemoMaterialListComponent,
   ]
 })
 export class MainViewModule { }
