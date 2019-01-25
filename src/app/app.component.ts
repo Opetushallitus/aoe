@@ -12,8 +12,16 @@ export class AppComponent implements OnInit {
     translate.addLangs(['fi', 'en', 'sv']);
     translate.setDefaultLang('fi');
 
-    const browserLang = translate.getBrowserLang();
-    translate.use(browserLang.match(/fi|en|sv/) ? browserLang : 'fi');
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user === null) {
+      const browserLang = translate.getBrowserLang();
+      localStorage.setItem('user', JSON.stringify({ lang: browserLang.match(/fi|en|sv/) ? browserLang : 'fi' }));
+
+      translate.use(browserLang);
+    } else {
+      translate.use(user.lang);
+    }
   }
 
   ngOnInit() {

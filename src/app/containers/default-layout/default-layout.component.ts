@@ -7,4 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class DefaultLayoutComponent {
   constructor(private translate: TranslateService) { }
+
+  changeLanguage(lang: string) {
+    localStorage.setItem('user', JSON.stringify({ lang: lang }));
+    this.translate.use(lang);
+  }
 }
