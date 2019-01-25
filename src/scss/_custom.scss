@@ -241,6 +241,17 @@ h2 {
   }
 }
 
+.material-actions {
+  a {
+    color: $blue;
+    font-size: 1rem;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
 .material-content {
   h2 {
     color: $black;
