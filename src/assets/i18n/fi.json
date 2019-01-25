@@ -1,0 +1,44 @@
+{
+  "common": {
+    "goBack": "Takaisin"
+  },
+  "navigation": {
+    "home": "Etusivu",
+    "collectionSearch": "Kokoelmahaku",
+    "help": "Ohje",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos"
+  },
+  "footer": {
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Rekisteriseloste",
+    "accessibilityPolicy": "Saavutettavuusseloste"
+  },
+  "home": {
+    "title": "Tervetuloa e-Reppu &ndash;palveluun!",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultrices, ligula eget rhoncus dapibus, lorem mi gravida lacus, nec semper ligula tortor sit amet leo. Sed pharetra ullamcorper nisi sed pharetra. Nullam dolor sapien, facilisis vitae nisi nec, malesuada accumsan mi. Nulla interdum porta elit, in euismod ante viverra et. Morbi efficitur dui eros. Pellentesque a fermentum quam, at rutrum augue. Aenean sapien risus, rutrum at tellus ac, porttitor tincidunt enim. Pellentesque accumsan orci eget mauris mollis, quis faucibus nulla fermentum. Morbi ac consequat diam. Vivamus nibh leo, consequat quis massa a, vehicula congue elit."
+  },
+  "demo": {
+    "materialList": {
+      "title": "Avoimet oppimateriaalit"
+    },
+    "material": {
+      "edit": "Muokkaa",
+      "delete": "Poista",
+      "addToCollection": "Lisää kokoelmaan",
+      "download": "Lataa",
+      "viewCount": "näyttökertaa",
+      "downloadCount": "latauskertaa",
+      "eduLevel": "Kohderyhmä",
+      "eduSubject": "Oppiaine",
+      "inLanguage": "Kieli",
+      "timeRequired": "Kesto",
+      "otherFiles": "Muut tiedostot",
+      "userMetadata": "Käyttäjien kuvailut",
+      "userReviews": "Käyttäjien arviot",
+      "rating": "Arvostelu",
+      "addReview": "Lisää arvio",
+      "comments": "Kommentteja"
+    }
+  }
+}

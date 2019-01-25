@@ -1,0 +1,44 @@
+{
+  "common": {
+    "goBack": "Back"
+  },
+  "navigation": {
+    "home": "Home",
+    "collectionSearch": "Collection search",
+    "help": "Help",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "footer": {
+    "termsOfUse": "Terms of use",
+    "privacyPolicy": "Privacy Policy",
+    "accessibilityPolicy": "Accessibility Policy"
+  },
+  "home": {
+    "title": "Welcome to e-Reppu!",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultrices, ligula eget rhoncus dapibus, lorem mi gravida lacus, nec semper ligula tortor sit amet leo. Sed pharetra ullamcorper nisi sed pharetra. Nullam dolor sapien, facilisis vitae nisi nec, malesuada accumsan mi. Nulla interdum porta elit, in euismod ante viverra et. Morbi efficitur dui eros. Pellentesque a fermentum quam, at rutrum augue. Aenean sapien risus, rutrum at tellus ac, porttitor tincidunt enim. Pellentesque accumsan orci eget mauris mollis, quis faucibus nulla fermentum. Morbi ac consequat diam. Vivamus nibh leo, consequat quis massa a, vehicula congue elit."
+  },
+  "demo": {
+    "materialList": {
+      "title": "Open educational materials"
+    },
+    "material": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "addToCollection": "Add to Collection",
+      "download": "Download",
+      "viewCount": "views",
+      "downloadCount": "downloads",
+      "eduLevel": "Educational level",
+      "eduSubject": "Educational subject",
+      "inLanguage": "Language",
+      "timeRequired": "Time required",
+      "otherFiles": "Other files",
+      "userMetadata": "User metadata",
+      "userReviews": "User reviews",
+      "rating": "Rating",
+      "addReview": "Add review",
+      "comments": "Comments"
+    }
+  }
+}
