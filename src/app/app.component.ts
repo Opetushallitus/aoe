@@ -9,7 +9,10 @@ import { getLanguage, setLanguage } from './shared/shared.module';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router, private translate: TranslateService) {
+  constructor(
+    private router: Router,
+    private translate: TranslateService
+  ) {
     translate.addLangs(['fi', 'en', 'sv']);
     translate.setDefaultLang('fi');
 
