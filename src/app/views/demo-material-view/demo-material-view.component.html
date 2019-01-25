@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mb-4">
       <div class="col">
-        <a href="#" i18n>&lsaquo; Takaisin</a>
+        <a href="#">&lsaquo; {{ 'common.goBack' | translate }}</a>
       </div>
     </div>
 
@@ -12,10 +12,10 @@
       </div>
 
       <div class="col-md-6 text-md-right">
-        <a href="#" class="btn btn-link disabled">muokkaa</a>
-        <a href="#" class="btn btn-link disabled">poista</a>
-        <a href="#" class="btn btn-link disabled">lisää kokoelmaan</a>
-        <a href="#" class="btn btn-link">lataa</a>
+        <a href="#" class="btn btn-link disabled">{{ 'demo.material.edit' | translate }}</a>
+        <a href="#" class="btn btn-link disabled">{{ 'demo.material.delete' | translate }}</a>
+        <a href="#" class="btn btn-link disabled">{{ 'demo.material.addToCollection' | translate }}</a>
+        <a href="#" class="btn btn-link">{{ 'demo.material.download' | translate }}</a>
       </div>
     </div>
 
@@ -28,8 +28,8 @@
             <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
               {{ learningResourceType }}
             </li>
-            <li class="text-muted">0 <span i18n>latauskertaa</span></li>
-            <li class="text-muted">0 <span i18n>näyttökertaa</span></li>
+            <li class="text-muted">0 <span>{{ 'demo.material.viewCount' | translate }}</span></li>
+            <li class="text-muted">0 <span>{{ 'demo.material.downloadCount' | translate }}</span></li>
           </ul>
         </div>
       </div>
@@ -43,7 +43,7 @@
 
           <div class="row">
             <div class="col-md-4">
-              <h4 i18n>Kohderyhmä</h4>
+              <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
               <div class="tags">
                 <a href="#" class="badge badge-light"
@@ -54,7 +54,7 @@
             </div>
 
             <div class="col-md-4">
-              <h4 i18n>Oppiaine</h4>
+              <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
               <div class="tags">
                 <a href="#" class="badge badge-light"
@@ -65,17 +65,17 @@
             </div>
 
             <div class="col-md-2">
-              <h4 i18n>Kieli</h4>
+              <h4>{{ 'demo.material.inLanguage' | translate }}</h4>
               {{ demoMaterial.inLanguage }}
             </div>
 
             <div class="col-md-2">
-              <h4 i18n>Kesto</h4>
+              <h4>{{ 'demo.material.timeRequired' | translate }}</h4>
               {{ demoMaterial.timeRequired }}
             </div>
           </div>
 
-          <h2 i18n>Muut tiedostot</h2>
+          <h2>{{ 'demo.material.otherFiles' | translate }}</h2>
 
           <ul class="list-unstyled">
             <li>tiedosto.txt</li>
@@ -86,9 +86,9 @@
 
       <div class="col-md-2">
         <div class="material-sidebar-right">
-          <h2 i18n="Single material">Käyttäjien kuvailut</h2>
+          <h2>{{ 'demo.material.userMetadata' | translate }}</h2>
 
-          <h4 i18n>Kohderyhmä</h4>
+          <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
           <div class="tags">
             <a href="#" class="badge badge-dark"
@@ -97,7 +97,7 @@
             </a>
           </div>
 
-          <h4 i18n>Oppiaine</h4>
+          <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
           <div class="tags">
             <a href="#" class="badge badge-dark"
@@ -106,21 +106,21 @@
             </a>
           </div>
 
-          <h2 i18n="Single material">Käyttäjien arviot</h2>
+          <h2>{{ 'demo.material.userReviews' | translate }}</h2>
 
-          <h4 i18n>Arvostelu (3)</h4>
+          <p><strong>{{ 'demo.material.rating' | translate }} (3)</strong></p>
 
-          <span class="rating">
+          <div class="rating">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
+          </div>
 
-            + Lisää arvio
-          </span>
+          <a href="#" class="btn btn-link disabled">+ {{ 'demo.material.addReview' | translate }}</a>
 
-          <h4 i18n>Kommentteja (10)</h4>
+          <p><strong>{{ 'demo.material.comments' | translate }} (10)</strong></p>
         </div>
       </div>
     </div>
