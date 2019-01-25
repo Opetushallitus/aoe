@@ -10,7 +10,7 @@ import { setLanguage } from '../../shared/shared.module';
 export class DefaultLayoutComponent {
   constructor(private translate: TranslateService) { }
 
-  changeLanguage(lang: string) {
+  changeLanguage(lang: string): void {
     setLanguage(lang);
     this.translate.use(lang);
   }

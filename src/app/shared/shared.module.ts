@@ -34,11 +34,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
-export function setLanguage(lang: string) {
+export function setLanguage(lang: string): void {
   localStorage.setItem('user', JSON.stringify({ lang: lang }));
 }
 
-export function getLanguage() {
+export function getLanguage(): string|undefined {
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (user === null) {
