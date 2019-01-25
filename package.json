@@ -43,6 +43,7 @@
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
     "@coreui/icons": "0.3.0",
     "@ngx-translate/core": "^11.0.1",
+    "@ngx-translate/http-loader": "^4.0.0",
     "bootstrap": "^4.2.1",
     "chart.js": "^2.7.2",
     "core-js": "^2.5.7",
