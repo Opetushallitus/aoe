@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { getLanguage, setLanguage } from './shared/shared.module';
 
 @Component({
   // tslint:disable-next-line
@@ -12,15 +13,15 @@ export class AppComponent implements OnInit {
     translate.addLangs(['fi', 'en', 'sv']);
     translate.setDefaultLang('fi');
 
-    const user = JSON.parse(localStorage.getItem('user'));
+    const lang = getLanguage();
 
-    if (user === null) {
+    if (lang === undefined) {
       const browserLang = translate.getBrowserLang();
-      localStorage.setItem('user', JSON.stringify({ lang: browserLang.match(/fi|en|sv/) ? browserLang : 'fi' }));
 
+      setLanguage(browserLang.match(/fi|en|sv/) ? browserLang : 'fi');
       translate.use(browserLang);
     } else {
-      translate.use(user.lang);
+      translate.use(lang);
     }
   }
 

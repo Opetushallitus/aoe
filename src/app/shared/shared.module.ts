@@ -33,3 +33,17 @@ export class SharedModule { }
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
+
+export function setLanguage(lang: string) {
+  localStorage.setItem('user', JSON.stringify({ lang: lang }));
+}
+
+export function getLanguage() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if (user === null) {
+    return undefined;
+  } else {
+    return user.lang;
+  }
+}
