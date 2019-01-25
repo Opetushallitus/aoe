@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mb-4">
       <div class="col">
-        <a href="#">&lsaquo; {{ 'common.goBack' | translate }}</a>
+        <button class="btn btn-link" (click)="goBack()">&lsaquo; {{ 'common.goBack' | translate }}</button>
       </div>
     </div>
 
@@ -12,10 +12,15 @@
       </div>
 
       <div class="col-md-6 text-md-right">
-        <a href="#" class="btn btn-link disabled">{{ 'demo.material.edit' | translate }}</a>
-        <a href="#" class="btn btn-link disabled">{{ 'demo.material.delete' | translate }}</a>
-        <a href="#" class="btn btn-link disabled">{{ 'demo.material.addToCollection' | translate }}</a>
-        <a href="#" class="btn btn-link">{{ 'demo.material.download' | translate }}</a>
+        <div class="material-actions">
+          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.edit' | translate }}</a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.delete' | translate }}</a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.addToCollection' | translate }}</a>
+          <a href="javascript:void(0)" class="btn btn-link">
+            <img src="assets/img/icons/ic_download.svg" alt="{{ 'demo.material.download' | translate }}">
+            {{ 'demo.material.download' | translate }}
+          </a>
+        </div>
       </div>
     </div>
 
@@ -46,7 +51,7 @@
               <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
               <div class="tags">
-                <a href="#" class="badge badge-light"
+                <a href="javascript:void(0)" class="badge badge-light"
                    *ngFor="let audience of demoMaterial.educationalLevel">
                   {{ audience | lowercase }}
                 </a>
@@ -57,7 +62,7 @@
               <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
               <div class="tags">
-                <a href="#" class="badge badge-light"
+                <a href="javascript:void(0)" class="badge badge-light"
                    *ngFor="let subject of demoMaterial.educationalSubject">
                   {{ subject | lowercase }}
                 </a>
@@ -91,7 +96,7 @@
           <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
           <div class="tags">
-            <a href="#" class="badge badge-dark"
+            <a href="javascript:void(0)" class="badge badge-dark"
                *ngFor="let audience of demoMaterial.educationalLevel">
               {{ audience | lowercase }} &times;
             </a>
@@ -100,7 +105,7 @@
           <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
           <div class="tags">
-            <a href="#" class="badge badge-dark"
+            <a href="javascript:void(0)" class="badge badge-dark"
                *ngFor="let subject of demoMaterial.educationalSubject">
               {{ subject | lowercase }} &times;
             </a>
@@ -118,7 +123,7 @@
             <img src="assets/img/icons/ic_star.svg" alt="...">
           </div>
 
-          <a href="#" class="btn btn-link disabled">+ {{ 'demo.material.addReview' | translate }}</a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">+ {{ 'demo.material.addReview' | translate }}</a>
 
           <p><strong>{{ 'demo.material.comments' | translate }} (10)</strong></p>
         </div>
