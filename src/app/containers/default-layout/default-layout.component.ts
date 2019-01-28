@@ -8,7 +8,7 @@ import { setLanguage } from '../../shared/shared.module';
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
-  constructor(private translate: TranslateService) { }
+  constructor(public translate: TranslateService) { }
 
   changeLanguage(lang: string): void {
     setLanguage(lang);
