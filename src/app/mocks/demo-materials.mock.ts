@@ -1,4 +1,4 @@
-import { DemoMaterial } from '../../models/demo-material';
+import { DemoMaterial } from '../models/demo-material';
 
 export const DEMOMATERIALS: DemoMaterial[] = [
   {

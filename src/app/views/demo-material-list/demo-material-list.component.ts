@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { DEMOMATERIALS } from './mock-demo-materials';
+import { DEMOMATERIALS } from '../../mocks/demo-materials.mock';
 
 @Component({
   selector: 'app-demo-material-list',

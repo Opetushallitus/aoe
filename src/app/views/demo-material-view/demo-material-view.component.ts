@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { DEMOMATERIALS } from '../demo-material-list/mock-demo-materials';
+import { DEMOMATERIALS } from '../../mocks/demo-materials.mock';
 import { DemoMaterial } from '../../models/demo-material';
 
 @Component({
