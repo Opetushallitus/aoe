@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
+import { HelpViewComponent } from './views/help-view/help-view.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'demo/materiaali/:id',
         component: DemoMaterialViewComponent
+      },
+      {
+        path: 'ohje',
+        component: HelpViewComponent
       }
     ]
   }

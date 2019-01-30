@@ -39,6 +39,15 @@
       "rating": "Rating",
       "addReview": "Add review",
       "comments": "Comments"
+    },
+    "help": {
+      "title": "Help",
+      "subtitle": "What is e-Reppu?",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus. Donec et orci ornare, commodo dolor sit amet, sollicitudin elit. Nam quis sapien odio. Fusce iaculis tortor nec nisl auctor, in fermentum nisi varius. Cras metus ligula, dapibus in condimentum non, porttitor quis risus. Curabitur suscipit interdum eros, id consequat justo interdum id. Nullam urna dui, malesuada non condimentum a, suscipit ut lorem.",
+      "faq": {
+        "title": "Frequently asked questions"
+      }
+    }
     }
   }
 }

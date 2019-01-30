@@ -1,0 +1,35 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{ 'demo.help.title' | translate }}</h1>
+      </div>
+    </div><!--/.row-->
+
+    <div class="row">
+      <div class="col">
+        <h2>{{ 'demo.help.subtitle' | translate }}</h2>
+
+        <p>{{ 'demo.help.description' | translate }}</p>
+      </div>
+    </div><!--/.row-->
+
+    <div class="row">
+      <div class="col">
+        <h2>{{ 'demo.help.faq.title' | translate }}</h2>
+
+        <accordion>
+          <accordion-group heading="Another group" (isOpenChange)="log($event)">
+            <p>Some content</p>
+          </accordion-group>
+          <accordion-group heading="Another group" (isOpenChange)="log($event)">
+            <p>Some content</p>
+          </accordion-group>
+          <accordion-group heading="Another group" (isOpenChange)="log($event)">
+            <p>Some content</p>
+          </accordion-group>
+        </accordion>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
