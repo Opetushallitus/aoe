@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
+import { FAQ } from '../../mocks/faq.mock';
+
 @Component({
   selector: 'app-help-view',
   templateUrl: './help-view.component.html',
 })
 export class HelpViewComponent {
-  log(event: boolean) {
-    console.log(`Accordion has been ${event ? 'opened' : 'closed'}`);
-  }
+  faq = FAQ;
 }
