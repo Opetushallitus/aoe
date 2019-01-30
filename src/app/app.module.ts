@@ -11,6 +11,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
 
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+
 import { AppComponent } from './app.component';
 
 // Import containers
@@ -41,6 +43,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
+import { HelpViewComponent } from './views/help-view/help-view.component';
 
 @NgModule({
   imports: [
@@ -62,6 +65,7 @@ import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
         deps: [HttpClient]
       }
     }),
+    AccordionModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -70,6 +74,7 @@ import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
     LoginComponent,
     AddMaterialComponent,
     DemoMaterialViewComponent,
+    HelpViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,
