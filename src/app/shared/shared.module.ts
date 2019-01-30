@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 
@@ -38,7 +38,7 @@ export function setLanguage(lang: string): void {
   localStorage.setItem('user', JSON.stringify({ lang: lang }));
 }
 
-export function getLanguage(): string|undefined {
+export function getLanguage(): string | undefined {
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (user === null) {
