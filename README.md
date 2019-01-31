@@ -10,10 +10,10 @@ Main tools are Angular, Bootstrap 4 and SASS
 
 ``` bash
 # clone the repo
-$ git clone https://github.com/coreui/coreui-free-angular-admin-template.git my-project
+$ git clone https://github.com/CSCfi/aoe-frontend.git
 
 # go into app's directory
-$ cd my-project
+$ cd aoe-frontend
 
 # install app's dependencies
 $ npm install
