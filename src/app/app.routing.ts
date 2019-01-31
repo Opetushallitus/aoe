@@ -69,6 +69,10 @@ export const routes: Routes = [
         component: AccessibilityPolicyViewComponent
       }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '/404'
   }
 ];
 
