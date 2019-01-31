@@ -145,6 +145,16 @@ h2 {
       text-decoration: none;
     }
   }
+
+  .footer-logos {
+    img {
+      margin-right: .75rem;
+
+      &:last-of-type {
+        margin-right: 0;
+      }
+    }
+  }
 }
 
 // Tags
