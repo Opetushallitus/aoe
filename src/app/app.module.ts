@@ -44,6 +44,9 @@ import { AddMaterialComponent } from './views/add-material/add-material.componen
 import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 import { HelpViewComponent } from './views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
+import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 
 @NgModule({
   imports: [
@@ -75,6 +78,9 @@ import { HelpViewComponent } from './views/help-view/help-view.component';
     AddMaterialComponent,
     DemoMaterialViewComponent,
     HelpViewComponent,
+    TermsOfUseViewComponent,
+    PrivacyPolicyViewComponent,
+    AccessibilityPolicyViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

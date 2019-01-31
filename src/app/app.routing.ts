@@ -9,6 +9,9 @@ import { LoginComponent } from './views/login/login.component';
 import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
+import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 
 export const routes: Routes = [
   {
@@ -52,6 +55,18 @@ export const routes: Routes = [
       {
         path: 'ohje',
         component: HelpViewComponent
+      },
+      {
+        path: 'kayttoehdot',
+        component: TermsOfUseViewComponent
+      },
+      {
+        path: 'rekisteriseloste',
+        component: PrivacyPolicyViewComponent
+      },
+      {
+        path: 'saavutettavuusseloste',
+        component: AccessibilityPolicyViewComponent
       }
     ]
   }

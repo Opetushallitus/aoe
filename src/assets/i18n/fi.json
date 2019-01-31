@@ -47,6 +47,18 @@
       "faq": {
         "title": "Usein kysytyt kysymykset"
       }
+    },
+    "accessibility": {
+      "title": "Saavutettavuusseloste",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
+    },
+    "privacy": {
+      "title": "Rekisteriseloste",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
+    },
+    "terms": {
+      "title": "Käyttöehdot",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
     }
   }
 }

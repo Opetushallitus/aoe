@@ -47,6 +47,18 @@
       "faq": {
         "title": "Frequently asked questions"
       }
+    },
+    "accessibility": {
+      "title": "Accessibility Policy",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
     }
   }
 }
