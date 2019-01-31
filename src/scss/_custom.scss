@@ -15,6 +15,8 @@ $badge-light-bg-hover: darken($badge-light-bg, 15%);
 $badge-dark-bg: #9A937D;
 $badge-dark-bg-hover: darken($badge-dark-bg, 15%);
 
+$panel-body-color: #6D6D6D;
+
 body {
   font-size: 16px;
 }
@@ -275,8 +277,33 @@ h2 {
 }
 
 // FAQ
-.accordion {
-  .card {
+.panel-group {
+  .panel {
+    border: none;
+    border-radius: 0;
     margin-bottom: 0;
+  }
+
+  .panel-heading {
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .accordion-toggle {
+    cursor: pointer;
+    font-weight: 700;
+    padding: .75rem 1.25rem;
+
+    .fa {
+      color: $blue;
+    }
+  }
+
+  .panel-body {
+    color: $panel-body-color;
+
+    p:last-of-type {
+      margin-bottom: 0;
+    }
   }
 }
