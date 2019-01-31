@@ -20,12 +20,10 @@
 
         <accordion>
           <accordion-group *ngFor="let item of faq" #group>
-            <button class="btn btn-link btn-block clearfix" accordion-heading>
-              <div class="float-left pull-left">
-                {{ item.question }}
-              </div>
-              <i class="fa float-right pull-right" aria-hidden="true" [ngClass]="group?.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
-            </button>
+            <div accordion-heading class="clearfix">
+              <div class="pull-left">{{ item.question }}</div>
+              <i class="fa pull-right" aria-hidden="true" [ngClass]="group.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+            </div>
 
             <p>{{ item.answer }}</p>
           </accordion-group>
