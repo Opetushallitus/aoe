@@ -21,11 +21,6 @@ body {
   font-size: 16px;
 }
 
-/*@media (min-width: 1920px) {
-  .container {
-    max-width: 1860px;
-  }
-}*/
 
 .font-weight-medium {
   font-weight: 500;
@@ -90,12 +85,13 @@ body {
 
 h1 {
   color: $primary-theme-color;
-  font-size: 34px;
+  @include font-size(32);
+  margin-bottom: 3rem;
 }
 
 h2 {
   color: $primary-theme-color;
-  font-size: 24px;
+  @include font-size(24);
   margin-bottom: 24px;
 }
 
@@ -109,7 +105,7 @@ h2 {
 
   .nav-link {
     color: $white;
-    font-size: .9375rem;
+    @include font-size(15);
     font-weight: 500;
     padding: 1.5rem 2rem;
 
@@ -130,7 +126,7 @@ h2 {
 // Tags
 .tags {
   .badge {
-    font-size: .875rem;
+    @include font-size(14);
     font-weight: 400;
     margin-bottom: .25rem;
     padding: .5rem;
@@ -235,7 +231,7 @@ h2 {
 // Oppimateriaali SingleView
 #material-view {
   h4 {
-    font-size: .875rem;
+    @include font-size(14);
   }
 
   .tags {
@@ -269,7 +265,7 @@ h2 {
     background-color: $primary-theme-color;
     color: $white;
     display: block;
-    font-size: 1.125rem;
+    @include font-size(18);
     font-weight: 400;
     margin-bottom: 1rem;
     padding: .5rem 1rem;

@@ -4,5 +4,8 @@
 // Import styles
 @import "~@coreui/coreui/scss/coreui";
 
+// Import mixins
+@import "mixins";
+
 // If you want to add something do it here
 @import "custom";
