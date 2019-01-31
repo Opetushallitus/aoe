@@ -8,6 +8,8 @@ $form-border-color: #DEDEDE;
 $input-label-color: #464646;
 $navbar-bg-hover: #1D661F;
 
+$footer-bg-color: #616161;
+
 $media-body-color: #696868;
 
 $badge-light-bg: #EAEAEA;
@@ -125,7 +127,24 @@ h2 {
 
 // Footer
 .app-footer {
-  flex: none;
+  background-color: $footer-bg-color;
+  display: block;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+
+  h1 {
+    color: $white;
+    margin-bottom: 1rem;
+  }
+
+  .nav-link {
+    color: $white;
+    text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 
 // Tags
