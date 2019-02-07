@@ -7,17 +7,26 @@
     </div>
 
     <div class="row mb-4">
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <h1>{{ demoMaterial.name }}</h1>
       </div>
 
-      <div class="col-md-6 text-md-right">
+      <div class="col-lg-6 text-lg-right">
         <div class="material-actions">
-          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.edit' | translate }}</a>
-          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.delete' | translate }}</a>
-          <a href="javascript:void(0)" class="btn btn-link disabled">{{ 'demo.material.addToCollection' | translate }}</a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+            {{ 'demo.material.edit' | translate }}
+          </a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+            {{ 'demo.material.delete' | translate }}
+          </a>
+          <a href="javascript:void(0)" class="btn btn-link disabled">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            {{ 'demo.material.addToCollection' | translate }}
+          </a>
           <a href="javascript:void(0)" class="btn btn-link">
-            <img src="assets/img/icons/ic_download.svg" alt="{{ 'demo.material.download' | translate }}">
+            <i class="fa fa-download" aria-hidden="true"></i>
             {{ 'demo.material.download' | translate }}
           </a>
         </div>
@@ -25,21 +34,27 @@
     </div>
 
     <div class="row">
-      <div class="col-md-2">
+      <div class="col-lg-2">
         <div class="material-sidebar-left">
-          <img src="https://via.placeholder.com/207x277" alt="" class="img-fluid mb-4">
+          <div class="row">
+            <div class="col-12 col-sm-auto text-center text-sm-left">
+              <img src="https://via.placeholder.com/207x277" alt="" class="img-fluid mb-4">
+            </div>
 
-          <ul class="list-unstyled">
-            <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
-              {{ learningResourceType }}
-            </li>
-            <li class="text-muted">0 <span>{{ 'demo.material.viewCount' | translate }}</span></li>
-            <li class="text-muted">0 <span>{{ 'demo.material.downloadCount' | translate }}</span></li>
-          </ul>
+            <div class="col">
+              <ul class="list-unstyled">
+                <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
+                  {{ learningResourceType }}
+                </li>
+                <li class="text-muted">0 <span>{{ 'demo.material.viewCount' | translate }}</span></li>
+                <li class="text-muted">0 <span>{{ 'demo.material.downloadCount' | translate }}</span></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-12 col-lg-8">
         <div class="material-content">
           <p>{{ demoMaterial.description }}</p>
           <span>{{ demoMaterial.author }}</span>
@@ -47,34 +62,34 @@
           <pre>-- preview --</pre>
 
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
               <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
               <div class="tags">
-                <a href="javascript:void(0)" class="badge badge-light"
+                <a href="javascript:void(0)" class="btn btn-light disabled"
                    *ngFor="let audience of demoMaterial.educationalLevel">
                   {{ audience | lowercase }}
                 </a>
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-12 col-md-4">
               <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
               <div class="tags">
-                <a href="javascript:void(0)" class="badge badge-light"
+                <a href="javascript:void(0)" class="btn btn-light disabled"
                    *ngFor="let subject of demoMaterial.educationalSubject">
                   {{ subject | lowercase }}
                 </a>
               </div>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-12 col-md-2">
               <h4>{{ 'demo.material.inLanguage' | translate }}</h4>
               {{ demoMaterial.inLanguage }}
             </div>
 
-            <div class="col-md-2">
+            <div class="col-12 col-md-2">
               <h4>{{ 'demo.material.timeRequired' | translate }}</h4>
               {{ demoMaterial.timeRequired }}
             </div>
@@ -89,14 +104,14 @@
         </div>
       </div>
 
-      <div class="col-md-2">
+      <div class="col-12 col-lg-2">
         <div class="material-sidebar-right">
           <h2>{{ 'demo.material.userMetadata' | translate }}</h2>
 
           <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
 
           <div class="tags">
-            <a href="javascript:void(0)" class="badge badge-dark"
+            <a href="javascript:void(0)" class="btn btn-dark disabled"
                *ngFor="let audience of demoMaterial.educationalLevel">
               {{ audience | lowercase }} &times;
             </a>
@@ -105,7 +120,7 @@
           <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
 
           <div class="tags">
-            <a href="javascript:void(0)" class="badge badge-dark"
+            <a href="javascript:void(0)" class="btn btn-dark disabled"
                *ngFor="let subject of demoMaterial.educationalSubject">
               {{ subject | lowercase }} &times;
             </a>
