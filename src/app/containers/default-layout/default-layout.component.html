@@ -15,9 +15,9 @@
       </li>
     </ul>
 
-    <ul class="nav navbar-nav ml-auto nav-languages">
+    <ul class="nav ml-auto nav-languages">
       <li class="nav-item" *ngFor="let lang of translate.getLangs()">
-        <button class="btn btn-link nav-link" (click)="changeLanguage(lang)">{{ lang | uppercase }}</button>
+        <button class="btn btn-link nav-link" (click)="changeLanguage(lang)" [ngClass]="translate.currentLang === lang ? 'active' : ''">{{ lang | uppercase }}</button>
       </li>
     </ul>
 
