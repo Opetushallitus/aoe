@@ -44,7 +44,7 @@
             <div class="col">
               <ul class="list-unstyled">
                 <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
-                  <i class="fa fa-fw fa-briefcase" aria-hidden="true"></i>
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="getLearningResourceTypeIcon(learningResourceType)"></i>
                   {{ learningResourceType }}
                 </li>
                 <li class="text-muted">

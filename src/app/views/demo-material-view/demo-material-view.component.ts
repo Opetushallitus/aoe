@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { DEMOMATERIALS } from '../../mocks/demo-materials.mock';
+import { LEARNINGRESOURCETYPEICONS } from '../../mocks/learning-resource-type-icons.mock';
 import { DemoMaterial } from '../../models/demo-material';
+import { LearningResourceTypeIcon } from '../../models/learning-resource-type-icon';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -12,6 +14,7 @@ import { DemoMaterial } from '../../models/demo-material';
 export class DemoMaterialViewComponent implements OnInit {
 
   demoMaterials: DemoMaterial[] = DEMOMATERIALS;
+  learningResourceTypeIcons: LearningResourceTypeIcon[] = LEARNINGRESOURCETYPEICONS;
   demoMaterial: DemoMaterial;
 
   constructor(
@@ -27,6 +30,12 @@ export class DemoMaterialViewComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  getLearningResourceTypeIcon(learningResourceType: string): string {
+    const learningResourceTypeIcon = this.learningResourceTypeIcons.find(lrti => lrti.type === learningResourceType);
+
+    return learningResourceTypeIcon.icon;
   }
 
 }
