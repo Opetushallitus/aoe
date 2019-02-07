@@ -14,19 +14,19 @@
       <div class="col-lg-6 text-lg-right">
         <div class="material-actions">
           <a href="javascript:void(0)" class="btn btn-link disabled">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>
             {{ 'demo.material.edit' | translate }}
           </a>
           <a href="javascript:void(0)" class="btn btn-link disabled">
-            <i class="fa fa-trash" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
             {{ 'demo.material.delete' | translate }}
           </a>
           <a href="javascript:void(0)" class="btn btn-link disabled">
-            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-plus-square" aria-hidden="true"></i>
             {{ 'demo.material.addToCollection' | translate }}
           </a>
           <a href="javascript:void(0)" class="btn btn-link">
-            <i class="fa fa-download" aria-hidden="true"></i>
+            <i class="fa fa-fw fa-download" aria-hidden="true"></i>
             {{ 'demo.material.download' | translate }}
           </a>
         </div>
@@ -44,14 +44,15 @@
             <div class="col">
               <ul class="list-unstyled">
                 <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
+                  <i class="fa fa-fw fa-briefcase" aria-hidden="true"></i>
                   {{ learningResourceType }}
                 </li>
                 <li class="text-muted">
-                  <i class="fa fa-download" aria-hidden="true"></i>
+                  <i class="fa fa-fw fa-download" aria-hidden="true"></i>
                   0 {{ 'demo.material.viewCount' | translate }}
                 </li>
                 <li class="text-muted">
-                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
                   0 {{ 'demo.material.downloadCount' | translate }}
                 </li>
               </ul>
@@ -104,8 +105,14 @@
           <h2>{{ 'demo.material.otherFiles' | translate }}</h2>
 
           <ul class="list-unstyled">
-            <li>tiedosto.txt</li>
-            <li>tiedosto.pdf</li>
+            <li>
+              <i class="fa fa-fw fa-file" aria-hidden="true"></i>
+              tiedosto.txt
+            </li>
+            <li>
+              <i class="fa fa-fw fa-file" aria-hidden="true"></i>
+              tiedosto.pdf
+            </li>
           </ul>
         </div>
       </div>
