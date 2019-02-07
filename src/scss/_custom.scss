@@ -295,6 +295,13 @@ h2 {
 }
 
 .material-sidebar-left {
+  .list-unstyled {
+    li {
+      &:not(:last-child) {
+        margin-bottom: .25rem;
+      }
+    }
+  }
 }
 
 .material-sidebar-right {
