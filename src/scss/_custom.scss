@@ -12,10 +12,10 @@ $footer-bg-color: #616161;
 
 $media-body-color: #696868;
 
-$badge-light-bg: #EAEAEA;
-$badge-light-bg-hover: darken($badge-light-bg, 15%);
-$badge-dark-bg: #9A937D;
-$badge-dark-bg-hover: darken($badge-dark-bg, 15%);
+$btn-light: #EAEAEA;
+$btn-light-hover: darken($btn-light, 15%);
+$btn-dark: #9A937D;
+$btn-dark-hover: darken($btn-dark, 15%);
 
 $panel-body-color: #6D6D6D;
 
@@ -30,7 +30,7 @@ body {
 
 
 .font-navbar {
-  font-size: 15px;
+  @include font-size(15);
   font-weight: 500;
 }
 
@@ -43,48 +43,61 @@ body {
 
 .base-heading-style {
   font-weight: 400;
-  font-size:24px;
+  @include font-size(24);
 }
 
 
 // Forms
-
 .form-group {
   label {
     color: $input-label-color;
-    font-size: 12px;
+    @include font-size(12);
   }
+
   .form-control {
     border-radius: 2px;
   }
 }
 
+// Search form
+.search-form {
+  #searchQuery {
+    background-color: rgba(#000, .33);
+    color: $white;
+
+    &::placeholder {
+      color: $white;
+    }
+  }
+}
+
+// Hint text
 .hint-text-select {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  font-size: 16px;
+  @include font-size(16);
 }
 
 .hint-text::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  font-size: 16px;
+  @include font-size(16);
 }
 
 .hint-text::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  font-size: 16px;
+  @include font-size(16);
 }
+
 .hint-text:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  font-size: 16px;
+  @include font-size(16);
 }
 
 .hint-text:-moz-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  font-size: 16px;
+  @include font-size(16);
 }
 
 // Typography
-
 h1 {
   color: $primary-theme-color;
   @include font-size(20);
@@ -123,6 +136,10 @@ h2 {
       padding: .25rem;
     }
   }
+}
+
+.content-wrapper {
+  padding: 1.5rem 0rem;
 }
 
 // Footer
@@ -172,22 +189,22 @@ h2 {
   }
 
   .btn-light {
-    background-color: $badge-light-bg;
-    border-color: $badge-light-bg;
+    background-color: $btn-light;
+    border-color: $btn-light;
 
     &:focus,
     &:hover {
-      background-color: $badge-light-bg-hover;
+      background-color: $btn-light-hover;
     }
   }
 
   .btn-dark {
-    background-color: $badge-dark-bg;
-    border-color: $badge-dark-bg;
+    background-color: $btn-dark;
+    border-color: $btn-dark;
 
     &:focus,
     &:hover {
-      background-color: $badge-dark-bg-hover;
+      background-color: $btn-dark-hover;
     }
   }
 }
