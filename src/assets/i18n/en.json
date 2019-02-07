@@ -7,7 +7,12 @@
     "collectionSearch": "Collection search",
     "help": "Help",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "toggler": {
+      "aria": {
+        "label": "Toggle navigation"
+      }
+    }
   },
   "footer": {
     "termsOfUse": "Terms of use",

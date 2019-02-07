@@ -7,7 +7,12 @@
     "collectionSearch": "Kokoelmahaku",
     "help": "Ohje",
     "login": "Kirjaudu sisään",
-    "logout": "Kirjaudu ulos"
+    "logout": "Kirjaudu ulos",
+    "toggler": {
+      "aria": {
+        "label": "Avaa/Sulje valikko"
+      }
+    }
   },
   "footer": {
     "termsOfUse": "Käyttöehdot",
