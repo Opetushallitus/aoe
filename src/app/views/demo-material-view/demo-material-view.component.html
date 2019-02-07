@@ -46,8 +46,14 @@
                 <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
                   {{ learningResourceType }}
                 </li>
-                <li class="text-muted">0 <span>{{ 'demo.material.viewCount' | translate }}</span></li>
-                <li class="text-muted">0 <span>{{ 'demo.material.downloadCount' | translate }}</span></li>
+                <li class="text-muted">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+                  0 <span>{{ 'demo.material.viewCount' | translate }}</span>
+                </li>
+                <li class="text-muted">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                  0 <span>{{ 'demo.material.downloadCount' | translate }}</span>
+                </li>
               </ul>
             </div>
           </div>
