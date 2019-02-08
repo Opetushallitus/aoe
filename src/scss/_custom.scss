@@ -63,6 +63,7 @@ body {
 .search-form {
   #searchQuery {
     background-color: rgba(#000, .33);
+    border-color: rgba(#000, .33);
     color: $white;
 
     &::placeholder {
@@ -363,6 +364,14 @@ h2 {
       margin-bottom: 0;
     }
   }
+}
+
+// Home
+#home-search-block {
+  background-image: url(../assets/img/AdobeStock_210031646.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 // Media queries

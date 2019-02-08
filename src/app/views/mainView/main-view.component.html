@@ -1,4 +1,4 @@
-<div class="content-wrapper">
+<div class="content-wrapper" id="home-search-block">
   <div class="container">
     <div class="row">
       <div class="col justify-content-center">
@@ -7,63 +7,65 @@
         </div>
 
         <form class="search-form">
-          <div class="form-row">
-            <div class="form-group col-12">
-              <label for="searchQuery" class="sr-only">{{ 'home.search.form.searchQuery' | translate }}</label>
-              <input type="search" class="form-control" id="searchQuery" placeholder="{{ 'home.search.form.searchQuery' | translate }}">
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group col-md">
-              <label for="educationalLevel" class="sr-only">{{ 'home.search.form.educationalLevel' | translate }}</label>
-              <select class="form-control" id="educationalLevel">
-                <option hidden>{{ 'home.search.form.educationalLevel' | translate }}</option>
-                <option>lukiokoulutus</option>
-                <option>ammatillinen koulutus</option>
-                <option>korkeakoulutus</option>
-              </select>
+          <fieldset disabled>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="searchQuery" class="sr-only">{{ 'home.search.form.searchQuery' | translate }}</label>
+                <input type="search" class="form-control" id="searchQuery" placeholder="{{ 'home.search.form.searchQuery' | translate }}">
+              </div>
             </div>
 
-            <div class="form-group col-md">
-              <label for="teaches" class="sr-only">{{ 'home.search.form.teaches' | translate }}</label>
-              <select class="form-control" id="teaches">
-                <option hidden>{{ 'home.search.form.teaches' | translate }}</option>
-                <option>POPS2012</option>
-                <option>POPS2013</option>
-                <option>POPS2014</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md">
-              <label for="learningResourceType" class="sr-only">{{ 'home.search.form.learningResourceType' | translate }}</label>
-              <select class="form-control" id="learningResourceType">
-                <option hidden>{{ 'home.search.form.learningResourceType' | translate }}</option>
-                <option>teksti</option>
-                <option>harjoitus</option>
-                <option>simulaatio</option>
-                <option>projekti</option>
-              </select>
-            </div>
-
-            <div class="form-group col-md-1">
-              <button type="submit" class="btn btn-blue btn-block" disabled>
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <span class="sr-only">{{ 'home.search.form.submit' | translate }}</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="form-row justify-content-end">
-            <div class="form-group col-md-auto">
-              <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input" value="1" id="includeCollections">
-                <label for="includeCollections" class="form-check-label">{{ 'home.search.form.includeCollections' | translate }}</label>
+            <div class="form-row">
+              <div class="form-group col-md">
+                <label for="educationalLevel" class="sr-only">{{ 'home.search.form.educationalLevel' | translate }}</label>
+                <select class="form-control" id="educationalLevel">
+                  <option hidden>{{ 'home.search.form.educationalLevel' | translate }}</option>
+                  <option>lukiokoulutus</option>
+                  <option>ammatillinen koulutus</option>
+                  <option>korkeakoulutus</option>
+                </select>
               </div>
 
-              <a href="#" class="btn btn-dark btn-sm disabled">{{ 'home.search.form.advancedSearch' | translate }}</a>
+              <div class="form-group col-md">
+                <label for="teaches" class="sr-only">{{ 'home.search.form.teaches' | translate }}</label>
+                <select class="form-control" id="teaches">
+                  <option hidden>{{ 'home.search.form.teaches' | translate }}</option>
+                  <option>POPS2012</option>
+                  <option>POPS2013</option>
+                  <option>POPS2014</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md">
+                <label for="learningResourceType" class="sr-only">{{ 'home.search.form.learningResourceType' | translate }}</label>
+                <select class="form-control" id="learningResourceType">
+                  <option hidden>{{ 'home.search.form.learningResourceType' | translate }}</option>
+                  <option>teksti</option>
+                  <option>harjoitus</option>
+                  <option>simulaatio</option>
+                  <option>projekti</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-1">
+                <button type="submit" class="btn btn-blue btn-block">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <span class="sr-only">{{ 'home.search.form.submit' | translate }}</span>
+                </button>
+              </div>
             </div>
-          </div>
+
+            <div class="form-row justify-content-end">
+              <div class="form-group col-md-auto">
+                <div class="form-check form-check-inline">
+                  <input type="checkbox" class="form-check-input" value="1" id="includeCollections">
+                  <label for="includeCollections" class="form-check-label">{{ 'home.search.form.includeCollections' | translate }}</label>
+                </div>
+
+                <a href="#" class="btn btn-dark btn-sm">{{ 'home.search.form.advancedSearch' | translate }}</a>
+              </div>
+            </div>
+          </fieldset>
         </form>
       </div>
     </div><!--/.row-->
