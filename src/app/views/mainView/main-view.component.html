@@ -7,7 +7,7 @@
         </div>
 
         <form class="search-form">
-          <fieldset disabled>
+          <fieldset>
             <div class="form-row">
               <div class="form-group col-12">
                 <label for="searchQuery" class="sr-only">{{ 'home.search.form.searchQuery' | translate }}</label>
@@ -72,14 +72,24 @@
   </div>
 </div>
 
+<div class="content-wrapper bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <span class="text-blue">{{ 'home.cta.addMaterial' | translate }}</span>
+        <i class="fa fa-chevron-right text-blue mx-4" aria-hidden="true"></i>
+        <a href="#" class="text-blue">{{ 'home.cta.loginOrRegister' | translate }}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="content-wrapper">
   <div class="container">
     <div class="row">
-      <div class="col justify-content-center">
-        <div class="text-center">
-          <h2 [innerHTML]="'home.title' | translate"></h2>
-          <p>{{ 'home.description' | translate }}</p>
-        </div>
+      <div class="col text-center">
+        <h2 [innerHTML]="'home.title' | translate"></h2>
+        <p>{{ 'home.description' | translate }}</p>
       </div>
     </div><!--/.row-->
   </div>

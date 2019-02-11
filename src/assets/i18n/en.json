@@ -33,6 +33,10 @@
         "includeCollections": "Include collections",
         "advancedSearch": "Advanced search"
       }
+    },
+    "cta": {
+      "addMaterial": "Want to add materials?",
+      "loginOrRegister": "Login or create account"
     }
   },
   "demo": {

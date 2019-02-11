@@ -33,6 +33,10 @@
         "includeCollections": "Hae myös kokoelmista",
         "advancedSearch": "Tarkempi haku"
       }
+    },
+    "cta": {
+      "addMaterial": "Haluatko lisätä materiaaleja?",
+      "loginOrRegister": "Kirjaudu sisään tai rekisteröidy"
     }
   },
   "demo": {
