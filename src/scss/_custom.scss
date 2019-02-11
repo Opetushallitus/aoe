@@ -299,7 +299,9 @@ h2 {
     color: $blue;
     font-size: 1rem;
 
+    &:focus,
     &:hover {
+      color: $blue-hover;
       text-decoration: none;
     }
   }

@@ -4,6 +4,7 @@
 $primary-theme-color: #1D891F;
 $secondary-theme-color: #1D7D1F;
 $blue: #1F79BF;
+$blue-hover: darken($blue, 15%);
 
 $theme-colors: (
   primary:  $primary-theme-color,
