@@ -7,8 +7,9 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { MainViewComponent } from './main-view.component';
 import { MainViewRoutingModule } from './main-view-routing.module';
-import { OppimateriaaliCardComponent } from '../../components/oppimateriaali-card/oppimateriaali-card.component';
-import { DemoMaterialListComponent } from '../demo-material-list/demo-material-list.component';
+
+import { EducationalMaterialsListComponent } from '../../components/educational-materials-list/educational-materials-list.component';
+import { EducationalMaterialCardComponent } from '../../components/educational-material-card/educational-material-card.component';
 
 @NgModule({
   imports: [
@@ -21,8 +22,8 @@ import { DemoMaterialListComponent } from '../demo-material-list/demo-material-l
   ],
   declarations: [
     MainViewComponent,
-    OppimateriaaliCardComponent,
-    DemoMaterialListComponent,
+    EducationalMaterialsListComponent,
+    EducationalMaterialCardComponent,
   ]
 })
 export class MainViewModule { }

@@ -40,13 +40,14 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
-import { AddMaterialComponent } from './views/add-material/add-material.component';
-import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
+
+import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
 import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
+import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 
 @NgModule({
   imports: [
@@ -76,11 +77,11 @@ import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-v
     P404Component,
     LoginComponent,
     AddMaterialComponent,
-    DemoMaterialViewComponent,
     HelpViewComponent,
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
     AccessibilityPolicyViewComponent,
+    EducationalMaterialViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

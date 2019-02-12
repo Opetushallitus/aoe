@@ -7,7 +7,7 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { AddMaterialComponent } from './views/add-material/add-material.component';
-import { DemoMaterialViewComponent } from './views/demo-material-view/demo-material-view.component';
+import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
@@ -49,8 +49,8 @@ export const routes: Routes = [
         component: AddMaterialComponent
       },
       {
-        path: 'demo/materiaali/:id',
-        component: DemoMaterialViewComponent
+        path: 'demo/materiaali/:id/:slug',
+        component: EducationalMaterialViewComponent
       },
       {
         path: 'ohje',

@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { DEMOMATERIALS } from '../../mocks/demo-materials.mock';
+import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials-fi.mock';
 import { LEARNINGRESOURCETYPEICONS } from '../../mocks/learning-resource-type-icons.mock';
-import { DemoMaterial } from '../../models/demo-material';
+
+import { EducationalMaterial } from '../../models/demo/educational-material';
 import { LearningResourceTypeIcon } from '../../models/learning-resource-type-icon';
 
 @Component({
   selector: 'app-demo-material-view',
-  templateUrl: './demo-material-view.component.html',
+  templateUrl: './educational-material-view.component.html',
 })
-export class DemoMaterialViewComponent implements OnInit {
+export class EducationalMaterialViewComponent implements OnInit {
 
-  demoMaterials: DemoMaterial[] = DEMOMATERIALS;
+  educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
+  educationalMaterial: EducationalMaterial;
   learningResourceTypeIcons: LearningResourceTypeIcon[] = LEARNINGRESOURCETYPEICONS;
-  demoMaterial: DemoMaterial;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +25,7 @@ export class DemoMaterialViewComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.demoMaterial = this.demoMaterials.find(m => m.id === +params['id']);
+      this.educationalMaterial = this.educationalMaterials.find(m => m.id === +params['id']);
     });
   }
 

@@ -1,0 +1,36 @@
+<div class="card-educational-material">
+  <div class="media">
+    <img src="assets/img/material.png" class="mr-3" alt="...">
+    <div class="media-body">
+      <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]"><h5> {{ educationalMaterial.name }}</h5></a>
+      {{ educationalMaterial.description | truncate:[50] }}
+    </div>
+  </div>
+
+  <div class="tags">
+    <a href="#" class="btn btn-light"
+       *ngFor="let keyword of educationalMaterial.keywords">
+      {{ keyword.value }}
+    </a>
+  </div>
+
+  <div class="tags">
+    <a href="#" class="btn btn-light"
+       *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
+      {{ educationalLevel.value }}
+    </a>
+  </div>
+
+  <div class="details">
+    <span class="comments">2</span>
+    <span class="rating">
+      <img src="assets/img/icons/ic_star.svg" alt="...">
+      <img src="assets/img/icons/ic_star.svg" alt="...">
+      <img src="assets/img/icons/ic_star.svg" alt="...">
+      <img src="assets/img/icons/ic_star.svg" alt="...">
+      <img src="assets/img/icons/ic_star.svg" alt="...">
+    </span>
+    <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="license" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
+    <span class="type pull-right">{{ educationalMaterial.learningResourceType[0].value }}</span>
+  </div>
+</div>

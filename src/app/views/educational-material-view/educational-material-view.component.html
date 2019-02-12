@@ -8,26 +8,26 @@
 
     <div class="row mb-4">
       <div class="col-lg-6">
-        <h1>{{ demoMaterial.name }}</h1>
+        <h1>{{ educationalMaterial.name }}</h1>
       </div>
 
       <div class="col-lg-6 text-lg-right">
         <div class="material-actions">
-          <a href="javascript:void(0)" class="btn btn-link disabled">
+          <a href="#" class="btn btn-link">
             <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>
-            {{ 'demo.material.edit' | translate }}
+            {{ 'demo.educationalMaterial.edit' | translate }}
           </a>
-          <a href="javascript:void(0)" class="btn btn-link disabled">
+          <a href="#" class="btn btn-link">
             <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
-            {{ 'demo.material.delete' | translate }}
+            {{ 'demo.educationalMaterial.delete' | translate }}
           </a>
-          <a href="javascript:void(0)" class="btn btn-link disabled">
+          <a href="#" class="btn btn-link">
             <i class="fa fa-fw fa-plus-square" aria-hidden="true"></i>
-            {{ 'demo.material.addToCollection' | translate }}
+            {{ 'demo.educationalMaterial.addToCollection' | translate }}
           </a>
-          <a href="javascript:void(0)" class="btn btn-link">
+          <a href="#" class="btn btn-link">
             <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-            {{ 'demo.material.download' | translate }}
+            {{ 'demo.educationalMaterial.download' | translate }}
           </a>
         </div>
       </div>
@@ -43,17 +43,17 @@
 
             <div class="col">
               <ul class="list-unstyled">
-                <li *ngFor="let learningResourceType of demoMaterial.learningResourceType">
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="getLearningResourceTypeIcon(learningResourceType)"></i>
-                  {{ learningResourceType }}
+                <li *ngFor="let learningResourceType of educationalMaterial.learningResourceType">
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="getLearningResourceTypeIcon(learningResourceType.value)"></i>
+                  {{ learningResourceType.value }}
                 </li>
                 <li class="text-muted">
                   <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                  0 {{ 'demo.material.viewCount' | translate }}
+                  0 {{ 'demo.educationalMaterial.viewCount' | translate }}
                 </li>
                 <li class="text-muted">
                   <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                  0 {{ 'demo.material.downloadCount' | translate }}
+                  0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
                 </li>
               </ul>
             </div>
@@ -63,46 +63,46 @@
 
       <div class="col-12 col-lg-8">
         <div class="material-content">
-          <p>{{ demoMaterial.description }}</p>
-          <span>{{ demoMaterial.author }}</span>
+          <p>{{ educationalMaterial.description }}</p>
+          <span *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</span>
 
           <pre>-- preview --</pre>
 
           <div class="row">
             <div class="col-12 col-md-4">
-              <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
+              <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
               <div class="tags">
-                <a href="javascript:void(0)" class="btn btn-light disabled"
-                   *ngFor="let audience of demoMaterial.educationalLevel">
-                  {{ audience | lowercase }}
+                <a href="#" class="btn btn-light disabled"
+                   *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
+                  {{ educationalLevel.value }}
                 </a>
               </div>
             </div>
 
             <div class="col-12 col-md-4">
-              <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
+              <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
 
-              <div class="tags">
-                <a href="javascript:void(0)" class="btn btn-light disabled"
-                   *ngFor="let subject of demoMaterial.educationalSubject">
+              <!--<div class="tags">
+                <a href="#" class="btn btn-light disabled"
+                   *ngFor="let subject of educationalMaterial.educationalSubject">
                   {{ subject | lowercase }}
                 </a>
-              </div>
+              </div>-->
             </div>
 
             <div class="col-12 col-md-2">
-              <h4>{{ 'demo.material.inLanguage' | translate }}</h4>
-              {{ demoMaterial.inLanguage }}
+              <h4>{{ 'demo.educationalMaterial.inLanguage' | translate }}</h4>
+              {{ educationalMaterial.inLanguage.value }}
             </div>
 
             <div class="col-12 col-md-2">
-              <h4>{{ 'demo.material.timeRequired' | translate }}</h4>
-              {{ demoMaterial.timeRequired }}
+              <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
+              {{ educationalMaterial.timeRequired.value }}
             </div>
           </div>
 
-          <h2>{{ 'demo.material.otherFiles' | translate }}</h2>
+          <h2>{{ 'demo.educationalMaterial.otherFiles' | translate }}</h2>
 
           <ul class="list-unstyled">
             <li>
@@ -119,29 +119,29 @@
 
       <div class="col-12 col-lg-2">
         <div class="material-sidebar-right">
-          <h2>{{ 'demo.material.userMetadata' | translate }}</h2>
+          <h2>{{ 'demo.educationalMaterial.userMetadata' | translate }}</h2>
 
-          <h4>{{ 'demo.material.eduLevel' | translate }}</h4>
+          <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
           <div class="tags">
-            <a href="javascript:void(0)" class="btn btn-dark disabled"
-               *ngFor="let audience of demoMaterial.educationalLevel">
-              {{ audience | lowercase }} &times;
+            <a href="#" class="btn btn-dark"
+               *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
+              {{ educationalLevel.value | lowercase }} &times;
             </a>
           </div>
 
-          <h4>{{ 'demo.material.eduSubject' | translate }}</h4>
+          <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
 
-          <div class="tags">
-            <a href="javascript:void(0)" class="btn btn-dark disabled"
-               *ngFor="let subject of demoMaterial.educationalSubject">
+          <!--<div class="tags">
+            <a href="#" class="btn btn-dark disabled"
+               *ngFor="let subject of educationalMaterial.educationalSubject">
               {{ subject | lowercase }} &times;
             </a>
-          </div>
+          </div>-->
 
-          <h2>{{ 'demo.material.userReviews' | translate }}</h2>
+          <h2>{{ 'demo.educationalMaterial.userReviews' | translate }}</h2>
 
-          <p><strong>{{ 'demo.material.rating' | translate }} (3)</strong></p>
+          <p class="font-weight-bold">{{ 'demo.educationalMaterial.rating' | translate }} (3)</p>
 
           <div class="rating">
             <img src="assets/img/icons/ic_star.svg" alt="...">
@@ -151,9 +151,9 @@
             <img src="assets/img/icons/ic_star.svg" alt="...">
           </div>
 
-          <a href="javascript:void(0)" class="btn btn-link disabled">+ {{ 'demo.material.addReview' | translate }}</a>
+          <a href="#" class="text-blue">+ {{ 'demo.educationalMaterial.addReview' | translate }}</a>
 
-          <p><strong>{{ 'demo.material.comments' | translate }} (10)</strong></p>
+          <p class="font-weight-bold">{{ 'demo.educationalMaterial.comments' | translate }} (10)</p>
         </div>
       </div>
     </div>
