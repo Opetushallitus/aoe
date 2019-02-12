@@ -5,9 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { EducationalMaterial } from '../../models/demo/educational-material';
-import { EDUCATIONALMATERIALS as EducationalMaterialsFI } from '../../mocks/demo/educational-materials-fi.mock';
-import { EDUCATIONALMATERIALS as EducationalMaterialsEN } from '../../mocks/demo/educational-materials-en.mock';
-import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../../mocks/demo/educational-materials-sv.mock';
+import { materials } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -15,11 +13,6 @@ import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../../mocks/demo
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   private educationalMaterials: EducationalMaterial[];
-  private materials = {
-    'fi': EducationalMaterialsFI,
-    'en': EducationalMaterialsEN,
-    'sv': EducationalMaterialsSV,
-  };
   public educationalMaterial: EducationalMaterial;
   private subscription: Subscription;
 
@@ -31,7 +24,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Initialize education materials
-    this.educationalMaterials = this.materials[this.translate.currentLang];
+    this.educationalMaterials = materials[this.translate.currentLang];
 
     this.subscription = this.route.params.subscribe(params => {
       this.educationalMaterial = this.educationalMaterials.find(m => m.id === +params['id']);

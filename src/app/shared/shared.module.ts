@@ -6,6 +6,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 
+import { EDUCATIONALMATERIALS as EducationalMaterialsFI } from '../mocks/demo/educational-materials-fi.mock';
+import { EDUCATIONALMATERIALS as EducationalMaterialsEN } from '../mocks/demo/educational-materials-en.mock';
+import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../mocks/demo/educational-materials-sv.mock';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -47,3 +51,9 @@ export function getLanguage(): string | undefined {
     return user.lang;
   }
 }
+
+export const materials = {
+  'fi': EducationalMaterialsFI,
+  'en': EducationalMaterialsEN,
+  'sv': EducationalMaterialsSV,
+};

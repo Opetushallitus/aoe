@@ -3,9 +3,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { EducationalMaterial } from '../../models/demo/educational-material';
-import { EDUCATIONALMATERIALS as EducationalMaterialsFI } from '../../mocks/demo/educational-materials-fi.mock';
-import { EDUCATIONALMATERIALS as EducationalMaterialsEN } from '../../mocks/demo/educational-materials-en.mock';
-import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../../mocks/demo/educational-materials-sv.mock';
+import { materials } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-educational-materials-list',
@@ -13,22 +11,17 @@ import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../../mocks/demo
 })
 export class EducationalMaterialsListComponent implements OnInit, OnDestroy {
   public educationalMaterials: EducationalMaterial[];
-  private materials = {
-    'fi': EducationalMaterialsFI,
-    'en': EducationalMaterialsEN,
-    'sv': EducationalMaterialsSV,
-  };
   private subscription: Subscription;
 
   constructor(private translate: TranslateService) { }
 
   ngOnInit(): void {
     // Initialize education materials
-    this.educationalMaterials = this.materials[this.translate.currentLang];
+    this.educationalMaterials = materials[this.translate.currentLang];
 
     // Subscribe to language changes
     this.subscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.educationalMaterials = this.materials[event.lang];
+      this.educationalMaterials = materials[event.lang];
     });
   }
 
