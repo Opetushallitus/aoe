@@ -211,7 +211,7 @@ h2 {
 }
 
 // Oppimateriaali card
-.card-oppimateriaali {
+.card-educational-material {
   background-color: map_get($theme-colors, 'light');
   margin-bottom: 1rem;
   padding: 1rem;
@@ -270,7 +270,7 @@ h2 {
 }
 
 .bg-light {
-  .card-oppimateriaali {
+  .card-educational-material {
     background-color: $white;
 
     .media {
