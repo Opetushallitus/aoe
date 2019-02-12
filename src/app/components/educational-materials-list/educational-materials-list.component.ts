@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { EducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS as EducationalMaterialsFI } from '../../mocks/demo/educational-materials-fi.mock';
 import { EDUCATIONALMATERIALS as EducationalMaterialsEN } from '../../mocks/demo/educational-materials-en.mock';
+import { EDUCATIONALMATERIALS as EducationalMaterialsSV } from '../../mocks/demo/educational-materials-sv.mock';
 
 @Component({
   selector: 'app-educational-materials-list',
@@ -15,6 +16,7 @@ export class EducationalMaterialsListComponent implements OnInit, OnDestroy {
   private materials = {
     'fi': EducationalMaterialsFI,
     'en': EducationalMaterialsEN,
+    'sv': EducationalMaterialsSV,
   };
   private subscription: Subscription;
 
