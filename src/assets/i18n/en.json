@@ -43,7 +43,7 @@
     "materialList": {
       "title": "Open educational materials"
     },
-    "material": {
+    "educationalMaterial": {
       "edit": "Edit",
       "delete": "Delete",
       "addToCollection": "Add to Collection",

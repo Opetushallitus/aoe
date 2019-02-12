@@ -43,7 +43,7 @@
     "materialList": {
       "title": "Avoimet oppimateriaalit"
     },
-    "material": {
+    "educationalMaterial": {
       "edit": "Muokkaa",
       "delete": "Poista",
       "addToCollection": "Lisää kokoelmaan",
