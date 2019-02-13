@@ -4,6 +4,4 @@ import { Component } from '@angular/core';
   selector: 'app-accessibility-policy-view',
   templateUrl: './accessibility-policy-view.component.html',
 })
-export class AccessibilityPolicyViewComponent {
-
-}
+export class AccessibilityPolicyViewComponent { }
