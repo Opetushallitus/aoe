@@ -2,7 +2,7 @@
  * Accessibility API model
  */
 export interface AccessibilityAPI {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -10,7 +10,7 @@ export interface AccessibilityAPI {
  * Accessibility Control model
  */
 export interface AccessibilityControl {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -18,7 +18,7 @@ export interface AccessibilityControl {
  * Accessibility Feature model
  */
 export interface AccessibilityFeature {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -26,6 +26,6 @@ export interface AccessibilityFeature {
  * Accessibility Hazard model
  */
 export interface AccessibilityHazard {
-  id: number;
+  id?: number;
   value: string;
 }

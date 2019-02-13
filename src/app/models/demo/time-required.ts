@@ -2,6 +2,6 @@
  * Time Required model
  */
 export interface TimeRequired {
-  id: string;
+  id?: string;
   value: string;
 }

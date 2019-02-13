@@ -4,8 +4,8 @@ import { File } from './file';
  * Material model
  */
 export interface Material {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   link?: string;
-  file?: File;
+  file: File;
 }

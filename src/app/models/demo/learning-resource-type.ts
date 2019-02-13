@@ -2,6 +2,6 @@
  * Learning Resource Type model
  */
 export interface LearningResourceType {
-  id: number;
+  id?: number;
   value: string;
 }

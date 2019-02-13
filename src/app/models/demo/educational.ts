@@ -2,7 +2,7 @@
  * Educational Level model
  */
 export interface EducationalLevel {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -10,7 +10,7 @@ export interface EducationalLevel {
  * Educational Role model
  */
 export interface EducationalRole {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -18,7 +18,7 @@ export interface EducationalRole {
  * Educational Subject model
  */
 export interface EducationalSubject {
-  id: number;
+  id?: number;
   value: string;
 }
 
@@ -26,7 +26,7 @@ export interface EducationalSubject {
  * Educational Teaches model
  */
 export interface EducationalTeaches {
-  id: string;
+  id?: string;
   value: string;
 }
 
@@ -34,6 +34,6 @@ export interface EducationalTeaches {
  * Educational Use model
  */
 export interface EducationalUse {
-  id: number;
+  id?: number;
   value: string;
 }

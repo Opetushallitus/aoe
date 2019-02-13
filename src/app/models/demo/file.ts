@@ -2,9 +2,9 @@
  * File model
  */
 export interface File {
-  filePath: string;
+  filePath?: string;
   originalFilename: string;
-  fileSize: number;
+  fileSize?: number;
   mimeType: string;
   format: string;
 }

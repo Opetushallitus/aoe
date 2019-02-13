@@ -2,6 +2,6 @@
  * Interactivity Type model
  */
 export interface InteractivityType {
-  id: number;
+  id?: number;
   value: string;
 }

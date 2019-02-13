@@ -14,7 +14,7 @@ export interface AlignmentObject {
  * Alignment Type model
  */
 export interface AlignmentType {
-  id: number;
+  id?: number;
   value: string;
   educationalSubject: EducationalSubject[];
 }
