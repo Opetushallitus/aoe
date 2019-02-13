@@ -11,6 +11,9 @@ import { AccessibilityAPI, AccessibilityControl, AccessibilityFeature, Accessibi
 import { LicenseInformation } from './license-information';
 import { IsBasedOn } from './is-based-on';
 
+/**
+ * Educational Material model
+ */
 export interface EducationalMaterial {
   id: number;
   materials: Material[];

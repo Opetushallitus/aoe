@@ -29,15 +29,24 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
 
 export class SharedModule { }
 
+/**
+ * @ignore
+ */
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
+/**
+ * Save language to local storage
+ */
 export function setLanguage(lang: string): void {
   localStorage.setItem('user', JSON.stringify({ lang: lang }));
 }
 
+/**
+ * Retrieve language from local storage (if set)
+ */
 export function getLanguage(): string | undefined {
   const user = JSON.parse(localStorage.getItem('user'));
 

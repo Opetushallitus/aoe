@@ -3,6 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
 
+/**
+ * @ignore
+ */
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
@@ -10,6 +13,9 @@ import { setLanguage } from '../../shared/shared.module';
 export class DefaultLayoutComponent {
   constructor(public translate: TranslateService) { }
 
+  /**
+   * Set language
+   */
   changeLanguage(lang: string): void {
     setLanguage(lang);
     this.translate.use(lang);

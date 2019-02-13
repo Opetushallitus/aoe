@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export interface DemoMaterial {
   id: number;
   name: string; // nimi

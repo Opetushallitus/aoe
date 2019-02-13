@@ -1,5 +1,8 @@
 import { EducationalMaterial } from '../../models/demo/educational-material';
 
+/**
+ * Educational Materials mock
+ */
 export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   /*{
     id: 1,
