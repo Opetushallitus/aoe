@@ -6,7 +6,7 @@
     </video>
   </div>
 
-  <audio controls *ngIf="mainMaterial.file.format == 'audio'">
+  <audio class="d-block w-100" controls *ngIf="mainMaterial.file.format == 'audio'">
     <source [attr.src]="mainMaterial.file.filePath" [attr.type]="mainMaterial.file.mimeType">
     {{ 'demo.educationalMaterial.preview.noAudioSupport' | translate }}
   </audio>
