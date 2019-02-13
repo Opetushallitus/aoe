@@ -976,22 +976,22 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'c Podcast Making the learning process visible for a vocational student.m4a',
-          mimeType: 'application/pdf',
-          format: 'pdf',
+          mimeType: 'audio/m4a',
+          format: 'audio',
         },
       },
       {
         file: {
           originalFilename: 'd Podcast Making the learning process visible - vocational education text .pdf',
-          mimeType: 'video/mp4',
-          format: 'video',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
           originalFilename: 'e Podcast Guiding the learning process on the web.m4a',
-          mimeType: 'application/pdf',
-          format: 'pdf',
+          mimeType: 'audio/m4a',
+          format: 'audio',
         },
       },
       {
@@ -1129,14 +1129,91 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Digitalisering och teknologi i skolor.mp4',
+          originalFilename: 'A Video Planering av en lärprocess.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
       },
       {
         file: {
-          originalFilename: 'b Video Digitalisering och teknologi i skolor text.pdf',
+          originalFilename: 'b Video Planeringen av en lärprocess text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning tex.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'f Podcast Handledning av lärprocessen i nätet - text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'g Infograf Planning av en lärprocess och lärsituationer.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'h Infograf Individuell lärprocess .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'i Infograf Mångvetenskaplig lärprocess.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'j Infograf Planering av fenomenbaserat lärande.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'k Infograf En öppen fenomenbaserad lärprocess .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'l Infograf Case-baserat lärande.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'm Infograf Omvänt klassrum.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1151,20 +1228,326 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Learning Design – planering av undervisning och lärande betyder både att läraren planerar sin egen undervisning och studerandes målinriktat lärande. Detta innehåller planering av lärprocessen, lärsituationer, läraktiviteter mm. läruppgifter och anvisningar, och planering av handledning. Det innehåller också val av lärmiljöer, digitala verktyg och metoder för lärande.',
+    description: 'En lärandeprocess betecknar på förhand planerat och målinriktat lärande som framskrider tidsbundet och stegvis. Lärandeprocessen är en mer långvarig undervisningshelhet som består av flera lärandesituationer. Det är lättare att begripa lärandeprocessen då den förstås som en resa, en stig, en helhet bestående av flera etapper, en väg, ett äventyr, ett spel.',
     keywords: [
       { value: 'inlärningsprocess' },
-      { value: 'inlärningsmiljö' },
-      { value: 'handledning' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivering' },
       { value: 'inlärning' },
       { value: 'undervisning' },
+      { value: 'flippat klassrum' },
+      { value: 'tvärvetenskapliga inlärning' },
+      { value: 'pedagogiska metoder' },
+      { value: 'casemetodik' },
     ],
     learningResourceType: [
       { value: 'video' },
       { value: 'text' },
+      { value: 'audio' },
+      { value: 'övning' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'fortbildning' },
+      { value: 'gymnasietutbildning' },
+      { value: 'yrkesutbilfning' },
+      { value: 'högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'handledare' },
+      { value: 'adminstratör' },
+    ],
+    educationalUse: [
+      { value: 'professionell stöd' },
+      { value: 'oberoende studie' },
+    ],
+    interactivityType: [
+      { value: 'rådgivning' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Digipedagogiikka 5
+  {
+    id: 13,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Oppimistehtävä.m4a',
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Oppimistehtävä - teksti  .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Oppimistehtäväideoita oppimisprosessin eri vaiheisiin.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Oppimistehtävän suunnittelu.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Oppimistehtävien suunnittelu',
+    slug: 'oppimistehtavien-suunnittelu',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'Oppimistehtävä on nimensä mukaan tehtävä, johon sisään rakennetaan uuden oppimista ohjaavaa ja mahdollistavaa toimintaa. Oppimistehtävä on opettajan merkittävä keino tai menetelmä saada oppija pedagogisesti mielekkäästi ja mietitysti oppimaan uusia asioita. Oppimistehtävät jäsentävät verkko-oppimisprosessia samalla tavalla kuin lähiopetuksen tunnit tai luennot. Verkko-oppimisympäristö on tyhjä tila ilman toimijoita - aktivoinnilla siihen luodaan toimintaa. Digitaalisella aktivoinnilla ja osallistamisella pyritään saamaan opiskelijat (osallistujat) aktiivisiksi toimijoiksi verkko-oppimisympäristöissä.',
+    keywords: [
+      { value: 'oppiminen' },
+      { value: 'verkko-opetus' },
+      { value: 'pedagogiikka' },
+      { value: 'digipedagogiikka' },
+      { value: 'oppimistehtävä' },
+      { value: 'aktiviteetti' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'audio' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttautuja' },
+      { value: 'mentori' },
+      { value: 'hallinnoija' },
+    ],
+    educationalUse: [
+      { value: 'ammatillinen tuki' },
+      { value: 'itseopiskelu' },
+    ],
+    interactivityType: [
+      { value: 'ohjeistava' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'käsikirjoitus' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 14,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Learning assignments.m4a',
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Learning assignments text .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infograf Learning assignment ideas.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Planning learning assignments .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Designing learning assignments',
+    slug: 'designing-learning-assignments',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'A learning assignment is, as the name implies, an assignment which includes activities to guide and facilitate the learning of new things. A learning assignment is a significant means or method for the teacher to get the student to learn new things in a meaningful and thoughtful way. Learning assignments structures the web-learning process in the same was as lessons or lectures do. Without actors, the learning environment of the web is an empty space. Learning activities bring goal-oriented activities. Digital activation and participation aim at making the students (participants) active agents in the web-based learning environment.',
+    keywords: [
+      { value: 'learning' },
+      { value: 'teaching' },
+      { value: 'learning process' },
+      { value: 'pedagogy' },
+      { value: 'activity' },
+      { value: 'online teaching' },
+      { value: 'digital pedagogy' },
+      { value: 'learning assignment' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'continuing education' },
+      { value: 'upper secondary school' },
+      { value: 'vocational education' },
+      { value: 'higher education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'mentor' },
+      { value: 'administrator' },
+    ],
+    educationalUse: [
+      { value: 'professional support' },
+      { value: 'independet study' },
+    ],
+    interactivityType: [
+      { value: 'expositive' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 15,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Läruppgifter.m4a',
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Läruppgifter text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Ideer för läruppgifter.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Planeringsblankett läruppgifter.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Plannering av lärupgifter',
+    slug: 'plannering-av-larupgifter',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'Lärandeuppgiften är, som namnet antyder, en uppgift som innehåller aktiviteter som handleder och möjliggör lärandet av något nytt. Lärandeuppgifter är betydelsefulla metoder för läraren att få den studerande att lära sig nya saker på pedagogiskt behagliga och eftertänkta sätt. Lärandeuppgifter strukturerar nätbaserade lärprocesser på samma sätt som lektioner och föreläsningar i närundervisning. En nätbaserad lärandemiljö är ett tomt utrymme utan aktörer. Målinriktad verksamhet skapas genom lärandeaktiviteter. Att aktivera och engagera digitalt syftar till att göra studerande (deltagarna) till aktiva aktörer i nätbaserade lärandemiljöer.',
+    keywords: [
+      { value: 'inlärningsprocess' },
+      { value: 'pedagogik' },
+      { value: 'digipedagogik' },
+      { value: 'aktivitet' },
+      { value: 'inlärning' },
+      { value: 'undervisning' },
+      { value: 'nätundervisning' },
+      { value: 'lärupgift' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
