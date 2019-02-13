@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { EducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
+import { Material } from '../../models/demo/material';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -14,6 +15,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   private educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
   public educationalMaterial: EducationalMaterial;
   private subscription: Subscription;
+  public mainMaterial: Material;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +25,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscription = this.route.params.subscribe(params => {
       this.educationalMaterial = this.educationalMaterials.find(m => m.id === +params['id']);
+
+      this.mainMaterial = this.educationalMaterial.materials.shift();
     });
   }
 

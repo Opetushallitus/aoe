@@ -66,7 +66,7 @@
           <p>{{ educationalMaterial.description }}</p>
           <span *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</span>
 
-          <pre>-- preview --</pre>
+          <pre>{{ mainMaterial.file.originalFilename }}</pre>
 
           <div class="row">
             <div class="col-12 col-md-4">
@@ -102,18 +102,18 @@
             </div>
           </div>
 
-          <h2>{{ 'demo.educationalMaterial.otherFiles' | translate }}</h2>
+          <div class="row" *ngIf="educationalMaterial.materials.length > 0">
+            <div class="col">
+              <h2>{{ 'demo.educationalMaterial.otherFiles' | translate }}</h2>
 
-          <ul class="list-unstyled">
-            <li>
-              <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-              tiedosto.txt
-            </li>
-            <li>
-              <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-              tiedosto.pdf
-            </li>
-          </ul>
+              <ul class="list-unstyled">
+                <li *ngFor="let material of educationalMaterial.materials">
+                  <i class="fa fa-fw fa-file" aria-hidden="true"></i>
+                  {{ material?.file?.originalFilename }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 

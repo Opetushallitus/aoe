@@ -45,7 +45,30 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   }*/
   {
     id: 1,
-    materials: [],
+    materials: [
+      {
+        id: 1,
+        name: 'Digipedagogiikka audio',
+        file: {
+          filePath: '/some/location/A Podcast Digipedagogiikka.m4a',
+          originalFilename: 'A Podcast Digipedagogiikka.m4a',
+          fileSize: 999,
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        id: 2,
+        name: 'Digipedagogiikka teksti',
+        file: {
+          filePath: '/some/location/b Podcast  Digipedagogiikka - teksti.pdf',
+          originalFilename: 'b Podcast  Digipedagogiikka - teksti.pdf',
+          fileSize: 999,
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Digipedagogiikka',
     slug: 'digipedagogiikka',
     dateCreated: new Date(),
@@ -118,7 +141,30 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 2,
-    materials: [],
+    materials: [
+      {
+        id: 1,
+        name: 'Digital pedagogy audio',
+        file: {
+          filePath: '/some/location/A Podcast Digital Pedagogy.m4a',
+          originalFilename: 'A Podcast Digital Pedagogy.m4a',
+          fileSize: 999,
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        id: 2,
+        name: 'Digital pedagogy text',
+        file: {
+          filePath: '/some/location/b Podcast Digital pedagogy - text  .pdf',
+          originalFilename: 'b Podcast Digital pedagogy - text  .pdf',
+          fileSize: 999,
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Digital pedagogy',
     slug: 'digital-pedagogy',
     dateCreated: new Date(),
@@ -191,7 +237,30 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 3,
-    materials: [],
+    materials: [
+      {
+        id: 1,
+        name: 'Digipedagogik audio',
+        file: {
+          filePath: '/some/location/A Podcast Digipedagogik.m4a',
+          originalFilename: 'A Podcast Digipedagogik.m4a',
+          fileSize: 999,
+          mimeType: 'audio/m4a',
+          format: 'audio',
+        },
+      },
+      {
+        id: 2,
+        name: 'Digipedagogik text',
+        file: {
+          filePath: '/some/location/b Podcast Digipedagogik text.pdf',
+          originalFilename: 'b Podcast Digipedagogik text.pdf',
+          fileSize: 999,
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Digipedagogik',
     slug: 'digipedagogik',
     dateCreated: new Date(),
