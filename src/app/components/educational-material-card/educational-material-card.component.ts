@@ -7,5 +7,6 @@ import { EducationalMaterial } from '../../models/demo/educational-material';
   templateUrl: './educational-material-card.component.html',
 })
 export class EducationalMaterialCardComponent {
-  @Input() educationalMaterial: EducationalMaterial;
+  @Input()
+  educationalMaterial: EducationalMaterial;
 }
