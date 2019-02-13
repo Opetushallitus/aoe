@@ -61,12 +61,16 @@
         </div>
       </div>
 
-      <div class="col-12 col-lg-8">
+      <div class="col-12 col-lg-7">
         <div class="material-content">
-          <p>{{ educationalMaterial.description }}</p>
-          <span *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</span>
+          <div class="material-description">
+            <p>{{ educationalMaterial.description }}</p>
+            <span *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</span>
+          </div>
 
-          <app-educational-material-preview [mainMaterial]="mainMaterial"></app-educational-material-preview>
+          <div class="mb-4">
+            <app-educational-material-preview [mainMaterial]="mainMaterial"></app-educational-material-preview>
+          </div>
 
           <div class="row">
             <div class="col-12 col-md-4">
@@ -117,11 +121,12 @@
         </div>
       </div>
 
-      <div class="col-12 col-lg-2">
+      <div class="col-12 col-lg-3">
         <div class="material-sidebar-right">
           <h2>{{ 'demo.educationalMaterial.userMetadata' | translate }}</h2>
 
-          <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
+          <!-- @todo: replace with component -->
+          <h3>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h3>
 
           <div class="tags">
             <a href="#" class="btn btn-dark"
@@ -130,9 +135,10 @@
             </a>
           </div>
 
-          <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
+          <!-- @todo: replace with component -->
+          <!--<h3>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h3>
 
-          <!--<div class="tags">
+          <div class="tags">
             <a href="#" class="btn btn-dark disabled"
                *ngFor="let subject of educationalMaterial.educationalSubject">
               {{ subject | lowercase }} &times;
@@ -141,19 +147,37 @@
 
           <h2>{{ 'demo.educationalMaterial.userReviews' | translate }}</h2>
 
-          <p class="font-weight-bold">{{ 'demo.educationalMaterial.rating' | translate }} (3)</p>
-
+          <!-- @todo: replace with component -->
           <div class="rating">
+            <h3>{{ 'demo.educationalMaterial.rating' | translate }} (3)</h3>
+
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
             <img src="assets/img/icons/ic_star.svg" alt="...">
+
+            <a href="#" class="text-blue">&#43; {{ 'demo.educationalMaterial.addReview' | translate }}</a>
           </div>
 
-          <a href="#" class="text-blue">+ {{ 'demo.educationalMaterial.addReview' | translate }}</a>
+          <!-- @todo: replace with component -->
+          <div class="material-comments">
+            <h3>{{ 'demo.educationalMaterial.comments' | translate }} (10)</h3>
 
-          <p class="font-weight-bold">{{ 'demo.educationalMaterial.comments' | translate }} (10)</p>
+            <div class="material-comments-item">
+              <h4>Anne Virtanen</h4>
+              <span class="material-comments-item-datetime">21.2.2018 08:11</span>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum, eros eu pharetra… dignissim, neque erat porta enim, at fringilla sem nulla ut sem.</p>
+            </div>
+
+            <div class="material-comments-item">
+              <h4>Anne Virtanen</h4>
+              <span class="material-comments-item-datetime">21.2.2018 08:11</span>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum, eros eu pharetra… dignissim, neque erat porta enim, at fringilla sem nulla ut sem.</p>
+            </div>
+
+            <a href="#" class="text-blue">{{ 'demo.educationalMaterial.showAllComments' | translate }}</a>
+          </div>
         </div>
       </div>
     </div>

@@ -60,6 +60,7 @@
       "rating": "Rating",
       "addReview": "Add review",
       "comments": "Comments",
+      "showAllComments": "Show all comments",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element."

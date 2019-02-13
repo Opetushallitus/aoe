@@ -19,6 +19,8 @@ $btn-dark-hover: darken($btn-dark, 15%);
 
 $panel-body-color: #6D6D6D;
 
+$comment-odd-bg-color: #f2f2f2;
+
 body {
   font-size: 16px;
 }
@@ -180,11 +182,11 @@ h2 {
   .btn {
     @include font-size(14);
     font-weight: 400;
-    margin-bottom: .25rem;
     padding: .25rem .5rem;
     text-align: left;
 
     &:not(:last-child) {
+      margin-bottom: .25rem;
       margin-right: .25rem;
     }
   }
@@ -333,6 +335,64 @@ h2 {
     font-weight: 400;
     margin-bottom: 1rem;
     padding: .5rem 1rem;
+  }
+
+  h3 {
+    @include font-size(14);
+    font-weight: 700;
+  }
+
+  .rating {
+    margin-bottom: 1rem;
+
+    img {
+      &:last-of-type {
+        margin-right: .5rem;
+      }
+    }
+  }
+}
+
+.material-description {
+  margin-bottom: 1rem;
+}
+
+.material-comments {
+  .material-comments-item {
+    border: 1px solid $border-color;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    @include font-size(14);
+    margin-bottom: 1rem;
+    padding: .75rem 1rem;
+
+    &:nth-child(even) {
+      border-top-right-radius: 1rem;
+    }
+
+    &:nth-child(odd) {
+      background-color: $comment-odd-bg-color;
+      border-color: $comment-odd-bg-color;
+      border-top-left-radius: 1rem;
+    }
+
+    h4 {
+      @include font-size(14);
+      font-weight: 700;
+    }
+
+    p {
+      line-height: 1.25;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    .material-comments-item-datetime {
+      display: inline-block;
+      margin-bottom: .25rem;
+    }
   }
 }
 
