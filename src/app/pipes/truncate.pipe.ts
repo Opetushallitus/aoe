@@ -1,5 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+ * Truncates string to given character length (default: 20)
+ */
 @Pipe({
   name: 'truncate'
 })
