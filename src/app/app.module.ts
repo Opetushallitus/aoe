@@ -48,6 +48,7 @@ import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
 import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
+import { EducationalMaterialPreviewComponent } from './components/education-material-preview/educational-material-preview.component';
 
 @NgModule({
   imports: [
@@ -82,6 +83,7 @@ import { EducationalMaterialViewComponent } from './views/educational-material-v
     PrivacyPolicyViewComponent,
     AccessibilityPolicyViewComponent,
     EducationalMaterialViewComponent,
+    EducationalMaterialPreviewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

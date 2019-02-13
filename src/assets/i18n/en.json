@@ -59,7 +59,11 @@
       "userReviews": "User reviews",
       "rating": "Rating",
       "addReview": "Add review",
-      "comments": "Comments"
+      "comments": "Comments",
+      "preview": {
+        "noVideoSupport": "Your browser does not support the video element.",
+        "noAudioSupport": "Your browser does not support the audio element."
+      }
     },
     "help": {
       "title": "Help",

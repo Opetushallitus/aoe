@@ -59,7 +59,11 @@
       "userReviews": "Käyttäjien arviot",
       "rating": "Arvostelu",
       "addReview": "Lisää arvio",
-      "comments": "Kommentteja"
+      "comments": "Kommentteja",
+      "preview": {
+        "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
+        "noAudioSupport": "Selaimesi ei tue audio-elementtiä."
+      }
     },
     "help": {
       "title": "Ohje",
