@@ -1,13 +1,13 @@
 <div class="material-preview">
   <div class="embed-responsive embed-responsive-16by9" *ngIf="mainMaterial.file.format == 'video'">
     <video class="embed-responsive-item" controls>
-      <source [attr.src]="mainMaterial.file.filePath" [attr.type]="mainMaterial.file.mimeType">
+      <source src="files/{{ mainMaterial.file.originalFilename }}" [attr.type]="mainMaterial.file.mimeType">
       {{ 'demo.educationalMaterial.preview.noVideoSupport' | translate }}
     </video>
   </div>
 
   <audio class="d-block w-100" controls *ngIf="mainMaterial.file.format == 'audio'">
-    <source [attr.src]="mainMaterial.file.filePath" [attr.type]="mainMaterial.file.mimeType">
+    <source src="files/{{ mainMaterial.file.originalFilename }}" [attr.type]="mainMaterial.file.mimeType">
     {{ 'demo.educationalMaterial.preview.noAudioSupport' | translate }}
   </audio>
 </div>
