@@ -47,3 +47,6 @@ Thumbs.db
 
 # Documentation
 /documentation/*
+
+# Educational Materials
+/src/files
