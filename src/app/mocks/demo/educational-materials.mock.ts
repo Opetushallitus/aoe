@@ -11,7 +11,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Digipedagogiikka.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -94,7 +94,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Digital Pedagogy.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -177,7 +177,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Digipedagogik.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -806,7 +806,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'c Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -820,7 +820,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'e Podcast Oppimisprosessin ohjaus verkossa.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -976,7 +976,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'c Podcast Making the learning process visible for a vocational student.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -990,7 +990,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'e Podcast Guiding the learning process on the web.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1144,7 +1144,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1158,7 +1158,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1300,7 +1300,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Oppimistehtävä.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1399,7 +1399,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Learning assignments.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1500,7 +1500,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           originalFilename: 'A Podcast Läruppgifter.m4a',
-          mimeType: 'audio/m4a',
+          mimeType: 'audio/mp4',
           format: 'audio',
         },
       },
@@ -1548,6 +1548,1262 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     learningResourceType: [
       { value: 'text' },
       { value: 'audio' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'fortbildning' },
+      { value: 'gymnasietutbildning' },
+      { value: 'yrkesutbilfning' },
+      { value: 'högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'handledare' },
+      { value: 'adminstratör' },
+    ],
+    educationalUse: [
+      { value: 'professionell stöd' },
+      { value: 'oberoende studie' },
+    ],
+    interactivityType: [
+      { value: 'rådgivning' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Digipedagogiikka 6
+  {
+    id: 16,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua teksti .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Verkkokurssin käyttäjäkokemuksen arviointi.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Podcast Viestintä verkossa.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'e Podcast Viestintä verkossa teksti .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'f Podcast Koulutukselliset videot.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'g Podcast Koulutukselliset videot teksti.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'h Koulutuksellisten videoiden arviointi.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'i Podcast Microlearning.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'j Podcast Microlearning teksti  .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'k Infotaulu Microlearning .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'l Infotaulu Webinaarin suunnittelu.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'm Webinaari työkirja.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'n Infotaulu MOOC.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Verkko-opetus',
+    slug: 'verkko-opetus',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'Verkko-opetus tarkoittaa opetuksen järjestämistä verkkoon erilaisin digitaalisin välinein siten, että se on käytettävissä eri laitteilla selainpohjaisesti tai mobiili sovelluksena. Se voi olla online -kursseja, MOOCeja ja itseopiskelukursseja, webinaareja, verkostoja sekä niiden fasilitointia ja ohjausta. Verkko-opetus voidaan suunnitella joko samanaikaiseen tai eriaikaiseen opiskeluun. Oppimateriaalipaketit ovat myös verkko-opetusta. Oppimisprosessin kuvaus verkkoalustalla on myös verkko-opetusta. Verkon työkaluja voidaan käyttää oppimisprosessin näkyväksi tekemisessä, vaikka itse opiskelu ei tapahdukaan verkkoympäristössä.',
+    keywords: [
+      { value: 'oppiminen' },
+      { value: 'verkko-opetus' },
+      { value: 'pedagogiikka' },
+      { value: 'digipedagogiikka' },
+      { value: 'eLearning' },
+      { value: 'verkko-opiskelu' },
+      { value: 'opetus' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'audio' },
+      { value: 'harjoitus' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttautuja' },
+      { value: 'mentori' },
+      { value: 'hallinnoija' },
+    ],
+    educationalUse: [
+      { value: 'ammatillinen tuki' },
+      { value: 'itseopiskelu' },
+    ],
+    interactivityType: [
+      { value: 'ohjeistava' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'käsikirjoitus' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 17,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Building a web-learning environment is planning a user experience.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Building a web-learning environment is planning user experience text  .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Evaluation of the user experience of a web-based course.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Podcast Communication on the web.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'e Podcast Communication on the web text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'f Podcast Educational videos.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'g Podcast Educational videos text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'h Educational videos evaluation .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'i Podcast Microlearning.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'j Podcast Microlearning text  .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'k Infograf Microlearning.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'l Infograf Planning a webinar.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'm Webinar workbook.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'n Infograf MOOC.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Web-based teaching',
+    slug: 'web-based-teaching',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'Web-based teaching means that teaching is organized and built into the web through different digital means so that it can be used through various devices, browsers or mobile applications These might be online courses, MOOCs and self-study courses, or they might be webinars or networks and facilitation and guiding. Web-based teaching can be used for simultaneous studying or for studying at different times. Learning materials and descriptions of the learning process are also part of web-based teaching. The tools of the web can be used to make the learning process visible even if the studying doesn’t take place in a web-environment.',
+    keywords: [
+      { value: 'learning' },
+      { value: 'teaching' },
+      { value: 'eLearning' },
+      { value: 'pedagogy' },
+      { value: 'online study' },
+      { value: 'digital pedagogy' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+      { value: 'exercise' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'continuing education' },
+      { value: 'upper secondary school' },
+      { value: 'vocational education' },
+      { value: 'higher education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'mentor' },
+      { value: 'administrator' },
+    ],
+    educationalUse: [
+      { value: 'professional support' },
+      { value: 'independet study' },
+    ],
+    interactivityType: [
+      { value: 'expositive' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 18,
+    materials: [],
+    name: 'Web-baserat lärande',
+    slug: 'web-baserat-larande',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Hanne', lastName: 'Koli' },
+    ],
+    // tslint:disable-next-line
+    description: 'Nätbaserad undervisning betyder att undervisningen arrangeras och byggas upp på nätet med hjälp av olika digitala verktyg, så att den är tillgänglig både på dator och via en mobilapplikation. Det kan handla om online-kurser, MOOCs och självstudiekurser, webinarier, nätverk samt facilitering och handledning av dessa. Nätbaserad undervisning kan planeras så att den genomföras samtidigt eller vid olika tidpunkter. Också läromedelspaketen är nätbaserad undervisning. Beskrivningen av lärprocessen på lärplattformen är också nätbaserad undervisning. Verktyg på nätet kan användas till att synliggöra lärprocessen, också då själva studierna inte genomförs i nätmiljö.',
+    keywords: [
+      { value: 'Nätundervisning' },
+      { value: 'pedagogik' },
+      { value: 'digipedagogik' },
+      { value: 'inlärning' },
+      { value: 'undervisning' },
+      { value: 'nätstudier' },
+      { value: 'eLearning' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+      { value: 'övning' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'fortbildning' },
+      { value: 'gymnasietutbildning' },
+      { value: 'yrkesutbilfning' },
+      { value: 'högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'handledare' },
+      { value: 'adminstratör' },
+    ],
+    educationalUse: [
+      { value: 'professionell stöd' },
+      { value: 'oberoende studie' },
+    ],
+    interactivityType: [
+      { value: 'rådgivning' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Digipedagogiikka 7
+  {
+    id: 19,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Infotaulu Opiskelun digivälineet.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digitaaliset työvälineet opetuksessa ja oppimisessa',
+    slug: 'digitaaliset-tyovalineet-opetuksessa-ja-oppimisessa',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Opetusteknologia kattaa kaiken teknologian, millä tuetaan oppimista perinteisessä luokkaopetuksessa, sulautuvassa opetuksessa ja verkko-opetuksessa. Teknologia sisältää välineet, laitteet, ohjelmistot ja erilaiset sovellukset. Opetusteknologiaa ovat esimerkiksi toimisto-ohjelmat, oppimisalustat, arviointia tukevat työkalut, työkirjatyyppiset työkalut, digitaaliset oppimateriaalit, sosiaalinen media, työvälineohjelmat, tiedonhaun välineet, teknologiaan pohjautuvat kognitiiviset työkalut, informaation visualisoinnin työkalut sekä simulaatiot, opetusohjelmat ja -pelit, 3D-mallinnukset, robotit jne.',
+    keywords: [
+      { value: 'TVT' },
+      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'digitaaliset taidot' },
+      { value: 'digipedagogiikka' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttautuja' },
+      { value: 'mentori' },
+      { value: 'hallinnoija' },
+    ],
+    educationalUse: [
+      { value: 'ammatillinen tuki' },
+      { value: 'itseopiskelu' },
+    ],
+    interactivityType: [
+      { value: 'ohjeistava' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'käsikirjoitus' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 20,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Infograf Digital tools for teaching.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Infograf Digital tools for studying.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digital teaching and studying tools',
+    slug: 'digital-teaching-and-studying-tools',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Teaching technology covers all technology that is used to support learning in traditional classroom teaching, in blended teaching and in web-based teaching. Technology covers devices, tools, programs and different applications. Teaching technologies include for instance services for group work and communication, workbooks, digital learning material, social media, tool programs, tools for evaluation, information search tools, cognitive tools based on technology, tools for visualising information as well as simulations, educational programs, educational games, 3D models, robots and so on.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'information and communications technology' },
+      { value: 'digital pedagogy' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'continuing education' },
+      { value: 'upper secondary school' },
+      { value: 'vocational education' },
+      { value: 'higher education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'mentor' },
+      { value: 'administrator' },
+    ],
+    educationalUse: [
+      { value: 'professional support' },
+      { value: 'independet study' },
+    ],
+    interactivityType: [
+      { value: 'expositive' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 21,
+    materials: [
+      {
+        file: {
+          originalFilename: 'Infograf Digitala verktyg för studier.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'Infograf Digitala verktyg för undervisningen.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digitaliska verktyg',
+    slug: 'digitaliska-verktyg',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Undervisningsteknologi innefattar all sådan teknologi som stöder lärandet i traditionell klassrumsundervisning, blandade lärmiljöer och nät-undervisning. Teknologi innefattar alla verktyg, apparater, program och olika applikationer. Lärandeteknologi är exempelvis kontorsprogram, lärandeplattformer, verktyg som stöder bedömning, verktyg som liknar arbetsböcker, digitala lärandematerial, sociala medier, arbetsverktygsprogram, verktyg för informationssökning, teknologibaserade kognitiva verktyg, verktyg som visualiserar information, simulationer, undervisningsprogram- och spel, 3D-modeller, roboter, osv.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'pedagogik' },
+      { value: 'digipedagogik' },
+      { value: 'informations- och kommunikationsteknik' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'fortbildning' },
+      { value: 'gymnasietutbildning' },
+      { value: 'yrkesutbilfning' },
+      { value: 'högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'handledare' },
+      { value: 'adminstratör' },
+    ],
+    educationalUse: [
+      { value: 'professionell stöd' },
+      { value: 'oberoende studie' },
+    ],
+    interactivityType: [
+      { value: 'rådgivning' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Digipedagogiikka 8
+  {
+    id: 22,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Digitaaliset oppimateriaalit.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa - teksti .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infotaulu Digitaaliset aineistot opiskelussa ja opetuksessa.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Infotaulu Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa  -luokittelua.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digitaaliset oppimateriaalit',
+    slug: 'digitaaliset-oppimateriaalit',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Digitaalisilla oppimateriaaleilla tarkoitetaan eri sähköisissä mediamuodoissa olevaa aineistoa mm. kuvia, tekstejä, videoita, karttoja, kirjoja, äänitiedostoja, infotauluja, kaavioita, elokuvia. Niitä voi tuottaa itse tai voi käyttää muiden tuottamia aineistoja, mikäli niitä on oikeus käyttää opetuksessa ja opiskelussa. Digitaalisia sisältöjä voidaan jakaa verkon kautta oppimisympäristöissä tai erilaisten jakopalvelujen kautta.',
+    keywords: [
+      { value: 'TVT' },
+      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'digitaaliset taidot' },
+      { value: 'digipedagogiikka' },
+      { value: 'digitaalinen oppimateriaali' },
+      { value: 'media' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'audio' },
+      { value: 'harjoitus' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttautuja' },
+      { value: 'mentori' },
+      { value: 'hallinnoija' },
+    ],
+    educationalUse: [
+      { value: 'ammatillinen tuki' },
+      { value: 'itseopiskelu' },
+    ],
+    interactivityType: [
+      { value: 'ohjeistava' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'käsikirjoitus' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 23,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Digital learning material and its use in studying and teaching.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast  Digital learning materials and their use in studying and  teaching text .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infograf Digital learning materials in studing and teaching.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Digital materials and content in studying and teaching - classification.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digital learning materials',
+    slug: 'digital-learning-materials',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Digital learning material refer to content of varying media in an electronic form including images, text, videos, maps, books, sound recordings, infografs, graphs or film. These can be made, or you can use material made by others as long as you have a right to use them in education. Digital content can be shared through the web in learning environments or various sharing platforms.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'information and communications technology' },
+      { value: 'digital pedagogy' },
+      { value: 'technology' },
+      { value: 'digital learning resource' },
+      { value: 'media' },
+      { value: 'digital skills' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+      { value: 'exercise' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'continuing education' },
+      { value: 'upper secondary school' },
+      { value: 'vocational education' },
+      { value: 'higher education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'mentor' },
+      { value: 'administrator' },
+    ],
+    educationalUse: [
+      { value: 'professional support' },
+      { value: 'independet study' },
+    ],
+    interactivityType: [
+      { value: 'expositive' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 24,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Digitala läromedel och användningen av dem i undervisningen text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Digimaterial i undervisning och studier.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Digitalt material och -innehåll i studier och i undervisning -klassificering .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Digitaliska läromedel',
+    slug: 'digitaliska-laromedel',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Digitala lärmaterial är elektroniska material i olika format, t.ex. bilder, texter, videor, kartor, böcker, ljudfiler, infografer, diagram, filmer. Man kan producera dem själv eller använda material som producerats av andra, så länge man har rätt att använda dem i undervisning och studier. Digitala innehåll kan delas via nätet genom lärandemiljöer eller olika delningstjänster.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'media' },
+      { value: 'digipedagogik' },
+      { value: 'informations- och kommunikationsteknik' },
+      { value: 'digitalkompetens' },
+      { value: 'digital lärömedel' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+      { value: 'övning' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'fortbildning' },
+      { value: 'gymnasietutbildning' },
+      { value: 'yrkesutbilfning' },
+      { value: 'högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'handledare' },
+      { value: 'adminstratör' },
+    ],
+    educationalUse: [
+      { value: 'professionell stöd' },
+      { value: 'oberoende studie' },
+    ],
+    interactivityType: [
+      { value: 'rådgivning' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Digipedagogiikka 9
+  {
+    id: 25,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Opettajan tvt taidot.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Opettajan TVT-taidot - teksti .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infotaulu Opettajan TVT-taidot.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Infotaulu Opiskelijan TVT-taidot.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Tieto- ja viestintätekniikan taidot',
+    slug: 'tieto-ja-viestintatekniikan-taidot',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Tieto- ja viestintätekniikan taidot kouluissa voidaan jakaa kolmeen pääkategoriaan: yleiset digikansalaisen taidot, opetukseen liittyvät tietotekniset taidot ja opiskeluun liittyvät tietotekniset taidot. Teknisten taitojen lisäksi on osattava valita oikeat välineet ja työskentelytavat, mitkä tukevat oppimista ja opetusta.',
+    keywords: [
+      { value: 'TVT' },
+      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'digitaaliset taidot' },
+      { value: 'digipedagogiikka' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'audio' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttautuja' },
+      { value: 'mentori' },
+      { value: 'hallinnoija' },
+    ],
+    educationalUse: [
+      { value: 'ammatillinen tuki' },
+      { value: 'itseopiskelu' },
+    ],
+    interactivityType: [
+      { value: 'ohjeistava' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'käsikirjoitus' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 26,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast  What ICT skills does a teacher need.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Teachers ICT skills  text .pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infograf The teachers information and communication technology skills.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Infograf Students information and communication technology skills.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Information and communication skills',
+    slug: 'information-and-communication-skills',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Information and communication technology skills in schools can be divided into three main categories: general skills of digital citizen, ICT skills needed in teaching and guiding, and ICT skills needed in studying.  Teachers and students should know how to choose the best tools, applications and working methods which support studying, teaching and learning.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'information and communications technology' },
+      { value: 'digital pedagogy' },
+      { value: 'digital skills' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'continuing education' },
+      { value: 'upper secondary school' },
+      { value: 'vocational education' },
+      { value: 'higher education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'mentor' },
+      { value: 'administrator' },
+    ],
+    educationalUse: [
+      { value: 'professional support' },
+      { value: 'independet study' },
+    ],
+    interactivityType: [
+      { value: 'expositive' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'transcript' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 27,
+    materials: [
+      {
+        file: {
+          originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'b Podcast Hurdana IKT-färdigheter behöver läraren text.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'c Infograf Lärarens IKT färdigheter.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          originalFilename: 'd Infograf Den studenrandes IKT färdigheter.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Informations- och kommunikations tekniska färdigheter',
+    slug: 'informations-och-kommunikations-tekniska-fardigheter',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Leena', lastName: 'Vainio' },
+    ],
+    // tslint:disable-next-line
+    description: 'Informations- och kommunikationsfärdigheter i skolor kan delas i tre huvudkategorier: de allmänna digimedborgarens färdigheterna , tekniska färdigheter som man behöver i undervisningen och tekniska färdigheter som man behöver i studier. Man behöver också kunna välja de rätta verktyg och arbetsmetoder, vilka stöder lärandet och undervisningen.',
+    keywords: [
+      { value: 'ICT' },
+      { value: 'pedagogik' },
+      { value: 'digipedagogik' },
+      { value: 'informations- och kommunikationsteknik' },
+      { value: 'digitalkompetens' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'audio' },
+      { value: 'övning' },
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
