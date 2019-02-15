@@ -152,8 +152,9 @@ h2 {
   padding-bottom: 1rem;
   padding-top: 1rem;
 
-  h1 {
+  h2 {
     color: $white;
+    @include font-size(30);
     margin-bottom: 1rem;
   }
 
