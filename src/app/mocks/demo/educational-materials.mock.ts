@@ -2851,4 +2851,217 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
     },
   },
+  // Python
+  {
+    id: 28,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    keywords: [
+      { value: 'ohjelmointi' },
+      { value: 'ohjelmointikielet' },
+      { value: 'Python' },
+      { value: 'opiskelu' },
+      { value: 'itseopiskelu' },
+      { value: 'perusopetus' },
+    ],
+    learningResourceType: [
+      { value: 'kurssi' },
+      { value: 'opas' },
+      { value: 'harjoitus' },
+      { value: 'video' },
+      { value: 'tietolähde' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+      { value: 'peruskoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppilas' },
+      { value: 'opettaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'navigointi rakenteen avulla' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 29,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Learning material on programming with Python',
+    keywords: [
+      { value: 'programming' },
+      { value: 'programming languages' },
+      { value: 'Python' },
+      { value: 'study' },
+      { value: 'independent study' },
+      { value: 'basic education' },
+    ],
+    learningResourceType: [
+      { value: 'course' },
+      { value: 'guide' },
+      { value: 'exercise' },
+      { value: 'video' },
+      { value: 'dataset' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'Self-motivated Competence Development' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+      { value: 'Basic Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'student' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'table of contents' },
+      { value: 'structural navigation' },
+    ],
+    accessibilityHazard: [
+      { value: 'no flashing hazard' },
+      { value: 'no sound hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 30,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Lärömaterial om programmering med Python',
+    keywords: [
+      { value: '' },
+      { value: '' },
+      { value: 'Python' },
+      { value: '' },
+      { value: '' },
+      { value: '' },
+    ],
+    learningResourceType: [
+      { value: 'kurs' },
+      { value: 'guide' },
+      { value: 'övning' },
+      { value: 'video' },
+      { value: 'data' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+      { value: 'Grundläggande utbildning' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'elev' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
 ];
