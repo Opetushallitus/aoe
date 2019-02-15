@@ -31,7 +31,7 @@ export interface EducationalMaterial {
   timeRequired: TimeRequired;
   educationalLevel: EducationalLevel[];
   typicalAgeRange: string;
-  educationalAlignment: AlignmentObject[];
+  educationalAlignment?: AlignmentObject[];
   educationalRole: EducationalRole[];
   educationalUse?: EducationalUse[];
   interactivityType: InteractivityType[];
