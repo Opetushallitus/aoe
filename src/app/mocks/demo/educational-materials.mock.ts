@@ -3012,12 +3012,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     // tslint:disable-next-line
     description: 'Lärömaterial om programmering med Python',
     keywords: [
-      { value: '' },
-      { value: '' },
+      { value: 'programmering' },
+      { value: 'programmeringsspråk' },
       { value: 'Python' },
-      { value: '' },
-      { value: '' },
-      { value: '' },
+      { value: 'studera' },
+      { value: 'självstudier' },
     ],
     learningResourceType: [
       { value: 'kurs' },
@@ -3059,6 +3058,396 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       id: 'EN',
       value: 'English',
     },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Scratch
+  {
+    id: 31,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    keywords: [
+      { value: 'ohjelmointi' },
+      { value: 'ohjelmointikielet' },
+      { value: 'Scratch' },
+      { value: 'opiskelu' },
+      { value: 'itseopiskelu' },
+    ],
+    learningResourceType: [
+      { value: 'kurssi' },
+      { value: 'opas' },
+      { value: 'harjoitus' },
+      { value: 'video' },
+      { value: 'tietolähde' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+      { value: 'peruskoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppilas' },
+      { value: 'opettaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'navigointi rakenteen avulla' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 32,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Learning material on programming with Scratch',
+    keywords: [
+      { value: 'programming' },
+      { value: 'programming languages' },
+      { value: 'Scratch' },
+      { value: 'study' },
+      { value: 'independent study' },
+      { value: 'basic education' },
+    ],
+    learningResourceType: [
+      { value: 'course' },
+      { value: 'guide' },
+      { value: 'exercise' },
+      { value: 'video' },
+      { value: 'dataset' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'Self-motivated Competence Development' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+      { value: 'Basic Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'student' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'table of contents' },
+      { value: 'structural navigation' },
+    ],
+    accessibilityHazard: [
+      { value: 'no flashing hazard' },
+      { value: 'no sound hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 33,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Lärömaterial om programmering med Scratch',
+    keywords: [
+      { value: 'programmering' },
+      { value: 'programmeringsspråk' },
+      { value: 'Scratch' },
+      { value: 'studera' },
+      { value: 'självstudier' },
+    ],
+    learningResourceType: [
+      { value: 'kurs' },
+      { value: 'guide' },
+      { value: 'övning' },
+      { value: 'video' },
+      { value: 'data' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+      { value: 'Grundläggande utbildning' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'elev' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'svenska',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Robotics
+  {
+    id: 34,
+    materials: [],
+    name: 'Johdatus robotiikan opetukseen',
+    slug: 'johdatus-robotiikan-opetukseen',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'Oppimateriaalissa esitellään robotiikan ja automaation käsitteistöä, käsitellään tä arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
+    keywords: [
+      { value: 'robotiikka' },
+      { value: 'automaatio' },
+      { value: 'sulautetut järjestelmät' },
+      { value: 'ohjelmointi' },
+      { value: 'oppiminen' },
+      { value: 'opetus' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'harjoitus' },
+      { value: 'simulaatio' },
+      { value: 'projekti' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'yhtenäinen sivunumerointi' },
+      { value: 'kuvaus visuaalisesta sisällöstä' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+      { value: 'ei liikkeensimulointihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 35,
+    materials: [],
+    name: 'Introduction to teaching robotics',
+    slug: 'introduction-to-teaching-robotics',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'This learning material provides an introduction to the essential terms and concepts of robotics and automation, and covers the role of robotics in manufacturing and our everyday life both now and in the future',
+    keywords: [
+      { value: 'robotics' },
+      { value: 'automation' },
+      { value: 'programming' },
+      { value: 'learning' },
+      { value: 'teaching' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'exercise' },
+      { value: 'simulation' },
+      { value: 'project' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 36,
+    materials: [],
+    name: 'Introduktion till undervisningen i robotik',
+    slug: 'introduktion-till-undervisningen-i-robotik',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'I studiematerialet presenteras begrepp inom robotik och automation och behandlas robotiken vardagen och i industrin nu och i framtiden.',
+    keywords: [
+      { value: 'Robotteknik' },
+      { value: 'automation' },
+      { value: 'programmering' },
+      { value: 'inläring' },
+      { value: 'undervisning' },
+    ],
+    learningResourceType: [
+      { value: 'Text' },
+      { value: 'övning' },
+      { value: 'simulering' },
+      { value: 'projekt' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
       licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
