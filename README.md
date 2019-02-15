@@ -27,6 +27,9 @@ $ ng serve
 
 # build for production with minification
 $ ng build
+
+# build documentation at ./documentation/
+$ npm run compodoc
 ```
 
 ## What's included
@@ -40,6 +43,7 @@ avoimet-oppimateriaalit/
 │   ├── app/
 │   ├── assets/
 │   ├── environments/
+│   ├── files/
 │   ├── scss/
 │   ├── index.html
 │   └── ...
