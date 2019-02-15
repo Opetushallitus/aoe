@@ -33,7 +33,7 @@ export interface EducationalMaterial {
   typicalAgeRange: string;
   educationalAlignment: AlignmentObject[];
   educationalRole: EducationalRole[];
-  educationalUse: EducationalUse[];
+  educationalUse?: EducationalUse[];
   interactivityType: InteractivityType[];
   inLanguage: InLanguage;
   accessibilityFeatures?: AccessibilityFeature[];
