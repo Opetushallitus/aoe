@@ -2851,4 +2851,792 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
     },
   },
+  // Python
+  {
+    id: 28,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    keywords: [
+      { value: 'ohjelmointi' },
+      { value: 'ohjelmointikielet' },
+      { value: 'Python' },
+      { value: 'opiskelu' },
+      { value: 'itseopiskelu' },
+      { value: 'perusopetus' },
+    ],
+    learningResourceType: [
+      { value: 'kurssi' },
+      { value: 'opas' },
+      { value: 'harjoitus' },
+      { value: 'video' },
+      { value: 'tietolähde' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+      { value: 'peruskoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppilas' },
+      { value: 'opettaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'navigointi rakenteen avulla' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 29,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Learning material on programming with Python',
+    keywords: [
+      { value: 'programming' },
+      { value: 'programming languages' },
+      { value: 'Python' },
+      { value: 'study' },
+      { value: 'independent study' },
+      { value: 'basic education' },
+    ],
+    learningResourceType: [
+      { value: 'course' },
+      { value: 'guide' },
+      { value: 'exercise' },
+      { value: 'video' },
+      { value: 'dataset' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'Self-motivated Competence Development' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+      { value: 'Basic Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'student' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'table of contents' },
+      { value: 'structural navigation' },
+    ],
+    accessibilityHazard: [
+      { value: 'no flashing hazard' },
+      { value: 'no sound hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 30,
+    materials: [],
+    name: 'Python from Scratch',
+    slug: 'python-from-scratch',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Lärömaterial om programmering med Python',
+    keywords: [
+      { value: 'programmering' },
+      { value: 'programmeringsspråk' },
+      { value: 'Python' },
+      { value: 'studera' },
+      { value: 'självstudier' },
+    ],
+    learningResourceType: [
+      { value: 'kurs' },
+      { value: 'guide' },
+      { value: 'övning' },
+      { value: 'video' },
+      { value: 'data' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+      { value: 'Grundläggande utbildning' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'elev' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Scratch
+  {
+    id: 31,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    keywords: [
+      { value: 'ohjelmointi' },
+      { value: 'ohjelmointikielet' },
+      { value: 'Scratch' },
+      { value: 'opiskelu' },
+      { value: 'itseopiskelu' },
+    ],
+    learningResourceType: [
+      { value: 'kurssi' },
+      { value: 'opas' },
+      { value: 'harjoitus' },
+      { value: 'video' },
+      { value: 'tietolähde' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+      { value: 'peruskoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'kasvatustieteet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppilas' },
+      { value: 'opettaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'navigointi rakenteen avulla' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 32,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Learning material on programming with Scratch',
+    keywords: [
+      { value: 'programming' },
+      { value: 'programming languages' },
+      { value: 'Scratch' },
+      { value: 'study' },
+      { value: 'independent study' },
+      { value: 'basic education' },
+    ],
+    learningResourceType: [
+      { value: 'course' },
+      { value: 'guide' },
+      { value: 'exercise' },
+      { value: 'video' },
+      { value: 'dataset' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'Self-motivated Competence Development' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+      { value: 'Basic Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'educational sciences' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'student' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'table of contents' },
+      { value: 'structural navigation' },
+    ],
+    accessibilityHazard: [
+      { value: 'no flashing hazard' },
+      { value: 'no sound hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 33,
+    materials: [],
+    name: 'Scratch to Python',
+    slug: 'scratch-to-python',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tero', lastName: 'Toivanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Lärömaterial om programmering med Scratch',
+    keywords: [
+      { value: 'programmering' },
+      { value: 'programmeringsspråk' },
+      { value: 'Scratch' },
+      { value: 'studera' },
+      { value: 'självstudier' },
+    ],
+    learningResourceType: [
+      { value: 'kurs' },
+      { value: 'guide' },
+      { value: 'övning' },
+      { value: 'video' },
+      { value: 'data' },
+    ],
+    timeRequired: { value: '8 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+      { value: 'Grundläggande utbildning' },
+    ],
+    typicalAgeRange: '18-',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'example',
+          educationalSubject: [
+            { value: 'pedagogik' }
+          ],
+        },
+        educationalFramework: 'example',
+        teaches: [],
+        complexity: '',
+      },
+    ],
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'elev' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'svenska',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Robotics
+  {
+    id: 34,
+    materials: [],
+    name: 'Johdatus robotiikan opetukseen',
+    slug: 'johdatus-robotiikan-opetukseen',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'Oppimateriaalissa esitellään robotiikan ja automaation käsitteistöä, käsitellään tä arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
+    keywords: [
+      { value: 'robotiikka' },
+      { value: 'automaatio' },
+      { value: 'sulautetut järjestelmät' },
+      { value: 'ohjelmointi' },
+      { value: 'oppiminen' },
+      { value: 'opetus' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'harjoitus' },
+      { value: 'simulaatio' },
+      { value: 'projekti' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'yhtenäinen sivunumerointi' },
+      { value: 'kuvaus visuaalisesta sisällöstä' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+      { value: 'ei liikkeensimulointihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 35,
+    materials: [],
+    name: 'Introduction to teaching robotics',
+    slug: 'introduction-to-teaching-robotics',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'This learning material provides an introduction to the essential terms and concepts of robotics and automation, and covers the role of robotics in manufacturing and our everyday life both now and in the future',
+    keywords: [
+      { value: 'robotics' },
+      { value: 'automation' },
+      { value: 'programming' },
+      { value: 'learning' },
+      { value: 'teaching' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'exercise' },
+      { value: 'simulation' },
+      { value: 'project' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 36,
+    materials: [],
+    name: 'Introduktion till undervisningen i robotik',
+    slug: 'introduktion-till-undervisningen-i-robotik',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'I studiematerialet presenteras begrepp inom robotik och automation och behandlas robotiken vardagen och i industrin nu och i framtiden.',
+    keywords: [
+      { value: 'Robotteknik' },
+      { value: 'automation' },
+      { value: 'programmering' },
+      { value: 'inläring' },
+      { value: 'undervisning' },
+    ],
+    learningResourceType: [
+      { value: 'Text' },
+      { value: 'övning' },
+      { value: 'simulering' },
+      { value: 'projekt' },
+    ],
+    timeRequired: { value: '54 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // AI
+  {
+    id: 37,
+    materials: [],
+    name: 'Johdatus tekoälyyn',
+    slug: 'johdatus-tekoalyyn',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'Oppimateriaalissa tutustuaan aluksi tekoälytutkimuksen ja siihen liittyvien lähitieteiden historiaan. Tämän jälkeen aloitetaan tekoälyn tarkempi tutkiminen miettimällä tutumpaa älykkyyden lajia eli ihmisen älykkyyttä. Mitä on ihmisen älykkyys ja miten sitä pitäisi kuvata, jotta sitä voisi jäljitellä eli mallintaa koneellisesti? Samalla verrataan ihmis- ja tekoälyä ja käsitellään niiden välistä vuorovaikutusta. Seuraavaksi tutustutaan tietokoneiden toimintaan ja siihen, miten mallintaminen tapahtuu koneellisesti. Koneoppimista käsittelevästä kappaleesta selviää, että kaikkia malleja ei tarvitse antaa tietokoneelle valmiina, vaan kone voi muodostaa myös itse omia mallejaan. Toisin sanoen tietokoneet voivat oppia uutta. Koneoppimista käsittelevä kappale on keskeinen, koska tietokoneiden kyky oppia on yksi tärkeimpiä kehitysaskeleita tekoälyn suhteen. Koneoppiminen tarvitsee opetusmateriaalia samaan tapaan kuin opiskelija tarvitsee oppikirjoja. Koneoppimisen tarpeisiin tätä materiaalia löytyy tietokannoista ja tämän vuoksi niitä käsitellään omassa kappaleessaan. Tämän jälkeen tutustutaan erilaisiin tekoälyn osa-alueisiin ja sovelluskohteisiin konenäköä, kielen käsittelyä ja robotiikkaa käsittelevissä kappaleissa. Robotiikkaan tutustumisen yhteydessä mietitään lyhyesti myös tekoälyyn liittyviä eettisiä kysymyksiä.',
+    keywords: [
+      { value: 'Tekoäly' },
+      { value: 'koneoppiminen' },
+      { value: 'neuroverkot' },
+      { value: 'logiikka' },
+      { value: 'kognitiotiede' },
+      { value: 'kieliteknologia' },
+      { value: 'robotiikka' },
+      { value: 'tekoälyn filosofia' },
+      { value: 'konenäkö' },
+      { value: 'luonnollisen kielen käsittely' },
+    ],
+    learningResourceType: [
+      { value: 'teksti' },
+      { value: 'harjoitus' },
+      { value: 'sanasto' },
+    ],
+    timeRequired: { value: '27 h' },
+    educationalLevel: [
+      { value: 'täydennyskoulutus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'täydennyskouluttaja' },
+    ],
+    interactivityType: [
+      { value: 'monimuotoinen' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'yhtenäinen sivunumerointi' },
+      { value: 'kuvaus visuaalisesta sisällöstä' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+      { value: 'ei liikkeensimulointihaittaa' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 38,
+    materials: [],
+    name: 'Introduction to artificial intelligence',
+    slug: 'introduction-to-artificial-intelligence',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'This learning material begins with an overview of the history of AI research and other closely related fields. After that, we dig deeper into a form of intelligence we’re already more familiar with — the human intelligence. What is it, and how should we portray it in order to simulate it in machines? In this context, we also compare artificial and human intelligences, and talk about their interaction. Next, we take a closer look into the way computers operate, and what it takes to simulate intelligence in machines. The chapter on machine learning will provide more information on how all models don’t have to be given to computers, as they are able to form their own models as well. In other words, computers can learn new things. This chapter is essential for understanding AI, as machine learning is one of the most important milestones AI has reached. Machine learning requires learning material just like learners need their textbooks. Suitable material for machines can be found in databases, and therefore they are covered in their own chapter. After that, we introduce different aspects and applications of artificial intelligence in chapters dedicated to machine vision, natural language processing and robotics. In the robotics context, we also discuss the ethical issues concerning artificial intelligence.',
+    keywords: [
+      { value: 'philosophy' },
+      { value: 'machine learning' },
+      { value: 'neural network' },
+      { value: 'logic' },
+      { value: 'cognitive science' },
+      { value: 'language technology' },
+      { value: 'robotics' },
+      { value: 'computer vision' },
+    ],
+    learningResourceType: [
+      { value: 'text' },
+      { value: 'exercise' },
+      { value: 'glossary' },
+    ],
+    timeRequired: { value: '27 h' },
+    educationalLevel: [
+      { value: 'Continuing Education' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+    ],
+    interactivityType: [
+      { value: 'mixed' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 39,
+    materials: [],
+    name: 'Introduktion till artificiell intelligens',
+    slug: 'introduktion-till-artificiell-intelligens',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Suomen', lastName: 'Koodikoulu' },
+    ],
+    // tslint:disable-next-line
+    description: 'I studiematerialet ges en historisk översikt över forskningen i artificiell intelligens och närliggande vetenskapsområden. Därefter inleds mera ingående studier i artificiell intelligens genom att betrakta en mera välbekant form av intelligens, nämligen den mänskliga. Vad är den mänskliga intelligensen och hur ska den beskrivas för att den ska kunna imiteras med en maskin? Samtidigt jämförs mänsklig och artificiell intelligens, och interaktionen mellan dem behandlas. Sedan bekantar vi oss med hur datorer fungerar och tar en titt på hur en modell av intelligensen sätts upp med hjälp av en maskin. Av avsnittet om maskininlärning framgår det att alla modeller inte behöver vara färdiga när de matas in i datorn, utan datorn kan också skapa egna modeller. Med andra ord kan datorer lära sig nya saker. Avsnittet om maskininlärning är centralt, eftersom datorers förmåga att lära sig är ett av de viktigaste stegen i utvecklingen av artificiell intelligens. För maskininlärning behövs läromaterial på samma sätt som en studerande behöver läroböcker. Sådant material för maskininlärning finns i databaser, och därför behandlas dessa i ett eget kapitel. Därefter bekantar vi oss med olika delområden inom artificiell intelligens och deras tillämpningar i avsnitt som behandlar maskinseende, språkhantering och robotik. I anslutning till robotiken funderar vi även ett slag på etiska frågor som sammanhänger med artificiell intelligens.',
+    keywords: [
+      { value: 'filosofi' },
+      { value: 'maskininlärning' },
+      { value: 'neuronnät' },
+      { value: 'logik' },
+      { value: 'kognitionsvetenskap' },
+      { value: 'språkteknologi' },
+      { value: 'robotteknik' },
+      { value: 'optisk läsning' },
+    ],
+    learningResourceType: [
+      { value: 'Text' },
+      { value: 'övning' },
+      { value: 'ordlista' },
+    ],
+    timeRequired: { value: '27 h' },
+    educationalLevel: [
+      { value: 'Fortbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+    ],
+    interactivityType: [
+      { value: 'blandad' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Long Description' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Motion Simulation Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
 ];
