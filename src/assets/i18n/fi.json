@@ -20,8 +20,7 @@
     "accessibilityPolicy": "Saavutettavuusseloste"
   },
   "home": {
-    "title": "Tervetuloa aoe &ndash;palveluun!",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ultrices, ligula eget rhoncus dapibus, lorem mi gravida lacus, nec semper ligula tortor sit amet leo. Sed pharetra ullamcorper nisi sed pharetra. Nullam dolor sapien, facilisis vitae nisi nec, malesuada accumsan mi. Nulla interdum porta elit, in euismod ante viverra et. Morbi efficitur dui eros. Pellentesque a fermentum quam, at rutrum augue. Aenean sapien risus, rutrum at tellus ac, porttitor tincidunt enim. Pellentesque accumsan orci eget mauris mollis, quis faucibus nulla fermentum. Morbi ac consequat diam. Vivamus nibh leo, consequat quis massa a, vehicula congue elit.",
+    "title": "Tervetuloa Avointen oppimateriaalien edistäminen -hankkeen sivuille!",
     "search": {
       "title": "Mitä haluat oppia?",
       "form": {
