@@ -39,6 +39,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -71,6 +72,7 @@ import { EducationalMaterialPreviewComponent } from './components/educational-ma
       }
     }),
     AccordionModule.forRoot(),
+    NgxExtendedPdfViewerModule,
   ],
   declarations: [
     AppComponent,
