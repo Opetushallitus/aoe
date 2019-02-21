@@ -22,7 +22,7 @@
   </div>
 
   <div class="details">
-    <span class="comments">2</span>
+    <span class="comments">0</span>
     <span class="rating">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
@@ -31,6 +31,9 @@
       <img src="assets/img/icons/ic_star.svg" alt="...">
     </span>
     <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="license text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
-    <span class="type pull-right">{{ educationalMaterial.learningResourceType[0].value }}</span>
+    <span class="type pull-right">
+      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceType[0]) }}" alt="">
+      {{ lrtSvc.getLearningResourceTypeValue(educationalMaterial.learningResourceType[0]) }}
+    </span>
   </div>
 </div>
