@@ -3,7 +3,7 @@
     <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="mr-3" alt="...">
     <div class="media-body">
       <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]"><h5> {{ educationalMaterial.name }}</h5></a>
-      {{ educationalMaterial.description | truncate:[50] }}
+      {{ educationalMaterial.description | truncate:[75] }}
     </div>
   </div>
 
@@ -21,19 +21,21 @@
     </a>
   </div>
 
-  <div class="details">
-    <span class="comments">0</span>
-    <span class="rating">
+  <div class="details d-flex flex-row">
+    <div class="comments">0</div>
+    <div class="rating">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
-    </span>
-    <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="license text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
-    <span class="type pull-right">
-      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceType[0]) }}" alt="">
+    </div>
+    <div class="license">
+      <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
+    </div>
+    <div class="type ml-auto">
+      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceType[0]) }}" alt="" class="learning-resource-type-icon">
       {{ lrtSvc.getLearningResourceTypeValue(educationalMaterial.learningResourceType[0]) }}
-    </span>
+    </div>
   </div>
 </div>

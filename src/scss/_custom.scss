@@ -215,7 +215,7 @@ h2 {
 .card-educational-material {
   background-color: map_get($theme-colors, 'light');
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 1rem 1rem .5rem;
 
   .media {
     border-bottom: 2px solid;
@@ -239,33 +239,41 @@ h2 {
 
     .btn {
       border-radius: 0;
+
+      &:nth-child(n+6) {
+        display: none;
+      }
     }
   }
 
   .details {
-    padding-top: .25rem;
+    padding-top: .5rem;
 
     .comments {
       background-image: url(assets/img/icons/ic_comments.svg);
       background-size: cover;
       background-repeat: no-repeat;
       color: $white;
-      display: inline-block;
       font-weight: 700;
       height: 28px;
       margin-right: .5rem;
       text-align: center;
-      vertical-align: text-top;
       width: 28px;
     }
 
     .rating {
       margin-right: 1rem;
-      vertical-align: top;
+
+      img {
+        &:not(:last-of-type) {
+          margin-right: .125rem;
+        }
+      }
     }
 
     .license {
       font-weight: 700;
+      vertical-align: middle;
     }
   }
 }
@@ -393,6 +401,13 @@ h2 {
       margin-bottom: .25rem;
     }
   }
+}
+
+// Learning resource types
+.learning-resource-type-icon {
+  margin-right: .5rem;
+  max-height: 1.125rem;
+  max-width: 1.125rem;
 }
 
 // FAQ
