@@ -16,6 +16,7 @@ import { IsBasedOn } from './is-based-on';
  */
 export interface EducationalMaterial {
   id: number;
+  img?: string;
   materials: Material[];
   name: string;
   slug: string;

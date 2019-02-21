@@ -7,6 +7,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 1
   {
     id: 1,
+    img: 'assets/img/1-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -90,6 +91,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 2,
+    img: 'assets/img/1-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -173,6 +175,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 3,
+    img: 'assets/img/1-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -1296,6 +1299,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 5
   {
     id: 13,
+    img: 'assets/img/5-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -1395,6 +1399,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 14,
+    img: 'assets/img/5-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -1496,6 +1501,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 15,
+    img: 'assets/img/5-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -1598,6 +1604,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 6
   {
     id: 16,
+    img: 'assets/img/6-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -1769,6 +1776,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 17,
+    img: 'assets/img/6-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -1939,6 +1947,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 18,
+    img: 'assets/img/6-digipedagogiikka.jpg',
     materials: [],
     name: 'Web-baserat lärande',
     slug: 'web-baserat-larande',
@@ -2012,6 +2021,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 7
   {
     id: 19,
+    img: 'assets/img/7-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -2094,6 +2104,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 20,
+    img: 'assets/img/7-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -2175,6 +2186,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 21,
+    img: 'assets/img/7-digipedagogiikka.png',
     materials: [
       {
         file: {
@@ -2258,6 +2270,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 8
   {
     id: 22,
+    img: 'assets/img/8-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -2358,6 +2371,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 23,
+    img: 'assets/img/8-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -2459,6 +2473,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 24,
+    img: 'assets/img/8-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -2560,6 +2575,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 9
   {
     id: 25,
+    img: 'assets/img/9-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -2657,6 +2673,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 26,
+    img: 'assets/img/9-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -2754,6 +2771,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 27,
+    img: 'assets/img/9-digipedagogiikka.jpg',
     materials: [
       {
         file: {
@@ -3277,6 +3295,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Robotics
   {
     id: 34,
+    img: 'assets/img/robotiikka.jpg',
     materials: [],
     name: 'Johdatus robotiikan opetukseen',
     slug: 'johdatus-robotiikan-opetukseen',
@@ -3337,6 +3356,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 35,
+    img: 'assets/img/robotiikka.jpg',
     materials: [],
     name: 'Introduction to teaching robotics',
     slug: 'introduction-to-teaching-robotics',
@@ -3396,6 +3416,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 36,
+    img: 'assets/img/robotiikka.jpg',
     materials: [],
     name: 'Introduktion till undervisningen i robotik',
     slug: 'introduktion-till-undervisningen-i-robotik',
@@ -3456,6 +3477,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // AI
   {
     id: 37,
+    img: 'assets/img/tekoaly.jpg',
     materials: [],
     name: 'Johdatus tekoälyyn',
     slug: 'johdatus-tekoalyyn',
@@ -3519,6 +3541,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 38,
+    img: 'assets/img/tekoaly.jpg',
     materials: [],
     name: 'Introduction to artificial intelligence',
     slug: 'introduction-to-artificial-intelligence',
@@ -3580,6 +3603,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 39,
+    img: 'assets/img/tekoaly.jpg',
     materials: [],
     name: 'Introduktion till artificiell intelligens',
     slug: 'introduktion-till-artificiell-intelligens',
