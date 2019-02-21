@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { EducationalMaterial } from '../../models/demo/educational-material';
+import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
 
 @Component({
   selector: 'app-educational-material-card',
@@ -9,4 +10,6 @@ import { EducationalMaterial } from '../../models/demo/educational-material';
 export class EducationalMaterialCardComponent {
   @Input()
   educationalMaterial: EducationalMaterial;
+
+  constructor(private lrtSvc: LearningResourceTypeService) { }
 }

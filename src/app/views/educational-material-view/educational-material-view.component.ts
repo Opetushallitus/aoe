@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 
+import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
+
 import { EducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
 import { Material } from '../../models/demo/material';
@@ -19,7 +21,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    public lrtSvc: LearningResourceTypeService
   ) { }
 
   ngOnInit(): void {
