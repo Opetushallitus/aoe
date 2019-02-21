@@ -44,8 +44,8 @@
             <div class="col">
               <ul class="list-unstyled">
                 <li *ngFor="let learningResourceType of educationalMaterial.learningResourceType">
-                  <i class="fa fa-fw fa-briefcase" aria-hidden="true"></i>
-                  {{ learningResourceType.value }}
+                  <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(learningResourceType) }}" alt="">
+                  {{ lrtSvc.getLearningResourceTypeValue(learningResourceType) }}
                 </li>
                 <li class="text-muted">
                   <i class="fa fa-fw fa-download" aria-hidden="true"></i>
