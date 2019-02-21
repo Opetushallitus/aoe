@@ -28,7 +28,7 @@ export interface EducationalMaterial {
   publisher?: string;
   description: string;
   keywords: Keyword[];
-  learningResourceType: LearningResourceType[];
+  learningResourceType: string[];
   timeRequired: TimeRequired;
   educationalLevel: EducationalLevel[];
   typicalAgeRange: string;

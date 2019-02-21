@@ -40,8 +40,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'tieto- ja viestintätekniikka' },
     ],
     learningResourceType: [
-      { value: 'audio' },
-      { value: 'teksti' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -124,8 +124,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'information and communications technology' },
     ],
     learningResourceType: [
-      { value: 'audio' },
-      { value: 'text' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -208,8 +208,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'informations- och kommunikationsteknik' },
     ],
     learningResourceType: [
-      { value: 'audio' },
-      { value: 'text' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -293,8 +293,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'teknologia' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'teksti' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -377,8 +377,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'technology' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -461,8 +461,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'teknik' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -558,8 +558,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'oppimisympäristö' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'teksti' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -652,8 +652,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'activation' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -739,8 +739,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'undervisning' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -908,10 +908,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'käänteinen luokkahuoneopetus' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'teksti' },
-      { value: 'audio' },
-      { value: 'harjoitus' },
+      'audio',
+      'exercise',
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1076,10 +1076,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'multidiscplinary learning' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'exercise' },
+      'audio',
+      'exercise',
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1245,10 +1245,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'casemetodik' },
     ],
     learningResourceType: [
-      { value: 'video' },
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'övning' },
+      'audio',
+      'exercise',
+      'video',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1348,8 +1348,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'aktiviteetti' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'audio' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1450,8 +1450,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'learning assignment' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1552,8 +1552,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'lärupgift' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
+      'audio',
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1724,9 +1724,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'opetus' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'audio' },
-      { value: 'harjoitus' },
+      'audio',
+      'text',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1895,9 +1895,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digital pedagogy' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'exercise' },
+      'audio',
+      'text',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -1968,9 +1968,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'eLearning' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'övning' },
+      'audio',
+      'text',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2054,7 +2054,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digipedagogiikka' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2136,7 +2136,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digital pedagogy' },
     ],
     learningResourceType: [
-      { value: 'text' },
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2219,7 +2219,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'informations- och kommunikationsteknik' },
     ],
     learningResourceType: [
-      { value: 'text' },
+      'text',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2319,9 +2319,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'media' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'audio' },
-      { value: 'harjoitus' },
+      'text',
+      'audio',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2421,9 +2421,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digital skills' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'exercise' },
+      'text',
+      'audio',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2522,9 +2522,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digital lärömedel' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'övning' },
+      'text',
+      'audio',
+      'exercise',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2622,8 +2622,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digipedagogiikka' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'audio' },
+      'text',
+      'audio',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2720,8 +2720,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digital skills' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
+      'text',
+      'audio',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2819,9 +2819,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'digitalkompetens' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'audio' },
-      { value: 'övning' },
+      'text',
+      'audio',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
@@ -2891,11 +2890,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'perusopetus' },
     ],
     learningResourceType: [
-      { value: 'kurssi' },
-      { value: 'opas' },
-      { value: 'harjoitus' },
-      { value: 'video' },
-      { value: 'tietolähde' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -2964,11 +2963,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'basic education' },
     ],
     learningResourceType: [
-      { value: 'course' },
-      { value: 'guide' },
-      { value: 'exercise' },
-      { value: 'video' },
-      { value: 'dataset' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -3037,11 +3036,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'självstudier' },
     ],
     learningResourceType: [
-      { value: 'kurs' },
-      { value: 'guide' },
-      { value: 'övning' },
-      { value: 'video' },
-      { value: 'data' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -3102,11 +3101,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'itseopiskelu' },
     ],
     learningResourceType: [
-      { value: 'kurssi' },
-      { value: 'opas' },
-      { value: 'harjoitus' },
-      { value: 'video' },
-      { value: 'tietolähde' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -3175,11 +3174,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'basic education' },
     ],
     learningResourceType: [
-      { value: 'course' },
-      { value: 'guide' },
-      { value: 'exercise' },
-      { value: 'video' },
-      { value: 'dataset' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -3248,11 +3247,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'självstudier' },
     ],
     learningResourceType: [
-      { value: 'kurs' },
-      { value: 'guide' },
-      { value: 'övning' },
-      { value: 'video' },
-      { value: 'data' },
+      'course',
+      'guide',
+      'exercise',
+      'video',
+      'dataset',
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
@@ -3315,10 +3314,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'opetus' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'harjoitus' },
-      { value: 'simulaatio' },
-      { value: 'projekti' },
+      'text',
+      'exercise',
+      'simulation',
+      'project',
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
@@ -3375,10 +3374,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'teaching' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'exercise' },
-      { value: 'simulation' },
-      { value: 'project' },
+      'text',
+      'exercise',
+      'simulation',
+      'project',
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
@@ -3435,10 +3434,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'undervisning' },
     ],
     learningResourceType: [
-      { value: 'Text' },
-      { value: 'övning' },
-      { value: 'simulering' },
-      { value: 'projekt' },
+      'text',
+      'exercise',
+      'simulation',
+      'project',
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
@@ -3501,9 +3500,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'luonnollisen kielen käsittely' },
     ],
     learningResourceType: [
-      { value: 'teksti' },
-      { value: 'harjoitus' },
-      { value: 'sanasto' },
+      'text',
+      'exercise',
+      'glossary',
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
@@ -3563,9 +3562,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'computer vision' },
     ],
     learningResourceType: [
-      { value: 'text' },
-      { value: 'exercise' },
-      { value: 'glossary' },
+      'text',
+      'exercise',
+      'glossary',
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
@@ -3625,9 +3624,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'optisk läsning' },
     ],
     learningResourceType: [
-      { value: 'Text' },
-      { value: 'övning' },
-      { value: 'ordlista' },
+      'text',
+      'exercise',
+      'glossary',
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
