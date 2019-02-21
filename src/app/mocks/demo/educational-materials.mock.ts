@@ -11,7 +11,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digipedagogiikka.m4a',
+          originalFilename: 'fi-1-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -95,7 +95,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digital Pedagogy.m4a',
+          originalFilename: 'en-1-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -179,7 +179,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digipedagogik.m4a',
+          originalFilename: 'sv-1-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -263,7 +263,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Digitaalisuus ja teknologia kouluissa.mp4',
+          originalFilename: 'fi-2-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -347,7 +347,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Digitalization and technology in schools.mp4',
+          originalFilename: 'en-2-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -431,7 +431,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Digitalisering och teknologi i skolor.mp4',
+          originalFilename: 'sv-2-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -516,7 +516,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Opetuksen ja oppimisen suunnittelu.mp4',
+          originalFilename: 'fi-3-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -612,7 +612,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Learning design.mp4',
+          originalFilename: 'en-3-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -706,7 +706,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Digitalisering och teknologi i skolor.mp4',
+          originalFilename: 'sv-3-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -794,7 +794,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Oppimisprosessin suunnittelu.mp4',
+          originalFilename: 'fi-4-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -964,7 +964,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Planning the learning process .mp4',
+          originalFilename: 'en-4-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -1132,7 +1132,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Video Planering av en lärprocess.mp4',
+          originalFilename: 'sv-4-digipedagogiikka.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -1303,7 +1303,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Oppimistehtävä.m4a',
+          originalFilename: 'fi-5-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1403,7 +1403,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Learning assignments.m4a',
+          originalFilename: 'en-5-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1505,7 +1505,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Läruppgifter.m4a',
+          originalFilename: 'sv-5-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1608,7 +1608,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
+          originalFilename: 'fi-6-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1780,7 +1780,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Building a web-learning environment is planning a user experience.m4a',
+          originalFilename: 'en-6-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1948,7 +1948,15 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 18,
     img: 'assets/img/6-digipedagogiikka.jpg',
-    materials: [],
+    materials: [
+      {
+        file: {
+          originalFilename: 'sv-6-digipedagogiikka.m4a',
+          mimeType: 'audio/mp4',
+          format: 'audio',
+        },
+      },
+    ],
     name: 'Web-baserat lärande',
     slug: 'web-baserat-larande',
     dateCreated: new Date(),
@@ -2025,7 +2033,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
+          originalFilename: 'fi-7-digipedagogiikka.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2108,7 +2116,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Infograf Digital tools for teaching.pdf',
+          originalFilename: 'en-7-digipedagogiikka.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2190,7 +2198,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'Infograf Digitala verktyg för studier.pdf',
+          originalFilename: 'sv-7-digipedagogiikka.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2274,7 +2282,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digitaaliset oppimateriaalit.m4a',
+          originalFilename: 'fi-8-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2375,7 +2383,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digital learning material and its use in studying and teaching.m4a',
+          originalFilename: 'en-8-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2477,7 +2485,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
+          originalFilename: 'sv-8-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2579,7 +2587,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Opettajan tvt taidot.m4a',
+          originalFilename: 'fi-9-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2677,7 +2685,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast  What ICT skills does a teacher need.m4a',
+          originalFilename: 'en-9-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2775,7 +2783,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
+          originalFilename: 'sv-9-digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -3477,7 +3485,15 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 37,
     img: 'assets/img/tekoaly.jpg',
-    materials: [],
+    materials: [
+      {
+        file: {
+          originalFilename: 'fi-tekoaly.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Johdatus tekoälyyn',
     slug: 'johdatus-tekoalyyn',
     dateCreated: new Date(),
@@ -3541,7 +3557,15 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 38,
     img: 'assets/img/tekoaly.jpg',
-    materials: [],
+    materials: [
+      {
+        file: {
+          originalFilename: 'en-tekoaly.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        }
+      },
+    ],
     name: 'Introduction to artificial intelligence',
     slug: 'introduction-to-artificial-intelligence',
     dateCreated: new Date(),
@@ -3603,7 +3627,15 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 39,
     img: 'assets/img/tekoaly.jpg',
-    materials: [],
+    materials: [
+      {
+        file: {
+          originalFilename: 'sv-tekoaly.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        }
+      },
+    ],
     name: 'Introduktion till artificiell intelligens',
     slug: 'introduktion-till-artificiell-intelligens',
     dateCreated: new Date(),
