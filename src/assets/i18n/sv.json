@@ -4,38 +4,16 @@
   },
   "navigation": {
     "home": "Home",
-    "collectionSearch": "Collection search",
-    "help": "Help",
-    "login": "Login",
-    "logout": "Logout",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
       }
     }
   },
-  "footer": {
-    "termsOfUse": "Terms of use",
-    "privacyPolicy": "Privacy Policy",
-    "accessibilityPolicy": "Accessibility Policy"
-  },
   "home": {
     "title": "Welcome to aoe!",
     "search": {
-      "title": "What do you want to learn?",
-      "form": {
-        "searchQuery": "Search query",
-        "educationalLevel": "Educational level",
-        "teaches": "Teaches",
-        "learningResourceType": "Learning resource type",
-        "submit": "Search",
-        "includeCollections": "Include collections",
-        "advancedSearch": "Advanced search"
-      }
-    },
-    "cta": {
-      "addMaterial": "Want to add materials?",
-      "loginOrRegister": "Login or create account"
+      "title": "What do you want to learn?"
     }
   },
   "demo": {
@@ -43,9 +21,6 @@
       "title": "Open educational materials"
     },
     "educationalMaterial": {
-      "edit": "Edit",
-      "delete": "Delete",
-      "addToCollection": "Add to Collection",
       "download": "Download",
       "viewCount": "views",
       "downloadCount": "downloads",
@@ -65,26 +40,6 @@
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element."
       }
-    },
-    "help": {
-      "title": "Help",
-      "subtitle": "What is e-Reppu?",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus. Donec et orci ornare, commodo dolor sit amet, sollicitudin elit. Nam quis sapien odio. Fusce iaculis tortor nec nisl auctor, in fermentum nisi varius. Cras metus ligula, dapibus in condimentum non, porttitor quis risus. Curabitur suscipit interdum eros, id consequat justo interdum id. Nullam urna dui, malesuada non condimentum a, suscipit ut lorem.",
-      "faq": {
-        "title": "Frequently asked questions"
-      }
-    },
-    "accessibility": {
-      "title": "Accessibility Policy",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
-    },
-    "privacy": {
-      "title": "Privacy Policy",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
-    },
-    "terms": {
-      "title": "Terms of Use",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
     }
   }
 }

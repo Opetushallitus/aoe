@@ -4,38 +4,16 @@
   },
   "navigation": {
     "home": "Etusivu",
-    "collectionSearch": "Kokoelmahaku",
-    "help": "Ohje",
-    "login": "Kirjaudu sisään",
-    "logout": "Kirjaudu ulos",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
       }
     }
   },
-  "footer": {
-    "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Rekisteriseloste",
-    "accessibilityPolicy": "Saavutettavuusseloste"
-  },
   "home": {
     "title": "Tervetuloa Avointen oppimateriaalien edistäminen -hankkeen sivuille!",
     "search": {
-      "title": "Mitä haluat oppia?",
-      "form": {
-        "searchQuery": "Vapaa teksti",
-        "educationalLevel": "Oppiaste",
-        "teaches": "Sisältöalue",
-        "learningResourceType": "Oppimateriaalin tyyppi",
-        "submit": "Hae",
-        "includeCollections": "Hae myös kokoelmista",
-        "advancedSearch": "Tarkempi haku"
-      }
-    },
-    "cta": {
-      "addMaterial": "Haluatko lisätä materiaaleja?",
-      "loginOrRegister": "Kirjaudu sisään tai rekisteröidy"
+      "title": "Mitä haluat oppia?"
     }
   },
   "demo": {
@@ -43,9 +21,6 @@
       "title": "Avoimet oppimateriaalit"
     },
     "educationalMaterial": {
-      "edit": "Muokkaa",
-      "delete": "Poista",
-      "addToCollection": "Lisää kokoelmaan",
       "download": "Lataa",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
@@ -65,26 +40,6 @@
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
         "noAudioSupport": "Selaimesi ei tue audio-elementtiä."
       }
-    },
-    "help": {
-      "title": "Ohje",
-      "subtitle": "Mikä on e-Reppu palvelu?",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus. Donec et orci ornare, commodo dolor sit amet, sollicitudin elit. Nam quis sapien odio. Fusce iaculis tortor nec nisl auctor, in fermentum nisi varius. Cras metus ligula, dapibus in condimentum non, porttitor quis risus. Curabitur suscipit interdum eros, id consequat justo interdum id. Nullam urna dui, malesuada non condimentum a, suscipit ut lorem.",
-      "faq": {
-        "title": "Usein kysytyt kysymykset"
-      }
-    },
-    "accessibility": {
-      "title": "Saavutettavuusseloste",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
-    },
-    "privacy": {
-      "title": "Rekisteriseloste",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
-    },
-    "terms": {
-      "title": "Käyttöehdot",
-      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin malesuada vehicula augue eget facilisis. Integer mi ante, condimentum quis malesuada sit amet, pretium vel nibh. Curabitur a congue tellus."
     }
   }
 }
