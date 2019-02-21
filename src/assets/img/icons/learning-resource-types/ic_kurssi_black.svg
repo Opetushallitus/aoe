@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>ic_kurssi_black</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0.003 24.0469 0.003 24.0469 22 0 22"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Materiaalityyppi/Kurssi" transform="translate(0.000000, -1.000000)">
+            <g id="ic_kurssi_black">
+                <g id="Group-3" transform="translate(0.000000, 0.997100)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M3.0999,13.7085 L3.0729,2.0515 L20.9749,2.0515 L21.0029,13.7085 L3.0999,13.7085 Z M24.0469,1.0275 C24.0469,0.4615 23.5879,0.0025 23.0229,0.0025 L1.0249,0.0025 L1.0239,0.0025 C0.4579,0.0035 -0.0001,0.4615 -0.0001,1.0275 C-0.0001,1.5925 0.4579,2.0515 1.0239,2.0515 L1.0519,13.7565 C1.0519,14.8565 1.9519,15.7565 3.0519,15.7565 L8.7269,15.7565 L6.1959,20.4925 C5.9289,20.9915 6.1169,21.6125 6.6159,21.8785 C6.7699,21.9605 6.9349,22.0005 7.0979,22.0005 C7.4629,22.0005 7.8179,21.8035 8.0019,21.4585 L11.0499,15.7565 L13.0529,15.7565 L16.1019,21.4585 C16.2869,21.8035 16.6399,22.0005 17.0059,22.0005 C17.1689,22.0005 17.3339,21.9605 17.4889,21.8785 C17.9869,21.6115 18.1749,20.9915 17.9089,20.4925 L15.3759,15.7565 L21.0519,15.7565 C22.1519,15.7565 23.0519,14.8565 23.0519,13.7565 L23.0239,2.0515 C23.5889,2.0515 24.0469,1.5935 24.0469,1.0275 L24.0469,1.0275 Z" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+                </g>
+                <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                <polygon id="Fill-4" fill="#000000" points="9.8713 6.5152 9.8713 11.9932 14.1763 9.2542"></polygon>
+                <polygon id="Fill-6" fill="#000000" points="15.719 6.5152 15.719 11.9932 20.024 9.2542"></polygon>
+                <polygon id="Fill-8" fill="#000000" points="4.0237 6.5152 4.0237 11.9932 8.3287 9.2542"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

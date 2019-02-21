@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="15px" viewBox="0 0 24 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>ic_simulaatio_black</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0.602 23.9996 0.602 23.9996 14.9995 0 14.9995"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Materiaalityyppi/Simulaatio" transform="translate(0.000000, -5.000000)">
+            <g id="ic_simulaatio_black">
+                <g id="Group-8" transform="translate(0.000000, 4.000000)">
+                    <g id="Group-3" transform="translate(0.000000, 0.398500)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Clip-2"></g>
+                        <path d="M16.7226,0.6015 L11.9996,0.6015 L7.2776,0.6015 C3.2756,0.6015 -0.0004,3.8765 -0.0004,7.8795 L-0.0004,10.5415 C-0.0004,12.9945 2.0056,14.9995 4.4576,14.9995 L6.7606,14.9995 C7.6106,14.9995 8.3986,14.6165 8.9766,13.9935 C9.5976,13.3235 10.7156,12.8745 11.9996,12.8745 C13.2846,12.8745 14.4026,13.3235 15.0246,13.9935 C15.6026,14.6165 16.3896,14.9995 17.2406,14.9995 L19.5416,14.9995 C21.9936,14.9995 23.9996,12.9945 23.9996,10.5415 L23.9996,7.8795 C23.9996,3.8765 20.7246,0.6015 16.7226,0.6015" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+                    </g>
+                    <path d="M3.2031,6.5591 C3.0071,6.5591 2.8091,6.4841 2.6601,6.3341 C2.3601,6.0341 2.3601,5.5481 2.6601,5.2481 L4.0151,3.8941 C4.3141,3.5941 4.8001,3.5941 5.1001,3.8941 C5.4001,4.1941 5.4001,4.6801 5.1001,4.9801 L3.7461,6.3341 C3.5961,6.4841 3.3991,6.5591 3.2031,6.5591" id="Fill-4" fill="#FFFFFF"></path>
+                    <path d="M4.5419,9.021 C4.3459,9.021 4.1489,8.946 3.9989,8.796 C3.6989,8.497 3.6989,8.01 3.9989,7.71 L6.4759,5.232 C6.7749,4.933 7.2619,4.933 7.5619,5.232 C7.8609,5.532 7.8609,6.019 7.5619,6.318 L5.0849,8.796 C4.9359,8.946 4.7389,9.021 4.5419,9.021" id="Fill-6" fill="#FFFFFF"></path>
+                </g>
+                <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

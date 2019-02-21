@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
+    <title>ic_esitys_black</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Materiaalityyppi/Esitys" transform="translate(0.000000, -1.000000)">
+            <g id="ic_esitys_black">
+                <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                <path d="M3.1,14.706 L3.072,3.049 L20.975,3.049 L21.003,14.706 L3.1,14.706 Z M24.047,2.025 C24.047,1.459 23.588,1 23.023,1 L1.024,1 L1.024,1 L1.023,1 C0.458,1.001 2.39808173e-13,1.459 2.39808173e-13,2.025 C2.39808173e-13,2.59 0.458,3.049 1.023,3.049 L1.052,14.754 C1.052,15.854 1.952,16.754 3.052,16.754 L8.727,16.754 L6.195,21.49 C5.929,21.989 6.117,22.61 6.616,22.876 C6.769,22.958 6.934,22.998 7.098,22.998 C7.463,22.998 7.817,22.801 8.002,22.456 L11.05,16.754 L13.053,16.754 L16.101,22.456 C16.286,22.801 16.64,22.998 17.006,22.998 C17.169,22.998 17.334,22.958 17.488,22.876 C17.986,22.609 18.175,21.989 17.908,21.49 L15.376,16.754 L21.052,16.754 C22.151,16.754 23.052,15.854 23.052,14.754 L23.023,3.049 C23.589,3.049 24.047,2.591 24.047,2.025 L24.047,2.025 Z" id="Fill-1" fill="#000000"></path>
+                <polygon id="Fill-4" fill="#000000" points="10 6 10 11.478 14.304 8.739"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
