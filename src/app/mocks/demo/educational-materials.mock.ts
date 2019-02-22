@@ -3080,8 +3080,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'blandad' },
     ],
     inLanguage: {
-      id: 'EN',
-      value: 'English',
+      id: 'SV',
+      value: 'svenska',
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
