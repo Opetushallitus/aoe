@@ -14,6 +14,7 @@ export class AudioPreviewComponent implements OnChanges {
   public _material: Material;
 
   ngOnChanges(changes: SimpleChanges): void {
+    // refreshes audio player after source change
     this.audioPlayerRef.nativeElement.load();
   }
 }
