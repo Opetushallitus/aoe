@@ -38,7 +38,8 @@
       "showAllComments": "Näytä kaikki käyttäjien kommentit",
       "preview": {
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
-        "noAudioSupport": "Selaimesi ei tue audio-elementtiä."
+        "noAudioSupport": "Selaimesi ei tue audio-elementtiä.",
+        "noSupportedFile": "Oppimateriaalilla ei ole esikatseltavaa tiedostoa."
       }
     }
   }

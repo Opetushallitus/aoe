@@ -7,6 +7,5 @@ import { Material } from '../../models/demo/material';
   templateUrl: './educational-material-preview.component.html',
 })
 export class EducationalMaterialPreviewComponent {
-  @Input()
-  mainMaterial: Material;
+  @Input() material: Material;
 }

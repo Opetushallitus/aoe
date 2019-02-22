@@ -50,6 +50,9 @@ import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-
 import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { EducationalMaterialPreviewComponent } from './components/educational-material-preview/educational-material-preview.component';
+import { VideoPreviewComponent } from './components/video-preview/video-preview.component';
+import { AudioPreviewComponent } from './components/audio-preview/audio-preview.component';
+import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
 
 @NgModule({
   imports: [
@@ -86,6 +89,9 @@ import { EducationalMaterialPreviewComponent } from './components/educational-ma
     AccessibilityPolicyViewComponent,
     EducationalMaterialViewComponent,
     EducationalMaterialPreviewComponent,
+    VideoPreviewComponent,
+    AudioPreviewComponent,
+    PdfPreviewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

@@ -38,7 +38,8 @@
       "showAllComments": "Show all comments",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
-        "noAudioSupport": "Your browser does not support the audio element."
+        "noAudioSupport": "Your browser does not support the audio element.",
+        "noSupportedFile": "Educational material doesn't have previewable file."
       }
     }
   }
