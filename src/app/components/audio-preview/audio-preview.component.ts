@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Material } from '../../models/demo/material';
 
@@ -6,6 +6,14 @@ import { Material } from '../../models/demo/material';
   selector: 'app-audio-preview',
   templateUrl: './audio-preview.component.html',
 })
-export class AudioPreviewComponent {
-  @Input() material: Material;
+export class AudioPreviewComponent implements OnChanges {
+  @ViewChild('audioElement') audioPlayerRef: ElementRef;
+  @Input() set material(material: Material) {
+    this._material = material;
+  }
+  public _material: Material;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.audioPlayerRef.nativeElement.load();
+  }
 }

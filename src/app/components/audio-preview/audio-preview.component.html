@@ -1,4 +1,4 @@
-<audio class="d-block w-100" controls>
-  <source src="{{ material.file.filePath }}" type="{{ material.file.mimeType }}">
+<audio class="d-block w-100" controls #audioElement>
+  <source src="{{ _material.file.filePath }}" type="{{ _material.file.mimeType }}">
   {{ 'demo.educationalMaterial.preview.noAudioSupport' | translate }}
 </audio>
