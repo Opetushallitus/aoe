@@ -29,7 +29,7 @@
       "subject": "kasvatustieteet",
       "inLanguage": "Kieli",
       "timeRequired": "Kesto",
-      "otherFiles": "Muut tiedostot",
+      "files": "Tiedostot",
       "userMetadata": "Käyttäjien kuvailut",
       "userReviews": "Käyttäjien arviot",
       "rating": "Arvostelu",
