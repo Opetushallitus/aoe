@@ -1,7 +1,6 @@
 import { Material } from './material';
 import { Author } from './author';
 import { Keyword } from './keyword';
-import { LearningResourceType } from './learning-resource-type';
 import { TimeRequired } from './time-required';
 import { EducationalLevel, EducationalRole, EducationalUse } from './educational';
 import { AlignmentObject } from './alignment';
@@ -17,6 +16,7 @@ import { IsBasedOn } from './is-based-on';
 export interface EducationalMaterial {
   id: number;
   img?: string;
+  download?: string;
   materials: Material[];
   name: string;
   slug: string;
