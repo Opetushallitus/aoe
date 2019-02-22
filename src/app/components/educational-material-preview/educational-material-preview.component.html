@@ -1,17 +1,26 @@
 <div class="material-preview">
-  <div class="embed-responsive embed-responsive-16by9" *ngIf="mainMaterial.file.format === 'video'">
+  <div
+    *ngIf="mainMaterial.file.format === 'video'"
+    class="embed-responsive embed-responsive-16by9">
     <video class="embed-responsive-item" controls>
       <source src="files/{{ mainMaterial.file.originalFilename }}" [attr.type]="mainMaterial.file.mimeType">
       {{ 'demo.educationalMaterial.preview.noVideoSupport' | translate }}
     </video>
   </div>
 
-  <audio class="d-block w-100" controls *ngIf="mainMaterial.file.format === 'audio'">
+  <audio
+    *ngIf="mainMaterial.file.format === 'audio'"
+    class="d-block w-100"
+    controls>
     <source src="files/{{ mainMaterial.file.originalFilename }}" [attr.type]="mainMaterial.file.mimeType">
     {{ 'demo.educationalMaterial.preview.noAudioSupport' | translate }}
   </audio>
 
-  <ngx-extended-pdf-viewer src="files/{{ mainMaterial.file.originalFilename }}" useBrowserLocale="true" *ngIf="mainMaterial.file.format === 'pdf'" delayFirstView="1000"></ngx-extended-pdf-viewer>
+  <ngx-extended-pdf-viewer
+    *ngIf="mainMaterial.file.format === 'pdf'"
+    src="files/{{ mainMaterial.file.originalFilename }}"
+    useBrowserLocale="true"
+    delayFirstView="1000"></ngx-extended-pdf-viewer>
 
   <!-- @todo: Handle html's and office documents (doc, docx, ppt, pptx) -->
 </div>
