@@ -17,7 +17,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   private educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
   public educationalMaterial: EducationalMaterial;
   private subscription: Subscription;
-  public mainMaterial: Material;
+  public previewMaterial: Material;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +29,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     this.subscription = this.route.params.subscribe(params => {
       this.educationalMaterial = this.educationalMaterials.find(m => m.id === +params['id']);
 
-      this.mainMaterial = this.educationalMaterial.materials.shift();
+      this.previewMaterial = this.educationalMaterial.materials[0];
     });
   }
 
@@ -39,5 +39,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.location.back();
+  }
+
+  setPreviewMaterial(material: Material): void {
+    this.previewMaterial = material;
   }
 }

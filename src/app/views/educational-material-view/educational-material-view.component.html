@@ -69,7 +69,7 @@
           </div>
 
           <div class="mb-4">
-            <app-educational-material-preview [material]="mainMaterial"></app-educational-material-preview>
+            <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
           </div>
 
           <div class="row">
@@ -105,10 +105,10 @@
 
           <div class="row" *ngIf="educationalMaterial.materials.length > 0">
             <div class="col">
-              <h2>{{ 'demo.educationalMaterial.otherFiles' | translate }}</h2>
+              <h2>{{ 'demo.educationalMaterial.files' | translate }}</h2>
 
               <ul class="list-unstyled">
-                <li *ngFor="let material of educationalMaterial.materials">
+                <li *ngFor="let material of educationalMaterial.materials" [ngClass]="material === previewMaterial ? 'font-weight-bold' : ''" (click)="setPreviewMaterial(material)">
                   <i class="fa fa-fw fa-file" aria-hidden="true"></i>
                   {{ material?.file?.originalFilename }}
                 </li>
