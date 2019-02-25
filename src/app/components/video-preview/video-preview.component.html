@@ -1,6 +1,6 @@
 <div class="embed-responsive embed-responsive-16by9">
-  <video class="embed-responsive-item" controls>
-    <source src="{{ material.file.filePath }}" type="{{ material.file.mimeType }}">
+  <video class="embed-responsive-item" controls #videoElement>
+    <source src="{{ _material.file.filePath }}" type="{{ _material.file.mimeType }}">
     {{ 'demo.educationalMaterial.preview.noVideoSupport' | translate }}
   </video>
 </div>
