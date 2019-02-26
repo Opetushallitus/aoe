@@ -3148,7 +3148,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Python
   {
     id: 28,
-    materials: [],
+    download: 'https://aoe.fi/files/fi-python.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/fi-python/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Python from Scratch',
     slug: 'python-from-scratch',
     dateCreated: new Date(),
@@ -3221,7 +3231,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 29,
-    materials: [],
+    download: 'https://aoe.fi/files/en-python.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/en-python/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Python from Scratch',
     slug: 'python-from-scratch',
     dateCreated: new Date(),
@@ -3295,7 +3315,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 30,
-    materials: [],
+    download: 'https://aoe.fi/files/sv-python.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/sv-python/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Python from Scratch',
     slug: 'python-from-scratch',
     dateCreated: new Date(),
@@ -3360,7 +3390,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Scratch
   {
     id: 31,
-    materials: [],
+    download: 'https://aoe.fi/files/fi-scratch.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/fi-scratch/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Scratch to Python',
     slug: 'scratch-to-python',
     dateCreated: new Date(),
@@ -3432,7 +3472,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 32,
-    materials: [],
+    download: 'https://aoe.fi/files/en-scratch.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/en-scratch/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Scratch to Python',
     slug: 'scratch-to-python',
     dateCreated: new Date(),
@@ -3506,7 +3556,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 33,
-    materials: [],
+    download: 'https://aoe.fi/files/sv-scratch.zip',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/iframes/sv-scratch/index.html',
+          originalFilename: 'index.html',
+          mimeType: 'text/html',
+          format: 'html',
+        }
+      }
+    ],
     name: 'Scratch to Python',
     slug: 'scratch-to-python',
     dateCreated: new Date(),
@@ -3572,6 +3632,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 34,
     img: 'assets/img/robotiikka.jpg',
+    download: 'https://aoe.fi/files/fi-robotiikka.zip',
     materials: [],
     name: 'Johdatus robotiikan opetukseen',
     slug: 'johdatus-robotiikan-opetukseen',
@@ -3633,6 +3694,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 35,
     img: 'assets/img/robotiikka.jpg',
+    download: 'https://aoe.fi/files/en-robotiikka.zip',
     materials: [],
     name: 'Introduction to teaching robotics',
     slug: 'introduction-to-teaching-robotics',
@@ -3693,6 +3755,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 36,
     img: 'assets/img/robotiikka.jpg',
+    download: 'https://aoe.fi/files/sv-robotiikka.zip',
     materials: [],
     name: 'Introduktion till undervisningen i robotik',
     slug: 'introduktion-till-undervisningen-i-robotik',
@@ -3754,6 +3817,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 37,
     img: 'assets/img/tekoaly.jpg',
+    download: 'https://aoe.fi/files/fi-tekoaly.pdf',
     materials: [
       {
         file: {
@@ -3826,6 +3890,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 38,
     img: 'assets/img/tekoaly.jpg',
+    download: 'https://aoe.fi/files/en-tekoaly.pdf',
     materials: [
       {
         file: {
@@ -3896,6 +3961,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 39,
     img: 'assets/img/tekoaly.jpg',
+    download: 'https://aoe.fi/files/sv-tekoaly.pdf',
     materials: [
       {
         file: {
