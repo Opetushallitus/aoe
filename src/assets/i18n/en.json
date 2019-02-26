@@ -39,7 +39,8 @@
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
-        "noSupportedFile": "Educational material doesn't have previewable file."
+        "noSupportedFile": "Educational material doesn't have previewable file.",
+        "openInNewTab": "Open educational material in a new tab"
       }
     }
   }
