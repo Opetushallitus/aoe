@@ -8,8 +8,7 @@ import { LearningResourceTypeService } from '../../services/learning-resource-ty
   templateUrl: './educational-material-card.component.html',
 })
 export class EducationalMaterialCardComponent {
-  @Input()
-  educationalMaterial: EducationalMaterial;
+  @Input() educationalMaterial: EducationalMaterial;
 
-  constructor(private lrtSvc: LearningResourceTypeService) { }
+  constructor(public lrtSvc: LearningResourceTypeService) { }
 }
