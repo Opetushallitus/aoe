@@ -25,7 +25,7 @@
             <i class="fa fa-fw fa-plus-square" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.addToCollection' | translate }}
           </a>-->
-          <a href="#" class="btn btn-link">
+          <a *ngIf="educationalMaterial.download" class="btn btn-link" href="{{ educationalMaterial.download }}" download>
             <i class="fa fa-fw fa-download" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.download' | translate }}
           </a>
