@@ -11,7 +11,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-1-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-1-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digipedagogiikka.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -19,7 +19,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-1b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-1b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Digipedagogiikka - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -97,7 +97,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-1-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-1-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digital Pedagogy.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -105,7 +105,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-1b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-1b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Digital pedagogy - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -183,7 +183,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-1-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-1-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digipedagogik.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -191,7 +191,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-1b-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-1b-digipedagogiikka.m4a',
           originalFilename: 'b Podcast Digipedagogik text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -269,7 +269,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-2-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/fi-2-digipedagogiikka.mp4',
           originalFilename: 'A Video Digitaalisuus ja teknologia kouluissa.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -277,7 +277,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-2b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-2b-digipedagogiikka.pdf',
           originalFilename: 'b Video Digitaalisuus ja teknologia kouluissa - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -355,7 +355,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-2-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/en-2-digipedagogiikka.mp4',
           originalFilename: 'A Video Digitalization and technology in schools.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -363,7 +363,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-2b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-2b-digipedagogiikka.pdf',
           originalFilename: 'b Video Digitalization and technology in schools - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -441,7 +441,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-2-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/sv-2-digipedagogiikka.mp4',
           originalFilename: 'A Video Digitalisering och teknologi i skolor.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -449,7 +449,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-2b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-2b-digipedagogiikka.pdf',
           originalFilename: 'b Video Digitalisering och teknologi i skolor text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -528,7 +528,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-3-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/fi-3-digipedagogiikka.mp4',
           originalFilename: 'A Video Opetuksen ja oppimisen suunnittelu.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -536,7 +536,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-3b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-3b-digipedagogiikka.pdf',
           originalFilename: 'b Video Opetuksen ja oppimisen suunnittelu - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -544,7 +544,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-3c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-3c-digipedagogiikka.pdf',
           originalFilename: 'c Infotaulu Opetuksen ja oppimisen suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -627,7 +627,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-3-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/en-3-digipedagogiikka.mp4',
           originalFilename: 'A Video Learning design.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -635,7 +635,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-3b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-3b-digipedagogiikka.pdf',
           originalFilename: 'b Video Learning design text script.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -643,7 +643,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-3c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-3c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf Learning Design.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -724,7 +724,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-3-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/sv-3-digipedagogiikka.mp4',
           originalFilename: 'A Video Planering av undervisning och lärande.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -732,7 +732,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-3b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-3b-digipedagogiikka.pdf',
           originalFilename: 'b Video Planering av undervisning och lärande text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -740,7 +740,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-3c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-3c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf Planering av undervisning och lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -822,7 +822,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/fi-4-digipedagogiikka.mp4',
           originalFilename: 'A Video Oppimisprosessin suunnittelu.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -830,7 +830,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4b-digipedagogiikka.pdf',
           originalFilename: 'b Video Oppimisprosessin suunnittelu - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -838,7 +838,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4c-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-4c-digipedagogiikka.m4a',
           originalFilename: 'c Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -846,7 +846,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4d-digipedagogiikka.pdf',
           originalFilename: 'd Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -854,7 +854,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4e-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-4e-digipedagogiikka.m4a',
           originalFilename: 'e Podcast Oppimisprosessin ohjaus verkossa.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -862,7 +862,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4f-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4f-digipedagogiikka.pdf',
           originalFilename: 'f Podcast Oppimisprosessin ohjaus verkossa teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -870,7 +870,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4g-digipedagogiikka.pdf',
           originalFilename: 'g Infotaulu Oppimisprosessin ja oppimistilanteiden suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -878,7 +878,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4h-digipedagogiikka.pdf',
           originalFilename: 'h Infotaulu Yksilöllinen oppimisprosessiI.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -886,7 +886,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4i-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4i-digipedagogiikka.pdf',
           originalFilename: 'i Infotaulu Monialainen oppimisprosessi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -894,7 +894,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4j-digipedagogiikka.pdf',
           originalFilename: 'j Infotaulu Ilmiöpohjaisen oppimisen suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -902,7 +902,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4k-digipedagogiikka.pdf',
           originalFilename: 'k Infotaulu Avoin ilmiöpohjainen oppimisprosessi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -910,7 +910,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4l-digipedagogiikka.pdf',
           originalFilename: 'l Infotaulu Casepohjainen oppiminen.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -918,7 +918,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-4m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-4m-digipedagogiikka.pdf',
           originalFilename: 'm Infotaulu Käänteinen luokkahuoneopetus.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1005,7 +1005,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/en-4-digipedagogiikka.mp4',
           originalFilename: 'A Video Planning the learning process.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -1013,7 +1013,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4b-digipedagogiikka.pdf',
           originalFilename: 'b Video Planning the learning process - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1021,7 +1021,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4c-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-4c-digipedagogiikka.m4a',
           originalFilename: 'c Podcast Making the learning process visible for a vocational student.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1029,7 +1029,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4d-digipedagogiikka.pdf',
           originalFilename: 'd Podcast Making the learning process visible - vocational education text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1037,7 +1037,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4e-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-4e-digipedagogiikka.m4a',
           originalFilename: 'e Podcast Guiding the learning process on the web.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1045,7 +1045,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4f-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4f-digipedagogiikka.pdf',
           originalFilename: 'f Podcast Guiding the learning process on the web text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1053,7 +1053,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4g-digipedagogiikka.pdf',
           originalFilename: 'g Infograf Planning learning process and situations.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1061,7 +1061,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4h-digipedagogiikka.pdf',
           originalFilename: 'h Infograf Individual learning process.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1069,7 +1069,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4i-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4i-digipedagogiikka.pdf',
           originalFilename: 'i Infograf Multidisciplinary learning process.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1077,7 +1077,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4j-digipedagogiikka.pdf',
           originalFilename: 'j Infograf Planning phenomen-based learning.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1085,7 +1085,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4k-digipedagogiikka.pdf',
           originalFilename: 'k Infograf Open phenomenon-based learning process.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1093,7 +1093,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4l-digipedagogiikka.pdf',
           originalFilename: 'l Infograf Case-based learning.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1101,7 +1101,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-4m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-4m-digipedagogiikka.pdf',
           originalFilename: 'm Infograf Flipped classroom.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1186,7 +1186,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4-digipedagogiikka.mp4',
+          filePath: 'https://aoe.fi/files/sv-4-digipedagogiikka.mp4',
           originalFilename: 'A Video Planering av en lärprocess.mp4',
           mimeType: 'video/mp4',
           format: 'video',
@@ -1194,7 +1194,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4b-digipedagogiikka.pdf',
           originalFilename: 'b Video Planeringen av en lärprocess text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1202,7 +1202,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4c-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-4c-digipedagogiikka.m4a',
           originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1210,7 +1210,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4d-digipedagogiikka.pdf',
           originalFilename: 'd Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1218,7 +1218,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4e-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-4e-digipedagogiikka.m4a',
           originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1226,7 +1226,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4f-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4f-digipedagogiikka.pdf',
           originalFilename: 'f Podcast Handledning av lärprocessen i nätet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1234,7 +1234,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4g-digipedagogiikka.pdf',
           originalFilename: 'g Infograf Planning av en lärprocess och lärsituationer.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1242,7 +1242,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4h-digipedagogiikka.pdf',
           originalFilename: 'h Infograf Individuell lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1250,7 +1250,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4i-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4i-digipedagogiikka.pdf',
           originalFilename: 'i Infograf Mångvetenskaplig lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1258,7 +1258,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4j-digipedagogiikka.pdf',
           originalFilename: 'j Infograf Planering av fenomenbaserat lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1266,7 +1266,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4k-digipedagogiikka.pdf',
           originalFilename: 'k Infograf En öppen fenomenbaserad lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1274,7 +1274,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4l-digipedagogiikka.pdf',
           originalFilename: 'l Infograf Case-baserat lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1282,7 +1282,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-4m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-4m-digipedagogiikka.pdf',
           originalFilename: 'm Infograf Omvänt klassrum.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1370,7 +1370,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-5-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-5-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Oppimistehtävä.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1378,7 +1378,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-5b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-5b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Oppimistehtävä - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1386,7 +1386,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-5c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-5c-digipedagogiikka.pdf',
           originalFilename: 'c Oppimistehtäväideoita oppimisprosessin eri vaiheisiin.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1394,7 +1394,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-5d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-5d-digipedagogiikka.pdf',
           originalFilename: 'd Oppimistehtävän suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1474,7 +1474,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-5-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-5-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Learning assignments.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1482,7 +1482,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-5b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-5b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Learning assignments text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1490,7 +1490,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-5c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-5c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf Learning assignment ideas.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1498,7 +1498,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-5d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-5d-digipedagogiikka.pdf',
           originalFilename: 'd Planning learning assignments.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1580,7 +1580,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-5-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-5-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Läruppgifter.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1588,7 +1588,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-5b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-5b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Läruppgifter text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1596,7 +1596,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-5c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-5c-digipedagogiikka.pdf',
           originalFilename: 'c Ideer för läruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1604,7 +1604,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-5d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-5d-digipedagogiikka.pdf',
           originalFilename: 'd Planeringsblankett läruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1687,7 +1687,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-6-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1695,7 +1695,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1703,7 +1703,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6c-digipedagogiikka.pdf',
           originalFilename: 'c Verkkokurssin käyttäjäkokemuksen arviointi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1711,7 +1711,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6d-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-6d-digipedagogiikka.m4a',
           originalFilename: 'd Podcast Viestintä verkossa.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1719,7 +1719,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6e-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6e-digipedagogiikka.pdf',
           originalFilename: 'e Podcast Viestintä verkossa teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1727,7 +1727,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6f-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-6f-digipedagogiikka.m4a',
           originalFilename: 'f Podcast Koulutukselliset videot.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1735,7 +1735,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6g-digipedagogiikka.pdf',
           originalFilename: 'g Podcast Koulutukselliset videot teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1743,7 +1743,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6h-digipedagogiikka.pdf',
           originalFilename: 'h Koulutuksellisten videoiden arviointi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1751,7 +1751,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6i-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-6i-digipedagogiikka.m4a',
           originalFilename: 'i Podcast Microlearning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1759,7 +1759,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6j-digipedagogiikka.pdf',
           originalFilename: 'j Podcast Microlearning teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1767,7 +1767,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6k-digipedagogiikka.pdf',
           originalFilename: 'k Infotaulu Microlearning .pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1775,7 +1775,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6l-digipedagogiikka.pdf',
           originalFilename: 'l Infotaulu Webinaarin suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1783,7 +1783,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6m-digipedagogiikka.pdf',
           originalFilename: 'm Webinaari työkirja.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1791,7 +1791,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-6n-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-6n-digipedagogiikka.pdf',
           originalFilename: 'n Infotaulu MOOC.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1873,7 +1873,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-6-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Building a web-learning environment is planning a user experience.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1881,7 +1881,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Building a web-learning environment is planning user experience text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1889,7 +1889,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6c-digipedagogiikka.pdf',
           originalFilename: 'c Evaluation of the user experience of a web-based course.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1897,7 +1897,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6d-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-6d-digipedagogiikka.m4a',
           originalFilename: 'd Podcast Communication on the web.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1905,7 +1905,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6e-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6e-digipedagogiikka.pdf',
           originalFilename: 'e Podcast Communication on the web text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1913,7 +1913,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6f-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-6f-digipedagogiikka.m4a',
           originalFilename: 'f Podcast Educational videos.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1921,7 +1921,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6g-digipedagogiikka.pdf',
           originalFilename: 'g Podcast Educational videos text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1929,7 +1929,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6h-digipedagogiikka.pdf',
           originalFilename: 'h Educational videos evaluation.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1937,7 +1937,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6i-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-6i-digipedagogiikka.m4a',
           originalFilename: 'i Podcast Microlearning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -1945,7 +1945,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6j-digipedagogiikka.pdf',
           originalFilename: 'j Podcast Microlearning text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1953,7 +1953,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6k-digipedagogiikka.pdf',
           originalFilename: 'k Infograf Microlearning.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1961,7 +1961,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6l-digipedagogiikka.pdf',
           originalFilename: 'l Infograf Planning a webinar.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1969,7 +1969,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6m-digipedagogiikka.pdf',
           originalFilename: 'm Webinar workbook.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -1977,7 +1977,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-6n-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-6n-digipedagogiikka.pdf',
           originalFilename: 'n Infograf MOOC.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2058,7 +2058,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-6-digipedagogiikka.m4a',
           originalFilename: 'A Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2066,7 +2066,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2074,7 +2074,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6c-digipedagogiikka.pdf',
           originalFilename: 'c Användarerfarenhet utvärderingssablon.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2082,7 +2082,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6d-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-6d-digipedagogiikka.m4a',
           originalFilename: 'd Podcast Kommunikation på nätet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2090,7 +2090,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6e-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6e-digipedagogiikka.pdf',
           originalFilename: 'e Podcast Kommunikation på nätet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2098,7 +2098,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6f-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-6f-digipedagogiikka.m4a',
           originalFilename: 'f Podcast Utbildningsmässiga videor.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2106,7 +2106,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6g-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6g-digipedagogiikka.pdf',
           originalFilename: 'g Podcast Utbildningsmässiga videor - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2114,7 +2114,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6h-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6h-digipedagogiikka.pdf',
           originalFilename: 'h Utvärdering av video.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2122,7 +2122,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6i-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-6i-digipedagogiikka.m4a',
           originalFilename: 'i Podcast Microlearning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2130,7 +2130,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6j-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6j-digipedagogiikka.pdf',
           originalFilename: 'j Podcast Microlearning - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2138,7 +2138,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6k-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6k-digipedagogiikka.pdf',
           originalFilename: 'k Infograf Microlearning.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2146,7 +2146,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6l-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6l-digipedagogiikka.pdf',
           originalFilename: 'l Infograf Hur planera en webinar.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2154,7 +2154,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6m-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6m-digipedagogiikka.pdf',
           originalFilename: 'm Webinar arbetsbok.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2162,7 +2162,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-6n-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-6n-digipedagogiikka.pdf',
           originalFilename: 'n Infograf MOOC.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2245,7 +2245,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-7-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-7-digipedagogiikka.pdf',
           originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2253,7 +2253,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-7b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-7b-digipedagogiikka.pdf',
           originalFilename: 'b Infotaulu Opiskelun digivälineet.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2330,7 +2330,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-7-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-7-digipedagogiikka.pdf',
           originalFilename: 'A Infograf Digital tools for teaching.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2338,7 +2338,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-7b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-7b-digipedagogiikka.pdf',
           originalFilename: 'b Infograf Digital tools for studying.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2414,7 +2414,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-7-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-7-digipedagogiikka.pdf',
           originalFilename: 'A Infograf Digitala verktyg för undervisningen.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2422,7 +2422,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-7b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-7b-digipedagogiikka.pdf',
           originalFilename: 'b Infograf Digitala verktyg för studier.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2500,7 +2500,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-8-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-8-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digitaaliset oppimateriaalit.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2508,7 +2508,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-8b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-8b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2516,7 +2516,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-8c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-8c-digipedagogiikka.pdf',
           originalFilename: 'c Infotaulu Digitaaliset aineistot opiskelussa ja opetuksessa.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2524,7 +2524,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-8d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-8d-digipedagogiikka.pdf',
           originalFilename: 'd Infotaulu Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa -luokittelua.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2605,7 +2605,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-8-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-8-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digital learning material and its use in studying and teaching.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2613,7 +2613,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-8b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-8b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast  Digital learning materials and their use in studying and  teaching text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2621,7 +2621,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-8c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-8c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf Digital learning materials in studing and teaching.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2629,7 +2629,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-8d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-8d-digipedagogiikka.pdf',
           originalFilename: 'd Digital materials and content in studying and teaching - classification.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2711,7 +2711,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-8-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-8-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2719,7 +2719,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-8b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-8b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Digitala läromedel och användningen av dem i undervisningen text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2727,7 +2727,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-8c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-8c-digipedagogiikka.pdf',
           originalFilename: 'c Digimaterial i undervisning och studier.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2735,7 +2735,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-8d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-8d-digipedagogiikka.pdf',
           originalFilename: 'd Digitalt material och -innehåll i studier och i undervisning -klassificering.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2817,7 +2817,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-9-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/fi-9-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Opettajan tvt taidot.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2825,7 +2825,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-9b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-9b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Opettajan TVT-taidot - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2833,7 +2833,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-9c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-9c-digipedagogiikka.pdf',
           originalFilename: 'c Infotaulu Opettajan TVT-taidot.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2841,7 +2841,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/fi-9d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/fi-9d-digipedagogiikka.pdf',
           originalFilename: 'd Infotaulu Opiskelijan TVT-taidot.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2919,7 +2919,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-9-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/en-9-digipedagogiikka.m4a',
           originalFilename: 'A Podcast What ICT skills does a teacher need.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -2927,7 +2927,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-9b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-9b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Teachers ICT skills text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2935,7 +2935,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-9c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-9c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf The teachers information and communication technology skills.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -2943,7 +2943,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/en-9d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/en-9d-digipedagogiikka.pdf',
           originalFilename: 'd Infograf Students information and communication technology skills.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -3021,7 +3021,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-9-digipedagogiikka.m4a',
+          filePath: 'https://aoe.fi/files/sv-9-digipedagogiikka.m4a',
           originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
@@ -3029,7 +3029,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-9b-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-9b-digipedagogiikka.pdf',
           originalFilename: 'b Podcast Hurdana IKT-färdigheter behöver läraren text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -3037,7 +3037,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-9c-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-9c-digipedagogiikka.pdf',
           originalFilename: 'c Infograf Lärarens IKT färdigheter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -3045,7 +3045,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'http://aoe.fi/files/sv-9d-digipedagogiikka.pdf',
+          filePath: 'https://aoe.fi/files/sv-9d-digipedagogiikka.pdf',
           originalFilename: 'd Infograf Den studenrandes IKT färdigheter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
