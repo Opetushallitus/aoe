@@ -6,5 +6,7 @@
 
   <app-pdf-preview *ngSwitchCase="'pdf'" [material]="material"></app-pdf-preview>
 
+  <app-html-preview *ngSwitchCase="'html'" [material]="material"></app-html-preview>
+
   <em *ngSwitchDefault>{{ 'demo.educationalMaterial.preview.noSupportedFile' | translate }}</em>
 </div>
