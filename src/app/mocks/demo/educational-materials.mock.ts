@@ -3650,6 +3650,78 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
           format: 'word',
         },
       },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-2-robotiikka.docx',
+          originalFilename: '2. Robotiikka yhteiskunnassa.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-3-robotiikka.docx',
+          originalFilename: '3.1 Opetukseen ja opiskeluun soveltuvat laitteet.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-4-robotiikka.docx',
+          originalFilename: '3.2 Robotiikan oppimista tukeva opetus.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-5-robotiikka.docx',
+          originalFilename: '4. Harjoituksia - Pelit ja simulaatiot - etusivu.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-6-robotiikka.pptx',
+          originalFilename: '4.1 EV3_n ohjelmointi simulaattorissa.pptx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+          format: 'powerpoint',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-7-robotiikka.pptx',
+          originalFilename: '4.2 Micro_bitin ohjelmointi MakeCode_ssa.pptx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+          format: 'powerpoint',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-8-robotiikka.docx',
+          originalFilename: '4.3. Robotiikka-aiheisia pelejä.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-9-robotiikka.png',
+          originalFilename: 'Liite 1 - Robotiikan oppimisen polku.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-10-robotiikka.docx',
+          originalFilename: 'Liite 2_ Micro_bit KPS.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
     ],
     name: 'Johdatus robotiikan opetukseen',
     slug: 'johdatus-robotiikan-opetukseen',
