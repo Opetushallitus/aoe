@@ -321,6 +321,12 @@ h2 {
     color: $black;
     margin-bottom: .5rem;
   }
+
+  .list-files {
+    .btn {
+      padding: 0;
+    }
+  }
 }
 
 .material-sidebar-left {

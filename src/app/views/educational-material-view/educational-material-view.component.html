@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row mb-4">
       <div class="col">
-        <button class="btn btn-link" (click)="goBack()">&lsaquo; {{ 'common.goBack' | translate }}</button>
+        <button type="button" class="btn btn-link" (click)="goBack()">&lsaquo; {{ 'common.goBack' | translate }}</button>
       </div>
     </div>
 
@@ -65,7 +65,9 @@
         <div class="material-content">
           <div class="material-description">
             <p>{{ educationalMaterial.description }}</p>
-            <span *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</span>
+            <ul class="list-unstyled">
+              <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
+            </ul>
           </div>
 
           <div class="mb-4">
@@ -107,10 +109,12 @@
             <div class="col">
               <h2>{{ 'demo.educationalMaterial.files' | translate }}</h2>
 
-              <ul class="list-unstyled">
-                <li *ngFor="let material of educationalMaterial.materials" [ngClass]="material === previewMaterial ? 'font-weight-bold' : ''" (click)="setPreviewMaterial(material)">
-                  <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-                  {{ material?.file?.originalFilename }}
+              <ul class="list-unstyled list-files">
+                <li *ngFor="let material of educationalMaterial.materials">
+                  <button type="button" class="btn btn-link text-dark" [ngClass]="material === previewMaterial ? 'font-weight-bold' : ''" (click)="setPreviewMaterial(material)">
+                    <i class="fa fa-fw fa-file" aria-hidden="true"></i>
+                    {{ material?.file?.originalFilename }}
+                  </button>
                 </li>
               </ul>
             </div>
