@@ -55,6 +55,7 @@ import { AudioPreviewComponent } from './components/audio-preview/audio-preview.
 import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
 import { HtmlPreviewComponent } from './components/html-preview/html-preview.component';
 import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
+import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 
 @NgModule({
   imports: [
@@ -96,6 +97,7 @@ import { OfficePreviewComponent } from './components/office-preview/office-previ
     PdfPreviewComponent,
     HtmlPreviewComponent,
     OfficePreviewComponent,
+    ImagePreviewComponent,
   ],
   providers: [{
     provide: LocationStrategy,
