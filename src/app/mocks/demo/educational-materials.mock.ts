@@ -3633,7 +3633,24 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     id: 34,
     img: 'assets/img/robotiikka.jpg',
     download: 'https://aoe.fi/files/fi-robotiikka.zip',
-    materials: [],
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-0-robotiikka.docx',
+          originalFilename: '0. Sisällys.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-1-robotiikka.docx',
+          originalFilename: '1. Yleiskatsaus automaatioon ja robotiikkaan.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          format: 'word',
+        },
+      },
+    ],
     name: 'Johdatus robotiikan opetukseen',
     slug: 'johdatus-robotiikan-opetukseen',
     dateCreated: new Date(),
@@ -3821,6 +3838,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
+          filePath: 'https://aoe.fi/files/fi-tekoaly.pdf',
           originalFilename: 'fi-tekoaly.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -3894,6 +3912,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
+          filePath: 'https://aoe.fi/files/en-tekoaly.pdf',
           originalFilename: 'en-tekoaly.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
@@ -3965,6 +3984,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     materials: [
       {
         file: {
+          filePath: 'https://aoe.fi/files/sv-tekoaly.pdf',
           originalFilename: 'sv-tekoaly.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
