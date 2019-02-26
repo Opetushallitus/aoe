@@ -8,5 +8,7 @@
 
   <app-html-preview *ngSwitchCase="'html'" [material]="material"></app-html-preview>
 
+  <app-office-preview *ngSwitchCase="'word' || 'powerpoint'" [material]="material"></app-office-preview>
+
   <em *ngSwitchDefault>{{ 'demo.educationalMaterial.preview.noSupportedFile' | translate }}</em>
 </div>
