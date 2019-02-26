@@ -8,6 +8,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 1,
     img: 'assets/img/1-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/fi-1-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -94,6 +95,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 2,
     img: 'assets/img/1-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/en-1-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -180,6 +182,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 3,
     img: 'assets/img/1-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/sv-1-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -266,6 +269,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 2
   {
     id: 4,
+    download: 'https://aoe.fi/files/fi-2-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -352,6 +356,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 5,
+    download: 'https://aoe.fi/files/en-2-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -438,6 +443,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 6,
+    download: 'https://aoe.fi/files/sv-2-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -525,6 +531,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 3
   {
     id: 7,
+    download: 'https://aoe.fi/files/fi-3-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -624,6 +631,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 8,
+    download: 'https://aoe.fi/files/en-3-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -721,6 +729,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 9,
+    download: 'https://aoe.fi/files/sv-3-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -819,6 +828,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 4
   {
     id: 10,
+    download: 'https://aoe.fi/files/fi-4-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1002,6 +1012,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 11,
+    download: 'https://aoe.fi/files/en-4-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1183,6 +1194,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 12,
+    download: 'https://aoe.fi/files/sv-4-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1367,6 +1379,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 13,
     img: 'assets/img/5-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/fi-5-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1471,6 +1484,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 14,
     img: 'assets/img/5-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/en-5-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1577,6 +1591,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 15,
     img: 'assets/img/5-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/sv-5-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1684,6 +1699,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 16,
     img: 'assets/img/6-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/fi-6-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -1870,6 +1886,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 17,
     img: 'assets/img/6-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/en-6-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2055,6 +2072,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 18,
     img: 'assets/img/6-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/sv-6-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2242,6 +2260,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 19,
     img: 'assets/img/7-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/fi-7-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2327,6 +2346,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 20,
     img: 'assets/img/7-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/en-7-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2411,6 +2431,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 21,
     img: 'assets/img/7-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/sv-7-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2497,6 +2518,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 22,
     img: 'assets/img/8-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/fi-8-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2602,6 +2624,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 23,
     img: 'assets/img/8-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/en-8-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2708,6 +2731,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 24,
     img: 'assets/img/8-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/sv-8-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2814,6 +2838,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 25,
     img: 'assets/img/9-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/fi-9-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -2916,6 +2941,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 26,
     img: 'assets/img/9-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/en-9-digipedagogiikka.zip',
     materials: [
       {
         file: {
@@ -3018,6 +3044,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 27,
     img: 'assets/img/9-digipedagogiikka.jpg',
+    download: 'https://aoe.fi/files/sv-9-digipedagogiikka.zip',
     materials: [
       {
         file: {
