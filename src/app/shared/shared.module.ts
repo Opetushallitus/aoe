@@ -5,6 +5,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
+import { SafePipe } from '../pipes/safe.pipe';
 
 @NgModule({
   imports: [
@@ -18,12 +19,14 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
     }),
   ],
   declarations: [
-    TruncatePipe
+    TruncatePipe,
+    SafePipe,
   ],
   exports: [
     CommonModule,
     TranslateModule,
-    TruncatePipe
+    TruncatePipe,
+    SafePipe,
   ],
 })
 
