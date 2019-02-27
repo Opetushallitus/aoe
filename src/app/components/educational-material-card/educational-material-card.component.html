@@ -10,15 +10,14 @@
   </a>
 
   <div class="tags">
-    <a href="#" class="btn btn-light"
-       *ngFor="let keyword of educationalMaterial.keywords">
+    <a *ngFor="let keyword of keywords" href="#" class="btn btn-light">
       {{ keyword.value }}
     </a>
   </div>
 
   <div class="tags">
     <a href="#" class="btn btn-light"
-       *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
+       *ngFor="let educationalLevel of educationalLevels">
       {{ educationalLevel.value }}
     </a>
   </div>
