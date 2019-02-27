@@ -1,24 +1,27 @@
 <div class="card-educational-material">
-  <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]" class="educational-material-view-link">
-    <div class="media">
-      <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="mr-3" alt="...">
-      <div class="media-body">
-        <h5> {{ educationalMaterial.name }}</h5>
-        {{ educationalMaterial.description | truncate:[75] }}
+  <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]" class="header">
+    <div class="row">
+      <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left">
+        <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="img-fluid" alt="...">
+      </div>
+
+      <div class="col-12 col-sm-8 col-md-12 col-lg-7">
+        <h5>{{ educationalMaterial.name }}</h5>
+        <p>{{ educationalMaterial.description | truncate:[75] }}</p>
       </div>
     </div>
   </a>
 
   <div class="tags">
     <a *ngFor="let keyword of keywords" href="#" class="btn btn-light">
-      {{ keyword.value }}
+      {{ keyword['value'] }}
     </a>
   </div>
 
   <div class="tags">
     <a href="#" class="btn btn-light"
        *ngFor="let educationalLevel of educationalLevels">
-      {{ educationalLevel.value }}
+      {{ educationalLevel['value'] }}
     </a>
   </div>
 
