@@ -217,6 +217,20 @@ h2 {
   margin-bottom: 1rem;
   padding: 1rem 1rem .5rem;
 
+  .educational-material-view-link {
+    &:hover {
+      text-decoration: none;
+
+      .media-body {
+        color: rgba($media-body-color, .75);
+
+        h5 {
+          color: rgba($body-color, .75);
+        }
+      }
+    }
+  }
+
   .media {
     border-bottom: 2px solid;
     border-color: $body-bg;

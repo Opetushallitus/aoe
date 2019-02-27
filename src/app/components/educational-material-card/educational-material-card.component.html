@@ -1,11 +1,13 @@
 <div class="card-educational-material">
-  <div class="media">
-    <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="mr-3" alt="...">
-    <div class="media-body">
-      <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]"><h5> {{ educationalMaterial.name }}</h5></a>
-      {{ educationalMaterial.description | truncate:[75] }}
+  <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]" class="educational-material-view-link">
+    <div class="media">
+      <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="mr-3" alt="...">
+      <div class="media-body">
+        <h5> {{ educationalMaterial.name }}</h5>
+        {{ educationalMaterial.description | truncate:[75] }}
+      </div>
     </div>
-  </div>
+  </a>
 
   <div class="tags">
     <a href="#" class="btn btn-light"
