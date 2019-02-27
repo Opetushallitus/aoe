@@ -1,9 +1,9 @@
 {
   "common": {
-    "goBack": "Back"
+    "goBack": "Tillbaka"
   },
   "navigation": {
-    "home": "Home",
+    "home": "Framsida",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
@@ -11,36 +11,36 @@
     }
   },
   "home": {
-    "title": "Welcome to aoe!",
+    "title": "Välkommen till aoe!",
     "search": {
-      "title": "What do you want to learn?"
+      "title": "Vad vill du lärä dig?"
     }
   },
   "demo": {
     "materialList": {
-      "title": "Open educational materials"
+      "title": "Öppna utbildningsmaterialer"
     },
     "educationalMaterial": {
-      "download": "Download",
-      "viewCount": "views",
-      "downloadCount": "downloads",
-      "eduLevel": "Educational level",
-      "eduSubject": "Educational subject",
+      "download": "Ladda ner",
+      "viewCount": "sidvisningar ",
+      "downloadCount": "nedladdningar",
+      "eduLevel": "Utbildningsnivå",
+      "eduSubject": "Undervisningsämne",
       "subject": "pedagogik",
-      "inLanguage": "Language",
-      "timeRequired": "Time required",
-      "files": "Files",
+      "inLanguage": "Språk",
+      "timeRequired": "Tiden som krävs",
+      "files": "Filer",
       "userMetadata": "User metadata",
       "userReviews": "User reviews",
       "rating": "Rating",
-      "addReview": "Add review",
-      "comments": "Comments",
-      "showAllComments": "Show all comments",
+      "addReview": "Lägga till kommentar",
+      "comments": "Kommentarer",
+      "showAllComments": "Visa alla kommentarer",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
-        "noSupportedFile": "Educational material doesn't have previewable file.",
-        "openInNewTab": "Open educational material in a new tab"
+        "noSupportedFile": "Utbildningsmaterialen kan inte förhandsgranskas",
+        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik"
       }
     }
   }
