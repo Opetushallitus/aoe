@@ -3,14 +3,6 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true
-};
-
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 import { AppComponent } from './app.component';
@@ -37,7 +29,6 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -64,10 +55,8 @@ import { ImagePreviewComponent } from './components/image-preview/image-preview.
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppSidebarModule,
-    PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule,
     SharedModule,
     HttpClientModule,
     TranslateModule.forRoot({
