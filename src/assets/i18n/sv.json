@@ -39,7 +39,7 @@
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
-        "noSupportedFile": "Utbildningsmaterialen kan inte förhandsgranskas",
+        "fileFormatNotSupported": "Filen kan inte förhandsgranskas.",
         "openInNewTab": "Öppna utbildningsmaterialen på en ny flik"
       }
     }
