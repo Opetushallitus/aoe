@@ -1,4 +1,3 @@
-<!-- @todo: Handle html's and office documents (doc, docx, ppt, pptx) -->
 <div class="material-preview" [ngSwitch]="material?.file?.format">
   <app-video-preview *ngSwitchCase="'video'" [material]="material"></app-video-preview>
 
@@ -8,7 +7,7 @@
 
   <app-html-preview *ngSwitchCase="'html'" [material]="material"></app-html-preview>
 
-  <app-office-preview *ngSwitchCase="'word' || 'powerpoint'" [material]="material"></app-office-preview>
+  <!--<app-office-preview *ngSwitchCase="'word' || 'powerpoint'" [material]="material"></app-office-preview>-->
 
   <app-image-preview *ngSwitchCase="'image'" [material]="material"></app-image-preview>
 
