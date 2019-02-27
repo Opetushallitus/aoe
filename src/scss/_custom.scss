@@ -1,9 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 
-
 // Custom styles
-
-
 $form-border-color: #DEDEDE;
 $input-label-color: #464646;
 $navbar-bg-hover: #1D661F;
@@ -25,29 +22,24 @@ body {
   font-size: 16px;
 }
 
-
 .font-weight-medium {
   font-weight: 500;
 }
-
 
 .font-navbar {
   @include font-size(15);
   font-weight: 500;
 }
 
-
 .app-footer {
   background: $gray-800;
   color: #fff;
-
 }
 
 .base-heading-style {
   font-weight: 400;
   @include font-size(24);
 }
-
 
 // Forms
 .form-group {
