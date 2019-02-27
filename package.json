@@ -20,6 +20,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start-ssl": "ng serve --ssl=true --sslCert=./ssl/server.crt --sslKey=./ssl/server.key",
+    "start-wo-sourcemaps": "ng serve --sourceMap=false --ssl=true --sslCert=./ssl/server.crt --sslKey=./ssl/server.key",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "test": "ng test",
