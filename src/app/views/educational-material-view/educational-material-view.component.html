@@ -70,6 +70,10 @@
             </ul>
           </div>
 
+          <div class="license">
+            <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
+          </div>
+
           <div class="mb-4">
             <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
           </div>
@@ -79,8 +83,7 @@
               <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
               <div class="tags">
-                <button type="button" class="btn btn-light"
-                   *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
+                <button *ngFor="let educationalLevel of educationalMaterial.educationalLevel" type="button" class="btn btn-light disabled">
                   {{ educationalLevel.value }}
                 </button>
               </div>
@@ -90,7 +93,7 @@
               <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
 
               <div class="tags">
-                <button type="button" class="btn btn-light">{{ 'demo.educationalMaterial.subject' | translate }}</button>
+                <button type="button" class="btn btn-light disabled">{{ 'demo.educationalMaterial.subject' | translate }}</button>
               </div>
             </div>
 
@@ -101,7 +104,7 @@
 
             <div class="col-12 col-md-2">
               <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
-              {{ educationalMaterial.timeRequired.value }}
+              -
             </div>
           </div>
 

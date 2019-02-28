@@ -203,6 +203,13 @@ h2 {
   }
 }
 
+// Temp
+.btn {
+  &.disabled {
+    opacity: 1;
+  }
+}
+
 // Oppimateriaali card
 .card-educational-material {
   background-color: map_get($theme-colors, 'light');
@@ -315,6 +322,11 @@ h2 {
   h2 {
     color: $black;
     margin-bottom: .5rem;
+  }
+
+  .license {
+    font-weight: 700;
+    margin-bottom: 1rem;
   }
 
   .list-files {
