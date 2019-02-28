@@ -7,6 +7,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 1
   {
     id: 1,
+    specialId: 1,
     img: 'assets/img/1-digipedagogiikka.png',
     download: 'https://aoe.fi/files/fi-1-digipedagogiikka.zip',
     materials: [
@@ -94,6 +95,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 2,
+    specialId: 1,
     img: 'assets/img/1-digipedagogiikka.png',
     download: 'https://aoe.fi/files/en-1-digipedagogiikka.zip',
     materials: [
@@ -181,6 +183,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 3,
+    specialId: 1,
     img: 'assets/img/1-digipedagogiikka.png',
     download: 'https://aoe.fi/files/sv-1-digipedagogiikka.zip',
     materials: [
@@ -269,6 +272,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 2
   {
     id: 4,
+    specialId: 2,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/fi-2-digipedagogiikka.zip',
     materials: [
       {
@@ -356,6 +361,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 5,
+    specialId: 2,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/en-2-digipedagogiikka.zip',
     materials: [
       {
@@ -443,6 +450,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 6,
+    specialId: 2,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/sv-2-digipedagogiikka.zip',
     materials: [
       {
@@ -531,6 +540,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 3
   {
     id: 7,
+    specialId: 3,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/fi-3-digipedagogiikka.zip',
     materials: [
       {
@@ -631,6 +642,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 8,
+    specialId: 3,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/en-3-digipedagogiikka.zip',
     materials: [
       {
@@ -729,6 +742,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 9,
+    specialId: 3,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/sv-3-digipedagogiikka.zip',
     materials: [
       {
@@ -828,6 +843,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 4
   {
     id: 10,
+    specialId: 4,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/fi-4-digipedagogiikka.zip',
     materials: [
       {
@@ -959,9 +976,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'käänteinen luokkahuoneopetus' },
     ],
     learningResourceType: [
+      'video',
       'audio',
       'exercise',
-      'video',
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -1012,6 +1029,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 11,
+    specialId: 4,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/en-4-digipedagogiikka.zip',
     materials: [
       {
@@ -1141,9 +1160,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'multidiscplinary learning' },
     ],
     learningResourceType: [
+      'video',
       'audio',
       'exercise',
-      'video',
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -1194,6 +1213,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 12,
+    specialId: 4,
+    img: 'assets/img/video.png',
     download: 'https://aoe.fi/files/sv-4-digipedagogiikka.zip',
     materials: [
       {
@@ -1324,9 +1345,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'casemetodik' },
     ],
     learningResourceType: [
+      'video',
       'audio',
       'exercise',
-      'video',
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -1378,6 +1399,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 5
   {
     id: 13,
+    specialId: 5,
     img: 'assets/img/5-digipedagogiikka.png',
     download: 'https://aoe.fi/files/fi-5-digipedagogiikka.zip',
     materials: [
@@ -1483,6 +1505,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 14,
+    specialId: 5,
     img: 'assets/img/5-digipedagogiikka.png',
     download: 'https://aoe.fi/files/en-5-digipedagogiikka.zip',
     materials: [
@@ -1590,6 +1613,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 15,
+    specialId: 5,
     img: 'assets/img/5-digipedagogiikka.png',
     download: 'https://aoe.fi/files/sv-5-digipedagogiikka.zip',
     materials: [
@@ -1698,6 +1722,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 6
   {
     id: 16,
+    specialId: 6,
     img: 'assets/img/6-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/fi-6-digipedagogiikka.zip',
     materials: [
@@ -1885,6 +1910,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 17,
+    specialId: 6,
     img: 'assets/img/6-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/en-6-digipedagogiikka.zip',
     materials: [
@@ -2071,6 +2097,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 18,
+    specialId: 6,
     img: 'assets/img/6-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/sv-6-digipedagogiikka.zip',
     materials: [
@@ -2259,6 +2286,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 7
   {
     id: 19,
+    specialId: 7,
     img: 'assets/img/7-digipedagogiikka.png',
     download: 'https://aoe.fi/files/fi-7-digipedagogiikka.zip',
     materials: [
@@ -2345,6 +2373,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 20,
+    specialId: 7,
     img: 'assets/img/7-digipedagogiikka.png',
     download: 'https://aoe.fi/files/en-7-digipedagogiikka.zip',
     materials: [
@@ -2430,6 +2459,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 21,
+    specialId: 7,
     img: 'assets/img/7-digipedagogiikka.png',
     download: 'https://aoe.fi/files/sv-7-digipedagogiikka.zip',
     materials: [
@@ -2517,6 +2547,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 8
   {
     id: 22,
+    specialId: 8,
     img: 'assets/img/8-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/fi-8-digipedagogiikka.zip',
     materials: [
@@ -2623,6 +2654,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 23,
+    specialId: 8,
     img: 'assets/img/8-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/en-8-digipedagogiikka.zip',
     materials: [
@@ -2730,6 +2762,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 24,
+    specialId: 8,
     img: 'assets/img/8-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/sv-8-digipedagogiikka.zip',
     materials: [
@@ -2837,6 +2870,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Digipedagogiikka 9
   {
     id: 25,
+    specialId: 9,
     img: 'assets/img/9-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/fi-9-digipedagogiikka.zip',
     materials: [
@@ -2940,6 +2974,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 26,
+    specialId: 9,
     img: 'assets/img/9-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/en-9-digipedagogiikka.zip',
     materials: [
@@ -3043,6 +3078,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 27,
+    specialId: 9,
     img: 'assets/img/9-digipedagogiikka.jpg',
     download: 'https://aoe.fi/files/sv-9-digipedagogiikka.zip',
     materials: [
@@ -3148,6 +3184,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Python
   {
     id: 28,
+    specialId: 10,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/fi-python.zip',
     materials: [
       {
@@ -3231,6 +3269,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 29,
+    specialId: 10,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/en-python.zip',
     materials: [
       {
@@ -3315,6 +3355,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 30,
+    specialId: 10,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/sv-python.zip',
     materials: [
       {
@@ -3390,6 +3432,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Scratch
   {
     id: 31,
+    specialId: 11,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/fi-scratch.zip',
     materials: [
       {
@@ -3472,6 +3516,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 32,
+    specialId: 11,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/en-scratch.zip',
     materials: [
       {
@@ -3556,6 +3602,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 33,
+    specialId: 11,
+    img: 'assets/img/kurssi.png',
     download: 'https://aoe.fi/files/sv-scratch.zip',
     materials: [
       {
@@ -3631,79 +3679,80 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // Robotics
   {
     id: 34,
+    specialId: 12,
     img: 'assets/img/robotiikka.jpg',
     download: 'https://aoe.fi/files/fi-robotiikka.zip',
     materials: [
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-0-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-0-robotiikka.pdf',
           originalFilename: '0. Sisällys.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-1-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-1-robotiikka.pdf',
           originalFilename: '1. Yleiskatsaus automaatioon ja robotiikkaan.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-2-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-2-robotiikka.pdf',
           originalFilename: '2. Robotiikka yhteiskunnassa.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-3-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-3-robotiikka.pdf',
           originalFilename: '3.1 Opetukseen ja opiskeluun soveltuvat laitteet.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-4-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-4-robotiikka.pdf',
           originalFilename: '3.2 Robotiikan oppimista tukeva opetus.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-5-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-5-robotiikka.pdf',
           originalFilename: '4. Harjoituksia - Pelit ja simulaatiot - etusivu.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-6-robotiikka.pptx',
+          filePath: 'https://aoe.fi/files/fi-6-robotiikka.pdf',
           originalFilename: '4.1 EV3_n ohjelmointi simulaattorissa.pptx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-          format: 'powerpoint',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-7-robotiikka.pptx',
+          filePath: 'https://aoe.fi/files/fi-7-robotiikka.pdf',
           originalFilename: '4.2 Micro_bitin ohjelmointi MakeCode_ssa.pptx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-          format: 'powerpoint',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-8-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-8-robotiikka.pdf',
           originalFilename: '4.3. Robotiikka-aiheisia pelejä.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
       {
@@ -3716,10 +3765,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
       {
         file: {
-          filePath: 'https://aoe.fi/files/fi-10-robotiikka.docx',
+          filePath: 'https://aoe.fi/files/fi-10-robotiikka.pdf',
           originalFilename: 'Liite 2_ Micro_bit KPS.docx',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-          format: 'word',
+          mimeType: 'application/pdf',
+          format: 'pdf',
         },
       },
     ],
@@ -3782,9 +3831,91 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 35,
+    specialId: 12,
     img: 'assets/img/robotiikka.jpg',
     download: 'https://aoe.fi/files/en-robotiikka.zip',
-    materials: [],
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-1-robotiikka.pdf',
+          originalFilename: '1. Overview of automation and robotics.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-2-robotiikka.pdf',
+          originalFilename: '2. Robotics and the society.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-3-robotiikka.pdf',
+          originalFilename: '3.1 Devices and programming environments suited for educational use.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-4-robotiikka.pdf',
+          originalFilename: '3.2 Teaching as support for learning robotics.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-5-robotiikka.pdf',
+          originalFilename: '4. Robotics exercises without robotics devices, front page.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-6-robotiikka.pdf',
+          originalFilename: '4.1 EV3 programming in a simulator.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-7-robotiikka.pdf',
+          originalFilename: '4.2 Micro_bit programming in MakeCode.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-8-robotiikka.pdf',
+          originalFilename: '4.3. Robotics games.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-9-robotiikka.jpg',
+          originalFilename: 'Appendix 1 Robotics learning pathway.jpg',
+          mimeType: 'image/jpeg',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-10-robotiikka.pdf',
+          originalFilename: 'Appendix 2 Micro_bit Rock Paper Scissors.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Introduction to teaching robotics',
     slug: 'introduction-to-teaching-robotics',
     dateCreated: new Date(),
@@ -3843,9 +3974,99 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 36,
+    specialId: 12,
     img: 'assets/img/robotiikka.jpg',
     download: 'https://aoe.fi/files/sv-robotiikka.zip',
-    materials: [],
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-0-robotiikka.pdf',
+          originalFilename: '0. Sisällys.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-1-robotiikka.pdf',
+          originalFilename: '1. Yleiskatsaus automaatioon ja robotiikkaan.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-2-robotiikka.pdf',
+          originalFilename: '2. Robotiikka yhteiskunnassa.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-3-robotiikka.pdf',
+          originalFilename: '3.1 Opetukseen ja opiskeluun soveltuvat laitteet.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-4-robotiikka.pdf',
+          originalFilename: '3.2 Robotiikan oppimista tukeva opetus.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-5-robotiikka.pdf',
+          originalFilename: '4. Harjoituksia - Pelit ja simulaatiot - etusivu.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-6-robotiikka.pdf',
+          originalFilename: '4.1 EV3_n ohjelmointi simulaattorissa.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-7-robotiikka.pdf',
+          originalFilename: '4.2 Micro_bitin ohjelmointi MakeCode_ssa.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-8-robotiikka.pdf',
+          originalFilename: '4.3. Robotiikka-aiheisia pelejä.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-9-robotiikka.pdf',
+          originalFilename: 'Liite 1 - Robotiikan oppimisen polku.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-10-robotiikka.pdf',
+          originalFilename: 'Liite 2_ Micro_bit KPS.docx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
     name: 'Introduktion till undervisningen i robotik',
     slug: 'introduktion-till-undervisningen-i-robotik',
     dateCreated: new Date(),
@@ -3905,6 +4126,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   // AI
   {
     id: 37,
+    specialId: 13,
     img: 'assets/img/tekoaly.jpg',
     download: 'https://aoe.fi/files/fi-tekoaly.pdf',
     materials: [
@@ -3979,6 +4201,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 38,
+    specialId: 13,
     img: 'assets/img/tekoaly.jpg',
     download: 'https://aoe.fi/files/en-tekoaly.pdf',
     materials: [
@@ -4051,6 +4274,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   },
   {
     id: 39,
+    specialId: 13,
     img: 'assets/img/tekoaly.jpg',
     download: 'https://aoe.fi/files/sv-tekoaly.pdf',
     materials: [
