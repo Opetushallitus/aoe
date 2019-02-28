@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
+<nav class="navbar navbar-expand navbar-dark bg-primary" id="main-navigation">
   <div class="container">
     <a class="navbar-brand font-weight-bold font-4xl" [routerLink]="['/']">aoe.fi</a>
 
@@ -7,13 +7,10 @@
     </button>
 
     <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav d-none d-sm-flex">
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/etusivu']" [routerLinkActive]="['active']">{{ 'navigation.home' | translate }}</a>
         </li>
-        <!--<li class="nav-item">
-          <a class="nav-link" [routerLink]="['/ohje']" [routerLinkActive]="['active']">{{ 'navigation.help' | translate }}</a>
-        </li>-->
       </ul>
 
       <ul class="nav ml-auto nav-languages">
