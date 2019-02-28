@@ -299,10 +299,6 @@ h2 {
   h4 {
     @include font-size(14);
   }
-
-  .tags {
-    margin-bottom: 1rem;
-  }
 }
 
 .material-actions {
@@ -333,6 +329,12 @@ h2 {
     .btn {
       padding: 0;
     }
+  }
+}
+
+.material-metadata {
+  > [class^="col"] {
+    margin-bottom: 1rem;
   }
 }
 
