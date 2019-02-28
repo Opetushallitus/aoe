@@ -44,15 +44,15 @@ export const routes: Routes = [
         path: 'etusivu',
         loadChildren: './views/mainView/main-view.module#MainViewModule'
       },
-      {
+      /*{
         path: 'lisaa-materiaaleja',
         component: AddMaterialComponent
-      },
+      },*/
       {
-        path: 'demo/materiaali/:id/:slug',
+        path: 'demo/materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent
       },
-      {
+      /*{
         path: 'ohje',
         component: HelpViewComponent
       },
@@ -67,7 +67,7 @@ export const routes: Routes = [
       {
         path: 'saavutettavuusseloste',
         component: AccessibilityPolicyViewComponent
-      }
+      }*/
     ]
   },
   {
