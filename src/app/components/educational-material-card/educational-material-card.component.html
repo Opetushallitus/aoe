@@ -1,5 +1,5 @@
 <div class="card-educational-material">
-  <a [routerLink]="['/demo/materiaali', educationalMaterial.id, educationalMaterial.slug]" class="header">
+  <a [routerLink]="['/demo/materiaali', educationalMaterial.specialId, educationalMaterial.slug]" class="header">
     <div class="row">
       <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left">
         <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="img-fluid" alt="...">
@@ -13,27 +13,26 @@
   </a>
 
   <div class="tags">
-    <a *ngFor="let keyword of keywords" href="#" class="btn btn-light">
+    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled">
       {{ keyword['value'] }}
-    </a>
+    </button>
   </div>
 
   <div class="tags">
-    <a href="#" class="btn btn-light"
-       *ngFor="let educationalLevel of educationalLevels">
+    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled">
       {{ educationalLevel['value'] }}
-    </a>
+    </button>
   </div>
 
   <div class="details d-flex flex-row">
-    <div class="comments">0</div>
+    <!--<div class="comments">0</div>
     <div class="rating">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
       <img src="assets/img/icons/ic_star.svg" alt="...">
-    </div>
+    </div>-->
     <div class="license">
       <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
     </div>
