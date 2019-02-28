@@ -31,6 +31,10 @@ export class EducationalMaterialCardComponent implements OnInit {
       }
     });
 
+    if (values.length < input.length) {
+      values.push({ value: `+${input.length - values.length}` });
+    }
+
     return values;
   }
 }
