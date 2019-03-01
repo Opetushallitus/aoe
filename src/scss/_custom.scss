@@ -333,8 +333,23 @@ h2 {
 }
 
 .material-metadata {
-  > [class^="col"] {
+  [class^="col"] {
     margin-bottom: 1rem;
+  }
+
+  .panel-group {
+    .panel-heading {
+      border-bottom: 0;
+    }
+
+    .accordion-toggle {
+      padding: 0;
+    }
+
+    .panel-body {
+      color: $body-color;
+      padding: 0;
+    }
   }
 }
 
