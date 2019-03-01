@@ -65,7 +65,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
         educationalFramework: 'esimerkki',
         teaches: [],
-        complexity: '',
+        complexity: 'a',
       },
     ],
     educationalRole: [
