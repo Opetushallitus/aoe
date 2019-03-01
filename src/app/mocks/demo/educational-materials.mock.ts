@@ -36,12 +36,12 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Digitaalinen pedagogiikka on tieto- ja viestintäteknisten välineiden ja sovellusten, verkko-oppimisympäristöjen ja sosiaalisen median mielekästä käyttöä opetuksessa, ohjauksessa, oppimisessa ja opiskelussa. Digitaalisessa pedagogiikassa on sopivassa suhteessa niin tekniikkaa kuin pedagogiikkaa. Verkkopedagoginen osaaminen, omat kokemukset, opiskelijoiden taidot ja laitteet sekä käytettävissä oleva tekniikka vaikuttavat siihen millaista digitaalista pedagogiikkaa opettaja omassa työssään toteuttaa.',
+    description: 'Digitaalinen pedagogiikka on tieto- ja viestintteknisten vlineiden ja sovellusten, verkko-oppimisympristjen ja sosiaalisen median mielekst kytt opetuksessa, ohjauksessa, oppimisessa ja opiskelussa. Digitaalisessa pedagogiikassa on sopivassa suhteessa niin tekniikkaa kuin pedagogiikkaa. Verkkopedagoginen osaaminen, omat kokemukset, opiskelijoiden taidot ja laitteet sek kytettviss oleva tekniikka vaikuttavat siihen millaista digitaalista pedagogiikkaa opettaja omassa tyssn toteuttaa.',
     keywords: [
       { value: 'digipedagogiikka' },
       { value: 'pedagogiikka' },
       { value: 'TVT' },
-      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'tieto- ja viestinttekniikka' },
     ],
     learningResourceType: [
       'audio',
@@ -49,7 +49,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'omaehtoinen osaamisen kehittäminen' },
+      { value: 'omaehtoinen osaamisen kehittminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -70,7 +70,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -86,7 +86,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -124,7 +124,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Digital pedagogy is the meaningful use of information and communication technology and applications, web-based learning environments and social media in teaching, guiding, learning and studying. Digital pedagogy contains a relevant proportion of both technology and pedagogy. Web-based knowhow, our experiences, the students ‘skills and equipment and the available technology all impact on the kind of digital pedagogy a teacher will implement in his/her own work.',
+    description: 'Digital pedagogy is the meaningful use of information and communication technology and applications, web-based learning environments and social media in teaching, guiding, learning and studying. Digital pedagogy contains a relevant proportion of both technology and pedagogy. Web-based knowhow, our experiences, the students skills and equipment and the available technology all impact on the kind of digital pedagogy a teacher will implement in his/her own work.',
     keywords: [
       { value: 'digital pedagogy' },
       { value: 'pedagogy' },
@@ -212,7 +212,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Digital pedagogik innefattar användningen av informations- och kommunikationstekniska verktyg och applikationer, nätbaserade lärandemiljöer och sociala medier i undervisning, handledning och studier. Digital pedagogik har en god balans mellan teknik och pedagogik. Hur läraren använder digital pedagogik i det egna arbetet beror på nätpedagogisk kompetens, egna erfarenheter, studerandenas färdigheter och apparater, och tillgänglig teknik.',
+    description: 'Digital pedagogik innefattar anvndningen av informations- och kommunikationstekniska verktyg och applikationer, ntbaserade lrandemiljer och sociala medier i undervisning, handledning och studier. Digital pedagogik har en god balans mellan teknik och pedagogik. Hur lraren anvnder digital pedagogik i det egna arbetet beror p ntpedagogisk kompetens, egna erfarenheter, studerandenas frdigheter och apparater, och tillgnglig teknik.',
     keywords: [
       { value: 'digipedagogik' },
       { value: 'pedagogik' },
@@ -225,10 +225,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'självständig utveckling av kompetens' },
+      { value: 'sjlvstndig utveckling av kompetens' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -245,17 +245,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -301,12 +301,12 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Digitaalisuus ja teknologia kouluissa tarkoittaa mobiilia Internetiä, sosiaalista mediaa, pilvipalveluita, dataa ja datan käyttöä. Se tarkoittaa myös järjestelmiä, tietokoneita, ohjelmia, sovelluksia, välineitä sekä oppimisalustoja sekä opetustilojen varustamista. Koulussa pohditaan mitä digitaalisuus tarkoittaa ja mitä siltä halutaan.',
+    description: 'Digitaalisuus ja teknologia kouluissa tarkoittaa mobiilia Interneti, sosiaalista mediaa, pilvipalveluita, dataa ja datan kytt. Se tarkoittaa mys jrjestelmi, tietokoneita, ohjelmia, sovelluksia, vlineit sek oppimisalustoja sek opetustilojen varustamista. Koulussa pohditaan mit digitaalisuus tarkoittaa ja mit silt halutaan.',
     keywords: [
       { value: 'digipedagogiikka' },
       { value: 'digitaalisuus' },
       { value: 'TVT' },
-      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'tieto- ja viestinttekniikka' },
       { value: 'teknologia' },
     ],
     learningResourceType: [
@@ -315,7 +315,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -336,7 +336,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -352,7 +352,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -479,7 +479,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Digitalisering och teknologi i skolan betyder mobila internet, sociala medier, molntjänster, data och ut njutning av data. Det betyder olika system, datamaskiner, program, applikationer, verktyg och lär plattformar. I skolan diskuteras vad digitaliseringen betyder och vad vill man av det.',
+    description: 'Digitalisering och teknologi i skolan betyder mobila internet, sociala medier, molntjnster, data och ut njutning av data. Det betyder olika system, datamaskiner, program, applikationer, verktyg och lr plattformar. I skolan diskuteras vad digitaliseringen betyder och vad vill man av det.',
     keywords: [
       { value: 'digipedagogik' },
       { value: 'digital' },
@@ -496,7 +496,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -513,17 +513,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -577,18 +577,18 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Learning Design – opetuksen ja oppimisen suunnittelu tarkoittaa sekä opettajan opetuksen suunnittelua ja valmistelua että opiskelijan tavoitteellisen oppimisen suunnittelua. Tämä sisältää oppimisprosessin, oppimistilanteiden, oppimisaktiviteettien mm. oppimistehtävien sekä työskentelyohjeiden, ja ohjauksen suunnittelua. Se on myös oppimisympäristöjen, digitaalisten oppimisen välineiden ja menetelmien valintaa.',
+    description: 'Learning Design  opetuksen ja oppimisen suunnittelu tarkoittaa sek opettajan opetuksen suunnittelua ja valmistelua ett opiskelijan tavoitteellisen oppimisen suunnittelua. Tm sislt oppimisprosessin, oppimistilanteiden, oppimisaktiviteettien mm. oppimistehtvien sek tyskentelyohjeiden, ja ohjauksen suunnittelua. Se on mys oppimisympristjen, digitaalisten oppimisen vlineiden ja menetelmien valintaa.',
     keywords: [
       { value: 'oppiminen' },
       { value: 'opetus' },
       { value: 'oppimisprosessi' },
-      { value: 'oppimistehtävä' },
+      { value: 'oppimistehtv' },
       { value: 'oppimisaktiviteetti' },
       { value: 'ohjaus' },
       { value: 'pedagogiikka' },
       { value: 'digipedagogiikka' },
       { value: 'aktivointi' },
-      { value: 'oppimisympäristö' },
+      { value: 'oppimisymprist' },
     ],
     learningResourceType: [
       'video',
@@ -596,7 +596,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -617,7 +617,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -633,7 +633,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -679,7 +679,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Learning Design means planning teaching and student’s goal-oriented learning. This includes designing the learning process, learning situations, learning activities for example learning assignments and instructions, and guidance. It includes also choices of learning environments and digital learning tools and means.',
+    description: 'Learning Design means planning teaching and students goal-oriented learning. This includes designing the learning process, learning situations, learning activities for example learning assignments and instructions, and guidance. It includes also choices of learning environments and digital learning tools and means.',
     keywords: [
       { value: 'learning' },
       { value: 'teaching' },
@@ -749,7 +749,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3-digipedagogiikka.mp4',
-          originalFilename: 'A Video Planering av undervisning och lärande.mp4',
+          originalFilename: 'A Video Planering av undervisning och larande.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -757,7 +757,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3b-digipedagogiikka.pdf',
-          originalFilename: 'b Video Planering av undervisning och lärande text.pdf',
+          originalFilename: 'b Video Planering av undervisning och larande text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -765,13 +765,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3c-digipedagogiikka.pdf',
-          originalFilename: 'c Infograf Planering av undervisning och lärande.pdf',
+          originalFilename: 'c Infograf Planering av undervisning och larande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Planering av undevisning och lärande',
+    name: 'Planering av undevisning och lrande',
     slug: 'planering-av-undevisning-och-larande',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -779,15 +779,15 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Learning Design – planering av undervisning och lärande betyder både att läraren planerar sin egen undervisning och studerandes målinriktat lärande. Detta innehåller planering av lärprocessen, lärsituationer, läraktiviteter mm. läruppgifter och anvisningar, och planering av handledning. Det innehåller också val av lärmiljöer, digitala verktyg och metoder för lärande.',
+    description: 'Learning Design  planering av undervisning och lrande betyder bde att lraren planerar sin egen undervisning och studerandes mlinriktat lrande. Detta innehller planering av lrprocessen, lrsituationer, lraktiviteter mm. lruppgifter och anvisningar, och planering av handledning. Det innehller ocks val av lrmiljer, digitala verktyg och metoder fr lrande.',
     keywords: [
-      { value: 'inlärningsprocess' },
-      { value: 'inlärningsmiljö' },
+      { value: 'inlrningsprocess' },
+      { value: 'inlrningsmilj' },
       { value: 'handledning' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivering' },
-      { value: 'inlärning' },
+      { value: 'inlrning' },
       { value: 'undervisning' },
     ],
     learningResourceType: [
@@ -799,7 +799,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -816,17 +816,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -866,7 +866,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4c-digipedagogiikka.m4a',
-          originalFilename: 'c Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle.m4a',
+          originalFilename: 'c Podcast Oppimisprosessin nakyvaksi tekeminen ammatilliselle opiskelijalle.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -874,7 +874,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4d-digipedagogiikka.pdf',
-          originalFilename: 'd Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle - teksti.pdf',
+          originalFilename: 'd Podcast Oppimisprosessin nakyvaksi tekeminen ammatilliselle opiskelijalle - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -906,7 +906,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4h-digipedagogiikka.pdf',
-          originalFilename: 'h Infotaulu Yksilöllinen oppimisprosessiI.pdf',
+          originalFilename: 'h Infotaulu Yksilollinen oppimisprosessiI.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -922,7 +922,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4j-digipedagogiikka.pdf',
-          originalFilename: 'j Infotaulu Ilmiöpohjaisen oppimisen suunnittelu.pdf',
+          originalFilename: 'j Infotaulu Ilmiopohjaisen oppimisen suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -930,7 +930,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4k-digipedagogiikka.pdf',
-          originalFilename: 'k Infotaulu Avoin ilmiöpohjainen oppimisprosessi.pdf',
+          originalFilename: 'k Infotaulu Avoin ilmiopohjainen oppimisprosessi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -946,7 +946,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4m-digipedagogiikka.pdf',
-          originalFilename: 'm Infotaulu Käänteinen luokkahuoneopetus.pdf',
+          originalFilename: 'm Infotaulu Kaanteinen luokkahuoneopetus.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -961,19 +961,19 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Oppimisprosessilla tarkoitetaan ajallisesti ja askelittain etenevää, ennalta suunniteltua ja tavoitteellista oppimista. Oppimisprosessi on pidempikestoinen, useammasta oppimistilanteesta muodostuva tavoitteellinen opetuskokonaisuus. Oppimisprosessi on helpompi käsittää, kun sitä mietitään matkana, polkuna, eri etappien muodostamana kokonaisuutena, tienä, seikkailuna, pelinä.',
+    description: 'Oppimisprosessilla tarkoitetaan ajallisesti ja askelittain etenev, ennalta suunniteltua ja tavoitteellista oppimista. Oppimisprosessi on pidempikestoinen, useammasta oppimistilanteesta muodostuva tavoitteellinen opetuskokonaisuus. Oppimisprosessi on helpompi ksitt, kun sit mietitn matkana, polkuna, eri etappien muodostamana kokonaisuutena, tien, seikkailuna, pelin.',
     keywords: [
       { value: 'oppiminen' },
       { value: 'opetus' },
       { value: 'oppimisprosessi' },
       { value: 'pedagoginen malli' },
       { value: 'casepohjainen oppiminen' },
-      { value: 'ilmiöpohjainen oppiminen' },
+      { value: 'ilmipohjainen oppiminen' },
       { value: 'pedagogiikka' },
       { value: 'digipedagogiikka' },
-      { value: 'yksilöllinen oppiminen' },
+      { value: 'yksilllinen oppiminen' },
       { value: 'monialainen oppiminen' },
-      { value: 'käänteinen luokkahuoneopetus' },
+      { value: 'knteinen luokkahuoneopetus' },
     ],
     learningResourceType: [
       'video',
@@ -983,7 +983,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -1004,7 +1004,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -1020,7 +1020,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -1220,7 +1220,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4-digipedagogiikka.mp4',
-          originalFilename: 'A Video Planering av en lärprocess.mp4',
+          originalFilename: 'A Video Planering av en larprocess.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -1228,7 +1228,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4b-digipedagogiikka.pdf',
-          originalFilename: 'b Video Planeringen av en lärprocess text.pdf',
+          originalFilename: 'b Video Planeringen av en larprocess text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1236,7 +1236,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4c-digipedagogiikka.m4a',
-          originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
+          originalFilename: 'c Podcast Att synliggora larprocessen for studerande inom yrkesutbildning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1244,7 +1244,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4d-digipedagogiikka.pdf',
-          originalFilename: 'd Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning text.pdf',
+          originalFilename: 'd Podcast Att synliggora larprocessen for studerande inom yrkesutbildning text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1252,7 +1252,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4e-digipedagogiikka.m4a',
-          originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
+          originalFilename: 'e Podcast Handledning av larprocessen i natet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1260,7 +1260,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4f-digipedagogiikka.pdf',
-          originalFilename: 'f Podcast Handledning av lärprocessen i nätet - text.pdf',
+          originalFilename: 'f Podcast Handledning av larprocessen i natet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1268,7 +1268,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4g-digipedagogiikka.pdf',
-          originalFilename: 'g Infograf Planning av en lärprocess och lärsituationer.pdf',
+          originalFilename: 'g Infograf Planning av en larprocess och larsituationer.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1276,7 +1276,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4h-digipedagogiikka.pdf',
-          originalFilename: 'h Infograf Individuell lärprocess.pdf',
+          originalFilename: 'h Infograf Individuell larprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1284,7 +1284,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4i-digipedagogiikka.pdf',
-          originalFilename: 'i Infograf Mångvetenskaplig lärprocess.pdf',
+          originalFilename: 'i Infograf Mangvetenskaplig larprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1292,7 +1292,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4j-digipedagogiikka.pdf',
-          originalFilename: 'j Infograf Planering av fenomenbaserat lärande.pdf',
+          originalFilename: 'j Infograf Planering av fenomenbaserat larande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1300,7 +1300,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4k-digipedagogiikka.pdf',
-          originalFilename: 'k Infograf En öppen fenomenbaserad lärprocess.pdf',
+          originalFilename: 'k Infograf En oppen fenomenbaserad larprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1308,7 +1308,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4l-digipedagogiikka.pdf',
-          originalFilename: 'l Infograf Case-baserat lärande.pdf',
+          originalFilename: 'l Infograf Case-baserat larande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1316,13 +1316,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4m-digipedagogiikka.pdf',
-          originalFilename: 'm Infograf Omvänt klassrum.pdf',
+          originalFilename: 'm Infograf Omvant klassrum.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Planering av undevisning och lärande',
+    name: 'Planering av undevisning och lrande',
     slug: 'planering-av-undevisning-och-larande',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -1331,16 +1331,16 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'En lärandeprocess betecknar på förhand planerat och målinriktat lärande som framskrider tidsbundet och stegvis. Lärandeprocessen är en mer långvarig undervisningshelhet som består av flera lärandesituationer. Det är lättare att begripa lärandeprocessen då den förstås som en resa, en stig, en helhet bestående av flera etapper, en väg, ett äventyr, ett spel.',
+    description: 'En lrandeprocess betecknar p frhand planerat och mlinriktat lrande som framskrider tidsbundet och stegvis. Lrandeprocessen r en mer lngvarig undervisningshelhet som bestr av flera lrandesituationer. Det r lttare att begripa lrandeprocessen d den frsts som en resa, en stig, en helhet bestende av flera etapper, en vg, ett ventyr, ett spel.',
     keywords: [
-      { value: 'inlärningsprocess' },
+      { value: 'inlrningsprocess' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivering' },
-      { value: 'inlärning' },
+      { value: 'inlrning' },
       { value: 'undervisning' },
       { value: 'flippat klassrum' },
-      { value: 'tvärvetenskapliga inlärning' },
+      { value: 'tvrvetenskapliga inlrning' },
       { value: 'pedagogiska metoder' },
       { value: 'casemetodik' },
     ],
@@ -1355,7 +1355,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -1372,17 +1372,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -1406,7 +1406,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Oppimistehtävä.m4a',
+          originalFilename: 'A Podcast Oppimistehtava.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1414,7 +1414,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Oppimistehtävä - teksti.pdf',
+          originalFilename: 'b Podcast Oppimistehtava - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1422,7 +1422,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5c-digipedagogiikka.pdf',
-          originalFilename: 'c Oppimistehtäväideoita oppimisprosessin eri vaiheisiin.pdf',
+          originalFilename: 'c Oppimistehtavaideoita oppimisprosessin eri vaiheisiin.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1430,13 +1430,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5d-digipedagogiikka.pdf',
-          originalFilename: 'd Oppimistehtävän suunnittelu.pdf',
+          originalFilename: 'd Oppimistehtavan suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Oppimistehtävien suunnittelu',
+    name: 'Oppimistehtvien suunnittelu',
     slug: 'oppimistehtavien-suunnittelu',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -1444,13 +1444,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Oppimistehtävä on nimensä mukaan tehtävä, johon sisään rakennetaan uuden oppimista ohjaavaa ja mahdollistavaa toimintaa. Oppimistehtävä on opettajan merkittävä keino tai menetelmä saada oppija pedagogisesti mielekkäästi ja mietitysti oppimaan uusia asioita. Oppimistehtävät jäsentävät verkko-oppimisprosessia samalla tavalla kuin lähiopetuksen tunnit tai luennot. Verkko-oppimisympäristö on tyhjä tila ilman toimijoita - aktivoinnilla siihen luodaan toimintaa. Digitaalisella aktivoinnilla ja osallistamisella pyritään saamaan opiskelijat (osallistujat) aktiivisiksi toimijoiksi verkko-oppimisympäristöissä.',
+    description: 'Oppimistehtv on nimens mukaan tehtv, johon sisn rakennetaan uuden oppimista ohjaavaa ja mahdollistavaa toimintaa. Oppimistehtv on opettajan merkittv keino tai menetelm saada oppija pedagogisesti mielekksti ja mietitysti oppimaan uusia asioita. Oppimistehtvt jsentvt verkko-oppimisprosessia samalla tavalla kuin lhiopetuksen tunnit tai luennot. Verkko-oppimisymprist on tyhj tila ilman toimijoita - aktivoinnilla siihen luodaan toimintaa. Digitaalisella aktivoinnilla ja osallistamisella pyritn saamaan opiskelijat (osallistujat) aktiivisiksi toimijoiksi verkko-oppimisympristiss.',
     keywords: [
       { value: 'oppiminen' },
       { value: 'verkko-opetus' },
       { value: 'pedagogiikka' },
       { value: 'digipedagogiikka' },
-      { value: 'oppimistehtävä' },
+      { value: 'oppimistehtv' },
       { value: 'aktiviteetti' },
     ],
     learningResourceType: [
@@ -1459,7 +1459,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -1480,7 +1480,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -1496,7 +1496,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -1620,7 +1620,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Läruppgifter.m4a',
+          originalFilename: 'A Podcast Laruppgifter.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1628,7 +1628,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Läruppgifter text.pdf',
+          originalFilename: 'b Podcast Laruppgifter text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1636,7 +1636,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5c-digipedagogiikka.pdf',
-          originalFilename: 'c Ideer för läruppgifter.pdf',
+          originalFilename: 'c Ideer for laruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1644,13 +1644,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5d-digipedagogiikka.pdf',
-          originalFilename: 'd Planeringsblankett läruppgifter.pdf',
+          originalFilename: 'd Planeringsblankett laruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Plannering av lärupgifter',
+    name: 'Plannering av lrupgifter',
     slug: 'plannering-av-larupgifter',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -1658,16 +1658,16 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Lärandeuppgiften är, som namnet antyder, en uppgift som innehåller aktiviteter som handleder och möjliggör lärandet av något nytt. Lärandeuppgifter är betydelsefulla metoder för läraren att få den studerande att lära sig nya saker på pedagogiskt behagliga och eftertänkta sätt. Lärandeuppgifter strukturerar nätbaserade lärprocesser på samma sätt som lektioner och föreläsningar i närundervisning. En nätbaserad lärandemiljö är ett tomt utrymme utan aktörer. Målinriktad verksamhet skapas genom lärandeaktiviteter. Att aktivera och engagera digitalt syftar till att göra studerande (deltagarna) till aktiva aktörer i nätbaserade lärandemiljöer.',
+    description: 'Lrandeuppgiften r, som namnet antyder, en uppgift som innehller aktiviteter som handleder och mjliggr lrandet av ngot nytt. Lrandeuppgifter r betydelsefulla metoder fr lraren att f den studerande att lra sig nya saker p pedagogiskt behagliga och eftertnkta stt. Lrandeuppgifter strukturerar ntbaserade lrprocesser p samma stt som lektioner och frelsningar i nrundervisning. En ntbaserad lrandemilj r ett tomt utrymme utan aktrer. Mlinriktad verksamhet skapas genom lrandeaktiviteter. Att aktivera och engagera digitalt syftar till att gra studerande (deltagarna) till aktiva aktrer i ntbaserade lrandemiljer.',
     keywords: [
-      { value: 'inlärningsprocess' },
+      { value: 'inlrningsprocess' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivitet' },
-      { value: 'inlärning' },
+      { value: 'inlrning' },
       { value: 'undervisning' },
-      { value: 'nätundervisning' },
-      { value: 'lärupgift' },
+      { value: 'ntundervisning' },
+      { value: 'lrupgift' },
     ],
     learningResourceType: [
       'audio',
@@ -1678,7 +1678,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -1695,17 +1695,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -1729,7 +1729,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
+          originalFilename: 'A Podcast Verkko-oppimisympariston rakentaminen on kayttajakokemuksen suunnittelua.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1737,7 +1737,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua teksti.pdf',
+          originalFilename: 'b Podcast Verkko-oppimisympristn rakentaminen on kyttjkokemuksen suunnittelua teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1745,7 +1745,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6c-digipedagogiikka.pdf',
-          originalFilename: 'c Verkkokurssin käyttäjäkokemuksen arviointi.pdf',
+          originalFilename: 'c Verkkokurssin kyttjkokemuksen arviointi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1753,7 +1753,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6d-digipedagogiikka.m4a',
-          originalFilename: 'd Podcast Viestintä verkossa.m4a',
+          originalFilename: 'd Podcast Viestint verkossa.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1761,7 +1761,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6e-digipedagogiikka.pdf',
-          originalFilename: 'e Podcast Viestintä verkossa teksti.pdf',
+          originalFilename: 'e Podcast Viestint verkossa teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1825,7 +1825,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6m-digipedagogiikka.pdf',
-          originalFilename: 'm Webinaari työkirja.pdf',
+          originalFilename: 'm Webinaari tykirja.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1847,7 +1847,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Verkko-opetus tarkoittaa opetuksen järjestämistä verkkoon erilaisin digitaalisin välinein siten, että se on käytettävissä eri laitteilla selainpohjaisesti tai mobiili sovelluksena. Se voi olla online -kursseja, MOOCeja ja itseopiskelukursseja, webinaareja, verkostoja sekä niiden fasilitointia ja ohjausta. Verkko-opetus voidaan suunnitella joko samanaikaiseen tai eriaikaiseen opiskeluun. Oppimateriaalipaketit ovat myös verkko-opetusta. Oppimisprosessin kuvaus verkkoalustalla on myös verkko-opetusta. Verkon työkaluja voidaan käyttää oppimisprosessin näkyväksi tekemisessä, vaikka itse opiskelu ei tapahdukaan verkkoympäristössä.',
+    description: 'Verkko-opetus tarkoittaa opetuksen jarjestamista verkkoon erilaisin digitaalisin valinein siten, etta se on kaytettavissa eri laitteilla selainpohjaisesti tai mobiili sovelluksena. Se voi olla online -kursseja, MOOCeja ja itseopiskelukursseja, webinaareja, verkostoja seka niiden fasilitointia ja ohjausta. Verkko-opetus voidaan suunnitella joko samanaikaiseen tai eriaikaiseen opiskeluun. Oppimateriaalipaketit ovat myos verkko-opetusta. Oppimisprosessin kuvaus verkkoalustalla on myos verkko-opetusta. Verkon tyokaluja voidaan kayttaa oppimisprosessin nakyvaksi tekemisessa, vaikka itse opiskelu ei tapahdukaan verkkoymparistossa.',
     keywords: [
       { value: 'oppiminen' },
       { value: 'verkko-opetus' },
@@ -1864,7 +1864,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -1885,7 +1885,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -1901,7 +1901,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -2035,7 +2035,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Web-based teaching means that teaching is organized and built into the web through different digital means so that it can be used through various devices, browsers or mobile applications These might be online courses, MOOCs and self-study courses, or they might be webinars or networks and facilitation and guiding. Web-based teaching can be used for simultaneous studying or for studying at different times. Learning materials and descriptions of the learning process are also part of web-based teaching. The tools of the web can be used to make the learning process visible even if the studying doesn’t take place in a web-environment.',
+    description: 'Web-based teaching means that teaching is organized and built into the web through different digital means so that it can be used through various devices, browsers or mobile applications These might be online courses, MOOCs and self-study courses, or they might be webinars or networks and facilitation and guiding. Web-based teaching can be used for simultaneous studying or for studying at different times. Learning materials and descriptions of the learning process are also part of web-based teaching. The tools of the web can be used to make the learning process visible even if the studying doesnt take place in a web-environment.',
     keywords: [
       { value: 'learning' },
       { value: 'teaching' },
@@ -2104,7 +2104,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet.m4a',
+          originalFilename: 'A Podcast En webbaserad larmiljo skapas genom att planera anvandarerfarenhet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2112,7 +2112,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet text.pdf',
+          originalFilename: 'b Podcast En webbaserad larmiljo skapas genom att planera anvandarerfarenhet text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2120,7 +2120,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6c-digipedagogiikka.pdf',
-          originalFilename: 'c Användarerfarenhet utvärderingssablon.pdf',
+          originalFilename: 'c Anvandarerfarenhet utvarderingssablon.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2128,7 +2128,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6d-digipedagogiikka.m4a',
-          originalFilename: 'd Podcast Kommunikation på nätet.m4a',
+          originalFilename: 'd Podcast Kommunikation pa natet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2136,7 +2136,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6e-digipedagogiikka.pdf',
-          originalFilename: 'e Podcast Kommunikation på nätet - text.pdf',
+          originalFilename: 'e Podcast Kommunikation pa natet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2144,7 +2144,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6f-digipedagogiikka.m4a',
-          originalFilename: 'f Podcast Utbildningsmässiga videor.m4a',
+          originalFilename: 'f Podcast Utbildningsmassiga videor.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2152,7 +2152,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6g-digipedagogiikka.pdf',
-          originalFilename: 'g Podcast Utbildningsmässiga videor - text.pdf',
+          originalFilename: 'g Podcast Utbildningsmassiga videor - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2160,7 +2160,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6h-digipedagogiikka.pdf',
-          originalFilename: 'h Utvärdering av video.pdf',
+          originalFilename: 'h Utvardering av video.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2214,7 +2214,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Web-baserat lärande',
+    name: 'Web-baserat lrande',
     slug: 'web-baserat-larande',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -2222,14 +2222,14 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Nätbaserad undervisning betyder att undervisningen arrangeras och byggas upp på nätet med hjälp av olika digitala verktyg, så att den är tillgänglig både på dator och via en mobilapplikation. Det kan handla om online-kurser, MOOCs och självstudiekurser, webinarier, nätverk samt facilitering och handledning av dessa. Nätbaserad undervisning kan planeras så att den genomföras samtidigt eller vid olika tidpunkter. Också läromedelspaketen är nätbaserad undervisning. Beskrivningen av lärprocessen på lärplattformen är också nätbaserad undervisning. Verktyg på nätet kan användas till att synliggöra lärprocessen, också då själva studierna inte genomförs i nätmiljö.',
+    description: 'Natbaserad undervisning betyder att undervisningen arrangeras och byggas upp pa natet med hjalp av olika digitala verktyg, sa att den ar tillganglig bade pa dator och via en mobilapplikation. Det kan handla om online-kurser, MOOCs och sjalvstudiekurser, webinarier, natverk samt facilitering och handledning av dessa. Natbaserad undervisning kan planeras s att den genomforas samtidigt eller vid olika tidpunkter. Ocksa laromedelspaketen ar natbaserad undervisning. Beskrivningen av larprocessen pa larplattformen ar ocksa natbaserad undervisning. Verktyg pa natet kan anvandas till att synliggora larprocessen, ocksa da sjalva studierna inte genomfors i natmiljo.',
     keywords: [
-      { value: 'Nätundervisning' },
+      { value: 'Ntundervisning' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
-      { value: 'inlärning' },
+      { value: 'inlrning' },
       { value: 'undervisning' },
-      { value: 'nätstudier' },
+      { value: 'ntstudier' },
       { value: 'eLearning' },
     ],
     learningResourceType: [
@@ -2242,7 +2242,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -2259,17 +2259,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -2293,7 +2293,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-7-digipedagogiikka.pdf',
-          originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
+          originalFilename: 'A Infotaulu Opetuksen digitaaliset valineet.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2301,13 +2301,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-7b-digipedagogiikka.pdf',
-          originalFilename: 'b Infotaulu Opiskelun digivälineet.pdf',
+          originalFilename: 'b Infotaulu Opiskelun digivlineet.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Digitaaliset työvälineet opetuksessa ja oppimisessa',
+    name: 'Digitaaliset tyvlineet opetuksessa ja oppimisessa',
     slug: 'digitaaliset-tyovalineet-opetuksessa-ja-oppimisessa',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -2315,10 +2315,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Opetusteknologia kattaa kaiken teknologian, millä tuetaan oppimista perinteisessä luokkaopetuksessa, sulautuvassa opetuksessa ja verkko-opetuksessa. Teknologia sisältää välineet, laitteet, ohjelmistot ja erilaiset sovellukset. Opetusteknologiaa ovat esimerkiksi toimisto-ohjelmat, oppimisalustat, arviointia tukevat työkalut, työkirjatyyppiset työkalut, digitaaliset oppimateriaalit, sosiaalinen media, työvälineohjelmat, tiedonhaun välineet, teknologiaan pohjautuvat kognitiiviset työkalut, informaation visualisoinnin työkalut sekä simulaatiot, opetusohjelmat ja -pelit, 3D-mallinnukset, robotit jne.',
+    description: 'Opetusteknologia kattaa kaiken teknologian, mill tuetaan oppimista perinteisess luokkaopetuksessa, sulautuvassa opetuksessa ja verkko-opetuksessa. Teknologia sislt vlineet, laitteet, ohjelmistot ja erilaiset sovellukset. Opetusteknologiaa ovat esimerkiksi toimisto-ohjelmat, oppimisalustat, arviointia tukevat tykalut, tykirjatyyppiset tykalut, digitaaliset oppimateriaalit, sosiaalinen media, tyvlineohjelmat, tiedonhaun vlineet, teknologiaan pohjautuvat kognitiiviset tykalut, informaation visualisoinnin tykalut sek simulaatiot, opetusohjelmat ja -pelit, 3D-mallinnukset, robotit jne.',
     keywords: [
       { value: 'TVT' },
-      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'tieto- ja viestinttekniikka' },
       { value: 'digitaaliset taidot' },
       { value: 'digipedagogiikka' },
     ],
@@ -2327,7 +2327,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2348,7 +2348,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -2364,7 +2364,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -2466,7 +2466,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-7-digipedagogiikka.pdf',
-          originalFilename: 'A Infograf Digitala verktyg för undervisningen.pdf',
+          originalFilename: 'A Infograf Digitala verktyg for undervisningen.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2474,7 +2474,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-7b-digipedagogiikka.pdf',
-          originalFilename: 'b Infograf Digitala verktyg för studier.pdf',
+          originalFilename: 'b Infograf Digitala verktyg for studier.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2488,7 +2488,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Undervisningsteknologi innefattar all sådan teknologi som stöder lärandet i traditionell klassrumsundervisning, blandade lärmiljöer och nät-undervisning. Teknologi innefattar alla verktyg, apparater, program och olika applikationer. Lärandeteknologi är exempelvis kontorsprogram, lärandeplattformer, verktyg som stöder bedömning, verktyg som liknar arbetsböcker, digitala lärandematerial, sociala medier, arbetsverktygsprogram, verktyg för informationssökning, teknologibaserade kognitiva verktyg, verktyg som visualiserar information, simulationer, undervisningsprogram- och spel, 3D-modeller, roboter, osv.',
+    description: 'Undervisningsteknologi innefattar all sdan teknologi som stder lrandet i traditionell klassrumsundervisning, blandade lrmiljer och nt-undervisning. Teknologi innefattar alla verktyg, apparater, program och olika applikationer. Lrandeteknologi r exempelvis kontorsprogram, lrandeplattformer, verktyg som stder bedmning, verktyg som liknar arbetsbcker, digitala lrandematerial, sociala medier, arbetsverktygsprogram, verktyg fr informationsskning, teknologibaserade kognitiva verktyg, verktyg som visualiserar information, simulationer, undervisningsprogram- och spel, 3D-modeller, roboter, osv.',
     keywords: [
       { value: 'ICT' },
       { value: 'pedagogik' },
@@ -2503,7 +2503,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -2520,17 +2520,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -2562,7 +2562,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-8b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa - teksti.pdf',
+          originalFilename: 'b Podcast Digitaaliset oppimateriaalit ja niiden kytt opiskelussa ja opetuksessa - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2578,7 +2578,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-8d-digipedagogiikka.pdf',
-          originalFilename: 'd Infotaulu Digitaaliset oppimateriaalit ja niiden käyttö opiskelussa ja opetuksessa -luokittelua.pdf',
+          originalFilename: 'd Infotaulu Digitaaliset oppimateriaalit ja niiden kytt opiskelussa ja opetuksessa -luokittelua.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2592,10 +2592,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Digitaalisilla oppimateriaaleilla tarkoitetaan eri sähköisissä mediamuodoissa olevaa aineistoa mm. kuvia, tekstejä, videoita, karttoja, kirjoja, äänitiedostoja, infotauluja, kaavioita, elokuvia. Niitä voi tuottaa itse tai voi käyttää muiden tuottamia aineistoja, mikäli niitä on oikeus käyttää opetuksessa ja opiskelussa. Digitaalisia sisältöjä voidaan jakaa verkon kautta oppimisympäristöissä tai erilaisten jakopalvelujen kautta.',
+    description: 'Digitaalisilla oppimateriaaleilla tarkoitetaan eri shkisiss mediamuodoissa olevaa aineistoa mm. kuvia, tekstej, videoita, karttoja, kirjoja, nitiedostoja, infotauluja, kaavioita, elokuvia. Niit voi tuottaa itse tai voi kytt muiden tuottamia aineistoja, mikli niit on oikeus kytt opetuksessa ja opiskelussa. Digitaalisia sisltj voidaan jakaa verkon kautta oppimisympristiss tai erilaisten jakopalvelujen kautta.',
     keywords: [
       { value: 'TVT' },
-      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'tieto- ja viestinttekniikka' },
       { value: 'digitaaliset taidot' },
       { value: 'digipedagogiikka' },
       { value: 'digitaalinen oppimateriaali' },
@@ -2608,7 +2608,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2629,7 +2629,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -2645,7 +2645,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -2769,7 +2769,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-8-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
+          originalFilename: 'A Podcast Digitala laromedel och anvandning av dem i undervisningen.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2777,7 +2777,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-8b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Digitala läromedel och användningen av dem i undervisningen text.pdf',
+          originalFilename: 'b Podcast Digitala lromedel och anvndningen av dem i undervisningen text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2793,13 +2793,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-8d-digipedagogiikka.pdf',
-          originalFilename: 'd Digitalt material och -innehåll i studier och i undervisning -klassificering.pdf',
+          originalFilename: 'd Digitalt material och -innehll i studier och i undervisning -klassificering.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Digitaliska läromedel',
+    name: 'Digitaliska lromedel',
     slug: 'digitaliska-laromedel',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -2807,14 +2807,14 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Digitala lärmaterial är elektroniska material i olika format, t.ex. bilder, texter, videor, kartor, böcker, ljudfiler, infografer, diagram, filmer. Man kan producera dem själv eller använda material som producerats av andra, så länge man har rätt att använda dem i undervisning och studier. Digitala innehåll kan delas via nätet genom lärandemiljöer eller olika delningstjänster.',
+    description: 'Digitala lrmaterial r elektroniska material i olika format, t.ex. bilder, texter, videor, kartor, bcker, ljudfiler, infografer, diagram, filmer. Man kan producera dem sjlv eller anvnda material som producerats av andra, s lnge man har rtt att anvnda dem i undervisning och studier. Digitala innehll kan delas via ntet genom lrandemiljer eller olika delningstjnster.',
     keywords: [
       { value: 'ICT' },
       { value: 'media' },
       { value: 'digipedagogik' },
       { value: 'informations- och kommunikationsteknik' },
       { value: 'digitalkompetens' },
-      { value: 'digital lärömedel' },
+      { value: 'digital lrmedel' },
     ],
     learningResourceType: [
       'text',
@@ -2826,7 +2826,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -2843,17 +2843,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -2907,7 +2907,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Tieto- ja viestintätekniikan taidot',
+    name: 'Tieto- ja viestinttekniikan taidot',
     slug: 'tieto-ja-viestintatekniikan-taidot',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -2915,10 +2915,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Tieto- ja viestintätekniikan taidot kouluissa voidaan jakaa kolmeen pääkategoriaan: yleiset digikansalaisen taidot, opetukseen liittyvät tietotekniset taidot ja opiskeluun liittyvät tietotekniset taidot. Teknisten taitojen lisäksi on osattava valita oikeat välineet ja työskentelytavat, mitkä tukevat oppimista ja opetusta.',
+    description: 'Tieto- ja viestinttekniikan taidot kouluissa voidaan jakaa kolmeen pkategoriaan: yleiset digikansalaisen taidot, opetukseen liittyvt tietotekniset taidot ja opiskeluun liittyvt tietotekniset taidot. Teknisten taitojen lisksi on osattava valita oikeat vlineet ja tyskentelytavat, mitk tukevat oppimista ja opetusta.',
     keywords: [
       { value: 'TVT' },
-      { value: 'tieto- ja viestintätekniikka' },
+      { value: 'tieto- ja viestinttekniikka' },
       { value: 'digitaaliset taidot' },
       { value: 'digipedagogiikka' },
     ],
@@ -2928,7 +2928,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2949,7 +2949,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttautuja' },
+      { value: 'tydennyskouluttautuja' },
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
@@ -2965,7 +2965,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'käsikirjoitus' },
+      { value: 'ksikirjoitus' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3019,7 +3019,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Information and communication technology skills in schools can be divided into three main categories: general skills of digital citizen, ICT skills needed in teaching and guiding, and ICT skills needed in studying.  Teachers and students should know how to choose the best tools, applications and working methods which support studying, teaching and learning.',
+    description: 'Information and communication technology skills in schools can be divided into three main categories: general skills of digital citizen, ICT skills needed in teaching and guiding, and ICT skills needed in studying. Teachers and students should know how to choose the best tools, applications and working methods which support studying, teaching and learning.',
     keywords: [
       { value: 'ICT' },
       { value: 'information and communications technology' },
@@ -3085,7 +3085,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-9-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
+          originalFilename: 'A Podcast Hurdana IKT-fardigheter behover lararen.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -3093,7 +3093,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-9b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Hurdana IKT-färdigheter behöver läraren text.pdf',
+          originalFilename: 'b Podcast Hurdana IKT-frdigheter behver lraren text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -3101,7 +3101,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-9c-digipedagogiikka.pdf',
-          originalFilename: 'c Infograf Lärarens IKT färdigheter.pdf',
+          originalFilename: 'c Infograf Lrarens IKT frdigheter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -3109,13 +3109,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-9d-digipedagogiikka.pdf',
-          originalFilename: 'd Infograf Den studenrandes IKT färdigheter.pdf',
+          originalFilename: 'd Infograf Den studenrandes IKT frdigheter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: 'Informations- och kommunikations tekniska färdigheter',
+    name: 'Informations- och kommunikations tekniska frdigheter',
     slug: 'informations-och-kommunikations-tekniska-fardigheter',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -3123,7 +3123,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Leena', lastName: 'Vainio' },
     ],
     // tslint:disable-next-line
-    description: 'Informations- och kommunikationsfärdigheter i skolor kan delas i tre huvudkategorier: de allmänna digimedborgarens färdigheterna , tekniska färdigheter som man behöver i undervisningen och tekniska färdigheter som man behöver i studier. Man behöver också kunna välja de rätta verktyg och arbetsmetoder, vilka stöder lärandet och undervisningen.',
+    description: 'Informations- och kommunikationsfrdigheter i skolor kan delas i tre huvudkategorier: de allmnna digimedborgarens frdigheterna , tekniska frdigheter som man behver i undervisningen och tekniska frdigheter som man behver i studier. Man behver ocks kunna vlja de rtta verktyg och arbetsmetoder, vilka stder lrandet och undervisningen.',
     keywords: [
       { value: 'ICT' },
       { value: 'pedagogik' },
@@ -3140,7 +3140,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'fortbildning' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
-      { value: 'högskol' },
+      { value: 'hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -3157,17 +3157,17 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
       { value: 'handledare' },
-      { value: 'adminstratör' },
+      { value: 'adminstratr' },
     ],
     educationalUse: [
-      { value: 'professionell stöd' },
+      { value: 'professionell std' },
       { value: 'oberoende studie' },
     ],
     interactivityType: [
-      { value: 'rådgivning' },
+      { value: 'rdgivning' },
     ],
     inLanguage: {
       id: 'SV',
@@ -3205,7 +3205,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Tero', lastName: 'Toivanen' },
     ],
     // tslint:disable-next-line
-    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    description: 'Ohjelmoinnin oppimispaketti Python-ympristss',
     keywords: [
       { value: 'ohjelmointi' },
       { value: 'ohjelmointikielet' },
@@ -3223,7 +3223,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3255,12 +3255,12 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'sisällysluettelo' },
+      { value: 'sisllysluettelo' },
       { value: 'navigointi rakenteen avulla' },
     ],
     accessibilityHazard: [
-      { value: 'ei välähtelyhaittaa' },
-      { value: 'ei äänihaittaa' },
+      { value: 'ei vlhtelyhaittaa' },
+      { value: 'ei nihaittaa' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3376,13 +3376,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Tero', lastName: 'Toivanen' },
     ],
     // tslint:disable-next-line
-    description: 'Lärömaterial om programmering med Python',
+    description: 'Lrmaterial om programmering med Python',
     keywords: [
       { value: 'programmering' },
-      { value: 'programmeringsspråk' },
+      { value: 'programmeringssprk' },
       { value: 'Python' },
       { value: 'studera' },
-      { value: 'självstudier' },
+      { value: 'sjlvstudier' },
     ],
     learningResourceType: [
       'course',
@@ -3396,8 +3396,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Fortbildning' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
-      { value: 'Högskol' },
-      { value: 'Grundläggande utbildning' },
+      { value: 'Hgskol' },
+      { value: 'Grundlggande utbildning' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -3414,7 +3414,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'elev' },
     ],
     interactivityType: [
@@ -3453,7 +3453,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Tero', lastName: 'Toivanen' },
     ],
     // tslint:disable-next-line
-    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    description: 'Ohjelmoinnin oppimispaketti Python-ympristss',
     keywords: [
       { value: 'ohjelmointi' },
       { value: 'ohjelmointikielet' },
@@ -3470,7 +3470,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3502,12 +3502,12 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'sisällysluettelo' },
+      { value: 'sisllysluettelo' },
       { value: 'navigointi rakenteen avulla' },
     ],
     accessibilityHazard: [
-      { value: 'ei välähtelyhaittaa' },
-      { value: 'ei äänihaittaa' },
+      { value: 'ei vlhtelyhaittaa' },
+      { value: 'ei nihaittaa' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3623,13 +3623,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Tero', lastName: 'Toivanen' },
     ],
     // tslint:disable-next-line
-    description: 'Lärömaterial om programmering med Scratch',
+    description: 'Lrmaterial om programmering med Scratch',
     keywords: [
       { value: 'programmering' },
-      { value: 'programmeringsspråk' },
+      { value: 'programmeringssprk' },
       { value: 'Scratch' },
       { value: 'studera' },
-      { value: 'självstudier' },
+      { value: 'sjlvstudier' },
     ],
     learningResourceType: [
       'course',
@@ -3643,8 +3643,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Fortbildning' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
-      { value: 'Högskol' },
-      { value: 'Grundläggande utbildning' },
+      { value: 'Hgskol' },
+      { value: 'Grundlggande utbildning' },
     ],
     typicalAgeRange: '18-',
     educationalAlignment: [
@@ -3661,7 +3661,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       },
     ],
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'elev' },
     ],
     interactivityType: [
@@ -3686,7 +3686,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-0-robotiikka.pdf',
-          originalFilename: '0. Sisällys.docx',
+          originalFilename: '0. Sisllys.docx',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -3750,7 +3750,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-8-robotiikka.pdf',
-          originalFilename: '4.3. Robotiikka-aiheisia pelejä.docx',
+          originalFilename: '4.3. Robotiikka-aiheisia pelej.docx',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -3780,11 +3780,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Suomen', lastName: 'Koodikoulu' },
     ],
     // tslint:disable-next-line
-    description: 'Oppimateriaalissa esitellään robotiikan ja automaation käsitteistöä, käsitellään tä arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
+    description: 'Oppimateriaalissa esitelln robotiikan ja automaation ksitteist, ksitelln t arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
     keywords: [
       { value: 'robotiikka' },
       { value: 'automaatio' },
-      { value: 'sulautetut järjestelmät' },
+      { value: 'sulautetut jrjestelmt' },
       { value: 'ohjelmointi' },
       { value: 'oppiminen' },
       { value: 'opetus' },
@@ -3797,7 +3797,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3805,7 +3805,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     typicalAgeRange: '18-',
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttaja' },
+      { value: 'tydennyskouluttaja' },
     ],
     interactivityType: [
       { value: 'monimuotoinen' },
@@ -3815,13 +3815,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'sisällysluettelo' },
-      { value: 'yhtenäinen sivunumerointi' },
-      { value: 'kuvaus visuaalisesta sisällöstä' },
+      { value: 'sisllysluettelo' },
+      { value: 'yhteninen sivunumerointi' },
+      { value: 'kuvaus visuaalisesta sisllst' },
     ],
     accessibilityHazard: [
-      { value: 'ei välähtelyhaittaa' },
-      { value: 'ei äänihaittaa' },
+      { value: 'ei vlhtelyhaittaa' },
+      { value: 'ei nihaittaa' },
       { value: 'ei liikkeensimulointihaittaa' },
     ],
     licenseInformation: {
@@ -3981,7 +3981,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-0-robotiikka.pdf',
-          originalFilename: '0. Sisällys.docx',
+          originalFilename: '0. Sisllys.docx',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -4045,7 +4045,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-8-robotiikka.pdf',
-          originalFilename: '4.3. Robotiikka-aiheisia pelejä.docx',
+          originalFilename: '4.3. Robotiikka-aiheisia pelej.docx',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -4080,7 +4080,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Robotteknik' },
       { value: 'automation' },
       { value: 'programmering' },
-      { value: 'inläring' },
+      { value: 'inlring' },
       { value: 'undervisning' },
     ],
     learningResourceType: [
@@ -4094,11 +4094,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Fortbildning' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
-      { value: 'Högskol' },
+      { value: 'Hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
     ],
     interactivityType: [
@@ -4139,7 +4139,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Johdatus tekoälyyn',
+    name: 'Johdatus tekolyyn',
     slug: 'johdatus-tekoalyyn',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
@@ -4147,18 +4147,18 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Suomen', lastName: 'Koodikoulu' },
     ],
     // tslint:disable-next-line
-    description: 'Oppimateriaalissa tutustuaan aluksi tekoälytutkimuksen ja siihen liittyvien lähitieteiden historiaan. Tämän jälkeen aloitetaan tekoälyn tarkempi tutkiminen miettimällä tutumpaa älykkyyden lajia eli ihmisen älykkyyttä. Mitä on ihmisen älykkyys ja miten sitä pitäisi kuvata, jotta sitä voisi jäljitellä eli mallintaa koneellisesti? Samalla verrataan ihmis- ja tekoälyä ja käsitellään niiden välistä vuorovaikutusta. Seuraavaksi tutustutaan tietokoneiden toimintaan ja siihen, miten mallintaminen tapahtuu koneellisesti. Koneoppimista käsittelevästä kappaleesta selviää, että kaikkia malleja ei tarvitse antaa tietokoneelle valmiina, vaan kone voi muodostaa myös itse omia mallejaan. Toisin sanoen tietokoneet voivat oppia uutta. Koneoppimista käsittelevä kappale on keskeinen, koska tietokoneiden kyky oppia on yksi tärkeimpiä kehitysaskeleita tekoälyn suhteen. Koneoppiminen tarvitsee opetusmateriaalia samaan tapaan kuin opiskelija tarvitsee oppikirjoja. Koneoppimisen tarpeisiin tätä materiaalia löytyy tietokannoista ja tämän vuoksi niitä käsitellään omassa kappaleessaan. Tämän jälkeen tutustutaan erilaisiin tekoälyn osa-alueisiin ja sovelluskohteisiin konenäköä, kielen käsittelyä ja robotiikkaa käsittelevissä kappaleissa. Robotiikkaan tutustumisen yhteydessä mietitään lyhyesti myös tekoälyyn liittyviä eettisiä kysymyksiä.',
+    description: 'Oppimateriaalissa tutustuaan aluksi tekolytutkimuksen ja siihen liittyvien lhitieteiden historiaan. Tmn jlkeen aloitetaan tekolyn tarkempi tutkiminen miettimll tutumpaa lykkyyden lajia eli ihmisen lykkyytt. Mit on ihmisen lykkyys ja miten sit pitisi kuvata, jotta sit voisi jljitell eli mallintaa koneellisesti? Samalla verrataan ihmis- ja tekoly ja ksitelln niiden vlist vuorovaikutusta. Seuraavaksi tutustutaan tietokoneiden toimintaan ja siihen, miten mallintaminen tapahtuu koneellisesti. Koneoppimista ksittelevst kappaleesta selvi, ett kaikkia malleja ei tarvitse antaa tietokoneelle valmiina, vaan kone voi muodostaa mys itse omia mallejaan. Toisin sanoen tietokoneet voivat oppia uutta. Koneoppimista ksittelev kappale on keskeinen, koska tietokoneiden kyky oppia on yksi trkeimpi kehitysaskeleita tekolyn suhteen. Koneoppiminen tarvitsee opetusmateriaalia samaan tapaan kuin opiskelija tarvitsee oppikirjoja. Koneoppimisen tarpeisiin tt materiaalia lytyy tietokannoista ja tmn vuoksi niit ksitelln omassa kappaleessaan. Tmn jlkeen tutustutaan erilaisiin tekolyn osa-alueisiin ja sovelluskohteisiin konenk, kielen ksittely ja robotiikkaa ksitteleviss kappaleissa. Robotiikkaan tutustumisen yhteydess mietitn lyhyesti mys tekolyyn liittyvi eettisi kysymyksi.',
     keywords: [
-      { value: 'Tekoäly' },
+      { value: 'Tekoly' },
       { value: 'koneoppiminen' },
       { value: 'neuroverkot' },
       { value: 'logiikka' },
       { value: 'kognitiotiede' },
       { value: 'kieliteknologia' },
       { value: 'robotiikka' },
-      { value: 'tekoälyn filosofia' },
-      { value: 'konenäkö' },
-      { value: 'luonnollisen kielen käsittely' },
+      { value: 'tekolyn filosofia' },
+      { value: 'konenk' },
+      { value: 'luonnollisen kielen ksittely' },
     ],
     learningResourceType: [
       'text',
@@ -4167,7 +4167,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'tydennyskoulutus' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -4175,7 +4175,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     typicalAgeRange: '18-',
     educationalRole: [
       { value: 'opettaja' },
-      { value: 'täydennyskouluttaja' },
+      { value: 'tydennyskouluttaja' },
     ],
     interactivityType: [
       { value: 'monimuotoinen' },
@@ -4185,13 +4185,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       value: 'suomi',
     },
     accessibilityFeatures: [
-      { value: 'sisällysluettelo' },
-      { value: 'yhtenäinen sivunumerointi' },
-      { value: 'kuvaus visuaalisesta sisällöstä' },
+      { value: 'sisllysluettelo' },
+      { value: 'yhteninen sivunumerointi' },
+      { value: 'kuvaus visuaalisesta sisllst' },
     ],
     accessibilityHazard: [
-      { value: 'ei välähtelyhaittaa' },
-      { value: 'ei äänihaittaa' },
+      { value: 'ei vlhtelyhaittaa' },
+      { value: 'ei nihaittaa' },
       { value: 'ei liikkeensimulointihaittaa' },
     ],
     licenseInformation: {
@@ -4222,7 +4222,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Suomen', lastName: 'Koodikoulu' },
     ],
     // tslint:disable-next-line
-    description: 'This learning material begins with an overview of the history of AI research and other closely related fields. After that, we dig deeper into a form of intelligence we’re already more familiar with — the human intelligence. What is it, and how should we portray it in order to simulate it in machines? In this context, we also compare artificial and human intelligences, and talk about their interaction. Next, we take a closer look into the way computers operate, and what it takes to simulate intelligence in machines. The chapter on machine learning will provide more information on how all models don’t have to be given to computers, as they are able to form their own models as well. In other words, computers can learn new things. This chapter is essential for understanding AI, as machine learning is one of the most important milestones AI has reached. Machine learning requires learning material just like learners need their textbooks. Suitable material for machines can be found in databases, and therefore they are covered in their own chapter. After that, we introduce different aspects and applications of artificial intelligence in chapters dedicated to machine vision, natural language processing and robotics. In the robotics context, we also discuss the ethical issues concerning artificial intelligence.',
+    description: 'This learning material begins with an overview of the history of AI research and other closely related fields. After that, we dig deeper into a form of intelligence were already more familiar with  the human intelligence. What is it, and how should we portray it in order to simulate it in machines? In this context, we also compare artificial and human intelligences, and talk about their interaction. Next, we take a closer look into the way computers operate, and what it takes to simulate intelligence in machines. The chapter on machine learning will provide more information on how all models dont have to be given to computers, as they are able to form their own models as well. In other words, computers can learn new things. This chapter is essential for understanding AI, as machine learning is one of the most important milestones AI has reached. Machine learning requires learning material just like learners need their textbooks. Suitable material for machines can be found in databases, and therefore they are covered in their own chapter. After that, we introduce different aspects and applications of artificial intelligence in chapters dedicated to machine vision, natural language processing and robotics. In the robotics context, we also discuss the ethical issues concerning artificial intelligence.',
     keywords: [
       { value: 'philosophy' },
       { value: 'machine learning' },
@@ -4295,16 +4295,16 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Suomen', lastName: 'Koodikoulu' },
     ],
     // tslint:disable-next-line
-    description: 'I studiematerialet ges en historisk översikt över forskningen i artificiell intelligens och närliggande vetenskapsområden. Därefter inleds mera ingående studier i artificiell intelligens genom att betrakta en mera välbekant form av intelligens, nämligen den mänskliga. Vad är den mänskliga intelligensen och hur ska den beskrivas för att den ska kunna imiteras med en maskin? Samtidigt jämförs mänsklig och artificiell intelligens, och interaktionen mellan dem behandlas. Sedan bekantar vi oss med hur datorer fungerar och tar en titt på hur en modell av intelligensen sätts upp med hjälp av en maskin. Av avsnittet om maskininlärning framgår det att alla modeller inte behöver vara färdiga när de matas in i datorn, utan datorn kan också skapa egna modeller. Med andra ord kan datorer lära sig nya saker. Avsnittet om maskininlärning är centralt, eftersom datorers förmåga att lära sig är ett av de viktigaste stegen i utvecklingen av artificiell intelligens. För maskininlärning behövs läromaterial på samma sätt som en studerande behöver läroböcker. Sådant material för maskininlärning finns i databaser, och därför behandlas dessa i ett eget kapitel. Därefter bekantar vi oss med olika delområden inom artificiell intelligens och deras tillämpningar i avsnitt som behandlar maskinseende, språkhantering och robotik. I anslutning till robotiken funderar vi även ett slag på etiska frågor som sammanhänger med artificiell intelligens.',
+    description: 'I studiematerialet ges en historisk versikt ver forskningen i artificiell intelligens och nrliggande vetenskapsomrden. Drefter inleds mera ingende studier i artificiell intelligens genom att betrakta en mera vlbekant form av intelligens, nmligen den mnskliga. Vad r den mnskliga intelligensen och hur ska den beskrivas fr att den ska kunna imiteras med en maskin? Samtidigt jmfrs mnsklig och artificiell intelligens, och interaktionen mellan dem behandlas. Sedan bekantar vi oss med hur datorer fungerar och tar en titt p hur en modell av intelligensen stts upp med hjlp av en maskin. Av avsnittet om maskininlrning framgr det att alla modeller inte behver vara frdiga nr de matas in i datorn, utan datorn kan ocks skapa egna modeller. Med andra ord kan datorer lra sig nya saker. Avsnittet om maskininlrning r centralt, eftersom datorers frmga att lra sig r ett av de viktigaste stegen i utvecklingen av artificiell intelligens. Fr maskininlrning behvs lromaterial p samma stt som en studerande behver lrobcker. Sdant material fr maskininlrning finns i databaser, och drfr behandlas dessa i ett eget kapitel. Drefter bekantar vi oss med olika delomrden inom artificiell intelligens och deras tillmpningar i avsnitt som behandlar maskinseende, sprkhantering och robotik. I anslutning till robotiken funderar vi ven ett slag p etiska frgor som sammanhnger med artificiell intelligens.',
     keywords: [
       { value: 'filosofi' },
-      { value: 'maskininlärning' },
-      { value: 'neuronnät' },
+      { value: 'maskininlrning' },
+      { value: 'neuronnt' },
       { value: 'logik' },
       { value: 'kognitionsvetenskap' },
-      { value: 'språkteknologi' },
+      { value: 'sprkteknologi' },
       { value: 'robotteknik' },
-      { value: 'optisk läsning' },
+      { value: 'optisk lsning' },
     ],
     learningResourceType: [
       'text',
@@ -4316,11 +4316,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Fortbildning' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
-      { value: 'Högskol' },
+      { value: 'Hgskol' },
     ],
     typicalAgeRange: '18-',
     educationalRole: [
-      { value: 'lärare' },
+      { value: 'lrare' },
       { value: 'expert' },
     ],
     interactivityType: [
