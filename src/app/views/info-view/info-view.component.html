@@ -8,7 +8,7 @@
       <p>{{ list.pre }}</p>
 
       <ul>
-        <li *ngFor="let item of list.items">{{ item }}</li>
+        <li *ngFor="let item of list.items" [innerHTML]="item"></li>
       </ul>
     </div>
 
