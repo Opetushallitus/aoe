@@ -771,8 +771,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Planering av undevisning och lärande',
-    slug: 'planering-av-undevisning-och-larande',
+    name: 'Planering av undervisning och lärande',
+    slug: 'planering-av-undervisning-och-larande',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
     author: [
@@ -781,13 +781,13 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     // tslint:disable-next-line
     description: 'Learning Design – planering av undervisning och lärande betyder både att läraren planerar sin egen undervisning och studerandes målinriktat lärande. Detta innehåller planering av lärprocessen, lärsituationer, läraktiviteter mm. läruppgifter och anvisningar, och planering av handledning. Det innehåller också val av lärmiljöer, digitala verktyg och metoder för lärande.',
     keywords: [
-      { value: 'inlärningsprocess' },
-      { value: 'inlärningsmiljö' },
+      { value: 'lärningsprocess' },
+      { value: 'lärningsmiljö' },
       { value: 'handledning' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivering' },
-      { value: 'inlärning' },
+      { value: 'lärning' },
       { value: 'undervisning' },
     ],
     learningResourceType: [
@@ -1322,8 +1322,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Planering av undevisning och lärande',
-    slug: 'planering-av-undevisning-och-larande',
+    name: 'Planering an lärprocesser',
+    slug: 'planering-an-larprocesser',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
     author: [
@@ -1333,11 +1333,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     // tslint:disable-next-line
     description: 'En lärandeprocess betecknar på förhand planerat och målinriktat lärande som framskrider tidsbundet och stegvis. Lärandeprocessen är en mer långvarig undervisningshelhet som består av flera lärandesituationer. Det är lättare att begripa lärandeprocessen då den förstås som en resa, en stig, en helhet bestående av flera etapper, en väg, ett äventyr, ett spel.',
     keywords: [
-      { value: 'inlärningsprocess' },
+      { value: 'lärningsprocess' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivering' },
-      { value: 'inlärning' },
+      { value: 'lärning' },
       { value: 'undervisning' },
       { value: 'flippat klassrum' },
       { value: 'tvärvetenskapliga inlärning' },
@@ -1650,8 +1650,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Plannering av lärupgifter',
-    slug: 'plannering-av-larupgifter',
+    name: 'Planering av lärupgifter',
+    slug: 'planering-av-larupgifter',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
     author: [
@@ -1660,11 +1660,11 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     // tslint:disable-next-line
     description: 'Lärandeuppgiften är, som namnet antyder, en uppgift som innehåller aktiviteter som handleder och möjliggör lärandet av något nytt. Lärandeuppgifter är betydelsefulla metoder för läraren att få den studerande att lära sig nya saker på pedagogiskt behagliga och eftertänkta sätt. Lärandeuppgifter strukturerar nätbaserade lärprocesser på samma sätt som lektioner och föreläsningar i närundervisning. En nätbaserad lärandemiljö är ett tomt utrymme utan aktörer. Målinriktad verksamhet skapas genom lärandeaktiviteter. Att aktivera och engagera digitalt syftar till att göra studerande (deltagarna) till aktiva aktörer i nätbaserade lärandemiljöer.',
     keywords: [
-      { value: 'inlärningsprocess' },
+      { value: 'lärningsprocess' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
       { value: 'aktivitet' },
-      { value: 'inlärning' },
+      { value: 'lärning' },
       { value: 'undervisning' },
       { value: 'nätundervisning' },
       { value: 'lärupgift' },
@@ -2214,8 +2214,8 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         },
       },
     ],
-    name: 'Web-baserat lärande',
-    slug: 'web-baserat-larande',
+    name: 'Nätbaserad undervisning',
+    slug: 'natbaserad-undervisning',
     dateCreated: new Date(),
     datePublished: new Date(2019, 3, 1),
     author: [
@@ -2227,7 +2227,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Nätundervisning' },
       { value: 'pedagogik' },
       { value: 'digipedagogik' },
-      { value: 'inlärning' },
+      { value: 'lärning' },
       { value: 'undervisning' },
       { value: 'nätstudier' },
       { value: 'eLearning' },
@@ -4080,7 +4080,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'Robotteknik' },
       { value: 'automation' },
       { value: 'programmering' },
-      { value: 'inläring' },
+      { value: 'läring' },
       { value: 'undervisning' },
     ],
     learningResourceType: [
