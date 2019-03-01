@@ -749,7 +749,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3-digipedagogiikka.mp4',
-          originalFilename: 'A Video Planering av undervisning och lärande.mp4',
+          originalFilename: 'A Video Planering av undervisning och lärande.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -757,7 +757,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3b-digipedagogiikka.pdf',
-          originalFilename: 'b Video Planering av undervisning och lärande text.pdf',
+          originalFilename: 'b Video Planering av undervisning och lärande text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -765,7 +765,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-3c-digipedagogiikka.pdf',
-          originalFilename: 'c Infograf Planering av undervisning och lärande.pdf',
+          originalFilename: 'c Infograf Planering av undervisning och lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -866,7 +866,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4c-digipedagogiikka.m4a',
-          originalFilename: 'c Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle.m4a',
+          originalFilename: 'c Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -874,7 +874,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4d-digipedagogiikka.pdf',
-          originalFilename: 'd Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle - teksti.pdf',
+          originalFilename: 'd Podcast Oppimisprosessin näkyväksi tekeminen ammatilliselle opiskelijalle - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -906,7 +906,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4h-digipedagogiikka.pdf',
-          originalFilename: 'h Infotaulu Yksilöllinen oppimisprosessiI.pdf',
+          originalFilename: 'h Infotaulu Yksilöllinen oppimisprosessiI.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -922,7 +922,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4j-digipedagogiikka.pdf',
-          originalFilename: 'j Infotaulu Ilmiöpohjaisen oppimisen suunnittelu.pdf',
+          originalFilename: 'j Infotaulu Ilmiöpohjaisen oppimisen suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -930,7 +930,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4k-digipedagogiikka.pdf',
-          originalFilename: 'k Infotaulu Avoin ilmiöpohjainen oppimisprosessi.pdf',
+          originalFilename: 'k Infotaulu Avoin ilmiöpohjainen oppimisprosessi.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -946,7 +946,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-4m-digipedagogiikka.pdf',
-          originalFilename: 'm Infotaulu Käänteinen luokkahuoneopetus.pdf',
+          originalFilename: 'm Infotaulu Käänteinen luokkahuoneopetus.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1220,7 +1220,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4-digipedagogiikka.mp4',
-          originalFilename: 'A Video Planering av en lärprocess.mp4',
+          originalFilename: 'A Video Planering av en lärprocess.mp4',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -1228,7 +1228,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4b-digipedagogiikka.pdf',
-          originalFilename: 'b Video Planeringen av en lärprocess text.pdf',
+          originalFilename: 'b Video Planeringen av en lärprocess text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1236,7 +1236,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4c-digipedagogiikka.m4a',
-          originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
+          originalFilename: 'c Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1244,7 +1244,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4d-digipedagogiikka.pdf',
-          originalFilename: 'd Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning text.pdf',
+          originalFilename: 'd Podcast Att synliggöra lärprocessen för studerande inom yrkesutbildning text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1252,7 +1252,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4e-digipedagogiikka.m4a',
-          originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
+          originalFilename: 'e Podcast Handledning av lärprocessen i nätet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1260,7 +1260,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4f-digipedagogiikka.pdf',
-          originalFilename: 'f Podcast Handledning av lärprocessen i nätet - text.pdf',
+          originalFilename: 'f Podcast Handledning av lärprocessen i nätet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1268,7 +1268,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4g-digipedagogiikka.pdf',
-          originalFilename: 'g Infograf Planning av en lärprocess och lärsituationer.pdf',
+          originalFilename: 'g Infograf Planning av en lärprocess och lärsituationer.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1276,7 +1276,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4h-digipedagogiikka.pdf',
-          originalFilename: 'h Infograf Individuell lärprocess.pdf',
+          originalFilename: 'h Infograf Individuell lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1284,7 +1284,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4i-digipedagogiikka.pdf',
-          originalFilename: 'i Infograf Mångvetenskaplig lärprocess.pdf',
+          originalFilename: 'i Infograf Mångvetenskaplig lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1292,7 +1292,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4j-digipedagogiikka.pdf',
-          originalFilename: 'j Infograf Planering av fenomenbaserat lärande.pdf',
+          originalFilename: 'j Infograf Planering av fenomenbaserat lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1300,7 +1300,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4k-digipedagogiikka.pdf',
-          originalFilename: 'k Infograf En öppen fenomenbaserad lärprocess.pdf',
+          originalFilename: 'k Infograf En öppen fenomenbaserad lärprocess.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1308,7 +1308,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4l-digipedagogiikka.pdf',
-          originalFilename: 'l Infograf Case-baserat lärande.pdf',
+          originalFilename: 'l Infograf Case-baserat lärande.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1316,7 +1316,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-4m-digipedagogiikka.pdf',
-          originalFilename: 'm Infograf Omvänt klassrum.pdf',
+          originalFilename: 'm Infograf Omvänt klassrum.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1406,7 +1406,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Oppimistehtävä.m4a',
+          originalFilename: 'A Podcast Oppimistehtävä.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1414,7 +1414,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Oppimistehtävä - teksti.pdf',
+          originalFilename: 'b Podcast Oppimistehtävä - teksti.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1422,7 +1422,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5c-digipedagogiikka.pdf',
-          originalFilename: 'c Oppimistehtäväideoita oppimisprosessin eri vaiheisiin.pdf',
+          originalFilename: 'c Oppimistehtäväideoita oppimisprosessin eri vaiheisiin.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1430,7 +1430,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-5d-digipedagogiikka.pdf',
-          originalFilename: 'd Oppimistehtävän suunnittelu.pdf',
+          originalFilename: 'd Oppimistehtävän suunnittelu.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1620,7 +1620,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Läruppgifter.m4a',
+          originalFilename: 'A Podcast Läruppgifter.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1628,7 +1628,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast Läruppgifter text.pdf',
+          originalFilename: 'b Podcast Läruppgifter text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1636,7 +1636,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5c-digipedagogiikka.pdf',
-          originalFilename: 'c Ideer för läruppgifter.pdf',
+          originalFilename: 'c Ideer för läruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1644,7 +1644,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-5d-digipedagogiikka.pdf',
-          originalFilename: 'd Planeringsblankett läruppgifter.pdf',
+          originalFilename: 'd Planeringsblankett läruppgifter.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -1729,7 +1729,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-6-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
+          originalFilename: 'A Podcast Verkko-oppimisympäristön rakentaminen on käyttäjäkokemuksen suunnittelua.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -1847,7 +1847,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Verkko-opetus tarkoittaa opetuksen järjestämistä verkkoon erilaisin digitaalisin välinein siten, että se on käytettävissä eri laitteilla selainpohjaisesti tai mobiili sovelluksena. Se voi olla online -kursseja, MOOCeja ja itseopiskelukursseja, webinaareja, verkostoja sekä niiden fasilitointia ja ohjausta. Verkko-opetus voidaan suunnitella joko samanaikaiseen tai eriaikaiseen opiskeluun. Oppimateriaalipaketit ovat myös verkko-opetusta. Oppimisprosessin kuvaus verkkoalustalla on myös verkko-opetusta. Verkon työkaluja voidaan käyttää oppimisprosessin näkyväksi tekemisessä, vaikka itse opiskelu ei tapahdukaan verkkoympäristössä.',
+    description: 'Verkko-opetus tarkoittaa opetuksen järjestämistä verkkoon erilaisin digitaalisin välinein siten, että se on käytettävissä eri laitteilla selainpohjaisesti tai mobiili sovelluksena. Se voi olla online -kursseja, MOOCeja ja itseopiskelukursseja, webinaareja, verkostoja sekä niiden fasilitointia ja ohjausta. Verkko-opetus voidaan suunnitella joko samanaikaiseen tai eriaikaiseen opiskeluun. Oppimateriaalipaketit ovat myös verkko-opetusta. Oppimisprosessin kuvaus verkkoalustalla on myös verkko-opetusta. Verkon työkaluja voidaan käyttää oppimisprosessin näkyväksi tekemisessä, vaikka itse opiskelu ei tapahdukaan verkkoympäristössä.',
     keywords: [
       { value: 'oppiminen' },
       { value: 'verkko-opetus' },
@@ -2104,7 +2104,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet.m4a',
+          originalFilename: 'A Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2112,7 +2112,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6b-digipedagogiikka.pdf',
-          originalFilename: 'b Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet text.pdf',
+          originalFilename: 'b Podcast En webbaserad lärmiljö skapas genom att planera användarerfarenhet text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2120,7 +2120,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6c-digipedagogiikka.pdf',
-          originalFilename: 'c Användarerfarenhet utvärderingssablon.pdf',
+          originalFilename: 'c Användarerfarenhet utvärderingssablon.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2128,7 +2128,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6d-digipedagogiikka.m4a',
-          originalFilename: 'd Podcast Kommunikation på nätet.m4a',
+          originalFilename: 'd Podcast Kommunikation på nätet.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2136,7 +2136,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6e-digipedagogiikka.pdf',
-          originalFilename: 'e Podcast Kommunikation på nätet - text.pdf',
+          originalFilename: 'e Podcast Kommunikation på nätet - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2144,7 +2144,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6f-digipedagogiikka.m4a',
-          originalFilename: 'f Podcast Utbildningsmässiga videor.m4a',
+          originalFilename: 'f Podcast Utbildningsmässiga videor.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -2152,7 +2152,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6g-digipedagogiikka.pdf',
-          originalFilename: 'g Podcast Utbildningsmässiga videor - text.pdf',
+          originalFilename: 'g Podcast Utbildningsmässiga videor - text.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2160,7 +2160,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-6h-digipedagogiikka.pdf',
-          originalFilename: 'h Utvärdering av video.pdf',
+          originalFilename: 'h Utvärdering av video.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2222,7 +2222,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Hanne', lastName: 'Koli' },
     ],
     // tslint:disable-next-line
-    description: 'Nätbaserad undervisning betyder att undervisningen arrangeras och byggas upp på nätet med hjälp av olika digitala verktyg, så att den är tillgänglig både på dator och via en mobilapplikation. Det kan handla om online-kurser, MOOCs och självstudiekurser, webinarier, nätverk samt facilitering och handledning av dessa. Nätbaserad undervisning kan planeras så att den genomföras samtidigt eller vid olika tidpunkter. Också läromedelspaketen är nätbaserad undervisning. Beskrivningen av lärprocessen på lärplattformen är också nätbaserad undervisning. Verktyg på nätet kan användas till att synliggöra lärprocessen, också då själva studierna inte genomförs i nätmiljö.',
+    description: 'Nätbaserad undervisning betyder att undervisningen arrangeras och byggas upp på nätet med hjälp av olika digitala verktyg, så att den är tillgänglig både på dator och via en mobilapplikation. Det kan handla om online-kurser, MOOCs och självstudiekurser, webinarier, nätverk samt facilitering och handledning av dessa. Nätbaserad undervisning kan planeras så att den genomföras samtidigt eller vid olika tidpunkter. Också läromedelspaketen är nätbaserad undervisning. Beskrivningen av lärprocessen på lärplattformen är också nätbaserad undervisning. Verktyg på nätet kan användas till att synliggöra lärprocessen, också då själva studierna inte genomförs i nätmiljö.',
     keywords: [
       { value: 'Nätundervisning' },
       { value: 'pedagogik' },
@@ -2293,7 +2293,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/fi-7-digipedagogiikka.pdf',
-          originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
+          originalFilename: 'A Infotaulu Opetuksen digitaaliset välineet.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2466,7 +2466,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-7-digipedagogiikka.pdf',
-          originalFilename: 'A Infograf Digitala verktyg för undervisningen.pdf',
+          originalFilename: 'A Infograf Digitala verktyg för undervisningen.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2474,7 +2474,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-7b-digipedagogiikka.pdf',
-          originalFilename: 'b Infograf Digitala verktyg för studier.pdf',
+          originalFilename: 'b Infograf Digitala verktyg för studier.pdf',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
@@ -2769,7 +2769,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-8-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
+          originalFilename: 'A Podcast Digitala läromedel och användning av dem i undervisningen.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
@@ -3085,7 +3085,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://aoe.fi/files/sv-9-digipedagogiikka.m4a',
-          originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
+          originalFilename: 'A Podcast Hurdana IKT-färdigheter behöver läraren.m4a',
           mimeType: 'audio/mp4',
           format: 'audio',
         },
