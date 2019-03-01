@@ -3422,7 +3422,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'svenska',
+      value: 'Svenska',
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3669,7 +3669,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'svenska',
+      value: 'Svenska',
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -4106,7 +4106,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'svenska',
+      value: 'Svenska',
     },
     accessibilityFeatures: [
       { value: 'Table of Contents' },
@@ -4328,7 +4328,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'svenska',
+      value: 'Svenska',
     },
     accessibilityFeatures: [
       { value: 'Table of Contents' },
@@ -4339,6 +4339,240 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'No Flashing Hazard' },
       { value: 'No Motion Simulation Hazard' },
       { value: 'No Sound Hazard' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+    },
+  },
+  // Copyrights
+  {
+    id: 40,
+    specialId: 14,
+    img: 'assets/img/video.png',
+    download: 'https://aoe.fi/files/fi-tekijanoikeudet.pdf',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/fi-tekijanoikeudet.pdf',
+          originalFilename: 'Tekijanoikeudet opetuksessa.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Tekijänoikeudet opetuksessa',
+    slug: 'tekijanoikeudet-opetuksessa',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tarmo', lastName: 'Toikkanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Opettajan tiivis tietopaketti tekijänoikeuksien huomioinnista jokapäiväisessä opetuksessa.',
+    keywords: [
+      { value: 'tekijänoikeus' },
+      { value: 'lähioikeudet' },
+      { value: 'lisenssit' },
+      { value: 'opetus' },
+      { value: 'Creative Commons' },
+      { value: 'avoimet sisällöt' },
+    ],
+    learningResourceType: [
+      'video',
+      'exercise',
+      'guide',
+      'dataset',
+    ],
+    timeRequired: { value: '4 h' },
+    educationalLevel: [
+      { value: 'Omaehtoinen osaamisen kehittäminen' },
+      { value: 'Perusopetus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'opettaja' },
+      { value: 'hallinnoija' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    accessibilityFeatures: [
+      { value: 'sisällysluettelo' },
+      { value: 'yhtenäinen sivunumerointi' },
+      { value: 'tekstitys' },
+      { value: 'lukitsematon' },
+    ],
+    accessibilityHazard: [
+      { value: 'ei välähtelyhaittaa' },
+      { value: 'ei äänihaittaa' },
+    ],
+    accessibilityControl: [
+      { value: 'täysi näppäimistöllä käytettävyys' },
+      { value: 'täysi hiirellä käytettävyys' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+    },
+  },
+  {
+    id: 41,
+    specialId: 14,
+    img: 'assets/img/tekoaly.jpg',
+    download: 'https://aoe.fi/files/en-tekijanoikeudet.pdf',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/en-tekijanoikeudet.pdf',
+          originalFilename: 'Copyrights in education.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        }
+      },
+    ],
+    name: 'Copyrights in education',
+    slug: 'copyrights-in-education',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tarmo', lastName: 'Toikkanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Teachers compact source of information on everyday use of copyrights in education.',
+    keywords: [
+      { value: 'copyright' },
+      { value: 'related rights' },
+      { value: 'licenses' },
+      { value: 'teaching and instruction' },
+      { value: 'Creative Commons' },
+      { value: 'open content' },
+    ],
+    learningResourceType: [
+      'video',
+      'exercise',
+      'guide',
+      'dataset',
+    ],
+    timeRequired: { value: '4 h' },
+    educationalLevel: [
+      { value: 'Basic Education' },
+      { value: 'Self-motivated Competence Development' },
+      { value: 'upper Secondary School' },
+      { value: 'Vocational Education' },
+      { value: 'Higher Education' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'teacher' },
+      { value: 'professional' },
+      { value: 'administrator' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'EN',
+      value: 'English',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Captions' },
+      { value: 'Unlocked' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    accessibilityControl: [
+      { value: 'Full Keyboard Control' },
+      { value: 'Full Mouse Control' },
+    ],
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+    },
+  },
+  {
+    id: 42,
+    specialId: 14,
+    img: 'assets/img/video.jpg',
+    download: 'https://aoe.fi/files/sv-tekijanoikeudet.pdf',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/sv-tekijanoikeudet.pdf',
+          originalFilename: 'Upphovsrätten i undervisningen.pdf',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        }
+      },
+    ],
+    name: 'Upphovsrätt i undervisningen',
+    slug: 'upphovsratt-i-undervisningen',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 3, 1),
+    author: [
+      { firstName: 'Tarmo', lastName: 'Toikkanen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Läraren konkreta informationspaket om hur man förhåller sig till upphovsrätter in undervisningen.',
+    keywords: [
+      { value: 'upphovsrätt' },
+      { value: 'närstående rättigheter' },
+      { value: 'licenser' },
+      { value: 'undervisning' },
+      { value: 'Creative Commons' },
+      { value: 'öppna innehåll' },
+    ],
+    learningResourceType: [
+      'video',
+      'exercise',
+      'dataset',
+      'guide',
+    ],
+    timeRequired: { value: '4 h' },
+    educationalLevel: [
+      { value: 'Självständig utveckling av kompetens' },
+      { value: 'Grundläggande utbildning' },
+      { value: 'Gymnasietutbildning' },
+      { value: 'Yrkesutbilfning' },
+      { value: 'Högskol' },
+    ],
+    typicalAgeRange: '18-',
+    educationalRole: [
+      { value: 'lärare' },
+      { value: 'expert' },
+      { value: 'administrator' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'SV',
+      value: 'Svenska',
+    },
+    accessibilityFeatures: [
+      { value: 'Table of Contents' },
+      { value: 'Print Page Numbers' },
+      { value: 'Captions' },
+      { value: 'Unlocked' },
+    ],
+    accessibilityHazard: [
+      { value: 'No Flashing Hazard' },
+      { value: 'No Sound Hazard' },
+    ],
+    accessibilityControl: [
+      { value: 'Full Keyboard Control' },
+      { value: 'Full Mouse Control' },
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
