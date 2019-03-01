@@ -3185,7 +3185,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 28,
     specialId: 10,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/python.png',
     download: 'https://aoe.fi/files/fi-python.zip',
     materials: [
       {
@@ -3270,7 +3270,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 29,
     specialId: 10,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/python.png',
     download: 'https://aoe.fi/files/en-python.zip',
     materials: [
       {
@@ -3356,7 +3356,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 30,
     specialId: 10,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/python.png',
     download: 'https://aoe.fi/files/sv-python.zip',
     materials: [
       {
@@ -3433,7 +3433,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 31,
     specialId: 11,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/scratch.png',
     download: 'https://aoe.fi/files/fi-scratch.zip',
     materials: [
       {
@@ -3453,7 +3453,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Tero', lastName: 'Toivanen' },
     ],
     // tslint:disable-next-line
-    description: 'Ohjelmoinnin oppimispaketti Python-ympäristössä',
+    description: 'Ohjelmoinnin oppimispaketti Scratch-ympäristössä',
     keywords: [
       { value: 'ohjelmointi' },
       { value: 'ohjelmointikielet' },
@@ -3517,7 +3517,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 32,
     specialId: 11,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/scratch.png',
     download: 'https://aoe.fi/files/en-scratch.zip',
     materials: [
       {
@@ -3603,7 +3603,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 33,
     specialId: 11,
-    img: 'assets/img/kurssi.png',
+    img: 'assets/img/scratch.png',
     download: 'https://aoe.fi/files/sv-scratch.zip',
     materials: [
       {
