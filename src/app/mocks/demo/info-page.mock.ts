@@ -3,7 +3,7 @@ export const INFOPAGE = {
     title: 'Avointen oppimateriaalien palvelu',
     paragraphs: [
       // tslint:disable-next-line
-      'Opetus- ja kulttuuriministeriön ja Opetushallituksen kehittävät yhteisesti avointen oppimateriaalien palvelua. CSC – Tieteen tietotekniikan keskuksen koordinoimana kehitettävä palvelu on valtakunnallinen, kaikille koulutusasteille suunnattu ja sen tavoitteena on edistää avointen oppimateriaalien käyttöä.',
+      'Opetus- ja kulttuuriministeriö ja Opetushallitus kehittävät yhteisesti avointen oppimateriaalien palvelua. CSC – Tieteen tietotekniikan keskuksen koordinoimana kehitettävä palvelu on valtakunnallinen, kaikille koulutusasteille suunnattu ja sen tavoitteena on edistää avointen oppimateriaalien käyttöä.',
       // tslint:disable-next-line
       'Oppimateriaalipalvelun tavoitteena on edistää julkisin varoin tuotettujen oppimateriaalien käyttöä ja löydettävyyttä keräämällä avoimet oppimateriaalit ja niiden metatiedot yhteen palveluun. Oppimateriaalipalvelu tukee avointen oppimateriaalien pitkäikäisyyttä, jatkuvaa oppimista ja oppimisen uusien digitaalisten muotojen hyödyntämistä. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset.',
       // tslint:disable-next-line
