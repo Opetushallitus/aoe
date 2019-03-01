@@ -1,0 +1,18 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>{{ pageContent.title }}</h1>
+
+    <p *ngFor="let paragraph of pageContent.paragraphs">{{ paragraph }}</p>
+
+    <div *ngFor="let list of pageContent.lists">
+      <p>{{ list.pre }}</p>
+
+      <ul>
+        <li *ngFor="let item of list.items">{{ item }}</li>
+      </ul>
+    </div>
+
+    <h2>{{ pageContent.timeline.pre }}</h2>
+    <img src="{{ pageContent.timeline.image }}" alt="{{ pageContent.timeline.pre }}" class="img-fluid">
+  </div>
+</div>

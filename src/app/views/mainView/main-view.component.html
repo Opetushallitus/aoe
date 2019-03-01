@@ -88,27 +88,9 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h2>Tervetuloa Avointen oppimateriaalien edistäminen -sivuille!</h2>
+        <h2>{{ pageContent.title }}</h2>
 
-        <p>Opetus- ja kulttuuriministeriön ja Opetushallituksen kehittävät yhteisesti avointen oppimateriaalien palvelua. CSC &ndash; Tieteen tietotekniikan keskuksen koordinoimana kehitettävä palvelu on valtakunnallinen, kaikille koulutusasteille suunnattu ja sen tavoitteena on edistää avointen oppimateriaalien käyttöä. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset.</p>
-
-        <p>Aoe.fi-sivustolta saat tietoa palvelun kehittämisestä ja sen etenemisestä ja löydät maistiaisiksi muutamia avoimia oppimateriaaleja. Sivustolla olevat avoimet oppimateriaalit ovat opettajien osaamisen kehittämiseksi tarkoitettuja ja ne soveltuvat eri koulutusasteilla toimiville henkilöille.</p>
-
-        <p>Vuoden 2019 lopulla julkaistaan oppimateriaalipalvelun ensimmäinen tuotantoversio, josta käyttäjät voivat hakea keskitetysti avoimia oppimateriaaleja ja lisätä omien avoimien oppimateriaaliensa tietoja. Oppimateriaalipalvelun tavoitteena on edistää julkisin varoin tuotettujen oppimateriaalien käyttöä ja löydettävyyttä keräämällä avoimet oppimateriaalit ja niiden metatiedot yhteen palveluun.</p>
-
-        <p>Oppimateriaalipalvelu tukee avointen oppimateriaalien pitkäikäisyyttä, jatkuvaa oppimista ja oppimisen uusien digitaalisten muotojen hyödyntämistä.</p>
-
-        <p>Jo ennen ensimmäistä tuotantoversiota, olet tervetullut tutustumaan sivustolta löytyviin oppimateriaaleihin. Mikäli kiinnostuksesi heräsi, tule mukaan kehittämään palvelua mm. seuraavissa tilaisuuksissa:</p>
-
-        <ul>
-          <li>20.3. ITK-workshop. Ilmainen työpaja ITK-konferenssin yhteydessä, ei vaadi osallistumista ITK-konferenssiin. <a href="https://ohjelma.itk-konferenssi.fi/event/avoimet-oppimateriaalit-jatkuvan-opiskelun-tukena-95/register" target="_blank" rel="noopener">Ilmoittaudu mukaan</a>!</li>
-          <li>11.4. Työpaja Kohtio-Konferenssissa. Katso <a href="https://ohjelma.kohtio-konferenssi.fi/en_US/event/kohtio-konferenssi-2019-2/track/avoimet-oppimateriaalit-jatkuvan-oppimisen-tukena-986?source=agenda" target="_blank" rel="noopener">lisätietoja</a>.</li>
-          <li>Ota yhteyttä tai laita palautetta hankkeelle: oppimateriaalivaranto (at) csc.fi</li>
-        </ul>
-
-        <h3>Hankkeen aikajana</h3>
-
-        <img src="assets/img/hankkeen-aikajana.jpg" class="img-fluid" alt="">
+        <p *ngFor="let paragraph of pageContent.paragraphs">{{ paragraph }}</p>
       </div>
     </div><!--/.row-->
   </div>

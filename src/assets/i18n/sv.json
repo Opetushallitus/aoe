@@ -4,6 +4,7 @@
   },
   "navigation": {
     "home": "Framsida",
+    "info": "Info",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"

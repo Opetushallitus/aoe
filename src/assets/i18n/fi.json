@@ -4,6 +4,7 @@
   },
   "navigation": {
     "home": "Etusivu",
+    "info": "Lisätietoa",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"

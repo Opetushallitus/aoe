@@ -6,12 +6,8 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
-import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { HelpViewComponent } from './views/help-view/help-view.component';
-import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
-import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
-import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
+import { InfoViewComponent } from './views/info-view/info-view.component';
 
 export const routes: Routes = [
   {
@@ -44,31 +40,15 @@ export const routes: Routes = [
         path: 'etusivu',
         loadChildren: './views/mainView/main-view.module#MainViewModule'
       },
-      /*{
-        path: 'lisaa-materiaaleja',
-        component: AddMaterialComponent
-      },*/
       {
         path: 'demo/materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent
       },
-      /*{
-        path: 'ohje',
-        component: HelpViewComponent
-      },
       {
-        path: 'kayttoehdot',
-        component: TermsOfUseViewComponent
+        path: 'lisatietoa',
+        component: InfoViewComponent,
       },
-      {
-        path: 'rekisteriseloste',
-        component: PrivacyPolicyViewComponent
-      },
-      {
-        path: 'saavutettavuusseloste',
-        component: AccessibilityPolicyViewComponent
-      }*/
-    ]
+    ],
   },
   {
     path: '**',

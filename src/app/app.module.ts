@@ -47,6 +47,7 @@ import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.compon
 import { HtmlPreviewComponent } from './components/html-preview/html-preview.component';
 import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
+import { InfoViewComponent } from './views/info-view/info-view.component';
 
 @NgModule({
   imports: [
@@ -87,6 +88,7 @@ import { ImagePreviewComponent } from './components/image-preview/image-preview.
     HtmlPreviewComponent,
     OfficePreviewComponent,
     ImagePreviewComponent,
+    InfoViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

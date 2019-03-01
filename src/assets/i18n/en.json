@@ -4,6 +4,7 @@
   },
   "navigation": {
     "home": "Home",
+    "info": "Info",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
