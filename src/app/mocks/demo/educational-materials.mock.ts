@@ -4568,6 +4568,102 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
           ],
         },
       },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa1.png',
+          originalFilename: 'Kopiokissa osa1.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa2.png',
+          originalFilename: 'Kopiokissa osa2.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa3.png',
+          originalFilename: 'Kopiokissa osa3.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa4.png',
+          originalFilename: 'Kopiokissa osa4.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa5.png',
+          originalFilename: 'Kopiokissa osa5.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa6.png',
+          originalFilename: 'Kopiokissa osa6.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa7.png',
+          originalFilename: 'Kopiokissa osa7.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa8.png',
+          originalFilename: 'Kopiokissa osa8.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa9.png',
+          originalFilename: 'Kopiokissa osa9.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa10.png',
+          originalFilename: 'Kopiokissa osa10.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa11.png',
+          originalFilename: 'Kopiokissa osa11.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/osa12.png',
+          originalFilename: 'Kopiokissa osa12.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
     ],
     name: 'Tekijänoikeudet opetuksessa',
     slug: 'tekijanoikeudet-opetuksessa',
@@ -4851,6 +4947,102 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.sv.vtt',
             },
           ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part1.png',
+          originalFilename: 'Copycat part1.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part2.png',
+          originalFilename: 'Copycat part2.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part3.png',
+          originalFilename: 'Copycat part3.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part4.png',
+          originalFilename: 'Copycat part4.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part5.png',
+          originalFilename: 'Copycat part5.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part6.png',
+          originalFilename: 'Copycat part6.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part7.png',
+          originalFilename: 'Copycat part7.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part8.png',
+          originalFilename: 'Copycat part8.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part9.png',
+          originalFilename: 'Copycat part9.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part10.png',
+          originalFilename: 'Copycat part10.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part11.png',
+          originalFilename: 'Copycat part11.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/part12.png',
+          originalFilename: 'Copycat part12.png',
+          mimeType: 'image/png',
+          format: 'image',
         },
       },
     ],
@@ -5137,6 +5329,102 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
               default: true,
             },
           ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del1.png',
+          originalFilename: 'Kopiakatten del1.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del2.png',
+          originalFilename: 'Kopiakatten del2.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del3.png',
+          originalFilename: 'Kopiakatten del3.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del4.png',
+          originalFilename: 'Kopiakatten del4.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del5.png',
+          originalFilename: 'Kopiakatten del5.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del6.png',
+          originalFilename: 'Kopiakatten del6.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del7.png',
+          originalFilename: 'Kopiakatten del7.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del8.png',
+          originalFilename: 'Kopiakatten del8.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del9.png',
+          originalFilename: 'Kopiakatten del9.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del10.png',
+          originalFilename: 'Kopiakatten del10.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del11.png',
+          originalFilename: 'Kopiakatten del11.png',
+          mimeType: 'image/png',
+          format: 'image',
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/del12.png',
+          originalFilename: 'Kopiakatten del12.png',
+          mimeType: 'image/png',
+          format: 'image',
         },
       },
     ],
