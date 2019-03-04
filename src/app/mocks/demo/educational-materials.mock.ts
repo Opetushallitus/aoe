@@ -4386,6 +4386,188 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
           ],
         },
       },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.mp4',
+          originalFilename: 'avoinsisalto.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.mp4',
+          originalFilename: 'lahioikeudet.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.mp4',
+          originalFilename: 'ohjeet.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.mp4',
+          originalFilename: 'sitaatit.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.mp4',
+          originalFilename: 'teoskynnys.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.mp4',
+          originalFilename: 'videot.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.sv.vtt',
+            },
+          ],
+        },
+      },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.mp4',
+          originalFilename: 'ymparisto.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.sv.vtt',
+            },
+          ],
+        },
+      },
     ],
     name: 'Tekijänoikeudet opetuksessa',
     slug: 'tekijanoikeudet-opetuksessa',
