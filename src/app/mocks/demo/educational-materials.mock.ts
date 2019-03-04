@@ -4360,6 +4360,32 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
           format: 'pdf',
         },
       },
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.mp4',
+          originalFilename: 'avoinjulkaiseminen.mp4',
+          mimeType: 'video/mp4',
+          format: 'video',
+          subtitles: [
+            {
+              lang: 'fi',
+              label: 'suomi',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.fi.vtt',
+              default: true,
+            },
+            {
+              lang: 'en',
+              label: 'English',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.en.vtt',
+            },
+            {
+              lang: 'sv',
+              label: 'Svenska',
+              filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.sv.vtt',
+            },
+          ],
+        },
+      },
     ],
     name: 'Tekijänoikeudet opetuksessa',
     slug: 'tekijanoikeudet-opetuksessa',
