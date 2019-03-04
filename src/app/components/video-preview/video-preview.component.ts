@@ -7,7 +7,7 @@ import { Material } from '../../models/demo/material';
   templateUrl: './video-preview.component.html',
 })
 export class VideoPreviewComponent implements OnChanges {
-  @ViewChild('videoElement') videoPlayerRef: ElementRef;
+  @ViewChild('videoElement') private player: ElementRef;
   @Input() set material(material: Material) {
     this._material = material;
   }
@@ -15,6 +15,6 @@ export class VideoPreviewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // refreshes video player after source change
-    this.videoPlayerRef.nativeElement.load();
+    this.player.nativeElement.load();
   }
 }
