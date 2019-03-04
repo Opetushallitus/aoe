@@ -26,6 +26,13 @@ export class AppComponent implements OnInit {
     } else {
       translate.use(lang);
     }
+
+    //  Google Analytics
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).gtag('config', 'UA-135550416-1', { 'page_path': event.urlAfterRedirects });
+      }
+    });
   }
 
   ngOnInit() {
