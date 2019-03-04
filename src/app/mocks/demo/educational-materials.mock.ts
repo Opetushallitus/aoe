@@ -4349,7 +4349,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 40,
     specialId: 14,
-    img: 'assets/img/video.png',
+    img: 'assets/img/opas.png',
     download: 'https://aoe.fi/files/fi-tekijanoikeudet.pdf',
     materials: [
       {
@@ -4379,9 +4379,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'avoimet sisällöt' },
     ],
     learningResourceType: [
+      'guide',
       'video',
       'exercise',
-      'guide',
       'dataset',
     ],
     timeRequired: { value: '4 h' },
@@ -4426,7 +4426,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 41,
     specialId: 14,
-    img: 'assets/img/tekoaly.jpg',
+    img: 'assets/img/opas.png',
     download: 'https://aoe.fi/files/en-tekijanoikeudet.pdf',
     materials: [
       {
@@ -4456,9 +4456,9 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'open content' },
     ],
     learningResourceType: [
+      'guide',
       'video',
       'exercise',
-      'guide',
       'dataset',
     ],
     timeRequired: { value: '4 h' },
@@ -4504,7 +4504,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 42,
     specialId: 14,
-    img: 'assets/img/video.jpg',
+    img: 'assets/img/opas.jpg',
     download: 'https://aoe.fi/files/sv-tekijanoikeudet.pdf',
     materials: [
       {
@@ -4534,10 +4534,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'öppna innehåll' },
     ],
     learningResourceType: [
+      'guide',
       'video',
       'exercise',
       'dataset',
-      'guide',
     ],
     timeRequired: { value: '4 h' },
     educationalLevel: [
