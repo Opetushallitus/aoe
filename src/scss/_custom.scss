@@ -159,15 +159,22 @@ h2 {
       text-decoration: none;
     }
   }
+}
 
-  .footer-logos {
-    img {
-      margin-right: .75rem;
+.logos {
+  padding-bottom: .75rem;
+  padding-top: .75rem;
 
-      &:last-of-type {
-        margin-right: 0;
-      }
-    }
+  img {
+    margin-bottom: .75rem;
+    margin-left: .5rem;
+    margin-right: .5rem;
+  }
+
+  span {
+    color: #373737;
+    display: block;
+    @include font-size(12);
   }
 }
 
