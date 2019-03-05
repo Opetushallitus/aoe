@@ -13,14 +13,14 @@
     group: "{{ item.owner }}"
   with_items:
     - {
-        src: justus-backend.conf.j2,
-        dest: /etc/httpd/conf.d/justus-backend.conf,
+        src: aoe-backend.conf.j2,
+        dest: /etc/httpd/conf.d/aoe-backend.conf,
         mode: "0644",
         owner: root
       }
 
 - name: Make sure path exists for service to boot
   file:
-    path: /opt/justus-backend
+    path: /opt/aoe-backend
     state: directory
   ignore_errors: true

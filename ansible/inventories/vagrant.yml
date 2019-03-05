@@ -7,15 +7,5 @@ all:
           ansible_ssh_user: vagrant
       vars:
         environment_id: vagrant
-        backend_server_path: /opt/justus-backend
+        backend_server_path: /opt/aoe-backend
         secrets_file_path: "vars/default-secrets.yml"
-        demo:
-          cors:
-            disable: True
-          user:
-            enabled: True
-            uid: "e123456"
-            sn: "Testaaja"
-            givenname: "Testi"
-            mail: "tessi.testaaja@csc.fi"
-            group: "@csc.fi;jira-users;https://tt.eduuni.fi/groups/justus#group-admins;"

@@ -34,8 +34,8 @@
     group: "{{ item.owner }}"
   with_items:
     - {
-        src: justus-backend.ini.j2,
-        dest: /etc/justus-backend.ini,
+        src: aoe-backend.ini.j2,
+        dest: /etc/aoe-backend.ini,
         mode: "0644",
         owner: root
       }
@@ -122,7 +122,7 @@
   become_user: vagrant
 
 - name: Create the session table for the database
-  shell: psql -h 10.10.10.10 -U appaccount -d justus {{ "<" }} node_modules/connect-pg-simple/table.sql
+  shell: psql -h 10.10.10.10 -U appaccount -d aoe {{ "<" }} node_modules/connect-pg-simple/table.sql
   args:
     chdir: "{{ sources.path }}"
 

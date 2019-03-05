@@ -18,7 +18,7 @@
     mode: 0644
   with_items:
     - httpd.ini
-    - justus.ini
+    - aoe.ini
     - postgres.ini
     - redis.ini
     - samba.ini
