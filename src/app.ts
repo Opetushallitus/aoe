@@ -2,17 +2,16 @@ import express, { NextFunction } from "express";
 import compression from "compression";  // compresses requests
 import lusca from "lusca";
 import dotenv from "dotenv";
-// import flash from "express-flash";
 import path from "path";
 import expressValidator from "express-validator";
-
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
 
-
+const flash = require("express-flash");
 
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
+import * as homeController from "./controllers/home";
 
 // Create Express server
 const app = express();
@@ -32,10 +31,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("port", 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
-// app.get("/", homeController.index);
+app.get("/", homeController.index);
 // app.use("/", apiRouter);
 app.use(expressValidator);
-// app.use(flash);
+app.use(flash);
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection);
 
