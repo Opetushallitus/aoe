@@ -10,6 +10,7 @@ const router: Router = Router();
 router.get("/lukionkurssit", eperusteetKoodisto.getLukionkurssit);
 router.get("/opetussuunnitelmat", eperusteetAmosaa.getOpetussuunnitelmat);
 router.get("/yso", finto.getYsoOntologia);
+router.get("/keyword/:key", finto.getYsoKeyword);
 
 // Actual routes
 // router.get("/aiheet/:search", handler.function);
