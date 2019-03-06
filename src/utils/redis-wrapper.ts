@@ -1,6 +1,6 @@
 const redis = require("async-redis"); // no TypeScript typings
 
-export class RedisWrapper {
+export default class RedisWrapper {
   private client: any;
 
   constructor() {

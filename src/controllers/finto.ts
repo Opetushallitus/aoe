@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import rp from "request-promise";
 import { parseString, processors } from "xml2js";
 
-import { RedisWrapper } from "../utils/redis-wrapper";
+import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
 
@@ -27,7 +27,7 @@ async function getData(endpoint: string, lang: string, key: string) {
         attrValueProcessors: [processors.stripPrefix]
       };
 
-      const data = await new Promise((resolve, reject) => {
+      const data: any = await new Promise((resolve, reject) => {
         parseString(body, parseOptions, (err, result) => {
           if (err) {
             reject(err);

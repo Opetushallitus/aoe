@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import rp from "request-promise";
 
-import { RedisWrapper } from "../utils/redis-wrapper";
+import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
 
