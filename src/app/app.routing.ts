@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
+import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,10 @@ export const routes: Routes = [
       {
         path: 'lisatietoa',
         component: InfoViewComponent,
+      },
+      {
+        path: 'koodisto-testi',
+        component: KoodistoTestiComponent,
       },
     ],
   },
