@@ -7,7 +7,7 @@ export default class RedisWrapper {
     this.client = redis.createClient();
   }
 
-  public async setToRedis(key: string, obj: object[]) {
+  public async setToRedis(key: string, obj: object) {
     await this.client.set(key, JSON.stringify(obj));
   }
 
@@ -17,7 +17,17 @@ export default class RedisWrapper {
     return JSON.parse(data);
   }
 
+  public async getAllFromRedis() {
+    const data = await this.client.keys("*");
+
+    return JSON.parse(data);
+  }
+
   public exists(key: string) {
     return this.client.exists(key);
+  }
+
+  public select(database: number): void {
+    this.client.select(database);
   }
 }

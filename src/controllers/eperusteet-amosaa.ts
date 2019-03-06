@@ -5,6 +5,8 @@ import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
 
+client.select(1);
+
 async function getData(endpoint: string, lang: string, key: string) {
   if (await client.exists(key)) {
     return await client.getFromRedis(key);
