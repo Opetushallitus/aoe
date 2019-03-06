@@ -25,3 +25,7 @@ $ yarn run watch
 # build for production
 $ yarn run build
 ```
+
+## Endpoints
+
+Endpoints are prefixed with `/api/v1`
