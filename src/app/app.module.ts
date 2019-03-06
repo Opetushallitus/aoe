@@ -48,6 +48,7 @@ import { HtmlPreviewComponent } from './components/html-preview/html-preview.com
 import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
+import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
 
 @NgModule({
   imports: [
@@ -89,6 +90,7 @@ import { InfoViewComponent } from './views/info-view/info-view.component';
     OfficePreviewComponent,
     ImagePreviewComponent,
     InfoViewComponent,
+    KoodistoTestiComponent,
   ],
   providers: [{
     provide: LocationStrategy,
