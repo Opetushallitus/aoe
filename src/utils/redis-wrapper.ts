@@ -7,27 +7,23 @@ export default class RedisWrapper {
     this.client = redis.createClient();
   }
 
-  public async setToRedis(key: string, obj: object) {
-    await this.client.set(key, JSON.stringify(obj));
+  public async set(key: string, data: string): Promise<string> {
+    return await this.client.set(key, data);
   }
 
-  public async getFromRedis(key: string) {
-    const data = await this.client.get(key);
-
-    return JSON.parse(data);
-  }
-
-  public async getAllFromRedis() {
-    const data = await this.client.keys("*");
-
-    return JSON.parse(data);
+  public async get(key: string) {
+    return await this.client.get(key);
   }
 
   public exists(key: string) {
     return this.client.exists(key);
   }
 
-  public select(database: number): void {
-    this.client.select(database);
+  public keys(pattern: string): Promise<string[]> {
+    return this.client.keys(pattern);
+  }
+
+  public del(key: string): number {
+    return this.client.del(key);
   }
 }

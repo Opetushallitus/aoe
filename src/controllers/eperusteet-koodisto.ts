@@ -1,10 +1,13 @@
-import { Request, Response } from "express";
 import rp from "request-promise";
 
-async function getData(endpoint: string, lang: string) {
+import RedisWrapper from "../utils/redis-wrapper";
+
+const client = new RedisWrapper();
+
+export async function setLukionkurssit() {
   try {
     const options = {
-      url: process.env.KOODISTO_SERVICE_URL + endpoint,
+      url: `${process.env.KOODISTO_SERVICE_URL}/lukionkurssit/koodi`,
       headers: {
         "Accept": "application/json"
       }
@@ -12,20 +15,25 @@ async function getData(endpoint: string, lang: string) {
 
     const body = await rp.get(options);
     const results = JSON.parse(body);
+    const data: object[] = [];
 
-    return results.map((koodi: any) => {
-      const metadata = koodi.metadata.find((e: any) => e.kieli.toLowerCase() === lang);
+    results.map((koodi: any) => {
+      const metadataFi = koodi.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
+      const metadataEn = koodi.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
+      const metadataSv = koodi.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-      return {
-        "arvo": koodi.koodiUri,
-        "selite": metadata ? metadata.nimi : undefined,
-      };
+      data.push({
+        "key": koodi.koodiUri,
+        "value": {
+          "fi": metadataFi ? metadataFi.nimi : undefined,
+          "en": metadataEn ? metadataEn.nimi : undefined,
+          "sv": metadataSv ? metadataSv.nimi : undefined,
+        }
+      });
     });
+
+    await client.set("lukionkurssit", JSON.stringify(data));
   } catch (error) {
     console.log(error);
   }
 }
-
-export const getLukionkurssit = async (req: Request, res: Response) => {
-  res.status(200).json(await getData("/lukionkurssit/koodi?onlyValidKoodis=false", "sv"));
-};
