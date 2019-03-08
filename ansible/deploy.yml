@@ -7,11 +7,12 @@
   roles:
     # - update
     - os-setup
-    - apache
+    # - apache
+    - nginx
     - nodejs
     - redis
     - firewall
     - postgres
     - samba
     - services
-    - justus
+    - aoe
