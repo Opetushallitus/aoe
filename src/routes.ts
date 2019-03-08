@@ -1,20 +1,16 @@
 import { Router } from "express";
 
-import * as eperusteetKoodisto from "./controllers/eperusteet-koodisto";
-import * as eperusteetAmosaa from "./controllers/eperusteet-amosaa";
-import * as finto from "./controllers/finto";
+import { getData } from "./controllers/common";
+import * as redis from "./controllers/redis";
 
 const router: Router = Router();
 
-// Development purposes
-router.get("/lukionkurssit", eperusteetKoodisto.getLukionkurssit);
-router.get("/opetussuunnitelmat", eperusteetAmosaa.getOpetussuunnitelmat);
-router.get("/yso", finto.getYsoOntologia);
-router.get("/keyword/:key", finto.getYsoKeyword);
+// Get routes
+router.get("/koodisto-service/:key", getData);
+router.get("/amosaa/:key", getData);
+router.get("/finto/:key", getData);
 
-// Actual routes
-// router.get("/aiheet/:search", handler.function);
-// router.get("/oppiaineet/:search", handler.function);
-// router.get("/opetussuunnitelmat/:search", handler.function);
+// Patch routes
+router.delete("/redis/delete/:key", redis.deleteKey);
 
 export default router;
