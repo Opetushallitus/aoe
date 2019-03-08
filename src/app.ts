@@ -7,7 +7,9 @@ import cors from "cors";
 
 import router from "./routes";
 
-import { setYsoData } from "./controllers/finto";
+import { setYso } from "./controllers/finto";
+import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
+import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
 
 dotenv.config();
 
@@ -31,7 +33,10 @@ app.set("port", 3000);
 
 // Init
 // set data to redis (if not already set)
-setYsoData("/yso/data");
+setYso();
+setOpetussuunnitelmat();
+setLukionkurssit();
+
 
 // set cron jobs to run daily/weekly
 
