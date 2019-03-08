@@ -13,3 +13,13 @@ export const getData = async (req: Request, res: Response) => {
     res.sendStatus(404);
   }
 };
+
+export const deleteKey = async (req: Request, res: Response) => {
+  const deleteStatus = await client.del(req.params.key);
+
+  if (deleteStatus > 0) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(404);
+  }
+};

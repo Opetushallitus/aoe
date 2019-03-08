@@ -1,7 +1,6 @@
 import { Router } from "express";
 
-import { getData } from "./controllers/common";
-import * as redis from "./controllers/redis";
+import { deleteKey, getData } from "./controllers/common";
 
 const router: Router = Router();
 
@@ -11,6 +10,6 @@ router.get("/amosaa/:key", getData);
 router.get("/finto/:key", getData);
 
 // Patch routes
-router.delete("/redis/delete/:key", redis.deleteKey);
+router.delete("/redis/delete/:key", deleteKey);
 
 export default router;
