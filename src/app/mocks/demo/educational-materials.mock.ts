@@ -3780,7 +3780,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { firstName: 'Suomen', lastName: 'Koodikoulu' },
     ],
     // tslint:disable-next-line
-    description: 'Oppimateriaalissa esitellään robotiikan ja automaation käsitteistöä, käsitellään tä arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
+    description: 'Oppimateriaalissa esitellään robotiikan ja automaation käsitteistöä, käsitellään arjen ja teollisuuden robotiikkaa nyt ja tulevaisuudessa',
     keywords: [
       { value: 'robotiikka' },
       { value: 'automaatio' },
