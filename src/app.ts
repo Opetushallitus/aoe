@@ -33,10 +33,11 @@ app.set("port", 3000);
 
 // Init
 // set data to redis (if not already set)
-setYso();
-setOpetussuunnitelmat();
-setLukionkurssit();
-
+app.on("listening", async () => {
+  await setYso();
+  await setOpetussuunnitelmat();
+  await setLukionkurssit();
+});
 
 // set cron jobs to run daily/weekly
 
