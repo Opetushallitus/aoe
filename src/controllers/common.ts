@@ -5,10 +5,19 @@ import RedisWrapper from "../utils/redis-wrapper";
 const client = new RedisWrapper();
 
 export const getData = async (req: Request, res: Response) => {
-  const data = await client.get(req.params.key);
+  let data = JSON.parse(await client.get(req.params.key));
+
+  if (req.params.lang) {
+    data = data.map((row: any) => {
+      return {
+        "key": row.key,
+        "value": row.value[req.params.lang],
+      };
+    });
+  }
 
   if (data !== null) {
-    res.status(200).json(JSON.parse(data));
+    res.status(200).json(data);
   } else {
     res.sendStatus(404);
   }
