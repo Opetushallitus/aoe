@@ -4,12 +4,15 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import session from "express-session";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 
 import router from "./routes";
 
 import { setYso } from "./controllers/finto";
 import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
 import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
+
+const swaggerDocument = require("./swagger.json");
 
 dotenv.config();
 
@@ -43,5 +46,8 @@ app.on("listening", async () => {
 
 // Prefixed routes
 app.use("/api/v1", router);
+
+// Swagger
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;

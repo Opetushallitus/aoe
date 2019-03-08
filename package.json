@@ -27,6 +27,7 @@
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "swagger-ui-express": "^4.0.2",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/redis": "^2.8.10",
     "@types/request": "^2.48.1",
     "@types/request-promise": "^4.1.42",
+    "@types/swagger-ui-express": "^3.0.0",
     "@types/xml2js": "^0.4.3",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.9",
