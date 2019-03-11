@@ -259,7 +259,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -315,7 +315,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -404,7 +404,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -493,7 +493,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -527,7 +527,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -596,7 +596,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -696,7 +696,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -796,7 +796,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -830,7 +830,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -983,7 +983,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -1167,7 +1167,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -1352,7 +1352,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -1386,7 +1386,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -1459,7 +1459,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -1567,7 +1567,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -1675,7 +1675,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -1709,7 +1709,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -1864,7 +1864,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2051,7 +2051,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -2239,7 +2239,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -2273,7 +2273,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -2327,7 +2327,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2413,7 +2413,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -2500,7 +2500,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -2534,7 +2534,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -2608,7 +2608,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -2716,7 +2716,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -2823,7 +2823,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -2857,7 +2857,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -2928,7 +2928,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3032,7 +3032,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'continuing education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper secondary school' },
       { value: 'vocational education' },
       { value: 'higher education' },
@@ -3137,7 +3137,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: 'fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'gymnasietutbildning' },
       { value: 'yrkesutbilfning' },
       { value: 'högskol' },
@@ -3171,7 +3171,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'transcript' },
@@ -3223,7 +3223,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3308,7 +3308,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'Continuing Education' },
+      { value: 'self-motivated competence development' },
       { value: 'Self-motivated Competence Development' },
       { value: 'upper Secondary School' },
       { value: 'Vocational Education' },
@@ -3393,7 +3393,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'Fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
       { value: 'Högskol' },
@@ -3422,7 +3422,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3470,7 +3470,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3555,7 +3555,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'Continuing Education' },
+      { value: 'self-motivated competence development' },
       { value: 'Self-motivated Competence Development' },
       { value: 'upper Secondary School' },
       { value: 'Vocational Education' },
@@ -3640,7 +3640,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '8 h' },
     educationalLevel: [
-      { value: 'Fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
       { value: 'Högskol' },
@@ -3669,7 +3669,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
@@ -3797,7 +3797,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -3940,7 +3940,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
-      { value: 'Continuing Education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper Secondary School' },
       { value: 'Vocational Education' },
       { value: 'Higher Education' },
@@ -4091,7 +4091,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '54 h' },
     educationalLevel: [
-      { value: 'Fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
       { value: 'Högskol' },
@@ -4106,7 +4106,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'Table of Contents' },
@@ -4167,7 +4167,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
-      { value: 'täydennyskoulutus' },
+      { value: 'omaehtoinen osaamisen kehittäminen' },
       { value: 'lukiokoulutus' },
       { value: 'ammatillinen koulutus' },
       { value: 'korkeakoulutus' },
@@ -4240,7 +4240,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
-      { value: 'Continuing Education' },
+      { value: 'self-motivated competence development' },
       { value: 'upper Secondary School' },
       { value: 'Vocational Education' },
       { value: 'Higher Education' },
@@ -4313,7 +4313,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     timeRequired: { value: '27 h' },
     educationalLevel: [
-      { value: 'Fortbildning' },
+      { value: 'självständig utveckling av kompentes' },
       { value: 'Gymnasietutbildning' },
       { value: 'Yrkesutbilfning' },
       { value: 'Högskol' },
@@ -4328,7 +4328,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'Table of Contents' },
@@ -4380,7 +4380,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.sv.vtt',
             },
           ],
@@ -4406,7 +4406,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.sv.vtt',
             },
           ],
@@ -4432,7 +4432,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.sv.vtt',
             },
           ],
@@ -4458,7 +4458,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.sv.vtt',
             },
           ],
@@ -4484,7 +4484,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.sv.vtt',
             },
           ],
@@ -4510,7 +4510,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.sv.vtt',
             },
           ],
@@ -4536,7 +4536,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.sv.vtt',
             },
           ],
@@ -4562,7 +4562,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.sv.vtt',
             },
           ],
@@ -4665,7 +4665,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.sv.vtt',
             },
           ],
@@ -4691,7 +4691,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.sv.vtt',
             },
           ],
@@ -4717,7 +4717,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.sv.vtt',
             },
           ],
@@ -4743,7 +4743,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.sv.vtt',
             },
           ],
@@ -4769,7 +4769,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.sv.vtt',
             },
           ],
@@ -4795,7 +4795,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.sv.vtt',
             },
           ],
@@ -4821,7 +4821,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.sv.vtt',
             },
           ],
@@ -4847,7 +4847,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.sv.vtt',
             },
           ],
@@ -4920,7 +4920,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 42,
     specialId: 14,
-    img: 'assets/img/opas.jpg',
+    img: 'assets/img/opas.png',
     download: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/tekijanoikeudet.zip',
     materials: [
       {
@@ -4950,7 +4950,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinjulkaiseminen.sv.vtt',
               default: true,
             },
@@ -4976,7 +4976,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/avoinsisalto.sv.vtt',
               default: true,
             },
@@ -5002,7 +5002,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/lahioikeudet.sv.vtt',
               default: true,
             },
@@ -5028,7 +5028,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ohjeet.sv.vtt',
               default: true,
             },
@@ -5054,7 +5054,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/sitaatit.sv.vtt',
               default: true,
             },
@@ -5080,7 +5080,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/teoskynnys.sv.vtt',
               default: true,
             },
@@ -5106,7 +5106,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/videot.sv.vtt',
               default: true,
             },
@@ -5132,7 +5132,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
             },
             {
               lang: 'sv',
-              label: 'Svenska',
+              label: 'svenska',
               filePath: 'https://aoe.fi/files/tekijanoikeudet-opetuksessa/ymparisto.sv.vtt',
               default: true,
             },
@@ -5182,7 +5182,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     inLanguage: {
       id: 'SV',
-      value: 'Svenska',
+      value: 'svenska',
     },
     accessibilityFeatures: [
       { value: 'Table of Contents' },
