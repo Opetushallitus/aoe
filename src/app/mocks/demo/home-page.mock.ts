@@ -21,5 +21,17 @@ export const HOMEPAGE = {
       'In the end of 2019 the first production version of the service will be released. The service will offer a shared data warehouse for searching for and saving open educational resources and their metadata. Users can save their own learning resources and the associated metadata in the service.',
     ],
   },
-  sv: {},
+  sv: {
+    title: 'Välkommen till hemsidan för främjandet av öppna lärresurser!',
+    paragraphs: [
+      // tslint:disable-next-line
+      'Undervisnings- och kulturministeriet utvecklar i samband med Utbildningsstyrelsen en tjänst för öppna digitala lärresurser.',
+      // tslint:disable-next-line
+      'Tjänsten vars utveckling CSC - IT-centret för vetenskap koordinerar är en landsomfattande tjänst som är riktad för samtliga utbildningsnivåer och dess mål är att främja användningen av öppna lärresurser. Tjänsten och lärresurserna som hittas där kan användas av både lärare, elever, studerande och alla andra medborgare.',
+      // tslint:disable-next-line
+      'På Aoe.fi sidan kan du hitta information om tjänstens utveckling och framsteg samt hitta ett fåtal öppna lärresurser som smakprov. De öppna lärresurserna du hittar på sidan är ämnade för att utveckla lärarnas kompetens och de lämpar sig för lärare oberoende vilken utbildningsnivå de agerar inom.',
+      // tslint:disable-next-line
+      'I slutet av 2019 lanseras tjänstens första produktionsversion, där användare kan central söka öppna lärresurser och själv publicera sina egna öppna lärresurser.',
+    ],
+  },
 };
