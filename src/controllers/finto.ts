@@ -46,7 +46,7 @@ export async function setYso() {
             });
           });
 
-          await client.set("yso", JSON.stringify(data));
+          await client.set("asiasanat", JSON.stringify(data));
         }
       });
     });
