@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import session from "express-session";
 import cors from "cors";
-import swaggerUi from "swagger-ui-express";
 
 import router from "./routes";
 
@@ -12,11 +11,10 @@ import { setYso } from "./controllers/finto";
 import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
 import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
 
-const swaggerDocument = require("./swagger.json");
-
 dotenv.config();
 
 const app = express();
+const expressSwagger = require("express-swagger-generator")(app);
 
 // Configuration
 app.use(session({
@@ -35,12 +33,10 @@ app.use(cors()); // Enable CORS for dev purposes
 app.set("port", 3000);
 
 // Init
-// set data to redis (if not already set)
-app.on("listening", async () => {
-  await setYso();
-  await setOpetussuunnitelmat();
-  await setLukionkurssit();
-});
+// set data to redis (if not already set).
+setYso();
+setOpetussuunnitelmat();
+setLukionkurssit();
 
 // set cron jobs to run daily/weekly
 
@@ -48,6 +44,23 @@ app.on("listening", async () => {
 app.use("/api/v1", router);
 
 // Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+const options = {
+  swaggerDefinition: {
+    info: {
+      description: "This is a sample server",
+      title: "Swagger",
+      version: "1.0.0",
+    },
+    host: "localhost:3000",
+    basePath: "/api/v1",
+    produces: [
+      "application/json"
+    ],
+    schemes: ["http", "https"]
+  },
+  basedir: __dirname, // app absolute path
+  files: ["./routes.js"] // Path to the API handle folder
+};
+expressSwagger(options);
 
 export default app;
