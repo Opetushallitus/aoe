@@ -1,0 +1,366 @@
+[
+  {
+    "koodi": 1,
+    "nimike": "Luonnontieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 111,
+		    "nimike": "Matematiikka"
+		  },
+		  {
+		    "koodi": 112,
+		    "nimike": "Tilastotiede"
+		  },
+		  {
+		    "koodi": 113,
+		    "nimike": "Tietojenkäsittely ja informaatiotieteet"
+		  },
+		  {
+		    "koodi": 114,
+		    "nimike": "Fysiikka"
+		  },
+		  {
+		    "koodi": 115,
+		    "nimike": "Avaruustieteet ja tähtitiede"
+		  },
+		  {
+		    "koodi": 116,
+		    "nimike": "Kemia"
+		  },
+		  {
+		    "koodi": 117,
+		    "nimike": "Maantiede ja ympäristötieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 1171,
+				    "nimike": "Geotieteet"
+				  },
+				  {
+				    "koodi": 1172,
+				    "nimike": "Ympäristötiede"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 118,
+		    "nimike": "Biotieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 1181,
+				    "nimike": "Ekologia, evoluutiobiologia"
+				  },
+				  {
+				    "koodi": 1182,
+				    "nimike": "Biokemia, solu- ja molekyylibiologia"
+				  },
+				  {
+				    "koodi": 1183,
+				    "nimike": "Kasvibiologia, mikrobiologia, virologia"
+				  },
+				  {
+				    "koodi": 1184,
+				    "nimike": "Genetiikka, kehitysbiologia, fysiologia"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 119,
+		    "nimike": "Muut luonnontieteet"
+		  }
+		]
+  },
+  {
+    "koodi": 2,
+    "nimike": "Tekniikka",
+		"tieteenalat": [
+			{
+		    "koodi": 211,
+		    "nimike": "Arkkitehtuuri"
+		  },
+		  {
+		    "koodi": 212,
+		    "nimike": "Rakennus- ja yhdyskuntatekniikka"
+		  },
+		  {
+		    "koodi": 213,
+		    "nimike": "Sähkö-, automaatio- ja tietoliikennetekniikka, elektroniikka"
+		  },
+		  {
+		    "koodi": 214,
+		    "nimike": "Kone- ja valmistustekniikka"
+		  },
+		  {
+		    "koodi": 215,
+		    "nimike": "Teknillinen kemia, kemian prosessitekniikka"
+		  },
+		  {
+		    "koodi": 216,
+		    "nimike": "Materiaalitekniikka"
+		  },
+		  {
+		    "koodi": 217,
+		    "nimike": "Lääketieteen tekniikka"
+		  },
+		  {
+		    "koodi": 218,
+		    "nimike": "Ympäristötekniikka"
+		  },
+		  {
+		    "koodi": 219,
+		    "nimike": "Ympäristön bioteknologia"
+		  },
+		  {
+		    "koodi": 220,
+		    "nimike": "Teollinen bioteknologia"
+		  },
+		  {
+		    "koodi": 221,
+		    "nimike": "Nanoteknologia"
+		  },
+		  {
+		    "koodi": 222,
+		    "nimike": "Muu tekniikka"
+		  }
+		]
+  },
+  {
+    "koodi": 3,
+    "nimike": "Lääke- ja terveystieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 311,
+		    "nimike": "Peruslääketieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 3111,
+				    "nimike": "Biolääketieteet"
+				  },
+				  {
+				    "koodi": 3112,
+				    "nimike": "Neurotieteet"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 312,
+		    "nimike": "Kliiniset lääketieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 3121,
+				    "nimike": "Yleislääketiede, sisätaudit ja muut kliiniset lääketieteet"
+				  },
+				  {
+				    "koodi": 3122,
+				    "nimike": "Syöpätaudit"
+				  },
+				  {
+				    "koodi": 3123,
+				    "nimike": "Naisten- ja lastentaudit"
+				  },
+				  {
+				    "koodi": 3124,
+				    "nimike": "Neurologia ja psykiatria"
+				  },
+				  {
+				    "koodi": 3125,
+				    "nimike": "Korva-, nenä- ja kurkkutaudit, silmätaudit"
+				  },
+				  {
+				    "koodi": 3126,
+				    "nimike": "Kirurgia, anestesiologia, tehohoito, radiologia"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 313,
+		    "nimike": "Hammaslääketieteet"
+		  },
+		  {
+		    "koodi": 314,
+		    "nimike": "Terveystieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 3141,
+				    "nimike": "Terveystiede"
+				  },
+				  {
+				    "koodi": 3142,
+				    "nimike": "Kansanterveystiede, ympäristö ja työterveys"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 315,
+		    "nimike": "Liikuntatiede"
+		  },
+		  {
+		    "koodi": 316,
+		    "nimike": "Hoitotiede"
+		  },
+		  {
+		    "koodi": 317,
+		    "nimike": "Farmasia"
+		  },
+		  {
+		    "koodi": 318,
+		    "nimike": "Lääketieteen bioteknologia"
+		  },
+		  {
+		    "koodi": 319,
+		    "nimike": "Oikeuslääketiede ja muut lääketieteet"
+		  }
+		]
+  },
+  {
+    "koodi": 4,
+    "nimike": "Maatalous- ja metsätieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 411,
+		    "nimike": "Maataloustiede ja metsätiede",
+				"tieteenalat": [
+					{
+				    "koodi": 4111,
+				    "nimike": "Maataloustiede"
+				  },
+				  {
+				    "koodi": 4112,
+				    "nimike": "Metsätiede"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 412,
+		    "nimike": "Kotieläintiede, maitotaloustiede"
+		  },
+		  {
+		    "koodi": 413,
+		    "nimike": "Eläinlääketiede"
+		  },
+		  {
+		    "koodi": 414,
+		    "nimike": "Maatalouden bioteknologia"
+		  },
+		  {
+		    "koodi": 415,
+		    "nimike": "Muut maataloustieteet"
+		  }
+		]
+  },
+  {
+    "koodi": 5,
+    "nimike": "Yhteiskuntatieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 511,
+		    "nimike": "Kansantaloustiede"
+		  },
+		  {
+		    "koodi": 512,
+		    "nimike": "Liiketaloustiede"
+		  },
+		  {
+		    "koodi": 513,
+		    "nimike": "Oikeustiede"
+		  },
+		  {
+		    "koodi": 514,
+		    "nimike": "Sosiaalitieteet",
+				"tieteenalat": [
+					{
+				    "koodi": 5141,
+				    "nimike": "Sosiologia"
+				  },
+				  {
+				    "koodi": 5142,
+				    "nimike": "Sosiaali- ja yhteiskuntapolitiikka"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 515,
+		    "nimike": "Psykologia"
+		  },
+		  {
+		    "koodi": 516,
+		    "nimike": "Kasvatustieteet"
+		  },
+		  {
+		    "koodi": 517,
+		    "nimike": "Valtio-oppi, hallintotiede"
+		  },
+		  {
+		    "koodi": 518,
+		    "nimike": "Media- ja viestintätieteet"
+		  },
+		  {
+		    "koodi": 519,
+		    "nimike": "Yhteiskuntamaantiede, talousmaantiede"
+		  },
+		  {
+		    "koodi": 520,
+		    "nimike": "Muut yhteiskuntatieteet"
+		  }
+		]
+  },
+  {
+    "koodi": 6,
+    "nimike": "Humanistiset tieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 611,
+		    "nimike": "Filosofia"
+		  },
+		  {
+		    "koodi": 612,
+		    "nimike": "Kielitieteet, kirjallisuus",
+				"tieteenalat": [
+					{
+				    "koodi": 6121,
+				    "nimike": "Kielitieteet"
+				  },
+				  {
+				    "koodi": 6122,
+				    "nimike": "Kirjallisuuden tutkimus"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 613,
+		    "nimike": "Taiteiden tutkimus",
+				"tieteenalat": [
+					{
+				    "koodi": 6131,
+				    "nimike": "Teatteri, tanssi, musiikki, muut esittävät taiteet"
+				  },
+				  {
+				    "koodi": 6132,
+				    "nimike": "Kuvataide ja muotoilu"
+				  }
+				]
+		  },
+		  {
+		    "koodi": 614,
+		    "nimike": "Teologia"
+		  },
+		  {
+		    "koodi": 615,
+		    "nimike": "Historia ja arkeologia"
+		  },
+		  {
+		    "koodi": 616,
+		    "nimike": "Muut humanistiset tieteet"
+		  }
+		]
+  },
+  {
+    "koodi": 9,
+    "nimike": "Muut tieteet",
+		"tieteenalat": [
+			{
+		    "koodi": 999,
+		    "nimike": "Muut"
+		  }
+		]
+  }
+]
