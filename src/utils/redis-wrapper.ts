@@ -15,8 +15,8 @@ export default class RedisWrapper {
     return await this.client.get(key);
   }
 
-  public exists(key: string) {
-    return this.client.exists(key);
+  public async exists(key: string): Promise<boolean> {
+    return await this.client.exists(key) === 1;
   }
 
   public keys(pattern: string): Promise<string[]> {
