@@ -39,10 +39,13 @@ setYso();
 setOpetussuunnitelmat();
 setLukionkurssit();
 setKoodistotSuomi("EducationalRole", "kohderyhmat");
+setKoodistotSuomi("EducationalUse", "kayttoopetuksessa");
+setKoodistotSuomi("educationalAge", "kohderyhmanika");
 setKoodistotSuomi("SaavutettavuusEsteet", "saavutettavuusesteet");
 setKoodistotSuomi("SaavutettavuusKayttotavat", "saavutettavuuskayttotavat");
 setKoodistotSuomi("SaavutettavuusTukitoiminnot", "saavutettavuustukitoiminnot");
 setKoodistotSuomi("SaavutettavuusAvustavatTeknologiat", "saavutettavuusavustavatteknologiat");
+setKoodistotSuomi("Koulutusaste", "koulutusasteet");
 
 // set cron jobs to run daily/weekly
 
