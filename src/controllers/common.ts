@@ -1,10 +1,16 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
 
-export const getData = async (req: Request, res: Response) => {
+export const getData = async (req: Request, res: Response, next: NextFunction) => {
+  if (await client.exists(req.params.key) !== true) {
+    res.sendStatus(404);
+
+    return next();
+  }
+
   const input = JSON.parse(await client.get(req.params.key));
   const output: object[] = [];
 
@@ -25,7 +31,7 @@ export const getData = async (req: Request, res: Response) => {
 };
 
 export const deleteKey = async (req: Request, res: Response) => {
-  const deleteStatus = await client.del(req.params.key);
+  const deleteStatus = client.del(req.params.key);
 
   if (deleteStatus > 0) {
     res.sendStatus(200);
