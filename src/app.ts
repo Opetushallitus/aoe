@@ -10,6 +10,13 @@ import router from "./routes";
 import { setYso } from "./controllers/finto";
 import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
 import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
+import {
+  setKohderyhmat,
+  setSaavutettavuusAvustavatTeknologiat,
+  setSaavutettavuusEsteet,
+  setSaavutettavuusKayttotavat,
+  setSaavutettavuusTukitoiminnot
+} from "./controllers/koodistot-suomi";
 
 dotenv.config();
 
@@ -37,6 +44,11 @@ app.set("port", 3000);
 setYso();
 setOpetussuunnitelmat();
 setLukionkurssit();
+setKohderyhmat();
+setSaavutettavuusEsteet();
+setSaavutettavuusKayttotavat();
+setSaavutettavuusTukitoiminnot();
+setSaavutettavuusAvustavatTeknologiat();
 
 // set cron jobs to run daily/weekly
 
