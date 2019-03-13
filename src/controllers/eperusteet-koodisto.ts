@@ -34,6 +34,6 @@ export async function setLukionkurssit() {
 
     await client.set("lukionkurssit", JSON.stringify(data));
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
