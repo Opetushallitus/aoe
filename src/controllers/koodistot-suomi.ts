@@ -1,5 +1,3 @@
-import rp from "request-promise";
-
 import RedisWrapper from "../utils/redis-wrapper";
 import { getDataFromApi } from "./common";
 
