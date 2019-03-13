@@ -1,8 +1,20 @@
 import { NextFunction, Request, Response } from "express";
+import rp from "request-promise";
 
 import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
+
+export async function getDataFromApi(api: string, endpoint: string, headers: object): Promise<any> {
+  const options = {
+    url: `${api}${endpoint}`,
+    headers: { headers }
+  };
+
+  const body = await rp.get(options);
+
+  return JSON.parse(body);
+}
 
 export const getData = async (req: Request, res: Response, next: NextFunction) => {
   if (await client.exists(req.params.key) !== true) {
