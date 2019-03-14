@@ -25,7 +25,7 @@ router.get("/:key/:lang", getData);
 /**
  * Palauttaa tilastokeskuksen laatimat tieteenalat
  * @route GET /tieteenalat
- * @returns {object} 200 - OK
+ * @returns {Array.<Tieteenalat>} 200 - OK
  * @returns {error} 404 - Not Found
  */
 router.get("/tieteenalat", getTieteenalat);
