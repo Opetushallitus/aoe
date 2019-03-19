@@ -12,6 +12,7 @@ import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
 import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
 import { setKoodistotSuomi } from "./controllers/koodistot-suomi";
 import { setTieteenalat } from "./controllers/tilastokeskus";
+import { setKoulutusasteet } from "./controllers/koulutusasteet";
 
 dotenv.config();
 
@@ -46,8 +47,10 @@ setKoodistotSuomi("SaavutettavuusEsteet", "saavutettavuusesteet");
 setKoodistotSuomi("SaavutettavuusKayttotavat", "saavutettavuuskayttotavat");
 setKoodistotSuomi("SaavutettavuusTukitoiminnot", "saavutettavuustukitoiminnot");
 setKoodistotSuomi("SaavutettavuusAvustavatTeknologiat", "saavutettavuusavustavatteknologiat");
-setKoodistotSuomi("Koulutusaste", "koulutusasteet");
 setTieteenalat();
+
+// Refactor everything
+setKoulutusasteet();
 
 // set cron jobs to run daily/weekly
 

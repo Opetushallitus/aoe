@@ -63,8 +63,30 @@ router.delete("/redis/delete/:key", deleteKey);
 // router.get("/oppimateriaalityypit/:lang");
 // router.get("/oppimateriaalityypit/:lang/:key");
 
+/**
+ * Returns all koulutusasteet from redis database by given language
+ * @group koulutusasteet
+ * @route GET /koulutusasteet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
 router.get("/koulutusasteet/:lang", getKoulutusasteet);
-router.get("/koulutusasteet/single/:key/:lang", getKoulutusaste);
+
+/**
+ * Returns single koulutusaste from redis database by given id and language
+ * @group koulutusasteet
+ * @route GET /koulutusasteet/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
+
+/**
+ * Returns child koulutusasteet from redis database by given id and language
+ * @group koulutusasteet
+ * @route GET /koulutusasteet/children/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
 router.get("/koulutusasteet/children/:key/:lang", getKoulutusasteetChildren);
 
 // router.get("/tieteenalat/:lang");
