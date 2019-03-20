@@ -17,6 +17,8 @@ import { setTieteenalat } from "./controllers/tilastokeskus";
 // Refactored
 import { setKoulutusasteet } from "./controllers/koulutusasteet";
 import { setKohderyhmat } from "./controllers/kohderyhmat";
+import { setKayttokohteet } from "./controllers/kayttokohteet";
+import { setSaavutettavuudenTukitoiminnot } from "./controllers/saavutettavuudentukitoiminnot";
 
 dotenv.config();
 
@@ -44,17 +46,17 @@ app.set("port", 3000);
 setYso();
 setOpetussuunnitelmat();
 setLukionkurssit();
-setKoodistotSuomi("EducationalUse", "kayttoopetuksessa");
 setKoodistotSuomi("educationalAge", "kohderyhmanika");
 setKoodistotSuomi("SaavutettavuusEsteet", "saavutettavuusesteet");
 setKoodistotSuomi("SaavutettavuusKayttotavat", "saavutettavuuskayttotavat");
-setKoodistotSuomi("SaavutettavuusTukitoiminnot", "saavutettavuustukitoiminnot");
 setKoodistotSuomi("SaavutettavuusAvustavatTeknologiat", "saavutettavuusavustavatteknologiat");
 setTieteenalat();
 
 // Refactor everything
 setKoulutusasteet();
 setKohderyhmat();
+setKayttokohteet();
+setSaavutettavuudenTukitoiminnot();
 
 // set cron jobs to run daily/weekly
 

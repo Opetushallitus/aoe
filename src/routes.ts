@@ -7,6 +7,8 @@ import { getTieteenalat } from "./controllers/tilastokeskus";
 // Refactored
 import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
+import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
+import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuudentukitoiminnot";
 
 const router: Router = Router();
 
@@ -113,11 +115,39 @@ router.get("/kohderyhmat/:lang", getKohderyhmat);
  */
 router.get("/kohderyhmat/:key/:lang", getKohderyhma);
 
-// router.get("/opiskelumuodot/:lang");
-// router.get("/opiskelumuodot/:key/:lang");
+/**
+ * Returns all kayttokohteet from redis database by given language
+ * @group kayttokohteet
+ * @route GET /kayttokohteet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kayttokohteet/:lang", getKayttokohteet);
 
-// router.get("/saavutettavuudentukitoiminnot/:lang");
-// router.get("/saavutettavuudentukitoiminnot/:key/:lang");
+/**
+ * Returns single kayttokohde from redis database by given id and language
+ * @group kayttokohteet
+ * @route GET /kayttokohteet/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kayttokohteet/:key/:lang", getKayttokohde);
+
+/**
+ * Returns all saavutettavuudentukitoiminnot from redis database by given language
+ * @group saavutettavuudentukitoiminnot
+ * @route GET /saavutettavuudentukitoiminnot/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudentukitoiminnot/:lang", getSaavutettavuudenTukitoiminnot);
+
+/**
+ * Returns single saavutettavuudentukitoiminto from redis database by given id and language
+ * @group saavutettavuudentukitoiminnot
+ * @route GET /saavutettavuudentukitoiminnot/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudentukitoiminnot/:key/:lang", getSaavutettavuudenTukitoiminto);
 
 // router.get("/saavutettavuudenavustavatteknologiat/:lang");
 // router.get("/saavutettavuudenavustavatteknologiat/:key/:lang");
