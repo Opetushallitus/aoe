@@ -9,6 +9,10 @@ import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren } from ".
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
 import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuudentukitoiminnot";
+import {
+  getSaavutettavuudenAvustavaTeknologia,
+  getSaavutettavuudenAvustavatTeknologiat
+} from "./controllers/saavutettavuudenavustavatteknologiat";
 
 const router: Router = Router();
 
@@ -149,8 +153,22 @@ router.get("/saavutettavuudentukitoiminnot/:lang", getSaavutettavuudenTukitoimin
  */
 router.get("/saavutettavuudentukitoiminnot/:key/:lang", getSaavutettavuudenTukitoiminto);
 
-// router.get("/saavutettavuudenavustavatteknologiat/:lang");
-// router.get("/saavutettavuudenavustavatteknologiat/:key/:lang");
+/**
+ * Returns all saavutettavuudenavustavatteknologiat from redis database by given language
+ * @group saavutettavuudenavustavatteknologiat
+ * @route GET /saavutettavuudenavustavatteknologiat/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudenavustavatteknologiat/:lang", getSaavutettavuudenAvustavatTeknologiat);
+
+/**
+ * Returns single saavutettavuudenavustavateknologia from redis database by given id and language
+ * @group saavutettavuudenavustavatteknologiat
+ * @route GET /saavutettavuudenavustavatteknologiat/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudenavustavatteknologiat/:key/:lang", getSaavutettavuudenAvustavaTeknologia);
 
 // router.get("/saavutettavuudenkayttotavat/:lang");
 // router.get("/saavutettavuudenkayttotavat/:key/:lang");
