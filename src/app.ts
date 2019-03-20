@@ -22,6 +22,7 @@ import { setSaavutettavuudenTukitoiminnot } from "./controllers/saavutettavuuden
 import { setSaavutettavuudenAvustavatTeknologiat } from "./controllers/saavutettavuudenavustavatteknologiat";
 import { setSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
 import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
+import { setKielet } from "./controllers/kielet";
 
 dotenv.config();
 
@@ -59,6 +60,7 @@ setSaavutettavuudenTukitoiminnot();
 setSaavutettavuudenAvustavatTeknologiat();
 setSaavutettavuudenKayttotavat();
 setSaavutettavuudenEsteet();
+setKielet();
 
 // set cron jobs to run daily/weekly
 

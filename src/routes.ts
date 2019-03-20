@@ -15,6 +15,7 @@ import {
 } from "./controllers/saavutettavuudenavustavatteknologiat";
 import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
 import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
+import { getKielet, getKieli } from "./controllers/kielet";
 
 const router: Router = Router();
 
@@ -206,7 +207,21 @@ router.get("/saavutettavuudenesteet/:lang", getSaavutettavuudenEsteet);
  */
 router.get("/saavutettavuudenesteet/:key/:lang", getSaavutettavuudenEste);
 
-// router.get("/kielet/:lang");
-// router.get("/kielet/:key/:lang");
+/**
+ * Returns all kielet from redis database by given language
+ * @group kielet
+ * @route GET /kielet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kielet/:lang", getKielet);
+
+/**
+ * Returns single kieli from redis database by given id and language
+ * @group kielet
+ * @route GET /kielet/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kielet/:key/:lang", getKieli);
 
 export default router;
