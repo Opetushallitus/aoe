@@ -1,8 +1,12 @@
 import { Router } from "express";
 
+// Legacy
 import { deleteKey, getData } from "./controllers/common";
 import { getTieteenalat } from "./controllers/tilastokeskus";
+
+// Refactored
 import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren } from "./controllers/koulutusasteet";
+import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 
 const router: Router = Router();
 
@@ -58,10 +62,10 @@ router.delete("/redis/delete/:key", deleteKey);
 // Refactor everything
 
 // router.get("/asiasanat/:lang");
-// router.get("/asiasanat/:lang/:key");
-//
+// router.get("/asiasanat/:key/:lang");
+
 // router.get("/oppimateriaalityypit/:lang");
-// router.get("/oppimateriaalityypit/:lang/:key");
+// router.get("/oppimateriaalityypit/:key/:lang");
 
 /**
  * Returns all koulutusasteet from redis database by given language
@@ -90,28 +94,41 @@ router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
 router.get("/koulutusasteet/children/:key/:lang", getKoulutusasteetChildren);
 
 // router.get("/tieteenalat/:lang");
-// router.get("/tieteenalat/:lang/:key");
-// router.get("/tieteenalat/:lang/koulutusasteet/:koulutusasteet");
-//
-// router.get("/kohderyhmat/:lang");
-// router.get("/kohderyhmat/:lang/:key");
-//
+// router.get("/tieteenalat/:key/:lang");
+
+/**
+ * Returns all kohderyhmat from redis database by given language
+ * @group kohderyhmat
+ * @route GET /kohderyhmat/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kohderyhmat/:lang", getKohderyhmat);
+
+/**
+ * Returns single kohderyhma from redis database by given id and language
+ * @group kohderyhmat
+ * @route GET /kohderyhmat/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/kohderyhmat/:key/:lang", getKohderyhma);
+
 // router.get("/opiskelumuodot/:lang");
-// router.get("/opiskelumuodot/:lang/:key");
-//
+// router.get("/opiskelumuodot/:key/:lang");
+
 // router.get("/saavutettavuudentukitoiminnot/:lang");
-// router.get("/saavutettavuudentukitoiminnot/:lang/:key");
-//
+// router.get("/saavutettavuudentukitoiminnot/:key/:lang");
+
 // router.get("/saavutettavuudenavustavatteknologiat/:lang");
-// router.get("/saavutettavuudenavustavatteknologiat/:lang/:key");
-//
+// router.get("/saavutettavuudenavustavatteknologiat/:key/:lang");
+
 // router.get("/saavutettavuudenkayttotavat/:lang");
-// router.get("/saavutettavuudenkayttotavat/:lang/:key");
-//
+// router.get("/saavutettavuudenkayttotavat/:key/:lang");
+
 // router.get("/saavutettavuudenesteet/:lang");
-// router.get("/saavutettavuudenesteet/:lang/:key");
-//
+// router.get("/saavutettavuudenesteet/:key/:lang");
+
 // router.get("/kielet/:lang");
-// router.get("/kielet/:lang/:key");
+// router.get("/kielet/:key/:lang");
 
 export default router;

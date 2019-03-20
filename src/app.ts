@@ -7,12 +7,16 @@ import cors from "cors";
 
 import router from "./routes";
 
+// Legacy
 import { setYso } from "./controllers/finto";
 import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
 import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
 import { setKoodistotSuomi } from "./controllers/koodistot-suomi";
 import { setTieteenalat } from "./controllers/tilastokeskus";
+
+// Refactored
 import { setKoulutusasteet } from "./controllers/koulutusasteet";
+import { setKohderyhmat } from "./controllers/kohderyhmat";
 
 dotenv.config();
 
@@ -40,7 +44,6 @@ app.set("port", 3000);
 setYso();
 setOpetussuunnitelmat();
 setLukionkurssit();
-setKoodistotSuomi("EducationalRole", "kohderyhmat");
 setKoodistotSuomi("EducationalUse", "kayttoopetuksessa");
 setKoodistotSuomi("educationalAge", "kohderyhmanika");
 setKoodistotSuomi("SaavutettavuusEsteet", "saavutettavuusesteet");
@@ -51,6 +54,7 @@ setTieteenalat();
 
 // Refactor everything
 setKoulutusasteet();
+setKohderyhmat();
 
 // set cron jobs to run daily/weekly
 
