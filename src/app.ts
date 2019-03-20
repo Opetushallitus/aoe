@@ -7,13 +7,6 @@ import cors from "cors";
 
 import router from "./routes";
 
-// Legacy
-import { setYso } from "./controllers/finto";
-import { setOpetussuunnitelmat } from "./controllers/eperusteet-amosaa";
-import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
-import { setTieteenalat } from "./controllers/tilastokeskus";
-
-// Refactored
 import { setOrganisaatiot } from "./controllers/organisaatiot";
 import { setKoulutusasteet } from "./controllers/koulutusasteet";
 import { setKohderyhmat } from "./controllers/kohderyhmat";
@@ -23,6 +16,7 @@ import { setSaavutettavuudenAvustavatTeknologiat } from "./controllers/saavutett
 import { setSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
 import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
 import { setKielet } from "./controllers/kielet";
+import { setAsiasanat } from "./controllers/asiasanat";
 
 dotenv.config();
 
@@ -47,12 +41,7 @@ app.set("port", 3000);
 
 // Init
 // set data to redis (if not already set).
-setYso();
-setOpetussuunnitelmat();
-setLukionkurssit();
-setTieteenalat();
-
-// Refactor everything
+setAsiasanat();
 setKoulutusasteet();
 setKohderyhmat();
 setKayttokohteet();

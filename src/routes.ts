@@ -17,6 +17,7 @@ import {
 import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
 import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
 import { getKielet, getKieli } from "./controllers/kielet";
+import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 
 const router: Router = Router();
 
@@ -74,8 +75,22 @@ router.delete("/redis/delete/:key", deleteKey);
 
 // Refactor everything
 
-// router.get("/asiasanat/:lang");
-// router.get("/asiasanat/:key/:lang");
+/**
+ * Returns all asiasanat from redis database by given language
+ * @group Asiasanat (yso ontologia)
+ * @route GET /asiasanat/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/asiasanat/:lang", getAsiasanat);
+
+/**
+ * Returns single asiasana from redis database by given id and language
+ * @group Asiasanat (yso ontologia)
+ * @route GET /asiasanat/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/asiasanat/:key/:lang", getAsiasana);
 
 /**
  * Returns all organisaatiot from redis database by given language
