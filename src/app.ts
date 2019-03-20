@@ -14,6 +14,7 @@ import { setLukionkurssit } from "./controllers/eperusteet-koodisto";
 import { setTieteenalat } from "./controllers/tilastokeskus";
 
 // Refactored
+import { setOrganisaatiot } from "./controllers/organisaatiot";
 import { setKoulutusasteet } from "./controllers/koulutusasteet";
 import { setKohderyhmat } from "./controllers/kohderyhmat";
 import { setKayttokohteet } from "./controllers/kayttokohteet";
@@ -60,6 +61,7 @@ setSaavutettavuudenAvustavatTeknologiat();
 setSaavutettavuudenKayttotavat();
 setSaavutettavuudenEsteet();
 setKielet();
+setOrganisaatiot();
 
 // set cron jobs to run daily/weekly
 
