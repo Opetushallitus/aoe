@@ -57,13 +57,11 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
   const output: object[] = [];
 
   input.map((row: any) => {
-    if (row.value[req.params.lang] !== undefined) {
-      output.push({
-        "key": row.key,
-        "parent": row.parent,
-        "value": row.value[req.params.lang],
-      });
-    }
+    output.push({
+      "key": row.key,
+      "parent": row.parent,
+      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+    });
   });
 
   if (output.length > 0) {
