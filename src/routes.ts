@@ -14,6 +14,7 @@ import {
   getSaavutettavuudenAvustavatTeknologiat
 } from "./controllers/saavutettavuudenavustavatteknologiat";
 import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
+import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
 
 const router: Router = Router();
 
@@ -188,8 +189,22 @@ router.get("/saavutettavuudenkayttotavat/:lang", getSaavutettavuudenKayttotavat)
  */
 router.get("/saavutettavuudenkayttotavat/:key/:lang", getSaavutettavuudenKayttotapa);
 
-// router.get("/saavutettavuudenesteet/:lang");
-// router.get("/saavutettavuudenesteet/:key/:lang");
+/**
+ * Returns all saavutettavuudenesteet from redis database by given language
+ * @group saavutettavuudenesteet
+ * @route GET /saavutettavuudenesteet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudenesteet/:lang", getSaavutettavuudenEsteet);
+
+/**
+ * Returns single saavutettavuudeneste from redis database by given id and language
+ * @group saavutettavuudenesteet
+ * @route GET /saavutettavuudenesteet/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/saavutettavuudenesteet/:key/:lang", getSaavutettavuudenEste);
 
 // router.get("/kielet/:lang");
 // router.get("/kielet/:key/:lang");

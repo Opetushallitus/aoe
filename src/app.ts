@@ -21,6 +21,7 @@ import { setKayttokohteet } from "./controllers/kayttokohteet";
 import { setSaavutettavuudenTukitoiminnot } from "./controllers/saavutettavuudentukitoiminnot";
 import { setSaavutettavuudenAvustavatTeknologiat } from "./controllers/saavutettavuudenavustavatteknologiat";
 import { setSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
+import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
 
 dotenv.config();
 
@@ -48,7 +49,6 @@ app.set("port", 3000);
 setYso();
 setOpetussuunnitelmat();
 setLukionkurssit();
-setKoodistotSuomi("SaavutettavuusEsteet", "saavutettavuusesteet");
 setTieteenalat();
 
 // Refactor everything
@@ -58,6 +58,7 @@ setKayttokohteet();
 setSaavutettavuudenTukitoiminnot();
 setSaavutettavuudenAvustavatTeknologiat();
 setSaavutettavuudenKayttotavat();
+setSaavutettavuudenEsteet();
 
 // set cron jobs to run daily/weekly
 
