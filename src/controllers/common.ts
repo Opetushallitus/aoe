@@ -2,18 +2,23 @@ import { NextFunction, Request, Response } from "express";
 import rp from "request-promise";
 
 import RedisWrapper from "../utils/redis-wrapper";
+import { HttpHeaders } from "../models/HttpHeaders";
 
 const client = new RedisWrapper();
 
-export async function getDataFromApi(api: string, endpoint: string, headers: object): Promise<any> {
+export async function getDataFromApi(api: string, route: string, headers: HttpHeaders): Promise<any> {
   const options = {
-    url: `${api}${endpoint}`,
-    headers: { headers }
+    url: `${api}${route}`,
+    headers: headers
   };
 
   const body = await rp.get(options);
 
-  return JSON.parse(body);
+  if (headers.Accept === "application/json") {
+    return JSON.parse(body);
+  } else {
+    return body;
+  }
 }
 
 export const getData = async (req: Request, res: Response, next: NextFunction) => {
