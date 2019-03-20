@@ -22,6 +22,7 @@ const router: Router = Router();
 // GET routes
 /**
  * Palauttaa tietueen redis tietokannasta
+ * @group legacy
  * @route GET /{key}/{lang}
  * @param {string} key.path.required - Redis key
  * @param {string} lang.path.required - ISO 639-1 standardin mukainen langtunnus
@@ -38,6 +39,7 @@ router.get("/legacy/:key/:lang", getData);
 
 /**
  * Palauttaa tilastokeskuksen laatimat tieteenalat
+ * @group legacy
  * @route GET /tieteenalat
  * @returns {Array.<Tieteenalat>} 200 - OK
  * @returns {error} 404 - Not Found
@@ -61,6 +63,7 @@ router.get("/legacy/tieteenalat", getTieteenalat);
 // DELETE routes
 /**
  * Poistaa tietueen redis tietokannasta
+ * @group legacy
  * @route DELETE /redis/delete/{key}
  * @param {string} key.path.required - Redis key
  * @returns {object} 200 - OK
@@ -78,7 +81,7 @@ router.delete("/redis/delete/:key", deleteKey);
 
 /**
  * Returns all koulutusasteet from redis database by given language
- * @group koulutusasteet
+ * @group Koulutusasteet
  * @route GET /koulutusasteet/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -86,7 +89,7 @@ router.get("/koulutusasteet/:lang", getKoulutusasteet);
 
 /**
  * Returns single koulutusaste from redis database by given id and language
- * @group koulutusasteet
+ * @group Koulutusasteet
  * @route GET /koulutusasteet/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -95,7 +98,7 @@ router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
 
 /**
  * Returns child koulutusasteet from redis database by given id and language
- * @group koulutusasteet
+ * @group Koulutusasteet
  * @route GET /koulutusasteet/children/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -107,7 +110,7 @@ router.get("/koulutusasteet/children/:key/:lang", getKoulutusasteetChildren);
 
 /**
  * Returns all kohderyhmat from redis database by given language
- * @group kohderyhmat
+ * @group Kohderyhmät
  * @route GET /kohderyhmat/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -115,7 +118,7 @@ router.get("/kohderyhmat/:lang", getKohderyhmat);
 
 /**
  * Returns single kohderyhma from redis database by given id and language
- * @group kohderyhmat
+ * @group Kohderyhmät
  * @route GET /kohderyhmat/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -124,7 +127,7 @@ router.get("/kohderyhmat/:key/:lang", getKohderyhma);
 
 /**
  * Returns all kayttokohteet from redis database by given language
- * @group kayttokohteet
+ * @group Käyttökohteet (käyttö opetuksessa)
  * @route GET /kayttokohteet/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -132,7 +135,7 @@ router.get("/kayttokohteet/:lang", getKayttokohteet);
 
 /**
  * Returns single kayttokohde from redis database by given id and language
- * @group kayttokohteet
+ * @group Käyttökohteet (käyttö opetuksessa)
  * @route GET /kayttokohteet/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -141,7 +144,7 @@ router.get("/kayttokohteet/:key/:lang", getKayttokohde);
 
 /**
  * Returns all saavutettavuudentukitoiminnot from redis database by given language
- * @group saavutettavuudentukitoiminnot
+ * @group Saavutettavuuden tukitoiminnot
  * @route GET /saavutettavuudentukitoiminnot/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -149,7 +152,7 @@ router.get("/saavutettavuudentukitoiminnot/:lang", getSaavutettavuudenTukitoimin
 
 /**
  * Returns single saavutettavuudentukitoiminto from redis database by given id and language
- * @group saavutettavuudentukitoiminnot
+ * @group Saavutettavuuden tukitoiminnot
  * @route GET /saavutettavuudentukitoiminnot/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -158,7 +161,7 @@ router.get("/saavutettavuudentukitoiminnot/:key/:lang", getSaavutettavuudenTukit
 
 /**
  * Returns all saavutettavuudenavustavatteknologiat from redis database by given language
- * @group saavutettavuudenavustavatteknologiat
+ * @group Saavutettavuutta avustavat teknologiat
  * @route GET /saavutettavuudenavustavatteknologiat/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -166,7 +169,7 @@ router.get("/saavutettavuudenavustavatteknologiat/:lang", getSaavutettavuudenAvu
 
 /**
  * Returns single saavutettavuudenavustavateknologia from redis database by given id and language
- * @group saavutettavuudenavustavatteknologiat
+ * @group Saavutettavuutta avustavat teknologiat
  * @route GET /saavutettavuudenavustavatteknologiat/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -175,7 +178,7 @@ router.get("/saavutettavuudenavustavatteknologiat/:key/:lang", getSaavutettavuud
 
 /**
  * Returns all saavutettavuudenkayttotavat from redis database by given language
- * @group saavutettavuudenkayttotavat
+ * @group Saavutettavuuden käyttötavat
  * @route GET /saavutettavuudenkayttotavat/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -183,7 +186,7 @@ router.get("/saavutettavuudenkayttotavat/:lang", getSaavutettavuudenKayttotavat)
 
 /**
  * Returns single saavutettavuudenkayttotapa from redis database by given id and language
- * @group saavutettavuudenkayttotavat
+ * @group Saavutettavuuden käyttötavat
  * @route GET /saavutettavuudenkayttotavat/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -192,7 +195,7 @@ router.get("/saavutettavuudenkayttotavat/:key/:lang", getSaavutettavuudenKayttot
 
 /**
  * Returns all saavutettavuudenesteet from redis database by given language
- * @group saavutettavuudenesteet
+ * @group Saavutettavuuden esteet
  * @route GET /saavutettavuudenesteet/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -200,7 +203,7 @@ router.get("/saavutettavuudenesteet/:lang", getSaavutettavuudenEsteet);
 
 /**
  * Returns single saavutettavuudeneste from redis database by given id and language
- * @group saavutettavuudenesteet
+ * @group Saavutettavuuden esteet
  * @route GET /saavutettavuudenesteet/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
@@ -209,7 +212,7 @@ router.get("/saavutettavuudenesteet/:key/:lang", getSaavutettavuudenEste);
 
 /**
  * Returns all kielet from redis database by given language
- * @group kielet
+ * @group Kielet
  * @route GET /kielet/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
@@ -217,7 +220,7 @@ router.get("/kielet/:lang", getKielet);
 
 /**
  * Returns single kieli from redis database by given id and language
- * @group kielet
+ * @group Kielet
  * @route GET /kielet/{key}/{lang}
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
