@@ -4,7 +4,7 @@ import { getDataFromApi } from "./common";
 import RedisWrapper from "../utils/redis-wrapper";
 
 const client = new RedisWrapper();
-const endpoint = "SaavutettavuusTukitoiminnot";
+const endpoint = "edtech/codeschemes/SaavutettavuusTukitoiminnot";
 const rediskey = "saavutettavuudentukitoiminnot";
 
 /**
