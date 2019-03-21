@@ -9,7 +9,7 @@ export class KoodistoTestiService {
 
   constructor(private http: HttpClient) { }
 
-  private endpoint = 'http://localhost:3000/api/v1';
+  private apiUri = 'http://localhost:3000/api/v1';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -17,10 +17,10 @@ export class KoodistoTestiService {
   };
 
   getOpetussuunnitelmat(): Observable<any> {
-    return this.http.get(`${this.endpoint}/opetussuunnitelmat`);
+    return this.http.get(`${this.apiUri}/opetussuunnitelmat`);
   }
 
-  getYso(): Observable<any> {
-    return this.http.get(`${this.endpoint}/yso`);
+  getKielet(): Observable<any> {
+    return this.http.get(`${this.apiUri}/kielet/fi`);
   }
 }

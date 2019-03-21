@@ -12,7 +12,7 @@ export class KoodistoTestiComponent implements OnInit {
 
   ngOnInit(): void {
     // this.koodistoSvc.getOpetussuunnitelmat().subscribe(data => {
-    this.koodistoSvc.getYso().subscribe(data => {
+    this.koodistoSvc.getKielet().subscribe(data => {
       this.data = data;
     });
   }
