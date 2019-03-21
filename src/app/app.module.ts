@@ -2,8 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
@@ -27,10 +26,12 @@ import {
 import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -76,6 +77,8 @@ import { StepsNavComponent } from './views/add-educational-resource-form/steps-n
     }),
     AccordionModule.forRoot(),
     NgxExtendedPdfViewerModule,
+    NgSelectModule,
+    FormsModule,
   ],
   declarations: [
     AppComponent,

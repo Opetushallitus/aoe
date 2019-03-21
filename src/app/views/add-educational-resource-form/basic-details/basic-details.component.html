@@ -74,12 +74,15 @@
 
             <div class="form-group col-5">
               <label for="organisation">Organisaatio</label>
-              <input
-                type="text"
+
+              <ng-select
+                [items]="organisations$"
+                bindLabel="value"
+                bindValue="key"
                 class="form-control"
                 id="organisation"
                 placeholder="Lisää halutessasi affiliaatiosi"
-              >
+              ></ng-select>
             </div>
           </div>
 
