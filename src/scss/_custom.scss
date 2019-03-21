@@ -135,6 +135,27 @@ h2 {
   }
 }
 
+.nav-multistep-form {
+  @include font-size(18);
+
+  .nav-link {
+    color: #757575;
+    padding: 0;
+
+    &.active {
+      color: $primary-theme-color;
+      font-weight: 500;
+    }
+  }
+
+  .nav-separator {
+    @include font-size(24);
+    font-weight: 700;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
 .content-wrapper {
   padding: 1.5rem 0;
 }
