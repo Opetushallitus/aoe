@@ -5,12 +5,13 @@ $primary-theme-color: #1D891F;
 $secondary-theme-color: #1D7D1F;
 $blue: #1F79BF;
 $blue-hover: darken($blue, 15%);
+$light: #f9f9f9;
 
 $theme-colors: (
   primary:  $primary-theme-color,
   secondary: $secondary-theme-color,
   blue: $blue,
-  light: #f9f9f9
+  light: $light
 );
 
 $body-bg: #fff;
