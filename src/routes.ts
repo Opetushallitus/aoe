@@ -1,8 +1,7 @@
 import { Router } from "express";
 
-// Legacy
+// Legacy / Common
 import { deleteKey, getData } from "./controllers/common";
-import { getTieteenalat } from "./controllers/tilastokeskus";
 
 // Refactored
 import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
@@ -32,35 +31,6 @@ const router: Router = Router();
  * @returns {error} 404 - Not Found
  */
 router.get("/legacy/:key/:lang", getData);
-
-/**
- * @typedef Koodi
- * @property {string} key.required - esim. "key": "p10"
- * @property {string} value.required - esim. "value": "ympäristötietoisuus"
- */
-
-/**
- * Palauttaa tilastokeskuksen laatimat tieteenalat
- * @group legacy
- * @route GET /tieteenalat
- * @returns {Array.<Tieteenalat>} 200 - OK
- * @returns {error} 404 - Not Found
- */
-router.get("/legacy/tieteenalat", getTieteenalat);
-
-/**
- * @typedef Tieteenalat
- * @property {integer} koodi.required
- * @property {string} nimike.required
- * @property {Array.<Tieteenala>} tieteenalat
- */
-
-/**
- * @typedef Tieteenala
- * @property {integer} koodi.required
- * @property {string} nimike.required
- * @property {Array.<Tieteenala>} tieteenalat
- */
 
 // DELETE routes
 /**
