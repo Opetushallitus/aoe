@@ -47,10 +47,11 @@ body {
     color: $input-label-color;
     @include font-size(12);
   }
+}
 
-  .form-control {
-    border-radius: 2px;
-  }
+.form-control {
+  border-radius: 2px;
+  @include font-size(16);
 }
 
 // Search form
