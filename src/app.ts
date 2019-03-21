@@ -12,7 +12,7 @@ const flash = require("express-flash");
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
 import * as homeController from "./controllers/home";
-
+const apiRouter = require("./routes/routes");
 // Create Express server
 const app = express();
 const morgan = require("morgan");
@@ -32,7 +32,7 @@ app.set("port", 3000);
 app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 app.get("/", homeController.index);
-// app.use("/", apiRouter);
+app.use("/", apiRouter);
 app.use(expressValidator);
 app.use(flash);
 app.use(lusca.xframe("SAMEORIGIN"));
