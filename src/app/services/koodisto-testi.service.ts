@@ -6,9 +6,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class KoodistoTestiService {
-
-  constructor(private http: HttpClient) { }
-
   private apiUri = 'http://localhost:3000/api/v1';
   private httpOptions = {
     headers: new HttpHeaders({
@@ -16,11 +13,13 @@ export class KoodistoTestiService {
     }),
   };
 
-  getOpetussuunnitelmat(): Observable<any> {
-    return this.http.get(`${this.apiUri}/opetussuunnitelmat`);
+  constructor(private http: HttpClient) { }
+
+  getLanguages(lang: string): Observable<any> {
+    return this.http.get(`${this.apiUri}/kielet/${lang}`, this.httpOptions);
   }
 
-  getKielet(): Observable<any> {
-    return this.http.get(`${this.apiUri}/kielet/fi`);
+  getOrganisations(lang: string): Observable<any> {
+    return this.http.get(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions);
   }
 }
