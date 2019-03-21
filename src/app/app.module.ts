@@ -49,6 +49,12 @@ import { OfficePreviewComponent } from './components/office-preview/office-previ
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
 import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
+import { BasicDetailsComponent } from './views/add-educational-resource-form/basic-details/basic-details.component';
+import { EducationalDetailsComponent } from './views/add-educational-resource-form/educational-details/educational-details.component';
+import { ExtendedDetailsComponent } from './views/add-educational-resource-form/extended-details/extended-details.component';
+import { LicenseDetailsComponent } from './views/add-educational-resource-form/license-details/license-details.component';
+import { BasedOnDetailsComponent } from './views/add-educational-resource-form/based-on-details/based-on-details.component';
+import { StepsNavComponent } from './views/add-educational-resource-form/steps-nav/steps-nav.component';
 
 @NgModule({
   imports: [
@@ -91,6 +97,12 @@ import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.co
     ImagePreviewComponent,
     InfoViewComponent,
     KoodistoTestiComponent,
+    BasicDetailsComponent,
+    EducationalDetailsComponent,
+    ExtendedDetailsComponent,
+    LicenseDetailsComponent,
+    BasedOnDetailsComponent,
+    StepsNavComponent,
   ],
   providers: [{
     provide: LocationStrategy,

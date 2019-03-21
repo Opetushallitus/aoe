@@ -1,0 +1,137 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <app-steps-nav></app-steps-nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-2">kuva</div>
+
+      <div class="col-10">
+        <form>
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="file">Liite*</label>
+              <input
+                type="file"
+                class="form-control-file"
+                id="file"
+                required
+              >
+            </div>
+
+            <div class="form-group col-auto align-self-center">
+              <span class="form-text">tai</span>
+            </div>
+
+            <div class="form-group col">
+              <label for="link">Linkki*</label>
+              <input
+                type="url"
+                class="form-control"
+                id="link"
+                placeholder="https://"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Oppimateriaalin nimi*</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="Oppimateriaalin nimi"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="keywords">Aihe*</label>
+            <input
+              type="text"
+              class="form-control"
+              id="keywords"
+              placeholder="Oppimateriaalin aihe"
+              required
+            >
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-7">
+              <label for="author">Tekijän nimi*</label>
+              <input
+                type="text"
+                class="form-control"
+                id="author"
+                placeholder="Tekijän nimi"
+                required
+              >
+            </div>
+
+            <div class="form-group col-5">
+              <label for="organisation">Organisaatio</label>
+              <input
+                type="text"
+                class="form-control"
+                id="organisation"
+                placeholder="Lisää halutessasi affiliaatiosi"
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-5">
+              <label for="materialType">Oppimateriaalin tyyppi*</label>
+              <input
+                type="text"
+                class="form-control"
+                id="materialType"
+                placeholder="Valitse tyyppi"
+                required
+              >
+            </div>
+
+            <div class="form-group col-3">
+              <label for="timeRequired">Opiskeluaika</label>
+              <input
+                type="text"
+                class="form-control"
+                id="timeRequired"
+                placeholder="Opiskeluaika"
+              >
+            </div>
+
+            <div class="form-group col-4">
+              <label for="publisher">Julkaisija</label>
+              <input
+                type="text"
+                class="form-control"
+                id="publisher"
+                placeholder="Kirjoita julkaisijan nimi"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Kuvaus</label>
+            <textarea
+              class="form-control"
+              id="description"
+              rows="10"
+              placeholder="Kirjoita kuvausteksti"
+            ></textarea>
+          </div>
+        </form>
+
+        <hr>
+
+        <button type="reset" class="btn btn-link btn-sm">Keskeytä</button>
+        <button type="button" class="btn btn-blue btn-sm">Seuraava</button>
+      </div>
+    </div>
+  </div>
+</div>
