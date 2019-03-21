@@ -23,14 +23,14 @@ export class KoodistoTestiComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+    });
 
-      this.languagesSubscription = this.koodistoSvc.getLanguages(this.lang).subscribe(data => {
-        this.languages$ = data;
-      });
+    this.languagesSubscription = this.koodistoSvc.getLanguages(this.lang).subscribe(data => {
+      this.languages$ = data;
+    });
 
-      this.organisationsSubscription = this.koodistoSvc.getOrganisations(this.lang).subscribe(data => {
-        this.organisations$ = data;
-      });
+    this.organisationsSubscription = this.koodistoSvc.getOrganisations(this.lang).subscribe(data => {
+      this.organisations$ = data;
     });
   }
 
