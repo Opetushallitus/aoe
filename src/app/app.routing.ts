@@ -42,7 +42,7 @@ export const routes: Routes = [
         loadChildren: './views/mainView/main-view.module#MainViewModule'
       },
       {
-        path: 'demo/materiaali/:specialId/:slug',
+        path: 'materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent
       },
       {
