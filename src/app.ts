@@ -18,6 +18,7 @@ import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuuden-esteet
 import { setKielet } from "./controllers/kielet";
 import { setAsiasanat } from "./controllers/asiasanat";
 import { setTieteenalat } from "./controllers/tieteenalat";
+import { setPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
 
 dotenv.config();
 
@@ -53,6 +54,7 @@ setSaavutettavuudenEsteet();
 setKielet();
 setOrganisaatiot();
 setTieteenalat();
+setPeruskoulutuksenOppiaineet();
 
 // set cron jobs to run daily/weekly
 

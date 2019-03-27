@@ -18,6 +18,7 @@ import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controller
 import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
+import { getPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
 
 const router: Router = Router();
 
@@ -252,5 +253,22 @@ router.get("/kielet/:lang", getKielet);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/kielet/:key/:lang", getKieli);
+
+/**
+ * Returns all peruskoulutuksenoppiaineet from redis database by given language
+ * @group Peruskoulutuksen oppiaineet
+ * @route GET /peruskoulutuksenoppiaineet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/peruskoulutuksenoppiaineet/:lang", getPeruskoulutuksenOppiaineet);
+
+/**
+ * Returns single peruskoulutuksen oppiaine from redis database by given id and language
+ * @group Peruskoulutuksen oppiaineet
+ * @route GET /peruskoulutuksenoppiaineet/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/peruskoulutuksenoppiaineet/:key/:lang");
 
 export default router;
