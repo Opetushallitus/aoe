@@ -42,8 +42,8 @@ body {
 }
 
 // Forms
-.form-group {
-  label {
+label {
+  &:not(.custom-file-label) {
     color: $input-label-color;
     @include font-size(12);
   }
@@ -54,30 +54,8 @@ body {
   @include font-size(16);
 }
 
-// ng-select
-.ng-select {
-  .ng-placeholder {
-    color: $input-placeholder-color;
-    // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
-    opacity: 1;
-  }
-  .ng-dropdown-panel {
-    .ng-dropdown-panel-items {
-      .ng-option {
-        background-color: $white;
-        color: #5c6873;
-
-        &:hover {
-          background-color: $light;
-        }
-
-        &.ng-option-selected {
-          background-color: $primary-theme-color;
-          color: $white;
-        }
-      }
-    }
-  }
+.custom-file-label {
+  border-radius: 2px;
 }
 
 // Search form
