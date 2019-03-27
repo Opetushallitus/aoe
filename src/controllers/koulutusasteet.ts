@@ -21,12 +21,12 @@ export async function setKoulutusasteet(): Promise<any> {
 
     results.results.map((result: any) => {
       data.push({
-        "key": result.id,
-        "parent": ("broaderCode" in result) ? result.broaderCode.id : undefined,
-        "value": {
-          "fi": result.prefLabel.fi,
-          "en": result.prefLabel.en,
-          "sv": result.prefLabel.sv,
+        key: result.id,
+        parent: ("broaderCode" in result) ? result.broaderCode.id : undefined,
+        value: {
+          fi: result.prefLabel.fi,
+          en: result.prefLabel.en,
+          sv: result.prefLabel.sv,
         }
       });
     });
@@ -58,9 +58,9 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
 
   input.map((row: any) => {
     output.push({
-      "key": row.key,
-      "parent": row.parent,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+      key: row.key,
+      parent: row.parent,
+      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
     });
   });
 
@@ -93,9 +93,9 @@ export const getKoulutusaste = async (req: Request, res: Response, next: NextFun
 
   if (row !== undefined) {
     output = {
-      "key": row.key,
-      "parent": row.parent,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+      key: row.key,
+      parent: row.parent,
+      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
     };
   }
 
@@ -128,9 +128,44 @@ export const getKoulutusasteetChildren = async (req: Request, res: Response, nex
   input.map((row: any) => {
     if (row.parent !== undefined && row.parent === req.params.key) {
       output.push({
-        "key": row.key,
-        "parent": row.parent,
-        "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        parent: row.parent,
+        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+      });
+    }
+  });
+
+  if (output.length > 0) {
+    res.status(200).json(output);
+  } else {
+    res.sendStatus(404);
+  }
+};
+
+/**
+ * Get children of parent from redis database
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ *
+ * @returns {Promise<any>}
+ */
+export const getKoulutusasteetParents = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  if (await client.exists(rediskey) !== true) {
+    res.sendStatus(404);
+
+    return next();
+  }
+
+  const input = JSON.parse(await client.get(rediskey));
+  const output: object[] = [];
+
+  input.map((row: any) => {
+    if (row.parent === undefined) {
+      output.push({
+        key: row.key,
+        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
       });
     }
   });

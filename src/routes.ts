@@ -5,7 +5,7 @@ import { deleteKey, getData } from "./controllers/common";
 
 // Refactored
 import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
-import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren } from "./controllers/koulutusasteet";
+import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren, getKoulutusasteetParents } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
 import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuudentukitoiminnot";
@@ -90,6 +90,14 @@ router.get("/organisaatiot/:key/:lang", getOrganisaatio);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/koulutusasteet/:lang", getKoulutusasteet);
+
+/**
+ * Returns parent koulutusasteet from redis database by given language
+ * @group Koulutusasteet
+ * @route GET /koulutusasteet/parents/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/koulutusasteet/parents/:lang", getKoulutusasteetParents);
 
 /**
  * Returns single koulutusaste from redis database by given id and language
