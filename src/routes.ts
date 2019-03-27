@@ -8,13 +8,13 @@ import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
 import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren, getKoulutusasteetParents } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
-import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuudentukitoiminnot";
+import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuuden-tukitoiminnot";
 import {
   getSaavutettavuudenAvustavaTeknologia,
   getSaavutettavuudenAvustavatTeknologiat
-} from "./controllers/saavutettavuudenavustavatteknologiat";
-import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenkayttotavat";
-import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
+} from "./controllers/saavutettavuuden-avustavatteknologiat";
+import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuuden-kayttotavat";
+import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuuden-esteet";
 import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
