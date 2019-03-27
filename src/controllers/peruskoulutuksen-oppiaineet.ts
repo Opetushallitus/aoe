@@ -24,7 +24,7 @@ export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
     const data: Array<any> = [];
 
     results.map((result: any) => {
-      if (blacklisted.includes(result.koodiArvo)) {
+      if (blacklisted.includes(result.koodiArvo) !== false) {
         const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
         const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
         const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
