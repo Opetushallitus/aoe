@@ -19,12 +19,74 @@ export async function setTieteenalat(): Promise<any> {
     const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
     const data: Array<any> = [];
 
+    data.push({
+      key: "1",
+      value: {
+        fi: "Luonnontieteet",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
+    data.push({
+      key: "2",
+      value: {
+        fi: "Tekniikka",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
+    data.push({
+      key: "3",
+      value: {
+        fi: "Lääke- ja terveystieteet",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
+    data.push({
+      key: "4",
+      value: {
+        fi: "Maatalous- ja metsätieteet",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
+    data.push({
+      key: "5",
+      value: {
+        fi: "Yhteiskuntatieteet",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
+    data.push({
+      key: "6",
+      value: {
+        fi: "Humanistiset tieteet",
+        // en: "",
+        // sv: "",
+      },
+      children: []
+    });
+
     results.map((result: any) => {
       const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
       const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
       const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-      data.push({
+      const parent = data.find((e: any) => e.key === result.koodiArvo.charAt(0));
+
+      parent.children.push({
         key: result.koodiArvo,
         value: {
           fi: metadataFi.nimi.trim(),
@@ -34,7 +96,11 @@ export async function setTieteenalat(): Promise<any> {
       });
     });
 
-    data.sort((a, b) => a.key - b.key);
+    data.sort((a: any, b: any) => a.key - b.key);
+
+    data.map((parent: any) => {
+      parent.children.sort((a: any, b: any) => a.key - b.key);
+    });
 
     await client.set(rediskey, JSON.stringify(data));
   } catch (error) {
@@ -62,9 +128,17 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
   const output: Array<any> = [];
 
   input.map((row: any) => {
+    const children = row.children.map((child: any) => {
+      return {
+        key: child.key,
+        value: child.value[req.params.lang]
+      };
+    });
+
     output.push({
       key: row.key,
       value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+      children: children,
     });
   });
 
