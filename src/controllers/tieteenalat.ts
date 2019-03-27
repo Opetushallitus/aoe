@@ -64,7 +64,7 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
   input.map((row: any) => {
     output.push({
       key: row.key,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
     });
   });
 
@@ -98,7 +98,7 @@ export const getTieteenala = async (req: Request, res: Response, next: NextFunct
   if (row !== undefined) {
     output = {
       key: row.key,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
     };
   }
 
