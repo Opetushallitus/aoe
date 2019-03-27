@@ -17,6 +17,7 @@ import { setSaavutettavuudenKayttotavat } from "./controllers/saavutettavuudenka
 import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuudenesteet";
 import { setKielet } from "./controllers/kielet";
 import { setAsiasanat } from "./controllers/asiasanat";
+import { setTieteenalat } from "./controllers/tieteenalat";
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ setSaavutettavuudenKayttotavat();
 setSaavutettavuudenEsteet();
 setKielet();
 setOrganisaatiot();
+setTieteenalat();
 
 // set cron jobs to run daily/weekly
 
