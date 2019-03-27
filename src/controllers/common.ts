@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import rp from "request-promise";
 
 import RedisWrapper from "../utils/redis-wrapper";
-import { HttpHeaders } from "../models/HttpHeaders";
+import { HttpHeaders } from "../models/httpheaders";
 
 const client = new RedisWrapper();
 
