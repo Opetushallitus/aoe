@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS EducationalMaterialCollectionEducationalMaterial CASCADE;
 DROP TABLE IF EXISTS UsersEducationalMaterialCollection CASCADE;
 DROP TABLE IF EXISTS isBasedOn CASCADE;
@@ -27,52 +26,52 @@ DROP TABLE IF EXISTS EducationalMaterial CASCADE;
 DROP TABLE IF EXISTS Logins CASCADE;
 DROP TABLE IF EXISTS Users CASCADE;
 
-
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
   FirstName              text NOT NULL, 
   LastName               text NOT NULL, 
-  UserName               text NOT NULL, 
+  UserName               text NOT NULL UNIQUE, 
   PreferredLanguage      text NOT NULL, 
   PreferredTargetName    text NOT NULL, 
   PreferredAlignmentType text NOT NULL, 
   PRIMARY KEY (Id));
+CREATE TABLE Logins (
+  Id            BIGSERIAL NOT NULL, 
+  UserName     varchar(255) NOT NULL, 
+  PasswordSalt varchar(255) NOT NULL, 
+  PasswordHash varchar(255) NOT NULL, 
+  UsersId      int8 NOT NULL, 
+  PRIMARY KEY (Id));
 
 CREATE TABLE EducationalMaterial (
   Id             BIGSERIAL NOT NULL, 
-  materialName  text NOT NULL, 
-  slug          text NOT NULL, 
+  MaterialName  text NOT NULL, 
+  Slug          text NOT NULL, 
   CreatedAt     date NOT NULL, 
   PublishedAt   date NOT NULL, 
   UpdatedAt     date NOT NULL, 
   Description   text NOT NULL, 
   TechnicalName text NOT NULL, 
-  author        text NOT NULL, 
-  organization  text NOT NULL, 
-  publisher     text NOT NULL, 
-  timeRequired  text NOT NULL, 
-  agerangeMin   int4 DEFAULT 0 NOT NULL, 
-  agerangeMax   int4 DEFAULT 99 NOT NULL, 
+  Author        text NOT NULL, 
+  Organization  text NOT NULL, 
+  Publisher     text NOT NULL, 
+  TimeRequired  text NOT NULL, 
+  AgeRangeMin   int4 DEFAULT 0 NOT NULL, 
+  AgeRangeMax   int4 DEFAULT 99 NOT NULL, 
   UsersId       int8 NOT NULL, 
+  LicenseCode   text NOT NULL, 
+  Obsoleted      int4 DEFAULT 0 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE Material (
   Id                     BIGSERIAL NOT NULL, 
   MaterialName          text NOT NULL, 
   Link                  text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
+  Obsoleted             int4 DEFAULT 0 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE EducationalAudience (
   Id                     BIGSERIAL NOT NULL, 
   AudienceName          text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (Id));
-CREATE TABLE License (
-  Id                     BIGSERIAL NOT NULL, 
-  permits               text NOT NULL, 
-  prohibits             text NOT NULL, 
-  requires              text NOT NULL, 
-  license               text NOT NULL, 
-  licenseUrl            text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE InLanguage (
@@ -85,10 +84,10 @@ CREATE TABLE AligmentObject (
   Id                     BIGSERIAL NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   AligmentType          text NOT NULL, 
-  educationalFramework  text NOT NULL, 
-  targetDescription     text NOT NULL, 
-  targetName            text NOT NULL, 
-  targetUrl             text NOT NULL, 
+  EducationalFramework  text NOT NULL, 
+  TargetDescription     text NOT NULL, 
+  TargetName            text NOT NULL, 
+  TargetUrl             text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE LearningResourceType (
   Id                     BIGSERIAL NOT NULL, 
@@ -97,7 +96,7 @@ CREATE TABLE LearningResourceType (
   PRIMARY KEY (Id));
 CREATE TABLE EducationalRole (
   Id                     BIGSERIAL NOT NULL, 
-  value                 text NOT NULL, 
+  Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE Accessibility (
@@ -108,12 +107,12 @@ CREATE TABLE Accessibility (
   PRIMARY KEY (Id));
 CREATE TABLE EducationalLevel (
   Id                     BIGSERIAL NOT NULL, 
-  value                 text NOT NULL, 
+  Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE KeyWords (
   Id                     BIGSERIAL NOT NULL, 
-  value                 int4 NOT NULL, 
+  Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE EducationalMaterialCollection (
@@ -129,7 +128,7 @@ CREATE TABLE EducationalMaterialCollection (
   PRIMARY KEY (Id));
 CREATE TABLE CollectionKeyWords (
   Id                               BIGSERIAL NOT NULL, 
-  term                            text NOT NULL, 
+  Value                           text NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE CollectionLanguage (
@@ -167,8 +166,7 @@ CREATE TABLE CollectionEducationalUse (
   EducationalUse                  text NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE Loki (
-  );
+
 CREATE TABLE Record (
   Id                BIGSERIAL NOT NULL, 
   FilePath         text NOT NULL, 
@@ -180,10 +178,10 @@ CREATE TABLE Record (
   PRIMARY KEY (Id));
 CREATE TABLE EducationalUse (
   Id                     BIGSERIAL NOT NULL, 
-  value                 text NOT NULL, 
+  Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE isBasedOn (
+CREATE TABLE IsBasedOn (
   Id                     BIGSERIAL NOT NULL, 
   Author                text NOT NULL, 
   Url                   text NOT NULL, 
@@ -200,16 +198,15 @@ CREATE TABLE EducationalMaterialCollectionEducationalMaterial (
   EducationalMaterialId           int8 NOT NULL, 
   PRIMARY KEY (EducationalMaterialCollectionId, 
   EducationalMaterialId));
-
+ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
-ALTER TABLE License ADD CONSTRAINT FKLicense FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalAudience ADD CONSTRAINT FKEducationalAudience FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE LearningResourceType ADD CONSTRAINT FKLearningResourceType FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE Accessibility ADD CONSTRAINT FKAccessibility FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE KeyWords ADD CONSTRAINT FKKeyWords FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalUse ADD CONSTRAINT FKEducationalUse FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE isBasedOn ADD CONSTRAINT FKIsBasedOn FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE IsBasedOn ADD CONSTRAINT FKIsBasedOn FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE InLanguage ADD CONSTRAINT FKInLanguage FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE Material ADD CONSTRAINT FKMaterial FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;
 ALTER TABLE Record ADD CONSTRAINT FKRecord FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Restrict;

@@ -21,11 +21,14 @@ const router: Router = Router();
 // delete metadata
 
 router.post("/material/file", fh.uploadMaterial);
+router.post("/material/file/:materialId", fh.uploadFileToMaterial);
 
 router.get("/material", db.getMaterial);
 router.get("/material/:id", db.getMaterialData);
 router.get("/material/user/:userid", db.getUserMaterial);
 router.put("/material/:id", db.updateMaterial);
+router.delete("/material/:id", db.deleteMaterial);
+router.delete("/material/file/:materialid/:fileid", db.deleteRecord);
 router.post("/material", db.postMaterial);
 
 router.post("/createUser", db.createUser);

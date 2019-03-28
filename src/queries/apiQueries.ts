@@ -10,7 +10,7 @@ async function getMaterial(req: Request , res: Response , next: NextFunction) {
         let query;
         // let params = { };
 
-        query = "SELECT * FROM educationalmaterial order by id desc limit 100;";
+        query = "SELECT * FROM educationalmaterial where obeleted != 1 order by id desc limit 100;";
         const data = await db.any(query);
         res.status(200).json(data);
     }
@@ -24,8 +24,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
     try {
         let query;
         // let params = { };
-
-        query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' limit 100;";
+        query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' and obsoleted != '1' limit 100;";
         const data = await db.any(query);
         res.status(200).json(data);
     }
@@ -39,8 +38,36 @@ async function getUserMaterial(req: Request , res: Response , next: NextFunction
     try {
         let query;
         // let params = { };
-        query = "SELECT * FROM educationalmaterial WHERE usersid = '" + req.params.userid + "' limit 1000;";
+        query = "SELECT * FROM educationalmaterial WHERE usersid = '" + req.params.userid + "' and obsoleted != '1' limit 1000;";
         const data = await db.any(query);
+        res.status(200).json(data);
+    }
+    catch (err ) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+}
+
+async function deleteMaterial(req: Request , res: Response , next: NextFunction) {
+    try {
+        let query;
+        let data;
+        query = "update educationalmaterial SET obsoleted = '1' WHERE id = '" + req.params.id + "';";
+        data = await db.any(query);
+        res.status(200).json(data);
+    }
+    catch (err ) {
+        console.log(err);
+        res.sendStatus(500);
+    }
+}
+
+async function deleteRecord(req: Request , res: Response , next: NextFunction) {
+    try {
+        let query;
+        let data;
+        query = "update material SET obsoleted = '1' WHERE id = '" + req.params.materialid + "';";
+        data = await db.any(query);
         res.status(200).json(data);
     }
     catch (err ) {
@@ -130,5 +157,7 @@ module.exports = {
     updateMaterial : updateMaterial,
     createUser : createUser,
     updateUser : updateUser,
-    getUser : getUser
+    getUser : getUser,
+    deleteMaterial : deleteMaterial,
+    deleteRecord : deleteRecord
 };

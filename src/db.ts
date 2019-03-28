@@ -8,7 +8,6 @@ const options = {
 const pgp = require("pg-promise")(options);
 
 // Connection string for the database, move this to a ENV.variable later
-// const conString = "postgres://postgres:postgres@10.10.10.10:5432/aoe";
 const conString = process.env.PG_URL;
 // const db will be used for all queries etc. db.any, db.none and so on
 const db = pgp(conString);
