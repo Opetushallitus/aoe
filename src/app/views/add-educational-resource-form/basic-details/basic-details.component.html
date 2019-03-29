@@ -50,13 +50,20 @@
 
           <div class="form-group">
             <label for="keywords">Aihe*</label>
-            <input
-              type="text"
-              class="form-control"
+
+            <ng-select
+              [items]="keywordsBuffer"
+              [virtualScroll]="true"
+              [loading]="loading"
+              [multiple]="true"
+              bindLabel="value"
+              bindValue="key"
               id="keywords"
               placeholder="Oppimateriaalin aihe"
-              required
-            >
+              [typeahead]="input$"
+              (scrollToEnd)="fetchMore(keywords.filterValue)"
+              #keywords
+            ></ng-select>
           </div>
 
           <div class="form-row">
@@ -75,7 +82,7 @@
               <label for="organisation">Organisaatio</label>
 
               <ng-select
-                [items]="organisations$"
+                [items]="organisations$ | async"
                 bindLabel="value"
                 bindValue="key"
                 id="organisation"
