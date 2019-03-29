@@ -52,7 +52,7 @@
               </div>
 
               <div class="col-auto">
-                <button type="button" class="btn btn-gray">Kieliversiot</button>
+                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">Kieliversiot</button>
               </div>
             </div>
           </div>
@@ -135,12 +135,21 @@
 
           <div class="form-group">
             <label for="description">Kuvaus</label>
-            <textarea
-              class="form-control"
-              id="description"
-              rows="10"
-              placeholder="Kirjoita kuvausteksti"
-            ></textarea>
+
+            <div class="form-row">
+              <div class="col">
+                <textarea
+                  class="form-control"
+                  id="description"
+                  rows="10"
+                  placeholder="Kirjoita kuvausteksti"
+                ></textarea>
+              </div>
+
+              <div class="col-auto">
+                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">Kieliversiot</button>
+              </div>
+            </div>
           </div>
         </form>
 
@@ -152,3 +161,60 @@
     </div>
   </div>
 </div>
+
+<ng-template #kieliversiot>
+  <div class="modal-header">
+    <h5 class="modal-title">Kieliversiot</h5>
+
+    <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h4>Kieliversioiden lisääminen</h4>
+
+    <form>
+      <div class="form-group">
+        <label for="kieli-kieli">Valitse kieli*</label>
+
+        <select
+          class="form-control"
+          id="kieli-kieli"
+          required
+        >
+          <option>englanti</option>
+          <option>ruotsi</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="kieli-nimi">Oppimateriaalin nimi*</label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="kieli-nimi"
+          placeholder="Oppimateriaalin nimi"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="kieli-kuvaus">Kuvaus</label>
+
+        <textarea
+          class="form-control"
+          id="kieli-kuvaus"
+          rows="10"
+          placeholder="Kirjoita kuvausteksti"
+        ></textarea>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+    <button type="button" class="btn btn-blue">Tallenna muutokset</button>
+  </div>
+</ng-template>

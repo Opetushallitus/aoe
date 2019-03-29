@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
 
@@ -20,9 +21,12 @@ export class BasicDetailsComponent implements OnInit {
   public loading = false;
   public input$ = new Subject<string>();
 
+  modalRef: BsModalRef;
+
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private modalService: BsModalService
   ) { }
 
   ngOnInit(): void {
@@ -66,5 +70,12 @@ export class BasicDetailsComponent implements OnInit {
   private fakeService(value: string) {
     return this.koodistoProxySvc.getData('asiasanat', this.lang)
       .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered' })
+    );
   }
 }
