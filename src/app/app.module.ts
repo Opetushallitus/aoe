@@ -28,6 +28,7 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -65,6 +66,7 @@ import { StepsNavComponent } from './views/add-educational-resource-form/steps-n
     AppFooterModule,
     AppSidebarModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     TabsModule.forRoot(),
     SharedModule,
     HttpClientModule,
