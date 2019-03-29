@@ -50,12 +50,7 @@ label {
 }
 
 .form-control {
-  border-radius: 2px;
   @include font-size(16);
-}
-
-.custom-file-label {
-  border-radius: 2px;
 }
 
 // Search form
@@ -143,7 +138,7 @@ h2 {
   @include font-size(18);
 
   .nav-link {
-    color: #757575;
+    color: $gray;
     padding: 0;
 
     &.active {
@@ -241,6 +236,21 @@ h2 {
   &.disabled {
     opacity: 1;
   }
+}
+
+// Modals
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-header {
+  background-color: $primary-theme-color;
+  border-radius: 0;
+  color: $white;
+}
+
+.close {
+  color: $white;
 }
 
 // Oppimateriaali card
