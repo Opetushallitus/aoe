@@ -115,9 +115,6 @@ $ng-select-marked: lighten($ng-select-highlight, 48);
 
     .ng-select-container {
       .ng-value-container {
-        padding-top: 5px;
-        padding-left: 7px;
-
         .ng-value {
           font-size: 0.9em;
           margin-bottom: 5px;
@@ -154,16 +151,6 @@ $ng-select-marked: lighten($ng-select-highlight, 48);
               border-left: 1px solid darken($ng-select-selected, 10);
             }
           }
-        }
-
-        .ng-input {
-          padding: 0 0 3px 3px;
-        }
-
-        .ng-placeholder {
-          top: 5px;
-          padding-bottom: 5px;
-          padding-left: 3px;
         }
       }
     }
