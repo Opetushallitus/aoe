@@ -6,12 +6,14 @@ $secondary-theme-color: #1D7D1F;
 $blue: #1F79BF;
 $blue-hover: darken($blue, 15%);
 $light: #f9f9f9;
+$gray: #757575;
 
 $theme-colors: (
   primary:  $primary-theme-color,
   secondary: $secondary-theme-color,
   blue: $blue,
-  light: $light
+  light: $light,
+  gray: $gray
 );
 
 $body-bg: #fff;
@@ -19,5 +21,13 @@ $body-bg: #fff;
 $font-family-sans-serif: 'Roboto', sans-serif;
 
 // Forms
-$input-btn-padding-y: .75rem;
-$input-btn-padding-x: 1rem;
+$input-btn-padding-y: .5rem;
+$input-btn-padding-x: .75rem;
+$input-padding-y: .5rem;
+$input-padding-x: .5rem;
+
+// Buttons
+$btn-font-weight: 700;
+
+// Components
+$border-radius: .125rem;
