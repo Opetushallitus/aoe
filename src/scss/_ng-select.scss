@@ -66,7 +66,7 @@ $ng-select-marked: lighten($ng-select-highlight, 48);
     color: $input-color;
     display: block;
     font-weight: $input-font-weight;
-    height: $input-height;
+    min-height: $input-height;
     line-height: $input-line-height;
     padding: $input-padding-y $input-padding-x;
     align-items: center;
@@ -89,12 +89,14 @@ $ng-select-marked: lighten($ng-select-highlight, 48);
 
   &.ng-select-single {
     .ng-select-container {
+      height: $input-height;
+
       .ng-value-container {
         .ng-input {
           left: 0;
           right: 1rem;
-          top: .5rem;
-          padding-left: 1rem;
+          top: .25rem;
+          padding-left: $input-btn-padding-y;
           padding-right: 50px;
         }
       }
