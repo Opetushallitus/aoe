@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
@@ -81,6 +81,7 @@ import { StepsNavComponent } from './views/add-educational-resource-form/steps-n
     NgxExtendedPdfViewerModule,
     NgSelectModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,

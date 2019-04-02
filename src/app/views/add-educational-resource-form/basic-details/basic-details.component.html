@@ -6,17 +6,23 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-2">kuva</div>
+    <form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-2">kuva</div>
 
-      <div class="col-10">
-        <form>
+        <div class="col-10">
           <div class="form-row">
             <div class="col">
               <label for="file">Liite*</label>
 
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="file" required>
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="file"
+                  required
+                  formControlName="file"
+                >
                 <label class="custom-file-label" for="file" data-browse="Lataa">Ei valittua tiedostoa</label>
               </div>
             </div>
@@ -33,6 +39,7 @@
                 id="link"
                 placeholder="https://"
                 required
+                formControlName="link"
               >
             </div>
           </div>
@@ -48,6 +55,7 @@
                   id="name"
                   placeholder="Oppimateriaalin nimi"
                   required
+                  formControlName="name"
                 >
               </div>
 
@@ -71,6 +79,7 @@
               placeholder="Oppimateriaalin aihe"
               [typeahead]="input$"
               (scrollToEnd)="fetchMore(keywords.filterValue)"
+              formControlName="keywords"
               #keywords
             ></ng-select>
           </div>
@@ -84,6 +93,7 @@
                 id="author"
                 placeholder="Tekijän nimi"
                 required
+                formControlName="author"
               >
             </div>
 
@@ -96,6 +106,7 @@
                 bindValue="key"
                 id="organisation"
                 placeholder="Lisää halutessasi affiliaatiosi"
+                formControlName="organisation"
               ></ng-select>
             </div>
           </div>
@@ -109,6 +120,7 @@
                 id="materialType"
                 placeholder="Valitse tyyppi"
                 required
+                formControlName="materialType"
               >
             </div>
 
@@ -119,6 +131,7 @@
                 class="form-control"
                 id="timeRequired"
                 placeholder="Opiskeluaika"
+                formControlName="timeRequired"
               >
             </div>
 
@@ -129,6 +142,7 @@
                 class="form-control"
                 id="publisher"
                 placeholder="Kirjoita julkaisijan nimi"
+                formControlName="publisher"
               >
             </div>
           </div>
@@ -143,6 +157,7 @@
                   id="description"
                   rows="10"
                   placeholder="Kirjoita kuvausteksti"
+                  formControlName="description"
                 ></textarea>
               </div>
 
@@ -151,14 +166,14 @@
               </div>
             </div>
           </div>
-        </form>
 
-        <hr>
+          <hr>
 
-        <button type="reset" class="btn btn-link btn-sm">Keskeytä</button>
-        <button type="button" class="btn btn-blue btn-sm">Seuraava</button>
+          <button type="reset" class="btn btn-link btn-sm">Keskeytä</button>
+          <button type="submit" class="btn btn-blue btn-sm">Seuraava</button>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 

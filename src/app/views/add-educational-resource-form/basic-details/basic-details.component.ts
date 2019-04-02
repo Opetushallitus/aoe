@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -22,6 +23,20 @@ export class BasicDetailsComponent implements OnInit {
   public input$ = new Subject<string>();
 
   modalRef: BsModalRef;
+
+  basicDetailsForm = new FormGroup({
+    image: new FormControl(''),
+    file: new FormControl(''),
+    link: new FormControl(''),
+    name: new FormControl(''),
+    keywords: new FormControl(''),
+    author: new FormControl(''),
+    organisation: new FormControl(''),
+    materialType: new FormControl(''),
+    timeRequired: new FormControl(''),
+    publisher: new FormControl(''),
+    description: new FormControl(''),
+  });
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -77,5 +92,9 @@ export class BasicDetailsComponent implements OnInit {
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
+  }
+
+  onSubmit() {
+    console.warn(this.basicDetailsForm.value);
   }
 }
