@@ -8,11 +8,11 @@
 
     <form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-2">kuva</div>
+        <div class="col-md-2">kuva</div>
 
-        <div class="col-10">
+        <div class="col-md-10">
           <div class="form-row">
-            <div class="col">
+            <div class="col-sm">
               <label for="file">Liite*</label>
 
               <div class="custom-file">
@@ -31,7 +31,7 @@
               <span class="form-text">tai</span>
             </div>
 
-            <div class="form-group col">
+            <div class="form-group col-sm">
               <label for="link">Linkki*</label>
               <input
                 type="url"
@@ -48,7 +48,7 @@
             <label for="name">Oppimateriaalin nimi*</label>
 
             <div class="form-row">
-              <div class="col">
+              <div class="col-sm">
                 <input
                   type="text"
                   class="form-control"
@@ -85,7 +85,7 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-7">
+            <div class="form-group col-md-7">
               <label for="author">Tekijän nimi*</label>
               <input
                 type="text"
@@ -97,7 +97,7 @@
               >
             </div>
 
-            <div class="form-group col-5">
+            <div class="form-group col-md-5">
               <label for="organisation">Organisaatio</label>
 
               <ng-select
@@ -112,7 +112,7 @@
           </div>
 
           <div class="form-row">
-            <div class="form-group col-5">
+            <div class="form-group col-md-5">
               <label for="materialType">Oppimateriaalin tyyppi*</label>
               <input
                 type="text"
@@ -124,7 +124,7 @@
               >
             </div>
 
-            <div class="form-group col-3">
+            <div class="form-group col-md-3">
               <label for="timeRequired">Opiskeluaika</label>
               <input
                 type="text"
@@ -135,7 +135,7 @@
               >
             </div>
 
-            <div class="form-group col-4">
+            <div class="form-group col-md-4">
               <label for="publisher">Julkaisija</label>
               <input
                 type="text"
@@ -151,7 +151,7 @@
             <label for="description">Kuvaus</label>
 
             <div class="form-row">
-              <div class="col">
+              <div class="col-sm">
                 <textarea
                   class="form-control"
                   id="description"
