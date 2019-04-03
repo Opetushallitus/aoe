@@ -8,7 +8,12 @@
 
     <form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()">
       <div class="row">
-        <div class="col-md-2">kuva</div>
+        <div class="col-md-2">
+          <div class="material-image-upload d-flex flex-column justify-content-center">
+            <img src="assets/img/icons/ic_camera.svg" alt="Kamera ikoni">
+            <a href="#">Lataa kuva</a>
+          </div>
+        </div>
 
         <div class="col-md-10">
           <div class="form-row">
