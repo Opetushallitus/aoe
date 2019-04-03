@@ -6,10 +6,92 @@
       </div>
     </div>
 
-    <div class="row">
-      <p>
-        extended
-      </p>
-    </div>
+    <form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="col-md-4">
+          <label for="educationalRoles">Kohderyhmä</label>
+
+          <ng-select
+            [items]="educationalRoles$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="educationalRoles"
+            placeholder="Valitse kohderyhmä"
+            formControlName="educationalRoles"
+          ></ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="educationalUse">Käyttö opetuksessa</label>
+
+          <ng-select
+            [items]="educationalUse$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="educationalUse"
+            placeholder="Valitse opetuksen käyttökohde"
+            formControlName="educationalUse"
+          ></ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="accessibilityFeatures">Saavutettavuuden tukitoiminnot</label>
+
+          <ng-select
+            [items]="accessibilityFeatures$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="accessibilityFeatures"
+            placeholder="Valitse tukitoiminto"
+            formControlName="accessibilityFeatures"
+          ></ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="accessibilityAPIs">Saavutettavuuden avustavat teknologiat</label>
+
+          <ng-select
+            [items]="accessibilityAPIs$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="accessibilityAPIs"
+            placeholder="Valitse avustava teknologia"
+            formControlName="accessibilityAPIs"
+          ></ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="accessibilityControls">Saavutettavuuden käyttötavat</label>
+
+          <ng-select
+            [items]="accessibilityControls$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="accessibilityControls"
+            placeholder="Valitse käyttötapa"
+            formControlName="accessibilityControls"
+          ></ng-select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="accessibilityHazards">Saavutettavuuden esteet</label>
+
+          <ng-select
+            [items]="accessibilityHazards$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="accessibilityHazards"
+            placeholder="Valitse este"
+            formControlName="accessibilityHazards"
+          ></ng-select>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
