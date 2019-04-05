@@ -17,6 +17,7 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityAPIs$: Observable<any>;
   public accessibilityControls$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
+  public languages$: Observable<any>;
 
   extendedDetailsForm = new FormGroup({
     educationalRoles: new FormControl(''),
@@ -25,6 +26,9 @@ export class ExtendedDetailsComponent implements OnInit {
     accessibilityAPIs: new FormControl(''),
     accessibilityControls: new FormControl(''),
     accessibilityHazards: new FormControl(''),
+    typicalAgeRangeMin: new FormControl(''),
+    typicalAgeRangeMax: new FormControl(''),
+    inLanguage: new FormControl(''),
   });
 
   constructor(
@@ -38,11 +42,18 @@ export class ExtendedDetailsComponent implements OnInit {
     });
 
     this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
+
     this.educationalUse$ = this.koodistoProxySvc.getData('kayttokohteet', this.lang);
+
     this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
+
     this.accessibilityAPIs$ = this.koodistoProxySvc.getData('saavutettavuudenavustavatteknologiat', this.lang);
+
     this.accessibilityControls$ = this.koodistoProxySvc.getData('saavutettavuudenkayttotavat', this.lang);
+
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
+
+    this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
   }
 
   onSubmit() {

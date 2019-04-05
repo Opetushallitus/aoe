@@ -8,7 +8,7 @@
 
     <form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="educationalRoles">Kohderyhmä</label>
 
           <ng-select
@@ -22,7 +22,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="educationalUse">Käyttö opetuksessa</label>
 
           <ng-select
@@ -36,7 +36,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="accessibilityFeatures">Saavutettavuuden tukitoiminnot</label>
 
           <ng-select
@@ -50,7 +50,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="accessibilityAPIs">Saavutettavuuden avustavat teknologiat</label>
 
           <ng-select
@@ -64,7 +64,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="accessibilityControls">Saavutettavuuden käyttötavat</label>
 
           <ng-select
@@ -78,7 +78,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
           <label for="accessibilityHazards">Saavutettavuuden esteet</label>
 
           <ng-select
@@ -89,6 +89,48 @@
             id="accessibilityHazards"
             placeholder="Valitse este"
             formControlName="accessibilityHazards"
+          ></ng-select>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+          <label for="typicalAgeRangeMin">Kohderyhmän ikä</label>
+
+          <div class="form-row">
+            <div class="col">
+              <input
+                type="number"
+                id="typicalAgeRangeMin"
+                class="form-control"
+                formControlName="typicalAgeRangeMin"
+              >
+            </div>
+
+            <div class="col-auto">
+              &ndash;
+            </div>
+
+            <div class="col">
+              <input
+                type="number"
+                id="typicalAgeRangeMax"
+                class="form-control"
+                formControlName="typicalAgeRangeMax"
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-4">
+          <label for="inLanguage">Kieli</label>
+
+          <ng-select
+            [items]="languages$ | async"
+            [multiple]="true"
+            bindLabel="value"
+            bindValue="key"
+            id="inLanguage"
+            placeholder="Valitse kieli"
+            formControlName="inLanguage"
           ></ng-select>
         </div>
       </div>
