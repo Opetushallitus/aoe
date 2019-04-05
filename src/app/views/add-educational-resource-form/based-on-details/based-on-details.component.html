@@ -6,10 +6,34 @@
       </div>
     </div>
 
-    <div class="row">
-      <p>
-        based on
-      </p>
-    </div>
+    <form [formGroup]="basedOnDetailsForm" (ngSubmit)="onSubmit()">
+      <h3>Aoe.fi:stä löytyvät materiaalit</h3>
+
+      <div class="form-row">
+        <div class="form-group col-sm-4">
+          <label for="author">Tekijän nimi</label>
+
+          <input
+            type="text"
+            id="author"
+            class="form-control"
+            placeholder="Tekijän nimi"
+            formControlName="author"
+            >
+        </div>
+
+        <div class="form-group col-sm-8">
+          <label for="material">Materiaali</label>
+
+          <input
+            type="text"
+            id="material"
+            class="form-control"
+            placeholder="Materiaali"
+            formControlName="material"
+          >
+        </div>
+      </div>
+    </form>
   </div>
 </div>
