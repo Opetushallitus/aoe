@@ -8,7 +8,7 @@
 
     <form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="educationalRoles">Kohderyhmä</label>
 
           <ng-select
@@ -22,7 +22,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="educationalUse">Käyttö opetuksessa</label>
 
           <ng-select
@@ -36,7 +36,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="accessibilityFeatures">Saavutettavuuden tukitoiminnot</label>
 
           <ng-select
@@ -50,7 +50,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="accessibilityAPIs">Saavutettavuuden avustavat teknologiat</label>
 
           <ng-select
@@ -64,7 +64,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="accessibilityControls">Saavutettavuuden käyttötavat</label>
 
           <ng-select
@@ -78,7 +78,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="accessibilityHazards">Saavutettavuuden esteet</label>
 
           <ng-select
@@ -92,7 +92,7 @@
           ></ng-select>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="typicalAgeRangeMin">Kohderyhmän ikä</label>
 
           <div class="form-row">
@@ -101,6 +101,7 @@
                 type="number"
                 id="typicalAgeRangeMin"
                 class="form-control"
+                placeholder="15"
                 formControlName="typicalAgeRangeMin"
               >
             </div>
@@ -114,13 +115,14 @@
                 type="number"
                 id="typicalAgeRangeMax"
                 class="form-control"
+                placeholder="18"
                 formControlName="typicalAgeRangeMax"
               >
             </div>
           </div>
         </div>
 
-        <div class="col-sm-6 col-md-4">
+        <div class="form-group col-sm-6 col-md-4">
           <label for="inLanguage">Kieli</label>
 
           <ng-select
