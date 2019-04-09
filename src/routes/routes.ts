@@ -10,7 +10,7 @@ const router: Router = Router();
 
 // File handling
  const fh = require("./../queries/fileHandling");
-
+//  const pouta = require("./../queries/pouta");
 // post metadata
 // post file
 // get metadata
@@ -34,5 +34,7 @@ router.post("/material", db.postMaterial);
 router.post("/createUser", db.createUser);
 router.put("/user/:id", db.updateUser);
 router.get("/user/:id", db.getUser);
+
+router.get("/upload", fh.uploadFileToStorage);
 
 export = router;
