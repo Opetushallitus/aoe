@@ -11,14 +11,14 @@
         <div class="col-md-2">
           <div class="material-image-upload d-flex flex-column justify-content-center">
             <img src="assets/img/icons/ic_camera.svg" alt="Kamera ikoni">
-            <a href="#">Lataa kuva</a>
+            <a href="#">{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</a>
           </div>
         </div>
 
         <div class="col-md-10">
           <div class="form-row">
             <div class="col-sm">
-              <label for="file">Liite*</label>
+              <label for="file">{{ 'forms.educationalResource.basicDetails.attachment' | translate }}*</label>
 
               <div class="custom-file">
                 <input
@@ -28,16 +28,16 @@
                   required
                   formControlName="file"
                 >
-                <label class="custom-file-label" for="file" data-browse="Lataa">Ei valittua tiedostoa</label>
+                <label class="custom-file-label" for="file">{{ 'forms.educationalResource.basicDetails.noSelectedFile' | translate }}</label>
               </div>
             </div>
 
             <div class="form-group col-auto align-self-center">
-              <span class="form-text">tai</span>
+              <span class="form-text">{{ 'forms.educationalResource.basicDetails.or' | translate }}</span>
             </div>
 
             <div class="form-group col-sm">
-              <label for="link">Linkki*</label>
+              <label for="link">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
               <input
                 type="url"
                 class="form-control"
@@ -50,7 +50,7 @@
           </div>
 
           <div class="form-group">
-            <label for="name">Oppimateriaalin nimi*</label>
+            <label for="name">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
 
             <div class="form-row">
               <div class="col-sm">
@@ -65,13 +65,13 @@
               </div>
 
               <div class="col-auto">
-                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">Kieliversiot</button>
+                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="keywords">Aihe*</label>
+            <label for="keywords">{{ 'forms.educationalResource.basicDetails.subject' | translate }}*</label>
 
             <ng-select
               [items]="keywordsBuffer"
@@ -90,7 +90,7 @@
 
           <div class="form-row">
             <div class="form-group col-md-7">
-              <label for="author">Tekijän nimi*</label>
+              <label for="author">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
               <input
                 type="text"
                 class="form-control"
@@ -102,7 +102,7 @@
             </div>
 
             <div class="form-group col-md-5">
-              <label for="organisation">Organisaatio</label>
+              <label for="organisation">{{ 'forms.educationalResource.basicDetails.organisation' | translate }}</label>
 
               <ng-select
                 [items]="organisations$ | async"
@@ -117,7 +117,7 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <label for="learningResourceType">Oppimateriaalin tyyppi*</label>
+              <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.materialType' | translate }}*</label>
               <input
                 type="text"
                 class="form-control"
@@ -129,7 +129,7 @@
             </div>
 
             <div class="form-group col-md-3">
-              <label for="timeRequired">Opiskeluaika</label>
+              <label for="timeRequired">{{ 'forms.educationalResource.basicDetails.timeRequired' | translate }}</label>
               <input
                 type="text"
                 class="form-control"
@@ -140,7 +140,7 @@
             </div>
 
             <div class="form-group col-md-4">
-              <label for="publisher">Julkaisija</label>
+              <label for="publisher">{{ 'forms.educationalResource.basicDetails.publisher' | translate }}</label>
               <input
                 type="text"
                 class="form-control"
@@ -152,7 +152,7 @@
           </div>
 
           <div class="form-group">
-            <label for="description">Kuvaus</label>
+            <label for="description">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
 
             <div class="form-row">
               <div class="col-sm">
@@ -166,19 +166,19 @@
               </div>
 
               <div class="col-auto">
-                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">Kieliversiot</button>
+                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
               </div>
             </div>
           </div>
 
           <hr>
 
-          <button type="reset" class="btn btn-link btn-sm">Keskeytä</button>
+          <button type="reset" class="btn btn-link btn-sm">{{ 'forms.common.abort' | translate }}</button>
           <button
             type="submit"
             class="btn btn-blue btn-sm"
             [disabled]="!basicDetailsForm.valid"
-          >Seuraava</button>
+          >{{ 'forms.common.next' | translate }}</button>
         </div>
       </div>
     </form>

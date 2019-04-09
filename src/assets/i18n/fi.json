@@ -53,5 +53,38 @@
         "openInNewTab": "Avaa oppimateriaali uuteen välilehteen"
       }
     }
+  },
+  "forms": {
+    "common": {
+      "abort": "Keskeytä",
+      "next": "Seuraava",
+      "save": "Tallenna"
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "basicDetails": "Perustiedot",
+        "educationalDetails": "Koulutustiedot",
+        "extendedDetails": "Tarkemmat tiedot",
+        "licenseDetails": "Lisenssitiedot",
+        "basedOnDetails": "Hyödynnetyt materiaalit"
+      },
+      "basicDetails": {
+        "uploadImage": "Lataa kuva",
+        "attachment": "Liite",
+        "noSelectedFile": "Ei valittua tiedostoa",
+        "or": "tai",
+        "link": "Linkki",
+        "materialName": "Oppimateriaalin nimi",
+        "subject": "Aihe",
+        "author": "Tekijän nimi",
+        "organisation": "Organisaatio",
+        "materialType": "Oppimateriaalin tyyppi",
+        "timeRequired": "Opiskeluaika",
+        "publisher": "Julkaisija",
+        "description": "Kuvaus",
+        "langVersions": "Kieliversiot"
+      }
+    }
   }
 }
