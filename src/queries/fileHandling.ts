@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import { error } from "shelljs";
+const AWS = require("aws-sdk");
+const globalLog = require("global-request-logger");
+globalLog.initialize();
 
 const fs = require("fs");
 const path = require("path");
@@ -106,9 +108,59 @@ async function insertDataToRecordTable(files: any, materialID: any) {
     const data = await db.any(query);
 }
 
+  async function uploadFileToStorage(req: Request, res: Response) {
+    try {
+        const util = require("util");
+        const config = {
+            accessKeyId: process.env.USER_KEY,
+            secretAccessKey: process.env.USER_SECRET,
+            endpoint: process.env.POUTA_END_POINT,
+            region: process.env.REGION
+          };
+        AWS.config.update(config);
+        const s3 = new AWS.S3();
+        const params2 = {
+            Bucket: process.env.BUCKET_NAME,
+            MaxKeys: 2
+        };
+        s3.listObjects(params2, function(err: any, data: any) {
+            if (err) console.log(err, err.stack); // an error occurred
+            else     console.log(data);           // successful response
+        });
+        const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
+        const bucketName = process.env.BUCKET_NAME;
+        const key = "testfile2";
+        // const uploadFile = (filePath, bucketName, key) => {
+        fs.readFile(filePath, (err: any, data: any) => {
+            if (err) console.error(err);
+            const base64data = new Buffer(data, "binary2");
+            const params = {
+                Bucket: bucketName,
+                Key: key,
+                Body: base64data
+            };
+            s3.upload(params, (err: any, data: any) => {
+                if (err) {
+                    console.error(`Upload Error ${err}`);
+                    res.status(500).send("error during upload");
+                }
 
+                if (data) {
+                    console.log("Upload Completed");
+                    console.log(data);
+                    res.status(200).send("success");
+                }
+            });
+        });
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send("error");
+    }
+  }
 
 module.exports = {
     uploadMaterial: uploadMaterial,
-    uploadFileToMaterial : uploadFileToMaterial
+    uploadFileToMaterial : uploadFileToMaterial,
+    uploadFileToStorage : uploadFileToStorage
 };
