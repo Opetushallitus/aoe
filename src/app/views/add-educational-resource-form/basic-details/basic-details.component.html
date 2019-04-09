@@ -79,7 +79,6 @@
               [loading]="loading"
               [multiple]="true"
               bindLabel="value"
-              bindValue="key"
               id="keywords"
               placeholder="Oppimateriaalin aihe"
               [typeahead]="input$"
@@ -118,14 +117,14 @@
 
           <div class="form-row">
             <div class="form-group col-md-5">
-              <label for="materialType">Oppimateriaalin tyyppi*</label>
+              <label for="learningResourceType">Oppimateriaalin tyyppi*</label>
               <input
                 type="text"
                 class="form-control"
-                id="materialType"
+                id="learningResourceType"
                 placeholder="Valitse tyyppi"
                 required
-                formControlName="materialType"
+                formControlName="learningResourceType"
               >
             </div>
 
@@ -175,7 +174,11 @@
           <hr>
 
           <button type="reset" class="btn btn-link btn-sm">Keskeytä</button>
-          <button type="submit" class="btn btn-blue btn-sm">Seuraava</button>
+          <button
+            type="submit"
+            class="btn btn-blue btn-sm"
+            [disabled]="!basicDetailsForm.valid"
+          >Seuraava</button>
         </div>
       </div>
     </form>

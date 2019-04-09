@@ -1,9 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import slugify from 'slugify';
 
 import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
 
@@ -22,17 +23,19 @@ export class BasicDetailsComponent implements OnInit {
   public loading = false;
   public input$ = new Subject<string>();
 
-  modalRef: BsModalRef;
+  public modalRef: BsModalRef;
 
-  basicDetailsForm = new FormGroup({
+  private formData = JSON.parse(localStorage.getItem('aoe.new-educational-resource'));
+
+  public basicDetailsForm = new FormGroup({
     image: new FormControl(''),
     file: new FormControl(''),
     link: new FormControl(''),
-    name: new FormControl(''),
-    keywords: new FormControl(''),
-    author: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    keywords: new FormControl('', Validators.required),
+    author: new FormControl('', Validators.required),
     organisation: new FormControl(''),
-    materialType: new FormControl(''),
+    learningResourceType: new FormControl('', Validators.required),
     timeRequired: new FormControl(''),
     publisher: new FormControl(''),
     description: new FormControl(''),
@@ -96,5 +99,39 @@ export class BasicDetailsComponent implements OnInit {
 
   onSubmit() {
     console.warn(this.basicDetailsForm.value);
+
+    const data = {
+      id: 1337,
+      materials: [],
+      owner: {
+        id: 12003,
+        firstName: 'Matti',
+        lastName: 'Meikäläinen'
+      },
+      name: [
+        { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+      ],
+      slug: [
+        { lang: 'fi', text: slugify(this.basicDetailsForm.get('name').value, { lower: true }) },
+      ],
+      thumbnail: this.basicDetailsForm.get('image').value,
+      createdAt: new Date(),
+      updatedAt: null,
+      publishedAt: null,
+      archivedAt: null,
+      author: this.basicDetailsForm.get('author').value,
+      organisation: this.basicDetailsForm.get('organisation').value,
+      publisher: this.basicDetailsForm.get('publisher').value,
+      description: [
+        { lang: 'fi', text: this.basicDetailsForm.get('description').value },
+      ],
+      keywords: this.basicDetailsForm.get('keywords').value,
+      learningResourceType: [
+        { id: 1234, value: 'audio' },
+      ],
+      timeRequired: this.basicDetailsForm.get('timeRequired').value,
+    };
+
+    localStorage.setItem('aoe.new-educational-resource', JSON.stringify(data));
   }
 }
