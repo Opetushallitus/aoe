@@ -28,17 +28,17 @@ export class BasicDetailsComponent implements OnInit {
   private formData = JSON.parse(localStorage.getItem('aoe.new-educational-resource'));
 
   public basicDetailsForm = new FormGroup({
-    image: new FormControl(''),
-    file: new FormControl(''),
-    link: new FormControl(''),
-    name: new FormControl('', Validators.required),
-    keywords: new FormControl('', Validators.required),
-    author: new FormControl('', Validators.required),
-    organisation: new FormControl(''),
-    learningResourceType: new FormControl('', Validators.required),
-    timeRequired: new FormControl(''),
-    publisher: new FormControl(''),
-    description: new FormControl(''),
+    image: new FormControl(this.formData.image),
+    file: new FormControl(this.formData.file),
+    link: new FormControl(this.formData.link),
+    name: new FormControl(this.formData.name[0].text, Validators.required),
+    keywords: new FormControl(this.formData.keywords, Validators.required),
+    author: new FormControl(this.formData.author, Validators.required),
+    organisation: new FormControl(this.formData.organisation),
+    learningResourceType: new FormControl(this.formData.learningResourceType, Validators.required),
+    timeRequired: new FormControl(this.formData.timeRequired),
+    publisher: new FormControl(this.formData.publisher),
+    description: new FormControl(this.formData.description[0].text),
   });
 
   constructor(
@@ -133,5 +133,9 @@ export class BasicDetailsComponent implements OnInit {
     };
 
     localStorage.setItem('aoe.new-educational-resource', JSON.stringify(data));
+  }
+
+  resetForm() {
+    this.basicDetailsForm.reset();
   }
 }

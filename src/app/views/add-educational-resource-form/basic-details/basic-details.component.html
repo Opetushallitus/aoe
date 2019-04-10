@@ -173,7 +173,12 @@
 
           <hr>
 
-          <button type="reset" class="btn btn-link btn-sm">{{ 'forms.common.abort' | translate }}</button>
+          <button
+            type="reset"
+            class="btn btn-link btn-sm"
+            (click)="resetForm()"
+          >{{ 'forms.common.abort' | translate }}</button>
+
           <button
             type="submit"
             class="btn btn-blue btn-sm"
