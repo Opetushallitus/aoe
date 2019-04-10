@@ -16,3 +16,5 @@
     - samba
     - services
     - aoe
+    - S3
+    - clamav
