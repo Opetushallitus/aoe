@@ -35,7 +35,7 @@ export class BasicDetailsComponent implements OnInit {
     keywords: new FormControl(this.formData.keywords, Validators.required),
     author: new FormControl(this.formData.author, Validators.required),
     organisation: new FormControl(this.formData.organisation),
-    learningResourceType: new FormControl(this.formData.learningResourceType, Validators.required),
+    learningResourceType: new FormControl(this.formData.learningResourceType.value, Validators.required),
     timeRequired: new FormControl(this.formData.timeRequired),
     publisher: new FormControl(this.formData.publisher),
     description: new FormControl(this.formData.description[0].text),
