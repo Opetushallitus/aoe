@@ -64,7 +64,12 @@
                   formControlName="name"
                 >
 
-                <div class="invalid-feedback">{{ 'forms.common.required' | translate }}</div>
+                <div
+                  *ngIf="submitted && form.name.errors"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="form.name.errors.required">{{ 'forms.common.required' | translate }}</div>
+                </div>
               </div>
 
               <div class="col-auto">
@@ -105,7 +110,12 @@
                 formControlName="author"
               >
 
-              <div class="invalid-feedback">{{ 'forms.common.required' | translate }}</div>
+              <div
+                *ngIf="submitted && form.author.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.author.errors.required">{{ 'forms.common.required' | translate }}</div>
+              </div>
             </div>
 
             <div class="form-group col-md-5">
@@ -195,6 +205,7 @@
           <button
             type="submit"
             class="btn btn-blue btn-sm"
+            [disabled]="!basicDetailsForm.valid"
           >{{ 'forms.common.next' | translate }}</button>
         </div>
       </div>
