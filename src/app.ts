@@ -19,6 +19,7 @@ import { setKielet } from "./controllers/kielet";
 import { setAsiasanat } from "./controllers/asiasanat";
 import { setTieteenalat } from "./controllers/tieteenalat";
 import { setPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
+import { setOppimateriaalityypit } from "./controllers/oppimateriaalityypit";
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ setKielet();
 setOrganisaatiot();
 setTieteenalat();
 setPeruskoulutuksenOppiaineet();
+setOppimateriaalityypit();
 
 // set cron jobs to run daily/weekly
 

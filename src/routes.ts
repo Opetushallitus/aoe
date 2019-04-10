@@ -19,6 +19,7 @@ import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
 import { getPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
+import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 
 const router: Router = Router();
 
@@ -81,8 +82,22 @@ router.get("/organisaatiot/:lang", getOrganisaatiot);
  */
 router.get("/organisaatiot/:key/:lang", getOrganisaatio);
 
-// router.get("/oppimateriaalityypit/:lang");
-// router.get("/oppimateriaalityypit/:key/:lang");
+/**
+ * Returns all oppimateriaalityypit from redis database by given language
+ * @group Oppimateriaalityypit
+ * @route GET /oppimateriaalityypit/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/oppimateriaalityypit/:lang", getOppimateriaalityypit);
+
+/**
+ * Returns single oppimateriaalityyppi from redis database by given id and language
+ * @group Oppimateriaalityypit
+ * @route GET /oppimateriaalityypit/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/oppimateriaalityypit/:key/:lang", getOppimateriaalityyppi);
 
 /**
  * Returns all koulutusasteet from redis database by given language
