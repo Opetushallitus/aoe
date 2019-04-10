@@ -73,7 +73,7 @@
               </div>
 
               <div class="col-auto">
-                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+                <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
               </div>
             </div>
           </div>
@@ -189,7 +189,7 @@
               </div>
 
               <div class="col-auto">
-                <button type="button" class="btn btn-gray" (click)="openModal(kieliversiot)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+                <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
               </div>
             </div>
           </div>
@@ -209,63 +209,97 @@
           >{{ 'forms.common.next' | translate }}</button>
         </div>
       </div>
+
+      <ng-template #langVersions>
+        <div class="modal-header">
+          <h5 class="modal-title">Kieliversiot</h5>
+
+          <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <h4>Kieliversioiden lisääminen</h4>
+
+          <div class="form-group">
+            <label for="lang">Valitse kieli</label>
+
+            <select
+              class="form-control"
+              id="lang"
+              (change)="selectedLang = selectLang.value"
+              #selectLang
+            >
+              <option value="en">englanti</option>
+              <option value="sv">ruotsi</option>
+            </select>
+          </div>
+
+          <div *ngIf="selectedLang === 'en'">
+            <div class="form-group">
+              <label for="nameEn">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}</label>
+
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.nameEn.errors}"
+                id="nameEn"
+                placeholder="Oppimateriaalin nimi"
+                required
+                formControlName="nameEn"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+              <textarea
+                class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.descriptionEn.errors}"
+                id="descriptionEn"
+                rows="10"
+                placeholder="Kirjoita kuvausteksti"
+                formControlName="descriptionEn"
+              ></textarea>
+            </div>
+          </div>
+
+          <div *ngIf="selectedLang === 'sv'">
+            <div class="form-group">
+              <label for="nameSv">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}</label>
+
+              <input
+                type="text"
+                class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.nameSv.errors}"
+                id="nameSv"
+                placeholder="Oppimateriaalin nimi"
+                required
+                formControlName="nameSv"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+              <textarea
+                class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.descriptionSv.errors}"
+                id="descriptionSv"
+                rows="10"
+                placeholder="Kirjoita kuvausteksti"
+                formControlName="descriptionSv"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+          <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+        </div>
+      </ng-template>
     </form>
   </div>
 </div>
-
-<ng-template #kieliversiot>
-  <div class="modal-header">
-    <h5 class="modal-title">Kieliversiot</h5>
-
-    <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <h4>Kieliversioiden lisääminen</h4>
-
-    <form>
-      <div class="form-group">
-        <label for="kieli-kieli">Valitse kieli*</label>
-
-        <select
-          class="form-control"
-          id="kieli-kieli"
-          required
-        >
-          <option>englanti</option>
-          <option>ruotsi</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="kieli-nimi">Oppimateriaalin nimi*</label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="kieli-nimi"
-          placeholder="Oppimateriaalin nimi"
-          required
-        >
-      </div>
-
-      <div class="form-group">
-        <label for="kieli-kuvaus">Kuvaus</label>
-
-        <textarea
-          class="form-control"
-          id="kieli-kuvaus"
-          rows="10"
-          placeholder="Kirjoita kuvausteksti"
-        ></textarea>
-      </div>
-    </form>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
-    <button type="button" class="btn btn-blue">Tallenna muutokset</button>
-  </div>
-</ng-template>

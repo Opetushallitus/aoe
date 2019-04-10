@@ -15,6 +15,7 @@ import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
 export class BasicDetailsComponent implements OnInit {
   private localStorageKey = 'aoe.new-educational-resource';
   public submitted = false;
+  public selectedLang = 'en';
   private lang: string = this.translate.currentLang;
 
   public organisations$: Observable<any>;
@@ -34,6 +35,8 @@ export class BasicDetailsComponent implements OnInit {
     file: new FormControl(null),
     link: new FormControl(null),
     name: new FormControl(null, Validators.required),
+    nameEn: new FormControl(null),
+    nameSv: new FormControl(null),
     keywords: new FormControl(null, Validators.required),
     author: new FormControl(null, Validators.required),
     organisation: new FormControl(null),
@@ -41,6 +44,8 @@ export class BasicDetailsComponent implements OnInit {
     timeRequired: new FormControl(null),
     publisher: new FormControl(null),
     description: new FormControl(null),
+    descriptionEn: new FormControl(null),
+    descriptionSv: new FormControl(null),
   });
 
   private formData = JSON.parse(localStorage.getItem(this.localStorageKey));
@@ -69,9 +74,16 @@ export class BasicDetailsComponent implements OnInit {
 
     if (this.formData) {
       const name = this.formData.name.find(e => e.lang === 'fi');
+      const nameEn = this.formData.name.find(e => e.lang === 'en');
+      const nameSv = this.formData.name.find(e => e.lang === 'sv');
+
       const description = this.formData.description.find(e => e.lang === 'fi');
+      const descriptionEn = this.formData.description.find(e => e.lang === 'en');
+      const descriptionSv = this.formData.description.find(e => e.lang === 'sv');
 
       this.basicDetailsForm.get('name').setValue(name.text);
+      this.basicDetailsForm.get('nameEn').setValue(nameEn.text);
+      this.basicDetailsForm.get('nameSv').setValue(nameSv.text);
       this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
       this.basicDetailsForm.get('author').setValue(this.formData.author);
       this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
@@ -79,6 +91,8 @@ export class BasicDetailsComponent implements OnInit {
       this.basicDetailsForm.get('timeRequired').setValue(this.formData.timeRequired);
       this.basicDetailsForm.get('publisher').setValue(this.formData.publisher);
       this.basicDetailsForm.get('description').setValue(description.text);
+      this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
+      this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
     }
   }
 
@@ -150,9 +164,13 @@ export class BasicDetailsComponent implements OnInit {
         },
         name: [
           { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+          { lang: 'en', text: this.basicDetailsForm.get('nameEn').value },
+          { lang: 'sv', text: this.basicDetailsForm.get('nameSv').value },
         ],
         slug: [
           { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+          { lang: 'en', text: this.basicDetailsForm.get('nameEn').value },
+          { lang: 'sv', text: this.basicDetailsForm.get('nameSv').value },
         ],
         thumbnail: this.basicDetailsForm.get('image').value,
         createdAt: new Date(),
@@ -164,8 +182,8 @@ export class BasicDetailsComponent implements OnInit {
         publisher: this.basicDetailsForm.get('publisher').value,
         description: [
           { lang: 'fi', text: this.basicDetailsForm.get('description').value },
-          { lang: 'en', text: 'luukukouk' },
-          { lang: 'sv', text: 'adasdsa' },
+          { lang: 'en', text: this.basicDetailsForm.get('descriptionEn').value },
+          { lang: 'sv', text: this.basicDetailsForm.get('descriptionSv').value },
         ],
         keywords: this.basicDetailsForm.get('keywords').value,
         learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
