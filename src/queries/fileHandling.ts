@@ -24,9 +24,12 @@ async function uploadMaterial(req: Request, res: Response) {
         if (contentType.startsWith("multipart/form-data")) {
             upload.array("myFiles", 12)(req , res, async function() {
                 try {
-                    console.log("here");
                     const files = (<any>req).files;
+                    if (files.length == 0) {
+                        return res.status(500).send("No file sent");
+                    }
                     let result = await insertDataToEducationalMaterialTable(req);
+                    console.log(result);
                     result = await insertDataToMaterialTable(files, result[0].id);
                     console.log(result);
                     await insertDataToRecordTable(files, result);
@@ -81,7 +84,8 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function insertDataToEducationalMaterialTable(req: Request) {
-    const query = "insert into educationalmaterial (materialName,slug,CreatedAt,PublishedAt,UpdatedAt,Description,TechnicalName,author,organization,publisher,timeRequired,agerangeMin,agerangeMax,UsersId,LicenseCode) values ('" + req.body.materialname + "','slugi kolmas',to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),'kuvaus','tekninen nimi','tekijä','CSC',123,'300','1','12','" + req.body.usersid + "','koodi') returning id;";
+    const query = "insert into educationalmaterial (CreatedAt,PublishedAt,UpdatedAt,TechnicalName,author,organization,timeRequired,agerangeMin,agerangeMax,UsersId,LicenseCode)" +
+                    " values (to_date('1901-01-01', 'YYYY-MM-DD'),to_date('1902-01-01', 'YYYY-MM-DD'),to_date('1903-01-01', 'YYYY-MM-DD'),'tekninen nimi','tekijä','CSC',123,'1','12','" + req.body.usersid + "','koodi') returning id;";
     const data = await db.any(query);
     return data;
 }
@@ -89,6 +93,7 @@ async function insertDataToEducationalMaterialTable(req: Request) {
 async function insertDataToMaterialTable(files: any, materialID: String) {
     let query;
     const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + files[k].path + "','" + materialID + "')"; }).join(",");
+    console.log(str);
     query = "insert into material (materialname, link, educationalmaterialid) values " + str + " returning id;";
     console.log(query);
     const data = await db.any(query);

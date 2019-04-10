@@ -25,6 +25,9 @@ DROP TABLE IF EXISTS Material CASCADE;
 DROP TABLE IF EXISTS EducationalMaterial CASCADE;
 DROP TABLE IF EXISTS Logins CASCADE;
 DROP TABLE IF EXISTS Users CASCADE;
+DROP TABLE IF EXISTS Publisher CASCADE;
+DROP TABLE IF EXISTS MaterialName CASCADE;
+DROP TABLE IF EXISTS MaterialDescription CASCADE;
 
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
@@ -42,25 +45,22 @@ CREATE TABLE Logins (
   PasswordHash varchar(255) NOT NULL, 
   UsersId      int8 NOT NULL, 
   PRIMARY KEY (Id));
-
 CREATE TABLE EducationalMaterial (
   Id             BIGSERIAL NOT NULL, 
-  MaterialName  text NOT NULL, 
-  Slug          text NOT NULL, 
   CreatedAt     date NOT NULL, 
-  PublishedAt   date NOT NULL, 
+  PublishedAt   date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
   UpdatedAt     date NOT NULL, 
-  Description   text NOT NULL, 
+  ArchivedAt    date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
   TechnicalName text NOT NULL, 
   Author        text NOT NULL, 
   Organization  text NOT NULL, 
-  Publisher     text NOT NULL, 
   TimeRequired  text NOT NULL, 
   AgeRangeMin   int4 DEFAULT 0 NOT NULL, 
   AgeRangeMax   int4 DEFAULT 99 NOT NULL, 
   UsersId       int8 NOT NULL, 
   LicenseCode   text NOT NULL, 
-  Obsoleted      int4 DEFAULT 0 NOT NULL, 
+  Obsoleted     int4 DEFAULT 0 NOT NULL, 
+  Thumbnail     bytea, 
   PRIMARY KEY (Id));
 CREATE TABLE Material (
   Id                     BIGSERIAL NOT NULL, 
@@ -71,7 +71,7 @@ CREATE TABLE Material (
   PRIMARY KEY (Id));
 CREATE TABLE EducationalAudience (
   Id                     BIGSERIAL NOT NULL, 
-  AudienceName          text NOT NULL, 
+  EducationalRole       text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE InLanguage (
@@ -90,11 +90,6 @@ CREATE TABLE AligmentObject (
   TargetUrl             text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE LearningResourceType (
-  Id                     BIGSERIAL NOT NULL, 
-  ResourceType          text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (Id));
-CREATE TABLE EducationalRole (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
@@ -166,7 +161,6 @@ CREATE TABLE CollectionEducationalUse (
   EducationalUse                  text NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
   PRIMARY KEY (Id));
-
 CREATE TABLE Record (
   Id                BIGSERIAL NOT NULL, 
   FilePath         text NOT NULL, 
@@ -187,6 +181,7 @@ CREATE TABLE IsBasedOn (
   Url                   text NOT NULL, 
   MaterialName          text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
+  aoeid                 text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE UsersEducationalMaterialCollection (
   UsersId                         int8 NOT NULL, 
@@ -198,6 +193,24 @@ CREATE TABLE EducationalMaterialCollectionEducationalMaterial (
   EducationalMaterialId           int8 NOT NULL, 
   PRIMARY KEY (EducationalMaterialCollectionId, 
   EducationalMaterialId));
+CREATE TABLE Publisher (
+  id                     BIGSERIAL NOT NULL, 
+  name                  text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (id));
+CREATE TABLE MaterialDescription (
+  id                     BIGSERIAL NOT NULL, 
+  Description           text NOT NULL, 
+  Language              text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (id));
+CREATE TABLE MaterialName (
+  id                     BIGSERIAL NOT NULL, 
+  MaterialName          text NOT NULL, 
+  Language              text NOT NULL, 
+  Slug                  text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (id));
 ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
@@ -218,9 +231,11 @@ ALTER TABLE CollectionTopic ADD CONSTRAINT FKCollectionTopic FOREIGN KEY (Educat
 ALTER TABLE CollectionEducationalFramework ADD CONSTRAINT FKCollectionEducationalFramework FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionAligmentObject ADD CONSTRAINT FKCollectionAligmentObject FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionEducationalUse ADD CONSTRAINT FKCollectionEducationalUse FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
-ALTER TABLE EducationalRole ADD CONSTRAINT FKEducationalRole FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT FKUsersEMC FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
 ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT FKEMCUsers FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT FKEMCMaterial FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT FKMaterialEMC FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;
 ALTER TABLE EducationalLevel ADD CONSTRAINT FKEducationalLevel FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE Publisher ADD CONSTRAINT FKPublisher FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE MaterialDescription ADD CONSTRAINT FKDescription FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE MaterialName ADD CONSTRAINT FKMaterialName FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
