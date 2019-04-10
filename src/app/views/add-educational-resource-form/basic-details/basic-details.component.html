@@ -41,6 +41,7 @@
               <input
                 type="url"
                 class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.link.errors}"
                 id="link"
                 placeholder="https://"
                 formControlName="link"
@@ -56,11 +57,14 @@
                 <input
                   type="text"
                   class="form-control"
+                  [ngClass]="{'is-invalid': submitted && form.name.errors}"
                   id="name"
                   placeholder="Oppimateriaalin nimi"
                   required
                   formControlName="name"
                 >
+
+                <div class="invalid-feedback">{{ 'forms.common.required' | translate }}</div>
               </div>
 
               <div class="col-auto">
@@ -94,11 +98,14 @@
               <input
                 type="text"
                 class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.author.errors}"
                 id="author"
                 placeholder="Tekijän nimi"
                 required
                 formControlName="author"
               >
+
+              <div class="invalid-feedback">{{ 'forms.common.required' | translate }}</div>
             </div>
 
             <div class="form-group col-md-5">
@@ -135,6 +142,7 @@
               <input
                 type="text"
                 class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.timeRequired.errors}"
                 id="timeRequired"
                 placeholder="Opiskeluaika"
                 formControlName="timeRequired"
@@ -147,6 +155,7 @@
               <input
                 type="text"
                 class="form-control"
+                [ngClass]="{'is-invalid': submitted && form.publisher.errors}"
                 id="publisher"
                 placeholder="Kirjoita julkaisijan nimi"
                 formControlName="publisher"
@@ -161,6 +170,7 @@
               <div class="col-sm">
                 <textarea
                   class="form-control"
+                  [ngClass]="{'is-invalid': submitted && form.description.errors}"
                   id="description"
                   rows="10"
                   placeholder="Kirjoita kuvausteksti"
@@ -185,7 +195,6 @@
           <button
             type="submit"
             class="btn btn-blue btn-sm"
-            [disabled]="!basicDetailsForm.valid"
           >{{ 'forms.common.next' | translate }}</button>
         </div>
       </div>

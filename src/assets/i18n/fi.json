@@ -58,7 +58,8 @@
     "common": {
       "abort": "Keskeytä",
       "next": "Seuraava",
-      "save": "Tallenna"
+      "save": "Tallenna",
+      "required": "Pakollinen tieto"
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
