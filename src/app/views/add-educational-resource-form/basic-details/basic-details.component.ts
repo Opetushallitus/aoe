@@ -1,10 +1,10 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import slugify from 'slugify';
 
 import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
 
@@ -14,6 +14,7 @@ import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
 })
 export class BasicDetailsComponent implements OnInit {
   private localStorageKey = 'aoe.new-educational-resource';
+  public submitted = false;
   private lang: string = this.translate.currentLang;
 
   public organisations$: Observable<any>;
@@ -47,7 +48,8 @@ export class BasicDetailsComponent implements OnInit {
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -66,15 +68,22 @@ export class BasicDetailsComponent implements OnInit {
     this.onSearch();
 
     if (this.formData) {
-      this.basicDetailsForm.get('name').setValue(this.formData.name[0].text);
+      const name = this.formData.name.find(e => e.lang === 'fi');
+      const description = this.formData.description.find(e => e.lang === 'fi');
+
+      this.basicDetailsForm.get('name').setValue(name.text);
       this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
       this.basicDetailsForm.get('author').setValue(this.formData.author);
       this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
       this.basicDetailsForm.get('learningResourceType').setValue(this.formData.learningResourceType);
       this.basicDetailsForm.get('timeRequired').setValue(this.formData.timeRequired);
       this.basicDetailsForm.get('publisher').setValue(this.formData.publisher);
-      this.basicDetailsForm.get('description').setValue(this.formData.description[0].text);
+      this.basicDetailsForm.get('description').setValue(description.text);
     }
+  }
+
+  get form() {
+    return this.basicDetailsForm.controls;
   }
 
   public fetchMore(value: string) {
@@ -114,41 +123,63 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   onSubmit() {
-    console.warn(this.basicDetailsForm.value);
+    this.submitted = true;
 
-    const data = {
-      id: 1337,
-      materials: [],
-      owner: {
-        id: 12003,
-        firstName: 'Matti',
-        lastName: 'Meikäläinen'
-      },
-      name: [
-        { lang: 'fi', text: this.basicDetailsForm.get('name').value },
-      ],
-      slug: [
-        { lang: 'fi', text: slugify(this.basicDetailsForm.get('name').value, { lower: true }) },
-      ],
-      thumbnail: this.basicDetailsForm.get('image').value,
-      createdAt: new Date(),
-      updatedAt: null,
-      publishedAt: null,
-      archivedAt: null,
-      author: this.basicDetailsForm.get('author').value,
-      organisation: this.basicDetailsForm.get('organisation').value,
-      publisher: this.basicDetailsForm.get('publisher').value,
-      description: [
-        { lang: 'fi', text: this.basicDetailsForm.get('description').value },
-      ],
-      keywords: this.basicDetailsForm.get('keywords').value,
-      learningResourceType: [
-        { id: 1234, value: 'audio' },
-      ],
-      timeRequired: this.basicDetailsForm.get('timeRequired').value,
-    };
+    if (!this.basicDetailsForm.invalid) {
+      const data = {
+        id: 1337,
+        materials: [
+          {
+            id: 1234,
+            name: 'Tiedosto.pdf',
+            link: this.basicDetailsForm.get('link').value,
+            file: {
+              filePath: '',
+              originalFilename: '',
+              fileSize: 1219213,
+              mimeType: '',
+              format: '',
+              thumbnail: '',
+            }
+          },
+        ],
+        owner: {
+          id: 12003,
+          firstName: 'Matti',
+          lastName: 'Meikäläinen'
+        },
+        name: [
+          { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+        ],
+        slug: [
+          { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+        ],
+        thumbnail: this.basicDetailsForm.get('image').value,
+        createdAt: new Date(),
+        updatedAt: null,
+        publishedAt: null,
+        archivedAt: null,
+        author: this.basicDetailsForm.get('author').value,
+        organisation: this.basicDetailsForm.get('organisation').value,
+        publisher: this.basicDetailsForm.get('publisher').value,
+        description: [
+          { lang: 'fi', text: this.basicDetailsForm.get('description').value },
+          { lang: 'en', text: 'luukukouk' },
+          { lang: 'sv', text: 'adasdsa' },
+        ],
+        keywords: this.basicDetailsForm.get('keywords').value,
+        learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
+        timeRequired: this.basicDetailsForm.get('timeRequired').value,
+      };
 
-    localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to local storage
+      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+
+      // redirect to next step
+      this.router.navigateByUrl('/lisaa-oppimateriaali/koulutustiedot');
+    } else {
+      return;
+    }
   }
 
   // @todo: some kind of confirmation
