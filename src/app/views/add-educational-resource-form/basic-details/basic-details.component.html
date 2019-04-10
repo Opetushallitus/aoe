@@ -18,14 +18,13 @@
         <div class="col-md-10">
           <div class="form-row">
             <div class="col-sm">
-              <label for="file">{{ 'forms.educationalResource.basicDetails.attachment' | translate }}*</label>
+              <label for="file">{{ 'forms.educationalResource.basicDetails.attachment' | translate }}</label>
 
               <div class="custom-file">
                 <input
                   type="file"
                   class="custom-file-input"
                   id="file"
-                  required
                   formControlName="file"
                 >
                 <label class="custom-file-label" for="file">{{ 'forms.educationalResource.basicDetails.noSelectedFile' | translate }}</label>
@@ -37,14 +36,13 @@
             </div>
 
             <div class="form-group col-sm">
-              <label for="link">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
+              <label for="link">{{ 'forms.educationalResource.basicDetails.link' | translate }}</label>
 
               <input
                 type="url"
                 class="form-control"
                 id="link"
                 placeholder="https://"
-                required
                 formControlName="link"
               >
             </div>

@@ -29,18 +29,20 @@ export class BasicDetailsComponent implements OnInit {
   public modalRef: BsModalRef;
 
   public basicDetailsForm = new FormGroup({
-    image: new FormControl(''),
-    file: new FormControl(''),
-    link: new FormControl(''),
-    name: new FormControl('', Validators.required),
-    keywords: new FormControl('', Validators.required),
-    author: new FormControl('', Validators.required),
-    organisation: new FormControl(''),
-    learningResourceType: new FormControl('', Validators.required),
-    timeRequired: new FormControl(''),
-    publisher: new FormControl(''),
-    description: new FormControl(''),
+    image: new FormControl(null),
+    file: new FormControl(null),
+    link: new FormControl(null),
+    name: new FormControl(null, Validators.required),
+    keywords: new FormControl(null, Validators.required),
+    author: new FormControl(null, Validators.required),
+    organisation: new FormControl(null),
+    learningResourceType: new FormControl(null, Validators.required),
+    timeRequired: new FormControl(null),
+    publisher: new FormControl(null),
+    description: new FormControl(null),
   });
+
+  private formData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -62,6 +64,17 @@ export class BasicDetailsComponent implements OnInit {
     });
 
     this.onSearch();
+
+    if (this.formData) {
+      this.basicDetailsForm.get('name').setValue(this.formData.name[0].text);
+      this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
+      this.basicDetailsForm.get('author').setValue(this.formData.author);
+      this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
+      this.basicDetailsForm.get('learningResourceType').setValue(this.formData.learningResourceType);
+      this.basicDetailsForm.get('timeRequired').setValue(this.formData.timeRequired);
+      this.basicDetailsForm.get('publisher').setValue(this.formData.publisher);
+      this.basicDetailsForm.get('description').setValue(this.formData.description[0].text);
+    }
   }
 
   public fetchMore(value: string) {
