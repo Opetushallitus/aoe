@@ -13,8 +13,11 @@ import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit {
+  private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
+
   public organisations$: Observable<any>;
+  public learningResourceTypes$: Observable<any>;
 
   // https://stackblitz.com/edit/ng-select-infinite
   private keywords = [];
@@ -25,20 +28,18 @@ export class BasicDetailsComponent implements OnInit {
 
   public modalRef: BsModalRef;
 
-  private formData = JSON.parse(localStorage.getItem('aoe.new-educational-resource'));
-
   public basicDetailsForm = new FormGroup({
-    image: new FormControl(this.formData.image),
-    file: new FormControl(this.formData.file),
-    link: new FormControl(this.formData.link),
-    name: new FormControl(this.formData.name[0].text, Validators.required),
-    keywords: new FormControl(this.formData.keywords, Validators.required),
-    author: new FormControl(this.formData.author, Validators.required),
-    organisation: new FormControl(this.formData.organisation),
-    learningResourceType: new FormControl(this.formData.learningResourceType.value, Validators.required),
-    timeRequired: new FormControl(this.formData.timeRequired),
-    publisher: new FormControl(this.formData.publisher),
-    description: new FormControl(this.formData.description[0].text),
+    image: new FormControl(''),
+    file: new FormControl(''),
+    link: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    keywords: new FormControl('', Validators.required),
+    author: new FormControl('', Validators.required),
+    organisation: new FormControl(''),
+    learningResourceType: new FormControl('', Validators.required),
+    timeRequired: new FormControl(''),
+    publisher: new FormControl(''),
+    description: new FormControl(''),
   });
 
   constructor(
@@ -53,6 +54,8 @@ export class BasicDetailsComponent implements OnInit {
     });
 
     this.organisations$ = this.koodistoProxySvc.getData('organisaatiot', this.lang);
+
+    this.learningResourceTypes$ = this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang);
 
     this.koodistoProxySvc.getData('asiasanat', this.lang).subscribe(keywords => {
       this.keywords = keywords;
@@ -132,10 +135,15 @@ export class BasicDetailsComponent implements OnInit {
       timeRequired: this.basicDetailsForm.get('timeRequired').value,
     };
 
-    localStorage.setItem('aoe.new-educational-resource', JSON.stringify(data));
+    localStorage.setItem(this.localStorageKey, JSON.stringify(data));
   }
 
+  // @todo: some kind of confirmation
   resetForm() {
+    // reset form values
     this.basicDetailsForm.reset();
+
+    // clear data from local storage
+    localStorage.removeItem(this.localStorageKey);
   }
 }
