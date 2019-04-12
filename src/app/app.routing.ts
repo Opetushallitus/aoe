@@ -8,7 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
-import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
+import { FileUploadComponent } from './views/add-educational-resource-form/file-upload/file-upload.component';
 import { BasicDetailsComponent } from './views/add-educational-resource-form/basic-details/basic-details.component';
 import { EducationalDetailsComponent } from './views/add-educational-resource-form/educational-details/educational-details.component';
 import { ExtendedDetailsComponent } from './views/add-educational-resource-form/extended-details/extended-details.component';
@@ -55,16 +55,16 @@ export const routes: Routes = [
         component: InfoViewComponent,
       },
       {
-        path: 'koodisto-testi',
-        component: KoodistoTestiComponent,
-      },
-      {
         path: 'lisaa-oppimateriaali',
         children: [
           {
             path: '',
-            redirectTo: 'perustiedot',
+            redirectTo: 'tiedostot',
             pathMatch: 'full',
+          },
+          {
+            path: 'tiedostot',
+            component: FileUploadComponent,
           },
           {
             path: 'perustiedot',

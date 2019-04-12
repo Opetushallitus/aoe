@@ -64,6 +64,7 @@
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
+        "files": "Tiedostot",
         "basicDetails": "Perustiedot",
         "educationalDetails": "Koulutustiedot",
         "extendedDetails": "Tarkemmat tiedot",

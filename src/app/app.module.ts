@@ -57,6 +57,7 @@ import { ExtendedDetailsComponent } from './views/add-educational-resource-form/
 import { LicenseDetailsComponent } from './views/add-educational-resource-form/license-details/license-details.component';
 import { BasedOnDetailsComponent } from './views/add-educational-resource-form/based-on-details/based-on-details.component';
 import { StepsNavComponent } from './views/add-educational-resource-form/steps-nav/steps-nav.component';
+import { FileUploadComponent } from './views/add-educational-resource-form/file-upload/file-upload.component';
 
 @NgModule({
   imports: [
@@ -109,6 +110,7 @@ import { StepsNavComponent } from './views/add-educational-resource-form/steps-n
     LicenseDetailsComponent,
     BasedOnDetailsComponent,
     StepsNavComponent,
+    FileUploadComponent,
   ],
   providers: [{
     provide: LocationStrategy,
