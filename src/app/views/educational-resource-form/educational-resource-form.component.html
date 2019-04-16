@@ -1,0 +1,45 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <tabset type="pills" #formTabs>
+      <tab heading="Tiedostot" id="files">
+        <form [formGroup]="fileUploadForm" (ngSubmit)="onFilesSubmit()">
+          <div class="form-row">
+            <div class="col">
+              <div class="form-group" formArrayName="files" *ngFor="let file of files.controls; let i = index;">
+                <div class="custom-file">
+                  <input
+                    type="file"
+                    class="custom-file-input"
+                    id="file"
+                    [formControlName]="i"
+                  >
+                  <label class="custom-file-label" for="file">Choose file</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <button type="button" class="btn btn-primary" (click)="addFile()">+</button>
+            </div>
+          </div>
+
+          <pre>{{ fileUploadForm.value | json }}</pre>
+
+          <button
+            type="submit"
+            class="btn btn-blue btn-sm"
+            [disabled]="!fileUploadForm.valid"
+          >{{ 'forms.common.next' | translate }}</button>
+        </form>
+      </tab>
+
+      <tab heading="Perustiedot" id="basicDetails">2</tab>
+
+      <tab heading="Koulutustiedot" id="educationalDetails">3</tab>
+
+      <tab heading="Tarkemmat tiedot" id="extendedDetails">4</tab>
+
+      <tab heading="Hyödynnetyt materiaalit" id="basedOnDetails">5</tab>
+    </tabset>
+  </div>
+</div>

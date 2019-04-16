@@ -20,6 +20,8 @@
                 >
                 <label class="custom-file-label" for="file">{{ 'forms.educationalResource.basicDetails.noSelectedFile' | translate }}</label>
               </div>
+
+              <button type="button" class="btn btn-secondary" (click)="addSubtitle(i)">Lisää teksitys</button>
             </div>
           </div>
         </div>
@@ -28,6 +30,8 @@
           <button type="button" class="btn btn-primary" (click)="addFile()">+</button>
         </div>
       </div>
+
+      <pre>{{ fileUploadForm.value | json }}</pre>
 
       <button
         type="reset"

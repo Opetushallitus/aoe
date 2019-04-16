@@ -14,6 +14,7 @@ import { EducationalDetailsComponent } from './views/add-educational-resource-fo
 import { ExtendedDetailsComponent } from './views/add-educational-resource-form/extended-details/extended-details.component';
 import { LicenseDetailsComponent } from './views/add-educational-resource-form/license-details/license-details.component';
 import { BasedOnDetailsComponent } from './views/add-educational-resource-form/based-on-details/based-on-details.component';
+import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 
 export const routes: Routes = [
   {
@@ -56,7 +57,8 @@ export const routes: Routes = [
       },
       {
         path: 'lisaa-oppimateriaali',
-        children: [
+        component: EducationalResourceFormComponent,
+        /*children: [
           {
             path: '',
             redirectTo: 'tiedostot',
@@ -86,7 +88,7 @@ export const routes: Routes = [
             path: 'hyodynnetyt-materiaalit',
             component: BasedOnDetailsComponent,
           },
-        ],
+        ],*/
       },
     ],
   },

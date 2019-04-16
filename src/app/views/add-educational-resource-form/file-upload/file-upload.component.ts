@@ -10,19 +10,20 @@ export class FileUploadComponent implements OnInit {
   public submitted = false;
   public fileUploadForm: FormGroup;
   public files: FormArray;
+  public subtitles: FormArray;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.fileUploadForm = this.fb.group({
       files: this.fb.array([ this.createFile() ]),
+      subtitles: this.fb.array([ this.createSubtitle() ]),
     });
   }
 
   createFile(): FormGroup {
     return this.fb.group({
       file: null,
-      subtitles: this.fb.array([ this.createSubtitle()]),
     });
   }
 
@@ -31,17 +32,18 @@ export class FileUploadComponent implements OnInit {
     this.files.push(this.createFile());
   }
 
-  createSubtitle(): FormGroup {
+  createSubtitle(i?: number): FormGroup {
     return this.fb.group({
-      file: null,
+      fileId: i,
       lang: null,
+      subtitle: null,
     });
   }
 
-  // addSubtitle(): void {
-  //   this.files = this.fileUploadForm.get('subtitles') as FormArray;
-  //   this.files.push(this.createSubtitle());
-  // }
+  addSubtitle(i: number): void {
+    this.subtitles = this.fileUploadForm.get('subtitles') as FormArray;
+    this.subtitles.push(this.createSubtitle(i));
+  }
 
   onSubmit() {
     this.submitted = true;
