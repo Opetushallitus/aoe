@@ -15,24 +15,26 @@ const rediskey = "organisaatiot";
  * @todo Implement error handling
  */
 export async function setOrganisaatiot(): Promise<any> {
-  try {
-    const results = await getDataFromApi(process.env.ORGANISAATIO_SERVICE_URL, `/${endpoint}/hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false`, { "Accept": "application/json" });
-    const data: object[] = [];
+  if (!client.exists(rediskey)) {
+    try {
+      const results = await getDataFromApi(process.env.ORGANISAATIO_SERVICE_URL, `/${endpoint}/hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false`, { "Accept": "application/json" });
+      const data: object[] = [];
 
-    results.organisaatiot.map((result: any) => {
-      data.push({
-        "key": result.oid,
-        "value": {
-          "fi": result.nimi.fi !== undefined ? result.nimi.fi : undefined,
-          "en": result.nimi.en !== undefined ? result.nimi.en : undefined,
-          "sv": result.nimi.sv !== undefined ? result.nimi.sv : undefined,
-        }
+      results.organisaatiot.map((result: any) => {
+        data.push({
+          "key": result.oid,
+          "value": {
+            "fi": result.nimi.fi !== undefined ? result.nimi.fi : undefined,
+            "en": result.nimi.en !== undefined ? result.nimi.en : undefined,
+            "sv": result.nimi.sv !== undefined ? result.nimi.sv : undefined,
+          }
+        });
       });
-    });
 
-    await client.set(rediskey, JSON.stringify(data));
-  } catch (error) {
-    console.error(error);
+      await client.set(rediskey, JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

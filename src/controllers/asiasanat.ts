@@ -16,38 +16,40 @@ const rediskey = "asiasanat";
  * @todo Implement error handling
  */
 export async function setAsiasanat(): Promise<any> {
-  try {
-    const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/data`, { "Accept": "application/rdf+xml" });
-    const data: object[] = [];
+  if (!client.exists(rediskey)) {
+    try {
+      const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/data`, { "Accept": "application/rdf+xml" });
+      const data: object[] = [];
 
-    const parseOptions = {
-      tagNameProcessors: [processors.stripPrefix],
-      attrNameProcessors: [processors.stripPrefix],
-      valueProcessors: [processors.stripPrefix],
-      attrValueProcessors: [processors.stripPrefix]
-    };
+      const parseOptions = {
+        tagNameProcessors: [processors.stripPrefix],
+        attrNameProcessors: [processors.stripPrefix],
+        valueProcessors: [processors.stripPrefix],
+        attrValueProcessors: [processors.stripPrefix]
+      };
 
-    parseString(results, parseOptions, async (err, result) => {
-      result.RDF.Concept.map((concept: any) => {
-        const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
-        const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
-        const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
-        const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
+      parseString(results, parseOptions, async (err, result) => {
+        result.RDF.Concept.map((concept: any) => {
+          const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
+          const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
+          const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
+          const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
 
-        data.push({
-          "key": key,
-          "value": {
-            "fi": labelFi !== undefined ? labelFi._ : undefined,
-            "en": labelEn !== undefined ? labelEn._ : undefined,
-            "sv": labelSv !== undefined ? labelSv._ : undefined,
-          }
+          data.push({
+            "key": key,
+            "value": {
+              "fi": labelFi !== undefined ? labelFi._ : undefined,
+              "en": labelEn !== undefined ? labelEn._ : undefined,
+              "sv": labelSv !== undefined ? labelSv._ : undefined,
+            }
+          });
         });
-      });
 
-      await client.set(rediskey, JSON.stringify(data));
-    });
-  } catch (error) {
-    console.error(error);
+        await client.set(rediskey, JSON.stringify(data));
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

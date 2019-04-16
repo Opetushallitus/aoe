@@ -19,32 +19,34 @@ const blacklisted = [
  * @todo Implement error handling
  */
 export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
-  try {
-    const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
-    const data: Array<any> = [];
+  if (!client.exists(rediskey)) {
+    try {
+      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
+      const data: Array<any> = [];
 
-    results.map((result: any) => {
-      if (blacklisted.includes(result.koodiArvo) !== true) {
-        const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
-        const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
-        const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
+      results.map((result: any) => {
+        if (blacklisted.includes(result.koodiArvo) !== true) {
+          const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
+          const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
+          const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-        data.push({
-          key: result.koodiArvo,
-          value: {
-            fi: metadataFi ? metadataFi.nimi.trim() : undefined,
-            en: metadataEn ? metadataEn.nimi.trim() : undefined,
-            sv: metadataSv ? metadataSv.nimi.trim() : undefined,
-          }
-        });
-      }
-    });
+          data.push({
+            key: result.koodiArvo,
+            value: {
+              fi: metadataFi ? metadataFi.nimi.trim() : undefined,
+              en: metadataEn ? metadataEn.nimi.trim() : undefined,
+              sv: metadataSv ? metadataSv.nimi.trim() : undefined,
+            }
+          });
+        }
+      });
 
-    data.sort((a, b) => a.key - b.key);
+      data.sort((a, b) => a.key - b.key);
 
-    await client.set(rediskey, JSON.stringify(data));
-  } catch (error) {
-    console.error(error);
+      await client.set(rediskey, JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
