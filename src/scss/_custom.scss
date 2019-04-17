@@ -532,6 +532,43 @@ h2 {
   text-align: center;
 }
 
+// Tabs
+.tab-container {
+  .nav {
+    margin-bottom: 2rem;
+  }
+
+  .nav-pills {
+    .nav-item {
+      padding: 0 1rem;
+
+      &:first-child {
+        padding-left: 0;
+      }
+    }
+
+    .nav-link {
+      color: $gray;
+      @include font-size(18);
+      padding: 0;
+
+      &.active {
+        background-color: transparent;
+        color: $primary-theme-color;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.tab-content {
+  border: 0;
+
+  .tab-pane {
+    padding: 0;
+  }
+}
+
 // Media queries
 
 // CoreUI overrides
