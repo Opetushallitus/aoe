@@ -1,4 +1,4 @@
-<form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="basicDetailsFormLegacy" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-md-2">
       <div class="material-image-upload d-flex flex-column justify-content-center">
@@ -152,21 +152,27 @@
           </div>
         </div>
       </div>
-
-      <hr>
-
-      <button
-        type="reset"
-        class="btn btn-link btn-sm"
-        (click)="resetForm()"
-      >{{ 'forms.common.abort' | translate }}</button>
-
-      <button
-        type="submit"
-        class="btn btn-blue btn-sm"
-        [disabled]="!basicDetailsForm.valid"
-      >{{ 'forms.common.next' | translate }}</button>
     </div>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="previousTab()"
+    >Edellinen</button>
+
+    <button
+      type="reset"
+      class="btn btn-light"
+      (click)="resetForm()"
+    >{{ 'forms.common.abort' | translate }}</button>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+      [disabled]="!basicDetailsFormLegacy.valid"
+    >{{ 'forms.common.next' | translate }}</button>
   </div>
 
   <ng-template #langVersions>
