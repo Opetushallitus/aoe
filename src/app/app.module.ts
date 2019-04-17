@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 
@@ -84,6 +85,7 @@ import { EducationalResourceFormComponent } from './views/educational-resource-f
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
   ],
   declarations: [
     AppComponent,
