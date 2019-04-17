@@ -37,7 +37,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
-import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
@@ -52,14 +51,14 @@ import { OfficePreviewComponent } from './components/office-preview/office-previ
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
 import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
-import { BasicDetailsComponent } from './views/add-educational-resource-form/basic-details/basic-details.component';
-import { EducationalDetailsComponent } from './views/add-educational-resource-form/educational-details/educational-details.component';
-import { ExtendedDetailsComponent } from './views/add-educational-resource-form/extended-details/extended-details.component';
-import { LicenseDetailsComponent } from './views/add-educational-resource-form/license-details/license-details.component';
-import { BasedOnDetailsComponent } from './views/add-educational-resource-form/based-on-details/based-on-details.component';
-import { StepsNavComponent } from './views/add-educational-resource-form/steps-nav/steps-nav.component';
-import { FileUploadComponent } from './views/add-educational-resource-form/file-upload/file-upload.component';
+
+// Educational resource form
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
+import { FilesComponent } from './views/educational-resource-form/tabs/files/files.component';
+import { BasicDetailsComponent } from './views/educational-resource-form/tabs/basic-details/basic-details.component';
+import { EducationalDetailsComponent } from './views/educational-resource-form/tabs/educational-details/educational-details.component';
+import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs/extended-details/extended-details.component';
+import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
 
 @NgModule({
   imports: [
@@ -92,7 +91,6 @@ import { EducationalResourceFormComponent } from './views/educational-resource-f
     ...APP_CONTAINERS,
     P404Component,
     LoginComponent,
-    AddMaterialComponent,
     HelpViewComponent,
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
@@ -107,14 +105,12 @@ import { EducationalResourceFormComponent } from './views/educational-resource-f
     ImagePreviewComponent,
     InfoViewComponent,
     KoodistoTestiComponent,
+    EducationalResourceFormComponent,
+    FilesComponent,
     BasicDetailsComponent,
     EducationalDetailsComponent,
     ExtendedDetailsComponent,
-    LicenseDetailsComponent,
     BasedOnDetailsComponent,
-    StepsNavComponent,
-    FileUploadComponent,
-    EducationalResourceFormComponent,
   ],
   providers: [{
     provide: LocationStrategy,

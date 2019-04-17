@@ -8,12 +8,6 @@ import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
-import { FileUploadComponent } from './views/add-educational-resource-form/file-upload/file-upload.component';
-import { BasicDetailsComponent } from './views/add-educational-resource-form/basic-details/basic-details.component';
-import { EducationalDetailsComponent } from './views/add-educational-resource-form/educational-details/educational-details.component';
-import { ExtendedDetailsComponent } from './views/add-educational-resource-form/extended-details/extended-details.component';
-import { LicenseDetailsComponent } from './views/add-educational-resource-form/license-details/license-details.component';
-import { BasedOnDetailsComponent } from './views/add-educational-resource-form/based-on-details/based-on-details.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 
 export const routes: Routes = [
@@ -58,37 +52,6 @@ export const routes: Routes = [
       {
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
-        /*children: [
-          {
-            path: '',
-            redirectTo: 'tiedostot',
-            pathMatch: 'full',
-          },
-          {
-            path: 'tiedostot',
-            component: FileUploadComponent,
-          },
-          {
-            path: 'perustiedot',
-            component: BasicDetailsComponent,
-          },
-          {
-            path: 'koulutustiedot',
-            component: EducationalDetailsComponent,
-          },
-          {
-            path: 'tarkemmat-tiedot',
-            component: ExtendedDetailsComponent,
-          },
-          {
-            path: 'lisenssitiedot',
-            component: LicenseDetailsComponent,
-          },
-          {
-            path: 'hyodynnetyt-materiaalit',
-            component: BasedOnDetailsComponent,
-          },
-        ],*/
       },
     ],
   },
