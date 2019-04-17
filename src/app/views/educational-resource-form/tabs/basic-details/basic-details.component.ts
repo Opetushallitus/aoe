@@ -6,10 +6,10 @@ import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operato
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
-import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
+import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
 @Component({
-  selector: 'app-basic-details',
+  selector: 'app-tabs-basic-details',
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit {
@@ -32,8 +32,6 @@ export class BasicDetailsComponent implements OnInit {
 
   public basicDetailsForm = new FormGroup({
     image: new FormControl(null),
-    file: new FormControl(null),
-    link: new FormControl(null),
     name: new FormControl(null, Validators.required),
     nameEn: new FormControl(null),
     nameSv: new FormControl(null),
@@ -141,22 +139,6 @@ export class BasicDetailsComponent implements OnInit {
 
     if (!this.basicDetailsForm.invalid) {
       const data = {
-        id: 1337,
-        materials: [
-          {
-            id: 1234,
-            name: 'Tiedosto.pdf',
-            link: this.basicDetailsForm.get('link').value,
-            file: {
-              filePath: '',
-              originalFilename: '',
-              fileSize: 1219213,
-              mimeType: '',
-              format: '',
-              thumbnail: '',
-            }
-          },
-        ],
         owner: {
           id: 12003,
           firstName: 'Matti',
@@ -192,9 +174,6 @@ export class BasicDetailsComponent implements OnInit {
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
-
-      // redirect to next step
-      this.router.navigateByUrl('/lisaa-oppimateriaali/koulutustiedot');
     } else {
       return;
     }

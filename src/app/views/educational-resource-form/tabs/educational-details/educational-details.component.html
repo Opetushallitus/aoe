@@ -1,0 +1,14 @@
+<form [formGroup]="educationalDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="educationalLevels">Koulutusasteet*</label>
+
+    <ng-select
+      [items]="educationalLevels$ | async"
+      [multiple]="true"
+      bindLabel="value"
+      bindValue="key"
+      id="educationalLevels"
+      placeholder="Koulutusasteet"
+    ></ng-select>
+  </div>
+</form>

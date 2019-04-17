@@ -1,0 +1,262 @@
+<form [formGroup]="basicDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col-md-2">
+      <div class="material-image-upload d-flex flex-column justify-content-center">
+        <img src="assets/img/icons/ic_camera.svg" alt="Kamera ikoni">
+        <a href="#">{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</a>
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <div class="form-group">
+        <label for="name">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+
+        <div class="form-row">
+          <div class="col-sm">
+            <input
+              type="text"
+              class="form-control"
+              [ngClass]="{'is-invalid': submitted && form.name.errors}"
+              id="name"
+              placeholder="Oppimateriaalin nimi"
+              required
+              formControlName="name"
+            >
+
+            <div
+              *ngIf="submitted && form.name.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="form.name.errors.required">{{ 'forms.common.required' | translate }}</div>
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="keywords">{{ 'forms.educationalResource.basicDetails.subject' | translate }}*</label>
+
+        <ng-select
+          [items]="keywordsBuffer"
+          [virtualScroll]="true"
+          [loading]="loading"
+          [multiple]="true"
+          bindLabel="value"
+          id="keywords"
+          placeholder="Oppimateriaalin aihe"
+          [typeahead]="input$"
+          (scrollToEnd)="fetchMore(keywords.filterValue)"
+          formControlName="keywords"
+          #keywords
+        ></ng-select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-7">
+          <label for="author">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.author.errors}"
+            id="author"
+            placeholder="Tekijän nimi"
+            required
+            formControlName="author"
+          >
+
+          <div
+            *ngIf="submitted && form.author.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="form.author.errors.required">{{ 'forms.common.required' | translate }}</div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-5">
+          <label for="organisation">{{ 'forms.educationalResource.basicDetails.organisation' | translate }}</label>
+
+          <ng-select
+            [items]="organisations$ | async"
+            bindLabel="value"
+            id="organisation"
+            placeholder="Lisää halutessasi affiliaatiosi"
+            formControlName="organisation"
+          ></ng-select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.materialType' | translate }}*</label>
+
+          <ng-select
+            [items]="learningResourceTypes$ | async"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="value"
+            id="learningResourceType"
+            placeholder="Valitse tyyppi"
+            formControlName="learningResourceType"
+          ></ng-select>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="timeRequired">{{ 'forms.educationalResource.basicDetails.timeRequired' | translate }}</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.timeRequired.errors}"
+            id="timeRequired"
+            placeholder="Opiskeluaika"
+            formControlName="timeRequired"
+          >
+        </div>
+
+        <div class="form-group col-md-4">
+          <label for="publisher">{{ 'forms.educationalResource.basicDetails.publisher' | translate }}</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.publisher.errors}"
+            id="publisher"
+            placeholder="Kirjoita julkaisijan nimi"
+            formControlName="publisher"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+        <div class="form-row">
+          <div class="col-sm">
+            <textarea
+              class="form-control"
+              [ngClass]="{'is-invalid': submitted && form.description.errors}"
+              id="description"
+              rows="10"
+              placeholder="Kirjoita kuvausteksti"
+              formControlName="description"
+            ></textarea>
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <button
+        type="reset"
+        class="btn btn-link btn-sm"
+        (click)="resetForm()"
+      >{{ 'forms.common.abort' | translate }}</button>
+
+      <button
+        type="submit"
+        class="btn btn-blue btn-sm"
+        [disabled]="!basicDetailsForm.valid"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+
+  <ng-template #langVersions>
+    <div class="modal-header">
+      <h5 class="modal-title">Kieliversiot</h5>
+
+      <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <h4>Kieliversioiden lisääminen</h4>
+
+      <div class="form-group">
+        <label for="lang">Valitse kieli</label>
+
+        <select
+          class="form-control"
+          id="lang"
+          (change)="selectedLang = selectLang.value"
+          #selectLang
+        >
+          <option value="en">englanti</option>
+          <option value="sv">ruotsi</option>
+        </select>
+      </div>
+
+      <div *ngIf="selectedLang === 'en'">
+        <div class="form-group">
+          <label for="nameEn">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.nameEn.errors}"
+            id="nameEn"
+            placeholder="Oppimateriaalin nimi"
+            required
+            formControlName="nameEn"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+          <textarea
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.descriptionEn.errors}"
+            id="descriptionEn"
+            rows="10"
+            placeholder="Kirjoita kuvausteksti"
+            formControlName="descriptionEn"
+          ></textarea>
+        </div>
+      </div>
+
+      <div *ngIf="selectedLang === 'sv'">
+        <div class="form-group">
+          <label for="nameSv">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}</label>
+
+          <input
+            type="text"
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.nameSv.errors}"
+            id="nameSv"
+            placeholder="Oppimateriaalin nimi"
+            required
+            formControlName="nameSv"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+          <textarea
+            class="form-control"
+            [ngClass]="{'is-invalid': submitted && form.descriptionSv.errors}"
+            id="descriptionSv"
+            rows="10"
+            placeholder="Kirjoita kuvausteksti"
+            formControlName="descriptionSv"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+      <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+    </div>
+  </ng-template>
+</form>

@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { KoodistoProxyService } from '../../../services/koodisto-proxy.service';
+import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
 @Component({
   selector: 'app-extended-details',
