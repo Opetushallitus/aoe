@@ -5,7 +5,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
 @Component({
-  selector: 'app-based-on-details',
+  selector: 'app-tabs-based-on-details',
   templateUrl: './based-on-details.component.html',
 })
 export class BasedOnDetailsComponent implements OnInit {

@@ -6,7 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
 @Component({
-  selector: 'app-educational-details',
+  selector: 'app-tabs-educational-details',
   templateUrl: './educational-details.component.html',
 })
 export class EducationalDetailsComponent implements OnInit {
