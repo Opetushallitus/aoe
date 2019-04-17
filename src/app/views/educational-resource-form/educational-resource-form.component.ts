@@ -1,18 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TabsetComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-educational-resource-form',
   templateUrl: './educational-resource-form.component.html',
 })
-export class EducationalResourceFormComponent implements OnInit {
-  @ViewChild('formTabs') formTabs: TabsetComponent;
+export class EducationalResourceFormComponent {
+  @ViewChild('formTabs') formTabsRef: TabsetComponent;
 
   constructor() { }
-
-  ngOnInit() { }
-
-  private selectTab(tabId: number): void {
-    this.formTabs.tabs[tabId].active = true;
-  }
 }

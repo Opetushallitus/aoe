@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-tabs-files',
   templateUrl: './files.component.html',
 })
 export class FilesComponent implements OnInit {
+  @Input() tabs: TabsetComponent;
+
   public fileUploadForm: FormGroup;
 
   constructor(private fb: FormBuilder) { }
@@ -32,5 +35,7 @@ export class FilesComponent implements OnInit {
 
   public onSubmit() {
     console.log(this.fileUploadForm.value);
+
+    this.tabs.tabs[1].active = true;
   }
 }

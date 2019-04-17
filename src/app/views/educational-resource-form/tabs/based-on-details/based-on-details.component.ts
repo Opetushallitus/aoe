@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TabsetComponent } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
@@ -9,6 +10,8 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
   templateUrl: './based-on-details.component.html',
 })
 export class BasedOnDetailsComponent implements OnInit {
+  @Input() tabs: TabsetComponent;
+
   private lang: string = this.translate.currentLang;
 
   basedOnDetailsForm = new FormGroup({

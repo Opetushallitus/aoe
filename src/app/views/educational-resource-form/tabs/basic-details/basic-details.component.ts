@@ -1,10 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
@@ -13,6 +13,8 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit {
+  @Input() tabs: TabsetComponent;
+
   private localStorageKey = 'aoe.new-educational-resource';
   public submitted = false;
   public selectedLang = 'en';
