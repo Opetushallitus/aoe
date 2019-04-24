@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -31,22 +31,6 @@ export class BasicDetailsComponent implements OnInit {
 
   public modalRef: BsModalRef;
 
-  public basicDetailsFormLegacy = new FormGroup({
-    image: new FormControl(null),
-    name: new FormControl(null, Validators.required),
-    nameEn: new FormControl(null),
-    nameSv: new FormControl(null),
-    keywords: new FormControl(null, Validators.required),
-    author: new FormControl(null, Validators.required),
-    organisation: new FormControl(null),
-    learningResourceType: new FormControl(null, Validators.required),
-    timeRequired: new FormControl(null),
-    publisher: new FormControl(null),
-    description: new FormControl(null),
-    descriptionEn: new FormControl(null),
-    descriptionSv: new FormControl(null),
-  });
-
   public basicDetailsForm: FormGroup;
 
   private formData = JSON.parse(localStorage.getItem(this.localStorageKey));
@@ -65,14 +49,18 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicDetailsForm = this.fb.group({
       image: this.fb.control(null),
-      name: this.fb.array([ this.createI18nGroup() ]),
+      name: this.fb.control(null, Validators.required),
+      nameEn: this.fb.control(null),
+      nameSv: this.fb.control(null),
       keywords: this.fb.control(null, Validators.required),
       author: this.fb.control(null, Validators.required),
       organisation: this.fb.control(null),
       learningResourceType: this.fb.control(null, Validators.required),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
-      description: this.fb.array([ this.createI18nGroup() ]),
+      description: this.fb.control(null),
+      descriptionEn: this.fb.control(null),
+      descriptionSv: this.fb.control(null),
     });
 
     this.organisations$ = this.koodistoProxySvc.getData('organisaatiot', this.lang);
@@ -86,7 +74,6 @@ export class BasicDetailsComponent implements OnInit {
     this.onSearch();
 
     if (this.formData) {
-      // Legacy
       const name = this.formData.name.find(e => e.lang === 'fi');
       const nameEn = this.formData.name.find(e => e.lang === 'en');
       const nameSv = this.formData.name.find(e => e.lang === 'sv');
@@ -95,33 +82,23 @@ export class BasicDetailsComponent implements OnInit {
       const descriptionEn = this.formData.description.find(e => e.lang === 'en');
       const descriptionSv = this.formData.description.find(e => e.lang === 'sv');
 
-      this.basicDetailsFormLegacy.get('name').setValue(name.text);
-      this.basicDetailsFormLegacy.get('nameEn').setValue(nameEn.text);
-      this.basicDetailsFormLegacy.get('nameSv').setValue(nameSv.text);
-      this.basicDetailsFormLegacy.get('keywords').setValue(this.formData.keywords);
-      this.basicDetailsFormLegacy.get('author').setValue(this.formData.author);
-      this.basicDetailsFormLegacy.get('organisation').setValue(this.formData.organisation);
-      this.basicDetailsFormLegacy.get('learningResourceType').setValue(this.formData.learningResourceType);
-      this.basicDetailsFormLegacy.get('timeRequired').setValue(this.formData.timeRequired);
-      this.basicDetailsFormLegacy.get('publisher').setValue(this.formData.publisher);
-      this.basicDetailsFormLegacy.get('description').setValue(description.text);
-      this.basicDetailsFormLegacy.get('descriptionEn').setValue(descriptionEn.text);
-      this.basicDetailsFormLegacy.get('descriptionSv').setValue(descriptionSv.text);
-
-      // Refactored
+      this.basicDetailsForm.get('name').setValue(name.text);
+      this.basicDetailsForm.get('nameEn').setValue(nameEn.text);
+      this.basicDetailsForm.get('nameSv').setValue(nameSv.text);
       this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
       this.basicDetailsForm.get('author').setValue(this.formData.author);
       this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
       this.basicDetailsForm.get('learningResourceType').setValue(this.formData.learningResourceType);
       this.basicDetailsForm.get('timeRequired').setValue(this.formData.timeRequired);
       this.basicDetailsForm.get('publisher').setValue(this.formData.publisher);
+      this.basicDetailsForm.get('description').setValue(description.text);
+      this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
+      this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
     }
-
-    console.log(this.basicDetailsForm.value);
   }
 
   get form() {
-    return this.basicDetailsFormLegacy.controls;
+    return this.basicDetailsForm.controls;
   }
 
   public fetchMore(value: string) {
@@ -160,49 +137,29 @@ export class BasicDetailsComponent implements OnInit {
     );
   }
 
-  private createI18nGroup(): FormGroup {
-    return this.fb.group({
-      lang: this.fb.control(null, Validators.required),
-      value: this.fb.control(null, Validators.required),
-    });
-  }
-
   onSubmit() {
     this.submitted = true;
 
-    if (!this.basicDetailsFormLegacy.invalid) {
+    if (!this.basicDetailsForm.invalid) {
       const data = {
-        owner: {
-          id: 12003,
-          firstName: 'Matti',
-          lastName: 'Meikäläinen'
-        },
         name: [
-          { lang: 'fi', text: this.basicDetailsFormLegacy.get('name').value },
-          { lang: 'en', text: this.basicDetailsFormLegacy.get('nameEn').value },
-          { lang: 'sv', text: this.basicDetailsFormLegacy.get('nameSv').value },
+          { lang: 'fi', text: this.basicDetailsForm.get('name').value },
+          { lang: 'en', text: this.basicDetailsForm.get('nameEn').value },
+          { lang: 'sv', text: this.basicDetailsForm.get('nameSv').value },
         ],
-        slug: [
-          { lang: 'fi', text: this.basicDetailsFormLegacy.get('name').value },
-          { lang: 'en', text: this.basicDetailsFormLegacy.get('nameEn').value },
-          { lang: 'sv', text: this.basicDetailsFormLegacy.get('nameSv').value },
-        ],
-        thumbnail: this.basicDetailsFormLegacy.get('image').value,
+        thumbnail: this.basicDetailsForm.get('image').value,
         createdAt: new Date(),
-        updatedAt: null,
-        publishedAt: null,
-        archivedAt: null,
-        author: this.basicDetailsFormLegacy.get('author').value,
-        organisation: this.basicDetailsFormLegacy.get('organisation').value,
-        publisher: this.basicDetailsFormLegacy.get('publisher').value,
+        author: this.basicDetailsForm.get('author').value,
+        organisation: this.basicDetailsForm.get('organisation').value,
+        publisher: this.basicDetailsForm.get('publisher').value,
         description: [
-          { lang: 'fi', text: this.basicDetailsFormLegacy.get('description').value },
-          { lang: 'en', text: this.basicDetailsFormLegacy.get('descriptionEn').value },
-          { lang: 'sv', text: this.basicDetailsFormLegacy.get('descriptionSv').value },
+          { lang: 'fi', text: this.basicDetailsForm.get('description').value },
+          { lang: 'en', text: this.basicDetailsForm.get('descriptionEn').value },
+          { lang: 'sv', text: this.basicDetailsForm.get('descriptionSv').value },
         ],
-        keywords: this.basicDetailsFormLegacy.get('keywords').value,
-        learningResourceType: this.basicDetailsFormLegacy.get('learningResourceType').value,
-        timeRequired: this.basicDetailsFormLegacy.get('timeRequired').value,
+        keywords: this.basicDetailsForm.get('keywords').value,
+        learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
+        timeRequired: this.basicDetailsForm.get('timeRequired').value,
       };
 
       // save data to local storage
@@ -217,7 +174,7 @@ export class BasicDetailsComponent implements OnInit {
   // @todo: some kind of confirmation
   resetForm() {
     // reset form values
-    this.basicDetailsFormLegacy.reset();
+    this.basicDetailsForm.reset();
 
     // clear data from local storage
     localStorage.removeItem(this.localStorageKey);
