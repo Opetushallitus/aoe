@@ -59,11 +59,22 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
   const output: object[] = [];
 
   input.map((row: any) => {
-    output.push({
-      key: row.key,
-      parent: row.parent,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+    let children = input.filter((e: any) => e.parent === row.key);
+
+    children = children.map((child: any) => {
+      return {
+        key: child.key,
+        value: child.value[req.params.lang] !== undefined ? child.value[req.params.lang] : child.value.fi
+      };
     });
+
+    if (row.parent === undefined) {
+      output.push({
+        key: row.key,
+        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+        children: children,
+      });
+    }
   });
 
   if (output.length > 0) {
