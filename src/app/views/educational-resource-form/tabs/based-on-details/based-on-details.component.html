@@ -1,29 +1,105 @@
 <form [formGroup]="basedOnDetailsForm" (ngSubmit)="onSubmit()">
   <h3>Aoe.fi:stä löytyvät materiaalit</h3>
 
-  <div class="form-row">
-    <div class="form-group col-sm-4">
-      <label for="author">Tekijän nimi</label>
+  <div formArrayName="internals" *ngFor="let internal of internals.controls; let i = index;">
+    <div class="form-row" [formGroupName]="i">
+      <div class="form-group col-md">
+        <label for="{{ 'authorInt-' + i }}">Tekijän nimi</label>
 
-      <input
-        type="text"
-        id="author"
-        class="form-control"
-        placeholder="Tekijän nimi"
-        formControlName="author"
+        <input
+          type="text"
+          id="{{ 'authorInt-' + i }}"
+          class="form-control"
+          placeholder="Tekijän nimi"
+          formControlName="author"
+          >
+      </div>
+
+      <div class="form-group col-md">
+        <label for="{{ 'materialId-' + i }}">Materiaali</label>
+
+        <input
+          type="text"
+          id="{{ 'materialId-' + i }}"
+          class="form-control"
+          placeholder="Materiaali"
+          formControlName="materialId"
         >
-    </div>
+      </div>
 
-    <div class="form-group col-sm-8">
-      <label for="material">Materiaali</label>
-
-      <input
-        type="text"
-        id="material"
-        class="form-control"
-        placeholder="Materiaali"
-        formControlName="material"
-      >
+      <div class="form-group col-auto align-self-end">
+        <button type="button" class="btn btn-danger" (click)="removeInternal(i)">Poista</button>
+      </div>
     </div>
+  </div>
+
+  <div class="form-group">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="addInternal()"
+    >Lisää uusi materiaali</button>
+  </div>
+
+  <h3>Muista palveluista löytyvät materiaalit</h3>
+
+  <div formArrayName="externals" *ngFor="let external of externals.controls; let i = index;">
+    <div class="form-row" [formGroupName]="i">
+      <div class="form-group col-md">
+        <label for="{{ 'authorExt-' + i }}">Tekijän nimi</label>
+
+        <input
+          type="text"
+          id="{{ 'authorExt-' + i }}"
+          class="form-control"
+          placeholder="Tekijän nimi"
+          formControlName="author"
+        >
+      </div>
+
+      <div class="form-group col-md">
+        <label for="{{ 'url-' + i }}">Materiaali</label>
+
+        <input
+          type="url"
+          id="{{ 'url-' + i }}"
+          class="form-control"
+          placeholder="https://"
+          formControlName="url"
+        >
+      </div>
+
+      <div class="form-group col-auto align-self-end">
+        <button type="button" class="btn btn-danger" (click)="removeExternal(i)">Poista</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="addExternal()"
+    >Lisää uusi materiaali</button>
+  </div>
+
+  <div class="d-flex justify-content-between">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="previousTab()"
+    >Edellinen</button>
+
+    <button
+      type="reset"
+      class="btn btn-light"
+      (click)="resetForm()"
+    >{{ 'forms.common.abort' | translate }}</button>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+      [disabled]="!basedOnDetailsForm.valid"
+    >{{ 'forms.common.next' | translate }}</button>
   </div>
 </form>
