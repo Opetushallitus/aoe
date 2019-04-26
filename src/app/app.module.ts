@@ -59,6 +59,7 @@ import { BasicDetailsComponent } from './views/educational-resource-form/tabs/ba
 import { EducationalDetailsComponent } from './views/educational-resource-form/tabs/educational-details/educational-details.component';
 import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs/extended-details/extended-details.component';
 import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   imports: [
@@ -111,6 +112,7 @@ import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/
     EducationalDetailsComponent,
     ExtendedDetailsComponent,
     BasedOnDetailsComponent,
+    DialogComponent,
   ],
   providers: [{
     provide: LocationStrategy,
