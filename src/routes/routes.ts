@@ -10,6 +10,7 @@ const router: Router = Router();
 
 // File handling
  const fh = require("./../queries/fileHandling");
+ const handler = require("./../metadataEngine/xlsxHandler");
 //  const pouta = require("./../queries/pouta");
 // post metadata
 // post file
@@ -37,4 +38,5 @@ router.get("/user/:id", db.getUser);
 
 router.get("/upload", fh.uploadFileToStorage);
 
+router.post("/uploadXlsx" , handler.uploadXlsx);
 export = router;

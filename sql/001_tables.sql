@@ -10,9 +10,9 @@ DROP TABLE IF EXISTS CollectionTopic CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalLevel CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalAudience CASCADE;
 DROP TABLE IF EXISTS CollectionLanguage CASCADE;
-DROP TABLE IF EXISTS CollectionKeyWords CASCADE;
+DROP TABLE IF EXISTS CollectionKeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalMaterialCollection CASCADE;
-DROP TABLE IF EXISTS KeyWords CASCADE;
+DROP TABLE IF EXISTS KeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalLevel CASCADE;
 DROP TABLE IF EXISTS Accessibility CASCADE;
 DROP TABLE IF EXISTS EducationalRole CASCADE;
@@ -83,7 +83,7 @@ CREATE TABLE InLanguage (
 CREATE TABLE AligmentObject (
   Id                     BIGSERIAL NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
-  AligmentType          text NOT NULL, 
+  AlignmentType          text NOT NULL, 
   EducationalFramework  text NOT NULL, 
   TargetDescription     text NOT NULL, 
   TargetName            text NOT NULL, 
@@ -105,7 +105,7 @@ CREATE TABLE EducationalLevel (
   Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE KeyWords (
+CREATE TABLE KeyWord (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
@@ -121,7 +121,7 @@ CREATE TABLE EducationalMaterialCollection (
   AgeRangeMin   int4 DEFAULT 0 NOT NULL, 
   AgeRangeMax   int4 DEFAULT 99 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE CollectionKeyWords (
+CREATE TABLE CollectionKeyWord (
   Id                               BIGSERIAL NOT NULL, 
   Value                           text NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
@@ -153,7 +153,7 @@ CREATE TABLE CollectionEducationalFramework (
   PRIMARY KEY (Id));
 CREATE TABLE CollectionAligmentObject (
   Id                               BIGSERIAL NOT NULL, 
-  AligmentType                    text NOT NULL, 
+  AlignmentType                    text NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE CollectionEducationalUse (
@@ -217,13 +217,13 @@ ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY
 ALTER TABLE EducationalAudience ADD CONSTRAINT FKEducationalAudience FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE LearningResourceType ADD CONSTRAINT FKLearningResourceType FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE Accessibility ADD CONSTRAINT FKAccessibility FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE KeyWords ADD CONSTRAINT FKKeyWords FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE KeyWord ADD CONSTRAINT FKKeyWord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalUse ADD CONSTRAINT FKEducationalUse FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE IsBasedOn ADD CONSTRAINT FKIsBasedOn FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE InLanguage ADD CONSTRAINT FKInLanguage FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE Material ADD CONSTRAINT FKMaterial FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;
 ALTER TABLE Record ADD CONSTRAINT FKRecord FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Restrict;
-ALTER TABLE CollectionKeyWords ADD CONSTRAINT FKCollectionKeyWords FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
+ALTER TABLE CollectionKeyWord ADD CONSTRAINT FKCollectionKeyWord FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionLanguage ADD CONSTRAINT FKCollectionLanguage FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionEducationalAudience ADD CONSTRAINT FKCollectionEducationalAudience FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionEducationalLevel ADD CONSTRAINT FKCollectionEducationalLevel FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
