@@ -5,6 +5,16 @@ import { Request, Response, NextFunction } from "express";
 const apiQ = require("./../queries/apiQueries");
 const mapper = require("./dataMapping");
 const multer  = require("multer");
+
+const fileFilter = (req: any, file: any, cb: any) => {
+    if (file.mimetype === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") {
+        cb(undefined, true);
+    }
+    else {
+        cb(undefined, false);
+    }
+};
+
 const storage = multer.diskStorage({
     destination: function (req: any, file: any, cb: any) {
         cb(undefined, "temp/");
@@ -14,7 +24,13 @@ const storage = multer.diskStorage({
         cb(undefined, file.fieldname + "-" + datetimestamp + "." + file.originalname.split(".")[file.originalname.split(".").length - 1]);
     }
 });
-const upload = multer( { storage: storage });
+
+const maxFileSize = 5 * 1024 * 1024;
+const upload = multer( {
+    storage: storage,
+    limits: {fileSize: maxFileSize},
+    fileFilter : fileFilter
+});
 const fs = require("fs");
 
 // async function uploadCSV(req: Request, res: Response) {
@@ -51,8 +67,8 @@ async function createPropertyNameList(obj: any, str: String) {
 async function validate(data: any) {
     const licensekoodisto = [{"type" : "cc" }, { "type" : "cc-ra"}, { "type" : "cc-dd"}, { "type" : "mit"}];
     const o: any = {};
-        const key = "error";
-        o[key] = [];
+    const key = "error";
+    o[key] = [];
         for (const d in data) {
             const avainsanaList: any = await createPropertyNameList(data[d], "avainsana");
             const row = Number(d) + 2;
@@ -148,7 +164,7 @@ async function validate(data: any) {
                 o[key].push(createMessage(row, "lukutaitovaatimus", "lukutaitovaatimus has dublicate value"));
             }
         }
-        return o;
+    return o;
 }
 
 async function hasDuplicates(array: any, obj: any) {
@@ -179,42 +195,53 @@ async function uploadXlsx(req: Request, res: Response) {
         if (contentType.startsWith("multipart/form-data")) {
             try {
                 upload.single("xlsxfile")(req , res, async function() {
-                const options = { type : "string"};
-                const wb = xlsx.readFile((<any>req).file.path, options);
-                const sheetNameList = wb.SheetNames;
-                const data = xlsx.utils.sheet_to_json(wb.Sheets[sheetNameList[0]]);
-                // validate data
-                const obj: any = await validate(data);
-                const key = "error";
-                if (Object.keys(obj[key]).length > 0) {
-                    console.log(obj);
-                    return res.status(400).json(obj);
-                }
-                // insert to database
-                const o: any = {};
-                const rowkey = "row";
-                o[rowkey] = [];
-                for (const d in data) {
-                    const materialobj = await mapper.createMaterialObject(data[d]);
-                    await apiQ.insertEducationalMaterial(materialobj, function(err: any, result: any) {
-                        if (err) {
-                            console.log(err);
-                            o[rowkey].push({
-                                row: (Number(d) + 2),
-                                result: "error"
+                    try {
+                        if ((<any>req).file === undefined) {
+                            return res.status(400).send("Xlsx file expected. Max file size: " + (maxFileSize / 1024 / 1024) + "MB");
+                        }
+                        const options = { type : "string"};
+                        const wb = xlsx.readFile((<any>req).file.path, options);
+                        const sheetNameList = wb.SheetNames;
+                        const data = xlsx.utils.sheet_to_json(wb.Sheets[sheetNameList[0]]);
+                        // validate data
+                        const obj: any = await validate(data);
+                        const key = "error";
+                        if (Object.keys(obj[key]).length > 0) {
+                            console.log(obj);
+                            fs.unlinkSync((<any>req).file.path);
+                            return res.status(400).json(obj);
+                        }
+                        // insert to database
+                        const o: any = {};
+                        const rowkey = "row";
+                        o[rowkey] = [];
+                        for (const d in data) {
+                            const materialobj = await mapper.createMaterialObject(data[d]);
+                            await apiQ.insertEducationalMaterial(materialobj, function(err: any, result: any) {
+                                if (err) {
+                                    console.log(err);
+                                    o[rowkey].push({
+                                        row: (Number(d) + 2),
+                                        result: "error"
+                                    });
+                                }
+                                else {
+                                    o[rowkey].push({
+                                        row: (Number(d) + 2),
+                                        result: "success"
+                                    });
+                                }
                             });
                         }
-                        else {
-                            o[rowkey].push({
-                                row: (Number(d) + 2),
-                                result: "success"
-                            });
-                        }
-                    });
-                }
-                fs.unlinkSync((<any>req).file.path);
-                res.status(200).json(o);
-            });
+                        fs.unlinkSync((<any>req).file.path);
+                        res.status(200).json(o);
+                    }
+                    catch (err) {
+                        console.log(err);
+                        fs.unlinkSync((<any>req).file.path);
+                        res.status(500).send("Error in file handling. Xlsx file expected");
+                    }
+                });
             }
             catch (err) {
                 console.log(err);
