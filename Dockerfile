@@ -4,3 +4,4 @@ WORKDIR /app
 RUN yarn install
 RUN yarn build
 RUN yarn serve
+EXPOSE 6379
