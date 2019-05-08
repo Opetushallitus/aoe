@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import { createClient } from "redis";
 
 import { getDataFromApi } from "./common";
-import RedisWrapper from "../utils/redis-wrapper";
 
-const client = new RedisWrapper();
+const client = createClient();
+
 const endpoint = "organisaatio";
 const rediskey = "organisaatiot";
+
+client.on("error", (error: any) => {
+  console.error(error);
+});
 
 /**
  * Set data into redis database
@@ -15,8 +20,8 @@ const rediskey = "organisaatiot";
  * @todo Implement error handling
  */
 export async function setOrganisaatiot(): Promise<any> {
-  if (!client.exists(rediskey)) {
-    try {
+  client.get(rediskey, async (error: any, data: any) => {
+    if (!data) {
       const results = await getDataFromApi(process.env.ORGANISAATIO_SERVICE_URL, `/${endpoint}/hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false`, { "Accept": "application/json" });
       const data: object[] = [];
 
@@ -31,11 +36,10 @@ export async function setOrganisaatiot(): Promise<any> {
         });
       });
 
-      await client.set(rediskey, JSON.stringify(data));
-    } catch (error) {
-      console.error(error);
+      // @ts-ignore
+      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
     }
-  }
+  });
 }
 
 /**
@@ -48,35 +52,37 @@ export async function setOrganisaatiot(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getOrganisaatiot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
+      input.map((row: any) => {
+        let value: string;
 
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
+        if (row.value[req.params.lang] === undefined) {
+          value = row.value.fi || row.value.en || row.value.sv;
+        } else {
+          value = row.value[req.params.lang];
+        }
 
-  input.map((row: any) => {
-    let value: string;
+        output.push({
+          "key": row.key,
+          "value": value,
+        });
+      });
 
-    if (row.value[req.params.lang] === undefined) {
-      value = row.value.fi || row.value.en || row.value.sv;
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
     } else {
-      value = row.value[req.params.lang];
+      res.sendStatus(404);
+
+      return next();
     }
-
-    output.push({
-      "key": row.key,
-      "value": value,
-    });
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -89,34 +95,36 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
  * @returns {Promise<any>}
  */
 export const getOrganisaatio = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const row = input.find((e: any) => e.key === req.params.key);
+      let output: object;
 
-    return next();
-  }
+      if (row !== undefined) {
+        let value: string;
 
-  const input = JSON.parse(await client.get(rediskey));
-  const row = input.find((e: any) => e.key === req.params.key);
-  let output: object;
+        if (row.value[req.params.lang] === undefined) {
+          value = row.value.fi || row.value.en || row.value.sv;
+        } else {
+          value = row.value[req.params.lang];
+        }
 
-  if (row !== undefined) {
-    let value: string;
+        output = {
+          "key": row.key,
+          "value": value,
+        };
+      }
 
-    if (row.value[req.params.lang] === undefined) {
-      value = row.value.fi || row.value.en || row.value.sv;
+      if (output !== undefined) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
     } else {
-      value = row.value[req.params.lang];
+      res.sendStatus(404);
+
+      return next();
     }
-
-    output = {
-      "key": row.key,
-      "value": value,
-    };
-  }
-
-  if (output !== undefined) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
+  });
 };
