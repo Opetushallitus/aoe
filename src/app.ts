@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import session from "express-session";
 import cors from "cors";
+import { createClient } from "redis";
 
 import router from "./routes";
 
@@ -26,6 +27,8 @@ dotenv.config();
 const app = express();
 const expressSwagger = require("express-swagger-generator")(app);
 
+const client = createClient();
+
 // Configuration
 app.use(session({
   cookie: {
@@ -42,21 +45,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors()); // Enable CORS for dev purposes
 app.set("port", 3000);
 
-// Init
-// set data to redis (if not already set).
-setAsiasanat();
-setKoulutusasteet();
-setKohderyhmat();
-setKayttokohteet();
-setSaavutettavuudenTukitoiminnot();
-setSaavutettavuudenAvustavatTeknologiat();
-setSaavutettavuudenKayttotavat();
-setSaavutettavuudenEsteet();
-setKielet();
-setOrganisaatiot();
-setTieteenalat();
-setPeruskoulutuksenOppiaineet();
-setOppimateriaalityypit();
+client.on("error", (error: any) => {
+  console.error(error);
+});
+
+client.on("connect", async () => {
+  await setAsiasanat();
+  await setKoulutusasteet();
+  await setKohderyhmat();
+  await setKayttokohteet();
+  await setSaavutettavuudenTukitoiminnot();
+  await setSaavutettavuudenAvustavatTeknologiat();
+  await setSaavutettavuudenKayttotavat();
+  await setSaavutettavuudenEsteet();
+  await setKielet();
+  await setOrganisaatiot();
+  await setTieteenalat();
+  await setPeruskoulutuksenOppiaineet();
+  await setOppimateriaalityypit();
+});
 
 // set cron jobs to run daily/weekly
 
