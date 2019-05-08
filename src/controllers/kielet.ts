@@ -5,7 +5,7 @@ import { getDataFromApi } from "./common";
 
 const client = createClient();
 
-const endpoint = "interoperabilityplatform/codeschemes/languagecodes";
+const endpoint = "kielikoodistoopetushallinto";
 const rediskey = "kielet";
 
 client.on("error", (error: any) => {
@@ -22,16 +22,20 @@ client.on("error", (error: any) => {
 export async function setKielet(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
       const data: object[] = [];
 
-      results.results.map((result: any) => {
+      results.map((result: any) => {
+        const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
+        const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
+        const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
+
         data.push({
-          "key": result.codeValue,
-          "value": {
-            "fi": result.prefLabel.fi,
-            "en": result.prefLabel.en,
-            "sv": result.prefLabel.sv,
+          key: result.koodiArvo,
+          value: {
+            fi: metadataFi !== undefined ? metadataFi.nimi : undefined,
+            en: metadataEn !== undefined ? metadataEn.nimi : undefined,
+            sv: metadataSv !== undefined ? metadataSv.nimi : undefined,
           }
         });
       });
