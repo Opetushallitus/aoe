@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
+import { createClient } from "redis";
 
 import { getDataFromApi } from "./common";
-import RedisWrapper from "../utils/redis-wrapper";
 
-const client = new RedisWrapper();
+const client = createClient();
+
 const endpoint = "edtech/codeschemes/EducationalRole";
 const rediskey = "kohderyhmat";
 
@@ -15,8 +16,8 @@ const rediskey = "kohderyhmat";
  * @todo Implement error handling
  */
 export async function setKohderyhmat(): Promise<any> {
-  if (!client.exists(rediskey)) {
-    try {
+  client.get(rediskey, async (error: any, data: any) => {
+    if (!data) {
       const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, { "Accept": "application/json" });
       const data: object[] = [];
 
@@ -31,11 +32,10 @@ export async function setKohderyhmat(): Promise<any> {
         });
       });
 
-      await client.set(rediskey, JSON.stringify(data));
-    } catch (error) {
-      console.error(error);
+      // @ts-ignore
+      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
     }
-  }
+  });
 }
 
 /**
@@ -48,27 +48,29 @@ export async function setKohderyhmat(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getKohderyhmat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
+      input.map((row: any) => {
+        output.push({
+          "key": row.key,
+          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+        });
+      });
 
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(406);
+      }
+    } else {
+      res.sendStatus(404);
 
-  input.map((row: any) => {
-    output.push({
-      "key": row.key,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
-    });
+      return next();
+    }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -81,26 +83,28 @@ export const getKohderyhmat = async (req: Request, res: Response, next: NextFunc
  * @returns {Promise<any>}
  */
 export const getKohderyhma = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const row = input.find((e: any) => e.key === req.params.key);
+      let output: object;
 
-    return next();
-  }
+      if (row !== undefined) {
+        output = {
+          "key": row.key,
+          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+        };
+      }
 
-  const input = JSON.parse(await client.get(rediskey));
-  const row = input.find((e: any) => e.key === req.params.key);
-  let output: object;
+      if (output !== undefined) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(406);
+      }
+    } else {
+      res.sendStatus(404);
 
-  if (row !== undefined) {
-    output = {
-      "key": row.key,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
-    };
-  }
-
-  if (output !== undefined) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
+      return next();
+    }
+  });
 };
