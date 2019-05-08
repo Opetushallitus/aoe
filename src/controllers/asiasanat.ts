@@ -1,12 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { parseString, processors } from "xml2js";
+import { createClient } from "redis";
 
 import { getDataFromApi } from "./common";
-import RedisWrapper from "../utils/redis-wrapper";
 
-const client = new RedisWrapper();
+const client = createClient();
+
 const endpoint = "yso";
 const rediskey = "asiasanat";
+
+client.on("error", (error: any) => {
+  console.error(error);
+});
 
 /**
  * Set data into redis database
@@ -16,9 +21,9 @@ const rediskey = "asiasanat";
  * @todo Implement error handling
  */
 export async function setAsiasanat(): Promise<any> {
-  if (!client.exists(rediskey)) {
-    try {
-      const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/data`, { "Accept": "application/rdf+xml" });
+  client.get(rediskey, async (error: any, data: any) => {
+    if (!data) {
+      const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/data`, {"Accept": "application/rdf+xml"});
       const data: object[] = [];
 
       const parseOptions = {
@@ -45,12 +50,11 @@ export async function setAsiasanat(): Promise<any> {
           });
         });
 
-        await client.set(rediskey, JSON.stringify(data));
+        // @ts-ignore
+        await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
       });
-    } catch (error) {
-      console.error(error);
     }
-  }
+  });
 }
 
 /**
@@ -63,27 +67,29 @@ export async function setAsiasanat(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getAsiasanat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
+      input.map((row: any) => {
+        output.push({
+          "key": row.key,
+          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+        });
+      });
 
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
 
-  input.map((row: any) => {
-    output.push({
-      "key": row.key,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
-    });
+      return next();
+    }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -96,26 +102,28 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
  * @returns {Promise<any>}
  */
 export const getAsiasana = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const row = input.find((e: any) => e.key === req.params.key);
+      let output: object;
 
-    return next();
-  }
+      if (row !== undefined) {
+        output = {
+          "key": row.key,
+          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+        };
+      }
 
-  const input = JSON.parse(await client.get(rediskey));
-  const row = input.find((e: any) => e.key === req.params.key);
-  let output: object;
+      if (output !== undefined) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
 
-  if (row !== undefined) {
-    output = {
-      "key": row.key,
-      "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
-    };
-  }
-
-  if (output !== undefined) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
+      return next();
+    }
+  });
 };
