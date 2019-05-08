@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import { createClient } from "redis";
 
 import { getDataFromApi } from "./common";
-import RedisWrapper from "../utils/redis-wrapper";
 
-const client = new RedisWrapper();
+const client = createClient();
+
 const endpoint = "edtech/codeschemes/Koulutusaste";
 const rediskey = "koulutusasteet";
+
+client.on("error", (error: any) => {
+  console.error(error);
+});
 
 /**
  * Set data into redis database
@@ -15,8 +20,8 @@ const rediskey = "koulutusasteet";
  * @todo Implement error handling
  */
 export async function setKoulutusasteet(): Promise<any> {
-  if (!client.exists(rediskey)) {
-    try {
+  client.get(rediskey, async (error: any, data: any) => {
+    if (!data) {
       const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, { "Accept": "application/json" });
       const data: object[] = [];
 
@@ -32,11 +37,10 @@ export async function setKoulutusasteet(): Promise<any> {
         });
       });
 
-      await client.set(rediskey, JSON.stringify(data));
-    } catch (error) {
-      console.error(error);
+      // @ts-ignore
+      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
     }
-  }
+  });
 }
 
 /**
@@ -49,39 +53,41 @@ export async function setKoulutusasteet(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getKoulutusasteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
+      input.map((row: any) => {
+        let children = input.filter((e: any) => e.parent === row.key);
 
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
+        children = children.map((child: any) => {
+          return {
+            key: child.key,
+            value: child.value[req.params.lang] !== undefined ? child.value[req.params.lang] : child.value.fi
+          };
+        });
 
-  input.map((row: any) => {
-    let children = input.filter((e: any) => e.parent === row.key);
-
-    children = children.map((child: any) => {
-      return {
-        key: child.key,
-        value: child.value[req.params.lang] !== undefined ? child.value[req.params.lang] : child.value.fi
-      };
-    });
-
-    if (row.parent === undefined) {
-      output.push({
-        key: row.key,
-        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
-        children: children,
+        if (row.parent === undefined) {
+          output.push({
+            key: row.key,
+            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+            children: children,
+          });
+        }
       });
+
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
+
+      return next();
     }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -94,29 +100,31 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
  * @returns {Promise<any>}
  */
 export const getKoulutusaste = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const row = input.find((e: any) => e.key === req.params.key);
+      let output: object;
 
-    return next();
-  }
+      if (row !== undefined) {
+        output = {
+          key: row.key,
+          parent: row.parent,
+          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+        };
+      }
 
-  const input = JSON.parse(await client.get(rediskey));
-  const row = input.find((e: any) => e.key === req.params.key);
-  let output: object;
+      if (output !== undefined) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
 
-  if (row !== undefined) {
-    output = {
-      key: row.key,
-      parent: row.parent,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
-    };
-  }
-
-  if (output !== undefined) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
+      return next();
+    }
+  });
 };
 
 /**
@@ -129,30 +137,32 @@ export const getKoulutusaste = async (req: Request, res: Response, next: NextFun
  * @returns {Promise<any>}
  */
 export const getKoulutusasteetChildren = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
-
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
-
-  input.map((row: any) => {
-    if (row.parent !== undefined && row.parent === req.params.key) {
-      output.push({
-        key: row.key,
-        parent: row.parent,
-        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+      input.map((row: any) => {
+        if (row.parent !== undefined && row.parent === req.params.key) {
+          output.push({
+            key: row.key,
+            parent: row.parent,
+            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          });
+        }
       });
+
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
+
+      return next();
     }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -165,27 +175,29 @@ export const getKoulutusasteetChildren = async (req: Request, res: Response, nex
  * @returns {Promise<any>}
  */
 export const getKoulutusasteetParents = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: object[] = [];
 
-    return next();
-  }
-
-  const input = JSON.parse(await client.get(rediskey));
-  const output: object[] = [];
-
-  input.map((row: any) => {
-    if (row.parent === undefined) {
-      output.push({
-        key: row.key,
-        value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+      input.map((row: any) => {
+        if (row.parent === undefined) {
+          output.push({
+            key: row.key,
+            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          });
+        }
       });
+
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
+
+      return next();
     }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
