@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
+import { createClient } from "redis";
 
 import { getDataFromApi } from "./common";
-import RedisWrapper from "../utils/redis-wrapper";
 
-const client = new RedisWrapper();
+const client = createClient();
+
 const endpoint = "tieteenala";
 const rediskey = "tieteenalat";
+
+client.on("error", (error: any) => {
+  console.error(error);
+});
 
 /**
  * Set data into redis database
@@ -15,8 +20,8 @@ const rediskey = "tieteenalat";
  * @todo Implement error handling
  */
 export async function setTieteenalat(): Promise<any> {
-  if (!client.exists(rediskey)) {
-    try {
+  client.get(rediskey, async (error: any, data: any) => {
+    if (!data) {
       const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
       const data: Array<any> = [];
 
@@ -103,11 +108,10 @@ export async function setTieteenalat(): Promise<any> {
         parent.children.sort((a: any, b: any) => a.key - b.key);
       });
 
-      await client.set(rediskey, JSON.stringify(data));
-    } catch (error) {
-      console.error(error);
+      // @ts-ignore
+      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
     }
-  }
+  });
 }
 
 /**
@@ -120,35 +124,37 @@ export async function setTieteenalat(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getTieteenalat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const output: Array<any> = [];
 
-    return next();
-  }
+      input.map((row: any) => {
+        const children = row.children.map((child: any) => {
+          return {
+            key: child.key,
+            value: child.value[req.params.lang]
+          };
+        });
 
-  const input = JSON.parse(await client.get(rediskey));
-  const output: Array<any> = [];
+        output.push({
+          key: row.key,
+          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          children: children,
+        });
+      });
 
-  input.map((row: any) => {
-    const children = row.children.map((child: any) => {
-      return {
-        key: child.key,
-        value: child.value[req.params.lang]
-      };
-    });
+      if (output.length > 0) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
 
-    output.push({
-      key: row.key,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
-      children: children,
-    });
+      return next();
+    }
   });
-
-  if (output.length > 0) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
 };
 
 /**
@@ -161,26 +167,28 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
  * @returns {Promise<any>}
  */
 export const getTieteenala = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  if (await client.exists(rediskey) !== true) {
-    res.sendStatus(404);
+  client.get(rediskey, async (error: any, data: any) => {
+    if (data) {
+      const input = JSON.parse(data);
+      const row = input.find((e: any) => e.key === req.params.key);
+      let output: object;
 
-    return next();
-  }
+      if (row !== undefined) {
+        output = {
+          key: row.key,
+          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+        };
+      }
 
-  const input = JSON.parse(await client.get(rediskey));
-  const row = input.find((e: any) => e.key === req.params.key);
-  let output: object;
+      if (output !== undefined) {
+        res.status(200).json(output);
+      } else {
+        res.sendStatus(404);
+      }
+    } else {
+      res.sendStatus(404);
 
-  if (row !== undefined) {
-    output = {
-      key: row.key,
-      value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
-    };
-  }
-
-  if (output !== undefined) {
-    res.status(200).json(output);
-  } else {
-    res.sendStatus(404);
-  }
+      return next();
+    }
+  });
 };
