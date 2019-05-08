@@ -8,6 +8,10 @@ const client = createClient();
 const endpoint = "edtech/codeschemes/EducationalRole";
 const rediskey = "kohderyhmat";
 
+client.on("error", (error: any) => {
+  console.error(error);
+});
+
 /**
  * Set data into redis database
  *
@@ -18,7 +22,7 @@ const rediskey = "kohderyhmat";
 export async function setKohderyhmat(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, {"Accept": "application/json"});
       const data: object[] = [];
 
       results.results.map((result: any) => {
