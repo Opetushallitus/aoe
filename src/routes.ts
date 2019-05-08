@@ -1,9 +1,5 @@
 import { Router } from "express";
 
-// Legacy / Common
-import { deleteKey, getData } from "./controllers/common";
-
-// Refactored
 import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
 import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren, getKoulutusasteetParents } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
@@ -18,7 +14,7 @@ import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controller
 import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
-import { getPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
+import { getPeruskoulutuksenOppiaine, getPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 
 const router: Router = Router();
@@ -33,7 +29,7 @@ const router: Router = Router();
  * @returns {object} 200 - OK
  * @returns {error} 404 - Not Found
  */
-router.get("/legacy/:key/:lang", getData);
+// router.get("/legacy/:key/:lang", getData);
 
 // DELETE routes
 /**
@@ -44,7 +40,7 @@ router.get("/legacy/:key/:lang", getData);
  * @returns {object} 200 - OK
  * @returns {error} 404 - Not Found
  */
-router.delete("/redis/delete/:key", deleteKey);
+// router.delete("/redis/delete/:key", deleteKey);
 
 // Refactor everything
 
@@ -284,6 +280,6 @@ router.get("/peruskoulutuksenoppiaineet/:lang", getPeruskoulutuksenOppiaineet);
  * @param {string} key.path.required - ID
  * @param {string} lang.path.required - ISO 639-1 language code
  */
-router.get("/peruskoulutuksenoppiaineet/:key/:lang");
+router.get("/peruskoulutuksenoppiaineet/:key/:lang", getPeruskoulutuksenOppiaine);
 
 export default router;
