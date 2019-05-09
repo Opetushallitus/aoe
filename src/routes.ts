@@ -16,6 +16,7 @@ import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
 import { getPeruskoulutuksenOppiaine, getPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
+import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 
 const router: Router = Router();
 
@@ -281,5 +282,22 @@ router.get("/peruskoulutuksenoppiaineet/:lang", getPeruskoulutuksenOppiaineet);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/peruskoulutuksenoppiaineet/:key/:lang", getPeruskoulutuksenOppiaine);
+
+/**
+ * Returns all ammatillisentutkinnonosat from redis database by given language
+ * @group Ammatillisen tutkinnonosat
+ * @route GET /ammatillisentutkinnonosat/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammatillisentutkinnonosat/:lang", getAmmatillisenTutkinnonosat);
+
+/**
+ * Returns single ammatillisen tutkinnonosa from redis database by given id and language
+ * @group Ammatillisen tutkinnonosat
+ * @route GET /ammatillisentutkinnonosat/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammatillisentutkinnonosat/:key/:lang", getAmmatillisenTutkinnonosa);
 
 export default router;
