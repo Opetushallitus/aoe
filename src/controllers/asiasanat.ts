@@ -8,6 +8,7 @@ const client = createClient();
 
 const endpoint = "yso";
 const rediskey = "asiasanat";
+const params = "data";
 
 client.on("error", (error: any) => {
   console.error(error);
@@ -23,7 +24,7 @@ client.on("error", (error: any) => {
 export async function setAsiasanat(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/data`, {"Accept": "application/rdf+xml"});
+      const results = await getDataFromApi(process.env.FINTO_URL, `/${endpoint}/`, {"Accept": "application/rdf+xml"}, params);
       const data: object[] = [];
 
       const parseOptions = {

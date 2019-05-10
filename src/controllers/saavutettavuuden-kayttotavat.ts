@@ -7,6 +7,7 @@ const client = createClient();
 
 const endpoint = "edtech/codeschemes/SaavutettavuusKayttotavat";
 const rediskey = "saavutettavuudenkayttotavat";
+const params = "codes/?format=json";
 
 client.on("error", (error: any) => {
   console.error(error);
@@ -22,7 +23,7 @@ client.on("error", (error: any) => {
 export async function setSaavutettavuudenKayttotavat(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/codes/?format=json`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.KOODISTOT_SUOMI_URL, `/${endpoint}/`, { "Accept": "application/json" }, params);
       const data: object[] = [];
 
       results.results.map((result: any) => {

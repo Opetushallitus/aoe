@@ -7,6 +7,7 @@ const client = createClient();
 
 const endpoint = "organisaatio";
 const rediskey = "organisaatiot";
+const params = "hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false";
 
 client.on("error", (error: any) => {
   console.error(error);
@@ -22,7 +23,7 @@ client.on("error", (error: any) => {
 export async function setOrganisaatiot(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.ORGANISAATIO_SERVICE_URL, `/${endpoint}/hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.ORGANISAATIO_SERVICE_URL, `/${endpoint}/`, { "Accept": "application/json" }, params);
       const data: object[] = [];
 
       results.organisaatiot.map((result: any) => {

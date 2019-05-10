@@ -7,6 +7,7 @@ const client = createClient();
 
 const endpoint = "oppiaineetyleissivistava";
 const rediskey = "peruskoulutuksenoppiaineet";
+const params = "koodi";
 
 const blacklisted = [
   "A1", "A2", "A12", "A22", "B1", "B2", "B3", "B22", "B23", "B32", "B33"
@@ -26,7 +27,7 @@ client.on("error", (error: any) => {
 export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/`, { "Accept": "application/json" }, params);
       const data: Array<any> = [];
 
       results.map((result: any) => {

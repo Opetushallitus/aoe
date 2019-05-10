@@ -7,6 +7,7 @@ const client = createClient();
 
 const endpoint = "tutkinnonosat";
 const rediskey = "ammatillisentutkinnonosat";
+const params = "koodi";
 
 client.on("error", (error: any) => {
   console.error(error);
@@ -22,7 +23,7 @@ client.on("error", (error: any) => {
 export async function setAmmatillisenTutkinnonosat(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
-      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/koodi`, { "Accept": "application/json" });
+      const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/`, { "Accept": "application/json" }, params);
       const data: Array<any> = [];
 
       results.map((result: any) => {
