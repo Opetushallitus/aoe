@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { parseString, processors } from "xml2js";
 import { createClient } from "redis";
 
-import { getDataFromApi } from "./common";
+import { getDataFromApi } from "../util/api.utils";
 
 const client = createClient();
 

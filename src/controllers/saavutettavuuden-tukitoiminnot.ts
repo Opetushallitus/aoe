@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { createClient } from "redis";
 
-import { getDataFromApi } from "./common";
+import { getDataFromApi } from "../util/api.utils";
 
 const client = createClient();
 
