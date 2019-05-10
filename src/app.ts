@@ -22,6 +22,7 @@ import { setTieteenalat } from "./controllers/tieteenalat";
 import { setPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
 import { setOppimateriaalityypit } from "./controllers/oppimateriaalityypit";
 import { setAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
+import { setAmmatillisenTutkinnot } from "./controllers/ammatillisen-tutkinnot";
 
 dotenv.config();
 
@@ -65,6 +66,7 @@ client.on("connect", async () => {
   await setPeruskoulutuksenOppiaineet();
   await setOppimateriaalityypit();
   await setAmmatillisenTutkinnonosat();
+  await setAmmatillisenTutkinnot();
 });
 
 // set cron jobs to run daily/weekly
