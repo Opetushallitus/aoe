@@ -169,10 +169,23 @@ async function insertEducationalMaterial(obj: any, func: any) {
         for (const num in obj[mkey]) {
             await insertIntoLearningResourceType(obj[mkey][num], materialid);
         }
-        mkey = "Accessibility";
+        mkey = "AccessibilityFeature";
         for (const num in obj[mkey]) {
-            await insertIntoAccessibility(obj[mkey][num], materialid);
+            await insertIntoAccessibilityFeature(obj[mkey][num], materialid);
         }
+        mkey = "AccessibilityHazard";
+        for (const num in obj[mkey]) {
+            await insertIntoAccessibilityHazard(obj[mkey][num], materialid);
+        }
+        mkey = "AccessibilityAPI";
+        for (const num in obj[mkey]) {
+            await insertIntoAccessibilityAPI(obj[mkey][num], materialid);
+        }
+        mkey = "AccessibilityControl";
+        for (const num in obj[mkey]) {
+            await insertIntoAccessibilityControl(obj[mkey][num], materialid);
+        }
+
         mkey = "KeyWord";
         for (const num in obj[mkey]) {
             await insertIntoKeyWord(obj[mkey][num], materialid);
@@ -189,9 +202,17 @@ async function insertEducationalMaterial(obj: any, func: any) {
         for (const num in obj[mkey]) {
             await insertIntoPublisher(obj[mkey][num], materialid);
         }
+        mkey = "InLanguage";
+        for (const num in obj[mkey]) {
+            await insertIntoInLanguage(obj[mkey][num], materialid);
+        }
         mkey = "AligmentObject";
         for (const num in obj[mkey]) {
             await insertIntoAligmentObject(obj[mkey][num], materialid);
+        }
+        mkey = "Material";
+        for (const num in obj[mkey]) {
+            await insertIntoMaterial(obj[mkey][num], materialid);
         }
         await db.any("COMMIT");
         func(undefined, "Success");
@@ -211,13 +232,16 @@ async function insertIntoEducationalMaterial(obj: any) {
         organization : obj.organization,
         publishedat : obj.publishedat,
         updatedat : obj.updatedat,
+        archivedat : obj.archivedat,
         timerequired : obj.timerequired,
         agerangemin : obj.agerangemin,
         agerangemax : obj.agerangemax,
         usersid : obj.usersid,
-        licensecode : obj.licensecode
+        licensecode : obj.licensecode,
+        originalpublishedat : obj.originalpublishedat
     };
     const query = pgp.helpers.insert(materialData, undefined, "educationalmaterial") + "RETURNING id";
+    console.log(query);
     const data = await db.any(query);
     return data;
 }
@@ -230,6 +254,7 @@ async function insertIntoMaterialName(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "materialname") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -240,6 +265,7 @@ async function insertIntoMaterialDescription(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "materialdescription") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -249,6 +275,7 @@ async function insertIntoEducationalAudience(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "educationalaudience") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -258,16 +285,57 @@ async function insertIntoLearningResourceType(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "learningresourcetype") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
-async function insertIntoAccessibility(obj: any, materialid: any) {
+// async function insertIntoAccessibility(obj: any, materialid: any) {
+//     const data = {
+//         value : obj.value,
+//         property : obj.property,
+//         educationalmaterialid : materialid
+//     };
+//     const query = pgp.helpers.insert(data, undefined, "accessibility") + "RETURNING id";
+//     await db.any(query);
+// }
+
+async function insertIntoAccessibilityFeature(obj: any, materialid: any) {
     const data = {
         value : obj.value,
-        property : obj.property,
         educationalmaterialid : materialid
     };
-    const query = pgp.helpers.insert(data, undefined, "accessibility") + "RETURNING id";
+    const query = pgp.helpers.insert(data, undefined, "accessibilityfeature") + "RETURNING id";
+    console.log(query);
+    await db.any(query);
+}
+
+async function insertIntoAccessibilityHazard(obj: any, materialid: any) {
+    const data = {
+        value : obj.value,
+        educationalmaterialid : materialid
+    };
+    const query = pgp.helpers.insert(data, undefined, "accessibilityhazard") + "RETURNING id";
+    console.log(query);
+    await db.any(query);
+}
+
+async function insertIntoAccessibilityAPI(obj: any, materialid: any) {
+    const data = {
+        value : obj.value,
+        educationalmaterialid : materialid
+    };
+    const query = pgp.helpers.insert(data, undefined, "accessibilityapi") + "RETURNING id";
+    console.log(query);
+    await db.any(query);
+}
+
+async function insertIntoAccessibilityControl(obj: any, materialid: any) {
+    const data = {
+        value : obj.value,
+        educationalmaterialid : materialid
+    };
+    const query = pgp.helpers.insert(data, undefined, "accessibilitycontrol") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -277,6 +345,7 @@ async function insertIntoKeyWord(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "keyword") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -286,6 +355,7 @@ async function insertIntoEducationalLevel(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "educationallevel") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -295,6 +365,7 @@ async function insertIntoEducationalUse(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "educationaluse") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -304,6 +375,18 @@ async function insertIntoPublisher(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "publisher") + "RETURNING id";
+    console.log(query);
+    await db.any(query);
+}
+
+async function insertIntoInLanguage(obj: any, materialid: any) {
+    const data = {
+        inlanguage : obj.name,
+        url : "",
+        educationalmaterialid : materialid
+    };
+    const query = pgp.helpers.insert(data, undefined, "inlanguage") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
 
@@ -317,8 +400,22 @@ async function insertIntoAligmentObject(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "aligmentobject") + "RETURNING id";
+    console.log(query);
     await db.any(query);
 }
+
+async function insertIntoMaterial(obj: any, materialid: any) {
+    const data = {
+        materialname : obj.materialname,
+        link : obj.link,
+        priority : obj.priority,
+        educationalmaterialid : materialid
+    };
+    const query = pgp.helpers.insert(data, undefined, "material") + "RETURNING id";
+    console.log(query);
+    await db.any(query);
+}
+
 
 module.exports = {
     getMaterial : getMaterial,

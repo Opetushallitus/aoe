@@ -29,12 +29,10 @@ async function uploadMaterial(req: Request, res: Response) {
                         return res.status(500).send("No file sent");
                     }
                     let result = await insertDataToEducationalMaterialTable(req);
-                    console.log(result);
+                    const id = result;
                     result = await insertDataToMaterialTable(files, result[0].id);
-                    console.log(result);
                     await insertDataToRecordTable(files, result);
-                    console.log(files);
-                    res.status(200).send("Files uploaded: " + files.length);
+                    res.status(200).json(id);
                 } catch (e) {
                     console.log(e);
                     return res.status(500).send("Failure in file upload");

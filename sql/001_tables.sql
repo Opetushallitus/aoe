@@ -14,7 +14,10 @@ DROP TABLE IF EXISTS CollectionKeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalMaterialCollection CASCADE;
 DROP TABLE IF EXISTS KeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalLevel CASCADE;
-DROP TABLE IF EXISTS Accessibility CASCADE;
+DROP TABLE IF EXISTS AccessibilityControl CASCADE;
+DROP TABLE IF EXISTS AccessibilityAPI CASCADE;
+DROP TABLE IF EXISTS AccessibilityHazard CASCADE;
+DROP TABLE IF EXISTS AccessibilityFeature CASCADE;
 DROP TABLE IF EXISTS EducationalRole CASCADE;
 DROP TABLE IF EXISTS LearningResourceType CASCADE;
 DROP TABLE IF EXISTS AligmentObject CASCADE;
@@ -46,21 +49,22 @@ CREATE TABLE Logins (
   UsersId      int8 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE EducationalMaterial (
-  Id             BIGSERIAL NOT NULL, 
-  CreatedAt     date NOT NULL, 
-  PublishedAt   date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
-  UpdatedAt     date NOT NULL, 
-  ArchivedAt    date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
-  TechnicalName text NOT NULL, 
-  Author        text NOT NULL, 
-  Organization  text NOT NULL, 
-  TimeRequired  text NOT NULL, 
-  AgeRangeMin   int4 DEFAULT 0 NOT NULL, 
-  AgeRangeMax   int4 DEFAULT 99 NOT NULL, 
-  UsersId       int8 NOT NULL, 
-  LicenseCode   text NOT NULL, 
-  Obsoleted     int4 DEFAULT 0 NOT NULL, 
-  Thumbnail     bytea, 
+  Id                   BIGSERIAL NOT NULL, 
+  CreatedAt           date DEFAULT CURRENT_DATE NOT NULL, 
+  PublishedAt         date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
+  UpdatedAt           date DEFAULT CURRENT_DATE NOT NULL, 
+  ArchivedAt          date DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
+  TechnicalName       text NOT NULL, 
+  Author              text NOT NULL, 
+  Organization        text NOT NULL, 
+  TimeRequired        text NOT NULL, 
+  AgeRangeMin         int4 DEFAULT 0 NOT NULL, 
+  AgeRangeMax         int4 DEFAULT 99 NOT NULL, 
+  UsersId             int8 NOT NULL, 
+  LicenseCode         text NOT NULL, 
+  Obsoleted           int4 DEFAULT 0 NOT NULL, 
+  Thumbnail           bytea, 
+  OriginalPublishedAt date DEFAULT CURRENT_DATE NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE Material (
   Id                     BIGSERIAL NOT NULL, 
@@ -68,6 +72,7 @@ CREATE TABLE Material (
   Link                  text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
+  Priority              int4 DEFAULT 0 NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE EducationalAudience (
   Id                     BIGSERIAL NOT NULL, 
@@ -94,12 +99,27 @@ CREATE TABLE LearningResourceType (
   Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE Accessibility (
+CREATE TABLE AccessibilityControl (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
-  Property              int4 NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
+CREATE TABLE AccessibilityAPI (
+  Id                     BIGSERIAL NOT NULL, 
+  Value                 text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (Id));
+CREATE TABLE AccessibilityHazard (
+  Id                     BIGSERIAL NOT NULL, 
+  Value                 text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (Id));
+CREATE TABLE AccessibilityFeature (
+  Id                     BIGSERIAL NOT NULL, 
+  Value                 text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  PRIMARY KEY (Id));
+
 CREATE TABLE EducationalLevel (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
@@ -216,7 +236,6 @@ ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (Educatio
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
 ALTER TABLE EducationalAudience ADD CONSTRAINT FKEducationalAudience FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE LearningResourceType ADD CONSTRAINT FKLearningResourceType FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE Accessibility ADD CONSTRAINT FKAccessibility FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE KeyWord ADD CONSTRAINT FKKeyWord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalUse ADD CONSTRAINT FKEducationalUse FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE IsBasedOn ADD CONSTRAINT FKIsBasedOn FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
@@ -239,3 +258,7 @@ ALTER TABLE EducationalLevel ADD CONSTRAINT FKEducationalLevel FOREIGN KEY (Educ
 ALTER TABLE Publisher ADD CONSTRAINT FKPublisher FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE MaterialDescription ADD CONSTRAINT FKDescription FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE MaterialName ADD CONSTRAINT FKMaterialName FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE AccessibilityFeature ADD CONSTRAINT FKAccessibilityFeature FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE AccessibilityHazard ADD CONSTRAINT FKAccessibilityHazard FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE AccessibilityAPI ADD CONSTRAINT FKAccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE AccessibilityControl ADD CONSTRAINT FKAccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);

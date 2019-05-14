@@ -76,16 +76,16 @@ async function validate(data: any) {
             if (data[d].nimi === undefined) {
                 o[key].push(createMessage(row, "nimi", "nimi cannot be empty"));
             }
-            if (data[d].julkaistu === undefined) {
-                o[key].push(createMessage(row, "julkaistu", "julkaistu cannot be empty"));
+            if (data[d].julkaisuajankohta === undefined) {
+                o[key].push(createMessage(row, "julkaisuajankohta", "julkaisuajankohta cannot be empty"));
             }
             else {
-                const da = data[d].julkaistu.toString();
-                if (da.length !== 8) {
-                    o[key].push(createMessage(row, "julkaistu", "Field must contain 8 characters. Correct format is yyyymmd"));
+                const da = data[d].julkaisuajankohta.toString();
+                if (da.length !== 10) {
+                    o[key].push(createMessage(row, "julkaisuajankohta", "Field must contain 8 characters. Correct format is yyyymmd"));
                 }
-                else if (!/\d\d\d\d\d\d\d\d/.test(da)) {
-                    o[key].push(createMessage(row, "julkaistu", "Only numbers are allowed. Correct format is yyyymmdd"));
+                else if (!/\d\d[.]\d\d[.]\d\d\d\d/.test(da)) {
+                    o[key].push(createMessage(row, "julkaisuajankohta", "Only numbers are allowed. Correct format is yyyymmdd"));
                 }
             }
             if (data[d].linkki === undefined) {
@@ -99,6 +99,9 @@ async function validate(data: any) {
             }
             if (data[d].lisenssi === undefined) {
                 o[key].push(createMessage(row, "lisenssi", "lisenssi cannot be empty"));
+            }
+            if (data[d].kieli === undefined) {
+                o[key].push(createMessage(row, "kieli", "kieli cannot be empty"));
             }
             else {
                 // validate koodisto here
@@ -127,13 +130,13 @@ async function validate(data: any) {
             if (await hasDuplicates(oppiasteList, data[d])) {
                 o[key].push(createMessage(row, "oppiaste", "oppiaste has dublicate value"));
             }
-            const kayttotapaList: any = await createPropertyNameList(data[d], "kayttotapa");
+            const kayttotapaList: any = await createPropertyNameList(data[d], "kaytto_opetuksessa");
             if (await hasDuplicates(kayttotapaList, data[d])) {
-                o[key].push(createMessage(row, "kayttotapa", "kayttotapa has dublicate value"));
+                o[key].push(createMessage(row, "kaytto_opetuksessa", "kaytto_opetuksessa has dublicate value"));
             }
-            const julkaisiaList: any = await createPropertyNameList(data[d], "julkaisia");
-            if (await hasDuplicates(julkaisiaList, data[d])) {
-                o[key].push(createMessage(row, "julkaisia", "julkaisia has dublicate value"));
+            const julkaisijaList: any = await createPropertyNameList(data[d], "julkaisija");
+            if (await hasDuplicates(julkaisijaList, data[d])) {
+                o[key].push(createMessage(row, "julkaisija", "julkaisija has dublicate value"));
             }
             const opettaaList: any = await createPropertyNameList(data[d], "opettaa");
             if (await hasDuplicates(opettaaList, data[d])) {
@@ -143,10 +146,10 @@ async function validate(data: any) {
             if (await hasDuplicates(arvioiList, data[d])) {
                 o[key].push(createMessage(row, "arvioi", "arvioi has dublicate value"));
             }
-            const vaikeustasoList: any = await createPropertyNameList(data[d], "vaikeustaso");
-            if (await hasDuplicates(vaikeustasoList, data[d])) {
-                o[key].push(createMessage(row, "vaikeustaso", "vaikeustaso has dublicate value"));
-            }
+            // const vaikeustasoList: any = await createPropertyNameList(data[d], "vaikeustaso");
+            // if (await hasDuplicates(vaikeustasoList, data[d])) {
+            //     o[key].push(createMessage(row, "vaikeustaso", "vaikeustaso has dublicate value"));
+            // }
             const koulutusasteList: any = await createPropertyNameList(data[d], "koulutusaste");
             if (await hasDuplicates(koulutusasteList, data[d])) {
                 o[key].push(createMessage(row, "koulutusaste", "koulutusaste has dublicate value"));
@@ -163,6 +166,30 @@ async function validate(data: any) {
             if (await hasDuplicates(lukutaitovaatimusList, data[d])) {
                 o[key].push(createMessage(row, "lukutaitovaatimus", "lukutaitovaatimus has dublicate value"));
             }
+            const edeltavaOsaaminenList: any = await createPropertyNameList(data[d], "edeltava_osaaminen");
+            if (await hasDuplicates(edeltavaOsaaminenList, data[d])) {
+                o[key].push(createMessage(row, "edeltava_osaaminen", "edeltava_osaaminen has dublicate value"));
+            }
+            const saavutettavuudenTukitoiminnotList: any = await createPropertyNameList(data[d], "saavutettavuuden_tukitoiminnot");
+            if (await hasDuplicates(saavutettavuudenTukitoiminnotList, data[d])) {
+                o[key].push(createMessage(row, "saavutettavuuden_tukitoiminnot", "saavutettavuuden_tukitoiminnot has dublicate value"));
+            }
+            const saavutettavuudenEsteetList: any = await createPropertyNameList(data[d], "saavutettavuuden_esteet");
+            if (await hasDuplicates(saavutettavuudenEsteetList, data[d])) {
+                o[key].push(createMessage(row, "saavutettavuuden_esteet", "saavutettavuuden_esteet has dublicate value"));
+            }
+            const saavutettavuudenKayttotavatList: any = await createPropertyNameList(data[d], "saavutettavuuden_kayttotavat");
+            if (await hasDuplicates(saavutettavuudenKayttotavatList, data[d])) {
+                o[key].push(createMessage(row, "saavutettavuuden_kayttotavat", "saavutettavuuden_kayttotavat has dublicate value"));
+            }
+            const avustavatTeknologiatList: any = await createPropertyNameList(data[d], "avustavat_teknologiat");
+            if (await hasDuplicates(avustavatTeknologiatList, data[d])) {
+                o[key].push(createMessage(row, "avustavat_teknologiat", "avustavat_teknologiat has dublicate value"));
+            }
+            const vaikeustasoKielissaList: any = await createPropertyNameList(data[d], "vaikeustaso_kielissa");
+            if (await hasDuplicates(vaikeustasoKielissaList, data[d])) {
+                o[key].push(createMessage(row, "vaikeustaso_kielissa", "vaikeustaso_kielissa has dublicate value"));
+            }
         }
     return o;
 }
@@ -171,11 +198,13 @@ async function hasDuplicates(array: any, obj: any) {
     const map: any = {};
     for (let i = 0; i < array.length; ++i) {
         const value = obj[array[i]];
-        if (map[value]) {
-            console.log("dublicate:" + value);
-            return true;
-        }
-        map[value] = true;
+        // if (value !== "" && value !== 0) {
+            if (map[value]) {
+                console.log("dublicate:" + value);
+                return true;
+            }
+            map[value] = true;
+        // }
     }
     return false;
 }
@@ -202,7 +231,11 @@ async function uploadXlsx(req: Request, res: Response) {
                         const options = { type : "string"};
                         const wb = xlsx.readFile((<any>req).file.path, options);
                         const sheetNameList = wb.SheetNames;
-                        const data = xlsx.utils.sheet_to_json(wb.Sheets[sheetNameList[0]]);
+                        const data = xlsx.utils.sheet_to_json(wb.Sheets["metadata"]);
+                        if (data.length === 0 ) {
+                            return res.status(400).send("Cannot find data in metadata sheet");
+                        }
+                        console.log(data);
                         // validate data
                         const obj: any = await validate(data);
                         const key = "error";
@@ -216,10 +249,10 @@ async function uploadXlsx(req: Request, res: Response) {
                         const rowkey = "row";
                         o[rowkey] = [];
                         for (const d in data) {
+                            console.log("inserting row " + (Number(d) + 2));
                             const materialobj = await mapper.createMaterialObject(data[d]);
                             await apiQ.insertEducationalMaterial(materialobj, function(err: any, result: any) {
                                 if (err) {
-                                    console.log(err);
                                     o[rowkey].push({
                                         row: (Number(d) + 2),
                                         result: "error"
@@ -259,14 +292,14 @@ async function uploadXlsx(req: Request, res: Response) {
     }
 }
 
-function validateKoodistoCode(str: String, koodisto: any) {
-        for (const key in koodisto) {
-            if (koodisto[key].type === str) {
-                return true;
-            }
-        }
-    return false;
-}
+// function validateKoodistoCode(str: String, koodisto: any) {
+//         for (const key in koodisto) {
+//             if (koodisto[key].type === str) {
+//                 return true;
+//             }
+//         }
+//     return false;
+// }
 
 module.exports = {
     uploadXlsx : uploadXlsx
