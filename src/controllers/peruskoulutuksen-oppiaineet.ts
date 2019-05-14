@@ -3,7 +3,7 @@ import { createClient } from "redis";
 
 import { getDataFromApi } from "../util/api.utils";
 
-const client = createClient();
+const client = createClient(process.env.REDIS_URL);
 
 const endpoint = "oppiaineetyleissivistava";
 const rediskey = "peruskoulutuksenoppiaineet";

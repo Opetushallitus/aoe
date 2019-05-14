@@ -29,7 +29,7 @@ dotenv.config();
 const app = express();
 const expressSwagger = require("express-swagger-generator")(app);
 
-const client = createClient();
+const client = createClient(process.env.REDIS_URL);
 
 // Configuration
 app.use(session({
