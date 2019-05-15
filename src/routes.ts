@@ -18,33 +18,9 @@ import { getPeruskoulutuksenOppiaine, getPeruskoulutuksenOppiaineet } from "./co
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
+import { getPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-tavoitteet";
 
 const router: Router = Router();
-
-// GET routes
-/**
- * Palauttaa tietueen redis tietokannasta
- * @group legacy
- * @route GET /{key}/{lang}
- * @param {string} key.path.required - Redis key
- * @param {string} lang.path.required - ISO 639-1 standardin mukainen langtunnus
- * @returns {object} 200 - OK
- * @returns {error} 404 - Not Found
- */
-// router.get("/legacy/:key/:lang", getData);
-
-// DELETE routes
-/**
- * Poistaa tietueen redis tietokannasta
- * @group legacy
- * @route DELETE /redis/delete/{key}
- * @param {string} key.path.required - Redis key
- * @returns {object} 200 - OK
- * @returns {error} 404 - Not Found
- */
-// router.delete("/redis/delete/:key", deleteKey);
-
-// Refactor everything
 
 /**
  * Returns all asiasanat from redis database by given language
@@ -317,5 +293,13 @@ router.get("/ammatillisentutkinnot/:lang", getAmmatillisenTutkinnot);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/ammatillisentutkinnot/:key/:lang", getAmmatillisenTutkinto);
+
+/**
+ * Returns all oppiaineet from redis database by given language
+ * @group Perusopetus
+ * @route GET /oppiaineet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/oppiaineet/:lang", getPerusopetuksenOppiaineet);
 
 export default router;
