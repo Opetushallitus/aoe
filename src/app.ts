@@ -23,6 +23,7 @@ import { setPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-op
 import { setOppimateriaalityypit } from "./controllers/oppimateriaalityypit";
 import { setAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 import { setAmmatillisenTutkinnot } from "./controllers/ammatillisen-tutkinnot";
+import { setPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-tavoitteet";
 
 dotenv.config();
 
@@ -67,6 +68,7 @@ client.on("connect", async () => {
   await setOppimateriaalityypit();
   await setAmmatillisenTutkinnonosat();
   await setAmmatillisenTutkinnot();
+  await setPerusopetuksenOppiaineet();
 });
 
 // set cron jobs to run daily/weekly
@@ -82,7 +84,7 @@ const options = {
       title: "koodisto-service",
       version: "1.0.0",
     },
-    host: "localhost:3000",
+    host: "koodisto.aoe.fi",
     basePath: "/api/v1",
     produces: [
       "application/json"
