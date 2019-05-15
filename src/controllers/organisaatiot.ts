@@ -30,9 +30,9 @@ export async function setOrganisaatiot(): Promise<any> {
         data.push({
           "key": result.oid,
           "value": {
-            "fi": result.nimi.fi !== undefined ? result.nimi.fi : undefined,
-            "en": result.nimi.en !== undefined ? result.nimi.en : undefined,
-            "sv": result.nimi.sv !== undefined ? result.nimi.sv : undefined,
+            "fi": result.nimi.fi != undefined ? result.nimi.fi : undefined,
+            "en": result.nimi.en != undefined ? result.nimi.en : undefined,
+            "sv": result.nimi.sv != undefined ? result.nimi.sv : undefined,
           }
         });
       });
@@ -102,7 +102,7 @@ export const getOrganisaatio = async (req: Request, res: Response, next: NextFun
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         let value: string;
 
         if (row.value[req.params.lang] === undefined) {
@@ -117,7 +117,7 @@ export const getOrganisaatio = async (req: Request, res: Response, next: NextFun
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);

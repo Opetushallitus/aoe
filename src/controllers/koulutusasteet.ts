@@ -65,14 +65,14 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
         children = children.map((child: any) => {
           return {
             key: child.key,
-            value: child.value[req.params.lang] !== undefined ? child.value[req.params.lang] : child.value.fi
+            value: child.value[req.params.lang] != undefined ? child.value[req.params.lang] : child.value.fi
           };
         });
 
         if (row.parent === undefined) {
           output.push({
             key: row.key,
-            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+            value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
             children: children,
           });
         }
@@ -107,15 +107,15 @@ export const getKoulutusaste = async (req: Request, res: Response, next: NextFun
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           key: row.key,
           parent: row.parent,
-          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);
@@ -144,11 +144,11 @@ export const getKoulutusasteetChildren = async (req: Request, res: Response, nex
       const output: object[] = [];
 
       input.map((row: any) => {
-        if (row.parent !== undefined && row.parent === req.params.key) {
+        if (row.parent != undefined && row.parent === req.params.key) {
           output.push({
             key: row.key,
             parent: row.parent,
-            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+            value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
           });
         }
       });
@@ -185,7 +185,7 @@ export const getKoulutusasteetParents = async (req: Request, res: Response, next
         if (row.parent === undefined) {
           output.push({
             key: row.key,
-            value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+            value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
           });
         }
       });

@@ -61,7 +61,7 @@ export const getOppimateriaalityypit = async (req: Request, res: Response, next:
       input.map((row: any) => {
         output.push({
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         });
       });
 
@@ -100,14 +100,14 @@ export const getOppimateriaalityyppi = async (req: Request, res: Response, next:
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);

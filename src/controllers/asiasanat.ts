@@ -44,9 +44,9 @@ export async function setAsiasanat(): Promise<any> {
           data.push({
             "key": key,
             "value": {
-              "fi": labelFi !== undefined ? labelFi._ : undefined,
-              "en": labelEn !== undefined ? labelEn._ : undefined,
-              "sv": labelSv !== undefined ? labelSv._ : undefined,
+              "fi": labelFi != undefined ? labelFi._ : undefined,
+              "en": labelEn != undefined ? labelEn._ : undefined,
+              "sv": labelSv != undefined ? labelSv._ : undefined,
             }
           });
         });
@@ -76,7 +76,7 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
       input.map((row: any) => {
         output.push({
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         });
       });
 
@@ -109,14 +109,14 @@ export const getAsiasana = async (req: Request, res: Response, next: NextFunctio
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);

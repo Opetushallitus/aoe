@@ -61,7 +61,7 @@ export const getKayttokohteet = async (req: Request, res: Response, next: NextFu
       input.map((row: any) => {
         output.push({
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         });
       });
 
@@ -94,14 +94,14 @@ export const getKayttokohde = async (req: Request, res: Response, next: NextFunc
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);

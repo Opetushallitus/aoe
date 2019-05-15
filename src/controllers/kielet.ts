@@ -34,9 +34,9 @@ export async function setKielet(): Promise<any> {
         data.push({
           key: result.koodiArvo,
           value: {
-            fi: metadataFi !== undefined ? metadataFi.nimi : undefined,
-            en: metadataEn !== undefined ? metadataEn.nimi : undefined,
-            sv: metadataSv !== undefined ? metadataSv.nimi : undefined,
+            fi: metadataFi != undefined ? metadataFi.nimi : undefined,
+            en: metadataEn != undefined ? metadataEn.nimi : undefined,
+            sv: metadataSv != undefined ? metadataSv.nimi : undefined,
           }
         });
       });
@@ -65,7 +65,7 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
       input.map((row: any) => {
         output.push({
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         });
       });
 
@@ -98,14 +98,14 @@ export const getKieli = async (req: Request, res: Response, next: NextFunction):
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           "key": row.key,
-          "value": row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value["fi"],
+          "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);

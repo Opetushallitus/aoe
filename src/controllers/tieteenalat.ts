@@ -24,7 +24,7 @@ export async function setTieteenalat(): Promise<any> {
   client.get(rediskey, async (error: any, data: any) => {
     if (!data) {
       const results = await getDataFromApi(process.env.KOODISTO_SERVICE_URL, `/${endpoint}/`, { "Accept": "application/json" }, params);
-      const data: Array<any> = [];
+      const data: any[] = [];
 
       data.push({
         key: "1",
@@ -128,7 +128,7 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
   client.get(rediskey, async (error: any, data: any) => {
     if (data) {
       const input = JSON.parse(data);
-      const output: Array<any> = [];
+      const output: any[] = [];
 
       input.map((row: any) => {
         const children = row.children.map((child: any) => {
@@ -140,7 +140,7 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
 
         output.push({
           key: row.key,
-          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
           children: children,
         });
       });
@@ -174,14 +174,14 @@ export const getTieteenala = async (req: Request, res: Response, next: NextFunct
       const row = input.find((e: any) => e.key === req.params.key);
       let output: object;
 
-      if (row !== undefined) {
+      if (row != undefined) {
         output = {
           key: row.key,
-          value: row.value[req.params.lang] !== undefined ? row.value[req.params.lang] : row.value.fi,
+          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
         };
       }
 
-      if (output !== undefined) {
+      if (output != undefined) {
         res.status(200).json(output);
       } else {
         res.sendStatus(404);
