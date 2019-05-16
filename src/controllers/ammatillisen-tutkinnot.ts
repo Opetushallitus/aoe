@@ -49,8 +49,7 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
         });
       });
 
-      // @ts-ignore
-      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
+      await client.set(rediskey, JSON.stringify(data));
     }
   });
 }

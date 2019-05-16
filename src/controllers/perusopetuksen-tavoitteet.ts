@@ -39,7 +39,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
               fi: result.nimi.fi,
               sv: result.nimi.sv,
             },
-            vuosiluokkakokonaisuudet: [],
+            // vuosiluokkakokonaisuudet: [],
           });
         } else {
           result.oppimaarat.forEach((oppimaara: any) => {
@@ -49,13 +49,13 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                 fi: oppimaara.nimi.fi,
                 sv: oppimaara.nimi.sv,
               },
-              vuosiluokkakokonaisuudet: [],
+              // vuosiluokkakokonaisuudet: [],
             });
           });
         }
       });
 
-      data.forEach(async (row: any) => {
+      /*data.forEach(async (row: any) => {
         const results = await getDataFromApi(
           process.env.EPERUSTEET_SERVICE_URL,
           `/${endpoint}/`,
@@ -96,10 +96,9 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
         });
 
         // parent.vuosiluokkakokonaisuudet = vuosiluokkakokonaisuudet;
-      });
+      });*/
 
-      // @ts-ignore
-      // await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
+      await client.set(rediskey, JSON.stringify(data));
     }
   });
 }

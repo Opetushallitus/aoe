@@ -109,8 +109,7 @@ export async function setTieteenalat(): Promise<any> {
         parent.children.sort((a: any, b: any) => a.key - b.key);
       });
 
-      // @ts-ignore
-      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
+      await client.set(rediskey, JSON.stringify(data));
     }
   });
 }

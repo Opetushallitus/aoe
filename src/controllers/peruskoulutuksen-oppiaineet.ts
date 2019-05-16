@@ -49,8 +49,7 @@ export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
 
       data.sort((a, b) => a.key - b.key);
 
-      // @ts-ignore
-      await client.setex(rediskey, process.env.REDIS_EXPIRE_TIME, JSON.stringify(data));
+      await client.set(rediskey, JSON.stringify(data));
     }
   });
 }
