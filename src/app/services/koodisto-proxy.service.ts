@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class KoodistoProxyService {
-  private apiUri = 'http://demo.aoe.fi:3000/api/v1';
+  private apiUri = 'https://koodisto.aoe.fi/api/v1';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
