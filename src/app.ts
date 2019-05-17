@@ -4,33 +4,15 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import session from "express-session";
 import cors from "cors";
-import { createClient } from "redis";
+import cron from "node-cron";
 
 import router from "./routes";
-
-import { setOrganisaatiot } from "./controllers/organisaatiot";
-import { setKoulutusasteet } from "./controllers/koulutusasteet";
-import { setKohderyhmat } from "./controllers/kohderyhmat";
-import { setKayttokohteet } from "./controllers/kayttokohteet";
-import { setSaavutettavuudenTukitoiminnot } from "./controllers/saavutettavuuden-tukitoiminnot";
-import { setSaavutettavuudenAvustavatTeknologiat } from "./controllers/saavutettavuuden-avustavatteknologiat";
-import { setSaavutettavuudenKayttotavat } from "./controllers/saavutettavuuden-kayttotavat";
-import { setSaavutettavuudenEsteet } from "./controllers/saavutettavuuden-esteet";
-import { setKielet } from "./controllers/kielet";
-import { setAsiasanat } from "./controllers/asiasanat";
-import { setTieteenalat } from "./controllers/tieteenalat";
-import { setPeruskoulutuksenOppiaineet } from "./controllers/peruskoulutuksen-oppiaineet";
-import { setOppimateriaalityypit } from "./controllers/oppimateriaalityypit";
-import { setAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
-import { setAmmatillisenTutkinnot } from "./controllers/ammatillisen-tutkinnot";
-import { setPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-tavoitteet";
+import { client, updateRedis } from "./util/redis.utils";
 
 dotenv.config();
 
 const app = express();
 const expressSwagger = require("express-swagger-generator")(app);
-
-const client = createClient(process.env.REDIS_URL);
 
 // Configuration
 app.use(session({
@@ -53,25 +35,14 @@ client.on("error", (error: any) => {
 });
 
 client.on("connect", async () => {
-  await setAsiasanat();
-  await setKoulutusasteet();
-  await setKohderyhmat();
-  await setKayttokohteet();
-  await setSaavutettavuudenTukitoiminnot();
-  await setSaavutettavuudenAvustavatTeknologiat();
-  await setSaavutettavuudenKayttotavat();
-  await setSaavutettavuudenEsteet();
-  await setKielet();
-  await setOrganisaatiot();
-  await setTieteenalat();
-  await setPeruskoulutuksenOppiaineet();
-  await setOppimateriaalityypit();
-  await setAmmatillisenTutkinnonosat();
-  await setAmmatillisenTutkinnot();
-  await setPerusopetuksenOppiaineet();
+  await updateRedis();
 });
 
 // set cron jobs to run daily/weekly
+cron.schedule("0 0 0 * * *", async () => {
+  console.log("Running cron job");
+  await updateRedis();
+});
 
 // Prefixed routes
 app.use("/api/v1", router);
