@@ -40,8 +40,4 @@ export class EducationalDetailsComponent implements OnInit {
   onSubmit() {
     console.warn(this.educationalDetailsForm.value);
   }
-
-  testi(event) {
-    console.log(event);
-  }
 }
