@@ -11,4 +11,16 @@
       formControlName="educationalLevels"
     ></ng-select>
   </div>
+
+  <!-- work in progress, maybe there's a better way to do this? -->
+  <ng-container *ngFor="let eduLevel of educationalLevels.value">
+    <div class="form-group" *ngIf="eduLevel.children.length > 0">
+      <ng-select
+        [items]="eduLevel.children"
+        [multiple]="true"
+        bindLabel="value"
+        placeholder="{{ eduLevel.value }}"
+      ></ng-select>
+    </div>
+  </ng-container>
 </form>
