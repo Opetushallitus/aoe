@@ -53,6 +53,10 @@ export const routes: Routes = [
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
       },
+      {
+        path: 'lisaa-oppimateriaali/:tabId',
+        component: EducationalResourceFormComponent,
+      },
     ],
   },
   {
