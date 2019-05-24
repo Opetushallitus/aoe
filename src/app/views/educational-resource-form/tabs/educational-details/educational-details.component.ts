@@ -33,7 +33,15 @@ export class EducationalDetailsComponent implements OnInit {
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
   }
 
+  get educationalLevels() {
+    return this.educationalDetailsForm.get('educationalLevels');
+  }
+
   onSubmit() {
     console.warn(this.educationalDetailsForm.value);
+  }
+
+  testi(event) {
+    console.log(event);
   }
 }
