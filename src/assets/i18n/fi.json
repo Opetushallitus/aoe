@@ -72,7 +72,7 @@
         "basedOnDetails": "Hyödynnetyt materiaalit"
       },
       "basicDetails": {
-        "uploadImage": "Lataa kuva",
+        "uploadImage": "Lataa kansikuva",
         "attachment": "Liite",
         "noSelectedFile": "Ei valittua tiedostoa",
         "or": "tai",
