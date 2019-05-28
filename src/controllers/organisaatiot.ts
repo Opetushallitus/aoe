@@ -68,6 +68,8 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
       });
     });
 
+    output.sort((a: any, b: any) => a.value.localeCompare(b.value));
+
     if (output.length > 0) {
       res.status(200).json(output);
     } else {
