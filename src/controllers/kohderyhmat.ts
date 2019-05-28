@@ -27,9 +27,9 @@ export async function setKohderyhmat(): Promise<any> {
     data.push({
       key: result.id,
       value: {
-        fi: result.prefLabel.fi,
-        en: result.prefLabel.en,
-        sv: result.prefLabel.sv,
+        fi: result.prefLabel.fi.trim(),
+        en: result.prefLabel.en.trim(),
+        sv: result.prefLabel.sv.trim(),
       }
     });
   });
@@ -59,6 +59,8 @@ export const getKohderyhmat = async (req: Request, res: Response, next: NextFunc
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       });
     });
+
+    output.sort((a: any, b: any) => a.value.localeCompare(b.value));
 
     if (output.length > 0) {
       res.status(200).json(output);
