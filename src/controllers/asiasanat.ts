@@ -39,11 +39,11 @@ export async function setAsiasanat(): Promise<any> {
       const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
 
       data.push({
-        "key": key,
-        "value": {
-          "fi": labelFi != undefined ? labelFi._ : undefined,
-          "en": labelEn != undefined ? labelEn._ : undefined,
-          "sv": labelSv != undefined ? labelSv._ : undefined,
+        key: key,
+        value: {
+          fi: labelFi != undefined ? labelFi._ : undefined,
+          en: labelEn != undefined ? labelEn._ : undefined,
+          sv: labelSv != undefined ? labelSv._ : undefined,
         }
       });
     });
@@ -70,8 +70,8 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
 
     input.map((row: any) => {
       output.push({
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       });
     });
 
@@ -106,8 +106,8 @@ export const getAsiasana = async (req: Request, res: Response, next: NextFunctio
 
     if (row != undefined) {
       output = {
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       };
     }
 

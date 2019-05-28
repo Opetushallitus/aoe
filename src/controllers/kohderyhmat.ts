@@ -25,11 +25,11 @@ export async function setKohderyhmat(): Promise<any> {
 
   results.results.map((result: any) => {
     data.push({
-      "key": result.id,
-      "value": {
-        "fi": result.prefLabel.fi,
-        "en": result.prefLabel.en,
-        "sv": result.prefLabel.sv,
+      key: result.id,
+      value: {
+        fi: result.prefLabel.fi,
+        en: result.prefLabel.en,
+        sv: result.prefLabel.sv,
       }
     });
   });
@@ -55,8 +55,8 @@ export const getKohderyhmat = async (req: Request, res: Response, next: NextFunc
 
     input.map((row: any) => {
       output.push({
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       });
     });
 
@@ -91,8 +91,8 @@ export const getKohderyhma = async (req: Request, res: Response, next: NextFunct
 
     if (row != undefined) {
       output = {
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       };
     }
 

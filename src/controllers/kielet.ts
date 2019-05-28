@@ -59,8 +59,8 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
 
     input.map((row: any) => {
       output.push({
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       });
     });
 
@@ -95,8 +95,8 @@ export const getKieli = async (req: Request, res: Response, next: NextFunction):
 
     if (row != undefined) {
       output = {
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       };
     }
 

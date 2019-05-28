@@ -95,8 +95,8 @@ export const getAmmatillisenTutkinnonosa = async (req: Request, res: Response, n
 
     if (row != undefined) {
       output = {
-        "key": row.key,
-        "value": row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
       };
     }
 

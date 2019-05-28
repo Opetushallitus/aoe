@@ -25,11 +25,11 @@ export async function setOrganisaatiot(): Promise<any> {
 
   results.organisaatiot.map((result: any) => {
     data.push({
-      "key": result.oid,
-      "value": {
-        "fi": result.nimi.fi != undefined ? result.nimi.fi : undefined,
-        "en": result.nimi.en != undefined ? result.nimi.en : undefined,
-        "sv": result.nimi.sv != undefined ? result.nimi.sv : undefined,
+      key: result.oid,
+      value: {
+        fi: result.nimi.fi != undefined ? result.nimi.fi : undefined,
+        en: result.nimi.en != undefined ? result.nimi.en : undefined,
+        sv: result.nimi.sv != undefined ? result.nimi.sv : undefined,
       }
     });
   });
@@ -63,8 +63,8 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
       }
 
       output.push({
-        "key": row.key,
-        "value": value,
+        key: row.key,
+        value: value,
       });
     });
 
@@ -107,8 +107,8 @@ export const getOrganisaatio = async (req: Request, res: Response, next: NextFun
       }
 
       output = {
-        "key": row.key,
-        "value": value,
+        key: row.key,
+        value: value,
       };
     }
 
