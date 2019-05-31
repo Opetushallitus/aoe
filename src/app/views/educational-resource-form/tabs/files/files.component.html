@@ -1,26 +1,82 @@
 <alert type="info" dismissible="true">
-  Tervetuloa lisäämään materiaalia palveluun. Anna halutessasi materiaalille myös englannin ja ruotsin kielinen nimi. Mikäli sinulla on samasta materiaalista eri kieliversioita niin voit lisätä ne erikseen palveluun. Samassa materiaalissa voi olla useita tiedostoja, jotka voit lisätä materiaaliin tässä näkymässä 'Lisää tiedosto' -painikkeella.
+  Tervetuloa lisäämään materiaalia palveluun. Anna halutessasi materiaalille myös englannin- ja ruotsinkielinen nimi. Mikäli sinulla on samasta materiaalista eri kieliversioita niin voit lisätä ne erikseen palveluun. Samassa materiaalissa voi olla useita tiedostoja, jotka voit lisätä materiaaliin tässä näkymässä 'Lisää tiedosto' -painikkeella.
 </alert>
 
 <form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <div class="form-row align-items-end">
-      <div class="col">
-        <label for="name">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+      <div class="col" formGroupName="name">
+        <label for="name-fi">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
 
         <input
           type="text"
           class="form-control"
-          id="name"
+          id="name-fi"
           placeholder="Oppimateriaalin nimi"
-          formControlName="name"
+          formControlName="fi"
           required
         >
       </div>
 
       <div class="col-auto">
-        <button type="button" class="btn btn-gray">Kieliversiot</button>
+        <button type="button" class="btn btn-gray" (click)="openModal(nameI18n)">Kieliversiot</button>
       </div>
+
+      <ng-template #nameI18n>
+        <div class="modal-header">
+          <h5 class="modal-title">Kieliversiot: Oppimateriaalin nimi</h5>
+
+          <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <h4>Kieliversioiden lisääminen</h4>
+
+          <div class="form-group">
+            <label for="lang">Valitse kieli</label>
+
+            <select
+              class="form-control"
+              id="lang"
+              (change)="selectedLang = selectLang.value"
+              #selectLang
+            >
+              <option value="en">englanti</option>
+              <option value="sv">ruotsi</option>
+            </select>
+          </div>
+
+          <ng-container *ngIf="selectedLang === 'en'">
+            <div class="form-group" formGroupName="name">
+              <label for="name-en">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+
+              <input
+                type="text"
+                class="form-control"
+                id="name-en"
+                placeholder="Oppimateriaalin nimi"
+                formControlName="en"
+              >
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="selectedLang === 'sv'">
+            <div class="form-group" formGroupName="name">
+              <label for="name-sv">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+
+              <input
+                type="text"
+                class="form-control"
+                id="name-sv"
+                placeholder="Oppimateriaalin nimi"
+                formControlName="sv"
+              >
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
     </div>
   </div>
 
@@ -48,7 +104,7 @@
           <div class="col-auto">tai</div>
 
           <div class="col">
-            <label for="name">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
+            <label for="link">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
 
             <input
               type="text"
@@ -56,7 +112,6 @@
               id="link"
               placeholder="https://"
               formControlName="link"
-              required
             >
           </div>
 

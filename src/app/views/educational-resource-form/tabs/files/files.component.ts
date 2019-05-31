@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { TabsetComponent } from 'ngx-bootstrap';
+import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-tabs-files',
@@ -10,12 +10,21 @@ export class FilesComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   public fileUploadForm: FormGroup;
+  public modalRef: BsModalRef;
+  public selectedLang = 'en';
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private modalService: BsModalService,
+  ) { }
 
   ngOnInit() {
     this.fileUploadForm = this.fb.group({
-      name: this.fb.control(null),
+      name: this.fb.group({
+        fi: this.fb.control(null, [ Validators.required ]),
+        sv: this.fb.control(null),
+        en: this.fb.control(null),
+      }),
       files: this.fb.array([ this.createFile() ]),
     });
   }
@@ -28,8 +37,8 @@ export class FilesComponent implements OnInit {
     return this.fb.group({
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control('fi'),
-      displayName: this.fb.control(null),
+      language: this.fb.control('fi', [ Validators.required ]),
+      displayName: this.fb.control(null, [ Validators.required ]),
     });
   }
 
@@ -37,8 +46,11 @@ export class FilesComponent implements OnInit {
     this.files.push(this.createFile());
   }
 
-  public createDisplayName(file): void {
-    console.log(file);
+  public openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered' })
+    );
   }
 
   public onSubmit() {
