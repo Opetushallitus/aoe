@@ -15,9 +15,8 @@ export class FilesComponent implements OnInit {
 
   ngOnInit() {
     this.fileUploadForm = this.fb.group({
-      files: this.fb.array([
-        this.fb.control(null)
-      ]),
+      name: this.fb.control(null),
+      files: this.fb.array([ this.createFile() ]),
     });
   }
 
@@ -25,12 +24,21 @@ export class FilesComponent implements OnInit {
     return this.fileUploadForm.get('files') as FormArray;
   }
 
-  public addFile() {
-    this.files.push(this.fb.control(null));
+  public createFile(): FormGroup {
+    return this.fb.group({
+      file: this.fb.control(null),
+      link: this.fb.control(null),
+      language: this.fb.control('fi'),
+      displayName: this.fb.control(null),
+    });
   }
 
-  public removeFile(i: number) {
-    this.files.removeAt(i);
+  public addFile() {
+    this.files.push(this.createFile());
+  }
+
+  public createDisplayName(file): void {
+    console.log(file);
   }
 
   public onSubmit() {

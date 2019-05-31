@@ -4,7 +4,7 @@
 
 <form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <div class="form-row">
+    <div class="form-row align-items-end">
       <div class="col">
         <label for="name">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
 
@@ -13,44 +13,111 @@
           class="form-control"
           id="name"
           placeholder="Oppimateriaalin nimi"
+          formControlName="name"
           required
         >
       </div>
 
-      <div class="col-auto align-self-end">
+      <div class="col-auto">
         <button type="button" class="btn btn-gray">Kieliversiot</button>
       </div>
     </div>
   </div>
 
-  <div class="form-group" formArrayName="files" *ngFor="let file of files.controls; let i = index;">
-    <div class="form-row">
-      <div class="col">
-        <div class="custom-file">
-          <input
-            type="file"
-            class="custom-file-input"
-            id="file"
-            [formControlName]="i"
-            required
-          >
-          <label class="custom-file-label" for="file">{{ file.value || 'Valitse tiedosto' }}</label>
-        </div>
-      </div>
+  <ng-container *ngFor="let file of files.controls; let i = index;">
+    <div class="form-group" formArrayName="files">
+      <ng-container [formGroupName]="i">
+        <h4>{{ i + 1 }}. tiedosto</h4>
 
-      <div class="col-auto">
-        <button type="button" class="btn btn-danger" (click)="removeFile(i)">Poista</button>
-      </div>
+        <div class="form-row align-items-end mb-2">
+          <div class="col">
+            <label for="file">{{ 'forms.educationalResource.basicDetails.file' | translate }}*</label>
+
+            <div class="custom-file">
+              <input
+                type="file"
+                class="custom-file-input"
+                id="file"
+                formControlName="file"
+                required
+              >
+              <span class="custom-file-label">{{ files.controls[i].controls.file.value || 'Valitse tiedosto' }}</span>
+            </div>
+          </div>
+
+          <div class="col-auto">tai</div>
+
+          <div class="col">
+            <label for="name">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
+
+            <input
+              type="text"
+              class="form-control"
+              id="link"
+              placeholder="https://"
+              formControlName="link"
+              required
+            >
+          </div>
+
+          <div class="col-auto">
+            <label for="language">{{ 'forms.educationalResource.basicDetails.language' | translate }}*</label>
+
+            <select
+              class="form-control"
+              id="language"
+              formControlName="language"
+            >
+              <option value="fi">suomi</option>
+              <option value="sv">ruotsi</option>
+              <option value="en">englanti</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row align-items-end">
+          <div class="col">
+            <label for="displayName">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
+
+            <input
+              type="text"
+              class="form-control"
+              id="displayName"
+              placeholder="Ei valittua tiedostoa"
+              formControlName="displayName"
+              required
+            >
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-gray">Kieliversiot</button>
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </div>
+  </ng-container>
 
   <div class="form-group">
-    <button type="button" class="btn btn-primary" (click)="addFile()">Lisää uusi tiedosto</button>
+    <button type="button" class="btn btn-gray" (click)="addFile()">Lisää tiedosto</button>
   </div>
 
-  <button
-    type="submit"
-    class="btn btn-blue"
-    [disabled]="!fileUploadForm.valid"
-  >{{ 'forms.common.next' | translate }}</button>
+  <div class="d-flex justify-content-between">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      disabled
+    >Edellinen</button>
+
+    <button
+      type="reset"
+      class="btn btn-light"
+      [disabled]="fileUploadForm.pristine"
+    >{{ 'forms.common.abort' | translate }}</button>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+      [disabled]="fileUploadForm.invalid"
+    >{{ 'forms.common.next' | translate }}</button>
+  </div>
 </form>
