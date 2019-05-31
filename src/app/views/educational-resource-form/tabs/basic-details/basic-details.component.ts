@@ -49,9 +49,6 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicDetailsForm = this.fb.group({
       image: this.fb.control(null),
-      name: this.fb.control(null, Validators.required),
-      nameEn: this.fb.control(null),
-      nameSv: this.fb.control(null),
       keywords: this.fb.control(null, Validators.required),
       author: this.fb.control(null, Validators.required),
       organisation: this.fb.control(null),
@@ -74,17 +71,10 @@ export class BasicDetailsComponent implements OnInit {
     this.onSearch();
 
     if (this.formData) {
-      const name = this.formData.name.find(e => e.lang === 'fi');
-      const nameEn = this.formData.name.find(e => e.lang === 'en');
-      const nameSv = this.formData.name.find(e => e.lang === 'sv');
-
       const description = this.formData.description.find(e => e.lang === 'fi');
       const descriptionEn = this.formData.description.find(e => e.lang === 'en');
       const descriptionSv = this.formData.description.find(e => e.lang === 'sv');
 
-      this.basicDetailsForm.get('name').setValue(name.text);
-      this.basicDetailsForm.get('nameEn').setValue(nameEn.text);
-      this.basicDetailsForm.get('nameSv').setValue(nameSv.text);
       this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
       this.basicDetailsForm.get('author').setValue(this.formData.author);
       this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
@@ -142,11 +132,6 @@ export class BasicDetailsComponent implements OnInit {
 
     if (!this.basicDetailsForm.invalid) {
       const data = {
-        name: [
-          { lang: 'fi', text: this.basicDetailsForm.get('name').value },
-          { lang: 'en', text: this.basicDetailsForm.get('nameEn').value },
-          { lang: 'sv', text: this.basicDetailsForm.get('nameSv').value },
-        ],
         thumbnail: this.basicDetailsForm.get('image').value,
         createdAt: new Date(),
         author: this.basicDetailsForm.get('author').value,
