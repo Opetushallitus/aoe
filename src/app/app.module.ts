@@ -28,6 +28,7 @@ import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -86,6 +87,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
+    AlertModule.forRoot(),
   ],
   declarations: [
     AppComponent,
