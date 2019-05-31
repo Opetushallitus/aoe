@@ -9,35 +9,6 @@
 
     <div class="col-md-10">
       <div class="form-group">
-        <label for="name">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
-
-        <div class="form-row">
-          <div class="col-sm">
-            <input
-              type="text"
-              class="form-control"
-              [ngClass]="{'is-invalid': submitted && form.name.errors}"
-              id="name"
-              placeholder="Oppimateriaalin nimi"
-              required
-              formControlName="name"
-            >
-
-            <div
-              *ngIf="submitted && form.name.errors"
-              class="invalid-feedback"
-            >
-              <div *ngIf="form.name.errors.required">{{ 'forms.common.required' | translate }}</div>
-            </div>
-          </div>
-
-          <div class="col-auto">
-            <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
         <label for="keywords">{{ 'forms.educationalResource.basicDetails.subject' | translate }}*</label>
 
         <ng-select
