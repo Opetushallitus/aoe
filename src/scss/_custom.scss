@@ -569,6 +569,13 @@ h2 {
   }
 }
 
+// Alerts
+.alert-info {
+  background-color: $white;
+  border-color: $primary-theme-color;
+  color: $input-color;
+}
+
 // Media queries
 
 // CoreUI overrides
