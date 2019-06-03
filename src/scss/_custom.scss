@@ -238,6 +238,17 @@ h2 {
   }
 }
 
+// Buttons
+.btn-cancel {
+  color: $input-color;
+  font-weight: 700;
+
+  &:hover {
+    color: darken($input-color, 15%);
+    text-decoration: underline;
+  }
+}
+
 // Modals
 .modal-content {
   border-radius: 0;

@@ -23,4 +23,29 @@
       ></ng-select>
     </div>
   </ng-container>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previousTab()"
+      >Edellinen</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [disabled]="educationalDetailsForm.invalid"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
 </form>

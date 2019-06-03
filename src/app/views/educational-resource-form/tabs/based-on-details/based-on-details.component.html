@@ -36,7 +36,7 @@
   <div class="form-group">
     <button
       type="button"
-      class="btn btn-primary"
+      class="btn btn-gray"
       (click)="addInternal()"
     >Lisää uusi materiaali</button>
   </div>
@@ -78,28 +78,33 @@
   <div class="form-group">
     <button
       type="button"
-      class="btn btn-primary"
+      class="btn btn-gray"
       (click)="addExternal()"
     >Lisää uusi materiaali</button>
   </div>
 
-  <div class="d-flex justify-content-between">
-    <button
-      type="button"
-      class="btn btn-secondary"
-      (click)="previousTab()"
-    >Edellinen</button>
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previousTab()"
+      >Edellinen</button>
+    </div>
 
-    <button
-      type="reset"
-      class="btn btn-light"
-      (click)="resetForm()"
-    >{{ 'forms.common.abort' | translate }}</button>
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
 
-    <button
-      type="submit"
-      class="btn btn-blue"
-      [disabled]="!basedOnDetailsForm.valid"
-    >{{ 'forms.common.next' | translate }}</button>
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [disabled]="basedOnDetailsForm.invalid"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
   </div>
 </form>

@@ -40,4 +40,8 @@ export class EducationalDetailsComponent implements OnInit {
   onSubmit() {
     console.warn(this.educationalDetailsForm.value);
   }
+
+  public previousTab() {
+    this.tabs.tabs[1].active = true;
+  }
 }
