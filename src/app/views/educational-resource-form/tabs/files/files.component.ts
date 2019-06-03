@@ -1,6 +1,10 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+
+import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
 @Component({
   selector: 'app-tabs-files',
@@ -9,13 +13,21 @@ import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 export class FilesComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
+  // private localStorageKey = 'aoe.new-educational-resource';
+  private lang: string = this.translate.currentLang;
+  // private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
   public selectedLang = 'en';
 
+  public languages$: Observable<any>;
+
   constructor(
     private fb: FormBuilder,
     private modalService: BsModalService,
+    private koodistoProxySvc: KoodistoProxyService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -30,6 +42,8 @@ export class FilesComponent implements OnInit {
         this.createFile(),
       ]),
     });
+
+    this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
   }
 
   get files() {
@@ -40,7 +54,7 @@ export class FilesComponent implements OnInit {
     return this.fb.group({
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control('fi', [ Validators.required ]),
+      language: this.fb.control(null, [ Validators.required ]),
       displayName: this.fb.control(null, [ Validators.required ]),
     });
   }
