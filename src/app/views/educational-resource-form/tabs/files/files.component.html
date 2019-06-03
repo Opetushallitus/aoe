@@ -87,13 +87,13 @@
 
         <div class="form-row align-items-end mb-2">
           <div class="col">
-            <label for="file">{{ 'forms.educationalResource.basicDetails.file' | translate }}*</label>
+            <label for="{{ 'file' + i }}">{{ 'forms.educationalResource.basicDetails.file' | translate }}*</label>
 
             <div class="custom-file">
               <input
                 type="file"
                 class="custom-file-input"
-                id="file"
+                id="{{ 'file' + i }}"
                 formControlName="file"
                 required
               >
@@ -104,40 +104,38 @@
           <div class="col-auto">tai</div>
 
           <div class="col">
-            <label for="link">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
+            <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
 
             <input
               type="text"
               class="form-control"
-              id="link"
+              id="{{ 'link' + i }}"
               placeholder="https://"
               formControlName="link"
             >
           </div>
 
-          <div class="col-auto">
-            <label for="language">{{ 'forms.educationalResource.basicDetails.language' | translate }}*</label>
+          <div class="col-2">
+            <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.basicDetails.language' | translate }}*</label>
 
-            <select
-              class="form-control"
-              id="language"
+            <ng-select
+              [items]="languages$ | async"
+              bindLabel="value"
+              id="{{ 'language' + i }}"
+              placeholder="Valitse kieli"
               formControlName="language"
-            >
-              <option value="fi">suomi</option>
-              <option value="sv">ruotsi</option>
-              <option value="en">englanti</option>
-            </select>
+            ></ng-select>
           </div>
         </div>
 
         <div class="form-row align-items-end">
           <div class="col">
-            <label for="displayName">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
+            <label for="{{ 'displayName' + i }}">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
 
             <input
               type="text"
               class="form-control"
-              id="displayName"
+              id="{{ 'displayName' + i }}"
               placeholder="Ei valittua tiedostoa"
               formControlName="displayName"
               required
