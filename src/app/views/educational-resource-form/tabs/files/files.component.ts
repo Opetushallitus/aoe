@@ -25,7 +25,10 @@ export class FilesComponent implements OnInit {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      files: this.fb.array([ this.createFile() ]),
+      files: this.fb.array([
+        this.createFile(),
+        this.createFile(),
+      ]),
     });
   }
 
