@@ -20,14 +20,14 @@ export const routes: Routes = [
     path: '404',
     component: P404Component,
     data: {
-      title: 'Page 404'
+      title: 'Page 404',
     }
   },
   {
     path: 'login',
     component: LoginComponent,
     data: {
-      title: 'Login Page'
+      title: 'Login Page',
     }
   },
   {
@@ -39,11 +39,11 @@ export const routes: Routes = [
     children: [
       {
         path: 'etusivu',
-        loadChildren: './views/mainView/main-view.module#MainViewModule'
+        loadChildren: './views/mainView/main-view.module#MainViewModule',
       },
       {
         path: 'materiaali/:specialId/:slug',
-        component: EducationalMaterialViewComponent
+        component: EducationalMaterialViewComponent,
       },
       {
         path: 'lisatietoa',
