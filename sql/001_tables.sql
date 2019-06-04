@@ -88,11 +88,9 @@ CREATE TABLE InLanguage (
 CREATE TABLE AligmentObject (
   Id                     BIGSERIAL NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
-  AlignmentType          text NOT NULL, 
-  EducationalFramework  text NOT NULL, 
-  TargetDescription     text NOT NULL, 
+  AlignmentType         text NOT NULL, 
   TargetName            text NOT NULL, 
-  TargetUrl             text NOT NULL, 
+  Source                text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE LearningResourceType (
   Id                     BIGSERIAL NOT NULL, 
@@ -262,3 +260,14 @@ ALTER TABLE AccessibilityFeature ADD CONSTRAINT FKAccessibilityFeature FOREIGN K
 ALTER TABLE AccessibilityHazard ADD CONSTRAINT FKAccessibilityHazard FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE AccessibilityAPI ADD CONSTRAINT FKAccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE AccessibilityControl ADD CONSTRAINT FKAccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+
+ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
+ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialName_lang_id UNIQUE (language,educationalmaterialid);
+ALTER TABLE educationalaudience ADD CONSTRAINT constraint_educationalaudience UNIQUE (educationalrole,educationalmaterialid);
+ALTER TABLE educationaluse ADD CONSTRAINT constraint_educationaluse UNIQUE (value,educationalmaterialid);
+ALTER TABLE learningresourcetype ADD CONSTRAINT constraint_learningresourcetype UNIQUE (value,educationalmaterialid);
+ALTER TABLE inlanguage ADD CONSTRAINT constraint_inlanguage UNIQUE (inlanguage,educationalmaterialid);
+ALTER TABLE keyword ADD CONSTRAINT constraint_keyword UNIQUE (value,educationalmaterialid);
+ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (name,educationalmaterialid);
+ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
+ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
