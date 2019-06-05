@@ -7,7 +7,7 @@ export const HOMEPAGE = {
       // tslint:disable-next-line
       'Aoe.fi-sivustolta saat tietoa palvelun kehittämisestä ja sen etenemisestä ja löydät maistiaisiksi muutamia avoimia oppimateriaaleja. Sivustolla olevat avoimet oppimateriaalit ovat opettajien osaamisen kehittämiseksi tarkoitettuja ja ne soveltuvat eri koulutusasteilla toimiville henkilöille.',
       // tslint:disable-next-line
-      'Vuoden 2019 lopulla julkaistaan oppimateriaalipalvelun ensimmäinen tuotantoversio, josta käyttäjät voivat hakea keskitetysti avoimia oppimateriaaleja ja lisätä omien avoimien oppimateriaaliensa tietoja.',
+      'Avoimia oppimateriaaleja voi tallentaa palveluun syksystä 2019 alkaen. Vuoden 2019 lopulla julkaistaan oppimateriaalipalvelun ensimmäinen tuotantoversio, josta käyttäjät voivat hakea keskitetysti avoimia oppimateriaaleja ja lisätä omien avoimien oppimateriaaliensa tietoja. Tämän lisäksi avoimet oppimateriaalit löytyvät Finna.fistä alkuvuodesta 2020, josta löytää myös Suomen arkistojen, kirjastojen ja museoiden aarteet samalla haulla.',
     ],
   },
   en: {
