@@ -336,7 +336,10 @@ async function createMaterialTableObject(indata: any) {
     return obj;
 }
 
-
+function splitSourceValue(indata: any) {
+    // expecting Peruskoulutus,koodi
+    return indata.split(",");
+}
 
 async function createAligmentObjectObject(indata: any) {
     const obj: any = {};
@@ -347,10 +350,11 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "teaches",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
+            // educationalframework : "koodistosta",
+            // targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            // targeturl : "koodistosta"
+            source : "opettaa"
         };
         obj[key].push(data);
     }
@@ -359,10 +363,8 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "assesses",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            source : "arvioi"
         };
         obj[key].push(data);
     }
@@ -371,10 +373,8 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "complexitylevel",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            source : "vaikeustaso_kielissa"
         };
         obj[key].push(data);
     }
@@ -383,10 +383,8 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "educationallevel",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            source : "koulutusaste"
         };
         obj[key].push(data);
     }
@@ -395,10 +393,8 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "prerequisite",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            source : "edeltava_osaaminen"
         };
         obj[key].push(data);
     }
@@ -407,22 +403,18 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "readinglevel",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
             targetname : value,
-            targeturl : "koodistosta"
+            source : "lukutaitovaatimus"
         };
         obj[key].push(data);
     }
     list = await createPropertyNameList(indata, "oppiaine");
     for (let i = 0; i < list.length; ++i) {
-        const value = indata[list[i]];
+        const value = splitSourceValue(indata[list[i]]);
         const data = {
             alignmenttype : "educationalsubject",
-            educationalframework : "koodistosta",
-            targetdescription : "koodistosta",
-            targetname : value,
-            targeturl : "koodistosta"
+            targetname : value[1],
+            source : value[0].toLowerCase()
         };
         obj[key].push(data);
     }
