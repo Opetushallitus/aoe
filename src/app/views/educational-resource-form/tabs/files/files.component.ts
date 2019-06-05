@@ -2,7 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 
@@ -31,6 +31,10 @@ export class FilesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
         fi: this.fb.control(null, [ Validators.required ]),
