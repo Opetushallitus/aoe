@@ -44,8 +44,6 @@ export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
     }
   });
 
-  data.sort((a, b) => a.key - b.key);
-
   await setAsync(rediskey, JSON.stringify(data));
 }
 
@@ -71,6 +69,8 @@ export const getPeruskoulutuksenOppiaineet = async (req: Request, res: Response,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
       });
     });
+
+    output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
 
     if (output.length > 0) {
       res.status(200).json(output);
