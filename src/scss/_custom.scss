@@ -49,6 +49,15 @@ label {
   }
 }
 
+.custom-control-input {
+  &:checked ~ .custom-control-label {
+    &::before {
+      background-color: $blue;
+      border-color: $blue;
+    }
+  }
+}
+
 .form-control {
   @include font-size(16);
 }
