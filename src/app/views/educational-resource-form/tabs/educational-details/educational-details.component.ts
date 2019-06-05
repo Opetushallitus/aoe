@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -13,16 +13,20 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
 export class EducationalDetailsComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
+  // private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
-  public educationalLevels$: Observable<any>;
+  // private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
-  educationalDetailsForm = new FormGroup({
-    educationalLevels: new FormControl(''),
-  });
+  public educationalDetailsForm: FormGroup;
+  public hasBasicStudies = false;
+
+  public educationalLevels$: Observable<any>;
+  public basicStudiesSubjects$: object[];
 
   constructor(
+    private fb: FormBuilder,
     private koodistoProxySvc: KoodistoProxyService,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -30,11 +34,24 @@ export class EducationalDetailsComponent implements OnInit {
       this.lang = event.lang;
     });
 
+    this.educationalDetailsForm = this.fb.group({
+      educationalLevels: this.fb.control(null),
+      basicStudiesSubjects: this.fb.control(false),
+    });
+
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
+
+    this.koodistoProxySvc.getData('peruskoulutuksenoppiaineet', this.lang).subscribe(data => {
+      this.basicStudiesSubjects$ = data;
+    });
   }
 
   get educationalLevels() {
     return this.educationalDetailsForm.get('educationalLevels');
+  }
+
+  educationalLevelsChange($event) {
+    this.hasBasicStudies = $event.filter((e: any) => e.key === '8cb1a02f-54cb-499a-b470-4ee980519707').length > 0;
   }
 
   onSubmit() {

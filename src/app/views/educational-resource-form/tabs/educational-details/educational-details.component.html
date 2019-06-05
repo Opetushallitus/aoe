@@ -9,11 +9,12 @@
       id="educationalLevels"
       placeholder="Koulutusasteet"
       formControlName="educationalLevels"
+      (change)="educationalLevelsChange($event)"
     ></ng-select>
   </div>
 
   <!-- work in progress, maybe there's a better way to do this? -->
-  <ng-container *ngFor="let eduLevel of educationalLevels.value">
+  <!--<ng-container *ngFor="let eduLevel of educationalLevels.value">
     <div class="form-group" *ngIf="eduLevel.children.length > 0">
       <ng-select
         [items]="eduLevel.children"
@@ -22,7 +23,18 @@
         placeholder="{{ eduLevel.value }}"
       ></ng-select>
     </div>
-  </ng-container>
+  </ng-container>-->
+
+  <div class="form-group" *ngIf="hasBasicStudies">
+    <div class="form-row">
+      <div class="col-3" formArrayName="basicStudiesSubjects" *ngFor="let subject of basicStudiesSubjects$">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="subject-{{ subject.key }}">
+          <label class="custom-control-label" for="subject-{{ subject.key }}">{{ subject.value }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col">
