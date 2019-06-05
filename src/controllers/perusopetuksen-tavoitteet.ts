@@ -15,7 +15,9 @@ const params = "419550/perusopetus/oppiaineet";
  * @todo Implement error handling
  */
 export async function setPerusopetuksenOppiaineet(): Promise<any> {
-  const results = await getDataFromApi(
+  // commented out until figured out how this works
+
+  /*const results = await getDataFromApi(
     process.env.EPERUSTEET_SERVICE_URL,
     `/${endpoint}/`,
     { "Accept": "application/json" },
@@ -27,6 +29,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     if (result.oppimaarat === undefined) {
       data.push({
         key: result.id,
+        code: result.koodiArvo,
         value: {
           fi: result.nimi.fi,
           sv: result.nimi.sv,
@@ -36,6 +39,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       result.oppimaarat.forEach((oppimaara: any) => {
         data.push({
           key: oppimaara.id,
+          code: result.koodiArvo,
           value: {
             fi: oppimaara.nimi.fi,
             sv: oppimaara.nimi.sv,
@@ -43,6 +47,52 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
         });
       });
     }
+  });*/
+
+  // temp for testing purposes
+
+  const data = [
+    { key: 466344 },
+    { key: 466346 },
+    { key: 466347 },
+  ];
+
+  const oppiaineet: any[] = [];
+
+  data.forEach(async (row: any) => {
+    const result = await getDataFromApi(
+      process.env.EPERUSTEET_SERVICE_URL,
+      `/${endpoint}/`,
+      { "Accept": "application/json" },
+      `${params}/${row.key}`
+    );
+
+    const vuosiluokkakokonaisuudet = result.vuosiluokkakokonaisuudet.map((vlk: any) => {
+      const tavoitteet: any[] = [];
+      const sisaltoalueet: any[] = [];
+
+      vlk.tavoitteet.forEach((tavoite: any) => {
+        tavoitteet.push({
+          key: tavoite.id,
+          value: {
+            fi: tavoite.tavoite.fi,
+            sv: tavoite.tavoite.sv,
+          },
+        });
+      });
+
+      return {
+        key: vlk.id,
+        value: {
+          fi: vlk.tehtava.otsikko.fi,
+          sv: vlk.tehtava.otsikko.sv,
+        },
+        tavoitteet: tavoitteet,
+        sisaltoalueet: sisaltoalueet,
+      };
+    });
+
+    console.log(vuosiluokkakokonaisuudet);
   });
 
   await setAsync(rediskey, JSON.stringify(data));
