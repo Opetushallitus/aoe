@@ -92,10 +92,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       };
     });
 
-    console.log(vuosiluokkakokonaisuudet);
+    oppiaineet.push(vuosiluokkakokonaisuudet);
   });
 
-  await setAsync(rediskey, JSON.stringify(data));
+  await setAsync(rediskey, JSON.stringify(oppiaineet));
 }
 
 /**
