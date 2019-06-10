@@ -57,9 +57,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     { key: 466347 },
   ];
 
-  const oppiaineet: any[] = [];
-
-  data.forEach(async (row: any) => {
+  const oppiaineet = data.map(async (row: any) => {
     const result = await getDataFromApi(
       process.env.EPERUSTEET_SERVICE_URL,
       `/${endpoint}/`,
@@ -67,32 +65,43 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       `${params}/${row.key}`
     );
 
-    const vuosiluokkakokonaisuudet = result.vuosiluokkakokonaisuudet.map((vlk: any) => {
-      const tavoitteet: any[] = [];
-      const sisaltoalueet: any[] = [];
-
-      vlk.tavoitteet.forEach((tavoite: any) => {
-        tavoitteet.push({
+    const vuosiluokkakokonaisuudet = result.vuosiluokkakokonaisuudet.map((vuosiluokkakokonaisuus: any) => {
+      const tavoitteet = vuosiluokkakokonaisuus.tavoitteet.map((tavoite: any) => {
+        return {
           key: tavoite.id,
           value: {
             fi: tavoite.tavoite.fi,
             sv: tavoite.tavoite.sv,
           },
-        });
+        };
+      });
+
+      const sisaltoalueet = vuosiluokkakokonaisuus.sisaltoalueet.map((sisaltoalue: any) => {
+        return {
+          key: sisaltoalue.id,
+          value: {
+            fi: sisaltoalue.nimi.fi,
+            sv: sisaltoalue.nimi.sv,
+          },
+        };
       });
 
       return {
-        key: vlk.id,
-        value: {
-          fi: vlk.tehtava.otsikko.fi,
-          sv: vlk.tehtava.otsikko.sv,
-        },
+        key: vuosiluokkakokonaisuus.id,
+        vuosiluokkakokonaisuus: vuosiluokkakokonaisuus._vuosiluokkaKokonaisuus,
         tavoitteet: tavoitteet,
         sisaltoalueet: sisaltoalueet,
       };
     });
 
-    oppiaineet.push(vuosiluokkakokonaisuudet);
+    return {
+      key: result.id,
+      value: {
+        fi: result.nimi.fi,
+        sv: result.nimi.sv,
+      },
+      vuosiluokkakokonaisuudet: vuosiluokkakokonaisuudet,
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(oppiaineet));
