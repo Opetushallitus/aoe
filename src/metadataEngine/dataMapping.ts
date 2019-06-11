@@ -34,6 +34,8 @@ async function createMaterialObject(indata: any) {
     obj = Object.assign(obj, data);
     data = await createMaterialTableObject(indata);
     obj = Object.assign(obj, data);
+    data = await createAuthorObject(indata);
+    obj = Object.assign(obj, data);
     return obj;
 }
 
@@ -69,8 +71,8 @@ async function createEducationalMaterialObject(indata: any) {
     const materialData = {
         technicalname : indata.nimi,
         createdat : date,
-        author : indata.tekija,
-        organization : indata.organisaatio,
+        // author : indata.tekija,
+        // organization : indata.organisaatio,
         originalpublishedat : cleanJulkaisuAjankohta,
         publishedat : date,
         updatedat : date,
@@ -336,6 +338,18 @@ async function createMaterialTableObject(indata: any) {
     return obj;
 }
 
+async function createAuthorObject(indata: any) {
+    const obj: any = {};
+    const key = "Author";
+    obj[key] = [];
+    const materialData = {
+        authorname : indata.tekija,
+        organization : indata.organisaatio
+    };
+    obj[key].push(materialData);
+    return obj;
+}
+
 function splitSourceValue(indata: any) {
     // expecting Peruskoulutus,koodi
     return indata.split(",");
@@ -350,10 +364,7 @@ async function createAligmentObjectObject(indata: any) {
         const value = indata[list[i]];
         const data = {
             alignmenttype : "teaches",
-            // educationalframework : "koodistosta",
-            // targetdescription : "koodistosta",
             targetname : value,
-            // targeturl : "koodistosta"
             source : "opettaa"
         };
         obj[key].push(data);

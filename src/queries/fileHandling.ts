@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { forEach } from "async";
 const AWS = require("aws-sdk");
 const globalLog = require("global-request-logger");
 globalLog.initialize();
@@ -82,11 +83,29 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function insertDataToEducationalMaterialTable(req: Request) {
-    const query = "insert into educationalmaterial (CreatedAt,PublishedAt,UpdatedAt,TechnicalName,author,organization,timeRequired,agerangeMin,agerangeMax,UsersId,LicenseCode)" +
-                    " values (to_date('1901-01-01', 'YYYY-MM-DD'),to_date('1902-01-01', 'YYYY-MM-DD'),to_date('1903-01-01', 'YYYY-MM-DD'),'tekninen nimi','tekijä','CSC',123,'1','12','" + req.body.usersid + "','koodi') returning id;";
-    const data = await db.any(query);
+    // const date = new Date();
+    // console.log(date.toISOString());
+
+    const query = "insert into educationalmaterial (PublishedAt,TechnicalName,timeRequired,agerangeMin,agerangeMax,UsersId,LicenseCode)" +
+                    " values (to_date('1902-01-01', 'YYYY-MM-DD'),$1,$2,$3,$4,$5,$6) returning id;";
+    const data = await db.any(query, [req.body.technicalname, req.body.timerequired, req.body.agerangemin, req.body.agerangemax, req.body.usersid, req.body.licensecode]);
     return data;
 }
+
+// async function insertDataToAuthorTable(req: Request, materialID: String) {
+//     const cs = new pgp.helpers.ColumnSet(["authorname", "organization", "educationalmaterialid"], {table: "author"});
+
+//     // data input values:
+//     const values = req.body.author;
+//     for (let i = 0; i < values.length; i += 1) {
+//         values[i]["educationalmaterialid"] = materialID;
+//     }
+//     // generating a multi-row insert query:
+//     const query = pgp.helpers.insert(values, cs);
+//     console.log(query);
+//     const data = await db.any(query);
+//     return data;
+// }
 
 async function insertDataToMaterialTable(files: any, materialID: String) {
     let query;
