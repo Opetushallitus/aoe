@@ -21,23 +21,23 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
+  const subjectIds: any[] = [];
 
   results.forEach((result: any) => {
     if (result.oppimaarat === undefined) {
-      data.push({
+      subjectIds.push({
         key: result.id,
       });
     } else {
       result.oppimaarat.forEach((oppimaara: any) => {
-        data.push({
+        subjectIds.push({
           key: oppimaara.id,
         });
       });
     }
   });
 
-  const oppiaineet = data.map(async (row: any) => {
+  const subjects = subjectIds.map(async (row: any) => {
     const result = await getDataFromApi(
       process.env.EPERUSTEET_SERVICE_URL,
       `/${endpoint}/`,
@@ -45,47 +45,48 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       `${params}/${row.key}`
     );
 
-    const vuosiluokkakokonaisuudet = result.vuosiluokkakokonaisuudet.map((vuosiluokkakokonaisuus: any) => {
-      const tavoitteet: any[] = [];
-      const sisaltoalueet: any[] = [];
+    const gradeEntities = result.vuosiluokkakokonaisuudet.map((gradeEntity: any) => {
+      const targets: any[] = [];
+      const contents: any[] = [];
 
-      if (vuosiluokkakokonaisuus.tavoitteet.length > 0) {
-        vuosiluokkakokonaisuus.tavoitteet.forEach((tavoite: any) => {
-          tavoitteet.push({
-            key: tavoite.id,
-            value: tavoite.tavoite,
+      if (gradeEntity.tavoitteet.length > 0) {
+        gradeEntity.tavoitteet.forEach((target: any) => {
+          targets.push({
+            key: target.id,
+            value: target.tavoite,
           });
         });
       }
 
-      if (vuosiluokkakokonaisuus.sisaltoalueet.length > 0) {
-        vuosiluokkakokonaisuus.sisaltoalueet.forEach((sisaltoalue: any) => {
-          sisaltoalueet.push({
-            key: sisaltoalue.id,
-            value: sisaltoalue.nimi,
+      if (gradeEntity.sisaltoalueet.length > 0) {
+        gradeEntity.sisaltoalueet.forEach((content: any) => {
+          contents.push({
+            key: content.id,
+            value: content.nimi,
           });
         });
       }
 
       return {
-        key: vuosiluokkakokonaisuus.id,
-        vuosiluokkakokonaisuus: vuosiluokkakokonaisuus._vuosiluokkaKokonaisuus,
-        tavoitteet: tavoitteet,
-        sisaltoalueet: sisaltoalueet,
+        key: gradeEntity.id,
+        vuosiluokkakokonaisuus: gradeEntity._vuosiluokkaKokonaisuus,
+        tavoitteet: targets,
+        sisaltoalueet: contents,
       };
     });
 
     return {
       key: result.id,
+      code: result.koodiArvo,
       value: {
         fi: result.nimi.fi,
         sv: result.nimi.sv,
       },
-      vuosiluokkakokonaisuudet: vuosiluokkakokonaisuudet,
+      vuosiluokkakokonaisuudet: gradeEntities,
     };
   });
 
-  await setAsync(rediskey, JSON.stringify(await Promise.all(oppiaineet)));
+  await setAsync(rediskey, JSON.stringify(await Promise.all(subjects)));
 }
 
 /**
