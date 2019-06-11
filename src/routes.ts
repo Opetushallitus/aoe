@@ -1,7 +1,13 @@
 import { Router } from "express";
 
 import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
-import { getKoulutusaste, getKoulutusasteet, getKoulutusasteetChildren, getKoulutusasteetParents } from "./controllers/koulutusasteet";
+import {
+  getKoulutusaste,
+  getKoulutusasteet,
+  getKoulutusasteetChildren,
+  getKoulutusasteetNew,
+  getKoulutusasteetParents
+} from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
 import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuuden-tukitoiminnot";
@@ -80,6 +86,14 @@ router.get("/oppimateriaalityypit/:key/:lang", getOppimateriaalityyppi);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/koulutusasteet/:lang", getKoulutusasteet);
+
+/**
+ * Returns all koulutusasteet from redis database by given language
+ * @group Koulutusasteet
+ * @route GET /koulutusasteet/refactored/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/koulutusasteet/refactored/:lang", getKoulutusasteetNew);
 
 /**
  * Returns parent koulutusasteet from redis database by given language

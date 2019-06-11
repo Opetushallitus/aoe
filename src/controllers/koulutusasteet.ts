@@ -52,7 +52,7 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       let children = input.filter((e: any) => e.parent === row.key);
@@ -71,6 +71,32 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
           children: children,
         });
       }
+    });
+
+    if (output.length > 0) {
+      res.status(200).json(output);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    res.sendStatus(404);
+
+    return next();
+  }
+};
+
+export const getKoulutusasteetNew = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const redisData = await getAsync(rediskey);
+
+  if (redisData) {
+    const input = JSON.parse(redisData);
+
+    const output = input.map((row: any) => {
+      return {
+        key: row.key,
+        parent: row.parent,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
+      };
     });
 
     if (output.length > 0) {
