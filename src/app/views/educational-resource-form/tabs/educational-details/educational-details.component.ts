@@ -21,6 +21,7 @@ export class EducationalDetailsComponent implements OnInit {
   public hasBasicStudies = false;
 
   public educationalLevels$: Observable<any>;
+  public educationalLevelsRefactored$: Observable<any>;
   public basicStudiesSubjects$: object[];
 
   constructor(
@@ -40,6 +41,7 @@ export class EducationalDetailsComponent implements OnInit {
     });
 
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
+    this.educationalLevelsRefactored$ = this.koodistoProxySvc.getData('koulutusasteet/refactored', this.lang);
 
     this.koodistoProxySvc.getData('peruskoulutuksenoppiaineet', this.lang).subscribe(data => {
       this.basicStudiesSubjects$ = data;
