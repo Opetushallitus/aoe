@@ -15,9 +15,7 @@ const params = "419550/perusopetus/oppiaineet";
  * @todo Implement error handling
  */
 export async function setPerusopetuksenOppiaineet(): Promise<any> {
-  // commented out until figured out how this works
-
-  /*const results = await getDataFromApi(
+  const results = await getDataFromApi(
     process.env.EPERUSTEET_SERVICE_URL,
     `/${endpoint}/`,
     { "Accept": "application/json" },
@@ -29,33 +27,15 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     if (result.oppimaarat === undefined) {
       data.push({
         key: result.id,
-        code: result.koodiArvo,
-        value: {
-          fi: result.nimi.fi,
-          sv: result.nimi.sv,
-        },
       });
     } else {
       result.oppimaarat.forEach((oppimaara: any) => {
         data.push({
           key: oppimaara.id,
-          code: result.koodiArvo,
-          value: {
-            fi: oppimaara.nimi.fi,
-            sv: oppimaara.nimi.sv,
-          },
         });
       });
     }
-  });*/
-
-  // temp for testing purposes
-
-  const data = [
-    { key: 466344 },
-    { key: 466346 },
-    { key: 466347 },
-  ];
+  });
 
   const oppiaineet = data.map(async (row: any) => {
     const result = await getDataFromApi(
@@ -66,25 +46,26 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     );
 
     const vuosiluokkakokonaisuudet = result.vuosiluokkakokonaisuudet.map((vuosiluokkakokonaisuus: any) => {
-      const tavoitteet = vuosiluokkakokonaisuus.tavoitteet.map((tavoite: any) => {
-        return {
-          key: tavoite.id,
-          value: {
-            fi: tavoite.tavoite.fi,
-            sv: tavoite.tavoite.sv,
-          },
-        };
-      });
+      const tavoitteet: any[] = [];
+      const sisaltoalueet: any[] = [];
 
-      const sisaltoalueet = vuosiluokkakokonaisuus.sisaltoalueet.map((sisaltoalue: any) => {
-        return {
-          key: sisaltoalue.id,
-          value: {
-            fi: sisaltoalue.nimi.fi,
-            sv: sisaltoalue.nimi.sv,
-          },
-        };
-      });
+      if (vuosiluokkakokonaisuus.tavoitteet.length > 0) {
+        vuosiluokkakokonaisuus.tavoitteet.forEach((tavoite: any) => {
+          tavoitteet.push({
+            key: tavoite.id,
+            value: tavoite.tavoite,
+          });
+        });
+      }
+
+      if (vuosiluokkakokonaisuus.sisaltoalueet.length > 0) {
+        vuosiluokkakokonaisuus.sisaltoalueet.forEach((sisaltoalue: any) => {
+          sisaltoalueet.push({
+            key: sisaltoalue.id,
+            value: sisaltoalue.nimi,
+          });
+        });
+      }
 
       return {
         key: vuosiluokkakokonaisuus.id,
@@ -104,7 +85,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     };
   });
 
-  await setAsync(rediskey, JSON.stringify(oppiaineet));
+  await setAsync(rediskey, JSON.stringify(await Promise.all(oppiaineet)));
 }
 
 /**
@@ -127,6 +108,7 @@ export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, n
       output.push({
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
+        vuosiluokkakokonaisuudet: row.vuosiluokkakokonaisuudet,
       });
     });
 
