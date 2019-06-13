@@ -27,7 +27,7 @@
     <h3>Perusopetuksen oppiaineet</h3>
 
     <div class="form-row">
-      <div class="col-3" formArrayName="basicStudySubjects" *ngFor="let subject of educationalDetailsForm.controls['basicStudySubjects'].controls; let i = index">
+      <div class="col-3" formArrayName="basicStudySubjects" *ngFor="let subject of basicStudySubjects.controls; let i = index">
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{ 'basicStudySubjects' + i }}">
           <label class="custom-control-label" for="{{ 'basicStudySubjects' + i }}">{{ basicStudySubjects$[i].value }}</label>
@@ -36,15 +36,27 @@
     </div>
   </div>
 
-  <div class="form-group" *ngIf="hasHigherEducation">
+<!--  <div class="form-group" *ngIf="hasHigherEducation">-->
+  <div class="form-group">
     <h3>Korkeakoulutuksen tieteenalat</h3>
 
     <div class="form-row">
-      <div class="col-3" formArrayName="branchesOfScience" *ngFor="let branch of educationalDetailsForm.controls['branchesOfScience'].controls; let i = index">
-        <div class="custom-control custom-checkbox" [formGroupName]="i">
-          <input type="checkbox" class="custom-control-input" formControlName="all" id="{{ 'branchesOfScience' + i }}">
-          <label class="custom-control-label" for="{{ 'branchesOfScience' + i }}">{{ branchesOfScience$[i].value }}</label>
-        </div>
+      <div class="col-12" formArrayName="branchesOfScience" *ngFor="let branch of branchesOfScience.controls; let i = index">
+        <ng-container [formGroupName]="i">
+          <div class="custom-control custom-checkbox mb-1">
+            <input type="checkbox" class="custom-control-input" formControlName="all" id="{{ 'branchesOfScience' + i }}">
+            <label class="custom-control-label" for="{{ 'branchesOfScience' + i }}">{{ branchesOfScience$[i].value }}</label>
+          </div>
+
+          <div class="form-row pl-4 mb-3" formArrayName="children">
+            <div class="col-3" *ngFor="let child of branch.controls['children'].controls; let j = index;">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" [formControlName]="j" id="{{ 'branchesOfScience' + i + j }}">
+                <label class="custom-control-label" for="{{ 'branchesOfScience' + i + j }}">{{ branchesOfScience$[i].children[j].value }}</label>
+              </div>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

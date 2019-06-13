@@ -111,8 +111,6 @@ export class EducationalDetailsComponent implements OnInit {
       .map((checked, index) => checked ? this.basicStudySubjects$[index].key : null)
       .filter(value => value !== null);
 
-    console.log(selectedBasicStudySubjects);
-
     // @todo: Check if all or loop children
     const selectedBranchesOfScience = this.educationalDetailsForm.value.branchesOfScience
       .map((branch, index) => branch.all ? this.branchesOfScience$[index].key : null)
