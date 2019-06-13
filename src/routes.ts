@@ -5,8 +5,9 @@ import {
   getKoulutusaste,
   getKoulutusasteet,
   getKoulutusasteetChildren,
+  getKoulutusasteetParents,
   getKoulutusasteetNew,
-  getKoulutusasteetParents
+  getKoulutusasteetKeys
 } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
@@ -120,6 +121,14 @@ router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/koulutusasteet/children/:key/:lang", getKoulutusasteetChildren);
+
+/**
+ * Returns keys from redis database by given value
+ * @group Koulutusasteet
+ * @route GET /koulutusasteet/keys/{value}
+ * @param {string} value.path.required - Value
+ */
+router.get("/koulutusasteet/keys/:value", getKoulutusasteetKeys);
 
 /**
  * Returns all tieteenalat from redis database by given language

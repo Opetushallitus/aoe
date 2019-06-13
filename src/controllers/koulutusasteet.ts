@@ -222,3 +222,26 @@ export const getKoulutusasteetParents = async (req: Request, res: Response, next
     return next();
   }
 };
+
+export const getKoulutusasteetKeys = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const redisData = await getAsync(rediskey);
+
+  if (redisData) {
+    const input = JSON.parse(redisData);
+    const parent = input.find((e: any) => e.value.fi.toLowerCase() === req.params.value.toLowerCase());
+
+    const output = input.map((row: any) => {
+      return parent.key;
+    });
+
+    if (output.length > 0) {
+      res.status(200).json(output);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    res.sendStatus(404);
+
+    return next();
+  }
+};
