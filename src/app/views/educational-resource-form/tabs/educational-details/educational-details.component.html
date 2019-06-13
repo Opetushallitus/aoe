@@ -4,48 +4,31 @@
 
     <ng-select
       [items]="educationalLevels$ | async"
-      [multiple]="true"
       bindLabel="value"
-      id="educationalLevels"
+      groupBy="children"
       placeholder="Koulutusasteet"
+      id="educationalLevels"
       formControlName="educationalLevels"
-      (change)="educationalLevelsChange($event)"
-    ></ng-select>
-  </div>
-
-  <!-- work in progress, maybe there's a better way to do this? -->
-  <!--<ng-container *ngFor="let eduLevel of educationalLevels.value">
-    <div class="form-group" *ngIf="eduLevel.children.length > 0">
-      <ng-select
-        [items]="eduLevel.children"
-        [multiple]="true"
-        bindLabel="value"
-        placeholder="{{ eduLevel.value }}"
-      ></ng-select>
-    </div>
-  </ng-container>-->
-
-  <div class="form-group">
-    <ng-select
-      [items]="educationalLevelsRefactored$ | async"
-      bindLabel="value"
-      groupBy="parent"
       [multiple]="true"
       [closeOnSelect]="false"
       [selectableGroup]="true"
+      (change)="educationalLevelsChange($event)"
     >
       <ng-template ng-optgroup-tmp let-item="item">
-        {{ item.parent }}
+        {{ item.value }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.value }}
       </ng-template>
     </ng-select>
   </div>
 
   <div class="form-group" *ngIf="hasBasicStudies">
     <div class="form-row">
-      <div class="col-3" formArrayName="basicStudiesSubjects" *ngFor="let subject of basicStudiesSubjects$">
+      <div class="col-3" formArrayName="basicStudySubjects" *ngFor="let subject of educationalDetailsForm.controls['basicStudySubjects'].controls; let i = index">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="subject-{{ subject.key }}">
-          <label class="custom-control-label" for="subject-{{ subject.key }}">{{ subject.value }}</label>
+          <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{ 'basicStudySubjects' + i }}">
+          <label class="custom-control-label" for="{{ 'basicStudySubjects' + i }}">{{ basicStudySubjects$[i].value }}</label>
         </div>
       </div>
     </div>
@@ -71,7 +54,7 @@
       <button
         type="submit"
         class="btn btn-blue"
-        [disabled]="educationalDetailsForm.invalid"
+        [disabled]="educationalDetailsForm?.invalid"
       >{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>

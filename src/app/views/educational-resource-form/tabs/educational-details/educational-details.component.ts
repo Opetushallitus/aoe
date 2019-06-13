@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -21,8 +21,7 @@ export class EducationalDetailsComponent implements OnInit {
   public hasBasicStudies = false;
 
   public educationalLevels$: Observable<any>;
-  public educationalLevelsRefactored$: Observable<any>;
-  public basicStudiesSubjects$: object[];
+  public basicStudySubjects$: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -37,27 +36,38 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null),
-      basicStudiesSubjects: this.fb.control(false),
+      basicStudySubjects: this.fb.array([]),
     });
 
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
-    this.educationalLevelsRefactored$ = this.koodistoProxySvc.getData('koulutusasteet/refactored', this.lang);
 
     this.koodistoProxySvc.getData('peruskoulutuksenoppiaineet', this.lang).subscribe(data => {
-      this.basicStudiesSubjects$ = data;
+      this.basicStudySubjects$ = data;
+
+      this.basicStudySubjects$.forEach(() => this.basicStudySubjects.push(this.fb.control(false)));
     });
   }
 
-  get educationalLevels() {
-    return this.educationalDetailsForm.get('educationalLevels');
+  get educationalLevels(): FormControl {
+    return this.educationalDetailsForm.get('educationalLevels') as FormControl;
   }
 
-  educationalLevelsChange($event) {
+  get basicStudySubjects(): FormArray {
+    return this.educationalDetailsForm.get('basicStudySubjects') as FormArray;
+  }
+
+  educationalLevelsChange($event): void {
     this.hasBasicStudies = $event.filter((e: any) => e.key === '8cb1a02f-54cb-499a-b470-4ee980519707').length > 0;
   }
 
   onSubmit() {
     console.warn(this.educationalDetailsForm.value);
+
+    const selectedBasicStudySubjects = this.educationalDetailsForm.value.basicStudySubjects
+      .map((checked, index) => checked ? this.basicStudySubjects$[index].key : null)
+      .filter(value => value !== null);
+
+    console.log(selectedBasicStudySubjects);
   }
 
   public previousTab() {
