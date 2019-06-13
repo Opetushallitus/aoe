@@ -9,8 +9,19 @@ const path = require("path");
 
 // File upload dependencies
 const multer  = require("multer");
-const upload = multer({ dest: "temp/"});
+// const upload = multer({ dest: "temp/"});
 
+
+const storage = multer.diskStorage({ // notice you are calling the multer.diskStorage() method here, not multer()
+    destination: function(req: Request, file: any, cb: any) {
+        cb(undefined, "temp/");
+    },
+    filename: function(req: Request, file: any, cb: any) {
+        cb(undefined, "onko" + "-" + Date.now());
+    }
+});
+
+const upload = multer({storage}); // provide the return value from
 // Database connection
 const connection = require("./../db");
 const db = connection.db;
@@ -27,12 +38,22 @@ async function uploadMaterial(req: Request, res: Response) {
                 try {
                     const files = (<any>req).files;
                     if (files.length == 0) {
-                        return res.status(500).send("No file sent");
+                        return res.status(400).send("No file sent");
                     }
                     let result = await insertDataToEducationalMaterialTable(req);
                     const id = result;
-                    result = await insertDataToMaterialTable(files, result[0].id);
+
+                    console.log(files);
+                    const location = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
+                    console.log("location: " + location);
+                    result = await insertDataToMaterialTable(files, result[0].id, location);
                     await insertDataToRecordTable(files, result);
+                    // fs.unlink("./" + files[0].path);
+                    fs.unlink("./" + files[0].path, (err: any) => {
+                        if (err) {
+                          console.error(err);
+                        }
+                      });
                     res.status(200).json(id);
                 } catch (e) {
                     console.log(e);
@@ -58,12 +79,16 @@ async function uploadFileToMaterial(req: Request, res: Response) {
         if (contentType.startsWith("multipart/form-data")) {
             upload.array("myFiles", 12)(req , res, async function() {
                 try {
+
                     const files = (<any>req).files;
                     let result;
-                    result = await insertDataToMaterialTable(files, req.params.id);
-                    console.log(result);
+                    const location = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
+                    console.log("location: " + location);
+                    result = await insertDataToMaterialTable(files, req.params.id, location);
+                    console.log("result: " + result);
                     await insertDataToRecordTable(files, result);
-                    console.log(files);
+                    console.log("files: " + files);
+                    fs.unlink("./" + files[0].path);
                     res.status(200).send("Files uploaded: " + files.length);
                 } catch (e) {
                     console.log(e);
@@ -107,9 +132,9 @@ async function insertDataToEducationalMaterialTable(req: Request) {
 //     return data;
 // }
 
-async function insertDataToMaterialTable(files: any, materialID: String) {
+async function insertDataToMaterialTable(files: any, materialID: String, location: any) {
     let query;
-    const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + files[k].path + "','" + materialID + "')"; }).join(",");
+    const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + location + "','" + materialID + "')"; }).join(",");
     console.log(str);
     query = "insert into material (materialname, link, educationalmaterialid) values " + str + " returning id;";
     console.log(query);
@@ -130,7 +155,8 @@ async function insertDataToRecordTable(files: any, materialID: any) {
     const data = await db.any(query);
 }
 
-  async function uploadFileToStorage(req: Request, res: Response) {
+  async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
+    return new Promise(async resolve => {
     try {
         const util = require("util");
         const config = {
@@ -149,13 +175,15 @@ async function insertDataToRecordTable(files: any, materialID: any) {
             if (err) console.log(err, err.stack); // an error occurred
             else     console.log(data);           // successful response
         });
-        const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
+        // const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
         const bucketName = process.env.BUCKET_NAME;
-        const key = "testfile2";
+        const key = filename;
+        // const key = "testfile2";
         // const uploadFile = (filePath, bucketName, key) => {
-        fs.readFile(filePath, (err: any, data: any) => {
+        fs.readFile(filePath, async (err: any, data: any) => {
             if (err) console.error(err);
-            const base64data = new Buffer(data, "binary2");
+        try {
+            const base64data = Buffer.from(data, "binary2");
             const params = {
                 Bucket: bucketName,
                 Key: key,
@@ -170,15 +198,21 @@ async function insertDataToRecordTable(files: any, materialID: any) {
                 if (data) {
                     console.log("Upload Completed");
                     console.log(data);
-                    res.status(200).send("success");
+                    resolve(data.Location);
                 }
             });
+        }
+        catch (err) {
+            res.status(500).send(err);
+        }
+
         });
     }
     catch (err) {
         console.log(err);
         res.status(500).send("error");
     }
+    });
   }
 
 module.exports = {
