@@ -21,7 +21,7 @@ export async function setOrganisaatiot(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: object[] = [];
+  const data: any[] = [];
 
   results.organisaatiot.map((result: any) => {
     data.push({
@@ -51,7 +51,7 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       let value: string;

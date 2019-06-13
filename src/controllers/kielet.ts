@@ -21,7 +21,7 @@ export async function setKielet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: object[] = [];
+  const data: any[] = [];
 
   results.map((result: any) => {
     const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
@@ -55,7 +55,7 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       output.push({

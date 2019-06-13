@@ -21,7 +21,7 @@ export async function setSaavutettavuudenKayttotavat(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: object[] = [];
+  const data: any[] = [];
 
   results.results.map((result: any) => {
     data.push({
@@ -51,7 +51,7 @@ export const getSaavutettavuudenKayttotavat = async (req: Request, res: Response
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       output.push({

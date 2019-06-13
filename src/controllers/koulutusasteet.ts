@@ -21,7 +21,7 @@ export async function setKoulutusasteet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: object[] = [];
+  const data: any[] = [];
 
   results.results.map((result: any) => {
     data.push({
@@ -162,7 +162,7 @@ export const getKoulutusasteetChildren = async (req: Request, res: Response, nex
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       if (row.parent != undefined && row.parent === req.params.key) {
@@ -200,7 +200,7 @@ export const getKoulutusasteetParents = async (req: Request, res: Response, next
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       if (row.parent === undefined) {

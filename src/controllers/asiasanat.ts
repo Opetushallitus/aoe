@@ -22,7 +22,7 @@ export async function setAsiasanat(): Promise<any> {
     { "Accept": "application/rdf+xml" },
     params
   );
-  const data: object[] = [];
+  const data: any[] = [];
 
   const parseOptions = {
     tagNameProcessors: [processors.stripPrefix],
@@ -66,7 +66,7 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: object[] = [];
+    const output: any[] = [];
 
     input.map((row: any) => {
       output.push({
