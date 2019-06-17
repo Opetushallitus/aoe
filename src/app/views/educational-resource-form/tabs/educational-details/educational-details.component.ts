@@ -46,7 +46,7 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
 
-    this.koodistoProxySvc.getData('peruskoulutuksenoppiaineet', this.lang).subscribe(data => {
+    this.koodistoProxySvc.getData('oppiaineet', this.lang).subscribe(data => {
       this.basicStudySubjects$ = data;
 
       this.basicStudySubjects$.forEach(() => this.basicStudySubjects.push(this.fb.control(false)));
