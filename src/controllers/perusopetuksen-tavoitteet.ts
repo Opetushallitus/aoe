@@ -6,6 +6,28 @@ import { getAsync, setAsync } from "../util/redis.utils";
 const endpoint = "perusteet";
 const rediskey = "oppiaineet";
 const params = "419550/perusopetus/oppiaineet";
+const blacklist = [
+  600171,
+  855591,
+  855592,
+  855593,
+  605639,
+  692136,
+  692131,
+  605631,
+  692130,
+  605637,
+  605634,
+  605636,
+  692139,
+  712901,
+  739612,
+  739613,
+  739610,
+  739611,
+  692132,
+  692134,
+];
 
 /**
  * Set data into redis database
@@ -21,7 +43,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const subjectIds: any[] = [];
+  let subjectIds: any[] = [];
 
   results.forEach((result: any) => {
     if (result.oppimaarat === undefined) {
@@ -36,6 +58,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       });
     }
   });
+
+  subjectIds = subjectIds.filter(id => blacklist.includes(id.key) === false);
 
   const subjects = subjectIds.map(async (row: any) => {
     const result = await getDataFromApi(
