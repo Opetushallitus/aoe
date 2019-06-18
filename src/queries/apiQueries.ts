@@ -23,17 +23,99 @@ async function getMaterial(req: Request , res: Response , next: NextFunction) {
 }
 
 async function getMaterialData(req: Request , res: Response , next: NextFunction) {
-    try {
+    // try {
+    //     let query;
+    //     // let params = { };
+    //     query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' and obsoleted != '1' limit 100;";
+    //     const data = await db.any(query);
+    //     res.status(200).json(data);
+    // }
+    // catch (err ) {
+    //     console.log(err);
+    //     res.status(500).send("error when getting material data");
+    // }
+
+    db.task(async (t: any) => {
+        const queries: any = [];
         let query;
-        // let params = { };
         query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' and obsoleted != '1' limit 100;";
-        const data = await db.any(query);
+        let response = await t.any(query);
+        queries.push(response);
+
+        query = "select * from materialname where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from materialdescription where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from educationalaudience where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from learningresourcetype where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from accessibilityfeature where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from accessibilityhazard where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from keyword where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from educationallevel where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from educationaluse where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from publisher where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from author where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from isbasedon where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from inlanguage where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select * from aligmentobject where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        query = "select m.id, materialname, link, priority, filepath, originalfilename, filesize, mimetype, format from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
+        // return t.one('SELECT * FROM users WHERE id = $1', 123)
+        //     .then(user => {
+        //         return t.any('SELECT * FROM events WHERE login = $1', user.name);
+        //     });
+
+
+        return t.batch(queries);
+    })
+    .then((data: any) => {
         res.status(200).json(data);
-    }
-    catch (err ) {
-        console.log(err);
-        res.status(500).send("error when getting material data");
-    }
+    })
+    .catch((error: any) => {
+        res.sendStatus(400);
+    });
 }
 
 async function getUserMaterial(req: Request , res: Response , next: NextFunction) {
