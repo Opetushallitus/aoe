@@ -574,8 +574,11 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
         console.log(req.body);
-        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ('" + req.body.firstname + "','" + req.body.lastname + "','" + req.body.username + "','nimi','target','aligment');";
-        const data = await db.any(query);
+        if (req.body.username === undefined) {
+            res.status(500).send("username undefined");
+        }
+        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ($1,$2,$3,'','','');";
+        const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.username]);
         res.status(200).json("user creted");
     }
     catch (err ) {
@@ -587,9 +590,9 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
 async function updateUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
-        query = "update users set (preferredlanguage,preferredtargetname,preferredalignmenttype ) = ('" + req.body.preferredlanguage + "','" + req.body.preferredtargetname + "','" + req.body.preferredalignmenttype + "') where id = '" + req.params.id + "';";
+        query = "update users set (firstname, lastname, preferredlanguage,preferredtargetname,preferredalignmenttype ) = ($1,$2,$3,$4,$5) where id = $6;";
         console.log(query);
-        const data = await db.any(query);
+        const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.preferredlanguage, req.body.preferredtargetname, req.body.preferredalignmenttype, req.params.id]);
         res.status(200).json("user updated");
     }
     catch (err ) {
