@@ -7,8 +7,8 @@
   roles:
     # - update
     - os-setup
-    # - apache
-    - nginx
+    - apache
+    # - nginx
     - nodejs
     - redis
     - firewall
