@@ -56,5 +56,5 @@ app.use(lusca.xssProtection);
 // app.get("/auth/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login" }), (req, res) => {
 //   res.redirect(req.session.returnTo || "/");
 // });
-// module.exports = app;
+module.exports = app;
 export default app;
