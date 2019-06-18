@@ -122,6 +122,87 @@
     </div>
   </div>
 
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <small class="form-text" id="commercialUseText">Salli teoksen kaupallinen käyttö?</small>
+
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="allowCommercial"
+          class="custom-control-input"
+          aria-describedby="commercialUseText"
+          value="yes"
+          formControlName="licenseCommercialUse"
+        >
+
+        <label class="custom-control-label" for="allowCommercial">Kyllä</label>
+      </div>
+
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="noCommercial"
+          class="custom-control-input"
+          aria-describedby="commercialUseText"
+          value="no"
+          formControlName="licenseCommercialUse"
+        >
+
+        <label class="custom-control-label" for="noCommercial">Ei</label>
+      </div>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <small class="form-text" id="sharingText">Salli teoksen muunnelmien jakaminen?</small>
+
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="allowSharing"
+          class="custom-control-input"
+          aria-describedby="sharingText"
+          value="yes"
+          formControlName="licenseSharing"
+        >
+
+        <label class="custom-control-label" for="allowSharing">Kyllä</label>
+      </div>
+
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="disallowSharing"
+          class="custom-control-input"
+          aria-describedby="sharingText"
+          value="no"
+          formControlName="licenseSharing"
+        >
+
+        <label class="custom-control-label" for="disallowSharing">Ei</label>
+      </div>
+
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="shareAlike"
+          class="custom-control-input"
+          aria-describedby="sharingText"
+          value="shareAlike"
+          formControlName="licenseSharing"
+        >
+
+        <label class="custom-control-label" for="shareAlike">Kyllä, vain samalla lisenssillä</label>
+      </div>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <small class="form-text">Valittu lisenssi</small>
+
+      <span class="form-text">{{ selectedLicense?.value }}</span>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col">
       <button

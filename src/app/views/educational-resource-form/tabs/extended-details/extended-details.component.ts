@@ -25,6 +25,8 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityControls$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
   public languages$: Observable<any>;
+  public licenses$: any[];
+  public selectedLicense: any;
 
   public extendedDetailsForm = new FormGroup({
     educationalRoles: new FormControl(''),
@@ -36,6 +38,8 @@ export class ExtendedDetailsComponent implements OnInit {
     typicalAgeRangeMin: new FormControl(''),
     typicalAgeRangeMax: new FormControl(''),
     inLanguage: new FormControl(''),
+    licenseCommercialUse: new FormControl('yes'),
+    licenseSharing: new FormControl('yes'),
   });
 
   constructor(
@@ -62,6 +66,12 @@ export class ExtendedDetailsComponent implements OnInit {
 
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
 
+    this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
+      this.licenses$ = data;
+
+      this.selectedLicense = this.licenses$.find(license => license.key === 'CCBY4.0');
+    });
+
     if (this.savedData) {
       this.extendedDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
       this.extendedDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
@@ -73,6 +83,26 @@ export class ExtendedDetailsComponent implements OnInit {
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
       this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
     }
+
+    this.onChanges();
+  }
+
+  onChanges() {
+    this.extendedDetailsForm.valueChanges.subscribe(val => {
+      let licenseKey = 'CCBY';
+
+      if (val.licenseCommercialUse === 'no') {
+        licenseKey += 'NC';
+      }
+
+      if (val.licenseSharing === 'no') {
+        licenseKey += 'ND';
+      } else if (val.licenseSharing === 'shareAlike') {
+        licenseKey += 'SA';
+      }
+
+      this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
+    });
   }
 
   onSubmit() {
