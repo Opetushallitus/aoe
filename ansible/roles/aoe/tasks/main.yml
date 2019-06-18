@@ -19,7 +19,7 @@
   when: environment_id != "vagrant"
 
 - name: Ensure file ownership
-  command: chown -cR nginx:nginx {{ backend_sync_path }}/
+  command: chown -cR apache:apache {{ backend_sync_path }}/
   become: True
 
 - name: Ensure file permissions

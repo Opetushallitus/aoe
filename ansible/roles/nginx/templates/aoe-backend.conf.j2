@@ -2,7 +2,7 @@ ServerName localhost
 Listen 8080
 <VirtualHost *:8080>
   ServerName localhost
-  ErrorLog /var/log/httpd/justus-backend.log
+  ErrorLog /var/log/httpd/aoe-backend.log
   <Location /api>
     ProxyPass http://localhost:3000
     ProxyPassReverse http://localhost:3000

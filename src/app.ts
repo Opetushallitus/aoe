@@ -11,17 +11,22 @@ const flash = require("express-flash");
 
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
+
+const app = express();
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
+
 import * as homeController from "./controllers/home";
 const apiRouter = require("./routes/routes");
 // Create Express server
-const app = express();
-const morgan = require("morgan");
+
+
 
 
 // Connect to MongoDB
 // const apiRouter = require("./routes/routes");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
+
 // Express configuration
 app.use(cookieParser());
 app.use(morgan("dev"));
