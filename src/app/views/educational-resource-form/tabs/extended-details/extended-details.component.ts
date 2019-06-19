@@ -50,19 +50,21 @@ export class ExtendedDetailsComponent implements OnInit {
     });
 
     this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
-
     this.educationalUse$ = this.koodistoProxySvc.getData('kayttokohteet', this.lang);
-
     this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
-
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
-
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
 
     this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
       this.licenses$ = data;
 
-      this.selectedLicense = this.licenses$.find(license => license.key === 'CCBY4.0');
+      if (this.savedData) {
+        this.setLicense(this.savedData.licenseCommercialUse, this.savedData.licenseSharing);
+
+        this.extendedDetailsForm.get('licenseCommercialUse').setValue(this.savedData.licenseCommercialUse);
+        this.extendedDetailsForm.get('licenseSharing').setValue(this.savedData.licenseSharing);
+        this.extendedDetailsForm.get('license').setValue(this.savedData.license);
+      }
     });
 
     if (this.savedData) {
@@ -73,29 +75,32 @@ export class ExtendedDetailsComponent implements OnInit {
       this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
       this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
-      this.extendedDetailsForm.get('licenseCommercialUse').setValue(this.savedData.licenseCommercialUse);
-      this.extendedDetailsForm.get('licenseSharing').setValue(this.savedData.licenseSharing);
-      this.extendedDetailsForm.get('license').setValue(this.savedData.license);
     }
 
     this.onChanges();
   }
 
+  setLicense(commercialUse, sharing) {
+    let licenseKey = 'CCBY';
+
+    if (commercialUse === 'no') {
+      licenseKey += 'NC';
+    }
+
+    if (sharing === 'no') {
+      licenseKey += 'ND';
+    } else if (sharing === 'shareAlike') {
+      licenseKey += 'SA';
+    }
+
+    console.log(this.licenses$);
+
+    this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
+  }
+
   onChanges() {
     this.extendedDetailsForm.valueChanges.subscribe(val => {
-      let licenseKey = 'CCBY';
-
-      if (val.licenseCommercialUse === 'no') {
-        licenseKey += 'NC';
-      }
-
-      if (val.licenseSharing === 'no') {
-        licenseKey += 'ND';
-      } else if (val.licenseSharing === 'shareAlike') {
-        licenseKey += 'SA';
-      }
-
-      this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
+      this.setLicense(val.licenseCommercialUse, val.licenseSharing);
     });
   }
 
@@ -103,6 +108,8 @@ export class ExtendedDetailsComponent implements OnInit {
     this.submitted = true;
 
     if (!this.extendedDetailsForm.invalid) {
+      this.setLicense(this.extendedDetailsForm.get('licenseCommercialUse').value, this.extendedDetailsForm.get('licenseSharing').value);
+
       const newData = {
         educationalRole: this.extendedDetailsForm.get('educationalRoles').value,
         educationalUse: this.extendedDetailsForm.get('educationalUse').value,
