@@ -21,8 +21,6 @@ export class ExtendedDetailsComponent implements OnInit {
   public educationalRoles$: Observable<any>;
   public educationalUse$: Observable<any>;
   public accessibilityFeatures$: Observable<any>;
-  public accessibilityAPIs$: Observable<any>;
-  public accessibilityControls$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
   public languages$: Observable<any>;
   public licenses$: any[];
@@ -32,14 +30,13 @@ export class ExtendedDetailsComponent implements OnInit {
     educationalRoles: new FormControl(''),
     educationalUse: new FormControl(''),
     accessibilityFeatures: new FormControl(''),
-    accessibilityAPIs: new FormControl(''),
-    accessibilityControls: new FormControl(''),
     accessibilityHazards: new FormControl(''),
     typicalAgeRangeMin: new FormControl(''),
     typicalAgeRangeMax: new FormControl(''),
     inLanguage: new FormControl(''),
     licenseCommercialUse: new FormControl('yes'),
     licenseSharing: new FormControl('yes'),
+    license: new FormControl(''),
   });
 
   constructor(
@@ -58,10 +55,6 @@ export class ExtendedDetailsComponent implements OnInit {
 
     this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
 
-    this.accessibilityAPIs$ = this.koodistoProxySvc.getData('saavutettavuudenavustavatteknologiat', this.lang);
-
-    this.accessibilityControls$ = this.koodistoProxySvc.getData('saavutettavuudenkayttotavat', this.lang);
-
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
 
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
@@ -76,12 +69,13 @@ export class ExtendedDetailsComponent implements OnInit {
       this.extendedDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
       this.extendedDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
       this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
-      this.extendedDetailsForm.get('accessibilityAPIs').setValue(this.savedData.accessibilityAPI);
-      this.extendedDetailsForm.get('accessibilityControls').setValue(this.savedData.accessibilityControl);
       this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
       this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
       this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
+      this.extendedDetailsForm.get('licenseCommercialUse').setValue(this.savedData.licenseCommercialUse);
+      this.extendedDetailsForm.get('licenseSharing').setValue(this.savedData.licenseSharing);
+      this.extendedDetailsForm.get('license').setValue(this.savedData.license);
     }
 
     this.onChanges();
@@ -113,14 +107,15 @@ export class ExtendedDetailsComponent implements OnInit {
         educationalRole: this.extendedDetailsForm.get('educationalRoles').value,
         educationalUse: this.extendedDetailsForm.get('educationalUse').value,
         accessibilityFeature: this.extendedDetailsForm.get('accessibilityFeatures').value,
-        accessibilityAPI: this.extendedDetailsForm.get('accessibilityAPIs').value,
-        accessibilityControl: this.extendedDetailsForm.get('accessibilityControls').value,
         accessibilityHazard: this.extendedDetailsForm.get('accessibilityHazards').value,
         typicalAgeRange: [{
           min: this.extendedDetailsForm.get('typicalAgeRangeMin').value,
           max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
         }],
         inLanguage: this.extendedDetailsForm.get('inLanguage').value,
+        licenseCommercialUse: this.extendedDetailsForm.get('licenseCommercialUse').value,
+        licenseSharing: this.extendedDetailsForm.get('licenseSharing').value,
+        license: this.selectedLicense.key,
       };
 
       const data = Object.assign({}, this.savedData, newData);

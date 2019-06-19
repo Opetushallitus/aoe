@@ -40,32 +40,6 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityAPIs">Saavutettavuuden avustavat teknologiat</label>
-
-      <ng-select
-        [items]="accessibilityAPIs$ | async"
-        [multiple]="true"
-        bindLabel="value"
-        id="accessibilityAPIs"
-        placeholder="Valitse avustava teknologia"
-        formControlName="accessibilityAPIs"
-      ></ng-select>
-    </div>
-
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityControls">Saavutettavuuden käyttötavat</label>
-
-      <ng-select
-        [items]="accessibilityControls$ | async"
-        [multiple]="true"
-        bindLabel="value"
-        id="accessibilityControls"
-        placeholder="Valitse käyttötapa"
-        formControlName="accessibilityControls"
-      ></ng-select>
-    </div>
-
-    <div class="form-group col-sm-6 col-md-4">
       <label for="accessibilityHazards">Saavutettavuuden esteet</label>
 
       <ng-select
