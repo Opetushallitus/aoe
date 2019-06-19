@@ -93,8 +93,6 @@ export class ExtendedDetailsComponent implements OnInit {
       licenseKey += 'SA';
     }
 
-    console.log(this.licenses$);
-
     this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
   }
 
