@@ -2,6 +2,12 @@
   <div class="form-group">
     <label for="educationalLevels">Koulutusasteet*</label>
 
+    <button
+      type="button"
+      class="btn btn-link"
+      tooltip="Valitse tästä mille koulutusasteelle ja tasolle oppimateriaalisi on pääasiallisesti tarkoitettu. Mikäli materiaali on kohdennettu usealle asteelle, esimerkiksi sekä ammatilliseen koulutukseen että lukio-opetukseen, voit valita useamman koulutusasteen ja tason."
+    >(?)</button>
+
     <ng-select
       [items]="educationalLevels$ | async"
       bindLabel="value"

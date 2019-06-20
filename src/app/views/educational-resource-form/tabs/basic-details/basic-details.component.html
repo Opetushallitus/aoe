@@ -11,6 +11,12 @@
       <div class="form-group">
         <label for="keywords">{{ 'forms.educationalResource.basicDetails.subject' | translate }}*</label>
 
+        <button
+          type="button"
+          class="btn btn-link"
+          tooltip="Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+        >(?)</button>
+
         <ng-select
           [items]="keywordsBuffer"
           [virtualScroll]="true"
@@ -29,6 +35,12 @@
       <div class="form-row">
         <div class="form-group col-md-7">
           <label for="author">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
+
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Oppimateriaalin tekijä tai tekijät. Syötä tekijät yksi tekijä kerrallaan ja paina enter-näppäintä jokaisen tekijän jälkeen."
+          >(?)</button>
 
           <input
             type="text"
@@ -51,6 +63,12 @@
         <div class="form-group col-md-5">
           <label for="organisation">{{ 'forms.educationalResource.basicDetails.organisation' | translate }}</label>
 
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+          >(?)</button>
+
           <ng-select
             [items]="organisations$ | async"
             bindLabel="value"
@@ -64,6 +82,12 @@
       <div class="form-row">
         <div class="form-group col-md-5">
           <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.materialType' | translate }}*</label>
+
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Valitse tästä minkä tyyppinen aineisto oppimateriaalisi on. Voit valita useamman tyypin mikäli oppimateriaali koostuu erilaisista osista."
+          >(?)</button>
 
           <ng-select
             [items]="learningResourceTypes$ | async"
@@ -79,6 +103,12 @@
         <div class="form-group col-md-3">
           <label for="timeRequired">{{ 'forms.educationalResource.basicDetails.timeRequired' | translate }}</label>
 
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Arvio ajasta, joka keskimäärin kuluu oppimateriaalin opiskeluun."
+          >(?)</button>
+
           <input
             type="text"
             class="form-control"
@@ -91,6 +121,12 @@
 
         <div class="form-group col-md-4">
           <label for="publisher">{{ 'forms.educationalResource.basicDetails.publisher' | translate }}</label>
+
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Mikäli oppimateriaalilla on julkaisija (esimerkiksi järjestö tai koulu), voit tähän täydentää julkaisijan virallisen nimen."
+          >(?)</button>
 
           <input
             type="text"
@@ -105,6 +141,12 @@
 
       <div class="form-group">
         <label for="description">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          tooltip="Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty."
+        >(?)</button>
 
         <div class="form-row">
           <div class="col-sm">

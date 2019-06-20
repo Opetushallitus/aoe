@@ -8,6 +8,12 @@
       <div class="col" formGroupName="name">
         <label for="name-fi">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
 
+        <button
+          type="button"
+          class="btn btn-link"
+          tooltip="Oppimateriaalin nimi."
+        >(?)</button>
+
         <input
           type="text"
           class="form-control"
@@ -118,6 +124,12 @@
           <div class="col-2">
             <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.basicDetails.language' | translate }}*</label>
 
+            <button
+              type="button"
+              class="btn btn-link"
+              tooltip="Valitse millä kielellä oppimateriaalisi tai tämä osa oppimateriaaliasi on tarkoitettu opiskeltavaksi. Mikäli olet tehnyt oppimateriaalistasi käännöksen toiselle kielelle, voit lisätä tiedostot tässä samassa kohtaa ja merkata niiden opiskelukielen tähän."
+            >(?)</button>
+
             <ng-select
               [items]="languages$ | async"
               bindLabel="value"
@@ -131,6 +143,12 @@
         <div class="form-row align-items-end">
           <div class="col">
             <label for="{{ 'displayName' + i }}">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
+
+            <button
+              type="button"
+              class="btn btn-link"
+              tooltip="Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä."
+            >(?)</button>
 
             <input
               type="text"

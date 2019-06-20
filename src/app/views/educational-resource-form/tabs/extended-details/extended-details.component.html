@@ -3,6 +3,12 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="educationalRoles">Kohderyhmä</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
+      >(?)</button>
+
       <ng-select
         [items]="educationalRoles$ | async"
         [multiple]="true"
@@ -16,6 +22,12 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="educationalUse">Käyttö opetuksessa</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
+      >(?)</button>
+
       <ng-select
         [items]="educationalUse$ | async"
         [multiple]="true"
@@ -27,7 +39,13 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityFeatures">Saavutettavuuden tukitoiminnot</label>
+      <label for="accessibilityFeatures">Saavutettavuuden ominaisuudet</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Voit tähän valita mikäli oppimateriaalin tekemisessä on huomioitu saavutettavuus lisäämällä siihen jotain saavutettavuutta tukevia ominaisuuksia kuten tekstitys, navgointia helpottava rakenne tai selkokielisyys. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+      >(?)</button>
 
       <ng-select
         [items]="accessibilityFeatures$ | async"
@@ -42,6 +60,12 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="accessibilityHazards">Saavutettavuuden esteet</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Voit tähän valita mikäli oppimateriaalissa on jotain ominaisuuksia jotka voivat olla estäviä osalle henkilöistä, esimerkiksi mikäli materiaalissa on voimakasta välähtelyä. Kenttään voi myös merkitä, mikäli tälläisiä haittoja ei ole valitsemalla esimerkiksi ei äänihaittaa. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+      >(?)</button>
+
       <ng-select
         [items]="accessibilityHazards$ | async"
         [multiple]="true"
@@ -54,6 +78,12 @@
 
     <div class="form-group col-sm-6 col-md-4">
       <label for="typicalAgeRangeMin">Kohderyhmän ikä</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Ikäryhmä, jolle oppimateriaali on tarkoitettu, esim. 7-9, 18-90."
+      >(?)</button>
 
       <div class="form-row">
         <div class="col">
