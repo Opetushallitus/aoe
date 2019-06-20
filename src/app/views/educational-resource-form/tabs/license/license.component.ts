@@ -33,8 +33,8 @@ export class LicenseComponent implements OnInit {
     });
 
     this.licenseForm = this.fb.group({
-      licenseCommercialUse: this.fb.control('yes'),
-      licenseSharing: this.fb.control('yes'),
+      licenseCommercialUse: this.fb.control(null),
+      licenseSharing: this.fb.control(null),
       license: this.fb.control(null),
     });
 
