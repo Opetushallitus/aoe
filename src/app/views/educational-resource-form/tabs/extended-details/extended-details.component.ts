@@ -81,6 +81,8 @@ export class ExtendedDetailsComponent implements OnInit {
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+
+      this.tabs.tabs[4].active = true;
     }
   }
 
