@@ -82,6 +82,14 @@ export class BasicDetailsComponent implements OnInit {
       this.basicDetailsForm.get('description').setValue(description.text);
       this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
       this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
+
+      if (this.savedData.authors.length > 0) {
+        this.removeAuthor(0);
+      }
+
+      this.savedData.authors.forEach(row => {
+        this.authors.push(this.createAuthor(row));
+      });
     }
   }
 
@@ -129,10 +137,10 @@ export class BasicDetailsComponent implements OnInit {
     return this.basicDetailsForm.get('authors') as FormArray;
   }
 
-  public createAuthor(): FormGroup {
+  public createAuthor(author?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(null, [ Validators.required ]),
-      organisation: this.fb.control(null),
+      author: this.fb.control(author ? author.author : null, [ Validators.required ]),
+      organisation: this.fb.control(author ? author.organisation : null),
     });
   }
 
