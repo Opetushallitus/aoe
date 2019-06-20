@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ export class BasicDetailsComponent implements OnInit {
   public submitted = false;
   public selectedLang = 'en';
   private lang: string = this.translate.currentLang;
+  private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
   public organisations$: Observable<any>;
   public learningResourceTypes$: Observable<any>;
@@ -33,8 +34,6 @@ export class BasicDetailsComponent implements OnInit {
 
   public basicDetailsForm: FormGroup;
 
-  private formData = JSON.parse(localStorage.getItem(this.localStorageKey));
-
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
@@ -49,10 +48,11 @@ export class BasicDetailsComponent implements OnInit {
 
     this.basicDetailsForm = this.fb.group({
       image: this.fb.control(null),
-      keywords: this.fb.control(null, Validators.required),
-      author: this.fb.control(null, Validators.required),
-      organisation: this.fb.control(null),
-      learningResourceType: this.fb.control(null, Validators.required),
+      keywords: this.fb.control(null, [ Validators.required ]),
+      authors: this.fb.array([
+        this.createAuthor(),
+      ]),
+      learningResourceType: this.fb.control(null, [ Validators.required ]),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
       description: this.fb.control(null),
@@ -70,17 +70,15 @@ export class BasicDetailsComponent implements OnInit {
 
     this.onSearch();
 
-    if (this.formData) {
-      const description = this.formData.description.find(e => e.lang === 'fi');
-      const descriptionEn = this.formData.description.find(e => e.lang === 'en');
-      const descriptionSv = this.formData.description.find(e => e.lang === 'sv');
+    if (this.savedData) {
+      const description = this.savedData.description.find(e => e.lang === 'fi');
+      const descriptionEn = this.savedData.description.find(e => e.lang === 'en');
+      const descriptionSv = this.savedData.description.find(e => e.lang === 'sv');
 
-      this.basicDetailsForm.get('keywords').setValue(this.formData.keywords);
-      this.basicDetailsForm.get('author').setValue(this.formData.author);
-      this.basicDetailsForm.get('organisation').setValue(this.formData.organisation);
-      this.basicDetailsForm.get('learningResourceType').setValue(this.formData.learningResourceType);
-      this.basicDetailsForm.get('timeRequired').setValue(this.formData.timeRequired);
-      this.basicDetailsForm.get('publisher').setValue(this.formData.publisher);
+      this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
+      this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
+      this.basicDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
+      this.basicDetailsForm.get('publisher').setValue(this.savedData.publisher);
       this.basicDetailsForm.get('description').setValue(description.text);
       this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
       this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
@@ -120,22 +118,40 @@ export class BasicDetailsComponent implements OnInit {
       .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
   }
 
-  openModal(template: TemplateRef<any>) {
+  public openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
   }
 
-  onSubmit() {
+  get authors() {
+    return this.basicDetailsForm.get('authors') as FormArray;
+  }
+
+  public createAuthor(): FormGroup {
+    return this.fb.group({
+      author: this.fb.control(null, [ Validators.required ]),
+      organisation: this.fb.control(null),
+    });
+  }
+
+  public addAuthor() {
+    this.authors.push(this.createAuthor());
+  }
+
+  public removeAuthor(i: number): void {
+    this.authors.removeAt(i);
+  }
+
+  public onSubmit() {
     this.submitted = true;
 
     if (!this.basicDetailsForm.invalid) {
-      const data = {
+      const newData = {
         thumbnail: this.basicDetailsForm.get('image').value,
         createdAt: new Date(),
-        author: this.basicDetailsForm.get('author').value,
-        organisation: this.basicDetailsForm.get('organisation').value,
+        authors: this.basicDetailsForm.get('authors').value,
         publisher: this.basicDetailsForm.get('publisher').value,
         description: [
           { lang: 'fi', text: this.basicDetailsForm.get('description').value },
@@ -146,6 +162,8 @@ export class BasicDetailsComponent implements OnInit {
         learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
         timeRequired: this.basicDetailsForm.get('timeRequired').value,
       };
+
+      const data = Object.assign({}, this.savedData, newData);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));

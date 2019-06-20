@@ -32,7 +32,58 @@
         ></ng-select>
       </div>
 
-      <div class="form-row">
+      <ng-container *ngFor="let author of authors.controls; let i = index;">
+        <div class="form-row" formArrayName="authors">
+          <ng-container [formGroupName]="i">
+            <div class="form-group col">
+              <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
+
+              <button
+                type="button"
+                class="btn btn-link"
+                tooltip="Oppimateriaalin tekijä tai tekijät. Syötä tekijät yksi tekijä kerrallaan ja paina enter-näppäintä jokaisen tekijän jälkeen."
+              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <input
+                type="text"
+                class="form-control"
+                id="{{ 'author' + i }}"
+                placeholder="Tekijän nimi"
+                formControlName="author"
+                required
+              >
+            </div>
+
+            <div class="form-group col">
+              <label for="{{ 'organisation ' + i }}">{{ 'forms.educationalResource.basicDetails.organisation' | translate }}</label>
+
+              <button
+                type="button"
+                class="btn btn-link"
+                tooltip="Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <ng-select
+                [items]="organisations$ | async"
+                bindLabel="value"
+                id="{{ 'organisation ' + i }}"
+                placeholder="Lisää halutessasi affiliaatiosi"
+                formControlName="organisation"
+              ></ng-select>
+            </div>
+
+            <div class="form-group align-self-end col-auto" *ngIf="i !== 0">
+              <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">Poista</button>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <div class="form-group">
+        <button type="button" class="btn btn-gray" (click)="addAuthor()">Lisää toinen tekijä</button>
+      </div>
+
+      <!--<div class="form-row">
         <div class="form-group col-md-7">
           <label for="author">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
 
@@ -77,7 +128,7 @@
             formControlName="organisation"
           ></ng-select>
         </div>
-      </div>
+      </div>-->
 
       <div class="form-row">
         <div class="form-group col-md-5">
