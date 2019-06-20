@@ -2,7 +2,7 @@ import rp from "request-promise";
 
 import { HttpHeaders } from "../models/httpheaders";
 
-export async function getDataFromApi(api: string, route: string, headers: HttpHeaders, params?: string): Promise<any> {
+export async function getDataFromApi(api: string, route?: string, headers?: HttpHeaders, params?: string): Promise<any> {
   const options = {
     url: `${api}${route}${params}`,
     headers: headers
