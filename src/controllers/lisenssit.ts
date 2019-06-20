@@ -5,7 +5,7 @@ import { getAsync, setAsync } from "../util/redis.utils";
 
 const endpoint = "edtech/codeschemes/Licence";
 const rediskey = "lisenssit";
-const params = "codes/?format=json";
+const params = "codes/?format=json&expand=externalReference";
 
 /**
  * Set data into redis database
@@ -29,7 +29,8 @@ export async function setLisenssit(): Promise<any> {
         fi: result.prefLabel.fi,
         en: result.prefLabel.en,
         sv: result.prefLabel.sv,
-      }
+      },
+      link: result.externalReferences[0].href,
     };
   });
 
@@ -55,6 +56,7 @@ export const getLisenssit = async (req: Request, res: Response, next: NextFuncti
       return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        link: row.link + "." + [req.params.lang],
       };
     });
 
@@ -93,6 +95,7 @@ export const getLisenssi = async (req: Request, res: Response, next: NextFunctio
       output = {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
+        link: row.link + "." + [req.params.lang],
       };
     }
 
