@@ -32,6 +32,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -88,6 +89,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ReactiveFormsModule,
     DragDropModule,
     AlertModule.forRoot(),
+    TooltipModule.forRoot(),
   ],
   declarations: [
     AppComponent,
