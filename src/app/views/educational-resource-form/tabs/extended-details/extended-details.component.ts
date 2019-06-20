@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { TabsetComponent } from 'ngx-bootstrap';
@@ -24,17 +24,10 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityHazards$: Observable<any>;
   public languages$: Observable<any>;
 
-  public extendedDetailsForm = new FormGroup({
-    educationalRoles: new FormControl(''),
-    educationalUse: new FormControl(''),
-    accessibilityFeatures: new FormControl(''),
-    accessibilityHazards: new FormControl(''),
-    typicalAgeRangeMin: new FormControl(''),
-    typicalAgeRangeMax: new FormControl(''),
-    inLanguage: new FormControl(''),
-  });
+  public extendedDetailsForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
   ) { }
@@ -42,6 +35,16 @@ export class ExtendedDetailsComponent implements OnInit {
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+    });
+
+    this.extendedDetailsForm = this.fb.group({
+      educationalRoles: this.fb.control(null),
+      educationalUse: this.fb.control(null),
+      accessibilityFeatures: this.fb.control(null),
+      accessibilityHazards: this.fb.control(null),
+      typicalAgeRangeMin: this.fb.control(null),
+      typicalAgeRangeMax: this.fb.control(null),
+      inLanguage: this.fb.control(null),
     });
 
     this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
