@@ -23,8 +23,6 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityFeatures$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
   public languages$: Observable<any>;
-  public licenses$: any[];
-  public selectedLicense: any;
 
   public extendedDetailsForm = new FormGroup({
     educationalRoles: new FormControl(''),
@@ -34,9 +32,6 @@ export class ExtendedDetailsComponent implements OnInit {
     typicalAgeRangeMin: new FormControl(''),
     typicalAgeRangeMax: new FormControl(''),
     inLanguage: new FormControl(''),
-    licenseCommercialUse: new FormControl('yes'),
-    licenseSharing: new FormControl('yes'),
-    license: new FormControl(''),
   });
 
   constructor(
@@ -55,18 +50,6 @@ export class ExtendedDetailsComponent implements OnInit {
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
 
-    this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
-      this.licenses$ = data;
-
-      if (this.savedData) {
-        this.setLicense(this.savedData.licenseCommercialUse, this.savedData.licenseSharing);
-
-        this.extendedDetailsForm.get('licenseCommercialUse').setValue(this.savedData.licenseCommercialUse);
-        this.extendedDetailsForm.get('licenseSharing').setValue(this.savedData.licenseSharing);
-        this.extendedDetailsForm.get('license').setValue(this.savedData.license);
-      }
-    });
-
     if (this.savedData) {
       this.extendedDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
       this.extendedDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
@@ -76,38 +59,12 @@ export class ExtendedDetailsComponent implements OnInit {
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
       this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
     }
-
-    this.onChanges();
-  }
-
-  setLicense(commercialUse, sharing) {
-    let licenseKey = 'CCBY';
-
-    if (commercialUse === 'no') {
-      licenseKey += 'NC';
-    }
-
-    if (sharing === 'no') {
-      licenseKey += 'ND';
-    } else if (sharing === 'shareAlike') {
-      licenseKey += 'SA';
-    }
-
-    this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
-  }
-
-  onChanges() {
-    this.extendedDetailsForm.valueChanges.subscribe(val => {
-      this.setLicense(val.licenseCommercialUse, val.licenseSharing);
-    });
   }
 
   onSubmit() {
     this.submitted = true;
 
     if (!this.extendedDetailsForm.invalid) {
-      this.setLicense(this.extendedDetailsForm.get('licenseCommercialUse').value, this.extendedDetailsForm.get('licenseSharing').value);
-
       const newData = {
         educationalRole: this.extendedDetailsForm.get('educationalRoles').value,
         educationalUse: this.extendedDetailsForm.get('educationalUse').value,
@@ -118,9 +75,6 @@ export class ExtendedDetailsComponent implements OnInit {
           max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
         }],
         inLanguage: this.extendedDetailsForm.get('inLanguage').value,
-        licenseCommercialUse: this.extendedDetailsForm.get('licenseCommercialUse').value,
-        licenseSharing: this.extendedDetailsForm.get('licenseSharing').value,
-        license: this.selectedLicense.key,
       };
 
       const data = Object.assign({}, this.savedData, newData);

@@ -62,6 +62,7 @@ import { EducationalDetailsComponent } from './views/educational-resource-form/t
 import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs/extended-details/extended-details.component';
 import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { LicenseComponent } from './views/educational-resource-form/tabs/license/license.component';
 
 @NgModule({
   imports: [
@@ -117,6 +118,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     ExtendedDetailsComponent,
     BasedOnDetailsComponent,
     DialogComponent,
+    LicenseComponent,
   ],
   providers: [{
     provide: LocationStrategy,
