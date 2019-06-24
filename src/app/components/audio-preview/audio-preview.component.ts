@@ -7,7 +7,7 @@ import { Material } from '../../models/demo/material';
   templateUrl: './audio-preview.component.html',
 })
 export class AudioPreviewComponent implements OnChanges {
-  @ViewChild('audioElement') audioPlayerRef: ElementRef;
+  @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef;
   @Input() set material(material: Material) {
     this._material = material;
   }

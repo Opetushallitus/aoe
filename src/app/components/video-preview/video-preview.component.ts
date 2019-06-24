@@ -7,7 +7,7 @@ import { Material } from '../../models/demo/material';
   templateUrl: './video-preview.component.html',
 })
 export class VideoPreviewComponent implements OnChanges {
-  @ViewChild('videoElement') private player: ElementRef;
+  @ViewChild('videoElement', { static: true }) private player: ElementRef;
   @Input() set material(material: Material) {
     this._material = material;
   }
