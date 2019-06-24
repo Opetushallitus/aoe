@@ -90,7 +90,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -178,7 +178,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -266,7 +266,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 2
@@ -356,7 +356,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -445,7 +445,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -534,7 +534,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 3
@@ -637,7 +637,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -737,7 +737,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -837,7 +837,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 4
@@ -1024,7 +1024,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -1208,7 +1208,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -1393,7 +1393,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 5
@@ -1500,7 +1500,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -1608,7 +1608,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -1716,7 +1716,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 6
@@ -1905,7 +1905,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -2092,7 +2092,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -2280,7 +2280,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 7
@@ -2368,7 +2368,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -2454,7 +2454,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -2541,7 +2541,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 8
@@ -2649,7 +2649,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -2757,7 +2757,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -2864,7 +2864,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Digipedagogiikka 9
@@ -2969,7 +2969,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -3073,7 +3073,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -3178,7 +3178,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Python
@@ -3264,7 +3264,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -3350,7 +3350,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -3426,7 +3426,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Scratch
@@ -3511,7 +3511,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -3597,7 +3597,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -3673,7 +3673,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     },
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Robotics
@@ -3826,7 +3826,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -3969,7 +3969,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -4120,7 +4120,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // AI
@@ -4196,7 +4196,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -4269,7 +4269,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -4342,7 +4342,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
     },
   },
   // Copyrights
@@ -4628,7 +4628,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.fi',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
   {
@@ -4914,7 +4914,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.en',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.en',
     },
   },
   {
@@ -5200,7 +5200,77 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     licenseInformation: {
       licenseType: 'CC BY 4.0',
-      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/deed.sv',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.sv',
+    },
+  },
+  // Opettajana virtuaaliluokassa 1
+  {
+    id: 43,
+    specialId: 15,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/1.pdf',
+          originalFilename: '1.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: '',
+    slug: '',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: '', lastName: '' },
+    ],
+    // tslint:disable-next-line
+    description: '',
+    keywords: [
+      { value: '' },
+      { value: '' },
+      { value: '' },
+    ],
+    learningResourceType: [
+      '',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: '' },
+      { value: '' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: '' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: '' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
     },
   },
 ];
