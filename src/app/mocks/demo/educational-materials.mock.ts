@@ -5208,38 +5208,39 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     id: 43,
     specialId: 15,
     img: 'assets/img/1-digipedagogiikka.png',
-    download: '',
+    download: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/1.pdf',
     materials: [
       {
         file: {
           filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/1.pdf',
-          originalFilename: '1.pptx',
+          originalFilename: '1_miten_tuetaan_opiskelijoiden_yhteisöllisyyden_kehittymistä_1.pptx',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
       },
     ],
-    name: '',
-    slug: '',
+    name: 'Miten tuetaan opiskelijoiden yhteisöllisyyttä virtuaaliopetuksen alkuvaiheessa? 1',
+    slug: 'miten-tuetaan-opiskelijoiden-yhteisollisyytta-virtuaaliopetuksen-alkuvaiheessa-1',
     dateCreated: new Date(),
     datePublished: new Date(2019, 6, 12),
     author: [
-      { firstName: '', lastName: '' },
+      { firstName: 'Liisa', lastName: 'Ilomäki' },
     ],
     // tslint:disable-next-line
-    description: '',
+    description: 'Ideoita opettajalle, miten voi tukea opiskelijoiden yhteisön muodostumista virtuaalisessa luokkaopetuksessa.',
     keywords: [
-      { value: '' },
-      { value: '' },
-      { value: '' },
+      { value: 'virtuaaliopetus' },
+      { value: 'yhteisöllisyys' },
+      { value: 'suunnittelumalli' },
     ],
     learningResourceType: [
-      '',
+      'presentation',
+      'guide',
     ],
     timeRequired: { value: '0 h' },
     educationalLevel: [
-      { value: '' },
-      { value: '' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
     ],
     typicalAgeRange: '',
     educationalAlignment: [
@@ -5247,7 +5248,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
         alignmentType: {
           value: 'esimerkki',
           educationalSubject: [
-            { value: '' }
+            { value: 'opetuksen tuki' }
           ],
         },
         educationalFramework: 'esimerkki',
@@ -5259,7 +5260,782 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       { value: 'opettaja' },
     ],
     educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
       { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 2
+  {
+    id: 44,
+    specialId: 16,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/2.pdf',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/2.pdf',
+          originalFilename: '2_miten_tuetaan_opiskelijoiden_yhteisöllisyyden_kehittymistä_2.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Miten tuetaan opiskelijoiden yhteisöllisyyden kehittymistä kurssin alkuvaiheessa? 2',
+    slug: 'miten-tuetaan-opiskelijoiden-yhteisollisyyden-kehittymista-kurssin-alkuvaiheessa-2',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 19),
+    author: [
+      { firstName: 'Sari', lastName: 'Hopeakoski' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi tukea opiskelijoiden yhteisön muodostumista virtuaalisessa luokkaopetuksessa.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'yhteisöllisyys' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 3
+  {
+    id: 45,
+    specialId: 17,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/3.pdf',
+          originalFilename: '15_tekijänoikeudet_virtuaaliluokassa_miten_ohjaan_opiskelijoita.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Tekijänoikeudet virtuaaliluokassa: Miten ohjaan opiskelijoita toimimaan tekijänoikeuksia kunnioittaen',
+    slug: 'tekijanoikeudet-virtuaaliluokassa-miten-ohjaan-opiskelijoita-toimimaan-tekijanoikeuksia-kunnioittaen',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Aino', lastName: 'Korhonen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi ohjata opiskelijaa kunnioittamaan tekijänoikeuksia.',
+    keywords: [
+      { value: 'tekijänoikeudet' },
+      { value: 'opettajan aineisto' },
+      { value: 'suunnittelumalli' },
+      { value: 'virtuaaliopetus' },
+    ],
+    learningResourceType: [
+      'presentation',
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 4
+  {
+    id: 46,
+    specialId: 18,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/4.pdf',
+          originalFilename: '5_kirjain_äänne_opettajalle.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Opeta kirjain–äänne -vastaavuutta',
+    slug: 'opeta-kirjain–aanne-vastaavuutta',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Päivi', lastName: 'Virkkunen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi tukea kielen oppimista opettamalla fonetiikan perusasioita.',
+    keywords: [
+      { value: 'fonetiikka' },
+      { value: 'ääntäminen' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'Lukiokoulutus Vieraat kielet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 5
+  {
+    id: 47,
+    specialId: 19,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/5.pdf',
+          originalFilename: '5 b Kirjain_äänne_opiskelijalle.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Kirjain–äänne-vastaavuus',
+    slug: 'kirjain–aanne-vastaavuus',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Päivi', lastName: 'Virkkunen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Tietoa äänteistä kielten oppimisen tueksi.',
+    keywords: [
+      { value: 'ääntäminen' },
+      { value: 'fonetiikka' },
+      { value: 'kielen oppiminen' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'Lukiokoulutus Vieraat kielet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppija' },
+    ],
+    educationalUse: [
+      { value: 'Itsenäinen opiskelu' },
+      { value: 'Kurssimateriaali' }
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 6
+  {
+    id: 48,
+    specialId: 20,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/6.pdf',
+          originalFilename: '6_puheentuotto_opettajalle.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Opeta puheentuottoa',
+    slug: 'opeta-puheentuottoa',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Päivi', lastName: 'Virkkunen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi tukea kielen oppimista opettamalla fonetiikan perusasioita.',
+    keywords: [
+      { value: 'fonetiikka' },
+      { value: 'ääntäminen' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'Lukiokoulutus Vieraat kielet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 7
+  {
+    id: 49,
+    specialId: 21,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/7.pdf',
+          originalFilename: '6b Puheentuotto_opiskelijalle.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Puheentuotto',
+    slug: 'puheentuotto',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Päivi', lastName: 'Virkkunen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Tietoa siitä, miten äänteet syntyvät, kun ihminen puhuu.',
+    keywords: [
+      { value: 'ääntäminen' },
+      { value: 'fonetiikka' },
+      { value: 'kielen oppiminen' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'Lukiokoulutus Vieraat kielet' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'oppija' },
+    ],
+    educationalUse: [
+      { value: 'Itsenäinen opiskelu' },
+      { value: 'Kurssimateriaali' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 8
+  {
+    id: 50,
+    specialId: 22,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/8.pdf',
+          originalFilename: '7_miten_opetetaan_opiskelijoita_etsimään_verkossa.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Miten opetetaan opiskelijoita esittämään verkossa?',
+    slug: 'miten-opetetaan-opiskelijoita-esittamaan-verkossa',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Salli', lastName: 'Nurminen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi tukea opiskelijoita esittämään virtuaaliopetuksessa.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'esittäminen ' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 9
+  {
+    id: 51,
+    specialId: 23,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/9.pdf',
+          originalFilename: '9_miten_ylläpitää_motivaatio_oppimiseen_koulupäivän_jälkeen.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Miten ylläpitää motivaatio oppimiseen, kun opiskelu tapahtuu usein koulupäivän jälkeen?',
+    slug: 'miten-yllapitaa-motivaatio-oppimiseen-kun-opiskelu-tapahtuu-usein-koulupaivan-jalkeen',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Sari', lastName: 'Hopeakoski' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten voi tukea opiskelijoiden motivaatiota virtuaalisessa luokkaopetuksessa.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'motivaatio' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 10
+  {
+    id: 52,
+    specialId: 24,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/10.pdf',
+          originalFilename: '10_arviointi_virtuaaliluokassa.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Arviointi virtuaaliluokassa: Miten opettaja voi valvoa opiskelijan työskentelyä?',
+    slug: 'arviointi-virtuaaliluokassa-miten-opettaja-voi-valvoa-opiskelijan-tyoskentelya',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Sari', lastName: 'Hopeakoski' },
+      { firstName: 'Salli', lastName: 'Nurminen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle arvioinnin toteuttamisesta virtuaalisessa luokkaopetuksessa.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'arviointi' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 11
+  {
+    id: 53,
+    specialId: 25,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/11.pdf',
+          originalFilename: '13_miten_löytää_aikaa_ääntämisen_opettamiseen.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Miten löytää aikaa ääntämisen opettamiseen haasteellisessa kielessä?',
+    slug: 'miten-loytaa-aikaa-aantamisen-opettamiseen-haasteellisessa-kielessa',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Lena', lastName: 'Hillebrandt' },
+      { firstName: 'Sari', lastName: 'Hopeakoski' },
+    ],
+    // tslint:disable-next-line
+    description: 'Ideoita opettajalle, miten pienin keinoin voi opettaa ääntämistä virtuaaliluokassa.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'ääntäminen' },
+      { value: 'suunnittelumalli' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'lukiokoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
+    ],
+    interactivityType: [
+      { value: '' },
+    ],
+    inLanguage: {
+      id: 'FI',
+      value: 'suomi',
+    },
+    licenseInformation: {
+      licenseType: 'CC BY 4.0',
+      licenseUrl: 'https://creativecommons.org/licenses/by/4.0/legalcode.fi',
+    },
+  },
+  // Opettajana virtuaaliluokassa 12
+  {
+    id: 54,
+    specialId: 26,
+    img: 'assets/img/1-digipedagogiikka.png',
+    download: '',
+    materials: [
+      {
+        file: {
+          filePath: 'https://aoe.fi/files/opettajana-virtuaaliluokassa/12.pdf',
+          originalFilename: '14_tekijänoikeudet_virtuaaliluokassa_opettajan_oikeudet.pptx',
+          mimeType: 'application/pdf',
+          format: 'pdf',
+        },
+      },
+    ],
+    name: 'Tekijänoikeudet virtuaaliluokassa: Opettajan oikeudet tekemiinsä materiaaleihin',
+    slug: 'tekijanoikeudet-virtuaaliluokassa-opettajan-oikeudet-tekemiinsa-materiaaleihin',
+    dateCreated: new Date(),
+    datePublished: new Date(2019, 6, 12),
+    author: [
+      { firstName: 'Aino', lastName: 'Korhonen' },
+    ],
+    // tslint:disable-next-line
+    description: 'Tietoa siitä, millaiset ovat opettajan tekijänoikeudet.',
+    keywords: [
+      { value: 'virtuaaliopetus' },
+      { value: 'tekijänoikeudet' },
+      { value: 'opettaja' },
+    ],
+    learningResourceType: [
+      'guide',
+    ],
+    timeRequired: { value: '0 h' },
+    educationalLevel: [
+      { value: 'perusopetus' },
+      { value: 'lukiokoulutus' },
+      { value: 'ammatillinen koulutus' },
+      { value: 'korkeakoulutus' },
+    ],
+    typicalAgeRange: '',
+    educationalAlignment: [
+      {
+        alignmentType: {
+          value: 'esimerkki',
+          educationalSubject: [
+            { value: 'opetuksen tuki' }
+          ],
+        },
+        educationalFramework: 'esimerkki',
+        teaches: [],
+        complexity: 'a',
+      },
+    ],
+    educationalRole: [
+      { value: 'opettaja' },
+    ],
+    educationalUse: [
+      { value: 'Opettajan materiaalit ja osaamisen kehittäminen' },
     ],
     interactivityType: [
       { value: '' },
