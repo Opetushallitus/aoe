@@ -32,8 +32,8 @@ COPY --from=node_builder /app/dist/ /app/dist/
 # COPY ./views /app/views
 COPY ./package.json /app
 COPY ./package-lock.json /app
-#COPY ./.env.example /app
-COPY ./../secrets/.env.example /app
+COPY ./.env.example /app
+#COPY ./../secrets/.env.example /app
 
 RUN (cd /app && npm install --only=production) && \
     npm uninstall -g npm
