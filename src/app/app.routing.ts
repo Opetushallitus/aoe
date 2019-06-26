@@ -39,7 +39,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'etusivu',
-        loadChildren: './views/mainView/main-view.module#MainViewModule',
+        loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
       },
       {
         path: 'materiaali/:specialId/:slug',
