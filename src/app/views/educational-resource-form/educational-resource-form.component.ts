@@ -8,7 +8,7 @@ import { TabsetComponent } from 'ngx-bootstrap';
   templateUrl: './educational-resource-form.component.html',
 })
 export class EducationalResourceFormComponent implements OnInit, OnDestroy {
-  @ViewChild('formTabs') formTabsRef: TabsetComponent;
+  @ViewChild('formTabs', { static: true }) formTabsRef: TabsetComponent;
 
   private routeSubscription: Subscription;
   private tabId: number;
