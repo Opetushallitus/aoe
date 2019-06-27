@@ -2,21 +2,21 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>{{ 'demo.help.title' | translate }}</h1>
+        <h1>Usein kysytyt kysymykset</h1>
       </div>
     </div><!--/.row-->
 
-    <div class="row">
+    <!--<div class="row">
       <div class="col">
         <h2>{{ 'demo.help.subtitle' | translate }}</h2>
 
         <p>{{ 'demo.help.description' | translate }}</p>
       </div>
-    </div><!--/.row-->
+    </div>&lt;!&ndash;/.row&ndash;&gt;-->
 
     <div class="row">
       <div class="col">
-        <h2>{{ 'demo.help.faq.title' | translate }}</h2>
+        <h2>Yleisiä kysymyksiä</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faq" #group>
@@ -25,7 +25,7 @@
               <i class="fa pull-right" aria-hidden="true" [ngClass]="group.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
             </div>
 
-            <p>{{ item.answer }}</p>
+            <p *ngFor="let paragraph of item.answer">{{ paragraph }}</p>
           </accordion-group>
         </accordion>
       </div>
