@@ -9,6 +9,7 @@ import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
+import { HelpViewComponent } from './views/help-view/help-view.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,10 @@ export const routes: Routes = [
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
+      },
+      {
+        path: 'ukk',
+        component: HelpViewComponent,
       },
     ],
   },
