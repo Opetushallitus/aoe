@@ -45,6 +45,8 @@ export class ExtendedDetailsComponent implements OnInit {
       typicalAgeRangeMin: this.fb.control(null),
       typicalAgeRangeMax: this.fb.control(null),
       inLanguage: this.fb.control(null),
+      timeRequired: this.fb.control(null),
+      publisher: this.fb.control(null),
     });
 
     this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
@@ -61,6 +63,8 @@ export class ExtendedDetailsComponent implements OnInit {
       this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
       this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
+      this.extendedDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
+      this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
     }
   }
 
@@ -78,6 +82,8 @@ export class ExtendedDetailsComponent implements OnInit {
           max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
         }],
         inLanguage: this.extendedDetailsForm.get('inLanguage').value,
+        timeRequired: this.extendedDetailsForm.get('timeRequired').value,
+        publisher: this.extendedDetailsForm.get('publisher').value,
       };
 
       const data = Object.assign({}, this.savedData, newData);

@@ -124,6 +124,42 @@
         formControlName="inLanguage"
       ></ng-select>
     </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="timeRequired">{{ 'forms.educationalResource.basicDetails.timeRequired' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Arvio ajasta, joka keskimäärin kuluu oppimateriaalin opiskeluun."
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="timeRequired"
+        placeholder="Opiskeluaika"
+        formControlName="timeRequired"
+      >
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publisher">{{ 'forms.educationalResource.basicDetails.publisher' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Mikäli oppimateriaalilla on julkaisija (esimerkiksi järjestö tai koulu), voit tähän täydentää julkaisijan virallisen nimen."
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="publisher"
+        placeholder="Kirjoita julkaisijan nimi"
+        formControlName="publisher"
+      >
+    </div>
   </div>
 
   <div class="row">

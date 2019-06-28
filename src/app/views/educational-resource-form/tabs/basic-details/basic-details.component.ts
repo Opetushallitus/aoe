@@ -53,8 +53,6 @@ export class BasicDetailsComponent implements OnInit {
         this.createAuthor(),
       ]),
       learningResourceType: this.fb.control(null, [ Validators.required ]),
-      timeRequired: this.fb.control(null),
-      publisher: this.fb.control(null),
       description: this.fb.control(null),
       descriptionEn: this.fb.control(null),
       descriptionSv: this.fb.control(null),
@@ -77,8 +75,6 @@ export class BasicDetailsComponent implements OnInit {
 
       this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
       this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
-      this.basicDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
-      this.basicDetailsForm.get('publisher').setValue(this.savedData.publisher);
       this.basicDetailsForm.get('description').setValue(description.text);
       this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
       this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
@@ -160,7 +156,6 @@ export class BasicDetailsComponent implements OnInit {
         thumbnail: this.basicDetailsForm.get('image').value,
         createdAt: new Date(),
         authors: this.basicDetailsForm.get('authors').value,
-        publisher: this.basicDetailsForm.get('publisher').value,
         description: [
           { lang: 'fi', text: this.basicDetailsForm.get('description').value },
           { lang: 'en', text: this.basicDetailsForm.get('descriptionEn').value },
@@ -168,7 +163,6 @@ export class BasicDetailsComponent implements OnInit {
         ],
         keywords: this.basicDetailsForm.get('keywords').value,
         learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
-        timeRequired: this.basicDetailsForm.get('timeRequired').value,
       };
 
       const data = Object.assign({}, this.savedData, newData);
