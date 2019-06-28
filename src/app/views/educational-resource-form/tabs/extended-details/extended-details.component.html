@@ -1,44 +1,6 @@
 <form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="educationalRoles">Kohderyhmä</label>
-
-      <button
-        type="button"
-        class="btn btn-link"
-        tooltip="Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-      <ng-select
-        [items]="educationalRoles$ | async"
-        [multiple]="true"
-        bindLabel="value"
-        id="educationalRoles"
-        placeholder="Valitse kohderyhmä"
-        formControlName="educationalRoles"
-      ></ng-select>
-    </div>
-
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="educationalUse">Käyttö opetuksessa</label>
-
-      <button
-        type="button"
-        class="btn btn-link"
-        tooltip="Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-      <ng-select
-        [items]="educationalUse$ | async"
-        [multiple]="true"
-        bindLabel="value"
-        id="educationalUse"
-        placeholder="Valitse opetuksen käyttökohde"
-        formControlName="educationalUse"
-      ></ng-select>
-    </div>
-
-    <div class="form-group col-sm-6 col-md-4">
       <label for="accessibilityFeatures">Saavutettavuuden ominaisuudet</label>
 
       <button

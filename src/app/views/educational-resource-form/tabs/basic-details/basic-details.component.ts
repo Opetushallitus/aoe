@@ -22,6 +22,8 @@ export class BasicDetailsComponent implements OnInit {
 
   public organisations$: Observable<any>;
   public learningResourceTypes$: Observable<any>;
+  public educationalRoles$: Observable<any>;
+  public educationalUse$: Observable<any>;
 
   // https://stackblitz.com/edit/ng-select-infinite
   private keywords = [];
@@ -53,14 +55,17 @@ export class BasicDetailsComponent implements OnInit {
         this.createAuthor(),
       ]),
       learningResourceType: this.fb.control(null, [ Validators.required ]),
+      educationalRoles: this.fb.control(null),
+      educationalUse: this.fb.control(null),
       description: this.fb.control(null),
       descriptionEn: this.fb.control(null),
       descriptionSv: this.fb.control(null),
     });
 
     this.organisations$ = this.koodistoProxySvc.getData('organisaatiot', this.lang);
-
     this.learningResourceTypes$ = this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang);
+    this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
+    this.educationalUse$ = this.koodistoProxySvc.getData('kayttokohteet', this.lang);
 
     this.koodistoProxySvc.getData('asiasanat', this.lang).subscribe(keywords => {
       this.keywords = keywords;
@@ -75,6 +80,8 @@ export class BasicDetailsComponent implements OnInit {
 
       this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
       this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
+      this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
+      this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
       this.basicDetailsForm.get('description').setValue(description.text);
       this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
       this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
@@ -163,6 +170,8 @@ export class BasicDetailsComponent implements OnInit {
         ],
         keywords: this.basicDetailsForm.get('keywords').value,
         learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
+        educationalRole: this.basicDetailsForm.get('educationalRoles').value,
+        educationalUse: this.basicDetailsForm.get('educationalUse').value,
       };
 
       const data = Object.assign({}, this.savedData, newData);

@@ -18,8 +18,6 @@ export class ExtendedDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
-  public educationalRoles$: Observable<any>;
-  public educationalUse$: Observable<any>;
   public accessibilityFeatures$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
   public languages$: Observable<any>;
@@ -38,8 +36,6 @@ export class ExtendedDetailsComponent implements OnInit {
     });
 
     this.extendedDetailsForm = this.fb.group({
-      educationalRoles: this.fb.control(null),
-      educationalUse: this.fb.control(null),
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
       typicalAgeRangeMin: this.fb.control(null),
@@ -49,15 +45,11 @@ export class ExtendedDetailsComponent implements OnInit {
       publisher: this.fb.control(null),
     });
 
-    this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
-    this.educationalUse$ = this.koodistoProxySvc.getData('kayttokohteet', this.lang);
     this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
 
     if (this.savedData) {
-      this.extendedDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
-      this.extendedDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
       this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
       this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
       this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
@@ -73,8 +65,6 @@ export class ExtendedDetailsComponent implements OnInit {
 
     if (!this.extendedDetailsForm.invalid) {
       const newData = {
-        educationalRole: this.extendedDetailsForm.get('educationalRoles').value,
-        educationalUse: this.extendedDetailsForm.get('educationalUse').value,
         accessibilityFeature: this.extendedDetailsForm.get('accessibilityFeatures').value,
         accessibilityHazard: this.extendedDetailsForm.get('accessibilityHazards').value,
         typicalAgeRange: [{
