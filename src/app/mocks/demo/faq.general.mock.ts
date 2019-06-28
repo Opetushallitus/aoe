@@ -1,11 +1,11 @@
-import { Faq } from '../models/faq';
+import { Faq } from '../../models/faq';
 
 // tslint:disable:max-line-length
 
 /**
  * Frequently Asked Questions mock
  */
-export const FAQ: Faq[] = [
+export const FAQGeneral: Faq[] = [
   {
     id: 1,
     question: 'Mikä on avointen oppimateriaalien palvelu? Miksi ja mihin tarpeeseen avointen oppimateriaalien palvelua kehitetään?',
