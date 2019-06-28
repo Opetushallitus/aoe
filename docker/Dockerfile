@@ -1,4 +1,4 @@
-FROM node:8-jessie as front-builder
+FROM node:12.4.0-stretch as front-builder
 WORKDIR /app
 COPY package.json /app/
 COPY package-lock.json /app/
