@@ -62,6 +62,7 @@ export class BasedOnDetailsComponent implements OnInit {
     return this.fb.group({
       author: this.fb.control(null),
       url: this.fb.control(null),
+      name: this.fb.control(null),
     });
   }
 
