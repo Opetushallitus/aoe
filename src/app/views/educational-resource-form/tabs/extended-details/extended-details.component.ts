@@ -20,7 +20,6 @@ export class ExtendedDetailsComponent implements OnInit {
 
   public accessibilityFeatures$: Observable<any>;
   public accessibilityHazards$: Observable<any>;
-  public languages$: Observable<any>;
 
   public extendedDetailsForm: FormGroup;
 
@@ -40,21 +39,18 @@ export class ExtendedDetailsComponent implements OnInit {
       accessibilityHazards: this.fb.control(null),
       typicalAgeRangeMin: this.fb.control(null),
       typicalAgeRangeMax: this.fb.control(null),
-      inLanguage: this.fb.control(null),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
     });
 
     this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
-    this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
 
     if (this.savedData) {
       this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
       this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
       this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
       this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
-      this.extendedDetailsForm.get('inLanguage').setValue(this.savedData.inLanguage);
       this.extendedDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
       this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
     }
@@ -71,7 +67,6 @@ export class ExtendedDetailsComponent implements OnInit {
           min: this.extendedDetailsForm.get('typicalAgeRangeMin').value,
           max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
         }],
-        inLanguage: this.extendedDetailsForm.get('inLanguage').value,
         timeRequired: this.extendedDetailsForm.get('timeRequired').value,
         publisher: this.extendedDetailsForm.get('publisher').value,
       };
