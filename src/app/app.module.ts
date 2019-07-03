@@ -31,6 +31,7 @@ import { AppRoutingModule } from './app.routing';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -93,6 +94,7 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
     DragDropModule,
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
+    CollapseModule.forRoot(),
   ],
   declarations: [
     AppComponent,
