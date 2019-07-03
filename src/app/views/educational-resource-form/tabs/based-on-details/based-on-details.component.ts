@@ -34,12 +34,14 @@ export class BasedOnDetailsComponent implements OnInit {
       externals: this.fb.array([ this.createExternal() ]),
     });
 
-    if (this.savedData.isBasedOn.internals.length > 0) {
-      this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
-    }
+    if (this.savedData.isBasedOn) {
+      if (this.savedData.isBasedOn.internals.length > 0) {
+        this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
+      }
 
-    if (this.savedData.isBasedOn.externals.length > 0) {
-      this.basedOnDetailsForm.get('externals').setValue(this.savedData.isBasedOn.externals);
+      if (this.savedData.isBasedOn.externals.length > 0) {
+        this.basedOnDetailsForm.get('externals').setValue(this.savedData.isBasedOn.externals);
+      }
     }
   }
 

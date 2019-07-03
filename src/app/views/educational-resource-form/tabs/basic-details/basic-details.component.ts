@@ -74,25 +74,30 @@ export class BasicDetailsComponent implements OnInit {
     this.onSearch();
 
     if (this.savedData) {
-      const description = this.savedData.description.find(e => e.lang === 'fi');
-      const descriptionEn = this.savedData.description.find(e => e.lang === 'en');
-      const descriptionSv = this.savedData.description.find(e => e.lang === 'sv');
-
       this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
       this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
       this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
       this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
-      this.basicDetailsForm.get('description').setValue(description.text);
-      this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
-      this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
 
-      if (this.savedData.authors.length > 0) {
-        this.removeAuthor(0);
+      if (this.savedData.description) {
+        const description = this.savedData.description.find(e => e.lang === 'fi');
+        const descriptionEn = this.savedData.description.find(e => e.lang === 'en');
+        const descriptionSv = this.savedData.description.find(e => e.lang === 'sv');
+
+        this.basicDetailsForm.get('description').setValue(description.text);
+        this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
+        this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
       }
 
-      this.savedData.authors.forEach(row => {
-        this.authors.push(this.createAuthor(row));
-      });
+      if (this.savedData.authors) {
+        if (this.savedData.authors.length > 0) {
+          this.removeAuthor(0);
+        }
+
+        this.savedData.authors.forEach(row => {
+          this.authors.push(this.createAuthor(row));
+        });
+      }
     }
   }
 
