@@ -19,7 +19,6 @@ export class LicenseComponent implements OnInit {
   public licenseForm: FormGroup;
 
   public licenses$: any[];
-  public selectedLicense: any;
 
   constructor(
     private fb: FormBuilder,
@@ -33,8 +32,6 @@ export class LicenseComponent implements OnInit {
     });
 
     this.licenseForm = this.fb.group({
-      licenseCommercialUse: this.fb.control(null),
-      licenseSharing: this.fb.control(null),
       license: this.fb.control(null),
     });
 
@@ -42,36 +39,8 @@ export class LicenseComponent implements OnInit {
       this.licenses$ = data;
 
       if (this.savedData) {
-        this.setLicense(this.savedData.licenseCommercialUse, this.savedData.licenseSharing);
-
-        this.licenseForm.get('licenseCommercialUse').setValue(this.savedData.licenseCommercialUse);
-        this.licenseForm.get('licenseSharing').setValue(this.savedData.licenseSharing);
         this.licenseForm.get('license').setValue(this.savedData.license);
       }
-    });
-
-    this.onChanges();
-  }
-
-  setLicense(commercialUse, sharing) {
-    let licenseKey = 'CCBY';
-
-    if (commercialUse === 'no') {
-      licenseKey += 'NC';
-    }
-
-    if (sharing === 'no') {
-      licenseKey += 'ND';
-    } else if (sharing === 'shareAlike') {
-      licenseKey += 'SA';
-    }
-
-    this.selectedLicense = this.licenses$.find(license => license.key === `${licenseKey}4.0`);
-  }
-
-  onChanges() {
-    this.licenseForm.valueChanges.subscribe(val => {
-      this.setLicense(val.licenseCommercialUse, val.licenseSharing);
     });
   }
 
@@ -79,12 +48,8 @@ export class LicenseComponent implements OnInit {
     this.submitted = true;
 
     if (this.licenseForm.valid) {
-      this.setLicense(this.licenseForm.get('licenseCommercialUse').value, this.licenseForm.get('licenseSharing').value);
-
       const newData = {
-        licenseCommercialUse: this.licenseForm.get('licenseCommercialUse').value,
-        licenseSharing: this.licenseForm.get('licenseSharing').value,
-        license: this.selectedLicense.key,
+        license: this.licenseForm.get('license').value,
       };
 
       const data = Object.assign({}, this.savedData, newData);

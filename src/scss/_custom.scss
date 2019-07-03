@@ -43,7 +43,7 @@ body {
 
 // Forms
 label {
-  &:not(.custom-file-label) {
+  &:not(.custom-file-label):not(.custom-control-label) {
     color: $input-label-color;
     @include font-size(12);
   }
