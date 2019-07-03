@@ -31,6 +31,11 @@ export async function setLisenssit(): Promise<any> {
         sv: result.prefLabel.sv,
       },
       link: result.externalReferences[0].href,
+      description: {
+        fi: result.definition.fi,
+        // en: result.definition.en,
+        // sv: result.definition.sv,
+      }
     };
   });
 
@@ -57,6 +62,7 @@ export const getLisenssit = async (req: Request, res: Response, next: NextFuncti
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         link: row.link + "." + [req.params.lang],
+        description: row.description[req.params.lang] != undefined ? row.description[req.params.lang] : row.description["fi"],
       };
     });
 
@@ -96,6 +102,7 @@ export const getLisenssi = async (req: Request, res: Response, next: NextFunctio
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
         link: row.link + "." + [req.params.lang],
+        description: row.description[req.params.lang] != undefined ? row.description[req.params.lang] : row.description["fi"],
       };
     }
 
