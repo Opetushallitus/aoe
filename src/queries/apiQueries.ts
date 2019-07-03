@@ -573,6 +573,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
 async function createUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
+        console.log(db);
         console.log(req.body);
         if (req.body.username === undefined) {
             res.status(500).send("username undefined");
@@ -583,7 +584,7 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
     }
     catch (err ) {
         console.log(err);
-        res.status(500).send("vikaan meni");
+        res.status(500).send(err);
     }
 }
 
@@ -644,14 +645,14 @@ async function insertEducationalMaterial(obj: any, func: any) {
         for (const num in obj[mkey]) {
             await insertIntoAccessibilityHazard(obj[mkey][num], materialid);
         }
-        mkey = "AccessibilityAPI";
-        for (const num in obj[mkey]) {
-            await insertIntoAccessibilityAPI(obj[mkey][num], materialid);
-        }
-        mkey = "AccessibilityControl";
-        for (const num in obj[mkey]) {
-            await insertIntoAccessibilityControl(obj[mkey][num], materialid);
-        }
+        // mkey = "AccessibilityAPI";
+        // for (const num in obj[mkey]) {
+        //     await insertIntoAccessibilityAPI(obj[mkey][num], materialid);
+        // }
+        // mkey = "AccessibilityControl";
+        // for (const num in obj[mkey]) {
+        //     await insertIntoAccessibilityControl(obj[mkey][num], materialid);
+        // }
 
         mkey = "KeyWord";
         for (const num in obj[mkey]) {
@@ -786,26 +787,6 @@ async function insertIntoAccessibilityHazard(obj: any, materialid: any) {
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "accessibilityhazard") + "RETURNING id";
-    console.log(query);
-    await db.any(query);
-}
-
-async function insertIntoAccessibilityAPI(obj: any, materialid: any) {
-    const data = {
-        value : obj.value,
-        educationalmaterialid : materialid
-    };
-    const query = pgp.helpers.insert(data, undefined, "accessibilityapi") + "RETURNING id";
-    console.log(query);
-    await db.any(query);
-}
-
-async function insertIntoAccessibilityControl(obj: any, materialid: any) {
-    const data = {
-        value : obj.value,
-        educationalmaterialid : materialid
-    };
-    const query = pgp.helpers.insert(data, undefined, "accessibilitycontrol") + "RETURNING id";
     console.log(query);
     await db.any(query);
 }

@@ -15,6 +15,7 @@ RUN useradd -ms /bin/false -d /app node && \
     yum install -y epel-release && \
     yum install -y wget nano redis supervisor && \
     mkdir -p /app/data && \
+    mkdir -p /app/uploads && \
     mkdir -p /var/log/supervisor && \
     mkdir -p /var/run/supervisor/ && \
     chown -R node:node /app && \
@@ -29,11 +30,10 @@ RUN useradd -ms /bin/false -d /app node && \
 
 # Copy sources and other files
 COPY --from=node_builder /app/dist/ /app/dist/
-# COPY ./views /app/views
+COPY ./views /app/views
 COPY ./package.json /app
 COPY ./package-lock.json /app
 COPY ./.env.example /app
-#COPY ./../secrets/.env.example /app
 
 RUN (cd /app && npm install --only=production) && \
     npm uninstall -g npm

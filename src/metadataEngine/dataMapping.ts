@@ -10,8 +10,6 @@ async function createMaterialObject(indata: any) {
     obj = Object.assign(obj, data);
     data = await createLearningResourceTypeObject(indata);
     obj = Object.assign(obj, data);
-    // data = await createAccessibilityObject(indata);
-    // obj = Object.assign(obj, data);
     data = await createKeyWordObject(indata);
     obj = Object.assign(obj, data);
     data = await createEducationalLevelObject(indata);
@@ -27,10 +25,6 @@ async function createMaterialObject(indata: any) {
     data = await createAccessibilityFeatureObject(indata);
     obj = Object.assign(obj, data);
     data = await createAccessibilityHazardObject(indata);
-    obj = Object.assign(obj, data);
-    data = await createAccessibilityAPIObject(indata);
-    obj = Object.assign(obj, data);
-    data = await createAccessibilityControlObject(indata);
     obj = Object.assign(obj, data);
     data = await createMaterialTableObject(indata);
     obj = Object.assign(obj, data);
@@ -71,8 +65,6 @@ async function createEducationalMaterialObject(indata: any) {
     const materialData = {
         technicalname : indata.nimi,
         createdat : date,
-        // author : indata.tekija,
-        // organization : indata.organisaatio,
         originalpublishedat : cleanJulkaisuAjankohta,
         publishedat : date,
         updatedat : date,
@@ -174,21 +166,6 @@ async function createLearningResourceTypeObject(indata: any) {
     }
     return obj;
 }
-// async function createAccessibilityObject(indata: any) {
-//     const obj: any = {};
-//     const key = "Accessibility";
-//     obj[key] = [];
-//     const list: any = await createPropertyNameList(indata, "saavutettavuus");
-//     for (let i = 0; i < list.length; ++i) {
-//         const value = indata[list[i]];
-//         const data = {
-//             value : value,
-//             property : "1"
-//         };
-//         obj[key].push(data);
-//     }
-//     return obj;
-// }
 
 async function createKeyWordObject(indata: any) {
     const obj: any = {};
@@ -285,36 +262,6 @@ async function createAccessibilityHazardObject(indata: any) {
     const key = "AccessibilityHazard";
     obj[key] = [];
     const list: any = await createPropertyNameList(indata, "saavutettavuuden_esteet");
-    for (let i = 0; i < list.length; ++i) {
-        const value = indata[list[i]];
-        const data = {
-            value : value
-        };
-        obj[key].push(data);
-    }
-    return obj;
-}
-
-async function createAccessibilityAPIObject(indata: any) {
-    const obj: any = {};
-    const key = "AccessibilityAPI";
-    obj[key] = [];
-    const list: any = await createPropertyNameList(indata, "saavutettavuuden_kayttotavat");
-    for (let i = 0; i < list.length; ++i) {
-        const value = indata[list[i]];
-        const data = {
-            value : value
-        };
-        obj[key].push(data);
-    }
-    return obj;
-}
-
-async function createAccessibilityControlObject(indata: any) {
-    const obj: any = {};
-    const key = "AccessibilityControl";
-    obj[key] = [];
-    const list: any = await createPropertyNameList(indata, "avustavat_teknologiat");
     for (let i = 0; i < list.length; ++i) {
         const value = indata[list[i]];
         const data = {

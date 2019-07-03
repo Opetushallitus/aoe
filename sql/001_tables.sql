@@ -14,8 +14,8 @@ DROP TABLE IF EXISTS CollectionKeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalMaterialCollection CASCADE;
 DROP TABLE IF EXISTS KeyWord CASCADE;
 DROP TABLE IF EXISTS EducationalLevel CASCADE;
-DROP TABLE IF EXISTS AccessibilityControl CASCADE;
-DROP TABLE IF EXISTS AccessibilityAPI CASCADE;
+-- DROP TABLE IF EXISTS AccessibilityControl CASCADE;
+-- DROP TABLE IF EXISTS AccessibilityAPI CASCADE;
 DROP TABLE IF EXISTS AccessibilityHazard CASCADE;
 DROP TABLE IF EXISTS AccessibilityFeature CASCADE;
 DROP TABLE IF EXISTS EducationalRole CASCADE;
@@ -97,16 +97,16 @@ CREATE TABLE LearningResourceType (
   Value                 text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE AccessibilityControl (
-  Id                     BIGSERIAL NOT NULL, 
-  Value                 text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (Id));
-CREATE TABLE AccessibilityAPI (
-  Id                     BIGSERIAL NOT NULL, 
-  Value                 text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (Id));
+-- CREATE TABLE AccessibilityControl (
+--   Id                     BIGSERIAL NOT NULL, 
+--   Value                 text NOT NULL, 
+--   EducationalMaterialId int8 NOT NULL, 
+--   PRIMARY KEY (Id));
+-- CREATE TABLE AccessibilityAPI (
+--   Id                     BIGSERIAL NOT NULL, 
+--   Value                 text NOT NULL, 
+--   EducationalMaterialId int8 NOT NULL, 
+--   PRIMARY KEY (Id));
 CREATE TABLE AccessibilityHazard (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
@@ -266,8 +266,8 @@ ALTER TABLE MaterialDescription ADD CONSTRAINT fk_Description FOREIGN KEY (Educa
 ALTER TABLE MaterialName ADD CONSTRAINT fk_MaterialName FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE AccessibilityFeature ADD CONSTRAINT fk_AccessibilityFeature FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
-ALTER TABLE AccessibilityAPI ADD CONSTRAINT fk_AccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
-ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+-- ALTER TABLE AccessibilityAPI ADD CONSTRAINT fk_AccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+-- ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);

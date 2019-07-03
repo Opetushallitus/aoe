@@ -9,15 +9,13 @@ const path = require("path");
 
 // File upload dependencies
 const multer  = require("multer");
-// const upload = multer({ dest: "temp/"});
-
 
 const storage = multer.diskStorage({ // notice you are calling the multer.diskStorage() method here, not multer()
     destination: function(req: Request, file: any, cb: any) {
-        cb(undefined, "temp/");
+        cb(undefined, "uploads/");
     },
     filename: function(req: Request, file: any, cb: any) {
-        cb(undefined, "onko" + "-" + Date.now());
+        cb(undefined, "file" + "-" + Date.now());
     }
 });
 
@@ -48,7 +46,6 @@ async function uploadMaterial(req: Request, res: Response) {
                     console.log("location: " + location);
                     result = await insertDataToMaterialTable(files, result[0].id, location);
                     await insertDataToRecordTable(files, result);
-                    // fs.unlink("./" + files[0].path);
                     fs.unlink("./" + files[0].path, (err: any) => {
                         if (err) {
                           console.error(err);
@@ -171,15 +168,13 @@ async function insertDataToRecordTable(files: any, materialID: any) {
             Bucket: process.env.BUCKET_NAME,
             MaxKeys: 2
         };
-        s3.listObjects(params2, function(err: any, data: any) {
-            if (err) console.log(err, err.stack); // an error occurred
-            else     console.log(data);           // successful response
-        });
+        // s3.listObjects(params2, function(err: any, data: any) {
+        //     if (err) console.log(err, err.stack); // an error occurred
+        //     else     console.log(data);           // successful response
+        // });
         // const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
         const bucketName = process.env.BUCKET_NAME;
         const key = filename;
-        // const key = "testfile2";
-        // const uploadFile = (filePath, bucketName, key) => {
         fs.readFile(filePath, async (err: any, data: any) => {
             if (err) console.error(err);
         try {

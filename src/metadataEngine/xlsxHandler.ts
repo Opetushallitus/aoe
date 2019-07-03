@@ -17,7 +17,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
 
 const storage = multer.diskStorage({
     destination: function (req: any, file: any, cb: any) {
-        cb(undefined, "temp/");
+        cb(undefined, "uploads/");
     },
     filename: function (req: any, file: any, cb: any) {
         const datetimestamp = Date.now();
@@ -31,27 +31,8 @@ const upload = multer( {
     limits: {fileSize: maxFileSize},
     fileFilter : fileFilter
 });
-const fs = require("fs");
 
-// async function uploadCSV(req: Request, res: Response) {
-//     try {
-//     const csvStream = csv.fromPath("/Users/juniemin/aoe-backend/temp/test.csv", {headers : true, delimiter : ";"})
-//     .on("data", function (record: any) {
-//         csvStream.pause();
-//         console.log(record.id + " " + record.Materiaalin_nimi);
-//         csvStream.resume();
-//     })
-//     .on("end", function() {
-//         console.log("end of file");
-//     })
-//     .on("error", function(err: any) {
-//         console.log(err);
-//     });
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-// }
+const fs = require("fs");
 
 async function createPropertyNameList(obj: any, str: String) {
     const list: any = [];
@@ -177,14 +158,6 @@ async function validate(data: any) {
             const saavutettavuudenEsteetList: any = await createPropertyNameList(data[d], "saavutettavuuden_esteet");
             if (await hasDuplicates(saavutettavuudenEsteetList, data[d])) {
                 o[key].push(createMessage(row, "saavutettavuuden_esteet", "saavutettavuuden_esteet has dublicate value"));
-            }
-            const saavutettavuudenKayttotavatList: any = await createPropertyNameList(data[d], "saavutettavuuden_kayttotavat");
-            if (await hasDuplicates(saavutettavuudenKayttotavatList, data[d])) {
-                o[key].push(createMessage(row, "saavutettavuuden_kayttotavat", "saavutettavuuden_kayttotavat has dublicate value"));
-            }
-            const avustavatTeknologiatList: any = await createPropertyNameList(data[d], "avustavat_teknologiat");
-            if (await hasDuplicates(avustavatTeknologiatList, data[d])) {
-                o[key].push(createMessage(row, "avustavat_teknologiat", "avustavat_teknologiat has dublicate value"));
             }
             const vaikeustasoKielissaList: any = await createPropertyNameList(data[d], "vaikeustaso_kielissa");
             if (await hasDuplicates(vaikeustasoKielissaList, data[d])) {
