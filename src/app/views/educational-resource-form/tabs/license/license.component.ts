@@ -36,7 +36,7 @@ export class LicenseComponent implements OnInit {
     });
 
     this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
-      this.licenses$ = data;
+      this.licenses$ = data.map(row => ({ ...row, isCollapsed: true }));
 
       if (this.savedData) {
         this.licenseForm.get('license').setValue(this.savedData.license);

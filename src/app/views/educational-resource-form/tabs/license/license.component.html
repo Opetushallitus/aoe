@@ -9,16 +9,24 @@
 
   <h3>Valitse lisenssi</h3>
 
-  <div class="form-row">
-    <div class="form-group">
-      <ng-container *ngFor="let license of licenses$">
-        <div class="custom-control custom-radio">
-          <input type="radio" id="{{ license.key }}" formControlName="license" value="{{ license.key }}" class="custom-control-input">
-          <label class="custom-control-label" for="{{ license.key }}">{{ license.value }}</label>
-        </div>
+  <div class="form-group" *ngFor="let license of licenses$; let i = index">
+    <div class="custom-control custom-radio">
+      <input type="radio" [id]="license.key" formControlName="license" [value]="license.key" class="custom-control-input">
+      <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
 
-        <p>license.description</p>
-      </ng-container>
+      <button
+        type="button"
+        class="btn btn-sm btn-gray ml-2"
+        (click)="license.isCollapsed = !license.isCollapsed"
+        [attr.aria-expanded]="!license.isCollapsed"
+        [attr.aria-controls]="'collapseBasic' + i"
+      >Näytä lisätiedot</button>
+    </div>
+
+    <div [id]="'collapseBasic' + i"  [collapse]="license.isCollapsed" [isAnimated]="true">
+      <p>{{ license.description }}</p>
+
+      <a [href]="license.link" target="_blank" rel="noopener">Lue lisää</a>
     </div>
   </div>
 
