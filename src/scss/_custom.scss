@@ -49,6 +49,12 @@ label {
   }
 }
 
+.custom-checkbox {
+  label {
+    @include font-size(12);
+  }
+}
+
 .custom-control-input {
   &:checked ~ .custom-control-label {
     &::before {
