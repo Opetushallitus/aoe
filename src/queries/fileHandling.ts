@@ -15,7 +15,8 @@ const storage = multer.diskStorage({ // notice you are calling the multer.diskSt
         cb(undefined, "uploads/");
     },
     filename: function(req: Request, file: any, cb: any) {
-        cb(undefined, "file" + "-" + Date.now());
+        const ext = file.originalname.substring(file.originalname.lastIndexOf("."), file.originalname.length);
+        cb(undefined, "file" + "-" + Date.now() + ext);
     }
 });
 
@@ -42,10 +43,9 @@ async function uploadMaterial(req: Request, res: Response) {
                     const id = result;
 
                     console.log(files);
-                    const location = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
-                    console.log("location: " + location);
-                    result = await insertDataToMaterialTable(files, result[0].id, location);
-                    await insertDataToRecordTable(files, result);
+                    const obj: any = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
+                    result = await insertDataToMaterialTable(files, result[0].id, obj.Location);
+                    await insertDataToRecordTable(files, result, obj.Key, obj.Bucket);
                     fs.unlink("./" + files[0].path, (err: any) => {
                         if (err) {
                           console.error(err);
@@ -79,11 +79,10 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 
                     const files = (<any>req).files;
                     let result;
-                    const location = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
-                    console.log("location: " + location);
-                    result = await insertDataToMaterialTable(files, req.params.id, location);
+                    const obj: any = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
+                    result = await insertDataToMaterialTable(files, req.params.id, obj.Location);
                     console.log("result: " + result);
-                    await insertDataToRecordTable(files, result);
+                    await insertDataToRecordTable(files, result, obj.Key, obj.Bucket);
                     console.log("files: " + files);
                     fs.unlink("./" + files[0].path);
                     res.status(200).send("Files uploaded: " + files.length);
@@ -139,79 +138,133 @@ async function insertDataToMaterialTable(files: any, materialID: String, locatio
     return data;
 }
 
-async function insertDataToRecordTable(files: any, materialID: any) {
+async function insertDataToRecordTable(files: any, materialID: any, fileKey: any, fileBucket: any) {
     let query;
     const str = Object.keys(files).map(function(k) {return "('" + files[k].path +
      "','" + files[k].originalname +
      "','" + files[k].size +
      "','" + files[k].mimetype +
      "','" + files[k].encoding +
+     "','" + fileKey +
+     "','" + fileBucket +
       "','" + materialID[k].id + "')"; }).join(",");
-    query = "insert into record (filePath, originalfilename, filesize, mimetype, format, materialid) values " + str + " returning id;";
+    query = "insert into record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid) values " + str + " returning id;";
     console.log(query);
     const data = await db.any(query);
 }
 
-  async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
+async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
     return new Promise(async resolve => {
-    try {
-        const util = require("util");
-        const config = {
-            accessKeyId: process.env.USER_KEY,
-            secretAccessKey: process.env.USER_SECRET,
-            endpoint: process.env.POUTA_END_POINT,
-            region: process.env.REGION
-          };
-        AWS.config.update(config);
-        const s3 = new AWS.S3();
-        const params2 = {
-            Bucket: process.env.BUCKET_NAME,
-            MaxKeys: 2
-        };
-        // s3.listObjects(params2, function(err: any, data: any) {
-        //     if (err) console.log(err, err.stack); // an error occurred
-        //     else     console.log(data);           // successful response
-        // });
-        // const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
-        const bucketName = process.env.BUCKET_NAME;
-        const key = filename;
-        fs.readFile(filePath, async (err: any, data: any) => {
-            if (err) console.error(err);
         try {
-            const base64data = Buffer.from(data, "binary2");
-            const params = {
-                Bucket: bucketName,
-                Key: key,
-                Body: base64data
+            const util = require("util");
+            const config = {
+                accessKeyId: process.env.USER_KEY,
+                secretAccessKey: process.env.USER_SECRET,
+                endpoint: process.env.POUTA_END_POINT,
+                region: process.env.REGION
+                };
+            AWS.config.update(config);
+            const s3 = new AWS.S3();
+            const params2 = {
+                Bucket: process.env.BUCKET_NAME,
+                MaxKeys: 2
             };
-            s3.upload(params, (err: any, data: any) => {
-                if (err) {
-                    console.error(`Upload Error ${err}`);
-                    res.status(500).send("error during upload");
-                }
+            // s3.listObjects(params2, function(err: any, data: any) {
+            //     if (err) console.log(err, err.stack); // an error occurred
+            //     else     console.log(data);           // successful response
+            // });
+            // const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
+            const bucketName = process.env.BUCKET_NAME;
+            const key = filename;
+            fs.readFile(filePath, async (err: any, data: any) => {
+                if (err) console.error(err);
+            try {
+                // const base64data = Buffer.from(data, "binary2");
+                const params = {
+                    Bucket: bucketName,
+                    Key: key,
+                    Body: data
+                    // base64data
+                };
+                const time = Date.now();
+                s3.upload(params, (err: any, data: any) => {
+                    if (err) {
+                        console.error(`Upload Error ${err}`);
+                        res.status(500).send("error during upload");
+                    }
 
-                if (data) {
-                    console.log("Upload Completed");
-                    console.log(data);
-                    resolve(data.Location);
-                }
+                    if (data) {
+                        console.log((Date.now() - time) / 1000);
+                        console.log("Upload Completed");
+                        console.log(data);
+                        resolve(data);
+                    }
+                });
+            }
+            catch (err) {
+                res.status(500).send(err);
+            }
+
             });
         }
         catch (err) {
-            res.status(500).send(err);
+            console.log(err);
+            res.status(500).send("error");
         }
+    });
+}
 
-        });
+async function downloadFile(req: Request, res: Response) {
+    try {
+        const data = await downloadFileFromStorage(req, res);
+        res.status(200).send(data);
     }
     catch (err) {
-        console.log(err);
-        res.status(500).send("error");
+        res.status(400).send("Failed to download file");
     }
+}
+
+async function downloadFileFromStorage(req: Request, res: Response) {
+    return new Promise(async resolve => {
+        try {
+            const config = {
+                accessKeyId: process.env.USER_KEY,
+                secretAccessKey: process.env.USER_SECRET,
+                endpoint: process.env.POUTA_END_POINT,
+                region: process.env.REGION
+                };
+            AWS.config.update(config);
+            const s3 = new AWS.S3();
+            const bucketName = process.env.BUCKET_NAME;
+            console.log(req.body);
+            const filename = req.body.key;
+            const key = filename;
+            try {
+                const params = {
+                    Bucket: bucketName,
+                    Key: key
+                };
+                res.attachment(key);
+                console.log(s3.getObject(params));
+                const fileStream = s3.getObject(params).createReadStream();
+                fileStream.pipe(res);
+                // resolve();
+            }
+            catch (err) {
+                res.status(500).send(err);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).send("error");
+        }
     });
-  }
+}
 
 module.exports = {
     uploadMaterial: uploadMaterial,
     uploadFileToMaterial : uploadFileToMaterial,
-    uploadFileToStorage : uploadFileToStorage
+    uploadFileToStorage : uploadFileToStorage,
+    downloadFile : downloadFile,
+    downloadFileFromStorage : downloadFileFromStorage
 };

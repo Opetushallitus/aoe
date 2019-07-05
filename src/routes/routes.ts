@@ -37,6 +37,7 @@ router.put("/user/:id", db.updateUser);
 router.get("/user/:id", db.getUser);
 
 router.get("/upload", fh.uploadFileToStorage);
+router.get("/download", fh.downloadFile);
 
 router.post("/uploadXlsx" , handler.uploadXlsx);
 export = router;

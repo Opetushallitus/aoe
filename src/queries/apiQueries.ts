@@ -98,7 +98,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
-        query = "select m.id, materialname, link, priority, filepath, originalfilename, filesize, mimetype, format from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
+        query = "select m.id, materialname, link, priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
