@@ -42,6 +42,19 @@
     </div>
   </div>
 
+  <div class="form-group" *ngIf="hasVocationalEducation">
+    <h3>Ammatillisen koulutuksen tutkinnot</h3>
+
+    <div class="form-row">
+      <div class="col-3" formArrayName="vocationalDegrees" *ngFor="let degree of vocationalDegrees.controls; let i = index">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{ 'vocationalDegrees' + i }}">
+          <label class="custom-control-label" for="{{ 'vocationalDegrees' + i }}">{{ vocationalDegrees$[i].value }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="form-group" *ngIf="hasHigherEducation">
     <h3>Korkeakoulutuksen tieteenalat</h3>
 

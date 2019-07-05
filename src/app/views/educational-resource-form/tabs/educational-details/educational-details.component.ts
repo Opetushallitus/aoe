@@ -20,12 +20,15 @@ export class EducationalDetailsComponent implements OnInit {
   public educationalDetailsForm: FormGroup;
   public hasBasicStudies = false;
   public hasHigherEducation = false;
+  public hasVocationalEducation = false;
   private basicStudyKeys: string[];
   private higherEducationKeys: string[];
+  private vocationalEducationKeys: string[];
 
   public educationalLevels$: Observable<any>;
   public basicStudySubjects$: any[];
   public branchesOfScience$: any[];
+  public vocationalDegrees$: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -42,6 +45,7 @@ export class EducationalDetailsComponent implements OnInit {
       educationalLevels: this.fb.control(null),
       basicStudySubjects: this.fb.array([]),
       branchesOfScience: this.fb.array([]),
+      vocationalDegrees: this.fb.array([]),
     });
 
     this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
@@ -67,6 +71,12 @@ export class EducationalDetailsComponent implements OnInit {
       });
     });
 
+    this.koodistoProxySvc.getData('ammatillisentutkinnot', this.lang).subscribe(data => {
+      this.vocationalDegrees$ = data;
+
+      this.vocationalDegrees$.forEach(() => this.vocationalDegrees.push(this.fb.control(false)));
+    });
+
     // @todo: Replace with data from koodisto-service endpoint
     this.basicStudyKeys = [
       '8cb1a02f-54cb-499a-b470-4ee980519707',
@@ -84,6 +94,13 @@ export class EducationalDetailsComponent implements OnInit {
       '9c14f097-68e3-4e6b-a772-71a44442f72f',
       '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
     ];
+
+    // @todo: Replace with data from koodisto-service endpoint
+    this.vocationalEducationKeys = [
+      '010c6689-5021-4d8e-8c02-68a27cc5a87b',
+      '55c5d6a2-8415-47bc-9d15-7b976b0e999c',
+      'da5b8f43-5fc9-4681-812b-40846926f3fd',
+    ];
   }
 
   get educationalLevels(): FormControl {
@@ -98,10 +115,16 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('branchesOfScience') as FormArray;
   }
 
+  get vocationalDegrees(): FormArray {
+    return this.educationalDetailsForm.get('vocationalDegrees') as FormArray;
+  }
+
   educationalLevelsChange($event): void {
     this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
     this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
+
+    this.hasVocationalEducation = $event.filter((e: any) => this.vocationalEducationKeys.includes(e.key)).length > 0;
   }
 
   onSubmit() {
