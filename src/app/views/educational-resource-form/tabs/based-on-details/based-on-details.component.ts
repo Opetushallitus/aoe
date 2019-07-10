@@ -34,7 +34,7 @@ export class BasedOnDetailsComponent implements OnInit {
       externals: this.fb.array([ this.createExternal() ]),
     });
 
-    if (this.savedData.isBasedOn) {
+    if (this.savedData && this.savedData.isBasedOn) {
       if (this.savedData.isBasedOn.internals.length > 0) {
         this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
       }
