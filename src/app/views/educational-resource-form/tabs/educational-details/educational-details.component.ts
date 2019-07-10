@@ -102,7 +102,7 @@ export class EducationalDetailsComponent implements OnInit {
       'da5b8f43-5fc9-4681-812b-40846926f3fd',
     ];
 
-    if (this.savedData) {
+    if (this.savedData && this.savedData.educationalLevels) {
       this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
 
       this.educationalLevelsChange(this.savedData.educationalLevels);

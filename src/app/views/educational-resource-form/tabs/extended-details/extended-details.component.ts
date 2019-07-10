@@ -47,12 +47,26 @@ export class ExtendedDetailsComponent implements OnInit {
     this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
 
     if (this.savedData) {
-      this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
-      this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
-      this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
-      this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
-      this.extendedDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
-      this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
+      if (this.savedData.accessibilityFeature) {
+        this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
+      }
+
+      if (this.savedData.accessibilityHazard) {
+        this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
+      }
+
+      if (this.savedData.typicalAgeRange) {
+        this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
+        this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
+      }
+
+      if (this.savedData.timeRequired) {
+        this.extendedDetailsForm.get('timeRequired').setValue(this.savedData.timeRequired);
+      }
+
+      if (this.savedData.publisher) {
+        this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
+      }
     }
   }
 
