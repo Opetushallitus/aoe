@@ -64,6 +64,18 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
       });
     });
 
+    output.sort((a: any, b: any) => a.value.toLowerCase().localeCompare(b.value.toLowerCase()));
+
+    // cherry pick FI, SV and EN to be in the front
+    const fiIndex = output.findIndex((row: any) => row.key.toLowerCase() === "fi");
+    output.splice(0, 0, output.splice(fiIndex, 1)[0]);
+
+    const svIndex = output.findIndex((row: any) => row.key.toLowerCase() === "sv");
+    output.splice(1, 0, output.splice(svIndex, 1)[0]);
+
+    const enIndex = output.findIndex((row: any) => row.key.toLowerCase() === "en");
+    output.splice(2, 0, output.splice(enIndex, 1)[0]);
+
     if (output.length > 0) {
       res.status(200).json(output);
     } else {
