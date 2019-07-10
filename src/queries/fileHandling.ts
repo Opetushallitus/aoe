@@ -41,21 +41,29 @@ async function uploadMaterial(req: Request, res: Response) {
                     }
                     const emresp = await insertDataToEducationalMaterialTable(req);
                     // return 200 if success and continue sending files to pouta
-                    console.log(files);
-                    for (let i = 0; i < files.length; i++) {
-                        const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
-                        const result = await insertDataToMaterialTable(files[i], emresp[0].id, obj.Location);
-                        await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
-                        fs.unlink("./" + files[i].path, (err: any) => {
-                            if (err) {
-                            console.error(err);
-                            }
-                        });
-                    }
                     res.status(200).json(emresp);
+                    console.log(files);
+                    try {
+                        for (let i = 0; i < files.length; i++) {
+                            const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                            const result = await insertDataToMaterialTable(files[i], emresp[0].id, obj.Location);
+                            await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                            fs.unlink("./" + files[i].path, (err: any) => {
+                                if (err) {
+                                console.error(err);
+                                }
+                            });
+                        }
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                        console.log("error while sending files to pouta: " + JSON.stringify((<any>req).files));
+                    }
                 } catch (e) {
                     console.log(e);
-                    return res.status(500).send("Failure in file upload");
+                    if ( ! res.headersSent) {
+                        return res.status(500).send("Failure in file upload");
+                    }
                 }
             }
             );
@@ -79,20 +87,28 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                 try {
 
                     const files = (<any>req).files;
-                    for (let i = 0; i < files.length; i++) {
-                        const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
-                        const result = await insertDataToMaterialTable(files[i], req.params.materialId, obj.Location);
-                        await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
-                        fs.unlink("./" + files[i].path, (err: any) => {
-                            if (err) {
-                            console.error(err);
-                            }
-                        });
-                    }
                     res.status(200).send("Files uploaded: " + files.length);
+                    try {
+                        for (let i = 0; i < files.length; i++) {
+                            const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                            const result = await insertDataToMaterialTable(files[i], req.params.materialId, obj.Location);
+                            await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                            fs.unlink("./" + files[i].path, (err: any) => {
+                                if (err) {
+                                console.error(err);
+                                }
+                            });
+                        }
+                    }
+                    catch (ex) {
+                        console.log(ex);
+                        console.log("error while sending files to pouta: " + JSON.stringify((<any>req).files));
+                    }
                 } catch (e) {
                     console.log(e);
-                    return res.status(500).send("Failure in file upload");
+                    if ( ! res.headersSent) {
+                        return res.status(500).send("Failure in file upload");
+                    }
                 }
             }
             );
