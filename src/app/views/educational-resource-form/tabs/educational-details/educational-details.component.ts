@@ -129,7 +129,7 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('vocationalDegrees') as FormArray;
   }
 
-  educationalLevelsChange($event): void {
+  public educationalLevelsChange($event): void {
     this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
     this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
@@ -137,7 +137,7 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
   }
 
-  onSubmit() {
+  public onSubmit() {
     const selectedBasicStudySubjects = this.educationalDetailsForm.value.basicStudySubjects
       .map((checked, index) => checked ? this.basicStudySubjects$[index].key : null)
       .filter(value => value !== null);
@@ -166,6 +166,15 @@ export class EducationalDetailsComponent implements OnInit {
 
       this.tabs.tabs[3].active = true;
     }
+  }
+
+  // @todo: some kind of confirmation
+  public resetForm() {
+    // reset form values
+    this.educationalDetailsForm.reset();
+
+    // clear data from local storage
+    localStorage.removeItem(this.localStorageKey);
   }
 
   public previousTab() {

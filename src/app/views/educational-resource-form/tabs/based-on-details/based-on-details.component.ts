@@ -13,9 +13,9 @@ export class BasedOnDetailsComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   private localStorageKey = 'aoe.new-educational-resource';
-  public submitted = false;
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+
   public basedOnDetailsForm: FormGroup;
 
   constructor(
@@ -85,9 +85,7 @@ export class BasedOnDetailsComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.submitted = true;
-
-    if (!this.basedOnDetailsForm.invalid) {
+    if (this.basedOnDetailsForm.valid) {
       this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
         if (row.author === null || row.materialId === null) {
           this.removeInternal(index);

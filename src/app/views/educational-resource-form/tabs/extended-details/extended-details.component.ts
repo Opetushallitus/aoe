@@ -14,7 +14,6 @@ export class ExtendedDetailsComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   private localStorageKey = 'aoe.new-educational-resource';
-  public submitted = false;
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
@@ -70,10 +69,8 @@ export class ExtendedDetailsComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.submitted = true;
-
-    if (!this.extendedDetailsForm.invalid) {
+  public onSubmit() {
+    if (this.extendedDetailsForm.valid) {
       const newData = {
         accessibilityFeature: this.extendedDetailsForm.get('accessibilityFeatures').value,
         accessibilityHazard: this.extendedDetailsForm.get('accessibilityHazards').value,
@@ -95,7 +92,7 @@ export class ExtendedDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  public resetForm() {
     // reset form values
     this.extendedDetailsForm.reset();
 
@@ -103,7 +100,7 @@ export class ExtendedDetailsComponent implements OnInit {
     localStorage.removeItem(this.localStorageKey);
   }
 
-  previousTab() {
+  public previousTab() {
     this.tabs.tabs[2].active = true;
   }
 }

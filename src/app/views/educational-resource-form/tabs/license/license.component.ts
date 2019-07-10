@@ -13,12 +13,12 @@ export class LicenseComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   private localStorageKey = 'aoe.new-educational-resource';
-  public submitted = false;
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
-  public licenseForm: FormGroup;
 
   public licenses$: any[];
+
+  public licenseForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -44,9 +44,7 @@ export class LicenseComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    this.submitted = true;
-
+  public onSubmit() {
     if (this.licenseForm.valid) {
       const newData = {
         license: this.licenseForm.get('license').value,
@@ -61,7 +59,7 @@ export class LicenseComponent implements OnInit {
     }
   }
 
-  previousTab() {
+  public previousTab() {
     this.tabs.tabs[3].active = true;
   }
 }

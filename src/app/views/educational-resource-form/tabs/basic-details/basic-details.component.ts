@@ -15,7 +15,6 @@ export class BasicDetailsComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   private localStorageKey = 'aoe.new-educational-resource';
-  public submitted = false;
   public selectedLang = 'en';
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
@@ -161,12 +160,9 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.submitted = true;
-
-    if (!this.basicDetailsForm.invalid) {
+    if (this.basicDetailsForm.valid) {
       const newData = {
         thumbnail: this.basicDetailsForm.get('image').value,
-        createdAt: new Date(),
         authors: this.basicDetailsForm.get('authors').value,
         description: [
           { lang: 'fi', text: this.basicDetailsForm.get('description').value },
@@ -191,7 +187,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  public resetForm() {
     // reset form values
     this.basicDetailsForm.reset();
 
