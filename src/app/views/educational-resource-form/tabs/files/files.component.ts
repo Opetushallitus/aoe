@@ -13,9 +13,9 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
 export class FilesComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
-  // private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
-  // private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+  private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
@@ -48,6 +48,18 @@ export class FilesComponent implements OnInit {
     });
 
     this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
+
+    if (this.savedData) {
+      if (this.savedData.files) {
+        while (this.files.length) {
+          this.files.removeAt(0);
+        }
+
+        this.savedData.files.forEach(() => this.addFile());
+      }
+
+      this.fileUploadForm.patchValue(this.savedData);
+    }
   }
 
   get files() {
@@ -58,8 +70,8 @@ export class FilesComponent implements OnInit {
     return this.fb.group({
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control(null, [ Validators.required ]),
-      displayName: this.fb.control(null, [ Validators.required ]),
+      language: this.fb.control(null),
+      displayName: this.fb.control(null),
     });
   }
 
@@ -75,8 +87,34 @@ export class FilesComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.fileUploadForm.value);
+    // remove files that doesn't have either file or link
+    this.files.controls.forEach((control, i) => {
+      if (control.get('link').value === null) {
+        this.files.removeAt(i);
+      }
+    });
 
-    this.tabs.tabs[1].active = true;
+    if (this.fileUploadForm.valid) {
+      const newData = {
+        name: this.fileUploadForm.get('name').value,
+        files: this.fileUploadForm.get('files').value,
+      };
+
+      const data = Object.assign({}, this.savedData, newData);
+
+      // save data to local storage
+      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+
+      this.tabs.tabs[1].active = true;
+    }
+  }
+
+  // @todo: some kind of confirmation
+  resetForm() {
+    // reset form values
+    this.fileUploadForm.reset();
+
+    // clear data from local storage
+    localStorage.removeItem(this.localStorageKey);
   }
 }
