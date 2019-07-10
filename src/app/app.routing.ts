@@ -10,6 +10,8 @@ import { EducationalMaterialViewComponent } from './views/educational-material-v
 import { InfoViewComponent } from './views/info-view/info-view.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
 
 export const routes: Routes = [
   {
@@ -61,6 +63,14 @@ export const routes: Routes = [
       {
         path: 'ukk',
         component: HelpViewComponent,
+      },
+      {
+        path: 'kayttoehdot',
+        component: TermsOfUseViewComponent,
+      },
+      {
+        path: 'tietosuojaseloste',
+        component: PrivacyPolicyViewComponent,
       },
     ],
   },
