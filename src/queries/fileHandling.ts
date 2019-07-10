@@ -39,19 +39,20 @@ async function uploadMaterial(req: Request, res: Response) {
                     if (files.length == 0) {
                         return res.status(400).send("No file sent");
                     }
-                    let result = await insertDataToEducationalMaterialTable(req);
-                    const id = result;
-
+                    const emresp = await insertDataToEducationalMaterialTable(req);
+                    // return 200 if success and continue sending files to pouta
                     console.log(files);
-                    const obj: any = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
-                    result = await insertDataToMaterialTable(files, result[0].id, obj.Location);
-                    await insertDataToRecordTable(files, result, obj.Key, obj.Bucket);
-                    fs.unlink("./" + files[0].path, (err: any) => {
-                        if (err) {
-                          console.error(err);
-                        }
-                      });
-                    res.status(200).json(id);
+                    for (let i = 0; i < files.length; i++) {
+                        const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                        const result = await insertDataToMaterialTable(files[i], emresp[0].id, obj.Location);
+                        await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                        fs.unlink("./" + files[i].path, (err: any) => {
+                            if (err) {
+                            console.error(err);
+                            }
+                        });
+                    }
+                    res.status(200).json(emresp);
                 } catch (e) {
                     console.log(e);
                     return res.status(500).send("Failure in file upload");
@@ -78,13 +79,16 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                 try {
 
                     const files = (<any>req).files;
-                    let result;
-                    const obj: any = await uploadFileToStorage(("./" + files[0].path), files[0].filename, res);
-                    result = await insertDataToMaterialTable(files, req.params.id, obj.Location);
-                    console.log("result: " + result);
-                    await insertDataToRecordTable(files, result, obj.Key, obj.Bucket);
-                    console.log("files: " + files);
-                    fs.unlink("./" + files[0].path);
+                    for (let i = 0; i < files.length; i++) {
+                        const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                        const result = await insertDataToMaterialTable(files[i], req.params.materialId, obj.Location);
+                        await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                        fs.unlink("./" + files[i].path, (err: any) => {
+                            if (err) {
+                            console.error(err);
+                            }
+                        });
+                    }
                     res.status(200).send("Files uploaded: " + files.length);
                 } catch (e) {
                     console.log(e);
@@ -113,44 +117,21 @@ async function insertDataToEducationalMaterialTable(req: Request) {
     return data;
 }
 
-// async function insertDataToAuthorTable(req: Request, materialID: String) {
-//     const cs = new pgp.helpers.ColumnSet(["authorname", "organization", "educationalmaterialid"], {table: "author"});
-
-//     // data input values:
-//     const values = req.body.author;
-//     for (let i = 0; i < values.length; i += 1) {
-//         values[i]["educationalmaterialid"] = materialID;
-//     }
-//     // generating a multi-row insert query:
-//     const query = pgp.helpers.insert(values, cs);
-//     console.log(query);
-//     const data = await db.any(query);
-//     return data;
-// }
-
 async function insertDataToMaterialTable(files: any, materialID: String, location: any) {
     let query;
-    const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + location + "','" + materialID + "')"; }).join(",");
-    console.log(str);
-    query = "insert into material (materialname, link, educationalmaterialid) values " + str + " returning id;";
+    // const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + location + "','" + materialID + "')"; }).join(",");
+    const str = "('" + files.originalname + "','" + location + "','" + materialID + "')";
+    query = "insert into material (materialname, link, educationalmaterialid) values ($1,$2,$3) returning id;";
     console.log(query);
-    const data = await db.any(query);
+    const data = await db.one(query, [files.originalname, location, materialID]);
     return data;
 }
 
 async function insertDataToRecordTable(files: any, materialID: any, fileKey: any, fileBucket: any) {
     let query;
-    const str = Object.keys(files).map(function(k) {return "('" + files[k].path +
-     "','" + files[k].originalname +
-     "','" + files[k].size +
-     "','" + files[k].mimetype +
-     "','" + files[k].encoding +
-     "','" + fileKey +
-     "','" + fileBucket +
-      "','" + materialID[k].id + "')"; }).join(",");
-    query = "insert into record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid) values " + str + " returning id;";
+    query = "insert into record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid) values ($1,$2,$3,$4,$5,$6,$7,$8) returning id;";
     console.log(query);
-    const data = await db.any(query);
+    const data = await db.any(query, [files.path, files.originalname, files.size, files.mimetype, files.encoding, fileKey, fileBucket, materialID.id]);
 }
 
 async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
@@ -236,7 +217,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
             AWS.config.update(config);
             const s3 = new AWS.S3();
             const bucketName = process.env.BUCKET_NAME;
-            console.log(req.body);
+            // console.log(req.body);
             const filename = req.body.key;
             const key = filename;
             try {
@@ -245,7 +226,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
                     Key: key
                 };
                 res.attachment(key);
-                console.log(s3.getObject(params));
+                // console.log(s3.getObject(params));
                 const fileStream = s3.getObject(params).createReadStream();
                 fileStream.pipe(res);
                 // resolve();
