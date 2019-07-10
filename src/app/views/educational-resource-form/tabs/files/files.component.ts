@@ -58,7 +58,10 @@ export class FilesComponent implements OnInit {
         this.savedData.files.forEach(() => this.addFile());
       }
 
-      this.fileUploadForm.patchValue(this.savedData);
+      this.fileUploadForm.get('name').setValue(this.savedData.name);
+      this.fileUploadForm.get('files').setValue(this.savedData.files);
+
+      // this.fileUploadForm.patchValue(this.savedData);
     }
   }
 
@@ -96,6 +99,7 @@ export class FilesComponent implements OnInit {
 
     if (this.fileUploadForm.valid) {
       const newData = {
+        createdAt: new Date(),
         name: this.fileUploadForm.get('name').value,
         files: this.fileUploadForm.get('files').value,
       };
@@ -110,7 +114,7 @@ export class FilesComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  public resetForm() {
     // reset form values
     this.fileUploadForm.reset();
 
