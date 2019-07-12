@@ -71,11 +71,11 @@
             <div class="datetimes">
               <span class="datetime-item">
                 <strong>Julkaistu:</strong>
-                <time datetime="2019-01-01T09:41">1.1.2019 09:41</time>
+                <time [attr.datetime]="educationalMaterial.datePublished | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.datePublished | date:'d.M.yyyy HH:mm' }}</time>
               </span>
-              <span class="datetime-item">
+              <span class="datetime-item" *ngIf="educationalMaterial.dateUpdated">
                 <strong>Muokattu:</strong>
-                <time datetime="2019-04-02T13:12">2.4.2019 13:12</time>
+                <time [attr.datetime]="educationalMaterial.dateUpdated | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.dateUpdated | date:'d.M.yyyy HH:mm' }}</time>
               </span>
             </div>
 
@@ -109,11 +109,6 @@
             <div *ngIf="educationalMaterial.timeRequired.value !== '0 h'" class="col-auto">
               <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
               {{ educationalMaterial.timeRequired.value }}
-            </div>
-
-            <div class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.datePublished' | translate }}</h4>
-              {{ educationalMaterial.datePublished | date:'d.M.yyyy' }}
             </div>
 
             <div *ngIf="educationalMaterial.publisher" class="col-auto">
