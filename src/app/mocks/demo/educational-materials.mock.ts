@@ -279,7 +279,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://demo.aoe.fi/files/fi-2-digipedagogiikka.mp4',
-          originalFilename: 'A Video Digitaalisuus ja teknologia kouluissa.mp4',
+          originalFilename: 'Digitaalisuus ja teknologia kouluissa (video)',
           mimeType: 'video/mp4',
           format: 'video',
         },
@@ -287,7 +287,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
       {
         file: {
           filePath: 'https://demo.aoe.fi/files/fi-2b-digipedagogiikka.pdf',
-          originalFilename: 'b Video Digitaalisuus ja teknologia kouluissa - teksti.pdf',
+          originalFilename: 'Digitaalisuus ja teknologia kouluissa (teksti)',
           mimeType: 'application/pdf',
           format: 'pdf',
         },
