@@ -187,7 +187,10 @@ CREATE TABLE Record (
   MimeType         text NOT NULL, 
   Format           text NOT NULL, 
   MaterialId       int8 NOT NULL, 
+  FileKey          text NOT NULL, 
+  FileBucket       text NOT NULL, 
   PRIMARY KEY (Id));
+
 CREATE TABLE EducationalUse (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
