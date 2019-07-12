@@ -7,13 +7,15 @@ $blue: #1F79BF;
 $blue-hover: darken($blue, 15%);
 $light: #f9f9f9;
 $gray: #757575;
+$dark: #2f353a;
 
 $theme-colors: (
   primary:  $primary-theme-color,
   secondary: $secondary-theme-color,
   blue: $blue,
   light: $light,
-  gray: $gray
+  gray: $gray,
+  dark: $dark
 );
 
 $body-bg: #fff;
