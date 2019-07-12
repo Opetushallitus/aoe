@@ -395,9 +395,47 @@ h2 {
   }
 
   .list-files {
-    .btn {
-      padding: 0;
+    background-color: #eee;
+    padding: .5rem;
+
+    .btn-file {
+      color: $input-color;
+      font-weight: 400;
+      text-align: left;
+
+      &.active {
+        background-color: $white;
+      }
     }
+  }
+
+  .material-description {
+    margin-bottom: 1rem;
+
+    .authors {
+      color: $primary-theme-color;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+
+    .datetimes {
+      margin-bottom: 1rem;
+
+      .datetime-item {
+        strong {
+          margin-right: .25rem;
+        }
+
+        time {
+          margin-right: .5rem;
+        }
+      }
+    }
+  }
+
+  .material-preview {
+    background-color: $white;
+    padding: .5rem;
   }
 }
 
@@ -457,10 +495,6 @@ h2 {
       }
     }
   }
-}
-
-.material-description {
-  margin-bottom: 1rem;
 }
 
 .material-comments {
@@ -561,39 +595,41 @@ h2 {
 }
 
 // Tabs
-.tab-container {
-  .nav {
-    margin-bottom: 2rem;
-  }
-
-  .nav-pills {
-    .nav-item {
-      padding: 0 1rem;
-
-      &:first-child {
-        padding-left: 0;
-      }
+.form-tabs {
+  .tab-container {
+    .nav {
+      margin-bottom: 2rem;
     }
 
-    .nav-link {
-      color: $gray;
-      @include font-size(18);
+    .nav-pills {
+      .nav-item {
+        padding: 0 1rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+      }
+
+      .nav-link {
+        color: $gray;
+        @include font-size(18);
+        padding: 0;
+
+        &.active {
+          background-color: transparent;
+          color: $primary-theme-color;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    border: 0;
+
+    .tab-pane {
       padding: 0;
-
-      &.active {
-        background-color: transparent;
-        color: $primary-theme-color;
-        font-weight: 500;
-      }
     }
-  }
-}
-
-.tab-content {
-  border: 0;
-
-  .tab-pane {
-    padding: 0;
   }
 }
 

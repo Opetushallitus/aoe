@@ -64,14 +64,40 @@
       <div class="col-12 col-lg-9">
         <div class="material-content">
           <div class="material-description">
-            <p>{{ educationalMaterial.description }}</p>
-            <ul class="list-unstyled">
+            <ul class="list-unstyled authors">
               <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
             </ul>
+
+            <div class="datetimes">
+              <span class="datetime-item">
+                <strong>Julkaistu:</strong>
+                <time datetime="2019-01-01T09:41">1.1.2019 09:41</time>
+              </span>
+              <span class="datetime-item">
+                <strong>Muokattu:</strong>
+                <time datetime="2019-04-02T13:12">2.4.2019 13:12</time>
+              </span>
+            </div>
+
+            <p>{{ educationalMaterial.description }}</p>
           </div>
 
-          <div class="mb-4">
-            <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
+          <div class="list-files mb-4" *ngIf="educationalMaterial.materials.length > 0">
+            <div class="row no-gutters">
+              <div class="col-3">
+                <div class="btn-group-vertical" role="group">
+                  <ng-container *ngFor="let material of educationalMaterial.materials">
+                    <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
+                      {{ material?.file?.originalFilename }}
+                    </button>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="col-9">
+                <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
+              </div>
+            </div>
           </div>
 
           <div class="row material-metadata">
@@ -191,21 +217,6 @@
                 </div>
               </accordion-group>
             </accordion>
-          </div>
-
-          <div class="row" *ngIf="educationalMaterial.materials.length > 0">
-            <div class="col">
-              <h2>{{ 'demo.educationalMaterial.files' | translate }}</h2>
-
-              <ul class="list-unstyled list-files">
-                <li *ngFor="let material of educationalMaterial.materials">
-                  <button type="button" class="btn btn-link text-dark" [ngClass]="material === previewMaterial ? 'font-weight-bold' : ''" (click)="setPreviewMaterial(material)">
-                    <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-                    {{ material?.file?.originalFilename }}
-                  </button>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
