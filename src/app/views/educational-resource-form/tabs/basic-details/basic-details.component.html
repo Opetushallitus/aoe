@@ -143,7 +143,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" formGroupName="description">
         <label for="description">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
 
         <button
@@ -159,7 +159,7 @@
               id="description"
               rows="10"
               placeholder="Kirjoita kuvausteksti"
-              formControlName="description"
+              formControlName="fi"
             ></textarea>
           </div>
 
@@ -167,6 +167,49 @@
             <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
           </div>
         </div>
+
+        <ng-template #langVersions>
+          <div class="modal-header">
+            <h5 class="modal-title">Kieliversiot: {{ 'forms.educationalResource.basicDetails.description' | translate }}</h5>
+
+            <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <h4>Kieliversioiden lisääminen</h4>
+
+            <div class="form-group">
+              <label for="descriptionEn">Kuvaus englanniksi</label>
+
+              <textarea
+                class="form-control"
+                id="descriptionEn"
+                rows="10"
+                placeholder="Kirjoita kuvausteksti"
+                formControlName="en"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="descriptionSv">Kuvaus ruotsiksi</label>
+
+              <textarea
+                class="form-control"
+                id="descriptionSv"
+                rows="10"
+                placeholder="Kirjoita kuvausteksti"
+                formControlName="sv"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+            <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
@@ -196,67 +239,4 @@
       >{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
-
-  <ng-template #langVersions>
-    <div class="modal-header">
-      <h5 class="modal-title">Kieliversiot</h5>
-
-      <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
-    <div class="modal-body">
-      <h4>Kieliversioiden lisääminen</h4>
-
-      <div class="form-group">
-        <label for="lang">Valitse kieli</label>
-
-        <select
-          class="form-control"
-          id="lang"
-          (change)="selectedLang = selectLang.value"
-          #selectLang
-        >
-          <option value="en">englanti</option>
-          <option value="sv">ruotsi</option>
-        </select>
-      </div>
-
-      <div *ngIf="selectedLang === 'en'">
-        <div class="form-group">
-          <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
-
-          <textarea
-            class="form-control"
-            [ngClass]="{'is-invalid': submitted && form.descriptionEn.errors}"
-            id="descriptionEn"
-            rows="10"
-            placeholder="Kirjoita kuvausteksti"
-            formControlName="descriptionEn"
-          ></textarea>
-        </div>
-      </div>
-
-      <div *ngIf="selectedLang === 'sv'">
-        <div class="form-group">
-          <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
-
-          <textarea
-            class="form-control"
-            [ngClass]="{'is-invalid': submitted && form.descriptionSv.errors}"
-            id="descriptionSv"
-            rows="10"
-            placeholder="Kirjoita kuvausteksti"
-            formControlName="descriptionSv"
-          ></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
-      <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
-    </div>
-  </ng-template>
 </form>

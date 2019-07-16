@@ -15,7 +15,6 @@ export class BasicDetailsComponent implements OnInit {
   @Input() tabs: TabsetComponent;
 
   private localStorageKey = 'aoe.new-educational-resource';
-  public selectedLang = 'en';
   private lang: string = this.translate.currentLang;
   private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
 
@@ -56,9 +55,11 @@ export class BasicDetailsComponent implements OnInit {
       learningResourceType: this.fb.control(null, [ Validators.required ]),
       educationalRoles: this.fb.control(null),
       educationalUse: this.fb.control(null),
-      description: this.fb.control(null),
-      descriptionEn: this.fb.control(null),
-      descriptionSv: this.fb.control(null),
+      description: this.fb.group({
+        fi: this.fb.control(null),
+        sv: this.fb.control(null),
+        en: this.fb.control(null),
+      }),
     });
 
     this.organisations$ = this.koodistoProxySvc.getData('organisaatiot', this.lang);
@@ -77,16 +78,7 @@ export class BasicDetailsComponent implements OnInit {
       this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
       this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
       this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
-
-      if (this.savedData.description) {
-        const description = this.savedData.description.find(e => e.lang === 'fi');
-        const descriptionEn = this.savedData.description.find(e => e.lang === 'en');
-        const descriptionSv = this.savedData.description.find(e => e.lang === 'sv');
-
-        this.basicDetailsForm.get('description').setValue(description.text);
-        this.basicDetailsForm.get('descriptionEn').setValue(descriptionEn.text);
-        this.basicDetailsForm.get('descriptionSv').setValue(descriptionSv.text);
-      }
+      this.basicDetailsForm.get('description').setValue(this.savedData.description);
 
       if (this.savedData.authors) {
         if (this.savedData.authors.length > 0) {
@@ -164,11 +156,7 @@ export class BasicDetailsComponent implements OnInit {
       const newData = {
         thumbnail: this.basicDetailsForm.get('image').value,
         authors: this.basicDetailsForm.get('authors').value,
-        description: [
-          { lang: 'fi', text: this.basicDetailsForm.get('description').value },
-          { lang: 'en', text: this.basicDetailsForm.get('descriptionEn').value },
-          { lang: 'sv', text: this.basicDetailsForm.get('descriptionSv').value },
-        ],
+        description: this.basicDetailsForm.get('description').value,
         keywords: this.basicDetailsForm.get('keywords').value,
         learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
         educationalRole: this.basicDetailsForm.get('educationalRoles').value,
