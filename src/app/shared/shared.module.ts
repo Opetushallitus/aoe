@@ -59,3 +59,7 @@ export function getLanguage(): string | undefined {
     return user.lang;
   }
 }
+
+export function getLocalStorageData(localStorageKey: string) {
+  return JSON.parse(localStorage.getItem(localStorageKey));
+}

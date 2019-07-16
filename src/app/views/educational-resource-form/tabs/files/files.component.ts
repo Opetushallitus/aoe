@@ -5,6 +5,7 @@ import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { getLocalStorageData } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-files',
@@ -15,7 +16,7 @@ export class FilesComponent implements OnInit {
 
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
-  private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+  private savedData: any;
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
@@ -33,6 +34,8 @@ export class FilesComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
@@ -107,7 +110,7 @@ export class FilesComponent implements OnInit {
         files: this.fileUploadForm.get('files').value,
       };
 
-      const data = Object.assign({}, this.savedData, newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { getLocalStorageData } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-license',
@@ -14,7 +15,7 @@ export class LicenseComponent implements OnInit {
 
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
-  private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+  private savedData: any;
 
   public licenses$: any[];
 
@@ -30,6 +31,8 @@ export class LicenseComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.licenseForm = this.fb.group({
       license: this.fb.control(null),
@@ -50,7 +53,7 @@ export class LicenseComponent implements OnInit {
         license: this.licenseForm.get('license').value,
       };
 
-      const data = Object.assign({}, this.savedData, newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));

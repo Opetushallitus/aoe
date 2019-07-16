@@ -6,6 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { getLocalStorageData } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -16,7 +17,7 @@ export class BasicDetailsComponent implements OnInit {
 
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
-  private savedData = JSON.parse(localStorage.getItem(this.localStorageKey));
+  private savedData: any;
 
   public organisations$: Observable<any>;
   public learningResourceTypes$: Observable<any>;
@@ -45,6 +46,8 @@ export class BasicDetailsComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.basicDetailsForm = this.fb.group({
       image: this.fb.control(null),
@@ -163,7 +166,7 @@ export class BasicDetailsComponent implements OnInit {
         educationalUse: this.basicDetailsForm.get('educationalUse').value,
       };
 
-      const data = Object.assign({}, this.savedData, newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
