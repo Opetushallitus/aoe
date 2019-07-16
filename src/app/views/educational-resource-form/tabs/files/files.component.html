@@ -36,50 +36,37 @@
           </button>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body" formGroupName="name">
           <h4>Kieliversioiden lisääminen</h4>
 
           <div class="form-group">
-            <label for="lang">Valitse kieli</label>
+            <label for="name-en">Oppimateriaalin nimi englanniksi*</label>
 
-            <select
+            <input
+              type="text"
               class="form-control"
-              id="lang"
-              (change)="selectedLang = selectLang.value"
-              #selectLang
+              id="name-en"
+              placeholder="Oppimateriaalin nimi"
+              formControlName="en"
             >
-              <option value="en">englanti</option>
-              <option value="sv">ruotsi</option>
-            </select>
           </div>
 
-          <ng-container *ngIf="selectedLang === 'en'">
-            <div class="form-group" formGroupName="name">
-              <label for="name-en">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+          <div class="form-group">
+            <label for="name-sv">Oppimateriaalin nimi ruotsiksi*</label>
 
-              <input
-                type="text"
-                class="form-control"
-                id="name-en"
-                placeholder="Oppimateriaalin nimi"
-                formControlName="en"
-              >
-            </div>
-          </ng-container>
+            <input
+              type="text"
+              class="form-control"
+              id="name-sv"
+              placeholder="Oppimateriaalin nimi"
+              formControlName="sv"
+            >
+          </div>
+        </div>
 
-          <ng-container *ngIf="selectedLang === 'sv'">
-            <div class="form-group" formGroupName="name">
-              <label for="name-sv">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
-
-              <input
-                type="text"
-                class="form-control"
-                id="name-sv"
-                placeholder="Oppimateriaalin nimi"
-                formControlName="sv"
-              >
-            </div>
-          </ng-container>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+          <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
         </div>
       </ng-template>
     </div>
@@ -138,9 +125,9 @@
           </div>
         </div>
 
-        <div class="form-row align-items-end">
+        <div class="form-row align-items-end" formGroupName="displayName">
           <div class="col">
-            <label for="{{ 'displayName' + i }}">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
+            <label for="{{ 'displayNameFi' + i }}">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
 
             <button
               type="button"
@@ -151,15 +138,55 @@
             <input
               type="text"
               class="form-control"
-              id="{{ 'displayName' + i }}"
-              placeholder="Ei valittua tiedostoa"
-              formControlName="displayName"
+              id="{{ 'displayNameFi' + i }}"
+              formControlName="fi"
             >
           </div>
 
           <div class="col-auto">
-            <button type="button" class="btn btn-gray">Kieliversiot</button>
+            <button type="button" class="btn btn-gray" (click)="openModal(displayName)">Kieliversiot</button>
           </div>
+
+          <ng-template #displayName>
+            <div class="modal-header">
+              <h5 class="modal-title">Kieliversiot: {{ 'forms.educationalResource.basicDetails.displayName' | translate }}</h5>
+
+              <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <h4>Kieliversioiden lisääminen</h4>
+
+              <div class="form-group">
+                <label for="{{ 'displayNameEn' + i }}">Tiedoston esitysnimi englanniksi*</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="{{ 'displayNameEn' + i }}"
+                  formControlName="en"
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="{{ 'displayNameSv' + i }}">Tiedoston esitysnimi ruotsiksi*</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="{{ 'displayNameSv' + i }}"
+                  formControlName="sv"
+                >
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
+              <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+            </div>
+          </ng-template>
         </div>
       </ng-container>
     </div>
