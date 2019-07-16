@@ -19,7 +19,6 @@ export class FilesComponent implements OnInit {
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
-  public selectedLang = 'en';
 
   public languages$: Observable<any>;
 
@@ -74,7 +73,11 @@ export class FilesComponent implements OnInit {
       file: this.fb.control(null),
       link: this.fb.control(null),
       language: this.fb.control(null),
-      displayName: this.fb.control(null),
+      displayName: this.fb.group({
+        fi: this.fb.control(null),
+        sv: this.fb.control(null),
+        en: this.fb.control(null),
+      }),
     });
   }
 
