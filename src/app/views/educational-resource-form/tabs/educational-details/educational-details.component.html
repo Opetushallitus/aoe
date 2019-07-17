@@ -62,7 +62,7 @@
       <div class="col-12" formArrayName="branchesOfScience" *ngFor="let branch of branchesOfScience.controls; let i = index">
         <ng-container [formGroupName]="i">
           <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" class="custom-control-input" formControlName="all" id="{{ 'branchesOfScience' + i }}">
+            <input type="checkbox" class="custom-control-input" formControlName="all" id="{{ 'branchesOfScience' + i }}" (change)="selectAllChildBranches($event, i)">
             <label class="custom-control-label" for="{{ 'branchesOfScience' + i }}">{{ branchesOfScience$[i].value }}</label>
           </div>
 

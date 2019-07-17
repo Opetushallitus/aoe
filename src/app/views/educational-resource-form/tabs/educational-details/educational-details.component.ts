@@ -68,10 +68,9 @@ export class EducationalDetailsComponent implements OnInit {
 
       this.branchesOfScience$.forEach(branch => {
         const controls = this.fb.array([]);
-
-        branch.children.forEach(() => controls.push(this.fb.control(false)));
-
         const state = !!(!!this.savedData.branchesOfScience && this.savedData.branchesOfScience.includes(branch.key));
+
+        branch.children.forEach(() => controls.push(this.fb.control(state)));
 
         this.branchesOfScience.push(this.fb.group({
           all: this.fb.control(state),
@@ -146,6 +145,10 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
   }
 
+  public selectAllChildBranches($event, index): void {
+    this.branchesOfScience.at(index).get('children')['controls'].forEach(child => child.setValue($event.currentTarget.checked));
+  }
+
   public onSubmit() {
     const selectedBasicStudySubjects = this.educationalDetailsForm.value.basicStudySubjects
       .map((checked, index) => checked ? this.basicStudySubjects$[index].key : null)
@@ -165,7 +168,8 @@ export class EducationalDetailsComponent implements OnInit {
         educationalLevels: this.educationalDetailsForm.get('educationalLevels').value,
         basicStudySubjects: selectedBasicStudySubjects,
         branchesOfScience: selectedBranchesOfScience,
-        vocationalDegrees: selectedVocationalDegrees
+        vocationalDegrees: selectedVocationalDegrees,
+        aTesti: this.educationalDetailsForm.get('branchesOfScience').value,
       };
 
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
