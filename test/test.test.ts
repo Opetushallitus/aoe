@@ -58,14 +58,14 @@ describe("basic route tests", () => {
         console.log(response.body[0].id);
         const response2 = await request(app).get("/material/" + response.body[0].id);
         expect(response2.status).toEqual(200);
-        expect(response2.body[0].id).toContain(response.body[0].id);
+        expect(response2.body[0][0].id).toContain(response.body[0].id);
         console.log(response2.body[0]);
 
     });
     test('get home route GET /', async () => {
         const response = await request(app).get('/material/3');
         expect(response.status).toEqual(200);
-        expect(response.body[0].id).toContain('3');
+        expect(response.body[0][0].id).toContain('3');
     });
 });
 
