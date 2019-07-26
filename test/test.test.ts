@@ -58,15 +58,141 @@ describe("basic route tests", () => {
         console.log(response.body[0].id);
         const response2 = await request(app).get("/material/" + response.body[0].id);
         expect(response2.status).toEqual(200);
-        expect(response2.body[0][0].id).toContain(response.body[0].id);
+        expect(response2.body.id).toContain(response.body[0].id);
         console.log(response2.body[0]);
 
     });
-    test('get home route GET /', async () => {
+    test('GET materialdata/', async () => {
         const response = await request(app).get('/material/3');
         expect(response.status).toEqual(200);
-        expect(response.body[0][0].id).toContain('3');
+        expect(response.body.id).toContain('3');
     });
+
+    test('PUT metadata material /', async () => {
+      const response = await request(app).put('/material/3')
+            .send({
+              "id": 3,
+              "author": [
+                {
+                  "authorname": "jari isometso",
+                "organization": "CSC"
+                  
+                }
+                ],
+              "publisher": [
+                "suomen kirjakerho",
+                "CSC",
+                "ministeri"
+              ],
+                "materialname": [
+                {
+                  "text": "Uusi nimi 3",
+                  "lang": "fi"
+                },
+                {
+                  "text": "desc",
+                  "lang": "en"
+                },
+                {
+                  "text": "häj",
+                  "lang": "se"
+                }
+              ],
+              "description": [
+                {
+                  "text": "Kuvaus",
+                  "lang": "fi"
+                },
+                {
+                  "text": "description here",
+                  "lang": "en"
+                },
+                {
+                  "text": "häj",
+                  "lang": "se"
+                }
+              ],
+              "keywords": [
+                {"value" : "avainsana2"},
+                {"value" : "toinen sana"}
+              ],
+              "learningResourceType": [
+                {"value" : "biologia"},
+                {"value" : "matikka2"},
+                {"value" : "matikka5"}
+              ],
+              "timeRequired": "3",
+              "typicalAgeRange": {
+                "min": "1",
+                "max": "20"
+              },
+              "educationalAlignment": [
+                {
+                  "alignmentType": "teaches",
+                  "targetName": "ma",
+                  "source": "koodisto2",
+                  "complexity": "A1"
+                },
+                    {
+                  "alignmentType": "teaches",
+                  "targetName": "m43",
+                  "source": "koodisto1",
+                  "complexity": "A1"
+                },
+                    {
+                  "alignmentType": "teaches2",
+                  "targetName": "ma",
+                  "source": "koodisto1",
+                  "complexity": "A1"
+                }
+              ],
+              "educationalRole": [
+                {"value" : "teachers"},
+                {"value" : "student"},
+                {"value" : "student2"}
+              ],
+              "educationalUse": [
+                {"value" : "teachers23"},
+                {"value" : "student22"}
+              ],
+             "inLanguage": [
+                {"value" : "FI", "url" : "example.fi"},
+                {"value" : "EN", "url" : "example.fi"}
+              ],
+              "accessibilityFeature": [
+                {"value" : "tableOfContents"},
+                {"value" : "annotations"}
+              ],
+              "accessibilityHazard": [
+                {"value" : "flashing"},
+                {"value" : "sound"}
+              ],
+              "accessibilityAPI": [
+                {"value" : "ATK"},
+                {"value" : "JavaAccessibility"}
+              ],
+              "accessibilityControl": [
+                {"value" : "fullKeyboardControl"},
+                {"value" : "fullMouseControl"}
+              ],
+              "licenseInformation": 
+                {"value" : "CCBY4.0"},
+              "isBasedOn": [
+                {"author" : "Topi S",
+                 "materialname" : "Kalevin vala",
+                 "url" : "uusi.example://url.fi",
+                 "aoeid" : ""
+                },
+                {"author" : "Topi S3",
+                 "materialname" : "Kalevin vala",
+                 "url" : "example://url.fi",
+                 "aoeid" : ""
+                }
+              ]  
+            });
+      expect(response.status).toEqual(200);
+      // expect(response.body[0][0].id).toContain('3');
+  });    
 });
 
 describe("xlsx metadata", () => {

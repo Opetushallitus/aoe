@@ -28,7 +28,9 @@ router.get("/material", db.getMaterial);
 router.get("/material/:id", db.getMaterialData);
 router.get("/material/user/:userid", db.getUserMaterial);
 router.put("/material/:id", db.updateMaterial);
+// delete educational material
 router.delete("/material/:id", db.deleteMaterial);
+// delete link or record from educationalmaterial
 router.delete("/material/file/:materialid/:fileid", db.deleteRecord);
 router.post("/material", db.postMaterial);
 

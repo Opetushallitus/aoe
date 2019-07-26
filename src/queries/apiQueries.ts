@@ -23,23 +23,12 @@ async function getMaterial(req: Request , res: Response , next: NextFunction) {
 }
 
 async function getMaterialData(req: Request , res: Response , next: NextFunction) {
-    // try {
-    //     let query;
-    //     // let params = { };
-    //     query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' and obsoleted != '1' limit 100;";
-    //     const data = await db.any(query);
-    //     res.status(200).json(data);
-    // }
-    // catch (err ) {
-    //     console.log(err);
-    //     res.status(500).send("error when getting material data");
-    // }
 
     db.task(async (t: any) => {
         const queries: any = [];
         let query;
-        query = "SELECT * FROM educationalmaterial WHERE id = '" + req.params.id + "' and obsoleted != '1' limit 100;";
-        let response = await t.any(query);
+        query = "SELECT * FROM educationalmaterial WHERE id = $1 and obsoleted != '1';";
+        let response = await t.any(query, [req.params.id]);
         queries.push(response);
 
         query = "select * from materialname where educationalmaterialid = $1;";
@@ -102,6 +91,9 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
+        query = "SELECT users.id, users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersid = users.id WHERE educationalmaterial.id = $1 and educationalmaterial.obsoleted != '1';";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
         // return t.one('SELECT * FROM users WHERE id = $1', 123)
         //     .then(user => {
         //         return t.any('SELECT * FROM events WHERE login = $1', user.name);
@@ -111,7 +103,38 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         return t.batch(queries);
     })
     .then((data: any) => {
-        res.status(200).json(data);
+        const jsonObj: any = {};
+        jsonObj.id = data[0][0].id;
+        jsonObj.materials = data[15];
+        jsonObj.owner = data[16];
+        jsonObj.name = data[1];
+        jsonObj.thumbnail = data[0][0].thumbnail;
+        jsonObj.createdAt = data[0][0].createdat;
+        jsonObj.updatedAt = data[0][0].updatedat;
+        jsonObj.publishedAt = data[0][0].publishedat;
+        jsonObj.archivedAt = data[0][0].archivedat;
+        jsonObj.author = data[11];
+        jsonObj.publisher = data[10];
+        jsonObj.description = data[2];
+        jsonObj.keywords = data[7];
+        jsonObj.learningResourceType = data[4];
+        jsonObj.timeRequired = data[0][0].timerequired;
+        jsonObj.agerangemin = data[0][0].agerangemin;
+        jsonObj.agerangemax = data[0][0].agerangemax;
+        jsonObj.educationalAlignment = data[14];
+        jsonObj.educationalUse = data[9];
+        jsonObj.inLanguage = data[13];
+        jsonObj.accessibilityFeature = data[5];
+        jsonObj.accessibilityHazard = data[6];
+        jsonObj.licenseInformation = data[0][0].licensecode;
+        jsonObj.isBasedOn = data[12];
+
+        for (let i = 0; i < 15; i += 1) {
+            console.log(i);
+            console.log(data[i]);
+        }
+        console.log(data);
+        res.status(200).json(jsonObj);
     })
     .catch((error: any) => {
         res.sendStatus(400);
