@@ -518,7 +518,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         return t.batch(queries);
     })
     .then ((data: any) => {
-        res.status(200).json(data);
+        res.status(200).json("data updated");
     })
     .catch ((err: Error) => {
         console.log(err);
