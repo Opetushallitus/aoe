@@ -129,11 +129,6 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.licenseInformation = data[0][0].licensecode;
         jsonObj.isBasedOn = data[12];
 
-        for (let i = 0; i < 15; i += 1) {
-            console.log(i);
-            console.log(data[i]);
-        }
-        console.log(data);
         res.status(200).json(jsonObj);
     })
     .catch((error: any) => {
@@ -145,8 +140,8 @@ async function getUserMaterial(req: Request , res: Response , next: NextFunction
     try {
         let query;
         // let params = { };
-        query = "SELECT * FROM educationalmaterial WHERE usersid = '" + req.params.userid + "' and obsoleted != '1' limit 1000;";
-        const data = await db.any(query);
+        query = "SELECT * FROM educationalmaterial WHERE usersid = $1 and obsoleted != '1' limit 1000;";
+        const data = await db.any(query, [req.params.userid]);
         res.status(200).json(data);
     }
     catch (err ) {
@@ -159,8 +154,8 @@ async function deleteMaterial(req: Request , res: Response , next: NextFunction)
     try {
         let query;
         let data;
-        query = "update educationalmaterial SET obsoleted = '1' WHERE id = '" + req.params.id + "';";
-        data = await db.any(query);
+        query = "update educationalmaterial SET obsoleted = '1' WHERE id = $1;";
+        data = await db.any(query, [req.params.id]);
         res.status(200).json(data);
     }
     catch (err ) {
@@ -173,8 +168,8 @@ async function deleteRecord(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
         let data;
-        query = "update material SET obsoleted = '1' WHERE id = '" + req.params.materialid + "';";
-        data = await db.any(query);
+        query = "update material SET obsoleted = '1' WHERE id = $1;";
+        data = await db.any(query, [req.params.fileid]);
         res.status(200).json(data);
     }
     catch (err ) {
@@ -628,9 +623,9 @@ async function updateUser(req: Request , res: Response , next: NextFunction) {
 async function getUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
-        query = "SELECT * FROM users where id = '" + req.params.id + "';";
+        query = "SELECT * FROM users where id = $1;";
         console.log(query);
-        const data = await db.any(query);
+        const data = await db.any(query, [req.params.id]);
         res.status(200).json(data);
     }
     catch (err ) {
