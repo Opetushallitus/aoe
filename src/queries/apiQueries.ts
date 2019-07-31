@@ -94,11 +94,6 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         query = "SELECT users.id, users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersid = users.id WHERE educationalmaterial.id = $1 and educationalmaterial.obsoleted != '1';";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
-        // return t.one('SELECT * FROM users WHERE id = $1', 123)
-        //     .then(user => {
-        //         return t.any('SELECT * FROM events WHERE login = $1', user.name);
-        //     });
-
 
         return t.batch(queries);
     })
@@ -119,8 +114,10 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.keywords = data[7];
         jsonObj.learningResourceType = data[4];
         jsonObj.timeRequired = data[0][0].timerequired;
-        jsonObj.agerangemin = data[0][0].agerangemin;
-        jsonObj.agerangemax = data[0][0].agerangemax;
+        const typicalAgeRange: any = {};
+        typicalAgeRange.min = data[0][0].agerangemin;
+        typicalAgeRange.max = data[0][0].agerangemax;
+        jsonObj.typicalAgeRange = typicalAgeRange;
         jsonObj.educationalAlignment = data[14];
         jsonObj.educationalUse = data[9];
         jsonObj.inLanguage = data[13];
@@ -192,66 +189,6 @@ async function postMaterial(req: Request , res: Response , next: NextFunction) {
     }
 }
 
-async function updateMaterial2(req: Request , res: Response , next: NextFunction) {
-    updateMaterialTest(req, res, next)
-    .then ((data) => {
-        console.log("");
-        console.log("This is respoonse: " + data);
-        console.log("");
-        res.status(200).json("here material updated" + data);
-    })
-    .catch ((err) => {
-        console.log(err);
-        res.sendStatus(400);
-    });
-    // try {
-    //     const resp = await updateMaterialTest(req, res, next);
-    //     console.log("response: " + resp);
-    //     // res.status(200).json("here material updated" + resp);
-    // }
-    // catch (err) {
-    //     console.log(err);
-    //     res.sendStatus(400);
-    // }
-}
-
-async function updateMaterialTest(req: Request , res: Response , next: NextFunction) {
-    db.tx(async (t: any) => {
-// author
-    const params = [];
-    const arr = req.body.author;
-    let query = "DELETE FROM author where educationalmaterialid = $1;";
-    console.log(query);
-    const response  = t.any(query, [req.body.id]);
-    console.log(response);
-    const queries: any = [];
-    queries.push(response);
-    console.log(queries);
-    // arr.forEach( (element: any) =>  {
-    //     query = "INSERT INTO pp (authorname, organization, educationalmaterialid) VALUES ($1,$2,$3);";
-    //     console.log(query);
-    //     queries.push(t.any(query, [element.authorname, element.organization, req.body.id]));
-    // });
-    for (let i = 0; i < arr.length; i += 1) {
-        query = "INSERT INTO pp (authorname, organization, educationalmaterialid) VALUES ($1,$2,$3);";
-        console.log(query);
-        queries.push(await t.any(query, [arr[i].authorname, arr[i].organization, req.body.id]));
-    }
-    console.log("Done");
-    console.log(queries);
-    // console.log(t.batch(queries));
-    return t.batch(queries);
-    })
-    .then ((data: any) => {
-        // res.status(200).json(data);
-    })
-    .catch ((err: Error) => {
-        console.log(err);
-        console.log("here");
-        res.sendStatus(400);
-    });
-}
-
 async function updateMaterial(req: Request , res: Response , next: NextFunction) {
     db.tx(async (t: any) => {
         let query;
@@ -288,9 +225,10 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query, [element.text, element.lang, element.text, req.body.id]));
             }
         }
-        query = "UPDATE educationalmaterial SET (CreatedAt,PublishedAt,UpdatedAt,TechnicalName,timeRequired,agerangeMin,agerangeMax) = (to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),'" + req.query.materialName + "','300','1','12') where id='" + req.params.id + "';";
-        console.log(query);
-        queries.push(await t.any(query));
+        const dnow = Date.now() / 1000.0;
+        query = "UPDATE educationalmaterial SET (PublishedAt,UpdatedAt,timeRequired,agerangeMin,agerangeMax) = ($1,to_timestamp($2),$3,$4,$5) where id=$6;";
+        console.log(query, [req.body.publishedAt, dnow]);
+        queries.push(await t.any(query, [req.body.publishedAt, dnow, req.body.timeRequired, req.body.timeRequired, req.body.typicalAgeRange.min, req.body.typicalAgeRange.max, req.params.id]));
         console.log(queries);
 // description
         const descparams = [];

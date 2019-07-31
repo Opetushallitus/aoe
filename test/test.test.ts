@@ -59,7 +59,7 @@ describe("basic route tests", () => {
         const response2 = await request(app).get("/material/" + response.body[0].id);
         expect(response2.status).toEqual(200);
         expect(response2.body.id).toContain(response.body[0].id);
-        console.log(response2.body[0]);
+        console.log(response2.body);
 
     });
     test('GET materialdata/', async () => {
@@ -72,6 +72,7 @@ describe("basic route tests", () => {
       const response = await request(app).put('/material/3')
             .send({
               "id": 3,
+              "publishedAt" : "1920-01-01T00:00:00.000Z",
               "author": [
                 {
                   "authorname": "jari isometso",
