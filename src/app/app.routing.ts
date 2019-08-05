@@ -7,7 +7,6 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { InfoViewComponent } from './views/info-view/info-view.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
@@ -50,7 +49,7 @@ export const routes: Routes = [
       },
       {
         path: 'lisatietoa',
-        component: InfoViewComponent,
+        component: HelpViewComponent,
       },
       {
         path: 'lisaa-oppimateriaali',
@@ -59,10 +58,6 @@ export const routes: Routes = [
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-      },
-      {
-        path: 'ukk',
-        component: HelpViewComponent,
       },
       {
         path: 'kayttoehdot',
