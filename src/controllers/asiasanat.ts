@@ -33,7 +33,8 @@ export async function setAsiasanat(): Promise<any> {
 
   parseString(results, parseOptions, async (err, result) => {
     result.RDF.Concept.map((concept: any) => {
-      const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
+      // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
+      const key = concept.$.about;
       const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
       const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
       const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
