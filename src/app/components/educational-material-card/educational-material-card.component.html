@@ -9,6 +9,10 @@
         <h5>{{ educationalMaterial.name }}</h5>
 
         <p>{{ educationalMaterial.description | truncate:[75] }}</p>
+
+        <ul class="list-unstyled">
+          <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
+        </ul>
       </div>
     </div>
   </a>
