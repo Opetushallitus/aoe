@@ -17,4 +17,18 @@ export const FAQOrganisation: Faq[] = [
       'Mikäli sinä tai organisaatiosi olette kiinnostuneita näistä vaihtoehdoista, otattehan yhteyttä oppimateriaalivaranto@csc.fi niin voimme sopia harvestoinnin tai excel-yhteistyön toteuttamisesta.',
     ]
   },
+  {
+    id: 2,
+    question: 'Millaisia oppimateriaaleja voi tuoda avointen oppimateriaalien palveluun?',
+    answer: [
+      'Avointen oppimateriaalien palvelu on tarkoitettu julkisin varoin tuotetuille avoimille oppimateriaaleille. Jotta oppimateriaalin tiedot voi tuoda palveluun on a) materiaalin oltava Creative Commons -lisenssillä lisensoitu, b) on sen oltava julkisin varoin tuotettu tai sen oltava saanut julkista rahoitusta, c) on tuojalla oltava oikeus siirtää materiaali, sen tiedot ja niihin liittyvät henkilötiedot avointen oppimateriaalien palveluun sekä d) organisaation on sitouduttava palvelun tietosuojaselosteeseen ja käyttöehtoihin. Mikäli sinä tai organisaatiosi olette kiinnostuneita, otattehan yhteyttä oppimateriaalivaranto@csc.fi niin voimme sopia yhteistyön toteuttamisesta.',
+    ]
+  },
+  {
+    id: 3,
+    question: 'Millainen metatietomalli avointen oppimateriaalien palvelussa on?',
+    answer: [
+      'Avointen oppimateriaalien palvelu käyttää kansainvälisesti yhteensopivaa LRMI-pohjaista metatietomallia, joka on tarkoitettu oppimateriaalien laadukkaan löytämisen edistämiseen. Hankkeen aikana metatietomalli profiloitiin Suomen koulutuskentän tarpeisiin yhdessä sidosryhmien kanssa. Metatietomallia kehitetään edelleen ja sen viimeisin dokumentaatio löytyy täältä: https://wiki.eduuni.fi/x/_RxLBg Metatitietomalli ja sen hyödyntämät sanastot ovat avoimesti käytettäviä.',
+    ]
+  },
 ];
