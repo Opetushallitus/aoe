@@ -303,7 +303,12 @@ h2 {
 
     h5 {
       color: $body-color;
+      @include font-size(16);
       margin-top: 0;
+    }
+
+    p {
+      @include font-size(14);
     }
   }
 
@@ -343,8 +348,13 @@ h2 {
     }
 
     .license {
+      @include font-size(14);
       font-weight: 700;
       vertical-align: middle;
+    }
+
+    .type {
+      @include font-size(15);
     }
   }
 }
