@@ -5,7 +5,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
-import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
@@ -23,13 +22,6 @@ export const routes: Routes = [
     component: P404Component,
     data: {
       title: 'Page 404',
-    }
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page',
     }
   },
   {
