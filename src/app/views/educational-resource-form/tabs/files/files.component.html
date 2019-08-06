@@ -1,5 +1,5 @@
 <alert type="info" dismissible="true">
-  Tervetuloa lisäämään materiaalia palveluun. Anna halutessasi materiaalille myös englannin- ja ruotsinkielinen nimi. Mikäli sinulla on samasta materiaalista eri kieliversioita niin voit lisätä ne erikseen palveluun. Samassa materiaalissa voi olla useita tiedostoja, jotka voit lisätä materiaaliin tässä näkymässä 'Lisää tiedosto' -painikkeella.
+  Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.
 </alert>
 
 <form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()">
@@ -25,6 +25,12 @@
 
       <div class="col-auto">
         <button type="button" class="btn btn-gray" (click)="openModal(nameI18n)">Kieliversiot</button>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
       </div>
 
       <ng-template #nameI18n>
@@ -75,7 +81,13 @@
   <ng-container *ngFor="let file of files.controls; let i = index;">
     <div class="form-group" formArrayName="files">
       <ng-container [formGroupName]="i">
-        <h4>{{ i + 1 }}. tiedosto</h4>
+        <h4>{{ i + 1 }}. tiedosto
+          <button
+            type="button"
+            class="btn btn-link"
+            tooltip="Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki."
+          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        </h4>
 
         <div class="form-row align-items-end mb-2">
           <div class="col">
@@ -145,6 +157,12 @@
 
           <div class="col-auto">
             <button type="button" class="btn btn-gray" (click)="openModal(displayName)">Kieliversiot</button>
+
+            <button
+              type="button"
+              class="btn btn-link"
+              tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
           </div>
 
           <ng-template #displayName>

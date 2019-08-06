@@ -17,7 +17,7 @@
               <button
                 type="button"
                 class="btn btn-link"
-                tooltip="Oppimateriaalin tekijä tai tekijät. Syötä tekijät yksi tekijä kerrallaan ja paina enter-näppäintä jokaisen tekijän jälkeen."
+                tooltip="Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi."
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
               <input
@@ -165,6 +165,12 @@
 
           <div class="col-auto">
             <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+
+            <button
+              type="button"
+              class="btn btn-link"
+              tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
           </div>
         </div>
 
