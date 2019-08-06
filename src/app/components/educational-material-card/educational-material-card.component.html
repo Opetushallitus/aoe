@@ -10,7 +10,7 @@
 
         <p>{{ educationalMaterial.description | truncate:[75] }}</p>
 
-        <ul class="list-unstyled">
+        <ul class="list-unstyled authors">
           <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
         </ul>
       </div>

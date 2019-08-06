@@ -310,6 +310,10 @@ h2 {
     p {
       @include font-size(14);
     }
+
+    .authors {
+      @include font-size(14);
+    }
   }
 
   .tags {
