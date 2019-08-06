@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
-import { LoginComponent } from './views/login/login.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -33,6 +32,7 @@ import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -95,12 +95,12 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
+    PopoverModule.forRoot(),
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
-    LoginComponent,
     HelpViewComponent,
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
