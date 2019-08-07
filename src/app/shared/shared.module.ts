@@ -44,20 +44,30 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
  * Save language to local storage
  */
 export function setLanguage(lang: string): void {
-  localStorage.setItem('user', JSON.stringify({ lang: lang }));
+  localStorage.setItem('aoe.lang', lang);
 }
 
 /**
  * Retrieve language from local storage (if set)
  */
-export function getLanguage(): string | undefined {
-  const user = JSON.parse(localStorage.getItem('user'));
+export function getLanguage(): string | null {
+  return localStorage.getItem('aoe.lang');
+}
 
-  if (user === null) {
-    return undefined;
-  } else {
-    return user.lang;
-  }
+export function setUsername(username: string): void {
+  localStorage.setItem('aoe.username', username);
+}
+
+export function getUsername(): string | null {
+  return localStorage.getItem('aoe.username');
+}
+
+export function setAcceptance(acceptance: boolean): void {
+  localStorage.setItem('aoe.acceptance', String(acceptance));
+}
+
+export function getAcceptance(): string | null {
+  return localStorage.getItem('aoe.acceptance');
 }
 
 export function getLocalStorageData(localStorageKey: string) {
