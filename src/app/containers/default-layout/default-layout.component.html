@@ -27,15 +27,22 @@
 
       <ul class="nav navbar-nav">
         <li class="nav-item">
-          <a
-            class="nav-link"
+          <button
+            class="btn nav-link"
+            type="button"
             [popover]="loginPopover"
             popoverTitle="Kirjaudu sisään"
             placement="bottom"
-            href="#"
+            *ngIf="!isLoggedIn()"
           >
             Kirjaudu sisään
-          </a>
+          </button>
+          <button
+            class="btn nav-link"
+            type="button"
+            (click)="logout()"
+            *ngIf="isLoggedIn()"
+          >Kirjaudu ulos</button>
         </li>
       </ul>
 
@@ -43,8 +50,8 @@
         <p>Valitse kirjautumistapa</p>
 
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action">MPASSid</a>
-          <a href="#" class="list-group-item list-group-item-action">Haka</a>
+          <a href="#" class="list-group-item list-group-item-action" (click)="login()">MPASSid</a>
+          <a href="#" class="list-group-item list-group-item-action" (click)="login()">Haka</a>
         </div>
       </ng-template>
     </div>
