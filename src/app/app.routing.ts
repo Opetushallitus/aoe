@@ -36,39 +36,47 @@ export const routes: Routes = [
       {
         path: 'etusivu',
         loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
-        canActivate: [ AcceptanceGuard ]
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent,
-        canActivate: [ AcceptanceGuard ]
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'lisatietoa',
         component: HelpViewComponent,
-        canActivate: [ AcceptanceGuard ]
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
-        canActivate: [ AcceptanceGuard ]
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-        canActivate: [ AcceptanceGuard ]
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'kayttoehdot',
         component: TermsOfUseViewComponent,
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'tietosuojaseloste',
         component: PrivacyPolicyViewComponent,
+        runGuardsAndResolvers: 'always'
       },
       {
         path: 'hyvaksynta',
         component: AcceptanceViewComponent,
+        runGuardsAndResolvers: 'always'
       },
     ],
   },
