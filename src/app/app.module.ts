@@ -54,7 +54,7 @@ import { HtmlPreviewComponent } from './components/html-preview/html-preview.com
 import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
-import { KoodistoTestiComponent } from './views/koodisto-testi/koodisto-testi.component';
+import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
 
 // Educational resource form
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
@@ -114,7 +114,6 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
     OfficePreviewComponent,
     ImagePreviewComponent,
     InfoViewComponent,
-    KoodistoTestiComponent,
     EducationalResourceFormComponent,
     FilesComponent,
     BasicDetailsComponent,
@@ -123,6 +122,7 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
     BasedOnDetailsComponent,
     DialogComponent,
     LicenseComponent,
+    AcceptanceViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

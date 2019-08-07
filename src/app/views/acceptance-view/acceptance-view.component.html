@@ -1,0 +1,23 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>Palvelun käyttöehdot ja tietosuojaseloste</h1>
+
+    <ul class="list-unstyled">
+      <li><a [routerLink]="['/kayttoehdot']" target="_blank" rel="noopener">Käyttöehdot</a></li>
+      <li><a [routerLink]="['/tietosuojaseloste']" target="_blank" rel="noopener">Tietosuojaseloste</a></li>
+    </ul>
+
+    <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="acceptance" formControlName="acceptance">
+        <label class="form-check-label" for="acceptance">Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot</label>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [disabled]="acceptanceForm.invalid"
+      >Tallenna</button>
+    </form>
+  </div>
+</div>
