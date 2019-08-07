@@ -70,6 +70,11 @@ export function getAcceptance(): string | null {
   return localStorage.getItem('aoe.acceptance');
 }
 
+export function removeUserdata(): void {
+  localStorage.removeItem('aoe.username');
+  localStorage.removeItem('aoe.acceptance');
+}
+
 export function getLocalStorageData(localStorageKey: string) {
   return JSON.parse(localStorage.getItem(localStorageKey));
 }
