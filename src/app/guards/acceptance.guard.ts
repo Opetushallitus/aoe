@@ -13,7 +13,7 @@ export class AcceptanceGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (getUsername() && getAcceptance() && getAcceptance().toLowerCase() === 'true') {
+    if (!getUsername() || (getUsername() && getAcceptance())) {
       return true;
     }
 
