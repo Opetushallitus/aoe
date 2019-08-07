@@ -10,6 +10,8 @@ import { EducationalResourceFormComponent } from './views/educational-resource-f
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
+import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
+import { AcceptanceGuard } from './guards/acceptance.guard';
 
 export const routes: Routes = [
   {
@@ -34,22 +36,27 @@ export const routes: Routes = [
       {
         path: 'etusivu',
         loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
+        canActivate: [ AcceptanceGuard ]
       },
       {
         path: 'materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent,
+        canActivate: [ AcceptanceGuard ]
       },
       {
         path: 'lisatietoa',
         component: HelpViewComponent,
+        canActivate: [ AcceptanceGuard ]
       },
       {
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
+        canActivate: [ AcceptanceGuard ]
       },
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
+        canActivate: [ AcceptanceGuard ]
       },
       {
         path: 'kayttoehdot',
@@ -58,6 +65,10 @@ export const routes: Routes = [
       {
         path: 'tietosuojaseloste',
         component: PrivacyPolicyViewComponent,
+      },
+      {
+        path: 'hyvaksynta',
+        component: AcceptanceViewComponent,
       },
     ],
   },
