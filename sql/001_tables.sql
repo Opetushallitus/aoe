@@ -32,6 +32,7 @@ DROP TABLE IF EXISTS Publisher CASCADE;
 DROP TABLE IF EXISTS MaterialName CASCADE;
 DROP TABLE IF EXISTS MaterialDescription CASCADE;
 DROP TABLE IF EXISTS author CASCADE;
+DROP TABLE IF EXISTS MaterialDisplayName CASCADE;
 
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
@@ -126,7 +127,8 @@ CREATE TABLE EducationalLevel (
 CREATE TABLE KeyWord (
   Id                     BIGSERIAL NOT NULL, 
   Value                 text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
+  EducationalMaterialId int8 NOT NULL,
+  KeyUrl            text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE EducationalMaterialCollection (
   Id             BIGSERIAL NOT NULL, 
@@ -240,6 +242,13 @@ CREATE TABLE MaterialName (
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (id));
 
+  CREATE TABLE MaterialDisplayName (
+  id           BIGSERIAL NOT NULL, 
+  DisplayName text NOT NULL, 
+  Language    text NOT NULL, 
+  MaterialId  int8 NOT NULL, 
+  PRIMARY KEY (id));
+
 ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
@@ -272,6 +281,7 @@ ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KE
 -- ALTER TABLE AccessibilityAPI ADD CONSTRAINT fk_AccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 -- ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialName_lang_id UNIQUE (language,educationalmaterialid);
@@ -283,3 +293,4 @@ ALTER TABLE keyword ADD CONSTRAINT constraint_keyword UNIQUE (value,educationalm
 ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (name,educationalmaterialid);
 ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
 ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
+ALTER TABLE materialdisplayname ADD CONSTRAINT constraint_materialdisplayname UNIQUE (language, materialid);

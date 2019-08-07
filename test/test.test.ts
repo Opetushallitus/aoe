@@ -63,13 +63,13 @@ describe("basic route tests", () => {
 
     });
     test('GET materialdata/', async () => {
-        const response = await request(app).get('/material/3');
+        const response = await request(app).get('/material/1');
         expect(response.status).toEqual(200);
-        expect(response.body.id).toContain('3');
+        expect(response.body.id).toContain('1');
     });
 
     test('PUT metadata material /', async () => {
-      const response = await request(app).put('/material/3')
+      const response = await request(app).put('/material/1')
             .send({
               "id": 3,
               "publishedAt" : "1920-01-01T00:00:00.000Z",
@@ -114,8 +114,8 @@ describe("basic route tests", () => {
                 }
               ],
               "keywords": [
-                {"value" : "avainsana2"},
-                {"value" : "toinen sana"}
+                {"key": "p10","value" : "avainsana2"},
+                {"key": "p2","value" : "toinen sana"}
               ],
               "learningResourceType": [
                 {"value" : "biologia"},
