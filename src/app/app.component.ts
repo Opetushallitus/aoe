@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 
-import { getLanguage, getUsername, setLanguage, setUsername } from './shared/shared.module';
+import { getLanguage, setLanguage } from './shared/shared.module';
 
 @Component({
   // tslint:disable-next-line
@@ -41,14 +41,6 @@ export class AppComponent implements OnInit {
         (<any>window).gtag('config', 'UA-135550416-1', { 'page_path': event.urlAfterRedirects });
       }
     });
-
-    setUsername('kalle.lehtonen@digia.com');
-
-    if (getUsername()) {
-      console.log('logged in');
-    } else {
-      console.log('not logged in');
-    }
   }
 
   ngOnInit() {
