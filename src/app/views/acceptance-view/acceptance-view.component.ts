@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { setAcceptance } from '../../shared/shared.module';
+import { updateAcceptance } from '../../shared/shared.module';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,7 +22,7 @@ export class AcceptanceViewComponent implements OnInit {
   }
 
   public onSubmit() {
-    setAcceptance(this.acceptanceForm.get('acceptance').value);
+    updateAcceptance(this.acceptanceForm.get('acceptance').value);
 
     this.router.navigate(['/etusivu']);
   }

@@ -6,6 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
+import { User } from '../models/user';
 
 @NgModule({
   imports: [
@@ -54,27 +55,35 @@ export function getLanguage(): string | null {
   return localStorage.getItem('aoe.lang');
 }
 
-export function setUsername(username: string): void {
-  localStorage.setItem('aoe.username', username);
-}
-
-export function getUsername(): string | null {
-  return localStorage.getItem('aoe.username');
-}
-
-export function setAcceptance(acceptance: boolean): void {
-  localStorage.setItem('aoe.acceptance', String(acceptance));
-}
-
-export function getAcceptance(): string | null {
-  return localStorage.getItem('aoe.acceptance');
-}
-
-export function removeUserdata(): void {
-  localStorage.removeItem('aoe.username');
-  localStorage.removeItem('aoe.acceptance');
-}
-
 export function getLocalStorageData(localStorageKey: string) {
   return JSON.parse(localStorage.getItem(localStorageKey));
+}
+
+export const isLoggedIn: boolean = !!getUser();
+
+export function setUser(username: string, firstname: string, lastname: string, acceptance: boolean): void {
+  const user: User = {
+    username: username,
+    firstname: firstname,
+    lastname: lastname,
+    acceptance: acceptance,
+  };
+
+  localStorage.setItem('aoe.user', JSON.stringify(user));
+}
+
+export function getUser(): User | null {
+  return JSON.parse(localStorage.getItem('aoe.user'));
+}
+
+export function removeUser(): void {
+  localStorage.removeItem('aoe.user');
+}
+
+export function updateAcceptance(value: boolean): void {
+  const user: User = JSON.parse(localStorage.getItem('aoe.user'));
+
+  user.acceptance = value;
+
+  localStorage.setItem('aoe.user', JSON.stringify(user));
 }
