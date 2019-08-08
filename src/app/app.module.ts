@@ -65,6 +65,7 @@ import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs
 import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LicenseComponent } from './views/educational-resource-form/tabs/license/license.component';
+import { NavLoginComponent } from './components/nav-login/nav-login.component';
 
 @NgModule({
   imports: [
@@ -123,6 +124,7 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
     DialogComponent,
     LicenseComponent,
     AcceptanceViewComponent,
+    NavLoginComponent,
   ],
   providers: [{
     provide: LocationStrategy,
