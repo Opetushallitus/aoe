@@ -37,6 +37,7 @@ router.post("/material", db.postMaterial);
 router.post("/createUser", db.createUser);
 router.put("/user/:id", db.updateUser);
 router.get("/user/:id", db.getUser);
+router.put("/termsOfUsage/:id", db.updateTermsOfUsage);
 
 router.get("/upload", fh.uploadFileToStorage);
 router.get("/download", fh.downloadFile);

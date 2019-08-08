@@ -593,6 +593,20 @@ async function updateUser(req: Request , res: Response , next: NextFunction) {
     }
 }
 
+async function updateTermsOfUsage(req: Request , res: Response , next: NextFunction) {
+    try {
+        let query;
+        query = "update users set termsofusage = '1' where id = $1;";
+        console.log(query);
+        const data = await db.any(query, [req.params.id]);
+        res.status(200).json("terms of usage updated");
+    }
+    catch (err ) {
+        console.log(err);
+        res.status(500).send("update failed");
+    }
+}
+
 async function getUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
@@ -860,5 +874,6 @@ module.exports = {
     getUser : getUser,
     deleteMaterial : deleteMaterial,
     deleteRecord : deleteRecord,
-    insertEducationalMaterial : insertEducationalMaterial
+    insertEducationalMaterial : insertEducationalMaterial,
+    updateTermsOfUsage : updateTermsOfUsage
 };

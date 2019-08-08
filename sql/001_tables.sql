@@ -41,7 +41,8 @@ CREATE TABLE Users (
   UserName               text NOT NULL UNIQUE, 
   PreferredLanguage      text NOT NULL, 
   PreferredTargetName    text NOT NULL, 
-  PreferredAlignmentType text NOT NULL, 
+  PreferredAlignmentType text NOT NULL,
+  TermsOfUsage           bool DEFAULT '0' NOT NULL,  
   PRIMARY KEY (Id));
 CREATE TABLE Logins (
   Id            BIGSERIAL NOT NULL, 
