@@ -24,6 +24,7 @@ export class NavLoginComponent implements OnInit {
   public login(): void {
     setUser('maija.mehilainen@aoe.fi', 'Maija', 'Mehiläinen', false);
     this.isLoggedIn = true;
+    this.user = getUser();
   }
 
   public logout(): void {
