@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { getAcceptance, getUsername } from '../shared/shared.module';
+import { User } from '../models/user';
+import { getUser } from '../shared/shared.module';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,9 @@ export class AcceptanceGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!getUsername() || (getUsername() && getAcceptance())) {
+    const user: User = getUser();
+
+    if (!user || (user && user.acceptance === true)) {
       return true;
     }
 
