@@ -33,6 +33,7 @@ DROP TABLE IF EXISTS MaterialName CASCADE;
 DROP TABLE IF EXISTS MaterialDescription CASCADE;
 DROP TABLE IF EXISTS author CASCADE;
 DROP TABLE IF EXISTS MaterialDisplayName CASCADE;
+DROP TABLE IF EXISTS temporaryrecord CASCADE;
 
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
@@ -249,6 +250,17 @@ CREATE TABLE MaterialName (
   MaterialId  int8 NOT NULL, 
   PRIMARY KEY (id));
 
+ CREATE TABLE temporaryrecord (
+  id                     BIGSERIAL NOT NULL, 
+  FilePath              text NOT NULL, 
+  OriginalFileName      text NOT NULL, 
+  Filesize              int4 NOT NULL, 
+  Mimetype              text NOT NULL, 
+  Format                text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  FileName              text NOT NULL, 
+  PRIMARY KEY (id));
+
 ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
@@ -282,6 +294,7 @@ ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KE
 -- ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
+ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialdescription_lang_id UNIQUE (language,educationalmaterialid);

@@ -48,6 +48,14 @@ async function uploadMaterial(req: Request, res: Response) {
                             const result = await insertDataToMaterialTable(emresp[0].id, links[i]);
                         }
                     }
+                    const tempid = [];
+                    if (typeof files !== "undefined") {
+                        for (let i = 0; i < files.length; i++) {
+                            const result = await insertDataToTempRecordTable(files[i], emresp[0].id);
+                            tempid.push(result);
+                            }
+                        }
+                    console.log(tempid);
                     // return 200 if success and continue sending files to pouta
                     res.status(200).json(emresp);
                     // res.status(200).json("testing");
@@ -59,6 +67,7 @@ async function uploadMaterial(req: Request, res: Response) {
                                 const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
                                 const result = await insertDataToMaterialTable(emresp[0].id, obj.Location);
                                 await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                                await deleteDataFromTempRecordTable(files[i].filename, emresp[0].id);
                                 fs.unlink("./" + files[i].path, (err: any) => {
                                     if (err) {
                                     console.error(err);
@@ -108,6 +117,14 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                             const result = await insertDataToMaterialTable(req.params.materialId, links[i]);
                         }
                     }
+                    const tempid = [];
+                    if (typeof files !== "undefined") {
+                        for (let i = 0; i < files.length; i++) {
+                            const result = await insertDataToTempRecordTable(files[i], req.params.materialId);
+                            tempid.push(result);
+                            }
+                        }
+
                     res.status(200).send("Files uploaded: " + files.length);
                     try {
                         if (typeof files !== "undefined") {
@@ -115,6 +132,7 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                                 const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
                                 const result = await insertDataToMaterialTable(req.params.materialId, obj.Location);
                                 await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                                await deleteDataFromTempRecordTable(files[i].filename, req.params.materialId);
                                 fs.unlink("./" + files[i].path, (err: any) => {
                                     if (err) {
                                     console.error(err);
@@ -171,6 +189,23 @@ async function insertDataToRecordTable(files: any, materialID: any, fileKey: any
     query = "insert into record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid) values ($1,$2,$3,$4,$5,$6,$7,$8) returning id;";
     console.log(query);
     const data = await db.any(query, [files.path, files.originalname, files.size, files.mimetype, files.encoding, fileKey, fileBucket, materialID.id]);
+}
+
+async function insertDataToTempRecordTable(files: any, materialId: any) {
+    let query;
+    query = "insert into temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, educationalmaterialid) values ($1,$2,$3,$4,$5,$6,$7) returning id;";
+    console.log(query);
+    console.log(materialId);
+    const data = await db.any(query, [files.filename, files.path, files.originalname, files.size, files.mimetype, files.encoding, materialId]);
+    return data;
+}
+
+async function deleteDataFromTempRecordTable(filename: any, materialId: any) {
+    let query;
+    query = "delete from temporaryrecord where filename = $1 and educationalmaterialid = $2;";
+    console.log(query);
+    const data = await db.any(query, [filename, materialId]);
+    return data;
 }
 
 async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
