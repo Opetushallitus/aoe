@@ -69,8 +69,7 @@ CREATE TABLE EducationalMaterial (
   PRIMARY KEY (Id));
 
 CREATE TABLE Material (
-  Id                     BIGSERIAL NOT NULL, 
-  MaterialName          text NOT NULL, 
+  Id                     BIGSERIAL NOT NULL,
   Link                  text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
@@ -285,7 +284,7 @@ ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) 
 ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
-ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialName_lang_id UNIQUE (language,educationalmaterialid);
+ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialdescription_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE educationalaudience ADD CONSTRAINT constraint_educationalaudience UNIQUE (educationalrole,educationalmaterialid);
 ALTER TABLE educationaluse ADD CONSTRAINT constraint_educationaluse UNIQUE (value,educationalmaterialid);
 ALTER TABLE learningresourcetype ADD CONSTRAINT constraint_learningresourcetype UNIQUE (value,educationalmaterialid);

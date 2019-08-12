@@ -87,7 +87,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
-        query = "select m.id, materialname, link, priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
+        query = "select m.id, link, priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
@@ -790,6 +790,7 @@ async function insertIntoAccessibilityHazard(obj: any, materialid: any) {
 async function insertIntoKeyWord(obj: any, materialid: any) {
     const data = {
         value : obj.value,
+        keyurl : "",
         educationalmaterialid : materialid
     };
     const query = pgp.helpers.insert(data, undefined, "keyword") + "RETURNING id";
@@ -852,7 +853,7 @@ async function insertIntoAligmentObject(obj: any, materialid: any) {
 
 async function insertIntoMaterial(obj: any, materialid: any) {
     const data = {
-        materialname : obj.materialname,
+        // materialname : obj.materialname,
         link : obj.link,
         priority : obj.priority,
         educationalmaterialid : materialid

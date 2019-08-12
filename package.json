@@ -14,7 +14,7 @@
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\"",
-    "test": "jest --forceExit --coverage --verbose",
+    "test": "jest --forceExit --coverage",
     "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
@@ -60,6 +60,7 @@
     "redis": "^2.8.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
+    "s3-zip": "^3.1.0",
     "utf8": "^3.0.0",
     "winston": "^2.4.3",
     "xlsx": "^0.14.2"
@@ -93,6 +94,7 @@
     "concurrently": "^3.5.1",
     "connect-pg-pool": "^4.0.0",
     "jest": "^22.4.4",
+    "jest-junit": "^7.0.0",
     "nodemon": "^1.17.5",
     "pg": "^7.4.3",
     "pg-pool": "^2.0.3",
@@ -103,5 +105,18 @@
     "ts-node": "^5.0.1",
     "tslint": "^5.10.0",
     "typescript": "^3.5.3"
+  },
+  "jest": {
+    "coverageReporters": [
+      "text"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
+  },
+  "jest-junit": {
+    "output": "output/coverage/junit/junit.xml",
+    "usePathForSuiteName": "true"
   }
 }

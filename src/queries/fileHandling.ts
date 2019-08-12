@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { forEach } from "async";
 const AWS = require("aws-sdk");
+const s3Zip = require("s3-zip");
 const globalLog = require("global-request-logger");
 globalLog.initialize();
 
@@ -31,28 +32,39 @@ const savedFileName = "file.blob";
 async function uploadMaterial(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
-
         if (contentType.startsWith("multipart/form-data")) {
             upload.array("myFiles", 12)(req , res, async function() {
                 try {
                     const files = (<any>req).files;
-                    if (files.length == 0) {
+                    const links = req.body.myFiles;
+                    console.log("files: " + files);
+                    console.log("links: " + links);
+                    if (files === "undefined" || files.length == 0 && links === "undefined") {
                         return res.status(400).send("No file sent");
                     }
                     const emresp = await insertDataToEducationalMaterialTable(req);
+                    if (typeof links !== "undefined") {
+                        for (let i = 0; i < links.length; i++) {
+                            const result = await insertDataToMaterialTable(emresp[0].id, links[i]);
+                        }
+                    }
                     // return 200 if success and continue sending files to pouta
                     res.status(200).json(emresp);
+                    // res.status(200).json("testing");
                     console.log(files);
+                    console.log(req.body);
                     try {
-                        for (let i = 0; i < files.length; i++) {
-                            const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
-                            const result = await insertDataToMaterialTable(files[i], emresp[0].id, obj.Location);
-                            await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
-                            fs.unlink("./" + files[i].path, (err: any) => {
-                                if (err) {
-                                console.error(err);
-                                }
-                            });
+                        if (typeof files !== "undefined") {
+                            for (let i = 0; i < files.length; i++) {
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                                const result = await insertDataToMaterialTable(emresp[0].id, obj.Location);
+                                await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                                fs.unlink("./" + files[i].path, (err: any) => {
+                                    if (err) {
+                                    console.error(err);
+                                    }
+                                });
+                            }
                         }
                     }
                     catch (ex) {
@@ -87,17 +99,28 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                 try {
 
                     const files = (<any>req).files;
+                    const links = req.body.myFiles;
+                    if (files === "undefined" || files.length == 0 && links === "undefined") {
+                        return res.status(400).send("No file sent");
+                    }
+                    if (typeof links !== "undefined") {
+                        for (let i = 0; i < links.length; i++) {
+                            const result = await insertDataToMaterialTable(req.params.materialId, links[i]);
+                        }
+                    }
                     res.status(200).send("Files uploaded: " + files.length);
                     try {
-                        for (let i = 0; i < files.length; i++) {
-                            const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
-                            const result = await insertDataToMaterialTable(files[i], req.params.materialId, obj.Location);
-                            await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
-                            fs.unlink("./" + files[i].path, (err: any) => {
-                                if (err) {
-                                console.error(err);
-                                }
-                            });
+                        if (typeof files !== "undefined") {
+                            for (let i = 0; i < files.length; i++) {
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                                const result = await insertDataToMaterialTable(req.params.materialId, obj.Location);
+                                await insertDataToRecordTable(files[i], result, obj.Key, obj.Bucket);
+                                fs.unlink("./" + files[i].path, (err: any) => {
+                                    if (err) {
+                                    console.error(err);
+                                    }
+                                });
+                            }
                         }
                     }
                     catch (ex) {
@@ -133,13 +156,13 @@ async function insertDataToEducationalMaterialTable(req: Request) {
     return data;
 }
 
-async function insertDataToMaterialTable(files: any, materialID: String, location: any) {
+async function insertDataToMaterialTable(materialID: String, location: any) {
     let query;
     // const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + location + "','" + materialID + "')"; }).join(",");
-    const str = "('" + files.originalname + "','" + location + "','" + materialID + "')";
-    query = "insert into material (materialname, link, educationalmaterialid) values ($1,$2,$3) returning id;";
+    // const str = "('" + files.originalname + "','" + location + "','" + materialID + "')";
+    query = "insert into material (link, educationalmaterialid) values ($1,$2) returning id;";
     console.log(query);
-    const data = await db.one(query, [files.originalname, location, materialID]);
+    const data = await db.one(query, [location, materialID]);
     return data;
 }
 
@@ -166,22 +189,15 @@ async function uploadFileToStorage(filePath: String, filename: String, res: Resp
                 Bucket: process.env.BUCKET_NAME,
                 MaxKeys: 2
             };
-            // s3.listObjects(params2, function(err: any, data: any) {
-            //     if (err) console.log(err, err.stack); // an error occurred
-            //     else     console.log(data);           // successful response
-            // });
-            // const filePath = "./temp/0b66fed4e0fafdbd1298107681b305d4";
             const bucketName = process.env.BUCKET_NAME;
             const key = filename;
             fs.readFile(filePath, async (err: any, data: any) => {
                 if (err) console.error(err);
             try {
-                // const base64data = Buffer.from(data, "binary2");
                 const params = {
                     Bucket: bucketName,
                     Key: key,
                     Body: data
-                    // base64data
                 };
                 const time = Date.now();
                 s3.upload(params, (err: any, data: any) => {
@@ -233,7 +249,6 @@ async function downloadFileFromStorage(req: Request, res: Response) {
             AWS.config.update(config);
             const s3 = new AWS.S3();
             const bucketName = process.env.BUCKET_NAME;
-            // console.log(req.body);
             const filename = req.body.key;
             const key = filename;
             try {
@@ -242,10 +257,54 @@ async function downloadFileFromStorage(req: Request, res: Response) {
                     Key: key
                 };
                 res.attachment(key);
-                // console.log(s3.getObject(params));
                 const fileStream = s3.getObject(params).createReadStream();
                 fileStream.pipe(res);
-                // resolve();
+            }
+            catch (err) {
+                res.status(500).send(err);
+            }
+        }
+        catch (err) {
+            console.log(err);
+            res.status(500).send("error");
+        }
+    });
+}
+
+async function downloadMaterialFile(req: Request, res: Response) {
+    try {
+        const query = "select record.filekey from material right join record on record.materialid = material.id where educationalmaterialid = $1;";
+        console.log(query);
+        const response = await db.any(query, [req.params.materialId]);
+        const keys = [];
+        for (const element of response) {
+            keys.push(element.filekey);
+        }
+        console.log(keys, req.params.materialId);
+        const data = await downloadAndZipFromStorage(req, res, keys);
+        res.status(200).send(data);
+    }
+    catch (err) {
+        res.status(400).send("Failed to download file");
+    }
+}
+
+async function downloadAndZipFromStorage(req: Request, res: Response, keys: any) {
+    return new Promise(async resolve => {
+        try {
+            const config = {
+                accessKeyId: process.env.USER_KEY,
+                secretAccessKey: process.env.USER_SECRET,
+                endpoint: process.env.POUTA_END_POINT,
+                region: process.env.REGION
+                };
+            AWS.config.update(config);
+            const s3 = new AWS.S3();
+            const bucketName = process.env.BUCKET_NAME;
+            try {
+                s3Zip
+                .archive({ s3: s3, bucket: bucketName }, "", keys)
+                .pipe(res);
             }
             catch (err) {
                 res.status(500).send(err);
@@ -263,5 +322,6 @@ module.exports = {
     uploadFileToMaterial : uploadFileToMaterial,
     uploadFileToStorage : uploadFileToStorage,
     downloadFile : downloadFile,
-    downloadFileFromStorage : downloadFileFromStorage
+    downloadFileFromStorage : downloadFileFromStorage,
+    downloadMaterialFile : downloadMaterialFile
 };

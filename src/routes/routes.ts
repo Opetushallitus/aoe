@@ -41,6 +41,7 @@ router.put("/termsOfUsage/:id", db.updateTermsOfUsage);
 
 router.get("/upload", fh.uploadFileToStorage);
 router.get("/download", fh.downloadFile);
+router.get("/material/file/:materialId", fh.downloadMaterialFile);
 
 router.post("/uploadXlsx" , handler.uploadXlsx);
 export = router;
