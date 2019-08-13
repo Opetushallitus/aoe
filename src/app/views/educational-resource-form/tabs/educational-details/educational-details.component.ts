@@ -22,9 +22,15 @@ export class EducationalDetailsComponent implements OnInit {
   public hasBasicStudies = false;
   public hasHigherEducation = false;
   public hasVocationalDegree = false;
+  public hasEarlyChildhoodEducation = false;
+  public hasPrePrimaryEducation = false;
+  public hasSelfMotivatedEducation = false;
   private basicStudyKeys: string[];
   private higherEducationKeys: string[];
   private vocationalDegreeKeys: string[];
+  private earlyChildhoodEducationKeys: string[];
+  private prePrimaryEducationKeys: string[];
+  private selfMotivatedEducationKeys: string[];
 
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
@@ -49,6 +55,9 @@ export class EducationalDetailsComponent implements OnInit {
       basicStudySubjects: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
+      earlyChildhoodEducationSubjects: this.fb.control(null),
+      prePrimaryEducationSubjects: this.fb.control(null),
+      selfMotivatedEducationSubjects: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -67,7 +76,6 @@ export class EducationalDetailsComponent implements OnInit {
       this.vocationalDegrees$ = data;
     });
 
-    // @todo: Replace with data from koodisto-service endpoint
     this.basicStudyKeys = [
       '8cb1a02f-54cb-499a-b470-4ee980519707',
       '5410475a-a2fb-46d7-9eb4-c572b5d92dbb',
@@ -77,7 +85,6 @@ export class EducationalDetailsComponent implements OnInit {
       '14fe3b08-8516-4999-946b-96eb90c2d563',
     ];
 
-    // @todo: Replace with data from koodisto-service endpoint
     this.higherEducationKeys = [
       'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',
       'ff3334db-2a71-4459-8f0d-c42ce2b12a70',
@@ -85,11 +92,22 @@ export class EducationalDetailsComponent implements OnInit {
       '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
     ];
 
-    // @todo: Replace with data from koodisto-service endpoint
     this.vocationalDegreeKeys = [
       '010c6689-5021-4d8e-8c02-68a27cc5a87b',
       '55c5d6a2-8415-47bc-9d15-7b976b0e999c',
       'da5b8f43-5fc9-4681-812b-40846926f3fd',
+    ];
+
+    this.earlyChildhoodEducationKeys = [
+      '8e7b8440-286d-4cc9-ad99-9fe288107535',
+    ];
+
+    this.prePrimaryEducationKeys = [
+      '3ff553ba-a4d7-407c-ad00-80e54ecebd16',
+    ];
+
+    this.selfMotivatedEducationKeys = [
+      'bc25d0e7-3c68-49a1-9329-239dae01fab7',
     ];
 
     if (this.savedData) {
@@ -110,6 +128,18 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.savedData.vocationalDegrees) {
         this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
       }
+
+      if (this.savedData.earlyChildhoodEducationSubjects) {
+        this.educationalDetailsForm.get('earlyChildhoodEducationSubjects').setValue(this.savedData.earlyChildhoodEducationSubjects);
+      }
+
+      if (this.savedData.prePrimaryEducationSubjects) {
+        this.educationalDetailsForm.get('prePrimaryEducationSubjects').setValue(this.savedData.prePrimaryEducationSubjects);
+      }
+
+      if (this.savedData.selfMotivatedEducationSubjects) {
+        this.educationalDetailsForm.get('selfMotivatedEducationSubjects').setValue(this.savedData.selfMotivatedEducationSubjects);
+      }
     }
   }
 
@@ -129,24 +159,35 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
   }
 
+  get earlyChildhoodEducationSubjects(): FormControl {
+    return this.educationalDetailsForm.get('earlyChildhoodEducationSubjects') as FormControl;
+  }
+
+  get prePrimaryEducationSubjects(): FormControl {
+    return this.educationalDetailsForm.get('prePrimaryEducationSubjects') as FormControl;
+  }
+
+  get selfMotivatedEducationSubjects(): FormControl {
+    return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
+  }
+
   public educationalLevelsChange($event): void {
     this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
     this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
 
     this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
+
+    this.hasEarlyChildhoodEducation = $event.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
+
+    this.hasPrePrimaryEducation = $event.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
+
+    this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
   }
 
   public onSubmit() {
     if (this.educationalDetailsForm.valid) {
-      const newData = {
-        educationalLevels: this.educationalDetailsForm.get('educationalLevels').value,
-        basicStudySubjects: this.educationalDetailsForm.get('basicStudySubjects').value,
-        branchesOfScience: this.educationalDetailsForm.get('branchesOfScience').value,
-        vocationalDegrees: this.educationalDetailsForm.get('vocationalDegrees').value,
-      };
-
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.educationalDetailsForm.value);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
