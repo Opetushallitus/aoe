@@ -30,53 +30,51 @@
   </div>
 
   <div class="form-group" *ngIf="hasBasicStudies">
-    <h3>Perusopetuksen oppiaineet</h3>
+    <label for="basicStudySubjects">Perusopetuksen oppiaineet</label>
 
-    <div class="form-row">
-      <div class="col-3" formArrayName="basicStudySubjects" *ngFor="let subject of basicStudySubjects.controls; let i = index">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{ 'basicStudySubjects' + i }}">
-          <label class="custom-control-label" for="{{ 'basicStudySubjects' + i }}">{{ basicStudySubjects$[i].value }}</label>
-        </div>
-      </div>
-    </div>
+    <ng-select
+      [items]="basicStudySubjects$"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      id="basicStudySubjects"
+      formControlName="basicStudySubjects"
+    ></ng-select>
   </div>
 
   <div class="form-group" *ngIf="hasVocationalDegree">
-    <h3>Ammatillisen koulutuksen tutkinnot</h3>
+    <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
 
-    <div class="form-row">
-      <div class="col-3" formArrayName="vocationalDegrees" *ngFor="let degree of vocationalDegrees.controls; let i = index">
-        <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{ 'vocationalDegrees' + i }}">
-          <label class="custom-control-label" for="{{ 'vocationalDegrees' + i }}">{{ vocationalDegrees$[i].value }}</label>
-        </div>
-      </div>
-    </div>
+    <ng-select
+      [items]="vocationalDegrees$"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      id="vocationalDegrees"
+      formControlName="vocationalDegrees"
+    ></ng-select>
   </div>
 
   <div class="form-group" *ngIf="hasHigherEducation">
-    <h3>Korkeakoulutuksen tieteenalat</h3>
+    <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
 
-    <div class="form-row">
-      <div class="col-12" formArrayName="branchesOfScience" *ngFor="let branch of branchesOfScience.controls; let i = index">
-        <ng-container [formGroupName]="i">
-          <div class="custom-control custom-checkbox mb-1">
-            <input type="checkbox" class="custom-control-input" formControlName="all" id="{{ 'branchesOfScience' + i }}" (change)="selectAllChildBranches($event, i)">
-            <label class="custom-control-label" for="{{ 'branchesOfScience' + i }}">{{ branchesOfScience$[i].value }}</label>
-          </div>
-
-          <div class="form-row pl-4 mb-3" formArrayName="children">
-            <div class="col-3" *ngFor="let child of branch.controls['children'].controls; let j = index;">
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" [formControlName]="j" id="{{ 'branchesOfScience' + i + j }}">
-                <label class="custom-control-label" for="{{ 'branchesOfScience' + i + j }}">{{ branchesOfScience$[i].children[j].value }}</label>
-              </div>
-            </div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
+    <ng-select
+      [items]="branchesOfScience$"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [selectableGroup]="true"
+      groupBy="children"
+      bindLabel="value"
+      id="branchesOfScience"
+      formControlName="branchesOfScience"
+    >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+    </ng-select>
   </div>
 
   <div class="row">

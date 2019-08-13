@@ -46,9 +46,9 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null),
-      basicStudySubjects: this.fb.array([]),
-      branchesOfScience: this.fb.array([]),
-      vocationalDegrees: this.fb.array([]),
+      basicStudySubjects: this.fb.control(null),
+      branchesOfScience: this.fb.control(null),
+      vocationalDegrees: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -57,38 +57,14 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.koodistoProxySvc.getData('oppiaineet', this.lang).subscribe(data => {
       this.basicStudySubjects$ = data;
-
-      this.basicStudySubjects$.forEach(subject => {
-        const state = !!(!!this.savedData.basicStudySubjects && this.savedData.basicStudySubjects.includes(subject.key));
-
-        this.basicStudySubjects.push(this.fb.control(state));
-      });
     });
 
     this.koodistoProxySvc.getData('tieteenalat', this.lang).subscribe(data => {
       this.branchesOfScience$ = data;
-
-      this.branchesOfScience$.forEach(branch => {
-        const controls = this.fb.array([]);
-        const state = !!(!!this.savedData.branchesOfScience && this.savedData.branchesOfScience.includes(branch.key));
-
-        branch.children.forEach(() => controls.push(this.fb.control(state)));
-
-        this.branchesOfScience.push(this.fb.group({
-          all: this.fb.control(state),
-          children: controls,
-        }));
-      });
     });
 
     this.koodistoProxySvc.getData('ammatillisentutkinnot', this.lang).subscribe(data => {
       this.vocationalDegrees$ = data;
-
-      this.vocationalDegrees$.forEach(degree => {
-        const state = !!(!!this.savedData.vocationalDegrees && this.savedData.vocationalDegrees.includes(degree.key));
-
-        this.vocationalDegrees.push(this.fb.control(state));
-      });
     });
 
     // @todo: Replace with data from koodisto-service endpoint
@@ -116,10 +92,24 @@ export class EducationalDetailsComponent implements OnInit {
       'da5b8f43-5fc9-4681-812b-40846926f3fd',
     ];
 
-    if (this.savedData && this.savedData.educationalLevels) {
-      this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
+    if (this.savedData) {
+      if (this.savedData.educationalLevels) {
+        this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
 
-      this.educationalLevelsChange(this.savedData.educationalLevels);
+        this.educationalLevelsChange(this.savedData.educationalLevels);
+      }
+
+      if (this.savedData.basicStudySubjects) {
+        this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
+      }
+
+      if (this.savedData.branchesOfScience) {
+        this.educationalDetailsForm.get('branchesOfScience').setValue(this.savedData.branchesOfScience);
+      }
+
+      if (this.savedData.vocationalDegrees) {
+        this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
+      }
     }
   }
 
@@ -127,16 +117,16 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('educationalLevels') as FormControl;
   }
 
-  get basicStudySubjects(): FormArray {
-    return this.educationalDetailsForm.get('basicStudySubjects') as FormArray;
+  get basicStudySubjects(): FormControl {
+    return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
   }
 
-  get branchesOfScience(): FormArray {
-    return this.educationalDetailsForm.get('branchesOfScience') as FormArray;
+  get branchesOfScience(): FormControl {
+    return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
   }
 
-  get vocationalDegrees(): FormArray {
-    return this.educationalDetailsForm.get('vocationalDegrees') as FormArray;
+  get vocationalDegrees(): FormControl {
+    return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
   }
 
   public educationalLevelsChange($event): void {
@@ -147,31 +137,13 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
   }
 
-  public selectAllChildBranches($event, index): void {
-    this.branchesOfScience.at(index).get('children')['controls'].forEach(child => child.setValue($event.currentTarget.checked));
-  }
-
   public onSubmit() {
-    const selectedBasicStudySubjects = this.educationalDetailsForm.value.basicStudySubjects
-      .map((checked, index) => checked ? this.basicStudySubjects$[index].key : null)
-      .filter(value => value !== null);
-
-    // @todo: Check if all or loop children
-    const selectedBranchesOfScience = this.educationalDetailsForm.value.branchesOfScience
-      .map((branch, index) => branch.all ? this.branchesOfScience$[index].key : null)
-      .filter(value => value !== null);
-
-    const selectedVocationalDegrees = this.educationalDetailsForm.value.vocationalDegrees
-      .map((checked, index) => checked ? this.vocationalDegrees$[index].key : null)
-      .filter(value => value !== null);
-
     if (this.educationalDetailsForm.valid) {
       const newData = {
         educationalLevels: this.educationalDetailsForm.get('educationalLevels').value,
-        basicStudySubjects: selectedBasicStudySubjects,
-        branchesOfScience: selectedBranchesOfScience,
-        vocationalDegrees: selectedVocationalDegrees,
-        aTesti: this.educationalDetailsForm.get('branchesOfScience').value,
+        basicStudySubjects: this.educationalDetailsForm.get('basicStudySubjects').value,
+        branchesOfScience: this.educationalDetailsForm.get('branchesOfScience').value,
+        vocationalDegrees: this.educationalDetailsForm.get('vocationalDegrees').value,
       };
 
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
