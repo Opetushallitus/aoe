@@ -64,10 +64,6 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
         };
       });
 
-      if (children.length === 0) {
-        children = undefined;
-      }
-
       if (row.parent === undefined) {
         output.push({
           key: row.key,
