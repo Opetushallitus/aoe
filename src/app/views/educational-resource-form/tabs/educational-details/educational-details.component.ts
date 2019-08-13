@@ -26,7 +26,7 @@ export class EducationalDetailsComponent implements OnInit {
   private higherEducationKeys: string[];
   private vocationalDegreeKeys: string[];
 
-  public educationalLevels$: Observable<any>;
+  public educationalLevels$: any[];
   public basicStudySubjects$: any[];
   public branchesOfScience$: any[];
   public vocationalDegrees$: any[];
@@ -51,7 +51,9 @@ export class EducationalDetailsComponent implements OnInit {
       vocationalDegrees: this.fb.array([]),
     });
 
-    this.educationalLevels$ = this.koodistoProxySvc.getData('koulutusasteet', this.lang);
+    this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
+      this.educationalLevels$ = data;
+    });
 
     this.koodistoProxySvc.getData('oppiaineet', this.lang).subscribe(data => {
       this.basicStudySubjects$ = data;

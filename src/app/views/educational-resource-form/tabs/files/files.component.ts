@@ -21,7 +21,7 @@ export class FilesComponent implements OnInit {
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
 
-  public languages$: Observable<any>;
+  public languages$: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -49,7 +49,9 @@ export class FilesComponent implements OnInit {
       ]),
     });
 
-    this.languages$ = this.koodistoProxySvc.getData('kielet', this.lang);
+    this.koodistoProxySvc.getData('kielet', this.lang).subscribe(data => {
+      this.languages$ = data;
+    });
 
     if (this.savedData) {
       if (this.savedData.files) {

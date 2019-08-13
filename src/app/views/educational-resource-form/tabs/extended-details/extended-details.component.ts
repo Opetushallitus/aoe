@@ -18,8 +18,8 @@ export class ExtendedDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  public accessibilityFeatures$: Observable<any>;
-  public accessibilityHazards$: Observable<any>;
+  public accessibilityFeatures$: any[];
+  public accessibilityHazards$: any[];
 
   public extendedDetailsForm: FormGroup;
 
@@ -45,8 +45,13 @@ export class ExtendedDetailsComponent implements OnInit {
       publisher: this.fb.control(null),
     });
 
-    this.accessibilityFeatures$ = this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang);
-    this.accessibilityHazards$ = this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang);
+    this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang).subscribe(data => {
+      this.accessibilityFeatures$ = data;
+    });
+
+    this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang).subscribe(data => {
+      this.accessibilityHazards$ = data;
+    });
 
     if (this.savedData) {
       if (this.savedData.accessibilityFeature) {

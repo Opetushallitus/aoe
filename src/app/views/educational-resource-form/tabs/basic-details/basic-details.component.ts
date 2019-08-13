@@ -19,10 +19,10 @@ export class BasicDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  public organisations$: Observable<any>;
-  public learningResourceTypes$: Observable<any>;
-  public educationalRoles$: Observable<any>;
-  public educationalUse$: Observable<any>;
+  public organisations$: any[];
+  public learningResourceTypes$: any[];
+  public educationalRoles$: any[];
+  public educationalUse$: any[];
 
   // https://stackblitz.com/edit/ng-select-infinite
   private keywords = [];
@@ -65,10 +65,21 @@ export class BasicDetailsComponent implements OnInit {
       }),
     });
 
-    this.organisations$ = this.koodistoProxySvc.getData('organisaatiot', this.lang);
-    this.learningResourceTypes$ = this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang);
-    this.educationalRoles$ = this.koodistoProxySvc.getData('kohderyhmat', this.lang);
-    this.educationalUse$ = this.koodistoProxySvc.getData('kayttokohteet', this.lang);
+    this.koodistoProxySvc.getData('organisaatiot', this.lang).subscribe(data => {
+      this.organisations$ = data;
+    });
+
+    this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang).subscribe(data => {
+      this.learningResourceTypes$ = data;
+    });
+
+    this.koodistoProxySvc.getData('kohderyhmat', this.lang).subscribe(data => {
+      this.educationalRoles$ = data;
+    });
+
+    this.koodistoProxySvc.getData('kayttokohteet', this.lang).subscribe(data => {
+      this.educationalUse$ = data;
+    });
 
     this.koodistoProxySvc.getData('asiasanat', this.lang).subscribe(keywords => {
       this.keywords = keywords;

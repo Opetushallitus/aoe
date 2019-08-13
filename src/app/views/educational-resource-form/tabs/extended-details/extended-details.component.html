@@ -10,7 +10,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="accessibilityFeatures$ | async"
+        [items]="accessibilityFeatures$"
         [multiple]="true"
         bindLabel="value"
         id="accessibilityFeatures"
@@ -29,7 +29,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="accessibilityHazards$ | async"
+        [items]="accessibilityHazards$"
         [multiple]="true"
         bindLabel="value"
         id="accessibilityHazards"
