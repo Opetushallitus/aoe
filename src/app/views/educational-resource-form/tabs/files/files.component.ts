@@ -60,12 +60,13 @@ export class FilesComponent implements OnInit {
         }
 
         this.savedData.files.forEach(() => this.addFile());
+
+        this.fileUploadForm.get('files').setValue(this.savedData.files);
       }
 
-      this.fileUploadForm.get('name').setValue(this.savedData.name);
-      this.fileUploadForm.get('files').setValue(this.savedData.files);
-
-      // this.fileUploadForm.patchValue(this.savedData);
+      if (this.savedData.name) {
+        this.fileUploadForm.get('name').setValue(this.savedData.name);
+      }
     }
   }
 

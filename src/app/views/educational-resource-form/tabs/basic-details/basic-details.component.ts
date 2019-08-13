@@ -88,11 +88,25 @@ export class BasicDetailsComponent implements OnInit {
     this.onSearch();
 
     if (this.savedData) {
-      this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
-      this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
-      this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
-      this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
-      this.basicDetailsForm.get('description').setValue(this.savedData.description);
+      if (this.savedData.keywords) {
+        this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
+      }
+
+      if (this.savedData.learningResourceType) {
+        this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
+      }
+
+      if (this.savedData.educationalRole) {
+        this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
+      }
+
+      if (this.savedData.educationalUse) {
+        this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
+      }
+
+      if (this.savedData.description) {
+        this.basicDetailsForm.get('description').setValue(this.savedData.description);
+      }
 
       if (this.savedData.authors) {
         if (this.savedData.authors.length > 0) {

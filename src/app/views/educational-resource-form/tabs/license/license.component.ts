@@ -42,7 +42,9 @@ export class LicenseComponent implements OnInit {
       this.licenses$ = data.map(row => ({ ...row, isCollapsed: true }));
 
       if (this.savedData) {
-        this.licenseForm.get('license').setValue(this.savedData.license);
+        if (this.savedData.license) {
+          this.licenseForm.get('license').setValue(this.savedData.license);
+        }
       }
     });
   }
