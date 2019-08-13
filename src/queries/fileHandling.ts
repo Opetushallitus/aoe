@@ -17,7 +17,9 @@ const storage = multer.diskStorage({ // notice you are calling the multer.diskSt
     },
     filename: function(req: Request, file: any, cb: any) {
         const ext = file.originalname.substring(file.originalname.lastIndexOf("."), file.originalname.length);
-        cb(undefined, "file" + "-" + Date.now() + ext);
+        let str = file.originalname.substring(0, file.originalname.lastIndexOf("."));
+        str = str.replace(/[^a-zA-Z0-9]/g, "");
+        cb(undefined, str + "-" + Date.now() + ext);
     }
 });
 
@@ -275,6 +277,9 @@ async function downloadFile(req: Request, res: Response) {
 async function downloadFileFromStorage(req: Request, res: Response) {
     return new Promise(async resolve => {
         try {
+            const query = "select originalfilename from record where filekey = $1;";
+            console.log(query);
+            const response = await db.one(query, [req.body.key]);
             const config = {
                 accessKeyId: process.env.USER_KEY,
                 secretAccessKey: process.env.USER_SECRET,
@@ -284,14 +289,15 @@ async function downloadFileFromStorage(req: Request, res: Response) {
             AWS.config.update(config);
             const s3 = new AWS.S3();
             const bucketName = process.env.BUCKET_NAME;
-            const filename = req.body.key;
-            const key = filename;
+            // const filename = req.body.key;
+            const key = req.body.key;
             try {
                 const params = {
                     Bucket: bucketName,
                     Key: key
                 };
                 res.attachment(key);
+                res.header("Content-Disposition", "attachment; filename=" + response.originalfilename);
                 const fileStream = s3.getObject(params).createReadStream();
                 fileStream.pipe(res);
             }
@@ -308,15 +314,17 @@ async function downloadFileFromStorage(req: Request, res: Response) {
 
 async function downloadMaterialFile(req: Request, res: Response) {
     try {
-        const query = "select record.filekey from material right join record on record.materialid = material.id where educationalmaterialid = $1;";
+        const query = "select record.filekey, record.originalfilename from material right join record on record.materialid = material.id where educationalmaterialid = $1;";
         console.log(query);
         const response = await db.any(query, [req.params.materialId]);
         const keys = [];
+        const archiveFiles = [];
         for (const element of response) {
             keys.push(element.filekey);
+            archiveFiles.push(element.originalfilename);
         }
         console.log(keys, req.params.materialId);
-        const data = await downloadAndZipFromStorage(req, res, keys);
+        const data = await downloadAndZipFromStorage(req, res, keys, archiveFiles);
         res.status(200).send(data);
     }
     catch (err) {
@@ -324,7 +332,7 @@ async function downloadMaterialFile(req: Request, res: Response) {
     }
 }
 
-async function downloadAndZipFromStorage(req: Request, res: Response, keys: any) {
+async function downloadAndZipFromStorage(req: Request, res: Response, keys: any, archiveFiles: any) {
     return new Promise(async resolve => {
         try {
             const config = {
@@ -338,7 +346,7 @@ async function downloadAndZipFromStorage(req: Request, res: Response, keys: any)
             const bucketName = process.env.BUCKET_NAME;
             try {
                 s3Zip
-                .archive({ s3: s3, bucket: bucketName }, "", keys)
+                .archive({ s3: s3, bucket: bucketName }, "", keys, archiveFiles)
                 .pipe(res);
             }
             catch (err) {
