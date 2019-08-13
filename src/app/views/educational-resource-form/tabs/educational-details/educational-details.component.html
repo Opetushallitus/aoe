@@ -18,6 +18,7 @@
       [multiple]="true"
       [closeOnSelect]="false"
       [selectableGroup]="true"
+      [selectableGroupAsModel]="false"
       (change)="educationalLevelsChange($event)"
     >
       <ng-template ng-optgroup-tmp let-item="item">
@@ -63,6 +64,7 @@
       [multiple]="true"
       [closeOnSelect]="false"
       [selectableGroup]="true"
+      [selectableGroupAsModel]="false"
       groupBy="children"
       bindLabel="value"
       id="branchesOfScience"
