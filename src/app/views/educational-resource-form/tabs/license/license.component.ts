@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
@@ -35,7 +35,7 @@ export class LicenseComponent implements OnInit {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.licenseForm = this.fb.group({
-      license: this.fb.control(null),
+      license: this.fb.control(null, [Validators.required]),
     });
 
     this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
