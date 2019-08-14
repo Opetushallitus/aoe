@@ -18,7 +18,6 @@
           type="text"
           class="form-control"
           id="name-fi"
-          placeholder="Oppimateriaalin nimi"
           formControlName="fi"
         >
       </div>
@@ -52,7 +51,6 @@
               type="text"
               class="form-control"
               id="name-en"
-              placeholder="Oppimateriaalin nimi"
               formControlName="en"
             >
           </div>
@@ -64,7 +62,6 @@
               type="text"
               class="form-control"
               id="name-sv"
-              placeholder="Oppimateriaalin nimi"
               formControlName="sv"
             >
           </div>
@@ -100,7 +97,7 @@
                 id="{{ 'file' + i }}"
                 formControlName="file"
               >
-              <span class="custom-file-label">{{ files.controls[i].controls.file.value || 'Valitse tiedosto' }}</span>
+              <span class="custom-file-label">{{ files.controls[i].controls.file.value }}</span>
             </div>
           </div>
 
@@ -113,7 +110,6 @@
               type="text"
               class="form-control"
               id="{{ 'link' + i }}"
-              placeholder="https://"
               formControlName="link"
             >
           </div>
@@ -131,7 +127,6 @@
               [items]="languages$"
               bindLabel="value"
               id="{{ 'language' + i }}"
-              placeholder="Valitse kieli"
               formControlName="language"
             ></ng-select>
           </div>

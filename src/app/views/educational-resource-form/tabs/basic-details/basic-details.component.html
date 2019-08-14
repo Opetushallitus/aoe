@@ -24,9 +24,8 @@
                 type="text"
                 class="form-control"
                 id="{{ 'author' + i }}"
-                placeholder="Tekijän nimi"
+                placeholder="Sukunimi, Etunimi"
                 formControlName="author"
-                required
               >
             </div>
 
@@ -43,7 +42,6 @@
                 [items]="organisations$"
                 bindLabel="value"
                 id="{{ 'organisation ' + i }}"
-                placeholder="Lisää halutessasi affiliaatiosi"
                 formControlName="organisation"
               ></ng-select>
             </div>
@@ -75,7 +73,6 @@
           [multiple]="true"
           bindLabel="value"
           id="keywords"
-          placeholder="Oppimateriaalin asiasanat"
           [typeahead]="input$"
           (scrollToEnd)="fetchMore(keywords.filterValue)"
           formControlName="keywords"
@@ -99,7 +96,6 @@
             [closeOnSelect]="false"
             bindLabel="value"
             id="learningResourceType"
-            placeholder="Valitse tyyppi"
             formControlName="learningResourceType"
           ></ng-select>
         </div>
@@ -118,7 +114,6 @@
             [multiple]="true"
             bindLabel="value"
             id="educationalRoles"
-            placeholder="Valitse kohderyhmä"
             formControlName="educationalRoles"
           ></ng-select>
         </div>
@@ -137,7 +132,6 @@
             [multiple]="true"
             bindLabel="value"
             id="educationalUse"
-            placeholder="Valitse opetuksen käyttökohde"
             formControlName="educationalUse"
           ></ng-select>
         </div>
@@ -158,7 +152,6 @@
               class="form-control"
               id="description"
               rows="10"
-              placeholder="Kirjoita kuvausteksti"
               formControlName="fi"
             ></textarea>
           </div>
@@ -193,7 +186,6 @@
                 class="form-control"
                 id="descriptionEn"
                 rows="10"
-                placeholder="Kirjoita kuvausteksti"
                 formControlName="en"
               ></textarea>
             </div>
@@ -205,7 +197,6 @@
                 class="form-control"
                 id="descriptionSv"
                 rows="10"
-                placeholder="Kirjoita kuvausteksti"
                 formControlName="sv"
               ></textarea>
             </div>
