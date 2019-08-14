@@ -113,8 +113,8 @@ export class BasicDetailsComponent implements OnInit {
           this.removeAuthor(0);
         }
 
-        this.savedData.authors.forEach(row => {
-          this.authors.push(this.createAuthor(row));
+        this.savedData.authors.forEach(author => {
+          this.authors.push(this.createAuthor(author));
         });
       }
     }
