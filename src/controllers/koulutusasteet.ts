@@ -92,9 +92,11 @@ export const getKoulutusasteetNew = async (req: Request, res: Response, next: Ne
     const input = JSON.parse(redisData);
 
     const output = input.map((row: any) => {
+      const parent = input.find((e: any) => e.key === row.parent);
+
       return {
         key: row.key,
-        parent: row.parent,
+        parent: parent ? (parent.value[req.params.lang] != undefined ? parent.value[req.params.lang] : parent.value.fi) : undefined,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
       };
     });
