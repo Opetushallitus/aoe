@@ -27,6 +27,7 @@ import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./con
 import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
 import { getPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-tavoitteet";
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
+import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 
 const router: Router = Router();
 
@@ -342,5 +343,22 @@ router.get("/lisenssit/:lang", getLisenssit);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lisenssit/:key/:lang", getLisenssi);
+
+/**
+ * Returns all lukionkurssit from redis database by given language
+ * @group Lukionkurssit
+ * @route GET /lukionkurssit/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukionkurssit/:lang", getLukionkurssit);
+
+/**
+ * Returns single lukionkurssi from redis database by given id and language
+ * @group Lukionkurssit
+ * @route GET /lukionkurssit/{key}/{lang}
+ * @param {string} key.path.required - ID
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukionkurssit/:key/:lang", getLukionkurssi);
 
 export default router;
