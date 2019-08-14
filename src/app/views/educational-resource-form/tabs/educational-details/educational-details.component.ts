@@ -63,7 +63,7 @@ export class EducationalDetailsComponent implements OnInit {
       upperSecondarySchoolSubjects: this.fb.control(null),
     });
 
-    this.koodistoProxySvc.getData('koulutusasteet/parents', this.lang).subscribe(data => {
+    this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
       this.educationalLevels$ = data;
     });
 
