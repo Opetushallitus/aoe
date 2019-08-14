@@ -42,6 +42,7 @@ export class ExtendedDetailsComponent implements OnInit {
       typicalAgeRangeMax: this.fb.control(null),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
+      expires: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang).subscribe(data => {
@@ -73,6 +74,10 @@ export class ExtendedDetailsComponent implements OnInit {
       if (this.savedData.publisher) {
         this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
       }
+
+      if (this.savedData.expires) {
+        this.extendedDetailsForm.get('expires').setValue(new Date(this.savedData.expires));
+      }
     }
   }
 
@@ -87,6 +92,7 @@ export class ExtendedDetailsComponent implements OnInit {
         }],
         timeRequired: this.extendedDetailsForm.get('timeRequired').value,
         publisher: this.extendedDetailsForm.get('publisher').value,
+        expires: this.extendedDetailsForm.get('expires').value,
       };
 
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);

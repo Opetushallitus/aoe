@@ -109,6 +109,25 @@
         formControlName="publisher"
       >
     </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publisher">Oppimateriaali vanhenee</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        tooltip="Merkitse tähän mikäli on selkeästi nähtävissä että oppimateriaalisi ei ole enää ajankohtainen tai relevantti tietyn ajankohdan jälkeen."
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="expires"
+        formControlName="expires"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+      >
+    </div>
   </div>
 
   <div class="row">
