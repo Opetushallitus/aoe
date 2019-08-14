@@ -18,26 +18,26 @@ export class EducationalDetailsComponent implements OnInit {
   private savedData: any;
 
   public educationalDetailsForm: FormGroup;
-  public hasBasicStudies = false;
-  public hasHigherEducation = false;
-  public hasVocationalDegree = false;
   public hasEarlyChildhoodEducation = false;
   public hasPrePrimaryEducation = false;
-  public hasSelfMotivatedEducation = false;
+  public hasBasicStudies = false;
   public hasUpperSecondarySchool = false;
-  private basicStudyKeys: string[];
-  private higherEducationKeys: string[];
-  private vocationalDegreeKeys: string[];
+  public hasVocationalDegree = false;
+  public hasSelfMotivatedEducation = false;
+  public hasHigherEducation = false;
   private earlyChildhoodEducationKeys: string[];
   private prePrimaryEducationKeys: string[];
-  private selfMotivatedEducationKeys: string[];
+  private basicStudyKeys: string[];
   private upperSecondarySchoolKeys: string[];
+  private vocationalDegreeKeys: string[];
+  private selfMotivatedEducationKeys: string[];
+  private higherEducationKeys: string[];
 
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
-  public branchesOfScience$: any[];
-  public vocationalDegrees$: any[];
   public upperSecondarySchoolSubjects$: any[];
+  public vocationalDegrees$: any[];
+  public branchesOfScience$: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -54,13 +54,13 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null),
-      basicStudySubjects: this.fb.control(null),
-      branchesOfScience: this.fb.control(null),
-      vocationalDegrees: this.fb.control(null),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
-      selfMotivatedEducationSubjects: this.fb.control(null),
+      basicStudySubjects: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
+      vocationalDegrees: this.fb.control(null),
+      selfMotivatedEducationSubjects: this.fb.control(null),
+      branchesOfScience: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -71,17 +71,25 @@ export class EducationalDetailsComponent implements OnInit {
       this.basicStudySubjects$ = data;
     });
 
-    this.koodistoProxySvc.getData('tieteenalat', this.lang).subscribe(data => {
-      this.branchesOfScience$ = data;
+    this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
+      this.upperSecondarySchoolSubjects$ = data;
     });
 
     this.koodistoProxySvc.getData('ammatillisentutkinnot', this.lang).subscribe(data => {
       this.vocationalDegrees$ = data;
     });
 
-    this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
-      this.upperSecondarySchoolSubjects$ = data;
+    this.koodistoProxySvc.getData('tieteenalat', this.lang).subscribe(data => {
+      this.branchesOfScience$ = data;
     });
+
+    this.earlyChildhoodEducationKeys = [
+      '8e7b8440-286d-4cc9-ad99-9fe288107535',
+    ];
+
+    this.prePrimaryEducationKeys = [
+      '3ff553ba-a4d7-407c-ad00-80e54ecebd16',
+    ];
 
     this.basicStudyKeys = [
       '8cb1a02f-54cb-499a-b470-4ee980519707',
@@ -92,11 +100,9 @@ export class EducationalDetailsComponent implements OnInit {
       '14fe3b08-8516-4999-946b-96eb90c2d563',
     ];
 
-    this.higherEducationKeys = [
-      'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',
-      'ff3334db-2a71-4459-8f0d-c42ce2b12a70',
-      '9c14f097-68e3-4e6b-a772-71a44442f72f',
-      '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
+    this.upperSecondarySchoolKeys = [
+      '94f79e1e-10e6-483d-b651-27521f94f7bf',
+      'fd362a80-9662-48b8-acd1-d8cef520530c',
     ];
 
     this.vocationalDegreeKeys = [
@@ -105,21 +111,15 @@ export class EducationalDetailsComponent implements OnInit {
       'da5b8f43-5fc9-4681-812b-40846926f3fd',
     ];
 
-    this.earlyChildhoodEducationKeys = [
-      '8e7b8440-286d-4cc9-ad99-9fe288107535',
-    ];
-
-    this.prePrimaryEducationKeys = [
-      '3ff553ba-a4d7-407c-ad00-80e54ecebd16',
-    ];
-
     this.selfMotivatedEducationKeys = [
       'bc25d0e7-3c68-49a1-9329-239dae01fab7',
     ];
 
-    this.upperSecondarySchoolKeys = [
-      '94f79e1e-10e6-483d-b651-27521f94f7bf',
-      'fd362a80-9662-48b8-acd1-d8cef520530c',
+    this.higherEducationKeys = [
+      'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',
+      'ff3334db-2a71-4459-8f0d-c42ce2b12a70',
+      '9c14f097-68e3-4e6b-a772-71a44442f72f',
+      '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
     ];
 
     if (this.savedData) {
@@ -127,18 +127,6 @@ export class EducationalDetailsComponent implements OnInit {
         this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
 
         this.educationalLevelsChange(this.savedData.educationalLevels);
-      }
-
-      if (this.savedData.basicStudySubjects) {
-        this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
-      }
-
-      if (this.savedData.branchesOfScience) {
-        this.educationalDetailsForm.get('branchesOfScience').setValue(this.savedData.branchesOfScience);
-      }
-
-      if (this.savedData.vocationalDegrees) {
-        this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
       }
 
       if (this.savedData.earlyChildhoodEducationSubjects) {
@@ -149,30 +137,30 @@ export class EducationalDetailsComponent implements OnInit {
         this.educationalDetailsForm.get('prePrimaryEducationSubjects').setValue(this.savedData.prePrimaryEducationSubjects);
       }
 
-      if (this.savedData.selfMotivatedEducationSubjects) {
-        this.educationalDetailsForm.get('selfMotivatedEducationSubjects').setValue(this.savedData.selfMotivatedEducationSubjects);
+      if (this.savedData.basicStudySubjects) {
+        this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
       }
 
       if (this.savedData.upperSecondarySchoolSubjects) {
         this.educationalDetailsForm.get('upperSecondarySchoolSubjects').setValue(this.savedData.upperSecondarySchoolSubjects);
+      }
+
+      if (this.savedData.vocationalDegrees) {
+        this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
+      }
+
+      if (this.savedData.selfMotivatedEducationSubjects) {
+        this.educationalDetailsForm.get('selfMotivatedEducationSubjects').setValue(this.savedData.selfMotivatedEducationSubjects);
+      }
+
+      if (this.savedData.branchesOfScience) {
+        this.educationalDetailsForm.get('branchesOfScience').setValue(this.savedData.branchesOfScience);
       }
     }
   }
 
   get educationalLevels(): FormControl {
     return this.educationalDetailsForm.get('educationalLevels') as FormControl;
-  }
-
-  get basicStudySubjects(): FormControl {
-    return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
-  }
-
-  get branchesOfScience(): FormControl {
-    return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
-  }
-
-  get vocationalDegrees(): FormControl {
-    return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
   }
 
   get earlyChildhoodEducationSubjects(): FormControl {
@@ -183,28 +171,40 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('prePrimaryEducationSubjects') as FormControl;
   }
 
-  get selfMotivatedEducationSubjects(): FormControl {
-    return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
+  get basicStudySubjects(): FormControl {
+    return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
   }
 
   get upperSecondarySchoolSubjects(): FormControl {
     return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get vocationalDegrees(): FormControl {
+    return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
+  }
+
+  get selfMotivatedEducationSubjects(): FormControl {
+    return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
+  }
+
+  get branchesOfScience(): FormControl {
+    return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
+  }
+
   public educationalLevelsChange($event): void {
-    this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
-
-    this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
-
-    this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
-
     this.hasEarlyChildhoodEducation = $event.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = $event.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
 
-    this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
+    this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
     this.hasUpperSecondarySchool = $event.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
+
+    this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
+
+    this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
+
+    this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
   }
 
   public onSubmit() {

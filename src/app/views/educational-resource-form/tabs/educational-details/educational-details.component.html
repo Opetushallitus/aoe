@@ -27,54 +27,6 @@
     </ng-select>
   </div>
 
-  <div class="form-group" *ngIf="hasBasicStudies">
-    <label for="basicStudySubjects">Perusopetuksen oppiaineet</label>
-
-    <ng-select
-      [items]="basicStudySubjects$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="value"
-      id="basicStudySubjects"
-      formControlName="basicStudySubjects"
-    ></ng-select>
-  </div>
-
-  <div class="form-group" *ngIf="hasVocationalDegree">
-    <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
-
-    <ng-select
-      [items]="vocationalDegrees$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="value"
-      id="vocationalDegrees"
-      formControlName="vocationalDegrees"
-    ></ng-select>
-  </div>
-
-  <div class="form-group" *ngIf="hasHigherEducation">
-    <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
-
-    <ng-select
-      [items]="branchesOfScience$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      [selectableGroup]="true"
-      groupBy="children"
-      bindLabel="value"
-      id="branchesOfScience"
-      formControlName="branchesOfScience"
-    >
-      <ng-template ng-optgroup-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
-    </ng-select>
-  </div>
-
   <div class="form-group" *ngIf="hasEarlyChildhoodEducation">
     <label for="earlyChildhoodEducationSubjects">Varhaiskasvatuksen oppiaineet</label>
 
@@ -99,15 +51,16 @@
     ></ng-select>
   </div>
 
-  <div class="form-group" *ngIf="hasSelfMotivatedEducation">
-    <label for="selfMotivatedEducationSubjects">Omaehtoisen osaamisen kehittämisen oppiaineet</label>
+  <div class="form-group" *ngIf="hasBasicStudies">
+    <label for="basicStudySubjects">Perusopetuksen oppiaineet</label>
 
     <ng-select
-      [items]="[]"
-      [addTag]="true"
+      [items]="basicStudySubjects$"
       [multiple]="true"
-      id="selfMotivatedEducationSubjects"
-      formControlName="selfMotivatedEducationSubjects"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      id="basicStudySubjects"
+      formControlName="basicStudySubjects"
     ></ng-select>
   </div>
 
@@ -122,6 +75,53 @@
       id="upperSecondarySchoolSubjects"
       formControlName="upperSecondarySchoolSubjects"
     ></ng-select>
+  </div>
+
+  <div class="form-group" *ngIf="hasVocationalDegree">
+    <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
+
+    <ng-select
+      [items]="vocationalDegrees$"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      id="vocationalDegrees"
+      formControlName="vocationalDegrees"
+    ></ng-select>
+  </div>
+
+  <div class="form-group" *ngIf="hasSelfMotivatedEducation">
+    <label for="selfMotivatedEducationSubjects">Omaehtoisen osaamisen kehittämisen oppiaineet</label>
+
+    <ng-select
+      [items]="[]"
+      [addTag]="true"
+      [multiple]="true"
+      id="selfMotivatedEducationSubjects"
+      formControlName="selfMotivatedEducationSubjects"
+    ></ng-select>
+  </div>
+
+  <div class="form-group" *ngIf="hasHigherEducation">
+    <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
+
+    <ng-select
+      [items]="branchesOfScience$"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [selectableGroup]="true"
+      groupBy="children"
+      bindLabel="value"
+      id="branchesOfScience"
+      formControlName="branchesOfScience"
+    >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+    </ng-select>
   </div>
 
   <div class="row">
