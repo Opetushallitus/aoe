@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 
-const endpoint = "edtech/codeschemes/SaavutettavuusTukitoiminnot";
+const endpoint = "edtech/codeschemes/AccessibilityFeatures";
 const rediskey = "saavutettavuudentukitoiminnot";
 const params = "codes/?format=json";
 
