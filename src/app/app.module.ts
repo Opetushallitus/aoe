@@ -29,6 +29,7 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -97,6 +98,7 @@ import { NavLoginComponent } from './components/nav-login/nav-login.component';
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
+    BsDatepickerModule.forRoot(),
   ],
   declarations: [
     AppComponent,
