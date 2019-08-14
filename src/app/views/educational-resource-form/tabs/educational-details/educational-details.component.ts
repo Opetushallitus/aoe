@@ -25,17 +25,20 @@ export class EducationalDetailsComponent implements OnInit {
   public hasEarlyChildhoodEducation = false;
   public hasPrePrimaryEducation = false;
   public hasSelfMotivatedEducation = false;
+  public hasUpperSecondarySchool = false;
   private basicStudyKeys: string[];
   private higherEducationKeys: string[];
   private vocationalDegreeKeys: string[];
   private earlyChildhoodEducationKeys: string[];
   private prePrimaryEducationKeys: string[];
   private selfMotivatedEducationKeys: string[];
+  private upperSecondarySchoolKeys: string[];
 
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
   public branchesOfScience$: any[];
   public vocationalDegrees$: any[];
+  public upperSecondarySchoolSubjects$: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -58,9 +61,10 @@ export class EducationalDetailsComponent implements OnInit {
       earlyChildhoodEducationSubjects: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
+      upperSecondarySchoolSubjects: this.fb.control(null),
     });
 
-    this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
+    this.koodistoProxySvc.getData('koulutusasteet/parents', this.lang).subscribe(data => {
       this.educationalLevels$ = data;
     });
 
@@ -74,6 +78,10 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.koodistoProxySvc.getData('ammatillisentutkinnot', this.lang).subscribe(data => {
       this.vocationalDegrees$ = data;
+    });
+
+    this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
+      this.upperSecondarySchoolSubjects$ = data;
     });
 
     this.basicStudyKeys = [
@@ -110,6 +118,11 @@ export class EducationalDetailsComponent implements OnInit {
       'bc25d0e7-3c68-49a1-9329-239dae01fab7',
     ];
 
+    this.upperSecondarySchoolKeys = [
+      '94f79e1e-10e6-483d-b651-27521f94f7bf',
+      'fd362a80-9662-48b8-acd1-d8cef520530c',
+    ];
+
     if (this.savedData) {
       if (this.savedData.educationalLevels) {
         this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
@@ -139,6 +152,10 @@ export class EducationalDetailsComponent implements OnInit {
 
       if (this.savedData.selfMotivatedEducationSubjects) {
         this.educationalDetailsForm.get('selfMotivatedEducationSubjects').setValue(this.savedData.selfMotivatedEducationSubjects);
+      }
+
+      if (this.savedData.upperSecondarySchoolSubjects) {
+        this.educationalDetailsForm.get('upperSecondarySchoolSubjects').setValue(this.savedData.upperSecondarySchoolSubjects);
       }
     }
   }
@@ -171,6 +188,10 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
   }
 
+  get upperSecondarySchoolSubjects(): FormControl {
+    return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
+  }
+
   public educationalLevelsChange($event): void {
     this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
@@ -183,6 +204,8 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasPrePrimaryEducation = $event.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
 
     this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
+
+    this.hasUpperSecondarySchool = $event.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
   }
 
   public onSubmit() {
