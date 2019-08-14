@@ -55,13 +55,19 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
     const output: any[] = [];
 
     input.map((row: any) => {
-      let children = input.filter((e: any) => e.parent === row.key);
+      const childrenArray = input.filter((e: any) => e.parent === row.key);
+      const children: any[] = [];
 
-      children = children.map((child: any) => {
-        return {
+      children.push({
+        key: row.key,
+        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi
+      });
+
+      childrenArray.forEach((child: any) => {
+        children.push({
           key: child.key,
           value: child.value[req.params.lang] != undefined ? child.value[req.params.lang] : child.value.fi
-        };
+        });
       });
 
       if (row.parent === undefined) {
