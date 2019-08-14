@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TabsetComponent } from 'ngx-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { TabsetComponent } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
