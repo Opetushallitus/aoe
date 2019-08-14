@@ -96,7 +96,10 @@ export const getKoulutusasteetNew = async (req: Request, res: Response, next: Ne
 
       return {
         key: row.key,
-        parent: parent ? (parent.value[req.params.lang] != undefined ? parent.value[req.params.lang] : parent.value.fi) : undefined,
+        parent: parent ? ({
+          key: parent.key,
+          value: parent.value[req.params.lang] != undefined ? parent.value[req.params.lang] : parent.value.fi
+        }) : undefined,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
       };
     });
