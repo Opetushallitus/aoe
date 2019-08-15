@@ -266,6 +266,7 @@ $ng-select-selected: #ebebeb;
       background-color: $ng-select-bg;
       color: #5c6873;
       padding: 8px 10px;
+      white-space: normal !important;
 
       &.ng-option-selected,
       &.ng-option-selected.ng-option-marked {
