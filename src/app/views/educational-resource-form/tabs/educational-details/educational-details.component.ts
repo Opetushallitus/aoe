@@ -5,6 +5,12 @@ import { TabsetComponent } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
+import {
+  BasicStudyContent,
+  BasicStudySubject,
+  GradeEntity,
+  GradeEntityContents
+} from '../../../../models/basic-study-subject';
 
 @Component({
   selector: 'app-tabs-educational-details',
@@ -21,6 +27,7 @@ export class EducationalDetailsComponent implements OnInit {
   public hasEarlyChildhoodEducation = false;
   public hasPrePrimaryEducation = false;
   public hasBasicStudies = false;
+  public hasBasicStudySubjects = false;
   public hasUpperSecondarySchool = false;
   public hasVocationalDegree = false;
   public hasSelfMotivatedEducation = false;
@@ -34,7 +41,9 @@ export class EducationalDetailsComponent implements OnInit {
   private higherEducationKeys: string[];
 
   public educationalLevels$: any[];
-  public basicStudySubjects$: any[];
+  public basicStudySubjects$: BasicStudySubject[];
+  public basicStudyObjectives: BasicStudyContent[];
+  public basicStudyContents: BasicStudyContent[];
   public upperSecondarySchoolSubjects$: any[];
   public vocationalDegrees$: any[];
   public branchesOfScience$: any[];
@@ -57,6 +66,8 @@ export class EducationalDetailsComponent implements OnInit {
       earlyChildhoodEducationSubjects: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
+      basicStudyObjectives: this.fb.control(null),
+      basicStudyContents: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
@@ -139,6 +150,16 @@ export class EducationalDetailsComponent implements OnInit {
 
       if (this.savedData.basicStudySubjects) {
         this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
+
+        this.basicStudySubjectsChange(this.savedData.basicStudySubjects);
+      }
+
+      if (this.savedData.basicStudyObjectives) {
+        this.educationalDetailsForm.get('basicStudyObjectives').setValue(this.savedData.basicStudyObjectives);
+      }
+
+      if (this.savedData.basicStudyContents) {
+        this.educationalDetailsForm.get('basicStudyContents').setValue(this.savedData.basicStudyContents);
       }
 
       if (this.savedData.upperSecondarySchoolSubjects) {
@@ -205,6 +226,35 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
 
     this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
+  }
+
+  public basicStudySubjectsChange($event): void {
+    if ($event.length > 0) {
+      this.hasBasicStudySubjects = true;
+    }
+
+    this.basicStudyObjectives = [];
+    this.basicStudyContents = [];
+
+    $event.forEach((subject: BasicStudySubject) => {
+      subject.vuosiluokkakokonaisuudet.forEach((gradeEntity: GradeEntity) => {
+        gradeEntity.tavoitteet.forEach((objective: GradeEntityContents) => {
+          this.basicStudyObjectives.push({
+            key: objective.key,
+            value: objective.value[this.lang] !== undefined ? objective.value[this.lang] : objective.value.fi,
+            subject: subject.value,
+          });
+        });
+
+        gradeEntity.sisaltoalueet.forEach((content: GradeEntityContents) => {
+          this.basicStudyContents.push({
+            key: content.key,
+            value: content.value[this.lang] !== undefined ? content.value[this.lang] : content.value.fi,
+            subject: subject.value,
+          });
+        });
+      });
+    });
   }
 
   public onSubmit() {

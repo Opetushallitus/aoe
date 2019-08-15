@@ -61,8 +61,39 @@
       bindLabel="value"
       id="basicStudySubjects"
       formControlName="basicStudySubjects"
+      (change)="basicStudySubjectsChange($event)"
     ></ng-select>
   </div>
+
+  <ng-container *ngIf="hasBasicStudySubjects">
+    <div class="form-group">
+      <label for="basicStudyObjectives">Perusopetuksen oppiaineiden tavoitteet</label>
+
+      <ng-select
+        [items]="basicStudyObjectives"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="subject"
+        id="basicStudyObjectives"
+        formControlName="basicStudyObjectives"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="basicStudyContents">Perusopetuksen oppiaineiden sisältöalueet</label>
+
+      <ng-select
+        [items]="basicStudyContents"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="subject"
+        id="basicStudyContents"
+        formControlName="basicStudyContents"
+      ></ng-select>
+    </div>
+  </ng-container>
 
   <div class="form-group" *ngIf="hasUpperSecondarySchool">
     <label for="upperSecondarySchoolSubjects">Lukionkurssit</label>
