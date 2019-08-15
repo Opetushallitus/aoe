@@ -257,7 +257,7 @@ CREATE TABLE MaterialName (
   Filesize              int4 NOT NULL, 
   Mimetype              text NOT NULL, 
   Format                text NOT NULL, 
-  EducationalMaterialId int8 NOT NULL, 
+  MaterialId            int8 NOT NULL, 
   FileName              text NOT NULL, 
   PRIMARY KEY (id));
 
@@ -294,7 +294,8 @@ ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KE
 -- ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
-ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+-- ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (MaterialId) REFERENCES Material (Id);
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialdescription_lang_id UNIQUE (language,educationalmaterialid);

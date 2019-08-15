@@ -42,7 +42,7 @@ describe("basic route tests", () => {
         expect(response.status).toEqual(200);
         
     });
-    test("POST new material", async () => {
+    test.only("POST new material", async () => {
         const response = await request(app)
             .post("/material/file")
             // .set("Content-Type", "application/x-www-form-urlencoded")
@@ -55,10 +55,10 @@ describe("basic route tests", () => {
             .field("agerangemax","300")
             .attach("myFiles","./test/files/filesendingtest.rtf");
         expect(response.status).toEqual(200);
-        console.log(response.body[0].id);
-        const response2 = await request(app).get("/material/" + response.body[0].id);
+        console.log(response.body.id);
+        const response2 = await request(app).get("/material/" + response.body.id);
         expect(response2.status).toEqual(200);
-        expect(response2.body.id).toContain(response.body[0].id);
+        expect(response2.body.id).toContain(response.body.id);
         console.log(response2.body);
 
     });
