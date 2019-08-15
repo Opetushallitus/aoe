@@ -219,6 +219,10 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
+    if (this.hasBasicStudies === false) {
+      this.hasBasicStudySubjects = false;
+    }
+
     this.hasUpperSecondarySchool = $event.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
 
     this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
@@ -229,9 +233,7 @@ export class EducationalDetailsComponent implements OnInit {
   }
 
   public basicStudySubjectsChange($event): void {
-    if ($event.length > 0) {
-      this.hasBasicStudySubjects = true;
-    }
+    this.hasBasicStudySubjects = $event.length > 0;
 
     this.basicStudyObjectives = [];
     this.basicStudyContents = [];
