@@ -6,6 +6,9 @@ redis:
 
 app:
   build: ./
+  restart: always
+  depends_on:
+    - redis
   volumes:
     - ./:/app
   ports:
