@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import striptags from "striptags";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
@@ -70,14 +71,24 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     );
 
     const gradeEntities = result.vuosiluokkakokonaisuudet.map((gradeEntity: any) => {
-      const targets: any[] = [];
+      const objectives: any[] = [];
       const contents: any[] = [];
 
       if (gradeEntity.tavoitteet.length > 0) {
-        gradeEntity.tavoitteet.forEach((target: any) => {
-          targets.push({
-            key: target.id,
-            value: target.tavoite,
+        gradeEntity.tavoitteet.forEach((objective: any) => {
+          const objectiveValue = objective.tavoite;
+
+          if (objectiveValue.fi) {
+            objectiveValue.fi = striptags(objectiveValue.fi);
+          }
+
+          if (objectiveValue.sv) {
+            objectiveValue.sv = striptags(objectiveValue.sv);
+          }
+
+          objectives.push({
+            key: objective.id,
+            value: objectiveValue,
           });
         });
       }
@@ -94,7 +105,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       return {
         key: gradeEntity.id,
         vuosiluokkakokonaisuus: gradeEntity._vuosiluokkaKokonaisuus,
-        tavoitteet: targets,
+        tavoitteet: objectives,
         sisaltoalueet: contents,
       };
     });
