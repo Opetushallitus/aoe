@@ -66,8 +66,6 @@ export const getLisenssit = async (req: Request, res: Response, next: NextFuncti
       };
     });
 
-    output.sort((a: any, b: any) => a.key.localeCompare(b.key));
-
     if (output.length > 0) {
       res.status(200).json(output);
     } else {
