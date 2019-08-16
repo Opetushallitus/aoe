@@ -21,10 +21,9 @@ export async function setKoulutusasteet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.results.map((result: any) => {
-    data.push({
+  const data = results.results.map((result: any) => {
+    return {
       key: result.id,
       parent: ("broaderCode" in result) ? result.broaderCode.id : undefined,
       value: {
@@ -32,7 +31,7 @@ export async function setKoulutusasteet(): Promise<any> {
         en: result.prefLabel.en,
         sv: result.prefLabel.sv,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -53,8 +52,11 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
   if (redisData) {
     const input = JSON.parse(redisData);
 
-    const output = input.map((row: any) => {
+    const output: any[] = [];
+
+    input.forEach((row: any) => {
       const childrenArray = input.filter((e: any) => e.parent === row.key);
+
       const children: any[] = [];
 
       children.push({
@@ -70,11 +72,11 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
       });
 
       if (row.parent === undefined) {
-        return {
+        output.push({
           key: row.key,
           value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
           children: children,
-        };
+        });
       }
     });
 
