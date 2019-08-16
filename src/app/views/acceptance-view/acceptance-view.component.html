@@ -2,10 +2,13 @@
   <div class="container">
     <h1>Palvelun käyttöehdot ja tietosuojaseloste</h1>
 
-    <ul class="list-unstyled">
-      <li><a [routerLink]="['/kayttoehdot']" target="_blank" rel="noopener">Käyttöehdot</a></li>
-      <li><a [routerLink]="['/tietosuojaseloste']" target="_blank" rel="noopener">Tietosuojaseloste</a></li>
-    </ul>
+    <h2>Käyttöehdot</h2>
+
+    <app-terms-of-use></app-terms-of-use>
+
+    <h2>Tietosuojaseloste</h2>
+
+    <app-privacy-policy></app-privacy-policy>
 
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
       <div class="form-group form-check">

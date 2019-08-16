@@ -67,6 +67,8 @@ import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/
 import { DialogComponent } from './components/dialog/dialog.component';
 import { LicenseComponent } from './views/educational-resource-form/tabs/license/license.component';
 import { NavLoginComponent } from './components/nav-login/nav-login.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
 
 @NgModule({
   imports: [
@@ -127,6 +129,8 @@ import { NavLoginComponent } from './components/nav-login/nav-login.component';
     LicenseComponent,
     AcceptanceViewComponent,
     NavLoginComponent,
+    PrivacyPolicyComponent,
+    TermsOfUseComponent,
   ],
   providers: [{
     provide: LocationStrategy,
