@@ -12,11 +12,6 @@ import {
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
 import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } from "./controllers/saavutettavuuden-tukitoiminnot";
-import {
-  getSaavutettavuudenAvustavaTeknologia,
-  getSaavutettavuudenAvustavatTeknologiat
-} from "./controllers/saavutettavuuden-avustavatteknologiat";
-import { getSaavutettavuudenKayttotapa, getSaavutettavuudenKayttotavat } from "./controllers/saavutettavuuden-kayttotavat";
 import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuuden-esteet";
 import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
@@ -199,40 +194,6 @@ router.get("/saavutettavuudentukitoiminnot/:lang", getSaavutettavuudenTukitoimin
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/saavutettavuudentukitoiminnot/:key/:lang", getSaavutettavuudenTukitoiminto);
-
-/**
- * Returns all saavutettavuudenavustavatteknologiat from redis database by given language
- * @group Saavutettavuutta avustavat teknologiat
- * @route GET /saavutettavuudenavustavatteknologiat/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/saavutettavuudenavustavatteknologiat/:lang", getSaavutettavuudenAvustavatTeknologiat);
-
-/**
- * Returns single saavutettavuudenavustavateknologia from redis database by given id and language
- * @group Saavutettavuutta avustavat teknologiat
- * @route GET /saavutettavuudenavustavatteknologiat/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/saavutettavuudenavustavatteknologiat/:key/:lang", getSaavutettavuudenAvustavaTeknologia);
-
-/**
- * Returns all saavutettavuudenkayttotavat from redis database by given language
- * @group Saavutettavuuden käyttötavat
- * @route GET /saavutettavuudenkayttotavat/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/saavutettavuudenkayttotavat/:lang", getSaavutettavuudenKayttotavat);
-
-/**
- * Returns single saavutettavuudenkayttotapa from redis database by given id and language
- * @group Saavutettavuuden käyttötavat
- * @route GET /saavutettavuudenkayttotavat/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/saavutettavuudenkayttotavat/:key/:lang", getSaavutettavuudenKayttotapa);
 
 /**
  * Returns all saavutettavuudenesteet from redis database by given language
