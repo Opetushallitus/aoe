@@ -22,7 +22,7 @@ export async function setAsiasanat(): Promise<any> {
     { "Accept": "application/rdf+xml" },
     params
   );
-  const data: any[] = [];
+  let data: any[];
 
   const parseOptions = {
     tagNameProcessors: [processors.stripPrefix],
@@ -32,21 +32,21 @@ export async function setAsiasanat(): Promise<any> {
   };
 
   parseString(results, parseOptions, async (err, result) => {
-    result.RDF.Concept.map((concept: any) => {
+    data = result.RDF.Concept.map((concept: any) => {
       // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
       const key = concept.$.about;
       const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
       const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
       const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
 
-      data.push({
+      return {
         key: key,
         value: {
           fi: labelFi != undefined ? labelFi._ : undefined,
           en: labelEn != undefined ? labelEn._ : undefined,
           sv: labelSv != undefined ? labelSv._ : undefined,
         }
-      });
+      };
     });
 
     await setAsync(rediskey, JSON.stringify(data));
@@ -67,13 +67,12 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      });
+      };
     });
 
     if (output.length > 0) {

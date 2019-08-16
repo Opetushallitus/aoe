@@ -83,7 +83,7 @@ export async function setTieteenalat(): Promise<any> {
     children: []
   });
 
-  results.map((result: any) => {
+  results.forEach((result: any) => {
     const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
     const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
     const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
@@ -102,7 +102,7 @@ export async function setTieteenalat(): Promise<any> {
 
   data.sort((a: any, b: any) => a.key - b.key);
 
-  data.map((parent: any) => {
+  data.forEach((parent: any) => {
     parent.children.sort((a: any, b: any) => a.key - b.key);
   });
 
@@ -123,9 +123,8 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
+    const output = input.map((row: any) => {
       const children = row.children.map((child: any) => {
         return {
           key: child.key,
@@ -133,11 +132,11 @@ export const getTieteenalat = async (req: Request, res: Response, next: NextFunc
         };
       });
 
-      output.push({
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
         children: children,
-      });
+      };
     });
 
     if (output.length > 0) {

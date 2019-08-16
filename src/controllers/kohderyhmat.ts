@@ -21,17 +21,16 @@ export async function setKohderyhmat(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.results.map((result: any) => {
-    data.push({
+  const data = results.results.map((result: any) => {
+    return {
       key: result.id,
       value: {
         fi: result.prefLabel.fi.trim(),
         en: result.prefLabel.en.trim(),
         sv: result.prefLabel.sv.trim(),
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -51,13 +50,12 @@ export const getKohderyhmat = async (req: Request, res: Response, next: NextFunc
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      });
+      };
     });
 
     output.sort((a: any, b: any) => a.value.localeCompare(b.value));

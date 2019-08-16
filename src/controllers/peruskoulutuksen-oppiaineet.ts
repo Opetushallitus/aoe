@@ -25,22 +25,21 @@ export async function setPeruskoulutuksenOppiaineet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.map((result: any) => {
+  const data = results.map((result: any) => {
     if (blacklisted.includes(result.koodiArvo) !== true) {
       const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
       const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
       const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-      data.push({
+      return {
         key: result.koodiArvo,
         value: {
           fi: metadataFi ? metadataFi.nimi.trim() : undefined,
           en: metadataEn ? metadataEn.nimi.trim() : undefined,
           sv: metadataSv ? metadataSv.nimi.trim() : undefined,
         }
-      });
+      };
     }
   });
 
@@ -61,13 +60,12 @@ export const getPeruskoulutuksenOppiaineet = async (req: Request, res: Response,
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-      });
+      };
     });
 
     output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));

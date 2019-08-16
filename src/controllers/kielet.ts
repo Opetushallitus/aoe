@@ -21,21 +21,20 @@ export async function setKielet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.map((result: any) => {
+  const data = results.map((result: any) => {
     const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
     const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
     const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-    data.push({
+    return {
       key: result.koodiArvo,
       value: {
         fi: metadataFi != undefined ? metadataFi.nimi : undefined,
         en: metadataEn != undefined ? metadataEn.nimi : undefined,
         sv: metadataSv != undefined ? metadataSv.nimi : undefined,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -55,13 +54,12 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      });
+      };
     });
 
     output.sort((a: any, b: any) => a.value.toLowerCase().localeCompare(b.value.toLowerCase()));

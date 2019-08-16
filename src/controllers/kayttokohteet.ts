@@ -21,17 +21,16 @@ export async function setKayttokohteet(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.results.map((result: any) => {
-    data.push({
+  const data = results.results.map((result: any) => {
+    return {
       key: result.id,
       value: {
         fi: result.prefLabel.fi,
         en: result.prefLabel.en,
         sv: result.prefLabel.sv,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));

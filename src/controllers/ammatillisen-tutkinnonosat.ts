@@ -21,21 +21,20 @@ export async function setAmmatillisenTutkinnonosat(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.map((result: any) => {
+  const data = results.map((result: any) => {
     const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
     const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
     const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-    data.push({
+    return {
       key: result.koodiArvo,
       value: {
         fi: metadataFi ? metadataFi.nimi : undefined,
         en: metadataEn ? metadataEn.nimi : undefined,
         sv: metadataSv ? metadataSv.nimi : undefined,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -55,13 +54,12 @@ export const getAmmatillisenTutkinnonosat = async (req: Request, res: Response, 
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-      });
+      };
     });
 
     if (output.length > 0) {

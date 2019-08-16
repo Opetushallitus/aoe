@@ -21,17 +21,16 @@ export async function setSaavutettavuudenTukitoiminnot(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.results.map((result: any) => {
-    data.push({
+  const data = results.results.map((result: any) => {
+    return {
       key: result.id,
       value: {
         fi: result.prefLabel.fi,
         en: result.prefLabel.en,
         sv: result.prefLabel.sv,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -51,13 +50,12 @@ export const getSaavutettavuudenTukitoiminnot = async (req: Request, res: Respon
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      });
+      };
     });
 
     if (output.length > 0) {

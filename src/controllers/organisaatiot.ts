@@ -21,17 +21,16 @@ export async function setOrganisaatiot(): Promise<any> {
     { "Accept": "application/json" },
     params
   );
-  const data: any[] = [];
 
-  results.organisaatiot.map((result: any) => {
-    data.push({
+  const data = results.organisaatiot.map((result: any) => {
+    return {
       key: result.oid,
       value: {
         fi: result.nimi.fi != undefined ? result.nimi.fi : undefined,
         en: result.nimi.en != undefined ? result.nimi.en : undefined,
         sv: result.nimi.sv != undefined ? result.nimi.sv : undefined,
       }
-    });
+    };
   });
 
   await setAsync(rediskey, JSON.stringify(data));
@@ -51,9 +50,8 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
+    const output = input.map((row: any) => {
       let value: string;
 
       if (row.value[req.params.lang] === undefined) {
@@ -62,10 +60,10 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
         value = row.value[req.params.lang];
       }
 
-      output.push({
+      return {
         key: row.key,
         value: value,
-      });
+      };
     });
 
     output.sort((a: any, b: any) => a.value.localeCompare(b.value));

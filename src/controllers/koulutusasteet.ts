@@ -52,9 +52,8 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
+    const output = input.map((row: any) => {
       const childrenArray = input.filter((e: any) => e.parent === row.key);
       const children: any[] = [];
 
@@ -71,11 +70,11 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
       });
 
       if (row.parent === undefined) {
-        output.push({
+        return {
           key: row.key,
           value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
           children: children,
-        });
+        };
       }
     });
 

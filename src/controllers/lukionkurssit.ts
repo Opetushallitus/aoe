@@ -23,7 +23,7 @@ export async function setLukionkurssit(): Promise<any> {
     params
   );
 
-  const data: any[] = results.map((row: any) => {
+  const data = results.map((row: any) => {
     const metadataFi = row.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
     const metadataEn = row.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
     const metadataSv = row.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");

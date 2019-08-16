@@ -138,14 +138,13 @@ export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, n
 
   if (redisData) {
     const input = JSON.parse(redisData);
-    const output: any[] = [];
 
-    input.map((row: any) => {
-      output.push({
+    const output = input.map((row: any) => {
+      return {
         key: row.key,
         value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
         vuosiluokkakokonaisuudet: row.vuosiluokkakokonaisuudet,
-      });
+      };
     });
 
     output.sort((a: any, b: any) => a.value.localeCompare(b.value));
