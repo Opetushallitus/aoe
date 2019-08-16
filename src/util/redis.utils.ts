@@ -6,8 +6,6 @@ import { setKoulutusasteet } from "../controllers/koulutusasteet";
 import { setKohderyhmat } from "../controllers/kohderyhmat";
 import { setKayttokohteet } from "../controllers/kayttokohteet";
 import { setSaavutettavuudenTukitoiminnot } from "../controllers/saavutettavuuden-tukitoiminnot";
-import { setSaavutettavuudenAvustavatTeknologiat } from "../controllers/saavutettavuuden-avustavatteknologiat";
-import { setSaavutettavuudenKayttotavat } from "../controllers/saavutettavuuden-kayttotavat";
 import { setSaavutettavuudenEsteet } from "../controllers/saavutettavuuden-esteet";
 import { setKielet } from "../controllers/kielet";
 import { setOrganisaatiot } from "../controllers/organisaatiot";
@@ -30,8 +28,6 @@ export async function updateRedis(): Promise<any> {
   await setKohderyhmat();
   await setKayttokohteet();
   await setSaavutettavuudenTukitoiminnot();
-  await setSaavutettavuudenAvustavatTeknologiat();
-  await setSaavutettavuudenKayttotavat();
   await setSaavutettavuudenEsteet();
   await setKielet();
   await setOrganisaatiot();
