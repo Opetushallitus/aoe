@@ -1,5 +1,5 @@
 <form [formGroup]="basedOnDetailsForm" (ngSubmit)="onSubmit()">
-  <h3>Aoe.fi:stä löytyvät materiaalit</h3>
+  <!--<h3>Aoe.fi:stä löytyvät materiaalit</h3>
 
   <div formArrayName="internals" *ngFor="let internal of internals.controls; let i = index;">
     <div class="form-row" [formGroupName]="i">
@@ -44,9 +44,9 @@
       class="btn btn-link"
       tooltip="Voit tähän lisätä materiaaleja, jonka pohjalta olet lähtenyt rakentamaan oppimateriaaliasi, joita käytät materiaalissasi tai jotka toimivat oppimateriaalisi pohjana."
     ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-  </div>
+  </div>-->
 
-  <h3>Muista palveluista löytyvät materiaalit</h3>
+  <h3>Hyödynnetyt materiaalit</h3>
 
   <div formArrayName="externals" *ngFor="let external of externals.controls; let i = index;">
     <div class="form-row" [formGroupName]="i">
@@ -63,7 +63,7 @@
       </div>
 
       <div class="form-group col-md">
-        <label for="{{ 'url-' + i }}">Materiaali</label>
+        <label for="{{ 'url-' + i }}">Linkki</label>
 
         <input
           type="url"

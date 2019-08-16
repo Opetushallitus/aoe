@@ -33,14 +33,14 @@ export class BasedOnDetailsComponent implements OnInit {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.basedOnDetailsForm = this.fb.group({
-      internals: this.fb.array([ this.createInternal() ]),
+      // internals: this.fb.array([ this.createInternal() ]),
       externals: this.fb.array([ this.createExternal() ]),
     });
 
     if (this.savedData && this.savedData.isBasedOn) {
-      if (this.savedData.isBasedOn.internals.length > 0) {
+      /*if (this.savedData.isBasedOn.internals.length > 0) {
         this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
-      }
+      }*/
 
       if (this.savedData.isBasedOn.externals.length > 0) {
         this.basedOnDetailsForm.get('externals').setValue(this.savedData.isBasedOn.externals);
@@ -48,20 +48,20 @@ export class BasedOnDetailsComponent implements OnInit {
     }
   }
 
-  get internals() {
+  /*get internals() {
     return this.basedOnDetailsForm.get('internals') as FormArray;
-  }
+  }*/
 
   get externals() {
     return this.basedOnDetailsForm.get('externals') as FormArray;
   }
 
-  private createInternal(): FormGroup {
+  /*private createInternal(): FormGroup {
     return this.fb.group({
       author: this.fb.control(null),
       materialId: this.fb.control(null),
     });
-  }
+  }*/
 
   private createExternal(): FormGroup {
     return this.fb.group({
@@ -71,17 +71,17 @@ export class BasedOnDetailsComponent implements OnInit {
     });
   }
 
-  public addInternal(): void {
+  /*public addInternal(): void {
     this.internals.push(this.createInternal());
-  }
+  }*/
 
   public addExternal(): void {
     this.externals.push(this.createExternal());
   }
 
-  public removeInternal(i: number): void {
+  /*public removeInternal(i: number): void {
     this.internals.removeAt(i);
-  }
+  }*/
 
   public removeExternal(i: number): void {
     this.externals.removeAt(i);
@@ -89,11 +89,11 @@ export class BasedOnDetailsComponent implements OnInit {
 
   public onSubmit() {
     if (this.basedOnDetailsForm.valid) {
-      this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
+      /*this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
         if (row.author === null || row.materialId === null) {
           this.removeInternal(index);
         }
-      });
+      });*/
 
       this.basedOnDetailsForm.get('externals').value.forEach((row, index) => {
         if (row.author === null || row.url === null) {
@@ -103,7 +103,7 @@ export class BasedOnDetailsComponent implements OnInit {
 
       const basedOnData = {
         isBasedOn: {
-          internals: this.basedOnDetailsForm.get('internals').value,
+          // internals: this.basedOnDetailsForm.get('internals').value,
           externals: this.basedOnDetailsForm.get('externals').value,
         },
       };
