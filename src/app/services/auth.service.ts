@@ -35,7 +35,7 @@ export class AuthService {
     localStorage.setItem('aoe.user', JSON.stringify(user));
   }
 
-  public isLogged() {
+  public isLogged(): boolean {
     return !!this.getUser();
   }
 }
