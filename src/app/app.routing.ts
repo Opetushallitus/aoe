@@ -14,6 +14,7 @@ import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-
 import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
 import { AcceptanceGuard } from './guards/acceptance.guard';
 import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -56,19 +57,19 @@ export const routes: Routes = [
       {
         path: 'omat-oppimateriaalit',
         component: UserMaterialsViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always'
       },
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always'
       },
       {
@@ -84,6 +85,7 @@ export const routes: Routes = [
       {
         path: 'hyvaksynta',
         component: AcceptanceViewComponent,
+        canActivate: [ AuthGuard ],
         runGuardsAndResolvers: 'always'
       },
     ],
