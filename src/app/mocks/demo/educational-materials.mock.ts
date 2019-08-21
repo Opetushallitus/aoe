@@ -8,6 +8,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 1,
     specialId: 1,
+    username: 'maija.mehilainen@aoe.fi',
     img: 'assets/img/1-digipedagogiikka.png',
     download: 'https://demo.aoe.fi/files/fi-1-digipedagogiikka.zip',
     materials: [
@@ -542,6 +543,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
   {
     id: 7,
     specialId: 3,
+    username: 'maija.mehilainen@aoe.fi',
     img: 'assets/img/video.png',
     download: 'https://demo.aoe.fi/files/fi-3-digipedagogiikka.zip',
     materials: [
