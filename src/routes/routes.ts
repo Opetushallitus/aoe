@@ -11,6 +11,7 @@ const router: Router = Router();
 // File handling
  const fh = require("./../queries/fileHandling");
  const handler = require("./../metadataEngine/xlsxHandler");
+ const thumbnail = require("./../queries/thumbnailHandler");
 //  const pouta = require("./../queries/pouta");
 // post metadata
 // post file
@@ -23,6 +24,8 @@ const router: Router = Router();
 
 router.post("/material/file", fh.uploadMaterial);
 router.post("/material/file/:materialId", fh.uploadFileToMaterial);
+router.post("/uploadImage/:id", thumbnail.uploadImage);
+router.get("/downloadImage/:id", thumbnail.downloadImage);
 
 router.get("/material", db.getMaterial);
 router.get("/material/:id", db.getMaterialData);

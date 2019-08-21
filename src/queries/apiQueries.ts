@@ -224,10 +224,13 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of materialname) {
+                console.log(element.text);
+                const slug = createSlug(element.text);
+                console.log(slug);
                 query = "INSERT INTO materialname (materialname, language, slug, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (language,educationalmaterialid) DO " +
-                        "UPDATE SET materialname = $1 , slug = $1;";
+                        "UPDATE SET materialname = $1 , slug = $3;";
                 console.log(query);
-                queries.push(await t.any(query, [element.text, element.lang, element.text, req.params.id]));
+                queries.push(await t.any(query, [element.text, element.lang, slug, req.params.id]));
             }
         }
         const dnow = Date.now() / 1000.0;
@@ -546,9 +549,10 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of arr) {
-                query = "INSERT INTO materialdisplayname (displayname, language, materialid) VALUES ($1,$2,$3) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;";
+                query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                const slug = createSlug(element.text);
                 console.log(query);
-                queries.push(await t.any(query, [element.text, element.lang, element.materialid]));
+                queries.push(await t.any(query, [element.text, element.lang, element.materialid, slug]));
             }
         }
         return t.batch(queries);
@@ -863,6 +867,13 @@ async function insertIntoMaterial(obj: any, materialid: any) {
     await db.any(query);
 }
 
+function createSlug(str: String) {
+    str = str.replace(/[ä]/g, "a");
+    str = str.replace(/[ö]/g, "o");
+    str = str.replace(/[å]/g, "a");
+    str = str.replace(/[^a-zA-Z0-9]/g, "");
+    return str;
+}
 
 module.exports = {
     getMaterial : getMaterial,

@@ -29,46 +29,6 @@ const upload = multer({storage}); // provide the return value from
 const connection = require("./../db");
 const db = connection.db;
 
-const publicationFolder = "publications";
-const savedFileName = "file.blob";
-
-async function uploadImage(req: Request, res: Response) {
-    try {
-        const contentType = req.headers["content-type"];
-        if (contentType.startsWith("multipart/form-data")) {
-            upload.single("image")(req , res, async function() {
-                try {
-                const file = (<any>req).file;
-                fs.readFile("./" + file.path, async (err: any, data: any) => {
-                    if (err) console.error(err);
-                    try {
-                        let query;
-                        query = "update educationalmaterial set thumbnail = $1 where id = $2;";
-                        console.log(query);
-                        await db.any(query, [data, "1"]);
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                });
-            }
-                catch (err) {
-                    console.log(err);
-                }
-            }
-            );
-                return res.status(200).send("Image upload done");
-            }
-        else {
-            return res.status(400).send("Not found");
-        }
-    }
-    catch (err) {
-        console.log(err);
-        return res.status(500).send("error");
-    }
-}
-
 async function uploadMaterial(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
@@ -228,12 +188,9 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function insertDataToEducationalMaterialTable(req: Request) {
-    // const date = new Date();
-    // console.log(date.toISOString());
-
-    const query = "insert into educationalmaterial (PublishedAt,TechnicalName,timeRequired,agerangeMin,agerangeMax,UsersId,LicenseCode)" +
-                    " values (to_date('1902-01-01', 'YYYY-MM-DD'),$1,$2,$3,$4,$5,$6) returning id;";
-    const data = await db.any(query, [req.body.technicalname, req.body.timerequired, req.body.agerangemin, req.body.agerangemax, req.body.usersid, req.body.licensecode]);
+    const query = "insert into educationalmaterial (TechnicalName,UsersId)" +
+                    " values ($1,$2) returning id;";
+    const data = await db.any(query, [req.body.materialname, req.body.usersid]);
     return data;
 }
 
@@ -427,6 +384,5 @@ module.exports = {
     uploadFileToStorage : uploadFileToStorage,
     downloadFile : downloadFile,
     downloadFileFromStorage : downloadFileFromStorage,
-    downloadMaterialFile : downloadMaterialFile,
-    uploadImage : uploadImage
+    downloadMaterialFile : downloadMaterialFile
 };

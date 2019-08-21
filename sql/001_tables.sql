@@ -53,21 +53,23 @@ CREATE TABLE Logins (
   PasswordHash varchar(255) NOT NULL, 
   UsersId      int8 NOT NULL, 
   PRIMARY KEY (Id));
+
 CREATE TABLE EducationalMaterial (
   Id                   BIGSERIAL NOT NULL, 
   CreatedAt           timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   PublishedAt         timestamp with time zone DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
   UpdatedAt           timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   ArchivedAt          timestamp with time zone DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
-  TechnicalName       text NOT NULL, 
-  TimeRequired        text NOT NULL, 
+  TechnicalName       text DEFAULT '' NOT NULL, 
+  TimeRequired        text DEFAULT 0 NOT NULL, 
   AgeRangeMin         int4 DEFAULT 0 NOT NULL, 
   AgeRangeMax         int4 DEFAULT 99 NOT NULL, 
   UsersId             int8 NOT NULL, 
-  LicenseCode         text NOT NULL, 
+  LicenseCode         text DEFAULT '' NOT NULL, 
   Obsoleted           int4 DEFAULT 0 NOT NULL,
   OriginalPublishedAt timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   PRIMARY KEY (Id));
+
 
 CREATE TABLE Material (
   Id                     BIGSERIAL NOT NULL,
@@ -248,6 +250,7 @@ CREATE TABLE MaterialName (
   DisplayName text NOT NULL, 
   Language    text NOT NULL, 
   MaterialId  int8 NOT NULL, 
+  Slug        text NOT NULL, 
   PRIMARY KEY (id));
 
  CREATE TABLE temporaryrecord (
