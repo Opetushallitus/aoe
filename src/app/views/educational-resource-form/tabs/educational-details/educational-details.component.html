@@ -142,29 +142,45 @@
     ></ng-select>
   </div>
 
-  <div class="form-group" *ngIf="hasHigherEducation">
-    <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
+  <ng-container *ngIf="hasHigherEducation">
+    <div class="form-group">
+      <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
 
-    <ng-select
-      [items]="branchesOfScience$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      [selectableGroup]="true"
-      [selectableGroupAsModel]="false"
-      groupBy="children"
-      bindLabel="value"
-      appendTo="body"
-      id="branchesOfScience"
-      formControlName="branchesOfScience"
-    >
-      <ng-template ng-optgroup-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
-    </ng-select>
-  </div>
+      <ng-select
+        [items]="branchesOfScience$"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        groupBy="children"
+        bindLabel="value"
+        appendTo="body"
+        id="branchesOfScience"
+        formControlName="branchesOfScience"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.value }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="scienceBranchObjectives">Korkeakoulutuksen tieteenalojen tavoitteet</label>
+
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="scienceBranchObjectives"
+        formControlName="scienceBranchObjectives"
+      >
+      </ng-select>
+    </div>
+  </ng-container>
 
   <div class="row">
     <div class="col">

@@ -72,6 +72,7 @@ export class EducationalDetailsComponent implements OnInit {
       vocationalDegrees: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
+      scienceBranchObjectives: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -177,6 +178,10 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.savedData.branchesOfScience) {
         this.educationalDetailsForm.get('branchesOfScience').setValue(this.savedData.branchesOfScience);
       }
+
+      if (this.savedData.scienceBranchObjectives) {
+        this.educationalDetailsForm.get('scienceBranchObjectives').setValue(this.savedData.scienceBranchObjectives);
+      }
     }
   }
 
@@ -210,6 +215,10 @@ export class EducationalDetailsComponent implements OnInit {
 
   get branchesOfScience(): FormControl {
     return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
+  }
+
+  get scienceBranchObjectives(): FormControl {
+    return this.educationalDetailsForm.get('scienceBranchObjectives') as FormControl;
   }
 
   public educationalLevelsChange($event): void {
