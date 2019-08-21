@@ -58,32 +58,3 @@ export function getLanguage(): string | null {
 export function getLocalStorageData(localStorageKey: string) {
   return JSON.parse(localStorage.getItem(localStorageKey));
 }
-
-export const isLoggedIn: boolean = !!getUser();
-
-export function setUser(username: string, firstname: string, lastname: string, acceptance: boolean): void {
-  const user: User = {
-    username: username,
-    firstname: firstname,
-    lastname: lastname,
-    acceptance: acceptance,
-  };
-
-  localStorage.setItem('aoe.user', JSON.stringify(user));
-}
-
-export function getUser(): User | null {
-  return JSON.parse(localStorage.getItem('aoe.user'));
-}
-
-export function removeUser(): void {
-  localStorage.removeItem('aoe.user');
-}
-
-export function updateAcceptance(value: boolean): void {
-  const user: User = JSON.parse(localStorage.getItem('aoe.user'));
-
-  user.acceptance = value;
-
-  localStorage.setItem('aoe.user', JSON.stringify(user));
-}

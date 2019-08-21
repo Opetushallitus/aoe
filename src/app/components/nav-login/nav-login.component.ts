@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../../models/user';
-import { getUser, isLoggedIn, removeUser, setUser } from '../../shared/shared.module';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-nav-login',
@@ -11,24 +11,24 @@ export class NavLoginComponent implements OnInit {
   public isLoggedIn: boolean;
   public user: User;
 
-  constructor() { }
+  constructor(private authSvc: AuthService) { }
 
   ngOnInit() {
-    this.isLoggedIn = isLoggedIn;
+    this.isLoggedIn = this.authSvc.isLogged();
 
     if (this.isLoggedIn) {
-      this.user = getUser();
+      this.user = this.authSvc.getUser();
     }
   }
 
   public login(): void {
-    setUser('maija.mehilainen@aoe.fi', 'Maija', 'Mehiläinen', false);
+    this.authSvc.setUser('maija.mehilainen@aoe.fi', 'Maija', 'Mehiläinen', false);
     this.isLoggedIn = true;
-    this.user = getUser();
+    this.user = this.authSvc.getUser();
   }
 
   public logout(): void {
-    removeUser();
+    this.authSvc.removeUser();
     this.isLoggedIn = false;
   }
 }

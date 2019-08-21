@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from '../../services/auth.service';
 import { EducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
-import { getUser } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-user-materials-view',
@@ -11,9 +11,9 @@ import { getUser } from '../../shared/shared.module';
 export class UserMaterialsViewComponent implements OnInit {
   public educationalMaterials: EducationalMaterial[];
 
-  constructor() { }
+  constructor(private authSvc: AuthService) { }
 
   ngOnInit(): void {
-    this.educationalMaterials = EDUCATIONALMATERIALS.filter(m => m.username === getUser().username);
+    this.educationalMaterials = EDUCATIONALMATERIALS.filter(m => m.username === this.authSvc.getUser().username);
   }
 }

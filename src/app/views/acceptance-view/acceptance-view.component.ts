@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { updateAcceptance } from '../../shared/shared.module';
 import { Router } from '@angular/router';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-acceptance-view',
@@ -12,7 +13,8 @@ export class AcceptanceViewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authSvc: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class AcceptanceViewComponent implements OnInit {
   }
 
   public onSubmit() {
-    updateAcceptance(this.acceptanceForm.get('acceptance').value);
+    this.authSvc.updateAcceptance(this.acceptanceForm.get('acceptance').value);
 
     this.router.navigate(['/etusivu']);
   }
