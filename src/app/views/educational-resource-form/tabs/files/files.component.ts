@@ -77,6 +77,8 @@ export class FilesComponent implements OnInit {
         this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
     }
+
+    this.onChanges();
   }
 
   get files() {
@@ -85,8 +87,8 @@ export class FilesComponent implements OnInit {
 
   public createFile(): FormGroup {
     return this.fb.group({
-      file: this.fb.control(null),
-      link: this.fb.control(null),
+      file: this.fb.control(null, [ Validators.required ]),
+      link: this.fb.control(null, [ Validators.required ]),
       language: this.fb.control(null),
       displayName: this.fb.group({
         fi: this.fb.control(null),
@@ -105,6 +107,26 @@ export class FilesComponent implements OnInit {
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
+  }
+
+  private onChanges(): void {
+    this.fileUploadForm.get('files').valueChanges.subscribe(() => {
+      // @todo: create function of this so it can be called when data is loaded from local storage too
+      this.files.controls.forEach((control) => {
+        const fileCtrl = control.get('file');
+        const linkCtrl = control.get('link');
+
+        if (linkCtrl.value !== null) {
+          fileCtrl.setValidators(null);
+          fileCtrl.updateValueAndValidity({ emitEvent: false });
+        }
+
+        if (fileCtrl.value !== null) {
+          linkCtrl.setValidators(null);
+          linkCtrl.updateValueAndValidity({ emitEvent: false });
+        }
+      });
+    });
   }
 
   public onSubmit() {
