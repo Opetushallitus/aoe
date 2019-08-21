@@ -32,6 +32,43 @@ const db = connection.db;
 const publicationFolder = "publications";
 const savedFileName = "file.blob";
 
+async function uploadImage(req: Request, res: Response) {
+    try {
+        const contentType = req.headers["content-type"];
+        if (contentType.startsWith("multipart/form-data")) {
+            upload.single("image")(req , res, async function() {
+                try {
+                const file = (<any>req).file;
+                fs.readFile("./" + file.path, async (err: any, data: any) => {
+                    if (err) console.error(err);
+                    try {
+                        let query;
+                        query = "update educationalmaterial set thumbnail = $1 where id = $2;";
+                        console.log(query);
+                        await db.any(query, [data, "1"]);
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                });
+            }
+                catch (err) {
+                    console.log(err);
+                }
+            }
+            );
+                return res.status(200).send("Image upload done");
+            }
+        else {
+            return res.status(400).send("Not found");
+        }
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).send("error");
+    }
+}
+
 async function uploadMaterial(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
@@ -390,5 +427,6 @@ module.exports = {
     uploadFileToStorage : uploadFileToStorage,
     downloadFile : downloadFile,
     downloadFileFromStorage : downloadFileFromStorage,
-    downloadMaterialFile : downloadMaterialFile
+    downloadMaterialFile : downloadMaterialFile,
+    uploadImage : uploadImage
 };

@@ -34,6 +34,7 @@ DROP TABLE IF EXISTS MaterialDescription CASCADE;
 DROP TABLE IF EXISTS author CASCADE;
 DROP TABLE IF EXISTS MaterialDisplayName CASCADE;
 DROP TABLE IF EXISTS temporaryrecord CASCADE;
+DROP TABLE IF EXISTS Thumbnail CASCADE;
 
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
@@ -64,8 +65,7 @@ CREATE TABLE EducationalMaterial (
   AgeRangeMax         int4 DEFAULT 99 NOT NULL, 
   UsersId             int8 NOT NULL, 
   LicenseCode         text NOT NULL, 
-  Obsoleted           int4 DEFAULT 0 NOT NULL, 
-  Thumbnail           bytea, 
+  Obsoleted           int4 DEFAULT 0 NOT NULL,
   OriginalPublishedAt timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   PRIMARY KEY (Id));
 
@@ -261,6 +261,17 @@ CREATE TABLE MaterialName (
   FileName              text NOT NULL, 
   PRIMARY KEY (id));
 
+CREATE TABLE Thumbnail (
+  id                     BIGSERIAL NOT NULL, 
+  FilePath              text NOT NULL, 
+  OriginalFileName      text NOT NULL, 
+  FileSize              text NOT NULL, 
+  MimeType              text NOT NULL, 
+  Format                text NOT NULL, 
+  EducationalMaterialId int8 NOT NULL, 
+  FileName              text NOT NULL, 
+  PRIMARY KEY (id));
+
 ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
@@ -296,6 +307,7 @@ ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) 
 ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
 -- ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (MaterialId) REFERENCES Material (Id);
+ALTER TABLE Thumbnail ADD CONSTRAINT fk_thumbnail FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialdescription_lang_id UNIQUE (language,educationalmaterialid);
@@ -308,3 +320,4 @@ ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (name,education
 ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
 ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
 ALTER TABLE materialdisplayname ADD CONSTRAINT constraint_materialdisplayname UNIQUE (language, materialid);
+ALTER TABLE thumbnail ADD CONSTRAINT constraint_thumbnail UNIQUE (educationalmaterialid);

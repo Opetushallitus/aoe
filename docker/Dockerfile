@@ -1,4 +1,4 @@
-FROM node:8 as node_builder
+FROM node:12 as node_builder
 WORKDIR /app
 COPY package.json /app/
 RUN npm install
@@ -16,6 +16,7 @@ RUN useradd -ms /bin/false -d /app node && \
     yum install -y wget nano redis supervisor && \
     mkdir -p /app/data && \
     mkdir -p /app/uploads && \
+    mkdir -p /app/thumbnail && \
     mkdir -p /var/log/supervisor && \
     mkdir -p /var/run/supervisor/ && \
     chown -R node:node /app && \
