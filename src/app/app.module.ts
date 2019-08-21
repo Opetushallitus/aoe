@@ -34,7 +34,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PopoverModule } from 'ngx-bootstrap/popover';
-import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -84,7 +83,6 @@ import { EducationalMaterialCardComponent } from './components/educational-mater
     AppSidebarModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
-    TabsModule.forRoot(),
     SharedModule,
     HttpClientModule,
     TranslateModule.forRoot({

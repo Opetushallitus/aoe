@@ -1,7 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { TabsetComponent } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
@@ -11,8 +10,6 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
   templateUrl: './extended-details.component.html',
 })
 export class ExtendedDetailsComponent implements OnInit {
-  @Input() tabs: TabsetComponent;
-
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
   private savedData: any;
@@ -99,8 +96,6 @@ export class ExtendedDetailsComponent implements OnInit {
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
-
-      this.tabs.tabs[4].active = true;
     }
   }
 
@@ -114,6 +109,6 @@ export class ExtendedDetailsComponent implements OnInit {
   }
 
   public previousTab() {
-    this.tabs.tabs[2].active = true;
+    // this.tabs.tabs[2].active = true;
   }
 }

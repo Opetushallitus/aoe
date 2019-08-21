@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
@@ -13,8 +14,6 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit {
-  @Input() tabs: TabsetComponent;
-
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
   private savedData: any;
@@ -39,7 +38,8 @@ export class BasicDetailsComponent implements OnInit {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private modalService: BsModalService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -196,7 +196,7 @@ export class BasicDetailsComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.tabs.tabs[2].active = true;
+      this.router.navigate(['/lisaa-oppimateriaali', 3]);
     } else {
       return;
     }
@@ -212,6 +212,6 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   previousTab() {
-    this.tabs.tabs[0].active = true;
+    this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }

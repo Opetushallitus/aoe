@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import slugify from 'slugify';
 
@@ -12,8 +13,6 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
   templateUrl: './files.component.html',
 })
 export class FilesComponent implements OnInit {
-  @Input() tabs: TabsetComponent;
-
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
   private savedData: any;
@@ -28,6 +27,7 @@ export class FilesComponent implements OnInit {
     private modalService: BsModalService,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -134,7 +134,7 @@ export class FilesComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.tabs.tabs[1].active = true;
+      this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 

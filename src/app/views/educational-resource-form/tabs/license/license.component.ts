@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TabsetComponent } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -11,8 +11,6 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
   templateUrl: './license.component.html',
 })
 export class LicenseComponent implements OnInit {
-  @Input() tabs: TabsetComponent;
-
   private localStorageKey = 'aoe.new-educational-resource';
   private lang: string = this.translate.currentLang;
   private savedData: any;
@@ -25,6 +23,7 @@ export class LicenseComponent implements OnInit {
     private fb: FormBuilder,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -60,11 +59,11 @@ export class LicenseComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.tabs.tabs[5].active = true;
+      this.router.navigate(['/omat-oppimateriaalit']);
     }
   }
 
   public previousTab() {
-    this.tabs.tabs[3].active = true;
+    this.router.navigate(['/lisaa-oppimateriaali', 4]);
   }
 }

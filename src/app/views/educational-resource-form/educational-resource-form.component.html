@@ -1,31 +1,63 @@
 <div class="py-4 px-0">
   <div class="container">
-    <div class="form-tabs">
-      <tabset type="pills" #formTabs>
-        <tab heading="Tiedostot" id="files">
-          <app-tabs-files [tabs]="formTabsRef"></app-tabs-files>
-        </tab>
+    <ul class="list-inline material-form-tabs">
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 1]" [routerLinkActive]="['active']">Tiedostot</a>
+      </li>
 
-        <tab heading="Perustiedot" id="basicDetails">
-          <app-tabs-basic-details [tabs]="formTabsRef"></app-tabs-basic-details>
-        </tab>
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
 
-        <tab heading="Koulutustiedot" id="educationalDetails">
-          <app-tabs-educational-details [tabs]="formTabsRef"></app-tabs-educational-details>
-        </tab>
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 2]" [routerLinkActive]="['active']">Perustiedot</a>
+      </li>
 
-        <tab heading="Tarkemmat tiedot" id="extendedDetails">
-          <app-tabs-extended-details [tabs]="formTabsRef"></app-tabs-extended-details>
-        </tab>
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
 
-        <tab heading="Lisenssitiedot" id="license">
-          <app-tabs-license [tabs]="formTabsRef"></app-tabs-license>
-        </tab>
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 3]" [routerLinkActive]="['active']">Koulutustiedot</a>
+      </li>
 
-        <tab heading="Hyödynnetyt materiaalit" id="basedOnDetails">
-          <app-tabs-based-on-details [tabs]="formTabsRef"></app-tabs-based-on-details>
-        </tab>
-      </tabset>
-    </div>
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 4]" [routerLinkActive]="['active']">Tarkemmat tiedot</a>
+      </li>
+
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 5]" [routerLinkActive]="['active']">Lisenssitiedot</a>
+      </li>
+
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a [routerLink]="['/lisaa-oppimateriaali', 6]" [routerLinkActive]="['active']">Hyödynnetyt materiaalit</a>
+      </li>
+    </ul>
+
+    <ng-container [ngSwitch]="tabId">
+      <app-tabs-files *ngSwitchCase="1"></app-tabs-files>
+
+      <app-tabs-basic-details *ngSwitchCase="2"></app-tabs-basic-details>
+
+      <app-tabs-educational-details *ngSwitchCase="3"></app-tabs-educational-details>
+
+      <app-tabs-extended-details *ngSwitchCase="4"></app-tabs-extended-details>
+
+      <app-tabs-license *ngSwitchCase="5"></app-tabs-license>
+
+      <app-tabs-based-on-details *ngSwitchCase="6"></app-tabs-based-on-details>
+    </ng-container>
   </div>
 </div>

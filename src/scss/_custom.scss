@@ -609,6 +609,25 @@ h2 {
 }
 
 // Tabs
+.material-form-tabs {
+  @include font-size(18);
+
+  a {
+    color: $gray;
+
+    &.active {
+      color: $primary-theme-color;
+      font-weight: 500;
+    }
+  }
+
+  .divider {
+    margin-left: .5rem;
+    margin-right: 1rem;
+    vertical-align: text-bottom;
+  }
+}
+
 .form-tabs {
   .tab-container {
     .nav {
