@@ -69,6 +69,10 @@ import { LicenseComponent } from './views/educational-resource-form/tabs/license
 import { NavLoginComponent } from './components/nav-login/nav-login.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
+import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
+import { MainViewComponent } from './views/mainView/main-view.component';
+import { EducationalMaterialsListComponent } from './components/educational-materials-list/educational-materials-list.component';
+import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
 
 @NgModule({
   imports: [
@@ -106,10 +110,13 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
+    MainViewComponent,
     HelpViewComponent,
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
     AccessibilityPolicyViewComponent,
+    EducationalMaterialsListComponent,
+    EducationalMaterialCardComponent,
     EducationalMaterialViewComponent,
     EducationalMaterialPreviewComponent,
     VideoPreviewComponent,
@@ -131,6 +138,7 @@ import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.comp
     NavLoginComponent,
     PrivacyPolicyComponent,
     TermsOfUseComponent,
+    UserMaterialsViewComponent,
   ],
   providers: [{
     provide: LocationStrategy,

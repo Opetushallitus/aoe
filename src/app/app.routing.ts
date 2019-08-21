@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
+import { MainViewComponent } from './views/mainView/main-view.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
@@ -12,6 +13,7 @@ import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
 import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
 import { AcceptanceGuard } from './guards/acceptance.guard';
+import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
 
 export const routes: Routes = [
   {
@@ -35,7 +37,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'etusivu',
-        loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
+        component: MainViewComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always'
       },
@@ -50,6 +52,12 @@ export const routes: Routes = [
         component: HelpViewComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always'
+      },
+      {
+        path: 'omat-oppimateriaalit',
+        component: UserMaterialsViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisaa-oppimateriaali',

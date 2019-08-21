@@ -1,0 +1,19 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>Omat oppimateriaalit</h1>
+      </div>
+
+      <div class="col-auto">
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali']">luo uusi materiaali</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" *ngFor="let educationalMaterial of educationalMaterials">
+        <app-educational-material-card [educationalMaterial]="educationalMaterial"></app-educational-material-card>
+      </div>
+    </div><!-- .row -->
+  </div>
+</div>
