@@ -2,6 +2,7 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef, TabsetComponent } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import slugify from 'slugify';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
@@ -42,6 +43,11 @@ export class FilesComponent implements OnInit {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
+      slug: this.fb.group({
+        fi: this.fb.control(null),
+        sv: this.fb.control(null),
+        en: this.fb.control(null),
+      }),
       files: this.fb.array([
         this.createFile(),
         this.createFile(),
@@ -64,7 +70,11 @@ export class FilesComponent implements OnInit {
       }
 
       if (this.savedData.name) {
-        this.fileUploadForm.get('name').setValue(this.savedData.name);
+        this.fileUploadForm.get('name').patchValue(this.savedData.name);
+      }
+
+      if (this.savedData.slug) {
+        this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
     }
   }
@@ -106,9 +116,16 @@ export class FilesComponent implements OnInit {
     });
 
     if (this.fileUploadForm.valid) {
+      const slugs = {
+        fi: this.fileUploadForm.get('name').value.fi ? slugify(this.fileUploadForm.get('name').value.fi) : undefined,
+        sv: this.fileUploadForm.get('name').value.sv ? slugify(this.fileUploadForm.get('name').value.sv) : undefined,
+        en: this.fileUploadForm.get('name').value.en ? slugify(this.fileUploadForm.get('name').value.en) : undefined,
+      };
+
       const newData = {
         createdAt: new Date(),
         name: this.fileUploadForm.get('name').value,
+        slug: slugs,
         files: this.fileUploadForm.get('files').value,
       };
 
