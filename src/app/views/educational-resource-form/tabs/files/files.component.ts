@@ -6,6 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import slugify from 'slugify';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { BackendService } from '../../../../services/backend.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
 
 @Component({
@@ -19,15 +20,18 @@ export class FilesComponent implements OnInit {
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
+  public uploadResponse = { status: '', message: '', filePath: '' };
+  public uploadError: string;
 
   public languages$: any[];
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private modalService: BsModalService,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
-    private router: Router,
+    private backendSvc: BackendService,
   ) { }
 
   ngOnInit() {
@@ -156,7 +160,17 @@ export class FilesComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.router.navigate(['/lisaa-oppimateriaali', 2]);
+      const formData = new FormData();
+      formData.append('myFiles', 'https://google.fi');
+      formData.append('materialname', this.fileUploadForm.get('name').value.fi);
+      formData.append('usersid', '1');
+
+      this.backendSvc.uploadFiles(formData).subscribe(
+        (res) => this.uploadResponse = res,
+        (err) => this.uploadError = err,
+      );
+
+      // this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 

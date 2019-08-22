@@ -209,6 +209,20 @@
     <button type="button" class="btn btn-gray" (click)="addFile()">Lisää tiedosto</button>
   </div>
 
+  <div class="form-group" *ngIf="uploadError">{{ uploadError.message }}</div>
+
+  <div class="form-group" *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
+
+  <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
+    <div role="progressbar"
+         [style.width.%]="uploadResponse.message"
+         [attr.aria-valuenow]="uploadResponse.message"
+         aria-valuemin="0"
+         aria-valuemax="100">
+      {{ uploadResponse.message }}%
+    </div>
+  </div>
+
   <div class="row justify-content-end">
     <div class="col-auto">
       <button
