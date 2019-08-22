@@ -11,7 +11,7 @@ const flash = require("express-flash");
 
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
-
+const cors = require("cors");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
@@ -31,6 +31,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(compression());
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("port", 3000);
