@@ -65,6 +65,9 @@
         <div class="material-content">
           <div class="material-description">
             <p>{{ educationalMaterial.description }}</p>
+
+            <p *ngIf="educationalMaterial.related">{{ educationalMaterial.related.text }}: <a [href]="educationalMaterial.related.link">{{ educationalMaterial.related.link }}</a></p>
+
             <ul class="list-unstyled">
               <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
             </ul>

@@ -28,6 +28,10 @@ export interface EducationalMaterial {
   organization?: string;
   publisher?: string;
   description: string;
+  related?: {
+    text: string;
+    link: string;
+  };
   keywords: Keyword[];
   learningResourceType: string[];
   timeRequired: TimeRequired;

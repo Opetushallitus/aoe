@@ -5295,6 +5295,7 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     dateCreated: new Date(),
     datePublished: new Date(2019, 6, 19),
     author: [
+      { firstName: 'Liisa', lastName: 'Ilomäki' },
       { firstName: 'Sari', lastName: 'Hopeakoski' },
     ],
     // tslint:disable-next-line
@@ -5441,6 +5442,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     // tslint:disable-next-line
     description: 'Ideoita opettajalle, miten voi tukea kielen oppimista opettamalla fonetiikan perusasioita.',
+    related: {
+      text: 'Materiaaliin liittyy seuraava materiaali opiskelijoille',
+      link: 'https://aoe.fi/#/demo/materiaali/19/kirjain%E2%80%93aanne-vastaavuus',
+    },
     keywords: [
       { value: 'fonetiikka' },
       { value: 'ääntäminen' },
@@ -5581,6 +5586,10 @@ export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
     ],
     // tslint:disable-next-line
     description: 'Ideoita opettajalle, miten voi tukea kielen oppimista opettamalla fonetiikan perusasioita.',
+    related: {
+      text: 'Materiaaliin liittyy seuraava materiaali opiskelijoille',
+      link: 'https://aoe.fi/#/demo/materiaali/21/puheentuotto',
+    },
     keywords: [
       { value: 'fonetiikka' },
       { value: 'ääntäminen' },
