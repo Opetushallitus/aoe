@@ -75,7 +75,7 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
       };
     });
 
-    output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
+    // output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
 
     if (output.length > 0) {
       res.status(200).json(output);
