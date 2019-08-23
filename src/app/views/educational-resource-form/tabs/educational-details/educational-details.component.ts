@@ -274,7 +274,7 @@ export class EducationalDetailsComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.router.navigate(['/lisaa-oppimateriaali', 5]);
+      this.router.navigate(['/lisaa-oppimateriaali', 4]);
     }
   }
 
@@ -288,6 +288,6 @@ export class EducationalDetailsComponent implements OnInit {
   }
 
   public previousTab() {
-    this.router.navigate(['/lisaa-oppimateriaali', 3]);
+    this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }
