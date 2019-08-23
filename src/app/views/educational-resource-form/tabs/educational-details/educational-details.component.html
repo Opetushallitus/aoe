@@ -29,6 +29,8 @@
   </div>
 
   <div class="form-group" *ngIf="hasEarlyChildhoodEducation">
+    <h3>Varhaiskasvatus</h3>
+
     <label for="earlyChildhoodEducationSubjects">Varhaiskasvatuksen oppiaineet</label>
 
     <ng-select
@@ -42,6 +44,8 @@
   </div>
 
   <div class="form-group" *ngIf="hasPrePrimaryEducation">
+    <h3>Esiopetus</h3>
+
     <label for="prePrimaryEducationSubjects">Esiopetuksen oppiaineet</label>
 
     <ng-select
@@ -55,6 +59,8 @@
   </div>
 
   <div class="form-group" *ngIf="hasBasicStudies">
+    <h3>Perusopetus</h3>
+
     <label for="basicStudySubjects">Perusopetuksen oppiaineet</label>
 
     <ng-select
@@ -102,6 +108,8 @@
   </ng-container>
 
   <div class="form-group" *ngIf="hasUpperSecondarySchool">
+    <h3>Lukiokoulutus</h3>
+
     <label for="upperSecondarySchoolSubjects">Lukionkurssit</label>
 
     <ng-select
@@ -116,6 +124,8 @@
   </div>
 
   <div class="form-group" *ngIf="hasVocationalDegree">
+    <h3>Ammatillinen koulutus</h3>
+
     <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
 
     <ng-select
@@ -130,6 +140,8 @@
   </div>
 
   <div class="form-group" *ngIf="hasSelfMotivatedEducation">
+    <h3>Omaehtoisen osaamisen kehittäminen</h3>
+
     <label for="selfMotivatedEducationSubjects">Omaehtoisen osaamisen kehittämisen oppiaineet</label>
 
     <ng-select
@@ -143,6 +155,8 @@
   </div>
 
   <ng-container *ngIf="hasHigherEducation">
+    <h3>Korkeakoulutus</h3>
+
     <div class="form-group">
       <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
 
