@@ -31,6 +31,7 @@ const db = connection.db;
 
 async function uploadMaterial(req: Request, res: Response) {
     try {
+        console.log(req.body);
         const contentType = req.headers["content-type"];
         if (contentType.startsWith("multipart/form-data")) {
             upload.array("myFiles", 12)(req , res, async function() {
