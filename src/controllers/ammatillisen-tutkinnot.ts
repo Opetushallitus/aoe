@@ -71,7 +71,7 @@ export const getAmmatillisenTutkinnot = async (req: Request, res: Response, next
       };
     });
 
-    data.sort((a: any, b: any) => a.value.localeCompare(b.value));
+    data.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
 
     const output = getUnique(data, "value");
 

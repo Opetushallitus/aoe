@@ -62,7 +62,7 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
       };
     });
 
-    output.sort((a: any, b: any) => a.value.toLowerCase().localeCompare(b.value.toLowerCase()));
+    output.sort((a: any, b: any) => a.value.toLowerCase().localeCompare(b.value.toLowerCase(), req.params.lang));
 
     // cherry pick FI, SV and EN to be in the front
     const fiIndex = output.findIndex((row: any) => row.key.toLowerCase() === "fi");
