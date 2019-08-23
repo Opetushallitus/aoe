@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -21,6 +22,7 @@ export class ExtendedDetailsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
   ) { }
@@ -96,6 +98,8 @@ export class ExtendedDetailsComponent implements OnInit {
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+
+      this.router.navigate(['/lisaa-oppimateriaali', 5]);
     }
   }
 
@@ -109,6 +113,6 @@ export class ExtendedDetailsComponent implements OnInit {
   }
 
   public previousTab() {
-    // this.tabs.tabs[2].active = true;
+    this.router.navigate(['/lisaa-oppimateriaali', 3]);
   }
 }
