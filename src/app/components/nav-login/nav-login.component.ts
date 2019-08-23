@@ -8,27 +8,27 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './nav-login.component.html',
 })
 export class NavLoginComponent implements OnInit {
-  public isLoggedIn: boolean;
-  public user: User;
+  // public isLoggedIn: boolean;
+  // public user: User;
 
   constructor(private authSvc: AuthService) { }
 
   ngOnInit() {
-    this.isLoggedIn = this.authSvc.isLogged();
+    // this.isLoggedIn = this.authSvc.isLogged();
 
-    if (this.isLoggedIn) {
-      this.user = this.authSvc.getUser();
-    }
+    // if (this.isLoggedIn) {
+    //   this.user = this.authSvc.getUser();
+    // }
   }
 
   public login(): void {
     this.authSvc.setUser('maija.mehilainen@aoe.fi', 'Maija', 'Mehiläinen', false);
-    this.isLoggedIn = true;
-    this.user = this.authSvc.getUser();
+    // this.isLoggedIn = true;
+    // this.user = this.authSvc.getUser();
   }
 
   public logout(): void {
     this.authSvc.removeUser();
-    this.isLoggedIn = false;
+    // this.isLoggedIn = false;
   }
 }

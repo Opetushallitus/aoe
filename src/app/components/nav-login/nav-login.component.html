@@ -6,7 +6,7 @@
       [popover]="loginPopover"
       popoverTitle="Kirjaudu sisään"
       placement="bottom"
-      *ngIf="!isLoggedIn"
+      *ngIf="!authSvc.isLogged()"
     >
       Kirjaudu sisään
     </button>
@@ -14,8 +14,8 @@
       class="btn nav-link"
       type="button"
       (click)="logout()"
-      *ngIf="isLoggedIn"
-    >{{ user?.firstname }} {{ user?.lastname }} - Kirjaudu ulos</button>
+      *ngIf="authSvc.isLogged()"
+    >{{ authSvc.getUser()?.firstname }} {{ authSvc.getUser()?.lastname }} - Kirjaudu ulos</button>
   </li>
 </ul>
 
