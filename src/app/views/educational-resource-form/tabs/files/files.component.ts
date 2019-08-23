@@ -82,7 +82,7 @@ export class FilesComponent implements OnInit {
       }
     }
 
-    this.onChanges();
+    // this.onChanges();
   }
 
   get files() {
@@ -91,8 +91,10 @@ export class FilesComponent implements OnInit {
 
   public createFile(): FormGroup {
     return this.fb.group({
-      file: this.fb.control(null, [ Validators.required ]),
-      link: this.fb.control(null, [ Validators.required ]),
+      // file: this.fb.control(null, [ Validators.required ]),
+      // link: this.fb.control(null, [ Validators.required ]),
+      file: this.fb.control(null),
+      link: this.fb.control(null),
       language: this.fb.control(null),
       displayName: this.fb.group({
         fi: this.fb.control(null),
@@ -160,7 +162,7 @@ export class FilesComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      const formData = new FormData();
+      /*const formData = new FormData();
       formData.append('myFiles', 'https://google.fi');
       formData.append('materialname', this.fileUploadForm.get('name').value.fi);
       formData.append('usersid', '1');
@@ -168,9 +170,9 @@ export class FilesComponent implements OnInit {
       this.backendSvc.uploadFiles(formData).subscribe(
         (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
-      );
+      );*/
 
-      // this.router.navigate(['/lisaa-oppimateriaali', 2]);
+      this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 
