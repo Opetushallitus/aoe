@@ -163,8 +163,8 @@ export class FilesComponent implements OnInit {
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
       /*const formData = new FormData();
-      formData.append('myFiles', 'https://google.fi');
-      formData.append('materialname', this.fileUploadForm.get('name').value.fi);
+      formData.append('myFiles', 'tiedostolinkki');
+      formData.append('materialname', 'Testimateriaali');
       formData.append('usersid', '1');
 
       this.backendSvc.uploadFiles(formData).subscribe(
