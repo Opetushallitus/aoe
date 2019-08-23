@@ -72,6 +72,7 @@ import { UserMaterialsViewComponent } from './views/user-materials-view/user-mat
 import { MainViewComponent } from './views/mainView/main-view.component';
 import { EducationalMaterialsListComponent } from './components/educational-materials-list/educational-materials-list.component';
 import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
+import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
 
 @NgModule({
   imports: [
@@ -137,6 +138,7 @@ import { EducationalMaterialCardComponent } from './components/educational-mater
     PrivacyPolicyComponent,
     TermsOfUseComponent,
     UserMaterialsViewComponent,
+    PreviewComponent,
   ],
   providers: [{
     provide: LocationStrategy,
