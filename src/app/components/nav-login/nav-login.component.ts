@@ -11,7 +11,7 @@ export class NavLoginComponent implements OnInit {
   // public isLoggedIn: boolean;
   // public user: User;
 
-  constructor(private authSvc: AuthService) { }
+  constructor(public authSvc: AuthService) { }
 
   ngOnInit() {
     // this.isLoggedIn = this.authSvc.isLogged();
