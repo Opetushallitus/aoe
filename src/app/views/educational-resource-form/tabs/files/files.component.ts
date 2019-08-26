@@ -95,7 +95,7 @@ export class FilesComponent implements OnInit {
       // link: this.fb.control(null, [ Validators.required ]),
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control(null),
+      language: this.fb.control({ key: 'fi', value: 'suomi' }),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
