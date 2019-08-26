@@ -59,7 +59,7 @@ export class LicenseComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.router.navigate(['/omat-oppimateriaalit']);
+      this.router.navigate(['/lisaa-oppimateriaali', 6]);
     }
   }
 

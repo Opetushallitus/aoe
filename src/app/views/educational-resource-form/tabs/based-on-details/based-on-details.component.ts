@@ -112,7 +112,7 @@ export class BasedOnDetailsComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      this.router.navigate(['/lisaa-oppimateriaali', 4]);
+      this.router.navigate(['/lisaa-oppimateriaali', 7]);
     }
   }
 
