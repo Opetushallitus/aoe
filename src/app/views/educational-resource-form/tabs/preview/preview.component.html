@@ -1,1 +1,68 @@
-<p>preview works!</p>
+<h3>Materiaalin tiedot</h3>
+
+<dl class="row">
+  <ng-container *ngIf="savedData.name">
+    <ng-container *ngIf="savedData.name.fi">
+      <dt class="col-sm-3">Nimi</dt>
+      <dd class="col-sm-9">{{ savedData.name.fi }}</dd>
+    </ng-container>
+
+    <ng-container *ngIf="savedData.name.en">
+      <dt class="col-sm-3">Nimi (englanniksi)</dt>
+      <dd class="col-sm-9">{{ savedData.name.en }}</dd>
+    </ng-container>
+
+    <ng-container *ngIf="savedData.name.sv">
+      <dt class="col-sm-3">Nimi (ruotsiksi)</dt>
+      <dd class="col-sm-9">{{ savedData.name.sv }}</dd>
+    </ng-container>
+  </ng-container>
+
+  <dt class="col-sm-3">Luotu</dt>
+  <dd class="col-sm-9">{{ savedData.createdAt | date:'d.M.yyyy H:mm' }}</dd>
+</dl>
+
+<h3>Tiedostot</h3>
+
+<dl class="row">
+  <ng-container *ngFor="let file of savedData.files; let i = index">
+    <dt class="col-sm-3">{{ i + 1 }}. tiedosto</dt>
+    <dd class="col-sm-9">
+      <dl class="row">
+        <ng-container *ngIf="file.file">
+          <dt class="col-sm-3">Tiedosto</dt>
+          <dd class="col-sm-9">{{ file.file }}</dd>
+        </ng-container>
+
+        <ng-container *ngIf="file.link">
+          <dt class="col-sm-3">Linkki</dt>
+          <dd class="col-sm-9">{{ file.link }}</dd>
+        </ng-container>
+
+        <ng-container *ngIf="file.displayName">
+          <ng-container *ngIf="file.displayName.fi">
+            <dt class="col-sm-3">Esitysnimi</dt>
+            <dd class="col-sm-9">{{ file.displayName.fi }}</dd>
+          </ng-container>
+
+          <ng-container *ngIf="file.displayName.en">
+            <dt class="col-sm-3">Esitysnimi (englanniksi)</dt>
+            <dd class="col-sm-9">{{ file.displayName.en }}</dd>
+          </ng-container>
+
+          <ng-container *ngIf="file.displayName.sv">
+            <dt class="col-sm-3">Esitysnimi (ruotsiksi)</dt>
+            <dd class="col-sm-9">{{ file.displayName.sv }}</dd>
+          </ng-container>
+        </ng-container>
+
+        <dt class="col-sm-3">Kieli</dt>
+        <dd class="col-sm-9">{{ file.language.value }}</dd>
+      </dl>
+    </dd>
+  </ng-container>
+</dl>
+
+<h3>Perustiedot</h3>
+
+<pre>{{ savedData | json }}</pre>
