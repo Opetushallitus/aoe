@@ -35,7 +35,7 @@ router.put("/material/:id", db.updateMaterial);
 router.delete("/material/:id", db.deleteMaterial);
 // delete link or record from educationalmaterial
 router.delete("/material/file/:materialid/:fileid", db.deleteRecord);
-router.post("/material", db.postMaterial);
+// router.post("/material", db.postMaterial);
 
 router.post("/createUser", db.createUser);
 router.put("/user/:id", db.updateUser);

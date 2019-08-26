@@ -26,7 +26,6 @@ DROP TABLE IF EXISTS License CASCADE;
 DROP TABLE IF EXISTS EducationalAudience CASCADE;
 DROP TABLE IF EXISTS Material CASCADE;
 DROP TABLE IF EXISTS EducationalMaterial CASCADE;
-DROP TABLE IF EXISTS Logins CASCADE;
 DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Publisher CASCADE;
 DROP TABLE IF EXISTS MaterialName CASCADE;
@@ -40,19 +39,12 @@ CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
   FirstName              text NOT NULL, 
   LastName               text NOT NULL, 
-  UserName               text NOT NULL UNIQUE, 
+  UserName               text NOT NULL, 
   PreferredLanguage      text NOT NULL, 
   PreferredTargetName    text NOT NULL, 
   PreferredAlignmentType text NOT NULL,
   TermsOfUsage           bool DEFAULT '0' NOT NULL,  
-  PRIMARY KEY (Id));
-CREATE TABLE Logins (
-  Id            BIGSERIAL NOT NULL, 
-  UserName     varchar(255) NOT NULL, 
-  PasswordSalt varchar(255) NOT NULL, 
-  PasswordHash varchar(255) NOT NULL, 
-  UsersId      int8 NOT NULL, 
-  PRIMARY KEY (Id));
+  PRIMARY KEY (UserName));
 
 CREATE TABLE EducationalMaterial (
   Id                   BIGSERIAL NOT NULL, 
@@ -63,11 +55,11 @@ CREATE TABLE EducationalMaterial (
   TechnicalName       text DEFAULT '' NOT NULL, 
   TimeRequired        text DEFAULT 0 NOT NULL, 
   AgeRangeMin         int4 DEFAULT 0 NOT NULL, 
-  AgeRangeMax         int4 DEFAULT 99 NOT NULL, 
-  UsersId             int8 NOT NULL, 
+  AgeRangeMax         int4 DEFAULT 99 NOT NULL,
   LicenseCode         text DEFAULT '' NOT NULL, 
   Obsoleted           int4 DEFAULT 0 NOT NULL,
   OriginalPublishedAt timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+  UsersUserName       text NOT NULL,
   PRIMARY KEY (Id));
 
 
@@ -210,10 +202,10 @@ CREATE TABLE IsBasedOn (
   aoeid                 text NOT NULL, 
   PRIMARY KEY (Id));
 CREATE TABLE UsersEducationalMaterialCollection (
-  UsersId                         int8 NOT NULL, 
   EducationalMaterialCollectionId int8 NOT NULL, 
-  PRIMARY KEY (UsersId, 
-  EducationalMaterialCollectionId));
+  UsersUserName                   text NOT NULL, 
+  PRIMARY KEY (EducationalMaterialCollectionId, 
+  UsersUserName));
 CREATE TABLE EducationalMaterialCollectionEducationalMaterial (
   EducationalMaterialCollectionId int8 NOT NULL, 
   EducationalMaterialId           int8 NOT NULL, 
@@ -275,9 +267,8 @@ CREATE TABLE Thumbnail (
   FileName              text NOT NULL, 
   PRIMARY KEY (id));
 
-ALTER TABLE Logins ADD CONSTRAINT FKLogins FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Cascade;
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
+ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersUserName) REFERENCES Users (UserName) ON DELETE Restrict;
 ALTER TABLE EducationalAudience ADD CONSTRAINT FKEducationalAudience FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE LearningResourceType ADD CONSTRAINT FKLearningResourceType FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE KeyWord ADD CONSTRAINT FKKeyWord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
@@ -294,7 +285,7 @@ ALTER TABLE CollectionTopic ADD CONSTRAINT FKCollectionTopic FOREIGN KEY (Educat
 ALTER TABLE CollectionEducationalFramework ADD CONSTRAINT FKCollectionEducationalFramework FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionAligmentObject ADD CONSTRAINT FKCollectionAligmentObject FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE CollectionEducationalUse ADD CONSTRAINT fk_CollectionEducationalUse FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
-ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT fk_UsersEMC FOREIGN KEY (UsersId) REFERENCES Users (Id) ON DELETE Restrict;
+ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT fk_UsersEMC FOREIGN KEY (UsersUserName) REFERENCES Users (username) ON DELETE Restrict;
 ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT fk_EMCUsers FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT fk_EMCMaterial FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT fk_MaterialEMC FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;

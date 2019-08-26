@@ -40,7 +40,7 @@ async function uploadMaterial(req: Request, res: Response) {
                     const links = req.body.myFiles;
                     console.log("files: " + files);
                     console.log("links: " + links);
-                    if (files === "undefined" || files.length == 0 && links === "undefined") {
+                    if (files === "undefined" && links === "undefined") {
                         return res.status(400).send("No file sent");
                     }
                     const emresp = await insertDataToEducationalMaterialTable(req);
@@ -189,9 +189,9 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function insertDataToEducationalMaterialTable(req: Request) {
-    const query = "insert into educationalmaterial (TechnicalName,UsersId)" +
+    const query = "insert into educationalmaterial (TechnicalName,Usersusername)" +
                     " values ($1,$2) returning id;";
-    const data = await db.any(query, [req.body.materialname, req.body.usersid]);
+    const data = await db.any(query, [req.body.materialname, req.body.username]);
     return data;
 }
 

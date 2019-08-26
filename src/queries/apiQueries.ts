@@ -91,7 +91,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
-        query = "SELECT users.id, users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersid = users.id WHERE educationalmaterial.id = $1 and educationalmaterial.obsoleted != '1';";
+        query = "SELECT users.id, users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1 and educationalmaterial.obsoleted != '1';";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
@@ -141,8 +141,8 @@ async function getUserMaterial(req: Request , res: Response , next: NextFunction
     try {
         let query;
         // let params = { };
-        query = "SELECT * FROM educationalmaterial WHERE usersid = $1 and obsoleted != '1' limit 1000;";
-        const data = await db.any(query, [req.params.userid]);
+        query = "SELECT * FROM educationalmaterial WHERE usersusername = $1 and obsoleted != '1' limit 1000;";
+        const data = await db.any(query, [req.params.username]);
         res.status(200).json(data);
     }
     catch (err ) {
@@ -178,20 +178,20 @@ async function deleteRecord(req: Request , res: Response , next: NextFunction) {
         res.sendStatus(500);
     }
 }
-async function postMaterial(req: Request , res: Response , next: NextFunction) {
-    try {
-        let query;
-        const params = req.params;
+// async function postMaterial(req: Request , res: Response , next: NextFunction) {
+//     try {
+//         let query;
+//         const params = req.params;
 
-        query = "insert into educationalmaterial (materialName,slug,CreatedAt,PublishedAt,UpdatedAt,TechnicalName,timeRequired,agerangeMin,agerangeMax,UsersId) values ('matskun nimi 3','slugi',to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),'" + req.query.materialName + "','tekninen nimi','300','1','12','" + req.query.usersid + "') RETURNING id;";
-        const data = await db.any(query);
-        res.status(200).json(data);
-    }
-    catch (err ) {
-        console.log(err);
-        res.sendStatus(500);
-    }
-}
+//         query = "insert into educationalmaterial (materialName,slug,CreatedAt,PublishedAt,UpdatedAt,TechnicalName,timeRequired,agerangeMin,agerangeMax,UsersId) values ('matskun nimi 3','slugi',to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),to_date('1900-01-01', 'YYYY-MM-DD'),'" + req.query.materialName + "','tekninen nimi','300','1','12','" + req.query.usersid + "') RETURNING id;";
+//         const data = await db.any(query);
+//         res.status(200).json(data);
+//     }
+//     catch (err ) {
+//         console.log(err);
+//         res.sendStatus(500);
+//     }
+// }
 
 async function updateMaterial(req: Request , res: Response , next: NextFunction) {
     db.tx(async (t: any) => {
@@ -224,9 +224,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of materialname) {
-                console.log(element.text);
                 const slug = createSlug(element.text);
-                console.log(slug);
                 query = "INSERT INTO materialname (materialname, language, slug, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (language,educationalmaterialid) DO " +
                         "UPDATE SET materialname = $1 , slug = $3;";
                 console.log(query);
@@ -573,7 +571,7 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
         if (req.body.username === undefined) {
             res.status(500).send("username undefined");
         }
-        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ($1,$2,$3,'','','') RETURNING id;";
+        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ($1,$2,$3,'','','') RETURNING username;";
         const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.username]);
         res.status(200).json(data);
     }
@@ -708,7 +706,8 @@ async function insertIntoEducationalMaterial(obj: any) {
         timerequired : obj.timerequired,
         agerangemin : obj.agerangemin,
         agerangemax : obj.agerangemax,
-        usersid : obj.usersid,
+        // usersid : obj.usersid,
+        usersusername : obj.username,
         licensecode : obj.licensecode,
         originalpublishedat : obj.originalpublishedat
     };
@@ -878,7 +877,7 @@ function createSlug(str: String) {
 module.exports = {
     getMaterial : getMaterial,
     getMaterialData : getMaterialData,
-    postMaterial : postMaterial,
+    // postMaterial : postMaterial,
     getUserMaterial : getUserMaterial,
     updateMaterial : updateMaterial,
     createUser : createUser,

@@ -3,6 +3,7 @@
 const request = require('supertest');
 const server = require('./../src/server');
 const app = require('./../src/app');
+const username = "ttk.s" + new Date() + "@csc.fi";
 
 // beforeAll(async () => {
 //     const server = app.listen(3000, () => {
@@ -34,7 +35,7 @@ describe("basic route tests", () => {
         const user = {
             "firstname": "Tapio2",
             "lastname": "Järvinen",
-            "username": "ttk.s" + new Date() + "@csc.fi"
+            "username": username
             }
         const response = await request(app).post("/createUser").send(user)
             .set('Content-Type', 'application/json')
@@ -42,12 +43,12 @@ describe("basic route tests", () => {
         expect(response.status).toEqual(200);
         
     });
-    test.only("POST new material", async () => {
+    test("POST new material", async () => {
         const response = await request(app)
             .post("/material/file")
             // .set("Content-Type", "application/x-www-form-urlencoded")
             .field("materialname","testmaterial")
-            .field("usersid",1)
+            .field("username",username)
             .field("technicalname","tekninen nimi")
             .field("licensecode","cc-11")
             .field("timerequired","300")

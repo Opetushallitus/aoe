@@ -72,7 +72,7 @@ async function createEducationalMaterialObject(indata: any) {
         timerequired : indata.Opiskeluun_kuluva_aika_tunneissa || 0,
         agerangemin : indata.kohderyhman_minimi_ika || 1,
         agerangemax : indata.maksimi_ika || 99,
-        usersid : 1,
+        username : "ttk3.s@csc.fi",
         licensecode : indata.lisenssi
     };
     obj[key].push(materialData);
