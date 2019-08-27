@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { KeyValue } from '@angular/common';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -18,10 +19,10 @@ export class BasicDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  public organisations$: any[];
-  public learningResourceTypes$: any[];
-  public educationalRoles$: any[];
-  public educationalUse$: any[];
+  public organisations$: KeyValue<string, string>[];
+  public learningResourceTypes$: KeyValue<string, string>[];
+  public educationalRoles$: KeyValue<string, string>[];
+  public educationalUse$: KeyValue<string, string>[];
 
   // https://stackblitz.com/edit/ng-select-infinite
   private keywords = [];

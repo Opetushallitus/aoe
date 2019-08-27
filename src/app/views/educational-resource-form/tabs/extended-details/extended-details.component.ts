@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -15,8 +16,8 @@ export class ExtendedDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  public accessibilityFeatures$: any[];
-  public accessibilityHazards$: any[];
+  public accessibilityFeatures$: KeyValue<string, string>[];
+  public accessibilityHazards$: KeyValue<string, string>[];
 
   public extendedDetailsForm: FormGroup;
 

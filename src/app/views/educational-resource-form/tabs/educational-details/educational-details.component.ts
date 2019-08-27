@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -42,8 +43,8 @@ export class EducationalDetailsComponent implements OnInit {
   public basicStudySubjects$: BasicStudySubject[];
   public basicStudyObjectives: BasicStudyContent[];
   public basicStudyContents: BasicStudyContent[];
-  public upperSecondarySchoolSubjects$: any[];
-  public vocationalDegrees$: any[];
+  public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
+  public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
 
   constructor(
