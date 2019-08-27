@@ -24,6 +24,7 @@ const router: Router = Router();
 
 router.post("/material/file", fh.uploadMaterial);
 router.post("/material/file/:materialId", fh.uploadFileToMaterial);
+router.post("/material/link/:materialId", db.addLinkToMaterial);
 router.post("/uploadImage/:id", thumbnail.uploadImage);
 router.get("/downloadImage/:id", thumbnail.downloadImage);
 

@@ -69,6 +69,23 @@ describe("basic route tests", () => {
         expect(response.body.id).toContain('1');
     });
 
+    test('POST link/', async () => {
+      const response = await request(app).post('/material/link/1').send(
+        {"materials" :
+          [
+            {
+            "link" : "test.csc.fi"
+            },
+            {
+            "link" : "test2.csc.fi"
+            }
+          ]
+        }
+      );
+      expect(response.status).toEqual(200);
+      expect(response.body.materials[0].link).toContain("test.csc.fi");
+  });
+
     test('PUT metadata material /', async () => {
       const response = await request(app).put('/material/1')
             .send({

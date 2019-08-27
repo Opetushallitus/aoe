@@ -7,6 +7,37 @@ const pgp = connection.pgp;
 const db = connection.db;
 // const dbHelpers = require("./../databaseHelpers");
 
+
+async function addLinkToMaterial(req: Request , res: Response , next: NextFunction) {
+    try {
+        db.task(async (t: any) => {
+            const queries: any = [];
+            let query;
+            console.log(req.body.materials);
+            const materials = req.body.materials;
+            for (const element of materials) {
+                query = "insert into material (link, educationalmaterialid) values ($1,$2) returning id, link;";
+                const data = await db.one(query, [element.link, req.params.materialId]);
+                queries.push(data);
+            }
+            return t.batch(queries);
+        })
+        .then((result: any) => {
+            const response = {"materials" : result};
+            res.status(200).json(response);
+        })
+        .catch((err: Error) => {
+            console.log(err);
+            res.status(400).send("error in updating");
+        });
+    }
+    catch (err ) {
+        console.log(err);
+        res.status(400).send("error in updating");
+    }
+}
+
+
 async function getMaterial(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
@@ -874,6 +905,7 @@ function createSlug(str: String) {
     return str;
 }
 
+
 module.exports = {
     getMaterial : getMaterial,
     getMaterialData : getMaterialData,
@@ -886,5 +918,6 @@ module.exports = {
     deleteMaterial : deleteMaterial,
     deleteRecord : deleteRecord,
     insertEducationalMaterial : insertEducationalMaterial,
-    updateTermsOfUsage : updateTermsOfUsage
+    updateTermsOfUsage : updateTermsOfUsage,
+    addLinkToMaterial : addLinkToMaterial
 };
