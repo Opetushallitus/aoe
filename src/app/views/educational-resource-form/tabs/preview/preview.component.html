@@ -38,7 +38,7 @@
 
         <ng-container *ngIf="file.link">
           <dt class="col-sm-3">Linkki</dt>
-          <dd class="col-sm-9">{{ file.link }}</dd>
+          <dd class="col-sm-9"><a [href]="file.link" target="_blank" rel="noopener">{{ file.link }}</a></dd>
         </ng-container>
 
         <ng-container *ngIf="file.displayName">
@@ -224,4 +224,112 @@
 
 <h3>Tarkemmat tiedot</h3>
 
-<pre>{{ savedData | json }}</pre>
+<dl class="row">
+  <ng-container *ngIf="savedData.accessibilityFeature">
+    <dt class="col-sm-3">Saavutettavuuden ominaisuudet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let feature of savedData.accessibilityFeature; let isLast = last">
+        {{ feature.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.accessibilityHazard">
+    <dt class="col-sm-3">Saavutettavuuden esteet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let hazard of savedData.accessibilityHazard; let isLast = last">
+        {{ hazard.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.typicalAgeRange">
+    <dt class="col-sm-3">Kohderyhmän ikä</dt>
+    <dd class="col-sm-9">{{ savedData.typicalAgeRange.min }} - {{ savedData.typicalAgeRange.max }}</dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.timeRequired">
+    <dt class="col-sm-3">Opiskeluaika</dt>
+    <dd class="col-sm-9">{{ savedData.timeRequired }}</dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.publisher">
+    <dt class="col-sm-3">Julkaisija</dt>
+    <dd class="col-sm-9">{{ savedData.publisher }}</dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.expires">
+    <dt class="col-sm-3">Oppimateriaali vanhenee</dt>
+    <dd class="col-sm-9">{{ savedData.expires | date:'d.M.yyyy' }}</dd>
+  </ng-container>
+</dl>
+
+<hr>
+
+<ng-container *ngIf="savedData.isBasedOn">
+  <h3>Hyödynnetyt materiaalit</h3>
+
+  <dl class="row">
+    <ng-container *ngIf="savedData.isBasedOn.externals">
+      <ng-container *ngFor="let external of savedData.isBasedOn.externals; let i = index">
+        <dt class="col-sm-3">{{ i + 1 }}. materiaali</dt>
+        <dd class="col-sm-9">
+          <dl class="row">
+            <dt class="col-sm-3">Nimi</dt>
+            <dd class="col-sm-9">{{ external.name }}</dd>
+
+            <dt class="col-sm-3">Tekijä</dt>
+            <dd class="col-sm-9">{{ external.author }}</dd>
+
+            <dt class="col-sm-3">Linkki</dt>
+            <dd class="col-sm-9"><a [href]="external.url" target="_blank" rel="noopener">{{ external.url }}</a></dd>
+          </dl>
+        </dd>
+      </ng-container>
+    </ng-container>
+  </dl>
+
+  <hr>
+</ng-container>
+
+<h3>Lisenssi</h3>
+
+<dl class="row">
+  <dt class="col-sm-3">Lisenssi</dt>
+  <dd class="col-sm-9">{{ savedData.license }}</dd>
+</dl>
+
+<hr>
+
+<form [formGroup]="previewForm" (ngSubmit)="onSubmit()">
+  <div class="form-group custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm">
+    <label class="custom-control-label" for="confirm">Vakuutan että ole tehnyt oppimateriaalin itse ja että minulla on lupa käyttää lisenssin tai sopimuksen perusteella materiaalissani muiden tekemiä materiaaleja (esim. kuvat)</label>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previousTab()"
+      >Edellinen</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="resetForm()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [disabled]="previewForm?.invalid"
+      >{{ 'forms.common.save' | translate }}</button>
+    </div>
+  </div>
+</form>

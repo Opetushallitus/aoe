@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { getLocalStorageData } from '../../../../shared/shared.module';
 
 @Component({
@@ -9,9 +12,37 @@ export class PreviewComponent implements OnInit {
   private localStorageKey = 'aoe.new-educational-resource';
   public savedData: any;
 
-  constructor() { }
+  public previewForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.savedData = getLocalStorageData(this.localStorageKey);
+
+    this.previewForm = this.fb.group({
+      confirm: this.fb.control(false, [ Validators.requiredTrue ])
+    });
+  }
+
+  public onSubmit() {
+    if (this.previewForm.valid) {
+      this.router.navigate(['/omat-oppimateriaalit']);
+    }
+  }
+
+  // @todo: some kind of confirmation
+  public resetForm() {
+    // reset form values
+    this.previewForm.reset();
+
+    // clear data from local storage
+    localStorage.removeItem(this.localStorageKey);
+  }
+
+  public previousTab() {
+    this.router.navigate(['/lisaa-oppimateriaali', 6]);
   }
 }
