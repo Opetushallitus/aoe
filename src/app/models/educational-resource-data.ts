@@ -1,23 +1,25 @@
+import { KeyValue } from '@angular/common';
+
 import { BasicStudyContent, BasicStudySubject } from './basic-study-subject';
 
 export interface EducationalResourceData {
-  accessibilityFeature?: KeyValue[];
-  accessibilityHazard?: KeyValue[];
+  accessibilityFeature?: KeyValue<string, string>[];
+  accessibilityHazard?: KeyValue<string, string>[];
   authors?: Author[];
-  basicStudyContents?: KeyValue[];
+  basicStudyContents?: KeyValue<string, string>[];
   basicStudyObjectives?: BasicStudyContent[];
   basicStudySubjects?: BasicStudySubject[];
-  branchesOfScience?: KeyValue[];
+  branchesOfScience?: KeyValue<string, string>[];
   createdAt?: Date;
   description?: I18nString;
   earlyChildhoodEducationSubjects?: string[];
-  educationalLevels?: KeyValue[];
-  educationalRole?: KeyValue[];
-  educationalUse?: KeyValue[];
+  educationalLevels?: KeyValue<string, string>[];
+  educationalRole?: KeyValue<string, string>[];
+  educationalUse?: KeyValue<string, string>[];
   expires?: Date;
   files?: File[];
-  keywords?: KeyValue[];
-  learningResourceType?: KeyValue[];
+  keywords?: KeyValue<string, string>[];
+  learningResourceType?: KeyValue<string, string>[];
   license?: string;
   name?: I18nString;
   prePrimaryEducationSubjects?: string[];
@@ -28,18 +30,13 @@ export interface EducationalResourceData {
   thumbnail?: string;
   timeRequired?: string;
   typicalAgeRange?: AgeRange;
-  upperSecondarySchoolSubjects?: KeyValue[];
-  vocationalDegrees?: KeyValue[];
-}
-
-interface KeyValue {
-  key: string;
-  value: string;
+  upperSecondarySchoolSubjects?: KeyValue<string, string>[];
+  vocationalDegrees?: KeyValue<string, string>[];
 }
 
 interface Author {
   author: string;
-  organisation?: KeyValue;
+  organisation?: KeyValue<string, string>;
 }
 
 interface I18nString {
@@ -51,7 +48,7 @@ interface I18nString {
 interface File {
   displayName?: I18nString;
   file?: string;
-  language?: KeyValue;
+  language?: KeyValue<string, string>;
   link?: string;
 }
 
