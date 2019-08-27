@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { KeyValue } from '@angular/common';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import slugify from 'slugify';
@@ -23,7 +24,8 @@ export class FilesComponent implements OnInit {
   public uploadResponse = { status: '', message: '', filePath: '' };
   public uploadError: string;
 
-  public languages$: any[];
+  public languages$: KeyValue<string, string>[];
+  private defaultLanguage$: KeyValue<string, string>;
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +64,10 @@ export class FilesComponent implements OnInit {
       this.languages$ = data;
     });
 
+    this.koodistoProxySvc.getData('kielet/FI', this.lang).subscribe(data => {
+      this.defaultLanguage$ = data;
+    });
+
     if (this.savedData) {
       if (this.savedData.files) {
         while (this.files.length) {
@@ -95,7 +101,7 @@ export class FilesComponent implements OnInit {
       // link: this.fb.control(null, [ Validators.required ]),
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control({ key: 'FI', value: 'suomi' }),
+      language: this.fb.control(this.defaultLanguage$),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
