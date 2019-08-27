@@ -19,7 +19,7 @@ export class AcceptanceViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.acceptanceForm = this.fb.group({
-      acceptance: this.fb.control(false, [Validators.requiredTrue]),
+      acceptance: this.fb.control(false, [ Validators.requiredTrue ]),
     });
   }
 
