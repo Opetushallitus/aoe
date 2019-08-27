@@ -63,8 +63,8 @@ export class ExtendedDetailsComponent implements OnInit {
       }
 
       if (this.savedData.typicalAgeRange) {
-        this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange[0].min);
-        this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange[0].max);
+        this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange.min);
+        this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange.max);
       }
 
       if (this.savedData.timeRequired) {
@@ -86,10 +86,10 @@ export class ExtendedDetailsComponent implements OnInit {
       const newData = {
         accessibilityFeature: this.extendedDetailsForm.get('accessibilityFeatures').value,
         accessibilityHazard: this.extendedDetailsForm.get('accessibilityHazards').value,
-        typicalAgeRange: [{
+        typicalAgeRange: {
           min: this.extendedDetailsForm.get('typicalAgeRangeMin').value,
           max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
-        }],
+        },
         timeRequired: this.extendedDetailsForm.get('timeRequired').value,
         publisher: this.extendedDetailsForm.get('publisher').value,
         expires: this.extendedDetailsForm.get('expires').value,
