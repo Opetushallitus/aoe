@@ -22,6 +22,8 @@
   <dd class="col-sm-9">{{ savedData.createdAt | date:'d.M.yyyy H:mm' }}</dd>
 </dl>
 
+<hr>
+
 <h3>Tiedostot</h3>
 
 <dl class="row">
@@ -63,6 +65,163 @@
   </ng-container>
 </dl>
 
+<hr>
+
 <h3>Perustiedot</h3>
+
+<dl class="row">
+  <ng-container *ngFor="let author of savedData.authors">
+    <dt class="col-sm-3">Tekijä</dt>
+    <dd class="col-sm-9">{{ author.author }}<ng-container *ngIf="author.organisation">, {{ author.organisation.value }}</ng-container></dd>
+  </ng-container>
+
+  <dt class="col-sm-3">Asiasanat</dt>
+  <dd class="col-sm-9">
+    <ng-container *ngFor="let keyword of savedData.keywords; let isLast = last">
+      {{ keyword.value }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </dd>
+
+  <dt class="col-sm-3">Oppimateriaalin tyyppi</dt>
+  <dd class="col-sm-9">
+    <ng-container *ngFor="let type of savedData.learningResourceType; let isLast = last">
+      {{ type.value }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </dd>
+
+  <dt class="col-sm-3">Pääasiallinen kohderyhmä</dt>
+  <dd class="col-sm-9">
+    <ng-container *ngFor="let role of savedData.educationalRole; let isLast = last">
+      {{ role.value }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </dd>
+
+  <dt class="col-sm-3">Pääasiallinen käyttötarkoitus</dt>
+  <dd class="col-sm-9">
+    <ng-container *ngFor="let use of savedData.educationalUse; let isLast = last">
+      {{ use.value }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </dd>
+
+  <dt class="col-sm-3">Kuvaus</dt>
+  <dd class="col-sm-9">{{ savedData.description.fi }}</dd>
+
+  <ng-container *ngIf="savedData.description.en">
+    <dt class="col-sm-3">Kuvaus (englanniksi)</dt>
+    <dd class="col-sm-9">{{ savedData.description.en }}</dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.description.sv">
+    <dt class="col-sm-3">Kuvaus (ruotsiksi)</dt>
+    <dd class="col-sm-9">{{ savedData.description.sv }}</dd>
+  </ng-container>
+</dl>
+
+<hr>
+
+<h3>Koulutustiedot</h3>
+
+<dl class="row">
+  <dt class="col-sm-3">Koulutusaste</dt>
+  <dd class="col-sm-9">
+    <ng-container *ngFor="let level of savedData.educationalLevels; let isLast = last">
+      {{ level.value }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </dd>
+
+  <ng-container *ngIf="savedData.earlyChildhoodEducationSubjects">
+    <dt class="col-sm-3">Varhaiskasvatuksen oppiaineet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.earlyChildhoodEducationSubjects; let isLast = last">
+        {{ subject.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.prePrimaryEducationSubjects">
+    <dt class="col-sm-3">Esiopetuksen oppiaineet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.prePrimaryEducationSubjects; let isLast = last">
+        {{ subject.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.basicStudySubjects">
+    <dt class="col-sm-3">Perusopetuksen oppiaineet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.basicStudySubjects; let isLast = last">
+        {{ subject.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.basicStudyObjectives">
+    <dt class="col-sm-3">Perusopetuksen oppiaineiden tavoitteet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let objective of savedData.basicStudyObjectives; let isLast = last">
+        {{ objective.value }}<br *ngIf="!isLast">
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.basicStudyContents">
+    <dt class="col-sm-3">Perusopetuksen oppiaineiden sisältöalueet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let content of savedData.basicStudyContents; let isLast = last">
+        {{ content.value }}<br *ngIf="!isLast">
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.upperSecondarySchoolSubjects">
+    <dt class="col-sm-3">Lukionkurssit</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.upperSecondarySchoolSubjects; let isLast = last">
+        {{ subject.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.vocationalDegrees">
+    <dt class="col-sm-3">Ammatillisen koulutuksen tutkinnot</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let degree of savedData.vocationalDegrees; let isLast = last">
+        {{ degree.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.selfMotivatedEducationSubjects">
+    <dt class="col-sm-3">Omaehtoisen osaamisen kehittämisen oppiaineet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.selfMotivatedEducationSubjects; let isLast = last">
+        {{ subject.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.branchesOfScience">
+    <dt class="col-sm-3">Korkeakoulutuksen tieteenalat</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let branch of savedData.branchesOfScience; let isLast = last">
+        {{ branch.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.scienceBranchObjectives">
+    <dt class="col-sm-3">Korkeakoulutuksen tieteenalojen tavoitteet</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of savedData.scienceBranchObjectives; let isLast = last">
+        {{ subject.value }}<br *ngIf="!isLast">
+      </ng-container>
+    </dd>
+  </ng-container>
+</dl>
+
+<hr>
+
+<h3>Tarkemmat tiedot</h3>
 
 <pre>{{ savedData | json }}</pre>
