@@ -11,9 +11,9 @@
     <app-privacy-policy></app-privacy-policy>
 
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="acceptance" formControlName="acceptance">
-        <label class="form-check-label" for="acceptance">Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot</label>
+      <div class="form-group custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance">
+        <label class="custom-control-label" for="acceptance">Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot</label>
       </div>
 
       <button
