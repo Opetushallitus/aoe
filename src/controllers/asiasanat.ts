@@ -4,7 +4,7 @@ import { parseString, processors } from "xml2js";
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { sortByValue } from "../util/data.utils";
-import { KeyValue } from "../models/key-value";
+import { KeyValue } from "../models/data";
 
 const endpoint = "yso";
 const rediskey = "asiasanat";

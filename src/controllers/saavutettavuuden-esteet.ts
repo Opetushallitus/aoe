@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { sortByValue } from "../util/data.utils";
-import { KeyValue } from "../models/key-value";
+import { KeyValue } from "../models/data";
 
 const endpoint = "edtech/codeschemes/SaavutettavuusEsteet";
 const rediskey = "saavutettavuudenesteet";

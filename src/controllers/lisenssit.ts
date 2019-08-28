@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { License } from "../models/key-value";
+import { License } from "../models/data";
 
 const endpoint = "edtech/codeschemes/Licence";
 const rediskey = "lisenssit";

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { Children, EducationLevel } from "../models/key-value";
+import { Children, EducationLevel } from "../models/data";
 
 const endpoint = "edtech/codeschemes/Koulutusaste";
 const rediskey = "koulutusasteet";
