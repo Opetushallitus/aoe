@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { Children, EducationLevel } from "../models/key-value";
 
 const endpoint = "edtech/codeschemes/Koulutusaste";
 const rediskey = "koulutusasteet";
@@ -11,30 +12,97 @@ const params = "codes/?format=json";
  * Set data into redis database
  *
  * @returns {Promise<any>}
- *
- * @todo Implement error handling
  */
 export async function setKoulutusasteet(): Promise<any> {
-  const results = await getDataFromApi(
-    process.env.KOODISTOT_SUOMI_URL,
-    `/${endpoint}/`,
-    { "Accept": "application/json" },
-    params
-  );
+  try {
+    const results = await getDataFromApi(
+      process.env.KOODISTOT_SUOMI_URL,
+      `/${endpoint}/`,
+      { "Accept": "application/json" },
+      params
+    );
 
-  const data = results.results.map((result: any) => {
-    return {
-      key: result.id,
-      parent: ("broaderCode" in result) ? result.broaderCode.id : undefined,
-      value: {
-        fi: result.prefLabel.fi,
-        en: result.prefLabel.en,
-        sv: result.prefLabel.sv,
+    const finnish: EducationLevel[] = [];
+    const english: EducationLevel[] = [];
+    const swedish: EducationLevel[] = [];
+
+    const data = results.results.map((result: any) => {
+      return {
+        key: result.id,
+        parent: ("broaderCode" in result) ? result.broaderCode.id : undefined,
+        value: {
+          fi: result.prefLabel.fi,
+          en: result.prefLabel.en,
+          sv: result.prefLabel.sv,
+        }
+      };
+    });
+
+    data.forEach((row: any) => {
+      const childrenArray = data.filter((e: any) => e.parent === row.key);
+      const childrenFi: Children[] = [];
+      const childrenEn: Children[] = [];
+      const childrenSv: Children[] = [];
+
+      childrenFi.push({
+        key: row.key,
+        value: row.value.fi !== undefined ? row.value.fi : (row.value.sv !== undefined ? row.value.sv : row.value.en),
+      });
+
+      childrenEn.push({
+        key: row.key,
+        value: row.value.en !== undefined ? row.value.en : (row.value.fi !== undefined ? row.value.fi : row.value.sv),
+      });
+
+      childrenSv.push({
+        key: row.key,
+        value: row.value.sv !== undefined ? row.value.sv : (row.value.fi !== undefined ? row.value.fi : row.value.en),
+      });
+
+      childrenArray.forEach((child: any) => {
+        childrenFi.push({
+          key: child.key,
+          value: child.value.fi !== undefined ? child.value.fi : (child.value.sv !== undefined ? child.value.sv : child.value.en),
+        });
+
+        childrenEn.push({
+          key: child.key,
+          value: child.value.en !== undefined ? child.value.en : (child.value.fi !== undefined ? child.value.fi : child.value.sv),
+        });
+
+        childrenSv.push({
+          key: child.key,
+          value: child.value.sv !== undefined ? child.value.sv : (child.value.fi !== undefined ? child.value.fi : child.value.en),
+        });
+      });
+
+      if (row.parent === undefined) {
+        finnish.push({
+          key: row.key,
+          value: row.value.fi !== undefined ? row.value.fi : (row.value.sv !== undefined ? row.value.sv : row.value.en),
+          children: childrenFi,
+        });
+
+        english.push({
+          key: row.key,
+          value: row.value.en !== undefined ? row.value.en : (row.value.fi !== undefined ? row.value.fi : row.value.sv),
+          children: childrenEn,
+        });
+
+        swedish.push({
+          key: row.key,
+          value: row.value.sv !== undefined ? row.value.sv : (row.value.fi !== undefined ? row.value.fi : row.value.en),
+          children: childrenSv,
+        });
       }
-    };
-  });
+    });
 
-  await setAsync(rediskey, JSON.stringify(data));
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.en`, JSON.stringify(english));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -47,77 +115,19 @@ export async function setKoulutusasteet(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getKoulutusasteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const output: any[] = [];
-
-    input.forEach((row: any) => {
-      const childrenArray = input.filter((e: any) => e.parent === row.key);
-      const children: any[] = [];
-
-      children.push({
-        key: row.key,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi
-      });
-
-      childrenArray.forEach((child: any) => {
-        children.push({
-          key: child.key,
-          value: child.value[req.params.lang] != undefined ? child.value[req.params.lang] : child.value.fi
-        });
-      });
-
-      if (row.parent === undefined) {
-        output.push({
-          key: row.key,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-          children: children,
-        });
-      }
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
+
+      return next();
     }
-  } else {
-    res.sendStatus(404);
-
-    return next();
-  }
-};
-
-export const getKoulutusasteetNew = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
-
-  if (redisData) {
-    const input = JSON.parse(redisData);
-
-    const output = input.map((row: any) => {
-      const parent = input.find((e: any) => e.key === row.parent);
-
-      return {
-        key: row.key,
-        parent: parent ? ({
-          key: parent.key,
-          value: parent.value[req.params.lang] != undefined ? parent.value[req.params.lang] : parent.value.fi
-        }) : undefined,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-      };
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
-    } else {
-      res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
-
-    return next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
 
@@ -131,127 +141,25 @@ export const getKoulutusasteetNew = async (req: Request, res: Response, next: Ne
  * @returns {Promise<any>}
  */
 export const getKoulutusaste = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const row = input.find((e: any) => e.key === req.params.key);
-    let output: object;
+    if (redisData) {
+      const input = JSON.parse(redisData);
+      const row = input.find((e: any) => e.key === req.params.key);
 
-    if (row != undefined) {
-      output = {
-        key: row.key,
-        parent: row.parent,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-      };
-    }
-
-    if (output != undefined) {
-      res.status(200).json(output);
-    } else {
-      res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
-
-    return next();
-  }
-};
-
-/**
- * Get children of parent from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<any>}
- */
-export const getKoulutusasteetChildren = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
-
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const output: any[] = [];
-
-    input.map((row: any) => {
-      if (row.parent != undefined && row.parent === req.params.key) {
-        output.push({
-          key: row.key,
-          parent: row.parent,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-        });
+      if (row !== undefined) {
+        res.status(200).json(row);
+      } else {
+        res.sendStatus(404);
       }
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
     } else {
       res.sendStatus(404);
+
+      return next();
     }
-  } else {
-    res.sendStatus(404);
-
-    return next();
-  }
-};
-
-/**
- * Get children of parent from redis database
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<any>}
- */
-export const getKoulutusasteetParents = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
-
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const output: any[] = [];
-
-    input.map((row: any) => {
-      if (row.parent === undefined) {
-        output.push({
-          key: row.key,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-        });
-      }
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
-    } else {
-      res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
-
-    return next();
-  }
-};
-
-export const getKoulutusasteetKeys = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
-
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const parent = input.find((e: any) => e.value.fi.toLowerCase() === req.params.value.toLowerCase());
-
-    const output = input.map((row: any) => {
-      return parent.key;
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
-    } else {
-      res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
-
-    return next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };

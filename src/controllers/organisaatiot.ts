@@ -2,38 +2,58 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { sortByValue } from "../util/data.utils";
+import { KeyValue } from "../models/key-value";
 
-const endpoint = "organisaatio";
+const endpoint = "organisaatio/v4";
 const rediskey = "organisaatiot";
-const params = "hae?vainAktiiviset=true&vainLakkautetut=false&suunnitellut=false";
+const params = "hae?aktiiviset=true&suunnitellut=false&lakkautetut=false";
 
 /**
  * Set data into redis database
  *
  * @returns {Promise<any>}
- *
- * @todo Implement error handling
  */
 export async function setOrganisaatiot(): Promise<any> {
-  const results = await getDataFromApi(
-    process.env.ORGANISAATIO_SERVICE_URL,
-    `/${endpoint}/`,
-    { "Accept": "application/json" },
-    params
-  );
+  try {
+    const results = await getDataFromApi(
+      process.env.ORGANISAATIO_SERVICE_URL,
+      `/${endpoint}/`,
+      {"Accept": "application/json"},
+      params
+    );
 
-  const data = results.organisaatiot.map((result: any) => {
-    return {
-      key: result.oid,
-      value: {
-        fi: result.nimi.fi != undefined ? result.nimi.fi : undefined,
-        en: result.nimi.en != undefined ? result.nimi.en : undefined,
-        sv: result.nimi.sv != undefined ? result.nimi.sv : undefined,
-      }
-    };
-  });
+    const finnish: KeyValue<string, string>[] = [];
+    const english: KeyValue<string, string>[] = [];
+    const swedish: KeyValue<string, string>[] = [];
 
-  await setAsync(rediskey, JSON.stringify(data));
+    results.organisaatiot.forEach(((organisation: any) => {
+      finnish.push({
+        key: organisation.oid,
+        value: organisation.nimi.fi !== undefined ? organisation.nimi.fi : (organisation.nimi.sv !== undefined ? organisation.nimi.sv : organisation.nimi.en),
+      });
+
+      english.push({
+        key: organisation.oid,
+        value: organisation.nimi.en !== undefined ? organisation.nimi.en : (organisation.nimi.fi !== undefined ? organisation.nimi.fi : organisation.nimi.sv),
+      });
+
+      swedish.push({
+        key: organisation.oid,
+        value: organisation.nimi.sv !== undefined ? organisation.nimi.sv : (organisation.nimi.fi !== undefined ? organisation.nimi.fi : organisation.nimi.en),
+      });
+    }));
+
+    finnish.sort(sortByValue);
+    english.sort(sortByValue);
+    swedish.sort(sortByValue);
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.en`, JSON.stringify(english));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -46,37 +66,19 @@ export async function setOrganisaatiot(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getOrganisaatiot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-
-    const output = input.map((row: any) => {
-      let value: string;
-
-      if (row.value[req.params.lang] === undefined) {
-        value = row.value.fi || row.value.en || row.value.sv;
-      } else {
-        value = row.value[req.params.lang];
-      }
-
-      return {
-        key: row.key,
-        value: value,
-      };
-    });
-
-    output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
-
-    if (output.length > 0) {
-      res.status(200).json(output);
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
 
@@ -90,36 +92,25 @@ export const getOrganisaatiot = async (req: Request, res: Response, next: NextFu
  * @returns {Promise<any>}
  */
 export const getOrganisaatio = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const row = input.find((e: any) => e.key === req.params.key);
-    let output: object;
+    if (redisData) {
+      const input = JSON.parse(redisData);
+      const row = input.find((e: any) => e.key === req.params.key);
 
-    if (row != undefined) {
-      let value: string;
-
-      if (row.value[req.params.lang] === undefined) {
-        value = row.value.fi || row.value.en || row.value.sv;
+      if (row !== undefined) {
+        res.status(200).json(row);
       } else {
-        value = row.value[req.params.lang];
+        res.sendStatus(404);
       }
-
-      output = {
-        key: row.key,
-        value: value,
-      };
-    }
-
-    if (output != undefined) {
-      res.status(200).json(output);
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
