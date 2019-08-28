@@ -7,4 +7,4 @@ export function getUnique(data: any[], uniqueProperty: string): any[] {
 
 export const sortByValue = (a: any, b: any) => {
   return a.value.localeCompare(b.value);
-}
+};
