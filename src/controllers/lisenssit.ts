@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { License } from "../models/key-value";
 
 const endpoint = "edtech/codeschemes/Licence";
 const rediskey = "lisenssit";
@@ -11,35 +12,49 @@ const params = "codes/?format=json&expand=externalReference";
  * Set data into redis database
  *
  * @returns {Promise<any>}
- *
- * @todo Implement error handling
  */
 export async function setLisenssit(): Promise<any> {
-  const results = await getDataFromApi(
-    process.env.KOODISTOT_SUOMI_URL,
-    `/${endpoint}/`,
-    { "Accept": "application/json" },
-    params
-  );
+  try {
+    const results = await getDataFromApi(
+      process.env.KOODISTOT_SUOMI_URL,
+      `/${endpoint}/`,
+      {"Accept": "application/json"},
+      params
+    );
 
-  const data = results.results.map((result: any) => {
-    return {
-      key: result.codeValue,
-      value: {
-        fi: result.prefLabel.fi,
-        en: result.prefLabel.en,
-        sv: result.prefLabel.sv,
-      },
-      link: result.externalReferences[0].href,
-      description: {
-        fi: result.definition.fi,
-        // en: result.definition.en,
-        // sv: result.definition.sv,
-      }
-    };
-  });
+    const finnish: License[] = [];
+    const english: License[] = [];
+    const swedish: License[] = [];
 
-  await setAsync(rediskey, JSON.stringify(data));
+    results.results.forEach((result: any) => {
+      finnish.push({
+        key: result.codeValue,
+        value: result.prefLabel.fi !== undefined ? result.prefLabel.fi : (result.prefLabel.sv !== undefined ? result.prefLabel.sv : result.prefLabel.en),
+        link: result.externalReferences[0].href,
+        description: result.definition.fi !== undefined ? result.definition.fi : (result.definition.sv !== undefined ? result.definition.sv : result.definition.en),
+      });
+
+      english.push({
+        key: result.codeValue,
+        value: result.prefLabel.en !== undefined ? result.prefLabel.en : (result.prefLabel.fi !== undefined ? result.prefLabel.fi : result.prefLabel.sv),
+        link: result.externalReferences[0].href,
+        description: result.definition.en !== undefined ? result.definition.en : (result.definition.fi !== undefined ? result.definition.fi : result.definition.sv),
+      });
+
+      swedish.push({
+        key: result.codeValue,
+        value: result.prefLabel.sv !== undefined ? result.prefLabel.sv : (result.prefLabel.fi !== undefined ? result.prefLabel.fi : result.prefLabel.en),
+        link: result.externalReferences[0].href,
+        description: result.definition.sv !== undefined ? result.definition.sv : (result.definition.fi !== undefined ? result.definition.fi : result.definition.en),
+      });
+    });
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.en`, JSON.stringify(english));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -52,29 +67,19 @@ export async function setLisenssit(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getLisenssit = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-
-    const output = input.map((row: any) => {
-      return {
-        key: row.key,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-        link: row.link + "." + [req.params.lang],
-        description: row.description[req.params.lang] != undefined ? row.description[req.params.lang] : row.description["fi"],
-      };
-    });
-
-    if (output.length > 0) {
-      res.status(200).json(output);
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
 
@@ -88,30 +93,25 @@ export const getLisenssit = async (req: Request, res: Response, next: NextFuncti
  * @returns {Promise<any>}
  */
 export const getLisenssi = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(rediskey);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const row = input.find((e: any) => e.key === req.params.key);
-    let output: object;
+    if (redisData) {
+      const input = JSON.parse(redisData);
+      const row = input.find((e: any) => e.key === req.params.key);
 
-    if (row != undefined) {
-      output = {
-        key: row.key,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-        link: row.link + "." + [req.params.lang],
-        description: row.description[req.params.lang] != undefined ? row.description[req.params.lang] : row.description["fi"],
-      };
-    }
-
-    if (output != undefined) {
-      res.status(200).json(output);
+      if (row !== undefined) {
+        res.status(200).json(row);
+      } else {
+        res.sendStatus(406);
+      }
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
