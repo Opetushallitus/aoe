@@ -19,7 +19,7 @@ export class BasicDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  public organisations$: KeyValue<string, string>[];
+  // public organisations$: KeyValue<string, string>[];
   public learningResourceTypes$: KeyValue<string, string>[];
   public educationalRoles$: KeyValue<string, string>[];
   public educationalUse$: KeyValue<string, string>[];
@@ -28,8 +28,13 @@ export class BasicDetailsComponent implements OnInit {
   private keywords = [];
   public keywordsBuffer = [];
   private bufferSize = 50;
-  public loading = false;
-  public input$ = new Subject<string>();
+  public loadingKeywords = false;
+  public keywordsInput$ = new Subject<string>();
+
+  private organisations = [];
+  public organisationsBuffer = [];
+  public loadingOrganisations = false;
+  public organisationsInput$ = new Subject<string>();
 
   public modalRef: BsModalRef;
 
@@ -66,9 +71,9 @@ export class BasicDetailsComponent implements OnInit {
       }),
     });
 
-    this.koodistoProxySvc.getData('organisaatiot', this.lang).subscribe(data => {
-      this.organisations$ = data;
-    });
+    // this.koodistoProxySvc.getData('organisaatiot', this.lang).subscribe(data => {
+    //   this.organisations$ = data;
+    // });
 
     this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang).subscribe(data => {
       this.learningResourceTypes$ = data;
@@ -86,7 +91,8 @@ export class BasicDetailsComponent implements OnInit {
       this.keywords = keywords;
     });
 
-    this.onSearch();
+    this.onKeywordsSearch();
+    this.onOrganisationsSearch();
 
     if (this.savedData) {
       if (this.savedData.keywords) {
@@ -125,32 +131,61 @@ export class BasicDetailsComponent implements OnInit {
     return this.basicDetailsForm.controls;
   }
 
-  public fetchMore(value: string) {
+  public fetchMoreKeywords(value: string) {
     const len = this.keywordsBuffer.length;
     const more = this.keywords
       .filter(x => x.value.includes(value))
       .slice(len, this.bufferSize + len);
 
-    this.loading = true;
+    this.loadingKeywords = true;
 
     setTimeout(() => {
-      this.loading = false;
+      this.loadingKeywords = false;
       this.keywordsBuffer = this.keywordsBuffer.concat(more);
     }, 200);
   }
 
-  private onSearch() {
-    this.input$.pipe(
+  private onKeywordsSearch() {
+    this.keywordsInput$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap(value => this.fakeService(value))
+      switchMap(value => this.fakeKeywordsService(value))
     ).subscribe(data => {
       this.keywordsBuffer = data.slice(0, this.bufferSize);
     });
   }
 
-  private fakeService(value: string) {
+  private fakeKeywordsService(value: string) {
     return this.koodistoProxySvc.getData('asiasanat', this.lang)
+      .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
+  }
+
+  public fetchMoreOrganisations(value: string) {
+    const len = this.organisationsBuffer.length;
+    const more = this.organisations
+      .filter(x => x.value.includes(value))
+      .slice(len, this.bufferSize + len);
+
+    this.loadingOrganisations = true;
+
+    setTimeout(() => {
+      this.loadingOrganisations = false;
+      this.organisationsBuffer = this.organisationsBuffer.concat(more);
+    }, 200);
+  }
+
+  private onOrganisationsSearch() {
+    this.organisationsInput$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(value => this.fakeOrganisationsService(value))
+    ).subscribe(data => {
+      this.organisationsBuffer = data.slice(0, this.bufferSize);
+    });
+  }
+
+  private fakeOrganisationsService(value: string) {
+    return this.koodistoProxySvc.getData('organisaatiot', this.lang)
       .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
   }
 
@@ -169,6 +204,7 @@ export class BasicDetailsComponent implements OnInit {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [ Validators.required ]),
       organisation: this.fb.control(author ? author.organisation : null),
+      customOrganisation: this.fb.control(author ? author.customOrganisation : null),
     });
   }
 
@@ -182,17 +218,7 @@ export class BasicDetailsComponent implements OnInit {
 
   public onSubmit() {
     if (this.basicDetailsForm.valid) {
-      const newData = {
-        thumbnail: this.basicDetailsForm.get('image').value,
-        authors: this.basicDetailsForm.get('authors').value,
-        description: this.basicDetailsForm.get('description').value,
-        keywords: this.basicDetailsForm.get('keywords').value,
-        learningResourceType: this.basicDetailsForm.get('learningResourceType').value,
-        educationalRole: this.basicDetailsForm.get('educationalRoles').value,
-        educationalUse: this.basicDetailsForm.get('educationalUse').value,
-      };
-
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.basicDetailsForm.value);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
@@ -212,7 +238,7 @@ export class BasicDetailsComponent implements OnInit {
     localStorage.removeItem(this.localStorageKey);
   }
 
-  previousTab() {
+  public previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }
