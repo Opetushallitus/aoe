@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { sortByValue } from "../util/data.utils";
+import { KeyValue } from "../models/key-value";
 
 const endpoint = "kielikoodistoopetushallinto";
 const rediskey = "kielet";
@@ -11,33 +13,83 @@ const params = "koodi";
  * Set data into redis database
  *
  * @returns {Promise<any>}
- *
- * @todo Implement error handling
  */
 export async function setKielet(): Promise<any> {
-  const results = await getDataFromApi(
-    process.env.KOODISTO_SERVICE_URL,
-    `/${endpoint}/`,
-    { "Accept": "application/json" },
-    params
-  );
+  try {
+    const results = await getDataFromApi(
+      process.env.KOODISTO_SERVICE_URL,
+      `/${endpoint}/`,
+      {"Accept": "application/json"},
+      params
+    );
 
-  const data = results.map((result: any) => {
-    const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
-    const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
-    const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
+    const finnish: KeyValue<string, string>[] = [];
+    const english: KeyValue<string, string>[] = [];
+    const swedish: KeyValue<string, string>[] = [];
 
-    return {
-      key: result.koodiArvo,
-      value: {
-        fi: metadataFi != undefined ? metadataFi.nimi : undefined,
-        en: metadataEn != undefined ? metadataEn.nimi : undefined,
-        sv: metadataSv != undefined ? metadataSv.nimi : undefined,
-      }
-    };
-  });
+    results.forEach((result: any) => {
+      const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
+      const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
+      const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-  await setAsync(rediskey, JSON.stringify(data));
+      finnish.push({
+        key: result.koodiArvo,
+        value: metadataFi !== undefined ? metadataFi.nimi : (metadataSv !== undefined ? metadataSv.nimi : metadataEn.nimi),
+      });
+
+      english.push({
+        key: result.koodiArvo,
+        value: metadataEn !== undefined ? metadataEn.nimi : (metadataFi !== undefined ? metadataFi.nimi : metadataSv.nimi),
+      });
+
+      swedish.push({
+        key: result.koodiArvo,
+        value: metadataSv !== undefined ? metadataSv.nimi : (metadataFi !== undefined ? metadataFi.nimi : metadataEn.nimi),
+      });
+    });
+
+    finnish.sort(sortByValue);
+    english.sort(sortByValue);
+    swedish.sort(sortByValue);
+
+    // move finnish, swedish and english to the front
+
+    // finnish
+    let fiIndex = finnish.findIndex((row: any) => row.key.toLowerCase() === "fi");
+    finnish.splice(0, 0, finnish.splice(fiIndex, 1)[0]);
+
+    let svIndex = finnish.findIndex((row: any) => row.key.toLowerCase() === "sv");
+    finnish.splice(1, 0, finnish.splice(svIndex, 1)[0]);
+
+    let enIndex = finnish.findIndex((row: any) => row.key.toLowerCase() === "en");
+    finnish.splice(2, 0, finnish.splice(enIndex, 1)[0]);
+
+    // english
+    fiIndex = english.findIndex((row: any) => row.key.toLowerCase() === "fi");
+    english.splice(0, 0, english.splice(fiIndex, 1)[0]);
+
+    svIndex = english.findIndex((row: any) => row.key.toLowerCase() === "sv");
+    english.splice(1, 0, english.splice(svIndex, 1)[0]);
+
+    enIndex = english.findIndex((row: any) => row.key.toLowerCase() === "en");
+    english.splice(2, 0, english.splice(enIndex, 1)[0]);
+
+    // swedish
+    fiIndex = swedish.findIndex((row: any) => row.key.toLowerCase() === "fi");
+    swedish.splice(0, 0, swedish.splice(fiIndex, 1)[0]);
+
+    svIndex = swedish.findIndex((row: any) => row.key.toLowerCase() === "sv");
+    swedish.splice(1, 0, swedish.splice(svIndex, 1)[0]);
+
+    enIndex = swedish.findIndex((row: any) => row.key.toLowerCase() === "en");
+    swedish.splice(2, 0, swedish.splice(enIndex, 1)[0]);
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.en`, JSON.stringify(english));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /**
@@ -50,39 +102,19 @@ export async function setKielet(): Promise<any> {
  * @returns {Promise<any>}
  */
 export const getKielet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-
-    const output = input.map((row: any) => {
-      return {
-        key: row.key,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      };
-    });
-
-    output.sort((a: any, b: any) => a.value.toLowerCase().localeCompare(b.value.toLowerCase(), req.params.lang));
-
-    // cherry pick FI, SV and EN to be in the front
-    const fiIndex = output.findIndex((row: any) => row.key.toLowerCase() === "fi");
-    output.splice(0, 0, output.splice(fiIndex, 1)[0]);
-
-    const svIndex = output.findIndex((row: any) => row.key.toLowerCase() === "sv");
-    output.splice(1, 0, output.splice(svIndex, 1)[0]);
-
-    const enIndex = output.findIndex((row: any) => row.key.toLowerCase() === "en");
-    output.splice(2, 0, output.splice(enIndex, 1)[0]);
-
-    if (output.length > 0) {
-      res.status(200).json(output);
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
 
@@ -96,28 +128,25 @@ export const getKielet = async (req: Request, res: Response, next: NextFunction)
  * @returns {Promise<any>}
  */
 export const getKieli = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  const redisData = await getAsync(rediskey);
+  try {
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-  if (redisData) {
-    const input = JSON.parse(redisData);
-    const row = input.find((e: any) => e.key === req.params.key);
-    let output: object;
+    if (redisData) {
+      const input = JSON.parse(redisData);
+      const row = input.find((e: any) => e.key === req.params.key);
 
-    if (row != undefined) {
-      output = {
-        key: row.key,
-        value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value["fi"],
-      };
-    }
-
-    if (output != undefined) {
-      res.status(200).json(output);
+      if (row !== undefined) {
+        res.status(200).json(row);
+      } else {
+        res.sendStatus(404);
+      }
     } else {
       res.sendStatus(404);
-    }
-  } else {
-    res.sendStatus(404);
 
-    return next();
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };
