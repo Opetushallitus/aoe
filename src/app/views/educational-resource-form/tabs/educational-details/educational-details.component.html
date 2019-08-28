@@ -28,35 +28,78 @@
     </ng-select>
   </div>
 
-  <div class="form-group" *ngIf="hasEarlyChildhoodEducation">
+  <div class="form-group">
+    <label for="prerequisites">Aiempi osaaminen</label>
+
+    <ng-select
+      [items]="[]"
+      [addTag]="true"
+      [multiple]="true"
+      appendTo="body"
+      id="prerequisites"
+      formControlName="prerequisites"
+    ></ng-select>
+  </div>
+
+  <ng-container *ngIf="hasEarlyChildhoodEducation">
     <h3>Varhaiskasvatus</h3>
 
-    <label for="earlyChildhoodEducationSubjects">Varhaiskasvatuksen oppiaineet</label>
+    <div class="form-group">
+      <label for="earlyChildhoodEducationSubjects">Varhaiskasvatuksen oppiaineet</label>
 
-    <ng-select
-      [items]="[]"
-      [addTag]="true"
-      [multiple]="true"
-      appendTo="body"
-      id="earlyChildhoodEducationSubjects"
-      formControlName="earlyChildhoodEducationSubjects"
-    ></ng-select>
-  </div>
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="earlyChildhoodEducationSubjects"
+        formControlName="earlyChildhoodEducationSubjects"
+      ></ng-select>
+    </div>
 
-  <div class="form-group" *ngIf="hasPrePrimaryEducation">
+    <div class="form-group">
+      <label for="earlyChildhoodEducationFramework">Varhaiskasvatuksen opetussuunnitelma</label>
+
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="earlyChildhoodEducationFramework"
+        formControlName="earlyChildhoodEducationFramework"
+      ></ng-select>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="hasPrePrimaryEducation">
     <h3>Esiopetus</h3>
 
-    <label for="prePrimaryEducationSubjects">Esiopetuksen oppiaineet</label>
+    <div class="form-group">
+      <label for="prePrimaryEducationSubjects">Esiopetuksen oppiaineet</label>
 
-    <ng-select
-      [items]="[]"
-      [addTag]="true"
-      [multiple]="true"
-      appendTo="body"
-      id="prePrimaryEducationSubjects"
-      formControlName="prePrimaryEducationSubjects"
-    ></ng-select>
-  </div>
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="prePrimaryEducationSubjects"
+        formControlName="prePrimaryEducationSubjects"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="prePrimaryEducationFramework">Esiopetuksen opetussuunnitelma</label>
+
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="prePrimaryEducationFramework"
+        formControlName="prePrimaryEducationFramework"
+      ></ng-select>
+    </div>
+  </ng-container>
 
   <div class="form-group" *ngIf="hasBasicStudies">
     <h3>Perusopetus</h3>
@@ -107,37 +150,67 @@
     </div>
   </ng-container>
 
-  <div class="form-group" *ngIf="hasUpperSecondarySchool">
+  <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>Lukiokoulutus</h3>
 
-    <label for="upperSecondarySchoolSubjects">Lukionkurssit</label>
+    <div class="form-group">
+      <label for="upperSecondarySchoolSubjects">Lukionkurssit</label>
 
-    <ng-select
-      [items]="upperSecondarySchoolSubjects$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="value"
-      appendTo="body"
-      id="upperSecondarySchoolSubjects"
-      formControlName="upperSecondarySchoolSubjects"
-    ></ng-select>
-  </div>
+      <ng-select
+        [items]="upperSecondarySchoolSubjects$"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        appendTo="body"
+        id="upperSecondarySchoolSubjects"
+        formControlName="upperSecondarySchoolSubjects"
+      ></ng-select>
+    </div>
 
-  <div class="form-group" *ngIf="hasVocationalDegree">
-    <h3>Ammatillinen koulutus</h3>
+    <div class="form-group">
+      <label for="upperSecondarySchoolFramework">Lukion opetussuunnitelma</label>
 
-    <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="upperSecondarySchoolFramework"
+        formControlName="upperSecondarySchoolFramework"
+      ></ng-select>
+    </div>
+  </ng-container>
 
-    <ng-select
-      [items]="vocationalDegrees$"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="value"
-      appendTo="body"
-      id="vocationalDegrees"
-      formControlName="vocationalDegrees"
-    ></ng-select>
-  </div>
+  <ng-container *ngIf="hasVocationalDegree">
+    <div class="form-group">
+      <h3>Ammatillinen koulutus</h3>
+
+      <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
+
+      <ng-select
+        [items]="vocationalDegrees$"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        appendTo="body"
+        id="vocationalDegrees"
+        formControlName="vocationalDegrees"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="vocationalEducationFramework">Ammatillisen koulutuksen opetussuunnitelma</label>
+
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="vocationalEducationFramework"
+        formControlName="vocationalEducationFramework"
+      ></ng-select>
+    </div>
+  </ng-container>
 
   <div class="form-group" *ngIf="hasSelfMotivatedEducation">
     <h3>Omaehtoisen osaamisen kehittäminen</h3>
@@ -191,6 +264,20 @@
         appendTo="body"
         id="scienceBranchObjectives"
         formControlName="scienceBranchObjectives"
+      >
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="higherEducationFramework">Korkeakoulutuksen opetussuunnitelma</label>
+
+      <ng-select
+        [items]="[]"
+        [addTag]="true"
+        [multiple]="true"
+        appendTo="body"
+        id="higherEducationFramework"
+        formControlName="higherEducationFramework"
       >
       </ng-select>
     </div>

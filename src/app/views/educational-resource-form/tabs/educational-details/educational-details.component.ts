@@ -64,15 +64,21 @@ export class EducationalDetailsComponent implements OnInit {
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null),
       earlyChildhoodEducationSubjects: this.fb.control(null),
+      earlyChildhoodEducationFramework: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
+      prePrimaryEducationFramework: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
+      vocationalEducationFramework: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null),
       scienceBranchObjectives: this.fb.control(null),
+      prerequisites: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -182,6 +188,30 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.savedData.scienceBranchObjectives) {
         this.educationalDetailsForm.get('scienceBranchObjectives').setValue(this.savedData.scienceBranchObjectives);
       }
+    }
+
+    if (this.savedData.prerequisites) {
+      this.educationalDetailsForm.get('prerequisites').setValue(this.savedData.prerequisites);
+    }
+
+    if (this.savedData.earlyChildhoodEducationFramework) {
+      this.educationalDetailsForm.get('earlyChildhoodEducationFramework').setValue(this.savedData.earlyChildhoodEducationFramework);
+    }
+
+    if (this.savedData.prePrimaryEducationFramework) {
+      this.educationalDetailsForm.get('prePrimaryEducationFramework').setValue(this.savedData.prePrimaryEducationFramework);
+    }
+
+    if (this.savedData.upperSecondarySchoolFramework) {
+      this.educationalDetailsForm.get('upperSecondarySchoolFramework').setValue(this.savedData.upperSecondarySchoolFramework);
+    }
+
+    if (this.savedData.vocationalEducationFramework) {
+      this.educationalDetailsForm.get('vocationalEducationFramework').setValue(this.savedData.vocationalEducationFramework);
+    }
+
+    if (this.savedData.higherEducationFramework) {
+      this.educationalDetailsForm.get('higherEducationFramework').setValue(this.savedData.higherEducationFramework);
     }
   }
 
