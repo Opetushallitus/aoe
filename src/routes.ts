@@ -4,10 +4,6 @@ import { getOrganisaatio, getOrganisaatiot } from "./controllers/organisaatiot";
 import {
   getKoulutusaste,
   getKoulutusasteet,
-  getKoulutusasteetChildren,
-  getKoulutusasteetParents,
-  getKoulutusasteetNew,
-  getKoulutusasteetKeys
 } from "./controllers/koulutusasteet";
 import { getKohderyhma, getKohderyhmat } from "./controllers/kohderyhmat";
 import { getKayttokohde, getKayttokohteet } from "./controllers/kayttokohteet";
@@ -86,22 +82,6 @@ router.get("/oppimateriaalityypit/:key/:lang", getOppimateriaalityyppi);
 router.get("/koulutusasteet/:lang", getKoulutusasteet);
 
 /**
- * Returns all koulutusasteet from redis database by given language
- * @group Koulutusasteet
- * @route GET /koulutusasteet/refactored/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/koulutusasteet/refactored/:lang", getKoulutusasteetNew);
-
-/**
- * Returns parent koulutusasteet from redis database by given language
- * @group Koulutusasteet
- * @route GET /koulutusasteet/parents/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/koulutusasteet/parents/:lang", getKoulutusasteetParents);
-
-/**
  * Returns single koulutusaste from redis database by given id and language
  * @group Koulutusasteet
  * @route GET /koulutusasteet/{key}/{lang}
@@ -109,23 +89,6 @@ router.get("/koulutusasteet/parents/:lang", getKoulutusasteetParents);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
-
-/**
- * Returns child koulutusasteet from redis database by given id and language
- * @group Koulutusasteet
- * @route GET /koulutusasteet/children/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/koulutusasteet/children/:key/:lang", getKoulutusasteetChildren);
-
-/**
- * Returns keys from redis database by given value
- * @group Koulutusasteet
- * @route GET /koulutusasteet/keys/{value}
- * @param {string} value.path.required - Value
- */
-router.get("/koulutusasteet/keys/:value", getKoulutusasteetKeys);
 
 /**
  * Returns all tieteenalat from redis database by given language
