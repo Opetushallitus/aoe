@@ -30,7 +30,7 @@ router.get("/downloadImage/:id", thumbnail.downloadImage);
 
 router.get("/material", db.getMaterial);
 router.get("/material/:id", db.getMaterialData);
-router.get("/material/user/:userid", db.getUserMaterial);
+router.get("/material/user/:username", db.getUserMaterial);
 router.put("/material/:id", db.updateMaterial);
 // delete educational material
 router.delete("/material/:id", db.deleteMaterial);
