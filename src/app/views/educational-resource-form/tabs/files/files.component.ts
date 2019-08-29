@@ -9,6 +9,7 @@ import slugify from 'slugify';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { BackendService } from '../../../../services/backend.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-tabs-files',
@@ -21,8 +22,10 @@ export class FilesComponent implements OnInit {
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
-  public uploadResponse = { status: '', message: '', filePath: '' };
+  public uploadResponse = { status: '', message: 0, filePath: '' };
   public uploadError: string;
+  private myFiles = [];
+  private materialId: string;
 
   public languages$: KeyValue<string, string>[];
   private defaultLanguage$: KeyValue<string, string>;
@@ -34,6 +37,7 @@ export class FilesComponent implements OnInit {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private backendSvc: BackendService,
+    private authSvc: AuthService,
   ) { }
 
   ngOnInit() {
@@ -141,6 +145,12 @@ export class FilesComponent implements OnInit {
     });
   }
 
+  public onFileChange(event): void {
+    if (event.target.files.length > 0) {
+      this.myFiles.push(event.target.files[0]);
+    }
+  }
+
   public onSubmit() {
     // remove files that doesn't have either file or link
     this.files.controls.forEach((control, i) => {
@@ -172,6 +182,20 @@ export class FilesComponent implements OnInit {
       formData.append('myFiles', 'tiedostolinkki');
       formData.append('materialname', 'Testimateriaali');
       formData.append('usersid', '1');
+
+      this.backendSvc.uploadFiles(formData).subscribe(
+        (res) => this.uploadResponse = res,
+        (err) => this.uploadError = err,
+      );*/
+
+      /*const formData = new FormData();
+
+      this.myFiles.forEach(file => {
+        formData.append('myFiles', file);
+      });
+
+      formData.append('materialname', 'Testimateriaali');
+      formData.append('username', this.authSvc.getUser().username);
 
       this.backendSvc.uploadFiles(formData).subscribe(
         (res) => this.uploadResponse = res,
