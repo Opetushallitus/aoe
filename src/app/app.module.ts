@@ -33,6 +33,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -104,6 +105,7 @@ import { PreviewComponent } from './views/educational-resource-form/tabs/preview
     CollapseModule.forRoot(),
     PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ProgressbarModule.forRoot(),
   ],
   declarations: [
     AppComponent,
