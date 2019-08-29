@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEventType } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -16,9 +16,6 @@ export class BackendService {
     return this.http.post<any>(uploadUrl, data, {
       reportProgress: true,
       observe: 'events',
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data'
-      }),
     }).pipe(map((event) => {
       switch (event.type) {
         case HttpEventType.UploadProgress:
