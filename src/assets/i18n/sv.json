@@ -53,5 +53,13 @@
         "openInNewTab": "Öppna utbildningsmaterialen på en ny flik"
       }
     }
+  },
+  "forms": {
+    "common": {
+      "abort": "Cancel",
+      "next": "Next",
+      "save": "Save",
+      "required": "Required"
+    }
   }
 }

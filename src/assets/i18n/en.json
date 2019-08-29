@@ -53,5 +53,13 @@
         "openInNewTab": "Open educational material in a new tab"
       }
     }
+  },
+  "forms": {
+    "common": {
+      "abort": "Cancel",
+      "next": "Next",
+      "save": "Save",
+      "required": "Required"
+    }
   }
 }
