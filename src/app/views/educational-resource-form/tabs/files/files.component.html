@@ -96,6 +96,7 @@
                 class="custom-file-input"
                 id="{{ 'file' + i }}"
                 formControlName="file"
+                (change)="onFileChange($event)"
               >
               <span class="custom-file-label">{{ files.controls[i].controls.file.value }}</span>
             </div>
@@ -214,13 +215,18 @@
   <div class="form-group" *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
 
   <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-    <div role="progressbar"
+    <progressbar
+      max="100"
+      [value]="uploadResponse.message"
+    >{{ uploadResponse.message }}%</progressbar>
+
+    <!--<div role="progressbar"
          [style.width.%]="uploadResponse.message"
          [attr.aria-valuenow]="uploadResponse.message"
          aria-valuemin="0"
          aria-valuemax="100">
       {{ uploadResponse.message }}%
-    </div>
+    </div>-->
   </div>
 
   <div class="row justify-content-end">
