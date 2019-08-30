@@ -38,8 +38,10 @@ export class ExtendedDetailsComponent implements OnInit {
     this.extendedDetailsForm = this.fb.group({
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
-      typicalAgeRangeMin: this.fb.control(null),
-      typicalAgeRangeMax: this.fb.control(null),
+      typicalAgeRange: this.fb.group({
+        typicalAgeRangeMin: this.fb.control(null),
+        typicalAgeRangeMax: this.fb.control(null),
+      }),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
@@ -88,19 +90,7 @@ export class ExtendedDetailsComponent implements OnInit {
 
   public onSubmit() {
     if (this.extendedDetailsForm.valid) {
-      const newData = {
-        accessibilityFeature: this.extendedDetailsForm.get('accessibilityFeatures').value,
-        accessibilityHazard: this.extendedDetailsForm.get('accessibilityHazards').value,
-        typicalAgeRange: {
-          min: this.extendedDetailsForm.get('typicalAgeRangeMin').value,
-          max: this.extendedDetailsForm.get('typicalAgeRangeMax').value,
-        },
-        timeRequired: this.extendedDetailsForm.get('timeRequired').value,
-        publisher: this.extendedDetailsForm.get('publisher').value,
-        expires: this.extendedDetailsForm.get('expires').value,
-      };
-
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
+      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.extendedDetailsForm.value);
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
