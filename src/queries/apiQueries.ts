@@ -573,15 +573,18 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             console.log(response);
             queries.push(response);
             for (const element of response) {
-                query = "DELETE FROM materialdisplayname where id = " + element.dnid + ";";
-                console.log(query);
-                queries.push(await t.any(query));
+                if (element.dnid !== null) {
+                    query = "DELETE FROM materialdisplayname where id = " + element.dnid + ";";
+                    console.log(query);
+                    queries.push(await t.any(query));
+                }
             }
             for (const element of arr) {
-                query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) (SELECT $1,$2,$3,$4 where $3 in (select id from material where educationalmaterialid = $5)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
                 const slug = createSlug(element.text);
-                console.log(query);
-                queries.push(await t.any(query, [element.text, element.lang, element.materialid, slug]));
+                console.log(query, [element.text, element.lang, element.materialid, slug]);
+                queries.push(await t.any(query, [element.text, element.lang, element.materialid, slug, req.params.id]));
             }
         }
         return t.batch(queries);
@@ -615,7 +618,7 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
 async function updateUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
-        query = "update users set (firstname, lastname, preferredlanguage,preferredtargetname,preferredalignmenttype ) = ($1,$2,$3,$4,$5) where id = $6;";
+        query = "update users set (firstname, lastname, preferredlanguage,preferredtargetname,preferredalignmenttype ) = ($1,$2,$3,$4,$5) where username = $6;";
         console.log(query);
         const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.preferredlanguage, req.body.preferredtargetname, req.body.preferredalignmenttype, req.params.id]);
         res.status(200).json("user updated");
@@ -629,7 +632,7 @@ async function updateUser(req: Request , res: Response , next: NextFunction) {
 async function updateTermsOfUsage(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
-        query = "update users set termsofusage = '1' where id = $1;";
+        query = "update users set termsofusage = '1' where username = $1;";
         console.log(query);
         const data = await db.any(query, [req.params.id]);
         res.status(200).json("terms of usage updated");
@@ -643,14 +646,14 @@ async function updateTermsOfUsage(req: Request , res: Response , next: NextFunct
 async function getUser(req: Request , res: Response , next: NextFunction) {
     try {
         let query;
-        query = "SELECT * FROM users where id = $1;";
+        query = "SELECT * FROM users where username = $1;";
         console.log(query);
         const data = await db.any(query, [req.params.id]);
         res.status(200).json(data);
     }
     catch (err ) {
         console.log(err);
-        res.status(500).send("update failed");
+        res.status(500).send("get failed");
     }
 }
 

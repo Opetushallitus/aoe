@@ -23,7 +23,7 @@ RUN useradd -ms /bin/false -d /app node && \
     chown -R node:node /var/log/supervisor && \
     chown node:node /etc/redis.conf && \
     chown -R node:node /var/lib/redis && \
-    (curl -sL https://rpm.nodesource.com/setup_8.x | bash -) && \
+    (curl -sL https://rpm.nodesource.com/setup_12.x | bash -) && \
     yum install -y nodejs && \
     npm install -g pm2@2.5.0 && \
     sed --in-place -r 's/^save /# save /g' /etc/redis.conf && \
