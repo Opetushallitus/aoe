@@ -43,6 +43,7 @@ export class ExtendedDetailsComponent implements OnInit {
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
+      prerequisites: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang).subscribe(data => {
@@ -77,6 +78,10 @@ export class ExtendedDetailsComponent implements OnInit {
 
       if (this.savedData.expires) {
         this.extendedDetailsForm.get('expires').setValue(new Date(this.savedData.expires));
+      }
+
+      if (this.savedData.prerequisites) {
+        this.extendedDetailsForm.get('prerequisites').setValue(this.savedData.prerequisites);
       }
     }
   }

@@ -28,19 +28,6 @@
     </ng-select>
   </div>
 
-  <div class="form-group">
-    <label for="prerequisites">Aiempi osaaminen</label>
-
-    <ng-select
-      [items]="[]"
-      [addTag]="true"
-      [multiple]="true"
-      appendTo="body"
-      id="prerequisites"
-      formControlName="prerequisites"
-    ></ng-select>
-  </div>
-
   <ng-container *ngIf="hasEarlyChildhoodEducation">
     <h3>Varhaiskasvatus</h3>
 

@@ -78,7 +78,6 @@ export class EducationalDetailsComponent implements OnInit {
       branchesOfScience: this.fb.control(null),
       higherEducationFramework: this.fb.control(null),
       scienceBranchObjectives: this.fb.control(null),
-      prerequisites: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
@@ -188,10 +187,6 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.savedData.scienceBranchObjectives) {
         this.educationalDetailsForm.get('scienceBranchObjectives').setValue(this.savedData.scienceBranchObjectives);
       }
-    }
-
-    if (this.savedData.prerequisites) {
-      this.educationalDetailsForm.get('prerequisites').setValue(this.savedData.prerequisites);
     }
 
     if (this.savedData.earlyChildhoodEducationFramework) {
