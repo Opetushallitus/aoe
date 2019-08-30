@@ -8,7 +8,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
+import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -35,6 +35,8 @@ export class BasicDetailsComponent implements OnInit {
   public organisationsBuffer = [];
   public loadingOrganisations = false;
   public organisationsInput$ = new Subject<string>();
+
+  public addCustomItem = addCustomItem;
 
   public modalRef: BsModalRef;
 
@@ -214,13 +216,6 @@ export class BasicDetailsComponent implements OnInit {
 
   public removeAuthor(i: number): void {
     this.authors.removeAt(i);
-  }
-
-  public addCustomItem(value: string): KeyValue<string, string> {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      value: value,
-    };
   }
 
   public onSubmit() {

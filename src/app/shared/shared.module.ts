@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -56,4 +56,11 @@ export function getLanguage(): string | null {
 
 export function getLocalStorageData(localStorageKey: string) {
   return JSON.parse(localStorage.getItem(localStorageKey));
+}
+
+export function addCustomItem(value: string): KeyValue<string, string> {
+  return {
+    key: value.replace(/[\W_]+/g, ''),
+    value: value,
+  };
 }
