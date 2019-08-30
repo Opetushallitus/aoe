@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
+import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 import {
   BasicStudyContent,
   BasicStudySubject,
@@ -47,6 +47,8 @@ export class EducationalDetailsComponent implements OnInit {
   public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
 
+  public addCustomItem = addCustomItem;
+
   constructor(
     private fb: FormBuilder,
     private koodistoProxySvc: KoodistoProxyService,
@@ -62,7 +64,7 @@ export class EducationalDetailsComponent implements OnInit {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.educationalDetailsForm = this.fb.group({
-      educationalLevels: this.fb.control(null),
+      educationalLevels: this.fb.control(null, [ Validators.required ]),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       earlyChildhoodEducationFramework: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
@@ -76,8 +78,8 @@ export class EducationalDetailsComponent implements OnInit {
       vocationalEducationFramework: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
-      higherEducationFramework: this.fb.control(null),
       scienceBranchObjectives: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null),
     });
 
     this.koodistoProxySvc.getData('koulutusasteet', this.lang).subscribe(data => {
