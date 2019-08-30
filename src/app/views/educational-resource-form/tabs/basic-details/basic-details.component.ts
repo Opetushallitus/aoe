@@ -216,6 +216,13 @@ export class BasicDetailsComponent implements OnInit {
     this.authors.removeAt(i);
   }
 
+  public addCustomItem(value: string): KeyValue<string, string> {
+    return {
+      key: value.replace(/[\W_]+/g, ''),
+      value: value,
+    };
+  }
+
   public onSubmit() {
     if (this.basicDetailsForm.valid) {
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.basicDetailsForm.value);
