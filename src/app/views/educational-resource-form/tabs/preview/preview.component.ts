@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { getLocalStorageData } from '../../../../shared/shared.module';
+import { BackendService } from '../../../../services/backend.service';
 
 @Component({
   selector: 'app-preview',
@@ -16,7 +17,8 @@ export class PreviewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private backendSvc: BackendService,
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,8 @@ export class PreviewComponent implements OnInit {
 
   public onSubmit() {
     if (this.previewForm.valid) {
+      // this.backendSvc.postMeta(localStorage.getItem('aoe.materialId'), this.savedData);
+
       this.router.navigate(['/omat-oppimateriaalit']);
     }
   }
