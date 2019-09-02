@@ -22,13 +22,11 @@ export class FilesComponent implements OnInit {
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
-  public uploadResponse = { status: '', message: 0, filePath: '' };
+  public uploadResponse = { status: '', message: 0 };
   public uploadError: string;
   private myFiles = [];
-  private materialId: string;
 
   public languages$: KeyValue<string, string>[];
-  private defaultLanguage$: KeyValue<string, string>;
 
   constructor(
     private fb: FormBuilder,
@@ -68,10 +66,6 @@ export class FilesComponent implements OnInit {
       this.languages$ = data;
     });
 
-    this.koodistoProxySvc.getData('kielet/FI', this.lang).subscribe(data => {
-      this.defaultLanguage$ = data;
-    });
-
     if (this.savedData) {
       if (this.savedData.files) {
         while (this.files.length) {
@@ -105,7 +99,7 @@ export class FilesComponent implements OnInit {
       // link: this.fb.control(null, [ Validators.required ]),
       file: this.fb.control(null),
       link: this.fb.control(null),
-      language: this.fb.control(this.defaultLanguage$),
+      language: this.fb.control({ key: 'FI', value: 'suomi' }),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
@@ -153,11 +147,11 @@ export class FilesComponent implements OnInit {
 
   public onSubmit() {
     // remove files that doesn't have either file or link
-    this.files.controls.forEach((control, i) => {
+    /*this.files.controls.forEach((control, i) => {
       if (control.get('link').value === null) {
         this.files.removeAt(i);
       }
-    });
+    });*/
 
     if (this.fileUploadForm.valid) {
       const slugs = {
@@ -201,6 +195,8 @@ export class FilesComponent implements OnInit {
         (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
       );*/
+
+      localStorage.setItem('aoe.materialId', '10');
 
       this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
