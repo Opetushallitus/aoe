@@ -128,8 +128,9 @@
 
       <ng-select
         [items]="[]"
-        [addTag]="true"
         [multiple]="true"
+        [addTag]="addCustomItem"
+        bindLabel="value"
         appendTo="body"
         id="prerequisites"
         formControlName="prerequisites"

@@ -5,7 +5,7 @@ import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
+import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -20,6 +20,8 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityHazards$: KeyValue<string, string>[];
 
   public extendedDetailsForm: FormGroup;
+
+  public addCustomItem = addCustomItem;
 
   constructor(
     private fb: FormBuilder,
@@ -57,17 +59,16 @@ export class ExtendedDetailsComponent implements OnInit {
     });
 
     if (this.savedData) {
-      if (this.savedData.accessibilityFeature) {
-        this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeature);
+      if (this.savedData.accessibilityFeatures) {
+        this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeatures);
       }
 
-      if (this.savedData.accessibilityHazard) {
-        this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazard);
+      if (this.savedData.accessibilityHazards) {
+        this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazards);
       }
 
       if (this.savedData.typicalAgeRange) {
-        this.extendedDetailsForm.get('typicalAgeRangeMin').setValue(this.savedData.typicalAgeRange.min);
-        this.extendedDetailsForm.get('typicalAgeRangeMax').setValue(this.savedData.typicalAgeRange.max);
+        this.extendedDetailsForm.get('typicalAgeRange').setValue(this.savedData.typicalAgeRange);
       }
 
       if (this.savedData.timeRequired) {
