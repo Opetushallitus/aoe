@@ -105,8 +105,8 @@ export class BasicDetailsComponent implements OnInit {
         this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
       }
 
-      if (this.savedData.educationalRole) {
-        this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRole);
+      if (this.savedData.educationalRoles) {
+        this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRoles);
       }
 
       if (this.savedData.educationalUse) {
