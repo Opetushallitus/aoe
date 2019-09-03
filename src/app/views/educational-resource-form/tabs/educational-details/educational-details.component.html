@@ -37,8 +37,8 @@
       <ng-select
         [items]="[]"
         [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
+        [addTag]="addEarlyChildhoodEducationSubject"
+        bindLabel="targetName"
         appendTo="body"
         id="earlyChildhoodEducationSubjects"
         formControlName="earlyChildhoodEducationSubjects"
@@ -46,17 +46,14 @@
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationFramework">Varhaiskasvatuksen opetussuunnitelma</label>
+      <label for="earlyChildhoodEducationFramework">Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet</label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
-        appendTo="body"
+      <input
+        type="text"
+        class="form-control"
         id="earlyChildhoodEducationFramework"
         formControlName="earlyChildhoodEducationFramework"
-      ></ng-select>
+      >
     </div>
   </ng-container>
 
@@ -69,8 +66,8 @@
       <ng-select
         [items]="[]"
         [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
+        [addTag]="addPrePrimaryEducationSubject"
+        bindLabel="targetName"
         appendTo="body"
         id="prePrimaryEducationSubjects"
         formControlName="prePrimaryEducationSubjects"
@@ -78,17 +75,14 @@
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationFramework">Esiopetuksen opetussuunnitelma</label>
+      <label for="prePrimaryEducationFramework">Esiopetuksen opetussuunnitelman tai tutkinnon perusteet</label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
-        appendTo="body"
+      <input
+        type="text"
+        class="form-control"
         id="prePrimaryEducationFramework"
         formControlName="prePrimaryEducationFramework"
-      ></ng-select>
+      >
     </div>
   </ng-container>
 
@@ -151,7 +145,7 @@
         [items]="upperSecondarySchoolSubjects$"
         [multiple]="true"
         [closeOnSelect]="false"
-        bindLabel="value"
+        bindLabel="targetName"
         appendTo="body"
         id="upperSecondarySchoolSubjects"
         formControlName="upperSecondarySchoolSubjects"
@@ -159,17 +153,14 @@
     </div>
 
     <div class="form-group">
-      <label for="upperSecondarySchoolFramework">Lukion opetussuunnitelma</label>
+      <label for="upperSecondarySchoolFramework">Lukion opetussuunnitelman tai tutkinnon perusteet</label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
-        appendTo="body"
+      <input
+        type="text"
+        class="form-control"
         id="upperSecondarySchoolFramework"
         formControlName="upperSecondarySchoolFramework"
-      ></ng-select>
+      >
     </div>
   </ng-container>
 
@@ -191,7 +182,7 @@
     </div>
 
     <div class="form-group">
-      <label for="vocationalEducationFramework">Ammatillisen koulutuksen opetussuunnitelma</label>
+      <label for="vocationalEducationFramework">Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet</label>
 
       <ng-select
         [items]="[]"
@@ -264,7 +255,7 @@
     </div>
 
     <div class="form-group">
-      <label for="higherEducationFramework">Korkeakoulutuksen opetussuunnitelma</label>
+      <label for="higherEducationFramework">Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet</label>
 
       <ng-select
         [items]="[]"
