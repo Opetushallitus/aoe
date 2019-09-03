@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { getUnique, sortByValue } from "../util/data.utils";
-import { KeyValue } from "../models/data";
+import { getUnique, sortByTargetName } from "../util/data.utils";
+import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "lukionkurssit";
 const rediskey = "lukionkurssit";
@@ -23,9 +23,9 @@ export async function setLukionkurssit(): Promise<any> {
       params
     );
 
-    const finnish: KeyValue<string, string>[] = [];
-    const english: KeyValue<string, string>[] = [];
-    const swedish: KeyValue<string, string>[] = [];
+    const finnish: AlignmentObjectExtended[] = [];
+    const english: AlignmentObjectExtended[] = [];
+    const swedish: AlignmentObjectExtended[] = [];
 
     results.forEach((row: any) => {
       const metadataFi = row.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
@@ -34,27 +34,33 @@ export async function setLukionkurssit(): Promise<any> {
 
       finnish.push({
         key: row.koodiArvo,
-        value: metadataFi ? metadataFi.nimi.trim() : (metadataSv ? metadataSv.nimi.trim() : metadataEn.nimi.trim()),
+        source: "upperSecondarySchoolSubjects",
+        alignmentType: "educationalSubject",
+        targetName: metadataFi ? metadataFi.nimi.trim() : (metadataSv ? metadataSv.nimi.trim() : metadataEn.nimi.trim()),
       });
 
       english.push({
         key: row.koodiArvo,
-        value: metadataEn ? metadataEn.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataSv.nimi.trim()),
+        source: "upperSecondarySchoolSubjects",
+        alignmentType: "educationalSubject",
+        targetName: metadataEn ? metadataEn.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataSv.nimi.trim()),
       });
 
       swedish.push({
         key: row.koodiArvo,
-        value: metadataSv ? metadataSv.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataEn.nimi.trim()),
+        source: "upperSecondarySchoolSubjects",
+        alignmentType: "educationalSubject",
+        targetName: metadataSv ? metadataSv.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataEn.nimi.trim()),
       });
     });
 
-    finnish.sort(sortByValue);
-    english.sort(sortByValue);
-    swedish.sort(sortByValue);
+    finnish.sort(sortByTargetName);
+    english.sort(sortByTargetName);
+    swedish.sort(sortByTargetName);
 
-    const filteredFi = getUnique(finnish, "value");
-    const filteredEn = getUnique(english, "value");
-    const filteredSv = getUnique(swedish, "value");
+    const filteredFi = getUnique(finnish, "targetName");
+    const filteredEn = getUnique(english, "targetName");
+    const filteredSv = getUnique(swedish, "targetName");
 
     await setAsync(`${rediskey}.fi`, JSON.stringify(filteredFi));
     await setAsync(`${rediskey}.en`, JSON.stringify(filteredEn));
