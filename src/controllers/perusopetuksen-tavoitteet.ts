@@ -3,32 +3,34 @@ import striptags from "striptags";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { AlignmentObjectExtended } from "../models/alignment-object-extended";
+import { sortByTargetName } from "../util/data.utils";
 
 const endpoint = "perusteet";
 const rediskey = "oppiaineet";
 const params = "419550/perusopetus/oppiaineet";
-const blacklist = [
-  600171,
-  855591,
-  855592,
-  855593,
-  605639,
-  692136,
-  692131,
-  605631,
-  692130,
-  605637,
-  605634,
-  605636,
-  692139,
-  712901,
-  739612,
-  739613,
-  739610,
-  739611,
-  692132,
-  692134,
-];
+// const blacklist = [
+//   600171,
+//   855591,
+//   855592,
+//   855593,
+//   605639,
+//   692136,
+//   692131,
+//   605631,
+//   692130,
+//   605637,
+//   605634,
+//   605636,
+//   692139,
+//   712901,
+//   739612,
+//   739613,
+//   739610,
+//   739611,
+//   692132,
+//   692134,
+// ];
 
 /**
  * Set data into redis database
@@ -43,7 +45,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       { "Accept": "application/json" },
       params
     );
-    let subjectIds: any[] = [];
+    const subjectIds: any[] = [];
 
     results.forEach((result: any) => {
       if (result.oppimaarat === undefined) {
@@ -59,7 +61,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       }
     });
 
-    subjectIds = subjectIds.filter(id => blacklist.includes(id.key) === false);
+    // subjectIds = subjectIds.filter(id => blacklist.includes(id.key) === false);
 
     const subjects = subjectIds.map(async (row: any) => {
       const result = await getDataFromApi(
@@ -69,9 +71,9 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
         `${params}/${row.key}`
       );
 
-      const gradeEntities = result.vuosiluokkakokonaisuudet.map((gradeEntity: any) => {
-        const objectives: any[] = [];
-        const contents: any[] = [];
+      const finnishGradeEntities = result.vuosiluokkakokonaisuudet.map((gradeEntity: any) => {
+        const objectives: AlignmentObjectExtended[] = [];
+        const contents: AlignmentObjectExtended[] = [];
 
         if (gradeEntity.tavoitteet.length > 0) {
           gradeEntity.tavoitteet.forEach((objective: any) => {
@@ -87,16 +89,28 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
             objectives.push({
               key: objective.id,
-              value: objectiveValue,
+              source: "basicStudyObjectives",
+              alignmentType: "teaches",
+              targetName: objectiveValue.fi ? objectiveValue.fi : objectiveValue.sv,
             });
           });
         }
 
         if (gradeEntity.sisaltoalueet.length > 0) {
           gradeEntity.sisaltoalueet.forEach((content: any) => {
+            if (content.nimi.fi) {
+              content.nimi.fi = striptags(content.nimi.fi);
+            }
+
+            if (content.nimi.sv) {
+              content.nimi.sv = striptags(content.nimi.sv);
+            }
+
             contents.push({
               key: content.id,
-              value: content.nimi,
+              source: "basicStudyContents",
+              alignmentType: "teaches",
+              targetName: content.nimi.fi ? content.nimi.fi : content.nimi.sv,
             });
           });
         }
@@ -111,16 +125,17 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
       return {
         key: result.id,
-        code: result.koodiArvo,
-        value: {
-          fi: result.nimi.fi,
-          sv: result.nimi.sv,
-        },
-        vuosiluokkakokonaisuudet: gradeEntities,
+        source: "basicStudySubjects",
+        alignmentType: "educationalSubject",
+        targetName: result.nimi.fi,
+        vuosiluokkakokonaisuudet: finnishGradeEntities,
       };
     });
 
-    await setAsync(rediskey, JSON.stringify(await Promise.all(subjects)));
+    const finnish = await Promise.all(subjects);
+    finnish.sort(sortByTargetName);
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
   } catch (err) {
     console.error(err);
   }
@@ -137,26 +152,11 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
  */
 export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = await getAsync(rediskey);
+    // const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
+    const redisData = await getAsync(`${rediskey}.fi`);
 
     if (redisData) {
-      const input = JSON.parse(redisData);
-
-      const output = input.map((row: any) => {
-        return {
-          key: row.key,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-          vuosiluokkakokonaisuudet: row.vuosiluokkakokonaisuudet,
-        };
-      });
-
-      output.sort((a: any, b: any) => a.value.localeCompare(b.value, req.params.lang));
-
-      if (output.length > 0) {
-        res.status(200).json(output);
-      } else {
-        res.sendStatus(406);
-      }
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
 
