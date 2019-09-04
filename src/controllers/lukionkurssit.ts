@@ -107,16 +107,16 @@ export const getLukionkurssit = async (req: Request, res: Response, next: NextFu
  */
 export const getLukionkurssi = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = await getAsync(rediskey);
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
     if (redisData) {
       const input = JSON.parse(redisData);
-      const row = input.find((e: any) => e.key === req.params.key);
+      const row = input.find((e: any) => e.key.toLowerCase() === req.params.key.toLowerCase());
 
       if (row !== undefined) {
         res.status(200).json(row);
       } else {
-        res.sendStatus(406);
+        res.sendStatus(404);
       }
     } else {
       res.sendStatus(404);
