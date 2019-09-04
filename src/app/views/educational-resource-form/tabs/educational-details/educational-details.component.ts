@@ -41,9 +41,9 @@ export class EducationalDetailsComponent implements OnInit {
   private higherEducationKeys: string[];
 
   public educationalLevels$: any[];
-  public basicStudySubjects$: BasicStudySubject[];
-  public basicStudyObjectives: BasicStudyContent[];
-  public basicStudyContents: BasicStudyContent[];
+  public basicStudySubjects$: any[];
+  public basicStudyObjectivesItems: any[];
+  public basicStudyContentsItems: any[];
   public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
   public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
@@ -171,6 +171,17 @@ export class EducationalDetailsComponent implements OnInit {
         }
 
         // tslint:disable-next-line:max-line-length
+        const basicStudySubjectsKeys = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects').map(row => row.key);
+
+        const basicStudySubjects = this.basicStudySubjects$.filter(subject => basicStudySubjectsKeys.includes(subject.key) === true);
+
+        this.educationalDetailsForm.get('basicStudySubjects').setValue(basicStudySubjects);
+
+        if (this.basicStudySubjects.value) {
+          this.basicStudySubjectsChange(this.basicStudySubjects.value);
+        }
+
+        // tslint:disable-next-line:max-line-length
         const upperSecondarySchoolSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
         this.educationalDetailsForm.get('upperSecondarySchoolSubjects').setValue(upperSecondarySchoolSubjects);
 
@@ -180,19 +191,19 @@ export class EducationalDetailsComponent implements OnInit {
         }
       }
 
-      if (this.savedData.basicStudySubjects) {
+      /*if (this.savedData.basicStudySubjects) {
         this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
 
         this.basicStudySubjectsChange(this.savedData.basicStudySubjects);
-      }
+      }*/
 
-      if (this.savedData.basicStudyObjectives) {
+      /*if (this.savedData.basicStudyObjectives) {
         this.educationalDetailsForm.get('basicStudyObjectives').setValue(this.savedData.basicStudyObjectives);
       }
 
       if (this.savedData.basicStudyContents) {
         this.educationalDetailsForm.get('basicStudyContents').setValue(this.savedData.basicStudyContents);
-      }
+      }*/
 
       if (this.savedData.vocationalDegrees) {
         this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
@@ -234,6 +245,14 @@ export class EducationalDetailsComponent implements OnInit {
 
   get basicStudySubjects(): FormControl {
     return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
+  }
+
+  get basicStudyObjectives(): FormControl {
+    return this.educationalDetailsForm.get('basicStudyObjectives') as FormControl;
+  }
+
+  get basicStudyContents(): FormControl {
+    return this.educationalDetailsForm.get('basicStudyContents') as FormControl;
   }
 
   get upperSecondarySchoolSubjects(): FormControl {
@@ -279,28 +298,28 @@ export class EducationalDetailsComponent implements OnInit {
   public basicStudySubjectsChange($event): void {
     this.hasBasicStudySubjects = $event.length > 0;
 
-    this.basicStudyObjectives = [];
-    this.basicStudyContents = [];
+    this.basicStudyObjectivesItems = [];
+    this.basicStudyContentsItems = [];
 
-    $event.forEach((subject: BasicStudySubject) => {
-      subject.vuosiluokkakokonaisuudet.forEach((gradeEntity: GradeEntity) => {
-        gradeEntity.tavoitteet.forEach((objective: GradeEntityContents) => {
-          this.basicStudyObjectives.push({
-            key: objective.key,
-            value: objective.value[this.lang] !== undefined ? objective.value[this.lang] : objective.value.fi,
-            subject: subject.value,
+    if (this.hasBasicStudySubjects) {
+      $event.forEach((subject: any) => {
+        subject.vuosiluokkakokonaisuudet.forEach((gradeEntity: any) => {
+          gradeEntity.tavoitteet.forEach((objective: any) => {
+            this.basicStudyObjectivesItems.push({
+              ...objective,
+              subject: subject.targetName,
+            });
           });
-        });
 
-        gradeEntity.sisaltoalueet.forEach((content: GradeEntityContents) => {
-          this.basicStudyContents.push({
-            key: content.key,
-            value: content.value[this.lang] !== undefined ? content.value[this.lang] : content.value.fi,
-            subject: subject.value,
+          gradeEntity.sisaltoalueet.forEach((content: any) => {
+            this.basicStudyContentsItems.push({
+              ...content,
+              subject: subject.targetName,
+            });
           });
         });
       });
-    });
+    }
   }
 
   public addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
@@ -346,6 +365,25 @@ export class EducationalDetailsComponent implements OnInit {
 
           this.alignmentObjects.push(subject);
         });
+      }
+
+      if (this.basicStudySubjects.value) {
+        this.basicStudySubjects.value.forEach(subject => {
+          this.alignmentObjects.push({
+            key: subject.key,
+            source: subject.source,
+            alignmentType: subject.alignmentType,
+            targetName: subject.targetName
+          });
+        });
+
+        if (this.basicStudyObjectives.value) {
+          this.basicStudyObjectives.value.forEach((objective: AlignmentObjectExtended) => this.alignmentObjects.push(objective));
+        }
+
+        if (this.basicStudyContents.value) {
+          this.basicStudyContents.value.forEach((content: AlignmentObjectExtended) => this.alignmentObjects.push(content));
+        }
       }
 
       if (this.upperSecondarySchoolSubjects.value) {

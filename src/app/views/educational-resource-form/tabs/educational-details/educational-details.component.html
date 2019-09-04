@@ -95,7 +95,7 @@
       [items]="basicStudySubjects$"
       [multiple]="true"
       [closeOnSelect]="false"
-      bindLabel="value"
+      bindLabel="targetName"
       appendTo="body"
       id="basicStudySubjects"
       formControlName="basicStudySubjects"
@@ -108,10 +108,10 @@
       <label for="basicStudyObjectives">Perusopetuksen oppiaineiden tavoitteet</label>
 
       <ng-select
-        [items]="basicStudyObjectives"
+        [items]="basicStudyObjectivesItems"
         [multiple]="true"
         [closeOnSelect]="false"
-        bindLabel="value"
+        bindLabel="targetName"
         groupBy="subject"
         appendTo="body"
         id="basicStudyObjectives"
@@ -123,10 +123,10 @@
       <label for="basicStudyContents">Perusopetuksen oppiaineiden sisältöalueet</label>
 
       <ng-select
-        [items]="basicStudyContents"
+        [items]="basicStudyContentsItems"
         [multiple]="true"
         [closeOnSelect]="false"
-        bindLabel="value"
+        bindLabel="targetName"
         groupBy="subject"
         appendTo="body"
         id="basicStudyContents"
