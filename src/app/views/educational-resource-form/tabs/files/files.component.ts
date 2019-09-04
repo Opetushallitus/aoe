@@ -155,9 +155,9 @@ export class FilesComponent implements OnInit {
 
     if (this.fileUploadForm.valid) {
       const slugs = {
-        fi: this.fileUploadForm.get('name').value.fi ? slugify(this.fileUploadForm.get('name').value.fi) : undefined,
-        sv: this.fileUploadForm.get('name').value.sv ? slugify(this.fileUploadForm.get('name').value.sv) : undefined,
-        en: this.fileUploadForm.get('name').value.en ? slugify(this.fileUploadForm.get('name').value.en) : undefined,
+        fi: this.fileUploadForm.get('name').value.fi ? slugify(this.fileUploadForm.get('name').value.fi).toLowerCase() : undefined,
+        sv: this.fileUploadForm.get('name').value.sv ? slugify(this.fileUploadForm.get('name').value.sv).toLowerCase() : undefined,
+        en: this.fileUploadForm.get('name').value.en ? slugify(this.fileUploadForm.get('name').value.en).toLowerCase() : undefined,
       };
 
       const newData = {
@@ -195,8 +195,6 @@ export class FilesComponent implements OnInit {
         (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
       );*/
-
-      localStorage.setItem('aoe.materialId', '10');
 
       this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
