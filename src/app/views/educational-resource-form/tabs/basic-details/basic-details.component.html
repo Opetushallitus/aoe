@@ -12,30 +12,30 @@
         <div class="form-row" formArrayName="authors">
           <ng-container [formGroupName]="i">
             <div class="form-group col">
-              <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author' | translate }}*</label>
+              <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*</label>
 
               <button
                 type="button"
                 class="btn btn-link"
-                tooltip="Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi."
+                [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate"
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
               <input
                 type="text"
                 class="form-control"
                 id="{{ 'author' + i }}"
-                placeholder="Sukunimi, Etunimi"
+                [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                 formControlName="author"
               >
             </div>
 
             <div class="form-group col">
-              <label for="{{ 'organisation ' + i }}">{{ 'forms.educationalResource.basicDetails.organisation' | translate }}</label>
+              <label for="{{ 'organisation ' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.organisation.label' | translate }}</label>
 
               <button
                 type="button"
                 class="btn btn-link"
-                tooltip="Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+                [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organisation.tooltip' | translate"
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
               <ng-select
@@ -53,7 +53,7 @@
             </div>
 
             <div class="form-group align-self-end col-auto" *ngIf="i !== 0">
-              <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">Poista</button>
+              <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">{{ 'forms.common.delete' | translate }}</button>
             </div>
           </ng-container>
         </div>
@@ -64,12 +64,12 @@
       </div>
 
       <div class="form-group">
-        <label for="keywords">Asiasanat*</label>
+        <label for="keywords">{{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}*</label>
 
         <button
           type="button"
           class="btn btn-link"
-          tooltip="Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+          [tooltip]="'forms.educationalResource.basicDetails.keywords.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
         <ng-select
@@ -89,12 +89,12 @@
 
       <div class="form-row">
         <div class="form-group col-sm-6 col-md-4">
-          <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.materialType' | translate }}*</label>
+          <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.learningResourceType.label' | translate }}*</label>
 
           <button
             type="button"
             class="btn btn-link"
-            tooltip="Valitse tästä minkä tyyppinen aineisto oppimateriaalisi on. Voit valita useamman tyypin mikäli oppimateriaali koostuu erilaisista osista."
+            [tooltip]="'forms.educationalResource.basicDetails.learningResourceType.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
           <ng-select
@@ -108,12 +108,12 @@
         </div>
 
         <div class="form-group col-sm-6 col-md-4">
-          <label for="educationalRoles">Pääasiallinen kohderyhmä</label>
+          <label for="educationalRoles">{{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}</label>
 
           <button
             type="button"
             class="btn btn-link"
-            tooltip="Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
+            [tooltip]="'forms.educationalResource.basicDetails.educationalRoles.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
           <ng-select
@@ -126,12 +126,12 @@
         </div>
 
         <div class="form-group col-sm-6 col-md-4">
-          <label for="educationalUse">Pääasiallinen käyttötarkoitus</label>
+          <label for="educationalUse">{{ 'forms.educationalResource.basicDetails.educationalUse.label' | translate }}</label>
 
           <button
             type="button"
             class="btn btn-link"
-            tooltip="Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
+            [tooltip]="'forms.educationalResource.basicDetails.educationalUse.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
           <ng-select
@@ -145,12 +145,12 @@
       </div>
 
       <div class="form-group" formGroupName="description">
-        <label for="description">{{ 'forms.educationalResource.basicDetails.description' | translate }}</label>
+        <label for="description">{{ 'forms.educationalResource.basicDetails.description.label' | translate }}</label>
 
         <button
           type="button"
           class="btn btn-link"
-          tooltip="Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty."
+          [tooltip]="'forms.educationalResource.basicDetails.description.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
         <div class="form-row">
@@ -164,30 +164,30 @@
           </div>
 
           <div class="col-auto">
-            <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.educationalResource.basicDetails.langVersions' | translate }}</button>
+            <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.common.translations.label' | translate }}</button>
 
             <button
               type="button"
               class="btn btn-link"
-              tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+              [tooltip]="'forms.common.translations.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
           </div>
         </div>
 
         <ng-template #langVersions>
           <div class="modal-header">
-            <h5 class="modal-title">Kieliversiot: {{ 'forms.educationalResource.basicDetails.description' | translate }}</h5>
+            <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.description.modal.title' | translate }}</h5>
 
-            <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+            <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
 
           <div class="modal-body">
-            <h4>Kieliversioiden lisääminen</h4>
+            <h4>{{ 'forms.educationalResource.basicDetails.description.modal.subtitle' | translate }}</h4>
 
             <div class="form-group">
-              <label for="descriptionEn">Kuvaus englanniksi</label>
+              <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description.modal.en' | translate }}</label>
 
               <textarea
                 class="form-control"
@@ -198,7 +198,7 @@
             </div>
 
             <div class="form-group">
-              <label for="descriptionSv">Kuvaus ruotsiksi</label>
+              <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description.modal.sv' | translate }}</label>
 
               <textarea
                 class="form-control"
@@ -210,8 +210,8 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
-            <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+            <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
+            <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
           </div>
         </ng-template>
       </div>
@@ -224,7 +224,7 @@
         type="button"
         class="btn btn-gray"
         (click)="previousTab()"
-      >Edellinen</button>
+      >{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">

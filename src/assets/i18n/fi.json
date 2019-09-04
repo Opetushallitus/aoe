@@ -57,9 +57,18 @@
   "forms": {
     "common": {
       "abort": "Keskeytä",
+      "cancel": "Peruuta",
+      "close": "Sulje",
+      "delete": "Poista",
       "next": "Seuraava",
+      "previous": "Edellinen",
+      "required": "Pakollinen tieto",
       "save": "Tallenna",
-      "required": "Pakollinen tieto"
+      "saveChanges": "Tallenna muutokset",
+      "translations": {
+        "label": "Kieliversiot",
+        "tooltip": "Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+      }
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
@@ -69,26 +78,93 @@
         "educationalDetails": "Koulutustiedot",
         "extendedDetails": "Tarkemmat tiedot",
         "licenseDetails": "Lisenssitiedot",
-        "basedOnDetails": "Hyödynnetyt materiaalit"
+        "basedOnDetails": "Hyödynnetyt materiaalit",
+        "preview": "Esikatselu"
+      },
+      "files": {
+        "alert": "Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.",
+        "materialName": {
+          "label": "Oppimateriaalin nimi",
+          "tooltip": "Oppimateriaalin nimi.",
+          "modal": {
+            "title": "Kieliversiot: Oppimateriaalin nimi",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Oppimateriaalin nimi englanniksi",
+            "sv": "Oppimateriaalin nimi ruotsiksi"
+          }
+        },
+        "file": {
+          "title": ". tiedosto",
+          "tooltip": "Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki.",
+          "inputs": {
+            "file": {
+              "label": "Tiedosto",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Linkki",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Kieli",
+              "tooltip": "Valitse millä kielellä oppimateriaalisi tai tämä osa oppimateriaaliasi on tarkoitettu opiskeltavaksi. Mikäli olet tehnyt oppimateriaalistasi käännöksen toiselle kielelle, voit lisätä tiedostot tässä samassa kohtaa ja merkata niiden opiskelukielen tähän."
+            },
+            "displayName": {
+              "label": "Tiedoston esitysnimi",
+              "tooltip": "Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä.",
+              "modal": {
+                "title": "Kieliversiot: Tiedoston esitysnimi\n",
+                "subtitle": "Kieliversioiden lisääminen",
+                "en": "Tiedoston esitysnimi englanniksi",
+                "sv": "Tiedoston esitysnimi ruotsiksi"
+              }
+            }
+          },
+          "addFile": "Lisää tiedosto"
+        }
       },
       "basicDetails": {
         "uploadImage": "Lataa kansikuva",
-        "attachment": "Liite",
-        "noSelectedFile": "Ei valittua tiedostoa",
-        "file": "Tiedosto",
-        "or": "tai",
-        "link": "Linkki",
-        "language": "Kieli",
-        "displayName": "Tiedoston esitysnimi",
-        "materialName": "Oppimateriaalin nimi",
-        "subject": "Aihe",
-        "author": "Tekijän nimi",
-        "organisation": "Organisaatio",
-        "materialType": "Oppimateriaalin tyyppi",
-        "timeRequired": "Opiskeluaika",
-        "publisher": "Julkaisija",
-        "description": "Kuvaus",
-        "langVersions": "Kieliversiot"
+        "author": {
+          "inputs": {
+            "author": {
+              "label": "Tekijän nimi",
+              "tooltip": "Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi.",
+              "placeholder": "Sukunimi, Etunimi"
+            },
+            "organisation": {
+              "label": "Organisaatio",
+              "tooltip": "Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+            }
+          },
+          "addAuthor": "Lisää toinen tekijä"
+        },
+        "keywords": {
+          "label": "Asiasanat",
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+        },
+        "learningResourceType": {
+          "label": "Oppimateriaalin tyyppi",
+          "tooltip": "Valitse tästä minkä tyyppinen aineisto oppimateriaalisi on. Voit valita useamman tyypin mikäli oppimateriaali koostuu erilaisista osista."
+        },
+        "educationalRoles": {
+          "label": "Pääasiallinen kohderyhmä",
+          "tooltip": "Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
+        },
+        "educationalUse": {
+          "label": "Pääasiallinen käyttötarkoitus",
+          "tooltip": "Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
+        },
+        "description": {
+          "label": "Kuvaus",
+          "tooltip": "Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty.",
+          "modal": {
+            "title": "Kieliversiot: Kuvaus\n",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Kuvaus englanniksi",
+            "sv": "Kuvaus ruotsiksi"
+          }
+        }
       }
     }
   }

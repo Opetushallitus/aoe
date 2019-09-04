@@ -1,17 +1,17 @@
 <alert type="info" dismissible="true">
-  Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.
+  {{ 'forms.educationalResource.files.alert' | translate }}
 </alert>
 
 <form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
-        <label for="name-fi">{{ 'forms.educationalResource.basicDetails.materialName' | translate }}*</label>
+        <label for="name-fi">{{ 'forms.educationalResource.files.materialName.label' | translate }}*</label>
 
         <button
           type="button"
           class="btn btn-link"
-          tooltip="Oppimateriaalin nimi."
+          [tooltip]="'forms.educationalResource.files.materialName.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
         <input
@@ -23,29 +23,29 @@
       </div>
 
       <div class="col-auto">
-        <button type="button" class="btn btn-gray" (click)="openModal(nameI18n)">Kieliversiot</button>
+        <button type="button" class="btn btn-gray" (click)="openModal(nameI18n)">{{ 'forms.common.translations.label' | translate }}</button>
 
         <button
           type="button"
           class="btn btn-link"
-          tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+          [tooltip]="'forms.common.translations.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
       </div>
 
       <ng-template #nameI18n>
         <div class="modal-header">
-          <h5 class="modal-title">Kieliversiot: Oppimateriaalin nimi</h5>
+          <h5 class="modal-title">{{ 'forms.educationalResource.files.materialName.modal.title' | translate }}</h5>
 
-          <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+          <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
 
         <div class="modal-body" formGroupName="name">
-          <h4>Kieliversioiden lisääminen</h4>
+          <h4>{{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}</h4>
 
           <div class="form-group">
-            <label for="name-en">Oppimateriaalin nimi englanniksi*</label>
+            <label for="name-en">{{ 'forms.educationalResource.files.materialName.modal.en' | translate }}*</label>
 
             <input
               type="text"
@@ -56,7 +56,7 @@
           </div>
 
           <div class="form-group">
-            <label for="name-sv">Oppimateriaalin nimi ruotsiksi*</label>
+            <label for="name-sv">{{ 'forms.educationalResource.files.materialName.modal.sv' | translate }}*</label>
 
             <input
               type="text"
@@ -68,8 +68,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
-          <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+          <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
+          <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
         </div>
       </ng-template>
     </div>
@@ -78,17 +78,17 @@
   <ng-container *ngFor="let file of files.controls; let i = index;">
     <div class="form-group" formArrayName="files">
       <ng-container [formGroupName]="i">
-        <h4>{{ i + 1 }}. tiedosto
+        <h4>{{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
           <button
             type="button"
             class="btn btn-link"
-            tooltip="Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki."
+            [tooltip]="'forms.educationalResource.files.file.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
         </h4>
 
         <div class="form-row align-items-end mb-2">
           <div class="col">
-            <label for="{{ 'file' + i }}">{{ 'forms.educationalResource.basicDetails.file' | translate }}*</label>
+            <label for="{{ 'file' + i }}">{{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*</label>
 
             <div class="custom-file">
               <input
@@ -96,6 +96,7 @@
                 class="custom-file-input"
                 id="{{ 'file' + i }}"
                 formControlName="file"
+                [lang]="lang"
                 (change)="onFileChange($event)"
               >
               <span class="custom-file-label">{{ files.controls[i].controls.file.value }}</span>
@@ -105,7 +106,7 @@
           <div class="col-auto">tai</div>
 
           <div class="col">
-            <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.basicDetails.link' | translate }}*</label>
+            <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*</label>
 
             <input
               type="text"
@@ -116,12 +117,12 @@
           </div>
 
           <div class="col-2">
-            <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.basicDetails.language' | translate }}*</label>
+            <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*</label>
 
             <button
               type="button"
               class="btn btn-link"
-              tooltip="Valitse millä kielellä oppimateriaalisi tai tämä osa oppimateriaaliasi on tarkoitettu opiskeltavaksi. Mikäli olet tehnyt oppimateriaalistasi käännöksen toiselle kielelle, voit lisätä tiedostot tässä samassa kohtaa ja merkata niiden opiskelukielen tähän."
+              [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
             <ng-select
@@ -135,12 +136,12 @@
 
         <div class="form-row align-items-end" formGroupName="displayName">
           <div class="col">
-            <label for="{{ 'displayNameFi' + i }}">{{ 'forms.educationalResource.basicDetails.displayName' | translate }}*</label>
+            <label for="{{ 'displayNameFi' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label' | translate }}*</label>
 
             <button
               type="button"
               class="btn btn-link"
-              tooltip="Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä."
+              [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
             <input
@@ -152,29 +153,29 @@
           </div>
 
           <div class="col-auto">
-            <button type="button" class="btn btn-gray" (click)="openModal(displayName)">Kieliversiot</button>
+            <button type="button" class="btn btn-gray" (click)="openModal(displayName)">{{ 'forms.common.translations.label' | translate }}</button>
 
             <button
               type="button"
               class="btn btn-link"
-              tooltip="Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+              [tooltip]="'forms.common.translations.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
           </div>
 
           <ng-template #displayName>
             <div class="modal-header">
-              <h5 class="modal-title">Kieliversiot: {{ 'forms.educationalResource.basicDetails.displayName' | translate }}</h5>
+              <h5 class="modal-title">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}</h5>
 
-              <button type="button" class="close" aria-label="Sulje" (click)="modalRef.hide()">
+              <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
             <div class="modal-body">
-              <h4>Kieliversioiden lisääminen</h4>
+              <h4>{{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}</h4>
 
               <div class="form-group">
-                <label for="{{ 'displayNameEn' + i }}">Tiedoston esitysnimi englanniksi*</label>
+                <label for="{{ 'displayNameEn' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.en' | translate }}*</label>
 
                 <input
                   type="text"
@@ -185,7 +186,7 @@
               </div>
 
               <div class="form-group">
-                <label for="{{ 'displayNameSv' + i }}">Tiedoston esitysnimi ruotsiksi*</label>
+                <label for="{{ 'displayNameSv' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.sv' | translate }}*</label>
 
                 <input
                   type="text"
@@ -197,8 +198,8 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-gray" aria-label="Peruuta" (click)="modalRef.hide()">Peruuta</button>
-              <button type="button" class="btn btn-blue" (click)="modalRef.hide()">Tallenna muutokset</button>
+              <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
+              <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
             </div>
           </ng-template>
         </div>
@@ -207,7 +208,7 @@
   </ng-container>
 
   <div class="form-group">
-    <button type="button" class="btn btn-gray" (click)="addFile()">Lisää tiedosto</button>
+    <button type="button" class="btn btn-gray" (click)="addFile()">{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
   </div>
 
   <div class="form-group" *ngIf="uploadError">{{ uploadError.message }}</div>
@@ -219,14 +220,6 @@
       max="100"
       [value]="uploadResponse.message"
     >{{ uploadResponse.message }}%</progressbar>
-
-    <!--<div role="progressbar"
-         [style.width.%]="uploadResponse.message"
-         [attr.aria-valuenow]="uploadResponse.message"
-         aria-valuemin="0"
-         aria-valuemax="100">
-      {{ uploadResponse.message }}%
-    </div>-->
   </div>
 
   <div class="row justify-content-end">
