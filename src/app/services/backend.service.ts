@@ -23,6 +23,7 @@ export class BackendService {
           return { status: 'progress', message: progress };
 
         case HttpEventType.Response:
+          console.log(event.body);
           return event.body;
 
         default:
