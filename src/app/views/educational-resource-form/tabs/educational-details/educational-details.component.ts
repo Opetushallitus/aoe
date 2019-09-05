@@ -42,8 +42,8 @@ export class EducationalDetailsComponent implements OnInit {
 
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
-  public basicStudyObjectivesItems: any[];
-  public basicStudyContentsItems: any[];
+  // public basicStudyObjectivesItems: any[];
+  // public basicStudyContentsItems: any[];
   public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
   public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
@@ -73,8 +73,8 @@ export class EducationalDetailsComponent implements OnInit {
       prePrimaryEducationSubjects: this.fb.control(null),
       prePrimaryEducationFramework: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
-      basicStudyObjectives: this.fb.control(null),
-      basicStudyContents: this.fb.control(null),
+      // basicStudyObjectives: this.fb.control(null),
+      // basicStudyContents: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
@@ -171,15 +171,12 @@ export class EducationalDetailsComponent implements OnInit {
         }
 
         // tslint:disable-next-line:max-line-length
-        const basicStudySubjectsKeys = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects').map(row => row.key);
-
-        const basicStudySubjects = this.basicStudySubjects$.filter(subject => basicStudySubjectsKeys.includes(subject.key) === true);
-
+        const basicStudySubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
         this.educationalDetailsForm.get('basicStudySubjects').setValue(basicStudySubjects);
 
-        if (this.basicStudySubjects.value) {
+        /*if (this.basicStudySubjects.value) {
           this.basicStudySubjectsChange(this.basicStudySubjects.value);
-        }
+        }*/
 
         // tslint:disable-next-line:max-line-length
         const upperSecondarySchoolSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
@@ -247,13 +244,13 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
   }
 
-  get basicStudyObjectives(): FormControl {
+  /*get basicStudyObjectives(): FormControl {
     return this.educationalDetailsForm.get('basicStudyObjectives') as FormControl;
   }
 
   get basicStudyContents(): FormControl {
     return this.educationalDetailsForm.get('basicStudyContents') as FormControl;
-  }
+  }*/
 
   get upperSecondarySchoolSubjects(): FormControl {
     return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
@@ -295,7 +292,7 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
   }
 
-  public basicStudySubjectsChange($event): void {
+  /*public basicStudySubjectsChange($event): void {
     this.hasBasicStudySubjects = $event.length > 0;
 
     this.basicStudyObjectivesItems = [];
@@ -320,7 +317,7 @@ export class EducationalDetailsComponent implements OnInit {
         });
       });
     }
-  }
+  }*/
 
   public addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
     return {
@@ -377,13 +374,13 @@ export class EducationalDetailsComponent implements OnInit {
           });
         });
 
-        if (this.basicStudyObjectives.value) {
+        /*if (this.basicStudyObjectives.value) {
           this.basicStudyObjectives.value.forEach((objective: AlignmentObjectExtended) => this.alignmentObjects.push(objective));
         }
 
         if (this.basicStudyContents.value) {
           this.basicStudyContents.value.forEach((content: AlignmentObjectExtended) => this.alignmentObjects.push(content));
-        }
+        }*/
       }
 
       if (this.upperSecondarySchoolSubjects.value) {
