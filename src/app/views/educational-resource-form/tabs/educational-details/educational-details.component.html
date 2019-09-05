@@ -95,15 +95,23 @@
       [items]="basicStudySubjects$"
       [multiple]="true"
       [closeOnSelect]="false"
+      [selectableGroup]="true"
       bindLabel="targetName"
+      groupBy="children"
       appendTo="body"
       id="basicStudySubjects"
       formControlName="basicStudySubjects"
-      (change)="basicStudySubjectsChange($event)"
-    ></ng-select>
+    >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.targetName }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.targetName }}
+      </ng-template>
+    </ng-select>
   </div>
 
-  <ng-container *ngIf="hasBasicStudySubjects">
+  <!--<ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
       <label for="basicStudyObjectives">Perusopetuksen oppiaineiden tavoitteet</label>
 
@@ -133,7 +141,7 @@
         formControlName="basicStudyContents"
       ></ng-select>
     </div>
-  </ng-container>
+  </ng-container>-->
 
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>Lukiokoulutus</h3>
