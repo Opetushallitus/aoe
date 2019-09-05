@@ -45,25 +45,101 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       { "Accept": "application/json" },
       params
     );
+
     const subjectIds: any[] = [];
+    const finnish: AlignmentObjectExtended[] = [];
+    const swedish: AlignmentObjectExtended[] = [];
 
     results.forEach((result: any) => {
-      if (result.oppimaarat === undefined) {
-        subjectIds.push({
-          key: result.id,
-        });
-      } else {
+      subjectIds.push({
+        key: result.id,
+      });
+
+      if (result.oppimaarat) {
         result.oppimaarat.forEach((oppimaara: any) => {
           subjectIds.push({
             key: oppimaara.id,
+            parent: result.id,
           });
         });
       }
     });
 
+    const subjects = [];
+
+    for (const row of subjectIds) {
+      try {
+        const result = await getDataFromApi(
+          process.env.EPERUSTEET_SERVICE_URL,
+          `/${endpoint}/`,
+          { "Accept": "application/json" },
+          `${params}/${row.key}`
+        );
+
+        subjects.push({
+          ...row,
+          name: result.nimi,
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    await Promise.all(subjects).then(data => {
+      data.forEach(subject => {
+        const childrenFi = data
+          .filter(e => e.parent === subject.key)
+          .map<AlignmentObjectExtended>(child => {
+            return {
+              key: child.key,
+              source: "basicStudySubjects",
+              alignmentType: "educationalSubject",
+              targetName: child.name.fi ? child.name.fi : child.name.sv,
+            };
+          })
+          .sort(sortByTargetName);
+
+        const childrenSv = data
+          .filter(e => e.parent === subject.key)
+          .map<AlignmentObjectExtended>(child => {
+            return {
+              key: child.key,
+              source: "basicStudySubjects",
+              alignmentType: "educationalSubject",
+              targetName: child.name.sv ? child.name.sv : child.name.fi,
+            };
+          })
+          .sort(sortByTargetName);
+
+        if (!subject.parent) {
+          finnish.push({
+            key: subject.key,
+            source: "basicStudySubjects",
+            alignmentType: "educationalSubject",
+            targetName: subject.name.fi ? subject.name.fi : subject.name.sv,
+            children: childrenFi,
+          });
+
+          swedish.push({
+            key: subject.key,
+            source: "basicStudySubjects",
+            alignmentType: "educationalSubject",
+            targetName: subject.name.sv ? subject.name.sv : subject.name.fi,
+            children: childrenSv,
+          });
+        }
+      });
+    });
+
+    finnish.sort(sortByTargetName);
+    swedish.sort(sortByTargetName);
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+
     // subjectIds = subjectIds.filter(id => blacklist.includes(id.key) === false);
 
-    const subjects = subjectIds.map(async (row: any) => {
+    /*const subjects = subjectIds.map(async (row: any) => {
       const result = await getDataFromApi(
         process.env.EPERUSTEET_SERVICE_URL,
         `/${endpoint}/`,
@@ -135,7 +211,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     const finnish = await Promise.all(subjects);
     finnish.sort(sortByTargetName);
 
-    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));*/
   } catch (err) {
     console.error(err);
   }
@@ -152,8 +228,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
  */
 export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    // const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
-    const redisData = await getAsync(`${rediskey}.fi`);
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
+    // const redisData = await getAsync(`${rediskey}.fi`);
 
     if (redisData) {
       res.status(200).json(JSON.parse(redisData));
