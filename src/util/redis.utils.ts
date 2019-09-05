@@ -13,7 +13,7 @@ import { setTieteenalat } from "../controllers/tieteenalat";
 import { setOppimateriaalityypit } from "../controllers/oppimateriaalityypit";
 // import { setAmmatillisenTutkinnonosat } from "../controllers/ammatillisen-tutkinnonosat";
 import { setAmmatillisenTutkinnot } from "../controllers/ammatillisen-tutkinnot";
-import { setPerusopetuksenOppiaineet } from "../controllers/perusopetuksen-tavoitteet";
+import { setPerusopetuksenOppiaineet } from "../controllers/perusopetuksen-oppiaineet";
 import { setLisenssit } from "../controllers/lisenssit";
 import { setLukionkurssit } from "../controllers/lukionkurssit";
 

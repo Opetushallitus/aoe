@@ -15,7 +15,7 @@ import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 // import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
-import { getPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-tavoitteet";
+import { getPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-oppiaineet";
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 
