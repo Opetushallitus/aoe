@@ -154,14 +154,15 @@ export class FilesComponent implements OnInit {
     });*/
 
     if (this.fileUploadForm.valid) {
+      // @todo: use fileUploadForm.slugs instead?
       const slugs = {
         fi: this.fileUploadForm.get('name').value.fi ? slugify(this.fileUploadForm.get('name').value.fi).toLowerCase() : undefined,
         sv: this.fileUploadForm.get('name').value.sv ? slugify(this.fileUploadForm.get('name').value.sv).toLowerCase() : undefined,
         en: this.fileUploadForm.get('name').value.en ? slugify(this.fileUploadForm.get('name').value.en).toLowerCase() : undefined,
       };
 
+      // @todo: is this unnecessary?
       const newData = {
-        createdAt: new Date(),
         name: this.fileUploadForm.get('name').value,
         slug: slugs,
         files: this.fileUploadForm.get('files').value,
