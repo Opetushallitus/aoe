@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  private backendUrl = 'http://aoe.fi:3001';
+  private backendUrl = 'https://demo.aoe.fi/api';
 
   constructor(private http: HttpClient) { }
 
@@ -36,5 +37,14 @@ export class BackendService {
     const uploadUrl = `${this.backendUrl}/material/${id}`;
 
     return this.http.put<any>(uploadUrl, data);
+  }
+
+  public getMaterial(id): Observable<HttpResponse<any>> {
+    return this.http.get(`${this.backendUrl}/material/${id}`, {
+      headers: {
+        'Accept': 'application/json',
+      },
+      observe: 'response'
+    });
   }
 }
