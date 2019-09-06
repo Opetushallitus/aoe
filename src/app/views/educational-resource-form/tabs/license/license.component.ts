@@ -12,7 +12,7 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
 })
 export class LicenseComponent implements OnInit {
   private localStorageKey = 'aoe.new-educational-resource';
-  private lang: string = this.translate.currentLang;
+  public lang: string = this.translate.currentLang;
   private savedData: any;
 
   public licenses$: any[];
