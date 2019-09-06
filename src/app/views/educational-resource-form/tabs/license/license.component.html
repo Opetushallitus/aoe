@@ -1,13 +1,15 @@
 <form [formGroup]="licenseForm" (ngSubmit)="onSubmit()">
-  <h3>Lisenssi</h3>
+  <h3>{{ 'forms.educationalResource.license.title' | translate }}</h3>
 
-  <p>Jotta oppimateriaalin voi tallentaa avointen oppimateriaalien palveluun, on sen oltava lisensoitu jollain Creative Commons -lisenssillä. Creative Commons -lisenssit kertovat millaisia käyttöoikeuksia annat muille ihmisille: voivatko he tehdä oman oppimateriaalin sinun materiaalisi pohjalta? Saavatko he käyttää oppimateriaalisi osaa omassa materiaalissaan? Saako materiaaliasi päivittää tai kääntää eri kielelle tai muuttaa pistekirjoitukseksi? Saako oppimateriaaliasi käyttää kaupallisessa koulutuksessa?</p>
+  <ng-container [ngSwitch]="lang">
+    <ng-container *ngSwitchDefault>
+      <p>Jotta oppimateriaalin voi tallentaa avointen oppimateriaalien palveluun, on sen oltava lisensoitu jollain Creative Commons -lisenssillä. Creative Commons -lisenssit kertovat millaisia käyttöoikeuksia annat muille ihmisille: voivatko he tehdä oman oppimateriaalin sinun materiaalisi pohjalta? Saavatko he käyttää oppimateriaalisi osaa omassa materiaalissaan? Saako materiaaliasi päivittää tai kääntää eri kielelle tai muuttaa pistekirjoitukseksi? Saako oppimateriaaliasi käyttää kaupallisessa koulutuksessa?</p>
+      <p>Avointen oppimateriaalien palvelu suosittelee valitsemaan Creative Commons Nimeä tai Creative Commons Nimeä-JaaSamoin -lisenssin. Kummatkin näistä takaavat, että sinut mainitaan oppimateriaalin tekijänä ja että muut käyttäjät saavat vapaasti käyttää oppimateriaaliasi osana oppimis-, opetus- ja koulutustarpeitaan.</p>
+      <p>Löydät tarkat ohjeet lisensseihin Lisätietoa-osiosta.</p>
+    </ng-container>
+  </ng-container>
 
-  <p>Avointen oppimateriaalien palvelu suosittelee valitsemaan Creative Commons Nimeä tai Creative Commons Nimeä-JaaSamoin -lisenssin. Kummatkin näistä takaavat, että sinut mainitaan oppimateriaalin tekijänä ja että muut käyttäjät saavat vapaasti käyttää oppimateriaaliasi osana oppimis-, opetus- ja koulutustarpeitaan.</p>
-
-  <p>Löydät tarkat ohjeet lisensseihin Lisätietoa-osiosta.</p>
-
-  <h3>Valitse lisenssi</h3>
+  <h3>{{ 'forms.educationalResource.license.subtitle' | translate }}</h3>
 
   <div class="form-group" *ngFor="let license of licenses$; let i = index">
     <div class="custom-control custom-radio">
@@ -20,13 +22,13 @@
         (click)="license.isCollapsed = !license.isCollapsed"
         [attr.aria-expanded]="!license.isCollapsed"
         [attr.aria-controls]="'collapseBasic' + i"
-      >Näytä lisätiedot</button>
+      >{{ 'forms.educationalResource.license.showDetails' | translate }}</button>
     </div>
 
     <div [id]="'collapseBasic' + i"  [collapse]="license.isCollapsed" [isAnimated]="true">
       <p>{{ license.description }}</p>
 
-      <a [href]="license.link" target="_blank" rel="noopener">Lue lisää</a>
+      <a [href]="license.link" target="_blank" rel="noopener">{{ 'forms.educationalResource.license.readMore' | translate }}</a>
     </div>
   </div>
 
@@ -36,7 +38,7 @@
         type="button"
         class="btn btn-gray"
         (click)="previousTab()"
-      >Edellinen</button>
+      >{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">

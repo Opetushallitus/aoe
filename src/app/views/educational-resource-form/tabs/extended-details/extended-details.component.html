@@ -1,12 +1,12 @@
 <form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityFeatures">Saavutettavuuden ominaisuudet</label>
+      <label for="accessibilityFeatures">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Voit tähän valita mikäli oppimateriaalin tekemisessä on huomioitu saavutettavuus lisäämällä siihen jotain saavutettavuutta tukevia ominaisuuksia kuten tekstitys, navgointia helpottava rakenne tai selkokielisyys. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
@@ -19,12 +19,12 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityHazards">Saavutettavuuden esteet</label>
+      <label for="accessibilityHazards">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Voit tähän valita mikäli oppimateriaalissa on jotain ominaisuuksia jotka voivat olla estäviä osalle henkilöistä, esimerkiksi mikäli materiaalissa on voimakasta välähtelyä. Kenttään voi myös merkitä, mikäli tälläisiä haittoja ei ole valitsemalla esimerkiksi ei äänihaittaa. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
@@ -37,12 +37,12 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="typicalAgeRangeMin">Kohderyhmän ikä</label>
+      <label for="typicalAgeRangeMin">{{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Ikäryhmä, jolle oppimateriaali on tarkoitettu, esim. 7-9, 18-90."
+        [tooltip]="'forms.educationalResource.extendedDetails.typicalAgeRange.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <div class="form-row" formGroupName="typicalAgeRange">
@@ -71,12 +71,12 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="timeRequired">{{ 'forms.educationalResource.basicDetails.timeRequired' | translate }}</label>
+      <label for="timeRequired">{{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Arvio ajasta, joka keskimäärin kuluu oppimateriaalin opiskeluun."
+        [tooltip]="'forms.educationalResource.extendedDetails.timeRequired.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
@@ -88,12 +88,12 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="publisher">{{ 'forms.educationalResource.basicDetails.publisher' | translate }}</label>
+      <label for="publisher">{{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Mikäli oppimateriaalilla on julkaisija (esimerkiksi järjestö tai koulu), voit tähän täydentää julkaisijan virallisen nimen."
+        [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
@@ -105,12 +105,12 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="publisher">Oppimateriaali vanhenee</label>
+      <label for="expires">{{ 'forms.educationalResource.extendedDetails.expires.label' | translate }}</label>
 
       <button
         type="button"
         class="btn btn-link"
-        tooltip="Merkitse tähän mikäli on selkeästi nähtävissä että oppimateriaalisi ei ole enää ajankohtainen tai relevantti tietyn ajankohdan jälkeen."
+        [tooltip]="'forms.educationalResource.extendedDetails.expires.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
@@ -124,7 +124,7 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="prerequisites">Aiempi osaaminen</label>
+      <label for="prerequisites">{{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -144,7 +144,7 @@
         type="button"
         class="btn btn-gray"
         (click)="previousTab()"
-      >Edellinen</button>
+      >{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">

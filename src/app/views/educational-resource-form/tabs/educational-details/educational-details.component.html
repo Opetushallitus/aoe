@@ -1,11 +1,11 @@
 <form [formGroup]="educationalDetailsForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="educationalLevels">Koulutusasteet*</label>
+    <label for="educationalLevels">{{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}*</label>
 
     <button
       type="button"
       class="btn btn-link"
-      tooltip="Valitse tästä mille koulutusasteelle ja tasolle oppimateriaalisi on pääasiallisesti tarkoitettu. Mikäli materiaali on kohdennettu usealle asteelle, esimerkiksi sekä ammatilliseen koulutukseen että lukio-opetukseen, voit valita useamman koulutusasteen ja tason."
+      [tooltip]="'forms.educationalResource.educationalDetails.educationalLevels.tooltip' | translate"
     ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
     <ng-select
@@ -29,10 +29,10 @@
   </div>
 
   <ng-container *ngIf="hasEarlyChildhoodEducation">
-    <h3>Varhaiskasvatus</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationSubjects">Varhaiskasvatuksen oppiaineet</label>
+      <label for="earlyChildhoodEducationSubjects">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -46,7 +46,7 @@
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationFramework">Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet</label>
+      <label for="earlyChildhoodEducationFramework">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</label>
 
       <input
         type="text"
@@ -58,10 +58,10 @@
   </ng-container>
 
   <ng-container *ngIf="hasPrePrimaryEducation">
-    <h3>Esiopetus</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="prePrimaryEducationSubjects">Esiopetuksen oppiaineet</label>
+      <label for="prePrimaryEducationSubjects">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -75,7 +75,7 @@
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationFramework">Esiopetuksen opetussuunnitelman tai tutkinnon perusteet</label>
+      <label for="prePrimaryEducationFramework">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}</label>
 
       <input
         type="text"
@@ -87,9 +87,9 @@
   </ng-container>
 
   <div class="form-group" *ngIf="hasBasicStudies">
-    <h3>Perusopetus</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</h3>
 
-    <label for="basicStudySubjects">Perusopetuksen oppiaineet</label>
+    <label for="basicStudySubjects">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}</label>
 
     <ng-select
       [items]="basicStudySubjects$"
@@ -113,7 +113,7 @@
 
   <!--<ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
-      <label for="basicStudyObjectives">Perusopetuksen oppiaineiden tavoitteet</label>
+      <label for="basicStudyObjectives">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</label>
 
       <ng-select
         [items]="basicStudyObjectivesItems"
@@ -128,7 +128,7 @@
     </div>
 
     <div class="form-group">
-      <label for="basicStudyContents">Perusopetuksen oppiaineiden sisältöalueet</label>
+      <label for="basicStudyContents">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</label>
 
       <ng-select
         [items]="basicStudyContentsItems"
@@ -144,10 +144,10 @@
   </ng-container>-->
 
   <ng-container *ngIf="hasUpperSecondarySchool">
-    <h3>Lukiokoulutus</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="upperSecondarySchoolSubjects">Lukionkurssit</label>
+      <label for="upperSecondarySchoolSubjects">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</label>
 
       <ng-select
         [items]="upperSecondarySchoolSubjects$"
@@ -161,7 +161,7 @@
     </div>
 
     <div class="form-group">
-      <label for="upperSecondarySchoolFramework">Lukion opetussuunnitelman tai tutkinnon perusteet</label>
+      <label for="upperSecondarySchoolFramework">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label>
 
       <input
         type="text"
@@ -174,9 +174,9 @@
 
   <ng-container *ngIf="hasVocationalDegree">
     <div class="form-group">
-      <h3>Ammatillinen koulutus</h3>
+      <h3>{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</h3>
 
-      <label for="vocationalDegrees">Ammatillisen koulutuksen tutkinnot</label>
+      <label for="vocationalDegrees">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}</label>
 
       <ng-select
         [items]="vocationalDegrees$"
@@ -190,7 +190,7 @@
     </div>
 
     <div class="form-group">
-      <label for="vocationalEducationFramework">Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet</label>
+      <label for="vocationalEducationFramework">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -205,9 +205,9 @@
   </ng-container>
 
   <div class="form-group" *ngIf="hasSelfMotivatedEducation">
-    <h3>Omaehtoisen osaamisen kehittäminen</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
 
-    <label for="selfMotivatedEducationSubjects">Omaehtoisen osaamisen kehittämisen oppiaineet</label>
+    <label for="selfMotivatedEducationSubjects">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</label>
 
     <ng-select
       [items]="[]"
@@ -221,10 +221,10 @@
   </div>
 
   <ng-container *ngIf="hasHigherEducation">
-    <h3>Korkeakoulutus</h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="branchesOfScience">Korkeakoulutuksen tieteenalat</label>
+      <label for="branchesOfScience"></label>
 
       <ng-select
         [items]="branchesOfScience$"
@@ -248,7 +248,7 @@
     </div>
 
     <div class="form-group">
-      <label for="scienceBranchObjectives">Korkeakoulutuksen tieteenalojen tavoitteet</label>
+      <label for="scienceBranchObjectives">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -263,7 +263,7 @@
     </div>
 
     <div class="form-group">
-      <label for="higherEducationFramework">Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet</label>
+      <label for="higherEducationFramework">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}</label>
 
       <ng-select
         [items]="[]"
@@ -284,7 +284,7 @@
         type="button"
         class="btn btn-gray"
         (click)="previousTab()"
-      >Edellinen</button>
+      >{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">
