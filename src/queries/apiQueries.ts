@@ -130,6 +130,10 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
+        query = "select * from educationalaudience where educationalmaterialid = $1;";
+        response = await t.any(query, [req.params.id]);
+        queries.push(response);
+
         return t.batch(queries);
     })
     .then((data: any) => {
@@ -150,17 +154,20 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.learningResourceType = data[4];
         jsonObj.timeRequired = data[0][0].timerequired;
         const typicalAgeRange: any = {};
-        typicalAgeRange.min = data[0][0].agerangemin;
-        typicalAgeRange.max = data[0][0].agerangemax;
+        typicalAgeRange.typicalAgeRangeMin = data[0][0].agerangemin;
+        typicalAgeRange.typicalAgeRangeMax = data[0][0].agerangemax;
+        jsonObj.expires = data[0][0].expires;
         jsonObj.typicalAgeRange = typicalAgeRange;
         jsonObj.educationalAlignment = data[14];
+        jsonObj.educationalLevel = data[8];
         jsonObj.educationalUse = data[9];
         jsonObj.inLanguage = data[13];
-        jsonObj.accessibilityFeature = data[5];
-        jsonObj.accessibilityHazard = data[6];
-        jsonObj.licenseInformation = data[0][0].licensecode;
+        jsonObj.accessibilityFeatures = data[5];
+        jsonObj.accessibilityHazards = data[6];
+        jsonObj.license = data[0][0].licensecode;
         jsonObj.isBasedOn = data[12];
         jsonObj.materialDisplayName = data[17];
+        jsonObj.educationalRole = data[18];
         res.status(200).json(jsonObj);
     })
     .catch((error: any) => {
@@ -229,79 +236,81 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         let query;
         const queries: any = [];
         // let params = req.params;
-        const materialname = req.body.materialname;
+        const materialname = req.body.name;
+        const slug = req.body.slug;
         const nameparams = [];
         let response;
-        let arr = req.body.materialname;
+        let arr = req.body.name;
         if (arr === undefined || arr.length === 0) {
-            query = "DELETE FROM materialname where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+            // query = "DELETE FROM materialname where educationalmaterialid = $1;";
+            // response  = await t.any(query, [req.params.id]);
+            // queries.push(response);
         }
         else {
-            for (let i = 1; i <= arr.length; i++) {
-                nameparams.push("('" + arr[i - 1].lang + "')");
-            }
-            console.log(queries);
-            // find values to be deleted
-            query = "select id from (select * from materialname where educationalmaterialid = $1) as i left join" +
-            "(select t.lang from ( values " + nameparams.join(",") + " ) as t(lang)) as a on i.language = a.lang where a.lang is null;";
+            query = "INSERT INTO materialname (materialname, language, slug, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (language,educationalmaterialid) DO " +
+                    "UPDATE SET materialname = $1 , slug = $3;";
             console.log(query);
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
-            for (const element of response) {
-                query = "DELETE FROM materialname where id = " + element.id + ";";
-                console.log(query);
-                queries.push(await t.any(query));
+            if (materialname.fi === null || slug.fi === null) {
+                queries.push(await t.any(query, ["", "fi", "", req.params.id]));
             }
-            for (const element of materialname) {
-                const slug = createSlug(element.text);
-                query = "INSERT INTO materialname (materialname, language, slug, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (language,educationalmaterialid) DO " +
-                        "UPDATE SET materialname = $1 , slug = $3;";
-                console.log(query);
-                queries.push(await t.any(query, [element.text, element.lang, slug, req.params.id]));
+            else {
+                queries.push(await t.any(query, [materialname.fi, "fi", slug.fi, req.params.id]));
+            }
+            if (materialname.sv === null || slug.sv === null) {
+                queries.push(await t.any(query, ["", "sv", "", req.params.id]));
+            }
+            else {
+                queries.push(await t.any(query, [materialname.sv, "sv", slug.sv, req.params.id]));
+            }
+            if (materialname.en === null || slug.en === null) {
+                queries.push(await t.any(query, ["", "en", "", req.params.id]));
+            }
+            else {
+                queries.push(await t.any(query, [materialname.en, "en", slug.en, req.params.id]));
             }
         }
+
+        // material
         const dnow = Date.now() / 1000.0;
-        query = "UPDATE educationalmaterial SET (PublishedAt,UpdatedAt,timeRequired,agerangeMin,agerangeMax) = ($1,to_timestamp($2),$3,$4,$5) where id=$6;";
-        console.log(query, [req.body.publishedAt, dnow]);
-        queries.push(await t.any(query, [req.body.publishedAt, dnow, req.body.timeRequired, req.body.timeRequired, req.body.typicalAgeRange.min, req.body.typicalAgeRange.max, req.params.id]));
-        console.log(queries);
+        query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode) = ($1,to_timestamp($2),$3,$4,$5,$7) where id=$6;";
+        console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.min, req.body.typicalAgeRange.max, req.params.id, req.body.license]);
+        queries.push(await t.any(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.typicalAgeRangeMin, req.body.typicalAgeRange.typicalAgeRangeMax, req.params.id, req.body.license]));
 // description
         const descparams = [];
-        const descArr = req.body.description;
-        if (descArr === undefined || descArr.length === 0) {
-            query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+        const description = req.body.description;
+        if (description === undefined || description.length === 0) {
+        // if not found do nothing
         }
         else {
-            for (let i = 1; i <= descArr.length; i++) {
-                descparams.push("('" + descArr[i - 1].lang + "')");
+            query = "INSERT INTO materialdescription (description, language, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (language,educationalmaterialid) DO " +
+                    "UPDATE SET description = $1;";
+            console.log(query);
+            if (description.fi === null || slug.fi === null) {
+                queries.push(await t.any(query, ["", "fi", req.params.id]));
             }
-            query = "select id from (select * from materialdescription where educationalmaterialid = $1) as i left join" +
-            "(select t.lang from ( values " + descparams.join(",") + " ) as t(lang)) as a on i.language = a.lang where a.lang is null;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
-            for (const element of response) {
-                query = "DELETE FROM materialdescription where id = " + element.id + ";";
-                console.log(query);
-                queries.push(await t.any(query));
+            else {
+                queries.push(await t.any(query, [description.fi, "fi", req.params.id]));
             }
-            for (const element of descArr) {
-                query = "INSERT INTO materialdescription (description, language, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (language,educationalmaterialid) DO " +
-                        "UPDATE SET description = $1;";
-                console.log(query);
-                queries.push(await t.any(query, [element.text, element.lang, req.params.id]));
+            if (description.sv === null || slug.sv === null) {
+                queries.push(await t.any(query, ["", "sv", req.params.id]));
+            }
+            else {
+                queries.push(await t.any(query, [description.sv, "sv", req.params.id]));
+            }
+            if (description.en === null || slug.en === null) {
+                queries.push(await t.any(query, ["", "en", req.params.id]));
+            }
+            else {
+                queries.push(await t.any(query, [description.en, "en", req.params.id]));
             }
         }
-// educational audience
+// educationalRoles
         const audienceparams = [];
-        const audienceArr = req.body.educationalRole;
+        const audienceArr = req.body.educationalRoles;
         if (audienceArr === undefined || audienceArr.length === 0) {
-            query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+            // query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
+            // response  = await t.any(query, [req.params.id]);
+            // queries.push(response);
         }
         else {
             for (let i = 1; i <= audienceArr.length; i++) {
@@ -317,10 +326,10 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of audienceArr) {
-                query = "INSERT INTO educationalaudience (educationalrole, educationalmaterialid) VALUES ($1,$2) ON CONFLICT (educationalrole,educationalmaterialid) DO " +
+                query = "INSERT INTO educationalaudience (educationalrole, educationalmaterialid, educationalrolekey) VALUES ($1,$2,$3) ON CONFLICT (educationalrolekey,educationalmaterialid) DO " +
                         "UPDATE SET educationalrole = $1;";
                 console.log(query);
-                queries.push(await t.any(query, [element.value, req.params.id]));
+                queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
         }
         // educationalUse
@@ -333,10 +342,10 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
         else {
             for (let i = 1; i <= educationalUseArr.length; i++) {
-                educationalUseParams.push("('" + educationalUseArr[i - 1].value + "')");
+                educationalUseParams.push("('" + educationalUseArr[i - 1].key + "')");
             }
             query = "select id from (select * from educationaluse where educationalmaterialid = $1) as i left join" +
-            "(select t.value from ( values " + educationalUseParams.join(",") + " ) as t(value)) as a on i.value = a.value where a.value is null;";
+            "(select t.educationalusekey from ( values " + educationalUseParams.join(",") + " ) as t(educationalusekey)) as a on i.educationalusekey = a.educationalusekey where a.educationalusekey is null;";
             response  = await t.any(query, [req.params.id]);
             queries.push(response);
             console.log(response);
@@ -346,25 +355,25 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of educationalUseArr) {
-                query = "INSERT INTO educationaluse (value, educationalmaterialid) VALUES ($1,$2) ON CONFLICT (value,educationalmaterialid) DO NOTHING;";
+                query = "INSERT INTO educationaluse (value, educationalmaterialid, educationalusekey) VALUES ($1,$2,$3) ON CONFLICT (educationalusekey,educationalmaterialid) DO UPDATE SET value = $1;";
                 console.log(query);
-                queries.push(await t.any(query, [element.value, req.params.id]));
+                queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
         }
         // learningResourceType
         const learningResourceTypeParams = [];
         const learningResourceTypeArr = req.body.learningResourceType;
         if (learningResourceTypeArr === undefined || learningResourceTypeArr.length === 0) {
-            query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+            // query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
+            // response  = await t.any(query, [req.params.id]);
+            // queries.push(response);
         }
         else {
             for (let i = 1; i <= learningResourceTypeArr.length; i++) {
-                learningResourceTypeParams.push("('" + learningResourceTypeArr[i - 1].value + "')");
+                learningResourceTypeParams.push("('" + learningResourceTypeArr[i - 1].key + "')");
             }
             query = "select id from (select * from learningresourcetype where educationalmaterialid = $1) as i left join" +
-            "(select t.value from ( values " + learningResourceTypeParams.join(",") + " ) as t(value)) as a on i.value = a.value where a.value is null;";
+            "(select t.learningresourcetypekey from ( values " + learningResourceTypeParams.join(",") + " ) as t(learningresourcetypekey)) as a on i.learningresourcetypekey = a.learningresourcetypekey where a.learningresourcetypekey is null;";
             response  = await t.any(query, [req.params.id]);
             queries.push(response);
             console.log(response);
@@ -374,9 +383,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of learningResourceTypeArr) {
-                query = "INSERT INTO learningresourcetype (value, educationalmaterialid) VALUES ($1,$2) ON CONFLICT (value,educationalmaterialid) DO NOTHING;";
+                query = "INSERT INTO learningresourcetype (value, educationalmaterialid, learningresourcetypekey) VALUES ($1,$2,$3) ON CONFLICT (learningresourcetypekey,educationalmaterialid) DO UPDATE SET value = $1;";
                 console.log(query);
-                queries.push(await t.any(query, [element.value, req.params.id]));
+                queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
         }
         // inLanguage
@@ -416,10 +425,10 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
         else {
         for (let i = 1; i <= arr.length; i++) {
-            params.push("('" + arr[i - 1].value + "')");
+            params.push("('" + arr[i - 1].key + "')");
         }
             query = "select id from (select * from keyword where educationalmaterialid = $1) as i left join" +
-            "(select t.value from ( values " + params.join(",") + " ) as t(value)) as a on i.value = a.value where a.value is null;";
+            "(select t.keywordkey from ( values " + params.join(",") + " ) as t(keywordkey)) as a on i.keywordkey = a.keywordkey where a.keywordkey is null;";
             response  = await t.any(query, [req.params.id]);
             queries.push(response);
             for (const element of response) {
@@ -428,7 +437,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of arr) {
-                query = "INSERT INTO keyword (value, educationalmaterialid, keyurl) VALUES ($1,$2,$3) ON CONFLICT (value, educationalmaterialid) DO NOTHING;";
+                query = "INSERT INTO keyword (value, educationalmaterialid, keywordkey) VALUES ($1,$2,$3) ON CONFLICT (keywordkey, educationalmaterialid) DO UPDATE SET value = $1;";
                 console.log(query);
                 queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
@@ -462,11 +471,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
         // isBasedOn
         params = [];
-        arr = req.body.isBasedOn;
+        arr = req.body.isBasedOn.externals;
         if (arr === undefined || arr.length === 0) {
-            query = "DELETE FROM isbasedon where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+            // query = "DELETE FROM isbasedon where educationalmaterialid = $1;";
+            // response  = await t.any(query, [req.params.id]);
+            // queries.push(response);
         }
         else {
             query = "SELECT * from isbasedon where educationalmaterialid = $1;";
@@ -475,7 +484,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             for (const element of response) {
                 let toBeDeleted = true;
                 for (let i = 0; arr.length > i; i += 1 ) {
-                    if ( element.author === arr[i].author && element.materialname === arr[i].materialname) {
+                    if ( element.author === arr[i].author && element.name === arr[i].materialname) {
                         toBeDeleted = false;
                     }
                 }
@@ -486,15 +495,14 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 }
             }
             for (const element of arr) {
-                query = "INSERT INTO isbasedon (author, materialname, url, aoeid, educationalmaterialid) VALUES ($1,$2,$3,$4,$5) ON CONFLICT (author, materialname, educationalmaterialid) DO NOTHING;";
+                query = "INSERT INTO isbasedon (author, materialname, url, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (author, materialname, educationalmaterialid) DO UPDATE SET url = $3;";
                 console.log(query);
-                const resp = await t.any(query, [element.author, element.materialname, element.url, element.aoeid, req.params.id]);
+                const resp = await t.any(query, [element.author, element.name, element.url, req.params.id]);
                 queries.push(resp);
             }
         }
-            // await updateAligmentObject(req, res, next);
-
-            arr = req.body.educationalAlignment;
+// alignmentObjects
+            arr = req.body.alignmentObjects;
 
             if (arr === undefined || arr.length === 0) {
                 query = "DELETE FROM aligmentobject where educationalmaterialid = $1;";
@@ -518,7 +526,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                         queries.push(await t.any(query));
                     }
                 }
-                const cs = new pgp.helpers.ColumnSet(["alignmenttype", "targetname", "source", "educationalmaterialid"], {table: "aligmentobject"});
+                const cs = new pgp.helpers.ColumnSet(["alignmenttype", "targetname", "source", "educationalmaterialid", "objectkey", "educationalframework"], {table: "aligmentobject"});
                 // data input values:
                 // console.log(arr);
                 const values: any = [];
@@ -526,7 +534,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                     arr[i].educationalmaterialid = req.params.id;
                 }
                 arr.forEach(async (element: any) =>  {
-                    const obj = {alignmenttype : element.alignmentType, targetname : element.targetName , source : element.source , educationalmaterialid : req.params.id};
+                    const obj = {alignmenttype : element.alignmentType, targetname : element.targetName , source : element.source , educationalmaterialid : req.params.id, objectkey : element.key, educationalframework : element.educationalFramework };
                     values.push(obj);
                 });
                 // console.log(arr);
@@ -534,24 +542,24 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 query = pgp.helpers.insert(values, cs) + " ON CONFLICT (alignmentType, targetName, source, educationalmaterialid) DO NOTHING;";
                 console.log(query);
                 queries.push(t.any(query));
-                for (const element of arr) {
-                    query = "INSERT INTO aligmentobject (alignmentType, targetName, source, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (alignmentType, targetName, source, educationalmaterialid) DO NOTHING;";
-                    console.log(query);
-                    queries.push(await t.any(query, [element.alignmentType, element.targetName, element.source, req.params.id]));
-                }
+                // for (const element of arr) {
+                //     query = "INSERT INTO aligmentobject (alignmentType, targetName, source, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (alignmentType, targetName, source, educationalmaterialid) DO NOTHING;";
+                //     console.log(query);
+                //     queries.push(await t.any(query, [element.alignmentType, element.targetName, element.source, req.params.id]));
+                // }
             }
 // author
         params = [];
-        arr = req.body.author;
+        arr = req.body.authors;
         query = "DELETE FROM author where educationalmaterialid = $1;";
         response  = await t.any(query, [req.params.id]);
         queries.push(response);
 
         for (const element of arr) {
-            query = "INSERT INTO author (authorname, organization, educationalmaterialid) VALUES ($1,$2,$3);";
-            console.log(query);
-            queries.push(await t.any(query, [element.authorname, element.organization, req.params.id]));
-          }
+            query = "INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1,$2,$3,$4);";
+            console.log(query, [element.author, element.organization.value, req.params.id, element.organization.key]);
+            queries.push(await t.any(query, [element.author, element.organization.value, req.params.id, element.organization.key]));
+        }
 
     // materialDisplayName
         params = [];
@@ -587,6 +595,93 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query, [element.text, element.lang, element.materialid, slug, req.params.id]));
             }
         }
+// accessibilityFeatures
+            params = [];
+            arr = req.body.accessibilityFeatures;
+            if (arr === undefined || arr.length === 0) {
+            }
+            else {
+                for (let i = 1; i <= arr.length; i++) {
+                    params.push("('" + arr[i - 1].key + "')");
+                }
+                query = "select id from (select * from accessibilityfeature where educationalmaterialid = $1) as i left join" +
+                "(select t.accessibilityfeaturekey from ( values " + params.join(",") + " ) as t(accessibilityfeaturekey)) as a on i.accessibilityfeaturekey = a.accessibilityfeaturekey where a.accessibilityfeaturekey is null;";
+                console.log(query);
+                response  = await t.any(query, [req.params.id]);
+                console.log(response);
+                queries.push(response);
+                for (const element of response) {
+                    if (element.dnid !== null) {
+                        query = "DELETE FROM accessibilityfeature where id = " + element.id + ";";
+                        console.log(query);
+                        queries.push(await t.any(query));
+                    }
+                }
+                for (const element of arr) {
+                    query = "INSERT INTO accessibilityfeature (accessibilityfeaturekey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityfeaturekey, educationalmaterialid) DO NOTHING;";
+                    // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                    console.log(query, [element.key, element.value, req.params.id]);
+                    queries.push(await t.any(query, [element.key, element.value, req.params.id]));
+                }
+            }
+// accessibilityHazards
+            params = [];
+            arr = req.body.accessibilityHazards;
+            if (arr === undefined || arr.length === 0) {
+            }
+            else {
+                for (let i = 1; i <= arr.length; i++) {
+                    params.push("('" + arr[i - 1].key + "')");
+                }
+                query = "select id from (select * from accessibilityhazard where educationalmaterialid = $1) as i left join" +
+                "(select t.accessibilityhazardkey from ( values " + params.join(",") + " ) as t(accessibilityhazardkey)) as a on i.accessibilityhazardkey = a.accessibilityhazardkey where a.accessibilityhazardkey is null;";
+                console.log(query);
+                response  = await t.any(query, [req.params.id]);
+                console.log(response);
+                queries.push(response);
+                for (const element of response) {
+                    if (element.dnid !== null) {
+                        query = "DELETE FROM accessibilityhazard where id = " + element.id + ";";
+                        console.log(query);
+                        queries.push(await t.any(query));
+                    }
+                }
+                for (const element of arr) {
+                    query = "INSERT INTO accessibilityhazard (accessibilityhazardkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityhazardkey, educationalmaterialid) DO NOTHING;";
+                    // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                    console.log(query, [element.key, element.value, req.params.id]);
+                    queries.push(await t.any(query, [element.key, element.value, req.params.id]));
+                }
+            }
+// educationalLevels
+            params = [];
+            arr = req.body.educationalLevels;
+            if (arr === undefined || arr.length === 0) {
+            }
+            else {
+                for (let i = 1; i <= arr.length; i++) {
+                    params.push("('" + arr[i - 1].key + "')");
+                }
+                query = "select id from (select * from educationallevel where educationalmaterialid = $1) as i left join" +
+                "(select t.educationallevelkey from ( values " + params.join(",") + " ) as t(educationallevelkey)) as a on i.educationallevelkey = a.educationallevelkey where a.educationallevelkey is null;";
+                console.log(query);
+                response  = await t.any(query, [req.params.id]);
+                console.log(response);
+                queries.push(response);
+                for (const element of response) {
+                    if (element.dnid !== null) {
+                        query = "DELETE FROM educationallevel where id = " + element.id + ";";
+                        console.log(query);
+                        queries.push(await t.any(query));
+                    }
+                }
+                for (const element of arr) {
+                    query = "INSERT INTO educationallevel (educationallevelkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (educationallevelkey, educationalmaterialid) DO NOTHING;";
+                    // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                    console.log(query, [element.key, element.value, req.params.id]);
+                    queries.push(await t.any(query, [element.key, element.value, req.params.id]));
+                }
+            }
         return t.batch(queries);
     })
     .then ((data: any) => {
