@@ -197,7 +197,7 @@ export class FilesComponent implements OnInit {
         (err) => this.uploadError = err,
       );*/
 
-      // this.router.navigate(['/lisaa-oppimateriaali', 2]);
+      this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 
