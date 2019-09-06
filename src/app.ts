@@ -27,7 +27,7 @@ app.use(session({
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors()); // Enable CORS for dev purposes
+// app.use(cors()); // Enable CORS for dev purposes
 app.set("port", 3000);
 
 client.on("error", (error: any) => {
