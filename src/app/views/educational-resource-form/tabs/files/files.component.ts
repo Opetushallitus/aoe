@@ -28,8 +28,6 @@ export class FilesComponent implements OnInit {
 
   public languages$: KeyValue<string, string>[];
 
-  public testi;
-
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -89,8 +87,6 @@ export class FilesComponent implements OnInit {
     }
 
     // this.onChanges();
-
-    this.backendSvc.getMaterial(1).subscribe(data => this.testi = data);
   }
 
   get files() {
