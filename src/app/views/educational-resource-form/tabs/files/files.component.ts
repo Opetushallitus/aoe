@@ -183,7 +183,7 @@ export class FilesComponent implements OnInit {
         (err) => this.uploadError = err,
       );*/
 
-      /*const formData = new FormData();
+      const formData = new FormData();
 
       this.myFiles.forEach(file => {
         formData.append('myFiles', file);
@@ -195,9 +195,9 @@ export class FilesComponent implements OnInit {
       this.backendSvc.uploadFiles(formData).subscribe(
         (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
-      );*/
+      );
 
-      this.router.navigate(['/lisaa-oppimateriaali', 2]);
+      // this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 
