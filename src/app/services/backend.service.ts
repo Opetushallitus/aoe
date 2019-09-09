@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -15,6 +15,9 @@ export class BackendService {
     const uploadUrl = `${this.backendUrl}/material/file`;
 
     return this.http.post<any>(uploadUrl, data, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
       reportProgress: true,
       observe: 'events',
     }).pipe(map((event: HttpEvent<any>) => {
@@ -41,9 +44,9 @@ export class BackendService {
 
   public getMaterial(id): Observable<HttpResponse<any>> {
     return this.http.get(`${this.backendUrl}/material/${id}`, {
-      headers: {
+      headers: new HttpHeaders({
         'Accept': 'application/json',
-      },
+      }),
       observe: 'response'
     });
   }
