@@ -15,7 +15,11 @@ import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 // import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
-import { getPerusopetuksenOppiaineet } from "./controllers/perusopetuksen-oppiaineet";
+import {
+  getPerusopetuksenOppiaineet,
+  getPerusopetuksenSisaltoalueet,
+  getPerusopetuksenTavoitteet
+} from "./controllers/perusopetuksen-oppiaineet";
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 
@@ -232,6 +236,22 @@ router.get("/ammatillisentutkinnot/:key/:lang", getAmmatillisenTutkinto);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/oppiaineet/:lang", getPerusopetuksenOppiaineet);
+
+/**
+ * Returns all tavoitteet from redis database by given language
+ * @group Perusopetus
+ * @route GET /tavoitteet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/tavoitteet/:lang", getPerusopetuksenTavoitteet);
+
+/**
+ * Returns all sisaltoalueet from redis database by given language
+ * @group Perusopetus
+ * @route GET /sisaltoalueet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/sisaltoalueet/:lang", getPerusopetuksenSisaltoalueet);
 
 /**
  * Returns all lisenssit from redis database by given language
