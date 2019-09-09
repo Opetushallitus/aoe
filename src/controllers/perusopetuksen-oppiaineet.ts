@@ -51,21 +51,32 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     const swedish: AlignmentObjectExtended[] = [];
 
     results.forEach((result: any) => {
-      subjectIds.push({
-        key: result.id,
-      });
-
       if (result.oppimaarat) {
+        subjectIds.push({
+          key: result.id,
+        });
+
         result.oppimaarat.forEach((oppimaara: any) => {
           subjectIds.push({
             key: oppimaara.id,
             parent: result.id,
           });
         });
+      } else {
+        subjectIds.push({
+          key: result.id,
+          parent: 999,
+        });
       }
     });
 
-    const subjects = [];
+    const subjects: any[] = [{
+      key: 999,
+      name: {
+        fi: "Muut oppiaineet",
+        sv: "Muut oppiaineet"
+      },
+    }];
 
     for (const row of subjectIds) {
       try {
