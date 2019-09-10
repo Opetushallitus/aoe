@@ -96,12 +96,15 @@
         [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-      <input
-        type="text"
-        class="form-control"
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addCustomItem"
+        bindLabel="value"
+        appendTo="body"
         id="publisher"
         formControlName="publisher"
-      >
+      ></ng-select>
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
