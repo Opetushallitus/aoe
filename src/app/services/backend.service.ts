@@ -27,7 +27,7 @@ export class BackendService {
           return { status: 'progress', message: progress };
 
         case HttpEventType.Response:
-          console.log(event.body);
+          localStorage.setItem('aoe.fileUpload', JSON.stringify(event.body));
           return event.body;
 
         default:
