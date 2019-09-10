@@ -308,9 +308,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         const audienceparams = [];
         const audienceArr = req.body.educationalRoles;
         if (audienceArr === undefined || audienceArr.length === 0) {
-            // query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
-            // response  = await t.any(query, [req.params.id]);
-            // queries.push(response);
+            query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
+            response  = await t.any(query, [req.params.id]);
+            queries.push(response);
         }
         else {
             for (let i = 1; i <= audienceArr.length; i++) {
@@ -364,9 +364,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         const learningResourceTypeParams = [];
         const learningResourceTypeArr = req.body.learningResourceType;
         if (learningResourceTypeArr === undefined || learningResourceTypeArr.length === 0) {
-            // query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
-            // response  = await t.any(query, [req.params.id]);
-            // queries.push(response);
+            query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
+            response  = await t.any(query, [req.params.id]);
+            queries.push(response);
         }
         else {
             for (let i = 1; i <= learningResourceTypeArr.length; i++) {
@@ -473,9 +473,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         params = [];
         arr = req.body.isBasedOn.externals;
         if (arr === undefined || arr.length === 0) {
-            // query = "DELETE FROM isbasedon where educationalmaterialid = $1;";
-            // response  = await t.any(query, [req.params.id]);
-            // queries.push(response);
+            query = "DELETE FROM isbasedon where educationalmaterialid = $1;";
+            response  = await t.any(query, [req.params.id]);
+            queries.push(response);
         }
         else {
             query = "SELECT * from isbasedon where educationalmaterialid = $1;";
@@ -565,9 +565,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         params = [];
         arr = req.body.materialdisplayname;
         if (arr === undefined || arr.length === 0) {
-            // query = "DELETE FROM materialdisplayname where materialid = $1;";
-            // response  = await t.any(query, [req.params.id]);
-            // queries.push(response);
+            query = "DELETE FROM materialdisplayname where materialid = $1;";
+            response  = await t.any(query, [req.params.id]);
+            queries.push(response);
         }
         else {
             for (let i = 1; i <= arr.length; i++) {
@@ -599,6 +599,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             params = [];
             arr = req.body.accessibilityFeatures;
             if (arr === undefined || arr.length === 0) {
+                query = "DELETE FROM accessibilityfeature where materialid = $1;";
+                response  = await t.any(query, [req.params.id]);
+                queries.push(response);
             }
             else {
                 for (let i = 1; i <= arr.length; i++) {
@@ -628,6 +631,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             params = [];
             arr = req.body.accessibilityHazards;
             if (arr === undefined || arr.length === 0) {
+                query = "DELETE FROM accessibilityhazard where materialid = $1;";
+                response  = await t.any(query, [req.params.id]);
+                queries.push(response);
             }
             else {
                 for (let i = 1; i <= arr.length; i++) {
@@ -657,6 +663,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             params = [];
             arr = req.body.educationalLevels;
             if (arr === undefined || arr.length === 0) {
+                query = "DELETE FROM educationallevel where materialid = $1;";
+                response  = await t.any(query, [req.params.id]);
+                queries.push(response);
             }
             else {
                 for (let i = 1; i <= arr.length; i++) {

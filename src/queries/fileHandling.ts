@@ -37,26 +37,26 @@ async function uploadMaterial(req: Request, res: Response) {
             upload.array("myFiles", 12)(req , res, async function() {
                 try {
                     const files = (<any>req).files;
-                    const links = req.body.myFiles;
+                    // const links = req.body.myFiles;
                     console.log("files: " + files);
-                    console.log("links: " + links);
-                    if (files === "undefined" && links === "undefined") {
+                    // console.log("links: " + links);
+                    if (files === "undefined") {
                         return res.status(400).send("No file sent");
                     }
                     const emresp = await insertDataToEducationalMaterialTable(req);
                     const material = [];
-                    if (typeof links !== "undefined") {
-                        if (isArray(links)) {
-                            for (let i = 0; i < links.length; i++) {
-                                const result = await insertDataToMaterialTable(emresp[0].id, links[i]);
-                                material.push({ "id" : result.id , "createdFrom" : links[i]});
-                            }
-                        }
-                        else {
-                            const result = await insertDataToMaterialTable(emresp[0].id, links);
-                            material.push({ "id" : result.id , "createdFrom" : links});
-                        }
-                    }
+                    // if (typeof links !== "undefined") {
+                    //     if (isArray(links)) {
+                    //         for (let i = 0; i < links.length; i++) {
+                    //             const result = await insertDataToMaterialTable(emresp[0].id, links[i]);
+                    //             material.push({ "id" : result.id , "createdFrom" : links[i]});
+                    //         }
+                    //     }
+                    //     else {
+                    //         const result = await insertDataToMaterialTable(emresp[0].id, links);
+                    //         material.push({ "id" : result.id , "createdFrom" : links});
+                    //     }
+                    // }
                     const materialid = [];
                     if (typeof files !== "undefined") {
                         for (let i = 0; i < files.length; i++) {
@@ -121,23 +121,23 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                 try {
 
                     const files = (<any>req).files;
-                    const links = req.body.myFiles;
-                    if (files === "undefined" || files.length == 0 && links === "undefined") {
+                    // const links = req.body.myFiles;
+                    if (files === "undefined" || files.length == 0) {
                         return res.status(400).send("No file sent");
                     }
                     const material = [];
-                    if (typeof links !== "undefined") {
-                        if (isArray(links)) {
-                            for (let i = 0; i < links.length; i++) {
-                                const result = await insertDataToMaterialTable(req.params.materialId, links[i]);
-                                material.push({ "id" : result.id , "createdFrom" : links[i]});
-                            }
-                        }
-                        else {
-                            const result = await insertDataToMaterialTable(req.params.materialId, links);
-                            material.push({ "id" : result.id , "createdFrom" : links});
-                        }
-                    }
+                    // if (typeof links !== "undefined") {
+                    //     if (isArray(links)) {
+                    //         for (let i = 0; i < links.length; i++) {
+                    //             const result = await insertDataToMaterialTable(req.params.materialId, links[i]);
+                    //             material.push({ "id" : result.id , "createdFrom" : links[i]});
+                    //         }
+                    //     }
+                    //     else {
+                    //         const result = await insertDataToMaterialTable(req.params.materialId, links);
+                    //         material.push({ "id" : result.id , "createdFrom" : links});
+                    //     }
+                    // }
                     const materialid = [];
                     if (typeof files !== "undefined") {
                         for (let i = 0; i < files.length; i++) {
@@ -189,9 +189,9 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function insertDataToEducationalMaterialTable(req: Request) {
-    const query = "insert into educationalmaterial (TechnicalName,Usersusername)" +
-                    " values ($1,$2) returning id;";
-    const data = await db.any(query, [req.body.materialname, req.body.username]);
+    const query = "insert into educationalmaterial (Usersusername)" +
+                    " values ($1) returning id;";
+    const data = await db.any(query, [req.body.username]);
     return data;
 }
 
