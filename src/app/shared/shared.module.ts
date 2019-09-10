@@ -60,7 +60,7 @@ export function getLocalStorageData(localStorageKey: string) {
 
 export function addCustomItem(value: string): KeyValue<string, string> {
   return {
-    key: value.replace(/[\W_]+/g, ''),
+    key: value.replace(/[\W_]+/g, '').toLowerCase(),
     value: value,
   };
 }
