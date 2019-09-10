@@ -226,10 +226,12 @@ CREATE TABLE IsBasedOn (
 --   PRIMARY KEY (EducationalMaterialCollectionId, 
 --   EducationalMaterialId));
 CREATE TABLE Publisher (
-  id                     BIGSERIAL NOT NULL, 
-  name                  text NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
+  Name                  text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (id));
+  PublisherKey          text NOT NULL, 
+  PRIMARY KEY (Id));
+
 CREATE TABLE MaterialDescription (
   id                     BIGSERIAL NOT NULL, 
   Description           text NOT NULL, 
@@ -325,7 +327,7 @@ ALTER TABLE educationaluse ADD CONSTRAINT constraint_educationaluse UNIQUE (educ
 ALTER TABLE learningresourcetype ADD CONSTRAINT constraint_learningresourcetype UNIQUE (learningresourcetypekey,educationalmaterialid);
 ALTER TABLE inlanguage ADD CONSTRAINT constraint_inlanguage UNIQUE (inlanguage,educationalmaterialid);
 ALTER TABLE keyword ADD CONSTRAINT constraint_keyword UNIQUE (keywordkey,educationalmaterialid);
-ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (name,educationalmaterialid);
+ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (PublisherKey,educationalmaterialid);
 ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
 ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
 ALTER TABLE materialdisplayname ADD CONSTRAINT constraint_materialdisplayname UNIQUE (language, materialid);

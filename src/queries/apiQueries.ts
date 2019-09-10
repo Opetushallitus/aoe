@@ -438,7 +438,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
             for (const element of arr) {
                 query = "INSERT INTO keyword (value, educationalmaterialid, keywordkey) VALUES ($1,$2,$3) ON CONFLICT (keywordkey, educationalmaterialid) DO UPDATE SET value = $1;";
-                console.log(query);
+                console.log(query, [element.value, req.params.id, element.key]);
                 queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
         }
@@ -452,10 +452,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
         else {
             for (let i = 1; i <= arr.length; i++) {
-                params.push("('" + arr[i - 1] + "')");
+                params.push("('" + arr[i - 1].key + "')");
             }
             query = "select id from (select * from publisher where educationalmaterialid = $1) as i left join" +
-            "(select t.name from ( values " + params.join(",") + " ) as t(name)) as a on i.name = a.name where a.name is null;";
+            "(select t.publisherkey from ( values " + params.join(",") + " ) as t(publisherkey)) as a on i.publisherkey = a.publisherkey where a.publisherkey is null;";
+            console.log(query);
             response  = await t.any(query, [req.params.id]);
             queries.push(response);
             for (const element of response) {
@@ -464,9 +465,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 queries.push(await t.any(query));
             }
             for (const element of arr) {
-                query = "INSERT INTO publisher (name, educationalmaterialid) VALUES ($1,$2) ON CONFLICT (name, educationalmaterialid) DO NOTHING;";
+                query = "INSERT INTO publisher (name, educationalmaterialid, publisherkey) VALUES ($1,$2,$3) ON CONFLICT (publisherkey, educationalmaterialid) DO UPDATE SET name = $1";
                 console.log(query);
-                queries.push(await t.any(query, [element, req.params.id]));
+                queries.push(await t.any(query, [element.value, req.params.id, element.key]));
             }
         }
         // isBasedOn
