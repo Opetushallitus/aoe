@@ -3,24 +3,19 @@
 <dl class="row">
   <ng-container *ngIf="savedData.name">
     <ng-container *ngIf="savedData.name.fi">
-      <dt class="col-sm-3">Nimi</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.label' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.fi }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.name.en">
-      <dt class="col-sm-3">Nimi (englanniksi)</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.modal.en' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.en }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.name.sv">
-      <dt class="col-sm-3">Nimi (ruotsiksi)</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.modal.sv' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.sv }}</dd>
     </ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="savedData.createdAt">
-    <dt class="col-sm-3">Luotu</dt>
-    <dd class="col-sm-9">{{ savedData.createdAt | date:'d.M.yyyy H:mm' }}</dd>
   </ng-container>
 </dl>
 
@@ -31,37 +26,37 @@
 
   <dl class="row">
     <ng-container *ngFor="let file of savedData.files; let i = index">
-      <dt class="col-sm-3">{{ i + 1 }}. tiedosto</dt>
+      <dt class="col-sm-3">{{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}</dt>
       <dd class="col-sm-9">
         <dl class="row">
           <ng-container *ngIf="file.file">
-            <dt class="col-sm-3">Tiedosto</dt>
+            <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}</dt>
             <dd class="col-sm-9">{{ file.file }}</dd>
           </ng-container>
 
           <ng-container *ngIf="file.link">
-            <dt class="col-sm-3">Linkki</dt>
+            <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}</dt>
             <dd class="col-sm-9"><a [href]="file.link" target="_blank" rel="noopener">{{ file.link }}</a></dd>
           </ng-container>
 
           <ng-container *ngIf="file.displayName">
             <ng-container *ngIf="file.displayName.fi">
-              <dt class="col-sm-3">Esitysnimi</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.label' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.fi }}</dd>
             </ng-container>
 
             <ng-container *ngIf="file.displayName.en">
-              <dt class="col-sm-3">Esitysnimi (englanniksi)</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.en' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.en }}</dd>
             </ng-container>
 
             <ng-container *ngIf="file.displayName.sv">
-              <dt class="col-sm-3">Esitysnimi (ruotsiksi)</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.sv' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.sv }}</dd>
             </ng-container>
           </ng-container>
 
-          <dt class="col-sm-3">Kieli</dt>
+          <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}</dt>
           <dd class="col-sm-9">{{ file.language.value }}</dd>
         </dl>
       </dd>
@@ -75,12 +70,12 @@
 
 <dl class="row">
   <ng-container *ngFor="let author of savedData.authors">
-    <dt class="col-sm-3">Tekijä</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}</dt>
     <dd class="col-sm-9">{{ author.author }}<ng-container *ngIf="author.organisation">, {{ author.organisation.value }}</ng-container></dd>
   </ng-container>
 
   <ng-container *ngIf="savedData.keywords && savedData.keywords.length > 0">
-    <dt class="col-sm-3">Asiasanat</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let keyword of savedData.keywords; let isLast = last">
         {{ keyword.value }}{{ isLast ? '' : ', ' }}
@@ -89,7 +84,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.authors && savedData.authors.length > 0">
-    <dt class="col-sm-3">Oppimateriaalin tyyppi</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.learningResourceType.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let type of savedData.learningResourceType; let isLast = last">
         {{ type.value }}{{ isLast ? '' : ', ' }}
@@ -98,7 +93,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.educationalRole && savedData.educationalRole.length > 0">
-    <dt class="col-sm-3">Pääasiallinen kohderyhmä</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let role of savedData.educationalRole; let isLast = last">
         {{ role.value }}{{ isLast ? '' : ', ' }}
@@ -107,7 +102,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.educationalUse && savedData.educationalUse.length > 0">
-    <dt class="col-sm-3">Pääasiallinen käyttötarkoitus</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.educationalUse.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let use of savedData.educationalUse; let isLast = last">
         {{ use.value }}{{ isLast ? '' : ', ' }}
@@ -117,17 +112,17 @@
 
   <ng-container *ngIf="savedData.description">
     <ng-container *ngIf="savedData.description.fi">
-      <dt class="col-sm-3">Kuvaus</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.label' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.fi }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.description.en">
-      <dt class="col-sm-3">Kuvaus (englanniksi)</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.modal.en' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.en }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.description.sv">
-      <dt class="col-sm-3">Kuvaus (ruotsiksi)</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.modal.sv' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.sv }}</dd>
     </ng-container>
   </ng-container>
@@ -138,7 +133,7 @@
 <h3>Koulutustiedot</h3>
 
 <dl class="row">
-  <dt class="col-sm-3">Koulutusaste</dt>
+  <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}</dt>
   <dd class="col-sm-9">
     <ng-container *ngFor="let level of savedData.educationalLevels; let isLast = last">
       {{ level.value }}{{ isLast ? '' : ', ' }}
@@ -146,7 +141,7 @@
   </dd>
 
   <ng-container *ngIf="savedData.earlyChildhoodEducationSubjects && savedData.earlyChildhoodEducationSubjects.length > 0">
-    <dt class="col-sm-3">Varhaiskasvatuksen oppiaineet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.earlyChildhoodEducationSubjects; let isLast = last">
         {{ subject.value }}{{ isLast ? '' : ', ' }}
@@ -155,7 +150,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.earlyChildhoodEducationFramework && savedData.earlyChildhoodEducationFramework.length > 0">
-    <dt class="col-sm-3">Varhaiskasvatuksen opetussuunnitelma</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of savedData.earlyChildhoodEducationFramework; let isLast = last">
         {{ framework.value }}{{ isLast ? '' : ', ' }}
@@ -164,7 +159,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.prePrimaryEducationSubjects && savedData.prePrimaryEducationSubjects.length > 0">
-    <dt class="col-sm-3">Esiopetuksen oppiaineet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.prePrimaryEducationSubjects; let isLast = last">
         {{ subject.value }}{{ isLast ? '' : ', ' }}
@@ -173,7 +168,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.prePrimaryEducationFramework && savedData.prePrimaryEducationFramework.length > 0">
-    <dt class="col-sm-3">Esiopetuksen opetussuunnitelma</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of savedData.prePrimaryEducationFramework; let isLast = last">
         {{ framework.value }}{{ isLast ? '' : ', ' }}
@@ -182,7 +177,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.basicStudySubjects && savedData.basicStudySubjects.length > 0">
-    <dt class="col-sm-3">Perusopetuksen oppiaineet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.basicStudySubjects; let isLast = last">
         {{ subject.value }}{{ isLast ? '' : ', ' }}
@@ -191,7 +186,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.basicStudyObjectives && savedData.basicStudyObjectives.length > 0">
-    <dt class="col-sm-3">Perusopetuksen oppiaineiden tavoitteet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let objective of savedData.basicStudyObjectives; let isLast = last">
         {{ objective.value }}<br *ngIf="!isLast">
@@ -200,7 +195,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.basicStudyContents && savedData.basicStudyContents.length > 0">
-    <dt class="col-sm-3">Perusopetuksen oppiaineiden sisältöalueet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let content of savedData.basicStudyContents; let isLast = last">
         {{ content.value }}<br *ngIf="!isLast">
@@ -209,7 +204,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.upperSecondarySchoolSubjects && savedData.upperSecondarySchoolSubjects.length > 0">
-    <dt class="col-sm-3">Lukionkurssit</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.upperSecondarySchoolSubjects; let isLast = last">
         {{ subject.value }}{{ isLast ? '' : ', ' }}
@@ -218,7 +213,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.upperSecondarySchoolFramework && savedData.upperSecondarySchoolFramework.length > 0">
-    <dt class="col-sm-3">Lukion opetussuunnitelma</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of savedData.upperSecondarySchoolFramework; let isLast = last">
         {{ framework.value }}{{ isLast ? '' : ', ' }}
@@ -227,7 +222,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.vocationalDegrees && savedData.vocationalDegrees.length > 0">
-    <dt class="col-sm-3">Ammatillisen koulutuksen tutkinnot</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let degree of savedData.vocationalDegrees; let isLast = last">
         {{ degree.value }}{{ isLast ? '' : ', ' }}
@@ -236,7 +231,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.vocationalEducationFramework && savedData.vocationalEducationFramework.length > 0">
-    <dt class="col-sm-3">Ammatillisen koulutuksen opetussuunnitelma</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of savedData.vocationalEducationFramework; let isLast = last">
         {{ framework.value }}{{ isLast ? '' : ', ' }}
@@ -245,7 +240,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.selfMotivatedEducationSubjects && savedData.selfMotivatedEducationSubjects.length > 0">
-    <dt class="col-sm-3">Omaehtoisen osaamisen kehittämisen oppiaineet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.selfMotivatedEducationSubjects; let isLast = last">
         {{ subject.value }}{{ isLast ? '' : ', ' }}
@@ -254,7 +249,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.branchesOfScience && savedData.branchesOfScience.length > 0">
-    <dt class="col-sm-3">Korkeakoulutuksen tieteenalat</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let branch of savedData.branchesOfScience; let isLast = last">
         {{ branch.value }}{{ isLast ? '' : ', ' }}
@@ -263,7 +258,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.scienceBranchObjectives && savedData.scienceBranchObjectives.length > 0">
-    <dt class="col-sm-3">Korkeakoulutuksen tieteenalojen tavoitteet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let subject of savedData.scienceBranchObjectives; let isLast = last">
         {{ subject.value }}<br *ngIf="!isLast">
@@ -272,7 +267,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.higherEducationFramework && savedData.higherEducationFramework.length > 0">
-    <dt class="col-sm-3">Korkeakoulutuksen opetussuunnitelma</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of savedData.higherEducationFramework; let isLast = last">
         {{ framework.value }}<br *ngIf="!isLast">
@@ -287,7 +282,7 @@
 
 <dl class="row">
   <ng-container *ngIf="savedData.accessibilityFeature && savedData.accessibilityFeature.length > 0">
-    <dt class="col-sm-3">Saavutettavuuden ominaisuudet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let feature of savedData.accessibilityFeature; let isLast = last">
         {{ feature.value }}{{ isLast ? '' : ', ' }}
@@ -296,7 +291,7 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.accessibilityHazard && savedData.accessibilityHazard.length > 0">
-    <dt class="col-sm-3">Saavutettavuuden esteet</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let hazard of savedData.accessibilityHazard; let isLast = last">
         {{ hazard.value }}{{ isLast ? '' : ', ' }}
@@ -305,27 +300,31 @@
   </ng-container>
 
   <ng-container *ngIf="savedData.typicalAgeRange">
-    <dt class="col-sm-3">Kohderyhmän ikä</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.typicalAgeRange.typicalAgeRangeMin }} - {{ savedData.typicalAgeRange.typicalAgeRangeMax }}</dd>
   </ng-container>
 
   <ng-container *ngIf="savedData.timeRequired">
-    <dt class="col-sm-3">Opiskeluaika</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.timeRequired }}</dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.publisher">
-    <dt class="col-sm-3">Julkaisija</dt>
-    <dd class="col-sm-9">{{ savedData.publisher }}</dd>
+  <ng-container *ngIf="savedData.publisher && savedData.publisher.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let publisher of savedData.publisher; let isLast = last">
+        {{ publisher.value }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
   </ng-container>
 
   <ng-container *ngIf="savedData.expires">
-    <dt class="col-sm-3">Oppimateriaali vanhenee</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.expires.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.expires | date:'d.M.yyyy' }}</dd>
   </ng-container>
 
   <ng-container *ngIf="savedData.prerequisites && savedData.prerequisites.length > 0">
-    <dt class="col-sm-3">Aiempi osaaminen</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.expires }}</dd>
   </ng-container>
 </dl>
@@ -333,7 +332,7 @@
 <hr>
 
 <ng-container *ngIf="savedData.isBasedOn">
-  <h3>Hyödynnetyt materiaalit</h3>
+  <h3>{{ 'forms.educationalResource.basedOnDetails.externals.title' | translate }}</h3>
 
   <dl class="row">
     <ng-container *ngIf="savedData.isBasedOn.externals">
@@ -341,13 +340,13 @@
         <dt class="col-sm-3">{{ i + 1 }}. materiaali</dt>
         <dd class="col-sm-9">
           <dl class="row">
-            <dt class="col-sm-3">Nimi</dt>
+            <dt class="col-sm-3">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.name.label' | translate }}</dt>
             <dd class="col-sm-9">{{ external.name }}</dd>
 
-            <dt class="col-sm-3">Tekijä</dt>
+            <dt class="col-sm-3">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }}</dt>
             <dd class="col-sm-9">{{ external.author }}</dd>
 
-            <dt class="col-sm-3">Linkki</dt>
+            <dt class="col-sm-3">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.link.label' | translate }}</dt>
             <dd class="col-sm-9"><a [href]="external.url" target="_blank" rel="noopener">{{ external.url }}</a></dd>
           </dl>
         </dd>
@@ -359,10 +358,10 @@
 </ng-container>
 
 <ng-container *ngIf="savedData.license">
-  <h3>Lisenssi</h3>
+  <h3>{{ 'forms.educationalResource.license.title' | translate }}</h3>
 
   <dl class="row">
-    <dt class="col-sm-3">Lisenssi</dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.license.title' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.license }}</dd>
   </dl>
 
@@ -381,7 +380,7 @@
         type="button"
         class="btn btn-gray"
         (click)="previousTab()"
-      >Edellinen</button>
+      >{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">
