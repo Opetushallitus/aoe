@@ -19,7 +19,6 @@ export class BasicDetailsComponent implements OnInit {
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
-  // public organisations$: KeyValue<string, string>[];
   public learningResourceTypes$: KeyValue<string, string>[];
   public educationalRoles$: KeyValue<string, string>[];
   public educationalUse$: KeyValue<string, string>[];
@@ -72,10 +71,6 @@ export class BasicDetailsComponent implements OnInit {
         en: this.fb.control(null),
       }),
     });
-
-    // this.koodistoProxySvc.getData('organisaatiot', this.lang).subscribe(data => {
-    //   this.organisations$ = data;
-    // });
 
     this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang).subscribe(data => {
       this.learningResourceTypes$ = data;
@@ -206,7 +201,6 @@ export class BasicDetailsComponent implements OnInit {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [ Validators.required ]),
       organisation: this.fb.control(author ? author.organisation : null),
-      customOrganisation: this.fb.control(author ? author.customOrganisation : null),
     });
   }
 

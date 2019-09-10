@@ -72,9 +72,9 @@ export class FilesComponent implements OnInit {
           this.files.removeAt(0);
         }
 
-        this.savedData.files.forEach(() => this.addFile());
+        /*this.savedData.files.forEach(() => this.addFile());
 
-        this.fileUploadForm.get('files').setValue(this.savedData.files);
+        this.fileUploadForm.get('files').setValue(this.savedData.files);*/
       }
 
       if (this.savedData.name) {
@@ -165,7 +165,6 @@ export class FilesComponent implements OnInit {
       const newData = {
         name: this.fileUploadForm.get('name').value,
         slug: slugs,
-        files: this.fileUploadForm.get('files').value,
       };
 
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
@@ -173,23 +172,12 @@ export class FilesComponent implements OnInit {
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      /*const formData = new FormData();
-      formData.append('myFiles', 'tiedostolinkki');
-      formData.append('materialname', 'Testimateriaali');
-      formData.append('usersid', '1');
-
-      this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => this.uploadResponse = res,
-        (err) => this.uploadError = err,
-      );*/
-
       const formData = new FormData();
 
       this.myFiles.forEach(file => {
         formData.append('myFiles', file);
       });
 
-      formData.append('materialname', 'Testimateriaali');
       formData.append('username', this.authSvc.getUser().username);
 
       this.backendSvc.uploadFiles(formData).subscribe(
@@ -197,7 +185,7 @@ export class FilesComponent implements OnInit {
         (err) => this.uploadError = err,
       );
 
-      // this.router.navigate(['/lisaa-oppimateriaali', 2]);
+      this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 
