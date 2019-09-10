@@ -12,6 +12,7 @@ import { BackendService } from '../../../../services/backend.service';
 export class PreviewComponent implements OnInit {
   private localStorageKey = 'aoe.new-educational-resource';
   public savedData: any;
+  private fileUpload: any;
 
   public previewForm: FormGroup;
 
@@ -23,6 +24,7 @@ export class PreviewComponent implements OnInit {
 
   ngOnInit() {
     this.savedData = getLocalStorageData(this.localStorageKey);
+    this.fileUpload = getLocalStorageData('aoe.fileUpload');
 
     this.previewForm = this.fb.group({
       confirm: this.fb.control(false, [ Validators.requiredTrue ])
@@ -31,9 +33,9 @@ export class PreviewComponent implements OnInit {
 
   public onSubmit() {
     if (this.previewForm.valid) {
-      // this.backendSvc.postMeta(localStorage.getItem('aoe.materialId'), this.savedData);
+      this.backendSvc.postMeta(this.fileUpload.id, this.savedData).subscribe(res => console.log(res));
 
-      this.router.navigate(['/omat-oppimateriaalit']);
+      // this.router.navigate(['/omat-oppimateriaalit']);
     }
   }
 
