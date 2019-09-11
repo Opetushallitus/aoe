@@ -3,7 +3,6 @@ import compression from "compression"; // compress requests
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import session from "express-session";
-import cors from "cors";
 import cron from "node-cron";
 
 import router from "./routes";
@@ -27,7 +26,6 @@ app.use(session({
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cors()); // Enable CORS for dev purposes
 app.set("port", 3000);
 
 client.on("error", (error: any) => {
