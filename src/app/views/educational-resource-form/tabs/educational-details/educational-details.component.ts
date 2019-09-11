@@ -42,8 +42,8 @@ export class EducationalDetailsComponent implements OnInit {
 
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
-  // public basicStudyObjectivesItems: any[];
-  // public basicStudyContentsItems: any[];
+  public basicStudyObjectives$: any[];
+  public basicStudyContents$: any[];
   public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
   public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
@@ -73,8 +73,8 @@ export class EducationalDetailsComponent implements OnInit {
       prePrimaryEducationSubjects: this.fb.control(null),
       prePrimaryEducationFramework: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
-      // basicStudyObjectives: this.fb.control(null),
-      // basicStudyContents: this.fb.control(null),
+      basicStudyObjectives: this.fb.control(null),
+      basicStudyContents: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
@@ -91,6 +91,14 @@ export class EducationalDetailsComponent implements OnInit {
 
     this.koodistoProxySvc.getData('oppiaineet', this.lang).subscribe(data => {
       this.basicStudySubjects$ = data;
+    });
+
+    this.koodistoProxySvc.getData('tavoitteet', this.lang).subscribe(data => {
+      this.basicStudyObjectives$ = data;
+    });
+
+    this.koodistoProxySvc.getData('sisaltoalueet', this.lang).subscribe(data => {
+      this.basicStudyContents$ = data;
     });
 
     this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
