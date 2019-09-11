@@ -29,7 +29,7 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "striptags": "^3.1.1",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.22"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
