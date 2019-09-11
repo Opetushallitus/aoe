@@ -36,6 +36,10 @@ export async function setAsiasanat(): Promise<any> {
     };
 
     parseString(results, parseOptions, async (err, result) => {
+      if (err) {
+        console.error(err);
+      }
+
       try {
         result.RDF.Concept.forEach((concept: any) => {
           // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
