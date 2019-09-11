@@ -20,7 +20,7 @@ export async function setAsiasanat(): Promise<any> {
     const results = await getDataFromApi(
       process.env.FINTO_URL,
       `/${endpoint}/`,
-      {"Accept": "application/rdf+xml"},
+      { "Accept": "application/rdf+xml" },
       params
     );
 
@@ -36,28 +36,32 @@ export async function setAsiasanat(): Promise<any> {
     };
 
     parseString(results, parseOptions, async (err, result) => {
-      result.RDF.Concept.forEach((concept: any) => {
-        // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
-        const key = concept.$.about;
-        const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
-        const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
-        const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
+      try {
+        result.RDF.Concept.forEach((concept: any) => {
+          // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
+          const key = concept.$.about;
+          const labelFi = concept.prefLabel.find((e: any) => e.$.lang === "fi");
+          const labelEn = concept.prefLabel.find((e: any) => e.$.lang === "en");
+          const labelSv = concept.prefLabel.find((e: any) => e.$.lang === "sv");
 
-        finnish.push({
-          key: key,
-          value: labelFi !== undefined ? labelFi._ : (labelSv !== undefined ? labelSv._ : labelEn._),
-        });
+          finnish.push({
+            key: key,
+            value: labelFi !== undefined ? labelFi._ : (labelSv !== undefined ? labelSv._ : labelEn._),
+          });
 
-        english.push({
-          key: key,
-          value: labelEn !== undefined ? labelEn._ : (labelFi !== undefined ? labelFi._ : labelSv._),
-        });
+          english.push({
+            key: key,
+            value: labelEn !== undefined ? labelEn._ : (labelFi !== undefined ? labelFi._ : labelSv._),
+          });
 
-        swedish.push({
-          key: key,
-          value: labelSv !== undefined ? labelSv._ : (labelFi !== undefined ? labelFi._ : labelEn._),
+          swedish.push({
+            key: key,
+            value: labelSv !== undefined ? labelSv._ : (labelFi !== undefined ? labelFi._ : labelEn._),
+          });
         });
-      });
+      } catch (error) {
+        console.error(error);
+      }
     });
 
     finnish.sort(sortByValue);
