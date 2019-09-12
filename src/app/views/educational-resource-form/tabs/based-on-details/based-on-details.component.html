@@ -48,6 +48,12 @@
 
   <h3>{{ 'forms.educationalResource.basedOnDetails.externals.title' | translate }}</h3>
 
+  <ng-container [ngSwitch]="lang">
+    <ng-container *ngSwitchDefault>
+      <p>{{ 'forms.educationalResource.basedOnDetails.addNew.tooltip' | translate }}</p>
+    </ng-container>
+  </ng-container>
+
   <div formArrayName="externals" *ngFor="let external of externals.controls; let i = index;">
     <div class="form-row" [formGroupName]="i">
       <div class="form-group col-md">
@@ -96,12 +102,6 @@
       class="btn btn-gray"
       (click)="addExternal()"
     >{{ 'forms.educationalResource.basedOnDetails.addNew.button' | translate }}</button>
-
-    <button
-      type="button"
-      class="btn btn-link"
-      [tooltip]="'forms.educationalResource.basedOnDetails.addNew.tooltip' | translate"
-    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
   </div>
 
   <div class="row">
