@@ -100,6 +100,7 @@
       appendTo="body"
       id="basicStudySubjects"
       formControlName="basicStudySubjects"
+      (change)="basicStudySubjectsChange($event)"
     >
       <ng-template ng-optgroup-tmp let-item="item">
         {{ item.targetName }}
@@ -110,7 +111,7 @@
     </ng-select>
   </div>
 
-  <!--<ng-container *ngIf="hasBasicStudySubjects">
+  <ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
       <label for="basicStudyObjectives">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</label>
 
@@ -119,14 +120,14 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
-        groupBy="subject"
+        groupBy="gradeEntity"
         appendTo="body"
         id="basicStudyObjectives"
         formControlName="basicStudyObjectives"
       ></ng-select>
     </div>
 
-    <div class="form-group">
+    <!--<div class="form-group">
       <label for="basicStudyContents">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</label>
 
       <ng-select
@@ -134,13 +135,13 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
-        groupBy="subject"
+        groupBy="gradeEntity"
         appendTo="body"
         id="basicStudyContents"
         formControlName="basicStudyContents"
       ></ng-select>
-    </div>
-  </ng-container>-->
+    </div>-->
+  </ng-container>
 
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</h3>
