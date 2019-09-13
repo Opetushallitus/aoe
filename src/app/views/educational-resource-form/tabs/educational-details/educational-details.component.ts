@@ -280,24 +280,24 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('scienceBranchObjectives') as FormControl;
   }
 
-  public educationalLevelsChange($event): void {
-    this.hasEarlyChildhoodEducation = $event.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
+  public educationalLevelsChange(value): void {
+    this.hasEarlyChildhoodEducation = value.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
 
-    this.hasPrePrimaryEducation = $event.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
+    this.hasPrePrimaryEducation = value.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
 
-    this.hasBasicStudies = $event.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
+    this.hasBasicStudies = value.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
 
     if (this.hasBasicStudies === false) {
       this.hasBasicStudySubjects = false;
     }
 
-    this.hasUpperSecondarySchool = $event.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
+    this.hasUpperSecondarySchool = value.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
 
-    this.hasVocationalDegree = $event.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
+    this.hasVocationalDegree = value.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
 
-    this.hasSelfMotivatedEducation = $event.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
+    this.hasSelfMotivatedEducation = value.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
 
-    this.hasHigherEducation = $event.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
+    this.hasHigherEducation = value.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
   }
 
   public basicStudySubjectsChange(value): void {
