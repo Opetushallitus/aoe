@@ -285,22 +285,18 @@ export class EducationalDetailsComponent implements OnInit {
   public basicStudySubjectsChange(value): void {
     this.hasBasicStudySubjects = value.length > 0;
 
-    this.basicStudyObjectivesItems = [];
-    this.basicStudyContentsItems = [];
-
     if (this.hasBasicStudySubjects) {
+      this.basicStudyObjectivesItems = [];
+      this.basicStudyContentsItems = [];
+
       value.forEach(subject => {
         this.basicStudyObjectives$
-          .filter(objective => objective.parent === subject.key)
-          .forEach(objective => {
-            this.basicStudyObjectivesItems.push(objective);
-          });
+          .filter((objective: AlignmentObjectExtended) => objective.parent === subject.key)
+          .forEach((objective: AlignmentObjectExtended) => this.basicStudyObjectivesItems.push(objective));
 
         this.basicStudyContents$
-          .filter(content => content.parent === subject.key)
-          .forEach(content => {
-            this.basicStudyContentsItems.push(content);
-          });
+          .filter((content: AlignmentObjectExtended) => content.parent === subject.key)
+          .forEach((content: AlignmentObjectExtended) => this.basicStudyContentsItems.push(content));
       });
     }
   }
@@ -337,7 +333,9 @@ export class EducationalDetailsComponent implements OnInit {
 
       this.basicStudyObjectives.setValue(basicStudyObjectives);
 
-      this.basicStudySubjectsChange(this.basicStudySubjects.value);
+      if (this.basicStudySubjects.value) {
+        this.basicStudySubjectsChange(this.basicStudySubjects.value);
+      }
     }
   }
 
