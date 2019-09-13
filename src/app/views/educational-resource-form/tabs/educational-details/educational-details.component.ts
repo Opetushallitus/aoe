@@ -387,7 +387,7 @@ export class EducationalDetailsComponent implements OnInit {
       }
 
       if (this.basicStudySubjects.value) {
-        this.basicStudySubjects.value.forEach(subject => {
+        this.basicStudySubjects.value.forEach((subject: AlignmentObjectExtended) => {
           this.alignmentObjects.push({
             key: subject.key,
             source: subject.source,
