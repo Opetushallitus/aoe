@@ -396,8 +396,8 @@ export class EducationalDetailsComponent implements OnInit {
           });
         });
 
-        /*if (this.basicStudyObjectives.value) {
-          this.basicStudyObjectives.value.forEach(objective => {
+        if (this.basicStudyObjectives.value) {
+          this.basicStudyObjectives.value.forEach((objective: AlignmentObjectExtended) => {
             this.alignmentObjects.push({
               key: objective.key,
               source: objective.source,
@@ -408,7 +408,7 @@ export class EducationalDetailsComponent implements OnInit {
         }
 
         if (this.basicStudyContents.value) {
-          this.basicStudyContents.value.forEach(content => {
+          this.basicStudyContents.value.forEach((content: AlignmentObjectExtended) => {
             this.alignmentObjects.push({
               key: content.key,
               source: content.source,
@@ -416,7 +416,7 @@ export class EducationalDetailsComponent implements OnInit {
               targetName: content.targetName
             });
           });
-        }*/
+        }
       }
 
       if (this.upperSecondarySchoolSubjects.value) {
