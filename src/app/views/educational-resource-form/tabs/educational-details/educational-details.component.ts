@@ -98,7 +98,7 @@ export class EducationalDetailsComponent implements OnInit {
     this.koodistoProxySvc.getData('sisaltoalueet', this.lang).subscribe(data => {
       this.basicStudyContents$ = data;
 
-      this.basicStudySubjectsChange(this.basicStudySubjects.value);
+      this.updateBasicStudyContents();
     });
 
     this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
@@ -356,6 +356,26 @@ export class EducationalDetailsComponent implements OnInit {
       this.basicStudyObjectives.setValue(basicStudyObjectives);
 
       this.basicStudySubjectsChange(this.basicStudySubjects.value);
+    }
+  }
+
+  private updateBasicStudyContents(): void {
+    if (this.savedData && this.savedData.alignmentObjects) {
+      const basicStudyContentKeys = this.savedData.alignmentObjects
+        .filter(alignmentObject => alignmentObject.source === 'basicStudyContents')
+        .map(objective => objective.key);
+
+      const basicStudyContents = this.basicStudyContents$.map(objective => {
+        if (basicStudyContentKeys.includes(objective.key)) {
+          return objective;
+        }
+      });
+
+      this.basicStudyContents.setValue(basicStudyContents);
+
+      if (this.basicStudySubjects.value) {
+        this.basicStudySubjectsChange(this.basicStudySubjects.value);
+      }
     }
   }
 
