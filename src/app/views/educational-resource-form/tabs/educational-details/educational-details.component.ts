@@ -180,11 +180,7 @@ export class EducationalDetailsComponent implements OnInit {
 
         // tslint:disable-next-line:max-line-length
         const basicStudySubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
-        this.educationalDetailsForm.get('basicStudySubjects').setValue(basicStudySubjects);
-
-        if (this.basicStudySubjects.value) {
-          this.basicStudySubjectsChange(this.basicStudySubjects.value);
-        }
+        this.basicStudySubjects.setValue(basicStudySubjects);
 
         // tslint:disable-next-line:max-line-length
         const upperSecondarySchoolSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
