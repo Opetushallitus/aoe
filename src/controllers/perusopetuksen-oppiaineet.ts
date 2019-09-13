@@ -91,7 +91,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
               finnishObjectives.push({
                 key: objective.id,
-                parent: result.id,
+                parent: {
+                  key: result.id,
+                  value: result.nimi.fi ? result.nimi.fi : result.nimi.sv,
+                },
                 gradeEntity: gradeEntity.id,
                 source: "basicStudyObjectives",
                 alignmentType: "teaches",
@@ -100,7 +103,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
               swedishObjectives.push({
                 key: objective.id,
-                parent: result.id,
+                parent: {
+                  key: result.id,
+                  value: result.nimi.sv ? result.nimi.sv : result.nimi.fi,
+                },
                 gradeEntity: gradeEntity.id,
                 source: "basicStudyObjectives",
                 alignmentType: "teaches",
@@ -121,7 +127,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
               finnishContents.push({
                 key: content.id,
-                parent: result.id,
+                parent: {
+                  key: result.id,
+                  value: result.nimi.fi ? result.nimi.fi : result.nimi.sv,
+                },
                 gradeEntity: gradeEntity.id,
                 source: "basicStudyContents",
                 alignmentType: "teaches",
@@ -130,7 +139,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
               swedishContents.push({
                 key: content.id,
-                parent: result.id,
+                parent: {
+                  key: result.id,
+                  value: result.nimi.sv ? result.nimi.sv : result.nimi.fi,
+                },
                 gradeEntity: gradeEntity.id,
                 source: "basicStudyContents",
                 alignmentType: "teaches",
