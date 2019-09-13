@@ -55,7 +55,7 @@ export class EducationalDetailsComponent implements OnInit {
     private router: Router,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
