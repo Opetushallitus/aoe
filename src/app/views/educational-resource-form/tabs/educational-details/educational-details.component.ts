@@ -192,20 +192,6 @@ export class EducationalDetailsComponent implements OnInit {
         }
       }
 
-      if (this.savedData.basicStudySubjects) {
-        this.educationalDetailsForm.get('basicStudySubjects').setValue(this.savedData.basicStudySubjects);
-
-        this.basicStudySubjectsChange(this.savedData.basicStudySubjects);
-      }
-
-      /*if (this.savedData.basicStudyObjectives) {
-        this.educationalDetailsForm.get('basicStudyObjectives').setValue(this.savedData.basicStudyObjectives);
-      }
-
-      if (this.savedData.basicStudyContents) {
-        this.educationalDetailsForm.get('basicStudyContents').setValue(this.savedData.basicStudyContents);
-      }*/
-
       if (this.savedData.vocationalDegrees) {
         this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
       }
