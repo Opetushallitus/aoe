@@ -1,6 +1,8 @@
+import { KeyValue } from "./data";
+
 export interface AlignmentObjectExtended {
   key?: string | number;
-  parent?: string | number;
+  parent?: string | number | KeyValue<string, number>;
   gradeEntity?: number;
   source?: string;
   alignmentType: "assesses" | "teaches" | "requires" | "textComplexity" | "readingLevel" | "educationalSubject" | "educationalLevel";
