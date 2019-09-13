@@ -6,9 +6,9 @@ export function getUnique(data: any[], uniqueProperty: string): any[] {
 }
 
 export const sortByValue = (a: any, b: any) => {
-  return a.value.localeCompare(b.value);
+  return a.value.localeCompare(b.value, undefined, { numeric: true, sensitivity: "accent" });
 };
 
 export const sortByTargetName = (a: any, b: any) => {
-  return a.targetName.localeCompare(b.targetName);
+  return a.targetName.localeCompare(b.targetName, undefined, { numeric: true, sensitivity: "accent" });
 };
