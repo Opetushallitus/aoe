@@ -3,16 +3,27 @@ import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+import { getLocalStorageData } from '../shared/shared.module';
+
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
   private backendUrl = 'https://demo.aoe.fi/api';
+  private localStorageKey = 'aoe.fileUpload';
 
   constructor(private http: HttpClient) { }
 
   public uploadFiles(data) {
-    const uploadUrl = `${this.backendUrl}/material/file`;
+    let uploadUrl: string;
+
+    if (localStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = getLocalStorageData(this.localStorageKey);
+
+      uploadUrl = `${this.backendUrl}/material/file/${fileUpload.id}`;
+    } else {
+      uploadUrl = `${this.backendUrl}/material/file`;
+    }
 
     return this.http.post<any>(uploadUrl, data, {
       headers: new HttpHeaders({
