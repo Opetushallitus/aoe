@@ -5,6 +5,7 @@ const multer  = require("multer");
 
 const storage = multer.diskStorage({ // notice you are calling the multer.diskStorage() method here, not multer()
     destination: function(req: Request, file: any, cb: any) {
+        console.log(process.env.THUMBNAIL_END_POINT);
         cb(undefined, process.env.THUMBNAIL_END_POINT);
     },
     filename: function(req: Request, file: any, cb: any) {
@@ -25,7 +26,7 @@ async function downloadImage(req: Request, res: Response) {
         query = "select filepath, originalfilename, mimetype from thumbnail where educationalmaterialid = $1;";
         console.log(query);
         const image = await db.one(query, [req.params.id]);
-        const path = "./" + image.filepath.toString();
+        const path = image.filepath.toString();
         const img = fs.readFileSync(path);
         res.writeHead(200, {
             "Content-Type": image.mimetype
@@ -43,32 +44,41 @@ async function uploadImage(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
         if (contentType.startsWith("multipart/form-data")) {
-            upload.single("image")(req , res, async function() {
-                try {
-                    const file = (<any>req).file;
-                    let query;
-                    query = "select filepath from thumbnail where educationalmaterialid = $1;";
-                    console.log(query);
-                    const oldImage = await db.any(query, [req.params.id]);
-                    if (oldImage !== "undefined" && oldImage.size > 0) {
-                        fs.unlink(oldImage.thumbnail, (err: any) => {
-                            if (err) {
-                            console.error(err);
-                            }
-                        });
+            try {
+                upload.single("image")(req , res, await async function() {
+                    try {
+                        const file = (<any>req).file;
+                        let query;
+                        query = "select filepath from thumbnail where educationalmaterialid = $1;";
+                        console.log(query);
+                        const oldImage = await db.one(query, [req.params.id]);
+                        console.log(oldImage);
+                        console.log(oldImage.size);
+                        if (oldImage !== "undefined") {
+                            console.log("removing thumbnail " + oldImage.filepath);
+                            fs.unlink(oldImage.filepath, (err: any) => {
+                                if (err) {
+                                console.error(err);
+                                }
+                            });
+                        }
+                        query = "INSERT INTO thumbnail (filepath, originalfilename, filesize, mimetype, format, educationalmaterialid, filename) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (educationalmaterialid) DO " +
+                            "UPDATE SET filepath = $1 , originalfilename = $2, filesize= $3, mimetype = $4, format =$5, filename = $7;";
+                        console.log(query);
+                        await db.any(query, [file.path, file.originalname, file.size, file.mimetype, file.encoding, req.params.id, file.filename]);
+                        return res.status(200).send("Image upload done");
                     }
-                    query = "INSERT INTO thumbnail (filepath, originalfilename, filesize, mimetype, format, educationalmaterialid, filename) VALUES ($1,$2,$3,$4,$5,$6,$7) ON CONFLICT (educationalmaterialid) DO " +
-                        "UPDATE SET filepath = $1 , originalfilename = $2, filesize= $3, mimetype = $4, format =$5, filename = $7;";
-                    console.log(query);
-                    await db.any(query, [file.path, file.originalname, file.size, file.mimetype, file.encoding, req.params.id, file.filename]);
+                    catch (err) {
+                        console.log(err);
+                        return res.status(500).send("upload failed");
+                    }
                 }
-                catch (err) {
-                    console.log(err);
-                    return res.status(500).send("upload failed");
-                }
+                );
             }
-            );
-                return res.status(200).send("Image upload done");
+            catch (err) {
+                console.log(err);
+                return res.status(500).send("upload failed");
+            }
             }
         else {
             return res.status(400).send("Not found");
