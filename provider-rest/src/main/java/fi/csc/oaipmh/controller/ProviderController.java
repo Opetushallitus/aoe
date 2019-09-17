@@ -22,13 +22,15 @@ public class ProviderController {
 
     @GetMapping(path = "/oai-pmh", produces={"application/xml", "application/rdf+xml"})
     public ResponseEntity<OaiPmhFrame> getAllMetadata(
-        HttpServletRequest request,
         @RequestParam(required = false, defaultValue = "") String verb,
         @RequestParam(required = false, defaultValue = "") String identifier,
-        @RequestParam(required = false, defaultValue = "") String metadataPrefix
+        @RequestParam(required = false, defaultValue = "") String metadataPrefix,
+        HttpServletRequest request
     ) {
+        String requestUrl = request.getScheme() + "://" + request.getServerName() +
+            (request.getServerPort() != 0 ? ":" + request.getServerPort() : "") + request.getRequestURI();
         return new ResponseEntity<>(
-            metadataService.getMetadata(verb, identifier, metadataPrefix, request.getRequestURI()),
+            metadataService.getMetadata(verb, identifier, metadataPrefix, requestUrl),
             HttpStatus.OK);
     }
 }
