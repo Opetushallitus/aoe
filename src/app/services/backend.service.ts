@@ -38,8 +38,21 @@ export class BackendService {
           return { status: 'progress', message: progress };
 
         case HttpEventType.Response:
-          localStorage.setItem('aoe.fileUpload', JSON.stringify(event.body));
-          return event.body;
+          const fileUpload = getLocalStorageData(this.localStorageKey);
+
+          if (fileUpload !== null) {
+            const materials = fileUpload['material'].concat(event.body['material']);
+            const response = {
+              id: fileUpload.id,
+              material: materials,
+            };
+
+            localStorage.setItem(this.localStorageKey, JSON.stringify(response));
+          } else {
+            localStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
+          }
+
+          return { status: 'completed', message: event.body };
 
         default:
           return { status: 'error', message: `Unhandled event: ${event.type}` };
