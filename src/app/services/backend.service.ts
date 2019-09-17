@@ -42,7 +42,7 @@ export class BackendService {
           return event.body;
 
         default:
-          return `Unhandled event: ${event.type}`;
+          return { status: 'error', message: `Unhandled event: ${event.type}` };
       }
     }));
   }
