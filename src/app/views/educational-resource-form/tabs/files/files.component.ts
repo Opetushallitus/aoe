@@ -22,7 +22,7 @@ export class FilesComponent implements OnInit {
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
-  public uploadResponse = { status: '', message: 0 };
+  public uploadResponse: { message: number | string; status: string } = { status: '', message: 0 };
   public uploadError: string;
   private myFiles = [];
 
@@ -181,11 +181,15 @@ export class FilesComponent implements OnInit {
       formData.append('username', this.authSvc.getUser().username);
 
       this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => this.uploadResponse = res,
+        (res) => {
+          this.uploadResponse = res;
+
+          if (this.uploadResponse.status === 'completed') {
+            this.router.navigate(['/lisaa-oppimateriaali', 2]);
+          }
+        },
         (err) => this.uploadError = err,
       );
-
-      this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
 
