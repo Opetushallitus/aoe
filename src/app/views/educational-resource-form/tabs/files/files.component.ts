@@ -172,20 +172,12 @@ export class FilesComponent implements OnInit {
     });
 
     if (this.fileUploadForm.valid) {
-      // @todo: use fileUploadForm.slugs instead?
-      const slugs = {
-        fi: this.fileUploadForm.get('name').value.fi ? slugify(this.fileUploadForm.get('name').value.fi).toLowerCase() : undefined,
-        sv: this.fileUploadForm.get('name').value.sv ? slugify(this.fileUploadForm.get('name').value.sv).toLowerCase() : undefined,
-        en: this.fileUploadForm.get('name').value.en ? slugify(this.fileUploadForm.get('name').value.en).toLowerCase() : undefined,
-      };
-
-      // @todo: is this unnecessary?
-      const newData = {
-        name: this.fileUploadForm.get('name').value,
-        slug: slugs,
-      };
-
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
+      const data = Object.assign(
+        {},
+        getLocalStorageData(this.localStorageKey),
+        { name: this.fileUploadForm.get('name').value },
+        { slug: this.fileUploadForm.get('slug').value },
+      );
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
