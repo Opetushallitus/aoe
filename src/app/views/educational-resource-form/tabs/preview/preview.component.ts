@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { environment } from '../../../../../environments/environment';
 import { getLocalStorageData } from '../../../../shared/shared.module';
 import { BackendService } from '../../../../services/backend.service';
 
@@ -10,7 +11,7 @@ import { BackendService } from '../../../../services/backend.service';
   templateUrl: './preview.component.html',
 })
 export class PreviewComponent implements OnInit {
-  private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = environment.newERLSKey;
   public savedData: any;
   private fileUpload: any;
 

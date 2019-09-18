@@ -3,14 +3,15 @@ import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from 
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+import { environment } from '../../environments/environment';
 import { getLocalStorageData } from '../shared/shared.module';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  private backendUrl = 'https://demo.aoe.fi/api';
-  private localStorageKey = 'aoe.fileUpload';
+  private backendUrl = environment.backendUrl;
+  private localStorageKey = environment.fileUploadLSKey;
 
   constructor(private http: HttpClient) { }
 

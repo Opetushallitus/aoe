@@ -7,5 +7,8 @@
  * @ignore
  */
 export const environment = {
-  production: false
+  production: false,
+  backendUrl: 'https://demo.aoe.fi/api',
+  fileUploadLSKey: 'aoe.fileUpload',
+  newERLSKey: 'aoe.new-educational-resource'
 };

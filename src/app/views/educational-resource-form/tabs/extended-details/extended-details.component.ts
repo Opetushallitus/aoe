@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
+import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 
@@ -12,7 +13,7 @@ import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.mo
   templateUrl: './extended-details.component.html',
 })
 export class ExtendedDetailsComponent implements OnInit {
-  private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = environment.newERLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
 

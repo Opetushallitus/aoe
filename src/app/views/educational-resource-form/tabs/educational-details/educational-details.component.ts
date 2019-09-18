@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
+import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
@@ -13,7 +14,7 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
   templateUrl: './educational-details.component.html',
 })
 export class EducationalDetailsComponent implements OnInit {
-  private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = environment.newERLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
 

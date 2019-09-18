@@ -6,6 +6,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import slugify from 'slugify';
 
+import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { BackendService } from '../../../../services/backend.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
@@ -16,7 +17,7 @@ import { AuthService } from '../../../../services/auth.service';
   templateUrl: './files.component.html',
 })
 export class FilesComponent implements OnInit {
-  private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = environment.newERLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
 

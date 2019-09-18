@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operato
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
+import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 
@@ -15,7 +16,7 @@ import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.mo
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit {
-  private localStorageKey = 'aoe.new-educational-resource';
+  private localStorageKey = environment.newERLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
