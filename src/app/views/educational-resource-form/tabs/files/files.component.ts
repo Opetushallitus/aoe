@@ -140,6 +140,10 @@ export class FilesComponent implements OnInit {
     });
   }
 
+  public updateSlug(value, lang) {
+    this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value));
+  }
+
   public onFileChange(event): void {
     if (event.target.files.length > 0) {
       this.myFiles.push(event.target.files[0]);

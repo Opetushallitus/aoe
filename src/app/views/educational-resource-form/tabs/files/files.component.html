@@ -19,6 +19,7 @@
           class="form-control"
           id="name-fi"
           formControlName="fi"
+          (change)="updateSlug($event, 'fi')"
         >
       </div>
 
@@ -52,6 +53,7 @@
               class="form-control"
               id="name-en"
               formControlName="en"
+              (change)="updateSlug($event, 'en')"
             >
           </div>
 
@@ -63,6 +65,7 @@
               class="form-control"
               id="name-sv"
               formControlName="sv"
+              (change)="updateSlug($event, 'sv')"
             >
           </div>
         </div>
