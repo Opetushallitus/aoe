@@ -312,7 +312,6 @@
         "readMore": "Lue lisää"
       },
       "basedOnDetails": {
-        "delete": "Poista",
         "addNew": {
           "button": "Lisää uusi materiaali",
           "tooltip": "Voit tähän lisätä materiaaleja, jonka pohjalta olet lähtenyt rakentamaan oppimateriaaliasi, joita käytät materiaalissasi tai jotka toimivat oppimateriaalisi pohjana."
