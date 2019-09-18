@@ -56,10 +56,285 @@
   },
   "forms": {
     "common": {
-      "abort": "Cancel",
+      "abort": "Abort",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
       "next": "Next",
+      "previous": "Previous",
+      "required": "Required",
       "save": "Save",
-      "required": "Required"
+      "saveChanges": "Save changes",
+      "translations": {
+        "label": "Translations",
+        "tooltip": ""
+      }
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "files": "Files",
+        "basicDetails": "Basic information",
+        "educationalDetails": "Educational information",
+        "extendedDetails": "Other information",
+        "licenseDetails": "License",
+        "basedOnDetails": "References",
+        "preview": "Preview"
+      },
+      "files": {
+        "alert": "You can downloadyour OER or link it to the service with this form. In order to download the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First download or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
+        "materialName": {
+          "label": "Name",
+          "tooltip": "Name of the learning resource.",
+          "modal": {
+            "title": "Translations: Name",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Name in English",
+            "sv": "Name in Swedish"
+          }
+        },
+        "file": {
+          "title": ". file",
+          "tooltip": "Download the files that comprise your learning resource. You can also link your learning resource if it is freely available with an open license and long life span. The first file will be the first to show on the preview.",
+          "inputs": {
+            "file": {
+              "label": "File",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Language",
+              "tooltip": "Choose the language of your learning resource or part of the learning resource. If  you have versions of yourresource in different languages, you can download your files here and choose the language of study."
+            },
+            "displayName": {
+              "label": "File Name",
+              "tooltip": "The name for the file that you want other people to see. I.e. “Nature Ethics recording” or “Nature Ethics slideshow”. If your resource is comprised of multiple files, the preferred file is chosen by clicking on the name of the file. The name should be short and sweet.",
+              "modal": {
+                "title": "Translations: File Name",
+                "subtitle": "Kieliversioiden lisääminen",
+                "en": "File Name in English",
+                "sv": "File Name in Swedish"
+              }
+            }
+          },
+          "addFile": "Add file"
+        }
+      },
+      "basicDetails": {
+        "uploadImage": "Upload cover",
+        "author": {
+          "inputs": {
+            "author": {
+              "label": "Author",
+              "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
+              "placeholder": "Surname, First Name"
+            },
+            "organisation": {
+              "label": "Affiliation",
+              "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field."
+            }
+          },
+          "addAuthor": "Add another author"
+        },
+        "keywords": {
+          "label": "About",
+          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion."
+        },
+        "learningResourceType": {
+          "label": "Learning Resource Type",
+          "tooltip": "Choose the Type of your Learning Resource. You can choose multiple types if your resource is comprised of different parts."
+        },
+        "educationalRoles": {
+          "label": "Educational Role",
+          "tooltip": "What is the main target group of your resource, for whom is it intended to. I.e. is it intended to be used by other teachers, learners or i.e. parents to give support in learning."
+        },
+        "educationalUse": {
+          "label": "Educational Use",
+          "tooltip": "Educational use of the resource in the context of learning. I.e. group work, independent study, OER sketch."
+        },
+        "description": {
+          "label": "Description",
+          "tooltip": "Write a concise description of the resource: what does it contain, what is it about, for what educational purpose is it meant for. ",
+          "modal": {
+            "title": "Translations: Description",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Description in English",
+            "sv": "Description in Swedish"
+          }
+        }
+      },
+      "educationalDetails": {
+        "educationalLevels": {
+          "label": "Educational Level",
+          "tooltip": "Choose the Educational Level of your resource. You can choose multiple levels if your resource is targeted at more than one Educational Levels, i.e. vocational education and upper secondary education."
+        },
+        "earlyChildhoodEducation": {
+          "title": "Varhaiskasvatus",
+          "inputs": {
+            "subjects": {
+              "label": "Varhaiskasvatuksen oppiaineet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "prePrimaryEducation": {
+          "title": "Esiopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Esiopetuksen oppiaineet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "basicEducation": {
+          "title": "Perusopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Perusopetuksen oppiaineet",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Perusopetuksen oppiaineiden tavoitteet",
+              "tooltip": ""
+            },
+            "contents": {
+              "label": "Perusopetuksen oppiaineiden sisältöalueet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "",
+              "tooltip": ""
+            }
+          }
+        },
+        "upperSecondarySchoolEducation": {
+          "title": "Lukiokoulutus",
+          "inputs": {
+            "subjects": {
+              "label": "Lukionkurssit",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "vocationalEducation": {
+          "title": "Ammatillinen koulutus",
+          "inputs": {
+            "degrees": {
+              "label": "Ammatillisen koulutuksen tutkinnot",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "selfMotivatedEducation": {
+          "title": "Omaehtoisen osaamisen kehittäminen",
+          "inputs": {
+            "subjects": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "tooltip": ""
+            }
+          }
+        },
+        "higherEducation": {
+          "title": "Korkeakoulutus",
+          "inputs": {
+            "branchesOfScience": {
+              "label": "Korkeakoulutuksen tieteenalat",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        }
+      },
+      "extendedDetails": {
+        "accessibility": {
+          "inputs": {
+            "features": {
+              "label": "Accessibility Feature",
+              "tooltip": "Here you can choose wether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
+            },
+            "hazards": {
+              "label": "Accessibility Hazard",
+              "tooltip": "Here you can choose if the learning resource contains elements that could prove to be hazardous to some people, i.e. if the resource contains flashing. If there source does not contain accessibility hazards you can choose i.e. no sound hazard. You will find additional information on accessibility in the FAQ section."
+            }
+          }
+        },
+        "typicalAgeRange": {
+          "label": "Typical Age Range",
+          "tooltip": "Age range of the target group of the resource. I.e. 7-9, 18-90 yo."
+        },
+        "timeRequired": {
+          "label": "Time Required",
+          "tooltip": "An estimate of the time required to study the resource."
+        },
+        "publisher": {
+          "label": "Publisher",
+          "tooltip": "If the learning resource has a publisher, i.e. an organization or a school, you can supplement here the publishers official name."
+        },
+        "expires": {
+          "label": "Expires",
+          "tooltip": "Add an expiration date for your resource if it is clearly foreseeable that the resource will not be up to date or relevant after a certain period."
+        },
+        "prerequisites": {
+          "label": "Prerequisite",
+          "tooltip": "You can add information about possible previous competences, tools, studies or knowledge that are required for the studying or utilizing of your resource."
+        }
+      },
+      "license": {
+        "title": "License",
+        "subtitle": "Choose license",
+        "showDetails": "Show additional information",
+        "readMore": "Read more"
+      },
+      "basedOnDetails": {
+        "addNew": {
+          "button": "Add another reference",
+          "tooltip": "Here you can add materials and resources that you have utilized in the making of your own resource."
+        },
+        "externals": {
+          "title": "Is Based On",
+          "inputs": {
+            "author": {
+              "label": "Author",
+              "tooltip": "",
+              "placeholder": "Surname, First Name"
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "name": {
+              "label": "Name",
+              "tooltip": ""
+            }
+          }
+        }
+      }
     }
   }
 }
