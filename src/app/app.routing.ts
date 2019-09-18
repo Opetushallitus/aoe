@@ -33,26 +33,26 @@ export const routes: Routes = [
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Home',
     },
     children: [
       {
         path: 'etusivu',
         component: MainViewComponent,
         canActivate: [ AcceptanceGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent,
         canActivate: [ AcceptanceGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisatietoa',
         component: HelpViewComponent,
         canActivate: [ AcceptanceGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'omat-oppimateriaalit',
@@ -64,35 +64,35 @@ export const routes: Routes = [
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'kayttoehdot',
         component: TermsOfUseViewComponent,
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'tietosuojaseloste',
         component: PrivacyPolicyViewComponent,
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'hyvaksynta',
         component: AcceptanceViewComponent,
         canActivate: [ AuthGuard ],
-        runGuardsAndResolvers: 'always'
+        runGuardsAndResolvers: 'always',
       },
     ],
   },
   {
     path: '**',
-    redirectTo: '/404'
+    redirectTo: '/404',
   }
 ];
 
