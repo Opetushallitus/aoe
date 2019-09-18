@@ -18,8 +18,10 @@ import { AuthService } from '../../../../services/auth.service';
 })
 export class FilesComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
+  private fileUploadLSKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
+  private fileUpload: any;
 
   public fileUploadForm: FormGroup;
   public modalRef: BsModalRef;
@@ -98,7 +100,8 @@ export class FilesComponent implements OnInit {
     return this.fb.group({
       // file: this.fb.control(null, [ Validators.required ]),
       // link: this.fb.control(null, [ Validators.required ]),
-      file: this.fb.control(null),
+      // file: this.fb.control(null),
+      file: [''],
       link: this.fb.control(null),
       language: this.fb.control({ key: 'FI', value: 'suomi' }),
       displayName: this.fb.group({
@@ -200,6 +203,28 @@ export class FilesComponent implements OnInit {
           this.uploadResponse = res;
 
           if (this.uploadResponse.status === 'completed') {
+            const fileUpload  = getLocalStorageData(this.fileUploadLSKey);
+            const fileDetails: any[] = [];
+
+            fileUpload.material.forEach(m => {
+              const file = this.files.value.find(f => f.file.name === m.createFrom);
+
+              fileDetails.push({
+                id: m.id,
+                displayName: file.displayName,
+                language: file.language,
+              });
+            });
+
+            const updatedData = Object.assign(
+              {},
+              getLocalStorageData(this.localStorageKey),
+              { fileDetails: fileDetails },
+            );
+
+            // save data to local storage
+            localStorage.setItem(this.localStorageKey, JSON.stringify(updatedData));
+
             this.router.navigate(['/lisaa-oppimateriaali', 2]);
           }
         },
