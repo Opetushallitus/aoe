@@ -101,7 +101,7 @@
                 [lang]="lang"
                 (change)="onFileChange($event, i)"
               >
-              <span class="custom-file-label">{{ files.controls[i].controls.file.value }}</span>
+              <span class="custom-file-label">{{ files.at(i).get('file').value.name }}</span>
             </div>
           </div>
 
