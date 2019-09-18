@@ -98,9 +98,8 @@
                 type="file"
                 class="custom-file-input"
                 id="{{ 'file' + i }}"
-                formControlName="file"
                 [lang]="lang"
-                (change)="onFileChange($event)"
+                (change)="onFileChange($event, i)"
               >
               <span class="custom-file-label">{{ files.controls[i].controls.file.value }}</span>
             </div>

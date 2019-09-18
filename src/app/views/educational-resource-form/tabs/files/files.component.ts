@@ -144,9 +144,19 @@ export class FilesComponent implements OnInit {
     this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value));
   }
 
-  public onFileChange(event): void {
+  public onFileChange(event, i): void {
     if (event.target.files.length > 0) {
-      this.myFiles.push(event.target.files[0]);
+      const file = event.target.files[0];
+
+      this.myFiles.push(file);
+      this.files.at(i).get('file').setValue(file);
+
+      // remove extension from filename
+      this.files.at(i).get('displayName').setValue({
+        fi: file.name.replace(/\.[^/.]+$/, ''),
+        sv: file.name.replace(/\.[^/.]+$/, ''),
+        en: file.name.replace(/\.[^/.]+$/, ''),
+      });
     }
   }
 
