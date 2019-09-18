@@ -113,7 +113,7 @@
               "label": "Tiedoston esitysnimi",
               "tooltip": "Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä.",
               "modal": {
-                "title": "Kieliversiot: Tiedoston esitysnimi\n",
+                "title": "Kieliversiot: Tiedoston esitysnimi",
                 "subtitle": "Kieliversioiden lisääminen",
                 "en": "Tiedoston esitysnimi englanniksi",
                 "sv": "Tiedoston esitysnimi ruotsiksi"
@@ -159,7 +159,7 @@
           "label": "Kuvaus",
           "tooltip": "Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty.",
           "modal": {
-            "title": "Kieliversiot: Kuvaus\n",
+            "title": "Kieliversiot: Kuvaus",
             "subtitle": "Kieliversioiden lisääminen",
             "en": "Kuvaus englanniksi",
             "sv": "Kuvaus ruotsiksi"
