@@ -25,10 +25,12 @@ public class ProviderController {
         @RequestParam(required = false, defaultValue = "") String verb,
         @RequestParam(required = false, defaultValue = "") String identifier,
         @RequestParam(required = false, defaultValue = "") String metadataPrefix,
-        HttpServletRequest request
-    ) {
-        String requestUrl = request.getScheme() + "://" + request.getServerName() +
-            (request.getServerPort() != 0 ? ":" + request.getServerPort() : "") + request.getRequestURI();
+        HttpServletRequest request) {
+        String requestUrl = request.getScheme()
+            + "://"
+            + request.getServerName()
+            + (request.getServerPort() != 0 ? ":" + request.getServerPort() : "")
+            + request.getRequestURI();
         return new ResponseEntity<>(
             metadataService.getMetadata(verb, identifier, metadataPrefix, requestUrl),
             HttpStatus.OK);

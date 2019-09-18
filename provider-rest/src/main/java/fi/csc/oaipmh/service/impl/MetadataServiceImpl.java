@@ -6,6 +6,8 @@ import fi.csc.oaipmh.service.MetadataService;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,7 @@ public class MetadataServiceImpl implements MetadataService {
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
         frame.setRequest(new Request(verb, identifier, metadataPrefix, requestUrl));
+        frame.setVerb(new JAXBElement<>(new QName(verb), String.class, ""));
         return frame;
     }
 }
