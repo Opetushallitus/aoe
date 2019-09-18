@@ -151,12 +151,12 @@ export class FilesComponent implements OnInit {
   }
 
   public onSubmit() {
-    // remove files that doesn't have either file or link
-    /*this.files.controls.forEach((control, i) => {
-      if (control.get('link').value === null) {
+    // remove files that doesn't have either file nor link
+    this.files.controls.forEach((control, i) => {
+      if (control.get('file').value === '' && control.get('link').value === null) {
         this.files.removeAt(i);
       }
-    });*/
+    });
 
     if (this.fileUploadForm.valid) {
       // @todo: use fileUploadForm.slugs instead?
