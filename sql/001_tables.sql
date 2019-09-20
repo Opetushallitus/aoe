@@ -65,12 +65,15 @@ CREATE TABLE EducationalMaterial (
 
 
 CREATE TABLE Material (
-  Id                     BIGSERIAL NOT NULL,
+  Id                     BIGSERIAL NOT NULL, 
   Link                  text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
   Priority              int4 DEFAULT 0 NOT NULL, 
+  MaterialLanguage      text DEFAULT '""' NOT NULL, 
+  MaterialLanguageKey   text DEFAULT '""' NOT NULL, 
   PRIMARY KEY (Id));
+
 
  CREATE TABLE EducationalAudience (
   Id                     BIGSERIAL NOT NULL, 
@@ -259,7 +262,7 @@ CREATE TABLE MaterialName (
   DisplayName text NOT NULL, 
   Language    text NOT NULL, 
   MaterialId  int8 NOT NULL, 
-  Slug        text NOT NULL, 
+--  Slug        text NOT NULL, 
   PRIMARY KEY (id));
 
  CREATE TABLE temporaryrecord (

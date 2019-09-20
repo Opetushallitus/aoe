@@ -118,7 +118,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
-        query = "select m.id, link, priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
+        query = "select m.id, m.materiallanguage as language, m.materiallanguagekey as key, link, priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket from material m left join record r on m.id = r.materialid where m.educationalmaterialid = $1 and m.obsoleted = 0;";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
@@ -562,38 +562,42 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             queries.push(await t.any(query, [element.author, element.organization.value, req.params.id, element.organization.key]));
         }
 
-    // materialDisplayName
+    // filedetails
         params = [];
-        arr = req.body.materialdisplayname;
+        arr = req.body.filedetails;
         if (arr === undefined || arr.length === 0) {
             query = "DELETE FROM materialdisplayname where materialid = $1;";
             response  = await t.any(query, [req.params.id]);
             queries.push(response);
         }
         else {
-            for (let i = 1; i <= arr.length; i++) {
-                params.push("(" + arr[i - 1].materialid + ",'" + arr[i - 1].lang + "')");
-                console.log(arr[i - 1]);
-            }
-            query = "select dnid from (select dn.id as dnid, dn.language as language, material.id as mid from material left join materialdisplayname as dn on material.id = dn.materialid where educationalmaterialid = $1) as i left join" +
-            "(select t.id,t.lang from ( values " + params.join(",") + " ) as t(id,lang)) as a on i.mid = a.id and i.language = a.lang where a.lang is null;";
-            console.log(query);
-            response  = await t.any(query, [req.params.id]);
-            console.log(response);
-            queries.push(response);
-            for (const element of response) {
-                if (element.dnid !== null) {
-                    query = "DELETE FROM materialdisplayname where id = " + element.dnid + ";";
-                    console.log(query);
-                    queries.push(await t.any(query));
-                }
-            }
             for (const element of arr) {
-                query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) (SELECT $1,$2,$3,$4 where $3 in (select id from material where educationalmaterialid = $5)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
+                query = "INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;";
                 // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
-                const slug = createSlug(element.text);
-                console.log(query, [element.text, element.lang, element.materialid, slug]);
-                queries.push(await t.any(query, [element.text, element.lang, element.materialid, slug, req.params.id]));
+                const slug = createSlug(element.displayName.fi);
+                console.log(element.displayName.fi);
+                console.log(query, [element.displayName.fi, "fi", element.id, req.params.id]);
+                if (element.displayName.fi === null) {
+                    queries.push(await t.any(query, ["", "fi", element.id, req.params.id]));
+                }
+                else {
+                    queries.push(await t.any(query, [element.displayName.fi, "fi", element.id, req.params.id]));
+                }
+                if (element.displayName.sv === null) {
+                    queries.push(await t.any(query, ["", "sv", element.id, req.params.id]));
+                }
+                else {
+                    queries.push(await t.any(query, [element.displayName.sv, "sv", element.id, req.params.id]));
+                }
+                if (element.displayName.en === null) {
+                    queries.push(await t.any(query, ["", "en", element.id, req.params.id]));
+                }
+                else {
+                    queries.push(await t.any(query, [element.displayName.en, "en", element.id, req.params.id]));
+                }
+                query = "UPDATE material SET materiallanguage = $1, materiallanguagekey = $2 WHERE id = $3 AND educationalmaterialid = $4";
+                console.log("update material name: " + query, [element.language.value, element.language.key, element.id, req.params.id]);
+                queries.push(await t.any(query, [element.language.value, element.language.key, element.id, req.params.id]));
             }
         }
 // accessibilityFeatures
