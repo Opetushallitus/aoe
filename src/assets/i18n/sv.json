@@ -56,10 +56,285 @@
   },
   "forms": {
     "common": {
-      "abort": "Cancel",
-      "next": "Next",
-      "save": "Save",
-      "required": "Required"
+      "abort": "Avbryt",
+      "cancel": "Peruuta",
+      "close": "Sulje",
+      "delete": "Ta bort",
+      "next": "Nästa",
+      "previous": "Föregående",
+      "required": "Pakollinen tieto",
+      "save": "Tallenna",
+      "saveChanges": "Tallenna muutokset",
+      "translations": {
+        "label": "Språkversioner",
+        "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
+      }
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "files": "Filer",
+        "basicDetails": "Grunduppgifter",
+        "educationalDetails": "Utbildningsinfo",
+        "extendedDetails": "Andra uppgifter",
+        "licenseDetails": "Licensuppgifter",
+        "basedOnDetails": "Referens",
+        "preview": "Förhandsvisning"
+      },
+      "files": {
+        "alert": "Du kan spara ditt läromaterial eller länka till det i tjänsten för öppna lärresurser med hjälp av den här blanketten. Inför sparandet av läromaterialet ska du lägga till några uppgifter om läromaterialet samt välja ut en lämplig licens för det. De här uppgifterna gör det lättare för andra användare att hitta ditt läromaterial samt redogör för vad ditt läromaterial kan användas till. Vid varje fält finns ett litet frågetecken där du vid behov kan få tilläggsuppgifter. Ladda först upp filen/filerna eller länka till ditt läromaterial och fortsätt sedan fylla i de grundläggande uppgifterna om ditt material. Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är.",
+        "materialName": {
+          "label": "Namn",
+          "tooltip": "Namn på läromaterialet.",
+          "modal": {
+            "title": "Språkversioner: Namn",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Oppimateriaalin nimi englanniksi",
+            "sv": "Oppimateriaalin nimi ruotsiksi"
+          }
+        },
+        "file": {
+          "title": ". Fil",
+          "tooltip": "Ladda här upp de filer som ditt läromaterial består av. Du kan också länka till ditt läromaterial om det ligger på en plats där det är öppet och tillgängligt på lång sikt för vem som helst. Den första filen är den som öppnas först vid en förhandsvisning.",
+          "inputs": {
+            "file": {
+              "label": "Fil",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Filens språk",
+              "tooltip": "Välj det språk som ditt läromaterial eller den här delen av ditt läromaterial ska studeras på. Om du har översatt ditt läromaterial till ett annat språk kan du lägga till filerna på samma ställe och uppge deras studiespråk här."
+            },
+            "displayName": {
+              "label": "Filens namn",
+              "tooltip": "Det namn som du vill att andra ska se för den här filen. Till exempel Bandupptagning av föreläsning om naturetik eller Diabilder om naturetik. Om ditt läromaterial består av flera filer väljs filen ut genom att användaren klickar på filnamnet. Välj gärna kärnfulla, tydliga namn.",
+              "modal": {
+                "title": "Språkversioner: Filens namn",
+                "subtitle": "Kieliversioiden lisääminen",
+                "en": "Tiedoston esitysnimi englanniksi",
+                "sv": "Tiedoston esitysnimi ruotsiksi"
+              }
+            }
+          },
+          "addFile": "Lisää tiedosto"
+        }
+      },
+      "basicDetails": {
+        "uploadImage": "Ladda upp omslaget",
+        "author": {
+          "inputs": {
+            "author": {
+              "label": "Upphovsperson",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
+              "placeholder": "Efternamn, Förnamn"
+            },
+            "organisation": {
+              "label": "Organisation",
+              "tooltip": "Här kan du fylla i vilken organisation, till exempel skola eller projekt, som du representerar. Fältet är inte obligatoriskt."
+            }
+          },
+          "addAuthor": "Tillsätt en annan upphovsperson"
+        },
+        "keywords": {
+          "label": "Nyckelord",
+          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi."
+        },
+        "learningResourceType": {
+          "label": "Typ av läromaterial",
+          "tooltip": "Välj vilken typ av material som ingår i ditt läromaterial. Du kan välja flera olika typer ifall läromaterialet består av olika delar."
+        },
+        "educationalRoles": {
+          "label": "Målgrupp",
+          "tooltip": "Välj ut vilka materialet är avsett för, vilken är den huvudsakliga målgruppen för materialet. Exempelvis om materialet är avsett för andra lärare att dra nytta av, är det avsett för elever eller studerande för självstudier eller exempelvis avsett för att hjälpa en vårdnadshavare med att ge stöd vid inlärningen."
+        },
+        "educationalUse": {
+          "label": "Användningsområde",
+          "tooltip": "Verkets användningsområde i utbildningskontext. T.ex. grupparbete, självstudier, material för vidarebearbetning."
+        },
+        "description": {
+          "label": "Beskrivning",
+          "tooltip": "Skriv en koncentrerad och fritt formulerad beskrivning av läromaterialet: vad innehåller det, vad berättar det om, till vilket ändamål är det skapat.",
+          "modal": {
+            "title": "Språkversioner: Beskrivning",
+            "subtitle": "Kieliversioiden lisääminen",
+            "en": "Kuvaus englanniksi",
+            "sv": "Kuvaus ruotsiksi"
+          }
+        }
+      },
+      "educationalDetails": {
+        "educationalLevels": {
+          "label": "Utbildningsstadium",
+          "tooltip": "Välj här för vilket utbildningsstadium och för vilken nivå som ditt läromaterial i huvudsak är avsett för. Om materialet riktar sig till flera stadier, exempelvis både yrkes- och gymnasieundervisning, kan du välja flera utbildningsstadier och -nivåer."
+        },
+        "earlyChildhoodEducation": {
+          "title": "Varhaiskasvatus",
+          "inputs": {
+            "subjects": {
+              "label": "Varhaiskasvatuksen oppiaineet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "prePrimaryEducation": {
+          "title": "Esiopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Esiopetuksen oppiaineet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "basicEducation": {
+          "title": "Perusopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Perusopetuksen oppiaineet",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Perusopetuksen oppiaineiden tavoitteet",
+              "tooltip": ""
+            },
+            "contents": {
+              "label": "Perusopetuksen oppiaineiden sisältöalueet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "",
+              "tooltip": ""
+            }
+          }
+        },
+        "upperSecondarySchoolEducation": {
+          "title": "Lukiokoulutus",
+          "inputs": {
+            "subjects": {
+              "label": "Lukionkurssit",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "vocationalEducation": {
+          "title": "Ammatillinen koulutus",
+          "inputs": {
+            "degrees": {
+              "label": "Ammatillisen koulutuksen tutkinnot",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        },
+        "selfMotivatedEducation": {
+          "title": "Omaehtoisen osaamisen kehittäminen",
+          "inputs": {
+            "subjects": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "tooltip": ""
+            }
+          }
+        },
+        "higherEducation": {
+          "title": "Korkeakoulutus",
+          "inputs": {
+            "branchesOfScience": {
+              "label": "Korkeakoulutuksen tieteenalat",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+              "tooltip": ""
+            },
+            "framework": {
+              "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": ""
+            }
+          }
+        }
+      },
+      "extendedDetails": {
+        "accessibility": {
+          "inputs": {
+            "features": {
+              "label": "Tillgänglighetsegenskaper",
+              "tooltip": "Här kan du välja om tillgänglighet har beaktats i utarbetandet av läromaterialet genom att du lägger till några egenskaper som stöder tillgängligheten såsom undertexter, en struktur som underlättar navigeringen eller om materialet är lättläst. Mer information om tillgänglighet hittar du i avsnittet med anvisningar."
+            },
+            "hazards": {
+              "label": "Hinder för tillgänglighet",
+              "tooltip": "Här kan du välja om det i läromaterialet finns några egenskaper som kan utgöra ett hinder för en del personer, exempelvis om materialet innehåller kraftigt flimmer. I fältet kan du också uppge om det inte finns sådana olägenheter genom att välja till exempel inga ljudolägenheter. Mer information om tillgänglighet hittar du i avsnittet med anvisningar."
+            }
+          }
+        },
+        "typicalAgeRange": {
+          "label": "Målgruppens ålder",
+          "tooltip": "Målgrupp som läromaterialet är avsedd för, t.ex. 7–9, 18–90."
+        },
+        "timeRequired": {
+          "label": "Längd",
+          "tooltip": "Uppskattning om tid som i medeltal går åt för att studera läromaterialet."
+        },
+        "publisher": {
+          "label": "Utgivare",
+          "tooltip": "Om läromaterialet har en utgivare (till exempel en organisation eller en skola) kan du fylla i utgivarens officiella namn här."
+        },
+        "expires": {
+          "label": "Läromaterialet föråldras",
+          "tooltip": "Skriv här in om det är tydligt att ditt läromaterial inte längre är aktuellt eller relevant efter en viss tidpunkt."
+        },
+        "prerequisites": {
+          "label": "Tidigare kunnande",
+          "tooltip": "Här kan du lägga till information om de kompetenser, verktyg, studier eller kunskap som behövs för att lära sig läromaterialet eller dra nytta av det."
+        }
+      },
+      "license": {
+        "title": "Licensuppgifter",
+        "subtitle": "Valitse lisenssi",
+        "showDetails": "Näytä lisätiedot",
+        "readMore": "Lue lisää"
+      },
+      "basedOnDetails": {
+        "addNew": {
+          "button": "Lisää uusi materiaali",
+          "tooltip": "Voit tähän lisätä materiaaleja, jonka pohjalta olet lähtenyt rakentamaan oppimateriaaliasi, joita käytät materiaalissasi tai jotka toimivat oppimateriaalisi pohjana."
+        },
+        "externals": {
+          "title": "Hyödynnetyt materiaalit",
+          "inputs": {
+            "author": {
+              "label": "Tekijän nimi",
+              "tooltip": "",
+              "placeholder": "Sukunimi, Etunimi"
+            },
+            "link": {
+              "label": "Linkki",
+              "tooltip": ""
+            },
+            "name": {
+              "label": "Nimi",
+              "tooltip": ""
+            }
+          }
+        }
+      }
     }
   }
 }
