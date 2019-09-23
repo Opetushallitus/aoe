@@ -15,6 +15,7 @@ import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view
 import { AcceptanceGuard } from './guards/acceptance.guard';
 import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FileUploadGuard } from './guards/file-upload.guard';
 
 export const routes: Routes = [
   {
@@ -69,7 +70,7 @@ export const routes: Routes = [
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard ],
+        canActivate: [ AuthGuard, AcceptanceGuard, FileUploadGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
