@@ -281,19 +281,19 @@
 <h3>Tarkemmat tiedot</h3>
 
 <dl class="row">
-  <ng-container *ngIf="savedData.accessibilityFeature && savedData.accessibilityFeature.length > 0">
+  <ng-container *ngIf="savedData.accessibilityFeatures && savedData.accessibilityFeatures.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let feature of savedData.accessibilityFeature; let isLast = last">
+      <ng-container *ngFor="let feature of savedData.accessibilityFeatures; let isLast = last">
         {{ feature.value }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.accessibilityHazard && savedData.accessibilityHazard.length > 0">
+  <ng-container *ngIf="savedData.accessibilityHazards && savedData.accessibilityHazards.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let hazard of savedData.accessibilityHazard; let isLast = last">
+      <ng-container *ngFor="let hazard of savedData.accessibilityHazards; let isLast = last">
         {{ hazard.value }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
