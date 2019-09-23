@@ -29,6 +29,7 @@ import { AppRoutingModule } from './app.routing';
 // Import 3rd party components
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AlertModule } from 'ngx-bootstrap/alert';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
@@ -69,6 +70,7 @@ import { InfoViewComponent } from './views/info-view/info-view.component';
     }),
     AccordionModule.forRoot(),
     NgxExtendedPdfViewerModule,
+    AlertModule.forRoot(),
   ],
   declarations: [
     AppComponent,
