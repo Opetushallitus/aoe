@@ -12,7 +12,7 @@ export class AcceptanceGuard implements CanActivate {
   constructor(
     private router: Router,
     private authSvc: AuthService,
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
