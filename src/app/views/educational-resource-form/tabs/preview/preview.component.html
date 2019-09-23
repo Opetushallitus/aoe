@@ -21,11 +21,11 @@
 
 <hr>
 
-<ng-container *ngIf="savedData.files && savedData.files.length > 0">
+<ng-container *ngIf="savedData.fileDetails && savedData.fileDetails.length > 0">
   <h3>Tiedostot</h3>
 
   <dl class="row">
-    <ng-container *ngFor="let file of savedData.files; let i = index">
+    <ng-container *ngFor="let file of savedData.fileDetails; let i = index">
       <dt class="col-sm-3">{{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}</dt>
       <dd class="col-sm-9">
         <dl class="row">
