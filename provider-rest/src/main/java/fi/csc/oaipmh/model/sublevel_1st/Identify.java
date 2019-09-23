@@ -1,11 +1,15 @@
 package fi.csc.oaipmh.model.sublevel_1st;
 
+import fi.csc.oaipmh.model.sublevel_1st.sublevel_2nd.OaiIdentifier;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
-@XmlRootElement(name = "Identify")
+@XmlSeeAlso({OaiIdentifier.class})
 @XmlAccessorType(XmlAccessType.NONE)
 public class Identify {
 
@@ -32,6 +36,12 @@ public class Identify {
 
     @XmlElement
     private String compression;
+
+    @XmlElementWrapper(name = "description")
+    @XmlElement(name = "oai-identifier")
+    private List<OaiIdentifier> oaiIdentifiers = new ArrayList<>() {{
+        add(new OaiIdentifier());
+    }};
 
     public Identify() {}
 
@@ -109,5 +119,13 @@ public class Identify {
 
     public void setCompression(String compression) {
         this.compression = compression;
+    }
+
+    public List<OaiIdentifier> getOaiIdentifiers() {
+        return oaiIdentifiers;
+    }
+
+    public void setOaiIdentifiers(List<OaiIdentifier> oaiIdentifiers) {
+        this.oaiIdentifiers = oaiIdentifiers;
     }
 }

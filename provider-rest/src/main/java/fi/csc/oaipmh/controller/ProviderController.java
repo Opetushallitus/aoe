@@ -20,7 +20,7 @@ public class ProviderController {
         this.metadataService = metadataService;
     }
 
-    @GetMapping(path = "/oai-pmh", produces={"application/xml", "application/rdf+xml"})
+    @GetMapping(path = "/oaipmh", produces={"application/xml", "application/rdf+xml"})
     public ResponseEntity<OaiPmhFrame> getAllMetadata(
         @RequestParam(required = false, defaultValue = "") String verb,
         @RequestParam(required = false, defaultValue = "") String identifier,

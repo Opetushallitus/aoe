@@ -25,16 +25,15 @@ public class MetadataServiceImpl implements MetadataService {
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
         frame.setRequest(new Request(verb, identifier, metadataPrefix, requestUrl));
 
-        // TODO: Implement conditional content element by reqest parameter verb
         switch (verb.toUpperCase()) {
-            case "LISTIDENTIFIERS":
-                frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
-                break;
+            case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
                 break;
-            default:
-                // case "IDENTIFY" and others
+            case "LISTIDENTIFIERS":
+                frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
+                break;
+            case "IDENTIFY":
                 frame.setVerb(new JAXBElement<>(new QName(verb), Identify.class, new Identify(
                     "CSC - AOE Open Metadata Interface",
                     "http://aoe.fi/rest/aoe-pmh",
@@ -45,6 +44,9 @@ public class MetadataServiceImpl implements MetadataService {
                     "YYYY-MM-DDThh:mm:ssZ",
                     ""
                 )));
+                break;
+            default:
+                return null;
         }
         // frame.setVerb(new JAXBElement<>(new QName(verb), String.class, ""));
         return frame;

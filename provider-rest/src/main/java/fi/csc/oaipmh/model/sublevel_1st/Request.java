@@ -3,10 +3,8 @@ package fi.csc.oaipmh.model.sublevel_1st;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-@XmlRootElement(name = "request")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Request {
 
