@@ -137,7 +137,7 @@
               "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field."
             }
           },
-          "addAuthor": "Add another author"
+          "addAuthor": "Add an author"
         },
         "keywords": {
           "label": "About",
