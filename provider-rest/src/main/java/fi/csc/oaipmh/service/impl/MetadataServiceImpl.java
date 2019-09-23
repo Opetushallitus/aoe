@@ -1,8 +1,12 @@
 package fi.csc.oaipmh.service.impl;
 
 import fi.csc.oaipmh.model.OaiPmhFrame;
+import fi.csc.oaipmh.model.sublevel_1st.Identify;
+import fi.csc.oaipmh.model.sublevel_1st.ListIdentifiers;
+import fi.csc.oaipmh.model.sublevel_1st.ListRecords;
 import fi.csc.oaipmh.model.sublevel_1st.Request;
 import fi.csc.oaipmh.service.MetadataService;
+
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -20,7 +24,29 @@ public class MetadataServiceImpl implements MetadataService {
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
         frame.setRequest(new Request(verb, identifier, metadataPrefix, requestUrl));
-        frame.setVerb(new JAXBElement<>(new QName(verb), String.class, ""));
+
+        // TODO: Implement conditional content element by reqest parameter verb
+        switch (verb.toUpperCase()) {
+            case "LISTIDENTIFIERS":
+                frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
+                break;
+            case "LISTRECORDS":
+                frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
+                break;
+            default:
+                // case "IDENTIFY" and others
+                frame.setVerb(new JAXBElement<>(new QName(verb), Identify.class, new Identify(
+                    "CSC - AOE Open Metadata Interface",
+                    "http://aoe.fi/rest/aoe-pmh",
+                    "2.0",
+                    "mika.ropponen@csc.fi",
+                    "2001-07-08T22:00:00Z",
+                    "persistent",
+                    "YYYY-MM-DDThh:mm:ssZ",
+                    ""
+                )));
+        }
+        // frame.setVerb(new JAXBElement<>(new QName(verb), String.class, ""));
         return frame;
     }
 }

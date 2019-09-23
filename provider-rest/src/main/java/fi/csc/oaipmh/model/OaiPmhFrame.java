@@ -1,5 +1,8 @@
 package fi.csc.oaipmh.model;
 
+import fi.csc.oaipmh.model.sublevel_1st.Identify;
+import fi.csc.oaipmh.model.sublevel_1st.ListIdentifiers;
+import fi.csc.oaipmh.model.sublevel_1st.ListRecords;
 import fi.csc.oaipmh.model.sublevel_1st.Request;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,10 +11,12 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "OAI-PMH")
 @XmlAccessorType(XmlAccessType.NONE)
+@XmlSeeAlso({Identify.class, ListIdentifiers.class, ListRecords.class}) // XML context binding for the generic fields
 @XmlType(propOrder = {"responseDate", "request", "verb"})
 public class OaiPmhFrame {
 
@@ -31,7 +36,7 @@ public class OaiPmhFrame {
     private Request request;
 
     @XmlAnyElement
-    private JAXBElement<String> verb;
+    private JAXBElement<?> verb;
 
     public String getResponseDate() {
         return responseDate;
@@ -49,11 +54,11 @@ public class OaiPmhFrame {
         this.request = request;
     }
 
-    public JAXBElement<String> getVerb() {
+    public JAXBElement<?> getVerb() {
         return verb;
     }
 
-    public void setVerb(JAXBElement<String> verb) {
+    public void setVerb(JAXBElement<?> verb) {
         this.verb = verb;
     }
 }
