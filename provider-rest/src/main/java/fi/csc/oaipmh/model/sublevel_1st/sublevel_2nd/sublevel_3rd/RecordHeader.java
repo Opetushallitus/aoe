@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class RecordHeader {
 
     @XmlAttribute
-    private String status; // "deleted"
+    private String status; // null | "deleted"
 
     @XmlElement
     private String identifier;
