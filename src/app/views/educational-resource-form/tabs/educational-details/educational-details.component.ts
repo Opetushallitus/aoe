@@ -38,9 +38,9 @@ export class EducationalDetailsComponent implements OnInit {
   public educationalLevels$: any[];
   public basicStudySubjects$: any[];
   public basicStudyObjectives$: any[] = [];
-  public basicStudyObjectivesItems: any[];
+  // public basicStudyObjectivesItems: any[];
   public basicStudyContents$: any[] = [];
-  public basicStudyContentsItems: any[];
+  // public basicStudyContentsItems: any[];
   public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
   public vocationalDegrees$: KeyValue<number, string>[];
   public branchesOfScience$: any[];
@@ -94,13 +94,13 @@ export class EducationalDetailsComponent implements OnInit {
     this.koodistoProxySvc.getData('tavoitteet', this.lang).subscribe(data => {
       this.basicStudyObjectives$ = data;
 
-      this.updateBasicStudyObjectives();
+      // this.updateBasicStudyObjectives();
     });
 
     this.koodistoProxySvc.getData('sisaltoalueet', this.lang).subscribe(data => {
       this.basicStudyContents$ = data;
 
-      this.updateBasicStudyContents();
+      // this.updateBasicStudyContents();
     });
 
     this.koodistoProxySvc.getData('lukionkurssit', this.lang).subscribe(data => {
@@ -156,7 +156,7 @@ export class EducationalDetailsComponent implements OnInit {
 
     if (this.savedData) {
       if (this.savedData.educationalLevels) {
-        this.educationalDetailsForm.get('educationalLevels').setValue(this.savedData.educationalLevels);
+        this.educationalLevels.setValue(this.savedData.educationalLevels);
 
         this.educationalLevelsChange(this.savedData.educationalLevels);
       }
@@ -180,9 +180,10 @@ export class EducationalDetailsComponent implements OnInit {
           this.prePrimaryEducationFramework.setValue(prePrimaryEducationSubjects[0].educationalFramework);
         }
 
-        // tslint:disable-next-line:max-line-length
-        const basicStudySubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
+        const basicStudySubjects = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
         this.basicStudySubjects.setValue(basicStudySubjects);
+        this.basicStudySubjectsChange(basicStudySubjects);
 
         const upperSecondarySchoolSubjects = this.savedData.alignmentObjects
           .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
@@ -311,7 +312,7 @@ export class EducationalDetailsComponent implements OnInit {
   public basicStudySubjectsChange(value): void {
     this.hasBasicStudySubjects = value.length > 0;
 
-    if (this.hasBasicStudySubjects) {
+    /*if (this.hasBasicStudySubjects) {
       this.basicStudyObjectivesItems = [];
       this.basicStudyContentsItems = [];
 
@@ -324,7 +325,7 @@ export class EducationalDetailsComponent implements OnInit {
           .filter((content: AlignmentObjectExtended) => content.parent === subject.key)
           .forEach((content: AlignmentObjectExtended) => this.basicStudyContentsItems.push(content));
       });
-    }
+    }*/
   }
 
   public addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
@@ -345,7 +346,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  private updateBasicStudyObjectives(): void {
+  /*private updateBasicStudyObjectives(): void {
     if (this.savedData && this.savedData.alignmentObjects) {
       const basicStudyObjectiveKeys = this.savedData.alignmentObjects
         .filter(alignmentObject => alignmentObject.source === 'basicStudyObjectives')
@@ -363,9 +364,9 @@ export class EducationalDetailsComponent implements OnInit {
         this.basicStudySubjectsChange(this.basicStudySubjects.value);
       }
     }
-  }
+  }*/
 
-  private updateBasicStudyContents(): void {
+  /*private updateBasicStudyContents(): void {
     if (this.savedData && this.savedData.alignmentObjects) {
       const basicStudyContentKeys = this.savedData.alignmentObjects
         .filter(alignmentObject => alignmentObject.source === 'basicStudyContents')
@@ -383,7 +384,7 @@ export class EducationalDetailsComponent implements OnInit {
         this.basicStudySubjectsChange(this.basicStudySubjects.value);
       }
     }
-  }
+  }*/
 
   public onSubmit() {
     if (this.educationalDetailsForm.valid) {

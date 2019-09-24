@@ -122,11 +122,11 @@
       >
     </div>
 
-    <div class="form-group">
+    <!--<div class="form-group">
       <label for="basicStudyObjectives">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</label>
 
       <ng-select
-        [items]="basicStudyObjectivesItems"
+        [items]="basicStudyObjectives$"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
@@ -141,7 +141,7 @@
       <label for="basicStudyContents">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</label>
 
       <ng-select
-        [items]="basicStudyContentsItems"
+        [items]="basicStudyContents$"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
@@ -150,7 +150,7 @@
         id="basicStudyContents"
         formControlName="basicStudyContents"
       ></ng-select>
-    </div>
+    </div>-->
   </ng-container>
 
   <ng-container *ngIf="hasUpperSecondarySchool">
