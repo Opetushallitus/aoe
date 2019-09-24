@@ -113,6 +113,16 @@
 
   <ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
+      <label for="basicStudyFramework">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}</label>
+
+      <input
+        class="form-control"
+        id="basicStudyFramework"
+        formControlName="basicStudyFramework"
+      >
+    </div>
+
+    <div class="form-group">
       <label for="basicStudyObjectives">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</label>
 
       <ng-select

@@ -70,6 +70,7 @@ export class EducationalDetailsComponent implements OnInit {
       prePrimaryEducationSubjects: this.fb.control(null),
       prePrimaryEducationFramework: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
+      basicStudyFramework: this.fb.control(null),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
@@ -243,6 +244,10 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
   }
 
+  get basicStudyFramework(): FormControl {
+    return this.educationalDetailsForm.get('basicStudyFramework') as FormControl;
+  }
+
   get basicStudyObjectives(): FormControl {
     return this.educationalDetailsForm.get('basicStudyObjectives') as FormControl;
   }
@@ -413,6 +418,7 @@ export class EducationalDetailsComponent implements OnInit {
             key: subject.key,
             source: subject.source,
             alignmentType: subject.alignmentType,
+            educationalFramework: this.basicStudyFramework.value,
             targetName: subject.targetName
           });
         });
@@ -423,6 +429,7 @@ export class EducationalDetailsComponent implements OnInit {
               key: objective.key,
               source: objective.source,
               alignmentType: objective.alignmentType,
+              educationalFramework: this.basicStudyFramework.value,
               targetName: objective.targetName
             });
           });
@@ -434,6 +441,7 @@ export class EducationalDetailsComponent implements OnInit {
               key: content.key,
               source: content.source,
               alignmentType: content.alignmentType,
+              educationalFramework: this.basicStudyFramework.value,
               targetName: content.targetName
             });
           });
