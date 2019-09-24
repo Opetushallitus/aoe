@@ -274,9 +274,8 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         const dnow = Date.now() / 1000.0;
         query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode) = ($1,to_timestamp($2),$3,$4,$5,$7) where id=$6;";
         console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.min, req.body.typicalAgeRange.max, req.params.id, req.body.license]);
-        queries.push(await t.any(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.typicalAgeRangeMin, req.body.typicalAgeRange.typicalAgeRangeMax, req.params.id, req.body.license]));
+        queries.push(await t.any(query, [((req.body.expires == undefined) ? "9999-01-01T00:00:00+00:00" : req.body.expires), dnow, ((req.body.timeRequired == undefined) ? "" : req.body.timeRequired), ((req.body.typicalAgeRange.typicalAgeRangeMin == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMin), ((req.body.typicalAgeRange.typicalAgeRangeMax == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMax), req.params.id, req.body.license]));
 // description
-        const descparams = [];
         const description = req.body.description;
         if (description === undefined || description.length === 0) {
         // if not found do nothing
@@ -535,7 +534,8 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                     arr[i].educationalmaterialid = req.params.id;
                 }
                 arr.forEach(async (element: any) =>  {
-                    const obj = {alignmenttype : element.alignmentType, targetname : element.targetName , source : element.source , educationalmaterialid : req.params.id, objectkey : element.key, educationalframework : element.educationalFramework };
+                    console.log(element.educationalFramework);
+                    const obj = {alignmenttype : element.alignmentType, targetname : element.targetName , source : element.source , educationalmaterialid : req.params.id, objectkey : element.key, educationalframework : ((element.educationalFramework == undefined) ? "" : element.educationalFramework) };
                     values.push(obj);
                 });
                 // console.log(arr);
@@ -559,7 +559,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         for (const element of arr) {
             query = "INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1,$2,$3,$4);";
             console.log(query, [element.author, element.organization.value, req.params.id, element.organization.key]);
-            queries.push(await t.any(query, [element.author, element.organization.value, req.params.id, element.organization.key]));
+            queries.push(await t.any(query, [element.author, ((element.organization.value == undefined) ? "" : element.organization.value), req.params.id, ((element.organization.key == undefined) ? "" : element.organization.key)]));
         }
 
     // filedetails

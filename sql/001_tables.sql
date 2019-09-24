@@ -49,18 +49,18 @@ CREATE TABLE Users (
 CREATE TABLE EducationalMaterial (
   Id                   BIGSERIAL NOT NULL, 
   CreatedAt           timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
-  PublishedAt         timestamp with time zone DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
+  PublishedAt         timestamp with time zone DEFAULT '9999-01-01T00:00:00+00:00' NOT NULL, 
   UpdatedAt           timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
-  ArchivedAt          timestamp with time zone DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
-  TechnicalName       text DEFAULT '' NOT NULL, 
-  TimeRequired        text DEFAULT 0 NOT NULL, 
-  AgeRangeMin         int4 DEFAULT 0 NOT NULL, 
-  AgeRangeMax         int4 DEFAULT 99 NOT NULL,
+  ArchivedAt          timestamp with time zone DEFAULT '9999-01-01T00:00:00+00:00' NOT NULL, 
+  --TechnicalName       text DEFAULT '' NOT NULL, 
+  TimeRequired        text DEFAULT '' NOT NULL, 
+  AgeRangeMin         int4 DEFAULT -1 NOT NULL, 
+  AgeRangeMax         int4 DEFAULT -1 NOT NULL,
   LicenseCode         text DEFAULT '' NOT NULL, 
   Obsoleted           int4 DEFAULT 0 NOT NULL,
   OriginalPublishedAt timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   UsersUserName       text NOT NULL,
-  Expires             timestamp with time zone DEFAULT '9999-01-01T00:00:00+03:00' NOT NULL, 
+  Expires             timestamp with time zone DEFAULT '9999-01-01T00:00:00+00:00' NOT NULL, 
   PRIMARY KEY (Id));
 
 
@@ -70,8 +70,8 @@ CREATE TABLE Material (
   EducationalMaterialId int8 NOT NULL, 
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
   Priority              int4 DEFAULT 0 NOT NULL, 
-  MaterialLanguage      text DEFAULT '""' NOT NULL, 
-  MaterialLanguageKey   text DEFAULT '""' NOT NULL, 
+  MaterialLanguage      text DEFAULT '' NOT NULL, 
+  MaterialLanguageKey   text DEFAULT '' NOT NULL, 
   PRIMARY KEY (Id));
 
 
@@ -94,7 +94,7 @@ CREATE TABLE AligmentObject (
   AlignmentType         text NOT NULL, 
   TargetName            text NOT NULL, 
   Source                text NOT NULL, 
-  EducationalFramework  text DEFAULT '""' NOT NULL, 
+  EducationalFramework  text DEFAULT '' NOT NULL, 
   ObjectKey             text NOT NULL, 
   PRIMARY KEY (Id));
 
@@ -243,9 +243,9 @@ CREATE TABLE MaterialDescription (
   PRIMARY KEY (id));
 CREATE TABLE MaterialName (
   id                     BIGSERIAL NOT NULL, 
-  MaterialName          text DEFAULT '""' NOT NULL, 
+  MaterialName          text DEFAULT '' NOT NULL, 
   Language              text NOT NULL, 
-  Slug                  text DEFAULT '""' NOT NULL, 
+  Slug                  text DEFAULT '' NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (id));
 
