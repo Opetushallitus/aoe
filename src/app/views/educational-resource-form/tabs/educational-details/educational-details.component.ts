@@ -161,60 +161,60 @@ export class EducationalDetailsComponent implements OnInit {
       }
 
       if (this.savedData.alignmentObjects) {
-        // tslint:disable-next-line:max-line-length
-        const earlyChildhoodEducationSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationSubjects');
-        this.educationalDetailsForm.get('earlyChildhoodEducationSubjects').setValue(earlyChildhoodEducationSubjects);
+        const earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationSubjects');
+        this.earlyChildhoodEducationSubjects.setValue(earlyChildhoodEducationSubjects);
 
         if (earlyChildhoodEducationSubjects.length > 0 && 'educationalFramework' in earlyChildhoodEducationSubjects[0]) {
           // tslint:disable-next-line:max-line-length
-          this.educationalDetailsForm.get('earlyChildhoodEducationFramework').setValue(earlyChildhoodEducationSubjects[0].educationalFramework);
+          this.earlyChildhoodEducationFramework.setValue(earlyChildhoodEducationSubjects[0].educationalFramework);
         }
 
-        // tslint:disable-next-line:max-line-length
-        const prePrimaryEducationSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationSubjects');
-        this.educationalDetailsForm.get('prePrimaryEducationSubjects').setValue(prePrimaryEducationSubjects);
+        const prePrimaryEducationSubjects = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationSubjects');
+        this.prePrimaryEducationSubjects.setValue(prePrimaryEducationSubjects);
 
         if (prePrimaryEducationSubjects.length > 0 && 'educationalFramework' in prePrimaryEducationSubjects[0]) {
           // tslint:disable-next-line:max-line-length
-          this.educationalDetailsForm.get('prePrimaryEducationFramework').setValue(prePrimaryEducationSubjects[0].educationalFramework);
+          this.prePrimaryEducationFramework.setValue(prePrimaryEducationSubjects[0].educationalFramework);
         }
 
         // tslint:disable-next-line:max-line-length
         const basicStudySubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
         this.basicStudySubjects.setValue(basicStudySubjects);
 
-        // tslint:disable-next-line:max-line-length
-        const upperSecondarySchoolSubjects = this.savedData.alignmentObjects.filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
-        this.educationalDetailsForm.get('upperSecondarySchoolSubjects').setValue(upperSecondarySchoolSubjects);
+        const upperSecondarySchoolSubjects = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
+        this.upperSecondarySchoolSubjects.setValue(upperSecondarySchoolSubjects);
 
         if (upperSecondarySchoolSubjects.length > 0 && 'educationalFramework' in upperSecondarySchoolSubjects[0]) {
           // tslint:disable-next-line:max-line-length
-          this.educationalDetailsForm.get('upperSecondarySchoolFramework').setValue(upperSecondarySchoolSubjects[0].educationalFramework);
+          this.upperSecondarySchoolFramework.setValue(upperSecondarySchoolSubjects[0].educationalFramework);
         }
       }
 
       if (this.savedData.vocationalDegrees) {
-        this.educationalDetailsForm.get('vocationalDegrees').setValue(this.savedData.vocationalDegrees);
+        this.vocationalDegrees.setValue(this.savedData.vocationalDegrees);
       }
 
       if (this.savedData.selfMotivatedEducationSubjects) {
-        this.educationalDetailsForm.get('selfMotivatedEducationSubjects').setValue(this.savedData.selfMotivatedEducationSubjects);
+        this.selfMotivatedEducationSubjects.setValue(this.savedData.selfMotivatedEducationSubjects);
       }
 
       if (this.savedData.branchesOfScience) {
-        this.educationalDetailsForm.get('branchesOfScience').setValue(this.savedData.branchesOfScience);
+        this.branchesOfScience.setValue(this.savedData.branchesOfScience);
       }
 
       if (this.savedData.scienceBranchObjectives) {
-        this.educationalDetailsForm.get('scienceBranchObjectives').setValue(this.savedData.scienceBranchObjectives);
+        this.scienceBranchObjectives.setValue(this.savedData.scienceBranchObjectives);
       }
 
       if (this.savedData.vocationalEducationFramework) {
-        this.educationalDetailsForm.get('vocationalEducationFramework').setValue(this.savedData.vocationalEducationFramework);
+        this.vocationalEducationFramework.setValue(this.savedData.vocationalEducationFramework);
       }
 
       if (this.savedData.higherEducationFramework) {
-        this.educationalDetailsForm.get('higherEducationFramework').setValue(this.savedData.higherEducationFramework);
+        this.higherEducationFramework.setValue(this.savedData.higherEducationFramework);
       }
     }
   }
@@ -227,8 +227,16 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('earlyChildhoodEducationSubjects') as FormControl;
   }
 
+  get earlyChildhoodEducationFramework(): FormControl {
+    return this.educationalDetailsForm.get('earlyChildhoodEducationFramework') as FormControl;
+  }
+
   get prePrimaryEducationSubjects(): FormControl {
     return this.educationalDetailsForm.get('prePrimaryEducationSubjects') as FormControl;
+  }
+
+  get prePrimaryEducationFramework(): FormControl {
+    return this.educationalDetailsForm.get('prePrimaryEducationFramework') as FormControl;
   }
 
   get basicStudySubjects(): FormControl {
@@ -247,8 +255,16 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get upperSecondarySchoolFramework(): FormControl {
+    return this.educationalDetailsForm.get('upperSecondarySchoolFramework') as FormControl;
+  }
+
   get vocationalDegrees(): FormControl {
     return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalEducationFramework(): FormControl {
+    return this.educationalDetailsForm.get('vocationalEducationFramework') as FormControl;
   }
 
   get selfMotivatedEducationSubjects(): FormControl {
@@ -261,6 +277,10 @@ export class EducationalDetailsComponent implements OnInit {
 
   get scienceBranchObjectives(): FormControl {
     return this.educationalDetailsForm.get('scienceBranchObjectives') as FormControl;
+  }
+
+  get higherEducationFramework(): FormControl {
+    return this.educationalDetailsForm.get('higherEducationFramework') as FormControl;
   }
 
   public educationalLevelsChange(value): void {
