@@ -385,7 +385,7 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.earlyChildhoodEducationSubjects.value) {
         // @todo: wrap this in function
         this.earlyChildhoodEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
-          const earlyChildhoodEducationFramework = this.educationalDetailsForm.get('earlyChildhoodEducationFramework').value;
+          const earlyChildhoodEducationFramework = this.earlyChildhoodEducationFramework.value;
 
           if (earlyChildhoodEducationFramework) {
             subject.educationalFramework = earlyChildhoodEducationFramework;
@@ -397,7 +397,7 @@ export class EducationalDetailsComponent implements OnInit {
 
       if (this.prePrimaryEducationSubjects.value) {
         this.prePrimaryEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
-          const prePrimaryEducationFramework = this.educationalDetailsForm.get('prePrimaryEducationFramework').value;
+          const prePrimaryEducationFramework = this.prePrimaryEducationFramework.value;
 
           if (prePrimaryEducationFramework) {
             subject.educationalFramework = prePrimaryEducationFramework;
@@ -442,7 +442,7 @@ export class EducationalDetailsComponent implements OnInit {
 
       if (this.upperSecondarySchoolSubjects.value) {
         this.upperSecondarySchoolSubjects.value.forEach((subject: AlignmentObjectExtended) => {
-          const upperSecondarySchoolFramework = this.educationalDetailsForm.get('upperSecondarySchoolFramework').value;
+          const upperSecondarySchoolFramework = this.upperSecondarySchoolFramework.value;
 
           if (upperSecondarySchoolFramework) {
             subject.educationalFramework = upperSecondarySchoolFramework;
@@ -455,7 +455,7 @@ export class EducationalDetailsComponent implements OnInit {
       const data = Object.assign(
         {},
         this.savedData,
-        { educationalLevels: this.educationalDetailsForm.get('educationalLevels').value },
+        { educationalLevels: this.educationalLevels.value },
         { alignmentObjects: this.alignmentObjects }
         );
 
