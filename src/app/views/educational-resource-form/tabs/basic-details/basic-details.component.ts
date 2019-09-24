@@ -31,10 +31,10 @@ export class BasicDetailsComponent implements OnInit {
   public loadingKeywords = false;
   public keywordsInput$ = new Subject<string>();
 
-  private organisations = [];
-  public organisationsBuffer = [];
-  public loadingOrganisations = false;
-  public organisationsInput$ = new Subject<string>();
+  private organizations = [];
+  public organizationsBuffer = [];
+  public loadingOrganizations = false;
+  public organizationsInput$ = new Subject<string>();
 
   public addCustomItem = addCustomItem;
 
@@ -90,7 +90,7 @@ export class BasicDetailsComponent implements OnInit {
     });
 
     this.onKeywordsSearch();
-    this.onOrganisationsSearch();
+    this.onOrganizationsSearch();
 
     if (this.savedData) {
       if (this.savedData.keywords) {
@@ -158,31 +158,31 @@ export class BasicDetailsComponent implements OnInit {
       .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
   }
 
-  public fetchMoreOrganisations(value: string) {
-    const len = this.organisationsBuffer.length;
-    const more = this.organisations
+  public fetchMoreOrganizations(value: string) {
+    const len = this.organizationsBuffer.length;
+    const more = this.organizations
       .filter(x => x.value.includes(value))
       .slice(len, this.bufferSize + len);
 
-    this.loadingOrganisations = true;
+    this.loadingOrganizations = true;
 
     setTimeout(() => {
-      this.loadingOrganisations = false;
-      this.organisationsBuffer = this.organisationsBuffer.concat(more);
+      this.loadingOrganizations = false;
+      this.organizationsBuffer = this.organizationsBuffer.concat(more);
     }, 200);
   }
 
-  private onOrganisationsSearch() {
-    this.organisationsInput$.pipe(
+  private onOrganizationsSearch() {
+    this.organizationsInput$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap(value => this.fakeOrganisationsService(value))
+      switchMap(value => this.fakeOrganizationsService(value))
     ).subscribe(data => {
-      this.organisationsBuffer = data.slice(0, this.bufferSize);
+      this.organizationsBuffer = data.slice(0, this.bufferSize);
     });
   }
 
-  private fakeOrganisationsService(value: string) {
+  private fakeOrganizationsService(value: string) {
     return this.koodistoProxySvc.getData('organisaatiot', this.lang)
       .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
   }
@@ -194,18 +194,18 @@ export class BasicDetailsComponent implements OnInit {
     );
   }
 
-  get authors() {
+  get authors(): FormArray {
     return this.basicDetailsForm.get('authors') as FormArray;
   }
 
   public createAuthor(author?): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [ Validators.required ]),
-      organisation: this.fb.control(author ? author.organisation : null),
+      organization: this.fb.control(author ? author.organization : null),
     });
   }
 
-  public addAuthor() {
+  public addAuthor(): void {
     this.authors.push(this.createAuthor());
   }
 

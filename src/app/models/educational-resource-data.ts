@@ -36,7 +36,7 @@ export interface EducationalResourceData {
 
 interface Author {
   author: string;
-  organisation?: KeyValue<string, string>;
+  organization?: KeyValue<string, string>;
 }
 
 interface I18nString {
