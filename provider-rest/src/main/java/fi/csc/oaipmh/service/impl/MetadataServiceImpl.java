@@ -42,10 +42,11 @@ public class MetadataServiceImpl implements MetadataService {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setTestMetadata(frame);
+                setTestMetadata(frame, false);
                 break;
             case "LISTIDENTIFIERS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
+                setTestMetadata(frame, true);
                 break;
             case "IDENTIFY":
                 setStaticProperties(frame, verb);
@@ -81,7 +82,7 @@ public class MetadataServiceImpl implements MetadataService {
             .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
     }
 
-    private void setTestMetadata(OaiPmhFrame frame) {
+    private void setTestMetadata(OaiPmhFrame frame, boolean headerOnly) {
         DublinCoreFrame dublinCoreFrame = new DublinCoreFrame();
         dublinCoreFrame.setIdentifier(new String[]{"qt6v88p8sv", "https://escholarship.org/uc/item/6v88p8sv"});
         dublinCoreFrame.setTitle(new String[]{"Specialized Recruitment: An Examination of the Motivations"});
@@ -97,14 +98,18 @@ public class MetadataServiceImpl implements MetadataService {
         dublinCoreFrame.setType(new String[]{"article"});
 
         Record record = new Record();
-        record.setMetadata(new RecordMetadata(dublinCoreFrame));
         record.setHeader(new RecordHeader(null, "oai:escholarship.org/ark:/13030/qt6v88p8sv",
             "2011-07-03T09:48:53Z"));
-
+        if (!headerOnly) {
+            record.setMetadata(new RecordMetadata(dublinCoreFrame));
+        }
         List<Record> recordList = new ArrayList<>() {{
             add(record);
         }};
-
+        if (headerOnly) {
+            ((ListIdentifiers) frame.getVerb().getValue()).setRecords(recordList);
+            return;
+        }
         ((ListRecords) frame.getVerb().getValue()).setRecords(recordList);
     }
 }
