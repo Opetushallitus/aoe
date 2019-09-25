@@ -35,9 +35,14 @@ export class PreviewComponent implements OnInit {
 
   public onSubmit() {
     if (this.previewForm.valid) {
-      this.backendSvc.postMeta(this.fileUpload.id, this.savedData).subscribe(res => console.log(res));
+      this.backendSvc.postMeta(this.fileUpload.id, this.savedData).subscribe(res => {
+        // clean up local storage
+        localStorage.removeItem(this.localStorageKey);
+        localStorage.removeItem(this.fileUploadLSKey);
 
-      // this.router.navigate(['/omat-oppimateriaalit']);
+        // redirect to new material
+        this.router.navigate(['/materiaali', this.fileUpload.id, this.savedData.slug.fi]);
+      });
     }
   }
 
