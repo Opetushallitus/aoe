@@ -21,7 +21,6 @@ export class FilesComponent implements OnInit {
   private fileUploadLSKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
-  private fileUpload: any;
 
   public fileUploadForm: FormGroup;
   public submitted = false;
