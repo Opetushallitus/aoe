@@ -4,18 +4,18 @@
       class="btn nav-link"
       type="button"
       [popover]="loginPopover"
-      popoverTitle="Kirjaudu sisään"
+      [popoverTitle]="'common.login' | translate"
       placement="bottom"
       *ngIf="!authSvc.isLogged()"
     >
-      Kirjaudu sisään
+      {{ 'common.login' | translate }}
     </button>
     <button
       class="btn nav-link"
       type="button"
       (click)="logout()"
       *ngIf="authSvc.isLogged()"
-    >{{ authSvc.getUser()?.firstname }} {{ authSvc.getUser()?.lastname }} - Kirjaudu ulos</button>
+    >{{ authSvc.getUser()?.firstname }} {{ authSvc.getUser()?.lastname }} - {{ 'common.logout' | translate }}</button>
   </li>
 </ul>
 

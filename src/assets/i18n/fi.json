@@ -1,10 +1,13 @@
 {
   "common": {
-    "goBack": "Takaisin"
+    "goBack": "Takaisin",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos"
   },
   "navigation": {
     "home": "Etusivu",
     "info": "Lisätietoa",
+    "myMaterials": "Omat oppimateriaalit",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
