@@ -245,8 +245,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         const nameparams = [];
         let response;
         console.log("updateMaterial request body:");
-        console.log(req.body);
+        console.log(JSON.stringify(req.body));
         let arr = req.body.name;
+        console.log("inserting material name");
         if (arr == undefined) {
             // query = "DELETE FROM materialname where educationalmaterialid = $1;";
             // response  = await t.any(query, [req.params.id]);
@@ -277,11 +278,13 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
 
         // material
+        console.log("inserting educationalmaterial");
         const dnow = Date.now() / 1000.0;
         query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode) = ($1,to_timestamp($2),$3,$4,$5,$7) where id=$6;";
         console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.typicalAgeRangeMin, req.body.typicalAgeRange.typicalAgeRangeMax, req.params.id, req.body.license]);
         queries.push(await t.any(query, [((req.body.expires == undefined) ? "9999-01-01T00:00:00+00:00" : req.body.expires), dnow, ((req.body.timeRequired == undefined) ? "" : req.body.timeRequired), ((req.body.typicalAgeRange.typicalAgeRangeMin == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMin), ((req.body.typicalAgeRange.typicalAgeRangeMax == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMax), req.params.id, req.body.license]));
 // description
+        console.log("inserting description");
         const description = req.body.description;
         if (description == undefined) {
         // if not found do nothing
@@ -310,6 +313,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
 // educationalRoles
+        console.log("inserting educationalRoles");
         const audienceparams = [];
         const audienceArr = req.body.educationalRoles;
         if (audienceArr == undefined) {
@@ -338,6 +342,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // educationalUse
+        console.log("inserting educationalUse");
         const educationalUseParams = [];
         const educationalUseArr = req.body.educationalUse;
         if (educationalUseArr == undefined) {
@@ -366,6 +371,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // learningResourceType
+        console.log("inserting learningResourceType");
         const learningResourceTypeParams = [];
         const learningResourceTypeArr = req.body.learningResourceType;
         if (learningResourceTypeArr == undefined) {
@@ -394,6 +400,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // inLanguage
+        console.log("inserting inLanguage");
         const inLanguageParams = [];
         const inLanguageArr = req.body.inLanguage;
         if (inLanguageArr == undefined) {
@@ -421,6 +428,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // keywords
+        console.log("inserting keywords");
         let params = [];
         arr = req.body.keywords;
         if (arr == undefined) {
@@ -448,6 +456,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // publisher
+        console.log("inserting publisher");
         params = [];
         arr = req.body.publisher;
         console.log(arr);
@@ -478,6 +487,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // isBasedOn
+        console.log("inserting isBasedOn");
         params = [];
         arr = req.body.isBasedOn.externals;
         if (arr == undefined) {
@@ -510,6 +520,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
 // alignmentObjects
+        console.log("inserting alignmentObjects");
             arr = req.body.alignmentObjects;
 
             if (arr == undefined) {
@@ -558,6 +569,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 // }
             }
 // author
+        console.log("inserting author");
         params = [];
         arr = req.body.authors;
         query = "DELETE FROM author where educationalmaterialid = $1;";
@@ -571,12 +583,14 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         }
 
     // filedetails
+    console.log("inserting filedetails");
         params = [];
-        arr = req.body.filedetails;
+        arr = req.body.fileDetails;
         if (arr == undefined) {
-            query = "DELETE FROM materialdisplayname where materialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
+            // query = "DELETE FROM materialdisplayname where materialid = $1;";
+            // console.log(query, [req.params.id]);
+            // response  = await t.any(query, [req.params.id]);
+            // queries.push(response);
         }
         else {
             for (const element of arr) {
@@ -609,10 +623,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
 // accessibilityFeatures
+            console.log("inserting accessibilityFeatures");
             params = [];
             arr = req.body.accessibilityFeatures;
             if (arr == undefined) {
-                query = "DELETE FROM accessibilityfeature where materialid = $1;";
+                query = "DELETE FROM accessibilityfeature where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
@@ -641,10 +656,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 }
             }
 // accessibilityHazards
+        console.log("inserting accessibilityHazards");
             params = [];
             arr = req.body.accessibilityHazards;
             if (arr == undefined) {
-                query = "DELETE FROM accessibilityhazard where materialid = $1;";
+                query = "DELETE FROM accessibilityhazard where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
@@ -673,10 +689,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 }
             }
 // educationalLevels
+            console.log("inserting educationalLevels");
             params = [];
             arr = req.body.educationalLevels;
             if (arr == undefined) {
-                query = "DELETE FROM educationallevel where materialid = $1;";
+                query = "DELETE FROM educationallevel where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
