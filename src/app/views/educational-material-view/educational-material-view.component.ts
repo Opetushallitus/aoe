@@ -9,16 +9,17 @@ import { EducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
 import { Material } from '../../models/demo/material';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { BackendService } from '../../services/backend.service';
 
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
-  private educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
-  public educationalMaterial: EducationalMaterial;
+  // private educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
+  public educationalMaterial: any;
   private routeSubscription: Subscription;
-  private langChangeSubscription: Subscription;
+  // private langChangeSubscription: Subscription;
   public previewMaterial: Material;
   private specialId: number;
 
@@ -26,30 +27,33 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private location: Location,
     public lrtSvc: LearningResourceTypeService,
-    private translate: TranslateService
+    private backendSvc: BackendService,
+    // private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe(params => {
       this.specialId = +params['specialId'];
 
-      this.educationalMaterial = this.educationalMaterials.find(m =>
+      this.backendSvc.getMaterial(+params['specialId']).subscribe(data => this.educationalMaterial = data.body);
+
+      /*this.educationalMaterial = this.educationalMaterials.find(m =>
         m.specialId === this.specialId && m.inLanguage.id.toLocaleLowerCase() === this.translate.currentLang);
 
-      this.previewMaterial = this.educationalMaterial.materials[0];
+      this.previewMaterial = this.educationalMaterial.materials[0];*/
     });
 
-    this.langChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    /*this.langChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.educationalMaterial = this.educationalMaterials.find(m =>
        m.specialId === this.specialId && m.inLanguage.id.toLocaleLowerCase() === event.lang);
 
        this.previewMaterial = this.educationalMaterial.materials[0];
-    });
+    });*/
   }
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
-    this.langChangeSubscription.unsubscribe();
+    // this.langChangeSubscription.unsubscribe();
   }
 
   goBack(): void {
