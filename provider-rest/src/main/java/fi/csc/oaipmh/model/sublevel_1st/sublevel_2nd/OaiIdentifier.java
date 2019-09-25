@@ -19,16 +19,16 @@ public class OaiIdentifier {
         + "http://www.openarchives.org/OAI/2.0/oai-identifier.xsd";
 
     @XmlElement
-    private String scheme = "oai";
+    private String scheme;
 
     @XmlElement
-    private String repositoryIdentifier = "aoe.fi";
+    private String repositoryIdentifier;
 
     @XmlElement
-    private String delimeter = ":";
+    private String delimeter;
 
     @XmlElement
-    private String sampleIdentifier = "oai:oai.fi:123";
+    private String sampleIdentifier;
 
     public OaiIdentifier() {}
 

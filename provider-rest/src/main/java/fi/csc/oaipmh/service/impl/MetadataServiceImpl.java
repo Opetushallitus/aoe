@@ -41,20 +41,36 @@ public class MetadataServiceImpl implements MetadataService {
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
                 break;
             case "IDENTIFY":
-                frame.setVerb(new JAXBElement<>(new QName(verb), Identify.class, new Identify(
-                    env.getProperty("aoe.identify.repository-name"),
-                    env.getProperty("aoe.identify.base-url"),
-                    env.getProperty("aoe.identify.protocol-version"),
-                    env.getProperty("aoe.identify.admin-email"),
-                    env.getProperty("aoe.identify.earliest-datestamp"),
-                    env.getProperty("aoe.identify.deleted-record"),
-                    env.getProperty("aoe.identify.granularity"),
-                    env.getProperty("aoe.identify.compression")
-                )));
+                setStaticProperties(frame, verb);
                 break;
             default:
                 return null;
         }
         return frame;
+    }
+
+    private void setStaticProperties(OaiPmhFrame frame, String verb) {
+
+        // Service identifiers
+        frame.setVerb(new JAXBElement<>(new QName(verb), Identify.class, new Identify(
+            env.getProperty("aoe.identify.repository-name"),
+            env.getProperty("aoe.identify.base-url"),
+            env.getProperty("aoe.identify.protocol-version"),
+            env.getProperty("aoe.identify.admin-email"),
+            env.getProperty("aoe.identify.earliest-datestamp"),
+            env.getProperty("aoe.identify.deleted-record"),
+            env.getProperty("aoe.identify.granularity"),
+            env.getProperty("aoe.identify.compression")
+        )));
+
+        // OAI identifiers
+        ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
+            .setScheme(env.getProperty("aoe.oai-identifier.scheme"));
+        ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
+            .setRepositoryIdentifier(env.getProperty("aoe.oai-identifier.repository-identifier"));
+        ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
+            .setDelimeter(env.getProperty("aoe.oai-identifier.delimeter"));
+        ((Identify) frame.getVerb().getValue()).getOaiIdentifiers().get(0)
+            .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
     }
 }

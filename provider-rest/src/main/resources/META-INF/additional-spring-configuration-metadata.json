@@ -39,6 +39,26 @@
             "name": "aoe.identify.compression",
             "type": "java.lang.String",
             "description": "Compression method."
+        },
+        {
+            "name": "aoe.oai-identifier.scheme",
+            "type": "java.lang.String",
+            "description": "Document scheme standard."
+        },
+        {
+            "name": "aoe.oai-identifier.repository-identifier",
+            "type": "java.lang.String",
+            "description": "Service root domain."
+        },
+        {
+            "name": "aoe.oai-identifier.delimeter",
+            "type": "java.lang.String",
+            "description": "Delimeter character used."
+        },
+        {
+            "name": "aoe.oai-identifier.sample-identifier",
+            "type": "java.lang.String",
+            "description": "Sample metadata identity."
         }
     ]
 }
