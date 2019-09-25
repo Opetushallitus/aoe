@@ -5,6 +5,7 @@
   "navigation": {
     "home": "Home",
     "info": "Info",
+    "myMaterials": "My open educational resources",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"

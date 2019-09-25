@@ -5,6 +5,7 @@
   "navigation": {
     "home": "Framsida",
     "info": "Info",
+    "myMaterials": "Mina lärresurser",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"

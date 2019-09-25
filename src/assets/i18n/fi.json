@@ -5,6 +5,7 @@
   "navigation": {
     "home": "Etusivu",
     "info": "Lisätietoa",
+    "myMaterials": "Omat oppimateriaalit",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
