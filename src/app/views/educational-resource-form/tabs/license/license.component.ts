@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
@@ -19,6 +19,7 @@ export class LicenseComponent implements OnInit {
   public licenses$: any[];
 
   public licenseForm: FormGroup;
+  public submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +36,7 @@ export class LicenseComponent implements OnInit {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.licenseForm = this.fb.group({
-      license: this.fb.control(null, [Validators.required]),
+      license: this.fb.control(null, [ Validators.required ]),
     });
 
     this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
@@ -43,25 +44,43 @@ export class LicenseComponent implements OnInit {
 
       if (this.savedData) {
         if (this.savedData.license) {
-          this.licenseForm.get('license').setValue(this.savedData.license);
+          this.license.setValue(this.savedData.license);
         }
       }
     });
   }
 
-  public onSubmit() {
-    if (this.licenseForm.valid) {
-      const newData = {
-        license: this.licenseForm.get('license').value,
-      };
+  get license(): FormControl {
+    return this.licenseForm.get('license') as FormControl;
+  }
 
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), newData);
+  public onSubmit() {
+    this.submitted = true;
+
+    if (this.licenseForm.valid) {
+      const data = Object.assign(
+        {},
+        getLocalStorageData(this.localStorageKey),
+        this.licenseForm.value
+      );
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 6]);
     }
+  }
+
+  // @todo: some kind of confirmation
+  public resetForm() {
+    // reset submit status
+    this.submitted = false;
+
+    // reset form values
+    this.licenseForm.reset();
+
+    // clear data from local storage
+    localStorage.removeItem(this.localStorageKey);
   }
 
   public previousTab() {

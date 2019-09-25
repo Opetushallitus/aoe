@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -24,6 +24,7 @@ export class FilesComponent implements OnInit {
   private fileUpload: any;
 
   public fileUploadForm: FormGroup;
+  public submitted = false;
   public modalRef: BsModalRef;
   public uploadResponse: { message: number | string; status: string } = { status: '', message: 0 };
   public uploadError: string;
@@ -92,7 +93,11 @@ export class FilesComponent implements OnInit {
     // this.onChanges();
   }
 
-  get files() {
+  get name(): FormControl {
+    return this.fileUploadForm.get('name.fi') as FormControl;
+  }
+
+  get files(): FormArray {
     return this.fileUploadForm.get('files') as FormArray;
   }
 
@@ -164,6 +169,8 @@ export class FilesComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.submitted = true;
+
     // remove files that doesn't have either file nor link
     this.files.controls.forEach((control, i) => {
       if (control.get('file').value === '' && control.get('link').value === null) {
@@ -227,6 +234,9 @@ export class FilesComponent implements OnInit {
 
   // @todo: some kind of confirmation
   public resetForm() {
+    // reset submit status
+    this.submitted = false;
+
     // reset form values
     this.fileUploadForm.reset();
 
