@@ -11,10 +11,10 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Record {
 
-    @XmlElement
+    @XmlElement(name = "header")
     private RecordHeader header;
 
-    @XmlElement
+    @XmlElement(name = "metadata")
     private RecordMetadata metadata;
 
     public RecordHeader getHeader() {

@@ -17,6 +17,14 @@ public class RecordHeader {
     @XmlElement
     private String datestamp;
 
+    public RecordHeader() {}
+
+    public RecordHeader(String status, String identifier, String datestamp) {
+        this.status = status;
+        this.identifier = identifier;
+        this.datestamp = datestamp;
+    }
+
     public String getStatus() {
         return status;
     }

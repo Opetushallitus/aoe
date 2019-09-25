@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
 public class ResumptionToken {
 
     @XmlAttribute
-    private String cursor; // "0"
+    private String cursor; // "0..n"
 
     @XmlValue
     private String token;
