@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppComponent } from './app.component';
 
@@ -99,7 +98,6 @@ import { PreviewComponent } from './views/educational-resource-form/tabs/preview
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
-    DragDropModule,
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
