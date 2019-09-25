@@ -149,7 +149,7 @@ export class FilesComponent implements OnInit {
   }
 
   public updateSlug(value, lang) {
-    this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value));
+    this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
   }
 
   public onFileChange(event, i): void {
