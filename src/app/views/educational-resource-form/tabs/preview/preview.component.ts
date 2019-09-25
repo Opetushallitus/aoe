@@ -12,6 +12,7 @@ import { BackendService } from '../../../../services/backend.service';
 })
 export class PreviewComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
+  private fileUploadLSKey = environment.fileUploadLSKey;
   public savedData: any;
   private fileUpload: any;
 
@@ -25,7 +26,7 @@ export class PreviewComponent implements OnInit {
 
   ngOnInit() {
     this.savedData = getLocalStorageData(this.localStorageKey);
-    this.fileUpload = getLocalStorageData('aoe.fileUpload');
+    this.fileUpload = getLocalStorageData(this.fileUploadLSKey);
 
     this.previewForm = this.fb.group({
       confirm: this.fb.control(false, [ Validators.requiredTrue ])
