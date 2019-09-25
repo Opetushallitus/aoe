@@ -1,6 +1,6 @@
-package fi.csc.oaipmh.model.sublevel_1st;
+package fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st;
 
-import fi.csc.oaipmh.model.sublevel_1st.sublevel_2nd.OaiIdentifier;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.OaiIdentifier;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;

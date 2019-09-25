@@ -1,6 +1,6 @@
 package fi.csc.oaipmh.controller;
 
-import fi.csc.oaipmh.model.OaiPmhFrame;
+import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.oaipmh.service.MetadataService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;

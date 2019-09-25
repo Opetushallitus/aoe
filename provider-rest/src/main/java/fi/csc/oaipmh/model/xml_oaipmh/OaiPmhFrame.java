@@ -1,9 +1,9 @@
-package fi.csc.oaipmh.model;
+package fi.csc.oaipmh.model.xml_oaipmh;
 
-import fi.csc.oaipmh.model.sublevel_1st.Identify;
-import fi.csc.oaipmh.model.sublevel_1st.ListIdentifiers;
-import fi.csc.oaipmh.model.sublevel_1st.ListRecords;
-import fi.csc.oaipmh.model.sublevel_1st.Request;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Identify;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListIdentifiers;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListRecords;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Request;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

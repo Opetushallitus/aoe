@@ -1,10 +1,10 @@
 package fi.csc.oaipmh.service.impl;
 
-import fi.csc.oaipmh.model.OaiPmhFrame;
-import fi.csc.oaipmh.model.sublevel_1st.Identify;
-import fi.csc.oaipmh.model.sublevel_1st.ListIdentifiers;
-import fi.csc.oaipmh.model.sublevel_1st.ListRecords;
-import fi.csc.oaipmh.model.sublevel_1st.Request;
+import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Identify;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListIdentifiers;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListRecords;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Request;
 import fi.csc.oaipmh.service.MetadataService;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

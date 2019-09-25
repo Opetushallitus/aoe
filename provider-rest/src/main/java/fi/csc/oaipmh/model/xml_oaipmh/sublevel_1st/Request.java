@@ -1,4 +1,4 @@
-package fi.csc.oaipmh.model.sublevel_1st;
+package fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
