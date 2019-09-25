@@ -273,7 +273,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         // material
         const dnow = Date.now() / 1000.0;
         query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode) = ($1,to_timestamp($2),$3,$4,$5,$7) where id=$6;";
-        console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.min, req.body.typicalAgeRange.max, req.params.id, req.body.license]);
+        console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.typicalAgeRangeMin, req.body.typicalAgeRange.typicalAgeRangeMax, req.params.id, req.body.license]);
         queries.push(await t.any(query, [((req.body.expires == undefined) ? "9999-01-01T00:00:00+00:00" : req.body.expires), dnow, ((req.body.timeRequired == undefined) ? "" : req.body.timeRequired), ((req.body.typicalAgeRange.typicalAgeRangeMin == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMin), ((req.body.typicalAgeRange.typicalAgeRangeMax == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMax), req.params.id, req.body.license]));
 // description
         const description = req.body.description;
