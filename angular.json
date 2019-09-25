@@ -39,7 +39,9 @@
             "scripts": [
               "node_modules/ngx-extended-pdf-viewer/assets/pdf.js",
               "node_modules/ngx-extended-pdf-viewer/assets/pdf.worker.js",
-              "node_modules/ngx-extended-pdf-viewer/assets/viewer.js"
+              "node_modules/ngx-extended-pdf-viewer/assets/viewer.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.js"
             ]
           },
           "configurations": {
