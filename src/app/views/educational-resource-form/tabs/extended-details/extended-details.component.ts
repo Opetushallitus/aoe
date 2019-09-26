@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -7,6 +7,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -21,6 +22,8 @@ export class ExtendedDetailsComponent implements OnInit {
   public accessibilityHazards$: KeyValue<string, string>[];
 
   public extendedDetailsForm: FormGroup;
+
+  private alignmentObjects: AlignmentObjectExtended[] = [];
 
   public addCustomItem = addCustomItem;
 
@@ -84,15 +87,52 @@ export class ExtendedDetailsComponent implements OnInit {
         this.extendedDetailsForm.get('expires').setValue(new Date(this.savedData.expires));
       }
 
-      if (this.savedData.prerequisites) {
-        this.extendedDetailsForm.get('prerequisites').setValue(this.savedData.prerequisites);
+      if (this.savedData.alignmentObjects) {
+        this.alignmentObjects = this.savedData.alignmentObjects;
+
+        // filter prerequisites
+        const prerequisites = this.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'prerequisites');
+
+        // set filtered prerequisites as form control value
+        this.prerequisites.setValue(prerequisites);
+
+        // remove prerequisites from alignmentObjects
+        prerequisites.forEach((prerequisite: AlignmentObjectExtended) => {
+          const index = this.alignmentObjects.indexOf(prerequisite);
+          this.alignmentObjects.splice(index, 1);
+        });
       }
     }
   }
 
+  get prerequisites(): FormControl {
+    return this.extendedDetailsForm.get('prerequisites') as FormControl;
+  }
+
+  public addPrerequisites(value): AlignmentObjectExtended {
+    return {
+      key: value.replace(/[\W_]+/g, ''),
+      source: 'prerequisites',
+      alignmentType: 'requires',
+      targetName: value,
+    };
+  }
+
   public onSubmit() {
     if (this.extendedDetailsForm.valid) {
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.extendedDetailsForm.value);
+      if (this.prerequisites.value) {
+        this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
+          this.alignmentObjects.push(prerequisite);
+        });
+      }
+
+      const data = Object.assign(
+        {},
+        getLocalStorageData(this.localStorageKey),
+        this.extendedDetailsForm.value,
+        { alignmentObjects: this.alignmentObjects }
+      );
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
