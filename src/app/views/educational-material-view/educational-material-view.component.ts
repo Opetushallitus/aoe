@@ -5,8 +5,7 @@ import { Subscription } from 'rxjs';
 
 import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
 
-import { EducationalMaterial } from '../../models/demo/educational-material';
-import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
+import { EducationalMaterial } from '../../models/educational-material';
 import { Material } from '../../models/demo/material';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BackendService } from '../../services/backend.service';
@@ -16,8 +15,10 @@ import { BackendService } from '../../services/backend.service';
   templateUrl: './educational-material-view.component.html',
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
+  private lang: string = this.translate.currentLang;
   // private educationalMaterials: EducationalMaterial[] = EDUCATIONALMATERIALS;
-  public educationalMaterial: any;
+  public rawData: any;
+  public educationalMaterial: EducationalMaterial = {};
   private routeSubscription: Subscription;
   // private langChangeSubscription: Subscription;
   public previewMaterial: Material;
@@ -28,14 +29,22 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     private location: Location,
     public lrtSvc: LearningResourceTypeService,
     private backendSvc: BackendService,
-    // private translate: TranslateService
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
     this.routeSubscription = this.route.params.subscribe(params => {
       this.specialId = +params['specialId'];
 
-      this.backendSvc.getMaterial(+params['specialId']).subscribe(data => this.educationalMaterial = data.body);
+      this.backendSvc.getMaterial(+params['specialId']).subscribe(data => {
+        this.rawData = data.body;
+
+        this.educationalMaterial.name = this.rawData.name.find((e) => e.language === this.lang).materialname;
+      });
 
       /*this.educationalMaterial = this.educationalMaterials.find(m =>
         m.specialId === this.specialId && m.inLanguage.id.toLocaleLowerCase() === this.translate.currentLang);
