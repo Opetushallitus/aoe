@@ -2,6 +2,7 @@ import { Material } from './material';
 
 export interface EducationalMaterial {
   name: string;
+  thumbnail?: string;
   learningResourceTypes: string[];
   authors: [{
     authorname: string;
@@ -17,6 +18,26 @@ export interface EducationalMaterial {
   license: string;
   keywords: [{
     keywordkey: string;
+    value: string;
+  }];
+  educationalLevels: [{
+    educationallevelkey: string;
+    value: string;
+  }];
+  educationalRoles?: [{
+    educationalrolekey: string;
+    educationalrole: string;
+  }];
+  educationalUses?: [{
+    educationalusekey: string;
+    value: string;
+  }];
+  accessibilityFeatures?: [{
+    accessibilityfeaturekey: string;
+    value: string;
+  }];
+  accessibilityHazards?: [{
+    accessibilityhazardkey: string;
     value: string;
   }];
 }

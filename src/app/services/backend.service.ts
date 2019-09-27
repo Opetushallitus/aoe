@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -81,13 +81,15 @@ export class BackendService {
       observe: 'response'
     }).pipe(
       map(({ body }): EducationalMaterial => {
-        console.log('body', body);
-
         return {
-          name: body.name.find((e) => e.language.toLowerCase() === this.lang).materialname,
-          learningResourceTypes: body.learningResourceType.map(type => type.value),
-          authors: body.author.map(({ authorname, organization }) => ({ authorname, organization })),
-          description: body.description.find(e => e.language.toLowerCase() === this.lang).description,
+          name: body.name
+            .find(n => n.language.toLowerCase() === this.lang).materialname,
+          learningResourceTypes: body.learningResourceType
+            .map(type => type.value),
+          authors: body.author
+            .map(({ authorname, organization }) => ({ authorname, organization })),
+          description: body.description
+            .find(d => d.language.toLowerCase() === this.lang).description,
           materials: body.materials
             .filter(m => m.key.toLowerCase() === this.lang)
             .map(({ id, originalfilename, filepath, link, mimetype }) => ({ id, originalfilename, filepath, link, mimetype })),
@@ -96,7 +98,18 @@ export class BackendService {
           updatedAt: body.updatedAt,
           timeRequired: body.timeRequired,
           license: body.license,
-          keywords: body.keywords.map(({ keywordkey, value }) => ({ keywordkey, value })),
+          keywords: body.keywords
+            .map(({ keywordkey, value }) => ({ keywordkey, value })),
+          educationalLevels: body.educationalLevel
+            .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
+          educationalRoles: body.educationalRole
+            .map(({ educationalrolekey, educationalrole }) => ({ educationalrolekey, educationalrole })),
+          educationalUses: body.educationalUse
+            .map(({ educationalusekey, value }) => ({ educationalusekey, value })),
+          accessibilityFeatures: body.accessibilityFeatures
+            .map(({ accessibilityfeaturekey, value }) => ({ accessibilityfeaturekey, value })),
+          accessibilityHazards: body.accessibilityHazards
+            .map(({ accessibilityhazardkey, value }) => ({ accessibilityhazardkey, value })),
         };
       })
     );

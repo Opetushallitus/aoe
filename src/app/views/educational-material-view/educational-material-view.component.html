@@ -38,7 +38,7 @@
         <div class="material-sidebar-left">
           <div class="row">
             <div class="col-auto col-md-12 text-center text-sm-left">
-              <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="img-fluid mb-4" alt="...">
+              <img [attr.src]="educationalMaterial.thumbnail ? educationalMaterial.thumbnail : 'assets/img/material.png'" class="img-fluid mb-4" alt="...">
             </div>
 
             <div class="col">
@@ -109,11 +109,6 @@
           </div>
 
           <div class="row material-metadata">
-            <!--<div class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.inLanguage' | translate }}</h4>
-              {{ educationalMaterial.inLanguage.value }}
-            </div>-->
-
             <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
               <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
               {{ educationalMaterial.timeRequired }}
@@ -129,14 +124,6 @@
               {{ educationalMaterial.license }}
             </div>
 
-            <!--<div class="col-12">
-              <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
-
-              <div class="tags">
-                <button type="button" class="btn btn-light disabled">{{ 'demo.educationalMaterial.subject' | translate }}</button>
-              </div>
-            </div>-->
-
             <div class="col-12">
               <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
 
@@ -147,7 +134,7 @@
               </div>
             </div>
 
-            <!--<accordion>
+            <accordion>
               <accordion-group heading="Lisää kuvailutietoja">
                 <div class="col-12">
                   <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
@@ -159,7 +146,7 @@
                   </div>
                 </div>
 
-                <div class="col-12">
+                <div *ngIf="educationalMaterial.educationalRoles" class="col-12">
                   <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
 
                   <div class="tags">
@@ -169,7 +156,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="educationalMaterial.educationalUse" class="col-12">
+                <div *ngIf="educationalMaterial.educationalUses" class="col-12">
                   <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
 
                   <div class="tags">
@@ -189,7 +176,7 @@
                   </div>
                 </div>
 
-                <div *ngIf="educationalMaterial.accessibilityHazard" class="col-12">
+                <div *ngIf="educationalMaterial.accessibilityHazards" class="col-12">
                   <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
 
                   <div class="tags">
@@ -198,28 +185,8 @@
                     </button>
                   </div>
                 </div>
-
-                <div *ngIf="educationalMaterial.accessibilityAPI" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityAPI' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityAPI of educationalMaterial.accessibilityAPI" type="button" class="btn btn-light disabled">
-                      {{ accessibilityAPI.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.accessibilityControl" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityControl' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityControl of educationalMaterial.accessibilityControl" type="button" class="btn btn-light disabled">
-                      {{ accessibilityControl.value }}
-                    </button>
-                  </div>
-                </div>
               </accordion-group>
-            </accordion>-->
+            </accordion>
           </div>
         </div>
       </div>
@@ -278,9 +245,7 @@
             <a href="#" class="text-blue">{{ 'demo.educationalMaterial.showAllComments' | translate }}</a>
           </div>
         </div>
-      </div>&ndash;&gt;
-    </div>-->
-
-    <pre>{{ rawData | json }}</pre>
+      </div>-->
+    </div>
   </div>
 </div>
