@@ -11,9 +11,9 @@
         <h1>{{ educationalMaterial.name }}</h1>
       </div>
 
-      <!--<div class="col-lg-6 text-lg-right">
+      <div class="col-lg-6 text-lg-right">
         <div class="material-actions">
-          <a href="#" class="btn btn-link disabled">
+          <!--<a href="#" class="btn btn-link disabled">
             <i class="fa fa-fw fa-pencil text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.edit' | translate }}
           </a>
@@ -24,13 +24,13 @@
           <a href="#" class="btn btn-link disabled">
             <i class="fa fa-fw fa-plus-square text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.addToCollection' | translate }}
-          </a>
-          <a *ngIf="educationalMaterial.download" class="btn btn-link" href="{{ educationalMaterial.download }}" download>
+          </a>-->
+          <a class="btn btn-link" href="#" download>
             <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.download' | translate }}
           </a>
         </div>
-      </div>-->
+      </div>
     </div>
 
     <div class="row">
@@ -65,7 +65,8 @@
           <div class="material-description">
             <ul class="list-unstyled authors">
               <li *ngFor="let author of educationalMaterial.authors">
-                {{ author.authorname }}<ng-container *ngIf="author.organization">, {{ author.organization }}</ng-container>
+                {{ author.authorname }}
+                <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
               </li>
             </ul>
 
@@ -125,7 +126,7 @@
 
             <div class="col-auto">
               <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
-              <a [attr.href]="educationalMaterial.license" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.license }}</a>
+              {{ educationalMaterial.license }}
             </div>
 
             <!--<div class="col-12">
