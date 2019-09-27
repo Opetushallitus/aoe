@@ -17,6 +17,11 @@ export class KoodistoProxyService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Returns data from koodisto-service by rediskey and language.
+   * @param {string} rediskey
+   * @param {string} lang
+   */
   getData(rediskey: string, lang: string): Observable<any> {
     return this.http.get(`${this.apiUri}/${rediskey}/${lang}`, this.httpOptions);
   }
