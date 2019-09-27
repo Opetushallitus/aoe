@@ -35,7 +35,7 @@ export class PreviewComponent implements OnInit {
 
   public onSubmit() {
     if (this.previewForm.valid) {
-      this.backendSvc.postMeta(this.fileUpload.id, this.savedData).subscribe(res => {
+      this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up local storage
         localStorage.removeItem(this.localStorageKey);
         localStorage.removeItem(this.fileUploadLSKey);
