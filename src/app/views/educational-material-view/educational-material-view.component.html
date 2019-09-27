@@ -71,17 +71,17 @@
 
             <div class="datetimes">
               <span class="datetime-item">
-                <strong>Lisätty:</strong>
+                <strong>{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
                 <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}</time>
               </span>
 
               <span class="datetime-item" *ngIf="educationalMaterial.publishedAt">
-                <strong>Julkaistu:</strong>
+                <strong>{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
                 <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}</time>
               </span>
 
               <span class="datetime-item" *ngIf="educationalMaterial.updatedAt">
-                <strong>Muokattu:</strong>
+                <strong>{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
                 <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}</time>
               </span>
             </div>
