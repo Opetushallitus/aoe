@@ -8,6 +8,7 @@ import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
+import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 
 export const routes: Routes = [
   {
@@ -38,16 +39,20 @@ export const routes: Routes = [
     children: [
       {
         path: 'etusivu',
-        loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule)
+        loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
       },
       {
         path: 'demo/materiaali/:specialId/:slug',
-        component: EducationalMaterialViewComponent
+        component: EducationalMaterialViewComponent,
       },
       {
         path: 'lisatietoa',
         component: InfoViewComponent,
       },
+      {
+        path: 'saavutettavuusseloste',
+        component: AccessibilityPolicyViewComponent,
+      }
     ],
   },
   {
