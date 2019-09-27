@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { EducationalMaterial } from '../../models/demo/educational-material';
+import { LegacyEducationalMaterial } from '../../models/demo/educational-material';
 import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
 
 @Component({
@@ -8,7 +8,7 @@ import { LearningResourceTypeService } from '../../services/learning-resource-ty
   templateUrl: './educational-material-card.component.html',
 })
 export class EducationalMaterialCardComponent implements OnInit {
-  @Input() educationalMaterial: EducationalMaterial;
+  @Input() educationalMaterial: LegacyEducationalMaterial;
   public keywords: object[];
   public educationalLevels: object[];
 

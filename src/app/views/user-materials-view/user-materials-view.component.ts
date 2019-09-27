@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
-import { EducationalMaterial } from '../../models/demo/educational-material';
+import { LegacyEducationalMaterial } from '../../models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
 
 @Component({
@@ -9,7 +9,7 @@ import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.moc
   templateUrl: './user-materials-view.component.html',
 })
 export class UserMaterialsViewComponent implements OnInit {
-  public educationalMaterials: EducationalMaterial[];
+  public educationalMaterials: LegacyEducationalMaterial[];
 
   constructor(private authSvc: AuthService) { }
 

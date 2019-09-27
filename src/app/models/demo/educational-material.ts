@@ -13,7 +13,7 @@ import { IsBasedOn } from './is-based-on';
 /**
  * Educational Material model
  */
-export interface EducationalMaterial {
+export interface LegacyEducationalMaterial {
   id: number;
   specialId: number;
   username?: string;

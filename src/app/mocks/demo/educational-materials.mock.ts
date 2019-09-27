@@ -1,9 +1,9 @@
-import { EducationalMaterial } from '../../models/demo/educational-material';
+import { LegacyEducationalMaterial } from '../../models/demo/educational-material';
 
 /**
  * Educational Materials mock
  */
-export const EDUCATIONALMATERIALS: EducationalMaterial[] = [
+export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
   // Digipedagogiikka 1
   {
     id: 1,
