@@ -43,8 +43,8 @@
 
             <div class="col">
               <ul class="list-unstyled">
-                <li *ngFor="let learningResourceType of educationalMaterial.learningResourceTypes">
-                  {{ learningResourceType }}
+                <li *ngFor="let type of educationalMaterial.learningResourceTypes">
+                  {{ type }}
                 </li>
                 <li class="text-muted">
                   <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
@@ -152,8 +152,8 @@
                   <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let educationalLevel of educationalMaterial.educationalLevel" type="button" class="btn btn-light disabled">
-                      {{ educationalLevel.value }}
+                    <button *ngFor="let level of educationalMaterial.educationalLevels" type="button" class="btn btn-light disabled">
+                      {{ level.value }}
                     </button>
                   </div>
                 </div>
@@ -162,8 +162,8 @@
                   <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let educationalRole of educationalMaterial.educationalRole" type="button" class="btn btn-light disabled">
-                      {{ educationalRole.value }}
+                    <button *ngFor="let role of educationalMaterial.educationalRoles" type="button" class="btn btn-light disabled">
+                      {{ role.educationalrole }}
                     </button>
                   </div>
                 </div>
@@ -172,8 +172,8 @@
                   <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let educationalUse of educationalMaterial.educationalUse" type="button" class="btn btn-light disabled">
-                      {{ educationalUse.value }}
+                    <button *ngFor="let use of educationalMaterial.educationalUses" type="button" class="btn btn-light disabled">
+                      {{ use.value }}
                     </button>
                   </div>
                 </div>
@@ -182,8 +182,8 @@
                   <h4>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let accessibilityFeature of educationalMaterial.accessibilityFeatures" type="button" class="btn btn-light disabled">
-                      {{ accessibilityFeature.value }}
+                    <button *ngFor="let feature of educationalMaterial.accessibilityFeatures" type="button" class="btn btn-light disabled">
+                      {{ feature.value }}
                     </button>
                   </div>
                 </div>
@@ -192,8 +192,8 @@
                   <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let accessibilityHazard of educationalMaterial.accessibilityHazard" type="button" class="btn btn-light disabled">
-                      {{ accessibilityHazard.value }}
+                    <button *ngFor="let hazard of educationalMaterial.accessibilityHazards" type="button" class="btn btn-light disabled">
+                      {{ hazard.value }}
                     </button>
                   </div>
                 </div>
