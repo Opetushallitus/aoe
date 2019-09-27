@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { getLocalStorageData } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { TranslateService } from '@ngx-translate/core';
+import { UploadMessage } from '../models/upload-message';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,12 @@ export class BackendService {
     private translate: TranslateService
   ) { }
 
-  public uploadFiles(data) {
+  /**
+   * Uploads files to backend.
+   * @param {any} data
+   * @returns {Observable<UploadMessage>} Upload progress
+   */
+  public uploadFiles(data: any): Observable<UploadMessage> {
     let uploadUrl: string;
 
     if (localStorage.getItem(this.localStorageKey) !== null) {
@@ -67,12 +73,22 @@ export class BackendService {
     }));
   }
 
-  public postMeta(materialId, data) {
+  /**
+   * Posts meta data to backend by material ID.
+   * @param {number} materialId
+   * @param {any} data
+   */
+  public postMeta(materialId: number, data: any) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put<any>(uploadUrl, data);
   }
 
+  /**
+   * Returns material from backend by material ID.
+   * @param {number} materialId
+   * @returns {Observable<EducationalMaterial>} Educational Material
+   */
   public getMaterial(materialId: number): Observable<EducationalMaterial> {
     return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
       headers: new HttpHeaders({
