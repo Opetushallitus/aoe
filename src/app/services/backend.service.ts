@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { getLocalStorageData } from '../shared/shared.module';
+import { EducationalMaterial } from '../models/educational-material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,12 @@ import { getLocalStorageData } from '../shared/shared.module';
 export class BackendService {
   private backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
+  private lang: string = this.translate.currentLang;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService
+  ) { }
 
   public uploadFiles(data) {
     let uploadUrl: string;
@@ -61,18 +67,38 @@ export class BackendService {
     }));
   }
 
-  public postMeta(id, data) {
-    const uploadUrl = `${this.backendUrl}/material/${id}`;
+  public postMeta(materialId, data) {
+    const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put<any>(uploadUrl, data);
   }
 
-  public getMaterial(id): Observable<HttpResponse<any>> {
-    return this.http.get(`${this.backendUrl}/material/${id}`, {
+  public getMaterial(materialId: number): Observable<EducationalMaterial> {
+    return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
       observe: 'response'
-    });
+    }).pipe(
+      map(({ body }): EducationalMaterial => {
+        console.log('body', body);
+
+        return {
+          name: body.name.find((e) => e.language.toLowerCase() === this.lang).materialname,
+          learningResourceTypes: body.learningResourceType.map(type => type.value),
+          authors: body.author.map(({ authorname, organization }) => ({ authorname, organization })),
+          description: body.description.find(e => e.language.toLowerCase() === this.lang).description,
+          materials: body.materials
+            .filter(m => m.key.toLowerCase() === this.lang)
+            .map(({ id, originalfilename, filepath, link, mimetype }) => ({ id, originalfilename, filepath, link, mimetype })),
+          createdAt: body.createdAt,
+          publishedAt: body.publishedAt,
+          updatedAt: body.updatedAt,
+          timeRequired: body.timeRequired,
+          license: body.license,
+          keywords: body.keywords.map(({ keywordkey, value }) => ({ keywordkey, value })),
+        };
+      })
+    );
   }
 }
