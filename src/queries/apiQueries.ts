@@ -578,8 +578,8 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
 
         for (const element of arr) {
             query = "INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1,$2,$3,$4);";
-            console.log(query, [element.author, element.organization.value, req.params.id, element.organization.key]);
-            queries.push(await t.any(query, [element.author, ((element.organization.value == undefined) ? "" : element.organization.value), req.params.id, ((element.organization.key == undefined) ? "" : element.organization.key)]));
+            console.log(query, [element.author, element.organization, req.params.id]);
+            queries.push(await t.any(query, [element.author, ((element.organization == undefined) ? "" : element.organization.value), req.params.id, ((element.organization == undefined) ? "" : element.organization.key)]));
         }
 
     // filedetails
