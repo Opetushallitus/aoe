@@ -14,6 +14,12 @@ export class AcceptanceGuard implements CanActivate {
     private authSvc: AuthService,
   ) { }
 
+  /**
+   * Checks if logged in user has accepted terms of use.
+   * @param {ActivatedRouteSnapshot} next
+   * @param {RouterStateSnapshot} state
+   * @returns {Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree}
+   */
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
@@ -23,6 +29,7 @@ export class AcceptanceGuard implements CanActivate {
       return true;
     }
 
+    // redirect to acceptance route.
     this.router.navigate(['/hyvaksynta']);
     return false;
   }

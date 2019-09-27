@@ -12,6 +12,12 @@ export class FileUploadGuard implements CanActivate {
 
   constructor(private router: Router) { }
 
+  /**
+   * Redirects to first tab if user tries to access later tabs before uploading files.
+   * @param {ActivatedRouteSnapshot} next
+   * @param {RouterStateSnapshot} state
+   * @returns {Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree}
+   */
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

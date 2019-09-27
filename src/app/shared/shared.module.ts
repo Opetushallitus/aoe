@@ -41,23 +41,35 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 /**
- * Save language to local storage
+ * Save language to local storage.
+ * @param {string} lang
  */
 export function setLanguage(lang: string): void {
   localStorage.setItem('aoe.lang', lang);
 }
 
 /**
- * Retrieve language from local storage (if set)
+ * Retrieve language from local storage (if set).
+ * @returns {string | null}
  */
 export function getLanguage(): string | null {
   return localStorage.getItem('aoe.lang');
 }
 
-export function getLocalStorageData(localStorageKey: string) {
+/**
+ * Returns JSON parsed data from localStorage.
+ * @param {string} localStorageKey
+ * @returns {string | null}
+ */
+export function getLocalStorageData(localStorageKey: string): string | null {
   return JSON.parse(localStorage.getItem(localStorageKey));
 }
 
+/**
+ * Returns given string in Key Value object.
+ * @param {string} value
+ * @returns {KeyValue<string, string>}
+ */
 export function addCustomItem(value: string): KeyValue<string, string> {
   return {
     key: value.replace(/[\W_]+/g, '').toLowerCase(),
