@@ -11,6 +11,7 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
 import { BackendService } from '../../../../services/backend.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AuthService } from '../../../../services/auth.service';
+import { UploadMessage } from '../../../../models/upload-message';
 
 @Component({
   selector: 'app-tabs-files',
@@ -25,7 +26,7 @@ export class FilesComponent implements OnInit {
   public fileUploadForm: FormGroup;
   public submitted = false;
   public modalRef: BsModalRef;
-  public uploadResponse: { message: number | string; status: string } = { status: '', message: 0 };
+  public uploadResponse: UploadMessage = { status: '', message: 0 };
   public uploadError: string;
   private myFiles = [];
 
