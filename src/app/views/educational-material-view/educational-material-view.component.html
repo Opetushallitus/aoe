@@ -11,9 +11,9 @@
         <h1>{{ educationalMaterial.name }}</h1>
       </div>
 
-      <div class="col-lg-6 text-lg-right">
+      <!--<div class="col-lg-6 text-lg-right">
         <div class="material-actions">
-          <!--<a href="#" class="btn btn-link disabled">
+          <a href="#" class="btn btn-link disabled">
             <i class="fa fa-fw fa-pencil text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.edit' | translate }}
           </a>
@@ -24,16 +24,16 @@
           <a href="#" class="btn btn-link disabled">
             <i class="fa fa-fw fa-plus-square text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.addToCollection' | translate }}
-          </a>-->
+          </a>
           <a *ngIf="educationalMaterial.download" class="btn btn-link" href="{{ educationalMaterial.download }}" download>
             <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
             {{ 'demo.educationalMaterial.download' | translate }}
           </a>
         </div>
-      </div>
+      </div>-->
     </div>
 
-    <!--<div class="row">
+    <div class="row">
       <div class="col-lg-3">
         <div class="material-sidebar-left">
           <div class="row">
@@ -43,18 +43,17 @@
 
             <div class="col">
               <ul class="list-unstyled">
-                <li *ngFor="let learningResourceType of educationalMaterial.learningResourceType">
-                  <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(learningResourceType) }}" alt="" class="learning-resource-type-icon">
-                  {{ lrtSvc.getLearningResourceTypeValue(learningResourceType) }}
+                <li *ngFor="let learningResourceType of educationalMaterial.learningResourceTypes">
+                  {{ learningResourceType }}
                 </li>
-                &lt;!&ndash;<li class="text-muted">
+                <li class="text-muted">
                   <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
                   0 {{ 'demo.educationalMaterial.viewCount' | translate }}
                 </li>
                 <li class="text-muted">
                   <i class="fa fa-fw fa-download" aria-hidden="true"></i>
                   0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                </li>&ndash;&gt;
+                </li>
               </ul>
             </div>
           </div>
@@ -65,30 +64,38 @@
         <div class="material-content">
           <div class="material-description">
             <ul class="list-unstyled authors">
-              <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
+              <li *ngFor="let author of educationalMaterial.authors">
+                {{ author.authorname }}<ng-container *ngIf="author.organization">, {{ author.organization }}</ng-container>
+              </li>
             </ul>
 
             <div class="datetimes">
               <span class="datetime-item">
-                <strong>Julkaistu:</strong>
-                <time [attr.datetime]="educationalMaterial.datePublished | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.datePublished | date:'d.M.yyyy HH:mm' }}</time>
+                <strong>Lisätty:</strong>
+                <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}</time>
               </span>
-              <span class="datetime-item" *ngIf="educationalMaterial.dateUpdated">
+
+              <span class="datetime-item" *ngIf="educationalMaterial.publishedAt">
+                <strong>Julkaistu:</strong>
+                <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}</time>
+              </span>
+
+              <span class="datetime-item" *ngIf="educationalMaterial.updatedAt">
                 <strong>Muokattu:</strong>
-                <time [attr.datetime]="educationalMaterial.dateUpdated | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.dateUpdated | date:'d.M.yyyy HH:mm' }}</time>
+                <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}</time>
               </span>
             </div>
 
             <p>{{ educationalMaterial.description }}</p>
           </div>
 
-          <div class="list-files mb-4" *ngIf="educationalMaterial.materials.length > 0">
+          <div class="list-files mb-4" *ngIf="educationalMaterial.materials">
             <div class="row no-gutters">
               <div class="col-3">
                 <div class="btn-group-vertical" role="group">
                   <ng-container *ngFor="let material of educationalMaterial.materials">
                     <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
-                      {{ material?.file?.originalFilename }}
+                      {{ material.originalfilename }}
                     </button>
                   </ng-container>
                 </div>
@@ -101,14 +108,14 @@
           </div>
 
           <div class="row material-metadata">
-            <div class="col-auto">
+            <!--<div class="col-auto">
               <h4>{{ 'demo.educationalMaterial.inLanguage' | translate }}</h4>
               {{ educationalMaterial.inLanguage.value }}
-            </div>
+            </div>-->
 
-            <div *ngIf="educationalMaterial.timeRequired.value !== '0 h'" class="col-auto">
+            <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
               <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
-              {{ educationalMaterial.timeRequired.value }}
+              {{ educationalMaterial.timeRequired }}
             </div>
 
             <div *ngIf="educationalMaterial.publisher" class="col-auto">
@@ -118,16 +125,16 @@
 
             <div class="col-auto">
               <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
-              <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
+              <a [attr.href]="educationalMaterial.license" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.license }}</a>
             </div>
 
-            <div class="col-12">
+            <!--<div class="col-12">
               <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
 
               <div class="tags">
                 <button type="button" class="btn btn-light disabled">{{ 'demo.educationalMaterial.subject' | translate }}</button>
               </div>
-            </div>
+            </div>-->
 
             <div class="col-12">
               <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
@@ -139,7 +146,7 @@
               </div>
             </div>
 
-            <accordion>
+            <!--<accordion>
               <accordion-group heading="Lisää kuvailutietoja">
                 <div class="col-12">
                   <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
@@ -211,12 +218,12 @@
                   </div>
                 </div>
               </accordion-group>
-            </accordion>
+            </accordion>-->
           </div>
         </div>
       </div>
 
-      &lt;!&ndash;<div class="col-12 col-lg-3">
+      <!--<div class="col-12 col-lg-3">
         <div class="material-sidebar-right">
           <h2>{{ 'demo.educationalMaterial.userMetadata' | translate }}</h2>
 
