@@ -202,7 +202,7 @@ export class FilesComponent implements OnInit {
           this.uploadResponse = res;
 
           if (this.uploadResponse.status === 'completed') {
-            const fileUpload  = getLocalStorageData(this.fileUploadLSKey);
+            const fileUpload = getLocalStorageData(this.fileUploadLSKey);
             const fileDetails: any[] = [];
 
             fileUpload.material.forEach(m => {
