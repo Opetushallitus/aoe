@@ -12,6 +12,7 @@ const router: Router = Router();
  const fh = require("./../queries/fileHandling");
  const handler = require("./../metadataEngine/xlsxHandler");
  const thumbnail = require("./../queries/thumbnailHandler");
+ const oajpmh = require("./../queries/oajpmh");
 //  const pouta = require("./../queries/pouta");
 // post metadata
 // post file
@@ -48,4 +49,7 @@ router.get("/download", fh.downloadFile);
 router.get("/material/file/:materialId", fh.downloadMaterialFile);
 
 router.post("/uploadXlsx" , handler.uploadXlsx);
+
+// oaj-pmh
+router.get("/oajpmh/materialMetaData", oajpmh.getMaterialMetaData);
 export = router;
