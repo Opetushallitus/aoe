@@ -94,37 +94,36 @@ export class BackendService {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-      observe: 'response'
     }).pipe(
-      map(({ body }): EducationalMaterial => {
+      map((res): EducationalMaterial => {
         return {
-          name: body.name
+          name: res.name
             .find(n => n.language.toLowerCase() === this.lang).materialname,
-          learningResourceTypes: body.learningResourceType
+          learningResourceTypes: res.learningResourceType
             .map(type => type.value),
-          authors: body.author
+          authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
-          description: body.description
+          description: res.description
             .find(d => d.language.toLowerCase() === this.lang).description,
-          materials: body.materials
+          materials: res.materials
             .filter(m => m.key.toLowerCase() === this.lang)
             .map(({ id, originalfilename, filekey, link, mimetype }) => ({ id, originalfilename, filekey, link, mimetype })),
-          createdAt: body.createdAt,
-          publishedAt: body.publishedAt,
-          updatedAt: body.updatedAt,
-          timeRequired: body.timeRequired,
-          license: body.license,
-          keywords: body.keywords
+          createdAt: res.createdAt,
+          publishedAt: res.publishedAt,
+          updatedAt: res.updatedAt,
+          timeRequired: res.timeRequired,
+          license: res.license,
+          keywords: res.keywords
             .map(({ keywordkey, value }) => ({ keywordkey, value })),
-          educationalLevels: body.educationalLevel
+          educationalLevels: res.educationalLevel
             .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
-          educationalRoles: body.educationalRole
+          educationalRoles: res.educationalRole
             .map(({ educationalrolekey, educationalrole }) => ({ educationalrolekey, educationalrole })),
-          educationalUses: body.educationalUse
+          educationalUses: res.educationalUse
             .map(({ educationalusekey, value }) => ({ educationalusekey, value })),
-          accessibilityFeatures: body.accessibilityFeatures
+          accessibilityFeatures: res.accessibilityFeatures
             .map(({ accessibilityfeaturekey, value }) => ({ accessibilityfeaturekey, value })),
-          accessibilityHazards: body.accessibilityHazards
+          accessibilityHazards: res.accessibilityHazards
             .map(({ accessibilityhazardkey, value }) => ({ accessibilityhazardkey, value })),
         };
       })
