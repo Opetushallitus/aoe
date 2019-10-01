@@ -298,7 +298,8 @@ async function downloadFileFromStorage(req: Request, res: Response) {
         try {
             const query = "select originalfilename from record where filekey = $1;";
             console.log(query);
-            const response = await db.one(query, [req.body.key]);
+            const response = await db.any(query, [req.body.key]);
+            console.log(response);
             const config = {
                 accessKeyId: process.env.USER_KEY,
                 secretAccessKey: process.env.USER_SECRET,
@@ -321,6 +322,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
                 fileStream.pipe(res);
             }
             catch (err) {
+                console.log(err);
                 res.status(500).send(err);
             }
         }
