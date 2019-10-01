@@ -1,7 +1,7 @@
 export interface Material {
   id?: string;
   originalfilename?: string;
-  filepath?: string;
+  filekey?: string;
   link?: string;
   mimetype?: string;
 }

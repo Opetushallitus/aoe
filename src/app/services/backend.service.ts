@@ -108,7 +108,7 @@ export class BackendService {
             .find(d => d.language.toLowerCase() === this.lang).description,
           materials: body.materials
             .filter(m => m.key.toLowerCase() === this.lang)
-            .map(({ id, originalfilename, filepath, link, mimetype }) => ({ id, originalfilename, filepath, link, mimetype })),
+            .map(({ id, originalfilename, filekey, link, mimetype }) => ({ id, originalfilename, filekey, link, mimetype })),
           createdAt: body.createdAt,
           publishedAt: body.publishedAt,
           updatedAt: body.updatedAt,
