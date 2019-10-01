@@ -59,6 +59,16 @@
             "name": "aoe.oai-identifier.sample-identifier",
             "type": "java.lang.String",
             "description": "Sample metadata identity."
+        },
+        {
+            "name": "aoe.request.per-page",
+            "type": "java.lang.Integer",
+            "description": "AOE metadata per page."
+        },
+        {
+            "name": "aoe.request.url",
+            "type": "java.lang.String",
+            "description": "AOE metadata URL."
         }
     ]
 }
