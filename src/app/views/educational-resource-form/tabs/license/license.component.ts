@@ -13,6 +13,7 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
 })
 export class LicenseComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
+  private fileUploadLSKey = environment.fileUploadLSKey;
   public lang: string = this.translate.currentLang;
   private savedData: any;
 
@@ -81,6 +82,7 @@ export class LicenseComponent implements OnInit {
 
     // clear data from local storage
     localStorage.removeItem(this.localStorageKey);
+    localStorage.removeItem(this.fileUploadLSKey);
   }
 
   public previousTab() {

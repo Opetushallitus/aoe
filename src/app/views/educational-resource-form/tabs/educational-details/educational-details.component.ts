@@ -15,6 +15,7 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
 })
 export class EducationalDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
+  private fileUploadLSKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
   private savedData: any;
 
@@ -482,6 +483,7 @@ export class EducationalDetailsComponent implements OnInit {
 
     // clear data from local storage
     localStorage.removeItem(this.localStorageKey);
+    localStorage.removeItem(this.fileUploadLSKey);
   }
 
   public previousTab() {

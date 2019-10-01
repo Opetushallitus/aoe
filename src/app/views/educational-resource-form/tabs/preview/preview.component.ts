@@ -53,6 +53,7 @@ export class PreviewComponent implements OnInit {
 
     // clear data from local storage
     localStorage.removeItem(this.localStorageKey);
+    localStorage.removeItem(this.fileUploadLSKey);
   }
 
   public previousTab() {

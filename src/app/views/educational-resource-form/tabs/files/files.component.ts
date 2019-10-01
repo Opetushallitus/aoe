@@ -242,5 +242,6 @@ export class FilesComponent implements OnInit {
 
     // clear data from local storage
     localStorage.removeItem(this.localStorageKey);
+    localStorage.removeItem(this.fileUploadLSKey);
   }
 }
