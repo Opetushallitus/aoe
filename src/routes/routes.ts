@@ -44,12 +44,12 @@ router.put("/user/:id", db.updateUser);
 router.get("/user/:id", db.getUser);
 router.put("/termsOfUsage/:id", db.updateTermsOfUsage);
 
-router.get("/upload", fh.uploadFileToStorage);
-router.get("/download", fh.downloadFile);
+router.post("/upload", fh.uploadFileToStorage);
+router.get("/download/:key", fh.downloadFile);
 router.get("/material/file/:materialId", fh.downloadMaterialFile);
 
 router.post("/uploadXlsx" , handler.uploadXlsx);
 
 // oaj-pmh
-router.get("/oajpmh/materialMetaData", oajpmh.getMaterialMetaData);
+router.post("/oajpmh/materialMetaData", oajpmh.getMaterialMetaData);
 export = router;

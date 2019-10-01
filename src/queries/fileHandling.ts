@@ -45,18 +45,6 @@ async function uploadMaterial(req: Request, res: Response) {
                     }
                     const emresp = await insertDataToEducationalMaterialTable(req);
                     const material = [];
-                    // if (typeof links !== "undefined") {
-                    //     if (isArray(links)) {
-                    //         for (let i = 0; i < links.length; i++) {
-                    //             const result = await insertDataToMaterialTable(emresp[0].id, links[i]);
-                    //             material.push({ "id" : result.id , "createdFrom" : links[i]});
-                    //         }
-                    //     }
-                    //     else {
-                    //         const result = await insertDataToMaterialTable(emresp[0].id, links);
-                    //         material.push({ "id" : result.id , "createdFrom" : links});
-                    //     }
-                    // }
                     const materialid = [];
                     if (typeof files !== "undefined") {
                         for (let i = 0; i < files.length; i++) {
@@ -126,18 +114,6 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                         return res.status(400).send("No file sent");
                     }
                     const material = [];
-                    // if (typeof links !== "undefined") {
-                    //     if (isArray(links)) {
-                    //         for (let i = 0; i < links.length; i++) {
-                    //             const result = await insertDataToMaterialTable(req.params.materialId, links[i]);
-                    //             material.push({ "id" : result.id , "createdFrom" : links[i]});
-                    //         }
-                    //     }
-                    //     else {
-                    //         const result = await insertDataToMaterialTable(req.params.materialId, links);
-                    //         material.push({ "id" : result.id , "createdFrom" : links});
-                    //     }
-                    // }
                     const materialid = [];
                     if (typeof files !== "undefined") {
                         for (let i = 0; i < files.length; i++) {
@@ -298,7 +274,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
         try {
             const query = "select originalfilename from record where filekey = $1;";
             console.log(query);
-            const response = await db.any(query, [req.body.key]);
+            const response = await db.any(query, [req.params.key]);
             console.log(response);
             const config = {
                 accessKeyId: process.env.USER_KEY,
@@ -310,7 +286,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
             const s3 = new AWS.S3();
             const bucketName = process.env.BUCKET_NAME;
             // const filename = req.body.key;
-            const key = req.body.key;
+            const key = req.params.key;
             try {
                 const params = {
                     Bucket: bucketName,
