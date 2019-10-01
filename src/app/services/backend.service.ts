@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -128,5 +128,11 @@ export class BackendService {
         };
       })
     );
+  }
+
+  public downloadFile(filekey: string): Observable<any> {
+    return this.http.get<any>(`${this.backendUrl}/download`, {
+      params: new HttpParams().set('key', filekey),
+    });
   }
 }
