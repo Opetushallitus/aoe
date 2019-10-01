@@ -156,7 +156,9 @@ export class BasicDetailsComponent implements OnInit {
 
   private fakeKeywordsService(value: string) {
     return this.koodistoProxySvc.getData('asiasanat', this.lang)
-      .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
+      .pipe(
+        map(data => data.filter((x: { value: string }) => x.value.toLowerCase().includes(value.toLowerCase())))
+      );
   }
 
   public fetchMoreOrganizations(value: string) {
@@ -185,7 +187,9 @@ export class BasicDetailsComponent implements OnInit {
 
   private fakeOrganizationsService(value: string) {
     return this.koodistoProxySvc.getData('organisaatiot', this.lang)
-      .pipe(map(data => data.filter((x: { value: string }) => x.value.includes(value))));
+      .pipe(
+        map(data => data.filter((x: { value: string }) => x.value.toLowerCase().includes(value.toLowerCase())))
+      );
   }
 
   public openModal(template: TemplateRef<any>) {
