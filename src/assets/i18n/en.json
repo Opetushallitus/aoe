@@ -86,7 +86,7 @@
         "preview": "Preview"
       },
       "files": {
-        "alert": "You can downloadyour OER or link it to the service with this form. In order to download the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First download or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
+        "alert": "You can upload your OER or link it to the service with this form. In order to upload the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First upload or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
         "materialName": {
           "label": "Name",
           "tooltip": "Name of the learning resource.",
