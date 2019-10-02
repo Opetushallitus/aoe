@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import fi.csc.oaipmh.serialization.XmlDateTimeAdapter;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,15 +31,18 @@ public class LrmiMetadata {
     private Long id;
 
     // @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
     private LocalDateTime createdat;
 
+    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime updatedat;
 
+    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime publishedat;
 
+    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private LocalDateTime archivedat;
 
@@ -72,37 +77,45 @@ public class LrmiMetadata {
     }
 
     @JacksonXmlProperty(localName = "lrmi:createdat")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getCreatedat() {
         return createdat;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setCreatedat(LocalDateTime createdat) {
         this.createdat = createdat;
     }
 
     @JacksonXmlProperty(localName = "lrmi:updatedat")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getUpdatedat() {
         return updatedat;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setUpdatedat(LocalDateTime updatedat) {
         this.updatedat = updatedat;
     }
 
     @JacksonXmlProperty(localName = "lrmi:publishedat")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getPublishedat() {
         return publishedat;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setPublishedat(LocalDateTime publishedat) {
         this.publishedat = publishedat;
     }
 
     @JacksonXmlProperty(localName = "lrmi:archivedat")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getArchivedat() {
         return archivedat;
     }
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setArchivedat(LocalDateTime archivedat) {
         this.archivedat = archivedat;
     }
