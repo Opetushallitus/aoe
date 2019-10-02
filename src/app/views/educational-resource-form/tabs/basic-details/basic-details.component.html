@@ -3,9 +3,47 @@
     <div class="col-md-2">
       <div class="material-image-upload d-flex flex-column justify-content-center">
         <img src="assets/img/icons/ic_camera.svg" alt="Kamera ikoni">
-        <button class="btn btn-link" role="button">{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</button>
+        <button class="btn btn-link" (click)="openModal(thumbnail)">{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</button>
       </div>
     </div>
+
+    <ng-template #thumbnail>
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
+
+        <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="image">{{ 'forms.educationalResource.basicDetails.image.label' | translate }}</label>
+
+          <div class="custom-file">
+            <input
+              type="file"
+              class="custom-file-input"
+              id="image"
+              accept="image/*"
+              [lang]="lang"
+              (change)="processImage($event)"
+            >
+            <span class="custom-file-label"></span>
+          </div>
+        </div>
+
+        <ng-container *ngIf="selectedImage?.src">
+          <h3>Esikatselu</h3>
+          <img [src]="selectedImage?.src" alt="">
+        </ng-container>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
+        <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
+      </div>
+    </ng-template>
 
     <div class="col-md-10">
       <ng-container *ngFor="let author of authors.controls; let i = index;">

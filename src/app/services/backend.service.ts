@@ -44,33 +44,35 @@ export class BackendService {
       }),
       reportProgress: true,
       observe: 'events',
-    }).pipe(map((event: HttpEvent<any>) => {
-      switch (event.type) {
-        case HttpEventType.UploadProgress:
-          const progress = Math.round(100 * event.loaded / event.total);
-          return { status: 'progress', message: progress };
+    }).pipe(
+      map((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * event.loaded / event.total);
+            return { status: 'progress', message: progress };
 
-        case HttpEventType.Response:
-          const fileUpload = getLocalStorageData(this.localStorageKey);
+          case HttpEventType.Response:
+            const fileUpload = getLocalStorageData(this.localStorageKey);
 
-          if (fileUpload !== null) {
-            const materials = fileUpload['material'].concat(event.body['material']);
-            const response = {
-              id: fileUpload.id,
-              material: materials,
-            };
+            if (fileUpload !== null) {
+              const materials = fileUpload['material'].concat(event.body['material']);
+              const response = {
+                id: fileUpload.id,
+                material: materials,
+              };
 
-            localStorage.setItem(this.localStorageKey, JSON.stringify(response));
-          } else {
-            localStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
-          }
+              localStorage.setItem(this.localStorageKey, JSON.stringify(response));
+            } else {
+              localStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
+            }
 
-          return { status: 'completed', message: event.body };
+            return { status: 'completed', message: event.body };
 
-        default:
-          return { status: 'error', message: `Unhandled event: ${event.type}` };
-      }
-    }));
+          default:
+            return { status: 'error', message: `Unhandled event: ${event.type}` };
+        }
+      })
+    );
   }
 
   /**
@@ -134,5 +136,26 @@ export class BackendService {
     return this.http.get<any>(`${this.backendUrl}/download`, {
       params: new HttpParams().set('key', filekey),
     });
+  }
+
+  public uploadImage(image: File, materialId: string): Observable<UploadMessage> {
+    return this.http.post<any>(`${this.backendUrl}/uploadImage/${materialId}`, image, {
+      reportProgress: true,
+      observe: 'events',
+    }).pipe(
+      map((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * event.loaded / event.total);
+            return { status: 'progress', message: progress };
+
+          case HttpEventType.Response:
+            return { status: 'completed', message: event.body };
+
+          default:
+            return { status: 'error', message: `Unhandled event: ${event.type}` };
+        }
+      })
+    );
   }
 }

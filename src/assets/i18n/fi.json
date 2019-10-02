@@ -129,6 +129,13 @@
       },
       "basicDetails": {
         "uploadImage": "Lataa kansikuva",
+        "image": {
+          "label": "Kansikuva",
+          "tooltip": "",
+          "modal": {
+            "title": "Lisää kansikuva"
+          }
+        },
         "author": {
           "inputs": {
             "author": {

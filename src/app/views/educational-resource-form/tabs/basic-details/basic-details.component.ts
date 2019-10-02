@@ -43,6 +43,8 @@ export class BasicDetailsComponent implements OnInit {
 
   public basicDetailsForm: FormGroup;
 
+  public selectedImage;
+
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
@@ -216,6 +218,23 @@ export class BasicDetailsComponent implements OnInit {
 
   public removeAuthor(i: number): void {
     this.authors.removeAt(i);
+  }
+
+  public processImage(value) {
+    if (value.target.files.length > 0) {
+      const image = value.target.files[0];
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.selectedImage = { src: reader.result, file: image };
+
+        // @todo: upload image
+      }, false);
+
+      if (image) {
+        reader.readAsDataURL(image);
+      }
+    }
   }
 
   public onSubmit() {
