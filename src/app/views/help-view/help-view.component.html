@@ -2,21 +2,13 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>Usein kysytyt kysymykset</h1>
+        <h1>{{ 'faq.title' | translate }}</h1>
       </div>
     </div><!--/.row-->
 
-    <!--<div class="row">
-      <div class="col">
-        <h2>{{ 'demo.help.subtitle' | translate }}</h2>
-
-        <p>{{ 'demo.help.description' | translate }}</p>
-      </div>
-    </div>&lt;!&ndash;/.row&ndash;&gt;-->
-
     <div class="row">
       <div class="col">
-        <h2>Yleisiä kysymyksiä</h2>
+        <h2>{{ 'faq.general' | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqGeneral" #group1>
@@ -25,11 +17,11 @@
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group1.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
             </div>
 
-            <p *ngFor="let paragraph of item.answer">{{ paragraph }}</p>
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
           </accordion-group>
         </accordion>
 
-        <h2>Oppimateriaalien tekijöille</h2>
+        <h2>{{ 'faq.material' | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqMaterial" #group2>
@@ -38,11 +30,11 @@
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group2.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
             </div>
 
-            <p *ngFor="let paragraph of item.answer">{{ paragraph }}</p>
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
           </accordion-group>
         </accordion>
 
-        <h2>Organisaatioille</h2>
+        <h2>{{ 'faq.organization' | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqOrganisation" #group3>
@@ -51,7 +43,7 @@
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group3.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
             </div>
 
-            <p *ngFor="let paragraph of item.answer">{{ paragraph }}</p>
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
           </accordion-group>
         </accordion>
 

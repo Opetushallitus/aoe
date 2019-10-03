@@ -340,5 +340,11 @@
         }
       }
     }
+  },
+  "faq": {
+    "title": "Vanliga frågor",
+    "general": "Vanliga frågor",
+    "material": "För skapare av undervisningsmaterial",
+    "organization": "För organisationer"
   }
 }

@@ -347,5 +347,11 @@
         }
       }
     }
+  },
+  "faq": {
+    "title": "Usein kysytyt kysymykset",
+    "general": "Yleisiä kysymyksiä",
+    "material": "Oppimateriaalien tekijöille",
+    "organization": "Organisaatioille"
   }
 }
