@@ -51,10 +51,9 @@ async function uploadImage(req: Request, res: Response) {
                         let query;
                         query = "select filepath from thumbnail where educationalmaterialid = $1;";
                         console.log(query);
-                        const oldImage = await db.one(query, [req.params.id]);
+                        const oldImage = await db.oneOrNone(query, [req.params.id]);
                         console.log(oldImage);
-                        console.log(oldImage.size);
-                        if (oldImage !== "undefined") {
+                        if (oldImage != undefined) {
                             console.log("removing thumbnail " + oldImage.filepath);
                             fs.unlink(oldImage.filepath, (err: any) => {
                                 if (err) {
