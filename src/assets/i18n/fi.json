@@ -52,6 +52,12 @@
         "fileFormatNotSupported": "Valittu tiedosto ei ole esikatseltavissa.",
         "openInNewTab": "Avaa oppimateriaali uuteen välilehteen"
       }
+    },
+    "faq": {
+      "title": "Usein kysytyt kysymykset",
+      "general": "Yleisiä kysymyksiä",
+      "material": "Oppimateriaalien tekijöille",
+      "organization": "Organisaatioille"
     }
   }
 }

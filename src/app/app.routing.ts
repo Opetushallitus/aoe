@@ -7,8 +7,8 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { LoginComponent } from './views/login/login.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { InfoViewComponent } from './views/info-view/info-view.component';
 import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
+import { HelpViewComponent } from './views/help-view/help-view.component';
 
 export const routes: Routes = [
   {
@@ -47,7 +47,7 @@ export const routes: Routes = [
       },
       {
         path: 'lisatietoa',
-        component: InfoViewComponent,
+        component: HelpViewComponent,
       },
       {
         path: 'saavutettavuusseloste',

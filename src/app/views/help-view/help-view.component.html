@@ -2,30 +2,48 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>{{ 'demo.help.title' | translate }}</h1>
+        <h1>{{ 'demo.faq.title' | translate }}</h1>
       </div>
     </div><!--/.row-->
 
     <div class="row">
       <div class="col">
-        <h2>{{ 'demo.help.subtitle' | translate }}</h2>
-
-        <p>{{ 'demo.help.description' | translate }}</p>
-      </div>
-    </div><!--/.row-->
-
-    <div class="row">
-      <div class="col">
-        <h2>{{ 'demo.help.faq.title' | translate }}</h2>
+        <h2>{{ 'demo.faq.general' | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faq" #group>
-            <div accordion-heading class="clearfix">
-              <div class="pull-left">{{ item.question }}</div>
-              <i class="fa pull-right" aria-hidden="true" [ngClass]="group.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          <accordion-group *ngFor="let item of faqGeneral" #group1>
+            <div accordion-heading class="row">
+              <div class="col">{{ item.question }}</div>
+              <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group1.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
             </div>
 
-            <p>{{ item.answer }}</p>
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
+          </accordion-group>
+        </accordion>
+
+        <h2>{{ 'demo.faq.material' | translate }}</h2>
+
+        <accordion>
+          <accordion-group *ngFor="let item of faqMaterial" #group2>
+            <div accordion-heading class="row">
+              <div class="col">{{ item.question }}</div>
+              <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group2.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
+            </div>
+
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
+          </accordion-group>
+        </accordion>
+
+        <h2>{{ 'demo.faq.organization' | translate }}</h2>
+
+        <accordion>
+          <accordion-group *ngFor="let item of faqOrganisation" #group3>
+            <div accordion-heading class="row">
+              <div class="col">{{ item.question }}</div>
+              <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group3.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
+            </div>
+
+            <p *ngFor="let paragraph of item.answer" [innerHTML]="paragraph"></p>
           </accordion-group>
         </accordion>
       </div>
