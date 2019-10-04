@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyValue } from '@angular/common';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -46,8 +46,8 @@ export class ExtendedDetailsComponent implements OnInit {
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
       typicalAgeRange: this.fb.group({
-        typicalAgeRangeMin: this.fb.control(null),
-        typicalAgeRangeMax: this.fb.control(null),
+        typicalAgeRangeMin: this.fb.control(null, [ Validators.min(0) ]),
+        typicalAgeRangeMax: this.fb.control(null, [ Validators.min(0) ]),
       }),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
