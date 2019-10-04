@@ -245,14 +245,13 @@ export class EducationalDetailsComponent implements OnInit {
         this.selfMotivatedEducationObjectives.setValue(selfMotivatedEducationObjectives);
 
         // higher education
+        const scienceBranchObjectives = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
+        this.scienceBranchObjectives.setValue(scienceBranchObjectives);
       }
 
       if (this.savedData.branchesOfScience) {
         this.branchesOfScience.setValue(this.savedData.branchesOfScience);
-      }
-
-      if (this.savedData.scienceBranchObjectives) {
-        this.scienceBranchObjectives.setValue(this.savedData.scienceBranchObjectives);
       }
 
       if (this.savedData.higherEducationFramework) {
