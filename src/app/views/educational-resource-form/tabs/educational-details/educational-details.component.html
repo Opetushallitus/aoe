@@ -34,6 +34,12 @@
     <div class="form-group">
       <label for="earlyChildhoodEducationSubjects">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="[]"
         [multiple]="true"
@@ -47,6 +53,12 @@
 
     <div class="form-group">
       <label for="earlyChildhoodEducationFramework">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
         type="text"
@@ -63,6 +75,12 @@
     <div class="form-group">
       <label for="prePrimaryEducationSubjects">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="[]"
         [multiple]="true"
@@ -77,6 +95,12 @@
     <div class="form-group">
       <label for="prePrimaryEducationFramework">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <input
         type="text"
         class="form-control"
@@ -90,6 +114,12 @@
     <h3>{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</h3>
 
     <label for="basicStudySubjects">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}</label>
+
+    <button
+      type="button"
+      class="btn btn-link"
+      [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.tooltip' | translate"
+    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
     <ng-select
       [items]="basicStudySubjects$"
@@ -114,6 +144,12 @@
   <ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
       <label for="basicStudyFramework">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
         class="form-control"
@@ -159,6 +195,12 @@
     <div class="form-group">
       <label for="upperSecondarySchoolSubjects">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="upperSecondarySchoolSubjects$"
         [multiple]="true"
@@ -172,6 +214,12 @@
 
     <div class="form-group">
       <label for="upperSecondarySchoolFramework">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <input
         type="text"
@@ -188,6 +236,12 @@
 
       <label for="vocationalDegrees">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="vocationalDegrees$"
         [multiple]="true"
@@ -201,6 +255,12 @@
 
     <div class="form-group">
       <label for="vocationalEducationFramework">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
         [items]="[]"
@@ -219,6 +279,12 @@
 
     <label for="selfMotivatedEducationSubjects">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</label>
 
+    <button
+      type="button"
+      class="btn btn-link"
+      [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate"
+    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
     <ng-select
       [items]="[]"
       [multiple]="true"
@@ -235,6 +301,12 @@
 
     <div class="form-group">
       <label for="branchesOfScience">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
         [items]="branchesOfScience$"
@@ -260,6 +332,12 @@
     <div class="form-group">
       <label for="scienceBranchObjectives">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="[]"
         [multiple]="true"
@@ -274,6 +352,12 @@
 
     <div class="form-group">
       <label for="higherEducationFramework">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
         [items]="[]"
