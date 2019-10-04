@@ -52,6 +52,27 @@
     </div>
 
     <div class="form-group">
+      <label for="earlyChildhoodEducationObjectives">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addEarlyChildhoodEducationObjective"
+        bindLabel="targetName"
+        appendTo="body"
+        id="earlyChildhoodEducationObjectives"
+        formControlName="earlyChildhoodEducationObjectives"
+      >
+      </ng-select>
+    </div>
+
+    <div class="form-group">
       <label for="earlyChildhoodEducationFramework">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</label>
 
       <button
@@ -90,6 +111,27 @@
         id="prePrimaryEducationSubjects"
         formControlName="prePrimaryEducationSubjects"
       ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="earlyChildhoodEducationObjectives">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addPrePrimaryEducationObjective"
+        bindLabel="targetName"
+        appendTo="body"
+        id="prePrimaryEducationObjectives"
+        formControlName="prePrimaryEducationObjectives"
+      >
+      </ng-select>
     </div>
 
     <div class="form-group">
@@ -213,6 +255,27 @@
     </div>
 
     <div class="form-group">
+      <label for="upperSecondarySchoolObjectives">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addUpperSecondarySchoolObjective"
+        bindLabel="targetName"
+        appendTo="body"
+        id="upperSecondarySchoolObjectives"
+        formControlName="upperSecondarySchoolObjectives"
+      >
+      </ng-select>
+    </div>
+
+    <div class="form-group">
       <label for="upperSecondarySchoolFramework">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label>
 
       <button
@@ -254,6 +317,27 @@
     </div>
 
     <div class="form-group">
+      <label for="vocationalEducationObjectives">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addVocationalEducationObjective"
+        bindLabel="targetName"
+        appendTo="body"
+        id="vocationalEducationObjectives"
+        formControlName="vocationalEducationObjectives"
+      >
+      </ng-select>
+    </div>
+
+    <div class="form-group">
       <label for="vocationalEducationFramework">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</label>
 
       <button
@@ -262,39 +346,59 @@
         [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
-        appendTo="body"
+      <input
+        type="text"
+        class="form-control"
         id="vocationalEducationFramework"
         formControlName="vocationalEducationFramework"
-      ></ng-select>
+      >
     </div>
   </ng-container>
 
-  <div class="form-group" *ngIf="hasSelfMotivatedEducation">
-    <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
+  <ng-container *ngIf="hasSelfMotivatedEducation">
+    <div class="form-group">
+      <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
 
-    <label for="selfMotivatedEducationSubjects">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</label>
+      <label for="selfMotivatedEducationSubjects">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</label>
 
-    <button
-      type="button"
-      class="btn btn-link"
-      [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate"
-    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-    <ng-select
-      [items]="[]"
-      [multiple]="true"
-      [addTag]="addCustomItem"
-      bindLabel="value"
-      appendTo="body"
-      id="selfMotivatedEducationSubjects"
-      formControlName="selfMotivatedEducationSubjects"
-    ></ng-select>
-  </div>
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addSelfMotivatedEducationSubject"
+        bindLabel="targetName"
+        appendTo="body"
+        id="selfMotivatedEducationSubjects"
+        formControlName="selfMotivatedEducationSubjects"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="selfMotivatedEducationObjectives">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addSelfMotivatedEducationObjective"
+        bindLabel="targetName"
+        appendTo="body"
+        id="selfMotivatedEducationObjectives"
+        formControlName="selfMotivatedEducationObjectives"
+      >
+      </ng-select>
+    </div>
+  </ng-container>
 
   <ng-container *ngIf="hasHigherEducation">
     <h3>{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</h3>
@@ -341,8 +445,8 @@
       <ng-select
         [items]="[]"
         [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
+        [addTag]="addScienceBranchObjectives"
+        bindLabel="targetName"
         appendTo="body"
         id="scienceBranchObjectives"
         formControlName="scienceBranchObjectives"
@@ -359,16 +463,12 @@
         [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip' | translate"
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addCustomItem"
-        bindLabel="value"
-        appendTo="body"
+      <input
+        type="text"
+        class="form-control"
         id="higherEducationFramework"
         formControlName="higherEducationFramework"
       >
-      </ng-select>
     </div>
   </ng-container>
 
