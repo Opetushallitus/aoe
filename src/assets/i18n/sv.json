@@ -176,101 +176,101 @@
           "tooltip": "Välj här för vilket utbildningsstadium och för vilken nivå som ditt läromaterial i huvudsak är avsett för. Om materialet riktar sig till flera stadier, exempelvis både yrkes- och gymnasieundervisning, kan du välja flera utbildningsstadier och -nivåer."
         },
         "earlyChildhoodEducation": {
-          "title": "Varhaiskasvatus",
+          "title": "Småbarnsfostran",
           "inputs": {
             "subjects": {
               "label": "Varhaiskasvatuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
               "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         },
         "prePrimaryEducation": {
-          "title": "Esiopetus",
+          "title": "Förskoleundervisning",
           "inputs": {
             "subjects": {
               "label": "Esiopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
               "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         },
         "basicEducation": {
-          "title": "Perusopetus",
+          "title": "Grundläggande utbildning",
           "inputs": {
             "subjects": {
               "label": "Perusopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
               "label": "Perusopetuksen oppiaineiden tavoitteet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "contents": {
               "label": "Perusopetuksen oppiaineiden sisältöalueet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "",
-              "tooltip": ""
+              "label": "Perusopetuksen opetussuunnitelma",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         },
         "upperSecondarySchoolEducation": {
-          "title": "Lukiokoulutus",
+          "title": "Gymnasieutbildning",
           "inputs": {
             "subjects": {
               "label": "Lukionkurssit",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         },
         "vocationalEducation": {
-          "title": "Ammatillinen koulutus",
+          "title": "Yrkesutbildning",
           "inputs": {
             "degrees": {
               "label": "Ammatillisen koulutuksen tutkinnot",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         },
         "selfMotivatedEducation": {
-          "title": "Omaehtoisen osaamisen kehittäminen",
+          "title": "Självständig utveckling av kompetens",
           "inputs": {
             "subjects": {
               "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             }
           }
         },
         "higherEducation": {
-          "title": "Korkeakoulutus",
+          "title": "Högskoleutbildning",
           "inputs": {
             "branchesOfScience": {
               "label": "Korkeakoulutuksen tieteenalat",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
               "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
-              "tooltip": ""
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
               "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
         }

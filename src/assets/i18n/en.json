@@ -176,101 +176,101 @@
           "tooltip": "Choose the Educational Level of your resource. You can choose multiple levels if your resource is targeted at more than one Educational Levels, i.e. vocational education and upper secondary education."
         },
         "earlyChildhoodEducation": {
-          "title": "Varhaiskasvatus",
+          "title": "Early childhood education",
           "inputs": {
             "subjects": {
               "label": "Varhaiskasvatuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
               "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         },
         "prePrimaryEducation": {
-          "title": "Esiopetus",
+          "title": "Pre-primary education",
           "inputs": {
             "subjects": {
               "label": "Esiopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
               "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         },
         "basicEducation": {
-          "title": "Perusopetus",
+          "title": "Basic education",
           "inputs": {
             "subjects": {
               "label": "Perusopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "objectives": {
               "label": "Perusopetuksen oppiaineiden tavoitteet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "contents": {
               "label": "Perusopetuksen oppiaineiden sisältöalueet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
-              "label": "",
-              "tooltip": ""
+              "label": "Perusopetuksen opetussuunnitelma",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         },
         "upperSecondarySchoolEducation": {
-          "title": "Lukiokoulutus",
+          "title": "Upper secondary school",
           "inputs": {
             "subjects": {
               "label": "Lukionkurssit",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         },
         "vocationalEducation": {
-          "title": "Ammatillinen koulutus",
+          "title": "Vocational education",
           "inputs": {
             "degrees": {
               "label": "Ammatillisen koulutuksen tutkinnot",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         },
         "selfMotivatedEducation": {
-          "title": "Omaehtoisen osaamisen kehittäminen",
+          "title": "Self-motivated competence development",
           "inputs": {
             "subjects": {
               "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             }
           }
         },
         "higherEducation": {
-          "title": "Korkeakoulutus",
+          "title": "Higher education",
           "inputs": {
             "branchesOfScience": {
               "label": "Korkeakoulutuksen tieteenalat",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "objectives": {
               "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
-              "tooltip": ""
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
               "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
             }
           }
         }

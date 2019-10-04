@@ -187,11 +187,11 @@
           "inputs": {
             "subjects": {
               "label": "Varhaiskasvatuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         },
@@ -200,11 +200,11 @@
           "inputs": {
             "subjects": {
               "label": "Esiopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         },
@@ -213,19 +213,19 @@
           "inputs": {
             "subjects": {
               "label": "Perusopetuksen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
               "label": "Perusopetuksen oppiaineiden tavoitteet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "contents": {
               "label": "Perusopetuksen oppiaineiden sisältöalueet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Perusopetuksen opetussuunnitelma",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         },
@@ -234,11 +234,11 @@
           "inputs": {
             "subjects": {
               "label": "Lukionkurssit",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         },
@@ -247,11 +247,11 @@
           "inputs": {
             "degrees": {
               "label": "Ammatillisen koulutuksen tutkinnot",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         },
@@ -260,7 +260,7 @@
           "inputs": {
             "subjects": {
               "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             }
           }
         },
@@ -269,15 +269,15 @@
           "inputs": {
             "branchesOfScience": {
               "label": "Korkeakoulutuksen tieteenalat",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
               "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
-              "tooltip": ""
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
               "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
-              "tooltip": ""
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
             }
           }
         }
