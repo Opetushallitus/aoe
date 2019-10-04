@@ -129,6 +129,12 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="prerequisites">{{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}</label>
 
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.prerequisites.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
       <ng-select
         [items]="[]"
         [multiple]="true"
