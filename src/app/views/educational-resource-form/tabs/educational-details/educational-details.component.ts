@@ -20,6 +20,7 @@ export class EducationalDetailsComponent implements OnInit {
   private savedData: any;
 
   public educationalDetailsForm: FormGroup;
+  public submitted = false;
   public hasEarlyChildhoodEducation = false;
   public hasPrePrimaryEducation = false;
   public hasBasicStudies = false;
@@ -507,6 +508,8 @@ export class EducationalDetailsComponent implements OnInit {
   }*/
 
   public onSubmit() {
+    this.submitted = true;
+
     if (this.educationalDetailsForm.valid) {
       if (this.earlyChildhoodEducationSubjects.value) {
         this.earlyChildhoodEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
@@ -624,6 +627,9 @@ export class EducationalDetailsComponent implements OnInit {
 
   // @todo: some kind of confirmation
   public resetForm() {
+    // reset submit status
+    this.submitted = false;
+
     // reset form values
     this.educationalDetailsForm.reset();
 
