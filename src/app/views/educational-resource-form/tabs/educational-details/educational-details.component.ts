@@ -6,7 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 
 @Component({
@@ -47,8 +47,6 @@ export class EducationalDetailsComponent implements OnInit {
   public branchesOfScience$: any[];
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
-
-  public addCustomItem = addCustomItem;
 
   constructor(
     private fb: FormBuilder,
