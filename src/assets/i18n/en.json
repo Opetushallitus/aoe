@@ -182,6 +182,10 @@
               "label": "Varhaiskasvatuksen oppiaineet",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
+            "objectives": {
+              "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
             "framework": {
               "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
@@ -193,6 +197,10 @@
           "inputs": {
             "subjects": {
               "label": "Esiopetuksen oppiaineet",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Esiopetuksen oppiaineiden tavoitteet",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
@@ -229,6 +237,10 @@
               "label": "Lukionkurssit",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
+            "objectives": {
+              "label": "Lukionkurssien tavoitteet",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
@@ -242,6 +254,10 @@
               "label": "Ammatillisen koulutuksen tutkinnot",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
+            "objectives": {
+              "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
@@ -253,6 +269,10 @@
           "inputs": {
             "subjects": {
               "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             }
           }

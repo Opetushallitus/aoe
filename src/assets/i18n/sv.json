@@ -182,6 +182,10 @@
               "label": "Varhaiskasvatuksen oppiaineet",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
+            "objectives": {
+              "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
             "framework": {
               "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
@@ -193,6 +197,10 @@
           "inputs": {
             "subjects": {
               "label": "Esiopetuksen oppiaineet",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Esiopetuksen oppiaineiden tavoitteet",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
@@ -229,6 +237,10 @@
               "label": "Lukionkurssit",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
+            "objectives": {
+              "label": "Lukionkurssien tavoitteet",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
@@ -242,6 +254,10 @@
               "label": "Ammatillisen koulutuksen tutkinnot",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
+            "objectives": {
+              "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
@@ -253,6 +269,10 @@
           "inputs": {
             "subjects": {
               "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             }
           }
