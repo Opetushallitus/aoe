@@ -333,7 +333,7 @@
         },
         "prerequisites": {
           "label": "Aiempi osaaminen",
-          "tooltip": ""
+          "tooltip": "Voit tähän lisätä tiedon niistä kompetensseista, työkaluista, opinnoista tai tietämyksestä jotka vaaditaan oppimateriaalin oppimiseen tai hyödyntämiseen."
         }
       },
       "license": {
