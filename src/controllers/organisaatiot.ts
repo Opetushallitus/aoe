@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { sortByValue } from "../util/data.utils";
+import { getUnique, sortByValue } from "../util/data.utils";
 import { KeyValue } from "../models/data";
 
 const endpoint = "organisaatio/v4";
@@ -48,9 +48,13 @@ export async function setOrganisaatiot(): Promise<any> {
     english.sort(sortByValue);
     swedish.sort(sortByValue);
 
-    await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
-    await setAsync(`${rediskey}.en`, JSON.stringify(english));
-    await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+    const filteredFi = getUnique(finnish, "value");
+    const filteredEn = getUnique(english, "value");
+    const filteredSv = getUnique(swedish, "value");
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(filteredFi));
+    await setAsync(`${rediskey}.en`, JSON.stringify(filteredEn));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(filteredSv));
   } catch (err) {
     console.error(err);
   }
