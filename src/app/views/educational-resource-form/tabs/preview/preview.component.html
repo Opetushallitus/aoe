@@ -293,14 +293,14 @@
     </dd>
   </ng-container>
 
-  <!--<ng-container *ngIf="branchesOfScience?.length > 0">
+  <ng-container *ngIf="branchesOfScience?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let branch of branchesOfScience; let isLast = last">
         {{ branch.targetName }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
-  </ng-container>-->
+  </ng-container>
 
   <ng-container *ngIf="scienceBranchObjectives?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}</dt>

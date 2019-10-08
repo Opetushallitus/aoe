@@ -28,6 +28,7 @@ export class PreviewComponent implements OnInit {
   public vocationalEducationObjectives: AlignmentObjectExtended[];
   public selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   public selfMotivatedEducationObjectives: AlignmentObjectExtended[];
+  public branchesOfScience: AlignmentObjectExtended[];
   public scienceBranchObjectives: AlignmentObjectExtended[];
 
   public previewForm: FormGroup;
@@ -81,6 +82,9 @@ export class PreviewComponent implements OnInit {
 
       this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
         .filter(alignmentObject => alignmentObject.source === 'selfMotivatedEducationObjectives');
+
+      this.branchesOfScience = this.savedData.alignmentObjects
+        .filter(alignmentObject => alignmentObject.source === 'branchesOfScience');
 
       this.scienceBranchObjectives = this.savedData.alignmentObjects
         .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
