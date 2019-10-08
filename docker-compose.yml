@@ -16,6 +16,7 @@ app:
   environment:
     - REDIS_URL=redis://cache
     - NODE_ENV=development
+  env_file: .env.example
   command:
     sh -c 'yarn install && yarn build && yarn serve'
   restart: unless-stopped
