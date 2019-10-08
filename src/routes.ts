@@ -11,7 +11,7 @@ import { getSaavutettavuudenTukitoiminnot, getSaavutettavuudenTukitoiminto } fro
 import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from "./controllers/saavutettavuuden-esteet";
 import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
-import { getTieteenala, getTieteenalat } from "./controllers/tieteenalat";
+import { getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 // import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
 import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
@@ -100,15 +100,6 @@ router.get("/koulutusasteet/:key/:lang", getKoulutusaste);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/tieteenalat/:lang", getTieteenalat);
-
-/**
- * Returns single tieteenala from redis database by given id and language
- * @group Tieteenalat
- * @route GET /tieteenalat/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/tieteenalat/:key/:lang", getTieteenala);
 
 /**
  * Returns all kohderyhmat from redis database by given language

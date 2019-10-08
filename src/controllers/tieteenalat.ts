@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
+import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "tieteenala";
 const rediskey = "tieteenalat";
@@ -20,92 +21,196 @@ export async function setTieteenalat(): Promise<any> {
       {"Accept": "application/json"},
       params
     );
-    const data: any[] = [];
 
-    data.push({
-      key: "1",
-      value: {
-        fi: "Luonnontieteet",
-        // en: "",
-        // sv: "",
+    const finnishBranches: AlignmentObjectExtended[] = [
+      {
+        key: "1",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Luonnontieteet",
+        children: [],
       },
-      children: []
-    });
+      {
+        key: "2",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Tekniikka",
+        children: [],
+      },
+      {
+        key: "3",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Lääke- ja terveystieteet",
+        children: [],
+      },
+      {
+        key: "4",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Maatalous- ja metsätieteet",
+        children: [],
+      },
+      {
+        key: "5",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Yhteiskuntatieteet",
+        children: [],
+      },
+      {
+        key: "6",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Humanistiset tieteet",
+        children: [],
+      },
+    ];
 
-    data.push({
-      key: "2",
-      value: {
-        fi: "Tekniikka",
-        // en: "",
-        // sv: "",
+    const englishBranches: AlignmentObjectExtended[] = [
+      {
+        key: "1",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Natural sciences",
+        children: [],
       },
-      children: []
-    });
+      {
+        key: "2",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Engineering and technology",
+        children: [],
+      },
+      {
+        key: "3",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Medical and health sciences",
+        children: [],
+      },
+      {
+        key: "4",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Agriculture and forestry",
+        children: [],
+      },
+      {
+        key: "5",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Social sciences",
+        children: [],
+      },
+      {
+        key: "6",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Humanities",
+        children: [],
+      },
+    ];
 
-    data.push({
-      key: "3",
-      value: {
-        fi: "Lääke- ja terveystieteet",
-        // en: "",
-        // sv: "",
+    const swedishBranches: AlignmentObjectExtended[] = [
+      {
+        key: "1",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Naturvetenskaper",
+        children: [],
       },
-      children: []
-    });
-
-    data.push({
-      key: "4",
-      value: {
-        fi: "Maatalous- ja metsätieteet",
-        // en: "",
-        // sv: "",
+      {
+        key: "2",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Teknik",
+        children: [],
       },
-      children: []
-    });
-
-    data.push({
-      key: "5",
-      value: {
-        fi: "Yhteiskuntatieteet",
-        // en: "",
-        // sv: "",
+      {
+        key: "3",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Medicin och hälsovetenskaper",
+        children: [],
       },
-      children: []
-    });
-
-    data.push({
-      key: "6",
-      value: {
-        fi: "Humanistiset tieteet",
-        // en: "",
-        // sv: "",
+      {
+        key: "4",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Jordbruks- och skogsvetenskaper",
+        children: [],
       },
-      children: []
-    });
+      {
+        key: "5",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Samhällsvetenskaper",
+        children: [],
+      },
+      {
+        key: "6",
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: "Humanistiska vetenskaper",
+        children: [],
+      },
+    ];
 
     results.forEach((result: any) => {
       const metadataFi = result.metadata.find((e: any) => e.kieli.toLowerCase() === "fi");
+
+      const parentFi = finnishBranches.find((e: any) => e.key === result.koodiArvo.charAt(0));
+
+      parentFi.children.push({
+        key: result.koodiArvo,
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: metadataFi.nimi.trim(),
+      });
+
       const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
+
+      const parentEn = englishBranches.find((e: any) => e.key === result.koodiArvo.charAt(0));
+
+      parentEn.children.push({
+        key: result.koodiArvo,
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: metadataEn.nimi.trim(),
+      });
+
       const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
-      const parent = data.find((e: any) => e.key === result.koodiArvo.charAt(0));
+      const parentSv = swedishBranches.find((e: any) => e.key === result.koodiArvo.charAt(0));
 
-      parent.children.push({
+      parentSv.children.push({
         key: result.koodiArvo,
-        value: {
-          fi: metadataFi.nimi.trim(),
-          en: metadataEn.nimi.trim(),
-          sv: metadataSv.nimi.trim(),
-        }
+        source: "branchesOfScience",
+        alignmentType: "educationalSubject",
+        targetName: metadataSv.nimi.trim(),
       });
     });
 
-    data.sort((a: any, b: any) => a.key - b.key);
+    finnishBranches.sort((a: any, b: any) => a.key - b.key);
+    englishBranches.sort((a: any, b: any) => a.key - b.key);
+    swedishBranches.sort((a: any, b: any) => a.key - b.key);
 
-    data.forEach((parent: any) => {
+    finnishBranches.forEach((parent: any) => {
       parent.children.sort((a: any, b: any) => a.key - b.key);
     });
 
-    await setAsync(rediskey, JSON.stringify(data));
+    englishBranches.forEach((parent: any) => {
+      parent.children.sort((a: any, b: any) => a.key - b.key);
+    });
+
+    swedishBranches.forEach((parent: any) => {
+      parent.children.sort((a: any, b: any) => a.key - b.key);
+    });
+
+    await setAsync(`${rediskey}.fi`, JSON.stringify(finnishBranches));
+    await setAsync(`${rediskey}.en`, JSON.stringify(englishBranches));
+    await setAsync(`${rediskey}.sv`, JSON.stringify(swedishBranches));
   } catch (err) {
     console.error(err);
   }
@@ -122,72 +227,10 @@ export async function setTieteenalat(): Promise<any> {
  */
 export const getTieteenalat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = await getAsync(rediskey);
+    const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
     if (redisData) {
-      const input = JSON.parse(redisData);
-
-      const output = input.map((row: any) => {
-        const children = row.children.map((child: any) => {
-          return {
-            key: child.key,
-            value: child.value[req.params.lang]
-          };
-        });
-
-        return {
-          key: row.key,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-          children: children,
-        };
-      });
-
-      if (output.length > 0) {
-        res.status(200).json(output);
-      } else {
-        res.sendStatus(404);
-      }
-    } else {
-      res.sendStatus(404);
-
-      return next();
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Something went wrong");
-  }
-};
-
-/**
- * Get single row from redis database key-value
- *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
- *
- * @returns {Promise<any>}
- */
-export const getTieteenala = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-  try {
-    const redisData = await getAsync(rediskey);
-
-    if (redisData) {
-      const input = JSON.parse(redisData);
-      const row = input.find((e: any) => e.key === req.params.key);
-      let output: object;
-
-      if (row != undefined) {
-        output = {
-          key: row.key,
-          value: row.value[req.params.lang] != undefined ? row.value[req.params.lang] : row.value.fi,
-        };
-      }
-
-      if (output != undefined) {
-        res.status(200).json(output);
-      } else {
-        res.sendStatus(404);
-      }
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
 
