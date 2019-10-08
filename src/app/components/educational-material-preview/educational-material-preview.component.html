@@ -1,4 +1,4 @@
-<div class="material-preview" [ngSwitch]="material?.mimetype">
+<div class="material-preview" [ngSwitch]="checkMimeType(material.mimetype)">
   <app-video-preview *ngSwitchCase="'video'" [material]="material"></app-video-preview>
 
   <app-audio-preview *ngSwitchCase="'audio'" [material]="material"></app-audio-preview>

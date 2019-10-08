@@ -8,4 +8,15 @@ import { Material } from '../../models/material';
 })
 export class EducationalMaterialPreviewComponent {
   @Input() material: Material;
+
+  public checkMimeType(mimeType: string) {
+    const imageMimeTypes = [
+      'image/jpeg',
+      'image/png',
+    ];
+
+    if (imageMimeTypes.includes(mimeType)) {
+      return 'image';
+    }
+  }
 }
