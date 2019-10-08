@@ -423,16 +423,16 @@
         [selectableGroup]="true"
         [selectableGroupAsModel]="false"
         groupBy="children"
-        bindLabel="value"
+        bindLabel="targetName"
         appendTo="body"
         id="branchesOfScience"
         formControlName="branchesOfScience"
       >
         <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.value }}
+          {{ item.targetName }}
         </ng-template>
         <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
+          {{ item.targetName }}
         </ng-template>
       </ng-select>
     </div>

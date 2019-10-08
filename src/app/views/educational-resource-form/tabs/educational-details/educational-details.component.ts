@@ -244,13 +244,13 @@ export class EducationalDetailsComponent implements OnInit {
         this.selfMotivatedEducationObjectives.setValue(selfMotivatedEducationObjectives);
 
         // higher education
+        const branchesOfScience = this.savedData.alignmentObjects
+          .filter(alignmentObject => alignmentObject.source === 'branchesOfScience');
+        this.branchesOfScience.setValue(branchesOfScience);
+
         const scienceBranchObjectives = this.savedData.alignmentObjects
           .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
         this.scienceBranchObjectives.setValue(scienceBranchObjectives);
-      }
-
-      if (this.savedData.branchesOfScience) {
-        this.branchesOfScience.setValue(this.savedData.branchesOfScience);
       }
 
       if (this.savedData.higherEducationFramework) {
@@ -605,6 +605,10 @@ export class EducationalDetailsComponent implements OnInit {
 
       if (this.selfMotivatedEducationObjectives.value) {
         this.alignmentObjects = this.alignmentObjects.concat(this.selfMotivatedEducationObjectives.value);
+      }
+
+      if (this.branchesOfScience.value) {
+        this.alignmentObjects = this.alignmentObjects.concat(this.branchesOfScience.value);
       }
 
       if (this.scienceBranchObjectives.value) {
