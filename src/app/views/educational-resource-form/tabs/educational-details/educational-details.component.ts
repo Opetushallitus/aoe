@@ -595,6 +595,10 @@ export class EducationalDetailsComponent implements OnInit {
         this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolObjectives.value);
       }
 
+      if (this.vocationalDegrees.value) {
+        this.alignmentObjects = this.alignmentObjects.concat(this.vocationalDegrees.value);
+      }
+
       if (this.vocationalEducationObjectives.value) {
         this.alignmentObjects = this.alignmentObjects.concat(this.vocationalEducationObjectives.value);
       }
