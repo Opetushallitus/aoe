@@ -66,7 +66,7 @@ async function uploadMaterial(req: Request, res: Response) {
                         if (typeof files !== "undefined") {
                             for (let i = 0; i < files.length; i++) {
                                 console.log(materialid[i].id);
-                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename);
                                 await insertDataToRecordTable(files[i], materialid[i].id, obj.Key, obj.Bucket, obj.Location);
                                 await deleteDataFromTempRecordTable(files[i].filename, materialid[i].id);
                                 fs.unlink("./" + files[i].path, (err: any) => {
@@ -130,7 +130,7 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                     try {
                         if (typeof files !== "undefined") {
                             for (let i = 0; i < files.length; i++) {
-                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, res);
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename);
                                 await insertDataToRecordTable(files[i], materialid[i].id, obj.Key, obj.Bucket, obj.Location);
                                 await deleteDataFromTempRecordTable(files[i].filename, materialid[i].id);
                                 fs.unlink("./" + files[i].path, (err: any) => {
@@ -161,6 +161,39 @@ async function uploadFileToMaterial(req: Request, res: Response) {
     catch (err) {
         console.log(err);
         res.status(500).send("error");
+    }
+}
+
+async function fileToStorage(file: any, materialid: String) {
+    const obj: any = await uploadFileToStorage(("./" + file.path), file.filename);
+    await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
+    await deleteDataFromTempRecordTable(file.filename, materialid);
+    fs.unlink("./" + file.path, (err: any) => {
+        if (err) {
+        console.error(err);
+        }
+    });
+}
+
+async function checkTemporaryRecordQueue() {
+    try {
+        console.log("checkTemporaryRecordQueue");
+        const query = "Select * From temporaryrecord limit 1000";
+        const data = await db.any(query);
+        for (const element of data) {
+            const file = {
+                "originalname" : element.originalfilename,
+                "path" : element.filepath,
+                "size" : element.filesize,
+                "mimetype" : element.mimetype,
+                "encoding" : element.format,
+                "filename" : element.filename
+            };
+            await fileToStorage(file, element.materialid);
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
 }
 
@@ -205,7 +238,7 @@ async function deleteDataFromTempRecordTable(filename: any, materialId: any) {
     return data;
 }
 
-async function uploadFileToStorage(filePath: String, filename: String, res: Response) {
+async function uploadFileToStorage(filePath: String, filename: String) {
     return new Promise(async resolve => {
         try {
             const util = require("util");
@@ -235,7 +268,6 @@ async function uploadFileToStorage(filePath: String, filename: String, res: Resp
                 s3.upload(params, (err: any, data: any) => {
                     if (err) {
                         console.error(`Upload Error ${err}`);
-                        res.status(500).send("error during upload");
                     }
 
                     if (data) {
@@ -247,14 +279,13 @@ async function uploadFileToStorage(filePath: String, filename: String, res: Resp
                 });
             }
             catch (err) {
-                res.status(500).send(err);
+                console.log(err);
             }
 
             });
         }
         catch (err) {
             console.log(err);
-            res.status(500).send("error");
         }
     });
 }
@@ -363,5 +394,6 @@ module.exports = {
     uploadFileToStorage : uploadFileToStorage,
     downloadFile : downloadFile,
     downloadFileFromStorage : downloadFileFromStorage,
-    downloadMaterialFile : downloadMaterialFile
+    downloadMaterialFile : downloadMaterialFile,
+    checkTemporaryRecordQueue : checkTemporaryRecordQueue
 };
