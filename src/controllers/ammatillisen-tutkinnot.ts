@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { getUnique, sortByValue } from "../util/data.utils";
-import { KeyValue } from "../models/data";
+import { getUnique, sortByTargetName } from "../util/data.utils";
+import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "perusteet";
 const rediskey = "ammatillisentutkinnot";
@@ -35,34 +35,40 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
       }
     }
 
-    const finnish: KeyValue<number, string>[] = [];
-    const english: KeyValue<number, string>[] = [];
-    const swedish: KeyValue<number, string>[] = [];
+    const finnish: AlignmentObjectExtended[] = [];
+    const english: AlignmentObjectExtended[] = [];
+    const swedish: AlignmentObjectExtended[] = [];
 
     results.forEach((result: any) => {
       finnish.push({
         key: result.id,
-        value: result.nimi.fi !== undefined ? result.nimi.fi : (result.nimi.sv !== undefined ? result.nimi.sv : result.nimi.en),
+        source: "vocationalDegrees",
+        alignmentType: "educationalSubject",
+        targetName: result.nimi.fi !== undefined ? result.nimi.fi : (result.nimi.sv !== undefined ? result.nimi.sv : result.nimi.en),
       });
 
       english.push({
         key: result.id,
-        value: result.nimi.en !== undefined ? result.nimi.en : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.sv),
+        source: "vocationalDegrees",
+        alignmentType: "educationalSubject",
+        targetName: result.nimi.en !== undefined ? result.nimi.en : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.sv),
       });
 
       swedish.push({
         key: result.id,
-        value: result.nimi.sv !== undefined ? result.nimi.sv : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.en),
+        source: "vocationalDegrees",
+        alignmentType: "educationalSubject",
+        targetName: result.nimi.sv !== undefined ? result.nimi.sv : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.en),
       });
     });
 
-    finnish.sort(sortByValue);
-    english.sort(sortByValue);
-    swedish.sort(sortByValue);
+    finnish.sort(sortByTargetName);
+    english.sort(sortByTargetName);
+    swedish.sort(sortByTargetName);
 
-    const filteredFi = getUnique(finnish, "value");
-    const filteredEn = getUnique(english, "value");
-    const filteredSv = getUnique(swedish, "value");
+    const filteredFi = getUnique(finnish, "targetName");
+    const filteredEn = getUnique(english, "targetName");
+    const filteredSv = getUnique(swedish, "targetName");
 
     await setAsync(`${rediskey}.fi`, JSON.stringify(filteredFi));
     await setAsync(`${rediskey}.en`, JSON.stringify(filteredEn));
