@@ -1,26 +1,26 @@
 <div class="py-4 px-0">
   <div class="container">
-    <h1>Palvelun käyttöehdot ja tietosuojaseloste</h1>
+    <h1>{{ 'acceptance.title' | translate }}</h1>
 
-    <h2>Käyttöehdot</h2>
+    <h2>{{ 'acceptance.termsOfUse' | translate }}</h2>
 
     <app-terms-of-use></app-terms-of-use>
 
-    <h2>Tietosuojaseloste</h2>
+    <h2>{{ 'acceptance.privacyPolicy' | translate }}</h2>
 
     <app-privacy-policy></app-privacy-policy>
 
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
       <div class="form-group custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance">
-        <label class="custom-control-label" for="acceptance">Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot</label>
+        <label class="custom-control-label" for="acceptance">{{ 'acceptance.acceptance' | translate }}</label>
       </div>
 
       <button
         type="submit"
         class="btn btn-blue"
         [disabled]="acceptanceForm.invalid"
-      >Tallenna</button>
+      >{{ 'forms.common.save' | translate }}</button>
     </form>
   </div>
 </div>

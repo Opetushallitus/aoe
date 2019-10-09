@@ -12,6 +12,9 @@
       "aria": {
         "label": "Toggle navigation"
       }
+    },
+    "login": {
+      "selectLoginMethod": "Choose a login method"
     }
   },
   "home": {
@@ -375,5 +378,15 @@
     "general": "General questions",
     "material": "For creators of educational resources",
     "organization": "For Organizations"
+  },
+  "acceptance": {
+    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy",
+    "acceptance": "I have read and accept the Privacy Policy and the Terms of Use of the service"
+  },
+  "userMaterials": {
+    "title": "My open educational resources",
+    "createNew": "Upload a new resource"
   }
 }

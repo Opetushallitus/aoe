@@ -2,11 +2,11 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>Omat oppimateriaalit</h1>
+        <h1>{{ 'userMaterials.title' | translate }}</h1>
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">luo uusi materiaali</a>
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
       </div>
     </div>
 

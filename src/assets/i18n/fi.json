@@ -12,6 +12,9 @@
       "aria": {
         "label": "Avaa/Sulje valikko"
       }
+    },
+    "login": {
+      "selectLoginMethod": "Valitse kirjautumistapa"
     }
   },
   "home": {
@@ -382,5 +385,15 @@
     "general": "Yleisiä kysymyksiä",
     "material": "Oppimateriaalien tekijöille",
     "organization": "Organisaatioille"
+  },
+  "acceptance": {
+    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Tietosuojaseloste",
+    "acceptance": "Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot"
+  },
+  "userMaterials": {
+    "title": "Omat oppimateriaalit",
+    "createNew": "Luo uusi materiaali"
   }
 }

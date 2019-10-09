@@ -12,6 +12,9 @@
       "aria": {
         "label": "Toggle navigation"
       }
+    },
+    "login": {
+      "selectLoginMethod": "Välj inloggningsmetod"
     }
   },
   "home": {
@@ -66,9 +69,9 @@
       "delete": "Ta bort",
       "next": "Nästa",
       "previous": "Föregående",
-      "required": "Pakollinen tieto",
-      "save": "Tallenna",
-      "saveChanges": "Tallenna muutokset",
+      "required": "Obligatorisk uppgift",
+      "save": "Spara",
+      "saveChanges": "Spara ändringar",
       "translations": {
         "label": "Språkversioner",
         "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
@@ -340,30 +343,30 @@
       },
       "license": {
         "title": "Licensuppgifter",
-        "subtitle": "Valitse lisenssi",
-        "showDetails": "Näytä lisätiedot",
-        "readMore": "Lue lisää"
+        "subtitle": "Välj en licens",
+        "showDetails": "Läsa mer",
+        "readMore": "Läsa mer"
       },
       "basedOnDetails": {
         "addNew": {
-          "button": "Lisää uusi materiaali",
-          "tooltip": "Voit tähän lisätä materiaaleja, jonka pohjalta olet lähtenyt rakentamaan oppimateriaaliasi, joita käytät materiaalissasi tai jotka toimivat oppimateriaalisi pohjana."
+          "button": "Tillsätt en annan resurs",
+          "tooltip": "Här kan du lägga till material som du har utgått ifrån när du har utarbetat ditt läromaterial, som du har använt i ditt material eller som fungerar som grund för ditt läromaterial."
         },
         "externals": {
-          "title": "Hyödynnetyt materiaalit",
+          "title": "Referens",
           "inputs": {
             "author": {
-              "label": "Tekijän nimi",
-              "tooltip": "",
-              "placeholder": "Sukunimi, Etunimi"
+              "label": "Upphovsperson",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
+              "placeholder": "Efternamn, Förnamn"
             },
             "link": {
-              "label": "Linkki",
+              "label": "Link",
               "tooltip": ""
             },
             "name": {
-              "label": "Nimi",
-              "tooltip": ""
+              "label": "Namn",
+              "tooltip": "Namn på läromaterialet."
             }
           }
         }
@@ -375,5 +378,15 @@
     "general": "Vanliga frågor",
     "material": "För skapare av undervisningsmaterial",
     "organization": "För organisationer"
+  },
+  "acceptance": {
+    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Tietosuojaseloste",
+    "acceptance": "Jag har läst och jag accepterar tjänstens  dataskyddsbeskrivning och användarvillkor"
+  },
+  "userMaterials": {
+    "title": "Mina lärresurser",
+    "createNew": "Publicera en ny lärresurs"
   }
 }
