@@ -31,6 +31,7 @@ export class FilesComponent implements OnInit {
   private myFiles = [];
 
   public languages$: KeyValue<string, string>[];
+  public defaultLanguage$: KeyValue<string, string>;
 
   constructor(
     private fb: FormBuilder,
@@ -70,15 +71,19 @@ export class FilesComponent implements OnInit {
       this.languages$ = data;
     });
 
+    this.koodistoProxySvc.getData(`kielet/${this.lang.toUpperCase()}`, this.lang).subscribe(data => {
+      this.defaultLanguage$ = data;
+
+      this.files.controls.forEach(control => {
+        control.get('language').setValue(this.defaultLanguage$);
+      });
+    });
+
     if (this.savedData) {
       if (this.savedData.files) {
         while (this.files.length) {
           this.files.removeAt(0);
         }
-
-        /*this.savedData.files.forEach(() => this.addFile());
-
-        this.fileUploadForm.get('files').setValue(this.savedData.files);*/
       }
 
       if (this.savedData.name) {
@@ -103,12 +108,9 @@ export class FilesComponent implements OnInit {
 
   public createFile(): FormGroup {
     return this.fb.group({
-      // file: this.fb.control(null, [ Validators.required ]),
-      // link: this.fb.control(null, [ Validators.required ]),
-      // file: this.fb.control(null),
       file: [''],
       link: this.fb.control(null),
-      language: this.fb.control({ key: 'FI', value: 'suomi' }),
+      language: this.fb.control(null),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
