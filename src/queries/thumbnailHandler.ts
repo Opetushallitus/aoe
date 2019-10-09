@@ -48,6 +48,7 @@ async function uploadImage(req: Request, res: Response) {
                 upload.single("image")(req , res, await async function() {
                     try {
                         const file = (<any>req).file;
+                        console.log(file);
                         let query;
                         query = "select filepath from thumbnail where educationalmaterialid = $1;";
                         console.log(query);
@@ -65,7 +66,7 @@ async function uploadImage(req: Request, res: Response) {
                             "UPDATE SET filepath = $1 , originalfilename = $2, filesize= $3, mimetype = $4, format =$5, filename = $7;";
                         console.log(query);
                         await db.any(query, [file.path, file.originalname, file.size, file.mimetype, file.encoding, req.params.id, file.filename]);
-                        return res.status(200).send("Image upload done");
+                        return res.status(200).json({"status" : "Image upload done"});
                     }
                     catch (err) {
                         console.log(err);
