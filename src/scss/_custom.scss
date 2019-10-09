@@ -49,11 +49,11 @@ label {
   }
 }
 
-.custom-checkbox {
+/*.custom-checkbox {
   label {
     @include font-size(12);
   }
-}
+}*/
 
 .custom-control-input {
   &:checked ~ .custom-control-label {
