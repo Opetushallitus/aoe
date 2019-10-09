@@ -20,7 +20,7 @@ import { UploadMessage } from '../../../../models/upload-message';
 export class FilesComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  private lang: string = this.translate.currentLang;
+  public lang: string = this.translate.currentLang;
   public otherLangs: string[];
   private savedData: any;
 
