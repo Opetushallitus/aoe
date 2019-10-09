@@ -3,17 +3,17 @@
 <dl class="row">
   <ng-container *ngIf="savedData.name">
     <ng-container *ngIf="savedData.name.fi">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.label' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.label.fi' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.fi }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.name.en">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.modal.en' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.label.en' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.en }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.name.sv">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.modal.sv' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.files.materialName.label.sv' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.name.sv }}</dd>
     </ng-container>
   </ng-container>
@@ -41,17 +41,17 @@
 
           <ng-container *ngIf="file.displayName">
             <ng-container *ngIf="file.displayName.fi">
-              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.label' | translate }}</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.label.fi' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.fi }}</dd>
             </ng-container>
 
             <ng-container *ngIf="file.displayName.en">
-              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.en' | translate }}</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.label.en' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.en }}</dd>
             </ng-container>
 
             <ng-container *ngIf="file.displayName.sv">
-              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.sv' | translate }}</dt>
+              <dt class="col-sm-3">{{ 'forms.educationalResource.files.file.inputs.displayName.label.sv' | translate }}</dt>
               <dd class="col-sm-9">{{ file.displayName.sv }}</dd>
             </ng-container>
           </ng-container>
@@ -112,17 +112,17 @@
 
   <ng-container *ngIf="savedData.description">
     <ng-container *ngIf="savedData.description.fi">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.label' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.label.fi' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.fi }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.description.en">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.modal.en' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.label.en' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.en }}</dd>
     </ng-container>
 
     <ng-container *ngIf="savedData.description.sv">
-      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.modal.sv' | translate }}</dt>
+      <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.description.label.sv' | translate }}</dt>
       <dd class="col-sm-9">{{ savedData.description.sv }}</dd>
     </ng-container>
   </ng-container>
