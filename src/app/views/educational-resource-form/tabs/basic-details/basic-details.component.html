@@ -185,7 +185,7 @@
       </div>
 
       <div class="form-group" formGroupName="description">
-        <label for="description">{{ 'forms.educationalResource.basicDetails.description.label' | translate }}</label>
+        <label for="description">{{ 'forms.educationalResource.basicDetails.description.label.' + lang | translate }}</label>
 
         <button
           type="button"
@@ -199,7 +199,7 @@
               class="form-control"
               id="description"
               rows="10"
-              formControlName="fi"
+              [formControlName]="lang"
             ></textarea>
           </div>
 
@@ -227,24 +227,24 @@
             <h4>{{ 'forms.educationalResource.basicDetails.description.modal.subtitle' | translate }}</h4>
 
             <div class="form-group">
-              <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description.modal.en' | translate }}</label>
+              <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description.label.' + otherLangs[0] | translate }}</label>
 
               <textarea
                 class="form-control"
                 id="descriptionEn"
                 rows="10"
-                formControlName="en"
+                [formControlName]="otherLangs[0]"
               ></textarea>
             </div>
 
             <div class="form-group">
-              <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description.modal.sv' | translate }}</label>
+              <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description.label.' + otherLangs[1] | translate }}</label>
 
               <textarea
                 class="form-control"
                 id="descriptionSv"
                 rows="10"
-                formControlName="sv"
+                [formControlName]="otherLangs[1]"
               ></textarea>
             </div>
           </div>

@@ -6,7 +6,7 @@
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
-        <label for="name-fi">{{ 'forms.educationalResource.files.materialName.label' | translate }}*</label>
+        <label for="name">{{ 'forms.educationalResource.files.materialName.label.' + lang | translate }}*</label>
 
         <button
           type="button"
@@ -17,9 +17,9 @@
         <input
           type="text"
           class="form-control"
-          id="name-fi"
-          formControlName="fi"
-          (change)="updateSlug($event, 'fi')"
+          id="name"
+          [formControlName]="lang"
+          (change)="updateSlug($event, lang)"
           [ngClass]="{ 'is-invalid': submitted && name.errors }"
         >
 
@@ -52,26 +52,26 @@
         <h4>{{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}</h4>
 
         <div class="form-group">
-          <label for="name-en">{{ 'forms.educationalResource.files.materialName.modal.en' | translate }}*</label>
+          <label for="name2">{{ 'forms.educationalResource.files.materialName.label.' + otherLangs[0] | translate }}*</label>
 
           <input
             type="text"
             class="form-control"
-            id="name-en"
-            formControlName="en"
-            (change)="updateSlug($event, 'en')"
+            id="name2"
+            [formControlName]="otherLangs[0]"
+            (change)="updateSlug($event, otherLangs[0])"
           >
         </div>
 
         <div class="form-group">
-          <label for="name-sv">{{ 'forms.educationalResource.files.materialName.modal.sv' | translate }}*</label>
+          <label for="name3">{{ 'forms.educationalResource.files.materialName.label.' + otherLangs[1] | translate }}*</label>
 
           <input
             type="text"
             class="form-control"
-            id="name-sv"
-            formControlName="sv"
-            (change)="updateSlug($event, 'sv')"
+            id="name3"
+            [formControlName]="otherLangs[1]"
+            (change)="updateSlug($event, otherLangs[1])"
           >
         </div>
       </div>
@@ -143,7 +143,7 @@
 
         <div class="form-row align-items-end" formGroupName="displayName">
           <div class="col">
-            <label for="{{ 'displayNameFi' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label' | translate }}*</label>
+            <label for="{{ 'displayName' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label.' + lang | translate }}*</label>
 
             <button
               type="button"
@@ -154,8 +154,8 @@
             <input
               type="text"
               class="form-control"
-              id="{{ 'displayNameFi' + i }}"
-              formControlName="fi"
+              id="{{ 'displayName' + i }}"
+              [formControlName]="lang"
             >
           </div>
 
@@ -182,24 +182,24 @@
               <h4>{{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}</h4>
 
               <div class="form-group">
-                <label for="{{ 'displayNameEn' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.en' | translate }}*</label>
+                <label for="{{ 'displayName2' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label.' + otherLangs[0] | translate }}</label>
 
                 <input
                   type="text"
                   class="form-control"
-                  id="{{ 'displayNameEn' + i }}"
-                  formControlName="en"
+                  id="{{ 'displayName2' + i }}"
+                  [formControlName]="otherLangs[0]"
                 >
               </div>
 
               <div class="form-group">
-                <label for="{{ 'displayNameSv' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.sv' | translate }}*</label>
+                <label for="{{ 'displayName3' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label.' + otherLangs[1] | translate }}</label>
 
                 <input
                   type="text"
                   class="form-control"
-                  id="{{ 'displayNameSv' + i }}"
-                  formControlName="sv"
+                  id="{{ 'displayName3' + i }}"
+                  [formControlName]="otherLangs[1]"
                 >
               </div>
             </div>

@@ -88,13 +88,15 @@
       "files": {
         "alert": "You can upload your OER or link it to the service with this form. In order to upload the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First upload or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
         "materialName": {
-          "label": "Name",
+          "label": {
+            "fi": "Name in Finnish",
+            "en": "Name",
+            "sv": "Name in Swedish"
+          },
           "tooltip": "Name of the learning resource.",
           "modal": {
             "title": "Translations: Name",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Name in English",
-            "sv": "Name in Swedish"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         },
         "file": {
@@ -114,13 +116,15 @@
               "tooltip": "Choose the language of your learning resource or part of the learning resource. If  you have versions of yourresource in different languages, you can download your files here and choose the language of study."
             },
             "displayName": {
-              "label": "File Name",
+              "label": {
+                "fi": "File Name in Finnish",
+                "en": "File Name",
+                "sv": "File Name in Swedish"
+              },
               "tooltip": "The name for the file that you want other people to see. I.e. “Nature Ethics recording” or “Nature Ethics slideshow”. If your resource is comprised of multiple files, the preferred file is chosen by clicking on the name of the file. The name should be short and sweet.",
               "modal": {
                 "title": "Translations: File Name",
-                "subtitle": "Kieliversioiden lisääminen",
-                "en": "File Name in English",
-                "sv": "File Name in Swedish"
+                "subtitle": "Kieliversioiden lisääminen"
               }
             }
           },
@@ -160,13 +164,15 @@
           "tooltip": "Educational use of the resource in the context of learning. I.e. group work, independent study, OER sketch."
         },
         "description": {
-          "label": "Description",
+          "label": {
+            "fi": "Description in Finnish",
+            "en": "Description",
+            "sv": "Description in Swedish"
+          },
           "tooltip": "Write a concise description of the resource: what does it contain, what is it about, for what educational purpose is it meant for. ",
           "modal": {
             "title": "Translations: Description",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Description in English",
-            "sv": "Description in Swedish"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         }
       },

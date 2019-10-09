@@ -88,13 +88,15 @@
       "files": {
         "alert": "Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.",
         "materialName": {
-          "label": "Oppimateriaalin nimi",
+          "label": {
+            "fi": "Oppimateriaalin nimi",
+            "en": "Oppimateriaalin nimi (englanniksi)",
+            "sv": "Oppimateriaalin nimi (ruotsiksi)"
+          },
           "tooltip": "Oppimateriaalin nimi.",
           "modal": {
             "title": "Kieliversiot: Oppimateriaalin nimi",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Oppimateriaalin nimi englanniksi",
-            "sv": "Oppimateriaalin nimi ruotsiksi"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         },
         "file": {
@@ -114,13 +116,15 @@
               "tooltip": "Valitse millä kielellä oppimateriaalisi tai tämä osa oppimateriaaliasi on tarkoitettu opiskeltavaksi. Mikäli olet tehnyt oppimateriaalistasi käännöksen toiselle kielelle, voit lisätä tiedostot tässä samassa kohtaa ja merkata niiden opiskelukielen tähän."
             },
             "displayName": {
-              "label": "Tiedoston esitysnimi",
+              "label": {
+                "fi": "Tiedoston esitysnimi",
+                "en": "Tiedoston esitysnimi (englanniksi)",
+                "sv": "Tiedoston esitysnimi (ruotsiksi)"
+              },
               "tooltip": "Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä.",
               "modal": {
                 "title": "Kieliversiot: Tiedoston esitysnimi",
-                "subtitle": "Kieliversioiden lisääminen",
-                "en": "Tiedoston esitysnimi englanniksi",
-                "sv": "Tiedoston esitysnimi ruotsiksi"
+                "subtitle": "Kieliversioiden lisääminen"
               }
             }
           },
@@ -167,13 +171,15 @@
           "tooltip": "Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
         },
         "description": {
-          "label": "Kuvaus",
+          "label": {
+            "fi": "Kuvaus",
+            "en": "Kuvaus (englanniksi)",
+            "sv": "Kuvaus (ruotsiksi)"
+          },
           "tooltip": "Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty.",
           "modal": {
             "title": "Kieliversiot: Kuvaus",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Kuvaus englanniksi",
-            "sv": "Kuvaus ruotsiksi"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         }
       },

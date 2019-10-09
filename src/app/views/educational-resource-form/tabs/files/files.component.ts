@@ -21,6 +21,7 @@ export class FilesComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
+  public otherLangs: string[];
   private savedData: any;
 
   public fileUploadForm: FormGroup;
@@ -44,15 +45,19 @@ export class FilesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.updateLanguages();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.updateLanguages();
     });
 
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null, [ Validators.required ]),
+        fi: this.fb.control(null),
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
@@ -96,6 +101,10 @@ export class FilesComponent implements OnInit {
     }
 
     // this.onChanges();
+  }
+
+  public updateLanguages(): void {
+    this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
   }
 
   get name(): FormControl {

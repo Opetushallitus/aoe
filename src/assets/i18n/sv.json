@@ -88,13 +88,15 @@
       "files": {
         "alert": "Du kan spara ditt läromaterial eller länka till det i tjänsten för öppna lärresurser med hjälp av den här blanketten. Inför sparandet av läromaterialet ska du lägga till några uppgifter om läromaterialet samt välja ut en lämplig licens för det. De här uppgifterna gör det lättare för andra användare att hitta ditt läromaterial samt redogör för vad ditt läromaterial kan användas till. Vid varje fält finns ett litet frågetecken där du vid behov kan få tilläggsuppgifter. Ladda först upp filen/filerna eller länka till ditt läromaterial och fortsätt sedan fylla i de grundläggande uppgifterna om ditt material. Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är.",
         "materialName": {
-          "label": "Namn",
+          "label": {
+            "fi": "Namn på finska",
+            "en": "Namn på engelska",
+            "sv": "Namn"
+          },
           "tooltip": "Namn på läromaterialet.",
           "modal": {
             "title": "Språkversioner: Namn",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Oppimateriaalin nimi englanniksi",
-            "sv": "Oppimateriaalin nimi ruotsiksi"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         },
         "file": {
@@ -114,13 +116,15 @@
               "tooltip": "Välj det språk som ditt läromaterial eller den här delen av ditt läromaterial ska studeras på. Om du har översatt ditt läromaterial till ett annat språk kan du lägga till filerna på samma ställe och uppge deras studiespråk här."
             },
             "displayName": {
-              "label": "Filens namn",
+              "label": {
+                "fi": "Filens namn på finska",
+                "en": "Filens namn på engelska",
+                "sv": "Filens namn"
+              },
               "tooltip": "Det namn som du vill att andra ska se för den här filen. Till exempel Bandupptagning av föreläsning om naturetik eller Diabilder om naturetik. Om ditt läromaterial består av flera filer väljs filen ut genom att användaren klickar på filnamnet. Välj gärna kärnfulla, tydliga namn.",
               "modal": {
                 "title": "Språkversioner: Filens namn",
-                "subtitle": "Kieliversioiden lisääminen",
-                "en": "Tiedoston esitysnimi englanniksi",
-                "sv": "Tiedoston esitysnimi ruotsiksi"
+                "subtitle": "Kieliversioiden lisääminen"
               }
             }
           },
@@ -160,13 +164,15 @@
           "tooltip": "Verkets användningsområde i utbildningskontext. T.ex. grupparbete, självstudier, material för vidarebearbetning."
         },
         "description": {
-          "label": "Beskrivning",
+          "label": {
+            "fi": "Beskrivning på finska",
+            "en": "Beskrivning på engelska",
+            "sv": "Beskrivning"
+          },
           "tooltip": "Skriv en koncentrerad och fritt formulerad beskrivning av läromaterialet: vad innehåller det, vad berättar det om, till vilket ändamål är det skapat.",
           "modal": {
             "title": "Språkversioner: Beskrivning",
-            "subtitle": "Kieliversioiden lisääminen",
-            "en": "Kuvaus englanniksi",
-            "sv": "Kuvaus ruotsiksi"
+            "subtitle": "Kieliversioiden lisääminen"
           }
         }
       },

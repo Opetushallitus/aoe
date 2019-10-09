@@ -19,6 +19,7 @@ export class BasicDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
+  public otherLangs: string[];
   private savedData: any;
 
   public learningResourceTypes$: KeyValue<string, string>[];
@@ -54,8 +55,12 @@ export class BasicDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.updateLanguages();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.updateLanguages();
     });
 
     this.savedData = getLocalStorageData(this.localStorageKey);
@@ -126,6 +131,10 @@ export class BasicDetailsComponent implements OnInit {
         });
       }
     }
+  }
+
+  public updateLanguages(): void {
+    this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
   }
 
   get form() {
