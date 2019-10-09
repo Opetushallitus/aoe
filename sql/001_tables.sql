@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS EducationalMaterialCollectionEducationalMaterial CASCADE;
 DROP TABLE IF EXISTS UsersEducationalMaterialCollection CASCADE;
-DROP TABLE IF EXISTS isBasedOn CASCADE;
+DROP TABLE IF EXISTS IsBasedOn CASCADE;
 DROP TABLE IF EXISTS EducationalUse CASCADE;
 DROP TABLE IF EXISTS Record CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalUse CASCADE;
@@ -30,10 +30,11 @@ DROP TABLE IF EXISTS Users CASCADE;
 DROP TABLE IF EXISTS Publisher CASCADE;
 DROP TABLE IF EXISTS MaterialName CASCADE;
 DROP TABLE IF EXISTS MaterialDescription CASCADE;
-DROP TABLE IF EXISTS author CASCADE;
+DROP TABLE IF EXISTS Author CASCADE;
 DROP TABLE IF EXISTS MaterialDisplayName CASCADE;
-DROP TABLE IF EXISTS temporaryrecord CASCADE;
+DROP TABLE IF EXISTS TemporaryRecord CASCADE;
 DROP TABLE IF EXISTS Thumbnail CASCADE;
+DROP TABLE IF EXISTS Prerequisites CASCADE;
 
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
@@ -61,6 +62,13 @@ CREATE TABLE EducationalMaterial (
   OriginalPublishedAt timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   UsersUserName       text NOT NULL,
   Expires             timestamp with time zone DEFAULT '9999-01-01T00:00:00+00:00' NOT NULL, 
+  SuitsAllEarlyChildhoodSubjects bool DEFAULT 'false' NOT NULL, 
+  SuitsAllPrePrimarySubjects     bool DEFAULT 'false' NOT NULL, 
+  SuitsAllBasicStudySubjects     bool DEFAULT 'false' NOT NULL, 
+  SuitsAllUpperSecondarySubjects bool DEFAULT 'false' NOT NULL, 
+  SuitsAllVocationalDegrees      bool DEFAULT 'false' NOT NULL, 
+  SuitsAllSelfMotivatedSubjects  bool DEFAULT 'false' NOT NULL, 
+  SuitsAllBranches               bool DEFAULT 'false' NOT NULL,
   PRIMARY KEY (Id));
 
 
@@ -265,19 +273,20 @@ CREATE TABLE MaterialName (
 --  Slug        text NOT NULL, 
   PRIMARY KEY (id));
 
- CREATE TABLE temporaryrecord (
-  id                     BIGSERIAL NOT NULL, 
-  FilePath              text NOT NULL, 
-  OriginalFileName      text NOT NULL, 
-  Filesize              int4 NOT NULL, 
-  Mimetype              text NOT NULL, 
-  Format                text NOT NULL, 
-  MaterialId            int8 NOT NULL, 
-  FileName              text NOT NULL, 
-  PRIMARY KEY (id));
+  CREATE TABLE temporaryrecord (
+  Id                BIGSERIAL NOT NULL, 
+  FilePath         text NOT NULL, 
+  OriginalFileName text NOT NULL, 
+  Filesize         int4 NOT NULL, 
+  Mimetype         text NOT NULL, 
+  Format           text NOT NULL, 
+  FileName         text NOT NULL, 
+  MaterialId       int8 NOT NULL, 
+  CreatedAt        timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+  PRIMARY KEY (Id));
 
 CREATE TABLE Thumbnail (
-  id                     BIGSERIAL NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
   FilePath              text NOT NULL, 
   OriginalFileName      text NOT NULL, 
   FileSize              text NOT NULL, 
@@ -285,7 +294,7 @@ CREATE TABLE Thumbnail (
   Format                text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   FileName              text NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersUserName) REFERENCES Users (UserName) ON DELETE Restrict;

@@ -9,7 +9,7 @@ async function getMaterialMetaData(req: Request , res: Response) {
     // db.task(buildTree)
     db.task((t: any)  => {
         const params: any = [];
-        let query = "select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires" +
+        let query = "select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches" +
         " from educationalmaterial as em order by em.id asc;";
         if (req.body.dateMin !== undefined && req.body.dateMax !== undefined && req.body.materialPerPage !== undefined && req.body.pageNumber !== undefined) {
             console.log(req.body.dateMin);
@@ -19,7 +19,7 @@ async function getMaterialMetaData(req: Request , res: Response) {
             params.push(req.body.dateMax);
             params.push(req.body.pageNumber);
             params.push(req.body.materialPerPage);
-            query = "select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires" +
+            query = "select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches" +
             " from educationalmaterial as em where em.updatedat >= timestamp $1 and em.updatedat < timestamp $2 order by em.id asc OFFSET $3 LIMIT $4;";
         }
         console.log(query, params);

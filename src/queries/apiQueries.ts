@@ -150,6 +150,13 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.updatedAt = data[0][0].updatedat;
         jsonObj.publishedAt = data[0][0].publishedat;
         jsonObj.archivedAt = data[0][0].archivedat;
+        jsonObj.suitsAllEarlyChildhoodSubjects = data[0][0].suitsallearlychildhoodsubjects;
+        jsonObj.suitsAllPrePrimarySubjects = data[0][0].suitsallpreprimarysubjects;
+        jsonObj.suitsAllBasicStudySubjects = data[0][0].suitsallbasicstudysubjects;
+        jsonObj.suitsAllUpperSecondarySubjects = data[0][0].suitsalluppersecondarysubjects;
+        jsonObj.suitsAllVocationalDegrees = data[0][0].suitsallvocationaldegrees;
+        jsonObj.suitsAllSelfMotivatedSubjects = data[0][0].suitsallselfmotivatedsubjects;
+        jsonObj.suitsAllBranches = data[0][0].suitsallbranches;
         jsonObj.author = data[11];
         jsonObj.publisher = data[10];
         jsonObj.description = data[2];
@@ -280,9 +287,9 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         // material
         console.log("inserting educationalmaterial");
         const dnow = Date.now() / 1000.0;
-        query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode) = ($1,to_timestamp($2),$3,$4,$5,$7) where id=$6;";
+        query = "UPDATE educationalmaterial SET (expires,UpdatedAt,timeRequired,agerangeMin,agerangeMax,licensecode,suitsAllEarlyChildhoodSubjects,suitsAllPrePrimarySubjects,suitsAllBasicStudySubjects,suitsAllUpperSecondarySubjects,suitsAllVocationalDegrees,suitsAllSelfMotivatedSubjects,suitsAllBranches) = ($1,to_timestamp($2),$3,$4,$5,$7,$8,$9,$10,$11,$12,$13,$14) where id=$6;";
         console.log(query, [req.body.expires, dnow, req.body.timeRequired, req.body.typicalAgeRange.typicalAgeRangeMin, req.body.typicalAgeRange.typicalAgeRangeMax, req.params.id, req.body.license]);
-        queries.push(await t.any(query, [((req.body.expires == undefined) ? "9999-01-01T00:00:00+00:00" : req.body.expires), dnow, ((req.body.timeRequired == undefined) ? "" : req.body.timeRequired), ((req.body.typicalAgeRange.typicalAgeRangeMin == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMin), ((req.body.typicalAgeRange.typicalAgeRangeMax == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMax), req.params.id, req.body.license]));
+        queries.push(await t.any(query, [((req.body.expires == undefined) ? "9999-01-01T00:00:00+00:00" : req.body.expires), dnow, ((req.body.timeRequired == undefined) ? "" : req.body.timeRequired), ((req.body.typicalAgeRange.typicalAgeRangeMin == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMin), ((req.body.typicalAgeRange.typicalAgeRangeMax == undefined) ? -1 : req.body.typicalAgeRange.typicalAgeRangeMax), req.params.id, req.body.license, req.body.suitsAllEarlyChildhoodSubjects, req.body.suitsAllPrePrimarySubjects, req.body.suitsAllBasicStudySubjects, req.body.suitsAllUpperSecondarySubjects, req.body.suitsAllVocationalDegrees, req.body.suitsAllSelfMotivatedSubjects, req.body.suitsAllBranches]));
 // description
         console.log("inserting description");
         const description = req.body.description;
