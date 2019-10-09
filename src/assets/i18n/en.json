@@ -171,6 +171,9 @@
         }
       },
       "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Soveltuu kaikille oppiaineille, tutkinnon osille tai tieteenaloille"
+        },
         "educationalLevels": {
           "label": "Educational Level",
           "tooltip": "Choose the Educational Level of your resource. You can choose multiple levels if your resource is targeted at more than one Educational Levels, i.e. vocational education and upper secondary education."

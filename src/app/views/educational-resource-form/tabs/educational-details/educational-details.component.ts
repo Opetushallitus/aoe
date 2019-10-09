@@ -66,24 +66,31 @@ export class EducationalDetailsComponent implements OnInit {
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null, [ Validators.required ]),
       earlyChildhoodEducationSubjects: this.fb.control(null),
+      suitsAllEarlyChildhoodSubjects: this.fb.control(false),
       earlyChildhoodEducationObjectives: this.fb.control(null),
       earlyChildhoodEducationFramework: this.fb.control(null),
       prePrimaryEducationSubjects: this.fb.control(null),
+      suitsAllPrePrimarySubjects: this.fb.control(false),
       prePrimaryEducationObjectives: this.fb.control(null),
       prePrimaryEducationFramework: this.fb.control(null),
       basicStudySubjects: this.fb.control(null),
+      suitsAllBasicStudySubjects: this.fb.control(false),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
       basicStudyFramework: this.fb.control(null),
       upperSecondarySchoolSubjects: this.fb.control(null),
+      suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
+      suitsAllVocationalDegrees: this.fb.control(false),
       vocationalEducationObjectives: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
+      suitsAllSelfMotivatedSubjects: this.fb.control(false),
       selfMotivatedEducationObjectives: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
+      suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
       higherEducationFramework: this.fb.control(null),
     });
@@ -256,6 +263,34 @@ export class EducationalDetailsComponent implements OnInit {
       if (this.savedData.higherEducationFramework) {
         this.higherEducationFramework.setValue(this.savedData.higherEducationFramework);
       }
+
+      if (this.savedData.suitsAllEarlyChildhoodSubjects) {
+        this.suitsAllEarlyChildhoodSubjects.setValue(this.savedData.suitsAllEarlyChildhoodSubjects);
+      }
+
+      if (this.savedData.suitsAllPrePrimarySubjects) {
+        this.suitsAllPrePrimarySubjects.setValue(this.savedData.suitsAllPrePrimarySubjects);
+      }
+
+      if (this.savedData.suitsAllBasicStudySubjects) {
+        this.suitsAllBasicStudySubjects.setValue(this.savedData.suitsAllBasicStudySubjects);
+      }
+
+      if (this.savedData.suitsAllUpperSecondarySubjects) {
+        this.suitsAllUpperSecondarySubjects.setValue(this.savedData.suitsAllUpperSecondarySubjects);
+      }
+
+      if (this.savedData.suitsAllVocationalDegrees) {
+        this.suitsAllVocationalDegrees.setValue(this.savedData.suitsAllVocationalDegrees);
+      }
+
+      if (this.savedData.suitsAllSelfMotivatedSubjects) {
+        this.suitsAllSelfMotivatedSubjects.setValue(this.savedData.suitsAllSelfMotivatedSubjects);
+      }
+
+      if (this.savedData.suitsAllBranches) {
+        this.suitsAllBranches.setValue(this.savedData.suitsAllBranches);
+      }
     }
   }
 
@@ -265,6 +300,10 @@ export class EducationalDetailsComponent implements OnInit {
 
   get earlyChildhoodEducationSubjects(): FormControl {
     return this.educationalDetailsForm.get('earlyChildhoodEducationSubjects') as FormControl;
+  }
+
+  get suitsAllEarlyChildhoodSubjects(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllEarlyChildhoodSubjects') as FormControl;
   }
 
   get earlyChildhoodEducationObjectives(): FormControl {
@@ -279,6 +318,10 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('prePrimaryEducationSubjects') as FormControl;
   }
 
+  get suitsAllPrePrimarySubjects(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllPrePrimarySubjects') as FormControl;
+  }
+
   get prePrimaryEducationObjectives(): FormControl {
     return this.educationalDetailsForm.get('prePrimaryEducationObjectives') as FormControl;
   }
@@ -289,6 +332,10 @@ export class EducationalDetailsComponent implements OnInit {
 
   get basicStudySubjects(): FormControl {
     return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
+  }
+
+  get suitsAllBasicStudySubjects(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllBasicStudySubjects') as FormControl;
   }
 
   get basicStudyObjectives(): FormControl {
@@ -307,6 +354,10 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get suitsAllUpperSecondarySubjects(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllUpperSecondarySubjects') as FormControl;
+  }
+
   get upperSecondarySchoolObjectives(): FormControl {
     return this.educationalDetailsForm.get('upperSecondarySchoolObjectives') as FormControl;
   }
@@ -317,6 +368,10 @@ export class EducationalDetailsComponent implements OnInit {
 
   get vocationalDegrees(): FormControl {
     return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
+  }
+
+  get suitsAllVocationalDegrees(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllVocationalDegrees') as FormControl;
   }
 
   get vocationalEducationObjectives(): FormControl {
@@ -331,12 +386,20 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
   }
 
+  get suitsAllSelfMotivatedSubjects(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllSelfMotivatedSubjects') as FormControl;
+  }
+
   get selfMotivatedEducationObjectives(): FormControl {
     return this.educationalDetailsForm.get('selfMotivatedEducationObjectives') as FormControl;
   }
 
   get branchesOfScience(): FormControl {
     return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
+  }
+
+  get suitsAllBranches(): FormControl {
+    return this.educationalDetailsForm.get('suitsAllBranches') as FormControl;
   }
 
   get scienceBranchObjectives(): FormControl {
@@ -619,11 +682,22 @@ export class EducationalDetailsComponent implements OnInit {
         this.alignmentObjects = this.alignmentObjects.concat(this.scienceBranchObjectives.value);
       }
 
+      const suitsAllSubjects = {
+        suitsAllEarlyChildhoodSubjects: this.suitsAllEarlyChildhoodSubjects.value,
+        suitsAllPrePrimarySubjects: this.suitsAllPrePrimarySubjects.value,
+        suitsAllBasicStudySubjects: this.suitsAllBasicStudySubjects.value,
+        suitsAllUpperSecondarySubjects: this.suitsAllUpperSecondarySubjects.value,
+        suitsAllVocationalDegrees: this.suitsAllVocationalDegrees.value,
+        suitsAllSelfMotivatedSubjects: this.suitsAllSelfMotivatedSubjects.value,
+        suitsAllBranches: this.suitsAllBranches.value,
+      };
+
       const data = Object.assign(
         {},
         this.savedData,
         { educationalLevels: this.educationalLevels.value },
-        { alignmentObjects: this.alignmentObjects }
+        { alignmentObjects: this.alignmentObjects },
+        suitsAllSubjects
         );
 
       // save data to local storage

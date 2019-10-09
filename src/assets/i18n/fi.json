@@ -178,6 +178,9 @@
         }
       },
       "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Soveltuu kaikille oppiaineille, tutkinnon osille tai tieteenaloille"
+        },
         "educationalLevels": {
           "label": "Koulutusasteet",
           "tooltip": "Valitse tästä mille koulutusasteelle ja tasolle oppimateriaalisi on pääasiallisesti tarkoitettu. Mikäli materiaali on kohdennettu usealle asteelle, esimerkiksi sekä ammatilliseen koulutukseen että lukio-opetukseen, voit valita useamman koulutusasteen ja tason."

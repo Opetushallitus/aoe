@@ -171,6 +171,9 @@
         }
       },
       "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Soveltuu kaikille oppiaineille, tutkinnon osille tai tieteenaloille"
+        },
         "educationalLevels": {
           "label": "Utbildningsstadium",
           "tooltip": "Välj här för vilket utbildningsstadium och för vilken nivå som ditt läromaterial i huvudsak är avsett för. Om materialet riktar sig till flera stadier, exempelvis både yrkes- och gymnasieundervisning, kan du välja flera utbildningsstadier och -nivåer."
