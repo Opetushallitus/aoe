@@ -14,24 +14,24 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
 export class PreviewComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  public savedData: any;
-  private fileUpload: any;
+  savedData: any;
+  fileUpload: any;
 
-  public earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
-  public earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
-  public prePrimaryEducationSubjects: AlignmentObjectExtended[];
-  public prePrimaryEducationObjectives: AlignmentObjectExtended[];
-  public basicStudySubjects: AlignmentObjectExtended[];
-  public upperSecondarySchoolSubjects: AlignmentObjectExtended[];
-  public upperSecondarySchoolObjectives: AlignmentObjectExtended[];
-  public vocationalDegrees: AlignmentObjectExtended[];
-  public vocationalEducationObjectives: AlignmentObjectExtended[];
-  public selfMotivatedEducationSubjects: AlignmentObjectExtended[];
-  public selfMotivatedEducationObjectives: AlignmentObjectExtended[];
-  public branchesOfScience: AlignmentObjectExtended[];
-  public scienceBranchObjectives: AlignmentObjectExtended[];
+  earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
+  earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
+  prePrimaryEducationSubjects: AlignmentObjectExtended[];
+  prePrimaryEducationObjectives: AlignmentObjectExtended[];
+  basicStudySubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectives: AlignmentObjectExtended[];
+  vocationalDegrees: AlignmentObjectExtended[];
+  vocationalEducationObjectives: AlignmentObjectExtended[];
+  selfMotivatedEducationSubjects: AlignmentObjectExtended[];
+  selfMotivatedEducationObjectives: AlignmentObjectExtended[];
+  branchesOfScience: AlignmentObjectExtended[];
+  scienceBranchObjectives: AlignmentObjectExtended[];
 
-  public previewForm: FormGroup;
+  previewForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -91,7 +91,7 @@ export class PreviewComponent implements OnInit {
     }
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.previewForm.valid) {
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up local storage
@@ -105,7 +105,7 @@ export class PreviewComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset form values
     this.previewForm.reset();
 
@@ -114,7 +114,7 @@ export class PreviewComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 6]);
   }
 }

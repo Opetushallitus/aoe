@@ -14,13 +14,13 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
 export class LicenseComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  public lang: string = this.translate.currentLang;
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  savedData: any;
 
-  public licenses$: any[];
+  licenses$: any[];
 
-  public licenseForm: FormGroup;
-  public submitted = false;
+  licenseForm: FormGroup;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +55,7 @@ export class LicenseComponent implements OnInit {
     return this.licenseForm.get('license') as FormControl;
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.submitted = true;
 
     if (this.licenseForm.valid) {
@@ -73,7 +73,7 @@ export class LicenseComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset submit status
     this.submitted = false;
 
@@ -85,7 +85,7 @@ export class LicenseComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 4]);
   }
 }

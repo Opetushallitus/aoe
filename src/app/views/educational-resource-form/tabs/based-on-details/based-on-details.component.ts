@@ -14,10 +14,10 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
 export class BasedOnDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  public lang: string = this.translate.currentLang;
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  savedData: any;
 
-  public basedOnDetailsForm: FormGroup;
+  basedOnDetailsForm: FormGroup;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -57,14 +57,14 @@ export class BasedOnDetailsComponent implements OnInit {
     return this.basedOnDetailsForm.get('externals') as FormArray;
   }
 
-  /*private createInternal(): FormGroup {
+  /*createInternal(): FormGroup {
     return this.fb.group({
       author: this.fb.control(null),
       materialId: this.fb.control(null),
     });
   }*/
 
-  private createExternal(): FormGroup {
+  createExternal(): FormGroup {
     return this.fb.group({
       author: this.fb.control(null),
       url: this.fb.control(null),
@@ -72,23 +72,23 @@ export class BasedOnDetailsComponent implements OnInit {
     });
   }
 
-  /*public addInternal(): void {
+  /*addInternal(): void {
     this.internals.push(this.createInternal());
   }*/
 
-  public addExternal(): void {
+  addExternal(): void {
     this.externals.push(this.createExternal());
   }
 
-  /*public removeInternal(i: number): void {
+  /*removeInternal(i: number): void {
     this.internals.removeAt(i);
   }*/
 
-  public removeExternal(i: number): void {
+  removeExternal(i: number): void {
     this.externals.removeAt(i);
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.basedOnDetailsForm.valid) {
       /*this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
         if (row.author === null || row.materialId === null) {
@@ -119,7 +119,7 @@ export class BasedOnDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset form values
     this.basedOnDetailsForm.reset();
 
@@ -128,7 +128,7 @@ export class BasedOnDetailsComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }

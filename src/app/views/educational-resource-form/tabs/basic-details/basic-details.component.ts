@@ -20,35 +20,35 @@ import { UploadMessage } from '../../../../models/upload-message';
 export class BasicDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  public lang: string = this.translate.currentLang;
-  public otherLangs: string[];
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  otherLangs: string[];
+  savedData: any;
 
-  public learningResourceTypes$: KeyValue<string, string>[];
-  public educationalRoles$: KeyValue<string, string>[];
-  public educationalUse$: KeyValue<string, string>[];
+  learningResourceTypes$: KeyValue<string, string>[];
+  educationalRoles$: KeyValue<string, string>[];
+  educationalUse$: KeyValue<string, string>[];
 
   // https://stackblitz.com/edit/ng-select-infinite
-  private keywords = [];
-  public keywordsBuffer = [];
-  private bufferSize = 50;
-  public loadingKeywords = false;
-  public keywordsInput$ = new Subject<string>();
+  keywords = [];
+  keywordsBuffer = [];
+  bufferSize = 50;
+  loadingKeywords = false;
+  keywordsInput$ = new Subject<string>();
 
-  private organizations = [];
-  public organizationsBuffer = [];
-  public loadingOrganizations = false;
-  public organizationsInput$ = new Subject<string>();
+  organizations = [];
+  organizationsBuffer = [];
+  loadingOrganizations = false;
+  organizationsInput$ = new Subject<string>();
 
-  public addCustomItem = addCustomItem;
+  addCustomItem = addCustomItem;
 
-  public modalRef: BsModalRef;
+  modalRef: BsModalRef;
 
-  public basicDetailsForm: FormGroup;
+  basicDetailsForm: FormGroup;
 
-  public uploadResponse: UploadMessage = { status: '', message: 0 };
-  public uploadError: string;
-  public selectedImage;
+  uploadResponse: UploadMessage = { status: '', message: 0 };
+  uploadError: string;
+  selectedImage;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -138,7 +138,7 @@ export class BasicDetailsComponent implements OnInit {
     }
   }
 
-  public updateLanguages(): void {
+  updateLanguages(): void {
     this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
   }
 
@@ -146,7 +146,7 @@ export class BasicDetailsComponent implements OnInit {
     return this.basicDetailsForm.controls;
   }
 
-  public fetchMoreKeywords(value: string) {
+  fetchMoreKeywords(value: string) {
     const len = this.keywordsBuffer.length;
     const more = this.keywords
       .filter(x => x.value.includes(value))
@@ -177,7 +177,7 @@ export class BasicDetailsComponent implements OnInit {
       );
   }
 
-  public fetchMoreOrganizations(value: string) {
+  fetchMoreOrganizations(value: string) {
     const len = this.organizationsBuffer.length;
     const more = this.organizations
       .filter(x => x.value.includes(value))
@@ -208,7 +208,7 @@ export class BasicDetailsComponent implements OnInit {
       );
   }
 
-  public openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
@@ -219,22 +219,22 @@ export class BasicDetailsComponent implements OnInit {
     return this.basicDetailsForm.get('authors') as FormArray;
   }
 
-  public createAuthor(author?): FormGroup {
+  createAuthor(author?): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [ Validators.required ]),
       organization: this.fb.control(author ? author.organization : null),
     });
   }
 
-  public addAuthor(): void {
+  addAuthor(): void {
     this.authors.push(this.createAuthor());
   }
 
-  public removeAuthor(i: number): void {
+  removeAuthor(i: number): void {
     this.authors.removeAt(i);
   }
 
-  public processImage(value) {
+  processImage(value) {
     if (value.target.files.length > 0) {
       const image = value.target.files[0];
       const reader = new FileReader();
@@ -251,7 +251,7 @@ export class BasicDetailsComponent implements OnInit {
     }
   }
 
-  public uploadImage() {
+  uploadImage() {
     if (this.selectedImage.file) {
       const formData = new FormData();
       formData.append('image', this.selectedImage.file);
@@ -263,7 +263,7 @@ export class BasicDetailsComponent implements OnInit {
     }
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.basicDetailsForm.valid) {
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.basicDetailsForm.value);
 
@@ -277,7 +277,7 @@ export class BasicDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset form values
     this.basicDetailsForm.reset();
 
@@ -286,7 +286,7 @@ export class BasicDetailsComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }

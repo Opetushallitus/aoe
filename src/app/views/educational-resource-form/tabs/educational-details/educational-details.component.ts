@@ -16,19 +16,19 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
 export class EducationalDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  private lang: string = this.translate.currentLang;
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  savedData: any;
 
-  public educationalDetailsForm: FormGroup;
-  public submitted = false;
-  public hasEarlyChildhoodEducation = false;
-  public hasPrePrimaryEducation = false;
-  public hasBasicStudies = false;
-  public hasBasicStudySubjects = false;
-  public hasUpperSecondarySchool = false;
-  public hasVocationalDegree = false;
-  public hasSelfMotivatedEducation = false;
-  public hasHigherEducation = false;
+  educationalDetailsForm: FormGroup;
+  submitted = false;
+  hasEarlyChildhoodEducation = false;
+  hasPrePrimaryEducation = false;
+  hasBasicStudies = false;
+  hasBasicStudySubjects = false;
+  hasUpperSecondarySchool = false;
+  hasVocationalDegree = false;
+  hasSelfMotivatedEducation = false;
+  hasHigherEducation = false;
   private earlyChildhoodEducationKeys: string[];
   private prePrimaryEducationKeys: string[];
   private basicStudyKeys: string[];
@@ -37,15 +37,15 @@ export class EducationalDetailsComponent implements OnInit {
   private selfMotivatedEducationKeys: string[];
   private higherEducationKeys: string[];
 
-  public educationalLevels$: any[];
-  public basicStudySubjects$: any[];
-  public basicStudyObjectives$: any[] = [];
-  // public basicStudyObjectivesItems: any[];
-  public basicStudyContents$: any[] = [];
-  // public basicStudyContentsItems: any[];
-  public upperSecondarySchoolSubjects$: KeyValue<string, string>[];
-  public vocationalDegrees$: KeyValue<number, string>[];
-  public branchesOfScience$: any[];
+  educationalLevels$: any[];
+  basicStudySubjects$: any[];
+  basicStudyObjectives$: any[] = [];
+  // basicStudyObjectivesItems: any[];
+  basicStudyContents$: any[] = [];
+  // basicStudyContentsItems: any[];
+  upperSecondarySchoolSubjects$: KeyValue<string, string>[];
+  vocationalDegrees$: KeyValue<number, string>[];
+  branchesOfScience$: any[];
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -410,7 +410,7 @@ export class EducationalDetailsComponent implements OnInit {
     return this.educationalDetailsForm.get('higherEducationFramework') as FormControl;
   }
 
-  public educationalLevelsChange(value): void {
+  educationalLevelsChange(value): void {
     this.hasEarlyChildhoodEducation = value.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = value.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
@@ -430,7 +430,7 @@ export class EducationalDetailsComponent implements OnInit {
     this.hasHigherEducation = value.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
   }
 
-  public basicStudySubjectsChange(value): void {
+  basicStudySubjectsChange(value): void {
     this.hasBasicStudySubjects = value.length > 0;
 
     /*if (this.hasBasicStudySubjects) {
@@ -449,7 +449,7 @@ export class EducationalDetailsComponent implements OnInit {
     }*/
   }
 
-  public addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
+  addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'earlyChildhoodEducationSubjects',
@@ -458,7 +458,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addEarlyChildhoodEducationObjective(value): AlignmentObjectExtended {
+  addEarlyChildhoodEducationObjective(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'earlyChildhoodEducationObjectives',
@@ -467,7 +467,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addPrePrimaryEducationSubject(value): AlignmentObjectExtended {
+  addPrePrimaryEducationSubject(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'prePrimaryEducationSubjects',
@@ -476,7 +476,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addPrePrimaryEducationObjective(value): AlignmentObjectExtended {
+  addPrePrimaryEducationObjective(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'prePrimaryEducationObjectives',
@@ -485,7 +485,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addUpperSecondarySchoolObjective(value): AlignmentObjectExtended {
+  addUpperSecondarySchoolObjective(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'upperSecondarySchoolObjectives',
@@ -494,7 +494,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addVocationalEducationObjective(value): AlignmentObjectExtended {
+  addVocationalEducationObjective(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'vocationalEducationObjectives',
@@ -503,7 +503,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addSelfMotivatedEducationSubject(value): AlignmentObjectExtended {
+  addSelfMotivatedEducationSubject(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'selfMotivatedEducationSubjects',
@@ -512,7 +512,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addSelfMotivatedEducationObjective(value): AlignmentObjectExtended {
+  addSelfMotivatedEducationObjective(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'selfMotivatedEducationObjectives',
@@ -521,7 +521,7 @@ export class EducationalDetailsComponent implements OnInit {
     };
   }
 
-  public addScienceBranchObjectives(value): AlignmentObjectExtended {
+  addScienceBranchObjectives(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'scienceBranchObjectives',
@@ -570,7 +570,7 @@ export class EducationalDetailsComponent implements OnInit {
     }
   }*/
 
-  public onSubmit() {
+  onSubmit() {
     this.submitted = true;
 
     if (this.educationalDetailsForm.valid) {
@@ -708,7 +708,7 @@ export class EducationalDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset submit status
     this.submitted = false;
 
@@ -720,7 +720,7 @@ export class EducationalDetailsComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }

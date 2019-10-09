@@ -20,19 +20,19 @@ import { UploadMessage } from '../../../../models/upload-message';
 export class FilesComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  public lang: string = this.translate.currentLang;
-  public otherLangs: string[];
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  otherLangs: string[];
+  savedData: any;
 
-  public fileUploadForm: FormGroup;
-  public submitted = false;
-  public modalRef: BsModalRef;
-  public uploadResponse: UploadMessage = { status: '', message: 0 };
-  public uploadError: string;
+  fileUploadForm: FormGroup;
+  submitted = false;
+  modalRef: BsModalRef;
+  uploadResponse: UploadMessage = { status: '', message: 0 };
+  uploadError: string;
   private myFiles = [];
 
-  public languages$: KeyValue<string, string>[];
-  public defaultLanguage$: KeyValue<string, string>;
+  languages$: KeyValue<string, string>[];
+  defaultLanguage$: KeyValue<string, string>;
 
   constructor(
     private fb: FormBuilder,
@@ -103,7 +103,7 @@ export class FilesComponent implements OnInit {
     // this.onChanges();
   }
 
-  public updateLanguages(): void {
+  updateLanguages(): void {
     this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
   }
 
@@ -115,7 +115,7 @@ export class FilesComponent implements OnInit {
     return this.fileUploadForm.get('files') as FormArray;
   }
 
-  public createFile(): FormGroup {
+  createFile(): FormGroup {
     return this.fb.group({
       file: [''],
       link: this.fb.control(null),
@@ -128,18 +128,18 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  public addFile() {
+  addFile() {
     this.files.push(this.createFile());
   }
 
-  public openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
   }
 
-  private onChanges(): void {
+  onChanges(): void {
     this.fileUploadForm.get('files').valueChanges.subscribe(() => {
       // @todo: create function of this so it can be called when data is loaded from local storage too
       this.files.controls.forEach((control) => {
@@ -159,11 +159,11 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  public updateSlug(value, lang) {
+  updateSlug(value, lang) {
     this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
   }
 
-  public onFileChange(event, i): void {
+  onFileChange(event, i): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -179,7 +179,7 @@ export class FilesComponent implements OnInit {
     }
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.submitted = true;
 
     // remove files that doesn't have either file nor link
@@ -244,7 +244,7 @@ export class FilesComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset submit status
     this.submitted = false;
 

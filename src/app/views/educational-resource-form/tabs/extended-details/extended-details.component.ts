@@ -16,17 +16,17 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
 export class ExtendedDetailsComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
-  private lang: string = this.translate.currentLang;
-  private savedData: any;
+  lang: string = this.translate.currentLang;
+  savedData: any;
 
-  public accessibilityFeatures$: KeyValue<string, string>[];
-  public accessibilityHazards$: KeyValue<string, string>[];
+  accessibilityFeatures$: KeyValue<string, string>[];
+  accessibilityHazards$: KeyValue<string, string>[];
 
-  public extendedDetailsForm: FormGroup;
+  extendedDetailsForm: FormGroup;
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
-  public addCustomItem = addCustomItem;
+  addCustomItem = addCustomItem;
 
   constructor(
     private fb: FormBuilder,
@@ -111,7 +111,7 @@ export class ExtendedDetailsComponent implements OnInit {
     return this.extendedDetailsForm.get('prerequisites') as FormControl;
   }
 
-  public addPrerequisites(value): AlignmentObjectExtended {
+  addPrerequisites(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
       source: 'prerequisites',
@@ -120,7 +120,7 @@ export class ExtendedDetailsComponent implements OnInit {
     };
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (this.extendedDetailsForm.valid) {
       if (this.prerequisites.value) {
         this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
@@ -143,7 +143,7 @@ export class ExtendedDetailsComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  public resetForm() {
+  resetForm() {
     // reset form values
     this.extendedDetailsForm.reset();
 
@@ -152,7 +152,7 @@ export class ExtendedDetailsComponent implements OnInit {
     localStorage.removeItem(this.fileUploadLSKey);
   }
 
-  public previousTab() {
+  previousTab() {
     this.router.navigate(['/lisaa-oppimateriaali', 3]);
   }
 }
