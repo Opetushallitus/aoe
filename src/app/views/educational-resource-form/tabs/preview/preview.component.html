@@ -416,7 +416,14 @@
 <form [formGroup]="previewForm" (ngSubmit)="onSubmit()">
   <div class="form-group custom-control custom-checkbox">
     <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm">
-    <label class="custom-control-label" for="confirm">Vakuutan että ole tehnyt oppimateriaalin itse ja että minulla on lupa käyttää lisenssin tai sopimuksen perusteella materiaalissani muiden tekemiä materiaaleja (esim. kuvat)</label>
+    <label class="custom-control-label" for="confirm">Vakuutan että</label>
+
+    <ul>
+      <li>kaikki tekijät ovat hyväksyneet materiaalin julkaisun avoimella lisenssillä,</li>
+      <li>muiden tekijöiden aineistot (esim. kuvat) voidaan julkaista avoimesti joko aineistojen oman avoimen lisenssin tai erikseen saadun luvan perusteella,</li>
+      <li>materiaalissa näkyvien henkilöiden kuvien tai muiden henkilötietojen osalta lupa julkaisuun on saatu ko. henkilöiltä ja</li>
+      <li>materiaali on parhaan tietomme mukaan alan hyvien tapojen mukainen</li>
+    </ul>
   </div>
 
   <div class="row">
