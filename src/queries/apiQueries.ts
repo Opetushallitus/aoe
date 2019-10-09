@@ -535,6 +535,11 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
+            else if (arr.length === 0) {
+                query = "DELETE FROM aligmentobject where educationalmaterialid = $1;";
+                response  = await t.any(query, [req.params.id]);
+                queries.push(response);
+            }
             else {
                 query = "SELECT * from aligmentobject where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
