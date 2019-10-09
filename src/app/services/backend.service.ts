@@ -27,7 +27,7 @@ export class BackendService {
    * @param {any} data
    * @returns {Observable<UploadMessage>} Upload progress
    */
-  public uploadFiles(data: any): Observable<UploadMessage> {
+  public uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
 
     if (localStorage.getItem(this.localStorageKey) !== null) {
@@ -38,7 +38,7 @@ export class BackendService {
       uploadUrl = `${this.backendUrl}/material/file`;
     }
 
-    return this.http.post<any>(uploadUrl, data, {
+    return this.http.post<FormData>(uploadUrl, data, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
@@ -132,24 +132,31 @@ export class BackendService {
     );
   }
 
-  public uploadImage(image: File, materialId: string): Observable<UploadMessage> {
-    return this.http.post<any>(`${this.backendUrl}/uploadImage/${materialId}`, image, {
-      reportProgress: true,
-      observe: 'events',
-    }).pipe(
-      map((event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress:
-            const progress = Math.round(100 * event.loaded / event.total);
-            return { status: 'progress', message: progress };
+  public uploadImage(data: FormData): Observable<UploadMessage> {
+    if (localStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = getLocalStorageData(this.localStorageKey);
 
-          case HttpEventType.Response:
-            return { status: 'completed', message: event.body };
+      return this.http.post<FormData>(`${this.backendUrl}/uploadImage/${fileUpload.id}`, data, {
+        headers: new HttpHeaders({
+          'Accept': 'application/json',
+        }),
+        reportProgress: true,
+        observe: 'events',
+      }).pipe(
+        map((event: HttpEvent<any>) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress:
+              const progress = Math.round(100 * event.loaded / event.total);
+              return { status: 'progress', message: progress };
 
-          default:
-            return { status: 'error', message: `Unhandled event: ${event.type}` };
-        }
-      })
-    );
+            case HttpEventType.Response:
+              return { status: 'completed', message: event.body };
+
+            default:
+              return { status: 'error', message: `Unhandled event: ${event.type}` };
+          }
+        })
+      );
+    }
   }
 }

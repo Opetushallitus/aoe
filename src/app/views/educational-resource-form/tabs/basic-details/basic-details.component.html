@@ -35,13 +35,20 @@
 
         <ng-container *ngIf="selectedImage?.src">
           <h3>Esikatselu</h3>
-          <img [src]="selectedImage?.src" alt="">
+          <img [src]="selectedImage?.src" alt="" class="img-fluid">
         </ng-container>
+
+        <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
+          <progressbar
+            max="100"
+            [value]="uploadResponse.message"
+          >{{ uploadResponse.message }}%</progressbar>
+        </div>
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
-        <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
+        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">{{ 'forms.common.close' | translate }}</button>
+        <button type="button" class="btn btn-blue" (click)="uploadImage()">{{ 'forms.common.saveChanges' | translate }}</button>
       </div>
     </ng-template>
 

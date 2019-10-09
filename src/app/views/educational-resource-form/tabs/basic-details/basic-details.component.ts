@@ -10,6 +10,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { BackendService } from '../../../../services/backend.service';
+import { UploadMessage } from '../../../../models/upload-message';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -44,6 +46,8 @@ export class BasicDetailsComponent implements OnInit {
 
   public basicDetailsForm: FormGroup;
 
+  public uploadResponse: UploadMessage = { status: '', message: 0 };
+  public uploadError: string;
   public selectedImage;
 
   constructor(
@@ -52,6 +56,7 @@ export class BasicDetailsComponent implements OnInit {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private router: Router,
+    private backendSvc: BackendService,
   ) { }
 
   ngOnInit(): void {
@@ -243,6 +248,18 @@ export class BasicDetailsComponent implements OnInit {
       if (image) {
         reader.readAsDataURL(image);
       }
+    }
+  }
+
+  public uploadImage() {
+    if (this.selectedImage.file) {
+      const formData = new FormData();
+      formData.append('image', this.selectedImage.file);
+
+      this.backendSvc.uploadImage(formData).subscribe(
+        (res) => this.uploadResponse = res,
+        (err) => this.uploadError = err,
+      );
     }
   }
 
