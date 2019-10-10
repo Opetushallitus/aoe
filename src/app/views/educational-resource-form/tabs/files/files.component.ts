@@ -126,11 +126,11 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  addFile() {
+  addFile(): void {
     this.files.push(this.createFile());
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
@@ -156,7 +156,7 @@ export class FilesComponent implements OnInit {
     });
   }
 
-  updateSlug(value, lang) {
+  updateSlug(value, lang): void {
     this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
   }
 
@@ -176,7 +176,7 @@ export class FilesComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     // remove files that doesn't have either file nor link
@@ -240,8 +240,7 @@ export class FilesComponent implements OnInit {
     }
   }
 
-  // @todo: some kind of confirmation
-  resetForm() {
+  resetForm(): void {
     // reset submit status
     this.submitted = false;
 
