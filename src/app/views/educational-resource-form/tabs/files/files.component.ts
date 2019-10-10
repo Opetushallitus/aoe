@@ -102,11 +102,27 @@ export class FilesComponent implements OnInit {
   }
 
   updateLanguages(): void {
-    this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
+    // set other than current language to an array
+    this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
+
+    // set other languages validators null for name
+    this.otherLangs.forEach((lang: string) => {
+      this.names.get(lang).setValidators(null);
+      this.names.get(lang).updateValueAndValidity();
+    });
+
+    // set current language validator required for name
+    this.names.get(this.lang).setValidators([ Validators.required ]);
+    this.names.get(this.lang).updateValueAndValidity();
+
   }
 
   get name(): FormControl {
-    return this.fileUploadForm.get('name.fi') as FormControl;
+    return this.fileUploadForm.get(`name.${this.lang}`) as FormControl;
+  }
+
+  get names(): FormGroup {
+    return this.fileUploadForm.get('name') as FormGroup;
   }
 
   get files(): FormArray {
