@@ -177,9 +177,11 @@ async function fileToStorage(file: any, materialid: String) {
 
 async function checkTemporaryRecordQueue() {
     try {
+        // take hour of
+        const ts = Date.now() - 1000 * 60 * 60;
         console.log("checkTemporaryRecordQueue");
-        const query = "Select * From temporaryrecord limit 1000";
-        const data = await db.any(query);
+        const query = "Select * From temporaryrecord where extract(epoch from createdat)*1000 < $1 limit 1000;";
+        const data = await db.any(query, [ts]);
         for (const element of data) {
             const file = {
                 "originalname" : element.originalfilename,
