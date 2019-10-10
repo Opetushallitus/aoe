@@ -45,16 +45,6 @@ export class FilesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.updateLanguages();
-
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
-
-      this.updateLanguages();
-    });
-
-    this.savedData = getLocalStorageData(this.localStorageKey);
-
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
         fi: this.fb.control(null),
@@ -72,6 +62,12 @@ export class FilesComponent implements OnInit {
       ]),
     });
 
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+
+      this.updateLanguages();
+    });
+
     this.koodistoProxySvc.getData('kielet', this.lang).subscribe(data => {
       this.languages$ = data;
     });
@@ -83,6 +79,8 @@ export class FilesComponent implements OnInit {
         control.get('language').setValue(this.defaultLanguage$);
       });
     });
+
+    this.savedData = getLocalStorageData(this.localStorageKey);
 
     if (this.savedData) {
       if (this.savedData.files) {
@@ -141,7 +139,6 @@ export class FilesComponent implements OnInit {
 
   onChanges(): void {
     this.fileUploadForm.get('files').valueChanges.subscribe(() => {
-      // @todo: create function of this so it can be called when data is loaded from local storage too
       this.files.controls.forEach((control) => {
         const fileCtrl = control.get('file');
         const linkCtrl = control.get('link');
