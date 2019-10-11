@@ -258,10 +258,11 @@ export class EducationalDetailsComponent implements OnInit {
         const scienceBranchObjectives = this.savedData.alignmentObjects
           .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
         this.scienceBranchObjectives.setValue(scienceBranchObjectives);
-      }
 
-      if (this.savedData.higherEducationFramework) {
-        this.higherEducationFramework.setValue(this.savedData.higherEducationFramework);
+        if (branchesOfScience.length > 0 && 'educationalFramework' in branchesOfScience[0]) {
+          // tslint:disable-next-line:max-line-length
+          this.higherEducationFramework.setValue(branchesOfScience[0].educationalFramework);
+        }
       }
 
       if (this.savedData.suitsAllEarlyChildhoodSubjects) {
@@ -659,7 +660,15 @@ export class EducationalDetailsComponent implements OnInit {
       }
 
       if (this.vocationalDegrees.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.vocationalDegrees.value);
+        this.vocationalDegrees.value.forEach((degree: AlignmentObjectExtended) => {
+          const vocationalEducationFramework = this.vocationalEducationFramework.value;
+
+          if (vocationalEducationFramework) {
+            degree.educationalFramework = vocationalEducationFramework;
+          }
+
+          this.alignmentObjects.push(degree);
+        });
       }
 
       if (this.vocationalEducationObjectives.value) {
@@ -675,7 +684,15 @@ export class EducationalDetailsComponent implements OnInit {
       }
 
       if (this.branchesOfScience.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.branchesOfScience.value);
+        this.branchesOfScience.value.forEach((branch: AlignmentObjectExtended) => {
+          const higherEducationFramework = this.higherEducationFramework.value;
+
+          if (higherEducationFramework) {
+            branch.educationalFramework = higherEducationFramework;
+          }
+
+          this.alignmentObjects.push(branch);
+        });
       }
 
       if (this.scienceBranchObjectives.value) {
