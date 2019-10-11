@@ -58,9 +58,9 @@
 
 <div class="logos">
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
       <div class="col-auto">
-        <img src="assets/img/logos/okm-fi.jpg" alt="Opetus- ja kulttuuriministeriö" class="img-fluid">
+        <img [src]="logos.okm[translate.currentLang].src" [alt]="logos.okm[translate.currentLang].alt" class="img-fluid">
       </div>
 
       <div class="col-auto text-center">
@@ -69,7 +69,7 @@
       </div>
 
       <div class="col-auto">
-        <img src="assets/img/logos/oph.jpg" alt="Opetushallitus" class="img-fluid">
+        <img [src]="logos.oph[translate.currentLang].src" [alt]="logos.oph[translate.currentLang].alt" class="img-fluid">
       </div>
     </div>
   </div>
