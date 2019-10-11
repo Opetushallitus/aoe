@@ -185,6 +185,15 @@ $ng-select-selected: #ebebeb;
       border-width: 5px 5px 2.5px;
     }
   }
+
+  // Validation
+  &.ng-invalid {
+    &.ng-touched {
+      .ng-select-container {
+        border-color: $red;
+      }
+    }
+  }
 }
 
 .ng-dropdown-panel {
