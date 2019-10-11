@@ -192,15 +192,38 @@ export class FilesComponent implements OnInit {
     }
   }
 
+  validateFiles(): void {
+    let fileCount = 0;
+
+    this.files.controls.forEach(ctrl => {
+      if (ctrl.get('file').value !== '' || ctrl.get('link').value !== null) {
+        fileCount++;
+
+        ctrl.get('language').setValidators([ Validators.required ]);
+        ctrl.get('language').updateValueAndValidity();
+
+        ctrl.get(`displayName.${this.lang}`).setValidators([ Validators.required ]);
+        ctrl.get(`displayName.${this.lang}`).updateValueAndValidity();
+      }
+    });
+
+    if (fileCount > 0) {
+      this.files.controls.forEach((control, i) => {
+        if (control.get('file').value === '' && control.get('link').value === null) {
+          this.files.removeAt(i);
+        }
+      });
+    }
+
+    // @todo: mark form invalid if fileCount === 0
+    // @todo: add error message if no files/links were given
+    // @todo: show error message in template
+  }
+
   onSubmit(): void {
     this.submitted = true;
 
-    // remove files that doesn't have either file nor link
-    this.files.controls.forEach((control, i) => {
-      if (control.get('file').value === '' && control.get('link').value === null) {
-        this.files.removeAt(i);
-      }
-    });
+    this.validateFiles();
 
     if (this.fileUploadForm.valid) {
       const data = Object.assign(

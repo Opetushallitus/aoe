@@ -138,6 +138,12 @@
               id="{{ 'language' + i }}"
               formControlName="language"
             ></ng-select>
+
+            <ng-container *ngIf="submitted && files.at(i).get('language').errors">
+              <div *ngIf="files.at(i).get('language').errors.required">
+                <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+              </div>
+            </ng-container>
           </div>
         </div>
 
@@ -156,7 +162,12 @@
               class="form-control"
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
+              [ngClass]="{ 'is-invalid': submitted && files.at(i).get('displayName.' + lang).errors }"
             >
+
+            <div *ngIf="submitted && files.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+              <div *ngIf="files.at(i).get('displayName.' + lang).errors.required">{{ 'forms.common.required' | translate }}</div>
+            </div>
           </div>
 
           <div class="col-auto">
