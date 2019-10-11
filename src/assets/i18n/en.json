@@ -15,7 +15,9 @@
     },
     "login": {
       "selectLoginMethod": "Choose a login method"
-    }
+    },
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy"
   },
   "home": {
     "search": {
@@ -99,12 +101,13 @@
           "tooltip": "Name of the learning resource.",
           "modal": {
             "title": "Translations: Name",
-            "subtitle": "Kieliversioiden lisääminen"
+            "subtitle": "Add a translation"
           }
         },
         "file": {
           "title": ". file",
           "tooltip": "Download the files that comprise your learning resource. You can also link your learning resource if it is freely available with an open license and long life span. The first file will be the first to show on the preview.",
+          "or": "or",
           "inputs": {
             "file": {
               "label": "File",
@@ -127,11 +130,11 @@
               "tooltip": "The name for the file that you want other people to see. I.e. “Nature Ethics recording” or “Nature Ethics slideshow”. If your resource is comprised of multiple files, the preferred file is chosen by clicking on the name of the file. The name should be short and sweet.",
               "modal": {
                 "title": "Translations: File Name",
-                "subtitle": "Kieliversioiden lisääminen"
+                "subtitle": "Add a translation"
               }
             }
           },
-          "addFile": "Add file"
+          "addFile": "Add a file"
         }
       },
       "basicDetails": {
@@ -175,7 +178,7 @@
           "tooltip": "Write a concise description of the resource: what does it contain, what is it about, for what educational purpose is it meant for. ",
           "modal": {
             "title": "Translations: Description",
-            "subtitle": "Kieliversioiden lisääminen"
+            "subtitle": "Add a translation"
           }
         }
       },
@@ -370,6 +373,10 @@
             }
           }
         }
+      },
+      "preview": {
+        "title": "Preview",
+        "confirm": "Vakuutan että"
       }
     }
   },
@@ -380,7 +387,7 @@
     "organization": "For Organizations"
   },
   "acceptance": {
-    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
+    "title": "Privacy Policy and the Terms of Use of the service",
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "acceptance": "I have read and accept the Privacy Policy and the Terms of Use of the service"
@@ -388,5 +395,8 @@
   "userMaterials": {
     "title": "My open educational resources",
     "createNew": "Upload a new resource"
+  },
+  "footer": {
+    "developer": "Developer of the service"
   }
 }

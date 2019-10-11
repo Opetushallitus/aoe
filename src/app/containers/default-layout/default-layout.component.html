@@ -42,20 +42,13 @@
     <div class="row justify-content-center">
       <div class="col-auto text-center">
         <h2>aoe.fi</h2>
-        <!--<p>Yhteystiedot</p>-->
-
-        <!--<div class="footer-logos">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-        </div>-->
 
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/kayttoehdot']">Käyttöehdot</a>
+            <a class="nav-link" [routerLink]="['/kayttoehdot']">{{ 'navigation.termsOfUse' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/tietosuojaseloste']">Tietosuojaseloste</a>
+            <a class="nav-link" [routerLink]="['/tietosuojaseloste']">{{ 'navigation.privacyPolicy' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -72,7 +65,7 @@
 
       <div class="col-auto text-center">
         <img src="assets/img/logos/csc.png" alt="CSC" class="img-fluid">
-        <span>Palvelun tuottaja</span>
+        <span>{{ 'footer.developer' | translate }}</span>
       </div>
 
       <div class="col-auto">

@@ -15,7 +15,9 @@
     },
     "login": {
       "selectLoginMethod": "Valitse kirjautumistapa"
-    }
+    },
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Tietosuojaseloste"
   },
   "home": {
     "search": {
@@ -105,6 +107,7 @@
         "file": {
           "title": ". tiedosto",
           "tooltip": "Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki.",
+          "or": "tai",
           "inputs": {
             "file": {
               "label": "Tiedosto",
@@ -377,6 +380,10 @@
             }
           }
         }
+      },
+      "preview": {
+        "title": "Esikatselu",
+        "confirm": "Vakuutan että"
       }
     }
   },
@@ -395,5 +402,8 @@
   "userMaterials": {
     "title": "Omat oppimateriaalit",
     "createNew": "Luo uusi materiaali"
+  },
+  "footer": {
+    "developer": "Palvelun tuottaja"
   }
 }

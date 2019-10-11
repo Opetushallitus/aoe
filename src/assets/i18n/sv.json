@@ -15,7 +15,9 @@
     },
     "login": {
       "selectLoginMethod": "Välj inloggningsmetod"
-    }
+    },
+    "termsOfUse": "Användarvilko",
+    "privacyPolicy": "Dataskyddsbeskrivnig"
   },
   "home": {
     "search": {
@@ -99,12 +101,13 @@
           "tooltip": "Namn på läromaterialet.",
           "modal": {
             "title": "Språkversioner: Namn",
-            "subtitle": "Kieliversioiden lisääminen"
+            "subtitle": "Tillsätt en språversion"
           }
         },
         "file": {
           "title": ". Fil",
           "tooltip": "Ladda här upp de filer som ditt läromaterial består av. Du kan också länka till ditt läromaterial om det ligger på en plats där det är öppet och tillgängligt på lång sikt för vem som helst. Den första filen är den som öppnas först vid en förhandsvisning.",
+          "or": "eller",
           "inputs": {
             "file": {
               "label": "Fil",
@@ -127,11 +130,11 @@
               "tooltip": "Det namn som du vill att andra ska se för den här filen. Till exempel Bandupptagning av föreläsning om naturetik eller Diabilder om naturetik. Om ditt läromaterial består av flera filer väljs filen ut genom att användaren klickar på filnamnet. Välj gärna kärnfulla, tydliga namn.",
               "modal": {
                 "title": "Språkversioner: Filens namn",
-                "subtitle": "Kieliversioiden lisääminen"
+                "subtitle": "Tillsätt en språversion"
               }
             }
           },
-          "addFile": "Lisää tiedosto"
+          "addFile": "Tillsätt en annan fil"
         }
       },
       "basicDetails": {
@@ -175,7 +178,7 @@
           "tooltip": "Skriv en koncentrerad och fritt formulerad beskrivning av läromaterialet: vad innehåller det, vad berättar det om, till vilket ändamål är det skapat.",
           "modal": {
             "title": "Språkversioner: Beskrivning",
-            "subtitle": "Kieliversioiden lisääminen"
+            "subtitle": "Tillsätt en språversion"
           }
         }
       },
@@ -370,6 +373,10 @@
             }
           }
         }
+      },
+      "preview": {
+        "title": "Förhandsvisning",
+        "confirm": "Vakuutan että"
       }
     }
   },
@@ -380,13 +387,16 @@
     "organization": "För organisationer"
   },
   "acceptance": {
-    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
-    "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Tietosuojaseloste",
+    "title": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
+    "termsOfUse": "Användarvilko",
+    "privacyPolicy": "Dataskyddsbeskrivnig",
     "acceptance": "Jag har läst och jag accepterar tjänstens  dataskyddsbeskrivning och användarvillkor"
   },
   "userMaterials": {
     "title": "Mina lärresurser",
     "createNew": "Publicera en ny lärresurs"
+  },
+  "footer": {
+    "developer": "Developer of the service"
   }
 }

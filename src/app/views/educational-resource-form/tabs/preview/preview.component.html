@@ -1,4 +1,4 @@
-<h3>Materiaalin tiedot</h3>
+<h3>{{ 'forms.educationalResource.preview.title' | translate }}</h3>
 
 <dl class="row">
   <ng-container *ngIf="savedData.name">
@@ -416,7 +416,7 @@
 <form [formGroup]="previewForm" (ngSubmit)="onSubmit()">
   <div class="form-group custom-control custom-checkbox">
     <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm">
-    <label class="custom-control-label" for="confirm">Vakuutan että</label>
+    <label class="custom-control-label" for="confirm">{{ 'forms.educationalResource.preview.confirm' | translate }}</label>
 
     <ul>
       <li>kaikki tekijät ovat hyväksyneet materiaalin julkaisun avoimella lisenssillä,</li>
