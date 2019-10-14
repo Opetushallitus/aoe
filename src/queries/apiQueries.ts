@@ -134,6 +134,10 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
+        query = "select * from thumbnail where educationalmaterialid = $1 and obsoleted = 0 limit 1;";
+        response = await t.oneOrNone(query, [req.params.id]);
+        queries.push(response);
+
         return t.batch(queries);
     })
     .then((data: any) => {
@@ -145,7 +149,6 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.materials = data[15];
         jsonObj.owner = data[16];
         jsonObj.name = data[1];
-        jsonObj.thumbnail = data[0][0].thumbnail;
         jsonObj.createdAt = data[0][0].createdat;
         jsonObj.updatedAt = data[0][0].updatedat;
         jsonObj.publishedAt = data[0][0].publishedat;
@@ -178,6 +181,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.isBasedOn = data[12];
         jsonObj.materialDisplayName = data[17];
         jsonObj.educationalRole = data[18];
+        jsonObj.thumbnail = data[19];
         res.status(200).json(jsonObj);
     })
     .catch((error: any) => {

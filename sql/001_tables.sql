@@ -286,7 +286,7 @@ CREATE TABLE MaterialName (
   PRIMARY KEY (Id));
 
 CREATE TABLE Thumbnail (
-  Id                     BIGSERIAL NOT NULL, 
+  id                     BIGSERIAL NOT NULL, 
   FilePath              text NOT NULL, 
   OriginalFileName      text NOT NULL, 
   FileSize              text NOT NULL, 
@@ -294,7 +294,12 @@ CREATE TABLE Thumbnail (
   Format                text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   FileName              text NOT NULL, 
-  PRIMARY KEY (Id));
+  Obsoleted             int4 DEFAULT 0 NOT NULL, 
+  fileKey               text NOT NULL, 
+  fileBucket            text NOT NULL, 
+  PRIMARY KEY (id));
+
+
 
 ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersUserName) REFERENCES Users (UserName) ON DELETE Restrict;
@@ -343,7 +348,7 @@ ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (PublisherKey,e
 ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
 ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
 ALTER TABLE materialdisplayname ADD CONSTRAINT constraint_materialdisplayname UNIQUE (language, materialid);
-ALTER TABLE thumbnail ADD CONSTRAINT constraint_thumbnail UNIQUE (educationalmaterialid);
+-- ALTER TABLE thumbnail ADD CONSTRAINT constraint_thumbnail UNIQUE (educationalmaterialid);
 ALTER TABLE accessibilityfeature ADD CONSTRAINT constraint_accessibilityfeature UNIQUE (accessibilityfeaturekey,educationalmaterialid);
 ALTER TABLE accessibilityhazard ADD CONSTRAINT constraint_accessibilityhazard UNIQUE (accessibilityhazardkey,educationalmaterialid);
 ALTER TABLE EducationalLevel ADD CONSTRAINT constraint_EducationalLevel UNIQUE (EducationalLevelKey,educationalmaterialid);
