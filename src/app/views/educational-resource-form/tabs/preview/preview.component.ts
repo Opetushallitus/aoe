@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { getLocalStorageData } from '../../../../shared/shared.module';
@@ -14,6 +15,7 @@ import { AlignmentObjectExtended } from '../../../../models/alignment-object-ext
 export class PreviewComponent implements OnInit {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
+  lang: string = this.translate.currentLang;
   savedData: any;
   fileUpload: any;
 
@@ -37,9 +39,14 @@ export class PreviewComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private backendSvc: BackendService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
     this.savedData = getLocalStorageData(this.localStorageKey);
     this.fileUpload = getLocalStorageData(this.fileUploadLSKey);
 

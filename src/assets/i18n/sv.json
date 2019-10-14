@@ -184,7 +184,7 @@
       },
       "educationalDetails": {
         "common": {
-          "suitsAllSubjects": "Soveltuu kaikille oppiaineille, tutkinnon osille tai tieteenaloille"
+          "suitsAllSubjects": "Lärresurs stöder alla ämne, examensdel eller vetenskapsgren"
         },
         "educationalLevels": {
           "label": "Utbildningsstadium",
@@ -194,15 +194,15 @@
           "title": "Småbarnsfostran",
           "inputs": {
             "subjects": {
-              "label": "Varhaiskasvatuksen oppiaineet",
+              "label": "Ämne för småbarnsfostran",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+              "label": "Mål för småbarnsfostran",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+              "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -211,15 +211,15 @@
           "title": "Förskoleundervisning",
           "inputs": {
             "subjects": {
-              "label": "Esiopetuksen oppiaineet",
+              "label": "Ämne för förskoleundervisning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Esiopetuksen oppiaineiden tavoitteet",
+              "label": "Mål för förskoleundervisning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+              "label": "Läroplans- eller examensgrunderna för förskoleundervisning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -228,11 +228,11 @@
           "title": "Grundläggande utbildning",
           "inputs": {
             "subjects": {
-              "label": "Perusopetuksen oppiaineet",
+              "label": "Ämne för grundläggande utbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Perusopetuksen oppiaineiden tavoitteet",
+              "label": "Mål för grundläggande utbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "contents": {
@@ -240,7 +240,7 @@
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Perusopetuksen opetussuunnitelma",
+              "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -249,15 +249,15 @@
           "title": "Gymnasieutbildning",
           "inputs": {
             "subjects": {
-              "label": "Lukionkurssit",
+              "label": "Ämne för gymnasieutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Lukionkurssien tavoitteet",
+              "label": "Mål för gymnasieutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+              "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -266,15 +266,15 @@
           "title": "Yrkesutbildning",
           "inputs": {
             "degrees": {
-              "label": "Ammatillisen koulutuksen tutkinnot",
+              "label": "Examensdel för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+              "label": "Mål för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -283,11 +283,11 @@
           "title": "Självständig utveckling av kompetens",
           "inputs": {
             "subjects": {
-              "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "label": "Ämne för självständig utveckling av kompetens",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+              "label": "Mål för självständig utveckling av kompetens",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             }
           }
@@ -296,15 +296,15 @@
           "title": "Högskoleutbildning",
           "inputs": {
             "branchesOfScience": {
-              "label": "Korkeakoulutuksen tieteenalat",
+              "label": "Verenskapsgren för högskoleutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+              "label": "Mål för högskoleutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "label": "Läroplans- eller examensgrunderna för högskoleutbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -376,7 +376,7 @@
       },
       "preview": {
         "title": "Förhandsvisning",
-        "confirm": "Vakuutan että"
+        "confirm": "Jag har"
       }
     }
   },
@@ -397,6 +397,6 @@
     "createNew": "Publicera en ny lärresurs"
   },
   "footer": {
-    "developer": "Developer of the service"
+    "developer": "Utvecklare av tjänsten"
   }
 }

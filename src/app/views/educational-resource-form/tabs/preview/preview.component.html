@@ -419,10 +419,28 @@
     <label class="custom-control-label" for="confirm">{{ 'forms.educationalResource.preview.confirm' | translate }}</label>
 
     <ul>
-      <li>kaikki tekijät ovat hyväksyneet materiaalin julkaisun avoimella lisenssillä,</li>
-      <li>muiden tekijöiden aineistot (esim. kuvat) voidaan julkaista avoimesti joko aineistojen oman avoimen lisenssin tai erikseen saadun luvan perusteella,</li>
-      <li>materiaalissa näkyvien henkilöiden kuvien tai muiden henkilötietojen osalta lupa julkaisuun on saatu ko. henkilöiltä ja</li>
-      <li>materiaali on parhaan tietomme mukaan alan hyvien tapojen mukainen</li>
+      <ng-container [ngSwitch]="lang">
+        <ng-container *ngSwitchDefault>
+          <li>kaikki tekijät ovat hyväksyneet materiaalin julkaisun avoimella lisenssillä,</li>
+          <li>muiden tekijöiden aineistot (esim. kuvat) voidaan julkaista avoimesti joko aineistojen oman avoimen lisenssin tai erikseen saadun luvan perusteella,</li>
+          <li>materiaalissa näkyvien henkilöiden kuvien tai muiden henkilötietojen osalta lupa julkaisuun on saatu ko. henkilöiltä ja</li>
+          <li>materiaali on parhaan tietomme mukaan alan hyvien tapojen mukainen</li>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'en'">
+          <li>all authors have agreed to publish the OER with an open licence</li>
+          <li>I have permission to use materials made by others that are included in my material (f.ex. pictures) through licence or other agreement</li>
+          <li>I have gained permission from the relevant parties to include any personal data included in the OER</li>
+          <li>the OER is according to our best knowledge made with best practices of our field</li>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'sv'">
+          <li>fått tillåtelse från alla upphovspersoner att publicera lärresurs med en Creative Commons licens</li>
+          <li>tillåtelse att använda alla materialen i min lärresurs (till exemple bilder)</li>
+          <li>fått tillåtelse från alla personer att publicera deras personuppgift (om jag har personuppgift i min lärresurs)</li>
+          <li>gjort lärresursen, enligt vår bästa kunskap, med den bästa praxis inom vårt område</li>
+        </ng-container>
+      </ng-container>
     </ul>
   </div>
 
