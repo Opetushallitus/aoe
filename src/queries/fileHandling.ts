@@ -66,7 +66,7 @@ async function uploadMaterial(req: Request, res: Response) {
                         if (typeof files !== "undefined") {
                             for (let i = 0; i < files.length; i++) {
                                 console.log(materialid[i].id);
-                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename);
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, process.env.BUCKET_NAME);
                                 await insertDataToRecordTable(files[i], materialid[i].id, obj.Key, obj.Bucket, obj.Location);
                                 await deleteDataFromTempRecordTable(files[i].filename, materialid[i].id);
                                 fs.unlink("./" + files[i].path, (err: any) => {
@@ -130,7 +130,7 @@ async function uploadFileToMaterial(req: Request, res: Response) {
                     try {
                         if (typeof files !== "undefined") {
                             for (let i = 0; i < files.length; i++) {
-                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename);
+                                const obj: any = await uploadFileToStorage(("./" + files[i].path), files[i].filename, process.env.BUCKET_NAME);
                                 await insertDataToRecordTable(files[i], materialid[i].id, obj.Key, obj.Bucket, obj.Location);
                                 await deleteDataFromTempRecordTable(files[i].filename, materialid[i].id);
                                 fs.unlink("./" + files[i].path, (err: any) => {
@@ -165,7 +165,7 @@ async function uploadFileToMaterial(req: Request, res: Response) {
 }
 
 async function fileToStorage(file: any, materialid: String) {
-    const obj: any = await uploadFileToStorage(("./" + file.path), file.filename);
+    const obj: any = await uploadFileToStorage(("./" + file.path), file.filename, process.env.BUCKET_NAME);
     await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
     await deleteDataFromTempRecordTable(file.filename, materialid);
     fs.unlink("./" + file.path, (err: any) => {
@@ -240,8 +240,8 @@ async function deleteDataFromTempRecordTable(filename: any, materialId: any) {
     return data;
 }
 
-async function uploadFileToStorage(filePath: String, filename: String) {
-    return new Promise(async resolve => {
+async function uploadFileToStorage(filePath: String, filename: String, bucketName: String) {
+    return new Promise(async (resolve, reject) => {
         try {
             const util = require("util");
             const config = {
@@ -252,11 +252,7 @@ async function uploadFileToStorage(filePath: String, filename: String) {
                 };
             AWS.config.update(config);
             const s3 = new AWS.S3();
-            const params2 = {
-                Bucket: process.env.BUCKET_NAME,
-                MaxKeys: 2
-            };
-            const bucketName = process.env.BUCKET_NAME;
+            // const bucketName = process.env.BUCKET_NAME;
             const key = filename;
             fs.readFile(filePath, async (err: any, data: any) => {
                 if (err) console.error(err);
@@ -270,6 +266,7 @@ async function uploadFileToStorage(filePath: String, filename: String) {
                 s3.upload(params, (err: any, data: any) => {
                     if (err) {
                         console.error(`Upload Error ${err}`);
+                        reject(new Error(err));
                     }
 
                     if (data) {
@@ -282,12 +279,14 @@ async function uploadFileToStorage(filePath: String, filename: String) {
             }
             catch (err) {
                 console.log(err);
+                reject(new Error(err));
             }
 
             });
         }
         catch (err) {
             console.log(err);
+            reject(new Error(err));
         }
     });
 }
