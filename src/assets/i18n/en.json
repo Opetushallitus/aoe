@@ -236,7 +236,7 @@
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "contents": {
-              "label": "Perusopetuksen oppiaineiden sisältöalueet",
+              "label": "Educational content of basic education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
