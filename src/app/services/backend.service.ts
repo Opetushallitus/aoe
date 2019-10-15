@@ -101,6 +101,7 @@ export class BackendService {
         return {
           name: res.name
             .find(n => n.language.toLowerCase() === this.lang).materialname,
+          thumbnail: res.thumbnail ? res.thumbnail.filepath : null,
           learningResourceTypes: res.learningResourceType
             .map(type => type.value),
           authors: res.author
