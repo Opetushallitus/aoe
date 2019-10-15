@@ -134,7 +134,8 @@
               }
             }
           },
-          "addFile": "Add a file"
+          "addFile": "Add a file",
+          "error": "Add at least one file or link"
         }
       },
       "basicDetails": {

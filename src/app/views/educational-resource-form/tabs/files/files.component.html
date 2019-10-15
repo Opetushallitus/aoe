@@ -225,6 +225,10 @@
     </div>
   </ng-container>
 
+  <div *ngIf="submitted && files.errors" class="alert alert-warning" role="alert">
+    <div *ngIf="files.errors.required">{{ 'forms.educationalResource.files.file.error' | translate }}</div>
+  </div>
+
   <div class="form-group">
     <button type="button" class="btn btn-gray" (click)="addFile()">{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
   </div>

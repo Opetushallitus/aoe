@@ -213,11 +213,9 @@ export class FilesComponent implements OnInit {
           this.files.removeAt(i);
         }
       });
+    } else {
+      this.files.setErrors({ 'required': true });
     }
-
-    // @todo: mark form invalid if fileCount === 0
-    // @todo: add error message if no files/links were given
-    // @todo: show error message in template
   }
 
   onSubmit(): void {

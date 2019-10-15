@@ -134,7 +134,8 @@
               }
             }
           },
-          "addFile": "Tillsätt en annan fil"
+          "addFile": "Tillsätt en annan fil",
+          "error": "Tillsätt minst en fil eller link"
         }
       },
       "basicDetails": {
