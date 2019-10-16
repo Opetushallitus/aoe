@@ -164,7 +164,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.publisher = data[10];
         jsonObj.description = data[2];
         jsonObj.keywords = data[7];
-        jsonObj.learningResourceType = data[4];
+        jsonObj.learningResourceTypes = data[4];
         jsonObj.timeRequired = data[0][0].timerequired;
         const typicalAgeRange: any = {};
         typicalAgeRange.typicalAgeRangeMin = data[0][0].agerangemin;
@@ -172,15 +172,15 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         jsonObj.expires = data[0][0].expires;
         jsonObj.typicalAgeRange = typicalAgeRange;
         jsonObj.educationalAlignment = data[14];
-        jsonObj.educationalLevel = data[8];
-        jsonObj.educationalUse = data[9];
+        jsonObj.educationalLevels = data[8];
+        jsonObj.educationalUses = data[9];
         jsonObj.inLanguage = data[13];
         jsonObj.accessibilityFeatures = data[5];
         jsonObj.accessibilityHazards = data[6];
         jsonObj.license = data[0][0].licensecode;
         jsonObj.isBasedOn = data[12];
         jsonObj.materialDisplayName = data[17];
-        jsonObj.educationalRole = data[18];
+        jsonObj.educationalRoles = data[18];
         jsonObj.thumbnail = data[19];
         res.status(200).json(jsonObj);
     })
@@ -355,7 +355,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         // educationalUse
         console.log("inserting educationalUse");
         const educationalUseParams = [];
-        const educationalUseArr = req.body.educationalUse;
+        const educationalUseArr = req.body.educationalUses;
         if (educationalUseArr == undefined) {
             query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
             response  = await t.any(query, [req.params.id]);
@@ -384,7 +384,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         // learningResourceType
         console.log("inserting learningResourceType");
         const learningResourceTypeParams = [];
-        const learningResourceTypeArr = req.body.learningResourceType;
+        const learningResourceTypeArr = req.body.learningResourceTypes;
         if (learningResourceTypeArr == undefined) {
             query = "DELETE FROM learningresourcetype where educationalmaterialid = $1;";
             response  = await t.any(query, [req.params.id]);
