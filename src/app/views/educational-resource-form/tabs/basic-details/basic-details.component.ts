@@ -1,8 +1,7 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { KeyValue } from '@angular/common';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
@@ -12,21 +11,27 @@ import { KoodistoProxyService } from '../../../../services/koodisto-proxy.servic
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 import { BackendService } from '../../../../services/backend.service';
 import { UploadMessage } from '../../../../models/upload-message';
+import { LearningResourceType } from '../../../../models/koodisto-proxy/learning-resource-type';
+import { EducationalRole } from '../../../../models/koodisto-proxy/educational-role';
+import { EducationalUse } from '../../../../models/koodisto-proxy/educational-use';
 
 @Component({
   selector: 'app-tabs-basic-details',
   templateUrl: './basic-details.component.html',
 })
-export class BasicDetailsComponent implements OnInit {
+export class BasicDetailsComponent implements OnInit, OnDestroy {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
   savedData: any;
 
-  learningResourceTypes$: KeyValue<string, string>[];
-  educationalRoles$: KeyValue<string, string>[];
-  educationalUse$: KeyValue<string, string>[];
+  learningResourceTypeSubscription: Subscription;
+  learningResourceTypes: LearningResourceType[];
+  educationalRoleSubscription: Subscription;
+  educationalRoles: EducationalRole[];
+  educationalUseSubscription: Subscription;
+  educationalUses: EducationalUse[];
 
   // https://stackblitz.com/edit/ng-select-infinite
   keywords = [];
@@ -65,8 +70,30 @@ export class BasicDetailsComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
+      this.koodistoProxySvc.updateLearningResourceTypes();
+      this.koodistoProxySvc.updateEducationalRoles();
+      this.koodistoProxySvc.updateEducationalUses();
+
       this.updateLanguages();
     });
+
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
+      .subscribe((learningResourceTypes: LearningResourceType[]) => {
+        this.learningResourceTypes = learningResourceTypes;
+      });
+    this.koodistoProxySvc.updateLearningResourceTypes();
+
+    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$
+      .subscribe((educationalRoles: EducationalRole[]) => {
+        this.educationalRoles = educationalRoles;
+      });
+    this.koodistoProxySvc.updateEducationalRoles();
+
+    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$
+      .subscribe((educationalUses: EducationalUse[]) => {
+        this.educationalUses = educationalUses;
+      });
+    this.koodistoProxySvc.updateEducationalUses();
 
     this.savedData = getLocalStorageData(this.localStorageKey);
 
@@ -84,18 +111,6 @@ export class BasicDetailsComponent implements OnInit {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-    });
-
-    this.koodistoProxySvc.getData('oppimateriaalityypit', this.lang).subscribe(data => {
-      this.learningResourceTypes$ = data;
-    });
-
-    this.koodistoProxySvc.getData('kohderyhmat', this.lang).subscribe(data => {
-      this.educationalRoles$ = data;
-    });
-
-    this.koodistoProxySvc.getData('kayttokohteet', this.lang).subscribe(data => {
-      this.educationalUse$ = data;
     });
 
     this.koodistoProxySvc.getData('asiasanat', this.lang).subscribe(keywords => {
@@ -136,6 +151,12 @@ export class BasicDetailsComponent implements OnInit {
         });
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.learningResourceTypeSubscription.unsubscribe();
+    this.educationalRoleSubscription.unsubscribe();
+    this.educationalUseSubscription.unsubscribe();
   }
 
   updateLanguages(): void {

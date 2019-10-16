@@ -9,7 +9,7 @@
     ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
     <ng-select
-      [items]="educationalLevels$"
+      [items]="educationalLevels"
       [multiple]="true"
       [closeOnSelect]="false"
       bindLabel="value"
@@ -27,8 +27,8 @@
       </ng-template>
     </ng-select>
 
-    <div *ngIf="submitted && educationalLevels.errors" class="alert alert-warning" role="alert">
-      <div *ngIf="educationalLevels.errors.required">{{ 'forms.common.required' | translate }}: {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}</div>
+    <div *ngIf="submitted && educationalLevelsCtrl.errors" class="alert alert-warning" role="alert">
+      <div *ngIf="educationalLevelsCtrl.errors.required">{{ 'forms.common.required' | translate }}: {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}</div>
     </div>
   </div>
 
@@ -195,7 +195,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="basicStudySubjects$"
+        [items]="basicStudySubjects"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
@@ -289,7 +289,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="upperSecondarySchoolSubjects$"
+        [items]="upperSecondarySchoolSubjects"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
@@ -364,7 +364,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="vocationalDegrees$"
+        [items]="vocationalDegrees"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
@@ -497,7 +497,7 @@
       ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
       <ng-select
-        [items]="branchesOfScience$"
+        [items]="scienceBranches"
         [multiple]="true"
         [closeOnSelect]="false"
         [selectableGroup]="true"

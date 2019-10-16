@@ -1,7 +1,7 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { KeyValue } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import slugify from 'slugify';
@@ -12,12 +12,13 @@ import { BackendService } from '../../../../services/backend.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
+import { Language } from '../../../../models/koodisto-proxy/language';
 
 @Component({
   selector: 'app-tabs-files',
   templateUrl: './files.component.html',
 })
-export class FilesComponent implements OnInit {
+export class FilesComponent implements OnInit, OnDestroy {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
@@ -31,8 +32,10 @@ export class FilesComponent implements OnInit {
   uploadError: string;
   private myFiles = [];
 
-  languages$: KeyValue<string, string>[];
-  defaultLanguage$: KeyValue<string, string>;
+  languageSubscription: Subscription;
+  languages: Language[];
+  defaultLanguageSubscription: Subscription;
+  defaultLanguage: Language;
 
   constructor(
     private fb: FormBuilder,
@@ -65,20 +68,25 @@ export class FilesComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
+      this.koodistoProxySvc.updateLanguages();
+      this.koodistoProxySvc.updateDefaultLanguage();
+
       this.updateLanguages();
     });
 
-    this.koodistoProxySvc.getData('kielet', this.lang).subscribe(data => {
-      this.languages$ = data;
+    this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
+      this.languages = languages;
     });
+    this.koodistoProxySvc.updateLanguages();
 
-    this.koodistoProxySvc.getData(`kielet/${this.lang.toUpperCase()}`, this.lang).subscribe(data => {
-      this.defaultLanguage$ = data;
+    this.defaultLanguageSubscription = this.koodistoProxySvc.defaultLanguage$.subscribe((defaultLanguage: Language) => {
+      this.defaultLanguage = defaultLanguage;
 
       this.files.controls.forEach(control => {
-        control.get('language').setValue(this.defaultLanguage$);
+        control.get('language').setValue(this.defaultLanguage);
       });
     });
+    this.koodistoProxySvc.updateDefaultLanguage();
 
     this.savedData = getLocalStorageData(this.localStorageKey);
 
@@ -99,6 +107,11 @@ export class FilesComponent implements OnInit {
     }
 
     // this.onChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
+    this.defaultLanguageSubscription.unsubscribe();
   }
 
   updateLanguages(): void {
