@@ -103,9 +103,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       authors: this.fb.array([
         this.createAuthor(),
       ]),
-      learningResourceType: this.fb.control(null, [ Validators.required ]),
+      learningResourceTypes: this.fb.control(null, [ Validators.required ]),
       educationalRoles: this.fb.control(null),
-      educationalUse: this.fb.control(null),
+      educationalUses: this.fb.control(null),
       description: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
@@ -262,8 +262,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
       reader.addEventListener('load', () => {
         this.selectedImage = { src: reader.result, file: image };
-
-        // @todo: upload image
       }, false);
 
       if (image) {
@@ -297,7 +295,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // @todo: some kind of confirmation
   resetForm() {
     // reset form values
     this.basicDetailsForm.reset();

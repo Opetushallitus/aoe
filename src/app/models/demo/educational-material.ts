@@ -30,13 +30,13 @@ export interface LegacyEducationalMaterial {
   publisher?: string;
   description: string;
   keywords: Keyword[];
-  learningResourceType: string[];
+  learningResourceTypes: string[];
   timeRequired: TimeRequired;
   educationalLevel: EducationalLevel[];
   typicalAgeRange: string;
   educationalAlignment?: AlignmentObject[];
   educationalRole: EducationalRole[];
-  educationalUse?: EducationalUse[];
+  educationalUses?: EducationalUse[];
   interactivityType: InteractivityType[];
   inLanguage: InLanguage;
   accessibilityFeatures?: AccessibilityFeature[];

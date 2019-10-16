@@ -134,12 +134,12 @@
 
       <div class="form-row">
         <div class="form-group col-sm-6 col-md-4">
-          <label for="learningResourceType">{{ 'forms.educationalResource.basicDetails.learningResourceType.label' | translate }}*</label>
+          <label for="learningResourceTypes">{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}*</label>
 
           <button
             type="button"
             class="btn btn-link"
-            [tooltip]="'forms.educationalResource.basicDetails.learningResourceType.tooltip' | translate"
+            [tooltip]="'forms.educationalResource.basicDetails.learningResourceTypes.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
           <ng-select
@@ -147,8 +147,8 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="value"
-            id="learningResourceType"
-            formControlName="learningResourceType"
+            id="learningResourceTypes"
+            formControlName="learningResourceTypes"
           ></ng-select>
         </div>
 
@@ -172,12 +172,12 @@
         </div>
 
         <div class="form-group col-sm-6 col-md-4">
-          <label for="educationalUse">{{ 'forms.educationalResource.basicDetails.educationalUse.label' | translate }}</label>
+          <label for="educationalUses">{{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}</label>
 
           <button
             type="button"
             class="btn btn-link"
-            [tooltip]="'forms.educationalResource.basicDetails.educationalUse.tooltip' | translate"
+            [tooltip]="'forms.educationalResource.basicDetails.educationalUses.tooltip' | translate"
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
           <ng-select
@@ -185,8 +185,8 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="value"
-            id="educationalUse"
-            formControlName="educationalUse"
+            id="educationalUses"
+            formControlName="educationalUses"
           ></ng-select>
         </div>
       </div>

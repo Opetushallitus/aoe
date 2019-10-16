@@ -42,8 +42,8 @@
       <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
     </div>
     <div class="type ml-auto">
-      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceType[0]) }}" alt="" class="learning-resource-type-icon">
-      {{ lrtSvc.getLearningResourceTypeValue(educationalMaterial.learningResourceType[0]) }}
+      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceTypes[0]) }}" alt="" class="learning-resource-type-icon">
+      {{ lrtSvc.getLearningResourceTypeValue(educationalMaterial.learningResourceTypes[0]) }}
     </div>
   </div>
 </div>

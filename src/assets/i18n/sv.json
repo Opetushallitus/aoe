@@ -158,7 +158,7 @@
           "label": "Nyckelord",
           "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi."
         },
-        "learningResourceType": {
+        "learningResourceTypes": {
           "label": "Typ av läromaterial",
           "tooltip": "Välj vilken typ av material som ingår i ditt läromaterial. Du kan välja flera olika typer ifall läromaterialet består av olika delar."
         },
@@ -166,7 +166,7 @@
           "label": "Målgrupp",
           "tooltip": "Välj ut vilka materialet är avsett för, vilken är den huvudsakliga målgruppen för materialet. Exempelvis om materialet är avsett för andra lärare att dra nytta av, är det avsett för elever eller studerande för självstudier eller exempelvis avsett för att hjälpa en vårdnadshavare med att ge stöd vid inlärningen."
         },
-        "educationalUse": {
+        "educationalUses": {
           "label": "Användningsområde",
           "tooltip": "Verkets användningsområde i utbildningskontext. T.ex. grupparbete, självstudier, material för vidarebearbetning."
         },

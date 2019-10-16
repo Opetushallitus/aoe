@@ -165,7 +165,7 @@
           "label": "Asiasanat",
           "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
         },
-        "learningResourceType": {
+        "learningResourceTypes": {
           "label": "Oppimateriaalin tyyppi",
           "tooltip": "Valitse tästä minkä tyyppinen aineisto oppimateriaalisi on. Voit valita useamman tyypin mikäli oppimateriaali koostuu erilaisista osista."
         },
@@ -173,7 +173,7 @@
           "label": "Pääasiallinen kohderyhmä",
           "tooltip": "Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
         },
-        "educationalUse": {
+        "educationalUses": {
           "label": "Pääasiallinen käyttötarkoitus",
           "tooltip": "Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
         },

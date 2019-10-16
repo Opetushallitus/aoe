@@ -44,7 +44,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'TVT' },
       { value: 'tieto- ja viestintätekniikka' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -75,7 +75,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -132,7 +132,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'ICT' },
       { value: 'information and communications technology' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -163,7 +163,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -220,7 +220,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'ICT' },
       { value: 'informations- och kommunikationsteknik' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -251,7 +251,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -311,7 +311,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'tieto- ja viestintätekniikka' },
       { value: 'teknologia' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -342,7 +342,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -400,7 +400,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'information and communications technology' },
       { value: 'technology' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -431,7 +431,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -489,7 +489,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'informations- och kommunikationsteknik' },
       { value: 'teknik' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -520,7 +520,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -593,7 +593,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'aktivointi' },
       { value: 'oppimisympäristö' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -624,7 +624,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -693,7 +693,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digital pedagogy' },
       { value: 'activation' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -724,7 +724,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -793,7 +793,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'lärning' },
       { value: 'undervisning' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'text',
     ],
@@ -824,7 +824,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -978,7 +978,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'monialainen oppiminen' },
       { value: 'käänteinen luokkahuoneopetus' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'audio',
       'exercise',
@@ -1011,7 +1011,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -1162,7 +1162,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'phenomenon-based learning' },
       { value: 'multidiscplinary learning' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'audio',
       'exercise',
@@ -1195,7 +1195,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -1347,7 +1347,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'pedagogiska metoder' },
       { value: 'casemetodik' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'video',
       'audio',
       'exercise',
@@ -1380,7 +1380,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -1456,7 +1456,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'oppimistehtävä' },
       { value: 'aktiviteetti' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -1487,7 +1487,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -1564,7 +1564,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digital pedagogy' },
       { value: 'learning assignment' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -1595,7 +1595,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -1672,7 +1672,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'nätundervisning' },
       { value: 'lärupgift' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
     ],
@@ -1703,7 +1703,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -1860,7 +1860,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'verkko-opiskelu' },
       { value: 'opetus' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
       'exercise',
@@ -1892,7 +1892,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -2047,7 +2047,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'online study' },
       { value: 'digital pedagogy' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
       'exercise',
@@ -2079,7 +2079,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -2235,7 +2235,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'nätstudier' },
       { value: 'eLearning' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'audio',
       'text',
       'exercise',
@@ -2267,7 +2267,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -2325,7 +2325,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digitaaliset taidot' },
       { value: 'digipedagogiikka' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -2355,7 +2355,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -2411,7 +2411,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'information and communications technology' },
       { value: 'digital pedagogy' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -2441,7 +2441,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -2498,7 +2498,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digipedagogik' },
       { value: 'informations- och kommunikationsteknik' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
     ],
     timeRequired: { value: '0 h' },
@@ -2528,7 +2528,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -2604,7 +2604,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digitaalinen oppimateriaali' },
       { value: 'media' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
       'exercise',
@@ -2636,7 +2636,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -2712,7 +2712,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'media' },
       { value: 'digital skills' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
       'exercise',
@@ -2744,7 +2744,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -2819,7 +2819,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digitalkompetens' },
       { value: 'digital lärömedel' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
       'exercise',
@@ -2851,7 +2851,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -2925,7 +2925,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digitaaliset taidot' },
       { value: 'digipedagogiikka' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
     ],
@@ -2956,7 +2956,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentori' },
       { value: 'hallinnoija' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'ammatillinen tuki' },
       { value: 'itseopiskelu' },
     ],
@@ -3029,7 +3029,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'digital pedagogy' },
       { value: 'digital skills' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
     ],
@@ -3060,7 +3060,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'mentor' },
       { value: 'administrator' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professional support' },
       { value: 'independet study' },
     ],
@@ -3134,7 +3134,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'informations- och kommunikationsteknik' },
       { value: 'digitalkompetens' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'audio',
     ],
@@ -3165,7 +3165,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'handledare' },
       { value: 'adminstratör' },
     ],
-    educationalUse: [
+    educationalUses: [
       { value: 'professionell stöd' },
       { value: 'oberoende studie' },
     ],
@@ -3217,7 +3217,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'itseopiskelu' },
       { value: 'perusopetus' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3302,7 +3302,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'independent study' },
       { value: 'basic education' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3387,7 +3387,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'studera' },
       { value: 'självstudier' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3464,7 +3464,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'opiskelu' },
       { value: 'itseopiskelu' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3549,7 +3549,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'independent study' },
       { value: 'basic education' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3634,7 +3634,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'studera' },
       { value: 'självstudier' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'course',
       'guide',
       'exercise',
@@ -3792,7 +3792,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'oppiminen' },
       { value: 'opetus' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'simulation',
@@ -3935,7 +3935,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'learning' },
       { value: 'teaching' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'simulation',
@@ -4086,7 +4086,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'läring' },
       { value: 'undervisning' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'simulation',
@@ -4163,7 +4163,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'konenäkö' },
       { value: 'luonnollisen kielen käsittely' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'glossary',
@@ -4236,7 +4236,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'robotics' },
       { value: 'computer vision' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'glossary',
@@ -4309,7 +4309,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'robotteknik' },
       { value: 'optisk läsning' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'text',
       'exercise',
       'glossary',
@@ -4589,7 +4589,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'Creative Commons' },
       { value: 'avoimet sisällöt' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'guide',
       'video',
       'exercise',
@@ -4874,7 +4874,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'Creative Commons' },
       { value: 'open content' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'guide',
       'video',
       'exercise',
@@ -5160,7 +5160,7 @@ export const EDUCATIONALMATERIALS: LegacyEducationalMaterial[] = [
       { value: 'Creative Commons' },
       { value: 'öppna innehåll' },
     ],
-    learningResourceType: [
+    learningResourceTypes: [
       'guide',
       'video',
       'exercise',

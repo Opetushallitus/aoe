@@ -158,7 +158,7 @@
           "label": "About",
           "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion."
         },
-        "learningResourceType": {
+        "learningResourceTypes": {
           "label": "Learning Resource Type",
           "tooltip": "Choose the Type of your Learning Resource. You can choose multiple types if your resource is comprised of different parts."
         },
@@ -166,7 +166,7 @@
           "label": "Educational Role",
           "tooltip": "What is the main target group of your resource, for whom is it intended to. I.e. is it intended to be used by other teachers, learners or i.e. parents to give support in learning."
         },
-        "educationalUse": {
+        "educationalUses": {
           "label": "Educational Use",
           "tooltip": "Educational use of the resource in the context of learning. I.e. group work, independent study, OER sketch."
         },
