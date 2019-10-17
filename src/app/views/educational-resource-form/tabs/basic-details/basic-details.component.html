@@ -34,7 +34,7 @@
         </div>
 
         <ng-container *ngIf="selectedImage?.src">
-          <h3>Esikatselu</h3>
+          <h3>{{ 'forms.educationalResource.basicDetails.image.modal.preview' | translate }}</h3>
           <img [src]="selectedImage?.src" alt="" class="img-fluid">
         </ng-container>
 

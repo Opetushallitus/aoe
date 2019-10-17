@@ -144,7 +144,8 @@
           "label": "Kansikuva",
           "tooltip": "",
           "modal": {
-            "title": "Lisää kansikuva"
+            "title": "Lisää kansikuva",
+            "preview": "Esikatselu"
           }
         },
         "author": {

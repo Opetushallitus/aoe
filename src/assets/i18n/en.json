@@ -140,6 +140,14 @@
       },
       "basicDetails": {
         "uploadImage": "Upload cover",
+        "image": {
+          "label": "Cover photo",
+          "tooltip": "",
+          "modal": {
+            "title": "Add cover photo",
+            "preview": "Preview"
+          }
+        },
         "author": {
           "inputs": {
             "author": {

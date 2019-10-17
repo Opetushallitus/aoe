@@ -140,6 +140,14 @@
       },
       "basicDetails": {
         "uploadImage": "Ladda upp omslaget",
+        "image": {
+          "label": "Omslaget",
+          "tooltip": "",
+          "modal": {
+            "title": "Add cover photo",
+            "preview": "Förhandsvisning"
+          }
+        },
         "author": {
           "inputs": {
             "author": {
