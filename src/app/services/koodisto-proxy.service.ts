@@ -9,6 +9,9 @@ import { EducationalRole } from '../models/koodisto-proxy/educational-role';
 import { EducationalUse } from '../models/koodisto-proxy/educational-use';
 import { EducationalLevel } from '../models/koodisto-proxy/educational-level';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { AccessibilityFeature } from '../models/koodisto-proxy/accessibility-feature';
+import { AccessibilityHazard } from '../models/koodisto-proxy/accessibility-hazard';
+import { License } from '../models/koodisto-proxy/license';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +36,9 @@ export class KoodistoProxyService {
   public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
+  public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
+  public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
+  public licenses$ = new Subject<License[]>();
 
   constructor(
     private http: HttpClient,
@@ -135,6 +141,33 @@ export class KoodistoProxyService {
     this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/tieteenalat/${lang}`, this.httpOptions)
       .subscribe((scienceBranches: AlignmentObjectExtended[]) => {
         this.scienceBranches$.next(scienceBranches);
+      });
+  }
+
+  updateAccessibilityFeatures(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AccessibilityFeature[]>(`${this.apiUri}/saavutettavuudentukitoiminnot/${lang}`, this.httpOptions)
+      .subscribe((accessibilityFeatures: AccessibilityFeature[]) => {
+        this.accessibilityFeatures$.next(accessibilityFeatures);
+      });
+  }
+
+  updateAccessibilityHazards(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AccessibilityHazard[]>(`${this.apiUri}/saavutettavuudenesteet/${lang}`, this.httpOptions)
+      .subscribe((accessibilityHazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards$.next(accessibilityHazards);
+      });
+  }
+
+  updateLicenses(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions)
+      .subscribe((licenses: License[]) => {
+        this.licenses$.next(licenses.map(license => ({ ...license, isCollapsed: true })));
       });
   }
 }

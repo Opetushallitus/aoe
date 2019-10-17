@@ -1,26 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { KeyValue } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
+import { AccessibilityFeature } from '../../../../models/koodisto-proxy/accessibility-feature';
+import { AccessibilityHazard } from '../../../../models/koodisto-proxy/accessibility-hazard';
 
 @Component({
   selector: 'app-tabs-extended-details',
   templateUrl: './extended-details.component.html',
 })
-export class ExtendedDetailsComponent implements OnInit {
+export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
 
-  accessibilityFeatures$: KeyValue<string, string>[];
-  accessibilityHazards$: KeyValue<string, string>[];
+  accessibilityFeatureSubscription: Subscription;
+  accessibilityFeatures: AccessibilityFeature[];
+  accessibilityHazardSubscription: Subscription;
+  accessibilityHazards: AccessibilityHazard[];
 
   extendedDetailsForm: FormGroup;
 
@@ -38,6 +42,9 @@ export class ExtendedDetailsComponent implements OnInit {
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.koodistoProxySvc.updateAccessibilityFeatures();
+      this.koodistoProxySvc.updateAccessibilityHazards();
     });
 
     this.savedData = getLocalStorageData(this.localStorageKey);
@@ -55,13 +62,17 @@ export class ExtendedDetailsComponent implements OnInit {
       prerequisites: this.fb.control(null),
     });
 
-    this.koodistoProxySvc.getData('saavutettavuudentukitoiminnot', this.lang).subscribe(data => {
-      this.accessibilityFeatures$ = data;
-    });
+    this.accessibilityFeatureSubscription = this.koodistoProxySvc.accessibilityFeatures$
+      .subscribe((accessibilityFeatures: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = accessibilityFeatures;
+      });
+    this.koodistoProxySvc.updateAccessibilityFeatures();
 
-    this.koodistoProxySvc.getData('saavutettavuudenesteet', this.lang).subscribe(data => {
-      this.accessibilityHazards$ = data;
-    });
+    this.accessibilityHazardSubscription = this.koodistoProxySvc.accessibilityHazards$
+      .subscribe((accessibilityHazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = accessibilityHazards;
+      });
+    this.koodistoProxySvc.updateAccessibilityHazards();
 
     if (this.savedData) {
       if (this.savedData.accessibilityFeatures) {
@@ -107,6 +118,11 @@ export class ExtendedDetailsComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    this.accessibilityFeatureSubscription.unsubscribe();
+    this.accessibilityHazardSubscription.unsubscribe();
+  }
+
   get prerequisites(): FormControl {
     return this.extendedDetailsForm.get('prerequisites') as FormControl;
   }
@@ -142,7 +158,6 @@ export class ExtendedDetailsComponent implements OnInit {
     }
   }
 
-  // @todo: some kind of confirmation
   resetForm() {
     // reset form values
     this.extendedDetailsForm.reset();

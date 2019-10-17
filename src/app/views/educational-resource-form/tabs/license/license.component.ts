@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { getLocalStorageData } from '../../../../shared/shared.module';
+import { License } from '../../../../models/koodisto-proxy/license';
 
 @Component({
   selector: 'app-tabs-license',
   templateUrl: './license.component.html',
 })
-export class LicenseComponent implements OnInit {
+export class LicenseComponent implements OnInit, OnDestroy {
   private localStorageKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
 
-  licenses$: any[];
+  licenseSubscription: Subscription;
+  licenses: License[];
 
   licenseForm: FormGroup;
   submitted = false;
@@ -32,7 +35,15 @@ export class LicenseComponent implements OnInit {
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.koodistoProxySvc.updateLicenses();
     });
+
+    this.licenseSubscription = this.koodistoProxySvc.licenses$
+      .subscribe((licenses: License[]) => {
+        this.licenses = licenses;
+      });
+    this.koodistoProxySvc.updateLicenses();
 
     this.savedData = getLocalStorageData(this.localStorageKey);
 
@@ -40,15 +51,15 @@ export class LicenseComponent implements OnInit {
       license: this.fb.control(null, [ Validators.required ]),
     });
 
-    this.koodistoProxySvc.getData('lisenssit', this.lang).subscribe(data => {
-      this.licenses$ = data.map(row => ({ ...row, isCollapsed: true }));
-
-      if (this.savedData) {
-        if (this.savedData.license) {
-          this.license.setValue(this.savedData.license);
-        }
+    if (this.savedData) {
+      if (this.savedData.license) {
+        this.license.setValue(this.savedData.license);
       }
-    });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.licenseSubscription.unsubscribe();
   }
 
   get license(): FormControl {
@@ -72,7 +83,6 @@ export class LicenseComponent implements OnInit {
     }
   }
 
-  // @todo: some kind of confirmation
   resetForm() {
     // reset submit status
     this.submitted = false;

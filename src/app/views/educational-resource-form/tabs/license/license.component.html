@@ -23,7 +23,7 @@
 
   <h3>{{ 'forms.educationalResource.license.subtitle' | translate }}</h3>
 
-  <div class="form-group" *ngFor="let license of licenses$; let i = index">
+  <div class="form-group" *ngFor="let license of licenses; let i = index">
     <div class="custom-control custom-radio">
       <input type="radio" [id]="license.key" formControlName="license" [value]="license.key" class="custom-control-input">
       <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
