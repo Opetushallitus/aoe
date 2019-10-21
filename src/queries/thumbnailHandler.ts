@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { listenerCount } from "cluster";
 const fs = require("fs");
 const multer  = require("multer");
-const aws = require("aws-sdk");
 const fh = require("./fileHandling");
 
 const storage = multer.diskStorage({ // notice you are calling the multer.diskStorage() method here, not multer()
@@ -17,7 +15,9 @@ const storage = multer.diskStorage({ // notice you are calling the multer.diskSt
         cb(undefined, "thumbnail" + "-" + Date.now() + ext);
     }
 });
-const upload = multer({storage}); // provide the return value from
+
+const upload = multer({"storage": storage
+                    , "limits": {"fileSize": Number(process.env.THUMBNAIL_FILE_SIZE_LIMIT)}}); // provide the return value from
 // Database connection
 const connection = require("./../db");
 const db = connection.db;
@@ -26,8 +26,18 @@ async function uploadImage(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
         if (contentType.startsWith("multipart/form-data")) {
-            await upload.single("image")(req , res, await async function() {
+            await upload.single("image")(req , res, await async function(err: any) {
                 try {
+                    if (err) {
+                        if (err.code === "LIMIT_FILE_SIZE") {
+                            console.log(err);
+                            return res.status(413).send(err.message);
+                        }
+                        else {
+                            console.trace(err);
+                            return res.status(500).send("Failure in file upload");
+                        }
+                    }
                     const file = (<any>req).file;
                     console.log(file);
                     if (file == undefined) {

@@ -1,6 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { forEach } from "async";
-import { isArray } from "util";
 const AWS = require("aws-sdk");
 const s3Zip = require("s3-zip");
 const globalLog = require("global-request-logger");
@@ -23,8 +21,9 @@ const storage = multer.diskStorage({ // notice you are calling the multer.diskSt
         cb(undefined, str + "-" + Date.now() + ext);
     }
 });
-
-const upload = multer({storage}); // provide the return value from
+const upload = multer({"storage": storage
+                    , "limits": {"fileSize": Number(process.env.FILE_SIZE_LIMIT)}
+                    }); // provide the return value from
 // Database connection
 const connection = require("./../db");
 const db = connection.db;
@@ -34,8 +33,16 @@ async function uploadMaterial(req: Request, res: Response) {
         console.log(req.body);
         const contentType = req.headers["content-type"];
         if (contentType.startsWith("multipart/form-data")) {
-            upload.array("myFiles", 12)(req , res, async function() {
+            upload.array("myFiles", 12)(req , res, async function(err: any) {
                 try {
+                    if (err) {
+                        console.log(err);
+                        if (err.code === "LIMIT_FILE_SIZE") return res.status(413).send(err.message);
+                        else {
+                            console.trace(err);
+                            return res.status(500).send("Failure in file upload");
+                        }
+                    }
                     const files = (<any>req).files;
                     // const links = req.body.myFiles;
                     console.log("files: " + files);
@@ -105,9 +112,16 @@ async function uploadFileToMaterial(req: Request, res: Response) {
         const contentType = req.headers["content-type"];
 
         if (contentType.startsWith("multipart/form-data")) {
-            upload.array("myFiles", 12)(req , res, async function() {
+            upload.array("myFiles", 12)(req , res, async function(err: any) {
                 try {
-
+                    if (err) {
+                        console.log(err);
+                        if (err.code === "LIMIT_FILE_SIZE") return res.status(413).send(err.message);
+                        else {
+                            console.trace(err);
+                            return res.status(500).send("Failure in file upload");
+                        }
+                    }
                     const files = (<any>req).files;
                     // const links = req.body.myFiles;
                     if (files === "undefined" || files.length == 0) {
