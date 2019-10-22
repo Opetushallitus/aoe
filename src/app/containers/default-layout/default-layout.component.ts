@@ -16,7 +16,7 @@ export class DefaultLayoutComponent implements OnInit {
   constructor(public translate: TranslateService) { }
 
   ngOnInit(): void {
-    this.alertClosed = localStorage.getItem('aoe.alertClosed') ? JSON.parse(localStorage.getItem('aoe.alertClosed')).closed : false;
+    this.alertClosed = localStorage.getItem('aoe.alertClosed10') ? JSON.parse(localStorage.getItem('aoe.alertClosed10')).closed : false;
   }
 
   /**
@@ -28,7 +28,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   closeAlert(): void {
-    localStorage.setItem('aoe.alertClosed', JSON.stringify({ closed: true }));
+    localStorage.setItem('aoe.alertClosed10', JSON.stringify({ closed: true }));
     this.alertClosed = true;
   }
 }
