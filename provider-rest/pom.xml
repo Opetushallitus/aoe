@@ -27,11 +27,11 @@
             <artifactId>jaxb2-maven-plugin</artifactId>
             <version>2.5.0</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.9.8</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -47,30 +47,26 @@
             <!--<version>4.5</version>-->
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.io-informatics.oss/jackson-jsonld
+        https://github.com/io-informatics/jackson-jsonld
+        <dependency>
+            <groupId>com.io-informatics.oss</groupId>
+            <artifactId>jackson-jsonld</artifactId>
+            <version>0.1.1</version>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <!-- exclude junit 4 -->
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- junit 5 -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <!--<version>1.9.5</version>-->
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>

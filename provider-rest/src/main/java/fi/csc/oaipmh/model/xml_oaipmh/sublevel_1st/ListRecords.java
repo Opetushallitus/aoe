@@ -3,15 +3,12 @@ package fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.Record;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.ResumptionToken;
 import java.util.List;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({Record.class, ResumptionToken.class})
 @XmlType(propOrder = {"records", "resumptionToken"})
+@XmlRootElement(name = "ListRecords")
 public class ListRecords {
 
     @XmlElement(name = "record")

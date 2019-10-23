@@ -1,52 +1,70 @@
 package fi.csc.oaipmh.model.xml_lrmi;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import fi.csc.oaipmh.serialization.XmlDateTimeAdapter;
+import fi.csc.oaipmh.adapter.DateTimeAdapter;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Material;
 
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JacksonXmlRootElement(localName = "oai_dc:dc")
+// @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("unused")
+@XmlSeeAlso({Material.class})
+@XmlAccessorType(XmlAccessType.NONE)
+@XmlType(propOrder = {"id", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"})
+@XmlRootElement(name = "oai_dc:dc")
 public class LrmiMetadata {
 
-    @JacksonXmlProperty(localName = "xmlns:oai_dc", isAttribute = true)
+    @XmlAttribute(name = "xmlns:oai_dc")
     protected final String xmlns_oai_dc = "http://www.openarchives.org/OAI/2.0/oai_dc/";
 
-    @JacksonXmlProperty(localName = "xmlns:dc", isAttribute = true)
+    @XmlAttribute(name = "xmlns:dc")
     protected final String xmlns_dc = "http://purl.org/dc/elements/1.1/";
 
-    @JacksonXmlProperty(localName = "xmlns:lrmi", isAttribute = true)
+    @XmlAttribute(name = "xmlns:lrmi")
     protected final String xmlns_lrmi = "http://dublincore.org/dcx/lrmi-terms/1.1/";
 
-    @JacksonXmlProperty(localName = "xmlns:xsi", isAttribute = true)
+    @XmlAttribute(name = "xmlns:xsi")
     protected final String xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance";
 
-    @JacksonXmlProperty(localName = "xsi:schemaLocation", isAttribute = true)
+    @XmlAttribute(name = "xsi:schemaLocation")
     protected final String xsi_schemaLocation = "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd";
 
-    private Long id;
+    @XmlElement(name = "lrmi:id")
+    private String id;
 
-    // @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
-    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
+    // @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
+    @XmlElement(name = "lrmi:dateCreated")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime createdat;
 
-    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    @XmlElement(name = "lrmi:dateModified")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime updatedat;
 
-    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    @XmlElement(name = "lrmi:datePublished")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime publishedat;
 
-    // @XmlJavaTypeAdapter(value = XmlDateTimeAdapter.class, type = LocalDateTime.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
+    @XmlElement(name = "lrmi:dateArchived")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime archivedat;
 
-    /*private String[] materials;
+    // Deserialization fields (from JSON) for typicalAgeRange
+    private Integer agerangemin;
+    private Integer agerangemax;
+
+    // Serialization field (to XML) for typicalAgeRange
+    @XmlElement(name = "lrmi:typicalAgeRange")
+    private String getTypicalAgeRange() {
+        return (agerangemin >= 0 ? agerangemin : "") + "-" + (agerangemax >= 0 ? agerangemax : "");
+    }
+
+    @XmlElement(name = "lrmi:materials")
+    private List<Material> materials;
+
+    /*
     private String[] owner;
     private String[] name;
     private String[] author;
@@ -66,57 +84,72 @@ public class LrmiMetadata {
     private String license;
     private String isBAsedOn;
     private String[] materialDisplayName;
-    private String[] educationalRole;*/
+    private String[] educationalRole;
+    */
 
-    public Long getId() {
+    public LrmiMetadata() {}
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    @JacksonXmlProperty(localName = "lrmi:createdat")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getCreatedat() {
         return createdat;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setCreatedat(LocalDateTime createdat) {
         this.createdat = createdat;
     }
 
-    @JacksonXmlProperty(localName = "lrmi:updatedat")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getUpdatedat() {
         return updatedat;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setUpdatedat(LocalDateTime updatedat) {
         this.updatedat = updatedat;
     }
 
-    @JacksonXmlProperty(localName = "lrmi:publishedat")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getPublishedat() {
         return publishedat;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setPublishedat(LocalDateTime publishedat) {
         this.publishedat = publishedat;
     }
 
-    @JacksonXmlProperty(localName = "lrmi:archivedat")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
     public LocalDateTime getArchivedat() {
         return archivedat;
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     public void setArchivedat(LocalDateTime archivedat) {
         this.archivedat = archivedat;
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
+    }
+
+    public Integer getAgerangemin() {
+        return agerangemin;
+    }
+
+    public void setAgerangemin(Integer agerangemin) {
+        this.agerangemin = agerangemin;
+    }
+
+    public Integer getAgerangemax() {
+        return agerangemax;
+    }
+
+    public void setAgerangemax(Integer agerangemax) {
+        this.agerangemax = agerangemax;
     }
 }

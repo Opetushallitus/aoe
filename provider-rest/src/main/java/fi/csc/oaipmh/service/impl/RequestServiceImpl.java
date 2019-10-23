@@ -1,6 +1,7 @@
 package fi.csc.oaipmh.service.impl;
 
 import fi.csc.oaipmh.model.request.MetadataRequest;
+import fi.csc.oaipmh.model.response.AoeMetadataResponse;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
 import fi.csc.oaipmh.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +31,40 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<LrmiMetadata> getAoeMetadata() {
-        MetadataRequest metadataRequest = new MetadataRequest();
+    public List<LrmiMetadata> getMetadata() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+
+        MetadataRequest metadataRequest = new MetadataRequest();
         metadataRequest.setDateMin(now.minusYears(1));
         metadataRequest.setDateMax(now);
         metadataRequest.setMaterialPerPage(Long.parseLong(env.getProperty("aoe.request.per-page", "100")));
         metadataRequest.setPageNumber(0L);
 
-        // URI uri = new URI("https://demo.aoe.fi/api/oajpmh/materialMetaData");
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
         HttpEntity<MetadataRequest> request = new HttpEntity<>(metadataRequest, headers);
 
-        ResponseEntity<List<LrmiMetadata>> lrmiResponse =  restTemplate.exchange(env.getProperty("aoe.request.url"),
+        ResponseEntity<List<LrmiMetadata>> lrmiResponse = restTemplate.exchange(env.getProperty("aoe.request.url"),
                 HttpMethod.POST, request, new ParameterizedTypeReference<>(){});
 
         return lrmiResponse.getBody();
+    }
+
+    @Override
+    public List<AoeMetadataResponse> getAoeMetadata() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+
+        MetadataRequest metadataRequest = new MetadataRequest();
+        metadataRequest.setDateMin(now.minusYears(1));
+        metadataRequest.setDateMax(now);
+        metadataRequest.setMaterialPerPage(Long.parseLong(env.getProperty("aoe.request.per-page", "100")));
+        metadataRequest.setPageNumber(0L);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        HttpEntity<MetadataRequest> request = new HttpEntity<>(metadataRequest, headers);
+
+        return restTemplate.exchange(env.getProperty("aoe.request.url"),
+            HttpMethod.POST, request, new ParameterizedTypeReference<List<AoeMetadataResponse>>(){}).getBody();
     }
 }

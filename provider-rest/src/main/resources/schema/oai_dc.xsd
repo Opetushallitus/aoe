@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+    xmlns:lrmi="http://aoe.fi/lrmi"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://aoe.fi/oai_dc"
+    elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>
+            XML Schema 2002-03-18 by Pete Johnston. Adjusted for usage in the OAI-PMH. Schema imports the Dublin Core
+            elements from the DCMI schema for unqualified Dublin Core. 2002-12-19 updated to use simpledc20021212.xsd
+            (instead of simpledc20020312.xsd)
+        </xs:documentation>
+    </xs:annotation>
+    <xs:import schemaLocation="lrmi.xsd" namespace="http://aoe.fi/lrmi" />
+    <xs:element name="dc" type="oai_dc:oai_dcType" />
+    <xs:complexType name="oai_dcType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="lrmi:name" />
+            <xs:element ref="lrmi:author" />
+        </xs:choice>
+    </xs:complexType>
+</xs:schema>

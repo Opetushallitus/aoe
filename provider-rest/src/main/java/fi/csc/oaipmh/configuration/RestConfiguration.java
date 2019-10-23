@@ -1,13 +1,18 @@
 package fi.csc.oaipmh.configuration;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -19,21 +24,24 @@ import java.security.cert.X509Certificate;
 @Configuration
 public class RestConfiguration {
 
-    @Profile("prod")
     @Bean
+    @Primary
+    public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
+        ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+        // objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // objectMapper.registerModule(new JsonldModule());
+        return objectMapper;
+    }
+
+    @Bean
+    @Profile("prod")
     public RestTemplate prodRestTemplate() {
         return new RestTemplate();
     }
 
-    /**
-     * RestTemplate with all certificates accepted (ignore certificate validation)
-     * @return RestTemplate for outbound requests
-     * @throws KeyStoreException SSL context without a key store
-     * @throws NoSuchAlgorithmException ..
-     * @throws KeyManagementException ..
-     */
-    @Profile("dev")
     @Bean
+    @Profile("dev")
     public RestTemplate devRestTemplate() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
 
