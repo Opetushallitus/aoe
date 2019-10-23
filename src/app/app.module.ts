@@ -38,6 +38,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -104,6 +105,7 @@ import { PreviewComponent } from './views/educational-resource-form/tabs/preview
     PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ProgressbarModule.forRoot(),
+    ImageCropperModule,
   ],
   declarations: [
     AppComponent,
