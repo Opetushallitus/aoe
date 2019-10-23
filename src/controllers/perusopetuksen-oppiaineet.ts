@@ -249,7 +249,6 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`);
-    // const redisData = await getAsync(`${rediskey}.fi`);
 
     if (redisData) {
       res.status(200).json(JSON.parse(redisData));
@@ -275,10 +274,19 @@ export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, n
  */
 export const getPerusopetuksenTavoitteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`);
+    const redisData = JSON.parse(await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`));
+    const ids = req.params.ids.split(",");
 
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData));
+    const data = redisData
+      .filter((objective: AlignmentObjectExtended) => ids.includes(objective.parent.key.toString()))
+      .map((objective: AlignmentObjectExtended) => {
+        objective.parent = objective.parent.value;
+
+        return objective;
+      });
+
+    if (data.length > 0) {
+      res.status(200).json(data);
     } else {
       res.sendStatus(404);
 
@@ -301,10 +309,19 @@ export const getPerusopetuksenTavoitteet = async (req: Request, res: Response, n
  */
 export const getPerusopetuksenSisaltoalueet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`);
+    const redisData = JSON.parse(await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`));
+    const ids = req.params.ids.split(",");
 
-    if (redisData) {
-      res.status(200).json(JSON.parse(redisData));
+    const data = redisData
+      .filter((content: AlignmentObjectExtended) => ids.includes(content.parent.key.toString()))
+      .map((content: AlignmentObjectExtended) => {
+        content.parent = content.parent.value;
+
+        return content;
+      });
+
+    if (data.length > 0) {
+      res.status(200).json(data);
     } else {
       res.sendStatus(404);
 
