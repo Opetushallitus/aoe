@@ -19,7 +19,7 @@ export async function setKayttokohteet(): Promise<any> {
     const results = await getDataFromApi(
       process.env.KOODISTOT_SUOMI_URL,
       `/${endpoint}/`,
-      {"Accept": "application/json"},
+      { "Accept": "application/json" },
       params
     );
 
