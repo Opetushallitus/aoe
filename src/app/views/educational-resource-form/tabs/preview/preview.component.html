@@ -83,28 +83,28 @@
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.authors && savedData.authors.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.learningResourceType.label' | translate }}</dt>
+  <ng-container *ngIf="savedData.learningResourceTypes && savedData.learningResourceTypes.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let type of savedData.learningResourceType; let isLast = last">
+      <ng-container *ngFor="let type of savedData.learningResourceTypes; let isLast = last">
         {{ type.value }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.educationalRole && savedData.educationalRole.length > 0">
+  <ng-container *ngIf="savedData.educationalRoles && savedData.educationalRoles.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let role of savedData.educationalRole; let isLast = last">
+      <ng-container *ngFor="let role of savedData.educationalRoles; let isLast = last">
         {{ role.value }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.educationalUse && savedData.educationalUse.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.educationalUse.label' | translate }}</dt>
+  <ng-container *ngIf="savedData.educationalUses && savedData.educationalUses.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let use of savedData.educationalUse; let isLast = last">
+      <ng-container *ngFor="let use of savedData.educationalUses; let isLast = last">
         {{ use.value }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
