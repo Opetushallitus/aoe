@@ -245,35 +245,49 @@
       >
     </div>
 
-    <!--<div class="form-group">
+    <div class="form-group">
       <label for="basicStudyObjectives">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</label>
 
       <ng-select
-        [items]="basicStudyObjectives$"
+        [items]="basicStudyObjectives"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
-        groupBy="gradeEntity"
+        groupBy="parent"
         appendTo="body"
         id="basicStudyObjectives"
         formControlName="basicStudyObjectives"
-      ></ng-select>
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.parent }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+      </ng-select>
     </div>
 
     <div class="form-group">
       <label for="basicStudyContents">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</label>
 
       <ng-select
-        [items]="basicStudyContents$"
+        [items]="basicStudyContents"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
-        groupBy="gradeEntity"
+        groupBy="parent"
         appendTo="body"
         id="basicStudyContents"
         formControlName="basicStudyContents"
-      ></ng-select>
-    </div>-->
+      >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.parent }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.targetName }}
+      </ng-template>
+      </ng-select>
+    </div>
   </ng-container>
 
   <ng-container *ngIf="hasUpperSecondarySchool">

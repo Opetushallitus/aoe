@@ -42,17 +42,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   educationalLevels: EducationalLevel[];
   basicStudySubjectSubscription: Subscription;
   basicStudySubjects: AlignmentObjectExtended[];
+  basicStudyObjectiveSubscription: Subscription;
+  basicStudyObjectives: AlignmentObjectExtended[];
+  basicStudyContentSubscription: Subscription;
+  basicStudyContents: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectSubscription: Subscription;
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   vocationalDegreeSubscription: Subscription;
   vocationalDegrees: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
-
-  // basicStudyObjectives$: any[] = [];
-  // basicStudyObjectivesItems: any[];
-  // basicStudyContents$: any[] = [];
-  // basicStudyContentsItems: any[];
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -69,6 +68,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateBasicStudySubjects();
+      // this.koodistoProxySvc.updateBasicStudyObjectives();
+      // this.koodistoProxySvc.updateBasicStudyContents();
       this.koodistoProxySvc.updateUpperSecondarySchoolSubjects();
       this.koodistoProxySvc.updateVocationalDegrees();
       this.koodistoProxySvc.updateScienceBranches();
@@ -120,6 +121,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateBasicStudySubjects();
 
+    this.basicStudyObjectiveSubscription = this.koodistoProxySvc.basicStudyObjectives$
+      .subscribe((basicStudyObjectives: AlignmentObjectExtended[]) => {
+        this.basicStudyObjectives = basicStudyObjectives;
+      });
+
+    this.basicStudyContentSubscription = this.koodistoProxySvc.basicStudyContents$
+      .subscribe((basicStudyContents: AlignmentObjectExtended[]) => {
+        this.basicStudyContents = basicStudyContents;
+      });
+
     this.upperSecondarySchoolSubjectSubscription = this.koodistoProxySvc.upperSecondarySchoolSubjects$
       .subscribe((upperSecondarySchoolSubjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjects = upperSecondarySchoolSubjects;
@@ -137,18 +148,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.scienceBranches = scienceBranches;
       });
     this.koodistoProxySvc.updateScienceBranches();
-
-    /*this.koodistoProxySvc.getData('tavoitteet', this.lang).subscribe(data => {
-      this.basicStudyObjectives$ = data;
-
-      // this.updateBasicStudyObjectives();
-    });
-
-    this.koodistoProxySvc.getData('sisaltoalueet', this.lang).subscribe(data => {
-      this.basicStudyContents$ = data;
-
-      // this.updateBasicStudyContents();
-    });*/
 
     this.earlyChildhoodEducationKeys = [
       '8e7b8440-286d-4cc9-ad99-9fe288107535',
@@ -199,11 +198,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       if (this.savedData.alignmentObjects) {
         // early childhood education
         const earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationSubjects');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationSubjects');
         this.earlyChildhoodEducationSubjects.setValue(earlyChildhoodEducationSubjects);
 
         const earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationObjectives');
         this.earlyChildhoodEducationObjectives.setValue(earlyChildhoodEducationObjectives);
 
         if (earlyChildhoodEducationSubjects.length > 0 && 'educationalFramework' in earlyChildhoodEducationSubjects[0]) {
@@ -213,11 +212,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
         // pre-primary education
         const prePrimaryEducationSubjects = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationSubjects');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationSubjects');
         this.prePrimaryEducationSubjects.setValue(prePrimaryEducationSubjects);
 
         const prePrimaryEducationObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationObjectives');
         this.prePrimaryEducationObjectives.setValue(prePrimaryEducationObjectives);
 
         if (prePrimaryEducationSubjects.length > 0 && 'educationalFramework' in prePrimaryEducationSubjects[0]) {
@@ -227,9 +226,17 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
         // basic education
         const basicStudySubjects = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudySubjects');
         this.basicStudySubjectsCtrl.setValue(basicStudySubjects);
         this.basicStudySubjectsChange(basicStudySubjects);
+
+        const basicStudyObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives');
+        this.basicStudyObjectivesCtrl.setValue(basicStudyObjectives);
+
+        const basicStudyContents = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents');
+        this.basicStudyContentsCtrl.setValue(basicStudyContents);
 
         if (basicStudySubjects.length > 0 && 'educationalFramework' in basicStudySubjects[0]) {
           // tslint:disable-next-line:max-line-length
@@ -238,11 +245,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
         // upper secondary school
         const upperSecondarySchoolSubjects = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects');
         this.upperSecondarySchoolSubjectsCtrl.setValue(upperSecondarySchoolSubjects);
 
         const upperSecondarySchoolObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolObjectives');
         this.upperSecondarySchoolObjectives.setValue(upperSecondarySchoolObjectives);
 
         if (upperSecondarySchoolSubjects.length > 0 && 'educationalFramework' in upperSecondarySchoolSubjects[0]) {
@@ -252,11 +259,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
         // vocational education
         const vocationalDegrees = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'vocationalDegrees');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees');
         this.vocationalDegreesCtrl.setValue(vocationalDegrees);
 
         const vocationalEducationObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'vocationalEducationObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives');
         this.vocationalEducationObjectives.setValue(vocationalEducationObjectives);
 
         if (vocationalDegrees.length > 0 && 'educationalFramework' in vocationalDegrees[0]) {
@@ -266,20 +273,20 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
         // self-motivated competence development
         const selfMotivatedEducationSubjects = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'selfMotivatedEducationSubjects');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationSubjects');
         this.selfMotivatedEducationSubjects.setValue(selfMotivatedEducationSubjects);
 
         const selfMotivatedEducationObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'selfMotivatedEducationObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationObjectives');
         this.selfMotivatedEducationObjectives.setValue(selfMotivatedEducationObjectives);
 
         // higher education
         const branchesOfScience = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'branchesOfScience');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'branchesOfScience');
         this.branchesOfScience.setValue(branchesOfScience);
 
         const scienceBranchObjectives = this.savedData.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'scienceBranchObjectives');
         this.scienceBranchObjectives.setValue(scienceBranchObjectives);
 
         if (branchesOfScience.length > 0 && 'educationalFramework' in branchesOfScience[0]) {
@@ -321,6 +328,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.educationalLevelSubscription.unsubscribe();
     this.basicStudySubjectSubscription.unsubscribe();
+    this.basicStudyObjectiveSubscription.unsubscribe();
+    this.basicStudyContentSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
@@ -370,13 +379,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     return this.educationalDetailsForm.get('suitsAllBasicStudySubjects') as FormControl;
   }
 
-  /*get basicStudyObjectives(): FormControl {
+  get basicStudyObjectivesCtrl(): FormControl {
     return this.educationalDetailsForm.get('basicStudyObjectives') as FormControl;
   }
 
-  get basicStudyContents(): FormControl {
+  get basicStudyContentsCtrl(): FormControl {
     return this.educationalDetailsForm.get('basicStudyContents') as FormControl;
-  }*/
+  }
 
   get basicStudyFramework(): FormControl {
     return this.educationalDetailsForm.get('basicStudyFramework') as FormControl;
@@ -465,20 +474,12 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   basicStudySubjectsChange(value): void {
     this.hasBasicStudySubjects = value.length > 0;
 
-    /*if (this.hasBasicStudySubjects) {
-      this.basicStudyObjectivesItems = [];
-      this.basicStudyContentsItems = [];
+    if (this.hasBasicStudySubjects) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
 
-      value.forEach(subject => {
-        this.basicStudyObjectives$
-          .filter((objective: AlignmentObjectExtended) => objective.parent === subject.key)
-          .forEach((objective: AlignmentObjectExtended) => this.basicStudyObjectivesItems.push(objective));
-
-        this.basicStudyContents$
-          .filter((content: AlignmentObjectExtended) => content.parent === subject.key)
-          .forEach((content: AlignmentObjectExtended) => this.basicStudyContentsItems.push(content));
-      });
-    }*/
+      this.koodistoProxySvc.updateBasicStudyObjectives(ids);
+      this.koodistoProxySvc.updateBasicStudyContents(ids);
+    }
   }
 
   addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
@@ -562,46 +563,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  /*private updateBasicStudyObjectives(): void {
-    if (this.savedData && this.savedData.alignmentObjects) {
-      const basicStudyObjectiveKeys = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'basicStudyObjectives')
-        .map(objective => objective.key);
-
-      const basicStudyObjectives = this.basicStudyObjectives$.map(objective => {
-        if (basicStudyObjectiveKeys.includes(objective.key)) {
-          return objective;
-        }
-      });
-
-      this.basicStudyObjectives.setValue(basicStudyObjectives);
-
-      if (this.basicStudySubjects.value) {
-        this.basicStudySubjectsChange(this.basicStudySubjects.value);
-      }
-    }
-  }*/
-
-  /*private updateBasicStudyContents(): void {
-    if (this.savedData && this.savedData.alignmentObjects) {
-      const basicStudyContentKeys = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'basicStudyContents')
-        .map(objective => objective.key);
-
-      const basicStudyContents = this.basicStudyContents$.map(objective => {
-        if (basicStudyContentKeys.includes(objective.key)) {
-          return objective;
-        }
-      });
-
-      this.basicStudyContents.setValue(basicStudyContents);
-
-      if (this.basicStudySubjects.value) {
-        this.basicStudySubjectsChange(this.basicStudySubjects.value);
-      }
-    }
-  }*/
-
   onSubmit() {
     this.submitted = true;
 
@@ -649,8 +610,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
           });
         });
 
-        /*if (this.basicStudyObjectives.value) {
-          this.basicStudyObjectives.value.forEach((objective: AlignmentObjectExtended) => {
+        if (this.basicStudyObjectivesCtrl.value) {
+          this.basicStudyObjectivesCtrl.value.forEach((objective: AlignmentObjectExtended) => {
             this.alignmentObjects.push({
               key: objective.key,
               source: objective.source,
@@ -661,8 +622,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
           });
         }
 
-        if (this.basicStudyContents.value) {
-          this.basicStudyContents.value.forEach((content: AlignmentObjectExtended) => {
+        if (this.basicStudyContentsCtrl.value) {
+          this.basicStudyContentsCtrl.value.forEach((content: AlignmentObjectExtended) => {
             this.alignmentObjects.push({
               key: content.key,
               source: content.source,
@@ -671,7 +632,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
               targetName: content.targetName
             });
           });
-        }*/
+        }
       }
 
       if (this.upperSecondarySchoolSubjectsCtrl.value) {

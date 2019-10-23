@@ -33,6 +33,8 @@ export class KoodistoProxyService {
   public educationalUses$ = new Subject<EducationalUse[]>();
   public educationalLevels$ = new Subject<EducationalLevel[]>();
   public basicStudySubjects$ = new Subject<AlignmentObjectExtended[]>();
+  public basicStudyObjectives$ = new Subject<AlignmentObjectExtended[]>();
+  public basicStudyContents$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
@@ -114,6 +116,24 @@ export class KoodistoProxyService {
     this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/oppiaineet/${lang}`, this.httpOptions)
       .subscribe((basicStudySubjects: AlignmentObjectExtended[]) => {
         this.basicStudySubjects$.next(basicStudySubjects);
+      });
+  }
+
+  updateBasicStudyObjectives(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/tavoitteet/${ids}/${lang}`, this.httpOptions)
+      .subscribe((basicStudyObjectives: AlignmentObjectExtended[]) => {
+        this.basicStudyObjectives$.next(basicStudyObjectives);
+      });
+  }
+
+  updateBasicStudyContents(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/sisaltoalueet/${ids}/${lang}`, this.httpOptions)
+      .subscribe((basicStudyContents: AlignmentObjectExtended[]) => {
+        this.basicStudyContents$.next(basicStudyContents);
       });
   }
 

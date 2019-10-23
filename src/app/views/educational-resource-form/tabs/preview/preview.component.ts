@@ -24,6 +24,8 @@ export class PreviewComponent implements OnInit {
   prePrimaryEducationSubjects: AlignmentObjectExtended[];
   prePrimaryEducationObjectives: AlignmentObjectExtended[];
   basicStudySubjects: AlignmentObjectExtended[];
+  basicStudyObjectives: AlignmentObjectExtended[];
+  basicStudyContents: AlignmentObjectExtended[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
@@ -56,45 +58,51 @@ export class PreviewComponent implements OnInit {
 
     if (this.savedData && this.savedData.alignmentObjects) {
       this.earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationSubjects');
 
       this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'earlyChildhoodEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationObjectives');
 
       // @todo: framework
 
       this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationSubjects');
 
       this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'prePrimaryEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationObjectives');
 
       this.basicStudySubjects = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'basicStudySubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudySubjects');
+
+      this.basicStudyObjectives = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives');
+
+        this.basicStudyContents = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents');
 
       this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects');
 
       this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'upperSecondarySchoolObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolObjectives');
 
       this.vocationalDegrees = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'vocationalDegrees');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees');
 
       this.vocationalEducationObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'vocationalEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives');
 
       this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'selfMotivatedEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationSubjects');
 
       this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'selfMotivatedEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationObjectives');
 
       this.branchesOfScience = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'branchesOfScience');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'branchesOfScience');
 
       this.scienceBranchObjectives = this.savedData.alignmentObjects
-        .filter(alignmentObject => alignmentObject.source === 'scienceBranchObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'scienceBranchObjectives');
     }
   }
 
