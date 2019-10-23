@@ -5,6 +5,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -54,6 +55,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
   selectedImage;
+
+  imageChangedEvent: any = '';
+  croppedImage: ImageCroppedEvent;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -157,6 +161,14 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
     this.educationalRoleSubscription.unsubscribe();
     this.educationalUseSubscription.unsubscribe();
+  }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event;
   }
 
   updateLanguages(): void {
@@ -271,9 +283,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   uploadImage() {
-    if (this.selectedImage.file) {
+    if (this.croppedImage.base64) {
       const formData = new FormData();
-      formData.append('image', this.selectedImage.file);
+      formData.append('image', this.croppedImage.base64);
 
       this.backendSvc.uploadImage(formData).subscribe(
         (res) => this.uploadResponse = res,

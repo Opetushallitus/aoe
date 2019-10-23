@@ -25,18 +25,31 @@
               type="file"
               class="custom-file-input"
               id="image"
-              accept="image/*"
+              accept="image/png,image/jpeg"
               [lang]="lang"
-              (change)="processImage($event)"
+              (change)="fileChangeEvent($event)"
             >
             <span class="custom-file-label"></span>
           </div>
         </div>
 
-        <ng-container *ngIf="selectedImage?.src">
-          <h3>{{ 'forms.educationalResource.basicDetails.image.modal.preview' | translate }}</h3>
-          <img [src]="selectedImage?.src" alt="" class="img-fluid">
-        </ng-container>
+        <div class="form-group">
+          <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            outputType="both"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="152 / 228"
+            [resizeToWidth]="152"
+            [cropperMinWidth]="152"
+            [resizeToHeight]="228"
+            [cropperMinHeight]="228"
+            (imageCropped)="imageCropped($event)"
+            [alignImage]="'left'"
+            [backgroundColor]="f2f2f2"
+          ></image-cropper>
+        </div>
+
+        <img *ngIf="croppedImage" [src]="croppedImage.base64" class="border">
 
         <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
           <progressbar
