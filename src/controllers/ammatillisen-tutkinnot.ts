@@ -23,7 +23,10 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
       const pagedData = await getDataFromApi(
         process.env.EPERUSTEET_SERVICE_URL,
         `/${endpoint}/`,
-        { "Accept": "application/json" },
+        {
+          "Accept": "application/json",
+          "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+        },
         `?sivu=${page}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=true&koulutustyyppi=koulutustyyppi_1`
       );
 

@@ -18,7 +18,10 @@ export async function setTieteenalat(): Promise<any> {
     const results = await getDataFromApi(
       process.env.KOODISTO_SERVICE_URL,
       `/${endpoint}/`,
-      {"Accept": "application/json"},
+      {
+        "Accept": "application/json",
+        "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+      },
       params
     );
 
