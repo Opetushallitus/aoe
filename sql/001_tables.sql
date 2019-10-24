@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS IsBasedOn CASCADE;
 DROP TABLE IF EXISTS EducationalUse CASCADE;
 DROP TABLE IF EXISTS Record CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalUse CASCADE;
-DROP TABLE IF EXISTS CollectionAligmentObject CASCADE;
+DROP TABLE IF EXISTS CollectionAlignmentObject CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalFramework CASCADE;
 DROP TABLE IF EXISTS CollectionTopic CASCADE;
 DROP TABLE IF EXISTS CollectionEducationalLevel CASCADE;
@@ -20,7 +20,7 @@ DROP TABLE IF EXISTS AccessibilityHazard CASCADE;
 DROP TABLE IF EXISTS AccessibilityFeature CASCADE;
 DROP TABLE IF EXISTS EducationalRole CASCADE;
 DROP TABLE IF EXISTS LearningResourceType CASCADE;
-DROP TABLE IF EXISTS AligmentObject CASCADE;
+DROP TABLE IF EXISTS AlignmentObject CASCADE;
 DROP TABLE IF EXISTS InLanguage CASCADE;
 DROP TABLE IF EXISTS License CASCADE;
 DROP TABLE IF EXISTS EducationalAudience CASCADE;
@@ -96,7 +96,7 @@ CREATE TABLE InLanguage (
   Url                   text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   PRIMARY KEY (Id));
-CREATE TABLE AligmentObject (
+CREATE TABLE AlignmentObject (
   Id                     BIGSERIAL NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   AlignmentType         text NOT NULL, 
@@ -190,7 +190,7 @@ CREATE TABLE KeyWord (
 --   Framework                       text NOT NULL, 
 --   EducationalMaterialCollectionId int8 NOT NULL, 
 --   PRIMARY KEY (Id));
--- CREATE TABLE CollectionAligmentObject (
+-- CREATE TABLE CollectionAlignmentObject (
 --   Id                               BIGSERIAL NOT NULL, 
 --   AlignmentType                    text NOT NULL, 
 --   EducationalMaterialCollectionId int8 NOT NULL, 
@@ -301,7 +301,7 @@ CREATE TABLE Thumbnail (
 
 
 
-ALTER TABLE AligmentObject ADD CONSTRAINT FKAligmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE AlignmentObject ADD CONSTRAINT FKAlignmentObject FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE EducationalMaterial ADD CONSTRAINT FKEducationalMaterial FOREIGN KEY (UsersUserName) REFERENCES Users (UserName) ON DELETE Restrict;
 ALTER TABLE EducationalAudience ADD CONSTRAINT FKEducationalAudience FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE LearningResourceType ADD CONSTRAINT FKLearningResourceType FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
@@ -317,7 +317,7 @@ ALTER TABLE Record ADD CONSTRAINT FKRecord FOREIGN KEY (MaterialId) REFERENCES M
 -- ALTER TABLE CollectionEducationalLevel ADD CONSTRAINT FKCollectionEducationalLevel FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 -- ALTER TABLE CollectionTopic ADD CONSTRAINT FKCollectionTopic FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 -- ALTER TABLE CollectionEducationalFramework ADD CONSTRAINT FKCollectionEducationalFramework FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
--- ALTER TABLE CollectionAligmentObject ADD CONSTRAINT FKCollectionAligmentObject FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
+-- ALTER TABLE CollectionAlignmentObject ADD CONSTRAINT FKCollectionAlignmentObject FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 -- ALTER TABLE CollectionEducationalUse ADD CONSTRAINT fk_CollectionEducationalUse FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 -- ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT fk_UsersEMC FOREIGN KEY (UsersUserName) REFERENCES Users (username) ON DELETE Restrict;
 -- ALTER TABLE UsersEducationalMaterialCollection ADD CONSTRAINT fk_EMCUsers FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
@@ -346,7 +346,7 @@ ALTER TABLE inlanguage ADD CONSTRAINT constraint_inlanguage UNIQUE (inlanguage,e
 ALTER TABLE keyword ADD CONSTRAINT constraint_keyword UNIQUE (keywordkey,educationalmaterialid);
 ALTER TABLE publisher ADD CONSTRAINT constraint_publisher UNIQUE (PublisherKey,educationalmaterialid);
 ALTER TABLE isbasedon ADD CONSTRAINT constraint_isbasedon UNIQUE (author, materialname,educationalmaterialid);
-ALTER TABLE aligmentobject ADD CONSTRAINT constraint_aligmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
+ALTER TABLE alignmentobject ADD CONSTRAINT constraint_alignmentobject UNIQUE (alignmentType, targetName, source, educationalmaterialid);
 ALTER TABLE materialdisplayname ADD CONSTRAINT constraint_materialdisplayname UNIQUE (language, materialid);
 -- ALTER TABLE thumbnail ADD CONSTRAINT constraint_thumbnail UNIQUE (educationalmaterialid);
 ALTER TABLE accessibilityfeature ADD CONSTRAINT constraint_accessibilityfeature UNIQUE (accessibilityfeaturekey,educationalmaterialid);
