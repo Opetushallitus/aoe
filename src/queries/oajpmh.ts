@@ -35,10 +35,10 @@ async function getMaterialMetaData(req: Request , res: Response) {
             });
         query = "select * from materialname where educationalmaterialid = $1;";
         const materialName = await t.any(query, q.id);
-        q.materialName = materialName;
+        q.materialname = materialName;
         query = "select * from materialdescription where educationalmaterialid = $1;";
         const materialDescription = await t.any(query, q.id);
-        q.materialDescription = materialDescription;
+        q.materialdescription = materialDescription;
 
         query = "select * from educationalaudience where educationalmaterialid = $1;";
         let response = await t.any(query, [q.id]);
