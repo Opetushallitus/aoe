@@ -20,7 +20,7 @@ async function createMaterialObject(indata: any) {
     obj = Object.assign(obj, data);
     data = await createInLanguageObject(indata);
     obj = Object.assign(obj, data);
-    data = await createAligmentObjectObject(indata);
+    data = await createAlignmentObjectObject(indata);
     obj = Object.assign(obj, data);
     data = await createAccessibilityFeatureObject(indata);
     obj = Object.assign(obj, data);
@@ -302,9 +302,9 @@ function splitSourceValue(indata: any) {
     return indata.split(",");
 }
 
-async function createAligmentObjectObject(indata: any) {
+async function createAlignmentObjectObject(indata: any) {
     const obj: any = {};
-    const key = "AligmentObject";
+    const key = "AlignmentObject";
     obj[key] = [];
     let list: any = await createPropertyNameList(indata, "opettaa");
     for (let i = 0; i < list.length; ++i) {

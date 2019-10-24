@@ -114,7 +114,7 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
-        query = "select * from aligmentobject where educationalmaterialid = $1;";
+        query = "select * from alignmentobject where educationalmaterialid = $1;";
         response = await t.any(query, [req.params.id]);
         queries.push(response);
 
@@ -535,17 +535,17 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             arr = req.body.alignmentObjects;
 
             if (arr == undefined) {
-                query = "DELETE FROM aligmentobject where educationalmaterialid = $1;";
+                query = "DELETE FROM alignmentobject where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
             else if (arr.length === 0) {
-                query = "DELETE FROM aligmentobject where educationalmaterialid = $1;";
+                query = "DELETE FROM alignmentobject where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
             }
             else {
-                query = "SELECT * from aligmentobject where educationalmaterialid = $1;";
+                query = "SELECT * from alignmentobject where educationalmaterialid = $1;";
                 response  = await t.any(query, [req.params.id]);
                 queries.push(response);
                 for (const element of response) {
@@ -556,12 +556,12 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                         }
                     }
                     if (toBeDeleted) {
-                        query = "DELETE FROM aligmentobject where id = " + element.id + ";";
+                        query = "DELETE FROM alignmentobject where id = " + element.id + ";";
                         console.log(query);
                         queries.push(await t.any(query));
                     }
                 }
-                const cs = new pgp.helpers.ColumnSet(["alignmenttype", "targetname", "source", "educationalmaterialid", "objectkey", "educationalframework"], {table: "aligmentobject"});
+                const cs = new pgp.helpers.ColumnSet(["alignmenttype", "targetname", "source", "educationalmaterialid", "objectkey", "educationalframework"], {table: "alignmentobject"});
                 // data input values:
                 // console.log(arr);
                 const values: any = [];
@@ -579,7 +579,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
                 console.log(query);
                 queries.push(t.any(query));
                 // for (const element of arr) {
-                //     query = "INSERT INTO aligmentobject (alignmentType, targetName, source, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (alignmentType, targetName, source, educationalmaterialid) DO NOTHING;";
+                //     query = "INSERT INTO alignmentobject (alignmentType, targetName, source, educationalmaterialid) VALUES ($1,$2,$3,$4) ON CONFLICT (alignmentType, targetName, source, educationalmaterialid) DO NOTHING;";
                 //     console.log(query);
                 //     queries.push(await t.any(query, [element.alignmentType, element.targetName, element.source, req.params.id]));
                 // }
@@ -856,9 +856,9 @@ async function insertEducationalMaterial(obj: any, func: any) {
         for (const num in obj[mkey]) {
             await insertIntoInLanguage(obj[mkey][num], materialid);
         }
-        mkey = "AligmentObject";
+        mkey = "AlignmentObject";
         for (const num in obj[mkey]) {
-            await insertIntoAligmentObject(obj[mkey][num], materialid);
+            await insertIntoAlignmentObject(obj[mkey][num], materialid);
         }
         mkey = "Material";
         for (const num in obj[mkey]) {
@@ -1026,14 +1026,14 @@ async function insertIntoInLanguage(obj: any, materialid: any) {
     await db.any(query);
 }
 
-async function insertIntoAligmentObject(obj: any, materialid: any) {
+async function insertIntoAlignmentObject(obj: any, materialid: any) {
     const data = {
         alignmenttype : obj.alignmenttype,
         targetname : obj.targetname,
         source : obj.source,
         educationalmaterialid : materialid
     };
-    const query = pgp.helpers.insert(data, undefined, "aligmentobject") + "RETURNING id";
+    const query = pgp.helpers.insert(data, undefined, "alignmentobject") + "RETURNING id";
     console.log(query);
     await db.any(query);
 }

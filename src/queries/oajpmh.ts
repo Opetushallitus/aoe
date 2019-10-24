@@ -84,9 +84,9 @@ async function getMaterialMetaData(req: Request , res: Response) {
         response = await t.any(query, [q.id]);
         q.inlanguage = response;
 
-        query = "select * from aligmentobject where educationalmaterialid = $1;";
+        query = "select * from alignmentobject where educationalmaterialid = $1;";
         response = await t.any(query, [q.id]);
-        q.aligmentobject = response;
+        q.alignmentobject = response;
 
         query = "SELECT users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1;";
         response = await t.any(query, [q.id]);
@@ -129,10 +129,10 @@ async function buildTree(t: any) {
             });
         let query = "select * from materialname where educationalmaterialid = $1;";
         const materialName = await t.any(query, q.id);
-        q.materialName = materialName;
+        q.materialname = materialName;
         query = "select * from materialdescription where educationalmaterialid = $1;";
         const materialDescription = await t.any(query, q.id);
-        q.materialDescription = materialDescription;
+        q.materialdescription = materialDescription;
 
         query = "select * from educationalaudience where educationalmaterialid = $1;";
         let response = await t.any(query, [q.id]);
@@ -178,9 +178,9 @@ async function buildTree(t: any) {
         response = await t.any(query, [q.id]);
         q.inlanguage = response;
 
-        query = "select * from aligmentobject where educationalmaterialid = $1;";
+        query = "select * from alignmentobject where educationalmaterialid = $1;";
         response = await t.any(query, [q.id]);
-        q.aligmentobject = response;
+        q.alignmentobject = response;
 
         query = "SELECT users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1;";
         response = await t.any(query, [q.id]);
