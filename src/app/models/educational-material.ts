@@ -1,13 +1,13 @@
 import { Material } from './material';
+import { Author } from './author';
+import { Keyword } from './keyword';
+import { EducationalLevel } from './educational-level';
 
 export interface EducationalMaterial {
   name: string;
   thumbnail?: string;
   learningResourceTypes: string[];
-  authors: [{
-    authorname: string;
-    organization?: string;
-  }];
+  authors: Author[];
   description?: string;
   materials?: Material[];
   createdAt: Date;
@@ -16,14 +16,8 @@ export interface EducationalMaterial {
   timeRequired?: string;
   publisher?: any[]; // @todo: key value?
   license: string;
-  keywords: [{
-    keywordkey: string;
-    value: string;
-  }];
-  educationalLevels: [{
-    educationallevelkey: string;
-    value: string;
-  }];
+  keywords: Keyword[];
+  educationalLevels: EducationalLevel[];
   educationalRoles?: [{
     educationalrolekey: string;
     educationalrole: string;
