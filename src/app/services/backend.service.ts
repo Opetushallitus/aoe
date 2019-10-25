@@ -24,8 +24,8 @@ export class BackendService {
 
   /**
    * Uploads files to backend.
-   * @param {any} data
-   * @returns {Observable<UploadMessage>} Upload progress
+   * @param {FormData} data
+   * @returns {Observable<UploadMessage>} Upload message
    */
   public uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
@@ -133,6 +133,11 @@ export class BackendService {
     );
   }
 
+  /**
+   * Upload thumbnail image for educational material to backend.
+   * @param {FormData} data
+   * @returns {Observable<UploadMessage>} Upload message
+   */
   public uploadImage(data: FormData): Observable<UploadMessage> {
     if (localStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = getLocalStorageData(this.localStorageKey);
