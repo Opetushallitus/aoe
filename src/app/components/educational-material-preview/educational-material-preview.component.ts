@@ -21,6 +21,7 @@ export class EducationalMaterialPreviewComponent {
     const audioMIMETypes = [
       'audio/mp3',
       'audio/mpeg',
+      'audio/x-m4a',
     ];
 
     const pdfMIMETypes = [
