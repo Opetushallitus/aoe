@@ -2,12 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
-
-import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '../../models/educational-material';
 import { Material } from '../../models/material';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BackendService } from '../../services/backend.service';
 
 @Component({
@@ -15,18 +13,15 @@ import { BackendService } from '../../services/backend.service';
   templateUrl: './educational-material-view.component.html',
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
-  private lang: string = this.translate.currentLang;
-  public rawData: any;
-  public educationalMaterial: EducationalMaterial;
+  lang: string = this.translate.currentLang;
+  educationalMaterial: EducationalMaterial;
   private routeSubscription: Subscription;
-  // private langChangeSubscription: Subscription;
-  public previewMaterial: Material;
-  private specialId: number;
+  previewMaterial: Material;
+  specialId: number;
 
   constructor(
     private route: ActivatedRoute,
     private location: Location,
-    public lrtSvc: LearningResourceTypeService,
     private backendSvc: BackendService,
     private translate: TranslateService,
   ) { }
@@ -44,22 +39,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.previewMaterial = this.educationalMaterial.materials[0];
       });
     });
-
-    /*this.langChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.educationalMaterial = this.educationalMaterials.find(m =>
-       m.specialId === this.specialId && m.inLanguage.id.toLocaleLowerCase() === event.lang);
-
-       this.previewMaterial = this.educationalMaterial.materials[0];
-    });*/
   }
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
-    // this.langChangeSubscription.unsubscribe();
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 
   setPreviewMaterial(material: Material): void {
