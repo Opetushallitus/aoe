@@ -8,6 +8,8 @@ import { getLocalStorageData } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { TranslateService } from '@ngx-translate/core';
 import { UploadMessage } from '../models/upload-message';
+import { User } from '../models/user';
+import { EducationalMaterialList } from '../models/educational-material-list';
 
 @Injectable({
   providedIn: 'root'
@@ -131,6 +133,19 @@ export class BackendService {
         };
       })
     );
+  }
+
+  /**
+   * Returns list of educational materials by user.
+   * @param {User} user
+   * @returns {Observable<EducationalMaterialList[]>} List of educational materials
+   */
+  public getUserMaterialList(user: User): Observable<EducationalMaterialList[]> {
+    return this.http.get<EducationalMaterialList[]>(`${this.backendUrl}/material/user/${user.username}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    });
   }
 
   /**
