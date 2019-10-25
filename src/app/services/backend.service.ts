@@ -102,7 +102,7 @@ export class BackendService {
           name: res.name
             .find(n => n.language.toLowerCase() === this.lang).materialname,
           thumbnail: res.thumbnail ? res.thumbnail.filepath : null,
-          learningResourceTypes: res.learningResourceType
+          learningResourceTypes: res.learningResourceTypes
             .map(type => type.value),
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
@@ -118,11 +118,11 @@ export class BackendService {
           license: res.license,
           keywords: res.keywords
             .map(({ keywordkey, value }) => ({ keywordkey, value })),
-          educationalLevels: res.educationalLevel
+          educationalLevels: res.educationalLevels
             .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
-          educationalRoles: res.educationalRole
+          educationalRoles: res.educationalRoles
             .map(({ educationalrolekey, educationalrole }) => ({ educationalrolekey, educationalrole })),
-          educationalUses: res.educationalUse
+          educationalUses: res.educationalUses
             .map(({ educationalusekey, value }) => ({ educationalusekey, value })),
           accessibilityFeatures: res.accessibilityFeatures
             .map(({ accessibilityfeaturekey, value }) => ({ accessibilityfeaturekey, value })),
