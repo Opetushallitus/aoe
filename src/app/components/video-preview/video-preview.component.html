@@ -1,13 +1,13 @@
 <div class="embed-responsive embed-responsive-16by9">
   <video class="embed-responsive-item" controls #videoElement>
-    <source src="{{ _material.file.filePath }}" type="{{ _material.file.mimeType }}">
-    <track *ngFor="let subtitle of _material.file.subtitles"
+    <source src="https://demo.aoe.fi/api/download/{{ material.filekey }}" type="{{ material.mimetype }}">
+    <!--<track *ngFor="let subtitle of material.subtitles"
            label="{{ subtitle.label }}"
            kind="subtitles"
            srclang="{{ subtitle.lang }}"
            src="{{ subtitle.filePath }}"
            [default]="subtitle.default"
-    >
+    >-->
     {{ 'demo.educationalMaterial.preview.noVideoSupport' | translate }}
   </video>
 </div>
