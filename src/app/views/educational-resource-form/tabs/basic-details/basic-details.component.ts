@@ -102,7 +102,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     this.basicDetailsForm = this.fb.group({
-      image: this.fb.control(null),
       keywords: this.fb.control(null, [ Validators.required ]),
       authors: this.fb.array([
         this.createAuthor(),
