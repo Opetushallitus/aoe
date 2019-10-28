@@ -286,17 +286,14 @@ CREATE TABLE MaterialName (
   PRIMARY KEY (Id));
 
 CREATE TABLE Thumbnail (
-  id                     BIGSERIAL NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
   FilePath              text NOT NULL, 
-  OriginalFileName      text NOT NULL, 
-  FileSize              text NOT NULL, 
   MimeType              text NOT NULL, 
-  Format                text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   FileName              text NOT NULL, 
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
-  fileKey               text NOT NULL, 
-  fileBucket            text NOT NULL, 
+  FileKey               text NOT NULL, 
+  FileBucket            text NOT NULL, 
   PRIMARY KEY (id));
 
 
