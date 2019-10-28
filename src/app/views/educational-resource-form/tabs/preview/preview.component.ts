@@ -77,8 +77,8 @@ export class PreviewComponent implements OnInit {
       this.basicStudyObjectives = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives');
 
-        this.basicStudyContents = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents');
+      this.basicStudyContents = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents');
 
       this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects');
