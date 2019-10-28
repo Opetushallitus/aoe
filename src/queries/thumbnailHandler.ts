@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 const fs = require("fs");
 const multer  = require("multer");
 const fh = require("./fileHandling");
+const mime = require("mime");
 
 const storage = multer.diskStorage({ // notice you are calling the multer.diskStorage() method here, not multer()
     destination: function(req: Request, file: any, cb: any) {
@@ -49,9 +50,9 @@ async function uploadImage(req: Request, res: Response) {
                         query = "update thumbnail set obsoleted = 1 where educationalmaterialid = $1 and obsoleted = 0;";
                         console.log(query);
                         await db.none(query, [req.params.id]);
-                        query = "INSERT INTO thumbnail (filepath, originalfilename, filesize, mimetype, format, educationalmaterialid, filename, fileKey, fileBucket) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);";
-                        console.log(query, [obj.Location, file.originalname, file.size, file.mimetype, file.encoding, req.params.id, file.filename, obj.Key, obj.Bucket]);
-                        await db.any(query, [obj.Location, file.originalname, file.size, file.mimetype, file.encoding, req.params.id, file.filename, obj.Key, obj.Bucket]);
+                        query = "INSERT INTO thumbnail (filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket) VALUES ($1,$2,$3,$4,$5,$6);";
+                        console.log(query, [obj.Location, file.mimetype, req.params.id, file.filename, obj.Key, obj.Bucket]);
+                        await db.any(query, [obj.Location, file.mimetype, req.params.id, file.filename, obj.Key, obj.Bucket]);
                     }
                     catch (err) {
                         console.log(err);
@@ -70,6 +71,9 @@ async function uploadImage(req: Request, res: Response) {
                 }
             });
         }
+        else {
+            res.status(500).json({"error" : "upload failed"});
+        }
     }
     catch (err) {
         console.log(err);
@@ -77,6 +81,42 @@ async function uploadImage(req: Request, res: Response) {
     }
 }
 
+async function uploadbase64Image(req: Request, res: Response) {
+    try {
+        const contentType = req.headers["content-type"];
+        console.log(contentType);
+        if (contentType.startsWith("application/x-www-form-urlencoded")) {
+            const imgdata = req.body.base64image;
+            const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
+            const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+            if (matches == undefined) {
+                return res.status(400).json({"expecting" : "data:image/png;base64,..."});
+            }
+            const extension = mime.extension(matches[1]);
+            const fileName = "thumbnail" + Date.now() + "." + extension;
+            const buff = Buffer.from(base64Data, "base64");
+            const obj: any = await fh.uploadBase64FileToStorage(buff, fileName, process.env.THUMBNAIL_BUCKET_NAME);
+            let query;
+            query = "update thumbnail set obsoleted = 1 where educationalmaterialid = $1 and obsoleted = 0;";
+            console.log(query);
+            await db.none(query, [req.params.id]);
+            query = "INSERT INTO thumbnail (filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket) VALUES ($1,$2,$3,$4,$5,$6);";
+            console.log(query, [obj.Location, matches[1], req.params.id, fileName, obj.Key, obj.Bucket]);
+            await db.any(query, [obj.Location, matches[1], req.params.id, fileName, obj.Key, obj.Bucket]);
+            return res.status(200).json({"thumbnail created" : obj.Location});
+        }
+        else {
+            return res.status(400).json({"error": "application/x-www-form-urlencoded expected"});
+        }
+
+    }
+    catch (e) {
+        console.log(e);
+        return res.status(500).json({"error": "upload failed"});
+    }
+}
+
 module.exports = {
-    uploadImage : uploadImage
+    uploadImage : uploadImage,
+    uploadbase64Image : uploadbase64Image
 };
