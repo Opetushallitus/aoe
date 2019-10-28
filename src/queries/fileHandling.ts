@@ -305,6 +305,51 @@ async function uploadFileToStorage(filePath: String, filename: String, bucketNam
     });
 }
 
+async function uploadBase64FileToStorage(base64data: String, filename: String, bucketName: String) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const config = {
+                accessKeyId: process.env.USER_KEY,
+                secretAccessKey: process.env.USER_SECRET,
+                endpoint: process.env.POUTA_END_POINT,
+                region: process.env.REGION
+                };
+            AWS.config.update(config);
+            const s3 = new AWS.S3();
+            const key = filename;
+            try {
+                const params = {
+                    Bucket: bucketName,
+                    Key: key,
+                    Body: base64data
+                };
+                const time = Date.now();
+                s3.upload(params, (err: any, data: any) => {
+                    if (err) {
+                        console.error(`Upload Error ${err}`);
+                        reject(new Error(err));
+                    }
+
+                    if (data) {
+                        console.log((Date.now() - time) / 1000);
+                        console.log("Upload Completed");
+                        console.log(data);
+                        resolve(data);
+                    }
+                });
+            }
+            catch (err) {
+                console.log(err);
+                reject(new Error(err));
+            }
+        }
+        catch (err) {
+            console.log(err);
+            reject(new Error(err));
+        }
+    });
+}
+
 async function downloadFile(req: Request, res: Response) {
     try {
         const data = await downloadFileFromStorage(req, res);
@@ -410,5 +455,6 @@ module.exports = {
     downloadFile : downloadFile,
     downloadFileFromStorage : downloadFileFromStorage,
     downloadMaterialFile : downloadMaterialFile,
-    checkTemporaryRecordQueue : checkTemporaryRecordQueue
+    checkTemporaryRecordQueue : checkTemporaryRecordQueue,
+    uploadBase64FileToStorage : uploadBase64FileToStorage
 };
