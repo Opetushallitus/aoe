@@ -25,7 +25,7 @@ public class LrmiMetadata {
     @XmlAttribute(name = "xmlns:dc")
     protected final String xmlns_dc = "http://purl.org/dc/elements/1.1/";
 
-    @XmlAttribute(name = "xmlns:fi_lrmi")
+    @XmlAttribute(name = "xmlns:lrmi_fi")
     protected final String xmlns_lrmi = "http://dublincore.org/dcx/lrmi-terms/1.1/";
 
     // @XmlAttribute(name = "xmlns:sawsdl")
@@ -51,15 +51,15 @@ public class LrmiMetadata {
     @XmlElement(name = "dc:description")
     private List<LangValue> description;
 
-    @XmlElementWrapper(name = "fi_lrmi:author", nillable = true, required = false)
-    @XmlElement(name = "fi_lrmi:person", nillable = true, required = false)
+    @XmlElement(name = "dc:subject")
+    private String[] keyword;
+
+    @XmlElementWrapper(name = "lrmi_fi:author", nillable = true, required = true)
+    @XmlElement(name = "lrmi_fi:person", nillable = true, required = true)
     private List<Author> author;
 
-    // @XmlElement(name = "dc:subject")
-    private String[] subject;
-
-    // @XmlElement(name = "dc:format")
-    private String format;
+    @XmlElement(name = "lrmi_fi:material")
+    private List<Material> material;
 
     // @XmlElement(name = "dc:rights")
     private String rights;
@@ -96,9 +96,6 @@ public class LrmiMetadata {
     private String getTypicalAgeRange() {
         return (agerangemin >= 0 ? agerangemin : "") + "-" + (agerangemax >= 0 ? agerangemax : "");
     }
-
-    // @XmlElement(name = "fi_lrmi:materials")
-    private List<Material> materials;
 
     /*
     private String[] owner;
@@ -166,20 +163,20 @@ public class LrmiMetadata {
         this.author = author;
     }
 
-    public String[] getSubject() {
-        return subject;
+    public String[] getKeyword() {
+        return keyword;
     }
 
-    public void setSubject(String[] subject) {
-        this.subject = subject;
+    public void setKeyword(String[] keyword) {
+        this.keyword = keyword;
     }
 
-    public String getFormat() {
-        return format;
+    public List<Material> getMaterial() {
+        return material;
     }
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setMaterial(List<Material> material) {
+        this.material = material;
     }
 
     public String getRights() {
@@ -237,14 +234,6 @@ public class LrmiMetadata {
 
     public void setArchivedat(LocalDateTime archivedat) {
         this.archivedat = archivedat;
-    }
-
-    public List<Material> getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(List<Material> materials) {
-        this.materials = materials;
     }
 
     public Integer getAgerangemin() {

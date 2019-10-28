@@ -1,129 +1,64 @@
 package fi.csc.oaipmh.model.xml_lrmi.sublevel_1st;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.sublevel_2nd.MaterialDisplayName;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 
-import javax.xml.bind.annotation.*;
-import java.util.List;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("unused")
-@XmlSeeAlso({MaterialDisplayName.class})
 @XmlAccessorType(XmlAccessType.NONE)
 public class Material {
 
-    @XmlElement(name = "lrmi:id")
-    private Long id;
+    @XmlElement(name = "lrmi_fi:name")
+    private String name;
 
-    @XmlElement(name = "lrmi:language")
-    private String language;
+    @XmlElement(name = "lrmi_fi:url")
+    private String url;
 
-    @XmlElement(name = "lrmi:key")
-    private String key;
+    @XmlElement(name = "lrmi_fi:position")
+    private Integer position;
 
-    @XmlElement(name = "lrmi:link")
-    private String link;
-
-    @XmlElement(name = "lrmi:priority")
-    private Integer priority;
-
-    @XmlElement(name = "lrmi:filepath")
-    private String filepath;
-
-    @XmlElement(name = "lrmi:originalfilename")
-    private String originalfilename;
-
-    @XmlElement(name = "lrmi:filesize")
-    private Integer filesize;
-
-    @XmlElement(name = "lrmi:minetype")
-    private String mimetype;
-
-    @XmlElement(name = "lrmi:format")
+    @XmlElement(name = "lrmi_fi:format")
     private String format;
 
-    @XmlElement(name = "lrmi:filekey")
-    private String filekey;
+    @XmlElement(name = "lrmi_fi:filesize")
+    private Integer fileSize;
 
-    @XmlElement(name = "lrmi:createdat")
-    private String filebucket;
+    @XmlElement(name = "lrmi_fi:inlanguage")
+    private String inLanguage;
 
-    @XmlElement(name = "lrmi:createdat")
-    private Integer obsolete;
+    public Material() {}
 
-    @XmlElement(name = "lrmi:materialdisplayname")
-    private List<MaterialDisplayName> materialdisplayname;
-
-    public Long getId() {
-        return id;
+    public Material(String name, String url, Integer position, String format, Integer fileSize, String inLanguage) {
+        this.name = name;
+        this.url = url;
+        this.position = position;
+        this.format = format;
+        this.fileSize = fileSize;
+        this.inLanguage = inLanguage;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getName() {
+        return name;
     }
 
-    public String getLanguage() {
-        return language;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public String getUrl() {
+        return url;
     }
 
-    public String getKey() {
-        return key;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public Integer getPosition() {
+        return position;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public String getFilepath() {
-        return filepath;
-    }
-
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
-    }
-
-    public String getOriginalfilename() {
-        return originalfilename;
-    }
-
-    public void setOriginalfilename(String originalfilename) {
-        this.originalfilename = originalfilename;
-    }
-
-    public Integer getFilesize() {
-        return filesize;
-    }
-
-    public void setFilesize(Integer filesize) {
-        this.filesize = filesize;
-    }
-
-    public String getMimetype() {
-        return mimetype;
-    }
-
-    public void setMimetype(String mimetype) {
-        this.mimetype = mimetype;
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public String getFormat() {
@@ -134,35 +69,19 @@ public class Material {
         this.format = format;
     }
 
-    public String getFilekey() {
-        return filekey;
+    public Integer getFileSize() {
+        return fileSize;
     }
 
-    public void setFilekey(String filekey) {
-        this.filekey = filekey;
+    public void setFileSize(Integer fileSize) {
+        this.fileSize = fileSize;
     }
 
-    public String getFilebucket() {
-        return filebucket;
+    public String getInLanguage() {
+        return inLanguage;
     }
 
-    public void setFilebucket(String filebucket) {
-        this.filebucket = filebucket;
-    }
-
-    public Integer getObsolete() {
-        return obsolete;
-    }
-
-    public void setObsolete(Integer obsolete) {
-        this.obsolete = obsolete;
-    }
-
-    public List<MaterialDisplayName> getMaterialdisplayname() {
-        return materialdisplayname;
-    }
-
-    public void setMaterialdisplayname(List<MaterialDisplayName> materialdisplayname) {
-        this.materialdisplayname = materialdisplayname;
+    public void setInLanguage(String inLanguage) {
+        this.inLanguage = inLanguage;
     }
 }

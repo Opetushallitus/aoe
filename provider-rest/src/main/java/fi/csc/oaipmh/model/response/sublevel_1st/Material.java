@@ -55,4 +55,60 @@ public class Material {
 
     @JsonProperty
     private List<MaterialDisplayName> materialdisplayname;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public String getOriginalfilename() {
+        return originalfilename;
+    }
+
+    public Integer getFilesize() {
+        return filesize;
+    }
+
+    public String getMimetype() {
+        return mimetype;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public String getFilekey() {
+        return filekey;
+    }
+
+    public String getFilebucket() {
+        return filebucket;
+    }
+
+    public Boolean getObsoleted() {
+        return obsoleted;
+    }
+
+    public List<MaterialDisplayName> getMaterialdisplayname() {
+        return materialdisplayname;
+    }
 }

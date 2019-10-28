@@ -16,4 +16,20 @@ public class Keyword {
 
     @JsonProperty
     private String keywordkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getKeywordkey() {
+        return keywordkey;
+    }
 }

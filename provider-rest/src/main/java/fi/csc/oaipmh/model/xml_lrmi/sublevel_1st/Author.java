@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlElement;
 @XmlAccessorType(XmlAccessType.NONE)
 public class Author {
 
-    @XmlElement(name = "fi_lrmi:name")
+    @XmlElement(name = "lrmi_fi:name")
     private String name;
 
-    @XmlElement(name = "fi_lrmi:organization")
+    @XmlElement(name = "lrmi_fi:organization")
     private String organization;
 
     public Author() {}
