@@ -292,6 +292,8 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
         (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
       );
+
+      this.modalRef.hide();
     }
   }
 
