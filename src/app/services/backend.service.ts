@@ -153,13 +153,14 @@ export class BackendService {
    * @param {FormData} data
    * @returns {Observable<UploadMessage>} Upload message
    */
-  public uploadImage(data: FormData): Observable<UploadMessage> {
+  public uploadImage(data: { base64image: string }): Observable<UploadMessage> {
     if (localStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = getLocalStorageData(this.localStorageKey);
 
-      return this.http.post<FormData>(`${this.backendUrl}/uploadImage/${fileUpload.id}`, data, {
+      return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${fileUpload.id}`, data, {
         headers: new HttpHeaders({
           'Accept': 'application/json',
+          'Content-Type': 'application/json',
         }),
         reportProgress: true,
         observe: 'events',
