@@ -16,4 +16,20 @@ public class EducationalAudience {
 
     @JsonProperty
     private String educationalrolekey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEducationalrole() {
+        return educationalrole;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getEducationalrolekey() {
+        return educationalrolekey;
+    }
 }

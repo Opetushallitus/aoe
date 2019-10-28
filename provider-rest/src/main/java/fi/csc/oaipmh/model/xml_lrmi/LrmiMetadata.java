@@ -1,6 +1,8 @@
 package fi.csc.oaipmh.model.xml_lrmi;
 
 import fi.csc.oaipmh.adapter.DateTimeAdapter;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Author;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.LangValue;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Material;
 
 import javax.xml.bind.annotation.*;
@@ -12,7 +14,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 @XmlSeeAlso({Material.class})
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(propOrder = {"id", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"})
+/* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
+    "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
 @XmlRootElement(name = "oai_dc:dc")
 public class LrmiMetadata {
 
@@ -22,8 +25,11 @@ public class LrmiMetadata {
     @XmlAttribute(name = "xmlns:dc")
     protected final String xmlns_dc = "http://purl.org/dc/elements/1.1/";
 
-    @XmlAttribute(name = "xmlns:lrmi")
+    @XmlAttribute(name = "xmlns:fi_lrmi")
     protected final String xmlns_lrmi = "http://dublincore.org/dcx/lrmi-terms/1.1/";
+
+    // @XmlAttribute(name = "xmlns:sawsdl")
+    // protected final String xmlns_sawsdl = "http://www.w3.org/ns/sawsdl";
 
     @XmlAttribute(name = "xmlns:xsi")
     protected final String xmlns_xsi = "http://www.w3.org/2001/XMLSchema-instance";
@@ -31,23 +37,53 @@ public class LrmiMetadata {
     @XmlAttribute(name = "xsi:schemaLocation")
     protected final String xsi_schemaLocation = "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd";
 
-    @XmlElement(name = "lrmi:id")
-    private String id;
+    // DC - Dublin Core
+    @XmlElement(name = "dc:id")
+    private String identifier;
 
-    // @JsonFormat(with = JsonFormat.Feature.ACCEPT_CASE_INSENSITIVE_PROPERTIES)
-    @XmlElement(name = "lrmi:dateCreated")
+    @XmlElement(name = "dc:title")
+    private List<LangValue> title;
+
+    @XmlElement(name = "dc:date")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    private LocalDateTime date;
+
+    @XmlElement(name = "dc:description")
+    private List<LangValue> description;
+
+    @XmlElementWrapper(name = "fi_lrmi:author", nillable = true, required = false)
+    @XmlElement(name = "fi_lrmi:person", nillable = true, required = false)
+    private List<Author> author;
+
+    // @XmlElement(name = "dc:subject")
+    private String[] subject;
+
+    // @XmlElement(name = "dc:format")
+    private String format;
+
+    // @XmlElement(name = "dc:rights")
+    private String rights;
+
+    // @XmlElement(name = "dc:publisher")
+    private String publisher;
+
+    // @XmlElement(name = "dc:type")
+    private String type;
+
+    // FI-LRMI - Learning Resource Metadata Initiative
+    // @XmlElement(name = "fi_lrmi:dateCreated")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime createdat;
 
-    @XmlElement(name = "lrmi:dateModified")
+    // @XmlElement(name = "fi_lrmi:dateModified")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime updatedat;
 
-    @XmlElement(name = "lrmi:datePublished")
+    // @XmlElement(name = "fi_lrmi:datePublished")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime publishedat;
 
-    @XmlElement(name = "lrmi:dateArchived")
+    // @XmlElement(name = "fi_lrmi:dateArchived")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime archivedat;
 
@@ -56,12 +92,12 @@ public class LrmiMetadata {
     private Integer agerangemax;
 
     // Serialization field (to XML) for typicalAgeRange
-    @XmlElement(name = "lrmi:typicalAgeRange")
+    // @XmlElement(name = "fi_lrmi:typicalAgeRange")
     private String getTypicalAgeRange() {
         return (agerangemin >= 0 ? agerangemin : "") + "-" + (agerangemax >= 0 ? agerangemax : "");
     }
 
-    @XmlElement(name = "lrmi:materials")
+    // @XmlElement(name = "fi_lrmi:materials")
     private List<Material> materials;
 
     /*
@@ -89,14 +125,88 @@ public class LrmiMetadata {
 
     public LrmiMetadata() {}
 
-    public String getId() {
-        return id;
+    // DC
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
+    public List<LangValue> getTitle() {
+        return title;
+    }
+
+    public void setTitle(List<LangValue> title) {
+        this.title = title;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public List<LangValue> getDescription() {
+        return description;
+    }
+
+    public void setDescription(List<LangValue> description) {
+        this.description = description;
+    }
+
+    public List<Author> getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(List<Author> author) {
+        this.author = author;
+    }
+
+    public String[] getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String[] subject) {
+        this.subject = subject;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public String getRights() {
+        return rights;
+    }
+
+    public void setRights(String rights) {
+        this.rights = rights;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    // LRMI
     public LocalDateTime getCreatedat() {
         return createdat;
     }

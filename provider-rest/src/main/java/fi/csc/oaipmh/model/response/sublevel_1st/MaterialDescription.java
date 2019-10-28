@@ -16,4 +16,20 @@ public class MaterialDescription {
 
     @JsonProperty
     private String educationalmaterialid;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
 }

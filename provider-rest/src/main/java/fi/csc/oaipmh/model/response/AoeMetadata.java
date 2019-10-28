@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class AoeMetadataResponse {
+public class AoeMetadata {
 
     @JsonProperty
-    private String id;
+    private Long id;
 
     @JsonProperty
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -64,10 +64,10 @@ public class AoeMetadataResponse {
     private List<Material> materials;
 
     @JsonProperty
-    private List<MaterialName> materialName;
+    private List<MaterialName> materialname;
 
     @JsonProperty
-    private List<MaterialDescription> materialDescription;
+    private List<MaterialDescription> materialdescription;
 
     @JsonProperty
     private List<EducationalAudience> educationalaudience;
@@ -107,4 +107,113 @@ public class AoeMetadataResponse {
 
     @JsonProperty
     private List<Owner> owner;
+
+    // Getters only
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDateTime getCreatedat() {
+        return createdat;
+    }
+
+    public LocalDateTime getUpdatedat() {
+        return updatedat;
+    }
+
+    public LocalDateTime getArchivedat() {
+        return archivedat;
+    }
+
+    public String getTimerequired() {
+        return timerequired;
+    }
+
+    public Integer getAgerangemin() {
+        return agerangemin;
+    }
+
+    public Integer getAgerangemax() {
+        return agerangemax;
+    }
+
+    public String getLicensecode() {
+        return licensecode;
+    }
+
+    public Boolean getObsoleted() {
+        return obsoleted;
+    }
+
+    public LocalDateTime getOriginalpublishedat() {
+        return originalpublishedat;
+    }
+
+    public LocalDateTime getExpires() {
+        return expires;
+    }
+
+    public List<Material> getMaterials() {
+        return materials;
+    }
+
+    public List<MaterialName> getMaterialname() {
+        return materialname;
+    }
+
+    public List<MaterialDescription> getMaterialdescription() {
+        return materialdescription;
+    }
+
+    public List<EducationalAudience> getEducationalaudience() {
+        return educationalaudience;
+    }
+
+    public List<LearningResourceType> getLearningresourcetype() {
+        return learningresourcetype;
+    }
+
+    public List<AccessibilityFeature> getAccessibilityfeature() {
+        return accessibilityfeature;
+    }
+
+    public List<AccessibilityHazard> getAccessibilityhazard() {
+        return accessibilityhazard;
+    }
+
+    public List<Keyword> getKeyword() {
+        return keyword;
+    }
+
+    public List<EducationalLevel> getEducationallevel() {
+        return educationallevel;
+    }
+
+    public List<EducationalUse> getEducationaluse() {
+        return educationaluse;
+    }
+
+    public List<Publisher> getPublisher() {
+        return publisher;
+    }
+
+    public List<Author> getAuthor() {
+        return author;
+    }
+
+    public List<IsBasedOn> getIsbasedon() {
+        return isbasedon;
+    }
+
+    public List<InLanguage> getInlanguage() {
+        return inlanguage;
+    }
+
+    public List<AlignmentObject> getAligmentobject() {
+        return aligmentobject;
+    }
+
+    public List<Owner> getOwner() {
+        return owner;
+    }
 }

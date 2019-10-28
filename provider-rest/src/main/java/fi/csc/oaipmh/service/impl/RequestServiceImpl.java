@@ -1,7 +1,7 @@
 package fi.csc.oaipmh.service.impl;
 
 import fi.csc.oaipmh.model.request.MetadataRequest;
-import fi.csc.oaipmh.model.response.AoeMetadataResponse;
+import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
 import fi.csc.oaipmh.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public List<AoeMetadataResponse> getAoeMetadata() {
+    public List<AoeMetadata> getAoeMetadata() {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
         MetadataRequest metadataRequest = new MetadataRequest();
@@ -65,6 +65,6 @@ public class RequestServiceImpl implements RequestService {
         HttpEntity<MetadataRequest> request = new HttpEntity<>(metadataRequest, headers);
 
         return restTemplate.exchange(env.getProperty("aoe.request.url"),
-            HttpMethod.POST, request, new ParameterizedTypeReference<List<AoeMetadataResponse>>(){}).getBody();
+            HttpMethod.POST, request, new ParameterizedTypeReference<List<AoeMetadata>>(){}).getBody();
     }
 }

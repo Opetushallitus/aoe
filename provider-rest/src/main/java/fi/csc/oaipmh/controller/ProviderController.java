@@ -1,6 +1,6 @@
 package fi.csc.oaipmh.controller;
 
-import fi.csc.oaipmh.model.response.AoeMetadataResponse;
+import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.oaipmh.service.MetadataService;
 import fi.csc.oaipmh.service.RequestService;
@@ -44,7 +44,7 @@ public class ProviderController {
     }
 
     @GetMapping(path = "/aoemeta")
-    public ResponseEntity<List<AoeMetadataResponse>> getAoeMetadata() {
+    public ResponseEntity<List<AoeMetadata>> getAoeMetadata() {
         return new ResponseEntity<>(
             this.requestService.getAoeMetadata(),
             HttpStatus.OK);

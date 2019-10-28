@@ -19,4 +19,24 @@ public class Author {
 
     @JsonProperty
     private String organizationkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAuthorname() {
+        return authorname;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getOrganizationkey() {
+        return organizationkey;
+    }
 }

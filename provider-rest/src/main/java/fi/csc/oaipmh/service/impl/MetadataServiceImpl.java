@@ -1,5 +1,6 @@
 package fi.csc.oaipmh.service.impl;
 
+import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
 import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Identify;
@@ -9,6 +10,7 @@ import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.Record;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.sublevel_3rd.RecordHeader;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.sublevel_3rd.RecordMetadata;
 import fi.csc.oaipmh.service.MetadataService;
+import fi.csc.oaipmh.service.MigrationService;
 import fi.csc.oaipmh.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -21,6 +23,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -28,11 +31,13 @@ public class MetadataServiceImpl implements MetadataService {
     private final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     private Environment env;
+    private MigrationService migrationService;
     private RequestService requestService;
 
     @Autowired
-    public MetadataServiceImpl(Environment env, RequestService requestService) {
+    public MetadataServiceImpl(Environment env, MigrationService migrationService, RequestService requestService) {
         this.env = env;
+        this.migrationService = migrationService;
         this.requestService = requestService;
     }
 
@@ -89,12 +94,16 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     private void setLrmiMetadata(OaiPmhFrame frame) {
-        List<LrmiMetadata> lrmiMetadataList = this.requestService.getMetadata();
+        List<AoeMetadata> aoeMetadata = this.requestService.getAoeMetadata();
+
+        List<LrmiMetadata> migratedMetadata = aoeMetadata.stream()
+            .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
+            .collect(Collectors.toList());
         List<Record> records = new ArrayList<>();
 
-        lrmiMetadataList.forEach(meta -> {
-            RecordHeader recordHeader = new RecordHeader(null, "oai:aoe.fi/oaipmh:" + meta.getId(),
-                    CUSTOM_DATETIME.format(meta.getUpdatedat()));
+        migratedMetadata.forEach(meta -> {
+            RecordHeader recordHeader = new RecordHeader(null, meta.getIdentifier(),
+                (meta.getUpdatedat() != null ? CUSTOM_DATETIME.format(meta.getUpdatedat()) : ""));
 
             RecordMetadata recordMetadata = new RecordMetadata();
             recordMetadata.setLrmiMetadata(meta);

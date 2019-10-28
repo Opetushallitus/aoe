@@ -19,4 +19,24 @@ public class MaterialName {
 
     @JsonProperty
     private String educationalmaterialid;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMaterialname() {
+        return materialname;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
 }
