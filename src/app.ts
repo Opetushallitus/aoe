@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(compression());
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json({extended: true, limit: "1mb"}));
 app.use(bodyParser.urlencoded({extended: true, limit: "1mb"}));
 app.set("port", 3000);
 app.set("views", path.join(__dirname, "../views"));
@@ -45,13 +45,6 @@ app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection);
 
 require("./aoeScheduler");
-try {
-    // const ela = require("./elasticSearch/es");
-    // ela.createEsIndex();
-}
-catch (err) {
-    console.log(err);
-}
 /**
  * API examples routes.
  */

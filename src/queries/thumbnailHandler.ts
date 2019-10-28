@@ -86,7 +86,7 @@ async function uploadbase64Image(req: Request, res: Response) {
         const contentType = req.headers["content-type"];
         console.log(contentType);
         console.log(req.body);
-        if (contentType.startsWith("application/x-www-form-urlencoded")) {
+        if (contentType.startsWith("application/json")) {
             const imgdata = req.body.base64image;
             const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
             const matches = req.body.base64image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
