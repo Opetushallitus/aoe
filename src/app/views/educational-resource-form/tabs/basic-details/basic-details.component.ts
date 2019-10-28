@@ -129,16 +129,16 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
         this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
       }
 
-      if (this.savedData.learningResourceType) {
-        this.basicDetailsForm.get('learningResourceType').setValue(this.savedData.learningResourceType);
+      if (this.savedData.learningResourceTypes) {
+        this.basicDetailsForm.get('learningResourceTypes').setValue(this.savedData.learningResourceTypes);
       }
 
       if (this.savedData.educationalRoles) {
         this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRoles);
       }
 
-      if (this.savedData.educationalUse) {
-        this.basicDetailsForm.get('educationalUse').setValue(this.savedData.educationalUse);
+      if (this.savedData.educationalUses) {
+        this.basicDetailsForm.get('educationalUses').setValue(this.savedData.educationalUses);
       }
 
       if (this.savedData.description) {
