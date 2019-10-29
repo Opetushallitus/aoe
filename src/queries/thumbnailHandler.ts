@@ -84,8 +84,6 @@ async function uploadImage(req: Request, res: Response) {
 async function uploadbase64Image(req: Request, res: Response) {
     try {
         const contentType = req.headers["content-type"];
-        console.log(contentType);
-        console.log(req.body);
         if (contentType.startsWith("application/json")) {
             const imgdata = req.body.base64image;
             const base64Data = imgdata.replace(/^data:([A-Za-z-+/]+);base64,/, "");
@@ -107,7 +105,7 @@ async function uploadbase64Image(req: Request, res: Response) {
             return res.status(200).json({"thumbnail created" : obj.Location});
         }
         else {
-            return res.status(400).json({"error": "application/x-www-form-urlencoded expected"});
+            return res.status(400).json({"error": "application/json expected"});
         }
 
     }

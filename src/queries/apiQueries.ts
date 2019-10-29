@@ -192,11 +192,40 @@ async function getMaterialData(req: Request , res: Response , next: NextFunction
 
 async function getUserMaterial(req: Request , res: Response , next: NextFunction) {
     try {
-        let query;
-        // let params = { };
-        query = "SELECT * FROM educationalmaterial WHERE usersusername = $1 and obsoleted != '1' limit 1000;";
-        const data = await db.any(query, [req.params.username]);
+        db.task(async (t: any) => {
+            const params: any = [];
+            let query;
+            query = "SELECT id, licensecode as license FROM educationalmaterial WHERE usersusername = $1 and obsoleted != '1' limit 1000;";
+            params.push(req.params.username);
+            return t.map(query, params, async (q: any) => {
+                query = "select * from materialname where educationalmaterialid = $1;";
+                let response = await t.any(query, [q.id]);
+                q.name = response;
+                query = "select * from materialdescription where educationalmaterialid = $1;";
+                response = await t.any(query, [q.id]);
+                q.description = response;
+                query = "select * from learningresourcetype where educationalmaterialid = $1;";
+                response = await t.any(query, [q.id]);
+                q.learningResourceTypes = response;
+                query = "select * from keyword where educationalmaterialid = $1;";
+                response = await t.any(query, [q.id]);
+                q.keywords = response;
+                query = "select * from author where educationalmaterialid = $1;";
+                response = await t.any(query, [q.id]);
+                q.authors = response;
+                query = "Select filepath as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;";
+                response = await db.oneOrNone(query, [q.id]);
+                q.thumbnail = response;
+                return q;
+            }).then(t.batch)
+            .catch((error: any) => {
+                console.log(error);
+                return error;
+            }) ;
+        })
+        .then((data: any) => {
         res.status(200).json(data);
+        });
     }
     catch (err ) {
         console.log(err);
