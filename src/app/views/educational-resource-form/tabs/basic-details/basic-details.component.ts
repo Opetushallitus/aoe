@@ -266,21 +266,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.authors.removeAt(i);
   }
 
-  processImage(value) {
-    if (value.target.files.length > 0) {
-      const image = value.target.files[0];
-      const reader = new FileReader();
-
-      reader.addEventListener('load', () => {
-        this.selectedImage = { src: reader.result, file: image };
-      }, false);
-
-      if (image) {
-        reader.readAsDataURL(image);
-      }
-    }
-  }
-
   uploadImage() {
     if (this.croppedImage.base64) {
       const data = {
@@ -288,11 +273,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       };
 
       this.backendSvc.uploadImage(data).subscribe(
-        (res) => this.uploadResponse = res,
+        (res) => {
+          this.uploadResponse = res;
+
+          this.modalRef.hide();
+          },
         (err) => this.uploadError = err,
       );
-
-      this.modalRef.hide();
     }
   }
 
