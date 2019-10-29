@@ -140,7 +140,7 @@ export class BackendService {
   /**
    * Returns list of educational materials by user.
    * @param {User} user
-   * @returns {Observable<EducationalMaterialList[]>} List of educational materials
+   * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
   public getUserMaterialList(): Observable<EducationalMaterialList> {
     const user = this.authSvc.getUser();
