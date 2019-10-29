@@ -102,7 +102,7 @@ async function uploadbase64Image(req: Request, res: Response) {
             query = "INSERT INTO thumbnail (filepath, mimetype, educationalmaterialid, filename, fileKey, fileBucket) VALUES ($1,$2,$3,$4,$5,$6);";
             console.log(query, [obj.Location, matches[1], req.params.id, fileName, obj.Key, obj.Bucket]);
             await db.any(query, [obj.Location, matches[1], req.params.id, fileName, obj.Key, obj.Bucket]);
-            return res.status(200).json({"thumbnail created" : obj.Location});
+            return res.status(200).json({"url" : obj.Location});
         }
         else {
             return res.status(400).json({"error": "application/json expected"});
