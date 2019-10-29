@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
 import { getLocalStorageData } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
-import { TranslateService } from '@ngx-translate/core';
 import { UploadMessage } from '../models/upload-message';
+import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 
@@ -21,7 +22,8 @@ export class BackendService {
 
   constructor(
     private http: HttpClient,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authSvc: AuthService,
   ) { }
 
   /**
@@ -140,12 +142,33 @@ export class BackendService {
    * @param {User} user
    * @returns {Observable<EducationalMaterialList[]>} List of educational materials
    */
-  public getUserMaterialList(user: User): Observable<EducationalMaterialList[]> {
-    return this.http.get<EducationalMaterialList[]>(`${this.backendUrl}/material/user/${user.username}`, {
+  public getUserMaterialList(): Observable<EducationalMaterialList> {
+    const user = this.authSvc.getUser();
+
+    return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    });
+    }).pipe(
+      map((res): EducationalMaterialList => {
+        return {
+          id: res.id,
+          name: res.name
+            .find(n => n.language.toLowerCase() === this.lang).materialname,
+          thumbnail: res.thumbnail.thumbnail,
+          learningResourceTypes: res.learningResourceTypes
+            .map(({ value }) => value),
+          authors: res.authors
+            .map(({ authorname, organization }) => ({ authorname, organization })),
+          description: res.description
+            .find(d => d.language.toLowerCase() === this.lang).description,
+          license: res.license,
+          keywords: res.keywords
+            .map(({ keywordkey, value }) => ({ keywordkey, value })),
+          educationalLevels: [],
+        };
+      })
+    );
   }
 
   /**
