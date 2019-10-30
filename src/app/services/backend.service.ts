@@ -142,7 +142,7 @@ export class BackendService {
    * @param {User} user
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
-  public getUserMaterialList(): Observable<EducationalMaterialList> {
+  public getUserMaterialList(): Observable<EducationalMaterialList[]> {
     const user = this.authSvc.getUser();
 
     return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
@@ -150,23 +150,27 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      map((res): EducationalMaterialList => {
-        return {
-          id: res.id,
-          name: res.name
-            .find(n => n.language.toLowerCase() === this.lang).materialname,
-          thumbnail: res.thumbnail.thumbnail,
-          learningResourceTypes: res.learningResourceTypes
-            .map(({ value }) => value),
-          authors: res.authors
-            .map(({ authorname, organization }) => ({ authorname, organization })),
-          description: res.description
-            .find(d => d.language.toLowerCase() === this.lang).description,
-          license: res.license,
-          keywords: res.keywords
-            .map(({ keywordkey, value }) => ({ keywordkey, value })),
-          educationalLevels: [],
-        };
+      map((res): EducationalMaterialList[] => {
+        return res
+          .filter(r => r.name.length > 0)
+          .map(r => {
+            return {
+              id: r.id,
+              name: r.name
+                .find(n => n.language.toLowerCase() === this.lang).materialname,
+              thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
+              learningResourceTypes: r.learningResourceTypes
+                .map(({ value }) => value),
+              authors: r.authors
+                .map(({ authorname, organization }) => ({ authorname, organization })),
+              description: r.description
+                .find(d => d.language.toLowerCase() === this.lang).description,
+              license: r.license,
+              keywords: r.keywords
+                .map(({ keywordkey, value }) => ({ keywordkey, value })),
+              educationalLevels: [],
+            };
+          });
       })
     );
   }
