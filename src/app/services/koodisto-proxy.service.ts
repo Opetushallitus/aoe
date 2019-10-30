@@ -41,6 +41,7 @@ export class KoodistoProxyService {
   public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
   public licenses$ = new Subject<License[]>();
+  public keywords$ = new Subject();
 
   constructor(
     private http: HttpClient,
@@ -188,6 +189,15 @@ export class KoodistoProxyService {
     this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions)
       .subscribe((licenses: License[]) => {
         this.licenses$.next(licenses.map(license => ({ ...license, isCollapsed: true })));
+      });
+  }
+
+  updateKeywords(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<any>(`${this.apiUri}/asiasanat/${lang}`, this.httpOptions)
+      .subscribe((keywords: any) => {
+        this.keywords$.next(keywords);
       });
   }
 }
