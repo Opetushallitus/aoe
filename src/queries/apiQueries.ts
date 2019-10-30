@@ -216,6 +216,9 @@ async function getUserMaterial(req: Request , res: Response , next: NextFunction
                 query = "Select filepath as thumbnail from thumbnail where educationalmaterialid = $1 and obsoleted = 0;";
                 response = await db.oneOrNone(query, [q.id]);
                 q.thumbnail = response;
+                query = "select * from educationallevel where educationalmaterialid = $1;";
+                response = await t.any(query, [q.id]);
+                q.educationalLevels = response;
                 return q;
             }).then(t.batch)
             .catch((error: any) => {
