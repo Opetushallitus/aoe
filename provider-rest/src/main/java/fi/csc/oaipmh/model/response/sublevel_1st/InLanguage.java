@@ -16,4 +16,20 @@ public class InLanguage {
 
     @JsonProperty
     private String educationalmaterialid;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getInlanguage() {
+        return inlanguage;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
 }

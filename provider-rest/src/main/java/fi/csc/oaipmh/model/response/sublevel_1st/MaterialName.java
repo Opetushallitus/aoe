@@ -1,6 +1,7 @@
 package fi.csc.oaipmh.model.response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fi.csc.oaipmh.enumeration.Language;
 
 @SuppressWarnings("unused")
 public class MaterialName {
@@ -12,7 +13,7 @@ public class MaterialName {
     private String materialname;
 
     @JsonProperty
-    private String language;
+    private Language language;
 
     @JsonProperty
     private String slug;
@@ -28,7 +29,7 @@ public class MaterialName {
         return materialname;
     }
 
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 

@@ -23,19 +23,8 @@ public class Material {
     @XmlElement(name = "lrmi_fi:filesize")
     private Integer fileSize;
 
-    @XmlElement(name = "lrmi_fi:inlanguage")
+    @XmlElement(name = "lrmi_fi:inLanguage")
     private String inLanguage;
-
-    public Material() {}
-
-    public Material(String name, String url, Integer position, String format, Integer fileSize, String inLanguage) {
-        this.name = name;
-        this.url = url;
-        this.position = position;
-        this.format = format;
-        this.fileSize = fileSize;
-        this.inLanguage = inLanguage;
-    }
 
     public String getName() {
         return name;

@@ -16,4 +16,20 @@ public class AccessibilityHazard {
 
     @JsonProperty
     private String accessibilityhazardkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getAccessibilityhazardkey() {
+        return accessibilityhazardkey;
+    }
 }

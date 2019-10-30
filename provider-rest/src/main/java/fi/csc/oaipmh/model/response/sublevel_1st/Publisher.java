@@ -16,4 +16,20 @@ public class Publisher {
 
     @JsonProperty
     private String publisherkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getPublisherkey() {
+        return publisherkey;
+    }
 }

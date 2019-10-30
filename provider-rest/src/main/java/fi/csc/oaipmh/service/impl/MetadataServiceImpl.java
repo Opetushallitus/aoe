@@ -103,7 +103,7 @@ public class MetadataServiceImpl implements MetadataService {
 
         migratedMetadata.forEach(meta -> {
             RecordHeader recordHeader = new RecordHeader(null, meta.getIdentifier(),
-                (meta.getUpdatedat() != null ? CUSTOM_DATETIME.format(meta.getUpdatedat()) : ""));
+                (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
 
             RecordMetadata recordMetadata = new RecordMetadata();
             recordMetadata.setLrmiMetadata(meta);

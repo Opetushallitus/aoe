@@ -11,15 +11,8 @@ public class Author {
     @XmlElement(name = "lrmi_fi:name")
     private String name;
 
-    @XmlElement(name = "lrmi_fi:organization")
-    private String organization;
-
-    public Author() {}
-
-    public Author(String name, String organization) {
-        this.name = name;
-        this.organization = organization;
-    }
+    @XmlElement(name = "lrmi_fi:affiliation")
+    private String affiliation;
 
     public String getName() {
         return name;
@@ -29,11 +22,11 @@ public class Author {
         this.name = name;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getAffiliation() {
+        return affiliation;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setAffiliation(String affiliation) {
+        this.affiliation = affiliation;
     }
 }

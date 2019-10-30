@@ -1,5 +1,7 @@
 package fi.csc.oaipmh.model.xml_lrmi.sublevel_1st;
 
+import fi.csc.oaipmh.enumeration.Language;
+
 import javax.xml.bind.annotation.*;
 
 @SuppressWarnings("unused")
@@ -7,24 +9,23 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement
 public class LangValue {
 
-    @XmlAttribute(name = "xml:lang")
-    private String lang;
-
     @XmlValue
     private String value;
+    private Language lang;
 
     public LangValue() {}
 
-    public LangValue(String lang, String value) {
+    public LangValue(Language lang, String value) {
         this.lang = lang;
         this.value = value;
     }
 
+    @XmlAttribute(name = "xml:lang")
     public String getLang() {
-        return lang;
+        return lang.toString();
     }
 
-    public void setLang(String lang) {
+    public void setLang(Language lang) {
         this.lang = lang;
     }
 

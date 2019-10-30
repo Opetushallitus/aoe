@@ -1,10 +1,9 @@
 package fi.csc.oaipmh.model.xml_lrmi;
 
 import fi.csc.oaipmh.adapter.DateTimeAdapter;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Author;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.LangValue;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Material;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class LrmiMetadata {
     protected final String xmlns_dc = "http://purl.org/dc/elements/1.1/";
 
     @XmlAttribute(name = "xmlns:lrmi_fi")
-    protected final String xmlns_lrmi = "http://dublincore.org/dcx/lrmi-terms/1.1/";
+    protected final String xmlns_lrmi_fi = "http://dublincore.org/dcx/lrmi-terms/1.1/";
 
     // @XmlAttribute(name = "xmlns:sawsdl")
     // protected final String xmlns_sawsdl = "http://www.w3.org/ns/sawsdl";
@@ -54,38 +53,39 @@ public class LrmiMetadata {
     @XmlElement(name = "dc:subject")
     private String[] keyword;
 
-    @XmlElementWrapper(name = "lrmi_fi:author", nillable = true, required = true)
-    @XmlElement(name = "lrmi_fi:person", nillable = true, required = true)
+    @XmlElement(name = "dc:rights")
+    private String rights;
+
+    @XmlElement(name = "dc:publisher")
+    private List<String> publisher;
+
+    @XmlElement(name = "dc:type")
+    private List<String> type;
+
+    @XmlElement(name = "dc:valid")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    private LocalDateTime valid;
+
+    // LRMI
+
+    @XmlElement(name = "lrmi_fi:dateCreated")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    private LocalDateTime dateCreated;
+
+    @XmlElement(name = "lrmi_fi:dateModified")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    private LocalDateTime dateModified;
+
+    @XmlElement(name = "lrmi_fi:dateArchived")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    private LocalDateTime archivedAt;
+
+    @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
+    @XmlElement(name = "lrmi_fi:person")
     private List<Author> author;
 
     @XmlElement(name = "lrmi_fi:material")
     private List<Material> material;
-
-    // @XmlElement(name = "dc:rights")
-    private String rights;
-
-    // @XmlElement(name = "dc:publisher")
-    private String publisher;
-
-    // @XmlElement(name = "dc:type")
-    private String type;
-
-    // FI-LRMI - Learning Resource Metadata Initiative
-    // @XmlElement(name = "fi_lrmi:dateCreated")
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private LocalDateTime createdat;
-
-    // @XmlElement(name = "fi_lrmi:dateModified")
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private LocalDateTime updatedat;
-
-    // @XmlElement(name = "fi_lrmi:datePublished")
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private LocalDateTime publishedat;
-
-    // @XmlElement(name = "fi_lrmi:dateArchived")
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    private LocalDateTime archivedat;
 
     // Deserialization fields (from JSON) for typicalAgeRange
     private Integer agerangemin;
@@ -96,6 +96,21 @@ public class LrmiMetadata {
     private String getTypicalAgeRange() {
         return (agerangemin >= 0 ? agerangemin : "") + "-" + (agerangemax >= 0 ? agerangemax : "");
     }
+
+    @XmlElement(name = "lrmi_fi:educationalAudience")
+    private List<EducationalAudience> educationalAudience;
+
+    @XmlElement(name = "lrmi_fi:isBasedOn")
+    private List<IsBasedOn> isBasedOn;
+
+    @XmlElement(name = "lrmi_fi:accessibilityFeature")
+    private String[] accessibilityFeature;
+
+    @XmlElement(name = "lrmi_fi:accessibilityHazard")
+    private String[] accessibilityHazard;
+
+    @XmlElement(name = "lrmi_fi:inLanguage")
+    private List<InLanguage> inLanguage;
 
     /*
     private String[] owner;
@@ -122,7 +137,15 @@ public class LrmiMetadata {
 
     public LrmiMetadata() {}
 
-    // DC
+    // JAXB event callback
+    // void beforeUnmarshal(Unmarshaller m, Object parent)
+    // void afterUnmarshal(Unmarshaller m, Object parent)
+    private void beforeMarshal(Marshaller marshaller) {
+        if (this.author != null && this.author.isEmpty()) {
+            this.author = null;
+        }
+    }
+
     public String getIdentifier() {
         return identifier;
     }
@@ -155,28 +178,12 @@ public class LrmiMetadata {
         this.description = description;
     }
 
-    public List<Author> getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(List<Author> author) {
-        this.author = author;
-    }
-
     public String[] getKeyword() {
         return keyword;
     }
 
     public void setKeyword(String[] keyword) {
         this.keyword = keyword;
-    }
-
-    public List<Material> getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(List<Material> material) {
-        this.material = material;
     }
 
     public String getRights() {
@@ -187,53 +194,68 @@ public class LrmiMetadata {
         this.rights = rights;
     }
 
-    public String getPublisher() {
+    public List<String> getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(List<String> publisher) {
         this.publisher = publisher;
     }
 
-    public String getType() {
+    public List<String> getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(List<String> type) {
         this.type = type;
     }
 
-    // LRMI
-    public LocalDateTime getCreatedat() {
-        return createdat;
+    public LocalDateTime getValid() {
+        return valid;
     }
 
-    public void setCreatedat(LocalDateTime createdat) {
-        this.createdat = createdat;
+    public void setValid(LocalDateTime valid) {
+        this.valid = valid;
     }
 
-    public LocalDateTime getUpdatedat() {
-        return updatedat;
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
     }
 
-    public void setUpdatedat(LocalDateTime updatedat) {
-        this.updatedat = updatedat;
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public LocalDateTime getPublishedat() {
-        return publishedat;
+    public LocalDateTime getDateModified() {
+        return dateModified;
     }
 
-    public void setPublishedat(LocalDateTime publishedat) {
-        this.publishedat = publishedat;
+    public void setDateModified(LocalDateTime dateModified) {
+        this.dateModified = dateModified;
     }
 
-    public LocalDateTime getArchivedat() {
-        return archivedat;
+    public LocalDateTime getArchivedAt() {
+        return archivedAt;
     }
 
-    public void setArchivedat(LocalDateTime archivedat) {
-        this.archivedat = archivedat;
+    public void setArchivedAt(LocalDateTime archivedAt) {
+        this.archivedAt = archivedAt;
+    }
+
+    public List<Author> getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(List<Author> author) {
+        this.author = author;
+    }
+
+    public List<Material> getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(List<Material> material) {
+        this.material = material;
     }
 
     public Integer getAgerangemin() {
@@ -250,5 +272,45 @@ public class LrmiMetadata {
 
     public void setAgerangemax(Integer agerangemax) {
         this.agerangemax = agerangemax;
+    }
+
+    public List<EducationalAudience> getEducationalAudience() {
+        return educationalAudience;
+    }
+
+    public void setEducationalAudience(List<EducationalAudience> educationalAudience) {
+        this.educationalAudience = educationalAudience;
+    }
+
+    public List<IsBasedOn> getIsBasedOn() {
+        return isBasedOn;
+    }
+
+    public void setIsBasedOn(List<IsBasedOn> isBasedOn) {
+        this.isBasedOn = isBasedOn;
+    }
+
+    public String[] getAccessibilityFeature() {
+        return accessibilityFeature;
+    }
+
+    public void setAccessibilityFeature(String[] accessibilityFeature) {
+        this.accessibilityFeature = accessibilityFeature;
+    }
+
+    public String[] getAccessibilityHazard() {
+        return accessibilityHazard;
+    }
+
+    public void setAccessibilityHazard(String[] accessibilityHazard) {
+        this.accessibilityHazard = accessibilityHazard;
+    }
+
+    public List<InLanguage> getInLanguage() {
+        return inLanguage;
+    }
+
+    public void setInLanguage(List<InLanguage> inLanguage) {
+        this.inLanguage = inLanguage;
     }
 }

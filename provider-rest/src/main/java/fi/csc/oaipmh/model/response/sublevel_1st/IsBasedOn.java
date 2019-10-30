@@ -19,4 +19,24 @@ public class IsBasedOn {
 
     @JsonProperty
     private String educationalmaterialid;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getMaterialname() {
+        return materialname;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
 }
