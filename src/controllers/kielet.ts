@@ -36,17 +36,17 @@ export async function setKielet(): Promise<any> {
       const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
 
       finnish.push({
-        key: result.koodiArvo,
+        key: result.koodiArvo.toLowerCase(),
         value: metadataFi !== undefined ? metadataFi.nimi : (metadataSv !== undefined ? metadataSv.nimi : metadataEn.nimi),
       });
 
       english.push({
-        key: result.koodiArvo,
+        key: result.koodiArvo.toLowerCase(),
         value: metadataEn !== undefined ? metadataEn.nimi : (metadataFi !== undefined ? metadataFi.nimi : metadataSv.nimi),
       });
 
       swedish.push({
-        key: result.koodiArvo,
+        key: result.koodiArvo.toLowerCase(),
         value: metadataSv !== undefined ? metadataSv.nimi : (metadataFi !== undefined ? metadataFi.nimi : metadataEn.nimi),
       });
     });
