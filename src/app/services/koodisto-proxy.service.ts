@@ -69,7 +69,7 @@ export class KoodistoProxyService {
   updateDefaultLanguage(): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<Language>(`${this.apiUri}/kielet/${lang.toUpperCase()}/${lang}`, this.httpOptions)
+    this.http.get<Language>(`${this.apiUri}/kielet/${lang}/${lang}`, this.httpOptions)
       .subscribe((defaultLanguage: Language) => {
         this.defaultLanguage$.next(defaultLanguage);
       });
