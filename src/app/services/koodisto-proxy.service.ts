@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { KeyValue } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,7 +42,8 @@ export class KoodistoProxyService {
   public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
   public licenses$ = new Subject<License[]>();
-  public keywords$ = new Subject();
+  public keywords$ = new Subject<KeyValue<string, string>[]>();
+  public organizations$ = new Subject<KeyValue<string, string>[]>();
 
   constructor(
     private http: HttpClient,
@@ -195,9 +197,18 @@ export class KoodistoProxyService {
   updateKeywords(): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<any>(`${this.apiUri}/asiasanat/${lang}`, this.httpOptions)
-      .subscribe((keywords: any) => {
+    this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/asiasanat/${lang}`, this.httpOptions)
+      .subscribe((keywords: KeyValue<string, string>[]) => {
         this.keywords$.next(keywords);
+      });
+  }
+
+  updateOrganizations(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
+      .subscribe((organizations: KeyValue<string, string>[]) => {
+        this.organizations$.next(organizations);
       });
   }
 }
