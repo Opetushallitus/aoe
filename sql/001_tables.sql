@@ -36,12 +36,14 @@ DROP TABLE IF EXISTS TemporaryRecord CASCADE;
 DROP TABLE IF EXISTS Thumbnail CASCADE;
 DROP TABLE IF EXISTS Prerequisites CASCADE;
 
+CREATE TYPE lang AS ENUM ('fi', 'en', 'sv');
+
 CREATE TABLE Users (
   Id                      BIGSERIAL NOT NULL, 
   FirstName              text NOT NULL, 
   LastName               text NOT NULL, 
   UserName               text NOT NULL, 
-  PreferredLanguage      text NOT NULL, 
+  PreferredLanguage      lang DEFAULT 'fi' NOT NULL, 
   PreferredTargetName    text NOT NULL, 
   PreferredAlignmentType text NOT NULL,
   TermsOfUsage           bool DEFAULT '0' NOT NULL,  
@@ -79,7 +81,7 @@ CREATE TABLE Material (
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
   Priority              int4 DEFAULT 0 NOT NULL, 
   MaterialLanguage      text DEFAULT '' NOT NULL, 
-  MaterialLanguageKey   text DEFAULT '' NOT NULL, 
+  MaterialLanguageKey   lang DEFAULT 'fi' NOT NULL, 
   PRIMARY KEY (Id));
 
 
@@ -244,34 +246,34 @@ CREATE TABLE Publisher (
   PRIMARY KEY (Id));
 
 CREATE TABLE MaterialDescription (
-  id                     BIGSERIAL NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
   Description           text NOT NULL, 
-  Language              text NOT NULL, 
+  Language              lang NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 CREATE TABLE MaterialName (
-  id                     BIGSERIAL NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
   MaterialName          text DEFAULT '' NOT NULL, 
-  Language              text NOT NULL, 
+  Language              lang NOT NULL, 
   Slug                  text DEFAULT '' NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 
  CREATE TABLE Author (
-  id                     BIGSERIAL NOT NULL, 
+  Id                     BIGSERIAL NOT NULL, 
   authorname            text NOT NULL, 
   organization          text NOT NULL, 
   EducationalMaterialId int8 NOT NULL, 
   organizationkey       text NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 
   CREATE TABLE MaterialDisplayName (
-  id           BIGSERIAL NOT NULL, 
+  Id           BIGSERIAL NOT NULL, 
   DisplayName text NOT NULL, 
-  Language    text NOT NULL, 
+  Language    lang NOT NULL, 
   MaterialId  int8 NOT NULL, 
 --  Slug        text NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 
   CREATE TABLE temporaryrecord (
   Id                BIGSERIAL NOT NULL, 
@@ -294,7 +296,7 @@ CREATE TABLE Thumbnail (
   Obsoleted             int4 DEFAULT 0 NOT NULL, 
   FileKey               text NOT NULL, 
   FileBucket            text NOT NULL, 
-  PRIMARY KEY (id));
+  PRIMARY KEY (Id));
 
 
 

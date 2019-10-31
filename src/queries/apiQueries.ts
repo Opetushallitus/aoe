@@ -787,7 +787,7 @@ async function createUser(req: Request , res: Response , next: NextFunction) {
         if (req.body.username === undefined) {
             res.status(500).send("username undefined");
         }
-        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ($1,$2,$3,'','','') RETURNING username;";
+        query = "insert into users (firstname , lastname, username, preferredlanguage,preferredtargetname,preferredalignmenttype )values ($1,$2,$3,'fi','','') RETURNING username;";
         const data = await db.any(query, [req.body.firstname, req.body.lastname, req.body.username]);
         res.status(200).json(data);
     }
