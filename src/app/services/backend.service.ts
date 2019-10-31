@@ -168,7 +168,8 @@ export class BackendService {
               license: r.license,
               keywords: r.keywords
                 .map(({ keywordkey, value }) => ({ keywordkey, value })),
-              educationalLevels: [],
+              educationalLevels: r.educationalLevels
+                .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
             };
           });
       })
