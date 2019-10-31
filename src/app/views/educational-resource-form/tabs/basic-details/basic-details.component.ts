@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { KeyValue } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -27,24 +27,16 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   savedData: any;
 
+  organizationSubscription: Subscription;
+  organizations: KeyValue<string, string>[];
+  keywordSubscription: Subscription;
+  keywords: KeyValue<string, string>[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   educationalRoleSubscription: Subscription;
   educationalRoles: EducationalRole[];
   educationalUseSubscription: Subscription;
   educationalUses: EducationalUse[];
-
-  // https://stackblitz.com/edit/ng-select-infinite
-  keywords = [];
-  keywordsBuffer = [];
-  bufferSize = 50;
-  loadingKeywords = false;
-  keywordsInput$ = new Subject<string>();
-
-  organizations = [];
-  organizationsBuffer = [];
-  loadingOrganizations = false;
-  organizationsInput$ = new Subject<string>();
 
   addCustomItem = addCustomItem;
 
@@ -54,7 +46,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
-  selectedImage;
 
   imageChangedEvent: any = '';
   croppedImage: ImageCroppedEvent;
@@ -74,12 +65,26 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
+      this.koodistoProxySvc.updateOrganizations();
+      this.koodistoProxySvc.updateKeywords();
       this.koodistoProxySvc.updateLearningResourceTypes();
       this.koodistoProxySvc.updateEducationalRoles();
       this.koodistoProxySvc.updateEducationalUses();
 
       this.updateLanguages();
     });
+
+    this.organizationSubscription = this.koodistoProxySvc.organizations$
+      .subscribe((organizations: KeyValue<string, string>[]) => {
+        this.organizations = organizations;
+      });
+    this.koodistoProxySvc.updateOrganizations();
+
+    this.keywordSubscription = this.koodistoProxySvc.keywords$
+      .subscribe((keywords: KeyValue<string, string>[]) => {
+        this.keywords = keywords;
+      });
+    this.koodistoProxySvc.updateKeywords();
 
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((learningResourceTypes: LearningResourceType[]) => {
@@ -116,13 +121,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.koodistoProxySvc.getData('asiasanat', this.lang).subscribe(keywords => {
-      this.keywords = keywords;
-    });
-
-    this.onKeywordsSearch();
-    this.onOrganizationsSearch();
-
     if (this.savedData) {
       if (this.savedData.keywords) {
         this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
@@ -157,6 +155,8 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.organizationSubscription.unsubscribe();
+    this.keywordSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
     this.educationalRoleSubscription.unsubscribe();
     this.educationalUseSubscription.unsubscribe();
@@ -176,68 +176,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   get form() {
     return this.basicDetailsForm.controls;
-  }
-
-  fetchMoreKeywords(value: string) {
-    const len = this.keywordsBuffer.length;
-    const more = this.keywords
-      .filter(x => x.value.includes(value))
-      .slice(len, this.bufferSize + len);
-
-    this.loadingKeywords = true;
-
-    setTimeout(() => {
-      this.loadingKeywords = false;
-      this.keywordsBuffer = this.keywordsBuffer.concat(more);
-    }, 200);
-  }
-
-  private onKeywordsSearch() {
-    this.keywordsInput$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(value => this.fakeKeywordsService(value))
-    ).subscribe(data => {
-      this.keywordsBuffer = data.slice(0, this.bufferSize);
-    });
-  }
-
-  private fakeKeywordsService(value: string) {
-    return this.koodistoProxySvc.getData('asiasanat', this.lang)
-      .pipe(
-        map(data => data.filter((x: { value: string }) => x.value.toLowerCase().includes(value.toLowerCase())))
-      );
-  }
-
-  fetchMoreOrganizations(value: string) {
-    const len = this.organizationsBuffer.length;
-    const more = this.organizations
-      .filter(x => x.value.includes(value))
-      .slice(len, this.bufferSize + len);
-
-    this.loadingOrganizations = true;
-
-    setTimeout(() => {
-      this.loadingOrganizations = false;
-      this.organizationsBuffer = this.organizationsBuffer.concat(more);
-    }, 200);
-  }
-
-  private onOrganizationsSearch() {
-    this.organizationsInput$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      switchMap(value => this.fakeOrganizationsService(value))
-    ).subscribe(data => {
-      this.organizationsBuffer = data.slice(0, this.bufferSize);
-    });
-  }
-
-  private fakeOrganizationsService(value: string) {
-    return this.koodistoProxySvc.getData('organisaatiot', this.lang)
-      .pipe(
-        map(data => data.filter((x: { value: string }) => x.value.toLowerCase().includes(value.toLowerCase())))
-      );
   }
 
   openModal(template: TemplateRef<any>) {

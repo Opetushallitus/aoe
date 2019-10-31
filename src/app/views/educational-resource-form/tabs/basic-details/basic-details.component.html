@@ -97,16 +97,13 @@
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
               <ng-select
-                [items]="organizationsBuffer"
+                [items]="organizations"
                 [virtualScroll]="true"
-                [loading]="loadingOrganizations"
+                [multiple]="true"
                 [addTag]="addCustomItem"
                 bindLabel="value"
                 id="{{ 'organization ' + i }}"
-                [typeahead]="organizationsInput$"
-                (scrollToEnd)="fetchMoreOrganizations(organization.filterValue)"
                 formControlName="organization"
-                #organization
               ></ng-select>
             </div>
 
@@ -131,17 +128,13 @@
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
         <ng-select
-          [items]="keywordsBuffer"
+          [items]="keywords"
           [virtualScroll]="true"
-          [loading]="loadingKeywords"
           [multiple]="true"
           [addTag]="addCustomItem"
           bindLabel="value"
           id="keywords"
-          [typeahead]="keywordsInput$"
-          (scrollToEnd)="fetchMoreKeywords(keywords.filterValue)"
           formControlName="keywords"
-          #keywords
         ></ng-select>
       </div>
 
