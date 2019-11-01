@@ -416,6 +416,7 @@ h2 {
       color: $input-color;
       font-weight: 400;
       text-align: left;
+      word-break: break-all;
 
       &.active {
         background-color: $white;
