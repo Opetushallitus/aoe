@@ -166,25 +166,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     );
   }
 
-  onChanges(): void {
-    this.fileUploadForm.get('files').valueChanges.subscribe(() => {
-      this.files.controls.forEach((control) => {
-        const fileCtrl = control.get('file');
-        const linkCtrl = control.get('link');
-
-        if (linkCtrl.value !== null) {
-          fileCtrl.setValidators(null);
-          fileCtrl.updateValueAndValidity({ emitEvent: false });
-        }
-
-        if (fileCtrl.value !== null) {
-          linkCtrl.setValidators(null);
-          linkCtrl.updateValueAndValidity({ emitEvent: false });
-        }
-      });
-    });
-  }
-
+  // @todo: move slug creation to backend
   updateSlug(value, lang): void {
     this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
   }
