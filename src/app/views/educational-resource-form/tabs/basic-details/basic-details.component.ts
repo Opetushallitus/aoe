@@ -26,6 +26,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   otherLangs: string[];
   savedData: any;
+  submitted = false;
 
   organizationSubscription: Subscription;
   organizations: KeyValue<string, string>[];
@@ -108,9 +109,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
     this.basicDetailsForm = this.fb.group({
       keywords: this.fb.control(null, [ Validators.required ]),
-      authors: this.fb.array([
-        this.createAuthor(),
-      ]),
+      authors: this.fb.array([]),
       learningResourceTypes: this.fb.control(null, [ Validators.required ]),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
@@ -196,8 +195,18 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  createOrganization(organization?): FormGroup {
+    return this.fb.group({
+      organization: this.fb.control(organization ? organization.organization : null, [ Validators.required ]),
+    });
+  }
+
   addAuthor(): void {
     this.authors.push(this.createAuthor());
+  }
+
+  addOrganization(): void {
+    this.authors.push(this.createOrganization());
   }
 
   removeAuthor(i: number): void {
@@ -222,7 +231,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.basicDetailsForm.valid) {
+    this.submitted = true;
+
+    if (this.basicDetailsForm.valid && this.authors.length > 0) {
       const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.basicDetailsForm.value);
 
       // save data to local storage
