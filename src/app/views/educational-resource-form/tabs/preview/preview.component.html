@@ -71,7 +71,15 @@
 <dl class="row">
   <ng-container *ngFor="let author of savedData.authors">
     <dt class="col-sm-3">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}</dt>
-    <dd class="col-sm-9">{{ author.author }}<ng-container *ngIf="author.organization">, {{ author.organization.value }}</ng-container></dd>
+    <dd class="col-sm-9">
+      <ng-container *ngIf="author.author">
+        {{ author.author }}<ng-container *ngIf="author.organization">, {{ author.organization.value }}</ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="!author.author">
+        {{ author.organization.value }}
+      </ng-container>
+    </dd>
   </ng-container>
 
   <ng-container *ngIf="savedData.keywords && savedData.keywords.length > 0">
