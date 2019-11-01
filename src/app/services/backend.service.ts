@@ -107,7 +107,7 @@ export class BackendService {
             .find(n => n.language.toLowerCase() === this.lang).materialname,
           thumbnail: res.thumbnail ? res.thumbnail.filepath : null,
           learningResourceTypes: res.learningResourceTypes
-            .map(type => type.value),
+            .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description
@@ -160,7 +160,7 @@ export class BackendService {
                 .find(n => n.language.toLowerCase() === this.lang).materialname,
               thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
               learningResourceTypes: r.learningResourceTypes
-                .map(({ value }) => value),
+                .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
                 .map(({ authorname, organization }) => ({ authorname, organization })),
               description: r.description

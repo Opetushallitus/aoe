@@ -2,11 +2,12 @@ import { Material } from './material';
 import { Author } from './author';
 import { Keyword } from './keyword';
 import { EducationalLevel } from './educational-level';
+import { LearningResourceType } from './learning-resource-type';
 
 export interface EducationalMaterial {
   name: string;
   thumbnail?: string;
-  learningResourceTypes: string[];
+  learningResourceTypes: LearningResourceType[];
   authors: Author[];
   description?: string;
   materials?: Material[];
