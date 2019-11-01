@@ -155,12 +155,18 @@
               "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
               "placeholder": "Surname, First Name"
             },
-            "organisation": {
+            "affiliate": {
               "label": "Affiliation",
               "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field."
+            },
+            "organization": {
+              "label": "Organization",
+              "tooltip": "Author(s) of the resource. Select your organization from the list or enter its name."
             }
           },
-          "addAuthor": "Add an author"
+          "addAuthor": "Add an author",
+          "addOrganization": "Lisää organisaatio",
+          "error": "Lisää vähintään yksi tekijä"
         },
         "keywords": {
           "label": "About",

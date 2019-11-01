@@ -155,12 +155,18 @@
               "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
               "placeholder": "Efternamn, Förnamn"
             },
-            "organisation": {
+            "affiliate": {
               "label": "Organisation",
               "tooltip": "Här kan du fylla i vilken organisation, till exempel skola eller projekt, som du representerar. Fältet är inte obligatoriskt."
+            },
+            "organization": {
+              "label": "Organisation",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Välja din organisation eller mata in organisationens officiel namn."
             }
           },
-          "addAuthor": "Tillsätt en annan upphovsperson"
+          "addAuthor": "Tillsätt en annan upphovsperson",
+          "addOrganization": "Lisää organisaatio",
+          "error": "Lisää vähintään yksi tekijä"
         },
         "keywords": {
           "label": "Nyckelord",
