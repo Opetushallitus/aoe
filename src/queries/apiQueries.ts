@@ -443,33 +443,33 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
             }
         }
         // inLanguage
-        console.log("inserting inLanguage");
-        const inLanguageParams = [];
-        const inLanguageArr = req.body.inLanguage;
-        if (inLanguageArr == undefined) {
-            query = "DELETE FROM inlanguage where educationalmaterialid = $1;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
-        }
-        else {
-            for (let i = 1; i <= inLanguageArr.length; i++) {
-                inLanguageParams.push("('" + inLanguageArr[i - 1].value + "')");
-            }
-            query = "select id from (select * from inlanguage where educationalmaterialid = $1) as i left join" +
-            "(select t.inlanguage from ( values " + inLanguageParams.join(",") + " ) as t(inlanguage)) as a on i.inlanguage = a.inlanguage where a.inlanguage is null;";
-            response  = await t.any(query, [req.params.id]);
-            queries.push(response);
-            for (const element of response) {
-                query = "DELETE FROM inlanguage where id = " + element.id + ";";
-                console.log(query);
-                queries.push(await t.any(query));
-            }
-            for (const element of inLanguageArr) {
-                query = "INSERT INTO inlanguage (inlanguage, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (inlanguage, educationalmaterialid) DO NOTHING;";
-                console.log(query);
-                queries.push(await t.any(query, [element.value, element.url, req.params.id]));
-            }
-        }
+        // console.log("inserting inLanguage");
+        // const inLanguageParams = [];
+        // const inLanguageArr = req.body.inLanguage;
+        // if (inLanguageArr == undefined) {
+        //     query = "DELETE FROM inlanguage where educationalmaterialid = $1;";
+        //     response  = await t.any(query, [req.params.id]);
+        //     queries.push(response);
+        // }
+        // else {
+        //     for (let i = 1; i <= inLanguageArr.length; i++) {
+        //         inLanguageParams.push("('" + inLanguageArr[i - 1].value + "')");
+        //     }
+        //     query = "select id from (select * from inlanguage where educationalmaterialid = $1) as i left join" +
+        //     "(select t.inlanguage from ( values " + inLanguageParams.join(",") + " ) as t(inlanguage)) as a on i.inlanguage = a.inlanguage where a.inlanguage is null;";
+        //     response  = await t.any(query, [req.params.id]);
+        //     queries.push(response);
+        //     for (const element of response) {
+        //         query = "DELETE FROM inlanguage where id = " + element.id + ";";
+        //         console.log(query);
+        //         queries.push(await t.any(query));
+        //     }
+        //     for (const element of inLanguageArr) {
+        //         query = "INSERT INTO inlanguage (inlanguage, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (inlanguage, educationalmaterialid) DO NOTHING;";
+        //         console.log(query);
+        //         queries.push(await t.any(query, [element.value, element.url, req.params.id]));
+        //     }
+        // }
         // keywords
         console.log("inserting keywords");
         let params = [];
@@ -627,7 +627,7 @@ async function updateMaterial(req: Request , res: Response , next: NextFunction)
         for (const element of arr) {
             query = "INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1,$2,$3,$4);";
             console.log(query, [element.author, element.organization, req.params.id]);
-            queries.push(await t.any(query, [element.author, ((element.organization == undefined) ? "" : element.organization.value), req.params.id, ((element.organization == undefined) ? "" : element.organization.key)]));
+            queries.push(await t.any(query, [((element.author == undefined) ? "" : element.author), ((element.organization == undefined) ? "" : element.organization.value), req.params.id, ((element.organization == undefined) ? "" : element.organization.key)]));
         }
 
     // filedetails
