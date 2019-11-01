@@ -365,7 +365,7 @@ async function downloadFileFromStorage(req: Request, res: Response) {
         try {
             const query = "select originalfilename from record where filekey = $1;";
             console.log(query);
-            const response = await db.any(query, [req.params.key]);
+            const response = await db.oneOrNone(query, [req.params.key]);
             console.log(response);
             const config = {
                 accessKeyId: process.env.USER_KEY,
