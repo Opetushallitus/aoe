@@ -1,14 +1,16 @@
-ServerName localhost
-Listen 8080
-<VirtualHost *:8080>
-  ServerName localhost
-  ErrorLog /var/log/httpd/justus-backend.log
-  <Location /api>
-    ProxyPass http://localhost:3000
-    ProxyPassReverse http://localhost:3000
+ServerName aoe-local
+#SSLEngine on
+#SSLCertificateFile /vagrant/aoetest.com.cert
+#SSLCertificateKeyFile /opt/sources/aoetest.com.key
+Listen 3000
+<VirtualHost *:3000>
+  ServerName aoe-local
+        SSLEngine on
+#  SSLCertificateFile /vagrant/aoetest.com.cert
+#SSLCertificateKeyFile /vagrant/aoetest.com.key
+        ErrorLog /var/log/httpd/justus-backend.log
+  <Location /secure/redirect>
+    ProxyPass http://localhost:3001
+    ProxyPassReverse http://localhost:3001
   </Location>
 </VirtualHost>
-
-{% if environment_id == "vagrant" %}
-EnableSendfile Off
-{% endif %}
