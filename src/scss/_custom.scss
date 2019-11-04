@@ -674,6 +674,17 @@ h2 {
   color: $input-color;
 }
 
+// Cookie notice
+.cookie-notice {
+  background-color: $white;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
 // Media queries
 
 // CoreUI overrides
