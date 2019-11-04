@@ -5,7 +5,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
+import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -18,6 +18,7 @@ export class BasedOnDetailsComponent implements OnInit {
   savedData: any;
 
   basedOnDetailsForm: FormGroup;
+  addCustomItem = addCustomItem;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
