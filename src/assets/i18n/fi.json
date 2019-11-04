@@ -149,6 +149,7 @@
           }
         },
         "author": {
+          "title": "Tekijä",
           "inputs": {
             "author": {
               "label": "Tekijän nimi",
@@ -164,9 +165,12 @@
               "tooltip": "Oppimateriaalin tekijä tai tekijät. Valitse organsiaatiosi nimi tai syötä sen virallinen nimi."
             }
           },
-          "addAuthor": "Lisää toinen tekijä",
+          "addAuthor": "Lisää henkilö",
           "addOrganization": "Lisää organisaatio",
           "error": "Lisää vähintään yksi tekijä"
+        },
+        "otherDetails": {
+          "title": "Muut perustiedot"
         },
         "keywords": {
           "label": "Asiasanat",

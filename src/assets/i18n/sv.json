@@ -149,6 +149,7 @@
           }
         },
         "author": {
+          "title": "Upphovsperson",
           "inputs": {
             "author": {
               "label": "Upphovsperson",
@@ -164,9 +165,12 @@
               "tooltip": "Läromaterialets upphovsperson eller -personer. Välja din organisation eller mata in organisationens officiel namn."
             }
           },
-          "addAuthor": "Tillsätt en annan upphovsperson",
-          "addOrganization": "Lisää organisaatio",
+          "addAuthor": "Tillsätt en person",
+          "addOrganization": "Tillsätt en organisation",
           "error": "Lisää vähintään yksi tekijä"
+        },
+        "otherDetails": {
+          "title": "Andra grunduppgifter"
         },
         "keywords": {
           "label": "Nyckelord",

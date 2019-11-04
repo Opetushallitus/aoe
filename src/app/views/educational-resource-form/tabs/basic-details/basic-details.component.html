@@ -66,6 +66,8 @@
     </ng-template>
 
     <div class="col-md-10">
+      <h3>{{ 'forms.educationalResource.basicDetails.author.title' | translate }}</h3>
+
       <div *ngIf="submitted && authors.length === 0" class="alert alert-warning" role="alert">
         {{ 'forms.educationalResource.basicDetails.author.error' | translate }}
       </div>
@@ -166,6 +168,8 @@
           (click)="addOrganization()"
         >{{ 'forms.educationalResource.basicDetails.author.addOrganization' | translate }}</button>
       </div>
+
+      <h3>{{ 'forms.educationalResource.basicDetails.otherDetails.title' | translate }}</h3>
 
       <div class="form-group">
         <label for="keywords">{{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}*</label>

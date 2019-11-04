@@ -149,6 +149,7 @@
           }
         },
         "author": {
+          "title": "Author",
           "inputs": {
             "author": {
               "label": "Author",
@@ -164,9 +165,12 @@
               "tooltip": "Author(s) of the resource. Select your organization from the list or enter its name."
             }
           },
-          "addAuthor": "Add an author",
-          "addOrganization": "Lisää organisaatio",
+          "addAuthor": "Add a person",
+          "addOrganization": "Add an organisation",
           "error": "Lisää vähintään yksi tekijä"
+        },
+        "otherDetails": {
+          "title": "Other basic information"
         },
         "keywords": {
           "label": "About",
