@@ -39,6 +39,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { CookieService } from 'ngx-cookie-service';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -147,7 +148,7 @@ import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }],
+  }, CookieService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
