@@ -64,6 +64,12 @@ label {
   }
 }
 
+.custom-switch {
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba($blue, 0.5);
+  }
+}
+
 .form-control {
   @include font-size(16);
 }
