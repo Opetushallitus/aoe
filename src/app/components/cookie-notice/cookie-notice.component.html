@@ -41,6 +41,36 @@
         </ul>
 
         <p>Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä evästetietoja käytetään siten, ettei palvelun käyttäjän yksityisyydensuojaa loukata. Evästetunnistusta ei käytetä sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen tietojen tarkasteluun tai kopiointiin. Evästeiden keräämät tiedot lähetetään takaisin meille ilman henkilötietoja, jotta pystymme seuraamaan sivustomme käytön trendejä. Käyttäjä voi halutessaan estää evästeiden käytön selaimensa asetuksissa. Tarkemmat ohjeet evästeiden poistamisesta löydät selaimesi ohjeista.</p>
+
+        <form [formGroup]="cookies" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="aoe"
+                formControlName="aoe"
+              >
+              <label class="custom-control-label" for="aoe">Aoe</label>
+            </div>
+
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="google-analytics"
+                formControlName="googleAnalytics"
+              >
+              <label class="custom-control-label" for="google-analytics">Google Analytics</label>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-blue"
+            (click)="cookie.hide()"
+          >{{ 'forms.common.save' | translate }}</button>
+        </form>
       </div>
     </div>
   </div>
