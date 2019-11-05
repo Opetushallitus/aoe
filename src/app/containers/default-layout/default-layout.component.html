@@ -75,4 +75,4 @@
   </div>
 </div>
 
-<app-cookie-notice></app-cookie-notice>
+<app-cookie-notice *ngIf="showNotice" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>

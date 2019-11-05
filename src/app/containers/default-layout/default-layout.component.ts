@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '../../services/auth.service';
+import { CookieService } from '../../services/cookie.service';
 
 /**
  * @ignore
@@ -43,10 +44,15 @@ export class DefaultLayoutComponent {
     },
   };
 
+  showNotice = true;
+
   constructor(
     public translate: TranslateService,
-    public authSvc: AuthService
-  ) { }
+    public authSvc: AuthService,
+    private cookieSvc: CookieService,
+  ) {
+    this.showNotice = !this.cookieSvc.isCookieSettingsSet();
+  }
 
   /**
    * Set language
@@ -54,5 +60,9 @@ export class DefaultLayoutComponent {
   public changeLanguage(lang: string): void {
     setLanguage(lang);
     this.translate.use(lang);
+  }
+
+  private hideCookieNotice(): void {
+    this.showNotice = false;
   }
 }
