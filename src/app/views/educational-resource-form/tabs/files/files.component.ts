@@ -65,6 +65,8 @@ export class FilesComponent implements OnInit, OnDestroy {
       ]),
     });
 
+    this.updateLanguages();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
@@ -105,8 +107,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
     }
-
-    // this.onChanges();
   }
 
   ngOnDestroy(): void {
