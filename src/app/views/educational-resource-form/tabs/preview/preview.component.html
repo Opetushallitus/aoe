@@ -166,6 +166,11 @@
     </dd>
   </ng-container>
 
+  <ng-container *ngIf="savedData.suitsAllEarlyChildhoodSubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
+  </ng-container>
+
   <!--<ng-container *ngIf="earlyChildhoodEducationFramework?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
@@ -191,6 +196,11 @@
         {{ objective.targetName }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.suitsAllPrePrimarySubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
   <!--<ng-container *ngIf="prePrimaryEducationFramework?.length > 0">
@@ -229,6 +239,11 @@
     </dd>
   </ng-container>
 
+  <ng-container *ngIf="savedData.suitsAllBasicStudySubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
+  </ng-container>
+
   <ng-container *ngIf="upperSecondarySchoolSubjects?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
@@ -245,6 +260,11 @@
         {{ objective.targetName }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.suitsAllUpperSecondarySubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
   <!--<ng-container *ngIf="upperSecondarySchoolFramework?.length > 0">
@@ -274,6 +294,11 @@
     </dd>
   </ng-container>
 
+  <ng-container *ngIf="savedData.suitsAllVocationalDegrees">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
+  </ng-container>
+
   <!--<ng-container *ngIf="vocationalEducationFramework?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
@@ -301,6 +326,11 @@
     </dd>
   </ng-container>
 
+  <ng-container *ngIf="savedData.suitsAllSelfMotivatedSubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
+  </ng-container>
+
   <ng-container *ngIf="branchesOfScience?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}</dt>
     <dd class="col-sm-9">
@@ -317,6 +347,11 @@
         {{ objective.targetName }}<br *ngIf="!isLast">
       </ng-container>
     </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData.suitsAllBranches">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
   <!--<ng-container *ngIf="higherEducationFramework?.length > 0">
