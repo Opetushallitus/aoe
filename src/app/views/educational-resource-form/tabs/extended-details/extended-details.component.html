@@ -12,6 +12,7 @@
       <ng-select
         [items]="accessibilityFeatures"
         [multiple]="true"
+        [closeOnSelect]="false"
         bindLabel="value"
         id="accessibilityFeatures"
         formControlName="accessibilityFeatures"
@@ -30,6 +31,7 @@
       <ng-select
         [items]="accessibilityHazards"
         [multiple]="true"
+        [closeOnSelect]="false"
         bindLabel="value"
         id="accessibilityHazards"
         formControlName="accessibilityHazards"
