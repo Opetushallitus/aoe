@@ -323,18 +323,18 @@ ALTER TABLE Record ADD CONSTRAINT FKRecord FOREIGN KEY (MaterialId) REFERENCES M
 -- ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT fk_EMCMaterial FOREIGN KEY (EducationalMaterialCollectionId) REFERENCES EducationalMaterialCollection (Id) ON DELETE Cascade;
 -- ALTER TABLE EducationalMaterialCollectionEducationalMaterial ADD CONSTRAINT fk_MaterialEMC FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;
 ALTER TABLE EducationalLevel ADD CONSTRAINT fk_EducationalLevel FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE Publisher ADD CONSTRAINT fk_Publisher FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
-ALTER TABLE MaterialDescription ADD CONSTRAINT fk_Description FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
-ALTER TABLE MaterialName ADD CONSTRAINT fk_MaterialName FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE Publisher ADD CONSTRAINT fk_Publisher FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE MaterialDescription ADD CONSTRAINT fk_Description FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
+ALTER TABLE MaterialName ADD CONSTRAINT fk_MaterialName FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE AccessibilityFeature ADD CONSTRAINT fk_AccessibilityFeature FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
-ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE AccessibilityHazard ADD CONSTRAINT fk_AccessibilityHazard FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 -- ALTER TABLE AccessibilityAPI ADD CONSTRAINT fk_AccessibilityAPI FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 -- ALTER TABLE AccessibilityControl ADD CONSTRAINT fk_AccessibilityControl FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
 ALTER TABLE Author ADD CONSTRAINT fk_author FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Cascade;
 ALTER TABLE MaterialDisplayName ADD CONSTRAINT fk_MaterialDisplayName FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Cascade;
 -- ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
-ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (MaterialId) REFERENCES Material (Id);
-ALTER TABLE Thumbnail ADD CONSTRAINT fk_thumbnail FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id);
+ALTER TABLE temporaryrecord ADD CONSTRAINT fk_temporaryrecord FOREIGN KEY (MaterialId) REFERENCES Material (Id) ON DELETE Restrict;
+ALTER TABLE Thumbnail ADD CONSTRAINT fk_thumbnail FOREIGN KEY (EducationalMaterialId) REFERENCES EducationalMaterial (Id) ON DELETE Restrict;
 
 ALTER TABLE materialname ADD CONSTRAINT constraint_lang_id UNIQUE (language,educationalmaterialid);
 ALTER TABLE materialdescription ADD CONSTRAINT constraint_materialdescription_lang_id UNIQUE (language,educationalmaterialid);
