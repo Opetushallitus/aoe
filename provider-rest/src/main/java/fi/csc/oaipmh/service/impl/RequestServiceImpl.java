@@ -10,7 +10,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -44,10 +43,8 @@ public class RequestServiceImpl implements RequestService {
         headers.set("Content-Type", "application/json");
         HttpEntity<MetadataRequest> request = new HttpEntity<>(metadataRequest, headers);
 
-        ResponseEntity<List<LrmiMetadata>> lrmiResponse = restTemplate.exchange(env.getProperty("aoe.request.url"),
-                HttpMethod.POST, request, new ParameterizedTypeReference<>(){});
-
-        return lrmiResponse.getBody();
+        return restTemplate.exchange(env.getProperty("aoe.request.url"),
+                HttpMethod.POST, request, new ParameterizedTypeReference<List<LrmiMetadata>>(){}).getBody();
     }
 
     @Override

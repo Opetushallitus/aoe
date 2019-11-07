@@ -3,12 +3,12 @@ package fi.csc.oaipmh.service.impl;
 import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.response.sublevel_1st.*;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Author;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Material;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.oaipmh.service.MigrationService;
 import org.springframework.stereotype.Service;
 
@@ -136,12 +136,10 @@ public class MigrationServiceImpl implements MigrationService {
         // lrmi_fi:inLanguage
         lrmi.setInLanguage(amd.getInlanguage() != null ? amd.getInlanguage().stream()
             .filter(i -> !i.getInlanguage().isEmpty())
-            .map(i -> {
-                InLanguage inLanguage = new InLanguage();
-                inLanguage.setInLanguage(i.getInlanguage());
-                inLanguage.setUrl(i.getUrl());
-                return inLanguage;
-            })
+            .map(i -> new InLanguage() {{
+                setInLanguage(i.getInlanguage());
+                setUrl(i.getUrl());
+            }})
             .collect(Collectors.toList()) : null);
 
         return lrmi;
