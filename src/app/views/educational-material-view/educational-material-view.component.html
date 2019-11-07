@@ -48,8 +48,11 @@
             <div class="material-description">
               <ul class="list-unstyled authors">
                 <li *ngFor="let author of educationalMaterial.authors">
-                  {{ author.authorname }}
-                  <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                  <ng-container *ngIf="author.authorname !== ''">
+                    {{ author.authorname }}
+                    <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
                 </li>
               </ul>
 
