@@ -6,13 +6,11 @@ import path from "path";
 const util = require("util");
 import expressValidator from "express-validator";
 const passport = require("passport");
+const flash = require("connect-flash");
 const session = require("express-session");
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
-const OICStrategy = require("passport-openid-connect").Strategy;
-const User = require("passport-openid-connect").User;
 
-const flash = require("express-flash");
 const ah = require("./queries/authservice");
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
@@ -77,72 +75,38 @@ app.use(session({
 
 // One possible implementation below.
 // ** STARTS HERE **
-// Issuer.discover("https://test-user-auth.csc.fi")
-//     .then(async function(HAKAIssuer: any) {
-//         const client = new HAKAIssuer.Client({
-//             client_id: "bfb7ab6dda3f493fb321233a7e55953f965391ec",
-//             client_secret: "ba761d78e42754edb2853fcaca8497acc54f8d05"
-//         });
-//         console.log("The hakaissuer: " + JSON.stringify(HAKAIssuer));
-//         const params = {
-//             redirect_uri: "https://10.10.10.10:3000/secure/redirect",
-//             // response_type: ["code", "id_token"],
-//             response_type: "id_token",
-//             response_mode: "form_post",
-//             scope: "openid profile",
-//             // claims: {
-//             //     id_token: { email_verified},
-//             //     userinfo: { sub: any, email: any },
-//             // },
-//         };
-//         passport.use("oidc", new Strategy({ client, params }, (tokenset: any, done: any) => {
-//            // **NEVER GET HERE**
-//             console.log("tokenset", tokenset);
-//             console.log("access_token", tokenset.access_token);
-//             console.log("id_token", tokenset.id_token);
-//             // console.log("claims", tokenset.claims);
-//             // console.log("userinfo", userinfo);
-//         }));
-//         app.use(passport.initialize());
-//         app.use(passport.session());
-//     })
-//     .catch(async function(err: Error) {
-//         console.log("Error from Issuer discover function: " + err);
-//     });
-// ** ENDS HERE **
-
-
-
-// One possible implementation below.
-// ** STARTS HERE **
-    const oic = new OICStrategy({
-        "issuerHost": "https://test-user-auth.csc.fi/",
-        "client_id": "bfb7ab6dda3f493fb321233a7e55953f965391ec",
-        "client_secret": "ba761d78e42754edb2853fcaca8497acc54f8d05",
-        "redirect_uri": "https://10.10.10.10:3000/secure/redirect",
-        "scope": "openid profile email user",
-      });
-      passport.use(oic);
-      passport.serializeUser(OICStrategy.serializeUser);
-      passport.deserializeUser(OICStrategy.deserializeUser);
-      app.use(passport.initialize());
+Issuer.discover("https://test-user-auth.csc.fi")
+    .then( function(testIssuer) {
+        const client = new testIssuer.Client({
+            client_id: "bfb7ab6dda3f493fb321233a7e55953f965391ec",
+            client_secret: "ba761d78e42754edb2853fcaca8497acc54f8d05",
+            redirect_uri: "https://10.10.10.10:3000/secure/redirect",
+            response_type: "code",
+        });
+        console.log("Discovered issuer %s %O", testIssuer.issuer, testIssuer.metadata);
+        passport.use("oidc", new Strategy({ client }, (tokenset: any, userinfo: any, done: any) => {
+           // **NEVER GET HERE**
+            console.log("tokenset", tokenset);
+            console.log("access_token", tokenset.access_token);
+            console.log("id_token", tokenset.id_token);
+            console.log("claims", tokenset.claims);
+            console.log("userinfo", userinfo);
+        }));
+    });
+    app.use(flash());
+app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.get("/", (req, res) => {
-    // console.log("The req: " + util.inspect(req) + " and user " + req.user);
-    res.json({"hello": "world", "user": "test" + req.user});
-});
-// app.get("/login", passport.authenticate("oidc", {"successReturnToOrRedirect": "/"}));
-// app.get("/secure/redirect", (req, res, next) => {
-//     console.log("The req.session " +  req.session);
-//     passport.authenticate("oidc", (err, user, info) => {
-//       console.log("The user " + user);
-//       console.log("The info " + info);
-//     });
-//   })
-app.get("/login", passport.authenticate("passport-openid-connect", {"successReturnToOrRedirect": "/", scope: "profile"}));
-app.get("/secure/redirect", passport.authenticate("passport-openid-connect", {"callback": true, "successReturnToOrRedirect": "/"}));
+// app.get("/", (req, res) => {
+//     // console.log("The req: " + util.inspect(req) + " and user " + req.user);
+//     res.json({"hello": "world", "user": "test" + JSON.stringify(req.body)});
+//     console.log(util.inspect(req));
+// });
+
+
+app.get("/login", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login", failureFlash: true, scope: "openid profile"}));
+app.get("/secure/redirect", passport.authenticate("oidc", {"callback": true, failureRedirect: "/", failureFlash: true, successRedirect: "/"}));
 
 
 
@@ -172,7 +136,6 @@ app.set("view engine", "pug");
 app.get("/", homeController.index);
 app.use("/", apiRouter);
 app.use(expressValidator);
-app.use(flash);
 app.use(lusca.xframe("SAMEORIGIN"));
 app.use(lusca.xssProtection);
 
