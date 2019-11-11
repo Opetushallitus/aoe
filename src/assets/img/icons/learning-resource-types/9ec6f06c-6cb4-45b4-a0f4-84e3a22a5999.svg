@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="22px" viewBox="0 0 17 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59 (86127) - https://sketch.com -->
+    <title>ic_kokeellinen_black</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0 16.198 0 16.198 21.9996 0 21.9996"></polygon>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Materiaalityyppi/Kokeellinen" transform="translate(-4.000000, -1.000000)">
+            <g id="ic_kokeellinen_black">
+                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                <g id="Group-3" transform="translate(4.000000, 1.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <path d="M3.849,15.0006 L7.099,7.1996 L7.099,1.9996 L9.099,1.9996 L9.099,7.1996 L12.349,15.0006 L3.849,15.0006 Z M11.099,6.7996 L11.099,1.9996 C11.651,1.9996 12.099,1.5526 12.099,0.9996 C12.099,0.4466 11.651,-0.0004 11.099,-0.0004 L5.099,-0.0004 C4.547,-0.0004 4.099,0.4466 4.099,0.9996 C4.099,1.5526 4.547,1.9996 5.099,1.9996 L5.099,6.7996 L0,19.0376 L1.481,21.9996 L14.717,21.9996 L16.198,19.0376 L11.099,6.7996 Z" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

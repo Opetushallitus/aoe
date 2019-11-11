@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
-    <title>ic_kuva_black</title>
+<svg width="22px" height="19px" viewBox="0 0 22 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59 (86127) - https://sketch.com -->
+    <title>ic_kaavio_black</title>
     <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="6.37254323e-05 0.235 22.0244 0.235 22.0244 13.0238 6.37254323e-05 13.0238"></polygon>
+    </defs>
     <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Materiaalityyppi/Kuva" transform="translate(-3.000000, -3.000000)">
-            <g id="ic_kuva_black">
+        <g id="Materiaalityyppi/Kaavio" transform="translate(-1.000000, -3.000000)">
+            <g id="ic_kaavio_black">
                 <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                <path d="M21,19 L21,5 C21,3.9 20.1,3 19,3 L5,3 C3.9,3 3,3.9 3,5 L3,19 C3,20.1 3.9,21 5,21 L19,21 C20.1,21 21,20.1 21,19 L21,19 Z M8.5,13.5 L11,16.51 L14.5,12 L19,18 L5,18 L8.5,13.5 L8.5,13.5 Z" id="Shape" fill="#000000"></path>
+                <g id="Group-8" transform="translate(1.000000, 2.000000)">
+                    <polygon id="Fill-1" fill="#000000" points="2.0241 14.7646 2.0241 19.7646 5.0251 19.7646 5.0251 12.7646"></polygon>
+                    <polygon id="Fill-2" fill="#000000" points="7.0245 11.7649 7.0245 19.7649 10.0245 19.7649 10.0245 9.7649"></polygon>
+                    <polygon id="Fill-3" fill="#000000" points="12.024 11.7649 12.024 19.7649 15.025 19.7649 15.025 9.7649"></polygon>
+                    <polygon id="Fill-4" fill="#000000" points="17.0244 8.7652 17.0244 19.7652 20.0244 19.7652 20.0244 6.7642"></polygon>
+                    <g id="Group-7" transform="translate(0.000000, 0.765000)">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Clip-6"></g>
+                        <path d="M22.0244,0.9998 L17.6924,0.2348 L18.8894,1.9438 L12.1414,6.6678 L10.1544,4.6818 L0.4564,11.1468 C-0.0146,11.4618 -0.1416,12.0978 0.1724,12.5678 C0.3694,12.8638 0.6944,13.0238 1.0254,13.0238 C1.2204,13.0238 1.4184,12.9688 1.5924,12.8528 L9.8944,7.3178 L11.9074,9.3318 L20.0644,3.6218 L21.2604,5.3318 L22.0244,0.9998 Z" id="Fill-5" fill="#000000" mask="url(#mask-2)"></path>
+                    </g>
+                </g>
             </g>
         </g>
     </g>
