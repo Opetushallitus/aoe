@@ -411,9 +411,13 @@
     <dd class="col-sm-9">{{ savedData.expires | date:'d.M.yyyy' }}</dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.prerequisites && savedData.prerequisites.length > 0">
+  <ng-container *ngIf="prerequisites.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}</dt>
-    <dd class="col-sm-9">{{ savedData.expires }}</dd>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let prerequisite of prerequisites; let isLast = last">
+        {{ prerequisite.targetName }}<br *ngIf="!isLast">
+      </ng-container>
+    </dd>
   </ng-container>
 </dl>
 
