@@ -16,4 +16,20 @@ public class EducationalLevel {
 
     @JsonProperty
     private String educationallevelkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getEducationallevelkey() {
+        return educationallevelkey;
+    }
 }

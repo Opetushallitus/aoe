@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ import java.util.stream.Collectors;
 public class MetadataServiceImpl implements MetadataService {
 
     private final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private final DateTimeFormatter AOE_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private final LocalDateTime NOT_ARCHIVED_VALUE = LocalDateTime
+        .parse("9999-01-01T00:00:00.000Z", AOE_DATETIME)
+        .atZone(ZoneId.of("UTC"))
+        .toLocalDateTime();
 
     private Environment env;
     private MigrationService migrationService;
@@ -102,7 +108,9 @@ public class MetadataServiceImpl implements MetadataService {
         List<Record> records = new ArrayList<>();
 
         migratedMetadata.forEach(meta -> {
-            RecordHeader recordHeader = new RecordHeader(null, meta.getIdentifier(),
+            RecordHeader recordHeader = new RecordHeader(
+                (meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? null : "deleted"),
+                meta.getIdentifier(),
                 (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
 
             RecordMetadata recordMetadata = new RecordMetadata();
@@ -110,7 +118,7 @@ public class MetadataServiceImpl implements MetadataService {
 
             Record record = new Record();
             record.setHeader(recordHeader);
-            record.setMetadata(recordMetadata);
+            record.setMetadata(meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? recordMetadata : null);
             records.add(record);
         });
         ((ListRecords) frame.getVerb().getValue()).setRecords(records);

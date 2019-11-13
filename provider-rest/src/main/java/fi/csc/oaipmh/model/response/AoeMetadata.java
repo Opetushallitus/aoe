@@ -103,7 +103,7 @@ public class AoeMetadata {
     private List<InLanguage> inlanguage;
 
     @JsonProperty
-    private List<AlignmentObject> aligmentobject;
+    private List<AlignmentObject> alignmentobject;
 
     @JsonProperty
     private List<Owner> owner;
@@ -209,8 +209,8 @@ public class AoeMetadata {
         return inlanguage;
     }
 
-    public List<AlignmentObject> getAligmentobject() {
-        return aligmentobject;
+    public List<AlignmentObject> getAlignmentobject() {
+        return alignmentobject;
     }
 
     public List<Owner> getOwner() {

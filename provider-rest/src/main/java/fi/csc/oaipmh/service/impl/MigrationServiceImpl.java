@@ -3,6 +3,7 @@ package fi.csc.oaipmh.service.impl;
 import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.response.sublevel_1st.*;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
+import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.AlignmentObject;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.Author;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.InLanguage;
@@ -21,9 +22,6 @@ public class MigrationServiceImpl implements MigrationService {
     public LrmiMetadata migrateAoeToLrmi(AoeMetadata amd) {
         LrmiMetadata lrmi = new LrmiMetadata();
 
-        /**
-         * DCMI - Dublin Core Metadata Initiative
-         */
         // dc:id
         lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
 
@@ -66,12 +64,14 @@ public class MigrationServiceImpl implements MigrationService {
         // dc:valid
         lrmi.setValid(amd.getExpires());
 
-        /**
-         * LRMI - Learning Resource Metadata Initiative
-         */
+        // lrmi_fi:dateCreated
         lrmi.setDateCreated(amd.getCreatedat());
+
+        // lrmi_fi:dateUpdated
         lrmi.setDateModified(amd.getUpdatedat());
-        lrmi.setArchivedAt(amd.getArchivedat());
+
+        // Invisible field for specifying the attribute status="deleted"
+        lrmi.setArchivedAt((amd.getArchivedat()));
 
         // lrmi_fi:author
         lrmi.setAuthor(amd.getAuthor() != null ? amd.getAuthor().stream()
@@ -109,18 +109,6 @@ public class MigrationServiceImpl implements MigrationService {
             })
             .collect(Collectors.toList()) : null);
 
-        // lrmi_fi:isBasedOn
-        lrmi.setIsBasedOn(amd.getIsbasedon() != null ? amd.getIsbasedon().stream()
-            .filter(i -> !i.getMaterialname().isEmpty() && !i.getUrl().isEmpty())
-            .map(i -> {
-                IsBasedOn isBasedOn = new IsBasedOn();
-                isBasedOn.setTitle(i.getMaterialname());
-                isBasedOn.setContributor(i.getAuthor());
-                isBasedOn.setIdentifier(i.getUrl());
-                return isBasedOn;
-            })
-            .collect(Collectors.toList()) : null);
-
         // lrmi_fi:accessibilityFeature
         lrmi.setAccessibilityFeature(amd.getAccessibilityfeature() != null ? amd.getAccessibilityfeature().stream()
             .filter(a -> !a.getValue().isEmpty())
@@ -133,6 +121,30 @@ public class MigrationServiceImpl implements MigrationService {
             .map(AccessibilityHazard::getValue)
             .toArray(String[]::new) : null);
 
+        // lrmi_fi:educationalAlignment
+        lrmi.setEducationalLevel(amd.getEducationallevel() != null ? amd.getEducationallevel().stream()
+            .filter(a -> !a.getValue().isEmpty())
+            .map(EducationalLevel::getValue)
+            .toArray(String[]::new) : null);
+
+        // lrmi_fi:educationalUse
+        lrmi.setEducationalUse(amd.getEducationaluse() != null ? amd.getEducationaluse().stream()
+            .filter(a -> !a.getValue().isEmpty())
+            .map(EducationalUse::getValue)
+            .toArray(String[]::new) : null);
+
+        // lrmi_fi:isBasedOn
+        lrmi.setIsBasedOn(amd.getIsbasedon() != null ? amd.getIsbasedon().stream()
+            .filter(i -> !i.getMaterialname().isEmpty() && !i.getUrl().isEmpty())
+            .map(i -> {
+                IsBasedOn isBasedOn = new IsBasedOn();
+                isBasedOn.setTitle(i.getMaterialname());
+                isBasedOn.setContributor(i.getAuthor());
+                isBasedOn.setIdentifier(i.getUrl());
+                return isBasedOn;
+            })
+            .collect(Collectors.toList()) : null);
+
         // lrmi_fi:inLanguage
         lrmi.setInLanguage(amd.getInlanguage() != null ? amd.getInlanguage().stream()
             .filter(i -> !i.getInlanguage().isEmpty())
@@ -140,6 +152,18 @@ public class MigrationServiceImpl implements MigrationService {
                 setInLanguage(i.getInlanguage());
                 setUrl(i.getUrl());
             }})
+            .collect(Collectors.toList()) : null);
+
+        // lrmi_fi:alignmentObject
+        lrmi.setAlignmentObject(amd.getAlignmentobject() != null ? amd.getAlignmentobject().stream()
+            .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty())
+            .map(a -> {
+                AlignmentObject alignmentObject = new AlignmentObject();
+                alignmentObject.setAlignmentType(a.getAlignmenttype());
+                alignmentObject.setTargetName(a.getTargetname());
+                alignmentObject.setEducationalFramework(a.getEducationalframework());
+                return alignmentObject;
+            })
             .collect(Collectors.toList()) : null);
 
         return lrmi;

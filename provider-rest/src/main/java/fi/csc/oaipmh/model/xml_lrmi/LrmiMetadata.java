@@ -37,6 +37,7 @@ public class LrmiMetadata {
     protected final String xsi_schemaLocation = "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd";
 
     // DC - Dublin Core
+
     @XmlElement(name = "dc:id")
     private String identifier;
 
@@ -76,8 +77,7 @@ public class LrmiMetadata {
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime dateModified;
 
-    @XmlElement(name = "lrmi_fi:dateArchived")
-    @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    // Invisible field for specifying the attribute status="deleted"
     private LocalDateTime archivedAt;
 
     @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
@@ -100,8 +100,7 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:educationalAudience")
     private List<EducationalAudience> educationalAudience;
 
-    @XmlElement(name = "lrmi_fi:isBasedOn")
-    private List<IsBasedOn> isBasedOn;
+    // learningResourceType => dc:type
 
     @XmlElement(name = "lrmi_fi:accessibilityFeature")
     private String[] accessibilityFeature;
@@ -109,31 +108,26 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:accessibilityHazard")
     private String[] accessibilityHazard;
 
+    // keyword => dc:subject
+
+    @XmlElement(name = "lrmi_fi:educationalAlignment")
+    private String[] educationalLevel;
+
+    @XmlElement(name = "lrmi_fi:educationalUse")
+    private String[] educationalUse;
+
+    // publisher => dc:publisher
+
+    // author => dc:author
+
+    @XmlElement(name = "lrmi_fi:isBasedOn")
+    private List<IsBasedOn> isBasedOn;
+
     @XmlElement(name = "lrmi_fi:inLanguage")
     private List<InLanguage> inLanguage;
 
-    /*
-    private String[] owner;
-    private String[] name;
-    private String[] author;
-    private String[] publisher;
-    private String[] description;
-    private String[] keywords;
-    private String[] learningResourceType;
-    private String[] timeRequired;
-    private String expires;
-    private Object typicalAgeRange;
-    private String[] educationalAlignment;
-    private String[] educationalLevel;
-    private String[] educationalUse;
-    private String[] inLanguage;
-    private String[] accessibilityFeatures;
-    private String[] accessibilityHazards;
-    private String license;
-    private String isBAsedOn;
-    private String[] materialDisplayName;
-    private String[] educationalRole;
-    */
+    @XmlElement(name = "lrmi_fi:alignmentObject")
+    private List<AlignmentObject> alignmentObject;
 
     public LrmiMetadata() {}
 
@@ -282,6 +276,22 @@ public class LrmiMetadata {
         this.educationalAudience = educationalAudience;
     }
 
+    public String[] getEducationalLevel() {
+        return educationalLevel;
+    }
+
+    public void setEducationalLevel(String[] educationalLevel) {
+        this.educationalLevel = educationalLevel;
+    }
+
+    public String[] getEducationalUse() {
+        return educationalUse;
+    }
+
+    public void setEducationalUse(String[] educationalUse) {
+        this.educationalUse = educationalUse;
+    }
+
     public List<IsBasedOn> getIsBasedOn() {
         return isBasedOn;
     }
@@ -312,5 +322,13 @@ public class LrmiMetadata {
 
     public void setInLanguage(List<InLanguage> inLanguage) {
         this.inLanguage = inLanguage;
+    }
+
+    public List<AlignmentObject> getAlignmentObject() {
+        return alignmentObject;
+    }
+
+    public void setAlignmentObject(List<AlignmentObject> alignmentObject) {
+        this.alignmentObject = alignmentObject;
     }
 }

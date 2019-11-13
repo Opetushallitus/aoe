@@ -25,4 +25,32 @@ public class AlignmentObject {
 
     @JsonProperty
     private String objectkey;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getEducationalmaterialid() {
+        return educationalmaterialid;
+    }
+
+    public String getAlignmenttype() {
+        return alignmenttype;
+    }
+
+    public String getTargetname() {
+        return targetname;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getEducationalframework() {
+        return educationalframework;
+    }
+
+    public String getObjectkey() {
+        return objectkey;
+    }
 }
