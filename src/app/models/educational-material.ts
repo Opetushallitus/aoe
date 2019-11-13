@@ -3,6 +3,7 @@ import { Author } from './author';
 import { Keyword } from './keyword';
 import { EducationalLevel } from './educational-level';
 import { LearningResourceType } from './learning-resource-type';
+import { AlignmentObjectExtended } from './alignment-object-extended';
 
 export interface EducationalMaterial {
   name: string;
@@ -35,4 +36,20 @@ export interface EducationalMaterial {
     accessibilityhazardkey: string;
     value: string;
   }];
+  earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
+  earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
+  prePrimaryEducationSubjects: AlignmentObjectExtended[];
+  prePrimaryEducationObjectives: AlignmentObjectExtended[];
+  basicStudySubjects: AlignmentObjectExtended[];
+  basicStudyObjectives: AlignmentObjectExtended[];
+  basicStudyContents: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectives: AlignmentObjectExtended[];
+  vocationalDegrees: AlignmentObjectExtended[];
+  vocationalEducationObjectives: AlignmentObjectExtended[];
+  selfMotivatedEducationSubjects: AlignmentObjectExtended[];
+  selfMotivatedEducationObjectives: AlignmentObjectExtended[];
+  branchesOfScience: AlignmentObjectExtended[];
+  scienceBranchObjectives: AlignmentObjectExtended[];
+  prerequisites: AlignmentObjectExtended[];
 }

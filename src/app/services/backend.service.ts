@@ -11,6 +11,7 @@ import { UploadMessage } from '../models/upload-message';
 import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
+import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 
 @Injectable({
   providedIn: 'root'
@@ -102,6 +103,9 @@ export class BackendService {
       }),
     }).pipe(
       map((res): EducationalMaterial => {
+        const alignmentObjects: AlignmentObjectExtended[] = res.educationalAlignment
+          .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
+
         return {
           name: res.name
             .find(n => n.language.toLowerCase() === this.lang).materialname,
@@ -132,6 +136,38 @@ export class BackendService {
             .map(({ accessibilityfeaturekey, value }) => ({ accessibilityfeaturekey, value })),
           accessibilityHazards: res.accessibilityHazards
             .map(({ accessibilityhazardkey, value }) => ({ accessibilityhazardkey, value })),
+          earlyChildhoodEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationSubjects'),
+          earlyChildhoodEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationObjectives'),
+          prePrimaryEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationSubjects'),
+          prePrimaryEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationObjectives'),
+          basicStudySubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudySubjects'),
+          basicStudyObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives'),
+          basicStudyContents: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents'),
+          upperSecondarySchoolSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects'),
+          upperSecondarySchoolObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolObjectives'),
+          vocationalDegrees: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees'),
+          vocationalEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives'),
+          selfMotivatedEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationSubjects'),
+          selfMotivatedEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationObjectives'),
+          branchesOfScience: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'branchesOfScience'),
+          scienceBranchObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'scienceBranchObjectives'),
+          prerequisites: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prerequisites'),
         };
       })
     );
