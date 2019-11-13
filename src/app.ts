@@ -1,4 +1,4 @@
-import express, { NextFunction } from "express";
+import express, { Response, Request, NextFunction } from "express";
 import compression from "compression";  // compresses requests
 import lusca from "lusca";
 import dotenv from "dotenv";
@@ -11,7 +11,7 @@ const session = require("express-session");
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env.example" });
 
-const ah = require("./queries/authservice");
+// const ah = require("./queries/authservice");
 // API keys and Passport configuration
 // import * as passportConfig from "./config/passport";
 
@@ -22,18 +22,29 @@ const bodyParser = require("body-parser");
 import * as homeController from "./controllers/home";
 const apiRouter = require("./routes/routes");
 // Create Express server
-
+const redis = require("redis");
+const redisclient = redis.createClient();
+const RedisStore = require("connect-redis")(session);
 
 // setInterval(() => ah.authIssuer(), 30000);
 const Issuer  = require("openid-client").Issuer;
 const Strategy = require("openid-client").Strategy;
 
 app.use(session({
+  store: new RedisStore(),
   resave: false,
   saveUninitialized: true,
   secret: "bla bla bla"
 }));
 
+
+
+// used to deserialize the user
+// passport.deserializeUser(function(id, done) {
+//   User.findById(id, function(err, user) {
+//       done(err, user);
+//   });
+// });
 // One possible implementation below.
 // ** STARTS HERE **
 // Issuer.discover("https://test-user-auth.csc.fi")
@@ -71,26 +82,40 @@ app.use(session({
 
 // app.get("/secure/redirect", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login"}));
 // ** ENDS HERE **
+passport.serializeUser(function(user, done) {
+  done(undefined, user.uid);
+// where is this user.id going? Are we supposed to access this anywhere?
+});
 
+passport.deserializeUser((uid, done) => {
+  done(undefined, {uid: uid});
+});
 
 // One possible implementation below.
 // ** STARTS HERE **
 Issuer.discover("https://test-user-auth.csc.fi")
-    .then( function(testIssuer) {
+    .then( function(testIssuer , req: Request) {
         const client = new testIssuer.Client({
             client_id: "bfb7ab6dda3f493fb321233a7e55953f965391ec",
             client_secret: "ba761d78e42754edb2853fcaca8497acc54f8d05",
-            redirect_uri: "https://10.10.10.10:3000/secure/redirect",
+            redirect_uri: "https://10.10.10.10:3000/secure/redirect", // secure/redirect
             response_type: "code",
         });
         console.log("Discovered issuer %s %O", testIssuer.issuer, testIssuer.metadata);
-        passport.use("oidc", new Strategy({ client }, (tokenset: any, userinfo: any, done: any) => {
+        passport.use("oidc", new Strategy({ client }, (tokenset: any, userinfo: any, done: any, next: NextFunction) => {
            // **NEVER GET HERE**
             console.log("tokenset", tokenset);
             console.log("access_token", tokenset.access_token);
             console.log("id_token", tokenset.id_token);
-            console.log("claims", tokenset.claims);
+            console.log("claims", tokenset.claims());
             console.log("userinfo", userinfo);
+            console.log("expires_in" , tokenset.expires_in);
+            redisclient.set("test", JSON.stringify(userinfo));
+            // req.session.expires_in = tokenset.expires_in;
+            // res.sendStatus(200);
+            // used to serialize the user for the session
+            // console.log(userinfo.uid);
+            return done(undefined, {uid: userinfo.uid});
         }));
     });
     app.use(flash());
@@ -103,10 +128,28 @@ app.use(passport.session());
 //     res.json({"hello": "world", "user": "test" + JSON.stringify(req.body)});
 //     console.log(util.inspect(req));
 // });
-
-
 app.get("/login", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login", failureFlash: true, scope: "openid profile"}));
-app.get("/secure/redirect", passport.authenticate("oidc", {"callback": true, failureRedirect: "/", failureFlash: true, successRedirect: "/"}));
+app.get("/secure/redirect", function(req: Request, res: Response, next: NextFunction) {
+  console.log("here");
+  next();
+}
+ , passport.authenticate("oidc", {"callback": true, failureRedirect: "/failure", failureFlash: true, successRedirect: "/material/1"})
+// passport.authenticate("oidc", function(err, user, info) {
+//   if (err) {
+//     console.log(err);
+//     return next(err); }
+//   if (!user) {
+//     console.log(res);
+//     return res.redirect("/login"); }
+//   req.logIn(user, function(err) {
+//     if (err) { return next(err); }
+//     return res.redirect("/users/" + user.username);
+//   });
+// function(req: Request, res: Response) {
+//   console.log("here2");
+//   res.sendStatus(200);
+//  })(req, res, next);
+);
 
 
 

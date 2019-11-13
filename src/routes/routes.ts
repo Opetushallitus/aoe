@@ -9,7 +9,7 @@ const passport = require("passport");
 // Importing db const from apiQueries.ts
 // Importing ah const from authservice.ts
  const db = require("../queries/apiQueries");
- const ah = require("../queries/authservice");
+ const ah = require("../services/authservice");
 
 // File handling
  const fh = require("./../queries/fileHandling");
@@ -28,7 +28,7 @@ router.post("/material/file/:materialId", fh.uploadFileToMaterial);
 
 // router.get("/logintest", ah.authservice);
 router.get("/material", db.getMaterial);
-router.get("/material/:id", db.getMaterialData);
+router.get("/material/:id", ah.checkAuthenticated, db.getMaterialData);
 router.get("/material/user/:userid", db.getUserMaterial);
 router.put("/material/:id", db.updateMaterial);
 // delete educational material

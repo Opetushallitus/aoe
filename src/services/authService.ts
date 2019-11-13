@@ -3,6 +3,15 @@ const connection = require("./../db");
 // const db = connection.db;
 const db = connection.db;
 
+function checkAuthenticated (req: Request, res: Response, next: NextFunction) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    else {
+        res.sendStatus(401);
+    }
+}
+
 function getUserData(req: Request) {
 
     // First we assure that the user actually exists before we decide to retrieve
@@ -64,5 +73,6 @@ module.exports = {
     isUser: isUser,
     getUserData: getUserData,
     hasAccesstoPublication,
+    checkAuthenticated: checkAuthenticated
     // hasAccess: hasAccess,
 };
