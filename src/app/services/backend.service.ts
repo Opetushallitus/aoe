@@ -194,6 +194,8 @@ export class BackendService {
               id: r.id,
               name: r.name
                 .find(n => n.language.toLowerCase() === this.lang).materialname,
+              slug: r.name
+                .find(n => n.language.toLowerCase() === this.lang).slug,
               thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),

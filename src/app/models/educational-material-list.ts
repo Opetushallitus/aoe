@@ -6,6 +6,7 @@ import { LearningResourceType } from './learning-resource-type';
 export interface EducationalMaterialList {
   id: number;
   name: string;
+  slug: string;
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
