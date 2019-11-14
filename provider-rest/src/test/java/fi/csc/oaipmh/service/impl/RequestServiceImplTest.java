@@ -60,6 +60,6 @@ public class RequestServiceImplTest {
             ArgumentMatchers.<ParameterizedTypeReference<List<LrmiMetadata>>>any())
         ).thenReturn(lrmiResponse);
 
-        Assert.assertEquals(1, requestService.getAoeMetadata().size());
+        Assert.assertEquals(1, requestService.getAoeMetadata(0).getContent().size());
     }
 }

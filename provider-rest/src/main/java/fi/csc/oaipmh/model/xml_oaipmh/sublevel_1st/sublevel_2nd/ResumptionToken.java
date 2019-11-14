@@ -14,6 +14,11 @@ public class ResumptionToken {
     @XmlValue
     private String token;
 
+    public ResumptionToken(String cursor, String token) {
+        this.cursor = cursor;
+        this.token = token;
+    }
+
     public String getCursor() {
         return cursor;
     }

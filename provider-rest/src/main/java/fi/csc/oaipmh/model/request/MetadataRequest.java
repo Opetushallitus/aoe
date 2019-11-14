@@ -12,8 +12,8 @@ public class MetadataRequest {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateMax;
 
-    private Long materialPerPage;
-    private Long pageNumber;
+    private Integer materialPerPage;
+    private Integer pageNumber;
 
     public LocalDateTime getDateMin() {
         return dateMin;
@@ -31,19 +31,19 @@ public class MetadataRequest {
         this.dateMax = dateMax;
     }
 
-    public Long getMaterialPerPage() {
+    public Integer getMaterialPerPage() {
         return materialPerPage;
     }
 
-    public void setMaterialPerPage(Long materialPerPage) {
+    public void setMaterialPerPage(Integer materialPerPage) {
         this.materialPerPage = materialPerPage;
     }
 
-    public Long getPageNumber() {
+    public Integer getPageNumber() {
         return pageNumber;
     }
 
-    public void setPageNumber(Long pageNumber) {
+    public void setPageNumber(Integer pageNumber) {
         this.pageNumber = pageNumber;
     }
 }

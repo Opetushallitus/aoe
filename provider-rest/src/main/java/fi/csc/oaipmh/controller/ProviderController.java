@@ -32,6 +32,7 @@ public class ProviderController {
             @RequestParam(required = false, defaultValue = "") String verb,
             @RequestParam(required = false, defaultValue = "") String identifier,
             @RequestParam(required = false, defaultValue = "") String metadataPrefix,
+            @RequestParam(required = false, defaultValue = "") String resumptionToken,
             HttpServletRequest request) {
         String requestUrl = request.getScheme()
                 + "://"
@@ -39,14 +40,7 @@ public class ProviderController {
                 + (request.getServerPort() != 0 ? ":" + request.getServerPort() : "")
                 + request.getRequestURI();
         return new ResponseEntity<>(
-                this.metadataService.getMetadata(verb, identifier, metadataPrefix, requestUrl),
+                this.metadataService.getMetadata(verb, identifier, metadataPrefix, resumptionToken, requestUrl),
                 HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/aoemeta")
-    public ResponseEntity<List<AoeMetadata>> getAoeMetadata() {
-        return new ResponseEntity<>(
-            this.requestService.getAoeMetadata(),
-            HttpStatus.OK);
     }
 }

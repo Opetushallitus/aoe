@@ -1,5 +1,6 @@
 package fi.csc.oaipmh.service.impl;
 
+import fi.csc.oaipmh.model.response.AoeMetaFrame;
 import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
 import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
@@ -7,6 +8,7 @@ import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Identify;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListRecords;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Request;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.Record;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.ResumptionToken;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.sublevel_3rd.RecordHeader;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.sublevel_3rd.RecordMetadata;
 import fi.csc.oaipmh.service.MetadataService;
@@ -48,7 +50,8 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     @Override
-    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String requestUrl) {
+    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String resumptionToken, String requestUrl) {
+
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
         frame.setRequest(new Request(verb, identifier, metadataPrefix, requestUrl));
@@ -57,7 +60,7 @@ public class MetadataServiceImpl implements MetadataService {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setLrmiMetadata(frame);
+                setLrmiMetadata(frame, resumptionToken);
                 break;
             case "LISTIDENTIFIERS":
                 /*frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
@@ -99,28 +102,48 @@ public class MetadataServiceImpl implements MetadataService {
                 .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
     }
 
-    private void setLrmiMetadata(OaiPmhFrame frame) {
-        List<AoeMetadata> aoeMetadata = this.requestService.getAoeMetadata();
+    private void setLrmiMetadata(OaiPmhFrame frame, String resumptionToken) {
+        Integer resumptionCounter = resolveResumptionValue(resumptionToken);
 
-        List<LrmiMetadata> migratedMetadata = aoeMetadata.stream()
-            .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
-            .collect(Collectors.toList());
-        List<Record> records = new ArrayList<>();
+        AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = this.requestService.getAoeMetadata(resumptionCounter);
+        List<AoeMetadata> aoeMetaContent = aoeMetaFrame.getContent();
 
-        migratedMetadata.forEach(meta -> {
-            RecordHeader recordHeader = new RecordHeader(
-                (meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? null : "deleted"),
-                meta.getIdentifier(),
-                (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
+        if (aoeMetaContent != null && aoeMetaContent.size() > 0) {
 
-            RecordMetadata recordMetadata = new RecordMetadata();
-            recordMetadata.setLrmiMetadata(meta);
+            List<LrmiMetadata> migratedMetadata = aoeMetaContent.stream()
+                .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
+                .collect(Collectors.toList());
+            List<Record> records = new ArrayList<>();
 
-            Record record = new Record();
-            record.setHeader(recordHeader);
-            record.setMetadata(meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? recordMetadata : null);
-            records.add(record);
-        });
-        ((ListRecords) frame.getVerb().getValue()).setRecords(records);
+            migratedMetadata.forEach(meta -> {
+                RecordHeader recordHeader = new RecordHeader(
+                    (meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? null : "deleted"),
+                    meta.getIdentifier(),
+                    (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
+
+                RecordMetadata recordMetadata = new RecordMetadata();
+                recordMetadata.setLrmiMetadata(meta);
+
+                Record record = new Record();
+                record.setHeader(recordHeader);
+                record.setMetadata(meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? recordMetadata : null);
+                records.add(record);
+            });
+
+            if (resumptionCounter + 1 < aoeMetaFrame.getPageTotal()) {
+                Integer resumptionCurr = resumptionCounter;
+                Integer resumptionNext = ++resumptionCounter;
+                ((ListRecords) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
+                    resumptionCurr.toString(), resumptionNext.toString()));
+            }
+            ((ListRecords) frame.getVerb().getValue()).setRecords(records);
+        }
+    }
+
+    private Integer resolveResumptionValue(String resumptionToken) {
+        if (resumptionToken.isEmpty()) {
+            return 0;
+        }
+        return Integer.parseInt(resumptionToken);
     }
 }
