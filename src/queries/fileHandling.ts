@@ -33,7 +33,7 @@ async function uploadMaterial(req: Request, res: Response) {
         console.log(req.body);
         const contentType = req.headers["content-type"];
         if (contentType.startsWith("multipart/form-data")) {
-            upload.array("myFiles", 12)(req , res, async function(err: any) {
+            upload.array("myFiles")(req , res, async function(err: any) {
                 try {
                     if (err) {
                         console.log(err);
