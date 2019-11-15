@@ -122,6 +122,7 @@ async function getMaterialMetaData(req: Request , res: Response) {
                 "materialPerPage" : req.body.materialPerPage,
                 "pageNumber" : req.body.pageNumber,
                 "pageTotal": pagecount,
+                "completeListSize": documentcount.count,
                 "content": data
             };
             res.status(200).json(obj);
