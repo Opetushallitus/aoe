@@ -5,33 +5,46 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlValue;
 
+@SuppressWarnings("unused")
 @XmlAccessorType(XmlAccessType.NONE)
 public class ResumptionToken {
 
     @XmlAttribute
-    private String cursor; // "0..n"
+    private Long completeListSize;
+
+    @XmlAttribute
+    private Integer cursor; // previous metadata index
 
     @XmlValue
-    private String token;
+    private String value;
 
-    public ResumptionToken(String cursor, String token) {
+    public ResumptionToken(Long completeListSize, Integer cursor, String value) {
+        this.completeListSize = completeListSize;
         this.cursor = cursor;
-        this.token = token;
+        this.value = value;
     }
 
-    public String getCursor() {
+    public Long getCompleteListSize() {
+        return completeListSize;
+    }
+
+    public void setCompleteListSize(Long completeListSize) {
+        this.completeListSize = completeListSize;
+    }
+
+    public Integer getCursor() {
         return cursor;
     }
 
-    public void setCursor(String cursor) {
+    public void setCursor(Integer cursor) {
         this.cursor = cursor;
     }
 
-    public String getToken() {
-        return token;
+    public String getValue() {
+        return value;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setValue(String value) {
+        this.value = value;
     }
 }

@@ -117,7 +117,7 @@ public class MetadataServiceImpl implements MetadataService {
 
             migratedMetadata.forEach(meta -> {
                 RecordHeader recordHeader = new RecordHeader(
-                    (meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? null : "deleted"),
+                    (meta.getArchivedAt() == null ? null : "deleted"),
                     meta.getIdentifier(),
                     (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
 
@@ -126,18 +126,28 @@ public class MetadataServiceImpl implements MetadataService {
 
                 Record record = new Record();
                 record.setHeader(recordHeader);
-                record.setMetadata(meta.getArchivedAt().equals(NOT_ARCHIVED_VALUE) ? recordMetadata : null);
+                record.setMetadata(meta.getArchivedAt() == null ? null : recordMetadata);
                 records.add(record);
             });
+            
+            addResumptionToken(frame, aoeMetaFrame, resumptionCounter);
 
-            if (resumptionCounter + 1 < aoeMetaFrame.getPageTotal()) {
-                Integer resumptionCurr = resumptionCounter;
-                Integer resumptionNext = ++resumptionCounter;
-                ((ListRecords) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
-                    resumptionCurr.toString(), resumptionNext.toString()));
-            }
             ((ListRecords) frame.getVerb().getValue()).setRecords(records);
         }
+    }
+
+    private void addResumptionToken(OaiPmhFrame frame, AoeMetaFrame aoeMetaFrame, Integer resumptionCounter) {
+        Integer next = ++resumptionCounter;
+        Integer cursor = aoeMetaFrame.getPageNumber() * aoeMetaFrame.getMaterialPerPage();
+        String resumptionString;
+
+        if (resumptionCounter < aoeMetaFrame.getPageTotal()) {
+            resumptionString = next.toString();
+        } else {
+            resumptionString = "";
+        }
+        ((ListRecords) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
+            aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
     }
 
     private Integer resolveResumptionValue(String resumptionToken) {

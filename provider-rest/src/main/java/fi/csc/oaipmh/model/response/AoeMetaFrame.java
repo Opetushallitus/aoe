@@ -8,6 +8,7 @@ public class AoeMetaFrame<T> {
     private Integer materialPerPage;
     private Integer pageNumber;
     private Integer pageTotal;
+    private Long completeListSize;
     private T content;
 
     public String getDateMin() {
@@ -48,6 +49,14 @@ public class AoeMetaFrame<T> {
 
     public void setPageTotal(Integer pageTotal) {
         this.pageTotal = pageTotal;
+    }
+
+    public Long getCompleteListSize() {
+        return completeListSize;
+    }
+
+    public void setCompleteListSize(Long completeListSize) {
+        this.completeListSize = completeListSize;
     }
 
     public T getContent() {
