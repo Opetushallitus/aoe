@@ -7,8 +7,14 @@ const db = connection.db;
 async function getMaterialMetaData(req: Request , res: Response) {
     try {
         const min = req.body.min;
-        const query2 = "select count(*) from educationalmaterial";
-        const documentcount = await db.oneOrNone(query2);
+        let query2 = "select count(*) from educationalmaterial";
+        const params: any = [];
+        if (req.body.dateMin !== undefined && req.body.dateMax !== undefined && req.body.materialPerPage !== undefined && req.body.pageNumber !== undefined) {
+            params.push(req.body.dateMin);
+            params.push(req.body.dateMax);
+            query2 = "select count(*) from educationalmaterial where updatedat >= timestamp $1 and updatedat < timestamp $2";
+        }
+        const documentcount = await db.oneOrNone(query2, params);
         let pagecount = 0;
         if (req.body.materialPerPage) {
             pagecount = Math.ceil(documentcount.count / req.body.materialPerPage);
