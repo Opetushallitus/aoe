@@ -4,9 +4,12 @@ const connection = require("./../db");
 // const pgp = connection.pgp;
 const db2 = connection.db;
 const router: Router = Router();
+const passport = require("passport");
 
 // Importing db const from apiQueries.ts
+// Importing ah const from authservice.ts
  const db = require("../queries/apiQueries");
+ const ah = require("../services/authservice");
 
 // File handling
  const fh = require("./../queries/fileHandling");
@@ -23,14 +26,23 @@ const router: Router = Router();
 // delete file
 // delete metadata
 
+//  router.get("/login", passport.authenticate("oidc"), function (req, res) {
+//     res.send("hello!!");
+// });
+//  router.post("/callback", function (req, res) {
+//     console.log("In callback", req.user);
+//     res.send(200);
+// });
+// router.post("/authtest", ah.authtest);
 router.post("/material/file", fh.uploadMaterial);
 router.post("/material/file/:materialId", fh.uploadFileToMaterial);
 router.post("/material/link/:materialId", db.addLinkToMaterial);
 router.post("/uploadImage/:id", thumbnail.uploadImage);
 router.post("/uploadBase64Image/:id", thumbnail.uploadbase64Image);
 
+// router.get("/logintest", ah.authservice);
 router.get("/material", db.getMaterial);
-router.get("/material/:id", db.getMaterialData);
+router.get("/material/:id", ah.checkAuthenticated, db.getMaterialData);
 router.get("/material/user/:username", db.getUserMaterial);
 router.put("/material/:id", db.updateMaterial);
 // delete educational material
@@ -52,4 +64,6 @@ router.post("/uploadXlsx" , handler.uploadXlsx);
 
 // oaj-pmh
 router.post("/oajpmh/materialMetaData", oajpmh.getMaterialMetaData);
+// router.get("/login", ah.authservice);
+// router.get("/materialtest", ah.getMaterial);
 export = router;
