@@ -41,6 +41,7 @@ router.post("/uploadImage/:id", thumbnail.uploadImage);
 router.post("/uploadBase64Image/:id", thumbnail.uploadbase64Image);
 
 // router.get("/logintest", ah.authservice);
+router.get("/userdata", ah.getUserData);
 router.get("/material", db.getMaterial);
 router.get("/material/:id", ah.checkAuthenticated, db.getMaterialData);
 router.get("/material/user/:username", db.getUserMaterial);

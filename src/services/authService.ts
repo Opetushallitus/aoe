@@ -12,31 +12,10 @@ function checkAuthenticated (req: Request, res: Response, next: NextFunction) {
     }
 }
 
-function getUserData(req: Request) {
+function getUserData(req: Request, res: Response) {
 
-    // First we assure that the user actually exists before we decide to retrieve
-    // the userData
-    if (!isUser) {
-        console.log("User did not exist, therefore we cannot get userData");
-}
-    else {
-
-    // Temporary example of how the userData will look
-    // We construct an object from data from the session, this data can also
-    // be acquired straight from the req.session
-
-    // Maybe redundant since the information is accessible straight from the req.session
-    const userData = {
-        openid: req.session.userdata.name,
-        profile: "placeholder",
-        email: "placeholder",
-        adress: "placeholder",
-        phone: "placeholder",
-        offline_access: "placeholder",
-
-    };
-    return userData;
-    }
+ res.status(200).json(JSON.stringify(req.session.passport.user));
+ console.log("The req session in getuserdata: " + JSON.stringify(req.session));
 }
 
 

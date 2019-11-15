@@ -83,12 +83,12 @@ app.use(session({
 // app.get("/secure/redirect", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login"}));
 // ** ENDS HERE **
 passport.serializeUser(function(user, done) {
-  done(undefined, user.uid);
+  done(undefined, user);
 // where is this user.id going? Are we supposed to access this anywhere?
 });
 
-passport.deserializeUser((uid, done) => {
-  done(undefined, {uid: uid});
+passport.deserializeUser((userinfo, done) => {
+  done(undefined, {user: userinfo.id});
 });
 
 // One possible implementation below.
@@ -115,7 +115,8 @@ Issuer.discover("https://test-user-auth.csc.fi")
             // res.sendStatus(200);
             // used to serialize the user for the session
             // console.log(userinfo.uid);
-            return done(undefined, {uid: userinfo.uid});
+            const nameparsed = userinfo.given_name + " " + userinfo.family_name;
+            return done(undefined, {uid: userinfo.uid, name: nameparsed, email: userinfo.email});
         }));
     });
     app.use(flash());
@@ -128,12 +129,12 @@ app.use(passport.session());
 //     res.json({"hello": "world", "user": "test" + JSON.stringify(req.body)});
 //     console.log(util.inspect(req));
 // });
-app.get("/login", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login", failureFlash: true, scope: "openid profile"}));
+app.get("/login", passport.authenticate("oidc", {successRedirect: "/", failureRedirect: "/login", failureFlash: true, scope: "openid profile offline_access"}));
 app.get("/secure/redirect", function(req: Request, res: Response, next: NextFunction) {
   console.log("here");
   next();
 }
- , passport.authenticate("oidc", {"callback": true, failureRedirect: "/failure", failureFlash: true, successRedirect: "/material/1"})
+ , passport.authenticate("oidc", {"callback": true, failureRedirect: "/login", failureFlash: true, successRedirect: "/"})
 // passport.authenticate("oidc", function(err, user, info) {
 //   if (err) {
 //     console.log(err);
