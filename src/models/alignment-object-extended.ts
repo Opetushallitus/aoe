@@ -1,5 +1,3 @@
-import { KeyValue } from "./data";
-
 export interface AlignmentObjectExtended {
   key?: string | number;
   parent?: any;
