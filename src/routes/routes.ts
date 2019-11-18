@@ -9,7 +9,7 @@ const passport = require("passport");
 // Importing db const from apiQueries.ts
 // Importing ah const from authservice.ts
  const db = require("../queries/apiQueries");
- const ah = require("../services/authservice");
+ const ah = require("../services/authService");
 
 // File handling
  const fh = require("./../queries/fileHandling");
