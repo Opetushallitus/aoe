@@ -48,6 +48,7 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
         source: "vocationalDegrees",
         alignmentType: "educationalSubject",
         targetName: result.nimi.fi !== undefined ? result.nimi.fi : (result.nimi.sv !== undefined ? result.nimi.sv : result.nimi.en),
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${result.id}`,
       });
 
       english.push({
@@ -55,6 +56,7 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
         source: "vocationalDegrees",
         alignmentType: "educationalSubject",
         targetName: result.nimi.en !== undefined ? result.nimi.en : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.sv),
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${result.id}`,
       });
 
       swedish.push({
@@ -62,6 +64,7 @@ export async function setAmmatillisenTutkinnot(): Promise<any> {
         source: "vocationalDegrees",
         alignmentType: "educationalSubject",
         targetName: result.nimi.sv !== undefined ? result.nimi.sv : (result.nimi.fi !== undefined ? result.nimi.fi : result.nimi.en),
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${result.id}`,
       });
     });
 

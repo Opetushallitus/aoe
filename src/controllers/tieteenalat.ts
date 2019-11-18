@@ -170,6 +170,7 @@ export async function setTieteenalat(): Promise<any> {
         source: "branchesOfScience",
         alignmentType: "educationalSubject",
         targetName: metadataFi.nimi.trim(),
+        targetUrl: result.resourceUri,
       });
 
       const metadataEn = result.metadata.find((e: any) => e.kieli.toLowerCase() === "en");
@@ -181,6 +182,7 @@ export async function setTieteenalat(): Promise<any> {
         source: "branchesOfScience",
         alignmentType: "educationalSubject",
         targetName: metadataEn.nimi.trim(),
+        targetUrl: result.resourceUri,
       });
 
       const metadataSv = result.metadata.find((e: any) => e.kieli.toLowerCase() === "sv");
@@ -192,6 +194,7 @@ export async function setTieteenalat(): Promise<any> {
         source: "branchesOfScience",
         alignmentType: "educationalSubject",
         targetName: metadataSv.nimi.trim(),
+        targetUrl: result.resourceUri,
       });
     });
 

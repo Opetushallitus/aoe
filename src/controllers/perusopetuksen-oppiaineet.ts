@@ -102,6 +102,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                 source: "basicStudyObjectives",
                 alignmentType: "teaches",
                 targetName: objectiveValue.fi ? objectiveValue.fi : objectiveValue.sv,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
               });
 
               swedishObjectives.push({
@@ -114,6 +115,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                 source: "basicStudyObjectives",
                 alignmentType: "teaches",
                 targetName: objectiveValue.sv ? objectiveValue.sv : objectiveValue.fi,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
               });
             });
           }
@@ -138,6 +140,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                 source: "basicStudyContents",
                 alignmentType: "teaches",
                 targetName: content.nimi.fi ? content.nimi.fi : content.nimi.sv,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
               });
 
               swedishContents.push({
@@ -150,6 +153,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                 source: "basicStudyContents",
                 alignmentType: "teaches",
                 targetName: content.nimi.sv ? content.nimi.sv : content.nimi.fi,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
               });
             });
           }
@@ -169,6 +173,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
               source: "basicStudySubjects",
               alignmentType: "educationalSubject",
               targetName: child.name.fi ? child.name.fi : child.name.sv,
+              targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${child.key}`,
             };
           })
           .sort(sortByTargetName);
@@ -181,6 +186,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
               source: "basicStudySubjects",
               alignmentType: "educationalSubject",
               targetName: child.name.sv ? child.name.sv : child.name.fi,
+              targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${child.key}`,
             };
           })
           .sort(sortByTargetName);

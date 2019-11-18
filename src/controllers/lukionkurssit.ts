@@ -40,6 +40,7 @@ export async function setLukionkurssit(): Promise<any> {
         source: "upperSecondarySchoolSubjects",
         alignmentType: "educationalSubject",
         targetName: metadataFi ? metadataFi.nimi.trim() : (metadataSv ? metadataSv.nimi.trim() : metadataEn.nimi.trim()),
+        targetUrl: row.resourceUri,
       });
 
       english.push({
@@ -47,6 +48,7 @@ export async function setLukionkurssit(): Promise<any> {
         source: "upperSecondarySchoolSubjects",
         alignmentType: "educationalSubject",
         targetName: metadataEn ? metadataEn.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataSv.nimi.trim()),
+        targetUrl: row.resourceUri,
       });
 
       swedish.push({
@@ -54,6 +56,7 @@ export async function setLukionkurssit(): Promise<any> {
         source: "upperSecondarySchoolSubjects",
         alignmentType: "educationalSubject",
         targetName: metadataSv ? metadataSv.nimi.trim() : (metadataFi ? metadataFi.nimi.trim() : metadataEn.nimi.trim()),
+        targetUrl: row.resourceUri,
       });
     });
 
