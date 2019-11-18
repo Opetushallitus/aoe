@@ -21,6 +21,12 @@ public class MigrationServiceImpl implements MigrationService {
     @Override
     public LrmiMetadata migrateAoeToLrmi(AoeMetadata amd) {
         LrmiMetadata lrmi = new LrmiMetadata();
+        setDublinCoreData(amd, lrmi);
+        setLrmiData(amd, lrmi);
+        return lrmi;
+    }
+
+    private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // dc:id
         lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
@@ -63,6 +69,9 @@ public class MigrationServiceImpl implements MigrationService {
 
         // dc:valid
         lrmi.setValid(amd.getExpires());
+    }
+
+    private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // lrmi_fi:dateCreated
         lrmi.setDateCreated(amd.getCreatedat());
@@ -161,11 +170,10 @@ public class MigrationServiceImpl implements MigrationService {
                 AlignmentObject alignmentObject = new AlignmentObject();
                 alignmentObject.setAlignmentType(a.getAlignmenttype());
                 alignmentObject.setTargetName(a.getTargetname());
-                alignmentObject.setEducationalFramework(a.getEducationalframework());
+                alignmentObject.setTargetUrl(a.getTargeturl());
+                alignmentObject.setEducationalFramework(a.getEducationalframework().isEmpty() ? null : a.getEducationalframework());
                 return alignmentObject;
             })
             .collect(Collectors.toList()) : null);
-
-        return lrmi;
     }
 }

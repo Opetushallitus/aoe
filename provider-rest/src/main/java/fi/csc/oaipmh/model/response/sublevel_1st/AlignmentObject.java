@@ -18,6 +18,9 @@ public class AlignmentObject {
     private String targetname;
 
     @JsonProperty
+    private String targeturl;
+
+    @JsonProperty
     private String source;
 
     @JsonProperty
@@ -40,6 +43,10 @@ public class AlignmentObject {
 
     public String getTargetname() {
         return targetname;
+    }
+
+    public String getTargeturl() {
+        return targeturl;
     }
 
     public String getSource() {

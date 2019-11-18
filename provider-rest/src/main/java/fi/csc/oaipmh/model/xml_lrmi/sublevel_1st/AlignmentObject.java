@@ -14,6 +14,9 @@ public class AlignmentObject {
     @XmlElement(name = "lrmi_fi:targetName")
     private String targetName;
 
+    @XmlElement(name = "lrmi_fi:targetUrl")
+    private String targetUrl;
+
     @XmlElement(name = "lrmi_fi:educationalFramework")
     private String educationalFramework;
 
@@ -31,6 +34,14 @@ public class AlignmentObject {
 
     public void setTargetName(String targetName) {
         this.targetName = targetName;
+    }
+
+    public String getTargetUrl() {
+        return targetUrl;
+    }
+
+    public void setTargetUrl(String targetUrl) {
+        this.targetUrl = targetUrl;
     }
 
     public String getEducationalFramework() {

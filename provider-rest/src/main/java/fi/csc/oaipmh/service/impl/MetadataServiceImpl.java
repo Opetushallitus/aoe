@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,11 +31,6 @@ import java.util.stream.Collectors;
 public class MetadataServiceImpl implements MetadataService {
 
     private final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    private final DateTimeFormatter AOE_DATETIME = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-    private final LocalDateTime NOT_ARCHIVED_VALUE = LocalDateTime
-        .parse("9999-01-01T00:00:00.000Z", AOE_DATETIME)
-        .atZone(ZoneId.of("UTC"))
-        .toLocalDateTime();
 
     private Environment env;
     private MigrationService migrationService;
