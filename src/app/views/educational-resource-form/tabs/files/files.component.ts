@@ -13,6 +13,7 @@ import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
+import { mimeTypes } from '../../../../constants/mimetypes';
 
 @Component({
   selector: 'app-tabs-files',
@@ -152,11 +153,26 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
+      subtitles: this.fb.array([]),
     });
   }
 
   addFile(): void {
     this.files.push(this.createFile());
+  }
+
+  createSubtitle(): FormGroup {
+    return this.fb.group({
+      file: [''],
+      default: this.fb.control(false),
+      kind: this.fb.control('subtitles'),
+      label: this.fb.control(null),
+      srclang: this.fb.control(null),
+    });
+  }
+
+  addSubtitle(i): void {
+    this.files.at(i).get('subtitles').value.push(this.createSubtitle());
   }
 
   openModal(template: TemplateRef<any>): void {
@@ -174,6 +190,11 @@ export class FilesComponent implements OnInit, OnDestroy {
   onFileChange(event, i): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
+
+      if (mimeTypes.video.includes(file.type)) {
+        console.log('video spotted!');
+        // @todo: video spotted, add subtitles
+      }
 
       this.myFiles.push(file);
       this.files.at(i).get('file').setValue(file);
