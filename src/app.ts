@@ -98,7 +98,7 @@ Issuer.discover("https://test-user-auth.csc.fi")
         const client = new testIssuer.Client({
             client_id: "bfb7ab6dda3f493fb321233a7e55953f965391ec",
             client_secret: "ba761d78e42754edb2853fcaca8497acc54f8d05",
-            redirect_uri: "https://10.10.10.10:3000/secure/redirect", // secure/redirect
+            redirect_uri: process.env.REDIRECT_URI, // "https://10.10.10.10:3000/secure/redirect", // secure/redirect
             response_type: "code",
         });
         console.log("Discovered issuer %s %O", testIssuer.issuer, testIssuer.metadata);
@@ -134,7 +134,7 @@ app.get("/secure/redirect", function(req: Request, res: Response, next: NextFunc
   console.log("here");
   next();
 }
- , passport.authenticate("oidc", {"callback": true, failureRedirect: "/login", failureFlash: true, successRedirect: "/"})
+ , passport.authenticate("oidc", {"callback": true, failureRedirect: process.env.FAILURE_REDIRECT_URI, failureFlash: true, successRedirect: process.env.SUCCESS_REDIRECT_URI})
 // passport.authenticate("oidc", function(err, user, info) {
 //   if (err) {
 //     console.log(err);
