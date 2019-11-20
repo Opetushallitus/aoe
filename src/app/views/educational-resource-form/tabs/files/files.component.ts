@@ -234,6 +234,45 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
+  uploadFiles() {
+    this.myFiles.forEach(file => {
+      const formData = new FormData();
+      formData.append('myFiles', file);
+      formData.append('username', this.authSvc.getUser().username);
+
+      this.backendSvc.uploadFiles(formData).subscribe(
+        (res) => {
+          this.uploadResponse = res;
+
+          if (this.uploadResponse.status === 'completed') {
+            const fileUpload = getLocalStorageData(this.fileUploadLSKey);
+            const fileDetails: any[] = [];
+
+            fileUpload.material.forEach(m => {
+              const materialFile = this.files.value.find(f => f.file.name === m.createFrom);
+
+              fileDetails.push({
+                id: m.id,
+                displayName: materialFile.displayName,
+                language: materialFile.language,
+              });
+            });
+
+            const updatedData = Object.assign(
+              {},
+              getLocalStorageData(this.localStorageKey),
+              { fileDetails: fileDetails },
+            );
+
+            // save data to local storage
+            localStorage.setItem(this.localStorageKey, JSON.stringify(updatedData));
+          }
+        },
+        (err) => this.uploadError = err,
+      );
+    });
+  }
+
   onSubmit(): void {
     this.submitted = true;
 
@@ -251,44 +290,12 @@ export class FilesComponent implements OnInit, OnDestroy {
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
       const formData = new FormData();
-
-      this.myFiles.forEach(file => {
-        formData.append('myFiles', file);
-      });
-
       formData.append('username', this.authSvc.getUser().username);
 
       this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => {
-          this.uploadResponse = res;
-
-          if (this.uploadResponse.status === 'completed') {
-            const fileUpload = getLocalStorageData(this.fileUploadLSKey);
-            const fileDetails: any[] = [];
-
-            fileUpload.material.forEach(m => {
-              const file = this.files.value.find(f => f.file.name === m.createFrom);
-
-              fileDetails.push({
-                id: m.id,
-                displayName: file.displayName,
-                language: file.language,
-              });
-            });
-
-            const updatedData = Object.assign(
-              {},
-              getLocalStorageData(this.localStorageKey),
-              { fileDetails: fileDetails },
-            );
-
-            // save data to local storage
-            localStorage.setItem(this.localStorageKey, JSON.stringify(updatedData));
-
-            this.router.navigate(['/lisaa-oppimateriaali', 2]);
-          }
-        },
+        (res) => this.uploadResponse = res,
         (err) => this.uploadError = err,
+        () => this.uploadFiles(),
       );
     }
   }
