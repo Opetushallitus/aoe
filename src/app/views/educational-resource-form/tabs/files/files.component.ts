@@ -147,7 +147,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     return this.fb.group({
       file: [''],
       link: this.fb.control(null),
-      language: this.fb.control(null),
+      language: this.fb.control(this.defaultLanguage),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
