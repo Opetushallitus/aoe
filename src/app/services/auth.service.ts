@@ -1,12 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
+import { environment } from '../../environments/environment';
 import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
+  private backendUrl = environment.backendUrl;
+
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+  ) { }
 
   /**
    * Saves user details to localStorage.
@@ -59,5 +65,18 @@ export class AuthService {
    */
   public isLogged(): boolean {
     return !!this.getUser();
+  }
+
+  sessionLogin(): void {
+    this.document.location.href = `${this.backendUrl}/login`;
+  }
+
+  sessionIsLogged(): boolean {
+    // @todo: check if session cookie is set
+    return true;
+  }
+
+  sessionLogout(): void {
+    // @todo: logout
   }
 }
