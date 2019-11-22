@@ -35,8 +35,6 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   languageSubscription: Subscription;
   languages: Language[];
-  defaultLanguageSubscription: Subscription;
-  defaultLanguage: Language;
 
   constructor(
     private fb: FormBuilder,
@@ -82,15 +80,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.defaultLanguageSubscription = this.koodistoProxySvc.defaultLanguage$.subscribe((defaultLanguage: Language) => {
-      this.defaultLanguage = defaultLanguage;
-
-      this.files.controls.forEach(control => {
-        control.get('language').setValue(this.defaultLanguage);
-      });
-    });
-    this.koodistoProxySvc.updateDefaultLanguage();
-
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     if (this.savedData) {
@@ -112,7 +101,6 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
-    this.defaultLanguageSubscription.unsubscribe();
   }
 
   updateLanguages(): void {
@@ -147,7 +135,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     return this.fb.group({
       file: [''],
       link: this.fb.control(null),
-      language: this.fb.control(null),
+      language: this.fb.control(this.lang),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
@@ -196,7 +184,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         // @todo: video spotted, add subtitles
       }
 
-      this.myFiles.push(file);
       this.files.at(i).get('file').setValue(file);
 
       // remove extension from filename
