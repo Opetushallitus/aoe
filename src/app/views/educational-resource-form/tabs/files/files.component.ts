@@ -208,7 +208,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     let fileCount = 0;
 
     this.files.controls.forEach(ctrl => {
-      if (ctrl.get('file').value !== '' || ctrl.get('link').value !== null) {
+      if (ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== '')) {
         fileCount++;
 
         ctrl.get('language').setValidators([ Validators.required ]);
@@ -221,7 +221,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     if (fileCount > 0) {
       this.files.controls.forEach((control, i) => {
-        if (control.get('file').value === '' && control.get('link').value === null) {
+        if (control.get('file').value === '' && (control.get('link').value === null || control.get('link').value === '')) {
           this.files.removeAt(i);
         }
       });
