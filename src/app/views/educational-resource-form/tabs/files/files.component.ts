@@ -70,7 +70,6 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.lang = event.lang;
 
       this.koodistoProxySvc.updateLanguages();
-      this.koodistoProxySvc.updateDefaultLanguage();
 
       this.updateLanguages();
     });
