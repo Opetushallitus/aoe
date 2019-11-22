@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
@@ -12,6 +12,7 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { UploadedFile } from '../models/uploaded-file';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,9 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 export class BackendService {
   backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
-  private lang: string = this.translate.currentLang;
+  lang: string = this.translate.currentLang;
+
+  public uploadedFiles$ = new Subject<UploadedFile[]>();
 
   constructor(
     private http: HttpClient,
@@ -245,6 +248,32 @@ export class BackendService {
           }
         })
       );
+    }
+  }
+
+  /**
+   * Updates uploaded files list.
+   * @param {number} materialId
+   */
+  updateUploadedFiles(materialId: number): void {
+    this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      })
+    }).subscribe((res) => {
+      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, key, link }) => ({ id, file: originalfilename, language: key, link })));
+    });
+  }
+
+  /**
+   * Deletes file from backend.
+   * @param {number} fileId
+   */
+  deleteFile(fileId: number): Observable<any> {
+    if (localStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = getLocalStorageData(this.localStorageKey);
+
+      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`);
     }
   }
 }

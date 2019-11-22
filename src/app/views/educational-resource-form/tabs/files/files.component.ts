@@ -14,6 +14,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
+import { UploadedFile } from '../../../../models/uploaded-file';
 
 @Component({
   selector: 'app-tabs-files',
@@ -31,10 +32,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
-  private myFiles = [];
 
   languageSubscription: Subscription;
   languages: Language[];
+  uploadedFileSubscription: Subscription;
+  uploadedFiles: UploadedFile[];
+
+  materialId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -82,12 +86,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     if (this.savedData) {
-      if (this.savedData.files) {
-        while (this.files.length) {
-          this.files.removeAt(0);
-        }
-      }
-
       if (this.savedData.name) {
         this.fileUploadForm.get('name').patchValue(this.savedData.name);
       }
@@ -95,6 +93,18 @@ export class FilesComponent implements OnInit, OnDestroy {
       if (this.savedData.slug) {
         this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
+    }
+
+    if (localStorage.getItem(this.fileUploadLSKey) !== null) {
+      const fileUpload = getLocalStorageData(this.fileUploadLSKey);
+
+      this.materialId = fileUpload.id;
+
+      this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+        this.uploadedFiles = uploadedFiles;
+      });
+
+      this.backendSvc.updateUploadedFiles(this.materialId);
     }
   }
 
@@ -257,6 +267,13 @@ export class FilesComponent implements OnInit, OnDestroy {
         (err) => this.uploadError = err,
       );
     });
+  }
+
+  deleteFile(fileId: number): void {
+    this.backendSvc.deleteFile(fileId).subscribe(
+      () => this.backendSvc.updateUploadedFiles(this.materialId),
+      (err) => console.error(err),
+    );
   }
 
   onSubmit(): void {
