@@ -231,41 +231,28 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   uploadFiles() {
-    this.myFiles.forEach(file => {
+    this.files.value.forEach((file, i) => {
       const formData = new FormData();
-      formData.append('myFiles', file);
-      formData.append('username', this.authSvc.getUser().username);
+      formData.append('file', file.file);
+      formData.append('username', this.authSvc.getUser().username); // @todo: remove when session is in use
+      formData.append('fileDetails', JSON.stringify({
+        displayName: file.displayName,
+        language: file.language,
+      }));
+
+      // @todo: if file.link -> POST /material/link instead
 
       this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => {
-          this.uploadResponse = res;
-
-          if (this.uploadResponse.status === 'completed') {
-            const fileUpload = getLocalStorageData(this.fileUploadLSKey);
-            const fileDetails: any[] = [];
-
-            fileUpload.material.forEach(m => {
-              const materialFile = this.files.value.find(f => f.file.name === m.createFrom);
-
-              fileDetails.push({
-                id: m.id,
-                displayName: materialFile.displayName,
-                language: materialFile.language,
-              });
-            });
-
-            const updatedData = Object.assign(
-              {},
-              getLocalStorageData(this.localStorageKey),
-              { fileDetails: fileDetails },
-            );
-
-            // save data to local storage
-            localStorage.setItem(this.localStorageKey, JSON.stringify(updatedData));
+        (res) => this.uploadResponse = res,
+        (err) => this.uploadError = err,
+        () => {
+          if (i === this.files.value.length - 1) {
+            this.router.navigate(['/lisaa-oppimateriaali', 2]);
           }
         },
-        (err) => this.uploadError = err,
       );
+
+      // @todo: if file.subtitles -> POST subtitles
     });
   }
 
@@ -285,21 +272,24 @@ export class FilesComponent implements OnInit, OnDestroy {
       const data = Object.assign(
         {},
         getLocalStorageData(this.localStorageKey),
-        { name: this.fileUploadForm.get('name').value },
-        { slug: this.fileUploadForm.get('slug').value },
+        this.fileUploadForm.value,
       );
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      const formData = new FormData();
-      formData.append('username', this.authSvc.getUser().username);
+      if (!this.materialId) {
+        const formData = new FormData();
+        formData.append('username', this.authSvc.getUser().username);
 
-      this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => this.uploadResponse = res,
-        (err) => this.uploadError = err,
-        () => this.uploadFiles(),
-      );
+        this.backendSvc.uploadFiles(formData).subscribe(
+          (res) => this.uploadResponse = res,
+          (err) => this.uploadError = err,
+          () => this.uploadFiles(),
+        );
+      } else {
+        this.uploadFiles();
+      }
     }
   }
 
