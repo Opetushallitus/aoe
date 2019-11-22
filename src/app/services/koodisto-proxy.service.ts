@@ -13,12 +13,13 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { AccessibilityFeature } from '../models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '../models/koodisto-proxy/accessibility-hazard';
 import { License } from '../models/koodisto-proxy/license';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KoodistoProxyService {
-  apiUri = 'https://koodisto.aoe.fi/api/v1';
+  apiUri = environment.koodistoUrl;
 
   httpOptions = {
     headers: new HttpHeaders({
