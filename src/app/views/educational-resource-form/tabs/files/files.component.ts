@@ -240,17 +240,31 @@ export class FilesComponent implements OnInit, OnDestroy {
         language: file.language,
       }));
 
-      // @todo: if file.link -> POST /material/link instead
-
-      this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => this.uploadResponse = res,
-        (err) => this.uploadError = err,
-        () => {
-          if (i === this.files.value.length - 1) {
-            this.router.navigate(['/lisaa-oppimateriaali', 2]);
-          }
-        },
-      );
+      if (file.link) {
+        this.backendSvc.postLinks(this.materialId, {
+          link: file.link,
+          displayName: file.displayName,
+          language: file.language,
+        }).subscribe(
+          () => {},
+          (err) => console.error(err),
+          () => {
+            if (i === this.files.value.length - 1) {
+              this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            }
+          },
+        );
+      } else {
+        this.backendSvc.uploadFiles(formData).subscribe(
+          (res) => this.uploadResponse = res,
+          (err) => this.uploadError = err,
+          () => {
+            if (i === this.files.value.length - 1) {
+              this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            }
+          },
+        );
+      }
 
       // @todo: if file.subtitles -> POST subtitles
     });
