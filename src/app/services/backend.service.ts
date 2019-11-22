@@ -84,6 +84,19 @@ export class BackendService {
   }
 
   /**
+   * Posts links to backend.
+   * @param {number} materialId
+   * @param {json} data
+   */
+  postLinks(materialId: number, data: any): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/material/link/${materialId}`, data, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    });
+  }
+
+  /**
    * Posts meta data to backend by material ID.
    * @param {number} materialId
    * @param {any} data
