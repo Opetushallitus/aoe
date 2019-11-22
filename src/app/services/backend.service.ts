@@ -17,7 +17,7 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
   providedIn: 'root'
 })
 export class BackendService {
-  private backendUrl = environment.backendUrl;
+  backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
   private lang: string = this.translate.currentLang;
 
@@ -32,7 +32,7 @@ export class BackendService {
    * @param {FormData} data
    * @returns {Observable<UploadMessage>} Upload message
    */
-  public uploadFiles(data: FormData): Observable<UploadMessage> {
+  uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
 
     if (localStorage.getItem(this.localStorageKey) !== null) {
@@ -85,7 +85,7 @@ export class BackendService {
    * @param {number} materialId
    * @param {any} data
    */
-  public postMeta(materialId: number, data: any) {
+  postMeta(materialId: number, data: any) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put<any>(uploadUrl, data);
@@ -96,7 +96,7 @@ export class BackendService {
    * @param {number} materialId
    * @returns {Observable<EducationalMaterial>} Educational Material
    */
-  public getMaterial(materialId: number): Observable<EducationalMaterial> {
+  getMaterial(materialId: number): Observable<EducationalMaterial> {
     return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
@@ -178,7 +178,7 @@ export class BackendService {
    * @param {User} user
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
-  public getUserMaterialList(): Observable<EducationalMaterialList[]> {
+  getUserMaterialList(): Observable<EducationalMaterialList[]> {
     const user = this.authSvc.getUser();
 
     return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
@@ -219,7 +219,7 @@ export class BackendService {
    * @param {FormData} data
    * @returns {Observable<UploadMessage>} Upload message
    */
-  public uploadImage(data: { base64image: string }): Observable<UploadMessage> {
+  uploadImage(data: { base64image: string }): Observable<UploadMessage> {
     if (localStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = getLocalStorageData(this.localStorageKey);
 
