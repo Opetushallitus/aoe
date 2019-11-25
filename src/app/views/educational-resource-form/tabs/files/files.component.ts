@@ -169,7 +169,8 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   addSubtitle(i): void {
-    this.files.at(i).get('subtitles').value.push(this.createSubtitle());
+    const subtitles = <FormArray>this.files.at(i).get('subtitles');
+    subtitles.push(this.createSubtitle());
   }
 
   openModal(template: TemplateRef<any>): void {
@@ -189,8 +190,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       const file = event.target.files[0];
 
       if (mimeTypes.video.includes(file.type)) {
-        console.log('video spotted!');
-        // @todo: video spotted, add subtitles
+        this.addSubtitle(i);
       }
 
       this.files.at(i).get('file').setValue(file);
@@ -201,6 +201,23 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: file.name.replace(/\.[^/.]+$/, ''),
         en: file.name.replace(/\.[^/.]+$/, ''),
       });
+    }
+  }
+
+  onSubtitleChange(event, i, j): void {
+    if (event.target.files.length > 0) {
+      const subtitle = event.target.files[0];
+      const subtitles = <FormArray>this.files.at(i).get('subtitles');
+
+      subtitles.at(j).get('file').setValue(subtitle);
+
+      // add validators
+      subtitles.at(j).get('kind').setValidators([ Validators.required ]);
+      subtitles.at(j).get('kind').updateValueAndValidity();
+      subtitles.at(j).get('label').setValidators([ Validators.required ]);
+      subtitles.at(j).get('label').updateValueAndValidity();
+      subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
+      subtitles.at(j).get('srclang').updateValueAndValidity();
     }
   }
 
@@ -228,6 +245,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     } else {
       this.files.setErrors({ 'required': true });
     }
+  }
+
+  // @todo: validate subtitles
+  validateSubtitles(): void {
+    // remove if file is empty
+    // required fields: file, kind, label, srclang
   }
 
   uploadFiles() {

@@ -222,6 +222,70 @@
             </div>
           </ng-template>
         </div>
+
+        <ng-container *ngIf="files.at(i).get('subtitles').controls.length > 0">
+          <ng-container *ngFor="let subtitle of files.at(i).get('subtitles').controls; let j = index;">
+            <ng-container formArrayName="subtitles">
+              <div class="form-row align-items-end" [formGroupName]="j">
+                <div class="form-group col-lg-4">
+                  <label for="{{ 'subtitle' + i + j }}">Subtitle*</label>
+
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      id="{{ 'subtitle' + i + j }}"
+                      [lang]="lang"
+                      (change)="onSubtitleChange($event, i, j)"
+                    >
+                    <span class="custom-file-label">{{ subtitle.get('file').value.name }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-8 col-lg-4">
+                  <label for="{{ 'label' + i + j }}">Label*</label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'label' + i + j }}"
+                    formControlName="label"
+                  >
+                </div>
+
+                <div class="form-group col-sm-4 col-lg-2">
+                  <label for="{{ 'srclang' + i + j }}">Srclang*</label>
+
+                  <ng-select
+                    [items]="languages"
+                    bindLabel="value"
+                    bindValue="key"
+                    id="{{ 'srclang' + i + j }}"
+                    formControlName="srclang"
+                  ></ng-select>
+                </div>
+
+                <div class="form-group col-lg-2">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="{{ 'default' + i + j }}"
+                      formControlName="default"
+                    >
+                    <label class="custom-control-label" for="{{ 'default' + i + j }}">Default</label>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">Add subtitle</button>
+            </div>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
   </ng-container>
