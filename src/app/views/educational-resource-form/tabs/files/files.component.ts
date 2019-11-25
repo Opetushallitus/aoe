@@ -14,6 +14,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
+import { UploadedFile } from '../../../../models/uploaded-file';
 
 @Component({
   selector: 'app-tabs-files',
@@ -31,12 +32,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
-  private myFiles = [];
 
   languageSubscription: Subscription;
   languages: Language[];
-  defaultLanguageSubscription: Subscription;
-  defaultLanguage: Language;
+  uploadedFileSubscription: Subscription;
+  uploadedFiles: UploadedFile[];
+
+  materialId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -72,7 +74,6 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.lang = event.lang;
 
       this.koodistoProxySvc.updateLanguages();
-      this.koodistoProxySvc.updateDefaultLanguage();
 
       this.updateLanguages();
     });
@@ -82,24 +83,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.defaultLanguageSubscription = this.koodistoProxySvc.defaultLanguage$.subscribe((defaultLanguage: Language) => {
-      this.defaultLanguage = defaultLanguage;
-
-      this.files.controls.forEach(control => {
-        control.get('language').setValue(this.defaultLanguage);
-      });
-    });
-    this.koodistoProxySvc.updateDefaultLanguage();
-
     this.savedData = getLocalStorageData(this.localStorageKey);
 
     if (this.savedData) {
-      if (this.savedData.files) {
-        while (this.files.length) {
-          this.files.removeAt(0);
-        }
-      }
-
       if (this.savedData.name) {
         this.fileUploadForm.get('name').patchValue(this.savedData.name);
       }
@@ -108,11 +94,22 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
     }
+
+    if (localStorage.getItem(this.fileUploadLSKey) !== null) {
+      const fileUpload = getLocalStorageData(this.fileUploadLSKey);
+
+      this.materialId = fileUpload.id;
+
+      this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+        this.uploadedFiles = uploadedFiles;
+      });
+
+      this.backendSvc.updateUploadedFiles(this.materialId);
+    }
   }
 
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
-    this.defaultLanguageSubscription.unsubscribe();
   }
 
   updateLanguages(): void {
@@ -147,7 +144,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     return this.fb.group({
       file: [''],
       link: this.fb.control(null),
-      language: this.fb.control(this.defaultLanguage),
+      language: this.fb.control(this.lang),
       displayName: this.fb.group({
         fi: this.fb.control(null),
         sv: this.fb.control(null),
@@ -196,7 +193,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         // @todo: video spotted, add subtitles
       }
 
-      this.myFiles.push(file);
       this.files.at(i).get('file').setValue(file);
 
       // remove extension from filename
@@ -212,7 +208,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     let fileCount = 0;
 
     this.files.controls.forEach(ctrl => {
-      if (ctrl.get('file').value !== '' || ctrl.get('link').value !== null) {
+      if (ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== '')) {
         fileCount++;
 
         ctrl.get('language').setValidators([ Validators.required ]);
@@ -225,7 +221,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     if (fileCount > 0) {
       this.files.controls.forEach((control, i) => {
-        if (control.get('file').value === '' && control.get('link').value === null) {
+        if (control.get('file').value === '' && (control.get('link').value === null || control.get('link').value === '')) {
           this.files.removeAt(i);
         }
       });
@@ -235,42 +231,50 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   uploadFiles() {
-    this.myFiles.forEach(file => {
+    this.files.value.forEach((file, i) => {
       const formData = new FormData();
-      formData.append('myFiles', file);
-      formData.append('username', this.authSvc.getUser().username);
+      formData.append('file', file.file);
+      formData.append('username', this.authSvc.getUser().username); // @todo: remove when session is in use
+      formData.append('fileDetails', JSON.stringify({
+        displayName: file.displayName,
+        language: file.language,
+      }));
 
-      this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => {
-          this.uploadResponse = res;
+      if (file.link) {
+        this.backendSvc.postLinks(this.materialId, {
+          link: file.link,
+          displayName: file.displayName,
+          language: file.language,
+        }).subscribe(
+          () => {},
+          (err) => console.error(err),
+          () => {
+            if (i === this.files.value.length - 1) {
+              this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            }
+          },
+        );
+      } else {
+        this.backendSvc.uploadFiles(formData).subscribe(
+          (res) => this.uploadResponse = res,
+          (err) => this.uploadError = err,
+          () => {
+            if (i === this.files.value.length - 1) {
+              this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            }
+          },
+        );
+      }
 
-          if (this.uploadResponse.status === 'completed') {
-            const fileUpload = getLocalStorageData(this.fileUploadLSKey);
-            const fileDetails: any[] = [];
-
-            fileUpload.material.forEach(m => {
-              const materialFile = this.files.value.find(f => f.file.name === m.createFrom);
-
-              fileDetails.push({
-                id: m.id,
-                displayName: materialFile.displayName,
-                language: materialFile.language,
-              });
-            });
-
-            const updatedData = Object.assign(
-              {},
-              getLocalStorageData(this.localStorageKey),
-              { fileDetails: fileDetails },
-            );
-
-            // save data to local storage
-            localStorage.setItem(this.localStorageKey, JSON.stringify(updatedData));
-          }
-        },
-        (err) => this.uploadError = err,
-      );
+      // @todo: if file.subtitles -> POST subtitles
     });
+  }
+
+  deleteFile(fileId: number): void {
+    this.backendSvc.deleteFile(fileId).subscribe(
+      () => this.backendSvc.updateUploadedFiles(this.materialId),
+      (err) => console.error(err),
+    );
   }
 
   onSubmit(): void {
@@ -282,21 +286,24 @@ export class FilesComponent implements OnInit, OnDestroy {
       const data = Object.assign(
         {},
         getLocalStorageData(this.localStorageKey),
-        { name: this.fileUploadForm.get('name').value },
-        { slug: this.fileUploadForm.get('slug').value },
+        this.fileUploadForm.value,
       );
 
       // save data to local storage
       localStorage.setItem(this.localStorageKey, JSON.stringify(data));
 
-      const formData = new FormData();
-      formData.append('username', this.authSvc.getUser().username);
+      if (!this.materialId) {
+        const formData = new FormData();
+        formData.append('username', this.authSvc.getUser().username);
 
-      this.backendSvc.uploadFiles(formData).subscribe(
-        (res) => this.uploadResponse = res,
-        (err) => this.uploadError = err,
-        () => this.uploadFiles(),
-      );
+        this.backendSvc.uploadFiles(formData).subscribe(
+          (res) => this.uploadResponse = res,
+          (err) => this.uploadError = err,
+          () => this.uploadFiles(),
+        );
+      } else {
+        this.uploadFiles();
+      }
     }
   }
 

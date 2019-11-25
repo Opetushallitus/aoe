@@ -135,6 +135,7 @@
             <ng-select
               [items]="languages"
               bindLabel="value"
+              bindValue="key"
               id="{{ 'language' + i }}"
               formControlName="language"
             ></ng-select>
@@ -243,6 +244,30 @@
       [value]="uploadResponse.message"
     >{{ uploadResponse.message }}%</progressbar>
   </div>
+
+  <ng-container *ngIf="uploadedFiles?.length > 0">
+    <h3>Ladatut tiedostot</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Tiedosto/linkki</th>
+          <th scope="col">Kieli</th>
+          <th scope="col">Toiminnot</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let upload of uploadedFiles;let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ upload.file }}{{ upload.link }}</td>
+          <td>{{ upload.language }}</td>
+          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">Poista tiedosto</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 
   <div class="row justify-content-end">
     <div class="col-auto">
