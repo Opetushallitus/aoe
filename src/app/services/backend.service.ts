@@ -63,10 +63,8 @@ export class BackendService {
             const fileUpload = getLocalStorageData(this.localStorageKey);
 
             if (fileUpload !== null) {
-              const materials = fileUpload['material'].concat(event.body['material']);
               const response = {
                 id: fileUpload.id,
-                material: materials,
               };
 
               localStorage.setItem(this.localStorageKey, JSON.stringify(response));
