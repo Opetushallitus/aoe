@@ -3,4 +3,9 @@ export interface UploadedFile {
   file: string;
   language: string;
   link: string;
+  displayName: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
 }
