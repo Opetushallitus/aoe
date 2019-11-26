@@ -274,7 +274,7 @@ export class BackendService {
         'Accept': 'application/json',
       })
     }).subscribe((res) => {
-      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, key, link }) => ({ id, file: originalfilename, language: key, link })));
+      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link }) => ({ id, file: originalfilename, language, link })));
     });
   }
 
