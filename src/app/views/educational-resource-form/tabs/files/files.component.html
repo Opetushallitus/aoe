@@ -323,7 +323,7 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let upload of uploadedFiles;let i = index">
+        <tr *ngFor="let upload of uploadedFiles; let i = index">
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ upload.file }}{{ upload.link }}</td>
           <td>{{ upload.language }}</td>
