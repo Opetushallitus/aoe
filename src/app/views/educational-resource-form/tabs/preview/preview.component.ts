@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 import { getLocalStorageData } from '../../../../shared/shared.module';
 import { BackendService } from '../../../../services/backend.service';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
+import { UploadedFile } from '../../../../models/uploaded-file';
 
 @Component({
   selector: 'app-preview',
@@ -38,6 +40,11 @@ export class PreviewComponent implements OnInit {
 
   previewForm: FormGroup;
 
+  uploadedFileSubscription: Subscription;
+  uploadedFiles: UploadedFile[];
+
+  materialId: number;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -52,6 +59,13 @@ export class PreviewComponent implements OnInit {
 
     this.savedData = getLocalStorageData(this.localStorageKey);
     this.fileUpload = getLocalStorageData(this.fileUploadLSKey);
+    this.materialId = this.fileUpload.id;
+
+    this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+      this.uploadedFiles = uploadedFiles;
+    });
+
+    this.backendSvc.updateUploadedFiles(this.materialId);
 
     this.previewForm = this.fb.group({
       confirm: this.fb.control(false, [ Validators.requiredTrue ])

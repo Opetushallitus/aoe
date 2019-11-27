@@ -82,7 +82,7 @@
                   <div class="btn-group-vertical" role="group">
                     <ng-container *ngFor="let material of educationalMaterial.materials">
                       <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
-                        {{ material.originalfilename }}
+                        {{ material.displayName }}
                       </button>
                     </ng-container>
                   </div>

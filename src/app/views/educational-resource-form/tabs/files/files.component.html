@@ -94,8 +94,8 @@
           ><img src="assets/img/icons/ic_help.svg" alt=""></button>
         </h4>
 
-        <div class="form-row align-items-end mb-2">
-          <div class="col">
+        <div class="form-row align-items-end">
+          <div class="form-group col-lg-5">
             <label for="{{ 'file' + i }}">{{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*</label>
 
             <div class="custom-file">
@@ -110,9 +110,9 @@
             </div>
           </div>
 
-          <div class="col-auto">{{ 'forms.educationalResource.files.file.or' | translate }}</div>
+          <div class="form-group col-lg-1 text-center">{{ 'forms.educationalResource.files.file.or' | translate }}</div>
 
-          <div class="col">
+          <div class="form-group col-lg-4">
             <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*</label>
 
             <input
@@ -123,7 +123,7 @@
             >
           </div>
 
-          <div class="col-2">
+          <div class="form-group col-lg-2">
             <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*</label>
 
             <button
@@ -135,6 +135,7 @@
             <ng-select
               [items]="languages"
               bindLabel="value"
+              bindValue="key"
               id="{{ 'language' + i }}"
               formControlName="language"
             ></ng-select>
@@ -148,7 +149,7 @@
         </div>
 
         <div class="form-row align-items-end" formGroupName="displayName">
-          <div class="col">
+          <div class="form-group col">
             <label for="{{ 'displayName' + i }}">{{ 'forms.educationalResource.files.file.inputs.displayName.label.' + lang | translate }}*</label>
 
             <button
@@ -170,7 +171,7 @@
             </div>
           </div>
 
-          <div class="col-auto">
+          <div class="form-group col-auto">
             <button type="button" class="btn btn-gray" (click)="openModal(displayName)">{{ 'forms.common.translations.label' | translate }}</button>
 
             <button
@@ -221,6 +222,70 @@
             </div>
           </ng-template>
         </div>
+
+        <!--<ng-container *ngIf="files.at(i).get('subtitles').controls.length > 0">
+          <ng-container *ngFor="let subtitle of files.at(i).get('subtitles').controls; let j = index;">
+            <ng-container formArrayName="subtitles">
+              <div class="form-row align-items-end" [formGroupName]="j">
+                <div class="form-group col-lg-4">
+                  <label for="{{ 'subtitle' + i + j }}">Subtitle*</label>
+
+                  <div class="custom-file">
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      id="{{ 'subtitle' + i + j }}"
+                      [lang]="lang"
+                      (change)="onSubtitleChange($event, i, j)"
+                    >
+                    <span class="custom-file-label">{{ subtitle.get('file').value.name }}</span>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-8 col-lg-4">
+                  <label for="{{ 'label' + i + j }}">Label*</label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'label' + i + j }}"
+                    formControlName="label"
+                  >
+                </div>
+
+                <div class="form-group col-sm-4 col-lg-2">
+                  <label for="{{ 'srclang' + i + j }}">Srclang*</label>
+
+                  <ng-select
+                    [items]="languages"
+                    bindLabel="value"
+                    bindValue="key"
+                    id="{{ 'srclang' + i + j }}"
+                    formControlName="srclang"
+                  ></ng-select>
+                </div>
+
+                <div class="form-group col-lg-2">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="{{ 'default' + i + j }}"
+                      formControlName="default"
+                    >
+                    <label class="custom-control-label" for="{{ 'default' + i + j }}">Default</label>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">Add subtitle</button>
+            </div>
+          </div>
+        </ng-container>-->
       </ng-container>
     </div>
   </ng-container>
@@ -233,16 +298,40 @@
     <button type="button" class="btn btn-gray" (click)="addFile()">{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
   </div>
 
-  <div class="form-group" *ngIf="uploadError">{{ uploadError.message }}</div>
+  <ng-container *ngFor="let response of uploadResponses">
+    <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
 
-  <div class="form-group" *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
+    <div class="form-group" *ngIf="response.status === 'progress'">
+      <progressbar
+        max="100"
+        [value]="response.message"
+      >{{ response.message }}%</progressbar>
+    </div>
+  </ng-container>
 
-  <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-    <progressbar
-      max="100"
-      [value]="uploadResponse.message"
-    >{{ uploadResponse.message }}%</progressbar>
-  </div>
+  <ng-container *ngIf="uploadedFiles?.length > 0">
+    <h3>Ladatut tiedostot</h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.actions' | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let upload of uploadedFiles; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ upload.file }}{{ upload.link }}</td>
+          <td>{{ upload.language }}</td>
+          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 
   <div class="row justify-content-end">
     <div class="col-auto">
