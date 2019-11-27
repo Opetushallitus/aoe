@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
@@ -12,14 +12,17 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { UploadedFile } from '../models/uploaded-file';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  private backendUrl = environment.backendUrl;
+  backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
-  private lang: string = this.translate.currentLang;
+  lang: string = this.translate.currentLang;
+
+  public uploadedFiles$ = new Subject<UploadedFile[]>();
 
   constructor(
     private http: HttpClient,
@@ -32,7 +35,7 @@ export class BackendService {
    * @param {FormData} data
    * @returns {Observable<UploadMessage>} Upload message
    */
-  public uploadFiles(data: FormData): Observable<UploadMessage> {
+  uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
 
     if (localStorage.getItem(this.localStorageKey) !== null) {
@@ -60,10 +63,8 @@ export class BackendService {
             const fileUpload = getLocalStorageData(this.localStorageKey);
 
             if (fileUpload !== null) {
-              const materials = fileUpload['material'].concat(event.body['material']);
               const response = {
                 id: fileUpload.id,
-                material: materials,
               };
 
               localStorage.setItem(this.localStorageKey, JSON.stringify(response));
@@ -81,11 +82,24 @@ export class BackendService {
   }
 
   /**
+   * Posts links to backend.
+   * @param {number} materialId
+   * @param {json} data
+   */
+  postLinks(materialId: number, data: any): Observable<any> {
+    return this.http.post<any>(`${this.backendUrl}/material/link/${materialId}`, data, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    });
+  }
+
+  /**
    * Posts meta data to backend by material ID.
    * @param {number} materialId
    * @param {any} data
    */
-  public postMeta(materialId: number, data: any) {
+  postMeta(materialId: number, data: any) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put<any>(uploadUrl, data);
@@ -96,7 +110,7 @@ export class BackendService {
    * @param {number} materialId
    * @returns {Observable<EducationalMaterial>} Educational Material
    */
-  public getMaterial(materialId: number): Observable<EducationalMaterial> {
+  getMaterial(materialId: number): Observable<EducationalMaterial> {
     return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
@@ -104,6 +118,7 @@ export class BackendService {
     }).pipe(
       map((res): EducationalMaterial => {
         const alignmentObjects: AlignmentObjectExtended[] = res.educationalAlignment
+        // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
         return {
@@ -117,8 +132,9 @@ export class BackendService {
           description: res.description
             .find(d => d.language.toLowerCase() === this.lang).description,
           materials: res.materials
-            .filter(m => m.key.toLowerCase() === this.lang)
-            .map(({ id, originalfilename, filekey, link, mimetype }) => ({ id, originalfilename, filekey, link, mimetype })),
+            .filter(m => m.language.toLowerCase() === this.lang)
+            // tslint:disable-next-line:max-line-length
+            .map(({ id, originalfilename, filekey, link, mimetype, displayName }) => ({ id, originalfilename, filekey, link, mimetype, displayName: displayName[this.lang] })),
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
@@ -178,7 +194,7 @@ export class BackendService {
    * @param {User} user
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
-  public getUserMaterialList(): Observable<EducationalMaterialList[]> {
+  getUserMaterialList(): Observable<EducationalMaterialList[]> {
     const user = this.authSvc.getUser();
 
     return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
@@ -219,7 +235,7 @@ export class BackendService {
    * @param {FormData} data
    * @returns {Observable<UploadMessage>} Upload message
    */
-  public uploadImage(data: { base64image: string }): Observable<UploadMessage> {
+  uploadImage(data: { base64image: string }): Observable<UploadMessage> {
     if (localStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = getLocalStorageData(this.localStorageKey);
 
@@ -245,6 +261,32 @@ export class BackendService {
           }
         })
       );
+    }
+  }
+
+  /**
+   * Updates uploaded files list.
+   * @param {number} materialId
+   */
+  updateUploadedFiles(materialId: number): void {
+    this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      })
+    }).subscribe((res) => {
+      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link, displayName }) => ({ id, file: originalfilename, language, link, displayName })));
+    });
+  }
+
+  /**
+   * Deletes file from backend.
+   * @param {number} fileId
+   */
+  deleteFile(fileId: number): Observable<any> {
+    if (localStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = getLocalStorageData(this.localStorageKey);
+
+      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`);
     }
   }
 }

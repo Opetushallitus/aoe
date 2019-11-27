@@ -13,12 +13,13 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { AccessibilityFeature } from '../models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '../models/koodisto-proxy/accessibility-hazard';
 import { License } from '../models/koodisto-proxy/license';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KoodistoProxyService {
-  apiUri = 'https://koodisto.aoe.fi/api/v1';
+  apiUri = environment.koodistoUrl;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -51,14 +52,8 @@ export class KoodistoProxyService {
   ) { }
 
   /**
-   * Returns data from koodisto-service by rediskey and language.
-   * @param {string} rediskey
-   * @param {string} lang
+   * Updates languages.
    */
-  getData(rediskey: string, lang: string): Observable<any> {
-    return this.http.get(`${this.apiUri}/${rediskey}/${lang}`, this.httpOptions);
-  }
-
   updateLanguages(): void {
     const lang = this.translate.currentLang;
 
@@ -68,15 +63,9 @@ export class KoodistoProxyService {
       });
   }
 
-  updateDefaultLanguage(): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<Language>(`${this.apiUri}/kielet/${lang}/${lang}`, this.httpOptions)
-      .subscribe((defaultLanguage: Language) => {
-        this.defaultLanguage$.next(defaultLanguage);
-      });
-  }
-
+  /**
+   * Updates learning resource types.
+   */
   updateLearningResourceTypes(): void {
     const lang = this.translate.currentLang;
 
@@ -86,6 +75,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates educational roles.
+   */
   updateEducationalRoles(): void {
     const lang = this.translate.currentLang;
 
@@ -95,6 +87,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates educational uses.
+   */
   updateEducationalUses(): void {
     const lang = this.translate.currentLang;
 
@@ -104,6 +99,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates educational levels.
+   */
   updateEducationalLevels(): void {
     const lang = this.translate.currentLang;
 
@@ -113,6 +111,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates basic study subjects.
+   */
   updateBasicStudySubjects(): void {
     const lang = this.translate.currentLang;
 
@@ -122,6 +123,10 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates basic study objectives.
+   * @param {string} ids
+   */
   updateBasicStudyObjectives(ids: string): void {
     const lang = this.translate.currentLang;
 
@@ -131,6 +136,10 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates basic study contents.
+   * @param {string} ids
+   */
   updateBasicStudyContents(ids: string): void {
     const lang = this.translate.currentLang;
 
@@ -140,6 +149,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates upper secondary school subjects.
+   */
   updateUpperSecondarySchoolSubjects(): void {
     const lang = this.translate.currentLang;
 
@@ -149,6 +161,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates vocational degrees.
+   */
   updateVocationalDegrees(): void {
     const lang = this.translate.currentLang;
 
@@ -158,6 +173,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates science branches.
+   */
   updateScienceBranches(): void {
     const lang = this.translate.currentLang;
 
@@ -167,6 +185,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates accessibility features.
+   */
   updateAccessibilityFeatures(): void {
     const lang = this.translate.currentLang;
 
@@ -176,6 +197,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates accessibility hazards.
+   */
   updateAccessibilityHazards(): void {
     const lang = this.translate.currentLang;
 
@@ -185,6 +209,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates licenses.
+   */
   updateLicenses(): void {
     const lang = this.translate.currentLang;
 
@@ -194,6 +221,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates keywords.
+   */
   updateKeywords(): void {
     const lang = this.translate.currentLang;
 
@@ -203,6 +233,9 @@ export class KoodistoProxyService {
       });
   }
 
+  /**
+   * Updates organizations.
+   */
   updateOrganizations(): void {
     const lang = this.translate.currentLang;
 

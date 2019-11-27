@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Material } from '../../models/material';
+import { mimeTypes } from '../../constants/mimetypes';
 
 @Component({
   selector: 'app-educational-material-preview',
@@ -10,62 +11,23 @@ export class EducationalMaterialPreviewComponent {
   @Input() material: Material;
 
   public checkMimeType(mimeType: string) {
-    const videoMIMETypes = [
-      'application/x-troff-msvideo',
-      'video/avi',
-      'video/msvideo',
-      'video/x-msvideo',
-      'video/mp4',
-    ];
-
-    const audioMIMETypes = [
-      'audio/mp3',
-      'audio/mpeg',
-      'audio/x-m4a',
-      'audio/mp4',
-    ];
-
-    const pdfMIMETypes = [
-      'application/pdf',
-    ];
-
-    const officeMIMETypes = [
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.oasis.opendocument.text',
-      'application/vnd.ms-powerpoint',
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-      'application/vnd.oasis.opendocument.presentation',
-      'application/rtf',
-    ];
-
-    const imageMIMETypes = [
-      'image/bmp',
-      'image/gif',
-      'image/jpeg',
-      'image/png',
-      'image/svg+xml',
-      'image/tiff',
-      'image/webp',
-    ];
-
-    if (videoMIMETypes.includes(mimeType)) {
+    if (mimeTypes.video.includes(mimeType)) {
       return 'video';
     }
 
-    if (audioMIMETypes.includes(mimeType)) {
+    if (mimeTypes.audio.includes(mimeType)) {
       return 'audio';
     }
 
-    if (pdfMIMETypes.includes(mimeType)) {
+    if (mimeTypes.pdf.includes(mimeType)) {
       return 'pdf';
     }
 
-    if (officeMIMETypes.includes(mimeType)) {
+    if (mimeTypes.office.includes(mimeType)) {
       return 'office';
     }
 
-    if (imageMIMETypes.includes(mimeType)) {
+    if (mimeTypes.image.includes(mimeType)) {
       return 'image';
     }
   }
