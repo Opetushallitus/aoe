@@ -264,7 +264,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       }));
 
       if (file.link) {
-        this.backendSvc.postLinks(this.materialId, {
+        this.backendSvc.postLinks({
           link: file.link,
           displayName: file.displayName,
           language: file.language,

@@ -86,8 +86,10 @@ export class BackendService {
    * @param {number} materialId
    * @param {json} data
    */
-  postLinks(materialId: number, data: any): Observable<any> {
-    return this.http.post<any>(`${this.backendUrl}/material/link/${materialId}`, data, {
+  postLinks(data: any): Observable<any> {
+    const fileUpload = getLocalStorageData(this.localStorageKey);
+
+    return this.http.post<any>(`${this.backendUrl}/material/link/${fileUpload.id}`, data, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
