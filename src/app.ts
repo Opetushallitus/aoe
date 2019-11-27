@@ -30,17 +30,18 @@ const RedisStore = require("connect-redis")(session);
 const Issuer  = require("openid-client").Issuer;
 const Strategy = require("openid-client").Strategy;
 
+app.set("trust proxy", 1);
 app.use(session({
   store: new RedisStore(),
   resave: false,
   saveUninitialized: true,
   secret: "bla bla bla",
   cookie: {
-    httpOnly: true,
-    SameSite: "None",
+    httpOnly: false,
+    sameSite: "none",
     secure: true,
     name: "test",
-    maxAge  : 60 * 60 * 1000,
+    maxAge: 60 * 60 * 10000,
   }
 }));
 
