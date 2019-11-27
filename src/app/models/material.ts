@@ -4,4 +4,5 @@ export interface Material {
   filekey?: string;
   link?: string;
   mimetype?: string;
+  displayName: string;
 }
