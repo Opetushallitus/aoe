@@ -32,17 +32,12 @@ const Strategy = require("openid-client").Strategy;
 
 app.set("trust proxy", 1);
 app.use(session({
-  store: new RedisStore(),
-  resave: false,
-  saveUninitialized: true,
-  secret: "bla bla bla",
-  cookie: {
-    httpOnly: false,
-    sameSite: "none",
-    secure: true,
-    name: "test",
-    maxAge: 60 * 60 * 10000,
-  }
+  // store: new RedisStore(),
+  // resave: false,
+  // saveUninitialized: true,
+  secret: "testing",
+  httpOnly: false,
+  credentials: "include",
 }));
 
 
@@ -173,11 +168,11 @@ app.get("/secure/redirect", function(req: Request, res: Response, next: NextFunc
 
 // Connect to MongoDB
 // const apiRouter = require("./routes/routes");
-// const cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 // app.use(passport.initialize());
 // app.use(passport.session());
 // Express configuration
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(compression());
 app.use(cors());
