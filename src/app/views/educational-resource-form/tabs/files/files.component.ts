@@ -150,7 +150,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      subtitles: this.fb.array([]),
+      // subtitles: this.fb.array([]),
     });
   }
 
@@ -158,7 +158,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.files.push(this.createFile());
   }
 
-  createSubtitle(): FormGroup {
+  /*createSubtitle(): FormGroup {
     return this.fb.group({
       file: [''],
       default: this.fb.control(false),
@@ -166,12 +166,12 @@ export class FilesComponent implements OnInit, OnDestroy {
       label: this.fb.control(null),
       srclang: this.fb.control(null),
     });
-  }
+  }*/
 
-  addSubtitle(i): void {
+  /*addSubtitle(i): void {
     const subtitles = <FormArray>this.files.at(i).get('subtitles');
     subtitles.push(this.createSubtitle());
-  }
+  }*/
 
   openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(
@@ -189,9 +189,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
-      if (mimeTypes.video.includes(file.type)) {
+      /*if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i);
-      }
+      }*/
 
       this.files.at(i).get('file').setValue(file);
 
@@ -204,7 +204,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubtitleChange(event, i, j): void {
+  /*onSubtitleChange(event, i, j): void {
     if (event.target.files.length > 0) {
       const subtitle = event.target.files[0];
       const subtitles = <FormArray>this.files.at(i).get('subtitles');
@@ -219,7 +219,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
-  }
+  }*/
 
   validateFiles(): void {
     let fileCount = 0;

@@ -223,7 +223,7 @@
           </ng-template>
         </div>
 
-        <ng-container *ngIf="files.at(i).get('subtitles').controls.length > 0">
+        <!--<ng-container *ngIf="files.at(i).get('subtitles').controls.length > 0">
           <ng-container *ngFor="let subtitle of files.at(i).get('subtitles').controls; let j = index;">
             <ng-container formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
@@ -285,7 +285,7 @@
               <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">Add subtitle</button>
             </div>
           </div>
-        </ng-container>
+        </ng-container>-->
       </ng-container>
     </div>
   </ng-container>
