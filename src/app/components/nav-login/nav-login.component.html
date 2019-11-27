@@ -1,0 +1,29 @@
+<ul class="nav navbar-nav">
+  <li class="nav-item">
+    <button
+      class="btn nav-link"
+      type="button"
+      [popover]="loginPopover"
+      [popoverTitle]="'common.login' | translate"
+      placement="bottom"
+      *ngIf="!authSvc.isLogged()"
+    >
+      {{ 'common.login' | translate }}
+    </button>
+    <button
+      class="btn nav-link"
+      type="button"
+      (click)="logout()"
+      *ngIf="authSvc.isLogged()"
+    >{{ authSvc.getUser()?.firstname }} {{ authSvc.getUser()?.lastname }} - {{ 'common.logout' | translate }}</button>
+  </li>
+</ul>
+
+<ng-template #loginPopover>
+  <p>{{ 'navigation.login.selectLoginMethod' | translate }}</p>
+
+  <div class="list-group">
+    <a href="#" class="list-group-item list-group-item-action" (click)="login()">MPASSid</a>
+    <a href="#" class="list-group-item list-group-item-action" (click)="login()">Haka</a>
+  </div>
+</ng-template>

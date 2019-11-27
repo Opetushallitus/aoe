@@ -42,15 +42,36 @@ body {
 }
 
 // Forms
-.form-group {
-  label {
+label {
+  &:not(.custom-file-label):not(.custom-control-label) {
     color: $input-label-color;
     @include font-size(12);
   }
+}
 
-  .form-control {
-    border-radius: 2px;
+/*.custom-checkbox {
+  label {
+    @include font-size(12);
   }
+}*/
+
+.custom-control-input {
+  &:checked ~ .custom-control-label {
+    &::before {
+      background-color: $blue;
+      border-color: $blue;
+    }
+  }
+}
+
+.custom-switch {
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba($blue, 0.5);
+  }
+}
+
+.form-control {
+  @include font-size(16);
 }
 
 // Search form
@@ -131,6 +152,27 @@ h2 {
       border-radius: 0;
       padding: .25rem .5rem;
     }
+  }
+}
+
+.nav-multistep-form {
+  @include font-size(18);
+
+  .nav-link {
+    color: $gray;
+    padding: 0;
+
+    &.active {
+      color: $primary-theme-color;
+      font-weight: 500;
+    }
+  }
+
+  .nav-separator {
+    @include font-size(24);
+    font-weight: 700;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
 }
 
@@ -217,6 +259,32 @@ h2 {
   }
 }
 
+// Buttons
+.btn-cancel {
+  color: $input-color;
+  font-weight: 700;
+
+  &:hover {
+    color: darken($input-color, 15%);
+    text-decoration: underline;
+  }
+}
+
+// Modals
+.modal-content {
+  border-radius: 0;
+}
+
+.modal-header {
+  background-color: $primary-theme-color;
+  border-radius: 0;
+  color: $white;
+}
+
+.close {
+  color: $white;
+}
+
 // Oppimateriaali card
 .card-educational-material {
   background-color: map_get($theme-colors, 'light');
@@ -246,6 +314,10 @@ h2 {
     }
 
     p {
+      @include font-size(14);
+    }
+
+    .authors {
       @include font-size(14);
     }
   }
@@ -343,9 +415,48 @@ h2 {
   }
 
   .list-files {
-    .btn {
-      padding: 0;
+    background-color: #eee;
+    padding: .5rem;
+
+    .btn-file {
+      color: $input-color;
+      font-weight: 400;
+      text-align: left;
+      word-break: break-all;
+
+      &.active {
+        background-color: $white;
+      }
     }
+  }
+
+  .material-description {
+    margin-bottom: 1rem;
+
+    .authors {
+      color: $primary-theme-color;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+
+    .datetimes {
+      margin-bottom: 1rem;
+
+      .datetime-item {
+        strong {
+          margin-right: .25rem;
+        }
+
+        time {
+          margin-right: .5rem;
+        }
+      }
+    }
+  }
+
+  .material-preview {
+    background-color: $white;
+    padding: .5rem;
   }
 }
 
@@ -405,10 +516,6 @@ h2 {
       }
     }
   }
-}
-
-.material-description {
-  margin-bottom: 1rem;
 }
 
 .material-comments {
@@ -498,6 +605,90 @@ h2 {
   background-repeat: no-repeat;
   background-size: cover;
   padding: 5rem 0;
+}
+
+// Educational resource form
+.material-image-upload {
+  background-color: $comment-odd-bg-color;
+  min-height: 200px;
+  padding: .5rem;
+  text-align: center;
+}
+
+// Tabs
+.material-form-tabs {
+  @include font-size(18);
+
+  a {
+    color: $gray;
+
+    &.active {
+      color: $primary-theme-color;
+      font-weight: 500;
+    }
+  }
+
+  .divider {
+    margin-left: .5rem;
+    margin-right: 1rem;
+    vertical-align: text-bottom;
+  }
+}
+
+.form-tabs {
+  .tab-container {
+    .nav {
+      margin-bottom: 2rem;
+    }
+
+    .nav-pills {
+      .nav-item {
+        padding: 0 1rem;
+
+        &:first-child {
+          padding-left: 0;
+        }
+      }
+
+      .nav-link {
+        color: $gray;
+        @include font-size(18);
+        padding: 0;
+
+        &.active {
+          background-color: transparent;
+          color: $primary-theme-color;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    border: 0;
+
+    .tab-pane {
+      padding: 0;
+    }
+  }
+}
+
+// Alerts
+.alert-info {
+  background-color: $white;
+  border-color: $primary-theme-color;
+  color: $input-color;
+}
+
+// Cookie notice
+.cookie-notice {
+  background-color: $white;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+
+  p {
+    margin-bottom: 0;
+  }
 }
 
 // Media queries

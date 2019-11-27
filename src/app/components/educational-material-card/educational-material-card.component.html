@@ -1,8 +1,8 @@
 <div class="card-educational-material">
-  <a [routerLink]="['/demo/materiaali', educationalMaterial.specialId, educationalMaterial.slug]" class="header">
+  <a [routerLink]="['/materiaali', educationalMaterial.id, educationalMaterial.slug]" class="header">
     <div class="row">
       <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left">
-        <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="img-fluid" alt="...">
+        <img [attr.src]="educationalMaterial.thumbnail ? educationalMaterial.thumbnail : 'assets/img/material.png'" class="img-fluid">
       </div>
 
       <div class="col-12 col-sm-8 col-md-12 col-lg-7">
@@ -10,40 +10,31 @@
 
         <p>{{ educationalMaterial.description | truncate:[75] }}</p>
 
-        <ul class="list-unstyled">
-          <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
+        <ul class="list-unstyled authors">
+          <li *ngFor="let author of educationalMaterial.authors">{{ author.authorname }}</li>
         </ul>
       </div>
     </div>
   </a>
 
   <div class="tags">
-    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled">
-      {{ keyword['value'] }}
+    <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
+      {{ keyword.value }}
     </button>
   </div>
 
   <div class="tags">
-    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled">
-      {{ educationalLevel['value'] }}
+    <button *ngFor="let educationalLevel of educationalMaterial.educationalLevels" type="button" class="btn btn-light disabled">
+      {{ educationalLevel.value }}
     </button>
   </div>
 
   <div class="details d-flex flex-row">
-    <!--<div class="comments">0</div>
-    <div class="rating">
-      <img src="assets/img/icons/ic_star.svg" alt="...">
-      <img src="assets/img/icons/ic_star.svg" alt="...">
-      <img src="assets/img/icons/ic_star.svg" alt="...">
-      <img src="assets/img/icons/ic_star.svg" alt="...">
-      <img src="assets/img/icons/ic_star.svg" alt="...">
-    </div>-->
-    <div class="license">
-      <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
+    <div class="license text-dark">
+      {{ educationalMaterial.license }}
     </div>
     <div class="type ml-auto">
-      <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(educationalMaterial.learningResourceType[0]) }}" alt="" class="learning-resource-type-icon">
-      {{ lrtSvc.getLearningResourceTypeValue(educationalMaterial.learningResourceType[0]) }}
+      <img src="assets/img/icons/learning-resource-types/{{ educationalMaterial.learningResourceTypes[0].learningresourcetypekey }}.svg"> {{ educationalMaterial.learningResourceTypes[0].value }}
     </div>
   </div>
 </div>

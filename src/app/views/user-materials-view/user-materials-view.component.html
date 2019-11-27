@@ -1,0 +1,19 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{ 'userMaterials.title' | translate }}</h1>
+      </div>
+
+      <div class="col-auto">
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" *ngFor="let material of materials">
+        <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+      </div>
+    </div><!-- .row -->
+  </div>
+</div>

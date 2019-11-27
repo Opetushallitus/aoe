@@ -1,15 +1,23 @@
 {
   "common": {
-    "goBack": "Takaisin"
+    "goBack": "Takaisin",
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos"
   },
   "navigation": {
     "home": "Etusivu",
     "info": "Lisätietoa",
+    "myMaterials": "Omat oppimateriaalit",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
       }
-    }
+    },
+    "login": {
+      "selectLoginMethod": "Valitse kirjautumistapa"
+    },
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Tietosuojailmoitus"
   },
   "home": {
     "search": {
@@ -24,6 +32,9 @@
       "download": "Lataa",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
+      "createdAt": "Lisätty",
+      "publishedAt": "Julkaistu",
+      "updatedAt": "Muokattu",
       "eduLevel": "Koulutusaste",
       "eduSubject": "Oppiaine",
       "subject": "kasvatustieteet",
@@ -33,12 +44,26 @@
       "publisher": "Julkaisija",
       "license": "Lisenssi",
       "keywords": "Avainsanat",
-      "educationalRole": "Kohderyhmä",
-      "educationalUse": "Käyttö opetuksessa",
+      "educationalRole": "Pääasiallinen kohderyhmä",
+      "educationalUse": "Pääasiallinen käyttö opetuksessa",
+      "earlyChildhoodEducationSubjects": "Varhaiskasvatuksen oppiaineet",
+      "earlyChildhoodEducationObjectives": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+      "prePrimaryEducationSubjects": "Esiopetuksen oppiaineet",
+      "prePrimaryEducationObjectives": "Esiopetuksen oppiaineiden tavoitteet",
+      "basicStudySubjects": "Perusopetuksen oppiaineet",
+      "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
+      "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet",
+      "upperSecondarySchoolSubjects": "Lukionkurssit",
+      "upperSecondarySchoolObjectives": "Lukionkurssien tavoitteet",
+      "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
+      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+      "branchesOfScience": "Korkeakoulutuksen tieteenalat",
+      "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
+      "prerequisites": "Aiempi osaaminen",
       "accessibilityFeatures": "Saavutettavuuden tukitoiminnot",
       "accessibilityHazard": "Saavutettavuuden esteet",
-      "accessibilityAPI": "Saavutettavuuden avustavat teknologiat",
-      "accessibilityControl": "Saavutettavuuden käyttötavat",
       "files": "Tiedostot",
       "userMetadata": "Käyttäjien kuvailut",
       "userReviews": "Käyttäjien arviot",
@@ -59,5 +84,367 @@
       "material": "Oppimateriaalien tekijöille",
       "organization": "Organisaatioille"
     }
+  },
+  "forms": {
+    "common": {
+      "abort": "Keskeytä",
+      "cancel": "Peruuta",
+      "close": "Sulje",
+      "delete": "Poista",
+      "next": "Seuraava",
+      "previous": "Edellinen",
+      "required": "Pakollinen tieto",
+      "save": "Tallenna",
+      "saveChanges": "Tallenna muutokset",
+      "translations": {
+        "label": "Kieliversiot",
+        "tooltip": "Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
+      }
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "files": "Tiedostot",
+        "basicDetails": "Perustiedot",
+        "educationalDetails": "Koulutustiedot",
+        "extendedDetails": "Tarkemmat tiedot",
+        "licenseDetails": "Lisenssitiedot",
+        "basedOnDetails": "Hyödynnetyt materiaalit",
+        "preview": "Esikatselu"
+      },
+      "files": {
+        "alert": "Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.",
+        "materialName": {
+          "label": {
+            "fi": "Oppimateriaalin nimi",
+            "en": "Oppimateriaalin nimi (englanniksi)",
+            "sv": "Oppimateriaalin nimi (ruotsiksi)"
+          },
+          "tooltip": "Oppimateriaalin nimi.",
+          "modal": {
+            "title": "Kieliversiot: Oppimateriaalin nimi",
+            "subtitle": "Kieliversioiden lisääminen"
+          }
+        },
+        "file": {
+          "title": ". tiedosto",
+          "tooltip": "Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki.",
+          "or": "tai",
+          "inputs": {
+            "file": {
+              "label": "Tiedosto",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Linkki",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Kieli",
+              "tooltip": "Valitse millä kielellä oppimateriaalisi tai tämä osa oppimateriaaliasi on tarkoitettu opiskeltavaksi. Mikäli olet tehnyt oppimateriaalistasi käännöksen toiselle kielelle, voit lisätä tiedostot tässä samassa kohtaa ja merkata niiden opiskelukielen tähän."
+            },
+            "displayName": {
+              "label": {
+                "fi": "Tiedoston esitysnimi",
+                "en": "Tiedoston esitysnimi (englanniksi)",
+                "sv": "Tiedoston esitysnimi (ruotsiksi)"
+              },
+              "tooltip": "Nimi jonka haluat muiden näkevän tästä tiedostosta. Esimerkiksi Luontoetiikan luentotallenne tai Luontoetiikan diat. Mikäli oppimateriaalisi koostuu useasta tiedostosta, tiedosto valitaan käytettäväksi klikkammalla tiedoston nimeä. Nimen onkin hyvä olla ytimekäs ja selkeä.",
+              "modal": {
+                "title": "Kieliversiot: Tiedoston esitysnimi",
+                "subtitle": "Kieliversioiden lisääminen"
+              }
+            }
+          },
+          "addFile": "Lisää tiedosto",
+          "error": "Lisää vähintään yksi tiedosto tai linkki"
+        },
+        "uploadedFiles": {
+          "title": "Ladatut tiedostot",
+          "fileOrLink": "Tiedosto/linkki",
+          "displayName": "Esitysnimi",
+          "language": "Kieli",
+          "actions": "Toiminnot"
+        }
+      },
+      "basicDetails": {
+        "uploadImage": "Lataa kansikuva",
+        "image": {
+          "label": "Kansikuva",
+          "tooltip": "",
+          "modal": {
+            "title": "Lisää kansikuva",
+            "preview": "Esikatselu"
+          }
+        },
+        "author": {
+          "title": "Tekijä",
+          "inputs": {
+            "author": {
+              "label": "Tekijän nimi",
+              "tooltip": "Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi.",
+              "placeholder": "Sukunimi, Etunimi"
+            },
+            "affiliate": {
+              "label": "Organisaatio",
+              "tooltip": "Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+            },
+            "organization": {
+              "label": "Organisaatio",
+              "tooltip": "Oppimateriaalin tekijä tai tekijät. Valitse organsiaatiosi nimi tai syötä sen virallinen nimi."
+            }
+          },
+          "addAuthor": "Lisää henkilö",
+          "addOrganization": "Lisää organisaatio",
+          "error": "Lisää vähintään yksi tekijä"
+        },
+        "otherDetails": {
+          "title": "Muut perustiedot"
+        },
+        "keywords": {
+          "label": "Asiasanat",
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+        },
+        "learningResourceTypes": {
+          "label": "Oppimateriaalin tyyppi",
+          "tooltip": "Valitse tästä minkä tyyppinen aineisto oppimateriaalisi on. Voit valita useamman tyypin mikäli oppimateriaali koostuu erilaisista osista."
+        },
+        "educationalRoles": {
+          "label": "Pääasiallinen kohderyhmä",
+          "tooltip": "Valitse tästä kenelle materiaali on tarkoitettu, mikä on materiaalin pääasiallinen kohderyhmä. Esimerkiksi onko materiaali tarkoitettu toisten opettajien hyödynnettäväksi, onko se tarkoitettu oppijoille opiskeltavaksi tai esimerkiksi huoltajalle auttamaan oppimisen tukemisessa."
+        },
+        "educationalUses": {
+          "label": "Pääasiallinen käyttötarkoitus",
+          "tooltip": "Teoksen käyttötarkoitus koulutuksen kontekstissa. Esim. ryhmätyö, itseopiskelu, oppitunnin osa."
+        },
+        "description": {
+          "label": {
+            "fi": "Kuvaus",
+            "en": "Kuvaus (englanniksi)",
+            "sv": "Kuvaus (ruotsiksi)"
+          },
+          "tooltip": "Kirjoita tiivis vapaamuotoinen kuvaus oppimateriaalista: mitä se sisältää, mistä se kertoo, mihin tarkoitukseen se on tehty.",
+          "modal": {
+            "title": "Kieliversiot: Kuvaus",
+            "subtitle": "Kieliversioiden lisääminen"
+          }
+        }
+      },
+      "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Soveltuu kaikille oppiaineille, tutkinnon osille tai tieteenaloille"
+        },
+        "educationalLevels": {
+          "label": "Koulutusasteet",
+          "tooltip": "Valitse tästä mille koulutusasteelle ja tasolle oppimateriaalisi on pääasiallisesti tarkoitettu. Mikäli materiaali on kohdennettu usealle asteelle, esimerkiksi sekä ammatilliseen koulutukseen että lukio-opetukseen, voit valita useamman koulutusasteen ja tason."
+        },
+        "earlyChildhoodEducation": {
+          "title": "Varhaiskasvatus",
+          "inputs": {
+            "subjects": {
+              "label": "Varhaiskasvatuksen oppiaineet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        },
+        "prePrimaryEducation": {
+          "title": "Esiopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Esiopetuksen oppiaineet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Esiopetuksen oppiaineiden tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        },
+        "basicEducation": {
+          "title": "Perusopetus",
+          "inputs": {
+            "subjects": {
+              "label": "Perusopetuksen oppiaineet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Perusopetuksen oppiaineiden tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "contents": {
+              "label": "Perusopetuksen oppiaineiden sisältöalueet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Perusopetuksen opetussuunnitelma",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        },
+        "upperSecondarySchoolEducation": {
+          "title": "Lukiokoulutus",
+          "inputs": {
+            "subjects": {
+              "label": "Lukionkurssit",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Lukionkurssien tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        },
+        "vocationalEducation": {
+          "title": "Ammatillinen koulutus",
+          "inputs": {
+            "degrees": {
+              "label": "Ammatillisen koulutuksen tutkinnot",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        },
+        "selfMotivatedEducation": {
+          "title": "Omaehtoisen osaamisen kehittäminen",
+          "inputs": {
+            "subjects": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            }
+          }
+        },
+        "higherEducation": {
+          "title": "Korkeakoulutus",
+          "inputs": {
+            "branchesOfScience": {
+              "label": "Korkeakoulutuksen tieteenalat",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "framework": {
+              "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
+              "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            }
+          }
+        }
+      },
+      "extendedDetails": {
+        "accessibility": {
+          "inputs": {
+            "features": {
+              "label": "Saavutettavuuden ominaisuudet",
+              "tooltip": "Voit tähän valita mikäli oppimateriaalin tekemisessä on huomioitu saavutettavuus lisäämällä siihen jotain saavutettavuutta tukevia ominaisuuksia kuten tekstitys, navgointia helpottava rakenne tai selkokielisyys. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+            },
+            "hazards": {
+              "label": "Saavutettavuuden esteet",
+              "tooltip": "Voit tähän valita mikäli oppimateriaalissa on jotain ominaisuuksia jotka voivat olla estäviä osalle henkilöistä, esimerkiksi mikäli materiaalissa on voimakasta välähtelyä. Kenttään voi myös merkitä, mikäli tälläisiä haittoja ei ole valitsemalla esimerkiksi ei äänihaittaa. Lisätietoa saavutettavuudesta ohjeistus-osioissa."
+            }
+          }
+        },
+        "typicalAgeRange": {
+          "label": "Kohderyhmän ikä",
+          "tooltip": "Ikäryhmä, jolle oppimateriaali on tarkoitettu, esim. 7-9, 18-90."
+        },
+        "timeRequired": {
+          "label": "Opiskeluaika",
+          "tooltip": "Arvio ajasta, joka keskimäärin kuluu oppimateriaalin opiskeluun."
+        },
+        "publisher": {
+          "label": "Julkaisija",
+          "tooltip": "Mikäli oppimateriaalilla on julkaisija (esimerkiksi järjestö tai koulu), voit tähän täydentää julkaisijan virallisen nimen."
+        },
+        "expires": {
+          "label": "Oppimateriaali vanhenee",
+          "tooltip": "Merkitse tähän mikäli on selkeästi nähtävissä että oppimateriaalisi ei ole enää ajankohtainen tai relevantti tietyn ajankohdan jälkeen."
+        },
+        "prerequisites": {
+          "label": "Aiempi osaaminen",
+          "tooltip": "Voit tähän lisätä tiedon niistä kompetensseista, työkaluista, opinnoista tai tietämyksestä jotka vaaditaan oppimateriaalin oppimiseen tai hyödyntämiseen."
+        }
+      },
+      "license": {
+        "title": "Lisenssi",
+        "subtitle": "Valitse lisenssi",
+        "showDetails": "Näytä lisätiedot",
+        "readMore": "Lue lisää"
+      },
+      "basedOnDetails": {
+        "addNew": {
+          "button": "Lisää uusi materiaali",
+          "tooltip": "Voit tähän lisätä materiaaleja, jonka pohjalta olet lähtenyt rakentamaan oppimateriaaliasi, joita käytät materiaalissasi tai jotka toimivat oppimateriaalisi pohjana."
+        },
+        "externals": {
+          "title": "Hyödynnetyt materiaalit",
+          "inputs": {
+            "author": {
+              "label": "Tekijän nimi",
+              "tooltip": "",
+              "placeholder": "Sukunimi, Etunimi"
+            },
+            "link": {
+              "label": "Linkki",
+              "tooltip": ""
+            },
+            "name": {
+              "label": "Nimi",
+              "tooltip": ""
+            }
+          }
+        }
+      },
+      "preview": {
+        "title": "Esikatselu",
+        "confirm": "Vakuutan että"
+      }
+    }
+  },
+  "faq": {
+    "title": "Usein kysytyt kysymykset",
+    "general": "Yleisiä kysymyksiä",
+    "material": "Oppimateriaalien tekijöille",
+    "organization": "Organisaatioille"
+  },
+  "acceptance": {
+    "title": "Palvelun käyttöehdot ja tietosuojailmoitus",
+    "termsOfUse": "Käyttöehdot",
+    "privacyPolicy": "Tietosuojailmoitus",
+    "acceptance": "Olen lukenut tietosuojailmoituksen ja hyväksyn palvelun käyttöehdot"
+  },
+  "userMaterials": {
+    "title": "Omat oppimateriaalit",
+    "createNew": "Luo uusi materiaali"
+  },
+  "footer": {
+    "developer": "Palvelun tuottaja"
   }
 }

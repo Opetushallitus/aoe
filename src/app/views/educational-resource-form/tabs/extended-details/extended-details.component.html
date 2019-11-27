@@ -1,0 +1,179 @@
+<form [formGroup]="extendedDetailsForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="accessibilityFeatures">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="accessibilityFeatures"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        id="accessibilityFeatures"
+        formControlName="accessibilityFeatures"
+      ></ng-select>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="accessibilityHazards">{{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="accessibilityHazards"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        id="accessibilityHazards"
+        formControlName="accessibilityHazards"
+      ></ng-select>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="typicalAgeRangeMin">{{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.typicalAgeRange.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <div class="form-row" formGroupName="typicalAgeRange">
+        <div class="col">
+          <input
+            type="number"
+            id="typicalAgeRangeMin"
+            class="form-control"
+            formControlName="typicalAgeRangeMin"
+            min="0"
+          >
+        </div>
+
+        <div class="col-auto">
+          &ndash;
+        </div>
+
+        <div class="col">
+          <input
+            type="number"
+            id="typicalAgeRangeMax"
+            class="form-control"
+            formControlName="typicalAgeRangeMax"
+            min="0"
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="timeRequired">{{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.timeRequired.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="timeRequired"
+        formControlName="timeRequired"
+      >
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publisher">{{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addCustomItem"
+        bindLabel="value"
+        appendTo="body"
+        id="publisher"
+        formControlName="publisher"
+      ></ng-select>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="expires">{{ 'forms.educationalResource.extendedDetails.expires.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.expires.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="expires"
+        formControlName="expires"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+      >
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="prerequisites">{{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.prerequisites.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addPrerequisites"
+        bindLabel="targetName"
+        appendTo="body"
+        id="prerequisites"
+        formControlName="prerequisites"
+      ></ng-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previousTab()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="resetForm()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [disabled]="extendedDetailsForm.invalid"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>

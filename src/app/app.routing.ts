@@ -5,10 +5,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
-import { LoginComponent } from './views/login/login.component';
+import { MainViewComponent } from './views/mainView/main-view.component';
 import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
+import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
+import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
+import { AcceptanceGuard } from './guards/acceptance.guard';
+import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
+import { AuthGuard } from './guards/auth.guard';
+import { FileUploadGuard } from './guards/file-upload.guard';
 
 export const routes: Routes = [
   {
@@ -20,44 +27,73 @@ export const routes: Routes = [
     path: '404',
     component: P404Component,
     data: {
-      title: 'Page 404'
-    }
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page'
+      title: 'Page 404',
     }
   },
   {
     path: '',
     component: DefaultLayoutComponent,
     data: {
-      title: 'Home'
+      title: 'Home',
     },
     children: [
       {
         path: 'etusivu',
-        loadChildren: () => import('./views/mainView/main-view.module').then(m => m.MainViewModule),
+        component: MainViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
-        path: 'demo/materiaali/:specialId/:slug',
+        path: 'materiaali/:specialId/:slug',
         component: EducationalMaterialViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisatietoa',
         component: HelpViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
-        path: 'saavutettavuusseloste',
-        component: AccessibilityPolicyViewComponent,
-      }
+        path: 'omat-oppimateriaalit',
+        component: UserMaterialsViewComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'lisaa-oppimateriaali',
+        component: EducationalResourceFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'lisaa-oppimateriaali/:tabId',
+        component: EducationalResourceFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard, FileUploadGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kayttoehdot',
+        component: TermsOfUseViewComponent,
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'tietosuojailmoitus',
+        component: PrivacyPolicyViewComponent,
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'hyvaksynta',
+        component: AcceptanceViewComponent,
+        canActivate: [ AuthGuard ],
+        runGuardsAndResolvers: 'always',
+      },
     ],
   },
   {
     path: '**',
-    redirectTo: '/404'
+    redirectTo: '/404',
   }
 ];
 
