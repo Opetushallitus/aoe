@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import slugify from 'slugify';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
@@ -57,11 +56,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      slug: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
-      }),
       files: this.fb.array([
         this.createFile(),
         this.createFile(),
@@ -88,10 +82,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (this.savedData) {
       if (this.savedData.name) {
         this.fileUploadForm.get('name').patchValue(this.savedData.name);
-      }
-
-      if (this.savedData.slug) {
-        this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
       }
     }
 
@@ -178,11 +168,6 @@ export class FilesComponent implements OnInit, OnDestroy {
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
-  }
-
-  // @todo: move slug creation to backend
-  updateSlug(value, lang): void {
-    this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
   }
 
   onFileChange(event, i): void {
@@ -309,7 +294,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       const data = Object.assign(
         {},
         getLocalStorageData(this.localStorageKey),
-        this.fileUploadForm.value,
+        { name: this.fileUploadForm.get('name').value },
       );
 
       // save data to local storage
