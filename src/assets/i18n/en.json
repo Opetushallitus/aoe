@@ -152,6 +152,13 @@
           },
           "addFile": "Add a file",
           "error": "Add at least one file or link"
+        },
+        "uploadedFiles": {
+          "title": "Uploaded files",
+          "fileOrLink": "File/link",
+          "displayName": "File Name",
+          "language": "Language",
+          "actions": "Actions"
         }
       },
       "basicDetails": {

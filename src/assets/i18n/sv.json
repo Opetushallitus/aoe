@@ -152,6 +152,13 @@
           },
           "addFile": "Tillsätt en annan fil",
           "error": "Tillsätt minst en fil eller link"
+        },
+        "uploadedFiles": {
+          "title": "Filer",
+          "fileOrLink": "Fil/link",
+          "displayName": "Filens namn",
+          "language": "Filens språk",
+          "actions": "Actions"
         }
       },
       "basicDetails": {
