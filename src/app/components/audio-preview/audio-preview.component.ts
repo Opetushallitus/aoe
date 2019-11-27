@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
-import { Material } from '../../models/demo/material';
+import { Material } from '../../models/material';
 
 @Component({
   selector: 'app-audio-preview',
@@ -8,10 +8,7 @@ import { Material } from '../../models/demo/material';
 })
 export class AudioPreviewComponent implements OnChanges {
   @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef;
-  @Input() set material(material: Material) {
-    this._material = material;
-  }
-  public _material: Material;
+  @Input() material: Material;
 
   ngOnChanges(changes: SimpleChanges): void {
     // refreshes audio player after source change

@@ -1,273 +1,351 @@
 <div class="py-4 px-0" id="material-view">
   <div class="container">
-    <div class="row mb-4">
-      <div class="col">
-        <button type="button" class="btn btn-link" (click)="goBack()">&lsaquo; {{ 'common.goBack' | translate }}</button>
-      </div>
-    </div>
-
-    <div class="row mb-4">
-      <div class="col-lg-6">
-        <h1>{{ educationalMaterial.name }}</h1>
-      </div>
-
-      <div class="col-lg-6 text-lg-right">
-        <div class="material-actions">
-          <!--<a href="#" class="btn btn-link disabled">
-            <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>
-            {{ 'demo.educationalMaterial.edit' | translate }}
-          </a>
-          <a href="#" class="btn btn-link disabled">
-            <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
-            {{ 'demo.educationalMaterial.delete' | translate }}
-          </a>
-          <a href="#" class="btn btn-link disabled">
-            <i class="fa fa-fw fa-plus-square" aria-hidden="true"></i>
-            {{ 'demo.educationalMaterial.addToCollection' | translate }}
-          </a>-->
-          <a *ngIf="educationalMaterial.download" class="btn btn-link" href="{{ educationalMaterial.download }}" download>
-            <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-            {{ 'demo.educationalMaterial.download' | translate }}
-          </a>
+    <ng-container *ngIf="educationalMaterial">
+      <div class="row mb-4">
+        <div class="col-lg-6">
+          <h1>{{ educationalMaterial.name }}</h1>
         </div>
+
+        <!--<div class="col-lg-6 text-lg-right">
+          <div class="material-actions">
+            <a class="btn btn-link" href="#" download>
+              <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
+              {{ 'demo.educationalMaterial.download' | translate }}
+            </a>
+          </div>
+        </div>-->
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-lg-3">
-        <div class="material-sidebar-left">
-          <div class="row">
-            <div class="col-auto col-md-12 text-center text-sm-left">
-              <img [attr.src]="educationalMaterial.img ? educationalMaterial.img : 'assets/img/material.png'" class="img-fluid mb-4" alt="...">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="material-sidebar-left">
+            <div class="row">
+              <div class="col-auto col-md-12 text-center text-sm-left">
+                <img [src]="educationalMaterial.thumbnail ? educationalMaterial.thumbnail : 'assets/img/material.png'" class="img-fluid mb-4">
+              </div>
+
+              <div class="col">
+                <ul class="list-unstyled">
+                  <li *ngFor="let type of educationalMaterial.learningResourceTypes">
+                    <img src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"> {{ type.value }}
+                  </li>
+                  <li class="text-muted">
+                    <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
+                    0 {{ 'demo.educationalMaterial.viewCount' | translate }}
+                  </li>
+                  <li class="text-muted">
+                    <i class="fa fa-fw fa-download" aria-hidden="true"></i>
+                    0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                  </li>
+                </ul>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <div class="col">
-              <ul class="list-unstyled">
-                <li *ngFor="let learningResourceType of educationalMaterial.learningResourceType">
-                  <img src="assets/img/icons/learning-resource-types/{{ lrtSvc.getLearningResourceTypeIcon(learningResourceType) }}" alt="" class="learning-resource-type-icon">
-                  {{ lrtSvc.getLearningResourceTypeValue(learningResourceType) }}
+        <div class="col-12 col-lg-9">
+          <div class="material-content">
+            <div class="material-description">
+              <ul class="list-unstyled authors">
+                <li *ngFor="let author of educationalMaterial.authors">
+                  <ng-container *ngIf="author.authorname !== ''">
+                    {{ author.authorname }}
+                    <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
                 </li>
-                <!--<li class="text-muted">
-                  <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                  0 {{ 'demo.educationalMaterial.viewCount' | translate }}
-                </li>
-                <li class="text-muted">
-                  <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                  0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                </li>-->
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="col-12 col-lg-9">
-        <div class="material-content">
-          <div class="material-description">
-            <p>{{ educationalMaterial.description }}</p>
+              <div class="datetimes">
+                <span class="datetime-item">
+                  <strong>{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
+                  <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}</time>
+                </span>
 
-            <p *ngIf="educationalMaterial.related">{{ educationalMaterial.related.text }}: <a [href]="educationalMaterial.related.link">{{ educationalMaterial.related.link }}</a></p>
+                <span class="datetime-item" *ngIf="educationalMaterial.publishedAt">
+                  <strong>{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
+                  <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}</time>
+                </span>
 
-            <ul class="list-unstyled">
-              <li *ngFor="let author of educationalMaterial.author">{{ author.firstName }} {{ author.lastName }}</li>
-            </ul>
-          </div>
+                <span class="datetime-item" *ngIf="educationalMaterial.updatedAt">
+                  <strong>{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                  <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}</time>
+                </span>
+              </div>
 
-          <div class="mb-4">
-            <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
-          </div>
-
-          <div class="row material-metadata">
-            <div class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.inLanguage' | translate }}</h4>
-              {{ educationalMaterial.inLanguage.value }}
+              <p>{{ educationalMaterial.description }}</p>
             </div>
 
-            <div *ngIf="educationalMaterial.timeRequired.value !== '0 h'" class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
-              {{ educationalMaterial.timeRequired.value }}
-            </div>
+            <div class="list-files mb-4" *ngIf="educationalMaterial.materials.length > 0">
+              <div class="row no-gutters">
+                <div class="col-3">
+                  <div class="btn-group-vertical" role="group">
+                    <ng-container *ngFor="let material of educationalMaterial.materials">
+                      <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
+                        {{ material.displayName }}
+                      </button>
+                    </ng-container>
+                  </div>
+                </div>
 
-            <div class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.datePublished' | translate }}</h4>
-              {{ educationalMaterial.datePublished | date:'d.M.yyyy' }}
-            </div>
-
-            <div *ngIf="educationalMaterial.publisher" class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.publisher' | translate }}</h4>
-              {{ educationalMaterial.publisher }}
-            </div>
-
-            <div class="col-auto">
-              <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
-              <a [attr.href]="educationalMaterial.licenseInformation.licenseUrl" class="text-dark" target="_blank" rel="noopener">{{ educationalMaterial.licenseInformation.licenseType }}</a>
-            </div>
-
-            <div class="col-12">
-              <h4>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h4>
-
-              <div class="tags">
-                <button type="button" class="btn btn-light disabled">{{ 'demo.educationalMaterial.subject' | translate }}</button>
+                <div class="col-9">
+                  <app-educational-material-preview [material]="previewMaterial"></app-educational-material-preview>
+                </div>
               </div>
             </div>
 
-            <div class="col-12">
-              <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
-
-              <div class="tags">
-                <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
-                  {{ keyword.value }}
-                </button>
+            <div class="row material-metadata">
+              <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
+                <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
+                {{ educationalMaterial.timeRequired }}
               </div>
-            </div>
 
-            <accordion>
-              <accordion-group heading="Lisää kuvailutietoja">
-                <div class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
+              <div *ngIf="educationalMaterial.publisher" class="col-auto">
+                <h4>{{ 'demo.educationalMaterial.publisher' | translate }}</h4>
+                {{ educationalMaterial.publisher }}
+              </div>
 
-                  <div class="tags">
-                    <button *ngFor="let educationalLevel of educationalMaterial.educationalLevel" type="button" class="btn btn-light disabled">
-                      {{ educationalLevel.value }}
-                    </button>
-                  </div>
-                </div>
+              <div class="col-auto">
+                <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
+                {{ educationalMaterial.license }}
+              </div>
 
-                <div class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
+              <div class="col-12">
+                <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
 
-                  <div class="tags">
-                    <button *ngFor="let educationalRole of educationalMaterial.educationalRole" type="button" class="btn btn-light disabled">
-                      {{ educationalRole.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.educationalUse" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let educationalUse of educationalMaterial.educationalUse" type="button" class="btn btn-light disabled">
-                      {{ educationalUse.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.accessibilityFeatures" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityFeature of educationalMaterial.accessibilityFeatures" type="button" class="btn btn-light disabled">
-                      {{ accessibilityFeature.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.accessibilityHazard" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityHazard of educationalMaterial.accessibilityHazard" type="button" class="btn btn-light disabled">
-                      {{ accessibilityHazard.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.accessibilityAPI" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityAPI' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityAPI of educationalMaterial.accessibilityAPI" type="button" class="btn btn-light disabled">
-                      {{ accessibilityAPI.value }}
-                    </button>
-                  </div>
-                </div>
-
-                <div *ngIf="educationalMaterial.accessibilityControl" class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.accessibilityControl' | translate }}</h4>
-
-                  <div class="tags">
-                    <button *ngFor="let accessibilityControl of educationalMaterial.accessibilityControl" type="button" class="btn btn-light disabled">
-                      {{ accessibilityControl.value }}
-                    </button>
-                  </div>
-                </div>
-              </accordion-group>
-            </accordion>
-          </div>
-
-          <div class="row" *ngIf="educationalMaterial.materials.length > 0">
-            <div class="col">
-              <h2>{{ 'demo.educationalMaterial.files' | translate }}</h2>
-
-              <ul class="list-unstyled list-files">
-                <li *ngFor="let material of educationalMaterial.materials">
-                  <button type="button" class="btn btn-link text-dark" [ngClass]="material === previewMaterial ? 'font-weight-bold' : ''" (click)="setPreviewMaterial(material)">
-                    <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-                    {{ material?.file?.originalFilename }}
+                <div class="tags">
+                  <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
+                    {{ keyword.value }}
                   </button>
-                </li>
-              </ul>
+                </div>
+              </div>
+
+              <accordion>
+                <accordion-group heading="Lisää kuvailutietoja">
+                  <div class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let level of educationalMaterial.educationalLevels" type="button" class="btn btn-light disabled">
+                        {{ level.value }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.educationalRoles" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let role of educationalMaterial.educationalRoles" type="button" class="btn btn-light disabled">
+                        {{ role.educationalrole }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.educationalUses" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let use of educationalMaterial.educationalUses" type="button" class="btn btn-light disabled">
+                        {{ use.value }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- early childhood education -->
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.earlyChildhoodEducationSubjects" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.earlyChildhoodEducationObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- pre primary education -->
+                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.prePrimaryEducationSubjects' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.prePrimaryEducationSubjects" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.prePrimaryEducationObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.prePrimaryEducationObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- basic education -->
+                  <div *ngIf="educationalMaterial.basicStudySubjects.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.basicStudySubjects' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.basicStudySubjects" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.basicStudyObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.basicStudyObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.basicStudyObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.basicStudyContents.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.basicStudyContents' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let content of educationalMaterial.basicStudyContents" type="button" class="btn btn-light disabled">
+                        {{ content.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- upper secondary education -->
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjects.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjects" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- vocational education -->
+                  <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let degree of educationalMaterial.vocationalDegrees" type="button" class="btn btn-light disabled">
+                        {{ degree.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.vocationalEducationObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.vocationalEducationObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- self-motivated education -->
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.selfMotivatedEducationSubjects" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.selfMotivatedEducationObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- higher education -->
+                  <div *ngIf="educationalMaterial.branchesOfScience.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.branchesOfScience' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let branch of educationalMaterial.branchesOfScience" type="button" class="btn btn-light disabled">
+                        {{ branch.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.scienceBranchObjectives.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.scienceBranchObjectives' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.scienceBranchObjectives" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- prerequisites -->
+                  <div *ngIf="educationalMaterial.prerequisites.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.prerequisites' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let prerequisite of educationalMaterial.prerequisites" type="button" class="btn btn-light disabled">
+                        {{ prerequisite.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- accessibility -->
+                  <div *ngIf="educationalMaterial.accessibilityFeatures.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let feature of educationalMaterial.accessibilityFeatures" type="button" class="btn btn-light disabled">
+                        {{ feature.value }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.accessibilityHazards.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let hazard of educationalMaterial.accessibilityHazards" type="button" class="btn btn-light disabled">
+                        {{ hazard.value }}
+                      </button>
+                    </div>
+                  </div>
+                </accordion-group>
+              </accordion>
             </div>
           </div>
         </div>
       </div>
-
-      <!--<div class="col-12 col-lg-3">
-        <div class="material-sidebar-right">
-          <h2>{{ 'demo.educationalMaterial.userMetadata' | translate }}</h2>
-
-          <h3>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h3>
-
-          <div class="tags">
-            <a href="#" class="btn btn-dark"
-               *ngFor="let educationalLevel of educationalMaterial.educationalLevel">
-              {{ educationalLevel.value | lowercase }} &times;
-            </a>
-          </div>
-
-          <h3>{{ 'demo.educationalMaterial.eduSubject' | translate }}</h3>
-
-          <div class="tags">
-            <a href="#" class="btn btn-dark disabled"
-               *ngFor="let subject of educationalMaterial.educationalSubject">
-              {{ subject | lowercase }} &times;
-            </a>
-          </div>
-
-          <h2>{{ 'demo.educationalMaterial.userReviews' | translate }}</h2>
-
-          <div class="rating">
-            <h3>{{ 'demo.educationalMaterial.rating' | translate }} (0)</h3>
-
-            <img src="assets/img/icons/ic_star.svg" alt="...">
-            <img src="assets/img/icons/ic_star.svg" alt="...">
-            <img src="assets/img/icons/ic_star.svg" alt="...">
-            <img src="assets/img/icons/ic_star.svg" alt="...">
-            <img src="assets/img/icons/ic_star.svg" alt="...">
-
-            <a href="#" class="text-blue">&#43; {{ 'demo.educationalMaterial.addReview' | translate }}</a>
-          </div>
-
-          <div class="material-comments">
-            <h3>{{ 'demo.educationalMaterial.comments' | translate }} (0)</h3>
-
-            <div class="material-comments-item">
-              <h4>Anne Virtanen</h4>
-              <span class="material-comments-item-datetime">21.2.2018 08:11</span>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum, eros eu pharetra… dignissim, neque erat porta enim, at fringilla sem nulla ut sem.</p>
-            </div>
-
-            <div class="material-comments-item">
-              <h4>Anne Virtanen</h4>
-              <span class="material-comments-item-datetime">21.2.2018 08:11</span>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam interdum, eros eu pharetra… dignissim, neque erat porta enim, at fringilla sem nulla ut sem.</p>
-            </div>
-
-            <a href="#" class="text-blue">{{ 'demo.educationalMaterial.showAllComments' | translate }}</a>
-          </div>
-        </div>
-      </div>-->
-    </div>
+    </ng-container>
   </div>
 </div>

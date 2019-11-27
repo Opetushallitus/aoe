@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
-import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +11,6 @@ import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
-import { LoginComponent } from './views/login/login.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -27,15 +26,23 @@ import {
 import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CookieService } from 'ngx-cookie-service';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
-import { AddMaterialComponent } from './views/add-material/add-material.component';
 import { HelpViewComponent } from './views/help-view/help-view.component';
 import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
 import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
@@ -49,16 +56,37 @@ import { HtmlPreviewComponent } from './components/html-preview/html-preview.com
 import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
+import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
+
+// Educational resource form
+import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
+import { FilesComponent } from './views/educational-resource-form/tabs/files/files.component';
+import { BasicDetailsComponent } from './views/educational-resource-form/tabs/basic-details/basic-details.component';
+import { EducationalDetailsComponent } from './views/educational-resource-form/tabs/educational-details/educational-details.component';
+import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs/extended-details/extended-details.component';
+import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
+import { DialogComponent } from './components/dialog/dialog.component';
+import { LicenseComponent } from './views/educational-resource-form/tabs/license/license.component';
+import { NavLoginComponent } from './components/nav-login/nav-login.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
+import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
+import { MainViewComponent } from './views/mainView/main-view.component';
+import { EducationalMaterialsListComponent } from './components/educational-materials-list/educational-materials-list.component';
+import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
+import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
+import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
 
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AppBreadcrumbModule.forRoot(),
     AppFooterModule,
     AppSidebarModule,
     BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
+    ModalModule.forRoot(),
     SharedModule,
     HttpClientModule,
     TranslateModule.forRoot({
@@ -70,18 +98,28 @@ import { InfoViewComponent } from './views/info-view/info-view.component';
     }),
     AccordionModule.forRoot(),
     NgxExtendedPdfViewerModule,
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
     AlertModule.forRoot(),
+    TooltipModule.forRoot(),
+    CollapseModule.forRoot(),
+    PopoverModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    ImageCropperModule,
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
-    LoginComponent,
-    AddMaterialComponent,
+    MainViewComponent,
     HelpViewComponent,
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
     AccessibilityPolicyViewComponent,
+    EducationalMaterialsListComponent,
+    EducationalMaterialCardComponent,
     EducationalMaterialViewComponent,
     EducationalMaterialPreviewComponent,
     VideoPreviewComponent,
@@ -91,11 +129,26 @@ import { InfoViewComponent } from './views/info-view/info-view.component';
     OfficePreviewComponent,
     ImagePreviewComponent,
     InfoViewComponent,
+    EducationalResourceFormComponent,
+    FilesComponent,
+    BasicDetailsComponent,
+    EducationalDetailsComponent,
+    ExtendedDetailsComponent,
+    BasedOnDetailsComponent,
+    DialogComponent,
+    LicenseComponent,
+    AcceptanceViewComponent,
+    NavLoginComponent,
+    PrivacyPolicyComponent,
+    TermsOfUseComponent,
+    UserMaterialsViewComponent,
+    PreviewComponent,
+    CookieNoticeComponent,
   ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }],
+  }, CookieService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

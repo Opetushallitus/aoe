@@ -1,0 +1,77 @@
+<div class="fixed-bottom cookie-notice border-top border-info">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col">
+        <p>Sivustomme käyttää evästeitä käyttökokemuksen parantamiseksi (ml. kolmansien osapuolten evästeet). Jatkamalla sivuston käyttöä hyväksyt evästeet, mutta voit halutessasi estää evästeiden käytön. Lisätietoa Evästeistä (linkki) ja Tietosuojaselosteestamme (linkki).</p>
+      </div>
+
+      <div class="col-auto">
+        <button type="button" class="btn btn-primary" (click)="cookie.show()">Evästeasetukset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #cookie="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cookie-notice-title">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left" id="cookie-notice-title">Evästeasetukset</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="cookie.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>Kun vierailet verkkosivustollamme, tallentavat evästeet tietoa vierailustasi. Eväste (cookie) on pieni tekstitiedosto, jonka selain tallentaa kävijän laitteelle. Evästeitä on kahta eri päätyyppiä, istuntoevästeitä ja pysyviä evästeitä. Istuntoevästeet poistuvat laitteeltasi heti, kun suljet selaimen. Pysyvät evästeet säilyvät tallennettuina, kunnes ne erikseen poistetaan tai ne vanhentuvat.</p>
+        <p>Evästeitä käytetään mittaus- ja tutkimustarkoituksiin palvelun käytön tyypin ja määrän selvittämiseksi. Näin pystymme parantamaan sivustomme käytettävyyttä ja tunnistamaan sivustomme kiinnostavimmat alueet. Käytämme verkkosivustomme vierailujen seurantaan Google Analyticsiä. Google Analyticsin evästetietoja säilytetään 38 kuukautta.</p>
+
+        <p><strong>Käytämme evästeitä seuraaviin tarkoituksiin:</strong></p>
+        <ul>
+          <li>tietojen keräämiseen kävijästä Google Analyticsin avulla</li>
+        </ul>
+
+        <p><strong>Google Analyticsin evästeet tallentavat kävijästä muun muassa seuraavat tiedot:</strong></p>
+        <ul>
+          <li>ip-osoitteen</li>
+          <li>millä sivustolla käyt</li>
+          <li>kuinka kauan viivyt sivustollamme; vierailun alun ja lopun määrittäminen</li>
+          <li>mitä kautta tulit sivustollemme</li>
+          <li>mitä linkkejä klikkaat</li>
+        </ul>
+
+        <p>Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä evästetietoja käytetään siten, ettei palvelun käyttäjän yksityisyydensuojaa loukata. Evästetunnistusta ei käytetä sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen tietojen tarkasteluun tai kopiointiin. Evästeiden keräämät tiedot lähetetään takaisin meille ilman henkilötietoja, jotta pystymme seuraamaan sivustomme käytön trendejä. Käyttäjä voi halutessaan estää evästeiden käytön selaimensa asetuksissa. Tarkemmat ohjeet evästeiden poistamisesta löydät selaimesi ohjeista.</p>
+
+        <form [formGroup]="cookies" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="aoe"
+                formControlName="aoe"
+              >
+              <label class="custom-control-label" for="aoe">Aoe</label>
+            </div>
+
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="google-analytics"
+                formControlName="googleAnalytics"
+              >
+              <label class="custom-control-label" for="google-analytics">Google Analytics</label>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-blue"
+            (click)="cookie.hide()"
+          >{{ 'forms.common.save' | translate }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

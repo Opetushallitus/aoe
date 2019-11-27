@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand navbar-dark bg-primary" id="main-navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
   <div class="container">
     <a class="navbar-brand font-weight-bold font-4xl" [routerLink]="['/']">aoe.fi</a>
 
@@ -8,8 +8,11 @@
 
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="navbar-nav">
-        <li class="nav-item d-none d-sm-flex">
+        <li class="nav-item">
           <a class="nav-link" [routerLink]="['/etusivu']" [routerLinkActive]="['active']">{{ 'navigation.home' | translate }}</a>
+        </li>
+        <li class="nav-item" *ngIf="authSvc.isLogged()">
+          <a class="nav-link" [routerLink]="['/omat-oppimateriaalit']" [routerLinkActive]="['active']">{{ 'navigation.myMaterials' | translate }}</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/lisatietoa']" [routerLinkActive]="['active']">{{ 'navigation.info' | translate }}</a>
@@ -22,11 +25,7 @@
         </li>
       </ul>
 
-      <!--<ul class="nav navbar-nav">
-        <li class="nav-item d-md-down-none">
-          <a class="nav-link disabled" [routerLink]="['/kirjaudu']">{{ 'navigation.login' | translate }}</a>
-        </li>
-      </ul>-->
+      <app-nav-login></app-nav-login>
     </div>
   </div>
 </nav>
@@ -43,23 +42,13 @@
     <div class="row justify-content-center">
       <div class="col-auto text-center">
         <h2>aoe.fi</h2>
-        <!--<p>Yhteystiedot</p>-->
-
-        <!--<div class="footer-logos">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-          <img src="https://via.placeholder.com/90x60?text=logo" alt="logo" class="img-fluid">
-        </div>-->
 
         <ul class="nav">
-          <!--<li class="nav-item">
-            <a class="nav-link" [routerLink]="['/kayttoehdot']">{{ 'footer.termsOfUse' | translate }}</a>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/kayttoehdot']">{{ 'navigation.termsOfUse' | translate }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/rekisteriseloste']">{{ 'footer.privacyPolicy' | translate }}</a>
-          </li>-->
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/saavutettavuusseloste']">Saavutettavuusseloste</a>
+            <a class="nav-link" [routerLink]="['/tietosuojailmoitus']">{{ 'navigation.privacyPolicy' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -69,27 +58,21 @@
 
 <div class="logos">
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center align-items-center">
       <div class="col-auto">
-        <img src="assets/img/logos/okm-fi.jpg" alt="Opetus- ja kulttuuriministeriö" class="img-fluid">
+        <img [src]="logos.okm[translate.currentLang].src" [alt]="logos.okm[translate.currentLang].alt" class="img-fluid">
       </div>
 
       <div class="col-auto text-center">
         <img src="assets/img/logos/csc.png" alt="CSC" class="img-fluid">
-        <span>Palvelun tuottaja</span>
+        <span>{{ 'footer.developer' | translate }}</span>
       </div>
 
       <div class="col-auto">
-        <img src="assets/img/logos/oph.jpg" alt="Opetushallitus" class="img-fluid">
+        <img [src]="logos.oph[translate.currentLang].src" [alt]="logos.oph[translate.currentLang].alt" class="img-fluid">
       </div>
     </div>
   </div>
 </div>
 
-<!--<div class="fixed-bottom" *ngIf="!this.alertClosed">
-  <div class="container">
-    <alert type="warning" dismissible="true" (onClosed)="closeAlert()">
-      Aoe.fi-sivustolla on huoltokatko keskiviikkona 23.10.2019 klo 14.00 - 16.00 välisenä aikana. Huoltokatko kestää arviolta puoli tuntia. Pahoittelemme palvelukatkosta aiheutuvaa haittaa.
-    </alert>
-  </div>
-</div>-->
+<app-cookie-notice *ngIf="showNotice" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>

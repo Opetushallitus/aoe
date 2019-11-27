@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Material } from '../../models/demo/material';
+import { Material } from '../../models/material';
 
 @Component({
   selector: 'app-image-preview',

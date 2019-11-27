@@ -13,9 +13,10 @@ import { IsBasedOn } from './is-based-on';
 /**
  * Educational Material model
  */
-export interface EducationalMaterial {
+export interface LegacyEducationalMaterial {
   id: number;
   specialId: number;
+  username?: string;
   img?: string;
   download?: string;
   materials: Material[];
@@ -33,13 +34,13 @@ export interface EducationalMaterial {
     link: string;
   };
   keywords: Keyword[];
-  learningResourceType: string[];
+  learningResourceTypes: string[];
   timeRequired: TimeRequired;
   educationalLevel: EducationalLevel[];
   typicalAgeRange: string;
   educationalAlignment?: AlignmentObject[];
   educationalRole: EducationalRole[];
-  educationalUse?: EducationalUse[];
+  educationalUses?: EducationalUse[];
   interactivityType: InteractivityType[];
   inLanguage: InLanguage;
   accessibilityFeatures?: AccessibilityFeature[];

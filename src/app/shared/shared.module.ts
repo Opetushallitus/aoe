@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -41,21 +41,38 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 /**
- * Save language to local storage
+ * Save language to local storage.
+ * @param {string} lang
  */
 export function setLanguage(lang: string): void {
-  localStorage.setItem('user', JSON.stringify({ lang: lang }));
+  localStorage.setItem('aoe.lang', lang);
 }
 
 /**
- * Retrieve language from local storage (if set)
+ * Retrieve language from local storage (if set).
+ * @returns {string | null}
  */
-export function getLanguage(): string | undefined {
-  const user = JSON.parse(localStorage.getItem('user'));
+export function getLanguage(): string | null {
+  return localStorage.getItem('aoe.lang');
+}
 
-  if (user === null) {
-    return undefined;
-  } else {
-    return user.lang;
-  }
+/**
+ * Returns JSON parsed data from localStorage.
+ * @param {string} localStorageKey
+ * @returns JSON object
+ */
+export function getLocalStorageData(localStorageKey: string): any {
+  return JSON.parse(localStorage.getItem(localStorageKey));
+}
+
+/**
+ * Returns given string in Key Value object.
+ * @param {string} value
+ * @returns {KeyValue<string, string>}
+ */
+export function addCustomItem(value: string): KeyValue<string, string> {
+  return {
+    key: value.replace(/[\W_]+/g, '').toLowerCase(),
+    value: value,
+  };
 }

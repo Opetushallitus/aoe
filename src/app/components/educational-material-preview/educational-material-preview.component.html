@@ -1,4 +1,4 @@
-<div class="material-preview" [ngSwitch]="material?.file?.format">
+<div class="material-preview" [ngSwitch]="checkMimeType(material.mimetype)">
   <app-video-preview *ngSwitchCase="'video'" [material]="material"></app-video-preview>
 
   <app-audio-preview *ngSwitchCase="'audio'" [material]="material"></app-audio-preview>
@@ -7,7 +7,7 @@
 
   <app-html-preview *ngSwitchCase="'html'" [material]="material"></app-html-preview>
 
-  <!--<app-office-preview *ngSwitchCase="'word' || 'powerpoint'" [material]="material"></app-office-preview>-->
+  <app-office-preview *ngSwitchCase="'office'" [material]="material"></app-office-preview>
 
   <app-image-preview *ngSwitchCase="'image'" [material]="material"></app-image-preview>
 

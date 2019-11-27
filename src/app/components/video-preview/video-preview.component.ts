@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 
-import { Material } from '../../models/demo/material';
+import { Material } from '../../models/material';
 
 @Component({
   selector: 'app-video-preview',
@@ -8,10 +8,7 @@ import { Material } from '../../models/demo/material';
 })
 export class VideoPreviewComponent implements OnChanges {
   @ViewChild('videoElement', { static: true }) private player: ElementRef;
-  @Input() set material(material: Material) {
-    this._material = material;
-  }
-  public _material: Material;
+  @Input() material: Material;
 
   ngOnChanges(changes: SimpleChanges): void {
     // refreshes video player after source change

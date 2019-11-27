@@ -1,25 +1,25 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { EducationalMaterial } from '../../models/demo/educational-material';
-import { LearningResourceTypeService } from '../../services/learning-resource-type.service';
+import { EducationalMaterialList } from '../../models/educational-material-list';
 
 @Component({
   selector: 'app-educational-material-card',
   templateUrl: './educational-material-card.component.html',
 })
 export class EducationalMaterialCardComponent implements OnInit {
-  @Input() educationalMaterial: EducationalMaterial;
-  public keywords: object[];
-  public educationalLevels: object[];
+  @Input() educationalMaterial: EducationalMaterialList;
+  /*keywords: object[];
+  educationalLevels: object[];*/
 
-  constructor(public lrtSvc: LearningResourceTypeService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.keywords = this.getValuesWithinLimits(this.educationalMaterial.keywords);
-    this.educationalLevels = this.getValuesWithinLimits(this.educationalMaterial.educationalLevel);
+    // @todo: redo this with api data
+    /*this.keywords = this.getValuesWithinLimits(this.educationalMaterial.keywords);
+    this.educationalLevels = this.getValuesWithinLimits(this.educationalMaterial.educationalLevels);*/
   }
 
-  private getValuesWithinLimits(input: object[]): object[] {
+  /*private getValuesWithinLimits(input: object[]): object[] {
     const charLimit = 60;
     let usedChars = 0;
     const values = [];
@@ -36,5 +36,5 @@ export class EducationalMaterialCardComponent implements OnInit {
     }
 
     return values;
-  }
+  }*/
 }

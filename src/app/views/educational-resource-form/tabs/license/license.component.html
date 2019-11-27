@@ -1,0 +1,75 @@
+<form [formGroup]="licenseForm" (ngSubmit)="onSubmit()" novalidate>
+  <h3>{{ 'forms.educationalResource.license.title' | translate }}</h3>
+
+  <ng-container [ngSwitch]="lang">
+    <ng-container *ngSwitchDefault>
+      <p>Jotta oppimateriaalin voi tallentaa avointen oppimateriaalien palveluun, on sen oltava lisensoitu jollain Creative Commons -lisenssillä. Creative Commons -lisenssit kertovat millaisia käyttöoikeuksia annat muille ihmisille: voivatko he tehdä oman oppimateriaalin sinun materiaalisi pohjalta? Saavatko he käyttää oppimateriaalisi osaa omassa materiaalissaan? Saako materiaaliasi päivittää tai kääntää eri kielelle tai muuttaa pistekirjoitukseksi? Saako oppimateriaaliasi käyttää kaupallisessa koulutuksessa?</p>
+      <p>Avointen oppimateriaalien palvelu suosittelee valitsemaan Creative Commons Nimeä tai Creative Commons Nimeä-JaaSamoin -lisenssin. Kummatkin näistä takaavat, että sinut mainitaan oppimateriaalin tekijänä ja että muut käyttäjät saavat vapaasti käyttää oppimateriaaliasi osana oppimis-, opetus- ja koulutustarpeitaan.</p>
+      <p>Löydät tarkat ohjeet lisensseihin Lisätietoa-osiosta.</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'en'">
+      <p>In order to download your OER to the service it must be licensed with a Creative Commons (CC) license. CC licenses tell other users how they can use your OER: can they make their own OER based on your material? Can they use parts of your OER in their material? Is it allowed to update or translate your OER or convert it to braille? Is it allowed to use your OER in commercial trainings?</p>
+      <p>The Service for OERs recommends the use of CC BY and CC BY-SA licenses. These licenses will ensure that you will be credited as the original author of the OER and that other users can freely use your OER as part of their learning, teaching and educational practices.</p>
+      <p>You will find further information about licenses in the FAQ.</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'sv'">
+      <p>För att läromaterialet ska kunna sparas i tjänsten för öppna lärresurser ska det vara licensierat med en Creative Commons-licens. Creative Commons-licenserna visar vilka användarrättigheter du ger till andra personer: kan de utarbeta eget läromaterial med ditt material som grund? Får de använda ditt läromaterial i sitt eget material? Får ditt material uppdateras, översättas till andra språk eller föras över till punktskrift? Får ditt läromaterial användas inom kommersiell utbildning?</p>
+      <p>Tjänsten för öppna lärresurser rekommenderar någondera av licenserna Creative Commons "Erkännande" eller Creative Commons "Erkännande-DelaLika". Bägge garanterar att du nämns som upphovsperson till läromaterialet och andra kan fritt använda det inom ramen för sina inlärnings-, undervisnings- och utbildningsbehov.</p>
+      <p>Du hittar noggrannare anvisningar om licenser i sidan Info.</p>
+    </ng-container>
+  </ng-container>
+
+  <h3>{{ 'forms.educationalResource.license.subtitle' | translate }}</h3>
+
+  <div class="form-group" *ngFor="let license of licenses; let i = index">
+    <div class="custom-control custom-radio">
+      <input type="radio" [id]="license.key" formControlName="license" [value]="license.key" class="custom-control-input">
+      <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
+
+      <button
+        type="button"
+        class="btn btn-sm btn-gray ml-2"
+        (click)="license.isCollapsed = !license.isCollapsed"
+        [attr.aria-expanded]="!license.isCollapsed"
+        [attr.aria-controls]="'collapseBasic' + i"
+      >{{ 'forms.educationalResource.license.showDetails' | translate }}</button>
+    </div>
+
+    <div [id]="'collapseBasic' + i"  [collapse]="license.isCollapsed" [isAnimated]="true">
+      <p>{{ license.description }}</p>
+
+      <a [href]="license.link" target="_blank" rel="noopener">{{ 'forms.educationalResource.license.readMore' | translate }}</a>
+    </div>
+  </div>
+
+  <div *ngIf="submitted && license.errors" class="alert alert-warning" role="alert">
+    <div *ngIf="license.errors.required">{{ 'forms.common.required' | translate }}: {{ 'forms.educationalResource.license.subtitle' | translate }}</div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previousTab()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="resetForm()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>
