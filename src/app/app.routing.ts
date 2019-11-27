@@ -79,7 +79,7 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'tietosuojaseloste',
+        path: 'tietosuojailmoitus',
         component: PrivacyPolicyViewComponent,
         runGuardsAndResolvers: 'always',
       },

@@ -17,7 +17,7 @@
       "selectLoginMethod": "Valitse kirjautumistapa"
     },
     "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Tietosuojaseloste"
+    "privacyPolicy": "Tietosuojailmoitus"
   },
   "home": {
     "search": {
@@ -422,10 +422,10 @@
     "organization": "Organisaatioille"
   },
   "acceptance": {
-    "title": "Palvelun käyttöehdot ja tietosuojaseloste",
+    "title": "Palvelun käyttöehdot ja tietosuojailmoitus",
     "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Tietosuojaseloste",
-    "acceptance": "Olen lukenut tietosuojaselosteen ja hyväksyn palvelun käyttöehdot"
+    "privacyPolicy": "Tietosuojailmoitus",
+    "acceptance": "Olen lukenut tietosuojailmoituksen ja hyväksyn palvelun käyttöehdot"
   },
   "userMaterials": {
     "title": "Omat oppimateriaalit",
