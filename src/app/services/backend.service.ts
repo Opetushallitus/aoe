@@ -118,6 +118,7 @@ export class BackendService {
     }).pipe(
       map((res): EducationalMaterial => {
         const alignmentObjects: AlignmentObjectExtended[] = res.educationalAlignment
+        // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
         return {
@@ -131,8 +132,9 @@ export class BackendService {
           description: res.description
             .find(d => d.language.toLowerCase() === this.lang).description,
           materials: res.materials
-            .filter(m => m.key.toLowerCase() === this.lang)
-            .map(({ id, originalfilename, filekey, link, mimetype }) => ({ id, originalfilename, filekey, link, mimetype })),
+            .filter(m => m.language.toLowerCase() === this.lang)
+            // tslint:disable-next-line:max-line-length
+            .map(({ id, originalfilename, filekey, link, mimetype, displayName }) => ({ id, originalfilename, filekey, link, mimetype, displayName: displayName[this.lang] })),
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
