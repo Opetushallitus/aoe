@@ -316,9 +316,9 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Tiedosto/linkki</th>
-          <th scope="col">Kieli</th>
-          <th scope="col">Toiminnot</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.actions' | translate }}</th>
         </tr>
       </thead>
 
@@ -327,7 +327,7 @@
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ upload.file }}{{ upload.link }}</td>
           <td>{{ upload.language }}</td>
-          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">Poista tiedosto</button></td>
+          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
         </tr>
       </tbody>
     </table>

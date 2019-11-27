@@ -152,6 +152,13 @@
           },
           "addFile": "Lisää tiedosto",
           "error": "Lisää vähintään yksi tiedosto tai linkki"
+        },
+        "uploadedFiles": {
+          "title": "Ladatut tiedostot",
+          "fileOrLink": "Tiedosto/linkki",
+          "displayName": "Esitysnimi",
+          "language": "Kieli",
+          "actions": "Toiminnot"
         }
       },
       "basicDetails": {
