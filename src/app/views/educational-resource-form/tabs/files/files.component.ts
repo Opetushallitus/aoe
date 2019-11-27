@@ -30,13 +30,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   fileUploadForm: FormGroup;
   submitted = false;
   modalRef: BsModalRef;
-  uploadResponse: UploadMessage = { status: '', message: 0 };
-  uploadError: string;
+  uploadResponses: UploadMessage[] = [];
 
   languageSubscription: Subscription;
   languages: Language[];
   uploadedFileSubscription: Subscription;
   uploadedFiles: UploadedFile[];
+  completedUploads = 0;
 
   materialId: number;
 
@@ -271,26 +271,26 @@ export class FilesComponent implements OnInit, OnDestroy {
         }).subscribe(
           () => {},
           (err) => console.error(err),
-          () => {
-            if (i === this.files.value.length - 1) {
-              this.router.navigate(['/lisaa-oppimateriaali', 2]);
-            }
-          },
+          () => this.completeUpload(),
         );
       } else {
         this.backendSvc.uploadFiles(formData).subscribe(
-          (res) => this.uploadResponse = res,
-          (err) => this.uploadError = err,
-          () => {
-            if (i === this.files.value.length - 1) {
-              this.router.navigate(['/lisaa-oppimateriaali', 2]);
-            }
-          },
+          (res) => this.uploadResponses[i] = res,
+          (err) => console.error(err),
+          () => this.completeUpload(),
         );
       }
 
       // @todo: if file.subtitles -> POST subtitles
     });
+  }
+
+  completeUpload(): void {
+    this.completedUploads++;
+
+    if (this.completedUploads === this.files.value.length) {
+      this.router.navigate(['/lisaa-oppimateriaali', 2]);
+    }
   }
 
   deleteFile(fileId: number): void {
@@ -320,8 +320,8 @@ export class FilesComponent implements OnInit, OnDestroy {
         formData.append('username', this.authSvc.getUser().username);
 
         this.backendSvc.uploadFiles(formData).subscribe(
-          (res) => this.uploadResponse = res,
-          (err) => this.uploadError = err,
+          () => {},
+          (err) => console.error(err),
           () => this.uploadFiles(),
         );
       } else {

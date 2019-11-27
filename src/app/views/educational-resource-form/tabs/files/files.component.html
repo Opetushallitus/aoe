@@ -298,16 +298,16 @@
     <button type="button" class="btn btn-gray" (click)="addFile()">{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
   </div>
 
-  <div class="form-group" *ngIf="uploadError">{{ uploadError.message }}</div>
+  <ng-container *ngFor="let response of uploadResponses">
+    <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
 
-  <div class="form-group" *ngIf="uploadResponse.status === 'error'">{{ uploadResponse.message }}</div>
-
-  <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-    <progressbar
-      max="100"
-      [value]="uploadResponse.message"
-    >{{ uploadResponse.message }}%</progressbar>
-  </div>
+    <div class="form-group" *ngIf="response.status === 'progress'">
+      <progressbar
+        max="100"
+        [value]="response.message"
+      >{{ response.message }}%</progressbar>
+    </div>
+  </ng-container>
 
   <ng-container *ngIf="uploadedFiles?.length > 0">
     <h3>Ladatut tiedostot</h3>
