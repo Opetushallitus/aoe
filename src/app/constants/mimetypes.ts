@@ -1,21 +1,21 @@
 export const mimeTypes = {
-  'video': [
+  video: [
     'application/x-troff-msvideo',
     'video/avi',
     'video/msvideo',
     'video/x-msvideo',
     'video/mp4',
   ],
-  'audio': [
+  audio: [
     'audio/mp3',
     'audio/mpeg',
     'audio/x-m4a',
     'audio/mp4',
   ],
-  'pdf': [
+  pdf: [
     'application/pdf',
   ],
-  'office': [
+  office: [
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.oasis.opendocument.text',
@@ -24,7 +24,7 @@ export const mimeTypes = {
     'application/vnd.oasis.opendocument.presentation',
     'application/rtf',
   ],
-  'image': [
+  image: [
     'image/bmp',
     'image/gif',
     'image/jpeg',
