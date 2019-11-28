@@ -22,6 +22,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --prod",
+    "build-demo": "ng build --configuration demo",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
