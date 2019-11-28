@@ -132,7 +132,7 @@ export class PreviewComponent implements OnInit {
         localStorage.removeItem(this.fileUploadLSKey);
 
         // redirect to new material
-        this.router.navigate(['/materiaali', this.fileUpload.id, this.savedData.slug.fi]);
+        this.router.navigate([ '/materiaali', this.fileUpload.id ]);
       });
     }
   }
