@@ -5,14 +5,14 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-based-on-details',
   templateUrl: './based-on-details.component.html',
 })
 export class BasedOnDetailsComponent implements OnInit {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
@@ -32,7 +32,7 @@ export class BasedOnDetailsComponent implements OnInit {
       this.lang = event.lang;
     });
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.basedOnDetailsForm = this.fb.group({
       // internals: this.fb.array([ this.createInternal() ]),
@@ -110,10 +110,14 @@ export class BasedOnDetailsComponent implements OnInit {
         },
       };
 
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), basedOnData);
+      const data = Object.assign(
+        {},
+        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
+        basedOnData
+      );
 
-      // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to session storage
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 7]);
     }
@@ -124,9 +128,9 @@ export class BasedOnDetailsComponent implements OnInit {
     // reset form values
     this.basedOnDetailsForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {
