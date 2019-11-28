@@ -32,9 +32,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
 
     this.routeSubscription = this.route.params.subscribe(params => {
-      this.specialId = +params['specialId'];
+      this.specialId = +params['materialId'];
 
-      this.backendSvc.getMaterial(+params['specialId']).subscribe(data => {
+      this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
         this.educationalMaterial = data;
         this.previewMaterial = this.educationalMaterial.materials[0];
       });
