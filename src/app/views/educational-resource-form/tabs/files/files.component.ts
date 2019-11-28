@@ -8,7 +8,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { BackendService } from '../../../../services/backend.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
@@ -20,7 +19,7 @@ import { UploadedFile } from '../../../../models/uploaded-file';
   templateUrl: './files.component.html',
 })
 export class FilesComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
@@ -77,7 +76,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     if (this.savedData) {
       if (this.savedData.name) {
@@ -85,8 +84,8 @@ export class FilesComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (localStorage.getItem(this.fileUploadLSKey) !== null) {
-      const fileUpload = getLocalStorageData(this.fileUploadLSKey);
+    if (sessionStorage.getItem(this.fileUploadLSKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.fileUploadLSKey));
 
       this.materialId = fileUpload.id;
 
@@ -293,12 +292,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (this.fileUploadForm.valid) {
       const data = Object.assign(
         {},
-        getLocalStorageData(this.localStorageKey),
+        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
         { name: this.fileUploadForm.get('name').value },
       );
 
       // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       if (!this.materialId) {
         const formData = new FormData();
@@ -322,8 +321,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     // reset form values
     this.fileUploadForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 }

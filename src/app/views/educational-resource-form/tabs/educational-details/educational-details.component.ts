@@ -6,7 +6,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { EducationalLevel } from '../../../../models/koodisto-proxy/educational-level';
 
@@ -15,7 +14,7 @@ import { EducationalLevel } from '../../../../models/koodisto-proxy/educational-
   templateUrl: './educational-details.component.html',
 })
 export class EducationalDetailsComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
@@ -75,7 +74,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateScienceBranches();
     });
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null, [ Validators.required ]),
@@ -709,8 +708,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         suitsAllSubjects
         );
 
-      // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to session storage
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 4]);
     }
@@ -723,9 +722,9 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     // reset form values
     this.educationalDetailsForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {

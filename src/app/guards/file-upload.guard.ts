@@ -23,7 +23,7 @@ export class FileUploadGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const tabId = +next.paramMap.get('tabId');
 
-    if (tabId > 1 && localStorage.getItem(this.localStorageKey) === null) {
+    if (tabId > 1 && sessionStorage.getItem(this.localStorageKey) === null) {
       this.router.navigate(['/lisaa-oppimateriaali', 1]);
       return false;
     } else {

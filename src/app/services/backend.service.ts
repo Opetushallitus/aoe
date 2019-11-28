@@ -5,7 +5,6 @@ import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
-import { getLocalStorageData } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { UploadMessage } from '../models/upload-message';
 import { AuthService } from './auth.service';
@@ -38,8 +37,8 @@ export class BackendService {
   uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
 
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       uploadUrl = `${this.backendUrl}/material/file/${fileUpload.id}`;
     } else {
@@ -60,16 +59,16 @@ export class BackendService {
             return { status: 'progress', message: progress };
 
           case HttpEventType.Response:
-            const fileUpload = getLocalStorageData(this.localStorageKey);
+            const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
             if (fileUpload !== null) {
               const response = {
                 id: fileUpload.id,
               };
 
-              localStorage.setItem(this.localStorageKey, JSON.stringify(response));
+              sessionStorage.setItem(this.localStorageKey, JSON.stringify(response));
             } else {
-              localStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
+              sessionStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
             }
 
             return { status: 'completed', message: event.body };
@@ -87,7 +86,7 @@ export class BackendService {
    * @param {json} data
    */
   postLinks(data: any): Observable<any> {
-    const fileUpload = getLocalStorageData(this.localStorageKey);
+    const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
     return this.http.post<any>(`${this.backendUrl}/material/link/${fileUpload.id}`, data, {
       headers: new HttpHeaders({
@@ -238,8 +237,8 @@ export class BackendService {
    * @returns {Observable<UploadMessage>} Upload message
    */
   uploadImage(data: { base64image: string }): Observable<UploadMessage> {
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${fileUpload.id}`, data, {
         headers: new HttpHeaders({
@@ -285,8 +284,8 @@ export class BackendService {
    * @param {number} fileId
    */
   deleteFile(fileId: number): Observable<any> {
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`);
     }

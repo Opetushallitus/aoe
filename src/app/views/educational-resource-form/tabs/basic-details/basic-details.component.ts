@@ -9,7 +9,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem } from '../../../../shared/shared.module';
 import { BackendService } from '../../../../services/backend.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { LearningResourceType } from '../../../../models/koodisto-proxy/learning-resource-type';
@@ -21,7 +21,7 @@ import { EducationalUse } from '../../../../models/koodisto-proxy/educational-us
   templateUrl: './basic-details.component.html',
 })
 export class BasicDetailsComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
@@ -105,7 +105,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalUses();
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.basicDetailsForm = this.fb.group({
       keywords: this.fb.control(null, [ Validators.required ]),
@@ -234,10 +234,14 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     if (this.basicDetailsForm.valid && this.authors.length > 0) {
-      const data = Object.assign({}, getLocalStorageData(this.localStorageKey), this.basicDetailsForm.value);
+      const data = Object.assign(
+        {},
+        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
+        this.basicDetailsForm.value
+      );
 
-      // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to session storage
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 3]);
     } else {
@@ -249,9 +253,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     // reset form values
     this.basicDetailsForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {
