@@ -558,7 +558,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
             source: subject.source,
             alignmentType: subject.alignmentType,
             educationalFramework: this.basicStudyFramework.value,
-            targetName: subject.targetName
+            targetName: subject.targetName,
+            targetUrl: subject.targetUrl,
           });
         });
 
@@ -569,7 +570,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
               source: objective.source,
               alignmentType: objective.alignmentType,
               educationalFramework: this.basicStudyFramework.value,
-              targetName: objective.targetName
+              targetName: objective.targetName,
+              targetUrl: objective.targetUrl,
             });
           });
         }
@@ -581,7 +583,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
               source: content.source,
               alignmentType: content.alignmentType,
               educationalFramework: this.basicStudyFramework.value,
-              targetName: content.targetName
+              targetName: content.targetName,
+              targetUrl: content.targetUrl,
             });
           });
         }
