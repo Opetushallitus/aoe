@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -38,15 +39,18 @@ export class AuthService {
 
   /**
    * Retrieves user data from backend.
+   * @returns {Observable<Userdata>}
    */
-  setUserdata(): void {
-    this.http.get<Userdata>(`${this.backendUrl}/userdata`, {
+  setUserdata(): Observable<Userdata> {
+    return this.http.get<Userdata>(`${this.backendUrl}/userdata`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
     }).pipe(
-      map(res => {
+      map((res): Userdata => {
         sessionStorage.setItem(this.userdataKey, JSON.stringify(res));
+
+        return res;
       }),
     );
   }
