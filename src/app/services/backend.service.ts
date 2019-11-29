@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
 import { EducationalMaterial } from '../models/educational-material';
 import { UploadMessage } from '../models/upload-message';
 import { AuthService } from './auth.service';
-import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
