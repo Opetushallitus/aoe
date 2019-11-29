@@ -195,9 +195,9 @@ export class BackendService {
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
   getUserMaterialList(): Observable<EducationalMaterialList[]> {
-    const user = this.authSvc.getUser();
+    const user = this.authSvc.getUserdata();
 
-    return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
+    return this.http.get<any>(`${this.backendUrl}/material/user/${user.email}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
