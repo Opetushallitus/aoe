@@ -6,16 +6,16 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { EducationalLevel } from '../../../../models/koodisto-proxy/educational-level';
+import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
 
 @Component({
   selector: 'app-tabs-educational-details',
   templateUrl: './educational-details.component.html',
 })
 export class EducationalDetailsComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
@@ -30,13 +30,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   hasVocationalDegree = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
-  private earlyChildhoodEducationKeys: string[];
-  private prePrimaryEducationKeys: string[];
-  private basicStudyKeys: string[];
-  private upperSecondarySchoolKeys: string[];
-  private vocationalDegreeKeys: string[];
-  private selfMotivatedEducationKeys: string[];
-  private higherEducationKeys: string[];
 
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
@@ -75,7 +68,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateScienceBranches();
     });
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.educationalDetailsForm = this.fb.group({
       educationalLevels: this.fb.control(null, [ Validators.required ]),
@@ -148,45 +141,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.scienceBranches = scienceBranches;
       });
     this.koodistoProxySvc.updateScienceBranches();
-
-    this.earlyChildhoodEducationKeys = [
-      '8e7b8440-286d-4cc9-ad99-9fe288107535',
-    ];
-
-    this.prePrimaryEducationKeys = [
-      '3ff553ba-a4d7-407c-ad00-80e54ecebd16',
-    ];
-
-    this.basicStudyKeys = [
-      '8cb1a02f-54cb-499a-b470-4ee980519707',
-      '5410475a-a2fb-46d7-9eb4-c572b5d92dbb',
-      '7eb3d5be-0575-44db-ab8a-883cf0ae2f26',
-      '75e8bed1-b965-483d-8ba4-48a5614c69ba',
-      'a2a70a14-b150-4f37-9e20-2bbb71731807',
-      '14fe3b08-8516-4999-946b-96eb90c2d563',
-    ];
-
-    this.upperSecondarySchoolKeys = [
-      '94f79e1e-10e6-483d-b651-27521f94f7bf',
-      'fd362a80-9662-48b8-acd1-d8cef520530c',
-    ];
-
-    this.vocationalDegreeKeys = [
-      '010c6689-5021-4d8e-8c02-68a27cc5a87b',
-      '55c5d6a2-8415-47bc-9d15-7b976b0e999c',
-      'da5b8f43-5fc9-4681-812b-40846926f3fd',
-    ];
-
-    this.selfMotivatedEducationKeys = [
-      'bc25d0e7-3c68-49a1-9329-239dae01fab7',
-    ];
-
-    this.higherEducationKeys = [
-      'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',
-      'ff3334db-2a71-4459-8f0d-c42ce2b12a70',
-      '9c14f097-68e3-4e6b-a772-71a44442f72f',
-      '7c722ac4-f06c-4f2a-a41f-b0c5aa10070a',
-    ];
 
     if (this.savedData) {
       if (this.savedData.educationalLevels) {
@@ -452,23 +406,23 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   educationalLevelsChange(value): void {
-    this.hasEarlyChildhoodEducation = value.filter((e: any) => this.earlyChildhoodEducationKeys.includes(e.key)).length > 0;
+    this.hasEarlyChildhoodEducation = value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
 
-    this.hasPrePrimaryEducation = value.filter((e: any) => this.prePrimaryEducationKeys.includes(e.key)).length > 0;
+    this.hasPrePrimaryEducation = value.filter((e: any) => educationalLevelKeys.prePrimary.includes(e.key)).length > 0;
 
-    this.hasBasicStudies = value.filter((e: any) => this.basicStudyKeys.includes(e.key)).length > 0;
+    this.hasBasicStudies = value.filter((e: any) => educationalLevelKeys.basicStudy.includes(e.key)).length > 0;
 
     if (this.hasBasicStudies === false) {
       this.hasBasicStudySubjects = false;
     }
 
-    this.hasUpperSecondarySchool = value.filter((e: any) => this.upperSecondarySchoolKeys.includes(e.key)).length > 0;
+    this.hasUpperSecondarySchool = value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
 
-    this.hasVocationalDegree = value.filter((e: any) => this.vocationalDegreeKeys.includes(e.key)).length > 0;
+    this.hasVocationalDegree = value.filter((e: any) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
 
-    this.hasSelfMotivatedEducation = value.filter((e: any) => this.selfMotivatedEducationKeys.includes(e.key)).length > 0;
+    this.hasSelfMotivatedEducation = value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
 
-    this.hasHigherEducation = value.filter((e: any) => this.higherEducationKeys.includes(e.key)).length > 0;
+    this.hasHigherEducation = value.filter((e: any) => educationalLevelKeys.higherEducation.includes(e.key)).length > 0;
   }
 
   basicStudySubjectsChange(value): void {
@@ -709,8 +663,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         suitsAllSubjects
         );
 
-      // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to session storage
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 4]);
     }
@@ -723,9 +677,9 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     // reset form values
     this.educationalDetailsForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {
