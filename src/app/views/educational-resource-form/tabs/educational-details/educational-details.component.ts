@@ -61,8 +61,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateBasicStudySubjects();
-      // this.koodistoProxySvc.updateBasicStudyObjectives();
-      // this.koodistoProxySvc.updateBasicStudyContents();
       this.koodistoProxySvc.updateUpperSecondarySchoolSubjects();
       this.koodistoProxySvc.updateVocationalDegrees();
       this.koodistoProxySvc.updateScienceBranches();
