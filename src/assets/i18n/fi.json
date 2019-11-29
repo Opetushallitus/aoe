@@ -440,5 +440,9 @@
   },
   "footer": {
     "developer": "Palvelun tuottaja"
+  },
+  "cookies": {
+    "cookieSettings": "Evästeasetukset",
+    "title": "Evästeasetukset"
   }
 }
