@@ -62,6 +62,14 @@ export class AppComponent implements OnInit {
       });
     }
 
+    // only for local developing
+    /*if (!this.cookies.check('connect.sid')) {
+      this.cookies.set(
+        'connect.sid',
+        's%3AautUI_ECizqxJu72PB5IuTP8wTtWX4hR.YELLXv2XQDCDCWfVqiZnna%2BsuOKiPFtDB714hDKCTyw',
+      );
+    }*/
+
     if (this.cookies.check('connect.sid') && !this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
     }
