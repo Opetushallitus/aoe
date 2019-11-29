@@ -11,7 +11,7 @@ export class CredentialInterceptor implements HttpInterceptor {
   ) { }
 
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authSvc.sessionIsLogged()) {
+    if (this.authSvc.isLogged()) {
       req = req.clone({
         withCredentials: true,
       });
