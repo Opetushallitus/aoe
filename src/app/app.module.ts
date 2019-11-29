@@ -33,7 +33,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -105,7 +104,6 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
-    PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ProgressbarModule.forRoot(),
     ImageCropperModule,
