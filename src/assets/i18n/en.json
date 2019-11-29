@@ -440,5 +440,9 @@
   },
   "footer": {
     "developer": "Developer of the service"
+  },
+  "cookies": {
+    "cookieSettings": "Cookie settings",
+    "title": "Cookie settings"
   }
 }

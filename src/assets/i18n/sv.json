@@ -440,5 +440,9 @@
   },
   "footer": {
     "developer": "Utvecklare av tjänsten"
+  },
+  "cookies": {
+    "cookieSettings": "Inställningar för cookies",
+    "title": "Inställningar för cookies"
   }
 }
