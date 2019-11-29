@@ -57,15 +57,6 @@ export function getLanguage(): string | null {
 }
 
 /**
- * Returns JSON parsed data from localStorage.
- * @param {string} localStorageKey
- * @returns JSON object
- */
-export function getLocalStorageData(localStorageKey: string): any {
-  return JSON.parse(localStorage.getItem(localStorageKey));
-}
-
-/**
  * Returns given string in Key Value object.
  * @param {string} value
  * @returns {KeyValue<string, string>}

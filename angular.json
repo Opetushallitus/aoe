@@ -70,6 +70,23 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "demo": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.demo.ts"
+                }
+              ]
             }
           }
         },
@@ -81,6 +98,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng:build:production"
+            },
+            "demo": {
+              "browserTarget": "ng:build:demo"
             }
           }
         },

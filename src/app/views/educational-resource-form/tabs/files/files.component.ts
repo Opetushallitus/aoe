@@ -4,12 +4,10 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import slugify from 'slugify';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { BackendService } from '../../../../services/backend.service';
-import { getLocalStorageData } from '../../../../shared/shared.module';
 import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
@@ -21,7 +19,7 @@ import { UploadedFile } from '../../../../models/uploaded-file';
   templateUrl: './files.component.html',
 })
 export class FilesComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
@@ -57,11 +55,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      slug: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
-      }),
       files: this.fb.array([
         this.createFile(),
         this.createFile(),
@@ -83,20 +76,16 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     if (this.savedData) {
       if (this.savedData.name) {
         this.fileUploadForm.get('name').patchValue(this.savedData.name);
       }
-
-      if (this.savedData.slug) {
-        this.fileUploadForm.get('slug').patchValue(this.savedData.slug);
-      }
     }
 
-    if (localStorage.getItem(this.fileUploadLSKey) !== null) {
-      const fileUpload = getLocalStorageData(this.fileUploadLSKey);
+    if (sessionStorage.getItem(this.fileUploadLSKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.fileUploadLSKey));
 
       this.materialId = fileUpload.id;
 
@@ -180,11 +169,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     );
   }
 
-  // @todo: move slug creation to backend
-  updateSlug(value, lang): void {
-    this.fileUploadForm.get(`slug.${lang}`).setValue(slugify(value.target.value).toLowerCase());
-  }
-
   onFileChange(event, i): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -264,7 +248,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       }));
 
       if (file.link) {
-        this.backendSvc.postLinks(this.materialId, {
+        this.backendSvc.postLinks({
           link: file.link,
           displayName: file.displayName,
           language: file.language,
@@ -308,12 +292,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (this.fileUploadForm.valid) {
       const data = Object.assign(
         {},
-        getLocalStorageData(this.localStorageKey),
-        this.fileUploadForm.value,
+        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
+        { name: this.fileUploadForm.get('name').value },
       );
 
       // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       if (!this.materialId) {
         const formData = new FormData();
@@ -337,8 +321,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     // reset form values
     this.fileUploadForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 }

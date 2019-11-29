@@ -6,7 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { getLocalStorageData, addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { AccessibilityFeature } from '../../../../models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '../../../../models/koodisto-proxy/accessibility-hazard';
@@ -16,7 +16,7 @@ import { AccessibilityHazard } from '../../../../models/koodisto-proxy/accessibi
   templateUrl: './extended-details.component.html',
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
@@ -47,7 +47,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateAccessibilityHazards();
     });
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.extendedDetailsForm = this.fb.group({
       accessibilityFeatures: this.fb.control(null),
@@ -146,13 +146,13 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
       const data = Object.assign(
         {},
-        getLocalStorageData(this.localStorageKey),
+        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
         this.extendedDetailsForm.value,
         { alignmentObjects: this.alignmentObjects }
       );
 
-      // save data to local storage
-      localStorage.setItem(this.localStorageKey, JSON.stringify(data));
+      // save data to session storage
+      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 5]);
     }
@@ -162,9 +162,9 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     // reset form values
     this.extendedDetailsForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {

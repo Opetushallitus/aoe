@@ -22,6 +22,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --prod",
+    "build-demo": "ng build --configuration demo",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -54,7 +55,6 @@
     "node-sass": "^4.12.0",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.3",
-    "slugify": "^1.3.6",
     "ts-helpers": "^1.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
