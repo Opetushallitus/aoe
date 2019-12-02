@@ -76,6 +76,11 @@ export class AuthService {
    * @returns {Observable<string>}
    */
   updateAcceptance(): Observable<string> {
+    const userdata = this.getUserdata();
+    userdata.termsofusage = true;
+
+    sessionStorage.setItem(this.userdataKey, JSON.stringify(userdata));
+
     return this.http.put<any>(`${this.backendUrl}/termsofusage/1`, null);
   }
 
