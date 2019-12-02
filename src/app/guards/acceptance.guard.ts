@@ -25,8 +25,7 @@ export class AcceptanceGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user: Userdata = this.authSvc.getUserdata();
 
-    // if (!user || (user && user.acceptance === true)) {
-    if (!user) {
+    if (!user || (user && user.termsofusage === true)) {
       return true;
     }
 
