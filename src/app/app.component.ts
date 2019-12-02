@@ -7,6 +7,7 @@ import { CookieService as Cookies } from 'ngx-cookie-service';
 import { getLanguage, setLanguage } from './shared/shared.module';
 import { CookieService } from './services/cookie.service';
 import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment';
 
 @Component({
   // tslint:disable-next-line
@@ -14,6 +15,8 @@ import { AuthService } from './services/auth.service';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
+  sessionCookie = environment.sessionCookie;
+
   constructor(
     private router: Router,
     private translate: TranslateService,
@@ -66,12 +69,18 @@ export class AppComponent implements OnInit {
     /*if (!this.cookies.check('connect.sid')) {
       this.cookies.set(
         'connect.sid',
-        's%3AautUI_ECizqxJu72PB5IuTP8wTtWX4hR.YELLXv2XQDCDCWfVqiZnna%2BsuOKiPFtDB714hDKCTyw',
+        's%3AMXp6vcXQYz7UnptqGlzo0HHQXHz6tWKE.n8aMNPijZ%2BbOJFbv7nyfkcUcLNwykgNwUCB%2F1wL2EaI',
       );
     }*/
 
-    if (this.cookies.check('connect.sid') && !this.authSvc.hasUserdata()) {
+    // user is logged in, retrieve user data
+    if (this.cookies.check(this.sessionCookie) && !this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
+    }
+
+    // login has expired, remove user data
+    if (!this.cookies.check(this.sessionCookie) && this.authSvc.hasUserdata()) {
+      this.authSvc.logout();
     }
   }
 
