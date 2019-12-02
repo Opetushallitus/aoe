@@ -81,7 +81,7 @@ export class AuthService {
 
     sessionStorage.setItem(this.userdataKey, JSON.stringify(userdata));
 
-    return this.http.put<any>(`${this.backendUrl}/termsofusage/1`, null);
+    return this.http.put<any>(`${this.backendUrl}/termsofusage`, null);
   }
 
   /**
