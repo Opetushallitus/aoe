@@ -73,10 +73,10 @@ export class AuthService {
 
   /**
    * Updates acceptance.
-   * @param {boolean} acceptance
+   * @returns {Observable<string>}
    */
-  updateAcceptance(acceptance: boolean): void {
-    // @todo: call backend
+  updateAcceptance(): Observable<string> {
+    return this.http.put<any>(`${this.backendUrl}/termsofusage/1`, null);
   }
 
   /**
