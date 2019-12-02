@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     }
 
     // only for local developing
-    /*if (!this.cookies.check('connect.sid')) {
+    /*if (!this.authSvc.isLogged()) {
       this.cookies.set(
         'connect.sid',
         's%3AMXp6vcXQYz7UnptqGlzo0HHQXHz6tWKE.n8aMNPijZ%2BbOJFbv7nyfkcUcLNwykgNwUCB%2F1wL2EaI',
@@ -74,12 +74,12 @@ export class AppComponent implements OnInit {
     }*/
 
     // user is logged in, retrieve user data
-    if (this.cookies.check(this.sessionCookie) && !this.authSvc.hasUserdata()) {
+    if (this.authSvc.isLogged() && !this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
     }
 
     // login has expired, remove user data
-    if (!this.cookies.check(this.sessionCookie) && this.authSvc.hasUserdata()) {
+    if (!this.authSvc.isLogged() && this.authSvc.hasUserdata()) {
       this.authSvc.logout();
     }
   }
