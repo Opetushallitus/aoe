@@ -14,7 +14,7 @@
       (click)="logout()"
       *ngIf="authSvc.isLogged()"
     >
-      {{ authSvc.getUserdata()?.name }} - {{ 'common.logout' | translate }}
+      {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
     </button>
   </li>
 </ul>

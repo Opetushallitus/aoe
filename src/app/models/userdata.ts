@@ -1,5 +1,8 @@
 export interface Userdata {
-  uid: string;
-  name: string;
-  email: string;
+  userdata: {
+    uid: string;
+    name: string;
+    email: string;
+  };
+  termsofusage: boolean;
 }
