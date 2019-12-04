@@ -301,7 +301,7 @@ router.get("/lukio-moduulit/:lang", getLukionModuulit);
  * Returns all lukio-tavoitteet from redis database by given ids and language
  * @group Lukio (uusi ops)
  * @route GET /lukio-tavoitteet/{ids}/{lang}
- * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} ids.path.required - List of upper secondary school module ids, separated by comma
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
@@ -310,7 +310,7 @@ router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
  * Returns all lukio-sisallot from redis database by given ids and language
  * @group Lukio (uusi ops)
  * @route GET /lukio-sisallot/{ids}/{lang}
- * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} ids.path.required - List of upper secondary school module ids, separated by comma
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukio-sisallot/:ids/:lang", getLukionSisallot);
