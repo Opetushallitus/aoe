@@ -6,10 +6,10 @@ import { sortByTargetName } from "../util/data.utils";
 import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "perusteet";
-const rediskeySubjects = "oppiaineet";
-const rediskeyModules = "moduulit";
-const rediskeyObjectives = "tavoitteet";
-const rediskeyContents = "sisallot";
+const rediskeySubjects = "lukio-uusi-oppiaineet";
+const rediskeyModules = "lukio-uusi-moduulit";
+const rediskeyObjectives = "lukio-uusi-tavoitteet";
+const rediskeyContents = "lukio-uusi-sisallot";
 const params = "6828810/lops2019/oppiaineet";
 
 export async function setLukionOppiaineet(): Promise<any> {
