@@ -16,6 +16,7 @@ import { setAmmatillisenTutkinnot } from "../controllers/ammatillisen-tutkinnot"
 import { setPerusopetuksenOppiaineet } from "../controllers/perusopetuksen-oppiaineet";
 import { setLisenssit } from "../controllers/lisenssit";
 import { setLukionkurssit } from "../controllers/lukionkurssit";
+import { setLukionModuulit, setLukionOppiaineet, setLukionTavoitteetSisallot } from "../controllers/lukio";
 
 export const client = redis.createClient(process.env.REDIS_URL);
 export const getAsync = promisify(client.get).bind(client);
@@ -37,4 +38,7 @@ export async function updateRedis(): Promise<any> {
   await setPerusopetuksenOppiaineet();
   await setLisenssit();
   await setLukionkurssit();
+  await setLukionOppiaineet();
+  await setLukionModuulit();
+  await setLukionTavoitteetSisallot();
 }

@@ -22,6 +22,7 @@ import {
 } from "./controllers/perusopetuksen-oppiaineet";
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
+import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
 
 const router: Router = Router();
 
@@ -238,7 +239,7 @@ router.get("/oppiaineet/:lang", getPerusopetuksenOppiaineet);
 router.get("/tavoitteet/:ids/:lang", getPerusopetuksenTavoitteet);
 
 /**
- * Returns all sisaltoalueet from redis database by given language
+ * Returns all sisaltoalueet from redis database by given ids and language
  * @group Perusopetus
  * @route GET /sisaltoalueet/{ids}/{lang}
  * @param {string} ids.path.required - List of basic study subject ids, separated by comma
@@ -279,5 +280,39 @@ router.get("/lukionkurssit/:lang", getLukionkurssit);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukionkurssit/:key/:lang", getLukionkurssi);
+
+/**
+ * Returns all lukio-oppiaineet from redis database by given language
+ * @group Lukio (uusi ops)
+ * @route GET /lukio-oppiaineet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-oppiaineet/:lang", getLukionOppiaineet);
+
+/**
+ * Returns all lukio-moduulit from redis database by given language
+ * @group Lukio (uusi ops)
+ * @route GET /lukio-moduulit/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-moduulit/:lang", getLukionModuulit);
+
+/**
+ * Returns all lukio-tavoitteet from redis database by given ids and language
+ * @group Lukio (uusi ops)
+ * @route GET /lukio-tavoitteet/{ids}/{lang}
+ * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
+
+/**
+ * Returns all lukio-sisallot from redis database by given ids and language
+ * @group Lukio (uusi ops)
+ * @route GET /lukio-sisallot/{ids}/{lang}
+ * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-sisallot/:ids/:lang", getLukionSisallot);
 
 export default router;
