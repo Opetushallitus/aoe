@@ -23,6 +23,7 @@ import {
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
+import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot } from "./controllers/ammattikoulu";
 
 const router: Router = Router();
 
@@ -315,5 +316,22 @@ router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukio-sisallot/:ids/:lang", getLukionSisallot);
+
+/**
+ * Returns all ammattikoulu-tutkinnot from redis database by given language
+ * @group Ammattikoulu
+ * @route GET /ammattikoulu-tutkinnot/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammattikoulu-tutkinnot/:lang", getAmmattikoulunTutkinnot);
+
+/**
+ * Returns all ammattikoulu-tutkinnon-osat from redis database by given ids and language
+ * @group Ammattikoulu
+ * @route GET /ammattikoulu-tutkinnon-osat/{ids}/{lang}
+ * @param {string} ids.path.required - List of vocational degree ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammattikoulu-tutkinnon-osat/:ids/:lang", getAmmattikoulunTutkinnonOsat);
 
 export default router;
