@@ -8,8 +8,8 @@
  */
 export const environment = {
   production: false,
-  // backendUrl: 'https://demo.aoe.fi/api', // demo
-  backendUrl: 'https://aoe.fi/api', // prod
+  backendUrl: 'https://demo.aoe.fi/api', // demo
+  // backendUrl: 'https://aoe.fi/api', // prod
   fileUploadLSKey: 'aoe.fileUpload',
   newERLSKey: 'aoe.new-educational-resource',
   koodistoUrl: 'https://koodisto.aoe.fi/api/v1',
