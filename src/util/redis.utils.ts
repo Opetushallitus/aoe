@@ -11,8 +11,6 @@ import { setKielet } from "../controllers/kielet";
 import { setOrganisaatiot } from "../controllers/organisaatiot";
 import { setTieteenalat } from "../controllers/tieteenalat";
 import { setOppimateriaalityypit } from "../controllers/oppimateriaalityypit";
-// import { setAmmatillisenTutkinnonosat } from "../controllers/ammatillisen-tutkinnonosat";
-import { setAmmatillisenTutkinnot } from "../controllers/ammatillisen-tutkinnot";
 import { setPerusopetuksenOppiaineet } from "../controllers/perusopetuksen-oppiaineet";
 import { setLisenssit } from "../controllers/lisenssit";
 import { setLukionkurssit } from "../controllers/lukionkurssit";
@@ -34,8 +32,6 @@ export async function updateRedis(): Promise<any> {
   await setOrganisaatiot();
   await setTieteenalat();
   await setOppimateriaalityypit();
-  // await setAmmatillisenTutkinnonosat();
-  await setAmmatillisenTutkinnot();
   await setPerusopetuksenOppiaineet();
   await setLisenssit();
   await setLukionkurssit();
