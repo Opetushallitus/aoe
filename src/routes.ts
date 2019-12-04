@@ -13,8 +13,6 @@ import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
-// import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
-import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
 import {
   getPerusopetuksenOppiaineet,
   getPerusopetuksenSisaltoalueet,
@@ -187,40 +185,6 @@ router.get("/kielet/:lang", getKielet);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/kielet/:key/:lang", getKieli);
-
-/**
- * Returns all ammatillisentutkinnonosat from redis database by given language
- * @group Ammatillisen tutkinnonosat
- * @route GET /ammatillisentutkinnonosat/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-// router.get("/ammatillisentutkinnonosat/:lang", getAmmatillisenTutkinnonosat);
-
-/**
- * Returns single ammatillisen tutkinnonosa from redis database by given id and language
- * @group Ammatillisen tutkinnonosat
- * @route GET /ammatillisentutkinnonosat/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-// router.get("/ammatillisentutkinnonosat/:key/:lang", getAmmatillisenTutkinnonosa);
-
-/**
- * Returns all ammatillisentutkinnot from redis database by given language
- * @group Ammatillisen tutkinnot
- * @route GET /ammatillisentutkinnot/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/ammatillisentutkinnot/:lang", getAmmatillisenTutkinnot);
-
-/**
- * Returns single ammatillisen tutkinto from redis database by given id and language
- * @group Ammatillisen tutkinnot
- * @route GET /ammatillisentutkinnot/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/ammatillisentutkinnot/:key/:lang", getAmmatillisenTutkinto);
 
 /**
  * Returns all oppiaineet from redis database by given language
