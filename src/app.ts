@@ -2,7 +2,6 @@ import express from "express";
 import compression from "compression"; // compress requests
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
-import session from "express-session";
 import cron from "node-cron";
 
 import router from "./routes";
@@ -14,15 +13,6 @@ const app = express();
 const expressSwagger = require("express-swagger-generator")(app);
 
 // Configuration
-app.use(session({
-  cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-  },
-  resave: false,
-  saveUninitialized: true,
-  secret: "ygDe7*1d@Z%PJLXE6FBGli5mN!%v^E",
-  // store: new RedisStore(),
-}));
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
