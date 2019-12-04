@@ -290,12 +290,13 @@ router.get("/lukionkurssit/:key/:lang", getLukionkurssi);
 router.get("/lukio-oppiaineet/:lang", getLukionOppiaineet);
 
 /**
- * Returns all lukio-moduulit from redis database by given language
+ * Returns all lukio-moduulit from redis database by given ids and language
  * @group Lukio (uusi ops)
+ * @param {string} ids.path.required - List of upper secondary school subject ids, separated by comma
  * @route GET /lukio-moduulit/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
-router.get("/lukio-moduulit/:lang", getLukionModuulit);
+router.get("/lukio-moduulit/:ids/:lang", getLukionModuulit);
 
 /**
  * Returns all lukio-tavoitteet from redis database by given ids and language
