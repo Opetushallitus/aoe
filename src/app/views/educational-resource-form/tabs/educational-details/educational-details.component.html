@@ -286,73 +286,179 @@
     <h3>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="upperSecondarySchoolSubjects">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</label>
-
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-      <ng-select
-        [items]="upperSecondarySchoolSubjects"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="targetName"
-        id="upperSecondarySchoolSubjects"
-        formControlName="upperSecondarySchoolSubjects"
-      ></ng-select>
-    </div>
-
-    <div class="form-group">
       <div class="custom-control custom-checkbox">
         <input
           type="checkbox"
           class="custom-control-input"
-          id="suitsAllUpperSecondarySubjects"
-          formControlName="suitsAllUpperSecondarySubjects"
+          id="currentUpperSecondarySchoolSelected"
+          (change)="currentUpperSecondarySchoolSelectedChange($event)"
         >
 
-        <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label>
+        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">Nykyinen</label>
+      </div>
+
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="newUpperSecondarySchoolSelected"
+          (change)="newUpperSecondarySchoolSelectedChange($event)"
+        >
+
+        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">Uusi</label>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="upperSecondarySchoolObjectives">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</label>
+    <ng-container *ngIf="currentUpperSecondarySchoolSelected">
+      <h4>Nykyinen</h4>
 
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      <div class="form-group">
+        <label for="upperSecondarySchoolSubjects">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addUpperSecondarySchoolObjective"
-        bindLabel="targetName"
-        id="upperSecondarySchoolObjectives"
-        formControlName="upperSecondarySchoolObjectives"
-      >
-      </ng-select>
-    </div>
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-    <div class="form-group">
-      <label for="upperSecondarySchoolFramework">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label>
+        <ng-select
+          [items]="upperSecondarySchoolSubjects"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          id="upperSecondarySchoolSubjects"
+          formControlName="upperSecondarySchoolSubjects"
+        ></ng-select>
+      </div>
 
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="suitsAllUpperSecondarySubjects"
+            formControlName="suitsAllUpperSecondarySubjects"
+          >
 
-      <input
-        type="text"
-        class="form-control"
-        id="upperSecondarySchoolFramework"
-        formControlName="upperSecondarySchoolFramework"
-      >
-    </div>
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolObjectives">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <ng-select
+          [items]="[]"
+          [multiple]="true"
+          [addTag]="addUpperSecondarySchoolObjective"
+          bindLabel="targetName"
+          id="upperSecondarySchoolObjectives"
+          formControlName="upperSecondarySchoolObjectives"
+        >
+        </ng-select>
+      </div>
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolFramework">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <input
+          type="text"
+          class="form-control"
+          id="upperSecondarySchoolFramework"
+          formControlName="upperSecondarySchoolFramework"
+        >
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="newUpperSecondarySchoolSelected">
+      <h4>Uusi</h4>
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolSubjectsNew">Oppiaine</label>
+
+        <ng-select
+          [items]="upperSecondarySchoolSubjectsNew"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          id="upperSecondarySchoolSubjectsNew"
+          formControlName="upperSecondarySchoolSubjectsNew"
+          (change)="upperSecondarySchoolSubjectsNewChange($event)"
+        ></ng-select>
+      </div>
+
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="suitsAllUpperSecondarySubjectsNew"
+            formControlName="suitsAllUpperSecondarySubjectsNew"
+          >
+
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label>
+        </div>
+      </div>
+
+      <ng-container *ngIf="hasUpperSecondarySchoolSubjectsNew">
+        <div class="form-group">
+          <label for="upperSecondarySchoolModulesNew">Moduuli</label>
+
+          <ng-select
+            [items]="upperSecondarySchoolModulesNew"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="targetName"
+            groupBy="parent"
+            id="upperSecondarySchoolModulesNew"
+            formControlName="upperSecondarySchoolModulesNew"
+            (change)="upperSecondarySchoolModulesNewChange($event)"
+          ></ng-select>
+        </div>
+
+        <ng-container *ngIf="hasUpperSecondarySchoolModulesNew">
+          <div class="form-group">
+            <label for="upperSecondarySchoolObjectivesNew">Tavoite</label>
+
+            <ng-select
+              [items]="upperSecondarySchoolObjectivesNew"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              bindLabel="targetName"
+              groupBy="parent"
+              id="upperSecondarySchoolObjectivesNew"
+              formControlName="upperSecondarySchoolObjectivesNew"
+            ></ng-select>
+          </div>
+
+          <div class="form-group">
+            <label for="upperSecondarySchoolContentsNew">Sisältö</label>
+
+            <ng-select
+              [items]="upperSecondarySchoolContentsNew"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              bindLabel="targetName"
+              groupBy="parent"
+              id="upperSecondarySchoolContentsNew"
+              formControlName="upperSecondarySchoolContentsNew"
+            ></ng-select>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
   </ng-container>
 
   <ng-container *ngIf="hasVocationalDegree">
