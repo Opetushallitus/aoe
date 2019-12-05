@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Language } from '../models/koodisto-proxy/language';
@@ -29,7 +29,6 @@ export class KoodistoProxyService {
   };
 
   public languages$ = new Subject<Language[]>();
-  public defaultLanguage$ = new Subject<Language>();
   public learningResourceTypes$ = new Subject<LearningResourceType[]>();
   public educationalRoles$ = new Subject<EducationalRole[]>();
   public educationalUses$ = new Subject<EducationalUse[]>();
@@ -45,6 +44,10 @@ export class KoodistoProxyService {
   public licenses$ = new Subject<License[]>();
   public keywords$ = new Subject<KeyValue<string, string>[]>();
   public organizations$ = new Subject<KeyValue<string, string>[]>();
+  public upperSecondarySchoolSubjectsNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolModulesNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolObjectivesNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolContentsNew$ = new Subject<AlignmentObjectExtended[]>();
 
   constructor(
     private http: HttpClient,
@@ -242,6 +245,57 @@ export class KoodistoProxyService {
     this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
       .subscribe((organizations: KeyValue<string, string>[]) => {
         this.organizations$.next(organizations);
+      });
+  }
+
+  /**
+   * Updates upper secondary school subjects (new).
+   */
+  updateUpperSecondarySchoolSubjectsNew(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-oppiaineet/${lang}`, this.httpOptions)
+      .subscribe((subjects: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolSubjectsNew$.next(subjects);
+      });
+  }
+
+  /**
+   * Updates upper secondary school modules (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolModulesNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-moduulit/${ids}/${lang}`, this.httpOptions)
+      .subscribe((modules: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolModulesNew$.next(modules);
+      });
+  }
+
+  /**
+   * Updates upper secondary school objectives (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolObjectivesNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-tavoitteet/${ids}/${lang}`, this.httpOptions)
+      .subscribe((objectives: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolObjectivesNew$.next(objectives);
+      });
+  }
+
+  /**
+   * Updates upper secondary school contents (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolContentsNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-sisallot/${ids}/${lang}`, this.httpOptions)
+      .subscribe((contents: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolContentsNew$.next(contents);
       });
   }
 }

@@ -27,6 +27,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   hasBasicStudies = false;
   hasBasicStudySubjects = false;
   hasUpperSecondarySchool = false;
+  currentUpperSecondarySchoolSelected = false;
+  newUpperSecondarySchoolSelected = false;
+  hasUpperSecondarySchoolSubjectsNew = false;
+  hasUpperSecondarySchoolModulesNew = false;
   hasVocationalDegree = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
@@ -45,6 +49,14 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalDegrees: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectNewSubscription: Subscription;
+  upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
+  upperSecondarySchoolModuleNewSubscription: Subscription;
+  upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectiveNewSubscription: Subscription;
+  upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolContentNewSubscription: Subscription;
+  upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -61,11 +73,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateBasicStudySubjects();
-      // this.koodistoProxySvc.updateBasicStudyObjectives();
-      // this.koodistoProxySvc.updateBasicStudyContents();
       this.koodistoProxySvc.updateUpperSecondarySchoolSubjects();
       this.koodistoProxySvc.updateVocationalDegrees();
       this.koodistoProxySvc.updateScienceBranches();
+      this.koodistoProxySvc.updateUpperSecondarySchoolSubjectsNew();
     });
 
     this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
@@ -100,6 +111,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
       higherEducationFramework: this.fb.control(null),
+      upperSecondarySchoolSubjectsNew: this.fb.control(null),
+      upperSecondarySchoolModulesNew: this.fb.control(null),
+      upperSecondarySchoolObjectivesNew: this.fb.control(null),
+      upperSecondarySchoolContentsNew: this.fb.control(null),
+      suitsAllUpperSecondarySubjectsNew: this.fb.control(false),
     });
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
@@ -141,6 +157,27 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.scienceBranches = scienceBranches;
       });
     this.koodistoProxySvc.updateScienceBranches();
+
+    this.upperSecondarySchoolSubjectNewSubscription = this.koodistoProxySvc.upperSecondarySchoolSubjectsNew$
+      .subscribe((subjects: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolSubjectsNew = subjects;
+      });
+    this.koodistoProxySvc.updateUpperSecondarySchoolSubjectsNew();
+
+    this.upperSecondarySchoolModuleNewSubscription = this.koodistoProxySvc.upperSecondarySchoolModulesNew$
+      .subscribe((modules: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolModulesNew = modules;
+      });
+
+    this.upperSecondarySchoolObjectiveNewSubscription = this.koodistoProxySvc.upperSecondarySchoolObjectivesNew$
+      .subscribe((objectives: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolObjectivesNew = objectives;
+      });
+
+    this.upperSecondarySchoolContentNewSubscription = this.koodistoProxySvc.upperSecondarySchoolContentsNew$
+      .subscribe((contents: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolContentsNew = contents;
+      });
 
     if (this.savedData) {
       if (this.savedData.educationalLevels) {
@@ -287,6 +324,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.upperSecondarySchoolSubjectSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
+    this.upperSecondarySchoolSubjectNewSubscription.unsubscribe();
+    this.upperSecondarySchoolModuleNewSubscription.unsubscribe();
+    this.upperSecondarySchoolObjectiveNewSubscription.unsubscribe();
+    this.upperSecondarySchoolContentNewSubscription.unsubscribe();
   }
 
   get educationalLevelsCtrl(): FormControl {
@@ -434,6 +475,35 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateBasicStudyObjectives(ids);
       this.koodistoProxySvc.updateBasicStudyContents(ids);
     }
+  }
+
+  upperSecondarySchoolSubjectsNewChange(value): void {
+    this.hasUpperSecondarySchoolSubjectsNew = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolSubjectsNew) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoProxySvc.updateUpperSecondarySchoolModulesNew(ids);
+    }
+  }
+
+  upperSecondarySchoolModulesNewChange(value): void {
+    this.hasUpperSecondarySchoolModulesNew = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolModulesNew) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoProxySvc.updateUpperSecondarySchoolObjectivesNew(ids);
+      this.koodistoProxySvc.updateUpperSecondarySchoolContentsNew(ids);
+    }
+  }
+
+  currentUpperSecondarySchoolSelectedChange(value): void {
+    this.currentUpperSecondarySchoolSelected = value.target.checked;
+  }
+
+  newUpperSecondarySchoolSelectedChange(value): void {
+    this.newUpperSecondarySchoolSelected = value.target.checked;
   }
 
   addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
