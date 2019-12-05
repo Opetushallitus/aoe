@@ -6,10 +6,10 @@ import { sortByTargetName } from "../util/data.utils";
 import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "perusteet";
-const rediskeySubjects = "oppiaineet";
-const rediskeyModules = "moduulit";
-const rediskeyObjectives = "tavoitteet";
-const rediskeyContents = "sisallot";
+const rediskeySubjects = "lukio-uusi-oppiaineet";
+const rediskeyModules = "lukio-uusi-moduulit";
+const rediskeyObjectives = "lukio-uusi-tavoitteet";
+const rediskeyContents = "lukio-uusi-sisallot";
 const params = "6828810/lops2019/oppiaineet";
 
 export async function setLukionOppiaineet(): Promise<any> {
@@ -95,7 +95,10 @@ export async function setLukionModuulit(): Promise<any> {
         results.moduulit.forEach((module: any) => {
           finnishModules.push({
             key: module.id,
-            parent: subject,
+            parent: {
+              key: subject,
+              value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
+            },
             source: "upperSecondarySchoolModulesNew",
             alignmentType: "teaches",
             targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
@@ -104,7 +107,10 @@ export async function setLukionModuulit(): Promise<any> {
 
           swedishModules.push({
             key: module.id,
-            parent: subject,
+            parent: {
+              key: subject,
+              value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
+            },
             source: "upperSecondarySchoolModulesNew",
             alignmentType: "teaches",
             targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
@@ -125,10 +131,18 @@ export async function setLukionModuulit(): Promise<any> {
 
 export const getLukionModuulit = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const data = await getAsync(`${rediskeyModules}.${req.params.lang.toLowerCase()}`);
+    const ids = req.params.ids.split(",");
 
-    if (data) {
-      res.status(200).json(JSON.parse(data));
+    const data = JSON.parse(await getAsync(`${rediskeyModules}.${req.params.lang.toLowerCase()}`))
+      .filter((module: AlignmentObjectExtended) => ids.includes(module.parent.key.toString()))
+      .map((module: AlignmentObjectExtended) => {
+        module.parent = module.parent.value;
+
+        return module;
+      });
+
+    if (data.length > 0) {
+      res.status(200).json(data);
     } else {
       res.sendStatus(404);
 
@@ -151,7 +165,7 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
       .map((m: AlignmentObjectExtended) => {
         return {
           id: m.key,
-          subjectId: m.parent,
+          subjectId: m.parent.key,
         };
       });
 
