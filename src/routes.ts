@@ -13,8 +13,6 @@ import { getKielet, getKieli } from "./controllers/kielet";
 import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
-// import { getAmmatillisenTutkinnonosa, getAmmatillisenTutkinnonosat } from "./controllers/ammatillisen-tutkinnonosat";
-import { getAmmatillisenTutkinnot, getAmmatillisenTutkinto } from "./controllers/ammatillisen-tutkinnot";
 import {
   getPerusopetuksenOppiaineet,
   getPerusopetuksenSisaltoalueet,
@@ -23,6 +21,7 @@ import {
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
+import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot } from "./controllers/ammattikoulu";
 
 const router: Router = Router();
 
@@ -188,40 +187,6 @@ router.get("/kielet/:lang", getKielet);
 router.get("/kielet/:key/:lang", getKieli);
 
 /**
- * Returns all ammatillisentutkinnonosat from redis database by given language
- * @group Ammatillisen tutkinnonosat
- * @route GET /ammatillisentutkinnonosat/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-// router.get("/ammatillisentutkinnonosat/:lang", getAmmatillisenTutkinnonosat);
-
-/**
- * Returns single ammatillisen tutkinnonosa from redis database by given id and language
- * @group Ammatillisen tutkinnonosat
- * @route GET /ammatillisentutkinnonosat/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-// router.get("/ammatillisentutkinnonosat/:key/:lang", getAmmatillisenTutkinnonosa);
-
-/**
- * Returns all ammatillisentutkinnot from redis database by given language
- * @group Ammatillisen tutkinnot
- * @route GET /ammatillisentutkinnot/{lang}
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/ammatillisentutkinnot/:lang", getAmmatillisenTutkinnot);
-
-/**
- * Returns single ammatillisen tutkinto from redis database by given id and language
- * @group Ammatillisen tutkinnot
- * @route GET /ammatillisentutkinnot/{key}/{lang}
- * @param {string} key.path.required - ID
- * @param {string} lang.path.required - ISO 639-1 language code
- */
-router.get("/ammatillisentutkinnot/:key/:lang", getAmmatillisenTutkinto);
-
-/**
  * Returns all oppiaineet from redis database by given language
  * @group Perusopetus
  * @route GET /oppiaineet/{lang}
@@ -290,18 +255,19 @@ router.get("/lukionkurssit/:key/:lang", getLukionkurssi);
 router.get("/lukio-oppiaineet/:lang", getLukionOppiaineet);
 
 /**
- * Returns all lukio-moduulit from redis database by given language
+ * Returns all lukio-moduulit from redis database by given ids and language
  * @group Lukio (uusi ops)
+ * @param {string} ids.path.required - List of upper secondary school subject ids, separated by comma
  * @route GET /lukio-moduulit/{lang}
  * @param {string} lang.path.required - ISO 639-1 language code
  */
-router.get("/lukio-moduulit/:lang", getLukionModuulit);
+router.get("/lukio-moduulit/:ids/:lang", getLukionModuulit);
 
 /**
  * Returns all lukio-tavoitteet from redis database by given ids and language
  * @group Lukio (uusi ops)
  * @route GET /lukio-tavoitteet/{ids}/{lang}
- * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} ids.path.required - List of upper secondary school module ids, separated by comma
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
@@ -310,9 +276,26 @@ router.get("/lukio-tavoitteet/:ids/:lang", getLukionTavoitteet);
  * Returns all lukio-sisallot from redis database by given ids and language
  * @group Lukio (uusi ops)
  * @route GET /lukio-sisallot/{ids}/{lang}
- * @param {string} ids.path.required - List of basic study subject ids, separated by comma
+ * @param {string} ids.path.required - List of upper secondary school module ids, separated by comma
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukio-sisallot/:ids/:lang", getLukionSisallot);
+
+/**
+ * Returns all ammattikoulu-tutkinnot from redis database by given language
+ * @group Ammattikoulu
+ * @route GET /ammattikoulu-tutkinnot/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammattikoulu-tutkinnot/:lang", getAmmattikoulunTutkinnot);
+
+/**
+ * Returns all ammattikoulu-tutkinnon-osat from redis database by given ids and language
+ * @group Ammattikoulu
+ * @route GET /ammattikoulu-tutkinnon-osat/{ids}/{lang}
+ * @param {string} ids.path.required - List of vocational degree ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammattikoulu-tutkinnon-osat/:ids/:lang", getAmmattikoulunTutkinnonOsat);
 
 export default router;
