@@ -15,7 +15,7 @@ app:
     - redis
   environment:
     - REDIS_URL=redis://cache
-    - NODE_ENV=development
+    - NODE_ENV=production
   env_file: .env.example
   command:
     sh -c 'yarn install && yarn build && yarn serve'
