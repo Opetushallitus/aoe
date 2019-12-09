@@ -241,7 +241,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.files.value.forEach((file, i) => {
       const formData = new FormData();
       formData.append('file', file.file);
-      formData.append('username', this.authSvc.getUser().username); // @todo: remove when session is in use
       formData.append('fileDetails', JSON.stringify({
         displayName: file.displayName,
         language: file.language,
@@ -301,7 +300,6 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       if (!this.materialId) {
         const formData = new FormData();
-        formData.append('username', this.authSvc.getUser().username);
 
         this.backendSvc.uploadFiles(formData).subscribe(
           () => {},

@@ -6,14 +6,20 @@
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
+        <a class="btn btn-link text-blue" [routerLink]="[ '/lisaa-oppimateriaali', 1 ]">{{ 'userMaterials.createNew' | translate }}</a>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-4" *ngFor="let material of materials">
-        <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+      <div class="col" *ngIf="!materials?.length > 0">
+        <p>{{ 'userMaterials.noMaterials' | translate }}</p>
       </div>
+
+      <ng-container *ngIf="materials?.length > 0">
+        <div class="col-md-4" *ngFor="let material of materials">
+          <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+        </div>
+      </ng-container>
     </div><!-- .row -->
   </div>
 </div>
