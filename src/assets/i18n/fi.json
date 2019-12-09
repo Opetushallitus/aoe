@@ -289,6 +289,10 @@
         },
         "upperSecondarySchoolEducation": {
           "title": "Lukiokoulutus",
+          "selection": {
+            "current": "Lukion opetussuunnitelman perusteet 2015",
+            "new": "Lukion opetussuunnitelman perusteet 2019"
+          },
           "inputs": {
             "subjects": {
               "label": "Lukionkurssit",
@@ -301,6 +305,24 @@
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            },
+            "new": {
+              "subjects": {
+                "label": "Oppiaine",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Moduuli",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Tavoite",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Sisältö",
+                "tooltip": ""
+              }
             }
           }
         },

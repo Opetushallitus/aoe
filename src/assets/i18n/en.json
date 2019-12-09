@@ -289,6 +289,10 @@
         },
         "upperSecondarySchoolEducation": {
           "title": "Upper secondary school",
+          "selection": {
+            "current": "Educational framework of upper secondary school 2015",
+            "new": "Educational framework of upper secondary school 2019"
+          },
           "inputs": {
             "subjects": {
               "label": "Educational subject of upper secondary school",
@@ -301,6 +305,24 @@
             "framework": {
               "label": "Educational framework of upper secondary school",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            },
+            "new": {
+              "subjects": {
+                "label": "Educational subject",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Module",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Learning object of upper secondary school",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Educational content of upper secondary school",
+                "tooltip": ""
+              }
             }
           }
         },

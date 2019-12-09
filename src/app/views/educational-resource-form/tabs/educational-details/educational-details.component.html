@@ -294,7 +294,7 @@
           (change)="currentUpperSecondarySchoolSelectedChange($event)"
         >
 
-        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">Nykyinen</label>
+        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</label>
       </div>
 
       <div class="custom-control custom-checkbox">
@@ -305,12 +305,12 @@
           (change)="newUpperSecondarySchoolSelectedChange($event)"
         >
 
-        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">Uusi</label>
+        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</label>
       </div>
     </div>
 
     <ng-container *ngIf="currentUpperSecondarySchoolSelected">
-      <h4>Nykyinen</h4>
+      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjects">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</label>
@@ -383,10 +383,10 @@
     </ng-container>
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected">
-      <h4>Uusi</h4>
+      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</h4>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolSubjectsNew">Oppiaine</label>
+        <label for="upperSecondarySchoolSubjectsNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</label>
 
         <ng-select
           [items]="upperSecondarySchoolSubjectsNew"
@@ -414,7 +414,7 @@
 
       <ng-container *ngIf="hasUpperSecondarySchoolSubjectsNew">
         <div class="form-group">
-          <label for="upperSecondarySchoolModulesNew">Moduuli</label>
+          <label for="upperSecondarySchoolModulesNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}</label>
 
           <ng-select
             [items]="upperSecondarySchoolModulesNew"
@@ -430,7 +430,7 @@
 
         <ng-container *ngIf="hasUpperSecondarySchoolModulesNew">
           <div class="form-group">
-            <label for="upperSecondarySchoolObjectivesNew">Tavoite</label>
+            <label for="upperSecondarySchoolObjectivesNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}</label>
 
             <ng-select
               [items]="upperSecondarySchoolObjectivesNew"
@@ -444,7 +444,7 @@
           </div>
 
           <div class="form-group">
-            <label for="upperSecondarySchoolContentsNew">Sisältö</label>
+            <label for="upperSecondarySchoolContentsNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}</label>
 
             <ng-select
               [items]="upperSecondarySchoolContentsNew"
