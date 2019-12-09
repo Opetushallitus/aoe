@@ -291,7 +291,7 @@
           type="checkbox"
           class="custom-control-input"
           id="currentUpperSecondarySchoolSelected"
-          (change)="currentUpperSecondarySchoolSelectedChange($event)"
+          formControlName="currentUpperSecondarySchoolSelected"
         >
 
         <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</label>
@@ -302,14 +302,14 @@
           type="checkbox"
           class="custom-control-input"
           id="newUpperSecondarySchoolSelected"
-          (change)="newUpperSecondarySchoolSelectedChange($event)"
+          formControlName="newUpperSecondarySchoolSelected"
         >
 
         <label class="custom-control-label" for="newUpperSecondarySchoolSelected">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</label>
       </div>
     </div>
 
-    <ng-container *ngIf="currentUpperSecondarySchoolSelected">
+    <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
       <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</h4>
 
       <div class="form-group">
@@ -382,7 +382,7 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="newUpperSecondarySchoolSelected">
+    <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
       <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</h4>
 
       <div class="form-group">
