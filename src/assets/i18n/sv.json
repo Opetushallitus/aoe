@@ -436,9 +436,14 @@
   },
   "userMaterials": {
     "title": "Mina lärresurser",
-    "createNew": "Publicera en ny lärresurs"
+    "createNew": "Publicera en ny lärresurs",
+    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs."
   },
   "footer": {
     "developer": "Utvecklare av tjänsten"
+  },
+  "cookies": {
+    "cookieSettings": "Inställningar för cookies",
+    "title": "Inställningar för cookies"
   }
 }

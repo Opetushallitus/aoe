@@ -7,8 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { EducationalMaterial } from '../models/educational-material';
 import { UploadMessage } from '../models/upload-message';
-import { AuthService } from './auth.service';
-import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
@@ -26,7 +24,6 @@ export class BackendService {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private authSvc: AuthService,
   ) { }
 
   /**
@@ -192,13 +189,10 @@ export class BackendService {
 
   /**
    * Returns list of educational materials by user.
-   * @param {User} user
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
   getUserMaterialList(): Observable<EducationalMaterialList[]> {
-    const user = this.authSvc.getUser();
-
-    return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
+    return this.http.get<any>(`${this.backendUrl}/usermaterial`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),

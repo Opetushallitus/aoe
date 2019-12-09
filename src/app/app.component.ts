@@ -2,9 +2,12 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+import { CookieService as Cookies } from 'ngx-cookie-service';
 
 import { getLanguage, setLanguage } from './shared/shared.module';
 import { CookieService } from './services/cookie.service';
+import { AuthService } from './services/auth.service';
+import { environment } from '../environments/environment';
 
 @Component({
   // tslint:disable-next-line
@@ -12,12 +15,16 @@ import { CookieService } from './services/cookie.service';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
+  sessionCookie = environment.sessionCookie;
+
   constructor(
     private router: Router,
     private translate: TranslateService,
     @Inject(DOCUMENT) doc: Document,
     private renderer: Renderer2,
     private cookieSvc: CookieService,
+    private cookies: Cookies,
+    private authSvc: AuthService,
   ) {
     translate.addLangs(['fi', 'en', 'sv']);
     translate.setDefaultLang('fi');
@@ -56,6 +63,16 @@ export class AppComponent implements OnInit {
           (<any>window).gtag('config', 'UA-135550416-1', { 'page_path': event.urlAfterRedirects });
         }
       });
+    }
+
+    // user is logged in, retrieve user data
+    if (this.authSvc.isLogged() && !this.authSvc.hasUserdata()) {
+      this.authSvc.setUserdata().subscribe();
+    }
+
+    // login has expired, remove user data
+    if (!this.authSvc.isLogged() && this.authSvc.hasUserdata()) {
+      this.authSvc.logout();
     }
   }
 
