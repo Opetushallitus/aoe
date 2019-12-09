@@ -93,5 +93,7 @@ export class AuthService {
 
     // delete userdata
     sessionStorage.removeItem(this.userdataKey);
+
+    this.document.location.href = `${this.backendUrl}/logout`;
   }
 }
