@@ -796,10 +796,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         suitsAllPrePrimarySubjects: this.suitsAllPrePrimarySubjects.value,
         suitsAllBasicStudySubjects: this.suitsAllBasicStudySubjects.value,
         suitsAllUpperSecondarySubjects: this.suitsAllUpperSecondarySubjects.value,
+        suitsAllUpperSecondarySubjectsNew: this.suitsAllUpperSecondarySubjectsNew.value,
         suitsAllVocationalDegrees: this.suitsAllVocationalDegrees.value,
         suitsAllSelfMotivatedSubjects: this.suitsAllSelfMotivatedSubjects.value,
         suitsAllBranches: this.suitsAllBranches.value,
-        suitsAllUpperSecondarySubjectsNew: this.suitsAllUpperSecondarySubjectsNew.value,
       };
 
       const data = Object.assign(
