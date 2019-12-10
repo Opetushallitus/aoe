@@ -1,63 +1,99 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { User } from '../models/user';
+import { environment } from '../../environments/environment';
+import { Userdata } from '../models/userdata';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() { }
+  backendUrl = environment.backendUrl;
+  sessionCookie = environment.sessionCookie;
+  userdataKey = environment.userdataKey;
+
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private http: HttpClient,
+  ) { }
 
   /**
-   * Saves user details to localStorage.
-   * @param {string} username
-   * @param {string} firstname
-   * @param {string} lastname
-   * @param {boolean} acceptance
+   * Redirects user to login page.
    */
-  public setUser(username: string, firstname: string, lastname: string, acceptance: boolean): void {
-    const user: User = {
-      username: username,
-      firstname: firstname,
-      lastname: lastname,
-      acceptance: acceptance,
-    };
-
-    localStorage.setItem('aoe.user', JSON.stringify(user));
+  login(): void {
+    this.document.location.href = `${this.backendUrl}/login`;
   }
 
   /**
-   * Returns user details from localStorage.
-   * @returns {User | null}
+   * Retrieves user data from backend.
+   * @returns {Observable<Userdata>}
    */
-  public getUser(): User | null {
-    return JSON.parse(localStorage.getItem('aoe.user'));
+  setUserdata(): Observable<Userdata> {
+    return this.http.get<Userdata>(`${this.backendUrl}/userdata`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
+      map((res): Userdata => {
+        sessionStorage.setItem(this.userdataKey, JSON.stringify(res));
+
+        return res;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.removeUserdata();
+        }
+
+        return throwError('Something bad happened; please try again later.');
+      }),
+    );
   }
 
   /**
-   * Removes user details from localStorage.
+   * Returns user data.
+   * @returns {Userdata}
    */
-  public removeUser(): void {
-    localStorage.removeItem('aoe.user');
+  getUserdata(): Userdata {
+    return JSON.parse(sessionStorage.getItem(this.userdataKey));
   }
 
   /**
-   * Updates acceptance value in user details.
-   * @param {boolean} value
-   */
-  public updateAcceptance(value: boolean): void {
-    const user: User = this.getUser();
-
-    user.acceptance = value;
-
-    localStorage.setItem('aoe.user', JSON.stringify(user));
-  }
-
-  /**
-   * Returns boolean for user login status.
+   * Checks if user data exists.
    * @returns {boolean}
    */
-  public isLogged(): boolean {
-    return !!this.getUser();
+  hasUserdata(): boolean {
+    return !!this.getUserdata();
+  }
+
+  /**
+   * Removes user data.
+   */
+  removeUserdata(): void {
+    sessionStorage.removeItem(this.userdataKey);
+  }
+
+  /**
+   * Updates acceptance.
+   * @returns {Observable<string>}
+   */
+  updateAcceptance(): Observable<string> {
+    const userdata = this.getUserdata();
+    userdata.termsofusage = true;
+
+    sessionStorage.setItem(this.userdataKey, JSON.stringify(userdata));
+
+    return this.http.put<any>(`${this.backendUrl}/termsofusage`, null);
+  }
+
+  /**
+   * Removes user data and redirects user to logout endpoint.
+   */
+  logout(): void {
+    this.removeUserdata();
+
+    this.document.location.href = `${this.backendUrl}/logout`;
   }
 }

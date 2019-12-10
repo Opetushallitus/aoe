@@ -24,7 +24,7 @@ export class AcceptanceViewComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.authSvc.updateAcceptance(this.acceptanceForm.get('acceptance').value);
+    this.authSvc.updateAcceptance().subscribe();
 
     this.router.navigate(['/etusivu']);
   }

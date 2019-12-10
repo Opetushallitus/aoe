@@ -44,7 +44,7 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'materiaali/:specialId/:slug',
+        path: 'materiaali/:materialId',
         component: EducationalMaterialViewComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',

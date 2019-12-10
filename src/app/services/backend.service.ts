@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
-import { getLocalStorageData } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { UploadMessage } from '../models/upload-message';
-import { AuthService } from './auth.service';
-import { User } from '../models/user';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +36,8 @@ export class BackendService {
   uploadFiles(data: FormData): Observable<UploadMessage> {
     let uploadUrl: string;
 
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       uploadUrl = `${this.backendUrl}/material/file/${fileUpload.id}`;
     } else {
@@ -60,16 +58,16 @@ export class BackendService {
             return { status: 'progress', message: progress };
 
           case HttpEventType.Response:
-            const fileUpload = getLocalStorageData(this.localStorageKey);
+            const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
             if (fileUpload !== null) {
               const response = {
                 id: fileUpload.id,
               };
 
-              localStorage.setItem(this.localStorageKey, JSON.stringify(response));
+              sessionStorage.setItem(this.localStorageKey, JSON.stringify(response));
             } else {
-              localStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
+              sessionStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
             }
 
             return { status: 'completed', message: event.body };
@@ -77,7 +75,8 @@ export class BackendService {
           default:
             return { status: 'error', message: `Unhandled event: ${event.type}` };
         }
-      })
+      }),
+      catchError(this.handleError),
     );
   }
 
@@ -86,12 +85,16 @@ export class BackendService {
    * @param {number} materialId
    * @param {json} data
    */
-  postLinks(materialId: number, data: any): Observable<any> {
-    return this.http.post<any>(`${this.backendUrl}/material/link/${materialId}`, data, {
+  postLinks(data: any): Observable<any> {
+    const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
+
+    return this.http.post<any>(`${this.backendUrl}/material/link/${fileUpload.id}`, data, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    });
+    }).pipe(
+      catchError(this.handleError),
+    );
   }
 
   /**
@@ -102,7 +105,9 @@ export class BackendService {
   postMeta(materialId: number, data: any) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
-    return this.http.put<any>(uploadUrl, data);
+    return this.http.put<any>(uploadUrl, data).pipe(
+      catchError(this.handleError),
+    );
   }
 
   /**
@@ -191,13 +196,10 @@ export class BackendService {
 
   /**
    * Returns list of educational materials by user.
-   * @param {User} user
    * @returns {Observable<EducationalMaterialList>} List of educational materials
    */
   getUserMaterialList(): Observable<EducationalMaterialList[]> {
-    const user = this.authSvc.getUser();
-
-    return this.http.get<any>(`${this.backendUrl}/material/user/${user.username}`, {
+    return this.http.get<any>(`${this.backendUrl}/usermaterial`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
@@ -226,7 +228,8 @@ export class BackendService {
                 .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
             };
           });
-      })
+      }),
+      catchError(this.handleError),
     );
   }
 
@@ -236,8 +239,8 @@ export class BackendService {
    * @returns {Observable<UploadMessage>} Upload message
    */
   uploadImage(data: { base64image: string }): Observable<UploadMessage> {
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${fileUpload.id}`, data, {
         headers: new HttpHeaders({
@@ -259,7 +262,8 @@ export class BackendService {
             default:
               return { status: 'error', message: `Unhandled event: ${event.type}` };
           }
-        })
+        }),
+        catchError(this.handleError),
       );
     }
   }
@@ -274,6 +278,7 @@ export class BackendService {
         'Accept': 'application/json',
       })
     }).subscribe((res) => {
+      // tslint:disable-next-line:max-line-length
       this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link, displayName }) => ({ id, file: originalfilename, language, link, displayName })));
     });
   }
@@ -283,10 +288,21 @@ export class BackendService {
    * @param {number} fileId
    */
   deleteFile(fileId: number): Observable<any> {
-    if (localStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = getLocalStorageData(this.localStorageKey);
+    if (sessionStorage.getItem(this.localStorageKey) !== null) {
+      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`);
+      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
+        .pipe(
+          catchError(this.handleError),
+        );
     }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      this.authSvc.removeUserdata();
+    }
+
+    return throwError('Something bad happened; please try again later.');
   }
 }

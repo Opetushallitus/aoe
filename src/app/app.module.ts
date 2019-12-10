@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -33,7 +33,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -76,6 +75,7 @@ import { EducationalMaterialsListComponent } from './components/educational-mate
 import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
 import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
 import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
+import { CredentialInterceptor } from './providers/credential.interceptor';
 
 @NgModule({
   imports: [
@@ -104,7 +104,6 @@ import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.
     AlertModule.forRoot(),
     TooltipModule.forRoot(),
     CollapseModule.forRoot(),
-    PopoverModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ProgressbarModule.forRoot(),
     ImageCropperModule,
@@ -145,10 +144,18 @@ import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.
     PreviewComponent,
     CookieNoticeComponent,
   ],
-  providers: [{
-    provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }, CookieService ],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CredentialInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
