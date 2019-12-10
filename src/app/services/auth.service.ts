@@ -30,14 +30,6 @@ export class AuthService {
   }
 
   /**
-   * Checks if session cookie is set.
-   * @returns {boolean}
-   */
-  isLogged(): boolean {
-    return this.cookieSvc.check(this.sessionCookie);
-  }
-
-  /**
    * Retrieves user data from backend.
    * @returns {Observable<Userdata>}
    */
