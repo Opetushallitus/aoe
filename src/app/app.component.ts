@@ -2,12 +2,10 @@ import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
-import { CookieService as Cookies } from 'ngx-cookie-service';
 
 import { getLanguage, setLanguage } from './shared/shared.module';
 import { CookieService } from './services/cookie.service';
 import { AuthService } from './services/auth.service';
-import { environment } from '../environments/environment';
 
 @Component({
   // tslint:disable-next-line
@@ -15,15 +13,12 @@ import { environment } from '../environments/environment';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
-  sessionCookie = environment.sessionCookie;
-
   constructor(
     private router: Router,
     private translate: TranslateService,
     @Inject(DOCUMENT) doc: Document,
     private renderer: Renderer2,
     private cookieSvc: CookieService,
-    private cookies: Cookies,
     private authSvc: AuthService,
   ) {
     translate.addLangs(['fi', 'en', 'sv']);
@@ -64,6 +59,15 @@ export class AppComponent implements OnInit {
         }
       });
     }
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+      window.scrollTo(0, 0);
+    });
 
     // user is logged in, retrieve user data
     if (this.authSvc.isLogged() && !this.authSvc.hasUserdata()) {
@@ -74,14 +78,5 @@ export class AppComponent implements OnInit {
     if (!this.authSvc.isLogged() && this.authSvc.hasUserdata()) {
       this.authSvc.logout();
     }
-  }
-
-  ngOnInit() {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-      window.scrollTo(0, 0);
-    });
   }
 }
