@@ -12,7 +12,7 @@ export const environment = {
   // backendUrl: 'https://aoe.fi/api', // prod
   fileUploadLSKey: 'aoe.fileUpload',
   newERLSKey: 'aoe.new-educational-resource',
-  koodistoUrl: 'https://koodisto.aoe.fi/api/v1',
+  koodistoUrl: 'http://localhost:3000/api/v1',
   sessionCookie: 'connect.sid',
   userdataKey: 'aoe.userdata',
 };
