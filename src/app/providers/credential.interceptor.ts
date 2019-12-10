@@ -12,10 +12,12 @@ export class CredentialInterceptor implements HttpInterceptor {
   ) { }
 
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if ((req.url.includes('userdata') || this.authSvc.hasUserdata()) && req.url.includes(environment.backendUrl)) {
-      req = req.clone({
-        withCredentials: true,
-      });
+    if (environment.production === false) {
+      if ((req.url.includes('userdata') || this.authSvc.hasUserdata()) && req.url.includes(environment.backendUrl)) {
+        req = req.clone({
+          withCredentials: true,
+        });
+      }
     }
 
     return next.handle(req);
