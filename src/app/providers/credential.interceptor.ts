@@ -3,6 +3,7 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs';
 
 import { AuthService } from '../services/auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CredentialInterceptor implements HttpInterceptor {
@@ -11,7 +12,7 @@ export class CredentialInterceptor implements HttpInterceptor {
   ) { }
 
   intercept (req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.authSvc.isLogged()) {
+    if (this.authSvc.isLogged() && req.url.includes(environment.backendUrl)) {
       req = req.clone({
         withCredentials: true,
       });
