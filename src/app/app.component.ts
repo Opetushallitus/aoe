@@ -70,6 +70,8 @@ export class AppComponent implements OnInit {
     });
 
     // user is logged in, retrieve user data
+    console.log('isLogged', this.authSvc.isLogged());
+    console.log('hasNoUserdata', !this.authSvc.hasUserdata());
     if (this.authSvc.isLogged() && !this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
     }
