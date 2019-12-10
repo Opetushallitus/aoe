@@ -5,6 +5,7 @@ import { DOCUMENT } from '@angular/common';
 
 import { getLanguage, setLanguage } from './shared/shared.module';
 import { CookieService } from './services/cookie.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   // tslint:disable-next-line
@@ -18,6 +19,7 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) doc: Document,
     private renderer: Renderer2,
     private cookieSvc: CookieService,
+    private authSvc: AuthService,
   ) {
     translate.addLangs(['fi', 'en', 'sv']);
     translate.setDefaultLang('fi');
@@ -66,5 +68,9 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+
+    if (!this.authSvc.hasUserdata()) {
+      this.authSvc.setUserdata().subscribe();
+    }
   }
 }

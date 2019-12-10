@@ -418,6 +418,10 @@ h2 {
     background-color: #eee;
     padding: .5rem;
 
+    .btn-group-vertical {
+      width: 100%;
+    }
+
     .btn-file {
       color: $input-color;
       font-weight: 400;

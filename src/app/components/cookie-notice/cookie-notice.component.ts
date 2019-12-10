@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+
 import { CookieService } from '../../services/cookie.service';
 
 @Component({
@@ -9,13 +11,19 @@ import { CookieService } from '../../services/cookie.service';
 export class CookieNoticeComponent implements OnInit {
   cookies: FormGroup;
   @Output() hideCookieNotice = new EventEmitter();
+  lang: string = this.translate.currentLang;
 
   constructor(
     private fb: FormBuilder,
     private cookieSvc: CookieService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+    });
+
     this.cookies = this.fb.group({
       aoe: this.fb.control({ value: true, disabled: true }, [ Validators.requiredTrue ]),
       googleAnalytics: this.fb.control(false),

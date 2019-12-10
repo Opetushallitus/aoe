@@ -5,7 +5,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
-import { getLocalStorageData } from '../../../../shared/shared.module';
 import { BackendService } from '../../../../services/backend.service';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { UploadedFile } from '../../../../models/uploaded-file';
@@ -15,7 +14,7 @@ import { UploadedFile } from '../../../../models/uploaded-file';
   templateUrl: './preview.component.html',
 })
 export class PreviewComponent implements OnInit {
-  private localStorageKey = environment.newERLSKey;
+  private savedDataKey = environment.newERLSKey;
   private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
@@ -57,8 +56,8 @@ export class PreviewComponent implements OnInit {
       this.lang = event.lang;
     });
 
-    this.savedData = getLocalStorageData(this.localStorageKey);
-    this.fileUpload = getLocalStorageData(this.fileUploadLSKey);
+    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
+    this.fileUpload = JSON.parse(sessionStorage.getItem(this.fileUploadLSKey));
     this.materialId = this.fileUpload.id;
 
     this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
@@ -127,12 +126,12 @@ export class PreviewComponent implements OnInit {
   onSubmit() {
     if (this.previewForm.valid) {
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
-        // clean up local storage
-        localStorage.removeItem(this.localStorageKey);
-        localStorage.removeItem(this.fileUploadLSKey);
+        // clean up session storage
+        sessionStorage.removeItem(this.savedDataKey);
+        sessionStorage.removeItem(this.fileUploadLSKey);
 
         // redirect to new material
-        this.router.navigate(['/materiaali', this.fileUpload.id, this.savedData.slug.fi]);
+        this.router.navigate([ '/materiaali', this.fileUpload.id ]);
       });
     }
   }
@@ -142,9 +141,9 @@ export class PreviewComponent implements OnInit {
     // reset form values
     this.previewForm.reset();
 
-    // clear data from local storage
-    localStorage.removeItem(this.localStorageKey);
-    localStorage.removeItem(this.fileUploadLSKey);
+    // clear data from session storage
+    sessionStorage.removeItem(this.savedDataKey);
+    sessionStorage.removeItem(this.fileUploadLSKey);
   }
 
   previousTab() {

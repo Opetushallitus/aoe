@@ -3,10 +3,8 @@
     <button
       class="btn nav-link"
       type="button"
-      [popover]="loginPopover"
-      [popoverTitle]="'common.login' | translate"
-      placement="bottom"
-      *ngIf="!authSvc.isLogged()"
+      (click)="login()"
+      *ngIf="!authSvc.hasUserdata()"
     >
       {{ 'common.login' | translate }}
     </button>
@@ -14,16 +12,9 @@
       class="btn nav-link"
       type="button"
       (click)="logout()"
-      *ngIf="authSvc.isLogged()"
-    >{{ authSvc.getUser()?.firstname }} {{ authSvc.getUser()?.lastname }} - {{ 'common.logout' | translate }}</button>
+      *ngIf="authSvc.hasUserdata()"
+    >
+      {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
+    </button>
   </li>
 </ul>
-
-<ng-template #loginPopover>
-  <p>{{ 'navigation.login.selectLoginMethod' | translate }}</p>
-
-  <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action" (click)="login()">MPASSid</a>
-    <a href="#" class="list-group-item list-group-item-action" (click)="login()">Haka</a>
-  </div>
-</ng-template>
