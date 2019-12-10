@@ -11,7 +11,7 @@
     </div>
 
     <div class="row">
-      <div class="col" *ngIf="!materials?.length > 0">
+      <div class="col" *ngIf="!(materials?.length > 0)">
         <p>{{ 'userMaterials.noMaterials' | translate }}</p>
       </div>
 
