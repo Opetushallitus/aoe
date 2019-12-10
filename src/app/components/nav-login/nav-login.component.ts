@@ -7,15 +7,9 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './nav-login.component.html',
 })
 export class NavLoginComponent implements OnInit {
-  hasUserdata: boolean;
+  constructor(public authSvc: AuthService) { }
 
-  constructor(
-    private authSvc: AuthService,
-  ) { }
-
-  ngOnInit(): void {
-    this.hasUserdata = this.authSvc.hasUserdata();
-  }
+  ngOnInit() { }
 
   login(): void {
     this.authSvc.login();
