@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Userdata } from '../models/userdata';
@@ -18,7 +17,6 @@ export class AuthService {
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
-    private cookieSvc: CookieService,
     private http: HttpClient,
   ) { }
 
@@ -44,6 +42,13 @@ export class AuthService {
 
         return res;
       }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.removeUserdata();
+        }
+
+        return throwError('Something bad happened; please try again later.');
+      }),
     );
   }
 
@@ -64,6 +69,13 @@ export class AuthService {
   }
 
   /**
+   * Removes user data.
+   */
+  removeUserdata(): void {
+    sessionStorage.removeItem(this.userdataKey);
+  }
+
+  /**
    * Updates acceptance.
    * @returns {Observable<string>}
    */
@@ -77,14 +89,10 @@ export class AuthService {
   }
 
   /**
-   * Removes session cookie and user data.
+   * Removes user data and redirects user to logout endpoint.
    */
   logout(): void {
-    // delete cookie
-    this.cookieSvc.delete(this.sessionCookie);
-
-    // delete userdata
-    sessionStorage.removeItem(this.userdataKey);
+    this.removeUserdata();
 
     this.document.location.href = `${this.backendUrl}/logout`;
   }
