@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
@@ -12,7 +12,7 @@ import { CookieService } from '../../services/cookie.service';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnInit {
+export class DefaultLayoutComponent {
   logos = {
     okm: {
       fi: {
@@ -45,30 +45,24 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   showNotice = true;
-  hasUserdata: boolean;
-  langs: string[];
 
   constructor(
-    private translate: TranslateService,
-    private authSvc: AuthService,
+    public translate: TranslateService,
+    public authSvc: AuthService,
     private cookieSvc: CookieService,
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
-    this.hasUserdata = this.authSvc.hasUserdata();
-    this.langs = this.translate.getLangs();
   }
 
   /**
    * Set language
    */
-  changeLanguage(lang: string): void {
+  public changeLanguage(lang: string): void {
     setLanguage(lang);
     this.translate.use(lang);
   }
 
-  hideCookieNotice(): void {
+  private hideCookieNotice(): void {
     this.showNotice = false;
   }
 }
