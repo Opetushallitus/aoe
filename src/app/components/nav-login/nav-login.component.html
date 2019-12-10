@@ -4,17 +4,19 @@
       class="btn nav-link"
       type="button"
       (click)="login()"
-      *ngIf="!authSvc.isLogged()"
+      *ngIf="!hasUserdata; else loggedIn"
     >
       {{ 'common.login' | translate }}
     </button>
-    <button
-      class="btn nav-link"
-      type="button"
-      (click)="logout()"
-      *ngIf="authSvc.isLogged()"
-    >
-      {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
-    </button>
+    <ng-template #loggedIn>
+      <button
+        class="btn nav-link"
+        type="button"
+        (click)="logout()"
+        *ngIf="hasUserdata"
+      >
+        {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
+      </button>
+    </ng-template>
   </li>
 </ul>
