@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
@@ -10,6 +10,7 @@ import { UploadMessage } from '../models/upload-message';
 import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class BackendService {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
+    private authSvc: AuthService,
   ) { }
 
   /**
@@ -73,7 +75,8 @@ export class BackendService {
           default:
             return { status: 'error', message: `Unhandled event: ${event.type}` };
         }
-      })
+      }),
+      catchError(this.handleError),
     );
   }
 
@@ -89,7 +92,9 @@ export class BackendService {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    });
+    }).pipe(
+      catchError(this.handleError),
+    );
   }
 
   /**
@@ -100,7 +105,9 @@ export class BackendService {
   postMeta(materialId: number, data: any) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
-    return this.http.put<any>(uploadUrl, data);
+    return this.http.put<any>(uploadUrl, data).pipe(
+      catchError(this.handleError),
+    );
   }
 
   /**
@@ -221,7 +228,8 @@ export class BackendService {
                 .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
             };
           });
-      })
+      }),
+      catchError(this.handleError),
     );
   }
 
@@ -254,7 +262,8 @@ export class BackendService {
             default:
               return { status: 'error', message: `Unhandled event: ${event.type}` };
           }
-        })
+        }),
+        catchError(this.handleError),
       );
     }
   }
@@ -269,6 +278,7 @@ export class BackendService {
         'Accept': 'application/json',
       })
     }).subscribe((res) => {
+      // tslint:disable-next-line:max-line-length
       this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link, displayName }) => ({ id, file: originalfilename, language, link, displayName })));
     });
   }
@@ -281,7 +291,18 @@ export class BackendService {
     if (sessionStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`);
+      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
+        .pipe(
+          catchError(this.handleError),
+        );
     }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 401) {
+      this.authSvc.removeUserdata();
+    }
+
+    return throwError('Something bad happened; please try again later.');
   }
 }

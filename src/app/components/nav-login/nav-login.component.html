@@ -4,7 +4,7 @@
       class="btn nav-link"
       type="button"
       (click)="login()"
-      *ngIf="!authSvc.isLogged()"
+      *ngIf="!authSvc.hasUserdata()"
     >
       {{ 'common.login' | translate }}
     </button>
@@ -12,7 +12,7 @@
       class="btn nav-link"
       type="button"
       (click)="logout()"
-      *ngIf="authSvc.isLogged()"
+      *ngIf="authSvc.hasUserdata()"
     >
       {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
     </button>

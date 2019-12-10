@@ -69,14 +69,8 @@ export class AppComponent implements OnInit {
       window.scrollTo(0, 0);
     });
 
-    // user is logged in, retrieve user data
-    if (this.authSvc.isLogged() && !this.authSvc.hasUserdata()) {
+    if (!this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
-    }
-
-    // login has expired, remove user data
-    if (!this.authSvc.isLogged() && this.authSvc.hasUserdata()) {
-      this.authSvc.logout();
     }
   }
 }
