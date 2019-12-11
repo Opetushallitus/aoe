@@ -333,6 +333,10 @@
               "label": "Examensdel för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
+            "units": {
+              "label": "",
+              "tooltip": ""
+            },
             "objectives": {
               "label": "Mål för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
