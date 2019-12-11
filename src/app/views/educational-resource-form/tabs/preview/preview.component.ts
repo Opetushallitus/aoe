@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { BackendService } from '../../../../services/backend.service';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { UploadedFile } from '../../../../models/uploaded-file';
+import { koodistoSources } from '../../../../constants/koodisto-sources';
 
 @Component({
   selector: 'app-preview',
@@ -73,57 +74,57 @@ export class PreviewComponent implements OnInit {
 
     if (this.savedData && this.savedData.alignmentObjects) {
       this.earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
 
       this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
 
       // @todo: framework
 
       this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
 
       this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
 
       this.basicStudySubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudySubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
 
       this.basicStudyObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
 
       this.basicStudyContents = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
 
       this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
 
       this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
 
       this.vocationalDegrees = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
 
       this.vocationalUnits = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalUnits');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
 
       this.vocationalEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives);
 
       this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationSubjects');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
 
       this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
 
       this.branchesOfScience = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'branchesOfScience');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
 
       this.scienceBranchObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'scienceBranchObjectives');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
 
       this.prerequisites = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prerequisites');
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
     }
   }
 
