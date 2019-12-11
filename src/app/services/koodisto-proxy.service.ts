@@ -38,6 +38,7 @@ export class KoodistoProxyService {
   public basicStudyContents$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
+  public vocationalUnits$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
   public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
@@ -170,9 +171,22 @@ export class KoodistoProxyService {
   updateVocationalDegrees(): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammatillisentutkinnot/${lang}`, this.httpOptions)
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnot/${lang}`, this.httpOptions)
       .subscribe((vocationalDegrees: AlignmentObjectExtended[]) => {
         this.vocationalDegrees$.next(vocationalDegrees);
+      });
+  }
+
+  /**
+   * Updates vocational units.
+   * @param {string} ids
+   */
+  updateVocationalUnits(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnon-osat/${ids}/${lang}`, this.httpOptions)
+      .subscribe((vocationalUnits: AlignmentObjectExtended[]) => {
+        this.vocationalUnits$.next(vocationalUnits);
       });
   }
 

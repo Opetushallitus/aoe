@@ -333,6 +333,10 @@
               "label": "Educational subject of vocational education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
+            "units": {
+              "label": "",
+              "tooltip": ""
+            },
             "objectives": {
               "label": "Learning object of vocational education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."

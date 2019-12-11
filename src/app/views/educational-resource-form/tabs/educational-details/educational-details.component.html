@@ -461,7 +461,7 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="hasVocationalDegree">
+  <ng-container *ngIf="hasVocationalEducation">
     <div class="form-group">
       <h3>{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</h3>
 
@@ -480,6 +480,7 @@
         bindLabel="targetName"
         id="vocationalDegrees"
         formControlName="vocationalDegrees"
+        (change)="vocationalDegreesChange($event)"
       ></ng-select>
     </div>
 
@@ -495,6 +496,22 @@
         <label class="custom-control-label" for="suitsAllVocationalDegrees">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label>
       </div>
     </div>
+
+    <ng-container *ngIf="hasVocationalDegrees">
+      <div class="form-group">
+        <label for="vocationalUnits">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate }}</label>
+
+        <ng-select
+          [items]="vocationalUnits"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="vocationalUnits"
+          formControlName="vocationalUnits"
+        ></ng-select>
+      </div>
+    </ng-container>
 
     <div class="form-group">
       <label for="vocationalEducationObjectives">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}</label>

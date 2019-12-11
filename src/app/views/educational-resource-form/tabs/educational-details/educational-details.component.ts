@@ -29,7 +29,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   hasUpperSecondarySchool = false;
   hasUpperSecondarySchoolSubjectsNew = false;
   hasUpperSecondarySchoolModulesNew = false;
-  hasVocationalDegree = false;
+  hasVocationalEducation = false;
+  hasVocationalDegrees = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
 
@@ -45,6 +46,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   vocationalDegreeSubscription: Subscription;
   vocationalDegrees: AlignmentObjectExtended[];
+  vocationalUnitSubscription: Subscription;
+  vocationalUnits: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectNewSubscription: Subscription;
@@ -107,6 +110,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllUpperSecondarySubjectsNew: this.fb.control(false),
       vocationalDegrees: this.fb.control(null),
       suitsAllVocationalDegrees: this.fb.control(false),
+      vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
@@ -146,18 +150,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateUpperSecondarySchoolSubjects();
 
-    this.vocationalDegreeSubscription = this.koodistoProxySvc.vocationalDegrees$
-      .subscribe((vocationalDegrees: AlignmentObjectExtended[]) => {
-        this.vocationalDegrees = vocationalDegrees;
-      });
-    this.koodistoProxySvc.updateVocationalDegrees();
-
-    this.scienceBranchSubscription = this.koodistoProxySvc.scienceBranches$
-      .subscribe((scienceBranches: AlignmentObjectExtended[]) => {
-        this.scienceBranches = scienceBranches;
-      });
-    this.koodistoProxySvc.updateScienceBranches();
-
     this.upperSecondarySchoolSubjectNewSubscription = this.koodistoProxySvc.upperSecondarySchoolSubjectsNew$
       .subscribe((subjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjectsNew = subjects;
@@ -178,6 +170,23 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       .subscribe((contents: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolContentsNew = contents;
       });
+
+    this.vocationalDegreeSubscription = this.koodistoProxySvc.vocationalDegrees$
+      .subscribe((vocationalDegrees: AlignmentObjectExtended[]) => {
+        this.vocationalDegrees = vocationalDegrees;
+      });
+    this.koodistoProxySvc.updateVocationalDegrees();
+
+    this.vocationalUnitSubscription = this.koodistoProxySvc.vocationalUnits$
+      .subscribe((vocationalUnits: AlignmentObjectExtended[]) => {
+        this.vocationalUnits = vocationalUnits;
+      });
+
+    this.scienceBranchSubscription = this.koodistoProxySvc.scienceBranches$
+      .subscribe((scienceBranches: AlignmentObjectExtended[]) => {
+        this.scienceBranches = scienceBranches;
+      });
+    this.koodistoProxySvc.updateScienceBranches();
 
     if (this.savedData) {
       if (this.savedData.educationalLevels) {
@@ -279,6 +288,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         const vocationalDegrees = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees');
         this.vocationalDegreesCtrl.setValue(vocationalDegrees);
+        this.vocationalDegreesChange(vocationalDegrees);
+
+        const vocationalUnits = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalUnits');
+        this.vocationalUnitsCtrl.setValue(vocationalUnits);
 
         const vocationalEducationObjectives = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives');
@@ -353,12 +367,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.basicStudyObjectiveSubscription.unsubscribe();
     this.basicStudyContentSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectSubscription.unsubscribe();
-    this.vocationalDegreeSubscription.unsubscribe();
-    this.scienceBranchSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectNewSubscription.unsubscribe();
     this.upperSecondarySchoolModuleNewSubscription.unsubscribe();
     this.upperSecondarySchoolObjectiveNewSubscription.unsubscribe();
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
+    this.vocationalDegreeSubscription.unsubscribe();
+    this.vocationalUnitSubscription.unsubscribe();
+    this.scienceBranchSubscription.unsubscribe();
   }
 
   get educationalLevelsCtrl(): FormControl {
@@ -469,6 +484,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     return this.educationalDetailsForm.get('suitsAllVocationalDegrees') as FormControl;
   }
 
+  get vocationalUnitsCtrl(): FormControl {
+    return this.educationalDetailsForm.get('vocationalUnits') as FormControl;
+  }
+
   get vocationalEducationObjectives(): FormControl {
     return this.educationalDetailsForm.get('vocationalEducationObjectives') as FormControl;
   }
@@ -518,7 +537,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
     this.hasUpperSecondarySchool = value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
 
-    this.hasVocationalDegree = value.filter((e: any) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
+    this.hasVocationalEducation = value.filter((e: any) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
 
     this.hasSelfMotivatedEducation = value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
 
@@ -554,6 +573,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateUpperSecondarySchoolObjectivesNew(ids);
       this.koodistoProxySvc.updateUpperSecondarySchoolContentsNew(ids);
+    }
+  }
+
+  vocationalDegreesChange(value): void {
+    this.hasVocationalDegrees = value.length > 0;
+
+    if (this.hasVocationalDegrees) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+
+      this.koodistoProxySvc.updateVocationalUnits(ids);
     }
   }
 
@@ -761,6 +790,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
           this.alignmentObjects.push(degree);
         });
+
+        if (this.vocationalUnitsCtrl.value) {
+          this.vocationalUnitsCtrl.value.forEach((unit: AlignmentObjectExtended) => {
+            delete unit.parent;
+            this.alignmentObjects.push(unit);
+          });
+        }
       }
 
       if (this.vocationalEducationObjectives.value) {
