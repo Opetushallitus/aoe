@@ -134,7 +134,7 @@
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.educationalRoles" class="col-12">
+                  <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="col-12">
                     <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
 
                     <div class="tags">
@@ -144,7 +144,7 @@
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.educationalUses" class="col-12">
+                  <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="col-12">
                     <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
 
                     <div class="tags">
