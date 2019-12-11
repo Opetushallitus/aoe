@@ -272,6 +272,15 @@
     </dd>
   </ng-container>
 
+  <ng-container *ngIf="vocationalUnits?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let unit of vocationalUnits; let isLast = last">
+        {{ unit.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
   <ng-container *ngIf="vocationalEducationObjectives?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}</dt>
     <dd class="col-sm-9">
