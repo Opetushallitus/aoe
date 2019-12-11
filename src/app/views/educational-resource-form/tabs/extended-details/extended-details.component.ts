@@ -10,6 +10,7 @@ import { addCustomItem } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
 import { AccessibilityFeature } from '../../../../models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '../../../../models/koodisto-proxy/accessibility-hazard';
+import { koodistoSources } from '../../../../constants/koodisto-sources';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -104,7 +105,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
         // filter prerequisites
         const prerequisites = this.alignmentObjects
-          .filter(alignmentObject => alignmentObject.source === 'prerequisites');
+          .filter(alignmentObject => alignmentObject.source === koodistoSources.prerequisites);
 
         // set filtered prerequisites as form control value
         this.prerequisites.setValue(prerequisites);
@@ -130,7 +131,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   addPrerequisites(value): AlignmentObjectExtended {
     return {
       key: value.replace(/[\W_]+/g, ''),
-      source: 'prerequisites',
+      source: koodistoSources.prerequisites,
       alignmentType: 'requires',
       targetName: value,
     };
