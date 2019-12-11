@@ -254,6 +254,42 @@
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
+  <ng-container *ngIf="upperSecondarySchoolSubjectsNew?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of upperSecondarySchoolSubjectsNew; let isLast = last">
+        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let module of upperSecondarySchoolModulesNew; let isLast = last">
+        {{ module.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let objective of upperSecondarySchoolObjectivesNew; let isLast = last">
+        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="upperSecondarySchoolContentsNew?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let content of upperSecondarySchoolContentsNew; let isLast = last">
+        {{ content.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
   <!--<ng-container *ngIf="upperSecondarySchoolFramework?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">

@@ -30,6 +30,10 @@ export class PreviewComponent implements OnInit {
   basicStudyContents: AlignmentObjectExtended[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
+  upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalEducationObjectives: AlignmentObjectExtended[];
@@ -101,6 +105,18 @@ export class PreviewComponent implements OnInit {
 
       this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
+
+      this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
+
+      this.upperSecondarySchoolModulesNew = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
+
+      this.upperSecondarySchoolObjectivesNew = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
+
+      this.upperSecondarySchoolContentsNew = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
 
       this.vocationalDegrees = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
