@@ -1,4 +1,4 @@
 <audio class="d-block w-100" controls #audioElement>
-  <source src="https://demo.aoe.fi/api/download/{{ material.filekey }}" type="{{ material.mimetype }}">
+  <source [src]="materialUrl" type="{{ material.mimetype }}">
   {{ 'demo.educationalMaterial.preview.noAudioSupport' | translate }}
 </audio>
