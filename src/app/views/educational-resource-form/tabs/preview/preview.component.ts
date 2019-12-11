@@ -30,6 +30,7 @@ export class PreviewComponent implements OnInit {
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
+  vocationalUnits: AlignmentObjectExtended[];
   vocationalEducationObjectives: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
@@ -102,6 +103,9 @@ export class PreviewComponent implements OnInit {
 
       this.vocationalDegrees = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees');
+
+      this.vocationalUnits = this.savedData.alignmentObjects
+        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalUnits');
 
       this.vocationalEducationObjectives = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives');
