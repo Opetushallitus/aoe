@@ -6,14 +6,14 @@
           <h1>{{ educationalMaterial.name }}</h1>
         </div>
 
-        <!--<div class="col-lg-6 text-lg-right">
+        <div class="col-lg-6 text-lg-right">
           <div class="material-actions">
-            <a class="btn btn-link" href="#" download>
+            <a class="btn btn-link" [href]="downloadUrl" download>
               <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
               {{ 'demo.educationalMaterial.download' | translate }}
             </a>
           </div>
-        </div>-->
+        </div>
       </div>
 
       <div class="row">
