@@ -205,27 +205,29 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
           });
         });
 
-        results.sisallot.sisallot?.forEach((content: any) => {
-          finnishContents.push({
-            key: content._id,
-            parent: {
-              key: results.id,
-              value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
-            },
-            source: "upperSecondarySchoolContentsNew",
-            alignmentType: "teaches",
-            targetName: content.fi ? content.fi : content.sv,
-          });
+        results.sisallot.forEach((contentObject: any) => {
+          contentObject.sisallot?.forEach((content: any) => {
+            finnishContents.push({
+              key: content._id,
+              parent: {
+                key: results.id,
+                value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
+              },
+              source: "upperSecondarySchoolContentsNew",
+              alignmentType: "teaches",
+              targetName: content.fi ? content.fi : content.sv,
+            });
 
-          swedishContents.push({
-            key: content._id,
-            parent: {
-              key: results.id,
-              value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
-            },
-            source: "upperSecondarySchoolContentsNew",
-            alignmentType: "teaches",
-            targetName: content.sv ? content.sv : content.fi,
+            swedishContents.push({
+              key: content._id,
+              parent: {
+                key: results.id,
+                value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
+              },
+              source: "upperSecondarySchoolContentsNew",
+              alignmentType: "teaches",
+              targetName: content.sv ? content.sv : content.fi,
+            });
           });
         });
       } catch (err) {
