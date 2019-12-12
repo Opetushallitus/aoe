@@ -3,6 +3,7 @@ import compression from "compression"; // compress requests
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import cron from "node-cron";
+import cors from "cors";
 
 import router from "./routes";
 import { client, updateRedis } from "./util/redis.utils";
@@ -17,6 +18,10 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("port", 3000);
+
+if (app.get("env") === "development") {
+  app.use(cors());
+}
 
 client.on("error", (error: any) => {
   console.error(error);
