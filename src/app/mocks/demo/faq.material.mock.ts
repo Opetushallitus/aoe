@@ -1,5 +1,3 @@
-import { Faq } from '../../models/faq';
-
 // tslint:disable:max-line-length
 
 /**
@@ -33,7 +31,7 @@ export const FAQMaterial = {
     {
       question: 'Miten oppimateriaalin lisääminen tapahtuu?',
       answer: [
-        'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on. Teemme oppimateriaalin lisäämisestä tarkemman ohjevideon lokakuussa 2019 ja myös käyttöliittymä ohjeistaa ongelmatilanteissa. Oppimateriaalin lisääminen tulee mahdolliseksi syksyllä 2019.',
+        'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on. Teemme oppimateriaalin lisäämisestä tarkemman ohjevideon lokakuussa 2019 ja myös käyttöliittymä ohjeistaa ongelmatilanteissa. Oppimateriaalin lisääminen tulee mahdolliseksi syksyllä 2019. <div class="embed-responsive embed-responsive-16by9"><video class="embed-responsive-item" controls><source src="https://demo.aoe.fi/files/faq/video_oppimateriaalin_tallentamisesta.mp4" type="video/mp4"><track label="suomi" kind="subtitles" srclang="fi" src="https://demo.aoe.fi/files/faq/ohjevideo.vtt" default></video></div>',
       ]
     },
     {
