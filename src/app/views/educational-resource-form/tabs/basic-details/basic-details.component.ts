@@ -256,6 +256,8 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     // clear data from session storage
     sessionStorage.removeItem(this.savedDataKey);
     sessionStorage.removeItem(this.fileUploadLSKey);
+
+    this.router.navigateByUrl('/');
   }
 
   previousTab() {
