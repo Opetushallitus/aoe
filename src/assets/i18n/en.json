@@ -446,7 +446,8 @@
     "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER."
   },
   "footer": {
-    "developer": "Developer of the service"
+    "developer": "Developer of the service",
+    "feedback": "Give feedback"
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
