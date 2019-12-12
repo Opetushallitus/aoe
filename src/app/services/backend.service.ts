@@ -11,6 +11,7 @@ import { EducationalMaterialList } from '../models/educational-material-list';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
 import { AuthService } from './auth.service';
+import { koodistoSources } from '../constants/koodisto-sources';
 
 @Injectable({
   providedIn: 'root'
@@ -158,37 +159,47 @@ export class BackendService {
           accessibilityHazards: res.accessibilityHazards
             .map(({ accessibilityhazardkey, value }) => ({ accessibilityhazardkey, value })),
           earlyChildhoodEducationSubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationSubjects'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects),
           earlyChildhoodEducationObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'earlyChildhoodEducationObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives),
           prePrimaryEducationSubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationSubjects'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects),
           prePrimaryEducationObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prePrimaryEducationObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives),
           basicStudySubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudySubjects'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects),
           basicStudyObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
           basicStudyContents: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'basicStudyContents'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
           upperSecondarySchoolSubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolSubjects'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects),
           upperSecondarySchoolObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'upperSecondarySchoolObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
+          upperSecondarySchoolSubjectsNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew),
+          upperSecondarySchoolModulesNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew),
+          upperSecondarySchoolObjectivesNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew),
+          upperSecondarySchoolContentsNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
           vocationalDegrees: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalDegrees'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees),
+          vocationalUnits: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
           vocationalEducationObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'vocationalEducationObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives),
           selfMotivatedEducationSubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationSubjects'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
           selfMotivatedEducationObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'selfMotivatedEducationObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives),
           branchesOfScience: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'branchesOfScience'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches),
           scienceBranchObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'scienceBranchObjectives'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
           prerequisites: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === 'prerequisites'),
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
         };
       })
     );

@@ -248,6 +248,47 @@
                     </div>
                   </div>
 
+                  <!-- upper secondary education (new) -->
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjectsNew" type="button" class="btn btn-light disabled">
+                        {{ subject.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let module of educationalMaterial.upperSecondarySchoolModulesNew" type="button" class="btn btn-light disabled">
+                        {{ module.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectivesNew" type="button" class="btn btn-light disabled">
+                        {{ objective.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let content of educationalMaterial.upperSecondarySchoolContentsNew" type="button" class="btn btn-light disabled">
+                        {{ content.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
                   <!-- vocational education -->
                   <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="col-12">
                     <h4>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h4>
@@ -255,6 +296,16 @@
                     <div class="tags">
                       <button *ngFor="let degree of educationalMaterial.vocationalDegrees" type="button" class="btn btn-light disabled">
                         {{ degree.targetName }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.vocationalUnits.length > 0" class="col-12">
+                    <h4>{{ 'demo.educationalMaterial.vocationalUnits' | translate }}</h4>
+
+                    <div class="tags">
+                      <button *ngFor="let unit of educationalMaterial.vocationalUnits" type="button" class="btn btn-light disabled">
+                        {{ unit.targetName }}
                       </button>
                     </div>
                   </div>
