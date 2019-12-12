@@ -53,9 +53,14 @@
       "basicStudySubjects": "Perusopetuksen oppiaineet",
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet",
-      "upperSecondarySchoolSubjects": "Lukionkurssit",
-      "upperSecondarySchoolObjectives": "Lukionkurssien tavoitteet",
+      "upperSecondarySchoolSubjects": "Lukion kurssit",
+      "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet",
+      "upperSecondarySchoolSubjectsNew": "Lukion oppiaineet",
+      "upperSecondarySchoolModulesNew": "Lukion moduulit",
+      "upperSecondarySchoolObjectivesNew": "Lukion tavoitteet",
+      "upperSecondarySchoolContentsNew": "Lukion sisältöalueet",
       "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
+      "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen tavoitteet",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
       "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
@@ -289,6 +294,10 @@
         },
         "upperSecondarySchoolEducation": {
           "title": "Lukiokoulutus",
+          "selection": {
+            "current": "Lukion opetussuunnitelman perusteet 2015",
+            "new": "Lukion opetussuunnitelman perusteet 2019"
+          },
           "inputs": {
             "subjects": {
               "label": "Lukionkurssit",
@@ -301,6 +310,24 @@
             "framework": {
               "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            },
+            "new": {
+              "subjects": {
+                "label": "Oppiaine",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Moduuli",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Tavoite",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Sisältö",
+                "tooltip": ""
+              }
             }
           }
         },
@@ -310,6 +337,10 @@
             "degrees": {
               "label": "Ammatillisen koulutuksen tutkinnot",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "units": {
+              "label": "Ammatillisen koulutuksen tutkinnon osat",
+              "tooltip": ""
             },
             "objectives": {
               "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
