@@ -1,5 +1,3 @@
-import { Faq } from '../../models/faq';
-
 // tslint:disable:max-line-length
 
 /**
