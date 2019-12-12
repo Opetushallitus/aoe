@@ -446,7 +446,8 @@
     "noMaterials": "Tähän näkymään tulee jakamasi avoimet oppimateriaalit. Et ole vielä lisännyt oppimateriaaleja palveluun. Paina \"Luo uusi materiaali\" ja lisää palveluun ensimmäinen avoin oppimateriaalisi."
   },
   "footer": {
-    "developer": "Palvelun tuottaja"
+    "developer": "Palvelun tuottaja",
+    "feedback": "Anna palautetta"
   },
   "cookies": {
     "cookieSettings": "Evästeasetukset",

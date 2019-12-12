@@ -21,7 +21,7 @@
           <div class="material-sidebar-left">
             <div class="row">
               <div class="col-auto col-md-12 text-center text-sm-left">
-                <img [src]="educationalMaterial.thumbnail ? educationalMaterial.thumbnail : 'assets/img/material.png'" class="img-fluid mb-4">
+                <img [src]="educationalMaterial.thumbnail ? educationalMaterial.thumbnail : 'assets/img/esitys.png'" class="img-fluid mb-4">
               </div>
 
               <div class="col">
@@ -29,14 +29,14 @@
                   <li *ngFor="let type of educationalMaterial.learningResourceTypes">
                     <img src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"> {{ type.value }}
                   </li>
-                  <li class="text-muted">
+                  <!--<li class="text-muted">
                     <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
                     0 {{ 'demo.educationalMaterial.viewCount' | translate }}
                   </li>
                   <li class="text-muted">
                     <i class="fa fa-fw fa-download" aria-hidden="true"></i>
                     0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                  </li>
+                  </li>-->
                 </ul>
               </div>
             </div>
