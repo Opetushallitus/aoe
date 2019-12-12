@@ -7,6 +7,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { EducationalMaterial } from '../../models/educational-material';
 import { Material } from '../../models/material';
 import { BackendService } from '../../services/backend.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -17,7 +18,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   educationalMaterial: EducationalMaterial;
   private routeSubscription: Subscription;
   previewMaterial: Material;
-  specialId: number;
+  downloadUrl: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,11 +33,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
 
     this.routeSubscription = this.route.params.subscribe(params => {
-      this.specialId = +params['materialId'];
-
       this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
         this.educationalMaterial = data;
         this.previewMaterial = this.educationalMaterial.materials[0];
+        this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
       });
     });
   }
