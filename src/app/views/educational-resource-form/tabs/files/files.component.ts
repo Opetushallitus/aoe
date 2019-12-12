@@ -227,7 +227,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      if (this.uploadedFiles.length > 0) {
+      if (this.uploadedFiles && this.uploadedFiles.length > 0) {
         this.router.navigate(['/lisaa-oppimateriaali', 2]);
       } else {
         this.files.setErrors({ 'required': true });
