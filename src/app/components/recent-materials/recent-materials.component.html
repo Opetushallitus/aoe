@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-12">
+    <h2 class="text-center">Viimeisimmät materiaalit</h2>
+  </div>
+
+  <div class="col" *ngIf="!(materials?.length > 0)">
+    <p>Ei viimeisimpiä materiaaleja.</p>
+  </div>
+
+  <ng-container *ngIf="materials?.length > 0">
+    <div class="col-md-4" *ngFor="let material of materials">
+      <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+    </div>
+  </ng-container>
+</div><!-- .row -->
