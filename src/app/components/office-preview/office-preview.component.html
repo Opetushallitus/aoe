@@ -1,3 +1,7 @@
-<div class="embed-responsive embed-responsive-1by1">
+<!--<div class="embed-responsive embed-responsive-1by1">
   <iframe class="embed-responsive-item" [src]="iframeSrc | safe"></iframe>
-</div>
+</div>-->
+
+<a [href]="iframeSrc" class="btn btn-outline-secondary" target="_blank" rel="noopener">{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+{{ 'demo.educationalMaterial.preview.or' | translate }}
+<a [href]="materialUrl" class="btn btn-outline-secondary" download>{{ 'demo.educationalMaterial.preview.download' | translate }}</a>

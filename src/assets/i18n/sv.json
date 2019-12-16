@@ -80,7 +80,9 @@
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
         "fileFormatNotSupported": "Filen kan inte förhandsgranskas.",
-        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik"
+        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik",
+        "or": "eller",
+        "download": "Ladda ner filen"
       }
     }
   },

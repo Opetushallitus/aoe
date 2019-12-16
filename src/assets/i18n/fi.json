@@ -80,7 +80,9 @@
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
         "noAudioSupport": "Selaimesi ei tue audio-elementtiä.",
         "fileFormatNotSupported": "Valittu tiedosto ei ole esikatseltavissa.",
-        "openInNewTab": "Avaa oppimateriaali uuteen välilehteen"
+        "openInNewTab": "Avaa oppimateriaali uuteen välilehteen",
+        "or": "tai",
+        "download": "Lataa tiedosto"
       }
     }
   },
