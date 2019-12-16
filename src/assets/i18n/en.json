@@ -22,6 +22,9 @@
   "home": {
     "search": {
       "title": "What do you want to learn?"
+    },
+    "recentMaterials": {
+      "title": "Recent open educational resources"
     }
   },
   "demo": {

@@ -22,6 +22,9 @@
   "home": {
     "search": {
       "title": "Vad vill du lärä dig?"
+    },
+    "recentMaterials": {
+      "title": "Senaste öppnä lärresurser"
     }
   },
   "demo": {
