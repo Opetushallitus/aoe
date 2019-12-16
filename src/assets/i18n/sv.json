@@ -55,7 +55,12 @@
       "basicStudyContents": "Innehållsområden för grundläggande utbildning",
       "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning",
       "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolSubjectsNew": "Ämne för gymnasieutbildning",
+      "upperSecondarySchoolModulesNew": "Modul för gymnasieutbildning",
+      "upperSecondarySchoolObjectivesNew": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
       "vocationalDegrees": "Examensdel för yrkesutbildning",
+      "vocationalUnits": "Examensdelar för yrkesutbildning",
       "vocationalEducationObjectives": "Mål för yrkesutbildning",
       "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
       "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
@@ -289,6 +294,10 @@
         },
         "upperSecondarySchoolEducation": {
           "title": "Gymnasieutbildning",
+          "selection": {
+            "current": "Grunderna för gymnasiets läroplan 2015",
+            "new": "Grunderna för gymnasiets läroplan 2019"
+          },
           "inputs": {
             "subjects": {
               "label": "Ämne för gymnasieutbildning",
@@ -301,6 +310,24 @@
             "framework": {
               "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            },
+            "new": {
+              "subjects": {
+                "label": "Ämne",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Modul",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Mål för gymnasieutbildning",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Innehållsområden för gymnasieutbildning",
+                "tooltip": ""
+              }
             }
           }
         },
@@ -310,6 +337,10 @@
             "degrees": {
               "label": "Examensdel för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "units": {
+              "label": "Examensdelar för yrkesutbildning",
+              "tooltip": ""
             },
             "objectives": {
               "label": "Mål för yrkesutbildning",
