@@ -9,10 +9,12 @@ import { environment } from '../../../environments/environment';
 })
 export class OfficePreviewComponent implements OnInit {
   @Input() material: Material;
+  materialUrl: string;
   iframeSrc: string;
 
   ngOnInit(): void {
     const materialUri = encodeURIComponent(`${environment.backendUrl}/download/${this.material.filekey}`);
     this.iframeSrc = `https://view.officeapps.live.com/op/embed.aspx?src=${materialUri}`;
+    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
   }
 }
