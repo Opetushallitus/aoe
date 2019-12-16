@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CookieService as CookieSvc } from 'ngx-cookie-service';
 import { CookieSettings } from '../models/cookie-settings';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CookieService {
   constructor(
-    private cookieService: CookieSvc,
+    private cookieSvc: CookieSvc,
   ) { }
 
   /**
@@ -20,12 +21,15 @@ export class CookieService {
       googleAnalytics: values.googleAnalytics,
     };
 
-    // save settings to session storage
-    sessionStorage.setItem('aoe.cookies', JSON.stringify(cookieSettings));
+    this.cookieSvc.set(
+      environment.cookieSettingsCookie,
+      JSON.stringify(cookieSettings),
+      30,
+    );
 
     // delete Google Analytics cookies
-    if (values.googleAnalytics === false && this.cookieService.check('_ga')) {
-      this.cookieService.delete('_ga');
+    if (values.googleAnalytics === false && this.cookieSvc.check('_ga')) {
+      this.cookieSvc.delete('_ga');
     }
   }
 
@@ -35,7 +39,7 @@ export class CookieService {
    * @returns {boolean}
    */
   getCookieSetting(cookie: string): boolean {
-    const cookieSettings: CookieSettings = JSON.parse(sessionStorage.getItem('aoe.cookies'));
+    const cookieSettings: CookieSettings = JSON.parse(this.cookieSvc.get(environment.cookieSettingsCookie));
 
     return cookieSettings[cookie];
   }
@@ -45,6 +49,6 @@ export class CookieService {
    * @returns {boolean}
    */
   isCookieSettingsSet(): boolean {
-    return !!sessionStorage.getItem('aoe.cookies');
+    return this.cookieSvc.check(environment.cookieSettingsCookie);
   }
 }
