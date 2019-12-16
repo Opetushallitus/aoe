@@ -22,6 +22,9 @@
   "home": {
     "search": {
       "title": "Mitä haluat oppia?"
+    },
+    "recentMaterials": {
+      "title": "Uusimmat oppimateriaalit"
     }
   },
   "demo": {
