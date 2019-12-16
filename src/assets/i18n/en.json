@@ -53,9 +53,14 @@
       "basicStudySubjects": "Educational subject of basic education",
       "basicStudyObjectives": "Learning object of basic education",
       "basicStudyContents": "Educational content of basic education",
-      "upperSecondarySchoolSubjects": "Educational subject of upper secondary school",
+      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school",
       "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
+      "upperSecondarySchoolSubjectsNew": "Educational subjects of upper secondary school",
+      "upperSecondarySchoolModulesNew": "Educational modules of upper secondary school",
+      "upperSecondarySchoolObjectivesNew": "Learning object of upper secondary school",
+      "upperSecondarySchoolContentsNew": "Learning content of upper secondary school",
       "vocationalDegrees": "Educational subject of vocational education",
+      "vocationalUnits": "Vocational units",
       "vocationalEducationObjectives": "Learning object of vocational education",
       "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
       "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
@@ -295,6 +300,10 @@
         },
         "upperSecondarySchoolEducation": {
           "title": "Upper secondary school",
+          "selection": {
+            "current": "Educational framework of upper secondary school 2015",
+            "new": "Educational framework of upper secondary school 2019"
+          },
           "inputs": {
             "subjects": {
               "label": "Educational subject of upper secondary school",
@@ -307,6 +316,24 @@
             "framework": {
               "label": "Educational framework of upper secondary school",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            },
+            "new": {
+              "subjects": {
+                "label": "Educational subject",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Module",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Learning object of upper secondary school",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Educational content of upper secondary school",
+                "tooltip": ""
+              }
             }
           }
         },
@@ -316,6 +343,10 @@
             "degrees": {
               "label": "Educational subject of vocational education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "units": {
+              "label": "Units of vocational education",
+              "tooltip": ""
             },
             "objectives": {
               "label": "Learning object of vocational education",

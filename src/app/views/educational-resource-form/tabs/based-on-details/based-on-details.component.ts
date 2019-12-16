@@ -131,6 +131,8 @@ export class BasedOnDetailsComponent implements OnInit {
     // clear data from session storage
     sessionStorage.removeItem(this.savedDataKey);
     sessionStorage.removeItem(this.fileUploadLSKey);
+
+    this.router.navigateByUrl('/');
   }
 
   previousTab() {
