@@ -9,4 +9,5 @@ export const environment = {
   koodistoUrl: 'https://koodisto.aoe.fi/api/v1',
   sessionCookie: 'connect.sid',
   userdataKey: 'aoe.userdata',
+  cookieSettingsCookie: 'aoe.cookies',
 };
