@@ -481,6 +481,7 @@
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
+    "acceptAll": "Accept all",
     "title": "Cookie settings"
   }
 }
