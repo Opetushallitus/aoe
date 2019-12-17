@@ -30,6 +30,15 @@ export class CookieNoticeComponent implements OnInit {
     });
   }
 
+  acceptAll(): void {
+    this.cookies.setValue({
+      aoe: true,
+      googleAnalytics: true,
+    });
+
+    this.onSubmit();
+  }
+
   onSubmit(): void {
     // set cookie settings
     this.cookieSvc.setCookieSettings(this.cookies.value);
