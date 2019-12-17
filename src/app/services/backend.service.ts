@@ -244,6 +244,41 @@ export class BackendService {
     );
   }
 
+  getRecentMaterialList(): Observable<EducationalMaterialList[]> {
+    return this.http.get<any>(`${this.backendUrl}/recentmaterial`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
+      map((res): EducationalMaterialList[] => {
+        return res
+          .filter(r => r.name.length > 0)
+          .map(r => {
+            return {
+              id: r.id,
+              name: r.name
+                .find(n => n.language.toLowerCase() === this.lang).materialname,
+              slug: r.name
+                .find(n => n.language.toLowerCase() === this.lang).slug,
+              thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
+              learningResourceTypes: r.learningResourceTypes
+                .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
+              authors: r.authors
+                .map(({ authorname, organization }) => ({ authorname, organization })),
+              description: r.description
+                .find(d => d.language.toLowerCase() === this.lang).description,
+              license: r.license,
+              keywords: r.keywords
+                .map(({ keywordkey, value }) => ({ keywordkey, value })),
+              educationalLevels: r.educationalLevels
+                .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
+            };
+          });
+      }),
+      catchError(this.handleError),
+    );
+  }
+
   /**
    * Upload thumbnail image for educational material to backend.
    * @param {FormData} data

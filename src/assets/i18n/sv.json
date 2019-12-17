@@ -22,6 +22,9 @@
   "home": {
     "search": {
       "title": "Vad vill du lärä dig?"
+    },
+    "recentMaterials": {
+      "title": "Senaste öppnä lärresurser"
     }
   },
   "demo": {
@@ -80,7 +83,9 @@
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
         "fileFormatNotSupported": "Filen kan inte förhandsgranskas.",
-        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik"
+        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik",
+        "or": "eller",
+        "download": "Ladda ner filen"
       }
     }
   },
@@ -476,6 +481,7 @@
   },
   "cookies": {
     "cookieSettings": "Inställningar för cookies",
+    "acceptAll": "Tillåta alla",
     "title": "Inställningar för cookies"
   }
 }
