@@ -1,0 +1,27 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ng-container [ngSwitch]="lang">
+          <ng-container *ngSwitchDefault>
+            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'en'">
+            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'sv'">
+            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
