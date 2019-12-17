@@ -481,6 +481,7 @@
   },
   "cookies": {
     "cookieSettings": "Evästeasetukset",
+    "acceptAll": "Hyväksy kaikki",
     "title": "Evästeasetukset"
   }
 }
