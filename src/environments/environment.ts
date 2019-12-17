@@ -15,4 +15,5 @@ export const environment = {
   koodistoUrl: 'http://localhost:3000/api/v1',
   sessionCookie: 'connect.sid',
   userdataKey: 'aoe.userdata',
+  cookieSettingsCookie: 'aoe.cookies',
 };

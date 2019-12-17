@@ -26,8 +26,17 @@ export class CookieNoticeComponent implements OnInit {
 
     this.cookies = this.fb.group({
       aoe: this.fb.control({ value: true, disabled: true }, [ Validators.requiredTrue ]),
-      googleAnalytics: this.fb.control(false),
+      googleAnalytics: this.fb.control(true),
     });
+  }
+
+  acceptAll(): void {
+    this.cookies.setValue({
+      aoe: true,
+      googleAnalytics: true,
+    });
+
+    this.onSubmit();
   }
 
   onSubmit(): void {
