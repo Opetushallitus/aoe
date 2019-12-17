@@ -246,6 +246,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       formData.append('fileDetails', JSON.stringify({
         displayName: file.displayName,
         language: file.language,
+        priority: this.uploadedFiles.length - 1 + i,
       }));
 
       if (file.link) {
@@ -253,6 +254,7 @@ export class FilesComponent implements OnInit, OnDestroy {
           link: file.link,
           displayName: file.displayName,
           language: file.language,
+          priority: this.uploadedFiles.length - 1 + i,
         }).subscribe(
           () => {},
           (err) => console.error(err),
