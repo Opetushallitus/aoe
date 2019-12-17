@@ -83,7 +83,9 @@
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
         "fileFormatNotSupported": "Chosen file cannot be previewed.",
-        "openInNewTab": "Open educational material in a new tab"
+        "openInNewTab": "Open educational material in a new tab",
+        "or": "or",
+        "download": "Download the file"
       }
     }
   },
@@ -479,6 +481,7 @@
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
+    "acceptAll": "Accept all",
     "title": "Cookie settings"
   }
 }
