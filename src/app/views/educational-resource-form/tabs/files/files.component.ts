@@ -8,7 +8,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
 import { BackendService } from '../../../../services/backend.service';
-import { AuthService } from '../../../../services/auth.service';
 import { UploadMessage } from '../../../../models/upload-message';
 import { Language } from '../../../../models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
@@ -45,7 +44,6 @@ export class FilesComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private backendSvc: BackendService,
-    private authSvc: AuthService,
   ) { }
 
   ngOnInit() {
