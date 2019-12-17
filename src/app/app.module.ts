@@ -76,6 +76,7 @@ import { EducationalMaterialCardComponent } from './components/educational-mater
 import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
 import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
 import { CredentialInterceptor } from './providers/credential.interceptor';
+import { LogoutViewComponent } from './views/logout-view/logout-view.component';
 
 @NgModule({
   imports: [
@@ -143,6 +144,7 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
     UserMaterialsViewComponent,
     PreviewComponent,
     CookieNoticeComponent,
+    LogoutViewComponent,
   ],
   providers: [
     {
