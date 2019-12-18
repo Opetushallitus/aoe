@@ -39,6 +39,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -107,6 +108,7 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
     BsDatepickerModule.forRoot(),
     ProgressbarModule.forRoot(),
     ImageCropperModule,
+    DragDropModule,
   ],
   declarations: [
     AppComponent,
