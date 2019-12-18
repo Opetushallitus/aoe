@@ -240,13 +240,15 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   uploadFiles() {
+    const nth = this.uploadedFiles ? this.uploadedFiles.length - 1 : 0;
+
     this.files.value.forEach((file, i) => {
       const formData = new FormData();
       formData.append('file', file.file);
       formData.append('fileDetails', JSON.stringify({
         displayName: file.displayName,
         language: file.language,
-        priority: this.uploadedFiles.length - 1 + i,
+        priority: nth + i,
       }));
 
       if (file.link) {
@@ -254,7 +256,7 @@ export class FilesComponent implements OnInit, OnDestroy {
           link: file.link,
           displayName: file.displayName,
           language: file.language,
-          priority: this.uploadedFiles.length - 1 + i,
+          priority: nth + i,
         }).subscribe(
           () => {},
           (err) => console.error(err),
