@@ -6,7 +6,10 @@ import { LearningResourceType } from './learning-resource-type';
 import { AlignmentObjectExtended } from './alignment-object-extended';
 
 export interface EducationalMaterial {
-  name: string;
+  name: [{
+    materialname: string;
+    language: string;
+  }];
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];

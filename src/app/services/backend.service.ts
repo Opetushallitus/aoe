@@ -127,17 +127,8 @@ export class BackendService {
         // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
-        let materials;
-
-        if (res.materials.filter(m => m.language.toLowerCase() === this.lang).length > 0) {
-          materials = res.materials.filter(m => m.language.toLowerCase() === this.lang);
-        } else {
-          materials = res.materials.filter(m => m.language.toLowerCase() === 'fi');
-        }
-
         return {
-          name: res.name
-            .find(n => n.language.toLowerCase() === this.lang).materialname,
+          name: res.name,
           thumbnail: res.thumbnail ? res.thumbnail.filepath : null,
           learningResourceTypes: res.learningResourceTypes
             .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
@@ -145,9 +136,19 @@ export class BackendService {
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description
             .find(d => d.language.toLowerCase() === this.lang).description,
-          materials: materials
+          materials: res.materials
             // tslint:disable-next-line:max-line-length
-            .map(({ id, originalfilename, filekey, link, mimetype, displayName }) => ({ id, originalfilename, filekey, link, mimetype, displayName: displayName[this.lang] })),
+            .map(m => ({
+                id: m.id,
+                language: m.language,
+                priority: m.priority,
+                originalfilename: m.originalfilename,
+                filekey: m.filekey,
+                link: m.link,
+                mimetype: m.mimetype,
+                displayName: m.displayName
+              })
+            ),
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,

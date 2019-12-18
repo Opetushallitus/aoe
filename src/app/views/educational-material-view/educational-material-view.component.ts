@@ -20,6 +20,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   previewMaterial: Material;
   downloadUrl: string;
 
+  materialName: string;
+  materials: Material[];
+
   constructor(
     private route: ActivatedRoute,
     private location: Location,
@@ -30,13 +33,20 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      if (this.educationalMaterial) {
+        this.updateMaterialName();
+        this.updateMaterials();
+      }
     });
 
     this.routeSubscription = this.route.params.subscribe(params => {
       this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
         this.educationalMaterial = data;
-        this.previewMaterial = this.educationalMaterial.materials[0];
         this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
+
+        this.updateMaterialName();
+        this.updateMaterials();
       });
     });
   }
@@ -47,5 +57,25 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   setPreviewMaterial(material: Material): void {
     this.previewMaterial = material;
+  }
+
+  updateMaterialName(): void {
+    if (this.educationalMaterial.name.find(n => n.language === this.lang).materialname !== '') {
+      this.materialName = this.educationalMaterial.name.find(n => n.language === this.lang).materialname;
+    } else {
+      this.materialName = this.educationalMaterial.name.find(n => n.language === 'fi').materialname;
+    }
+  }
+
+  updateMaterials(): void {
+    if (this.educationalMaterial.materials.filter(m => m.language === this.lang).length > 0) {
+      this.materials = this.educationalMaterial.materials.filter(m => m.language === this.lang);
+    } else {
+      this.materials = this.educationalMaterial.materials.filter(m => m.language === 'fi');
+    }
+
+    if (this.materials.length > 0) {
+      this.previewMaterial = this.materials[0];
+    }
   }
 }
