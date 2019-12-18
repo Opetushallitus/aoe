@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterialList } from '../../models/educational-material-list';
+import { Keyword } from '../../models/keyword';
+import { EducationalLevel } from '../../models/educational-level';
 
 @Component({
   selector: 'app-educational-material-card',
@@ -13,8 +15,8 @@ export class EducationalMaterialCardComponent implements OnInit {
 
   materialName: string;
   description: string;
-  /*keywords: object[];
-  educationalLevels: object[];*/
+  keywords: Keyword[];
+  educationalLevels: EducationalLevel[];
 
   constructor(
     private translate: TranslateService,
@@ -32,8 +34,8 @@ export class EducationalMaterialCardComponent implements OnInit {
     this.updateDescription();
 
     // @todo: redo this with api data
-    /*this.keywords = this.getValuesWithinLimits(this.educationalMaterial.keywords);
-    this.educationalLevels = this.getValuesWithinLimits(this.educationalMaterial.educationalLevels);*/
+    this.keywords = this.getValuesWithinLimits(this.educationalMaterial.keywords);
+    this.educationalLevels = this.getValuesWithinLimits(this.educationalMaterial.educationalLevels);
   }
 
   updateMaterialName(): void {
@@ -52,8 +54,8 @@ export class EducationalMaterialCardComponent implements OnInit {
     }
   }
 
-  /*getValuesWithinLimits(input: object[]): object[] {
-    const charLimit = 60;
+  getValuesWithinLimits(input: Keyword[] | EducationalLevel[]) {
+    const charLimit = 30;
     let usedChars = 0;
     const values = [];
 
@@ -69,5 +71,5 @@ export class EducationalMaterialCardComponent implements OnInit {
     }
 
     return values;
-  }*/
+  }
 }
