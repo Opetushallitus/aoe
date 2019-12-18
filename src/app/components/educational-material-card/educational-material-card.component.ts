@@ -15,8 +15,8 @@ export class EducationalMaterialCardComponent implements OnInit {
 
   materialName: string;
   description: string;
-  keywords: Keyword[];
-  educationalLevels: EducationalLevel[];
+  keywords: string[];
+  educationalLevels: string[];
 
   constructor(
     private translate: TranslateService,
@@ -54,20 +54,20 @@ export class EducationalMaterialCardComponent implements OnInit {
     }
   }
 
-  getValuesWithinLimits(input: Keyword[] | EducationalLevel[]) {
+  getValuesWithinLimits(input: Keyword[] | EducationalLevel[]): string[] {
     const charLimit = 30;
     let usedChars = 0;
     const values = [];
 
     input.forEach(row => {
       if (usedChars + row['value'].length <= charLimit) {
-        values.push(row);
+        values.push(row.value);
         usedChars += row['value'].length;
       }
     });
 
     if (values.length < input.length) {
-      values.push({ value: `+${input.length - values.length}` });
+      values.push(`+${input.length - values.length}`);
     }
 
     return values;
