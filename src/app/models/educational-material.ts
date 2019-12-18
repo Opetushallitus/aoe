@@ -13,7 +13,10 @@ export interface EducationalMaterial {
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
-  description?: string;
+  description?: [{
+    description: string;
+    language: string;
+  }];
   materials?: Material[];
   createdAt: Date;
   publishedAt?: Date;

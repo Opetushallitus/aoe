@@ -73,7 +73,7 @@
                 </span>
               </div>
 
-              <p>{{ educationalMaterial.description }}</p>
+              <p *ngIf="description">{{ description }}</p>
             </div>
 
             <div class="list-files mb-4" *ngIf="materials.length > 0">

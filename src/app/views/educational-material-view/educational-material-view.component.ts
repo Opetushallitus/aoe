@@ -21,6 +21,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   downloadUrl: string;
 
   materialName: string;
+  description: string;
   materials: Material[];
 
   constructor(
@@ -36,6 +37,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
       if (this.educationalMaterial) {
         this.updateMaterialName();
+        this.updateDescription();
         this.updateMaterials();
       }
     });
@@ -46,6 +48,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
 
         this.updateMaterialName();
+        this.updateDescription();
         this.updateMaterials();
       });
     });
@@ -64,6 +67,14 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.materialName = this.educationalMaterial.name.find(n => n.language === this.lang).materialname;
     } else {
       this.materialName = this.educationalMaterial.name.find(n => n.language === 'fi').materialname;
+    }
+  }
+
+  updateDescription(): void {
+    if (this.educationalMaterial.description.find(d => d.language === this.lang).description !== '') {
+      this.description = this.educationalMaterial.description.find(d => d.language === this.lang).description;
+    } else {
+      this.description = this.educationalMaterial.description.find(d => d.language === 'fi').description;
     }
   }
 

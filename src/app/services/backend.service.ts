@@ -134,8 +134,7 @@ export class BackendService {
             .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
-          description: res.description
-            .find(d => d.language.toLowerCase() === this.lang).description,
+          description: res.description,
           materials: res.materials
             // tslint:disable-next-line:max-line-length
             .map(m => ({
@@ -229,17 +228,13 @@ export class BackendService {
           .map(r => {
             return {
               id: r.id,
-              name: r.name
-                .find(n => n.language.toLowerCase() === this.lang).materialname,
-              slug: r.name
-                .find(n => n.language.toLowerCase() === this.lang).slug,
+              name: r.name,
               thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
                 .map(({ authorname, organization }) => ({ authorname, organization })),
-              description: r.description
-                .find(d => d.language.toLowerCase() === this.lang).description,
+              description: r.description,
               license: r.license,
               keywords: r.keywords
                 .map(({ keywordkey, value }) => ({ keywordkey, value })),
@@ -264,8 +259,7 @@ export class BackendService {
           .map(r => {
             return {
               id: r.id,
-              name: r.name
-                .find(n => n.language.toLowerCase() === this.lang).materialname,
+              name: r.name,
               slug: r.name
                 .find(n => n.language.toLowerCase() === this.lang).slug,
               thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
@@ -273,8 +267,7 @@ export class BackendService {
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
                 .map(({ authorname, organization }) => ({ authorname, organization })),
-              description: r.description
-                .find(d => d.language.toLowerCase() === this.lang).description,
+              description: r.description,
               license: r.license,
               keywords: r.keywords
                 .map(({ keywordkey, value }) => ({ keywordkey, value })),
