@@ -127,6 +127,14 @@ export class BackendService {
         // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
+        let materials;
+
+        if (res.materials.filter(m => m.language.toLowerCase() === this.lang).length > 0) {
+          materials = res.materials.filter(m => m.language.toLowerCase() === this.lang);
+        } else {
+          materials = res.materials.filter(m => m.language.toLowerCase() === 'fi');
+        }
+
         return {
           name: res.name
             .find(n => n.language.toLowerCase() === this.lang).materialname,
@@ -137,8 +145,7 @@ export class BackendService {
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description
             .find(d => d.language.toLowerCase() === this.lang).description,
-          materials: res.materials
-            .filter(m => m.language.toLowerCase() === this.lang)
+          materials: materials
             // tslint:disable-next-line:max-line-length
             .map(({ id, originalfilename, filekey, link, mimetype, displayName }) => ({ id, originalfilename, filekey, link, mimetype, displayName: displayName[this.lang] })),
           createdAt: res.createdAt,
