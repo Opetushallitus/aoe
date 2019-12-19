@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { environment } from '../../../../../environments/environment';
 import { BackendService } from '../../../../services/backend.service';
@@ -144,8 +145,19 @@ export class PreviewComponent implements OnInit {
     }
   }
 
+  drop(event: CdkDragDrop<UploadedFile[]>) {
+    moveItemInArray(this.uploadedFiles, event.previousIndex, event.currentIndex);
+  }
+
   onSubmit() {
     if (this.previewForm.valid) {
+      this.savedData.fileOrder = this.uploadedFiles.map((file: UploadedFile, index: number) => {
+        return {
+          id: file.id,
+          priority: index,
+        };
+      });
+
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up session storage
         sessionStorage.removeItem(this.savedDataKey);
