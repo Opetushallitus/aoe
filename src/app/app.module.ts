@@ -39,6 +39,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -76,6 +77,7 @@ import { EducationalMaterialCardComponent } from './components/educational-mater
 import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
 import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
 import { CredentialInterceptor } from './providers/credential.interceptor';
+import { LogoutViewComponent } from './views/logout-view/logout-view.component';
 
 @NgModule({
   imports: [
@@ -107,6 +109,7 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
     BsDatepickerModule.forRoot(),
     ProgressbarModule.forRoot(),
     ImageCropperModule,
+    DragDropModule,
   ],
   declarations: [
     AppComponent,
@@ -143,6 +146,7 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
     UserMaterialsViewComponent,
     PreviewComponent,
     CookieNoticeComponent,
+    LogoutViewComponent,
   ],
   providers: [
     {
