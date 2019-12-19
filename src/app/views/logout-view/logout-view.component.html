@@ -4,21 +4,15 @@
       <div class="col">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <p>Olet kirjautunut onnistuneesti ulos aoe.fi-sivustolta. <a [routerLink]="['/etusivu']">Palaa etusivulle</a></p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
-            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <p>You have logged out of aoe.fi. <a [routerLink]="['/etusivu']">Return to the front page</a></p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
-            <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h1>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <p>Du har loggat ut från aoe.fi. <a [routerLink]="['/etusivu']">Återvänd till huvudsidan</a></p>
           </ng-container>
         </ng-container>
       </div>
