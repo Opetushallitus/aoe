@@ -12,10 +12,12 @@ const rediskeyObjectives = "lukio-uusi-tavoitteet";
 const rediskeyContents = "lukio-uusi-sisallot";
 const params = "6828810/lops2019/oppiaineet";
 
-export async function setLukionOppiaineet(): Promise<any> {
+export async function setLukionOppiaineetModuulit(): Promise<any> {
   try {
     const finnishSubjects: AlignmentObjectExtended[] = [];
     const swedishSubjects: AlignmentObjectExtended[] = [];
+    const finnishModules: AlignmentObjectExtended[] = [];
+    const swedishModules: AlignmentObjectExtended[] = [];
 
     const results = await getDataFromApi(
       process.env.EPERUSTEET_SERVICE_URL,
@@ -27,29 +29,141 @@ export async function setLukionOppiaineet(): Promise<any> {
       params,
     );
 
-    results.forEach((row: any) => {
-      finnishSubjects.push({
-        key: row.id,
-        source: "upperSecondarySchoolSubjectsNew",
-        alignmentType: "teaches",
-        targetName: row.nimi.fi ? row.nimi.fi : row.nimi.sv,
-        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${row.id}`,
-      });
+    for (const row of results) {
+      try {
+        const subject = await getDataFromApi(
+          process.env.EPERUSTEET_SERVICE_URL,
+          `/${endpoint}/`,
+          {
+            "Accept": "application/json",
+            "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+          },
+          `${params}/${row.id}`,
+        );
 
-      swedishSubjects.push({
-        key: row.id,
-        source: "upperSecondarySchoolSubjectsNew",
-        alignmentType: "teaches",
-        targetName: row.nimi.sv ? row.nimi.sv : row.nimi.fi,
-        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${row.id}`,
-      });
-    });
+        if (subject.moduulit.length > 0) {
+          finnishSubjects.push({
+            key: subject.id,
+            source: "upperSecondarySchoolSubjectsNew",
+            alignmentType: "teaches",
+            targetName: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
+            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}`,
+          });
+
+          swedishSubjects.push({
+            key: subject.id,
+            source: "upperSecondarySchoolSubjectsNew",
+            alignmentType: "teaches",
+            targetName: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
+            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}`,
+          });
+
+          for (const module of subject.moduulit) {
+            finnishModules.push({
+              key: module.id,
+              parent: {
+                key: subject.id,
+                value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
+              },
+              source: "upperSecondarySchoolModulesNew",
+              alignmentType: "teaches",
+              targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
+              targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}/moduulit/${module.id}`,
+            });
+
+            swedishModules.push({
+              key: module.id,
+              parent: {
+                key: subject.id,
+                value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
+              },
+              source: "upperSecondarySchoolModulesNew",
+              alignmentType: "teaches",
+              targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
+              targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}/moduulit/${module.id}`,
+            });
+          }
+        }
+
+        if (subject.oppimaarat.length > 0) {
+          for (const row of subject.oppimaarat) {
+            try {
+              const course = await getDataFromApi(
+                process.env.EPERUSTEET_SERVICE_URL,
+                `/${endpoint}/`,
+                {
+                  "Accept": "application/json",
+                  "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+                },
+                `${params}/${row.id}`,
+              );
+
+              finnishSubjects.push({
+                key: course.id,
+                parent: {
+                  key: subject.id,
+                  value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
+                },
+                source: "upperSecondarySchoolSubjectsNew",
+                alignmentType: "teaches",
+                targetName: course.nimi.fi ? course.nimi.fi : course.nimi.sv,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}`,
+              });
+
+              swedishSubjects.push({
+                key: course.id,
+                parent: {
+                  key: subject.id,
+                  value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.en,
+                },
+                source: "upperSecondarySchoolSubjectsNew",
+                alignmentType: "teaches",
+                targetName: course.nimi.sv ? course.nimi.sv : course.nimi.fi,
+                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}`,
+              });
+
+              for (const module of course.moduulit) {
+                finnishModules.push({
+                  key: module.id,
+                  parent: {
+                    key: course.id,
+                    value: course.nimi.fi ? course.nimi.fi : course.nimi.sv,
+                  },
+                  source: "upperSecondarySchoolModulesNew",
+                  alignmentType: "teaches",
+                  targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
+                  targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}/moduulit/${module.id}`,
+                });
+
+                swedishModules.push({
+                  key: module.id,
+                  parent: {
+                    key: course.id,
+                    value: course.nimi.sv ? course.nimi.sv : course.nimi.fi,
+                  },
+                  source: "upperSecondarySchoolModulesNew",
+                  alignmentType: "teaches",
+                  targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
+                  targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}/moduulit/${module.id}`,
+                });
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
     finnishSubjects.sort(sortByTargetName);
     swedishSubjects.sort(sortByTargetName);
 
     await setAsync(`${rediskeySubjects}.fi`, JSON.stringify(finnishSubjects));
     await setAsync(`${rediskeySubjects}.sv`, JSON.stringify(swedishSubjects));
+    await setAsync(`${rediskeyModules}.fi`, JSON.stringify(finnishModules));
+    await setAsync(`${rediskeyModules}.sv`, JSON.stringify(swedishModules));
   } catch (err) {
     console.error(err);
   }
@@ -57,10 +171,17 @@ export async function setLukionOppiaineet(): Promise<any> {
 
 export const getLukionOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const data = await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`);
+    const data = JSON.parse(await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`))
+      .map((subject: AlignmentObjectExtended) => {
+        if (subject.parent) {
+          subject.parent = subject.parent.value;
+        }
+
+        return subject;
+      });
 
     if (data) {
-      res.status(200).json(JSON.parse(data));
+      res.status(200).json(data);
     } else {
       res.sendStatus(404);
 
@@ -71,63 +192,6 @@ export const getLukionOppiaineet = async (req: Request, res: Response, next: Nex
     res.status(500).send("Something went wrong");
   }
 };
-
-export async function setLukionModuulit(): Promise<any> {
-  try {
-    const finnishModules: AlignmentObjectExtended[] = [];
-    const swedishModules: AlignmentObjectExtended[] = [];
-
-    const subjects: number[] = JSON.parse(await getAsync(`${rediskeySubjects}.fi`))
-      .map((s: AlignmentObjectExtended) => s.key);
-
-    for (const subject of subjects) {
-      try {
-        const results = await getDataFromApi(
-          process.env.EPERUSTEET_SERVICE_URL,
-          `/${endpoint}/`,
-          {
-            "Accept": "application/json",
-            "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
-          },
-          `${params}/${subject}`,
-        );
-
-        results.moduulit.forEach((module: any) => {
-          finnishModules.push({
-            key: module.id,
-            parent: {
-              key: subject,
-              value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
-            },
-            source: "upperSecondarySchoolModulesNew",
-            alignmentType: "teaches",
-            targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
-            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject}/moduulit/${module.id}`,
-          });
-
-          swedishModules.push({
-            key: module.id,
-            parent: {
-              key: subject,
-              value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
-            },
-            source: "upperSecondarySchoolModulesNew",
-            alignmentType: "teaches",
-            targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
-            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject}/moduulit/${module.id}`,
-          });
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    await setAsync(`${rediskeyModules}.fi`, JSON.stringify(finnishModules));
-    await setAsync(`${rediskeyModules}.sv`, JSON.stringify(swedishModules));
-  } catch (err) {
-    console.error(err);
-  }
-}
 
 export const getLukionModuulit = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
