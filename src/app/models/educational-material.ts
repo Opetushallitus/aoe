@@ -6,11 +6,17 @@ import { LearningResourceType } from './learning-resource-type';
 import { AlignmentObjectExtended } from './alignment-object-extended';
 
 export interface EducationalMaterial {
-  name: string;
+  name: [{
+    materialname: string;
+    language: string;
+  }];
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
-  description?: string;
+  description?: [{
+    description: string;
+    language: string;
+  }];
   materials?: Material[];
   createdAt: Date;
   publishedAt?: Date;
