@@ -5,12 +5,18 @@ import { LearningResourceType } from './learning-resource-type';
 
 export interface EducationalMaterialList {
   id: number;
-  name: string;
-  slug: string;
+  name: [{
+    materialname: string;
+    language: string;
+  }];
+  slug?: string;
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
-  description?: string;
+  description?: [{
+    description: string;
+    language: string;
+  }];
   license: string;
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];

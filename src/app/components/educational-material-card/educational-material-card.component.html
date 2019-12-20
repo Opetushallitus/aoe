@@ -6,9 +6,9 @@
       </div>
 
       <div class="col-12 col-sm-8 col-md-12 col-lg-7">
-        <h5>{{ educationalMaterial.name }}</h5>
+        <h5>{{ materialName }}</h5>
 
-        <p>{{ educationalMaterial.description | truncate:[75] }}</p>
+        <p *ngIf="description">{{ description | truncate:[75] }}</p>
 
         <ul class="list-unstyled authors">
           <li *ngFor="let author of educationalMaterial.authors">{{ author.authorname }}</li>
@@ -18,14 +18,14 @@
   </a>
 
   <div class="tags">
-    <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
-      {{ keyword.value }}
+    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled">
+      {{ keyword }}
     </button>
   </div>
 
   <div class="tags">
-    <button *ngFor="let educationalLevel of educationalMaterial.educationalLevels" type="button" class="btn btn-light disabled">
-      {{ educationalLevel.value }}
+    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled">
+      {{ educationalLevel }}
     </button>
   </div>
 
