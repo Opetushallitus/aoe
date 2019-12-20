@@ -16,6 +16,7 @@ import { AcceptanceGuard } from './guards/acceptance.guard';
 import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FileUploadGuard } from './guards/file-upload.guard';
+import { LogoutViewComponent } from './views/logout-view/logout-view.component';
 
 export const routes: Routes = [
   {
@@ -87,6 +88,11 @@ export const routes: Routes = [
         path: 'hyvaksynta',
         component: AcceptanceViewComponent,
         canActivate: [ AuthGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'logout',
+        component: LogoutViewComponent,
         runGuardsAndResolvers: 'always',
       },
     ],
