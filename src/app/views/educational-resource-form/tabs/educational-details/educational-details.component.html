@@ -393,10 +393,15 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          groupBy="parent"
           id="upperSecondarySchoolSubjectsNew"
           formControlName="upperSecondarySchoolSubjectsNew"
           (change)="upperSecondarySchoolSubjectsNewChange($event)"
-        ></ng-select>
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+        </ng-select>
       </div>
 
       <div class="form-group">
@@ -412,7 +417,7 @@
         </div>
       </div>
 
-      <ng-container *ngIf="hasUpperSecondarySchoolSubjectsNew">
+      <ng-container *ngIf="upperSecondarySchoolModulesNew.length > 0">
         <div class="form-group">
           <label for="upperSecondarySchoolModulesNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}</label>
 
