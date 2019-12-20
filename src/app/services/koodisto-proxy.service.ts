@@ -37,6 +37,10 @@ export class KoodistoProxyService {
   public basicStudyObjectives$ = new Subject<AlignmentObjectExtended[]>();
   public basicStudyContents$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolSubjectsNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolModulesNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolObjectivesNew$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolContentsNew$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalUnits$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
@@ -45,10 +49,6 @@ export class KoodistoProxyService {
   public licenses$ = new Subject<License[]>();
   public keywords$ = new Subject<KeyValue<string, string>[]>();
   public organizations$ = new Subject<KeyValue<string, string>[]>();
-  public upperSecondarySchoolSubjectsNew$ = new Subject<AlignmentObjectExtended[]>();
-  public upperSecondarySchoolModulesNew$ = new Subject<AlignmentObjectExtended[]>();
-  public upperSecondarySchoolObjectivesNew$ = new Subject<AlignmentObjectExtended[]>();
-  public upperSecondarySchoolContentsNew$ = new Subject<AlignmentObjectExtended[]>();
 
   constructor(
     private http: HttpClient,
@@ -166,6 +166,72 @@ export class KoodistoProxyService {
   }
 
   /**
+   * Updates upper secondary school subjects (new).
+   */
+  updateUpperSecondarySchoolSubjectsNew(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-oppiaineet/${lang}`, this.httpOptions)
+      .subscribe((subjects: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolSubjectsNew$.next(subjects);
+      });
+  }
+
+  /**
+   * Updates upper secondary school modules (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolModulesNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-moduulit/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (modules: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolModulesNew$.next(modules);
+        },
+        () => {
+          this.upperSecondarySchoolModulesNew$.next([]);
+        },
+      );
+  }
+
+  /**
+   * Updates upper secondary school objectives (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolObjectivesNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-tavoitteet/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (objectives: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolObjectivesNew$.next(objectives);
+        },
+        () => {
+          this.upperSecondarySchoolObjectivesNew$.next([]);
+        },
+      );
+  }
+
+  /**
+   * Updates upper secondary school contents (new).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolContentsNew(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-sisallot/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (contents: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolContentsNew$.next(contents);
+        },
+        () => {
+          this.upperSecondarySchoolContentsNew$.next([]);
+        },
+      );
+  }
+
+  /**
    * Updates vocational degrees.
    */
   updateVocationalDegrees(): void {
@@ -185,9 +251,14 @@ export class KoodistoProxyService {
     const lang = this.translate.currentLang;
 
     this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnon-osat/${ids}/${lang}`, this.httpOptions)
-      .subscribe((vocationalUnits: AlignmentObjectExtended[]) => {
-        this.vocationalUnits$.next(vocationalUnits);
-      });
+      .subscribe(
+        (vocationalUnits: AlignmentObjectExtended[]) => {
+          this.vocationalUnits$.next(vocationalUnits);
+        },
+        () => {
+          this.vocationalUnits$.next([]);
+        },
+      );
   }
 
   /**
@@ -259,57 +330,6 @@ export class KoodistoProxyService {
     this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
       .subscribe((organizations: KeyValue<string, string>[]) => {
         this.organizations$.next(organizations);
-      });
-  }
-
-  /**
-   * Updates upper secondary school subjects (new).
-   */
-  updateUpperSecondarySchoolSubjectsNew(): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-oppiaineet/${lang}`, this.httpOptions)
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjectsNew$.next(subjects);
-      });
-  }
-
-  /**
-   * Updates upper secondary school modules (new).
-   * @param {string} ids
-   */
-  updateUpperSecondarySchoolModulesNew(ids: string): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-moduulit/${ids}/${lang}`, this.httpOptions)
-      .subscribe((modules: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolModulesNew$.next(modules);
-      });
-  }
-
-  /**
-   * Updates upper secondary school objectives (new).
-   * @param {string} ids
-   */
-  updateUpperSecondarySchoolObjectivesNew(ids: string): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-tavoitteet/${ids}/${lang}`, this.httpOptions)
-      .subscribe((objectives: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolObjectivesNew$.next(objectives);
-      });
-  }
-
-  /**
-   * Updates upper secondary school contents (new).
-   * @param {string} ids
-   */
-  updateUpperSecondarySchoolContentsNew(ids: string): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-sisallot/${ids}/${lang}`, this.httpOptions)
-      .subscribe((contents: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolContentsNew$.next(contents);
       });
   }
 }
