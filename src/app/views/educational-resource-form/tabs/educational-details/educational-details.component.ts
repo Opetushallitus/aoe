@@ -45,12 +45,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   basicStudyContents: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectSubscription: Subscription;
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
-  vocationalDegreeSubscription: Subscription;
-  vocationalDegrees: AlignmentObjectExtended[];
-  vocationalUnitSubscription: Subscription;
-  vocationalUnits: AlignmentObjectExtended[];
-  scienceBranchSubscription: Subscription;
-  scienceBranches: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectNewSubscription: Subscription;
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModuleNewSubscription: Subscription;
@@ -59,6 +53,12 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
   upperSecondarySchoolContentNewSubscription: Subscription;
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
+  vocationalDegreeSubscription: Subscription;
+  vocationalDegrees: AlignmentObjectExtended[];
+  vocationalUnitSubscription: Subscription;
+  vocationalUnits: AlignmentObjectExtended[];
+  scienceBranchSubscription: Subscription;
+  scienceBranches: AlignmentObjectExtended[];
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -76,9 +76,9 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateBasicStudySubjects();
       this.koodistoProxySvc.updateUpperSecondarySchoolSubjects();
+      this.koodistoProxySvc.updateUpperSecondarySchoolSubjectsNew();
       this.koodistoProxySvc.updateVocationalDegrees();
       this.koodistoProxySvc.updateScienceBranches();
-      this.koodistoProxySvc.updateUpperSecondarySchoolSubjectsNew();
     });
 
     this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
