@@ -3,7 +3,7 @@
     <ng-container *ngIf="educationalMaterial">
       <div class="row mb-4">
         <div class="col-lg-6">
-          <h1>{{ educationalMaterial.name }}</h1>
+          <h1>{{ materialName }}</h1>
         </div>
 
         <div class="col-lg-6 text-lg-right">
@@ -73,16 +73,16 @@
                 </span>
               </div>
 
-              <p>{{ educationalMaterial.description }}</p>
+              <p *ngIf="description">{{ description }}</p>
             </div>
 
-            <div class="list-files mb-4" *ngIf="educationalMaterial.materials.length > 0">
+            <div class="list-files mb-4" *ngIf="materials.length > 0">
               <div class="row no-gutters">
                 <div class="col-3">
                   <div class="btn-group-vertical" role="group">
-                    <ng-container *ngFor="let material of educationalMaterial.materials">
+                    <ng-container *ngFor="let material of materials">
                       <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
-                        {{ material.displayName }}
+                        {{ material.displayName[lang] }}
                       </button>
                     </ng-container>
                   </div>
