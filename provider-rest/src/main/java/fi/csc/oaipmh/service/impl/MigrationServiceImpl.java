@@ -13,6 +13,8 @@ import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.oaipmh.service.MigrationService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,7 +97,7 @@ public class MigrationServiceImpl implements MigrationService {
 
         // lrmi_fi:material
         lrmi.setMaterial(amd.getMaterials() != null ? amd.getMaterials().stream()
-            .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
+            // .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
             .map(m -> {
                 Material material = new Material();
                 material.setName(m.getOriginalfilename());

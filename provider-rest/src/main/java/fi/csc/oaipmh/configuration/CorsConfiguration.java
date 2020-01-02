@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfiguration implements WebMvcConfigurer {
 
     // @Value("${access.control.allow.origin}")
-    private String[] origins = new String[]{"http://localhost:4200"};
+    private String[] origins = new String[]{"*"};
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
