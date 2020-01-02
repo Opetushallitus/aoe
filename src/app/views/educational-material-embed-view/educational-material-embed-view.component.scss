@@ -1,0 +1,24 @@
+.file-list {
+  background-color: #eee;
+  padding: .5rem;
+
+  .btn-group-vertical {
+    width: 100%;
+  }
+
+  .btn-file {
+    color: #373737;
+    font-weight: 400;
+    text-align: left;
+    word-break: break-all;
+
+    &.active {
+      background-color: #fff;
+    }
+  }
+}
+
+.file-content {
+  background-color: #fff;
+  padding: .5rem;
+}
