@@ -1,0 +1,21 @@
+<div class="file-list mb-4" *ngIf="materials?.length > 0">
+  <div class="row no-gutters">
+    <div class="col-3">
+      <div class="btn-group-vertical" role="group">
+        <ng-container *ngFor="let material of materials">
+          <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
+            {{ material.displayName[lang] }}
+          </button>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <div class="file-content">
+        <app-educational-material-preview [material]="previewMaterial" *ngIf="!previewMaterial.link"></app-educational-material-preview>
+
+        <a *ngIf="previewMaterial.link" [href]="previewMaterial.link" class="btn btn-secondary" target="_blank" rel="noopener">{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+      </div>
+    </div>
+  </div>
+</div>

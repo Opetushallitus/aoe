@@ -17,6 +17,7 @@ import { UserMaterialsViewComponent } from './views/user-materials-view/user-mat
 import { AuthGuard } from './guards/auth.guard';
 import { FileUploadGuard } from './guards/file-upload.guard';
 import { LogoutViewComponent } from './views/logout-view/logout-view.component';
+import { EducationalMaterialEmbedViewComponent } from './views/educational-material-embed-view/educational-material-embed-view.component';
 
 export const routes: Routes = [
   {
@@ -96,6 +97,10 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
     ],
+  },
+  {
+    path: 'embed/:materialId/:lang',
+    component: EducationalMaterialEmbedViewComponent,
   },
   {
     path: '**',
