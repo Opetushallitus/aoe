@@ -92,7 +92,7 @@
                     <verbose>true</verbose>
                     <images>
                         <image>
-                            <name>${docker.image.prefix}/${docker.image.name}</name>
+                            <name>provider</name>
                             <build>
                                 <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
                                 <assembly>
@@ -103,6 +103,11 @@
                                     <!--<tag>${project.version}</tag>-->
                                 </tags>
                             </build>
+                            <run>
+                                <ports>
+                                    <port>8001:8001</port>
+                                </ports>
+                            </run>
                         </image>
                     </images>
                 </configuration>
