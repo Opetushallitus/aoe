@@ -10,6 +10,7 @@ export const environment = {
   production: false,
   backendUrl: 'https://demo.aoe.fi/api', // demo
   // backendUrl: 'https://aoe.fi/api', // prod
+  frontendUrl: 'http://localhost:4200',
   fileUploadLSKey: 'aoe.fileUpload',
   newERLSKey: 'aoe.new-educational-resource',
   koodistoUrl: 'http://localhost:3000/api/v1',

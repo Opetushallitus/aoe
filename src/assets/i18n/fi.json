@@ -86,6 +86,11 @@
         "openInNewTab": "Avaa oppimateriaali uuteen välilehteen",
         "or": "tai",
         "download": "Lataa tiedosto"
+      },
+      "embed": {
+        "label": "Upotuskoodi",
+        "copy": "Kopioi",
+        "copied": "Kopioitu"
       }
     }
   },
