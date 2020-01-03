@@ -1,4 +1,4 @@
-<div class="file-list mb-4" *ngIf="materials?.length > 0">
+<div class="file-list" *ngIf="materials?.length > 0; else notFound">
   <div class="row no-gutters">
     <div class="col-3">
       <div class="btn-group-vertical" role="group">
@@ -19,3 +19,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #notFound>
+  <alert type="warning">
+    <strong>404</strong>
+  </alert>
+</ng-template>
