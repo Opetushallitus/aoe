@@ -19,6 +19,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription;
   previewMaterial: Material;
   downloadUrl: string;
+  embedCode: string;
+  embedCodeCopied: boolean;
 
   materialName: string;
   description: string;
@@ -46,6 +48,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
         this.educationalMaterial = data;
         this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
+        // tslint:disable-next-line:max-line-length
+        this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${params['materialId']}/${this.lang}" width="720" height="360"></iframe>`;
 
         this.updateMaterialName();
         this.updateDescription();

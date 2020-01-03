@@ -86,6 +86,11 @@
         "openInNewTab": "Open educational material in a new tab",
         "or": "or",
         "download": "Download the file"
+      },
+      "embed": {
+        "label": "Embed code",
+        "copy": "Copy",
+        "copied": "Copied"
       }
     }
   },
