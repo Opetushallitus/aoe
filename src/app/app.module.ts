@@ -40,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -111,6 +112,7 @@ import { EducationalMaterialEmbedViewComponent } from './views/educational-mater
     ProgressbarModule.forRoot(),
     ImageCropperModule,
     DragDropModule,
+    ClipboardModule,
   ],
   declarations: [
     AppComponent,
