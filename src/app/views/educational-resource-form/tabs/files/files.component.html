@@ -225,7 +225,7 @@
             <ng-container formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
                 <div class="form-group col-lg-4">
-                  <label for="{{ 'subtitle' + i + j }}">Subtitle*</label>
+                  <label for="{{ 'subtitle' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*</label>
 
                   <div class="custom-file">
                     <input
@@ -240,7 +240,7 @@
                 </div>
 
                 <div class="form-group col-sm-8 col-lg-4">
-                  <label for="{{ 'label' + i + j }}">Label*</label>
+                  <label for="{{ 'label' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*</label>
 
                   <input
                     type="text"
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="form-group col-sm-4 col-lg-2">
-                  <label for="{{ 'srclang' + i + j }}">Srclang*</label>
+                  <label for="{{ 'srclang' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*</label>
 
                   <ng-select
                     [items]="languages"
@@ -270,7 +270,7 @@
                       id="{{ 'default' + i + j }}"
                       formControlName="default"
                     >
-                    <label class="custom-control-label" for="{{ 'default' + i + j }}">Default</label>
+                    <label class="custom-control-label" for="{{ 'default' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}</label>
                   </div>
                 </div>
               </div>
@@ -279,7 +279,7 @@
 
           <div class="form-row">
             <div class="form-group col">
-              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">Add subtitle</button>
+              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">{{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}</button>
             </div>
           </div>
         </ng-container>-->

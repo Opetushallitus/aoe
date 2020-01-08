@@ -158,6 +158,13 @@
                 "title": "Translations: File Name",
                 "subtitle": "Add a translation"
               }
+            },
+            "subtitles": {
+              "subtitle": "Subtitle file",
+              "label": "Label",
+              "srclang": "Language",
+              "default": "Default",
+              "addSubtitle": "Add a subtitle"
             }
           },
           "addFile": "Add a file",
