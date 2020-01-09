@@ -87,6 +87,12 @@
         "or": "tai",
         "download": "Lataa tiedosto"
       }
+    },
+    "faq": {
+      "title": "Usein kysytyt kysymykset",
+      "general": "Yleisiä kysymyksiä",
+      "material": "Oppimateriaalien tekijöille",
+      "organization": "Organisaatioille"
     }
   },
   "forms": {
