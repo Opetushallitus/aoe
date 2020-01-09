@@ -87,6 +87,12 @@
         "or": "or",
         "download": "Download the file"
       }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "general": "General questions",
+      "material": "For creators of educational resources",
+      "organization": "For Organizations"
     }
   },
   "forms": {
