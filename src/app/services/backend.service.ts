@@ -12,6 +12,7 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
 import { AuthService } from './auth.service';
 import { koodistoSources } from '../constants/koodisto-sources';
+import { Attachment } from '../models/backend/attachment';
 
 @Injectable({
   providedIn: 'root'
@@ -160,19 +161,16 @@ export class BackendService {
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description,
-          materials: res.materials
-            // tslint:disable-next-line:max-line-length
-            .map(m => ({
-                id: m.id,
-                language: m.language,
-                priority: m.priority,
-                originalfilename: m.originalfilename,
-                filekey: m.filekey,
-                link: m.link,
-                mimetype: m.mimetype,
-                displayName: m.displayName
-              })
-            ),
+          materials: res.materials.map(m => ({
+            id: m.id,
+            language: m.language,
+            priority: m.priority,
+            originalfilename: m.originalfilename,
+            filekey: m.filekey,
+            link: m.link,
+            mimetype: m.mimetype,
+            displayName: m.displayName
+          })),
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
@@ -232,6 +230,14 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
           prerequisites: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
+          subtitles: res.attachments.map((a: Attachment) => ({
+            filepath: a.filepath,
+            default: a.defaultfile,
+            kind: a.kind,
+            label: a.label,
+            srclang: a.srclang,
+            materialId: a.materialid,
+          })),
         };
       })
     );
