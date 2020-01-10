@@ -157,6 +157,10 @@ public class AoeMetadata {
         return materials;
     }
 
+    public void setMaterials(List<Material> materials) {
+        this.materials = materials;
+    }
+
     public List<MaterialName> getMaterialname() {
         return materialname;
     }
