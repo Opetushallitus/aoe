@@ -94,7 +94,7 @@
                         <image>
                             <name>provider</name>
                             <build>
-                                <dockerFileDir>${project.basedir}/src/main/docker/</dockerFileDir>
+                                <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <assembly>
                                     <descriptorRef>artifact</descriptorRef>
                                 </assembly>
