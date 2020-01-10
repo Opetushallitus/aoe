@@ -232,7 +232,7 @@ export class BackendService {
               id: r.id,
               name: r.name,
               thumbnail: r.thumbnail
-                ? r.thumbnail.filepath
+                ? r.thumbnail.thumbnail
                 : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
@@ -267,7 +267,7 @@ export class BackendService {
               slug: r.name
                 .find(n => n.language.toLowerCase() === this.lang).slug,
               thumbnail: r.thumbnail
-                ? r.thumbnail.filepath
+                ? r.thumbnail.thumbnail
                 : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
