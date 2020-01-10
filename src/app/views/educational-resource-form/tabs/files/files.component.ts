@@ -268,13 +268,17 @@ export class FilesComponent implements OnInit, OnDestroy {
         );
       } else {
         this.backendSvc.uploadFiles(formData).subscribe(
-          (res) => this.uploadResponses[i] = res,
+          (res) => {
+            this.uploadResponses[i] = res;
+
+            if (res.response) {
+              // @todo: upload subtitles if found
+            }
+          },
           (err) => console.error(err),
           () => this.completeUpload(),
         );
       }
-
-      // @todo: if file.subtitles -> POST subtitles
     });
   }
 
