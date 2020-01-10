@@ -97,7 +97,7 @@ export class BackendService {
             return { status: 'progress', message: progress };
 
           case HttpEventType.Response:
-            return { status: 'completed', message: event.body };
+            return { status: 'completed', message: 'Upload completed', response: event.body };
 
           default:
             return { status: 'error', message: `Unhandled event: ${event.type}` };
