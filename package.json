@@ -50,6 +50,7 @@
     "jquery": "^3.4.1",
     "mutationobserver-shim": "^0.3.3",
     "ngx-bootstrap": "^5.2.0",
+    "ngx-clipboard": "^12.3.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-extended-pdf-viewer": "^1.7.7",
     "ngx-image-cropper": "^2.0.2",
@@ -61,7 +62,7 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.803.19",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular/cli": "^8.3.19",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.14",
