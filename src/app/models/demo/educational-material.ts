@@ -29,6 +29,10 @@ export interface LegacyEducationalMaterial {
   organization?: string;
   publisher?: string;
   description: string;
+  related?: {
+    text: string;
+    link: string;
+  };
   keywords: Keyword[];
   learningResourceTypes: string[];
   timeRequired: TimeRequired;
