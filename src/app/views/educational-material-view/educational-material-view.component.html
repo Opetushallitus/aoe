@@ -96,6 +96,30 @@
               </div>
             </div>
 
+            <div class="embed-code">
+              <h4>{{ 'demo.educationalMaterial.embed.label' | translate }}</h4>
+
+              <div class="input-group mb-4">
+                <input type="text" class="form-control" id="embedCodeInput" [attr.aria-label]="'demo.educationalMaterial.embed.label' | translate" [value]="embedCode" readonly #embedCodeInput>
+
+                <div class="input-group-append">
+                  <button
+                    class="btn"
+                    type="button"
+                    [ngxClipboard]="embedCodeInput"
+                    (cbOnSuccess)="embedCodeCopied = true"
+                    [ngClass]="{
+                      'btn-outline-secondary': !embedCodeCopied,
+                      'btn-success': embedCodeCopied
+                    }"
+                  >
+                    <ng-container *ngIf="!embedCodeCopied; else copied">{{ 'demo.educationalMaterial.embed.copy' | translate }}</ng-container>
+                    <ng-template #copied>{{ 'demo.educationalMaterial.embed.copied' | translate }}</ng-template>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="row material-metadata">
               <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
                 <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
