@@ -40,6 +40,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -78,6 +79,7 @@ import { PreviewComponent } from './views/educational-resource-form/tabs/preview
 import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
 import { CredentialInterceptor } from './providers/credential.interceptor';
 import { LogoutViewComponent } from './views/logout-view/logout-view.component';
+import { EducationalMaterialEmbedViewComponent } from './views/educational-material-embed-view/educational-material-embed-view.component';
 
 @NgModule({
   imports: [
@@ -110,6 +112,7 @@ import { LogoutViewComponent } from './views/logout-view/logout-view.component';
     ProgressbarModule.forRoot(),
     ImageCropperModule,
     DragDropModule,
+    ClipboardModule,
   ],
   declarations: [
     AppComponent,
@@ -147,6 +150,7 @@ import { LogoutViewComponent } from './views/logout-view/logout-view.component';
     PreviewComponent,
     CookieNoticeComponent,
     LogoutViewComponent,
+    EducationalMaterialEmbedViewComponent,
   ],
   providers: [
     {
