@@ -155,7 +155,9 @@ export class BackendService {
 
         return {
           name: res.name,
-          thumbnail: res.thumbnail ? res.thumbnail.filepath : null,
+          thumbnail: res.thumbnail
+            ? res.thumbnail.filepath
+            : `assets/img/thumbnails/${res.learningResourceTypes[0].learningresourcetypekey}.png`,
           learningResourceTypes: res.learningResourceTypes
             .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
           authors: res.author
@@ -260,7 +262,9 @@ export class BackendService {
             return {
               id: r.id,
               name: r.name,
-              thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
+              thumbnail: r.thumbnail
+                ? r.thumbnail.filepath
+                : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
@@ -293,7 +297,9 @@ export class BackendService {
               name: r.name,
               slug: r.name
                 .find(n => n.language.toLowerCase() === this.lang).slug,
-              thumbnail: r.thumbnail ? r.thumbnail.thumbnail : null,
+              thumbnail: r.thumbnail
+                ? r.thumbnail.filepath
+                : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
               learningResourceTypes: r.learningResourceTypes
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
