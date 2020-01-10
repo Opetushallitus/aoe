@@ -72,7 +72,7 @@ export class BackendService {
               sessionStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
             }
 
-            return { status: 'completed', message: event.body };
+            return { status: 'completed', message: 'Upload completed', response: event.body };
 
           default:
             return { status: 'error', message: `Unhandled event: ${event.type}` };
