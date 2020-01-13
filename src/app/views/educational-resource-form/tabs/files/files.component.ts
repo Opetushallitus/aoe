@@ -173,6 +173,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i);
+      } else {
+        const subtitles = this.files.at(i).get('subtitles') as FormArray;
+        subtitles.clear();
       }
 
       this.files.at(i).get('file').setValue(file);
