@@ -160,6 +160,11 @@ export class FilesComponent implements OnInit, OnDestroy {
     subtitles.push(this.createSubtitle());
   }
 
+  removeSubtitle(i, j): void {
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
+    subtitles.removeAt(j);
+  }
+
   openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(
       template,
