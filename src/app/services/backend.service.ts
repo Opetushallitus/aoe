@@ -82,7 +82,7 @@ export class BackendService {
     );
   }
 
-  uploadSubtitle(fileId: number, data: FormData): Observable<UploadMessage> {
+  uploadSubtitle(fileId: string, data: FormData): Observable<UploadMessage> {
     return this.http.post<FormData>(`${this.backendUrl}/material/attachment/${fileId}`, data, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
