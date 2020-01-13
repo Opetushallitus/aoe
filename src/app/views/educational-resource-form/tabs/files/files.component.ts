@@ -157,7 +157,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   addSubtitle(i): void {
-    const subtitles = <FormArray>this.files.at(i).get('subtitles');
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.push(this.createSubtitle());
   }
 
@@ -207,8 +207,10 @@ export class FilesComponent implements OnInit, OnDestroy {
       // add validators
       subtitles.at(j).get('kind').setValidators([ Validators.required ]);
       subtitles.at(j).get('kind').updateValueAndValidity();
+
       subtitles.at(j).get('label').setValidators([ Validators.required ]);
       subtitles.at(j).get('label').updateValueAndValidity();
+
       subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
