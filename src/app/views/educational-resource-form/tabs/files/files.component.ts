@@ -245,10 +245,18 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // @todo: validate subtitles
   validateSubtitles(): void {
-    // remove if file is empty
-    // required fields: file, kind, label, srclang
+    this.files.controls.forEach(fileCtrl => {
+      const subtitles = fileCtrl.get('subtitles') as FormArray;
+
+      if (subtitles.value.length > 0) {
+        subtitles.controls.forEach((subCtrl, i) => {
+          if (subCtrl.get('file').value === '') {
+            subtitles.removeAt(i);
+          }
+        });
+      }
+    });
   }
 
   uploadFiles() {
@@ -309,6 +317,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     this.validateFiles();
+    this.validateSubtitles();
 
     if (this.fileUploadForm.valid) {
       const data = Object.assign(
