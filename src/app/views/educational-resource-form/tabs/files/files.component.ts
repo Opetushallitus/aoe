@@ -299,7 +299,25 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.uploadResponses[i] = res;
 
             if (res.response) {
-              // @todo: upload subtitles if found
+              const subtitles = file.get('subtitles') as FormArray;
+
+              if (subtitles.value.length > 0) {
+                subtitles.value.forEach(subtitle => {
+                  const subFormData = new FormData();
+                  subFormData.append('attachment', subtitle.file);
+                  subFormData.append('attachmentDetails', JSON.stringify({
+                    default: subtitle.default,
+                    kind: subtitle.kind,
+                    label: subtitle.label,
+                    srclang: subtitle.srclang,
+                  }));
+
+                  this.backendSvc.uploadSubtitle(res.response.id, subFormData).subscribe(
+                    (subRes) => console.log(subRes),
+                    (subErr) => console.error(subErr),
+                  );
+                });
+              }
             }
           },
           (err) => console.error(err),
