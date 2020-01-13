@@ -217,7 +217,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   updateDefaultSubtitle(event, i, j): void {
-    // @todo: mark default false for every subtitle except j
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
+
+    subtitles.controls.forEach((subCtrl, x) => {
+      if (x !== j) {
+        subCtrl.get('default').setValue(false);
+      }
+    });
   }
 
   validateFiles(): void {
