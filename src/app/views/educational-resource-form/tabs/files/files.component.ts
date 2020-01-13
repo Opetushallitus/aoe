@@ -25,6 +25,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   savedData: any;
 
   fileUploadForm: FormGroup;
+  videoFiles: number[] = [];
   submitted = false;
   modalRef: BsModalRef;
   uploadResponses: UploadMessage[] = [];
@@ -178,9 +179,11 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i);
+        this.videoFiles.push(i);
       } else {
         const subtitles = this.files.at(i).get('subtitles') as FormArray;
         subtitles.clear();
+        this.videoFiles = this.videoFiles.filter(v => v !== i);
       }
 
       this.files.at(i).get('file').setValue(file);
