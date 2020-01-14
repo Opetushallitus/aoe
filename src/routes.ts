@@ -14,6 +14,7 @@ import { getAsiasana, getAsiasanat } from "./controllers/asiasanat";
 import { getTieteenalat } from "./controllers/tieteenalat";
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from "./controllers/oppimateriaalityypit";
 import {
+  getPerusopetuksenLaajaalaisetOsaamiset,
   getPerusopetuksenOppiaineet,
   getPerusopetuksenSisaltoalueet,
   getPerusopetuksenTavoitteet,
@@ -193,6 +194,14 @@ router.get("/kielet/:key/:lang", getKieli);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/oppiaineet/:lang", getPerusopetuksenOppiaineet);
+
+/**
+ * Returns all transversal competences from redis database by given language
+ * @group Perusopetus
+ * @route GET /perusopetus-laaja-alaiset-osaamiset/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/perusopetus-laaja-alaiset-osaamiset/:lang", getPerusopetuksenLaajaalaisetOsaamiset);
 
 /**
  * Returns all tavoitteet from redis database by given ids and language

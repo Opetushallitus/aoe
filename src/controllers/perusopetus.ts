@@ -10,6 +10,7 @@ const endpoint = "perusteet";
 const rediskeySubjects = "oppiaineet";
 const rediskeyObjectives = "tavoitteet";
 const rediskeyContents = "sisaltoalueet";
+const rediskeyTransversalCompetences = "laaja-alaiset-osaamiset";
 const params = "419550/perusopetus/oppiaineet";
 
 /**
@@ -328,6 +329,88 @@ export const getPerusopetuksenSisaltoalueet = async (req: Request, res: Response
 
     if (data.length > 0) {
       res.status(200).json(data);
+    } else {
+      res.sendStatus(404);
+
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
+};
+
+/**
+ * Set data into redis database
+ *
+ * @returns {Promise<any>}
+ */
+export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
+  try {
+    const results = await getDataFromApi(
+      process.env.EPERUSTEET_SERVICE_URL,
+      `/${endpoint}/`,
+      {
+        "Accept": "application/json",
+        "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+      },
+      `419550/perusopetus/laajaalaisetosaamiset`,
+    );
+
+    const finnishCompetences: AlignmentObjectExtended[] = [];
+    const swedishCompetences: AlignmentObjectExtended[] = [];
+    // const englishCompetences: AlignmentObjectExtended[] = [];
+
+    results.forEach((competence: any) => {
+      finnishCompetences.push({
+        key: competence.id,
+        source: "transversalCompetences",
+        alignmentType: "teaches",
+        targetName: competence.nimi.fi ? competence.nimi.fi : competence.nimi.sv,
+      });
+
+      swedishCompetences.push({
+        key: competence.id,
+        source: "transversalCompetences",
+        alignmentType: "teaches",
+        targetName: competence.nimi.sv ? competence.nimi.sv : competence.nimi.fi,
+      });
+
+      /*englishCompetences.push({
+        key: competence.id,
+        source: "transversalCompetences",
+        alignmentType: "teaches",
+        targetName: competence.nimi.en ? competence.nimi.en : competence.nimi.fi,
+      });*/
+    });
+
+    finnishCompetences.sort(sortByTargetName);
+    swedishCompetences.sort(sortByTargetName);
+    // englishCompetences.sort(sortByTargetName);
+
+    await setAsync(`${rediskeyTransversalCompetences}.fi`, JSON.stringify(finnishCompetences));
+    await setAsync(`${rediskeyTransversalCompetences}.sv`, JSON.stringify(swedishCompetences));
+    await setAsync(`${rediskeyTransversalCompetences}.en`, JSON.stringify(finnishCompetences)); // use fi as there's no en version yet
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
+ * Get data from redis database
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ *
+ * @returns {Promise<any>}
+ */
+export const getPerusopetuksenLaajaalaisetOsaamiset = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  try {
+    const redisData = await getAsync(`${rediskeyTransversalCompetences}.${req.params.lang.toLowerCase()}`);
+
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData));
     } else {
       res.sendStatus(404);
 
