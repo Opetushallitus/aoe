@@ -10,6 +10,7 @@ const endpoint = "perusteet";
 const rediskeySubjects = "oppiaineet";
 const rediskeyObjectives = "tavoitteet";
 const rediskeyContents = "sisaltoalueet";
+const rediskeyTransversalCompetences = "laaja-alaiset-osaamiset";
 const params = "419550/perusopetus/oppiaineet";
 
 /**
@@ -36,6 +37,9 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
     const swedishObjectives: AlignmentObjectExtended[] = [];
     const finnishContents: AlignmentObjectExtended[] = [];
     const swedishContents: AlignmentObjectExtended[] = [];
+    const finnishCompetences: AlignmentObjectExtended[] = [];
+    const swedishCompetences: AlignmentObjectExtended[] = [];
+    // const englishCompetences: AlignmentObjectExtended[] = [];
 
     results.forEach((result: any) => {
       if (result.oppimaarat) {
@@ -161,6 +165,58 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
       } catch (err) {
         console.error(err);
       }
+    }
+
+    try {
+      const competenceParams = "419550/perusopetus/laajaalaisetosaamiset";
+      const results = await getDataFromApi(
+        process.env.EPERUSTEET_SERVICE_URL,
+        `/${endpoint}/`,
+        {
+          "Accept": "application/json",
+          "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+        },
+        `${competenceParams}`,
+      );
+
+      results.forEach((competence: any) => {
+        finnishCompetences.push({
+          key: competence.id,
+          parent: "Laaja-alaisen osaamisen alueet",
+          source: "basicStudyContents",
+          alignmentType: "teaches",
+          targetName: competence.nimi.fi ? competence.nimi.fi : competence.nimi.sv,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
+        });
+
+        swedishCompetences.push({
+          key: competence.id,
+          parent: "Mångsidiga kompetensområden",
+          source: "basicStudyContents",
+          alignmentType: "teaches",
+          targetName: competence.nimi.sv ? competence.nimi.sv : competence.nimi.fi,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
+        });
+
+        /*englishCompetences.push({
+          key: competence.id,
+          parent: "Transversal competences",
+          source: "basicStudyContents",
+          alignmentType: "teaches",
+          targetName: competence.nimi.en ? competence.nimi.en : competence.nimi.fi,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
+        });*/
+      });
+
+      finnishCompetences.sort(sortByTargetName);
+      swedishCompetences.sort(sortByTargetName);
+      // englishCompetences.sort(sortByTargetName);
+
+      await setAsync(`${rediskeyTransversalCompetences}.fi`, JSON.stringify(finnishCompetences));
+      await setAsync(`${rediskeyTransversalCompetences}.sv`, JSON.stringify(swedishCompetences));
+      await setAsync(`${rediskeyTransversalCompetences}.en`, JSON.stringify(finnishCompetences)); // use fi as there's no en version yet
+    } catch (err) {
+      console.error(err);
     }
 
     await Promise.all(subjects).then(data => {
@@ -315,15 +371,20 @@ export const getPerusopetuksenTavoitteet = async (req: Request, res: Response, n
  */
 export const getPerusopetuksenSisaltoalueet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const redisData = JSON.parse(await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`));
+    let data: AlignmentObjectExtended[] = [];
     const ids = req.params.ids.split(",");
+    const competences = JSON.parse(await getAsync(`${rediskeyTransversalCompetences}.${req.params.lang.toLowerCase()}`));
 
-    const data = redisData
+    if (competences) {
+      data = data.concat(competences);
+    }
+
+    JSON.parse(await getAsync(`${rediskeyContents}.${req.params.lang.toLowerCase()}`))
       .filter((content: AlignmentObjectExtended) => ids.includes(content.parent.key.toString()))
-      .map((content: AlignmentObjectExtended) => {
+      .forEach((content: AlignmentObjectExtended) => {
         content.parent = content.parent.value;
 
-        return content;
+        data.push(content);
       });
 
     if (data.length > 0) {

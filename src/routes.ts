@@ -17,7 +17,7 @@ import {
   getPerusopetuksenOppiaineet,
   getPerusopetuksenSisaltoalueet,
   getPerusopetuksenTavoitteet,
-} from "./controllers/perusopetuksen-oppiaineet";
+} from "./controllers/perusopetus";
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
