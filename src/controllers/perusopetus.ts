@@ -347,6 +347,7 @@ export const getPerusopetuksenSisaltoalueet = async (req: Request, res: Response
  */
 export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
   try {
+    const competenceParams = "419550/perusopetus/laajaalaisetosaamiset";
     const results = await getDataFromApi(
       process.env.EPERUSTEET_SERVICE_URL,
       `/${endpoint}/`,
@@ -354,7 +355,7 @@ export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
         "Accept": "application/json",
         "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
       },
-      `419550/perusopetus/laajaalaisetosaamiset`,
+      `${competenceParams}`,
     );
 
     const finnishCompetences: AlignmentObjectExtended[] = [];
@@ -367,6 +368,7 @@ export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
         source: "transversalCompetences",
         alignmentType: "teaches",
         targetName: competence.nimi.fi ? competence.nimi.fi : competence.nimi.sv,
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
       });
 
       swedishCompetences.push({
@@ -374,6 +376,7 @@ export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
         source: "transversalCompetences",
         alignmentType: "teaches",
         targetName: competence.nimi.sv ? competence.nimi.sv : competence.nimi.fi,
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
       });
 
       /*englishCompetences.push({
@@ -381,6 +384,7 @@ export async function setPerusopetuksenLaajaalaisetOsaamiset(): Promise<any> {
         source: "transversalCompetences",
         alignmentType: "teaches",
         targetName: competence.nimi.en ? competence.nimi.en : competence.nimi.fi,
+        targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${competenceParams}/${competence.id}`,
       });*/
     });
 
