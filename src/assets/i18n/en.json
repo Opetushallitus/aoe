@@ -17,7 +17,8 @@
       "selectLoginMethod": "Choose a login method"
     },
     "termsOfUse": "Terms of Use",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "accessibilityPolicy": "Accessibility Policy"
   },
   "home": {
     "search": {

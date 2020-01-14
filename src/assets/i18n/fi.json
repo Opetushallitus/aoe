@@ -17,7 +17,8 @@
       "selectLoginMethod": "Valitse kirjautumistapa"
     },
     "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Tietosuojailmoitus"
+    "privacyPolicy": "Tietosuojailmoitus",
+    "accessibilityPolicy": "Saavutettavuusseloste"
   },
   "home": {
     "search": {
