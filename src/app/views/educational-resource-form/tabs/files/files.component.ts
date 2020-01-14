@@ -299,10 +299,9 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.uploadResponses[i] = res;
 
             if (res.response) {
-              const subtitles = file.get('subtitles') as FormArray;
 
-              if (subtitles.value.length > 0) {
-                subtitles.value.forEach(subtitle => {
+              if (file.subtitles.length > 0) {
+                file.subtitles.forEach(subtitle => {
                   const subFormData = new FormData();
                   subFormData.append('attachment', subtitle.file);
                   subFormData.append('attachmentDetails', JSON.stringify({
