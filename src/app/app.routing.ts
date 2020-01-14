@@ -18,6 +18,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { FileUploadGuard } from './guards/file-upload.guard';
 import { LogoutViewComponent } from './views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from './views/educational-material-embed-view/educational-material-embed-view.component';
+import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
 
 export const routes: Routes = [
   {
@@ -83,6 +84,11 @@ export const routes: Routes = [
       {
         path: 'tietosuojailmoitus',
         component: PrivacyPolicyViewComponent,
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'saavutettavuusseloste',
+        component: AccessibilityPolicyViewComponent,
         runGuardsAndResolvers: 'always',
       },
       {

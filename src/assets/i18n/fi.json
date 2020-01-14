@@ -17,7 +17,8 @@
       "selectLoginMethod": "Valitse kirjautumistapa"
     },
     "termsOfUse": "Käyttöehdot",
-    "privacyPolicy": "Tietosuojailmoitus"
+    "privacyPolicy": "Tietosuojailmoitus",
+    "accessibilityPolicy": "Saavutettavuusseloste"
   },
   "home": {
     "search": {
@@ -306,7 +307,7 @@
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "contents": {
-              "label": "Perusopetuksen oppiaineiden sisältöalueet",
+              "label": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
