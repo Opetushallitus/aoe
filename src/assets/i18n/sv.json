@@ -293,7 +293,7 @@
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "contents": {
-              "label": "Innehållsområden för grundläggande utbildning",
+              "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {

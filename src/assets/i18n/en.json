@@ -299,7 +299,7 @@
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "contents": {
-              "label": "Educational content of basic education",
+              "label": "Educational content and transversal competence of basic education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "framework": {
