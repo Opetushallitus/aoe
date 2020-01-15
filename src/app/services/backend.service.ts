@@ -209,6 +209,12 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
           prerequisites: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
+          references: res.isBasedOn
+            .map(r => ({
+              authors: r.author,
+              url: r.url,
+              name: r.materialname,
+            })),
         };
       })
     );

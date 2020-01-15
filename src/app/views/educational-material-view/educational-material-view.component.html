@@ -421,6 +421,41 @@
               </accordion>
             </div>
           </div>
+
+          <div class="references" *ngIf="educationalMaterial.references?.length > 0">
+            <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
+
+            <div class="reference" *ngFor="let reference of educationalMaterial.references">
+              <a [href]="reference.url" target="_blank" rel="noopener">{{ reference.name }}</a>
+              <span> &ndash; {{ reference.authors }}</span>
+              <hr>
+
+              <!--<div class="row">
+                <div class="col-8">
+                  <div class="media">
+                    <img [src]="educationalMaterial.thumbnail" class="align-self-start mr-3">
+
+                    <div class="media-body">
+                      <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+
+                      <ul class="list-unstyled authors">
+                        <li *ngFor="let author of educationalMaterial.authors">
+                          <ng-container *ngIf="author.authorname !== ''">
+                            {{ author.authorname }}
+                            <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                          </ng-container>
+                          <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <a href="">avaa</a>
+                </div>
+              </div>-->
+            </div>
+          </div>
         </div>
       </div>
     </ng-container>
