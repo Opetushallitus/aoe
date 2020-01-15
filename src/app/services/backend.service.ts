@@ -153,6 +153,26 @@ export class BackendService {
         // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
+        const materials = res.materials.map(m => ({
+          id: m.id,
+          language: m.language,
+          priority: m.priority,
+          originalfilename: m.originalfilename,
+          filekey: m.filekey,
+          link: m.link,
+          mimetype: m.mimetype,
+          displayName: m.displayName,
+          subtitles: res.attachments
+            .filter((a: Attachment) => a.materialid === m.id)
+            .map((a: Attachment) => ({
+              filepath: a.filepath,
+              default: a.defaultfile,
+              kind: a.kind,
+              label: a.label,
+              srclang: a.srclang,
+            })),
+        }));
+
         return {
           name: res.name,
           thumbnail: res.thumbnail
@@ -163,16 +183,7 @@ export class BackendService {
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description,
-          materials: res.materials.map(m => ({
-            id: m.id,
-            language: m.language,
-            priority: m.priority,
-            originalfilename: m.originalfilename,
-            filekey: m.filekey,
-            link: m.link,
-            mimetype: m.mimetype,
-            displayName: m.displayName
-          })),
+          materials: materials,
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
@@ -232,14 +243,6 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
           prerequisites: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
-          subtitles: res.attachments.map((a: Attachment) => ({
-            filepath: a.filepath,
-            default: a.defaultfile,
-            kind: a.kind,
-            label: a.label,
-            srclang: a.srclang,
-            materialId: a.materialid,
-          })),
         };
       })
     );
