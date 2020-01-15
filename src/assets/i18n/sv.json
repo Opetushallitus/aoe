@@ -93,7 +93,16 @@
         "copy": "Copy",
         "copied": "Copied"
       }
+    },
+    "references": {
+      "title": "Referens"
     }
+  },
+  "faq": {
+    "title": "Vanliga frågor",
+    "general": "Vanliga frågor",
+    "material": "För skapare av undervisningsmaterial",
+    "organization": "För organisationer"
   },
   "forms": {
     "common": {
@@ -463,12 +472,6 @@
         "confirm": "Jag har"
       }
     }
-  },
-  "faq": {
-    "title": "Vanliga frågor",
-    "general": "Vanliga frågor",
-    "material": "För skapare av undervisningsmaterial",
-    "organization": "För organisationer"
   },
   "acceptance": {
     "title": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
