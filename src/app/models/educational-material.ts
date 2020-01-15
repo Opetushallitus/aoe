@@ -4,7 +4,6 @@ import { Keyword } from './keyword';
 import { EducationalLevel } from './educational-level';
 import { LearningResourceType } from './learning-resource-type';
 import { AlignmentObjectExtended } from './alignment-object-extended';
-import { Subtitle } from './subtitle';
 
 export interface EducationalMaterial {
   name: [{
@@ -64,5 +63,4 @@ export interface EducationalMaterial {
   branchesOfScience: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
   prerequisites: AlignmentObjectExtended[];
-  subtitles?: Subtitle[];
 }

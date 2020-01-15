@@ -4,5 +4,4 @@ export interface Subtitle {
   kind: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
   label: string;
   srclang: string;
-  materialId: string;
 }
