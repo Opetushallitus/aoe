@@ -311,7 +311,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                     srclang: subtitle.srclang,
                   }));
 
-                  this.backendSvc.uploadSubtitle(res.response.id, subFormData).subscribe(
+                  this.backendSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
                     (subRes) => console.log(subRes),
                     (subErr) => console.error(subErr),
                   );
