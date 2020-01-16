@@ -44,7 +44,8 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     @Override
-    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String resumptionToken, String requestUrl) {
+    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String from, String until,
+                                   String resumptionToken, String requestUrl) {
 
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
@@ -54,7 +55,7 @@ public class MetadataServiceImpl implements MetadataService {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setLrmiMetadata(frame, resumptionToken);
+                setLrmiMetadata(frame, from, until, resumptionToken);
                 break;
             case "LISTIDENTIFIERS":
                 /*frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
@@ -96,10 +97,10 @@ public class MetadataServiceImpl implements MetadataService {
                 .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
     }
 
-    private void setLrmiMetadata(OaiPmhFrame frame, String resumptionToken) {
+    private void setLrmiMetadata(OaiPmhFrame frame, String from, String until, String resumptionToken) {
         Integer resumptionCounter = resolveResumptionValue(resumptionToken);
 
-        AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = this.requestService.getAoeMetadata(resumptionCounter);
+        AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = this.requestService.getAoeMetadata(from, until, resumptionCounter);
         List<AoeMetadata> aoeMetaContent = aoeMetaFrame.getContent();
 
         if (aoeMetaContent != null && aoeMetaContent.size() > 0) {
@@ -120,7 +121,7 @@ public class MetadataServiceImpl implements MetadataService {
 
                 Record record = new Record();
                 record.setHeader(recordHeader);
-                record.setMetadata(meta.getArchivedAt() == null ? null : recordMetadata);
+                record.setMetadata(meta.getArchivedAt() == null ? recordMetadata : null);
                 records.add(record);
             });
             

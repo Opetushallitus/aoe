@@ -1,5 +1,7 @@
 package fi.csc.oaipmh.service.impl;
 
+import fi.csc.oaipmh.adapter.OaiPmhDateFormatter;
+import fi.csc.oaipmh.adapter.URLDecoder;
 import fi.csc.oaipmh.model.request.MetadataRequest;
 import fi.csc.oaipmh.model.response.AoeMetaFrame;
 import fi.csc.oaipmh.model.response.AoeMetadata;
@@ -13,7 +15,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
 
@@ -30,12 +34,21 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(Integer resumptionCounter) {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-
+    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String from, String until, Integer resumptionCounter) {
         MetadataRequest metadataRequest = new MetadataRequest();
-        metadataRequest.setDateMin(now.minusYears(1));
-        metadataRequest.setDateMax(now);
+
+        if (!from.isEmpty() && !until.isEmpty()) {
+            String fromDecoded = URLDecoder.decodeValue(from);
+            System.out.println("FROM: " + fromDecoded);
+            metadataRequest.setDateMin(OaiPmhDateFormatter.convertToIso(fromDecoded));
+
+            String untilDecoded = URLDecoder.decodeValue(until);
+            System.out.println("UNTIL: " + untilDecoded);
+            metadataRequest.setDateMax(OaiPmhDateFormatter.convertToIso(untilDecoded));
+        } else {
+            metadataRequest.setDateMin(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.of("UTC")));
+            metadataRequest.setDateMax(LocalDateTime.now(ZoneOffset.UTC));
+        }
         metadataRequest.setMaterialPerPage(Integer.parseInt(env.getProperty("aoe.request.per-page", "100")));
         metadataRequest.setPageNumber(resumptionCounter);
 
