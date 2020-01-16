@@ -333,12 +333,23 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let upload of uploadedFiles; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ upload.file }}{{ upload.link }}</td>
-          <td>{{ upload.language }}</td>
-          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
-        </tr>
+        <ng-container *ngFor="let upload of uploadedFiles; let i = index">
+          <tr>
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ upload.file }}{{ upload.link }}</td>
+            <td>{{ upload.language }}</td>
+            <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
+          </tr>
+
+          <ng-container *ngIf="upload.subtitles?.length > 0">
+            <tr *ngFor="let subtitle of upload.subtitles; let j = index">
+              <th scope="row"></th>
+              <td>{{ subtitle.label }}</td>
+              <td>{{ subtitle.srclang }}</td>
+              <td>{{ subtitle.default }}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
       </tbody>
     </table>
   </ng-container>
