@@ -419,6 +419,7 @@
     </dd>
   </ng-container>
 
+  <!--@todo: hide when not set-->
   <ng-container *ngIf="savedData.typicalAgeRange">
     <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.typicalAgeRange.typicalAgeRangeMin }} - {{ savedData.typicalAgeRange.typicalAgeRangeMax }}</dd>
