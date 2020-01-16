@@ -365,8 +365,24 @@ export class BackendService {
         'Accept': 'application/json',
       })
     }).subscribe((res) => {
-      // tslint:disable-next-line:max-line-length
-      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link, displayName }) => ({ id, file: originalfilename, language, link, displayName })));
+      const materials = res.materials.map(m => ({
+        id: m.id,
+        language: m.language,
+        file: m.originalfilename,
+        link: m.link,
+        displayName: m.displayName,
+        subtitles: res.attachments
+          .filter((a: Attachment) => a.materialid === m.id)
+          .map((a: Attachment) => ({
+            src: null,
+            default: a.defaultfile,
+            kind: a.kind,
+            label: a.label,
+            srclang: a.srclang,
+          })),
+      }));
+
+      this.uploadedFiles$.next(materials);
     });
   }
 
