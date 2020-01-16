@@ -386,10 +386,7 @@ export class BackendService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 401) {
-      this.authSvc.removeUserdata();
-    }
-
+    console.error(error);
     return throwError('Something bad happened; please try again later.');
   }
 }
