@@ -71,8 +71,6 @@ export class AppComponent implements OnInit {
 
     if (!this.authSvc.hasUserdata()) {
       this.authSvc.setUserdata().subscribe();
-    } else {
-      this.authSvc.removeUserdata();
     }
   }
 }
