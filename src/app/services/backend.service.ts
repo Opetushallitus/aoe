@@ -165,7 +165,7 @@ export class BackendService {
           subtitles: res.attachments
             .filter((a: Attachment) => a.materialid === m.id)
             .map((a: Attachment) => ({
-              filepath: a.filepath,
+              src: `${environment.backendUrl}/download/${a.filekey}`,
               default: a.defaultfile,
               kind: a.kind,
               label: a.label,

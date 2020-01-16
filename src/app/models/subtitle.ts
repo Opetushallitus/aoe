@@ -1,5 +1,5 @@
 export interface Subtitle {
-  filepath: string;
+  src: string;
   default: boolean;
   kind: 'subtitles' | 'captions' | 'descriptions' | 'chapters' | 'metadata';
   label: string;
