@@ -1,3 +1,5 @@
+import { Subtitle } from './subtitle';
+
 export interface UploadedFile {
   id: number;
   file: string;
@@ -8,4 +10,5 @@ export interface UploadedFile {
     sv: string;
     en: string;
   };
+  subtitles?: Subtitle[];
 }
