@@ -34,6 +34,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   languages: Language[];
   uploadedFileSubscription: Subscription;
   uploadedFiles: UploadedFile[];
+  totalFileCount = 0;
   completedUploads = 0;
 
   materialId: number;
@@ -301,7 +302,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             if (res.response) {
 
               if (file.subtitles.length > 0) {
-                file.subtitles.forEach(subtitle => {
+                file.subtitles.forEach((subtitle, j) => {
                   const subFormData = new FormData();
                   subFormData.append('attachment', subtitle.file);
                   subFormData.append('attachmentDetails', JSON.stringify({
@@ -314,6 +315,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                   this.backendSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
                     (subRes) => console.log(subRes),
                     (subErr) => console.error(subErr),
+                    () => this.completeUpload(),
                   );
                 });
               }
@@ -326,10 +328,22 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
+  calculateTotalFileCount(): void {
+    this.totalFileCount += this.files.value.length;
+
+    this.files.value.forEach(file => {
+      this.totalFileCount += file.subtitles.length;
+    });
+  }
+
   completeUpload(): void {
     this.completedUploads++;
 
-    if (this.completedUploads === this.files.value.length) {
+    if (this.totalFileCount === 0) {
+      this.calculateTotalFileCount();
+    }
+
+    if (this.completedUploads === this.totalFileCount) {
       this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
@@ -346,6 +360,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     this.validateFiles();
     this.validateSubtitles();
+    this.calculateTotalFileCount();
 
     if (this.fileUploadForm.valid) {
       const data = Object.assign(
