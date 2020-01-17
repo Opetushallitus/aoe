@@ -360,9 +360,10 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     this.validateFiles();
     this.validateSubtitles();
-    this.calculateTotalFileCount();
 
     if (this.fileUploadForm.valid) {
+      this.calculateTotalFileCount();
+
       const data = Object.assign(
         {},
         JSON.parse(sessionStorage.getItem(this.savedDataKey)),
