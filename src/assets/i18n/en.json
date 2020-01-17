@@ -187,6 +187,7 @@
           "fileOrLink": "File/link",
           "displayName": "File Name",
           "language": "Language",
+          "subtitles": "Subtitles",
           "actions": "Actions"
         }
       },

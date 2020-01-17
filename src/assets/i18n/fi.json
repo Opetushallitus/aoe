@@ -187,6 +187,7 @@
           "fileOrLink": "Tiedosto/linkki",
           "displayName": "Esitysnimi",
           "language": "Kieli",
+          "subtitles": "Tekstitykset",
           "actions": "Toiminnot"
         }
       },
