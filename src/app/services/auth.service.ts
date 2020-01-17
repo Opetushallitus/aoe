@@ -12,7 +12,6 @@ import { Userdata } from '../models/userdata';
 })
 export class AuthService {
   backendUrl = environment.backendUrl;
-  sessionCookie = environment.sessionCookie;
   userdataKey = environment.userdataKey;
 
   constructor(

@@ -170,6 +170,13 @@
                 "title": "Kieliversiot: Tiedoston esitysnimi",
                 "subtitle": "Kieliversioiden lisääminen"
               }
+            },
+            "subtitles": {
+              "subtitle": "Tekstitystiedosto",
+              "label": "Nimi",
+              "srclang": "Kieli",
+              "default": "Oletus",
+              "addSubtitle": "Lisää tekstitys"
             }
           },
           "addFile": "Lisää tiedosto",
@@ -180,6 +187,7 @@
           "fileOrLink": "Tiedosto/linkki",
           "displayName": "Esitysnimi",
           "language": "Kieli",
+          "subtitles": "Tekstitykset",
           "actions": "Toiminnot"
         }
       },
