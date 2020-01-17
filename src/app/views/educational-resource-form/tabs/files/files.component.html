@@ -103,7 +103,7 @@
                 [lang]="lang"
                 (change)="onFileChange($event, i)"
               >
-              <span class="custom-file-label">{{ files.at(i).get('file').value.name }}</span>
+              <span class="custom-file-label">{{ file.get('file').value.name }}</span>
             </div>
           </div>
 
@@ -137,8 +137,8 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="submitted && files.at(i).get('language').errors">
-              <div *ngIf="files.at(i).get('language').errors.required">
+            <ng-container *ngIf="submitted && file.get('language').errors">
+              <div *ngIf="file.get('language').errors.required">
                 <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
               </div>
             </ng-container>
@@ -221,7 +221,7 @@
         </div>
 
         <ng-container *ngIf="videoFiles.includes(i)">
-          <ng-container *ngFor="let subtitle of files.at(i).get('subtitles').controls; let j = index;">
+          <ng-container *ngFor="let subtitle of file.get('subtitles').controls; let j = index;">
             <ng-container formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
                 <div class="form-group col-lg-4">
@@ -248,7 +248,12 @@
                     class="form-control"
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
+                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
                   >
+
+                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div *ngIf="subtitle.get('label').errors.required">{{ 'forms.common.required' | translate }}</div>
+                  </div>
                 </div>
 
                 <div class="form-group col-sm-4 col-lg-2">
@@ -261,6 +266,12 @@
                     id="{{ 'srclang' + i + j }}"
                     formControlName="srclang"
                   ></ng-select>
+
+                  <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                    <div *ngIf="subtitle.get('srclang').errors.required">
+                      <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+                    </div>
+                  </ng-container>
                 </div>
 
                 <div class="form-group col-lg">
