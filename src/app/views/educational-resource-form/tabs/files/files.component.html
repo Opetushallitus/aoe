@@ -340,8 +340,8 @@
             <td>{{ upload.file }}{{ upload.link }}</td>
             <td>{{ upload.language }}</td>
             <td>
-              <span *ngFor="let subtitle of upload.subtitles" [class.font-weight-bold]="subtitle.default">
-                {{ subtitle.label }} ({{ subtitle.srclang }})<br>
+              <span *ngFor="let subtitle of upload.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
+                {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
               </span>
 
               <span *ngIf="upload.subtitles.length === 0">-</span>
