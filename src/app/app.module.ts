@@ -58,8 +58,6 @@ import { OfficePreviewComponent } from './components/office-preview/office-previ
 import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
 import { InfoViewComponent } from './views/info-view/info-view.component';
 import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
-
-// Educational resource form
 import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
 import { FilesComponent } from './views/educational-resource-form/tabs/files/files.component';
 import { BasicDetailsComponent } from './views/educational-resource-form/tabs/basic-details/basic-details.component';
