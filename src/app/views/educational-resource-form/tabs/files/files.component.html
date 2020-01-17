@@ -328,6 +328,7 @@
           <th scope="col">#</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.subtitles' | translate }}</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.actions' | translate }}</th>
         </tr>
       </thead>
@@ -338,17 +339,15 @@
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ upload.file }}{{ upload.link }}</td>
             <td>{{ upload.language }}</td>
+            <td>
+              <span *ngFor="let subtitle of upload.subtitles" [class.font-weight-bold]="subtitle.default">
+                {{ subtitle.label }} ({{ subtitle.srclang }})<br>
+              </span>
+
+              <span *ngIf="upload.subtitles.length === 0">-</span>
+            </td>
             <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
           </tr>
-
-          <ng-container *ngIf="upload.subtitles?.length > 0">
-            <tr *ngFor="let subtitle of upload.subtitles; let j = index">
-              <th scope="row"></th>
-              <td>{{ subtitle.label }}</td>
-              <td>{{ subtitle.srclang }}</td>
-              <td>{{ subtitle.default }}</td>
-            </tr>
-          </ng-container>
         </ng-container>
       </tbody>
     </table>
