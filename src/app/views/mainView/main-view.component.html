@@ -90,38 +90,36 @@
       <div class="col">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <p>Opetus- ja kulttuuriministeriö ja Opetushallitus kehittävät yhteisesti avointen oppimateriaalien palvelua. CSC – Tieteen tietotekniikan keskuksen koordinoimana kehitettävässä tulevassa palvelussa voi hakea, löytää, koota ja tallentaa omia avoimia oppimateriaaleja kaikilta koulutusasteilta. Vaiheittain vuonna 2019 ja 2020 käyttöön tulevaa palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset. Aoe.fi-sivustolta saat tietoa palvelun kehittämisestä ja sen etenemisestä ja löydät maistiaisiksi muutamia avoimia oppimateriaaleja.</p>
+            <p>Avointen oppimateriaalien palvelussa voit hakea, löytää, koota ja tallentaa omia avoimia oppimateriaaleja kaikilta koulutusasteilta. Vaiheittain vuonna 2019 ja 2020 käyttöön tulevaa palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset. Aoe.fi-sivustolta saat tietoa palvelun kehittämisestä ja sen etenemisestä. Palvelua kehittävät Opetus- ja kulttuuriministeriö ja Opetushallitus ja sen kehitystä koordinoi CSC – Tieteen tietotekniikan keskus.</p>
 
             <h3>Osallistu jakamiseen</h3>
-            <p>Avointen oppimateriaalien palveluun voi nyt tallentaa omia avoimia oppimateriaaleja aoe.fi-sivulta. Materiaalit ovat heti käytössäsi ja tulevat muille käyttäjille haettaviksi vuoden vaihteessa. Aloita jakaminen klikkaamalla kirjaudu sisään! Lue lisää Lisätietoa-sivulta.</p>
+            <p>Avointen oppimateriaalien palveluun voi nyt tallentaa omia avoimia oppimateriaaleja aoe.fi-sivulta. Materiaalit ovat heti käytössäsi ja tulevat muille käyttäjille haettaviksi maaliskuussa 2020. Aloita jakaminen klikkaamalla kirjaudu sisään! Lue lisää <a [routerLink]="['/lisatietoa']">Lisätietoa</a>-sivulta.</p>
 
             <h3>Miten palvelun kehitys etenee?</h3>
-            <p>Avointen oppimateriaalien palvelu on vielä kehityksessä ja vuonna 2019 ja 2020 pilotoimme palvelun eri toiminnallisuuksia. Voit odottaa palvelua seuraavan aikataulun mukaisesti:</p>
-            <img src="assets/img/aoe_polku.jpg" class="img-fluid">
+            <p>Avointen oppimateriaalien palvelu on vielä kehityksessä ja vuonna 2019 ja 2020 pilotoimme palvelun eri toiminnallisuuksia. Voit nyt tallentaa oppimateriaalejasi ja maaliskuussa 2020 materiaaleja voi kätevämmin löytää palvelusta. Voit odottaa palvelua seuraavan aikataulun mukaisesti:</p>
+            <img src="assets/img/aoe_polku.png" class="img-fluid">
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
-            <p>The Ministry of Education and Culture and the Finnish National Agency for Education are developing a national service for open educational resources (OERs). The service is coordinated by CSC – IT Center for Science and it is intended for all levels of education to promote the use of open educational resources. The service and the OERs are free to use for teachers, learners and for all citizens.</p>
-            <p>Aoe.fi provides you information about the development of the service. Here you will also find sample OERs for you to try out.</p>
+            <p>In the Open Educational Resources (OER) Service, you can search for, find, compile and save your own open educational resources from all levels of education. Gradually introduced from 2019 to 2020, the service and its OER are available for use by teachers, learners and everyone else in the country. Visit aoe.fi to find out more about the development of the service and keep up to date with its progress. The service is being developed by the Ministry of Education and Culture and the Finnish National Agency for Education, and its development is coordinated by CSC – IT Center for Science.</p>
 
             <h3>Start sharing</h3>
-            <p>You can share your own open educational resources at aoe.fi. Other users are able to search for the materials at the beginning of year 2020, but they are immediately available to you. Start sharing by locking in! Check the more information page for relevant information.</p>
+            <p>You can now save your own OER from the aoe.fi website in the Open Educational Resources Service. Other users will be able to search for the materials in March 2020, but they are immediately available to you. Start sharing by logging in! Visit the <a [routerLink]="['/lisatietoa']">Further information</a> page for more info.</p>
 
             <h3>What can I expect in the future?</h3>
-            <p>The Service for Open Educational Resources is currently being developed and we are piloting different aspects of the service in the year 2019 and 2020. Please look forward to the service according to the following timeline:</p>
-            <img src="assets/img/aoe_path.jpg" class="img-fluid">
+            <p>The Open Educational Resources Service is still under development, and we are piloting different aspects of the service in 2019 and 2020. You can now save your own open educational resources, and in March 2020, material in the service will be more easily accessible. You can expect new services in accordance with the following schedule:</p>
+            <img src="assets/img/aoe_path.png" class="img-fluid">
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
-            <p>Undervisnings- och kulturministeriet utvecklar i samband med Utbildningsstyrelsen en tjänst för öppna digitala lärresurser. Tjänsten vars utveckling CSC - IT-centret för vetenskap koordinerar är en landsomfattande tjänst som är riktad för samtliga utbildningsnivåer och dess mål är att främja användningen av öppna lärresurser. Tjänsten och lärresurserna som hittas där kan användas av både lärare, elever, studerande och alla andra medborgare.</p>
-            <p>På Aoe.fi sidan kan du hitta information om tjänstens utveckling och framsteg samt hitta ett fåtal öppna lärresurser som smakprov.</p>
+            <p>I tjänsten för öppna lärresurser kan du söka, hitta, sammanställa och spara egna öppna lärresurser från alla utbildningsstadier. Tjänsten tas i bruk stegvis under 2019 och 2020 och materialet är tillgängligt för alla lärare, lärande och andra intresserade. På webbplatsen aoe.fi kan du läsa hur utvecklingen av tjänsten framskrider. Tjänsten utvecklas av Undervisnings- och kulturministeriet och Utbildningsstyrelsen och utvecklingen koordineras av CSC – Tieteen tietotekniikan keskus.</p>
 
-            <h3>Publicera dina egna öppnä lärresurser</h3>
-            <p>Du kan nu logga in och publicera dina egna öppnä lärresurser här i aoe.fi. Du kan använda dina lärresurser, men andra människor kan söka de bara i början av 2020. Mer information på Info-sidan.</p>
+            <h3>Delta i delandet</h3>
+            <p>Nu kan man spara egna öppna lärresurser i tjänsten via webbplatsen aoe.fi. Du kan använda materialet direkt och det blir sökbart för andra användare i mars 2020. Börja dela material genom att klicka på logga in! Läs mer på sidan <a [routerLink]="['/lisatietoa']">Vanliga frågor</a>.</p>
 
-            <h3>När kan jag använda tjänsten?</h3>
-            <p>I början av 2020 lanseras tjänstens första produktionsversion, där användare kan central söka öppna lärresurser och själv publicera sina egna öppna lärresurser.</p>
-            <img src="assets/img/aoe_vag.jpg" class="img-fluid">
+            <h3>Hur framskrider utvecklingen av tjänsten?</h3>
+            <p>Tjänsten för öppna lärresurser är ännu under utveckling och dess funktioner kommer att testas under 2019 och 2020. Du kan ladda upp dina lärresurser nu, och från och med mars 2020 går det lättare att hitta material i tjänsten. Du kan invänta tjänsten enligt följande tidtabell:</p>
+            <img src="assets/img/aoe_vag.png" class="img-fluid">
           </ng-container>
         </ng-container>
       </div>
