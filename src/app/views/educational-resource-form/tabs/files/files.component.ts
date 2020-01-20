@@ -25,6 +25,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   savedData: any;
 
   fileUploadForm: FormGroup;
+  videoFiles: number[] = [];
   submitted = false;
   modalRef: BsModalRef;
   uploadResponses: UploadMessage[] = [];
@@ -33,6 +34,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   languages: Language[];
   uploadedFileSubscription: Subscription;
   uploadedFiles: UploadedFile[];
+  totalFileCount = 0;
   completedUploads = 0;
 
   materialId: number;
@@ -137,7 +139,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      // subtitles: this.fb.array([]),
+      subtitles: this.fb.array([]),
     });
   }
 
@@ -145,7 +147,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.files.push(this.createFile());
   }
 
-  /*createSubtitle(): FormGroup {
+  createSubtitle(): FormGroup {
     return this.fb.group({
       file: [''],
       default: this.fb.control(false),
@@ -153,12 +155,17 @@ export class FilesComponent implements OnInit, OnDestroy {
       label: this.fb.control(null),
       srclang: this.fb.control(null),
     });
-  }*/
+  }
 
-  /*addSubtitle(i): void {
-    const subtitles = <FormArray>this.files.at(i).get('subtitles');
+  addSubtitle(i): void {
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.push(this.createSubtitle());
-  }*/
+  }
+
+  removeSubtitle(i, j): void {
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
+    subtitles.removeAt(j);
+  }
 
   openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(
@@ -171,9 +178,14 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
-      /*if (mimeTypes.video.includes(file.type)) {
+      if (mimeTypes.video.includes(file.type)) {
         this.addSubtitle(i);
-      }*/
+        this.videoFiles.push(i);
+      } else {
+        const subtitles = this.files.at(i).get('subtitles') as FormArray;
+        subtitles.clear();
+        this.videoFiles = this.videoFiles.filter(v => v !== i);
+      }
 
       this.files.at(i).get('file').setValue(file);
 
@@ -186,7 +198,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  /*onSubtitleChange(event, i, j): void {
+  onSubtitleChange(event, i, j): void {
     if (event.target.files.length > 0) {
       const subtitle = event.target.files[0];
       const subtitles = <FormArray>this.files.at(i).get('subtitles');
@@ -196,12 +208,24 @@ export class FilesComponent implements OnInit, OnDestroy {
       // add validators
       subtitles.at(j).get('kind').setValidators([ Validators.required ]);
       subtitles.at(j).get('kind').updateValueAndValidity();
+
       subtitles.at(j).get('label').setValidators([ Validators.required ]);
       subtitles.at(j).get('label').updateValueAndValidity();
+
       subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
-  }*/
+  }
+
+  updateDefaultSubtitle(event, i, j): void {
+    const subtitles = this.files.at(i).get('subtitles') as FormArray;
+
+    subtitles.controls.forEach((subCtrl, x) => {
+      if (x !== j) {
+        subCtrl.get('default').setValue(false);
+      }
+    });
+  }
 
   validateFiles(): void {
     let fileCount = 0;
@@ -233,10 +257,18 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  // @todo: validate subtitles
   validateSubtitles(): void {
-    // remove if file is empty
-    // required fields: file, kind, label, srclang
+    this.files.controls.forEach(fileCtrl => {
+      const subtitles = fileCtrl.get('subtitles') as FormArray;
+
+      if (subtitles.value.length > 0) {
+        subtitles.controls.forEach((subCtrl, i) => {
+          if (subCtrl.get('file').value === '') {
+            subtitles.removeAt(i);
+          }
+        });
+      }
+    });
   }
 
   uploadFiles() {
@@ -264,20 +296,54 @@ export class FilesComponent implements OnInit, OnDestroy {
         );
       } else {
         this.backendSvc.uploadFiles(formData).subscribe(
-          (res) => this.uploadResponses[i] = res,
+          (res) => {
+            this.uploadResponses[i] = res;
+
+            if (res.response) {
+
+              if (file.subtitles.length > 0) {
+                file.subtitles.forEach((subtitle, j) => {
+                  const subFormData = new FormData();
+                  subFormData.append('attachment', subtitle.file);
+                  subFormData.append('attachmentDetails', JSON.stringify({
+                    default: subtitle.default,
+                    kind: subtitle.kind,
+                    label: subtitle.label,
+                    srclang: subtitle.srclang,
+                  }));
+
+                  this.backendSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
+                    (subRes) => console.log(subRes),
+                    (subErr) => console.error(subErr),
+                    () => this.completeUpload(),
+                  );
+                });
+              }
+            }
+          },
           (err) => console.error(err),
           () => this.completeUpload(),
         );
       }
+    });
+  }
 
-      // @todo: if file.subtitles -> POST subtitles
+  calculateTotalFileCount(): void {
+    this.totalFileCount += this.files.value.length;
+
+    this.files.value.forEach(file => {
+      this.totalFileCount += file.subtitles.length;
     });
   }
 
   completeUpload(): void {
     this.completedUploads++;
 
-    if (this.completedUploads === this.files.value.length) {
+    if (this.totalFileCount === 0) {
+      this.calculateTotalFileCount();
+    }
+
+    if (this.completedUploads === this.totalFileCount) {
       this.router.navigate(['/lisaa-oppimateriaali', 2]);
     }
   }
@@ -293,8 +359,11 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.submitted = true;
 
     this.validateFiles();
+    this.validateSubtitles();
 
     if (this.fileUploadForm.valid) {
+      this.calculateTotalFileCount();
+
       const data = Object.assign(
         {},
         JSON.parse(sessionStorage.getItem(this.savedDataKey)),

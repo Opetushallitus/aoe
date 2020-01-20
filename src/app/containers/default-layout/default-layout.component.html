@@ -80,4 +80,14 @@
   </div>
 </div>
 
-<app-cookie-notice *ngIf="showNotice" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+<div class="fixed-bottom">
+  <ng-container *ngIf="!this.alertClosed">
+    <div class="container">
+      <alert type="warning" dismissible="true" (onClosed)="closeAlert()">
+        Aoe.fi-sivustolla on huoltokatko keskiviikkona 22.1.2020 klo 14.00 - 16.00 välisenä aikana. Huoltokatko kestää arviolta puoli tuntia. Pahoittelemme palvelukatkosta aiheutuvaa haittaa.
+      </alert>
+    </div>
+  </ng-container>
+
+  <app-cookie-notice *ngIf="showNotice" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+</div>
