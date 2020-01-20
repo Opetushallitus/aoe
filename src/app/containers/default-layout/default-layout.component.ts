@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
@@ -12,7 +12,7 @@ import { CookieService } from '../../services/cookie.service';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnInit {
   logos = {
     okm: {
       fi: {
@@ -45,6 +45,7 @@ export class DefaultLayoutComponent {
   };
 
   showNotice = true;
+  alertClosed = false;
 
   constructor(
     public translate: TranslateService,
@@ -52,6 +53,12 @@ export class DefaultLayoutComponent {
     private cookieSvc: CookieService,
   ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
+  }
+
+  ngOnInit(): void {
+    this.alertClosed = sessionStorage.getItem('aoe.alertClosed201')
+      ? JSON.parse(sessionStorage.getItem('aoe.alertClosed201')).closed
+      : false;
   }
 
   /**
@@ -64,5 +71,10 @@ export class DefaultLayoutComponent {
 
   private hideCookieNotice(): void {
     this.showNotice = false;
+  }
+
+  closeAlert(): void {
+    sessionStorage.setItem('aoe.alertClosed201', JSON.stringify({ closed: true }));
+    this.alertClosed = true;
   }
 }
