@@ -27,15 +27,18 @@
   <table class="table">
     <thead>
       <tr>
+        <th></th>
         <th scope="col">#</th>
         <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
         <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.displayName' | translate }}</th>
         <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+        <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.subtitles' | translate }}</th>
       </tr>
     </thead>
 
     <tbody cdkDropList (cdkDropListDropped)="drop($event)">
       <tr *ngFor="let upload of uploadedFiles; let i = index" cdkDrag>
+        <td><i class="fa fa-bars" aria-hidden="true"></i></td>
         <th scope="row">{{ i + 1 }}</th>
         <td>{{ upload.file }}{{ upload.link }}</td>
         <td>
@@ -46,6 +49,13 @@
           </ul>
         </td>
         <td>{{ upload.language }}</td>
+        <td>
+          <span *ngFor="let subtitle of upload.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
+            {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
+          </span>
+
+          <span *ngIf="upload.subtitles.length === 0">-</span>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -419,7 +429,7 @@
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData.typicalAgeRange">
+  <ng-container *ngIf="savedData.typicalAgeRange && (savedData.typicalAgeRange.typicalAgeRangeMin || savedData.typicalAgeRange.typicalAgeRangeMax)">
     <dt class="col-sm-3">{{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}</dt>
     <dd class="col-sm-9">{{ savedData.typicalAgeRange.typicalAgeRangeMin }} - {{ savedData.typicalAgeRange.typicalAgeRangeMax }}</dd>
   </ng-container>

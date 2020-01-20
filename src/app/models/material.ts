@@ -1,3 +1,5 @@
+import { Subtitle } from './subtitle';
+
 export interface Material {
   id?: string;
   language: string;
@@ -11,4 +13,5 @@ export interface Material {
     sv: string;
     en: string;
   };
+  subtitles?: Subtitle[];
 }

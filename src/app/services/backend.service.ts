@@ -12,6 +12,7 @@ import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { UploadedFile } from '../models/uploaded-file';
 import { AuthService } from './auth.service';
 import { koodistoSources } from '../constants/koodisto-sources';
+import { Attachment } from '../models/backend/attachment';
 
 @Injectable({
   providedIn: 'root'
@@ -71,7 +72,32 @@ export class BackendService {
               sessionStorage.setItem(this.localStorageKey, JSON.stringify(event.body));
             }
 
-            return { status: 'completed', message: event.body };
+            return { status: 'completed', message: 'Upload completed', response: event.body };
+
+          default:
+            return { status: 'error', message: `Unhandled event: ${event.type}` };
+        }
+      }),
+      catchError(this.handleError),
+    );
+  }
+
+  uploadSubtitle(fileId: string, data: FormData): Observable<UploadMessage> {
+    return this.http.post<FormData>(`${this.backendUrl}/material/attachment/${fileId}`, data, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+      reportProgress: true,
+      observe: 'events',
+    }).pipe(
+      map((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * event.loaded / event.total);
+            return { status: 'progress', message: progress };
+
+          case HttpEventType.Response:
+            return { status: 'completed', message: 'Upload completed', response: event.body };
 
           default:
             return { status: 'error', message: `Unhandled event: ${event.type}` };
@@ -127,6 +153,26 @@ export class BackendService {
         // tslint:disable-next-line:max-line-length
           .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
 
+        const materials = res.materials.map(m => ({
+          id: m.id,
+          language: m.language,
+          priority: m.priority,
+          originalfilename: m.originalfilename,
+          filekey: m.filekey,
+          link: m.link,
+          mimetype: m.mimetype,
+          displayName: m.displayName,
+          subtitles: res.attachments
+            .filter((a: Attachment) => a.materialid === m.id)
+            .map((a: Attachment) => ({
+              src: `${environment.backendUrl}/download/${a.filekey}`,
+              default: a.defaultfile,
+              kind: a.kind,
+              label: a.label,
+              srclang: a.srclang,
+            })),
+        }));
+
         return {
           name: res.name,
           thumbnail: res.thumbnail
@@ -137,19 +183,7 @@ export class BackendService {
           authors: res.author
             .map(({ authorname, organization }) => ({ authorname, organization })),
           description: res.description,
-          materials: res.materials
-            // tslint:disable-next-line:max-line-length
-            .map(m => ({
-                id: m.id,
-                language: m.language,
-                priority: m.priority,
-                originalfilename: m.originalfilename,
-                filekey: m.filekey,
-                link: m.link,
-                mimetype: m.mimetype,
-                displayName: m.displayName
-              })
-            ),
+          materials: materials,
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
@@ -337,8 +371,24 @@ export class BackendService {
         'Accept': 'application/json',
       })
     }).subscribe((res) => {
-      // tslint:disable-next-line:max-line-length
-      this.uploadedFiles$.next(res.materials.map(({ id, originalfilename, language, link, displayName }) => ({ id, file: originalfilename, language, link, displayName })));
+      const materials = res.materials.map(m => ({
+        id: m.id,
+        language: m.language,
+        file: m.originalfilename,
+        link: m.link,
+        displayName: m.displayName,
+        subtitles: res.attachments
+          .filter((a: Attachment) => a.materialid === m.id)
+          .map((a: Attachment) => ({
+            src: null,
+            default: a.defaultfile,
+            kind: a.kind,
+            label: a.label,
+            srclang: a.srclang,
+          })),
+      }));
+
+      this.uploadedFiles$.next(materials);
     });
   }
 
@@ -358,10 +408,7 @@ export class BackendService {
   }
 
   private handleError(error: HttpErrorResponse) {
-    if (error.status === 401) {
-      this.authSvc.removeUserdata();
-    }
-
+    console.error(error);
     return throwError('Something bad happened; please try again later.');
   }
 }

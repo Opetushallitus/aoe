@@ -173,6 +173,13 @@
                 "title": "Språkversioner: Filens namn",
                 "subtitle": "Tillsätt en språversion"
               }
+            },
+            "subtitles": {
+              "subtitle": "Subtitle file",
+              "label": "Label",
+              "srclang": "Language",
+              "default": "Default",
+              "addSubtitle": "Add a subtitle"
             }
           },
           "addFile": "Tillsätt en annan fil",
@@ -183,7 +190,8 @@
           "fileOrLink": "Fil/link",
           "displayName": "Filens namn",
           "language": "Filens språk",
-          "actions": "Actions"
+          "subtitles": "Texting",
+          "actions": "Funktioner"
         }
       },
       "basicDetails": {

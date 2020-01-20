@@ -103,7 +103,7 @@
                 [lang]="lang"
                 (change)="onFileChange($event, i)"
               >
-              <span class="custom-file-label">{{ files.at(i).get('file').value.name }}</span>
+              <span class="custom-file-label">{{ file.get('file').value.name }}</span>
             </div>
           </div>
 
@@ -137,8 +137,8 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="submitted && files.at(i).get('language').errors">
-              <div *ngIf="files.at(i).get('language').errors.required">
+            <ng-container *ngIf="submitted && file.get('language').errors">
+              <div *ngIf="file.get('language').errors.required">
                 <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
               </div>
             </ng-container>
@@ -220,18 +220,19 @@
           </ng-template>
         </div>
 
-        <!--<ng-container *ngIf="files.at(i).get('subtitles').controls.length > 0">
-          <ng-container *ngFor="let subtitle of files.at(i).get('subtitles').controls; let j = index;">
+        <ng-container *ngIf="videoFiles.includes(i)">
+          <ng-container *ngFor="let subtitle of file.get('subtitles').controls; let j = index;">
             <ng-container formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
                 <div class="form-group col-lg-4">
-                  <label for="{{ 'subtitle' + i + j }}">Subtitle*</label>
+                  <label for="{{ 'subtitle' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*</label>
 
                   <div class="custom-file">
                     <input
                       type="file"
                       class="custom-file-input"
                       id="{{ 'subtitle' + i + j }}"
+                      accept=".vtt"
                       [lang]="lang"
                       (change)="onSubtitleChange($event, i, j)"
                     >
@@ -240,18 +241,23 @@
                 </div>
 
                 <div class="form-group col-sm-8 col-lg-4">
-                  <label for="{{ 'label' + i + j }}">Label*</label>
+                  <label for="{{ 'label' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*</label>
 
                   <input
                     type="text"
                     class="form-control"
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
+                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
                   >
+
+                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div *ngIf="subtitle.get('label').errors.required">{{ 'forms.common.required' | translate }}</div>
+                  </div>
                 </div>
 
                 <div class="form-group col-sm-4 col-lg-2">
-                  <label for="{{ 'srclang' + i + j }}">Srclang*</label>
+                  <label for="{{ 'srclang' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*</label>
 
                   <ng-select
                     [items]="languages"
@@ -260,18 +266,36 @@
                     id="{{ 'srclang' + i + j }}"
                     formControlName="srclang"
                   ></ng-select>
+
+                  <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                    <div *ngIf="subtitle.get('srclang').errors.required">
+                      <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+                    </div>
+                  </ng-container>
                 </div>
 
-                <div class="form-group col-lg-2">
+                <div class="form-group col-lg">
                   <div class="custom-control custom-checkbox">
                     <input
                       type="checkbox"
                       class="custom-control-input"
                       id="{{ 'default' + i + j }}"
                       formControlName="default"
+                      (change)="updateDefaultSubtitle($event, i, j)"
                     >
-                    <label class="custom-control-label" for="{{ 'default' + i + j }}">Default</label>
+                    <label class="custom-control-label" for="{{ 'default' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}</label>
                   </div>
+                </div>
+
+                <div class="form-group col-lg-auto">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removeSubtitle(i, j)"
+                  >
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+                  </button>
                 </div>
               </div>
             </ng-container>
@@ -279,10 +303,10 @@
 
           <div class="form-row">
             <div class="form-group col">
-              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">Add subtitle</button>
+              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">{{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}</button>
             </div>
           </div>
-        </ng-container>-->
+        </ng-container>
       </ng-container>
     </div>
   </ng-container>
@@ -307,7 +331,7 @@
   </ng-container>
 
   <ng-container *ngIf="uploadedFiles?.length > 0">
-    <h3>Ladatut tiedostot</h3>
+    <h3>{{ 'forms.educationalResource.files.uploadedFiles.title' | translate }}</h3>
 
     <table class="table">
       <thead>
@@ -315,17 +339,27 @@
           <th scope="col">#</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+          <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.subtitles' | translate }}</th>
           <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.actions' | translate }}</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr *ngFor="let upload of uploadedFiles; let i = index">
-          <th scope="row">{{ i + 1 }}</th>
-          <td>{{ upload.file }}{{ upload.link }}</td>
-          <td>{{ upload.language }}</td>
-          <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
-        </tr>
+        <ng-container *ngFor="let upload of uploadedFiles; let i = index">
+          <tr>
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ upload.file }}{{ upload.link }}</td>
+            <td>{{ upload.language }}</td>
+            <td>
+              <span *ngFor="let subtitle of upload.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
+                {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
+              </span>
+
+              <span *ngIf="upload.subtitles.length === 0">-</span>
+            </td>
+            <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </ng-container>
