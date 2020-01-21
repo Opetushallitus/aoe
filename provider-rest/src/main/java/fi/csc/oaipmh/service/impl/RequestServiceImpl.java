@@ -34,16 +34,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String from, String until, Integer resumptionCounter) {
+    public AoeMetaFrame<List<AoeMetadata>> getAoeMetadata(String fromEncoded, String untilEncoded, Integer resumptionCounter) {
         MetadataRequest metadataRequest = new MetadataRequest();
 
-        if (!from.isEmpty() && !until.isEmpty()) {
-            String fromDecoded = URLDecoder.decodeValue(from);
-            System.out.println("FROM: " + fromDecoded);
+        if (!fromEncoded.isEmpty() && !untilEncoded.isEmpty()) {
+            String fromDecoded = URLDecoder.decodeValue(fromEncoded);
             metadataRequest.setDateMin(OaiPmhDateFormatter.convertToIso(fromDecoded));
 
-            String untilDecoded = URLDecoder.decodeValue(until);
-            System.out.println("UNTIL: " + untilDecoded);
+            String untilDecoded = URLDecoder.decodeValue(untilEncoded);
             metadataRequest.setDateMax(OaiPmhDateFormatter.convertToIso(untilDecoded));
         } else {
             metadataRequest.setDateMin(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.of("UTC")));
@@ -59,22 +57,4 @@ public class RequestServiceImpl implements RequestService {
         return restTemplate.exchange(env.getProperty("aoe.request.url"),
             HttpMethod.POST, request, new ParameterizedTypeReference<AoeMetaFrame<List<AoeMetadata>>>(){}).getBody();
     }
-
-    /*@Override
-    public List<LrmiMetadata> getMetadata() {
-        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
-
-        MetadataRequest metadataRequest = new MetadataRequest();
-        metadataRequest.setDateMin(now.minusYears(1));
-        metadataRequest.setDateMax(now);
-        metadataRequest.setMaterialPerPage(Long.parseLong(env.getProperty("aoe.request.per-page", "100")));
-        metadataRequest.setPageNumber(0L);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        HttpEntity<MetadataRequest> request = new HttpEntity<>(metadataRequest, headers);
-
-        return restTemplate.exchange(env.getProperty("aoe.request.url"),
-                HttpMethod.POST, request, new ParameterizedTypeReference<List<LrmiMetadata>>(){}).getBody();
-    }*/
 }
