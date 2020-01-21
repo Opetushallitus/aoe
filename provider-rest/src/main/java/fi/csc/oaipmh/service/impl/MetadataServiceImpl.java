@@ -44,7 +44,7 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     @Override
-    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String from, String until,
+    public OaiPmhFrame getMetadata(String verb, String identifier, String metadataPrefix, String fromEncoded, String untilEncoded,
                                    String resumptionToken, String requestUrl) {
 
         OaiPmhFrame frame = new OaiPmhFrame();
@@ -55,7 +55,7 @@ public class MetadataServiceImpl implements MetadataService {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setLrmiMetadata(frame, from, until, resumptionToken);
+                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken);
                 break;
             case "LISTIDENTIFIERS":
                 /*frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));

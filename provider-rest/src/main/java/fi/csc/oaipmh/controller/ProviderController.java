@@ -3,10 +3,12 @@ package fi.csc.oaipmh.controller;
 import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.oaipmh.service.MetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,9 +38,17 @@ public class ProviderController {
                 + request.getServerName()
                 + (request.getServerPort() != 0 ? ":" + request.getServerPort() : "")
                 + request.getRequestURI();
+        /*final HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_XML);*/
         return new ResponseEntity<>(
                 this.metadataService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken,
                     requestUrl),
+                /*httpHeaders,*/
                 HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/health", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> healthCheck() {
+        return new ResponseEntity<>("Alive!", HttpStatus.OK);
     }
 }
