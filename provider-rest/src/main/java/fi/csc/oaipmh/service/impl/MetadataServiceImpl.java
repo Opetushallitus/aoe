@@ -5,6 +5,7 @@ import fi.csc.oaipmh.model.response.AoeMetadata;
 import fi.csc.oaipmh.model.xml_lrmi.LrmiMetadata;
 import fi.csc.oaipmh.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Identify;
+import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListIdentifiers;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.ListRecords;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.Request;
 import fi.csc.oaipmh.model.xml_oaipmh.sublevel_1st.sublevel_2nd.Record;
@@ -55,17 +56,16 @@ public class MetadataServiceImpl implements MetadataService {
             case "GETRECORDS":
             case "LISTRECORDS":
                 frame.setVerb(new JAXBElement<>(new QName(verb), ListRecords.class, new ListRecords()));
-                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken);
+                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, false);
                 break;
             case "LISTIDENTIFIERS":
-                /*frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
-                setTestMetadata(frame, true);
-                break;*/
-            case "LISTMETADATAFORMATS":
-                return null;
+                frame.setVerb(new JAXBElement<>(new QName(verb), ListIdentifiers.class, new ListIdentifiers()));
+                setLrmiMetadata(frame, fromEncoded, untilEncoded, resumptionToken, true);
+                break;
             case "IDENTIFY":
                 setServiceInformation(frame, verb);
                 break;
+            case "LISTMETADATAFORMATS":
             default:
                 return null;
         }
@@ -97,7 +97,7 @@ public class MetadataServiceImpl implements MetadataService {
                 .setSampleIdentifier(env.getProperty("aoe.oai-identifier.sample-identifier"));
     }
 
-    private void setLrmiMetadata(OaiPmhFrame frame, String from, String until, String resumptionToken) {
+    private void setLrmiMetadata(OaiPmhFrame frame, String from, String until, String resumptionToken, boolean identifiersOnly) {
         Integer resumptionCounter = resolveResumptionValue(resumptionToken);
 
         AoeMetaFrame<List<AoeMetadata>> aoeMetaFrame = this.requestService.getAoeMetadata(from, until, resumptionCounter);
@@ -121,17 +121,21 @@ public class MetadataServiceImpl implements MetadataService {
 
                 Record record = new Record();
                 record.setHeader(recordHeader);
-                record.setMetadata(meta.getArchivedAt() == null ? recordMetadata : null);
+                record.setMetadata(!identifiersOnly && meta.getArchivedAt() == null ? recordMetadata : null);
                 records.add(record);
             });
             
-            addResumptionToken(frame, aoeMetaFrame, resumptionCounter);
+            addResumptionToken(frame, aoeMetaFrame, resumptionCounter, identifiersOnly);
 
+            if (identifiersOnly) {
+                ((ListIdentifiers) frame.getVerb().getValue()).setRecords(records);
+                return;
+            }
             ((ListRecords) frame.getVerb().getValue()).setRecords(records);
         }
     }
 
-    private void addResumptionToken(OaiPmhFrame frame, AoeMetaFrame aoeMetaFrame, Integer resumptionCounter) {
+    private void addResumptionToken(OaiPmhFrame frame, AoeMetaFrame aoeMetaFrame, Integer resumptionCounter, boolean identifiersOnly) {
         Integer next = ++resumptionCounter;
         Integer cursor = aoeMetaFrame.getPageNumber() * aoeMetaFrame.getMaterialPerPage();
         String resumptionString;
@@ -140,6 +144,11 @@ public class MetadataServiceImpl implements MetadataService {
             resumptionString = next.toString();
         } else {
             resumptionString = "";
+        }
+        if (identifiersOnly) {
+            ((ListIdentifiers) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
+                aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
+            return;
         }
         ((ListRecords) frame.getVerb().getValue()).setResumptionToken(new ResumptionToken(
             aoeMetaFrame.getCompleteListSize(), cursor, resumptionString));
