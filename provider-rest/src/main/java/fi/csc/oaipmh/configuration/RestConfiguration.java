@@ -29,11 +29,12 @@ public class RestConfiguration implements WebMvcConfigurer {
     @Primary
     public ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         ObjectMapper objectMapper = builder.createXmlMapper(false).build();
-        //ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.xml().build();
+        // ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.xml().build();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // objectMapper.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
+        // objectMapper.enable(JsonGenerator.Feature.ESCAPE_NON_ASCII);
         objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
-
         // objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
         // objectMapper.registerModule(new JsonldModule());
         return objectMapper;
@@ -64,14 +65,14 @@ public class RestConfiguration implements WebMvcConfigurer {
 
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
         SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
-                .loadTrustMaterial(null, acceptingTrustStrategy)
-                .build();
+            .loadTrustMaterial(null, acceptingTrustStrategy)
+            .build();
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
         CloseableHttpClient httpClient = HttpClients.custom()
-                .setSSLSocketFactory(csf)
-                .build();
+            .setSSLSocketFactory(csf)
+            .build();
         HttpComponentsClientHttpRequestFactory requestFactory =
-                new HttpComponentsClientHttpRequestFactory();
+            new HttpComponentsClientHttpRequestFactory();
         requestFactory.setHttpClient(httpClient);
 
         return new RestTemplate(requestFactory);
