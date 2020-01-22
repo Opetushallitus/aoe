@@ -45,7 +45,7 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   showNotice = true;
-  alertClosed = false;
+  // alertClosed = false;
 
   constructor(
     public translate: TranslateService,
@@ -56,9 +56,9 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.alertClosed = sessionStorage.getItem('aoe.alertClosed201')
+    /*this.alertClosed = sessionStorage.getItem('aoe.alertClosed201')
       ? JSON.parse(sessionStorage.getItem('aoe.alertClosed201')).closed
-      : false;
+      : false;*/
   }
 
   /**
@@ -73,8 +73,8 @@ export class DefaultLayoutComponent implements OnInit {
     this.showNotice = false;
   }
 
-  closeAlert(): void {
+  /*closeAlert(): void {
     sessionStorage.setItem('aoe.alertClosed201', JSON.stringify({ closed: true }));
     this.alertClosed = true;
-  }
+  }*/
 }
