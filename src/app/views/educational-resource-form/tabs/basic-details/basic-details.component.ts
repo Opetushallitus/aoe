@@ -147,7 +147,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
         }
 
         this.savedData.authors.forEach(author => {
-          this.authors.push(this.createAuthor(author));
+          if (author.author) {
+            this.authors.push(this.createAuthor(author));
+          } else {
+            this.authors.push(this.createOrganization(author));
+          }
         });
       }
     }
