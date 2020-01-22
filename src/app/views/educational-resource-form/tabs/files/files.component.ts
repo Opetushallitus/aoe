@@ -6,12 +6,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { BackendService } from '../../../../services/backend.service';
-import { UploadMessage } from '../../../../models/upload-message';
-import { Language } from '../../../../models/koodisto-proxy/language';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { BackendService } from '@services/backend.service';
+import { UploadMessage } from '@models/upload-message';
+import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
-import { UploadedFile } from '../../../../models/uploaded-file';
+import { UploadedFile } from '@models/uploaded-file';
 
 @Component({
   selector: 'app-tabs-files',
@@ -302,7 +302,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             if (res.response) {
 
               if (file.subtitles.length > 0) {
-                file.subtitles.forEach((subtitle, j) => {
+                file.subtitles.forEach(subtitle => {
                   const subFormData = new FormData();
                   subFormData.append('attachment', subtitle.file);
                   subFormData.append('attachmentDetails', JSON.stringify({

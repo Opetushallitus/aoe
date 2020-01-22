@@ -5,30 +5,33 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
-import { EducationalMaterial } from '../models/educational-material';
-import { UploadMessage } from '../models/upload-message';
-import { EducationalMaterialList } from '../models/educational-material-list';
-import { AlignmentObjectExtended } from '../models/alignment-object-extended';
-import { UploadedFile } from '../models/uploaded-file';
-import { AuthService } from './auth.service';
+import { EducationalMaterial } from '@models/educational-material';
+import { UploadMessage } from '@models/upload-message';
+import { EducationalMaterialList } from '@models/educational-material-list';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
-import { Attachment } from '../models/backend/attachment';
+import { Attachment } from '@models/backend/attachment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
+
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService,
+  ) { }
   backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
 
-  constructor(
-    private http: HttpClient,
-    private translate: TranslateService,
-    private authSvc: AuthService,
-  ) { }
+  private static handleError(error: HttpErrorResponse) {
+    console.error(error);
+    return throwError('Something bad happened; please try again later.');
+  }
 
   /**
    * Uploads files to backend.
@@ -78,7 +81,7 @@ export class BackendService {
             return { status: 'error', message: `Unhandled event: ${event.type}` };
         }
       }),
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
@@ -103,13 +106,12 @@ export class BackendService {
             return { status: 'error', message: `Unhandled event: ${event.type}` };
         }
       }),
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
   /**
    * Posts links to backend.
-   * @param {number} materialId
    * @param {json} data
    */
   postLinks(data: any): Observable<any> {
@@ -120,7 +122,7 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
@@ -133,7 +135,7 @@ export class BackendService {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put<any>(uploadUrl, data).pipe(
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
@@ -281,7 +283,7 @@ export class BackendService {
             };
           });
       }),
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
@@ -316,7 +318,7 @@ export class BackendService {
             };
           });
       }),
-      catchError(this.handleError),
+      catchError(BackendService.handleError),
     );
   }
 
@@ -350,7 +352,7 @@ export class BackendService {
               return { status: 'error', message: `Unhandled event: ${event.type}` };
           }
         }),
-        catchError(this.handleError),
+        catchError(BackendService.handleError),
       );
     }
   }
@@ -396,13 +398,8 @@ export class BackendService {
 
       return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
         .pipe(
-          catchError(this.handleError),
+          catchError(BackendService.handleError),
         );
     }
-  }
-
-  private handleError(error: HttpErrorResponse) {
-    console.error(error);
-    return throwError('Something bad happened; please try again later.');
   }
 }

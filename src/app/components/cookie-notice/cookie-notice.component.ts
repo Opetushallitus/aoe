@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { CookieService } from '../../services/cookie.service';
+import { CookieService } from '@services/cookie.service';
 
 @Component({
   selector: 'app-cookie-notice',

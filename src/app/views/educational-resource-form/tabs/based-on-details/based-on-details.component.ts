@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
