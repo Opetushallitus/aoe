@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
-import { Material } from '../../models/material';
+import { Material } from '@models/material';
 import { environment } from '../../../environments/environment';
 
 @Component({

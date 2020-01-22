@@ -8,13 +8,13 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { addCustomItem } from '../../../../shared/shared.module';
-import { BackendService } from '../../../../services/backend.service';
-import { UploadMessage } from '../../../../models/upload-message';
-import { LearningResourceType } from '../../../../models/koodisto-proxy/learning-resource-type';
-import { EducationalRole } from '../../../../models/koodisto-proxy/educational-role';
-import { EducationalUse } from '../../../../models/koodisto-proxy/educational-use';
+import { BackendService } from '@services/backend.service';
+import { UploadMessage } from '@models/upload-message';
+import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { EducationalRole } from '@models/koodisto-proxy/educational-role';
+import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 
 @Component({
   selector: 'app-tabs-basic-details',

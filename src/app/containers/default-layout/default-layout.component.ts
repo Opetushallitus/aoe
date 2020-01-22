@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
-import { AuthService } from '../../services/auth.service';
-import { CookieService } from '../../services/cookie.service';
+import { AuthService } from '@services/auth.service';
+import { CookieService } from '@services/cookie.service';
 
 /**
  * @ignore

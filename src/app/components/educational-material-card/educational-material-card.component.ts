@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { EducationalMaterialList } from '../../models/educational-material-list';
-import { Keyword } from '../../models/keyword';
-import { EducationalLevel } from '../../models/educational-level';
+import { EducationalMaterialList } from '@models/educational-material-list';
+import { Keyword } from '@models/keyword';
+import { EducationalLevel } from '@models/educational-level';
 
 @Component({
   selector: 'app-educational-material-card',
