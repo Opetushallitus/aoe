@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { License } from '../../../../models/koodisto-proxy/license';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { License } from '@models/koodisto-proxy/license';
 
 @Component({
   selector: 'app-tabs-license',

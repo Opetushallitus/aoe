@@ -4,15 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Language } from '../models/koodisto-proxy/language';
-import { LearningResourceType } from '../models/koodisto-proxy/learning-resource-type';
-import { EducationalRole } from '../models/koodisto-proxy/educational-role';
-import { EducationalUse } from '../models/koodisto-proxy/educational-use';
-import { EducationalLevel } from '../models/koodisto-proxy/educational-level';
-import { AlignmentObjectExtended } from '../models/alignment-object-extended';
-import { AccessibilityFeature } from '../models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '../models/koodisto-proxy/accessibility-hazard';
-import { License } from '../models/koodisto-proxy/license';
+import { Language } from '@models/koodisto-proxy/language';
+import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { EducationalRole } from '@models/koodisto-proxy/educational-role';
+import { EducationalUse } from '@models/koodisto-proxy/educational-use';
+import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { License } from '@models/koodisto-proxy/license';
 import { environment } from '../../environments/environment';
 
 @Injectable({

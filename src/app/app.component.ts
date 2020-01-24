@@ -4,8 +4,8 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 
 import { getLanguage, setLanguage } from './shared/shared.module';
-import { CookieService } from './services/cookie.service';
-import { AuthService } from './services/auth.service';
+import { CookieService } from '@services/cookie.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   // tslint:disable-next-line

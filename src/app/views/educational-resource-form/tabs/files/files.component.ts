@@ -6,12 +6,12 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '../../../../services/koodisto-proxy.service';
-import { BackendService } from '../../../../services/backend.service';
-import { UploadMessage } from '../../../../models/upload-message';
-import { Language } from '../../../../models/koodisto-proxy/language';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { BackendService } from '@services/backend.service';
+import { UploadMessage } from '@models/upload-message';
+import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
-import { UploadedFile } from '../../../../models/uploaded-file';
+import { UploadedFile } from '@models/uploaded-file';
 
 @Component({
   selector: 'app-tabs-files',
@@ -228,27 +228,23 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   validateFiles(): void {
-    let fileCount = 0;
+    this.files.controls = this.files.controls
+      .filter(ctrl => ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== ''));
+
+    const fileCount = this.files.controls.length;
 
     this.files.controls.forEach(ctrl => {
-      if (ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== '')) {
-        fileCount++;
+      const language = ctrl.get('language');
+      const displayName = ctrl.get(`displayName.${this.lang}`);
 
-        ctrl.get('language').setValidators([ Validators.required ]);
-        ctrl.get('language').updateValueAndValidity();
+      language.setValidators([ Validators.required ]);
+      language.updateValueAndValidity();
 
-        ctrl.get(`displayName.${this.lang}`).setValidators([ Validators.required ]);
-        ctrl.get(`displayName.${this.lang}`).updateValueAndValidity();
-      }
+      displayName.setValidators([ Validators.required ]);
+      displayName.updateValueAndValidity();
     });
 
-    if (fileCount > 0) {
-      this.files.controls.forEach((control, i) => {
-        if (control.get('file').value === '' && (control.get('link').value === null || control.get('link').value === '')) {
-          this.files.removeAt(i);
-        }
-      });
-    } else {
+    if (fileCount === 0) {
       if (this.uploadedFiles && this.uploadedFiles.length > 0) {
         this.router.navigate(['/lisaa-oppimateriaali', 2]);
       } else {
@@ -262,10 +258,8 @@ export class FilesComponent implements OnInit, OnDestroy {
       const subtitles = fileCtrl.get('subtitles') as FormArray;
 
       if (subtitles.value.length > 0) {
-        subtitles.controls.forEach((subCtrl, i) => {
-          if (subCtrl.get('file').value === '') {
-            subtitles.removeAt(i);
-          }
+        subtitles.controls.forEach(() => {
+          subtitles.removeAt(subtitles.controls.findIndex(sub => sub.value.file === ''));
         });
       }
     });
@@ -300,9 +294,8 @@ export class FilesComponent implements OnInit, OnDestroy {
             this.uploadResponses[i] = res;
 
             if (res.response) {
-
               if (file.subtitles.length > 0) {
-                file.subtitles.forEach((subtitle, j) => {
+                file.subtitles.forEach(subtitle => {
                   const subFormData = new FormData();
                   subFormData.append('attachment', subtitle.file);
                   subFormData.append('attachmentDetails', JSON.stringify({

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-import { LegacyEducationalMaterial } from '../../models/demo/educational-material';
+import { LegacyEducationalMaterial } from '@models/demo/educational-material';
 import { EDUCATIONALMATERIALS } from '../../mocks/demo/educational-materials.mock';
 
 @Component({
