@@ -479,8 +479,8 @@
 
             <dt class="col-sm-3">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }}</dt>
             <dd class="col-sm-9">
-              <ng-container *ngFor="let author of external.author">
-                {{ author }}
+              <ng-container *ngFor="let author of external.author; let isLast = last">
+                {{ author }}<span *ngIf="!isLast">, </span>
               </ng-container>
             </dd>
 
