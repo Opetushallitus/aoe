@@ -503,5 +503,16 @@
     "cookieSettings": "Evästeasetukset",
     "acceptAll": "Hyväksy kaikki",
     "title": "Evästeasetukset"
+  },
+  "search": {
+    "inputs": {
+      "keywords": {
+        "label": "Hakusanat",
+        "placeholder": "Hae tästä"
+      },
+      "submit": {
+        "sr-text": "Hae"
+      }
+    }
   }
 }

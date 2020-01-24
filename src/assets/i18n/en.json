@@ -503,5 +503,16 @@
     "cookieSettings": "Cookie settings",
     "acceptAll": "Accept all",
     "title": "Cookie settings"
+  },
+  "search": {
+    "inputs": {
+      "keywords": {
+        "label": "Keywords",
+        "placeholder": "Search for..."
+      },
+      "submit": {
+        "sr-text": "Search"
+      }
+    }
   }
 }

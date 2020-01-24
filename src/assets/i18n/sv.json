@@ -497,5 +497,16 @@
     "cookieSettings": "Inställningar för cookies",
     "acceptAll": "Tillåta alla",
     "title": "Inställningar för cookies"
+  },
+  "search": {
+    "inputs": {
+      "keywords": {
+        "label": "Keywords",
+        "placeholder": "Search for..."
+      },
+      "submit": {
+        "sr-text": "Search"
+      }
+    }
   }
 }
