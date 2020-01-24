@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { BackendService } from '../../services/backend.service';
-import { Material } from '../../models/material';
-import { EducationalMaterial } from '../../models/educational-material';
+import { BackendService } from '@services/backend.service';
+import { Material } from '@models/material';
+import { EducationalMaterial } from '@models/educational-material';
 
 @Component({
   selector: 'app-educational-material-embed-view',

@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 // Import containers
 import { DefaultLayoutComponent } from './containers';
 
-import { P404Component } from './views/error/404.component';
+import { P404Component } from '@views/error/404.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -44,40 +44,40 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
-import { HelpViewComponent } from './views/help-view/help-view.component';
-import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
-import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
-import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
-import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { EducationalMaterialPreviewComponent } from './components/educational-material-preview/educational-material-preview.component';
-import { VideoPreviewComponent } from './components/video-preview/video-preview.component';
-import { AudioPreviewComponent } from './components/audio-preview/audio-preview.component';
-import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
-import { HtmlPreviewComponent } from './components/html-preview/html-preview.component';
-import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
-import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
-import { InfoViewComponent } from './views/info-view/info-view.component';
-import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
-import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
-import { FilesComponent } from './views/educational-resource-form/tabs/files/files.component';
-import { BasicDetailsComponent } from './views/educational-resource-form/tabs/basic-details/basic-details.component';
-import { EducationalDetailsComponent } from './views/educational-resource-form/tabs/educational-details/educational-details.component';
-import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs/extended-details/extended-details.component';
-import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs/based-on-details/based-on-details.component';
-import { DialogComponent } from './components/dialog/dialog.component';
-import { LicenseComponent } from './views/educational-resource-form/tabs/license/license.component';
-import { NavLoginComponent } from './components/nav-login/nav-login.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
-import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
-import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
-import { MainViewComponent } from './views/mainView/main-view.component';
-import { EducationalMaterialsListComponent } from './components/educational-materials-list/educational-materials-list.component';
-import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
-import { PreviewComponent } from './views/educational-resource-form/tabs/preview/preview.component';
-import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
+import { HelpViewComponent } from '@views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from '@views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from '@views/privacy-policy-view/privacy-policy-view.component';
+import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
+import { EducationalMaterialViewComponent } from '@views/educational-material-view/educational-material-view.component';
+import { EducationalMaterialPreviewComponent } from '@components/educational-material-preview/educational-material-preview.component';
+import { VideoPreviewComponent } from '@components/video-preview/video-preview.component';
+import { AudioPreviewComponent } from '@components/audio-preview/audio-preview.component';
+import { PdfPreviewComponent } from '@components/pdf-preview/pdf-preview.component';
+import { HtmlPreviewComponent } from '@components/html-preview/html-preview.component';
+import { OfficePreviewComponent } from '@components/office-preview/office-preview.component';
+import { ImagePreviewComponent } from '@components/image-preview/image-preview.component';
+import { InfoViewComponent } from '@views/info-view/info-view.component';
+import { AcceptanceViewComponent } from '@views/acceptance-view/acceptance-view.component';
+import { EducationalResourceFormComponent } from '@views/educational-resource-form/educational-resource-form.component';
+import { FilesComponent } from '@views/educational-resource-form/tabs/files/files.component';
+import { BasicDetailsComponent } from '@views/educational-resource-form/tabs/basic-details/basic-details.component';
+import { EducationalDetailsComponent } from '@views/educational-resource-form/tabs/educational-details/educational-details.component';
+import { ExtendedDetailsComponent } from '@views/educational-resource-form/tabs/extended-details/extended-details.component';
+import { BasedOnDetailsComponent } from '@views/educational-resource-form/tabs/based-on-details/based-on-details.component';
+import { DialogComponent } from '@components/dialog/dialog.component';
+import { LicenseComponent } from '@views/educational-resource-form/tabs/license/license.component';
+import { NavLoginComponent } from '@components/nav-login/nav-login.component';
+import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from '@components/terms-of-use/terms-of-use.component';
+import { UserMaterialsViewComponent } from '@views/user-materials-view/user-materials-view.component';
+import { MainViewComponent } from '@views/mainView/main-view.component';
+import { EducationalMaterialsListComponent } from '@components/educational-materials-list/educational-materials-list.component';
+import { EducationalMaterialCardComponent } from '@components/educational-material-card/educational-material-card.component';
+import { PreviewComponent } from '@views/educational-resource-form/tabs/preview/preview.component';
+import { CookieNoticeComponent } from '@components/cookie-notice/cookie-notice.component';
 import { CredentialInterceptor } from './providers/credential.interceptor';
-import { LogoutViewComponent } from './views/logout-view/logout-view.component';
-import { EducationalMaterialEmbedViewComponent } from './views/educational-material-embed-view/educational-material-embed-view.component';
+import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
+import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 
 @NgModule({
   imports: [

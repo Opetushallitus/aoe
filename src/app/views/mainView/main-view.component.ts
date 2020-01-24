@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { BackendService } from '../../services/backend.service';
-import { EducationalMaterialList } from '../../models/educational-material-list';
+import { BackendService } from '@services/backend.service';
+import { EducationalMaterialList } from '@models/educational-material-list';
 
 @Component({
   templateUrl: 'main-view.component.html'

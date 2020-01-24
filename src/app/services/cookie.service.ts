@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CookieService as CookieSvc } from 'ngx-cookie-service';
-import { CookieSettings } from '../models/cookie-settings';
+import { CookieSettings } from '@models/cookie-settings';
 import { environment } from '../../environments/environment';
 
 @Injectable({

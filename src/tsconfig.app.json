@@ -7,6 +7,18 @@
     "paths": {
       "@angular/*": [
         "../node_modules/@angular/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@models/*": [
+        "app/models/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@views/*": [
+        "app/views/*"
       ]
     }
   },

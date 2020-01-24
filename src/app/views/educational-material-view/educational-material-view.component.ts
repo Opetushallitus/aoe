@@ -4,9 +4,9 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { EducationalMaterial } from '../../models/educational-material';
-import { Material } from '../../models/material';
-import { BackendService } from '../../services/backend.service';
+import { EducationalMaterial } from '@models/educational-material';
+import { Material } from '@models/material';
+import { BackendService } from '@services/backend.service';
 import { environment } from '../../../environments/environment';
 
 @Component({

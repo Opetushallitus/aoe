@@ -6,9 +6,9 @@ import { Subscription } from 'rxjs';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { environment } from '../../../../../environments/environment';
-import { BackendService } from '../../../../services/backend.service';
-import { AlignmentObjectExtended } from '../../../../models/alignment-object-extended';
-import { UploadedFile } from '../../../../models/uploaded-file';
+import { BackendService } from '@services/backend.service';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 
 @Component({

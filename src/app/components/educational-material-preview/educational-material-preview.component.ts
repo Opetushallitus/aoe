@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Material } from '../../models/material';
+import { Material } from '@models/material';
 import { mimeTypes } from '../../constants/mimetypes';
 
 @Component({
