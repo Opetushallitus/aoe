@@ -426,8 +426,20 @@
             <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
 
             <div class="reference" *ngFor="let reference of educationalMaterial.references">
-              <a [href]="reference.url" target="_blank" rel="noopener">{{ reference.name }}</a>
-              <span> &ndash; {{ reference.authors }}</span>
+              <div class="row">
+                <div class="col">
+                  <strong>{{ reference.name }}</strong>
+
+                  <ul>
+                    <li *ngFor="let author of reference.authors">{{ author }}</li>
+                  </ul>
+                </div>
+                <div class="col-auto">
+                  <i class="fa fa-external-link mr-2" aria-hidden="true"></i>
+                  <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">avaa linkki</a>
+                </div>
+              </div>
+
               <hr>
 
               <!--<div class="row">
