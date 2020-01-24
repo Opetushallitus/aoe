@@ -64,7 +64,7 @@ export interface EducationalMaterial {
   scienceBranchObjectives: AlignmentObjectExtended[];
   prerequisites: AlignmentObjectExtended[];
   references?: [{
-    authors: string; // @todo: replace with string[] after backend is fixed
+    authors: string[];
     url: string;
     name: string;
   }];
