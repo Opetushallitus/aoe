@@ -78,6 +78,7 @@ import { CookieNoticeComponent } from '@components/cookie-notice/cookie-notice.c
 import { CredentialInterceptor } from './providers/credential.interceptor';
 import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
+import { SearchComponent } from '@components/search/search.component';
 
 @NgModule({
   imports: [
@@ -149,6 +150,7 @@ import { EducationalMaterialEmbedViewComponent } from '@views/educational-materi
     CookieNoticeComponent,
     LogoutViewComponent,
     EducationalMaterialEmbedViewComponent,
+    SearchComponent,
   ],
   providers: [
     {
