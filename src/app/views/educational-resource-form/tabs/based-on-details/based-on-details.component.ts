@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
@@ -17,6 +17,7 @@ export class BasedOnDetailsComponent implements OnInit {
   savedData: any;
 
   basedOnDetailsForm: FormGroup;
+  submitted = false;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -65,9 +66,9 @@ export class BasedOnDetailsComponent implements OnInit {
 
   createExternal(): FormGroup {
     return this.fb.group({
-      author: this.fb.control(null),
-      url: this.fb.control(null),
-      name: this.fb.control(null),
+      author: this.fb.control(null, [ Validators.required ]),
+      url: this.fb.control(null, [ Validators.required ]),
+      name: this.fb.control(null, [ Validators.required ]),
     });
   }
 
@@ -87,20 +88,24 @@ export class BasedOnDetailsComponent implements OnInit {
     this.externals.removeAt(i);
   }
 
+  validateExternals(): void {
+    this.externals.controls.forEach(ctrl => {
+      const author = ctrl.get('author');
+      const url = ctrl.get('url');
+      const name = ctrl.get('name');
+
+      if (!author.value && !url.value && !name.value) {
+        this.removeExternal(this.externals.controls.findIndex(ext => ext === ctrl));
+      }
+    });
+  }
+
   onSubmit() {
+    this.submitted = true;
+
+    this.validateExternals();
+
     if (this.basedOnDetailsForm.valid) {
-      /*this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
-        if (row.author === null || row.materialId === null) {
-          this.removeInternal(index);
-        }
-      });*/
-
-      this.basedOnDetailsForm.get('externals').value.forEach((row, index) => {
-        if (row.author === null || row.url === null) {
-          this.removeExternal(index);
-        }
-      });
-
       const basedOnData = {
         isBasedOn: {
           // internals: this.basedOnDetailsForm.get('internals').value,
@@ -111,7 +116,7 @@ export class BasedOnDetailsComponent implements OnInit {
       const data = Object.assign(
         {},
         JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-        basedOnData
+        basedOnData,
       );
 
       // save data to session storage
@@ -123,6 +128,9 @@ export class BasedOnDetailsComponent implements OnInit {
 
   // @todo: some kind of confirmation
   resetForm() {
+    // reset submit status
+    this.submitted = false;
+
     // reset form values
     this.basedOnDetailsForm.reset();
 
