@@ -4,21 +4,21 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
-import { P404Component } from './views/error/404.component';
-import { MainViewComponent } from './views/mainView/main-view.component';
-import { EducationalMaterialViewComponent } from './views/educational-material-view/educational-material-view.component';
-import { EducationalResourceFormComponent } from './views/educational-resource-form/educational-resource-form.component';
-import { HelpViewComponent } from './views/help-view/help-view.component';
-import { TermsOfUseViewComponent } from './views/terms-of-use-view/terms-of-use-view.component';
-import { PrivacyPolicyViewComponent } from './views/privacy-policy-view/privacy-policy-view.component';
-import { AcceptanceViewComponent } from './views/acceptance-view/acceptance-view.component';
+import { P404Component } from '@views/error/404.component';
+import { MainViewComponent } from '@views/mainView/main-view.component';
+import { EducationalMaterialViewComponent } from '@views/educational-material-view/educational-material-view.component';
+import { EducationalResourceFormComponent } from '@views/educational-resource-form/educational-resource-form.component';
+import { HelpViewComponent } from '@views/help-view/help-view.component';
+import { TermsOfUseViewComponent } from '@views/terms-of-use-view/terms-of-use-view.component';
+import { PrivacyPolicyViewComponent } from '@views/privacy-policy-view/privacy-policy-view.component';
+import { AcceptanceViewComponent } from '@views/acceptance-view/acceptance-view.component';
 import { AcceptanceGuard } from './guards/acceptance.guard';
-import { UserMaterialsViewComponent } from './views/user-materials-view/user-materials-view.component';
+import { UserMaterialsViewComponent } from '@views/user-materials-view/user-materials-view.component';
 import { AuthGuard } from './guards/auth.guard';
 import { FileUploadGuard } from './guards/file-upload.guard';
-import { LogoutViewComponent } from './views/logout-view/logout-view.component';
-import { EducationalMaterialEmbedViewComponent } from './views/educational-material-embed-view/educational-material-embed-view.component';
-import { AccessibilityPolicyViewComponent } from './views/accessibility-policy-view/accessibility-policy-view.component';
+import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
+import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
+import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
 
 export const routes: Routes = [
   {
