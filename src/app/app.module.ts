@@ -79,6 +79,7 @@ import { CredentialInterceptor } from './providers/credential.interceptor';
 import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 import { SearchComponent } from '@components/search/search.component';
+import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import { SearchComponent } from '@components/search/search.component';
     LogoutViewComponent,
     EducationalMaterialEmbedViewComponent,
     SearchComponent,
+    SearchResultsViewComponent,
   ],
   providers: [
     {
