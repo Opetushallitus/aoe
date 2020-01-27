@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { SearchResults } from '@models/search/search-results';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class SearchService {
     }),
   };
 
-  public searchResults$ = new Subject<SearchResults[]>();
+  public searchResults$ = new Subject<any>();
 
   constructor(
     private http: HttpClient,
@@ -27,9 +26,9 @@ export class SearchService {
    * @param {string} keywords
    */
   updateSearchResults(keywords: string): void {
-    this.http.post<SearchResults[]>(`${this.apiUri}/elasticSearch/search`, keywords, this.httpOptions)
-      .subscribe((results: SearchResults[]) => {
-        this.searchResults$.next(results);
+    this.http.post(`${this.apiUri}/elasticSearch/search`, keywords, this.httpOptions)
+      .subscribe((results: any) => {
+        this.searchResults$.next(results.body);
       });
   }
 }
