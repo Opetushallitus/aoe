@@ -94,7 +94,8 @@
         "copied": "Copied"
       },
       "references": {
-        "title": "References"
+        "title": "References",
+        "openLink": "open the link"
       }
     },
     "faq": {

@@ -92,10 +92,11 @@
         "label": "Embed code",
         "copy": "Copy",
         "copied": "Copied"
+      },
+      "references": {
+        "title": "Referens",
+        "openLink": "öppna länken"
       }
-    },
-    "references": {
-      "title": "Referens"
     }
   },
   "faq": {
