@@ -39,12 +39,12 @@ export class BasedOnDetailsComponent implements OnInit {
     });
 
     if (this.savedData && this.savedData.isBasedOn) {
-      /*if (this.savedData.isBasedOn.internals.length > 0) {
-        this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
-      }*/
-
       if (this.savedData.isBasedOn.externals.length > 0) {
-        this.basedOnDetailsForm.get('externals').setValue(this.savedData.isBasedOn.externals);
+        this.removeExternal(0);
+
+        this.savedData.isBasedOn.externals.forEach(external => {
+          this.externals.push(this.createExternal(external));
+        });
       }
     }
   }
@@ -64,11 +64,11 @@ export class BasedOnDetailsComponent implements OnInit {
     });
   }*/
 
-  createExternal(): FormGroup {
+  createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(null, [ Validators.required ]),
-      url: this.fb.control(null, [ Validators.required ]),
-      name: this.fb.control(null, [ Validators.required ]),
+      author: this.fb.control(external ? external.author : null, [ Validators.required ]),
+      url: this.fb.control(external ? external.url : null, [ Validators.required ]),
+      name: this.fb.control(external ? external.name : null, [ Validators.required ]),
     });
   }
 
