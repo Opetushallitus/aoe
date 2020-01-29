@@ -80,6 +80,7 @@ import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 import { SearchComponent } from '@components/search/search.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
+import { SearchResultComponent } from '@components/search-result/search-result.component';
 
 @NgModule({
   imports: [
@@ -153,6 +154,7 @@ import { SearchResultsViewComponent } from '@views/search-results-view/search-re
     EducationalMaterialEmbedViewComponent,
     SearchComponent,
     SearchResultsViewComponent,
+    SearchResultComponent,
   ],
   providers: [
     {

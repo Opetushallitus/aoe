@@ -1,0 +1,36 @@
+<article class="search-result">
+  <h1>{{ result.name }}</h1>
+
+  <div class="row">
+    <div class="col-1">thumbnail</div>
+    <div class="col-6">
+      <p>{{ result.description }}</p>
+
+      <ul class="list-unstyled">
+        <li *ngFor="let author of result.authors">
+          <ng-container *ngIf="author.authorname !== ''">
+            {{ author.authorname }}
+            <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+          </ng-container>
+          <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+        </li>
+      </ul>
+    </div>
+    <div class="col-5">actions + educationallevels</div>
+  </div>
+
+  <div class="row justify-content-between">
+    <div class="col-auto">
+      <span class="mr-4">
+        <i class="fa fa-video-camera" aria-hidden="true"></i> {{ result.learningResourceTypes[0].value }}
+      </span>
+
+      <strong>
+        {{ result.license }}
+      </strong>
+    </div>
+    <div class="col-auto">
+      <time [attr.datetime]="result.createdAt | date:'yyyy-MM-dd'">{{ result.createdAt | date:'d.M.yyyy' }}</time>
+    </div>
+  </div>
+</article>
