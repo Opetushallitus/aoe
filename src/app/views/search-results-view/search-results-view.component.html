@@ -1,13 +1,15 @@
 <div class="py-4 px-0">
   <div class="container">
-    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <h1>Hakutulokset</h1>
+
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-search">
       <div class="form-row">
         <div class="input-group">
+          <label class="sr-only" for="keywords">{{ 'search.inputs.keywords.label' | translate }}</label>
           <input
             type="search"
             class="form-control"
-            [attr.aria-label]="'search.inputs.keywords.label' | translate"
-            aria-describedby="button-search"
+            id="keywords"
             [placeholder]="'search.inputs.keywords.placeholder' | translate"
             formControlName="keywords"
           >
@@ -27,5 +29,13 @@
         </div>
       </div>
     </form>
+
+    <div id="results" *ngIf="results.length > 0">
+      <div class="row">
+        <div class="col">
+          <app-search-result *ngFor="let result of results" [result]="result"></app-search-result>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
