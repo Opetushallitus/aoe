@@ -113,11 +113,16 @@
             <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*</label>
 
             <input
-              type="text"
+              type="url"
               class="form-control"
               id="{{ 'link' + i }}"
               formControlName="link"
+              [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
             >
+
+            <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
+              <div *ngIf="file.get('link').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
+            </div>
           </div>
 
           <div class="form-group col-lg-2">
