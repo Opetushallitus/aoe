@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResult } from '@models/search/search-results';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search-results-view',
   templateUrl: './search-results-view.component.html',
   styleUrls: ['./search-results-view.component.scss']
 })
-export class SearchResultsViewComponent implements OnInit {
+export class SearchResultsViewComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
-  results: SearchResult[] = [];
+  resultSubscription: Subscription;
+  results: any[];
+  mockResults: SearchResult[] = [];
 
   constructor(
     private searchSvc: SearchService,
@@ -22,7 +25,11 @@ export class SearchResultsViewComponent implements OnInit {
       keywords: this.fb.control(null, [ Validators.required ]),
     });
 
-    this.results.push({
+    this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: any[]) => {
+      this.results = results;
+    });
+
+    this.mockResults.push({
       id: 1,
       createdAt: new Date(2019, 1, 3),
       name: 'Mock material',
@@ -47,7 +54,7 @@ export class SearchResultsViewComponent implements OnInit {
       ],
     });
 
-    this.results.push({
+    this.mockResults.push({
       id: 2,
       createdAt: new Date(2020, 0, 15),
       name: 'Mock material 2',
@@ -73,9 +80,13 @@ export class SearchResultsViewComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.resultSubscription.unsubscribe();
+  }
+
   onSubmit(): void {
     if (this.searchForm.valid) {
-      // search magic
+      this.searchSvc.updateSearchResults(this.searchForm.value);
     }
   }
 }

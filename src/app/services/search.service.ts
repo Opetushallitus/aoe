@@ -15,7 +15,7 @@ export class SearchService {
     }),
   };
 
-  public searchResults$ = new Subject<any>();
+  public searchResults$ = new Subject<any[]>();
 
   constructor(
     private http: HttpClient,
