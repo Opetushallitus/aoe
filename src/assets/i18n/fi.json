@@ -114,6 +114,9 @@
       "next": "Seuraava",
       "previous": "Edellinen",
       "required": "Pakollinen tieto",
+      "pattern": {
+        "url": "Invalid url, must start with: http:// or https://"
+      },
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {
