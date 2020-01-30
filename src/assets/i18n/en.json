@@ -92,6 +92,10 @@
         "label": "Embed code",
         "copy": "Copy",
         "copied": "Copied"
+      },
+      "references": {
+        "title": "References",
+        "openLink": "open the link"
       }
     },
     "faq": {

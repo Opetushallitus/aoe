@@ -92,8 +92,18 @@
         "label": "Embed code",
         "copy": "Copy",
         "copied": "Copied"
+      },
+      "references": {
+        "title": "Referens",
+        "openLink": "öppna länken"
       }
     }
+  },
+  "faq": {
+    "title": "Vanliga frågor",
+    "general": "Vanliga frågor",
+    "material": "För skapare av undervisningsmaterial",
+    "organization": "För organisationer"
   },
   "forms": {
     "common": {
@@ -471,12 +481,6 @@
         "confirm": "Jag har"
       }
     }
-  },
-  "faq": {
-    "title": "Vanliga frågor",
-    "general": "Vanliga frågor",
-    "material": "För skapare av undervisningsmaterial",
-    "organization": "För organisationer"
   },
   "acceptance": {
     "title": "Tjänstens  dataskyddsbeskrivning och användarvillkor",

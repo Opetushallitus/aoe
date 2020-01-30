@@ -92,6 +92,10 @@
         "label": "Upotuskoodi",
         "copy": "Kopioi",
         "copied": "Kopioitu"
+      },
+      "references": {
+        "title": "Tämän materiaalin tekemisessä on käytetty seuraavia aineistoja",
+        "openLink": "avaa linkki"
       }
     },
     "faq": {
