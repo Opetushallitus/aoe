@@ -63,4 +63,9 @@ export interface EducationalMaterial {
   branchesOfScience: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
   prerequisites: AlignmentObjectExtended[];
+  references?: [{
+    authors: string[];
+    url: string;
+    name: string;
+  }];
 }

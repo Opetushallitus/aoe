@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -18,7 +17,7 @@ export class BasedOnDetailsComponent implements OnInit {
   savedData: any;
 
   basedOnDetailsForm: FormGroup;
-  addCustomItem = addCustomItem;
+  submitted = false;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -40,12 +39,12 @@ export class BasedOnDetailsComponent implements OnInit {
     });
 
     if (this.savedData && this.savedData.isBasedOn) {
-      /*if (this.savedData.isBasedOn.internals.length > 0) {
-        this.basedOnDetailsForm.get('internals').setValue(this.savedData.isBasedOn.internals);
-      }*/
-
       if (this.savedData.isBasedOn.externals.length > 0) {
-        this.basedOnDetailsForm.get('externals').setValue(this.savedData.isBasedOn.externals);
+        this.removeExternal(0);
+
+        this.savedData.isBasedOn.externals.forEach(external => {
+          this.externals.push(this.createExternal(external));
+        });
       }
     }
   }
@@ -65,11 +64,11 @@ export class BasedOnDetailsComponent implements OnInit {
     });
   }*/
 
-  createExternal(): FormGroup {
+  createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(null),
-      url: this.fb.control(null),
-      name: this.fb.control(null),
+      author: this.fb.control(external ? external.author : null, [ Validators.required ]),
+      url: this.fb.control(external ? external.url : null, [ Validators.required ]),
+      name: this.fb.control(external ? external.name : null, [ Validators.required ]),
     });
   }
 
@@ -89,20 +88,24 @@ export class BasedOnDetailsComponent implements OnInit {
     this.externals.removeAt(i);
   }
 
+  validateExternals(): void {
+    this.externals.controls.forEach(ctrl => {
+      const author = ctrl.get('author');
+      const url = ctrl.get('url');
+      const name = ctrl.get('name');
+
+      if (!author.value && !url.value && !name.value) {
+        this.removeExternal(this.externals.controls.findIndex(ext => ext === ctrl));
+      }
+    });
+  }
+
   onSubmit() {
+    this.submitted = true;
+
+    this.validateExternals();
+
     if (this.basedOnDetailsForm.valid) {
-      /*this.basedOnDetailsForm.get('internals').value.forEach((row, index) => {
-        if (row.author === null || row.materialId === null) {
-          this.removeInternal(index);
-        }
-      });*/
-
-      this.basedOnDetailsForm.get('externals').value.forEach((row, index) => {
-        if (row.author === null || row.url === null) {
-          this.removeExternal(index);
-        }
-      });
-
       const basedOnData = {
         isBasedOn: {
           // internals: this.basedOnDetailsForm.get('internals').value,
@@ -113,7 +116,7 @@ export class BasedOnDetailsComponent implements OnInit {
       const data = Object.assign(
         {},
         JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-        basedOnData
+        basedOnData,
       );
 
       // save data to session storage
@@ -125,6 +128,9 @@ export class BasedOnDetailsComponent implements OnInit {
 
   // @todo: some kind of confirmation
   resetForm() {
+    // reset submit status
+    this.submitted = false;
+
     // reset form values
     this.basedOnDetailsForm.reset();
 
