@@ -114,6 +114,9 @@
       "next": "Nästa",
       "previous": "Föregående",
       "required": "Obligatorisk uppgift",
+      "pattern": {
+        "url": "Sätt prefix http:// eller https://"
+      },
       "save": "Spara",
       "saveChanges": "Spara ändringar",
       "translations": {

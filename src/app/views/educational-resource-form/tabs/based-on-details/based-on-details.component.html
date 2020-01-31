@@ -88,6 +88,7 @@
 
         <div *ngIf="submitted && external.get('url').errors" class="invalid-feedback">
           <div *ngIf="external.get('url').errors.required">{{ 'forms.common.required' | translate }}</div>
+          <div *ngIf="external.get('url').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
         </div>
       </div>
 

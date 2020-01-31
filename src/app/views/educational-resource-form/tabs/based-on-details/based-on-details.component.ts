@@ -67,7 +67,10 @@ export class BasedOnDetailsComponent implements OnInit {
   createExternal(external?): FormGroup {
     return this.fb.group({
       author: this.fb.control(external ? external.author : null, [ Validators.required ]),
-      url: this.fb.control(external ? external.url : null, [ Validators.required ]),
+      url: this.fb.control(external ? external.url : null, [
+        Validators.required,
+        Validators.pattern('https?://.*')
+      ]),
       name: this.fb.control(external ? external.name : null, [ Validators.required ]),
     });
   }

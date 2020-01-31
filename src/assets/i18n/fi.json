@@ -114,6 +114,9 @@
       "next": "Seuraava",
       "previous": "Edellinen",
       "required": "Pakollinen tieto",
+      "pattern": {
+        "url": "Aseta etuliite http:// tai https://"
+      },
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {

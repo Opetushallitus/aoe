@@ -114,6 +114,9 @@
       "next": "Next",
       "previous": "Previous",
       "required": "Required",
+      "pattern": {
+        "url": "Please, provide http:// or https:// prefix"
+      },
       "save": "Save",
       "saveChanges": "Save changes",
       "translations": {
