@@ -115,7 +115,7 @@
       "previous": "Edellinen",
       "required": "Pakollinen tieto",
       "pattern": {
-        "url": "Anna verkko-osoite muodossa http://osoite.fi tai https://osoite.fi"
+        "url": "Aseta etuliite http:// tai https://"
       },
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
