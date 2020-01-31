@@ -38,12 +38,9 @@ public class ProviderController {
                 + request.getServerName()
                 + (request.getServerPort() != 0 ? ":" + request.getServerPort() : "")
                 + request.getRequestURI();
-        /*final HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_XML);*/
         return new ResponseEntity<>(
                 this.metadataService.getMetadata(verb, identifier, metadataPrefix, from, until, resumptionToken,
                     requestUrl),
-                /*httpHeaders,*/
                 HttpStatus.OK);
     }
 

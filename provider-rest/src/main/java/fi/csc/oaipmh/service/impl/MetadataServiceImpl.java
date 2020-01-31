@@ -50,7 +50,7 @@ public class MetadataServiceImpl implements MetadataService {
 
         OaiPmhFrame frame = new OaiPmhFrame();
         frame.setResponseDate(CUSTOM_DATETIME.format(LocalDateTime.now(ZoneOffset.UTC)));
-        frame.setRequest(new Request(verb, identifier, metadataPrefix, requestUrl));
+        frame.setRequest(new Request(verb, identifier, metadataPrefix, env.getProperty("aoe.identify.base-url")));
 
         switch (verb.toUpperCase()) {
             case "GETRECORDS":
