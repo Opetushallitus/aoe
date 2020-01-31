@@ -115,7 +115,7 @@
       "previous": "Previous",
       "required": "Required",
       "pattern": {
-        "url": "Invalid url, must start with: http:// or https://"
+        "url": "Please, provide http:// or https:// prefix"
       },
       "save": "Save",
       "saveChanges": "Save changes",
