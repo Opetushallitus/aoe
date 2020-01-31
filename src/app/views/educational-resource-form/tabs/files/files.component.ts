@@ -132,7 +132,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   createFile(): FormGroup {
     return this.fb.group({
       file: [''],
-      link: this.fb.control(null),
+      link: this.fb.control(null, [ Validators.pattern('https?://.*') ]),
       language: this.fb.control(this.lang),
       displayName: this.fb.group({
         fi: this.fb.control(null),
