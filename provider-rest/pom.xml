@@ -4,22 +4,31 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath /> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>fi.csc</groupId>
     <artifactId>provider-rest</artifactId>
     <version>0.0.1</version>
     <name>provider-rest</name>
-    <description>OAI-PMH Provider Module</description>
+    <description>OAI-PMH Metadata Provider</description>
     <packaging>jar</packaging>
 
-    <parent>
+    <!--<parent>
         <groupId>fi.csc</groupId>
-        <artifactId>aoe-metadata-provider</artifactId>
+        <artifactId>aoe-metadata-utils</artifactId>
         <version>0.0.1</version>
         <relativePath>..</relativePath>
-    </parent>
+    </parent>-->
 
     <properties>
         <docker.image.prefix>aoe-metadata-provider</docker.image.prefix>
         <docker.image.name>provider-rest</docker.image.name>
+        <java.version>13</java.version>
     </properties>
 
     <dependencies>
