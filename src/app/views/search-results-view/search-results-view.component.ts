@@ -52,13 +52,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           value: 'Yläaste',
         },
       ],
+      thumbnail: 'https://aoethumbnail.object.pouta.csc.fi/thumbnail1580736649891.png',
     });
 
     this.mockResults.push({
       id: 2,
       createdAt: new Date(2020, 0, 15),
       name: 'Mock material 2',
-      description: 'Kuvaus 2',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean accumsan sed est et varius. Nulla posuere in justo eget vehicula. Nulla et sem ultrices, tincidunt quam facilisis, finibus eros. Donec vitae enim in erat pretium ultrices ut eu neque.',
       authors: [
         {
           authorname: 'Mehiläinen, Maija 2',
@@ -77,6 +78,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           value: 'Yläaste',
         },
       ],
+      thumbnail: 'https://aoethumbnail.object.pouta.csc.fi/thumbnail1580736649891.png',
     });
   }
 
