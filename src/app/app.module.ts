@@ -56,7 +56,6 @@ import { PdfPreviewComponent } from '@components/pdf-preview/pdf-preview.compone
 import { HtmlPreviewComponent } from '@components/html-preview/html-preview.component';
 import { OfficePreviewComponent } from '@components/office-preview/office-preview.component';
 import { ImagePreviewComponent } from '@components/image-preview/image-preview.component';
-import { InfoViewComponent } from '@views/info-view/info-view.component';
 import { AcceptanceViewComponent } from '@views/acceptance-view/acceptance-view.component';
 import { EducationalResourceFormComponent } from '@views/educational-resource-form/educational-resource-form.component';
 import { FilesComponent } from '@views/educational-resource-form/tabs/files/files.component';
@@ -134,7 +133,6 @@ import { SearchResultComponent } from '@components/search-result/search-result.c
     HtmlPreviewComponent,
     OfficePreviewComponent,
     ImagePreviewComponent,
-    InfoViewComponent,
     EducationalResourceFormComponent,
     FilesComponent,
     BasicDetailsComponent,
