@@ -506,14 +506,22 @@
     "title": "Evästeasetukset"
   },
   "search": {
+    "title": "Hakutulokset",
     "inputs": {
       "keywords": {
-        "label": "Hakusanat",
-        "placeholder": "Hae tästä"
+        "label": "Hakuehto",
+        "placeholder": "Hakuehto"
       },
       "submit": {
         "sr-text": "Hae"
       }
+    },
+    "results": {
+      "noResults": "Hakusi ei tällä kertaa tuottanut tulosta. Kokeile uudella hakusanalla tai vähennä haun rajauksia.",
+      "addToCollection": "Lisää kokoelmaan",
+      "open": "Avaa",
+      "download": "Lataa",
+      "narrowSearch": "Rajaa hakua"
     }
   }
 }

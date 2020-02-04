@@ -506,14 +506,22 @@
     "title": "Cookie settings"
   },
   "search": {
+    "title": "Search results",
     "inputs": {
       "keywords": {
-        "label": "Keywords",
-        "placeholder": "Search for..."
+        "label": "Search criteria",
+        "placeholder": "Search criteria"
       },
       "submit": {
         "sr-text": "Search"
       }
+    },
+    "results": {
+      "noResults": "Sorry, there are no results for this search. The search string might be too specific, try a more generic search or input a new search criteria.",
+      "addToCollection": "Add to collection",
+      "open": "Open",
+      "download": "Download",
+      "narrowSearch": "Narrow search"
     }
   }
 }
