@@ -100,7 +100,16 @@
               <h4>{{ 'demo.educationalMaterial.embed.label' | translate }}</h4>
 
               <div class="input-group mb-4">
-                <input type="text" class="form-control" id="embedCodeInput" [attr.aria-label]="'demo.educationalMaterial.embed.label' | translate" [value]="embedCode" readonly #embedCodeInput>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="embedCodeInput"
+                  [attr.aria-label]="'demo.educationalMaterial.embed.label' | translate"
+                  [value]="embedCode"
+                  readonly
+                  #embedCodeInput
+                  (focus)="$event.target.select()"
+                >
 
                 <div class="input-group-append">
                   <button
