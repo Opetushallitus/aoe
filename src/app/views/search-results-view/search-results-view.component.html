@@ -30,12 +30,16 @@
       </div>
     </form>
 
-    <div id="results" *ngIf="mockResults.length > 0">
+    <div id="results" *ngIf="mockResults.length > 0; else noResults">
       <div class="row">
         <div class="col">
           <app-search-result *ngFor="let result of mockResults" [result]="result"></app-search-result>
         </div>
       </div>
     </div>
+
+    <ng-template #noResults>
+      <p>{{ 'search.results.noResults' | translate }}</p>
+    </ng-template>
   </div>
 </div>
