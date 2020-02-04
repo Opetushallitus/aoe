@@ -506,14 +506,22 @@
     "title": "Inställningar för cookies"
   },
   "search": {
+    "title": "Sökresultaten",
     "inputs": {
       "keywords": {
-        "label": "Keywords",
-        "placeholder": "Search for..."
+        "label": "Sökord",
+        "placeholder": "Sökord"
       },
       "submit": {
-        "sr-text": "Search"
+        "sr-text": "Sök"
       }
+    },
+    "results": {
+      "noResults": "Din sökning matchade inte något dokument. Försök med andra sökord.",
+      "addToCollection": "Lägg till samlingen",
+      "open": "Öppna",
+      "download": "Ladda ner",
+      "narrowSearch": "Begränsa sökningen"
     }
   }
 }
