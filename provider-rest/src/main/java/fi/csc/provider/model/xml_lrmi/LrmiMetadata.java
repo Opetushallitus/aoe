@@ -1,7 +1,6 @@
 package fi.csc.provider.model.xml_lrmi;
 
 import fi.csc.provider.adapter.DateTimeAdapter;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 
 import javax.xml.bind.Marshaller;

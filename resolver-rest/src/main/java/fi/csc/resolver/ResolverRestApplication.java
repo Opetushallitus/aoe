@@ -9,5 +9,4 @@ public class ResolverRestApplication {
     public static void main(String[] args) {
         SpringApplication.run(ResolverRestApplication.class, args);
     }
-
 }

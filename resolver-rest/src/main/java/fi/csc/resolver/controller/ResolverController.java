@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @RestController
 public class ResolverController {
 
@@ -31,7 +32,7 @@ public class ResolverController {
         if (linkList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            URI redirectURI = new URI(linkList.get(0).getTarget_url());
+            URI redirectURI = new URI(linkList.get(0).getTargetUrl());
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(redirectURI);
             return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);

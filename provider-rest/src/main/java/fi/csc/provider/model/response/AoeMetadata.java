@@ -7,7 +7,6 @@ import fi.csc.provider.adapter.LocalDateTimeDeserializer;
 import fi.csc.provider.adapter.LocalDateTimeSerializer;
 import fi.csc.provider.adapter.NumericBooleanDeserializer;
 import fi.csc.provider.adapter.NumericBooleanSerializer;
-import fi.csc.oaipmh.model.response.sublevel_1st.*;
 import fi.csc.provider.model.response.sublevel_1st.*;
 
 import java.time.LocalDateTime;

@@ -1,17 +1,15 @@
 package fi.csc.provider.service.impl;
 
 import fi.csc.provider.model.response.AoeMetadata;
-import fi.csc.oaipmh.model.response.sublevel_1st.*;
 import fi.csc.provider.model.response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
-import fi.csc.oaipmh.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Author;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
 
