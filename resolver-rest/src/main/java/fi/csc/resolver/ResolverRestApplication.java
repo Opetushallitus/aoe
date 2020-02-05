@@ -24,8 +24,8 @@ public class ResolverRestApplication {
 
     @PostConstruct
     public void populateH2() {
-        Link link = new Link(1, 1, "latest", (short) 1, "85e7ab0180b6b0e09a54c7a750cc91e73776b94a", "https://aoe.fi");
-        this.linkRepository.save(link);
+        Link link = new Link(2, 1, "latest", (short) 1, "85e7ab0180b6b0e09a54c7a750cc91e73776b94b", "https://demo.aoe.fi");
+        // this.linkRepository.save(link);
     }
 
 }
