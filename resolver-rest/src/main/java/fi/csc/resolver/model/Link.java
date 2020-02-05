@@ -1,32 +1,41 @@
 package fi.csc.resolver.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @IdClass(LinkId.class)
+@Table(name = "link")
 public class Link implements Serializable {
 
     @Id
-    private Integer meta_id;
+    @Column(name = "meta_id")
+    private Integer metaId;
 
     @Id
-    private Integer material_id;
+    @Column(name = "material_id")
+    private Integer materialId;
 
     @Id
+    @Column(name = "version")
     private String version;
 
+    @Column(name = "latest")
     private Short latest;
+
+    @Column(name = "hash")
     private String hash;
-    private String target_url;
+
+    @Column(name = "target_url")
+    private String targetUrl;
 
 }
