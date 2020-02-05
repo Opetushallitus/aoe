@@ -1,5 +1,5 @@
 redis:
-  image: redis:5.0.4-stretch
+  image: redis:5.0.7-buster
   container_name: cache
   expose:
     - 6379
