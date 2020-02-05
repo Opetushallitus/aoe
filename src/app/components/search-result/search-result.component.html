@@ -1,5 +1,5 @@
 <article class="search-result">
-  <h1>{{ result.name }}</h1>
+  <h1>result.materialName.materialname</h1>
 
   <div class="row">
     <div class="col-12 col-md-4 order-md-12">
@@ -22,7 +22,7 @@
       <img [src]="result.thumbnail" class="img-fluid mb-3">
     </div>
     <div class="col-9 col-md-6">
-      <p>{{ result.description }}</p>
+      <p>result.description.description</p>
 
       <ul class="list-unstyled">
         <li *ngFor="let author of result.authors">
