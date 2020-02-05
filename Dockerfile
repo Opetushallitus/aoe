@@ -1,2 +1,2 @@
-FROM node:12.10.0-stretch
+FROM node:13.7.0-buster
 WORKDIR '/app'
