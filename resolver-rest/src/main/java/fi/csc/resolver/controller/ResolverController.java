@@ -14,6 +14,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @RestController
 public class ResolverController {
 
