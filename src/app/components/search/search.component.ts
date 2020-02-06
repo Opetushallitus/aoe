@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@services/search.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { SearchResults } from '@models/search/search-results';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -10,12 +12,13 @@ import { Subscription } from 'rxjs';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
-  resultsSubscription: Subscription;
-  searchResults: any;
+  resultSubscription: Subscription;
+  results: SearchResults;
 
   constructor(
     private searchSvc: SearchService,
     private fb: FormBuilder,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -23,21 +26,21 @@ export class SearchComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null, [ Validators.required ]),
     });
 
-    this.resultsSubscription = this.searchSvc.searchResults$
+    this.resultSubscription = this.searchSvc.searchResults$
       .subscribe(results => {
-        this.searchResults = results;
+        this.results = results;
       });
-
-    console.log(this.searchResults);
   }
 
   ngOnDestroy(): void {
-    this.resultsSubscription.unsubscribe();
+    this.resultSubscription.unsubscribe();
   }
 
   onSubmit(): void {
     if (this.searchForm.valid) {
       this.searchSvc.updateSearchResults(this.searchForm.value);
+
+      this.router.navigate(['/haku']);
     }
   }
 }
