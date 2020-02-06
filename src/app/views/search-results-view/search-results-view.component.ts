@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchService } from '@services/search.service';
-import { SearchResult, SearchResults } from '@models/search/search-results';
+import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
 
 @Component({
