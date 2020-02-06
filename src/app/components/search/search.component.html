@@ -1,11 +1,11 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="input-group">
+      <label class="sr-only" for="keywords">{{ 'search.inputs.keywords.label' | translate }}</label>
       <input
         type="search"
         class="form-control"
-        [attr.aria-label]="'search.inputs.keywords.label' | translate"
-        aria-describedby="button-search"
+        id="keywords"
         [placeholder]="'search.inputs.keywords.placeholder' | translate"
         formControlName="keywords"
       >
