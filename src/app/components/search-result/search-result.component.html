@@ -18,9 +18,11 @@
         </li>
       </ul>
     </div>
+
     <div class="col-3 col-md-2">
       <img [src]="result.thumbnail" class="img-fluid mb-3">
     </div>
+
     <div class="col-9 col-md-6">
       <p>result.description.description</p>
 
@@ -46,8 +48,11 @@
         {{ result.license }}
       </strong>
     </div>
+
     <div class="col-auto">
-      <time [attr.datetime]="result.createdAt | date:'yyyy-MM-dd'">{{ result.createdAt | date:'d.M.yyyy' }}</time>
+      <time [attr.datetime]="result.createdAt | date:'yyyy-MM-dd'">
+        {{ result.createdAt | date:'d.M.yyyy' }}
+      </time>
     </div>
   </div>
 </article>
