@@ -10,7 +10,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 })
 export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult;
-  lang: string;
+  lang: string = this.translate.currentLang;
+  materialName: string;
+  description: string;
   downloadUrl: string;
 
   constructor(
@@ -20,8 +22,30 @@ export class SearchResultComponent implements OnInit {
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.changeTranslationString();
     });
 
+    this.changeTranslationString();
+
     this.downloadUrl = `${environment.backendUrl}/material/file/${this.result.id}`;
+  }
+
+  changeTranslationString(): void {
+    const name = this.result.materialName.find(n => n.language === this.lang).materialname;
+
+    if (name !== '') {
+      this.materialName = name;
+    } else {
+      this.materialName = this.result.materialName.find(n => n.materialname !== '').materialname;
+    }
+
+    const description = this.result.description.find(d => d.language === this.lang).description;
+
+    if (description !== '') {
+      this.description = description;
+    } else {
+      this.description = this.result.description.find(d => d.description !== '').description;
+    }
   }
 }
