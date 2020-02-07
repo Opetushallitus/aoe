@@ -5,7 +5,7 @@ CREATE TABLE link (
   material_id INTEGER NOT NULL,
   version VARCHAR(10) NOT NULL,
   latest SMALLINT NOT NULL,
-  hash CHAR(40) NOT NULL UNIQUE,
+  hash CHAR(32) NOT NULL UNIQUE,
   target_url VARCHAR(2048) NOT NULL,
   CONSTRAINT link_pk PRIMARY KEY (meta_id, material_id, version)
 );

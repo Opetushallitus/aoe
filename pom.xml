@@ -25,6 +25,7 @@
 
     <modules>
         <module>provider-rest</module>
+        <module>resolver-data</module>
         <module>resolver-rest</module>
     </modules>
 

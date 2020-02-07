@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface ResolverService {
 
+    void populateLinkResources();
+
     List<Link> resolveIdentifier(String hash);
 
 }
