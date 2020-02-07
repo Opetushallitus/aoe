@@ -29,11 +29,18 @@ public class ResolverDataApplication {
     @PostConstruct
     private void populateDatabase() {
         Record record1 = new Record(1L, 1L, "14tekijanoikeudetvirtuaaliluokassaopettajanoikeudet-1580209524845.pptx");
-        Material material1 = new Material(1L, 1L, "material-1", record1);
+        Record record2 = new Record(2L, 2L, "Johdatustekolyyn-1572942352112.pdf");
+        Material material1 = new Material(1L, 5L, "material-1", record1);
+        Material material2 = new Material(2L, 8L, "material-2", record2);
         List<Material> materials1 = new ArrayList<>() {{
             add(material1);
         }};
+        List<Material> materials2 = new ArrayList<>() {{
+            add(material2);
+        }};
         EducationalMaterial educationalMaterial1 = new EducationalMaterial(5L, "admin", materials1);
+        EducationalMaterial educationalMaterial2 = new EducationalMaterial(8L, "admin", materials2);
         this.educationalMaterialRepository.save(educationalMaterial1);
+        this.educationalMaterialRepository.save(educationalMaterial2);
     }
 }

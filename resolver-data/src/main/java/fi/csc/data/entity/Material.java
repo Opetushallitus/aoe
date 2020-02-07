@@ -23,7 +23,7 @@ public class Material {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "materialRecordFK", referencedColumnName = "id")
-    private Record records = new Record();
+    private Record record = new Record();
 
     @Column(name = "educational_material_id")
     private Long educationalMaterialId;
@@ -33,11 +33,11 @@ public class Material {
     private Integer priority;
     private String materialLanguageKey;
 
-    public Material(Long id, Long educationalMaterialId, String link, Record records) {
+    public Material(Long id, Long educationalMaterialId, String link, Record record) {
         this.id = id;
         this.educationalMaterialId = educationalMaterialId;
         this.link = link;
-        this.records = records;
+        this.record = record;
     }
 
 }

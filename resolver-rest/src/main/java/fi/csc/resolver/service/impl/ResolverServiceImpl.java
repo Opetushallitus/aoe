@@ -77,7 +77,7 @@ public class ResolverServiceImpl implements ResolverService {
     private String generateHash(Identifier identifier) {
         String decoded = identifier.getEducationalMaterialId() + ":" + identifier.getMaterialId() + ":latest:"
             + identifier.getOriginalFileName();
-        String encoded = DigestUtils.md5Hex(decoded);
+        String encoded = DigestUtils.sha1Hex(decoded);
         System.out.println("HASH: " + encoded);
         return encoded;
     }
