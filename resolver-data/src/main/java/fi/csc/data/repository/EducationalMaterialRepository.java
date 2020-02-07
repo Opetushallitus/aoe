@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 @Repository
 public interface EducationalMaterialRepository extends CrudRepository<EducationalMaterial, Long> {
 
-    @Query(value = "SELECT educational_material.id AS educationalMaterialId, material.id AS materialId, " +
-        "record.original_file_name AS originalFileName FROM educational_material, material, record", nativeQuery = true)
+    @Query("SELECT em.id AS educationalMaterialId, m.id AS materialId, r.originalFileName AS originalFileName " +
+        "FROM EducationalMaterial AS em JOIN em.materials m JOIN m.record r")
     Stream<Identifier> loadIdentifiers();
 
 }
