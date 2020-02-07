@@ -11,8 +11,8 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class LinkId implements Serializable {
 
-    private Integer metaId;
-    private Integer materialId;
+    private Long metaId;
+    private Long materialId;
     private String version;
 
 }

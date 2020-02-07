@@ -19,11 +19,11 @@ public class Link implements Serializable {
 
     @Id
     @Column(name = "meta_id")
-    private Integer metaId;
+    private Long metaId;
 
     @Id
     @Column(name = "material_id")
-    private Integer materialId;
+    private Long materialId;
 
     @Id
     @Column(name = "version")

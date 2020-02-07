@@ -18,8 +18,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <docker.image.prefix>aoe-metadata-provider</docker.image.prefix>
-        <docker.image.name>resolver-rest</docker.image.name>
+        <!--<docker.image.prefix>aoe-metadata-provider</docker.image.prefix>
+        <docker.image.name>resolver-rest</docker.image.name>-->
         <java.version>13</java.version>
     </properties>
 
@@ -37,6 +37,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <!--<version>4.5</version>-->
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <!--<version>2.5</version>-->
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -89,7 +94,7 @@
                     <verbose>true</verbose>
                     <images>
                         <image>
-                            <name>resolver</name>
+                            <name>resolver-rest</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <assembly>
@@ -102,7 +107,7 @@
                             </build>
                             <run>
                                 <ports>
-                                    <port>8002:8002</port>
+                                    <port>8003:8003</port>
                                 </ports>
                             </run>
                         </image>
