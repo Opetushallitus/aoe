@@ -4,21 +4,42 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
+@Entity(name = "educational_material")
+@Table(name = "educational_material")
 public class EducationalMaterial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
 
-    private String name;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "educationalMaterialMaterialFK", referencedColumnName = "id")
+    private List<Material> materials = new ArrayList<>();
 
+    private OffsetDateTime createdAt;
+    private OffsetDateTime publishedAt;
+    private OffsetDateTime updatedAt;
+    private OffsetDateTime archivedAt;
+    private String timeRequired;
+    private Integer ageRangeMin;
+    private Integer ageRangeMax;
+    private String licenseCode;
+    private Integer obsoleted;
+    private OffsetDateTime originalPublishedAt;
+    private String usersUserName;
+    private OffsetDateTime expires;
+
+    public EducationalMaterial(Long id, String usersUserName, List<Material> materials) {
+        this.id = id;
+        this.usersUserName = usersUserName;
+        this.materials = materials;
+    }
 }
