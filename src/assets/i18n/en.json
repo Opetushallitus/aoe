@@ -521,7 +521,8 @@
       "addToCollection": "Add to collection",
       "open": "Open",
       "download": "Download",
-      "narrowSearch": "Narrow search"
+      "narrowSearch": "Narrow search",
+      "results": "results"
     }
   }
 }

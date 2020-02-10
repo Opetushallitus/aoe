@@ -31,6 +31,8 @@
     </form>
 
     <div id="results" *ngIf="results?.hits > 0; else noResults">
+      <p>{{ results.hits }} {{ 'search.results.results' | translate }}</p>
+
       <div class="row">
         <div class="col">
           <app-search-result *ngFor="let result of results.results" [result]="result"></app-search-result>
