@@ -19,6 +19,29 @@
         </li>
       </ul>
     </div>
+
+    <div class="col-12 col-md-4">
+      <ul class="nav">
+        <li class="nav-item">
+          <a [routerLink]="[ '/materiaali', result.id ]" class="nav-link">
+            <i class="fa fa-fw fa-folder-o text-dark" aria-hidden="true"></i>
+            {{ 'search.results.open' | translate }}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a [href]="downloadUrl" download class="nav-link">
+            <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
+            {{ 'search.results.download' | translate }}
+          </a>
+        </li>
+      </ul>
+
+      <div class="tags">
+        <button *ngFor="let level of result.educationLevels" type="button" class="btn btn-light disabled">
+          {{ level.value }}
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="row justify-content-between">
