@@ -521,7 +521,8 @@
       "addToCollection": "Lisää kokoelmaan",
       "open": "Avaa",
       "download": "Lataa",
-      "narrowSearch": "Rajaa hakua"
+      "narrowSearch": "Rajaa hakua",
+      "results": "tulosta"
     }
   }
 }

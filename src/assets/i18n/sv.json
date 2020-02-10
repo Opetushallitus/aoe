@@ -521,7 +521,8 @@
       "addToCollection": "Lägg till samlingen",
       "open": "Öppna",
       "download": "Ladda ner",
-      "narrowSearch": "Begränsa sökningen"
+      "narrowSearch": "Begränsa sökningen",
+      "results": "resultat"
     }
   }
 }
