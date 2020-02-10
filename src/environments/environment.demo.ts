@@ -11,4 +11,6 @@ export const environment = {
   sessionCookie: 'connect.sid',
   userdataKey: 'aoe.userdata',
   cookieSettingsCookie: 'aoe.cookies',
+  searchParams: 'aoe.searchParams',
+  searchResults: 'aoe.searchResults',
 };

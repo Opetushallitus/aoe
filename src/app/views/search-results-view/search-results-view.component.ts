@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-search-results-view',
@@ -27,6 +28,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
       this.results = results;
     });
+
+    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
+    if (searchParams) {
+      this.searchForm.setValue(searchParams);
+    }
+
+    const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
+
+    if (searchResults) {
+      this.results = searchResults;
+    }
   }
 
   ngOnDestroy(): void {
