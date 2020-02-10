@@ -29,6 +29,9 @@ export class SearchService {
   updateSearchResults(keywords: string): void {
     this.http.post(`${this.apiUri}/elasticSearch/search`, keywords, this.httpOptions)
       .subscribe((results: SearchResults) => {
+        sessionStorage.setItem(environment.searchParams, JSON.stringify(keywords));
+        sessionStorage.setItem(environment.searchResults, JSON.stringify(results));
+
         this.searchResults$.next(results);
       });
   }
