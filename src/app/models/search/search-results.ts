@@ -26,9 +26,18 @@ export interface SearchResult {
   }];
   license: string;
   alignmentObjects?: any;
-  educationalLevels: [{
+  educationLevels: [{
     value: string;
     educationallevelkey: string;
   }];
-  thumbnail?: string;
+  thumbnail?: {
+    id: number | string;
+    filepath: string;
+    mimetype: string;
+    educationalmaterialid: number | string;
+    filename: string;
+    obsoleted: any;
+    filekey: string;
+    filebucket: string;
+  };
 }
