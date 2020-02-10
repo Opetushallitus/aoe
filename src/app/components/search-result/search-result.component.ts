@@ -14,6 +14,7 @@ export class SearchResultComponent implements OnInit {
   materialName: string;
   description: string;
   downloadUrl: string;
+  thumbnailUrl: string;
 
   constructor(
     private translate: TranslateService,
@@ -29,6 +30,12 @@ export class SearchResultComponent implements OnInit {
     this.changeTranslationString();
 
     this.downloadUrl = `${environment.backendUrl}/material/file/${this.result.id}`;
+
+    if (this.result.thumbnail) {
+      this.thumbnailUrl = this.result.thumbnail.filepath;
+    } else {
+      this.thumbnailUrl = `assets/img/thumbnails/${this.result.learningResourceTypes[0].learningresourcetypekey}.png`;
+    }
   }
 
   changeTranslationString(): void {
