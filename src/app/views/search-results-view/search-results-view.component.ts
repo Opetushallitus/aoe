@@ -25,10 +25,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null, [ Validators.required ]),
     });
 
-    this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
-      this.results = results;
-    });
-
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
@@ -40,6 +36,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     if (searchResults) {
       this.results = searchResults;
     }
+
+    this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
+      this.results = results;
+    });
   }
 
   ngOnDestroy(): void {
