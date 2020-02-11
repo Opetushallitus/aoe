@@ -3,3 +3,22 @@
 .form-search {
   margin-bottom: 2rem;
 }
+
+.block-header {
+  background-color: #f9f9f9;
+  border-radius: .25rem;
+  margin-bottom: 1rem;
+  padding: 1.5rem 1rem;
+}
+
+#filters {
+  h3 {
+    @include font-size(18);
+    margin-bottom: 0;
+  }
+}
+
+.results-count {
+  @include font-size(14);
+  font-weight: 500;
+}
