@@ -1,3 +1,5 @@
+@import "mixins";
+
 .search-result {
   border-bottom: 1px solid #eee;
   margin-bottom: 1.5rem;
@@ -6,6 +8,6 @@
 
 h1 {
   color: #373737;
-  font-size: 1.25rem;
+  @include font-size(20);
   margin-bottom: 1.5rem;
 }
