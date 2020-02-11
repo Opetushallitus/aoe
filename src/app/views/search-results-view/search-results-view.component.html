@@ -28,18 +28,31 @@
       </div>
     </form>
 
-    <div id="results" *ngIf="results?.hits > 0; else noResults">
-      <p>{{ results.hits }} {{ 'search.results.results' | translate }}</p>
-
-      <div class="row">
-        <div class="col">
-          <app-search-result *ngFor="let result of results.results" [result]="result"></app-search-result>
+    <div class="row">
+      <div class="col-md-3 mb-2 mb-md-0" id="filters">
+        <div class="block-header">
+          <h3>{{ 'search.results.narrowSearch' | translate }}</h3>
         </div>
       </div>
-    </div>
 
-    <ng-template #noResults>
-      <p>{{ 'search.results.noResults' | translate }}</p>
-    </ng-template>
+      <div class="col-md-9">
+        <div id="results" *ngIf="results?.hits > 0; else noResults">
+          <div class="block-header">
+            <span class="results-count">{{ results.hits }} {{ 'search.results.results' | translate }}</span>
+          </div>
+
+
+          <div class="row">
+            <div class="col">
+              <app-search-result *ngFor="let result of results.results" [result]="result"></app-search-result>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noResults>
+          <p>{{ 'search.results.noResults' | translate }}</p>
+        </ng-template>
+      </div>
+    </div>
   </div>
 </div>
