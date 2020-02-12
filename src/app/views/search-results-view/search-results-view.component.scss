@@ -14,6 +14,24 @@
   }
 }
 
+.filter {
+  border-bottom: 2px solid #eee;
+  padding: 1.5rem 1rem;
+
+  .header {
+    h4 {
+      @include font-size(18);
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+  }
+
+  .content {
+    padding-left: 1rem;
+    padding-top: .5rem;
+  }
+}
+
 .results-count {
   @include font-size(14);
   font-weight: 500;
