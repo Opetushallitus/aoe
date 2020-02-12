@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
@@ -22,13 +22,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      keywords: this.fb.control(null, [ Validators.required ]),
+      keywords: this.fb.control(null),
     });
 
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
-      this.searchForm.setValue(searchParams);
+      this.searchForm.patchValue(searchParams);
     }
 
     const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
