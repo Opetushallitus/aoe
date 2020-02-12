@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
