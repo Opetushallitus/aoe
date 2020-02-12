@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@services/search.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { SearchResults } from '@models/search/search-results';
 import { Router } from '@angular/router';
+import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
@@ -12,28 +15,49 @@ import { Router } from '@angular/router';
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
-  resultSubscription: Subscription;
-  results: SearchResults;
+  educationalLevelSubscription: Subscription;
+  educationalLevels: EducationalLevel[];
+  learningResourceTypeSubscription: Subscription;
+  learningResourceTypes: LearningResourceType[];
 
   constructor(
     private searchSvc: SearchService,
     private fb: FormBuilder,
     private router: Router,
+    private koodistoProxySvc: KoodistoProxyService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
-    this.searchForm = this.fb.group({
-      keywords: this.fb.control(null, [ Validators.required ]),
+    this.translate.onLangChange.subscribe(() => {
+      this.koodistoProxySvc.updateEducationalLevels();
+      this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
-    this.resultSubscription = this.searchSvc.searchResults$
-      .subscribe(results => {
-        this.results = results;
+    this.searchForm = this.fb.group({
+      keywords: this.fb.control(null),
+      filters: this.fb.group({
+        educationalLevels: this.fb.control(null),
+        learningResourceTypes: this.fb.control(null),
+      }),
+    });
+
+    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
+      .subscribe((levels: EducationalLevel[]) => {
+        this.educationalLevels = levels;
       });
+    this.koodistoProxySvc.updateEducationalLevels();
+
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
+      .subscribe((types: LearningResourceType[]) => {
+        this.learningResourceTypes = types;
+      });
+    this.koodistoProxySvc.updateLearningResourceTypes();
   }
 
   ngOnDestroy(): void {
-    this.resultSubscription.unsubscribe();
+    this.educationalLevelSubscription.unsubscribe();
+    this.learningResourceTypeSubscription.unsubscribe();
   }
 
   onSubmit(): void {
