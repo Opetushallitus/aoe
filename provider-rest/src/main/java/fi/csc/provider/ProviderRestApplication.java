@@ -5,11 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OaiPmhApplication {
+public class ProviderRestApplication {
 
     public static void main(String[] args) {
-        // SpringApplication.run(OaiPmhApplication.class, args);
-        SpringApplication app = new SpringApplication(OaiPmhApplication.class);
+        // SpringApplication.run(ProviderRestApplication.class, args);
+        SpringApplication app = new SpringApplication(ProviderRestApplication.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
     }
