@@ -270,7 +270,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     this.files.value.forEach((file, i) => {
       const formData = new FormData();
-      formData.append('file', file.file);
+      formData.append('file', file.file, file.file.name.toLowerCase());
       formData.append('fileDetails', JSON.stringify({
         displayName: file.displayName,
         language: file.language,
@@ -297,7 +297,7 @@ export class FilesComponent implements OnInit, OnDestroy {
               if (file.subtitles.length > 0) {
                 file.subtitles.forEach(subtitle => {
                   const subFormData = new FormData();
-                  subFormData.append('attachment', subtitle.file);
+                  subFormData.append('attachment', subtitle.file, subtitle.file.name.toLowerCase());
                   subFormData.append('attachmentDetails', JSON.stringify({
                     default: subtitle.default,
                     kind: subtitle.kind,
