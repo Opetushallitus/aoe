@@ -147,9 +147,9 @@ public class MigrationServiceImpl implements MigrationService {
             .filter(i -> !i.getMaterialname().isEmpty() && !i.getUrl().isEmpty())
             .map(i -> {
                 IsBasedOn isBasedOn = new IsBasedOn();
-                isBasedOn.setTitle(i.getMaterialname());
-                isBasedOn.setContributor(i.getAuthor());
-                isBasedOn.setIdentifier(i.getUrl());
+                isBasedOn.setUrl(i.getUrl());
+                isBasedOn.setName(i.getMaterialname());
+                isBasedOn.setAuthor(i.getAuthor());
                 return isBasedOn;
             })
             .collect(Collectors.toList()) : null);

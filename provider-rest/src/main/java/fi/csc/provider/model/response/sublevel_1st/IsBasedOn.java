@@ -1,7 +1,11 @@
 package fi.csc.provider.model.response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @SuppressWarnings("unused")
 public class IsBasedOn {
 
@@ -9,7 +13,7 @@ public class IsBasedOn {
     private String id;
 
     @JsonProperty
-    private String author;
+    private String[] author;
 
     @JsonProperty
     private String url;
@@ -20,23 +24,4 @@ public class IsBasedOn {
     @JsonProperty
     private String educationalmaterialid;
 
-    public String getId() {
-        return id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getMaterialname() {
-        return materialname;
-    }
-
-    public String getEducationalmaterialid() {
-        return educationalmaterialid;
-    }
 }
