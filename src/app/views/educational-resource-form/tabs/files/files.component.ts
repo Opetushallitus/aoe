@@ -258,8 +258,10 @@ export class FilesComponent implements OnInit, OnDestroy {
       const subtitles = fileCtrl.get('subtitles') as FormArray;
 
       if (subtitles.value.length > 0) {
-        subtitles.controls.forEach(() => {
-          subtitles.removeAt(subtitles.controls.findIndex(sub => sub.value.file === ''));
+        subtitles.controls.forEach(subCtrl => {
+          if (!subCtrl.get('file').value) {
+            subtitles.removeAt(subtitles.controls.findIndex(sub => sub === subCtrl));
+          }
         });
       }
     });
