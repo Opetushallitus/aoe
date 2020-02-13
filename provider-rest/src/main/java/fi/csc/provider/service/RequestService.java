@@ -1,7 +1,7 @@
 package fi.csc.provider.service;
 
-import fi.csc.provider.model.response.AoeMetaFrame;
-import fi.csc.provider.model.response.AoeMetadata;
+import fi.csc.provider.model.aoe_response.AoeMetaFrame;
+import fi.csc.provider.model.aoe_response.AoeMetadata;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package fi.csc.provider.service.impl;
 
-import fi.csc.provider.model.response.AoeMetadata;
-import fi.csc.provider.model.response.sublevel_1st.*;
+import fi.csc.provider.model.aoe_response.AoeMetadata;
+import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Author;

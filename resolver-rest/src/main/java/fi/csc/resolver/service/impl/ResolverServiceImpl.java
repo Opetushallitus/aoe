@@ -2,13 +2,13 @@ package fi.csc.resolver.service.impl;
 
 import fi.csc.resolver.model.Identifier;
 import fi.csc.resolver.model.Link;
+import fi.csc.resolver.model.TimeInterval;
 import fi.csc.resolver.repository.LinkRepository;
 import fi.csc.resolver.service.ResolverService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +17,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +29,7 @@ public class ResolverServiceImpl implements ResolverService {
 
     private LinkRepository linkRepository;
     private RestTemplate restTemplate;
+    private LocalDateTime syncPoint = Instant.ofEpochMilli(0L).atZone(ZoneId.of("UTC")).toLocalDateTime();
 
     @Autowired
     public ResolverServiceImpl(
@@ -37,11 +41,13 @@ public class ResolverServiceImpl implements ResolverService {
 
     @Override
     public void populateLinkResources() {
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTF"));
         ResponseEntity<List<Identifier>> response = restTemplate.exchange(
             "http://localhost:8002/rest/identifiers",
-            HttpMethod.GET,
-            null,
+            HttpMethod.POST,
+            getRequestEntity(this.syncPoint, now),
             new ParameterizedTypeReference<>(){});
+        this.syncPoint = now;
         Optional<List<Identifier>> identifiersOptional = Optional.ofNullable(response.getBody());
         List<Identifier> identifiers = identifiersOptional.orElse(new ArrayList<>());
         List<Link> links = new ArrayList<>();
@@ -63,15 +69,24 @@ public class ResolverServiceImpl implements ResolverService {
                     e.printStackTrace();
                 }
             });
-        }
-        if (!links.isEmpty()) {
-            this.linkRepository.saveAll(links);
+            if (!links.isEmpty()) {
+                this.linkRepository.saveAll(links);
+            }
         }
     }
 
     @Override
     public List<Link> resolveIdentifier(String hash) {
         return this.linkRepository.findByHash(hash);
+    }
+
+    private HttpEntity<?> getRequestEntity(LocalDateTime from, LocalDateTime until) {
+        HttpHeaders requestHeaders = new HttpHeaders();
+        requestHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        TimeInterval timeInterval = new TimeInterval();
+        timeInterval.setFrom(from);
+        timeInterval.setUnitl(until);
+        return new HttpEntity<>(timeInterval, requestHeaders);
     }
 
     private String generateHash(Identifier identifier) {

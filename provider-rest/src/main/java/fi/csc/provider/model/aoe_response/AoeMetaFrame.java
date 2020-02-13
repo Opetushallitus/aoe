@@ -1,4 +1,4 @@
-package fi.csc.provider.model.response;
+package fi.csc.provider.model.aoe_response;
 
 @SuppressWarnings("unused")
 public class AoeMetaFrame<T> {

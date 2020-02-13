@@ -1,35 +1,35 @@
-package fi.csc.provider.model.response.sublevel_1st;
+package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SuppressWarnings("unused")
-public class InLanguage {
+public class Publisher {
 
     @JsonProperty
     private String id;
 
     @JsonProperty
-    private String inlanguage;
-
-    @JsonProperty
-    private String url;
+    private String name;
 
     @JsonProperty
     private String educationalmaterialid;
+
+    @JsonProperty
+    private String publisherkey;
 
     public String getId() {
         return id;
     }
 
-    public String getInlanguage() {
-        return inlanguage;
-    }
-
-    public String getUrl() {
-        return url;
+    public String getName() {
+        return name;
     }
 
     public String getEducationalmaterialid() {
         return educationalmaterialid;
+    }
+
+    public String getPublisherkey() {
+        return publisherkey;
     }
 }

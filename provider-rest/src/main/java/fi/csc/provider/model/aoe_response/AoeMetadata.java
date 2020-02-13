@@ -1,4 +1,4 @@
-package fi.csc.provider.model.response;
+package fi.csc.provider.model.aoe_response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -7,7 +7,7 @@ import fi.csc.provider.adapter.LocalDateTimeDeserializer;
 import fi.csc.provider.adapter.LocalDateTimeSerializer;
 import fi.csc.provider.adapter.NumericBooleanDeserializer;
 import fi.csc.provider.adapter.NumericBooleanSerializer;
-import fi.csc.provider.model.response.sublevel_1st.*;
+import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,9 +1,9 @@
-package fi.csc.provider.model.response.sublevel_1st;
+package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SuppressWarnings("unused")
-public class EducationalLevel {
+public class AccessibilityHazard {
 
     @JsonProperty
     private String id;
@@ -15,7 +15,7 @@ public class EducationalLevel {
     private String educationalmaterialid;
 
     @JsonProperty
-    private String educationallevelkey;
+    private String accessibilityhazardkey;
 
     public String getId() {
         return id;
@@ -29,7 +29,7 @@ public class EducationalLevel {
         return educationalmaterialid;
     }
 
-    public String getEducationallevelkey() {
-        return educationallevelkey;
+    public String getAccessibilityhazardkey() {
+        return accessibilityhazardkey;
     }
 }

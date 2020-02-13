@@ -1,4 +1,4 @@
-package fi.csc.provider.model.response.sublevel_1st;
+package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

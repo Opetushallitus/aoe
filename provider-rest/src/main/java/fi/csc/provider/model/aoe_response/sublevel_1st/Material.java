@@ -1,11 +1,11 @@
-package fi.csc.provider.model.response.sublevel_1st;
+package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fi.csc.provider.adapter.NumericBooleanDeserializer;
 import fi.csc.provider.adapter.NumericBooleanSerializer;
-import fi.csc.provider.model.response.sublevel_1st.sublevel_2nd.MaterialDisplayName;
+import fi.csc.provider.model.aoe_response.sublevel_1st.sublevel_2nd.MaterialDisplayName;
 
 import java.util.List;
 

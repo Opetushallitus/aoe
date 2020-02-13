@@ -1,35 +1,35 @@
-package fi.csc.provider.model.response.sublevel_1st;
+package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SuppressWarnings("unused")
-public class EducationalAudience {
+public class EducationalUse {
 
     @JsonProperty
     private String id;
 
     @JsonProperty
-    private String educationalrole;
+    private String value;
 
     @JsonProperty
     private String educationalmaterialid;
 
     @JsonProperty
-    private String educationalrolekey;
+    private String educationalusekey;
 
     public String getId() {
         return id;
     }
 
-    public String getEducationalrole() {
-        return educationalrole;
+    public String getValue() {
+        return value;
     }
 
     public String getEducationalmaterialid() {
         return educationalmaterialid;
     }
 
-    public String getEducationalrolekey() {
-        return educationalrolekey;
+    public String getEducationalusekey() {
+        return educationalusekey;
     }
 }
