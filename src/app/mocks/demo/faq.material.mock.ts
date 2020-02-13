@@ -35,6 +35,12 @@ export const FAQMaterial = {
       ]
     },
     {
+      question: 'Miten materiaalia voi muokata tallentamisen jälkeen?',
+      answer: [
+        'Kehitämme tällä hetkellä materiaalien muokkaukseen toiminnallisuutta, joka tulee käyttöön arviolta maaliskuun alussa. Muokkaus-ominaisuuden tultua käyttöön voit Omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. Tallennettuasi oppimateriaalin aiempi versio on nähtävillä versiohistoriasta.',
+      ]
+    },
+    {
       question: 'Voinko tehdä materiaaleja avointen oppimateriaalien palvelussa / miten voin tehdä materiaaleja?',
       answer: [
         'Avointen oppimateriaalien palvelussa ei itsessään voi tehdä materiaaleja, sinne voi vain tallentaa tai linkittää muualla tehtyjä materiaaleja.',
