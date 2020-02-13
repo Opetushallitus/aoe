@@ -2,12 +2,14 @@ package fi.csc.resolver.service.impl;
 
 import fi.csc.resolver.model.Identifier;
 import fi.csc.resolver.model.Link;
-import fi.csc.resolver.model.TimeInterval;
+import fi.csc.resolver.model.RestPageImpl;
+import fi.csc.resolver.model.TimeIntervalRequest;
 import fi.csc.resolver.repository.LinkRepository;
 import fi.csc.resolver.service.ResolverService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,38 +43,54 @@ public class ResolverServiceImpl implements ResolverService {
 
     @Override
     public void populateLinkResources() {
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTF"));
-        ResponseEntity<List<Identifier>> response = restTemplate.exchange(
-            "http://localhost:8002/rest/identifiers",
-            HttpMethod.POST,
-            getRequestEntity(this.syncPoint, now),
-            new ParameterizedTypeReference<>(){});
-        this.syncPoint = now;
-        Optional<List<Identifier>> identifiersOptional = Optional.ofNullable(response.getBody());
-        List<Identifier> identifiers = identifiersOptional.orElse(new ArrayList<>());
-        List<Link> links = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
+        int currentPage = 0;
+        int pageSize = 100;
+        int pageTotal = 1;
 
-        if (!identifiers.isEmpty()) {
-            identifiers.forEach(i -> {
-                String hash = generateHash(i);
-                try {
-                    String targetUrl = generateTargetUrl(encodeUrl(i.getOriginalFileName()));
-                    Link link = new Link();
-                    link.setMetaId(i.getEducationalMaterialId());
-                    link.setMaterialId(i.getMaterialId());
-                    link.setVersion("latest");
-                    link.setLatest((short) 1);
-                    link.setHash(hash);
-                    link.setTargetUrl(targetUrl);
-                    links.add(link);
-                } catch (URISyntaxException | UnsupportedEncodingException e) {
-                    e.printStackTrace();
+        while (currentPage < pageTotal) {
+
+            ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
+                "http://localhost:8002/rest/identifiers",
+                HttpMethod.POST,
+                getRequestEntity(currentPage, pageSize, this.syncPoint, now),
+                new ParameterizedTypeReference<>() {
+                });
+            Page<Identifier> page = response.getBody();
+
+            if (page != null && page.getTotalPages() != 0) {
+                pageTotal = page.getTotalPages();
+                currentPage++;
+            } else {
+                return;
+            }
+            Optional<List<Identifier>> identifiersOptional = Optional.of(page.getContent());
+            List<Identifier> identifiers = identifiersOptional.orElse(new ArrayList<>());
+            List<Link> links = new ArrayList<>();
+
+            if (!identifiers.isEmpty()) {
+                identifiers.forEach(i -> {
+                    String hash = generateHash(i);
+                    try {
+                        String targetUrl = generateTargetUrl(encodeUrl(i.getOriginalFileName()));
+                        Link link = new Link();
+                        link.setMetaId(i.getEducationalMaterialId());
+                        link.setMaterialId(i.getMaterialId());
+                        link.setVersion("latest");
+                        link.setLatest((short) 1);
+                        link.setHash(hash);
+                        link.setTargetUrl(targetUrl);
+                        links.add(link);
+                    } catch (URISyntaxException | UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                });
+                if (!links.isEmpty()) {
+                    this.linkRepository.saveAll(links);
                 }
-            });
-            if (!links.isEmpty()) {
-                this.linkRepository.saveAll(links);
             }
         }
+        this.syncPoint = now;
     }
 
     @Override
@@ -80,13 +98,15 @@ public class ResolverServiceImpl implements ResolverService {
         return this.linkRepository.findByHash(hash);
     }
 
-    private HttpEntity<?> getRequestEntity(LocalDateTime from, LocalDateTime until) {
+    private HttpEntity<TimeIntervalRequest> getRequestEntity(int currentPage, int pageSize, LocalDateTime from, LocalDateTime until) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-        TimeInterval timeInterval = new TimeInterval();
-        timeInterval.setFrom(from);
-        timeInterval.setUnitl(until);
-        return new HttpEntity<>(timeInterval, requestHeaders);
+        TimeIntervalRequest timeIntervalRequest = new TimeIntervalRequest();
+        timeIntervalRequest.setFrom(from);
+        timeIntervalRequest.setUntil(until);
+        timeIntervalRequest.setPage(currentPage);
+        timeIntervalRequest.setSize(pageSize);
+        return new HttpEntity<>(timeIntervalRequest, requestHeaders);
     }
 
     private String generateHash(Identifier identifier) {
