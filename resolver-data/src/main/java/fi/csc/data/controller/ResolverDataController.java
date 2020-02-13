@@ -1,19 +1,19 @@
 package fi.csc.data.controller;
 
 import fi.csc.data.entity.EducationalMaterial;
-import fi.csc.data.model.TimeInterval;
-import fi.csc.data.repository.EducationalMaterialRepository;
 import fi.csc.data.entity.Identifier;
+import fi.csc.data.model.TimeIntervalRequest;
+import fi.csc.data.repository.EducationalMaterialRepository;
 import fi.csc.data.service.ResolverDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @SuppressWarnings("unused")
 @RestController
@@ -41,9 +41,12 @@ public class ResolverDataController {
         return new ResponseEntity<>(educationalMaterials, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/identifiers", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Identifier>> getIdentifiers(@RequestBody TimeInterval timeInterval) {
-        List<Identifier> identifierList = this.resolverDataService.getMetadataIdentifiers(timeInterval);
-        return new ResponseEntity<>(identifierList, HttpStatus.OK);
+    @PostMapping(value = "/identifiers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<Identifier> getIdentifiers(@RequestBody TimeIntervalRequest timeIntervalRequest) {
+        return this.resolverDataService.getMetadataIdentifiers(timeIntervalRequest);
+    }
+
+    public EducationalMaterialRepository getEducationalMaterialRepository() {
+        return educationalMaterialRepository;
     }
 }

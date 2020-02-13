@@ -1,12 +1,11 @@
 package fi.csc.data.service;
 
 import fi.csc.data.entity.Identifier;
-import fi.csc.data.model.TimeInterval;
-
-import java.util.List;
+import fi.csc.data.model.TimeIntervalRequest;
+import org.springframework.data.domain.Page;
 
 public interface ResolverDataService {
 
-    List<Identifier> getMetadataIdentifiers(TimeInterval timeInterval);
+    Page<Identifier> getMetadataIdentifiers(TimeIntervalRequest timeIntervalRequest);
 
 }
