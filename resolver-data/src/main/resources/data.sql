@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS Material;
+DROP TABLE IF EXISTS Record;
 DROP TABLE IF EXISTS EducationalMaterial;
 
 CREATE TYPE lang AS ENUM ('fi', 'en', 'sv');

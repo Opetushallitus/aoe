@@ -25,6 +25,16 @@ public class ResolverController {
         this.resolverService = resolverService;
     }
 
+    @GetMapping("/health")
+    public ResponseEntity<Void> health() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/update")
+    public ResponseEntity<Void> updateLinks() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping("/link/{hash}")
     public ResponseEntity<Void> redirectToResource(@PathVariable String hash) throws URISyntaxException {
         List<Link> linkList = this.resolverService.resolveIdentifier(hash);

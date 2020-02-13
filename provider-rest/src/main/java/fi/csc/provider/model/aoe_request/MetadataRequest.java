@@ -1,4 +1,4 @@
-package fi.csc.provider.model.request;
+package fi.csc.provider.model.aoe_request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

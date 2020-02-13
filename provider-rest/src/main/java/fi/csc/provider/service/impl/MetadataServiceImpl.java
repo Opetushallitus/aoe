@@ -1,7 +1,7 @@
 package fi.csc.provider.service.impl;
 
-import fi.csc.provider.model.response.AoeMetaFrame;
-import fi.csc.provider.model.response.AoeMetadata;
+import fi.csc.provider.model.aoe_response.AoeMetaFrame;
+import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
 import fi.csc.provider.model.xml_oaipmh.OaiPmhFrame;
 import fi.csc.provider.model.xml_oaipmh.sublevel_1st.Identify;

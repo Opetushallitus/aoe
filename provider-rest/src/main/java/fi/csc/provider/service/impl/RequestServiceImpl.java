@@ -2,9 +2,9 @@ package fi.csc.provider.service.impl;
 
 import fi.csc.provider.adapter.OaiPmhDateFormatter;
 import fi.csc.provider.adapter.URLDecoder;
-import fi.csc.provider.model.request.MetadataRequest;
-import fi.csc.provider.model.response.AoeMetaFrame;
-import fi.csc.provider.model.response.AoeMetadata;
+import fi.csc.provider.model.aoe_request.MetadataRequest;
+import fi.csc.provider.model.aoe_response.AoeMetaFrame;
+import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;

@@ -9,6 +9,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +40,10 @@ public class ResolverDataApplication {
         List<Material> materials2 = new ArrayList<>() {{
             add(material2);
         }};
-        EducationalMaterial educationalMaterial1 = new EducationalMaterial(5L, "admin", materials1);
-        EducationalMaterial educationalMaterial2 = new EducationalMaterial(8L, "admin", materials2);
+        OffsetDateTime dateTime1 = OffsetDateTime.now(ZoneId.of("UTC")).minusDays(10L);
+        OffsetDateTime dateTime2 = OffsetDateTime.now(ZoneId.of("UTC")).minusDays(20L);
+        EducationalMaterial educationalMaterial1 = new EducationalMaterial(5L, dateTime1, "admin", materials1);
+        EducationalMaterial educationalMaterial2 = new EducationalMaterial(8L, dateTime2, "admin", materials2);
         this.educationalMaterialRepository.save(educationalMaterial1);
         this.educationalMaterialRepository.save(educationalMaterial2);
     }
