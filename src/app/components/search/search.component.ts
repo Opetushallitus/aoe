@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
+  educationalSubjectSubscription: Subscription;
+  educationalSubjects: any[]; // @todo: add proper model
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
 
@@ -31,6 +33,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.koodistoProxySvc.updateEducationalLevels();
+      // @todo: this.koodistoProxySvc.updateEducationalSubjects();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
@@ -38,6 +41,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null),
       filters: this.fb.group({
         educationalLevels: this.fb.control(null),
+        educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.control(null),
       }),
     });
@@ -48,6 +52,9 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
+    // @todo: this.educationalSubjectSubscription.subscribe();
+    // @todo: this.koodistoProxySvc.updateEducationalSubjects();
+
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
@@ -57,6 +64,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.educationalLevelSubscription.unsubscribe();
+    // @todo: this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
   }
 

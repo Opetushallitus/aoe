@@ -40,6 +40,40 @@
     </div>
 
     <div class="form-group col">
+      <label class="sr-only" for="educationalSubjects">
+        Oppiaineet, tutkinnot, tieteenalat
+      </label>
+
+      <ng-select
+        [items]="educationalSubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        bindLabel="value"
+        bindValue="key"
+        groupBy="children"
+        id="educationalSubjects"
+        formControlName="educationalSubjects"
+        [placeholder]="'Oppiaineet, tutkinnot, tieteenalat'"
+      >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.value }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent"><br>{{ item.parent }}</small>
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group col">
       <label class="sr-only" for="learningResourceTypes">
         {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}
       </label>
