@@ -11,13 +11,13 @@
 On your local host build project modules and docker images, download dependencies, populate database and run applications all at once.
 </p>
 <p>
-Start applications (create containers):
+Start applications (create containers and networks):
 </p>
 <pre>
 docker-compose -f docker-compose.dev.yml up --build -d
 </pre>
 <p>
-Stop applications (remove containers):
+Stop applications (remove containers and networks):
 </p>
 <pre>
 docker-compose -f docker-compose.dev.yml down
@@ -33,14 +33,14 @@ docker-compose -f docker-compose.dev.yml down
 On production server build project modules and docker images, configure external PostgreSQL data source, download dependencies and run applications all at once.
 </p>
 <p>
-Start applications (create containers):
+Start applications (create containers and networks):
 </p>
 <pre>
-docker-compose -f docker-comose.prod.yml up --build -d
+docker-compose -f docker-compose.prod.yml up --build -d
 </pre>
 <p>
-Stop applications (remove containers):
+Stop applications (remove containers and networks):
 </p>
 <pre>
-docker-compose -f docker-comose.prod.yml down
+docker-compose -f docker-compose.prod.yml down
 </pre>
