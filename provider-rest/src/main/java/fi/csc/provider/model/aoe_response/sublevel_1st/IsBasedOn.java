@@ -1,11 +1,12 @@
 package fi.csc.provider.model.aoe_response.sublevel_1st;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import fi.csc.provider.model.aoe_response.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
 import lombok.Getter;
-import lombok.Setter;
+
+import java.util.List;
 
 @Getter
-@Setter
 @SuppressWarnings("unused")
 public class IsBasedOn {
 
@@ -13,7 +14,7 @@ public class IsBasedOn {
     private String id;
 
     @JsonProperty
-    private String[] author;
+    private List<IsBasedOnAuthor> author;
 
     @JsonProperty
     private String url;

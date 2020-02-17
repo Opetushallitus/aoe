@@ -10,6 +10,7 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
 
@@ -149,7 +150,11 @@ public class MigrationServiceImpl implements MigrationService {
                 IsBasedOn isBasedOn = new IsBasedOn();
                 isBasedOn.setUrl(i.getUrl());
                 isBasedOn.setName(i.getMaterialname());
-                isBasedOn.setAuthor(i.getAuthor());
+                isBasedOn.setIsBasedOnAuthors(i.getAuthor() != null ? i.getAuthor().stream()
+                    .map(a -> new IsBasedOnAuthor() {{
+                        setAuthorName(a.getAuthorname());
+                    }})
+                    .collect(Collectors.toList()) : null);
                 return isBasedOn;
             })
             .collect(Collectors.toList()) : null);

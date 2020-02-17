@@ -82,7 +82,7 @@
                     <verbose>true</verbose>
                     <images>
                         <image>
-                            <name>resolver</name>
+                            <name>resolver-data</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <assembly>

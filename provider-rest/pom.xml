@@ -98,7 +98,7 @@
                     <verbose>true</verbose>
                     <images>
                         <image>
-                            <name>provider</name>
+                            <name>provider-rest</name>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                                 <assembly>
