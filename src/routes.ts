@@ -22,6 +22,7 @@ import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
 import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot } from "./controllers/ammattikoulu";
+import { getOppiaineetTieteenalatTutkinnot } from "./controllers/filters";
 
 const router: Router = Router();
 
@@ -297,5 +298,7 @@ router.get("/ammattikoulu-tutkinnot/:lang", getAmmattikoulunTutkinnot);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/ammattikoulu-tutkinnon-osat/:ids/:lang", getAmmattikoulunTutkinnonOsat);
+
+router.get("/filters-oppiaineet-tieteenalat-tutkinnot/:lang", getOppiaineetTieteenalatTutkinnot);
 
 export default router;
