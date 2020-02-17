@@ -9,6 +9,7 @@ import fi.csc.resolver.service.ResolverService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -29,14 +30,17 @@ import java.util.Optional;
 @Service
 public class ResolverServiceImpl implements ResolverService {
 
+    private Environment env;
     private LinkRepository linkRepository;
     private RestTemplate restTemplate;
     private LocalDateTime syncPoint = Instant.ofEpochMilli(0L).atZone(ZoneId.of("UTC")).toLocalDateTime();
 
     @Autowired
     public ResolverServiceImpl(
+        Environment env,
         LinkRepository linkRepository,
         RestTemplate restTemplate) {
+        this.env = env;
         this.linkRepository = linkRepository;
         this.restTemplate = restTemplate;
     }
@@ -51,7 +55,7 @@ public class ResolverServiceImpl implements ResolverService {
         while (currentPage < pageTotal) {
 
             ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
-                "http://localhost:8002/rest/identifiers",
+                env.getProperty("aoe.resolver-data.url") + "/rest/identifiers",
                 HttpMethod.POST,
                 getRequestEntity(currentPage, pageSize, this.syncPoint, now),
                 new ParameterizedTypeReference<>() {

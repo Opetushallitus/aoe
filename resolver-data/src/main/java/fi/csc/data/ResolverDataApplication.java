@@ -7,6 +7,7 @@ import fi.csc.data.repository.EducationalMaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.time.OffsetDateTime;
@@ -28,6 +29,7 @@ public class ResolverDataApplication {
         SpringApplication.run(ResolverDataApplication.class, args);
     }
 
+    @Profile("dev")
     @PostConstruct
     private void populateDatabase() {
         Record record1 = new Record(1L, 1L, "14tekijanoikeudetvirtuaaliluokassaopettajanoikeudet-1580209524845.pptx");

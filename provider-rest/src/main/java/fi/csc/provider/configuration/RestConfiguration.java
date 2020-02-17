@@ -3,14 +3,17 @@ package fi.csc.provider.configuration;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.client.RestTemplate;
@@ -35,6 +38,7 @@ public class RestConfiguration implements WebMvcConfigurer {
         // objectMapper.enable(JsonGenerator.Feature.ESCAPE_NON_ASCII);
         objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
+        objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
         // objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
         // objectMapper.registerModule(new JsonldModule());
         return objectMapper;
@@ -50,6 +54,8 @@ public class RestConfiguration implements WebMvcConfigurer {
             .build();
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
         CloseableHttpClient httpClient = HttpClients.custom()
+            .disableCookieManagement()
+            .useSystemProperties()
             .setSSLSocketFactory(csf)
             .build();
         HttpComponentsClientHttpRequestFactory requestFactory =
@@ -69,6 +75,8 @@ public class RestConfiguration implements WebMvcConfigurer {
             .build();
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext);
         CloseableHttpClient httpClient = HttpClients.custom()
+            .disableCookieManagement()
+            .useSystemProperties()
             .setSSLSocketFactory(csf)
             .build();
         HttpComponentsClientHttpRequestFactory requestFactory =

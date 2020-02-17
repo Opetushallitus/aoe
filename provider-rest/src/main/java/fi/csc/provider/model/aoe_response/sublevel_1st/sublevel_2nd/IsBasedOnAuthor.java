@@ -1,19 +1,21 @@
 package fi.csc.provider.model.aoe_response.sublevel_1st.sublevel_2nd;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@ToString
 @SuppressWarnings("unused")
-public class MaterialDisplayName {
+public class IsBasedOnAuthor {
 
     @JsonProperty
     private Long id;
 
     @JsonProperty
-    private String displayname;
+    private String authorname;
 
     @JsonProperty
-    private String language;
+    private Long isbasedonid;
 
-    @JsonProperty
-    private String materialid;
 }

@@ -1,0 +1,44 @@
+version: '3'
+services:
+  provider-rest:
+    build:
+      context: ./provider-rest
+      dockerfile: ./provider-rest/Dockerfile
+    image: provider-rest:latest
+    container_name: provider-rest
+    restart: always
+    ports:
+      - 8001:8001
+    environment:
+      SPRING_PROFILES_ACTIVE: 'prod'
+
+  resolver-data:
+    build:
+      context: ./resolver-data
+      dockerfile: ./resolver-data/Dockerfile
+    image: resolver-data:latest
+    container_name: resolver-data
+    restart: always
+    ports:
+      - 8002:8002
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: 'prod'
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://86.50.28.243:5432/aoe'
+      SPRING_DATASOURCE_USERNAME: 'resolver'
+      SPRING_DATASOURCE_PASSWORD: 'postgres'
+
+  resolver-rest:
+    build:
+      context: ./resolver-rest
+      dockerfile: ./resolver-rest/Dockerfile
+    image: resolver-rest:latest
+    container_name: resolver-rest
+    restart: always
+    ports:
+      - 8003:8003
+    depends_on:
+      - resolver-data
+    environment:
+      SPRING_PROFILES_ACTIVE: 'prod'

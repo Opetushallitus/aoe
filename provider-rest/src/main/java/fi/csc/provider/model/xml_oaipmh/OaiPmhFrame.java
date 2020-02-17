@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "OAI-PMH")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({Identify.class, ListIdentifiers.class, ListRecords.class}) // XML context binding for the generic fields
-@XmlType(propOrder = {"responseDate", "aoe_request", "verb"})
+@XmlType(propOrder = {"responseDate", "request", "verb"})
 public class OaiPmhFrame {
 
     @XmlAttribute(name = "xmlns")
