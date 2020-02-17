@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -97,14 +98,13 @@ public class ResolverServiceImpl implements ResolverService {
         return this.linkRepository.findByHash(hash);
     }
 
-    @Retryable(maxAttempts = 5, value = RuntimeException.class, backoff = @Backoff(delay = 5000))
+    @Retryable(maxAttempts = 5, value = {ConnectException.class, RuntimeException.class}, backoff = @Backoff(delay = 5000))
     private Page<Identifier> identifierRequest(int currentPage, int pageSize, LocalDateTime now) {
         ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
             env.getProperty("aoe.resolver-data.url") + "/rest/identifiers",
             HttpMethod.POST,
             getRequestEntity(currentPage, pageSize, this.syncPoint, now),
-            new ParameterizedTypeReference<>() {
-            });
+            new ParameterizedTypeReference<>(){});
         return response.getBody();
     }
 
