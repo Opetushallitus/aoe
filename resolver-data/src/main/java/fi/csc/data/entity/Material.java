@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -18,11 +17,11 @@ public class Material {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "materialEducationalMaterialFK", referencedColumnName = "id")
     private EducationalMaterial educationalMaterial;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "materialRecordFK", referencedColumnName = "id")
     private Record record = new Record();
 

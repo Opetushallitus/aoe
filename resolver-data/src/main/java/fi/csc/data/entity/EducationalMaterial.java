@@ -20,7 +20,7 @@ public class EducationalMaterial {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "educationalMaterialMaterialFK", referencedColumnName = "id")
     private List<Material> materials = new ArrayList<>();
 
