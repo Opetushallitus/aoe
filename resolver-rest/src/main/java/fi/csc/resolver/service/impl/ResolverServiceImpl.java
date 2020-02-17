@@ -12,6 +12,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,14 +55,7 @@ public class ResolverServiceImpl implements ResolverService {
         int pageTotal = 1;
 
         while (currentPage < pageTotal) {
-
-            ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
-                env.getProperty("aoe.resolver-data.url") + "/rest/identifiers",
-                HttpMethod.POST,
-                getRequestEntity(currentPage, pageSize, this.syncPoint, now),
-                new ParameterizedTypeReference<>() {
-                });
-            Page<Identifier> page = response.getBody();
+            Page<Identifier> page = identifierRequest(currentPage, pageSize, now);
 
             if (page != null && page.getTotalPages() != 0) {
                 pageTotal = page.getTotalPages();
@@ -100,6 +95,17 @@ public class ResolverServiceImpl implements ResolverService {
     @Override
     public List<Link> resolveIdentifier(String hash) {
         return this.linkRepository.findByHash(hash);
+    }
+
+    @Retryable(maxAttempts = 5, value = RuntimeException.class, backoff = @Backoff(delay = 5000))
+    private Page<Identifier> identifierRequest(int currentPage, int pageSize, LocalDateTime now) {
+        ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
+            env.getProperty("aoe.resolver-data.url") + "/rest/identifiers",
+            HttpMethod.POST,
+            getRequestEntity(currentPage, pageSize, this.syncPoint, now),
+            new ParameterizedTypeReference<>() {
+            });
+        return response.getBody();
     }
 
     private HttpEntity<TimeIntervalRequest> getRequestEntity(int currentPage, int pageSize, LocalDateTime from, LocalDateTime until) {

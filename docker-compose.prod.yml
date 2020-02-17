@@ -11,6 +11,8 @@ services:
       - 8001:8001
     environment:
       SPRING_PROFILES_ACTIVE: 'prod'
+    networks:
+      - provider-network
 
   resolver-data:
     build:
@@ -28,6 +30,8 @@ services:
       SPRING_DATASOURCE_URL: 'jdbc:postgresql://86.50.28.243:5432/aoe'
       SPRING_DATASOURCE_USERNAME: 'resolver'
       SPRING_DATASOURCE_PASSWORD: 'postgres'
+    networks:
+      - resolver-network
 
   resolver-rest:
     build:
@@ -42,3 +46,11 @@ services:
       - resolver-data
     environment:
       SPRING_PROFILES_ACTIVE: 'prod'
+    networks:
+      - resolver-network
+
+networks:
+  provider-network:
+    driver: bridge
+  resolver-network:
+    driver: bridge
