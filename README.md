@@ -14,13 +14,13 @@ On your local host build project modules and docker images, download dependencie
 Start applications (create containers and networks):
 </p>
 <pre>
-docker-compose -f docker-compose.dev.yml up --build -d
+docker-compose up [--build] -d
 </pre>
 <p>
 Stop applications (remove containers and networks):
 </p>
 <pre>
-docker-compose -f docker-compose.dev.yml down
+docker-compose down
 </pre>
 <h2>Production Environment</h2>
 <h3>Services</h3>
