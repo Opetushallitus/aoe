@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getAsync } from "../util/redis.utils";
 import { AlignmentObjectExtended } from "../models/alignment-object-extended";
+import { FilterOption, FilterOptionChild } from "../models/filter-option";
 
 const rediskeyBasic = "oppiaineet";
 const rediskeyUpperSecondary = "lukio-uusi-oppiaineet";
@@ -9,7 +10,7 @@ const rediskeyHigher = "tieteenalat";
 
 export const getOppiaineetTieteenalatTutkinnot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const data: any[] = [
+    const data: FilterOption[] = [
       await getPerusopetuksenOppiaineet(req.params.lang.toLowerCase()),
       await getLukionOppiaineet(req.params.lang.toLowerCase()),
       await getAmmattikoulunTutkinnot(req.params.lang.toLowerCase()),
@@ -28,7 +29,7 @@ async function getPerusopetuksenOppiaineet(lang: string) {
     const subjects = JSON.parse(await getAsync(`${rediskeyBasic}.${lang}`));
 
     if (subjects) {
-      const children: any[] = [];
+      const children: FilterOptionChild[] = [];
       const titles: any = {
         fi: "Perusopetus",
         sv: "Grundläggande utbildning",
@@ -69,7 +70,7 @@ async function getLukionOppiaineet(lang: string) {
         en: "Upper secondary school",
       };
 
-      const children = subjects.map((subject: AlignmentObjectExtended) => {
+      const children: FilterOptionChild[] = subjects.map((subject: AlignmentObjectExtended) => {
         return {
           key: subject.key,
           value: subject.targetName,
@@ -99,7 +100,7 @@ async function getAmmattikoulunTutkinnot(lang: string) {
         en: "Vocational education",
       };
 
-      const children = degrees.map((degree: AlignmentObjectExtended) => {
+      const children: FilterOptionChild[] = degrees.map((degree: AlignmentObjectExtended) => {
         return {
           key: degree.key,
           value: degree.targetName,
@@ -122,7 +123,7 @@ async function getTieteenalat(lang: string) {
     const branches = JSON.parse(await getAsync(`${rediskeyHigher}.${lang}`));
 
     if (branches) {
-      const children: any[] = [];
+      const children: FilterOptionChild[] = [];
       const titles: any = {
         fi: "Korkeakoulutus",
         sv: "Högskoleutbildning",
