@@ -36,7 +36,7 @@ On production server build project modules and docker images, configure external
 Start applications (create containers and networks):
 </p>
 <pre>
-docker-compose -f docker-compose.prod.yml up --build -d
+docker-compose -f docker-compose.prod.yml up [--build] -d
 </pre>
 <p>
 Stop applications (remove containers and networks):
