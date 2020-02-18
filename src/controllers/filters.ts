@@ -17,7 +17,13 @@ export const getOppiaineetTieteenalatTutkinnot = async (req: Request, res: Respo
       await getTieteenalat(req.params.lang.toLowerCase()),
     ];
 
-    res.status(200).json(data);
+    if (data) {
+      res.status(200).json(data);
+    } else {
+      res.sendStatus(404);
+
+      return next();
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send("Something went wrong");
