@@ -29,6 +29,7 @@
         id="educationalLevels"
         formControlName="educationalLevels"
         [placeholder]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
+        (change)="educationLevelChange()"
       >
         <ng-template ng-optgroup-tmp let-item="item">
           {{ item.value }}

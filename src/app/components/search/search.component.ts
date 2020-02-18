@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@services/search.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
@@ -70,6 +70,23 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.educationalLevelSubscription.unsubscribe();
     this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
+  }
+
+  get filters(): FormControl {
+    return this.searchForm.get('filters') as FormControl;
+  }
+
+  get educationalLevelsCtrl(): FormControl {
+    return this.filters.get('educationalLevels') as FormControl;
+  }
+
+  educationLevelChange(): void {
+    if (this.educationalLevelsCtrl.value.length > 0) {
+      this.educationalSubjects = this.educationalSubjects
+        .filter((subject: SubjectFilter) => this.educationalLevelsCtrl.value.includes(subject.key));
+    } else {
+      this.koodistoProxySvc.updateSubjectFilters();
+    }
   }
 
   onSubmit(): void {
