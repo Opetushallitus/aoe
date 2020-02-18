@@ -14,6 +14,7 @@ import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-featu
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { License } from '@models/koodisto-proxy/license';
 import { environment } from '../../environments/environment';
+import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,7 @@ export class KoodistoProxyService {
   public licenses$ = new Subject<License[]>();
   public keywords$ = new Subject<KeyValue<string, string>[]>();
   public organizations$ = new Subject<KeyValue<string, string>[]>();
+  public subjectFilters$ = new Subject<SubjectFilter[]>();
 
   constructor(
     private http: HttpClient,
@@ -330,6 +332,18 @@ export class KoodistoProxyService {
     this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
       .subscribe((organizations: KeyValue<string, string>[]) => {
         this.organizations$.next(organizations);
+      });
+  }
+
+  /**
+   * Updates educational subject filters.
+   */
+  updateSubjectFilters(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
+      .subscribe((filters: SubjectFilter[]) => {
+        this.subjectFilters$.next(filters);
       });
   }
 }

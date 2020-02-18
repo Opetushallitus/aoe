@@ -7,6 +7,7 @@ import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
   educationalSubjectSubscription: Subscription;
-  educationalSubjects: any[]; // @todo: add proper model
+  educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
 
@@ -33,7 +34,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.koodistoProxySvc.updateEducationalLevels();
-      // @todo: this.koodistoProxySvc.updateEducationalSubjects();
+      this.koodistoProxySvc.updateSubjectFilters();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
@@ -52,8 +53,11 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
-    // @todo: this.educationalSubjectSubscription.subscribe();
-    // @todo: this.koodistoProxySvc.updateEducationalSubjects();
+    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$
+      .subscribe((filters: SubjectFilter[]) => {
+        this.educationalSubjects = filters;
+      });
+    this.koodistoProxySvc.updateSubjectFilters();
 
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
@@ -64,7 +68,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.educationalLevelSubscription.unsubscribe();
-    // @todo: this.educationalSubjectSubscription.unsubscribe();
+    this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
