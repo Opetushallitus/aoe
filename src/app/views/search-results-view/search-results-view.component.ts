@@ -8,6 +8,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 
 @Component({
   selector: 'app-search-results-view',
@@ -22,6 +23,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   // filters
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
+  educationalSubjectSubscription: Subscription;
+  educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   isCollapsedTypes = true;
@@ -36,6 +39,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.translate.onLangChange.subscribe(() => {
       this.koodistoProxySvc.updateEducationalLevels();
+      this.koodistoProxySvc.updateSubjectFilters();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
@@ -43,6 +47,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null),
       filters: this.fb.group({
         educationalLevels: this.fb.control(null),
+        educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.control(null),
       }),
     });
@@ -70,6 +75,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
+    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$
+      .subscribe((filters: SubjectFilter[]) => {
+        this.educationalSubjects = filters;
+      });
+    this.koodistoProxySvc.updateSubjectFilters();
+
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
@@ -80,6 +91,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.resultSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
+    this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
