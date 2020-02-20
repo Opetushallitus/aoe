@@ -123,11 +123,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     if (this.searchForm.valid) {
       const searchParams = this.searchForm.value;
 
-      const selectedTypes = this.filters.value.learningResourceTypes
+      searchParams.filters.learningResourceTypes = this.filters.value.learningResourceTypes
         .map((checked: boolean, index: number) => checked ? this.learningResourceTypes[index].key : null)
         .filter((value: string) => value !== null);
-
-      searchParams.filters.learningResourceTypes = selectedTypes;
 
       this.searchSvc.updateSearchResults(searchParams);
     }
