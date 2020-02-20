@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
@@ -48,14 +48,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       filters: this.fb.group({
         educationalLevels: this.fb.control(null),
         educationalSubjects: this.fb.control(null),
-        learningResourceTypes: this.fb.control(null),
+        learningResourceTypes: this.fb.array([]),
       }),
     });
 
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
-      this.searchForm.patchValue(searchParams);
+      this.keywords.setValue(searchParams.keywords);
     }
 
     const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
@@ -84,6 +84,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
+
+        this.learningResourceTypesArray.clear();
+
+        types.forEach((type: LearningResourceType) => {
+          let state = false;
+
+          if (searchParams && searchParams.filters && searchParams.filters.learningResourceTypes) {
+            state = searchParams.filters.learningResourceTypes.includes(type.key);
+          }
+
+          this.learningResourceTypesArray.push(this.fb.control(state));
+        });
       });
     this.koodistoProxySvc.updateLearningResourceTypes();
   }
@@ -95,9 +107,29 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
+  get keywords(): FormControl {
+    return this.searchForm.get('keywords') as FormControl;
+  }
+
+  get filters(): FormControl {
+    return this.searchForm.get('filters') as FormControl;
+  }
+
+  get learningResourceTypesArray(): FormArray {
+    return this.filters.get('learningResourceTypes') as FormArray;
+  }
+
   onSubmit(): void {
     if (this.searchForm.valid) {
-      this.searchSvc.updateSearchResults(this.searchForm.value);
+      const searchParams = this.searchForm.value;
+
+      const selectedTypes = this.filters.value.learningResourceTypes
+        .map((checked: boolean, index: number) => checked ? this.learningResourceTypes[index].key : null)
+        .filter((value: string) => value !== null);
+
+      searchParams.filters.learningResourceTypes = selectedTypes;
+
+      this.searchSvc.updateSearchResults(searchParams);
     }
   }
 }

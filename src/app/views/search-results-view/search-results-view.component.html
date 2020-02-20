@@ -35,20 +35,21 @@
             <h3>{{ 'search.results.narrowSearch' | translate }}</h3>
           </div>
 
-          <div class="filter">
+          <div class="filter" formArrayName="learningResourceTypes">
             <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
               <h4>{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}</h4>
             </div>
 
             <div class="content" [collapse]="isCollapsedTypes" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let type of learningResourceTypes; let i = index">
+              <div class="custom-control custom-checkbox" *ngFor="let type of learningResourceTypesArray.controls; let i = index">
                 <input
                   type="checkbox"
                   class="custom-control-input"
                   id="learningResourceTypes-{{ i }}"
+                  [formControlName]="i"
                 >
                 <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
-                  {{ type.value }}
+                  {{ learningResourceTypes[i].value }}
                 </label>
               </div>
             </div>
