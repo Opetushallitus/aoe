@@ -350,6 +350,13 @@ export class FilesComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteAttachment(attachmentId: number): void {
+    this.backendSvc.deleteAttachment(attachmentId).subscribe(
+      () => this.backendSvc.updateUploadedFiles(this.materialId),
+      (err) => console.error(err),
+    );
+  }
+
   onSubmit(): void {
     this.submitted = true;
 

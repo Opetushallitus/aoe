@@ -356,13 +356,23 @@
             <td>{{ upload.file }}{{ upload.link }}</td>
             <td>{{ upload.language }}</td>
             <td>
-              <span *ngFor="let subtitle of upload.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
-                {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
-              </span>
+              <div *ngFor="let subtitle of upload.subtitles; let isLast = last"
+                   [class.font-weight-bold]="subtitle.default"
+                   [class.mb-1]="!isLast"
+              >
+                {{ subtitle.label }} ({{ subtitle.srclang }})
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteAttachment(subtitle.id)">
+                  {{ 'forms.common.delete' | translate }}
+                </button>
+              </div>
 
               <span *ngIf="upload.subtitles.length === 0">-</span>
             </td>
-            <td><button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">{{ 'forms.common.delete' | translate }}</button></td>
+            <td>
+              <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(upload.id)">
+                {{ 'forms.common.delete' | translate }}
+              </button>
+            </td>
           </tr>
         </ng-container>
       </tbody>
