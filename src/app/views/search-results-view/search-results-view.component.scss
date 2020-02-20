@@ -24,6 +24,11 @@
       font-weight: 400;
       margin-bottom: 0;
     }
+
+    .badge {
+      @include font-size(16);
+      font-weight: 400;
+    }
   }
 
   .content {

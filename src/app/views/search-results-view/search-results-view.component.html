@@ -37,7 +37,19 @@
 
           <div class="filter" formArrayName="learningResourceTypes">
             <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
-              <h4>{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}</h4>
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="learningResourceTypesCount > 0">
+                    {{ learningResourceTypesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedTypes ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
             </div>
 
             <div class="content" [collapse]="isCollapsedTypes" [isAnimated]="true">
