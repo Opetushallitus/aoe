@@ -119,6 +119,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.filters.get('learningResourceTypes') as FormArray;
   }
 
+  get learningResourceTypesCount(): number {
+    return this.learningResourceTypesArray.value.filter(v => v === true).length;
+  }
+
   onSubmit(): void {
     if (this.searchForm.valid) {
       const searchParams = this.searchForm.value;
