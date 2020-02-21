@@ -382,6 +382,7 @@ export class BackendService {
         subtitles: res.attachments
           .filter((a: Attachment) => a.materialid === m.id)
           .map((a: Attachment) => ({
+            id: a.id,
             src: null,
             default: a.defaultfile,
             kind: a.kind,
@@ -407,5 +408,16 @@ export class BackendService {
           catchError(BackendService.handleError),
         );
     }
+  }
+
+  /**
+   * Deletes attachment from backend.
+   * @param {number} attachmentId
+   */
+  deleteAttachment(attachmentId: number): Observable<any> {
+    return this.http.delete(`${this.backendUrl}/material/attachment/${attachmentId}`)
+      .pipe(
+        catchError(BackendService.handleError),
+      );
   }
 }
