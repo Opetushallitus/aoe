@@ -35,11 +35,51 @@
             <h3>{{ 'search.results.narrowSearch' | translate }}</h3>
           </div>
 
+          <div class="filter" formArrayName="educationalLevels">
+            <div class="header" (click)="isCollapsedLevels = !isCollapsedLevels">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.educationalLevels.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalLevelsCount > 0">
+                    {{ educationalLevelsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLevels ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedLevels" [isAnimated]="true">
+              <ng-container *ngFor="let level of educationalLevelsArray.controls; let i = index">
+                <ng-container [formGroupName]="i">
+                  <h5>{{ educationalLevels[i].value }}</h5>
+
+                  <div class="children" formArrayName="levels">
+                    <div class="custom-control custom-checkbox" *ngFor="let child of level.get('levels').controls; let j = index">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="educationalLevels-{{ i }}-{{ j }}"
+                        [formControlName]="j"
+                      >
+                      <label class="custom-control-label" for="educationalLevels-{{ i }}-{{ j }}">
+                        {{ educationalLevels[i].children[j].value }}
+                      </label>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+            </div>
+          </div>
+
           <div class="filter" formArrayName="learningResourceTypes">
             <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
               <div class="row align-items-center">
                 <div class="col">
-                  <h4>{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}</h4>
+                  <h4>{{ 'search.filters.learningResourceTypes.title' | translate }}</h4>
                 </div>
 
                 <div class="col-auto">

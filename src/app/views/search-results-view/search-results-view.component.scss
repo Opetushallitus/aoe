@@ -34,6 +34,19 @@
   .content {
     padding-left: 1rem;
     padding-top: .5rem;
+
+    .custom-control-label {
+      @include font-size(12);
+      padding-top: .125rem;
+    }
+
+    h5 {
+      @include font-size(14);
+    }
+
+    .children {
+      margin-bottom: .5rem;
+    }
   }
 }
 
