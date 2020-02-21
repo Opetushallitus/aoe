@@ -23,6 +23,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   // filters
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
+  isCollapsedLevels = true;
   educationalSubjectSubscription: Subscription;
   educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
@@ -46,7 +47,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.searchForm = this.fb.group({
       keywords: this.fb.control(null),
       filters: this.fb.group({
-        educationalLevels: this.fb.control(null),
+        educationalLevels: this.fb.array([]),
         educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.array([]),
       }),
@@ -72,6 +73,26 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
       .subscribe((levels: EducationalLevel[]) => {
         this.educationalLevels = levels;
+
+        this.educationalLevelsArray.clear();
+
+        levels.forEach((level: EducationalLevel) => {
+          const children = this.fb.array([]);
+
+          level.children.forEach((child) => {
+            let state = false;
+
+            if (searchParams && searchParams.filters && searchParams.filters.educationalLevels) {
+              state = searchParams.filters.educationalLevels.includes(child.key);
+            }
+
+            children.push(this.fb.control(state));
+          });
+
+          this.educationalLevelsArray.push(this.fb.group({
+            levels: children,
+          }));
+        });
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
@@ -115,6 +136,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.searchForm.get('filters') as FormControl;
   }
 
+  get educationalLevelsArray(): FormArray {
+    return this.filters.get('educationalLevels') as FormArray;
+  }
+
+  get educationalLevelsCount(): number {
+    return this.educationalLevelsArray.value.filter(v => v === true).length;
+  }
+
   get learningResourceTypesArray(): FormArray {
     return this.filters.get('learningResourceTypes') as FormArray;
   }
@@ -126,6 +155,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.searchForm.valid) {
       const searchParams = this.searchForm.value;
+      const selectedEducationalLevels: string[] = [];
+
+      this.filters.value.educationalLevels
+        .forEach((level, index: number) => {
+          level.levels.forEach((checked: boolean, childIndex: number) => {
+            if (checked) {
+              selectedEducationalLevels.push(this.educationalLevels[index].children[childIndex].key);
+            }
+          });
+        });
+
+      searchParams.filters.educationalLevels = selectedEducationalLevels;
 
       searchParams.filters.learningResourceTypes = this.filters.value.learningResourceTypes
         .map((checked: boolean, index: number) => checked ? this.learningResourceTypes[index].key : null)
