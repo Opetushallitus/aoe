@@ -1,8 +1,8 @@
 export interface EducationalLevel {
   key: string;
   value: string;
-  children: {
+  children: [{
     key: string;
     value: string;
-  };
+  }];
 }
