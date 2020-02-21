@@ -523,6 +523,17 @@
       "download": "Ladda ner",
       "narrowSearch": "Begränsa sökningen",
       "results": "resultat"
+    },
+    "filters": {
+      "educationalLevels": {
+        "title": "Utbildningsstadium"
+      },
+      "educationalSubjecs": {
+        "title": "Undervisningsämne"
+      },
+      "learningResourceTypes": {
+        "title": "Typ av läromaterial"
+      }
     }
   }
 }
