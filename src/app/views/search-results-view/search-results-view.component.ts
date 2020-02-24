@@ -141,7 +141,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   get educationalLevelsCount(): number {
-    return this.educationalLevelsArray.value.filter(v => v === true).length;
+    let count = 0;
+
+    this.educationalLevelsArray.value.forEach((level) => {
+      count += level.levels.filter(v => v === true).length;
+    });
+
+    return count;
   }
 
   get learningResourceTypesArray(): FormArray {
