@@ -533,6 +533,9 @@
       },
       "learningResourceTypes": {
         "title": "Learning Resource Type"
+      },
+      "authors": {
+        "title": "Author"
       }
     }
   }

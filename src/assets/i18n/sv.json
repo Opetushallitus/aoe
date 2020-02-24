@@ -533,6 +533,9 @@
       },
       "learningResourceTypes": {
         "title": "Typ av läromaterial"
+      },
+      "authors": {
+        "title": "Upphovsperson"
       }
     }
   }
