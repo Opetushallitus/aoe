@@ -17,8 +17,9 @@ export interface SearchResult {
     language: string;
   }];
   authors: [{
-    authorname: string;
-    organization: string;
+    authorname?: string;
+    organization?: string;
+    organizationkey?: string;
   }];
   learningResourceTypes: [{
     value: string;
