@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
-import { SearchResults } from '@models/search/search-results';
+import { SearchResult, SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
@@ -29,6 +29,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   isCollapsedTypes = true;
+  authors: string[] = [];
+  isCollapsedAuthors = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -50,6 +52,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         educationalLevels: this.fb.array([]),
         educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.array([]),
+        authors: this.fb.array([]),
       }),
     });
 
@@ -63,11 +66,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     if (searchResults) {
       this.results = searchResults;
+      this.setAuthorsFilter(searchResults);
     }
 
     this.resultSubscription = this.searchSvc.searchResults$
       .subscribe((results: SearchResults) => {
         this.results = results;
+
+        this.setAuthorsFilter(results);
       });
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
@@ -144,7 +150,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     let count = 0;
 
     this.educationalLevelsArray.value.forEach((level) => {
-      count += level.levels.filter((v) => v === true).length;
+      count += level.levels.filter((v: boolean) => v === true).length;
     });
 
     return count;
@@ -155,7 +161,36 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   get learningResourceTypesCount(): number {
-    return this.learningResourceTypesArray.value.filter((v) => v === true).length;
+    return this.learningResourceTypesArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get authorsArray(): FormArray {
+    return this.filters.get('authors') as FormArray;
+  }
+
+  get authorsCount(): number {
+    return this.authorsArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  // @todo: maybe change the function name
+  setAuthorsFilter(results: SearchResults): void {
+    const allAuthors: string[] = [];
+    this.authorsArray.clear();
+
+    results.results.forEach((result: SearchResult) => {
+      result.authors.forEach((author) => {
+        if (author.authorname !== '') {
+          allAuthors.push(author.authorname.trim());
+        }
+      });
+    });
+
+    // https://stackoverflow.com/a/14438954
+    this.authors = [...new Set(allAuthors)];
+
+    this.authors.forEach(() => {
+      this.authorsArray.push(this.fb.control(true));
+    });
   }
 
   onSubmit(): void {
@@ -176,6 +211,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.filters.learningResourceTypes = this.filters.value.learningResourceTypes
         .map((checked: boolean, index: number) => checked ? this.learningResourceTypes[index].key : null)
+        .filter((value: string) => value !== null);
+
+      searchParams.filters.authors = this.filters.value.authors
+        .map((checked: boolean, index: number) => checked ? this.authors[index] : null)
         .filter((value: string) => value !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
