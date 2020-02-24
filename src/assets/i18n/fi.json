@@ -533,6 +533,9 @@
       },
       "learningResourceTypes": {
         "title": "Oppimateriaalin tyyppi"
+      },
+      "authors": {
+        "title": "Tekijä"
       }
     }
   }
