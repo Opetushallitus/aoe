@@ -144,7 +144,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     let count = 0;
 
     this.educationalLevelsArray.value.forEach((level) => {
-      count += level.levels.filter(v => v === true).length;
+      count += level.levels.filter((v) => v === true).length;
     });
 
     return count;
@@ -155,7 +155,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   get learningResourceTypesCount(): number {
-    return this.learningResourceTypesArray.value.filter(v => v === true).length;
+    return this.learningResourceTypesArray.value.filter((v) => v === true).length;
   }
 
   onSubmit(): void {
