@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { KeyValue } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -130,11 +130,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       }
 
       if (this.savedData.educationalRoles) {
-        this.basicDetailsForm.get('educationalRoles').setValue(this.savedData.educationalRoles);
+        this.educationalRolesCtrl.setValue(this.savedData.educationalRoles);
       }
 
       if (this.savedData.educationalUses) {
-        this.basicDetailsForm.get('educationalUses').setValue(this.savedData.educationalUses);
+        this.educationalUsesCtrl.setValue(this.savedData.educationalUses);
       }
 
       if (this.savedData.description) {
@@ -234,10 +234,26 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  get educationalRolesCtrl(): FormControl {
+    return this.educationalRolesCtrl as FormControl;
+  }
+
+  get educationalUsesCtrl(): FormControl {
+    return this.educationalUsesCtrl as FormControl;
+  }
+
   onSubmit() {
     this.submitted = true;
 
     if (this.basicDetailsForm.valid && this.authors.length > 0) {
+      if (this.educationalRolesCtrl.value && this.educationalRolesCtrl.value.length === 0) {
+        this.educationalRolesCtrl.setValue(null);
+      }
+
+      if (this.educationalUsesCtrl.value && this.educationalUsesCtrl.value.length === 0) {
+        this.educationalUsesCtrl.setValue(null);
+      }
+
       const data = Object.assign(
         {},
         JSON.parse(sessionStorage.getItem(this.savedDataKey)),
