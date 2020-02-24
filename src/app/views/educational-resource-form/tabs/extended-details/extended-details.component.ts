@@ -77,11 +77,11 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
     if (this.savedData) {
       if (this.savedData.accessibilityFeatures) {
-        this.extendedDetailsForm.get('accessibilityFeatures').setValue(this.savedData.accessibilityFeatures);
+        this.accessibilityFeaturesCtrl.setValue(this.savedData.accessibilityFeatures);
       }
 
       if (this.savedData.accessibilityHazards) {
-        this.extendedDetailsForm.get('accessibilityHazards').setValue(this.savedData.accessibilityHazards);
+        this.accessibilityHazardsCtrl.setValue(this.savedData.accessibilityHazards);
       }
 
       if (this.savedData.typicalAgeRange) {
@@ -93,7 +93,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
       }
 
       if (this.savedData.publisher) {
-        this.extendedDetailsForm.get('publisher').setValue(this.savedData.publisher);
+        this.publisherCtrl.setValue(this.savedData.publisher);
       }
 
       if (this.savedData.expires) {
@@ -124,6 +124,18 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     this.accessibilityHazardSubscription.unsubscribe();
   }
 
+  get accessibilityFeaturesCtrl(): FormControl {
+    return this.extendedDetailsForm.get('accessibilityFeatures') as FormControl;
+  }
+
+  get accessibilityHazardsCtrl(): FormControl {
+    return this.extendedDetailsForm.get('accessibilityHazards') as FormControl;
+  }
+
+  get publisherCtrl(): FormControl {
+    return this.extendedDetailsForm.get('publisher') as FormControl;
+  }
+
   get prerequisites(): FormControl {
     return this.extendedDetailsForm.get('prerequisites') as FormControl;
   }
@@ -143,6 +155,18 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
         this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
           this.alignmentObjects.push(prerequisite);
         });
+      }
+
+      if (this.accessibilityFeaturesCtrl.value && this.accessibilityFeaturesCtrl.value.length === 0) {
+        this.accessibilityFeaturesCtrl.setValue(null);
+      }
+
+      if (this.accessibilityHazardsCtrl.value && this.accessibilityHazardsCtrl.value.length === 0) {
+        this.accessibilityHazardsCtrl.setValue(null);
+      }
+
+      if (this.publisherCtrl.value && this.publisherCtrl.value.length === 0) {
+        this.publisherCtrl.setValue(null);
       }
 
       const data = Object.assign(
