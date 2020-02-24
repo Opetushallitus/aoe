@@ -31,6 +31,12 @@
         [placeholder]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
         (change)="educationLevelChange()"
       >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
         <ng-template ng-optgroup-tmp let-item="item">
           {{ item.value }}
         </ng-template>
@@ -88,7 +94,13 @@
         id="learningResourceTypes"
         formControlName="learningResourceTypes"
         [placeholder]="'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate"
-      ></ng-select>
+      >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+      </ng-select>
     </div>
 
     <div class="col-auto">
