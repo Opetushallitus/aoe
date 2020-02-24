@@ -235,11 +235,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   get educationalRolesCtrl(): FormControl {
-    return this.educationalRolesCtrl as FormControl;
+    return this.basicDetailsForm.get('educationalRoles') as FormControl;
   }
 
   get educationalUsesCtrl(): FormControl {
-    return this.educationalUsesCtrl as FormControl;
+    return this.basicDetailsForm.get('educationalUses') as FormControl;
   }
 
   onSubmit() {
