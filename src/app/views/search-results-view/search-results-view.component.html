@@ -138,6 +138,38 @@
               </div>
             </div>
           </div>
+
+          <div class="filter" formArrayName="organizations">
+            <div class="header" (click)="isCollapsedOrganizations = !isCollapsedOrganizations">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.organizations.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="organizationsCount > 0">
+                    {{ organizationsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedOrganizations ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedOrganizations" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let organization of organizationsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="organizations-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="organizations-{{ i }}">
+                  {{ organizations[i].value }}
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-md-9">

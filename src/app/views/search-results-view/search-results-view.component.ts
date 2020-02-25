@@ -31,6 +31,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedTypes = true;
   authors: string[] = [];
   isCollapsedAuthors = true;
+  organizations: any[] = [];
+  isCollapsedOrganizations = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -53,6 +55,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.array([]),
         authors: this.fb.array([]),
+        organizations: this.fb.array([]),
       }),
     });
 
@@ -66,14 +69,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     if (searchResults) {
       this.results = searchResults;
-      this.setAuthorsFilter(searchResults);
+      this.setAuthorsAndOrganizationsFilter(searchResults);
     }
 
     this.resultSubscription = this.searchSvc.searchResults$
       .subscribe((results: SearchResults) => {
         this.results = results;
 
-        this.setAuthorsFilter(results);
+        this.setAuthorsAndOrganizationsFilter(results);
       });
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
@@ -172,24 +175,45 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.authorsArray.value.filter((v: boolean) => v === true).length;
   }
 
-  // @todo: maybe change the function name
-  setAuthorsFilter(results: SearchResults): void {
+  get organizationsArray(): FormArray {
+    return this.filters.get('organizations') as FormArray;
+  }
+
+  get organizationsCount(): number {
+    return this.organizationsArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  setAuthorsAndOrganizationsFilter(results: SearchResults): void {
     const allAuthors: string[] = [];
+    const allOrganizations: any[] = [];
     this.authorsArray.clear();
+    this.organizationsArray.clear();
 
     results.results.forEach((result: SearchResult) => {
       result.authors.forEach((author) => {
         if (author.authorname !== '') {
           allAuthors.push(author.authorname.trim());
         }
+
+        if (author.organization !== '') {
+          allOrganizations.push({
+            key: author.organizationkey.trim(),
+            value: author.organization.trim(),
+          });
+        }
       });
     });
 
     // https://stackoverflow.com/a/14438954
     this.authors = [...new Set(allAuthors)];
+    this.organizations = [...new Set(allOrganizations)];
 
     this.authors.forEach(() => {
       this.authorsArray.push(this.fb.control(true));
+    });
+
+    this.organizations.forEach(() => {
+      this.organizationsArray.push(this.fb.control(true));
     });
   }
 
@@ -215,6 +239,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.filters.authors = this.filters.value.authors
         .map((checked: boolean, index: number) => checked ? this.authors[index] : null)
+        .filter((value: string) => value !== null);
+
+      searchParams.filters.organizations = this.filters.value.organizations
+        .map((checked: boolean, index: number) => checked ? this.organizations[index].key : null)
         .filter((value: string) => value !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
