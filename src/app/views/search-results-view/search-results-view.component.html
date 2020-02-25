@@ -32,7 +32,17 @@
       <div class="row">
         <div class="col-md-3 mb-2 mb-md-0" id="filters" formGroupName="filters">
           <div class="block-header">
-            <h3>{{ 'search.results.narrowSearch' | translate }}</h3>
+            <div class="row align-items-center">
+              <div class="col">
+                <h3>{{ 'search.results.narrowSearch' | translate }}</h3>
+              </div>
+
+              <div class="col-auto">
+                <span class="badge badge-pill badge-blue mr-2" *ngIf="filtersCount > 0">
+                  {{ filtersCount }}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div class="filter" formArrayName="educationalLevels">

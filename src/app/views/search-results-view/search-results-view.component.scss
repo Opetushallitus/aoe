@@ -12,6 +12,11 @@
     @include font-size(18);
     margin-bottom: 0;
   }
+
+  .badge {
+    @include font-size(16);
+    font-weight: 400;
+  }
 }
 
 .filter {
@@ -23,11 +28,6 @@
       @include font-size(18);
       font-weight: 400;
       margin-bottom: 0;
-    }
-
-    .badge {
-      @include font-size(16);
-      font-weight: 400;
     }
   }
 
