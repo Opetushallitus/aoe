@@ -145,6 +145,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.searchForm.get('filters') as FormControl;
   }
 
+  get filtersCount(): number {
+    return this.educationalLevelsCount
+      + this.learningResourceTypesCount
+      + this.authorsCount
+      + this.organizationsCount;
+  }
+
   get educationalLevelsArray(): FormArray {
     return this.filters.get('educationalLevels') as FormArray;
   }
