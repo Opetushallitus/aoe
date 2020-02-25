@@ -45,6 +45,7 @@ export class DefaultLayoutComponent {
   };
 
   showNotice = true;
+  showMaintenanceAlert = true;
 
   constructor(
     public translate: TranslateService,
