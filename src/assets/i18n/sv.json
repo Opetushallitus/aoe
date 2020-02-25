@@ -536,6 +536,9 @@
       },
       "authors": {
         "title": "Upphovsperson"
+      },
+      "organizations": {
+        "title": "Organisation"
       }
     }
   }
