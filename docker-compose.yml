@@ -43,6 +43,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: 'dev'
       SPRING_DATASOURCE_URL: 'jdbc:postgresql://postgres:5432/aoe'
+      SPRING_DATASOURCE_USERNAME: 'admin'
+      SPRING_DATASOURCE_PASSWORD: 'postgres'
     networks:
       - resolver-network
 
