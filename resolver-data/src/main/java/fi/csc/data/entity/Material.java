@@ -1,5 +1,6 @@
 package fi.csc.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,34 +11,36 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Material")
-@Table(name = "material")
+@Table(name = "Material")
 public class Material {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "Id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "materialEducationalMaterialFK", referencedColumnName = "id")
+    @JsonIgnore
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "EducationalMaterialId", referencedColumnName = "Id", insertable = false, updatable = false)
     private EducationalMaterial educationalMaterial;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "materialRecordFK", referencedColumnName = "id")
-    private Record record = new Record();
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "Id", referencedColumnName = "MaterialId", insertable = false, updatable = false)
+    private Record record;
 
-    @Column(name = "educational_material_id")
+    @Column(name = "EducationalMaterialId")
     private Long educationalMaterialId;
 
+    @Column(name = "Link")
     private String link;
-    private Integer obsoleted;
-    private Integer priority;
-    private String materialLanguageKey;
 
-    public Material(Long id, Long educationalMaterialId, String link, Record record) {
-        this.id = id;
-        this.educationalMaterialId = educationalMaterialId;
-        this.link = link;
-        this.record = record;
-    }
+    @Column(name = "Obsoleted")
+    private Integer obsoleted;
+
+    @Column(name = "Priority")
+    private Integer priority;
+
+    @Column(name = "MaterialLanguageKey")
+    private String materialLanguageKey;
 
 }

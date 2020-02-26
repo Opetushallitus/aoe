@@ -1,5 +1,6 @@
 package fi.csc.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,33 +11,40 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity(name = "Record")
-@Table(name = "record")
+@Table(name = "Record")
 public class Record {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "Id")
     private Long id;
 
-    @Column(name = "material_id")
-    private Long materialId;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "recordMaterialFK", referencedColumnName = "id")
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "MaterialId", referencedColumnName = "Id", insertable = false, updatable = false)
     private Material material;
 
+    @Column(name = "MaterialId")
+    private Long materialId;
+
+    @Column(name = "FilePath")
     private String filePath;
 
-    @Column(name = "original_file_name")
+    @Column(name = "OriginalFileName")
     private String originalFileName;
+
+    @Column(name = "FileSize")
     private Integer fileSize;
+
+    @Column(name = "MimeType")
     private String mimeType;
+
+    @Column(name = "Format")
     private String format;
+
+    @Column(name = "FileKey")
     private String fileKey;
+
+    @Column(name = "FileBucket")
     private String fileBucket;
 
-    public Record(Long id, Long materialId, String originalFileName) {
-        this.id = id;
-        this.materialId = materialId;
-        this.originalFileName = originalFileName;
-    }
 }
