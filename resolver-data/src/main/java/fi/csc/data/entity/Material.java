@@ -24,7 +24,7 @@ public class Material {
     private EducationalMaterial educationalMaterial;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Id", referencedColumnName = "MaterialId", insertable = false, updatable = false)
     private Record record;
 
