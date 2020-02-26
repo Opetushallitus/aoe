@@ -27,7 +27,7 @@ export interface SearchResult {
   }];
   license: string;
   alignmentObjects?: any;
-  educationLevels: [{
+  educationalLevels: [{
     value: string;
     educationallevelkey: string;
   }];
