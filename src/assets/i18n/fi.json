@@ -539,6 +539,9 @@
       },
       "organizations": {
         "title": "Organisaatio"
+      },
+      "educationalRoles": {
+        "title": "Kohderyhmä"
       }
     }
   }
