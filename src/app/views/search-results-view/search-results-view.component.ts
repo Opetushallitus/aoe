@@ -285,6 +285,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         .map((checked: boolean, index: number) => checked ? this.organizations[index].key : null)
         .filter((value: string) => value !== null);
 
+      searchParams.filters.educationalRoles = this.filters.value.educationalRoles
+        .map((checked: boolean, index: number) => checked ? this.educationalRoles[index].key : null)
+        .filter((value: string) => value !== null);
+
       this.searchSvc.updateSearchResults(searchParams);
     }
   }
