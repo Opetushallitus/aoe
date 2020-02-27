@@ -26,11 +26,19 @@ export interface SearchResult {
     learningresourcetypekey: string;
   }];
   license: string;
-  alignmentObjects?: any;
   educationalLevels: [{
     value: string;
     educationallevelkey: string;
   }];
+  educationalRoles?: [{
+    value: string;
+    educationalrolekey: string;
+  }];
+  keywords: [{
+    value: string;
+    keywordkey: string;
+  }];
+  languages: string[];
   thumbnail?: {
     id: number | string;
     filepath: string;
