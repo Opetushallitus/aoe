@@ -67,3 +67,14 @@ export function addCustomItem(value: string): KeyValue<string, string> {
     value: value,
   };
 }
+
+/**
+ * Returns deduplicated array.
+ * @param {any[]} array
+ * @param {string} prop
+ * @returns {any[]} Deduplicated array
+ */
+export function deduplicate(array: any[], prop: string): any[] {
+  // https://gist.github.com/Vheissu/71dd683ad647e82a0d132076cf6eeef2#gistcomment-2598267
+  return Array.from(new Map(array.map((i) => [(prop in i) ? i[prop] : i, i])).values());
+}
