@@ -542,6 +542,9 @@
       },
       "educationalRoles": {
         "title": "Kohderyhmä"
+      },
+      "keywords": {
+        "title": "Avainsana"
       }
     }
   }
