@@ -180,6 +180,38 @@
               </div>
             </div>
           </div>
+
+          <div class="filter" formArrayName="educationalRoles">
+            <div class="header" (click)="isCollapsedRoles = !isCollapsedRoles">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.educationalRoles.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalRolesCount > 0">
+                    {{ educationalRolesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedRoles ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedRoles" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let role of educationalRolesArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="educationalRoles-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="educationalRoles-{{ i }}">
+                  {{ educationalRoles[i].value }}
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-md-9">

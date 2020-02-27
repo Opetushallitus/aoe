@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
+import { deduplicate } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-search-results-view',
@@ -33,6 +34,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedAuthors = true;
   organizations: any[] = [];
   isCollapsedOrganizations = true;
+  educationalRoles: any[] = [];
+  isCollapsedRoles = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -56,6 +59,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         learningResourceTypes: this.fb.array([]),
         authors: this.fb.array([]),
         organizations: this.fb.array([]),
+        educationalRoles: this.fb.array([]),
       }),
     });
 
@@ -69,14 +73,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     if (searchResults) {
       this.results = searchResults;
-      this.setAuthorsAndOrganizationsFilter(searchResults);
+      this.setAvailableFilters(searchResults);
     }
 
     this.resultSubscription = this.searchSvc.searchResults$
       .subscribe((results: SearchResults) => {
         this.results = results;
 
-        this.setAuthorsAndOrganizationsFilter(results);
+        this.setAvailableFilters(results);
       });
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
@@ -149,7 +153,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.educationalLevelsCount
       + this.learningResourceTypesCount
       + this.authorsCount
-      + this.organizationsCount;
+      + this.organizationsCount
+      + this.educationalRolesCount;
   }
 
   get educationalLevelsArray(): FormArray {
@@ -190,13 +195,26 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.organizationsArray.value.filter((v: boolean) => v === true).length;
   }
 
-  setAuthorsAndOrganizationsFilter(results: SearchResults): void {
+  get educationalRolesArray(): FormArray {
+    return this.filters.get('educationalRoles') as FormArray;
+  }
+
+  get educationalRolesCount(): number {
+    return this.educationalRolesArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  setAvailableFilters(results: SearchResults): void {
     const allAuthors: string[] = [];
-    const allOrganizations: any[] = [];
     this.authorsArray.clear();
+
+    const allOrganizations: any[] = [];
     this.organizationsArray.clear();
 
+    const allRoles: any[] = [];
+    this.educationalRolesArray.clear();
+
     results.results.forEach((result: SearchResult) => {
+      // authors and organizations
       result.authors.forEach((author) => {
         if (author.authorname !== '') {
           allAuthors.push(author.authorname.trim());
@@ -209,11 +227,22 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           });
         }
       });
+
+      // educational roles
+      if (result.educationalRoles && result.educationalRoles.length > 0) {
+        result.educationalRoles.forEach((role) => {
+          allRoles.push({
+            key: role.educationalrolekey,
+            value: role.value.trim(),
+          });
+        });
+      }
     });
 
     // https://stackoverflow.com/a/14438954
     this.authors = [...new Set(allAuthors)];
-    this.organizations = [...new Set(allOrganizations)];
+    this.organizations = deduplicate(allOrganizations, 'key');
+    this.educationalRoles = deduplicate(allRoles, 'key');
 
     this.authors.forEach(() => {
       this.authorsArray.push(this.fb.control(true));
@@ -221,6 +250,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     this.organizations.forEach(() => {
       this.organizationsArray.push(this.fb.control(true));
+    });
+
+    this.educationalRoles.forEach(() => {
+      this.educationalRolesArray.push(this.fb.control(true));
     });
   }
 
