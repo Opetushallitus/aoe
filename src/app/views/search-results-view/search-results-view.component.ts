@@ -36,6 +36,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedOrganizations = true;
   educationalRoles: any[] = [];
   isCollapsedRoles = true;
+  keywords: any[] = [];
+  isCollapsedKeywords = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -60,13 +62,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         authors: this.fb.array([]),
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
+        keywords: this.fb.array([]),
       }),
     });
 
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
-      this.keywords.setValue(searchParams.keywords);
+      this.keywordsCtrl.setValue(searchParams.keywords);
     }
 
     const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
@@ -141,7 +144,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
-  get keywords(): FormControl {
+  get keywordsCtrl(): FormControl {
     return this.searchForm.get('keywords') as FormControl;
   }
 
@@ -154,7 +157,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       + this.learningResourceTypesCount
       + this.authorsCount
       + this.organizationsCount
-      + this.educationalRolesCount;
+      + this.educationalRolesCount
+      + this.keywordsCount;
   }
 
   get educationalLevelsArray(): FormArray {
@@ -203,6 +207,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.educationalRolesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get keywordsArray(): FormArray {
+    return this.filters.get('keywords') as FormArray;
+  }
+
+  get keywordsCount(): number {
+    return this.keywordsArray.value.filter((v: boolean) => v === true).length;
+  }
+
   setAvailableFilters(results: SearchResults): void {
     const allAuthors: string[] = [];
     this.authorsArray.clear();
@@ -212,6 +224,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     const allRoles: any[] = [];
     this.educationalRolesArray.clear();
+
+    const allKeywords: any[] = [];
+    this.keywordsArray.clear();
 
     results.results.forEach((result: SearchResult) => {
       // authors and organizations
@@ -237,12 +252,21 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           });
         });
       }
+
+      // keywords
+      result.keywords.forEach((keyword) => {
+        allKeywords.push({
+          key: keyword.keywordkey,
+          value: keyword.value,
+        });
+      });
     });
 
     // https://stackoverflow.com/a/14438954
     this.authors = [...new Set(allAuthors)];
     this.organizations = deduplicate(allOrganizations, 'key');
     this.educationalRoles = deduplicate(allRoles, 'key');
+    this.keywords = deduplicate(allKeywords, 'key');
 
     this.authors.forEach(() => {
       this.authorsArray.push(this.fb.control(false));
@@ -254,6 +278,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     this.educationalRoles.forEach(() => {
       this.educationalRolesArray.push(this.fb.control(false));
+    });
+
+    this.keywords.forEach(() => {
+      this.keywordsArray.push(this.fb.control(false));
     });
   }
 
@@ -287,6 +315,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.filters.educationalRoles = this.filters.value.educationalRoles
         .map((checked: boolean, index: number) => checked ? this.educationalRoles[index].key : null)
+        .filter((value: string) => value !== null);
+
+      searchParams.filters.keywords = this.filters.value.keywords
+        .map((checked: boolean, index: number) => checked ? this.keywords[index].key : null)
         .filter((value: string) => value !== null);
 
       this.searchSvc.updateSearchResults(searchParams);

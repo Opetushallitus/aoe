@@ -212,6 +212,38 @@
               </div>
             </div>
           </div>
+
+          <div class="filter" formArrayName="keywords">
+            <div class="header" (click)="isCollapsedKeywords = !isCollapsedKeywords">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.keywords.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="keywordsCount > 0">
+                    {{ keywordsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedKeywords" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let keyword of keywordsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="keywords-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="keywords-{{ i }}">
+                  {{ keywords[i].value }}
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="col-md-9">
