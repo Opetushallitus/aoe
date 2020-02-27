@@ -245,15 +245,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalRoles = deduplicate(allRoles, 'key');
 
     this.authors.forEach(() => {
-      this.authorsArray.push(this.fb.control(true));
+      this.authorsArray.push(this.fb.control(false));
     });
 
     this.organizations.forEach(() => {
-      this.organizationsArray.push(this.fb.control(true));
+      this.organizationsArray.push(this.fb.control(false));
     });
 
     this.educationalRoles.forEach(() => {
-      this.educationalRolesArray.push(this.fb.control(true));
+      this.educationalRolesArray.push(this.fb.control(false));
     });
   }
 
