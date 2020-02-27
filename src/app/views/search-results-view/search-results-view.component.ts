@@ -216,6 +216,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   setAvailableFilters(results: SearchResults): void {
+    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
     const allAuthors: string[] = [];
     this.authorsArray.clear();
 
@@ -268,20 +270,44 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalRoles = deduplicate(allRoles, 'key');
     this.keywords = deduplicate(allKeywords, 'key');
 
-    this.authors.forEach(() => {
-      this.authorsArray.push(this.fb.control(false));
+    this.authors.forEach((author: string) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.authors) {
+        state = searchParams.filters.authors.includes(author);
+      }
+
+      this.authorsArray.push(this.fb.control(state));
     });
 
-    this.organizations.forEach(() => {
-      this.organizationsArray.push(this.fb.control(false));
+    this.organizations.forEach((organization) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.organizations) {
+        state = searchParams.filters.organizations.includes(organization.key);
+      }
+
+      this.organizationsArray.push(this.fb.control(state));
     });
 
-    this.educationalRoles.forEach(() => {
-      this.educationalRolesArray.push(this.fb.control(false));
+    this.educationalRoles.forEach((role) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.educationalRoles) {
+        state = searchParams.filters.educationalRoles.includes(role.key);
+      }
+
+      this.educationalRolesArray.push(this.fb.control(state));
     });
 
-    this.keywords.forEach(() => {
-      this.keywordsArray.push(this.fb.control(false));
+    this.keywords.forEach((keyword) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.keywords) {
+        state = searchParams.filters.keywords.includes(keyword.key);
+      }
+
+      this.keywordsArray.push(this.fb.control(state));
     });
   }
 
