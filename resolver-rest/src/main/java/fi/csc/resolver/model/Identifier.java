@@ -10,5 +10,6 @@ public class Identifier {
     private Long educationalMaterialId;
     private Long materialId;
     private String originalFileName;
+    private String fileKey;
 
 }

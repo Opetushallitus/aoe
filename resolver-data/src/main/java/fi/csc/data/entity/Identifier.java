@@ -6,5 +6,6 @@ public interface Identifier {
     Long getEducationalMaterialId();
     Long getMaterialId();
     String getOriginalFileName();
+    String getFileKey();
 
 }
