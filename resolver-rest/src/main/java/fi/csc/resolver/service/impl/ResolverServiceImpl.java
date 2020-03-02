@@ -72,7 +72,7 @@ public class ResolverServiceImpl implements ResolverService {
                 identifiers.forEach(i -> {
                     String hash = generateHash(i);
                     try {
-                        String targetUrl = generateTargetUrl(encodeUrl(i.getOriginalFileName()));
+                        String targetUrl = generateTargetUrl(encodeUrl(i.getFileKey()));
                         Link link = new Link();
                         link.setMetaId(i.getEducationalMaterialId());
                         link.setMaterialId(i.getMaterialId());
@@ -123,7 +123,10 @@ public class ResolverServiceImpl implements ResolverService {
         String decoded = identifier.getEducationalMaterialId() + ":" + identifier.getMaterialId() + ":latest:"
             + identifier.getOriginalFileName();
         String encoded = DigestUtils.sha1Hex(decoded);
-        System.out.println("HASH: " + encoded);
+        System.out.println("EMID: " + identifier.getEducationalMaterialId()
+                + ", MID: " + identifier.getMaterialId()
+                + ", FILE: " + identifier.getOriginalFileName()
+                + ", HASH: " + encoded);
         return encoded;
     }
 
