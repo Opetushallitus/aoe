@@ -7,7 +7,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
-        <relativePath /> <!-- lookup parent from repository -->
+        <relativePath />
     </parent>
 
     <groupId>fi.csc</groupId>
@@ -16,6 +16,15 @@
     <name>resolver-rest</name>
     <description>Permanent Link Resolver</description>
     <packaging>jar</packaging>
+
+    <!--
+    <parent>
+        <groupId>fi.csc</groupId>
+        <artifactId>aoe-metadata-utils</artifactId>
+        <version>0.0.1</version>
+        <relativePath>..</relativePath>
+    </parent>
+    -->
 
     <properties>
         <!--<docker.image.prefix>aoe-metadata-provider</docker.image.prefix>

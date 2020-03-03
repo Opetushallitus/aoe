@@ -131,7 +131,7 @@ public class ResolverServiceImpl implements ResolverService {
     }
 
     private String generateTargetUrl(String encodedRequestUrl) throws URISyntaxException {
-        return new URI("https://demo.aoe.fi/api/download/" + encodedRequestUrl).toString();
+        return new URI( env.getProperty("aoe.material.target-url") + encodedRequestUrl).toString();
     }
 
     private String encodeUrl(String value) throws UnsupportedEncodingException {
