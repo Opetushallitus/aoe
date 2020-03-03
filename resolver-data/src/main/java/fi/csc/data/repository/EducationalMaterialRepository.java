@@ -14,11 +14,12 @@ import java.time.OffsetDateTime;
 @Repository
 public interface EducationalMaterialRepository extends CrudRepository<EducationalMaterial, Long> {
 
-    @Query("SELECT em.id AS educationalMaterialId, m.id AS materialId, r.originalFileName AS originalFileName FROM " +
-        "EducationalMaterial em JOIN em.materials m JOIN m.record r WHERE em.createdAt > :from AND em.createdAt < :until")
+    @Query("SELECT em.id AS educationalMaterialId, m.id AS materialId, r.originalFileName AS originalFileName, " +
+            "r.fileKey AS fileKey FROM EducationalMaterial em JOIN em.materials m JOIN m.record r " +
+            "WHERE em.createdAt > :from AND em.createdAt < :until")
     Page<Identifier> loadIdentifiers(
-        @Param("from") OffsetDateTime from,
-        @Param("until") OffsetDateTime until,
-        Pageable pageRequest);
+            @Param("from") OffsetDateTime from,
+            @Param("until") OffsetDateTime until,
+            Pageable pageRequest);
 
 }
