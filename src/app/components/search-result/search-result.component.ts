@@ -51,8 +51,6 @@ export class SearchResultComponent implements OnInit {
 
     if (description !== '') {
       this.description = description;
-    } else {
-      this.description = this.result.description.find(d => d.description !== '').description;
     }
   }
 }
