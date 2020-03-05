@@ -70,7 +70,6 @@ import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-polic
 import { TermsOfUseComponent } from '@components/terms-of-use/terms-of-use.component';
 import { UserMaterialsViewComponent } from '@views/user-materials-view/user-materials-view.component';
 import { MainViewComponent } from '@views/mainView/main-view.component';
-import { EducationalMaterialsListComponent } from '@components/educational-materials-list/educational-materials-list.component';
 import { EducationalMaterialCardComponent } from '@components/educational-material-card/educational-material-card.component';
 import { PreviewComponent } from '@views/educational-resource-form/tabs/preview/preview.component';
 import { CookieNoticeComponent } from '@components/cookie-notice/cookie-notice.component';
@@ -123,7 +122,6 @@ import { SearchResultComponent } from '@components/search-result/search-result.c
     TermsOfUseViewComponent,
     PrivacyPolicyViewComponent,
     AccessibilityPolicyViewComponent,
-    EducationalMaterialsListComponent,
     EducationalMaterialCardComponent,
     EducationalMaterialViewComponent,
     EducationalMaterialPreviewComponent,
