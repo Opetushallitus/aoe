@@ -1,29 +1,49 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
   <div class="container-fluid">
-    <a class="navbar-brand" [routerLink]="['/']">
+    <a class="navbar-brand" routerLink="/etusivu">
       <img src="assets/img/aoefi_logo_nega.png" [alt]="brand[translate.currentLang].alt" class="img-fluid">
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" [attr.aria-label]="'navigation.toggler.aria.label' | translate">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#main-navbar"
+      aria-controls="main-navbar"
+      aria-expanded="false"
+      [attr.aria-label]="'navigation.toggler.aria.label' | translate"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/etusivu']" [routerLinkActive]="['active']">{{ 'navigation.home' | translate }}</a>
+          <a class="nav-link" routerLink="/etusivu" routerLinkActive="active">
+            {{ 'navigation.home' | translate }}
+          </a>
         </li>
         <li class="nav-item" *ngIf="authSvc.hasUserdata()">
-          <a class="nav-link" [routerLink]="['/omat-oppimateriaalit']" [routerLinkActive]="['active']">{{ 'navigation.myMaterials' | translate }}</a>
+          <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
+            {{ 'navigation.myMaterials' | translate }}
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/lisatietoa']" [routerLinkActive]="['active']">{{ 'navigation.info' | translate }}</a>
+          <a class="nav-link" routerLink="/lisatietoa" routerLinkActive="active">
+            {{ 'navigation.info' | translate }}
+          </a>
         </li>
       </ul>
 
       <ul class="nav ml-auto nav-languages">
         <li class="nav-item" *ngFor="let lang of translate.getLangs()">
-          <button class="btn btn-link nav-link" (click)="changeLanguage(lang)" [ngClass]="translate.currentLang === lang ? 'active' : ''">{{ lang | uppercase }}</button>
+          <button
+            class="btn btn-link nav-link"
+            (click)="changeLanguage(lang)"
+            [ngClass]="translate.currentLang === lang ? 'active' : ''"
+          >
+            {{ lang | uppercase }}
+          </button>
         </li>
       </ul>
 
@@ -54,17 +74,25 @@
 
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/kayttoehdot']">{{ 'navigation.termsOfUse' | translate }}</a>
+            <a class="nav-link" routerLink="/kayttoehdot">
+              {{ 'navigation.termsOfUse' | translate }}
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/tietosuojailmoitus']">{{ 'navigation.privacyPolicy' | translate }}</a>
+            <a class="nav-link" routerLink="/tietosuojailmoitus">
+              {{ 'navigation.privacyPolicy' | translate }}
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/saavutettavuusseloste']">{{ 'navigation.accessibilityPolicy' | translate }}</a>
+            <a class="nav-link" routerLink="/saavutettavuusseloste">
+              {{ 'navigation.accessibilityPolicy' | translate }}
+            </a>
           </li>
         </ul>
 
-        <a class="nav-link" href="https://link.webropolsurveys.com/S/3580E5A216266683" target="_blank" rel="noopener">{{ 'footer.feedback' | translate }}</a>
+        <a class="nav-link" href="https://link.webropolsurveys.com/S/3580E5A216266683" target="_blank" rel="noopener">
+          {{ 'footer.feedback' | translate }}
+        </a>
       </div>
     </div>
   </div>
