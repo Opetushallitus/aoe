@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-import { FAQGeneral } from '../../mocks/demo/faq.general.mock';
-import { FAQMaterial } from '../../mocks/demo/faq.material.mock';
-import { FAQOrganisation } from '../../mocks/demo/faq.organisation.mock';
+import { FAQGeneral } from '../../mocks/faq.general.mock';
+import { FAQMaterial } from '../../mocks/faq.material.mock';
+import { FAQOrganisation } from '../../mocks/faq.organisation.mock';
 
 @Component({
   selector: 'app-help-view',
