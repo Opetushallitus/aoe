@@ -132,6 +132,10 @@ h2 {
 
   .navbar-brand {
     color: $white;
+
+    img {
+      max-height: 60px;
+    }
   }
 
   .nav-link {

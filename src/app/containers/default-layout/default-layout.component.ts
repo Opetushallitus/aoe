@@ -44,6 +44,18 @@ export class DefaultLayoutComponent {
     },
   };
 
+  brand = {
+    fi: {
+      alt: 'Avointen oppimateriaalien kirjasto',
+    },
+    en: {
+      alt: 'Library of Open Educational Resources',
+    },
+    sv: {
+      alt: 'Biblioteket för öppna lärresurser',
+    },
+  };
+
   showNotice = true;
   showMaintenanceAlert = false;
 
