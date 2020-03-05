@@ -525,6 +525,7 @@
       "results": "tulosta"
     },
     "filters": {
+      "submit": "Rajaa",
       "educationalLevels": {
         "title": "Koulutusaste"
       },

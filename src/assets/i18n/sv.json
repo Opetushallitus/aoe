@@ -525,6 +525,7 @@
       "results": "resultat"
     },
     "filters": {
+      "submit": "Begränsa",
       "educationalLevels": {
         "title": "Utbildningsstadium"
       },

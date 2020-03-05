@@ -525,6 +525,7 @@
       "results": "results"
     },
     "filters": {
+      "submit": "Narrow",
       "educationalLevels": {
         "title": "Educational Level"
       },
