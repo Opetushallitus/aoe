@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="18px" height="12px" viewBox="0 0 18 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
-    <title>ic_video_black</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Materiaalityyppi/Video" transform="translate(-3.000000, -6.000000)">
-            <g id="ic_video_black">
-                <g id="Icon-24px">
-                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                    <path d="M17,10.5 L17,7 C17,6.45 16.55,6 16,6 L4,6 C3.45,6 3,6.45 3,7 L3,17 C3,17.55 3.45,18 4,18 L16,18 C16.55,18 17,17.55 17,17 L17,13.5 L21,17.5 L21,6.5 L17,10.5 L17,10.5 Z" id="Shape" fill="#000000"></path>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.11111,0,0,1.08333,-3.33333,-3)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Video" serif:id="Materiaalityyppi/Video">
+                <g id="ic_video_black">
+                    <g id="Icon-24px">
+                        <path id="Shape" d="M0,0L24,0L24,24L0,24L0,0Z" style="fill:none;"/>
+                        <path id="Shape1" serif:id="Shape" d="M17,10.5L17,7C17,6.45 16.55,6 16,6L4,6C3.45,6 3,6.45 3,7L3,17C3,17.55 3.45,18 4,18L16,18C16.55,18 17,17.55 17,17L17,13.5L21,17.5L21,6.5L17,10.5Z"/>
+                    </g>
                 </g>
             </g>
         </g>

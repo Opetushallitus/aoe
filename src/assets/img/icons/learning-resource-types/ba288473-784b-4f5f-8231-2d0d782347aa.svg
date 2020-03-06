@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="16px" viewBox="0 0 24 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
-    <title>ic_projekti_black</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Materiaalityyppi/Projekti" transform="translate(0.000000, -4.000000)">
-            <g id="ic_projekti_black">
-                <path d="M22.75,15 L19.5,15 L19.5,12 C19.5,11.724 19.276,11.5 19,11.5 L12.583,11.5 L12.583,9 L15.833,9 C16.521,9 17.083,8.438 17.083,7.75 L17.083,5.25 C17.083,4.562 16.521,4 15.833,4 L8.333,4 C7.646,4 7.083,4.562 7.083,5.25 L7.083,7.75 C7.083,8.438 7.646,9 8.333,9 L11.583,9 L11.583,11.5 L5,11.5 C4.724,11.5 4.5,11.724 4.5,12 L4.5,15 L1.25,15 C0.563,15 0,15.562 0,16.25 L0,18.75 C0,19.437 0.563,20 1.25,20 L8.75,20 C9.437,20 10,19.437 10,18.75 L10,16.25 C10,15.562 9.437,15 8.75,15 L5.5,15 L5.5,12.5 L18.5,12.5 L18.5,15 L15.25,15 C14.562,15 14,15.562 14,16.25 L14,18.75 C14,19.437 14.562,20 15.25,20 L22.75,20 C23.437,20 24,19.437 24,18.75 L24,16.25 C24,15.562 23.437,15 22.75,15" id="Fill-1" fill="#000000"></path>
-                <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.833333,0,0,0.8125,0,0.25)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Projekti" serif:id="Materiaalityyppi/Projekti">
+                <g id="ic_projekti_black">
+                    <path id="Fill-1" d="M22.75,15L19.5,15L19.5,12C19.5,11.724 19.276,11.5 19,11.5L12.583,11.5L12.583,9L15.833,9C16.521,9 17.083,8.438 17.083,7.75L17.083,5.25C17.083,4.562 16.521,4 15.833,4L8.333,4C7.646,4 7.083,4.562 7.083,5.25L7.083,7.75C7.083,8.438 7.646,9 8.333,9L11.583,9L11.583,11.5L5,11.5C4.724,11.5 4.5,11.724 4.5,12L4.5,15L1.25,15C0.563,15 0,15.562 0,16.25L0,18.75C0,19.437 0.563,20 1.25,20L8.75,20C9.437,20 10,19.437 10,18.75L10,16.25C10,15.562 9.437,15 8.75,15L5.5,15L5.5,12.5L18.5,12.5L18.5,15L15.25,15C14.562,15 14,15.562 14,16.25L14,18.75C14,19.437 14.562,20 15.25,20L22.75,20C23.437,20 24,19.437 24,18.75L24,16.25C24,15.562 23.437,15 22.75,15"/>
+                    <rect id="Rectangle" x="0" y="0" width="24" height="24" style="fill:none;"/>
+                </g>
             </g>
         </g>
     </g>

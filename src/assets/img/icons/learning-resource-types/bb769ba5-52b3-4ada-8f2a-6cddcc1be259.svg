@@ -1,24 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="23px" viewBox="0 0 14 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59 (86127) - https://sketch.com -->
-    <title>ic_kartta_black</title>
-    <desc>Created with Sketch.</desc>
-    <defs>
-        <polygon id="path-1" points="0 0.825 13.581 0.825 13.581 20.9042 0 20.9042"></polygon>
-    </defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Materiaalityyppi/Kartta" transform="translate(-5.000000, -1.000000)">
-            <g id="ic_kartta_black">
-                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                <g id="Group-6" transform="translate(5.000000, 0.000000)">
-                    <g id="Group-3" transform="translate(0.000000, 0.175200)">
-                        <mask id="mask-2" fill="white">
-                            <use xlink:href="#path-1"></use>
-                        </mask>
-                        <g id="Clip-2"></g>
-                        <path d="M6.7903,11.4702 C4.8133,11.4702 3.2103,9.8652 3.2103,7.8852 C3.2103,5.9052 4.8133,4.2992 6.7903,4.2992 C8.7683,4.2992 10.3703,5.9052 10.3703,7.8852 C10.3703,9.8652 8.7683,11.4702 6.7903,11.4702 M6.7903,0.8242 C3.0403,0.8242 -0.0007,3.8692 -0.0007,7.6252 C-0.0007,14.0382 6.7903,20.9042 6.7903,20.9042 C6.7903,20.9042 13.5813,14.0382 13.5813,7.6252 C13.5813,3.8692 10.5403,0.8242 6.7903,0.8242" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.857143,0,0,0.869565,-0.285714,-0.869565)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Kartta" serif:id="Materiaalityyppi/Kartta">
+                <g id="ic_kartta_black">
+                    <path id="Shape" d="M0,0L24,0L24,24L0,24L0,0Z" style="fill:none;"/>
+                    <g id="Group-6" transform="matrix(1,0,0,1,5,0)">
+                        <g id="Group-3" transform="matrix(1,0,0,1,0,0.1752)">
+                            <path id="Fill-1" d="M6.79,11.47C4.813,11.47 3.21,9.865 3.21,7.885C3.21,5.905 4.813,4.299 6.79,4.299C8.768,4.299 10.37,5.905 10.37,7.885C10.37,9.865 8.768,11.47 6.79,11.47M6.79,0.824C3.04,0.824 -0.001,3.869 -0.001,7.625C-0.001,14.038 6.79,20.904 6.79,20.904C6.79,20.904 13.581,14.038 13.581,7.625C13.581,3.869 10.54,0.824 6.79,0.824"/>
+                        </g>
+                        <path id="Fill-4" d="M9.72,19.198C9.49,19.496 9.271,19.768 9.062,20.021C9.936,20.302 10.345,20.692 10.345,20.935C10.345,21.428 8.928,22.175 6.791,22.175C4.654,22.175 3.237,21.428 3.237,20.935C3.237,20.692 3.646,20.302 4.519,20.021C4.311,19.768 4.093,19.496 3.862,19.198C2.838,19.605 2.237,20.223 2.237,20.935C2.237,22.389 4.582,23.175 6.791,23.175C8.999,23.175 11.345,22.389 11.345,20.935C11.345,20.223 10.743,19.605 9.72,19.198"/>
                     </g>
-                    <path d="M9.7195,19.1982 C9.4895,19.4962 9.2705,19.7682 9.0615,20.0212 C9.9355,20.3022 10.3445,20.6922 10.3445,20.9352 C10.3445,21.4282 8.9275,22.1752 6.7905,22.1752 C4.6535,22.1752 3.2365,21.4282 3.2365,20.9352 C3.2365,20.6922 3.6455,20.3022 4.5185,20.0212 C4.3105,19.7682 4.0925,19.4962 3.8615,19.1982 C2.8385,19.6052 2.2365,20.2232 2.2365,20.9352 C2.2365,22.3892 4.5825,23.1752 6.7905,23.1752 C8.9985,23.1752 11.3445,22.3892 11.3445,20.9352 C11.3445,20.2232 10.7425,19.6052 9.7195,19.1982" id="Fill-4" fill="#000000"></path>
                 </g>
             </g>
         </g>
