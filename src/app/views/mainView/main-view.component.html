@@ -60,7 +60,7 @@
         <h2 class="text-center">{{ 'home.recentMaterials.title' | translate }}</h2>
       </div>
 
-      <div class="col-md-4" *ngFor="let material of recentMaterials">
+      <div class="col-md-6 col-lg-4" *ngFor="let material of recentMaterials">
         <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
       </div>
     </div><!-- .row -->
