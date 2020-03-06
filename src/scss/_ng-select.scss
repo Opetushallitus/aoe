@@ -68,7 +68,7 @@ $ng-select-selected: #ebebeb;
     font-weight: $input-font-weight;
     min-height: $input-height;
     line-height: $input-line-height;
-    padding: $input-padding-y $input-padding-x;
+    padding: calc(#{$input-padding-y} - 2.5px) calc(#{$input-padding-x} - 2px);
     align-items: center;
     width: 100%;
 
@@ -119,7 +119,7 @@ $ng-select-selected: #ebebeb;
       .ng-value-container {
         .ng-value {
           font-size: 0.9em;
-          margin-bottom: 5px;
+          margin-bottom: 0;
           background-color: $ng-select-selected;
           border-radius: 2px;
           margin-right: 5px;
