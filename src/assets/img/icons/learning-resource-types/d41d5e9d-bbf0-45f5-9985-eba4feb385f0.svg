@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="14px" height="22px" viewBox="0 0 14 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53 (72520) - https://sketchapp.com -->
-    <title>ic_sovellus_black</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Materiaalityyppi/Sovellus" transform="translate(-5.000000, -1.000000)">
-            <g id="ic_sovellus_black">
-                <g id="Icon-24px">
-                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                    <path d="M17,1.01 L7,1 C5.9,1 5,1.9 5,3 L5,21 C5,22.1 5.9,23 7,23 L17,23 C18.1,23 19,22.1 19,21 L19,3 C19,1.9 18.1,1.01 17,1.01 L17,1.01 Z M17,19 L7,19 L7,5 L17,5 L17,19 L17,19 Z" id="Shape" fill="#000000"></path>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.928571,0,0,0.909091,-1.14286,-0.909091)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Sovellus" serif:id="Materiaalityyppi/Sovellus">
+                <g id="ic_sovellus_black">
+                    <g id="Icon-24px">
+                        <path id="Shape" d="M0,0L24,0L24,24L0,24L0,0Z" style="fill:none;"/>
+                        <path id="Shape1" serif:id="Shape" d="M17,1.01L7,1C5.9,1 5,1.9 5,3L5,21C5,22.1 5.9,23 7,23L17,23C18.1,23 19,22.1 19,21L19,3C19,1.9 18.1,1.01 17,1.01ZM17,19L7,19L7,5L17,5L17,19Z"/>
+                    </g>
                 </g>
             </g>
         </g>
