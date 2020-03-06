@@ -16,7 +16,7 @@
       </div>
 
       <ng-container *ngIf="materials?.length > 0">
-        <div class="col-md-4" *ngFor="let material of materials">
+        <div class="col-md-6 col-lg-4" *ngFor="let material of materials">
           <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
         </div>
       </ng-container>
