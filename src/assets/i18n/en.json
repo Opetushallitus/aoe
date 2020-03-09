@@ -546,6 +546,9 @@
       },
       "keywords": {
         "title": "Keyword"
+      },
+      "languages": {
+        "title": "Language"
       }
     }
   }

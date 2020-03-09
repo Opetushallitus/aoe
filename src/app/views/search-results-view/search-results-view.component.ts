@@ -38,6 +38,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedRoles = true;
   keywords: any[] = [];
   isCollapsedKeywords = true;
+  languages: string[] = [];
+  isCollapsedLanguages = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -63,6 +65,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
+        languages: this.fb.array([]),
       }),
     });
 
@@ -215,6 +218,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.keywordsArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get languagesArray(): FormArray {
+    return this.filters.get('languages') as FormArray;
+  }
+
+  get languagesCount(): number {
+    return this.languagesArray.value.filter((v: boolean) => v === true).length;
+  }
+
   setAvailableFilters(results: SearchResults): void {
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
@@ -229,6 +240,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     const allKeywords: any[] = [];
     this.keywordsArray.clear();
+
+    const allLanguages: string[] = [];
+    this.languagesArray.clear();
 
     results.results.forEach((result: SearchResult) => {
       // authors and organizations
@@ -262,6 +276,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           value: keyword.value,
         });
       });
+
+      // languages
+      result.languages.forEach((language: string) => {
+        allLanguages.push(language.toLowerCase());
+      });
     });
 
     // https://stackoverflow.com/a/14438954
@@ -269,6 +288,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.organizations = deduplicate(allOrganizations, 'key');
     this.educationalRoles = deduplicate(allRoles, 'key');
     this.keywords = deduplicate(allKeywords, 'key');
+    this.languages = [...new Set(allLanguages)];
 
     this.authors.forEach((author: string) => {
       let state = false;
@@ -309,6 +329,16 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.keywordsArray.push(this.fb.control(state));
     });
+
+    this.languages.forEach((language: string) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.languages) {
+        state = searchParams.filters.languages.includes(language);
+      }
+
+      this.languagesArray.push(this.fb.control(state));
+    });
   }
 
   onSubmit(): void {
@@ -346,6 +376,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.filters.keywords = this.filters.value.keywords
         .map((checked: boolean, index: number) => checked ? this.keywords[index].key : null)
         .filter((value: string) => value !== null);
+
+      searchParams.filters.languages = this.filters.value.languages
+        .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
+        .filter((language: string) => language !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
     }
