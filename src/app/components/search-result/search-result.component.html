@@ -28,7 +28,7 @@
             {{ 'search.results.open' | translate }}
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="result.hasDownloadableFiles">
           <a [href]="downloadUrl" download class="nav-link">
             <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
             {{ 'search.results.download' | translate }}
