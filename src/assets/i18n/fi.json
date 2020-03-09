@@ -546,6 +546,9 @@
       },
       "keywords": {
         "title": "Avainsana"
+      },
+      "languages": {
+        "title": "Kieli"
       }
     }
   }

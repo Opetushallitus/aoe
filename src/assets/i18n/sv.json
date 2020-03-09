@@ -546,6 +546,9 @@
       },
       "keywords": {
         "title": "Nyckelord"
+      },
+      "languages": {
+        "title": "Språk"
       }
     }
   }
