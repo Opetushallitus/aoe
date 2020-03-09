@@ -549,6 +549,9 @@
       },
       "languages": {
         "title": "Språk"
+      },
+      "teaches": {
+        "title": "Mål och innehållsområden"
       }
     }
   }
