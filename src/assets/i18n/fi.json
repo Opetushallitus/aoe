@@ -549,6 +549,9 @@
       },
       "languages": {
         "title": "Kieli"
+      },
+      "teaches": {
+        "title": "Tavoite ja sisältöalue"
       }
     }
   }

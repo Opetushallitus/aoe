@@ -40,6 +40,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedKeywords = true;
   languages: string[] = [];
   isCollapsedLanguages = true;
+  teaches: any[] = [];
+  isCollapsedTeaches = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -66,6 +68,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
         languages: this.fb.array([]),
+        teaches: this.fb.array([]),
       }),
     });
 
@@ -162,7 +165,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       + this.organizationsCount
       + this.educationalRolesCount
       + this.keywordsCount
-      + this.languagesCount;
+      + this.languagesCount
+      + this.teachesCount;
   }
 
   get educationalLevelsArray(): FormArray {
@@ -227,6 +231,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.languagesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get teachesArray(): FormArray {
+    return this.filters.get('teaches') as FormArray;
+  }
+
+  get teachesCount(): number {
+    return this.teachesArray.value.filter((v: boolean) => v === true).length;
+  }
+
   setAvailableFilters(results: SearchResults): void {
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
@@ -244,6 +256,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     const allLanguages: string[] = [];
     this.languagesArray.clear();
+
+    const allTeaches: any[] = [];
+    this.teachesArray.clear();
 
     results.results.forEach((result: SearchResult) => {
       // authors and organizations
@@ -282,6 +297,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       result.languages.forEach((language: string) => {
         allLanguages.push(language.toLowerCase());
       });
+
+      // teaches
+      result.teaches.forEach((teach) => {
+        allTeaches.push(teach);
+      });
     });
 
     // https://stackoverflow.com/a/14438954
@@ -290,6 +310,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalRoles = deduplicate(allRoles, 'key');
     this.keywords = deduplicate(allKeywords, 'key');
     this.languages = [...new Set(allLanguages)];
+    this.teaches = deduplicate(allTeaches, 'key');
 
     this.authors.forEach((author: string) => {
       let state = false;
@@ -340,6 +361,16 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.languagesArray.push(this.fb.control(state));
     });
+
+    this.teaches.forEach((teach) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.teaches) {
+        state = searchParams.filters.teaches.includes(teach.key);
+      }
+
+      this.teachesArray.push(this.fb.control(state));
+    });
   }
 
   onSubmit(): void {
@@ -381,6 +412,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.filters.languages = this.filters.value.languages
         .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
         .filter((language: string) => language !== null);
+
+      searchParams.filters.teaches = this.filters.value.teaches
+        .map((checked: boolean, index: number) => checked ? this.teaches[index].key : null)
+        .filter((teach: string) => teach !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
     }
