@@ -39,6 +39,16 @@ export interface SearchResult {
     keywordkey: string;
   }];
   languages: string[];
+  educationalSubjects?: [{
+    key: number | string;
+    source: string;
+    value: string;
+  }];
+  teaches?: [{
+    key: number | string;
+    value: string;
+  }];
+  hasDownloadableFiles: boolean;
   thumbnail?: {
     id: number | string;
     filepath: string;
