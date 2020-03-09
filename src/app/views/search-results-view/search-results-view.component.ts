@@ -161,7 +161,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       + this.authorsCount
       + this.organizationsCount
       + this.educationalRolesCount
-      + this.keywordsCount;
+      + this.keywordsCount
+      + this.languagesCount;
   }
 
   get educationalLevelsArray(): FormArray {
