@@ -8,7 +8,6 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { deduplicate } from '../../shared/shared.module';
 
 @Component({
@@ -25,8 +24,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
   isCollapsedLevels = true;
-  educationalSubjectSubscription: Subscription;
-  educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   isCollapsedTypes = true;
@@ -40,6 +37,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedKeywords = true;
   languages: string[] = [];
   isCollapsedLanguages = true;
+  subjects: any[] = [];
+  isCollapsedSubjects = true;
   teaches: any[] = [];
   isCollapsedTeaches = true;
 
@@ -53,7 +52,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.translate.onLangChange.subscribe(() => {
       this.koodistoProxySvc.updateEducationalLevels();
-      this.koodistoProxySvc.updateSubjectFilters();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
@@ -61,13 +59,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       keywords: this.fb.control(null),
       filters: this.fb.group({
         educationalLevels: this.fb.array([]),
-        educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.array([]),
         authors: this.fb.array([]),
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
         languages: this.fb.array([]),
+        educationalSubjects: this.fb.array([]),
         teaches: this.fb.array([]),
       }),
     });
@@ -118,12 +116,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
-    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$
-      .subscribe((filters: SubjectFilter[]) => {
-        this.educationalSubjects = filters;
-      });
-    this.koodistoProxySvc.updateSubjectFilters();
-
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
@@ -146,7 +138,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.resultSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
-    this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
@@ -166,6 +157,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       + this.educationalRolesCount
       + this.keywordsCount
       + this.languagesCount
+      + this.subjectsCount
       + this.teachesCount;
   }
 
@@ -231,6 +223,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.languagesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get subjectsArray(): FormArray {
+    return this.filters.get('educationalSubjects') as FormArray;
+  }
+
+  get subjectsCount(): number {
+    return this.subjectsArray.value.filter((v: boolean) => v === true).length;
+  }
+
   get teachesArray(): FormArray {
     return this.filters.get('teaches') as FormArray;
   }
@@ -256,6 +256,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     const allLanguages: string[] = [];
     this.languagesArray.clear();
+
+    const allSubjects: any[] = [];
+    this.subjectsArray.clear();
 
     const allTeaches: any[] = [];
     this.teachesArray.clear();
@@ -298,6 +301,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         allLanguages.push(language.toLowerCase());
       });
 
+      // subjects
+      result.educationalSubjects.forEach((subject) => {
+        allSubjects.push(subject);
+      });
+
       // teaches
       result.teaches.forEach((teach) => {
         allTeaches.push(teach);
@@ -310,6 +318,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalRoles = deduplicate(allRoles, 'key');
     this.keywords = deduplicate(allKeywords, 'key');
     this.languages = [...new Set(allLanguages)];
+    this.subjects = deduplicate(allSubjects, 'key');
     this.teaches = deduplicate(allTeaches, 'key');
 
     this.authors.forEach((author: string) => {
@@ -362,6 +371,16 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.languagesArray.push(this.fb.control(state));
     });
 
+    this.subjects.forEach((subject) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.educationalSubjects) {
+        state = searchParams.filters.educationalSubjects.includes(subject);
+      }
+
+      this.subjectsArray.push(this.fb.control(state));
+    });
+
     this.teaches.forEach((teach) => {
       let state = false;
 
@@ -412,6 +431,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.filters.languages = this.filters.value.languages
         .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
         .filter((language: string) => language !== null);
+
+      searchParams.filters.educationalSubjects = this.filters.value.educationalSubjects
+        .map((checked: boolean, index: number) => checked ? this.subjects[index].key : null)
+        .filter((subject: string) => subject !== null);
 
       searchParams.filters.teaches = this.filters.value.teaches
         .map((checked: boolean, index: number) => checked ? this.teaches[index].key : null)
