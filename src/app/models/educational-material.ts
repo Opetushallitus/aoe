@@ -68,4 +68,5 @@ export interface EducationalMaterial {
     url: string;
     name: string;
   }];
+  owner: boolean;
 }
