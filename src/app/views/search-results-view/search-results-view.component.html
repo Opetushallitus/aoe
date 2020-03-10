@@ -277,6 +277,38 @@
             </div>
           </div>
 
+          <div class="filter" formArrayName="educationalSubjects" *ngIf="subjectsArray.controls.length > 0">
+            <div class="header" (click)="isCollapsedSubjects = !isCollapsedSubjects">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.subjects.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="subjectsCount > 0">
+                    {{ subjectsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedSubjects ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedSubjects" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let subject of subjectsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="subjects-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="subjects-{{ i }}">
+                  {{ subjects[i].value }}
+                </label>
+              </div>
+            </div>
+          </div>
+
           <div class="filter" formArrayName="teaches" *ngIf="teachesArray.controls.length > 0">
             <div class="header" (click)="isCollapsedTeaches = !isCollapsedTeaches">
               <div class="row align-items-center">
