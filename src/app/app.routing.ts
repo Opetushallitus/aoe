@@ -20,6 +20,7 @@ import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
+import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
 
 export const routes: Routes = [
   {
@@ -76,6 +77,12 @@ export const routes: Routes = [
         component: EducationalResourceFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard, FileUploadGuard ],
         runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'muokkaa-oppimateriaalia/:materialId',
+        component: EducationalMaterialEditFormComponent,
+        /*canActivate: [],
+        runGuardsAndResolvers: 'always',*/
       },
       {
         path: 'kayttoehdot',

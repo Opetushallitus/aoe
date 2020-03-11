@@ -79,6 +79,7 @@ import { EducationalMaterialEmbedViewComponent } from '@views/educational-materi
 import { SearchComponent } from '@components/search/search.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
 import { SearchResultComponent } from '@components/search-result/search-result.component';
+import { EducationalMaterialEditFormComponent } from './views/educational-material-edit-form/educational-material-edit-form.component';
 
 @NgModule({
   imports: [
@@ -151,6 +152,7 @@ import { SearchResultComponent } from '@components/search-result/search-result.c
     SearchComponent,
     SearchResultsViewComponent,
     SearchResultComponent,
+    EducationalMaterialEditFormComponent,
   ],
   providers: [
     {
