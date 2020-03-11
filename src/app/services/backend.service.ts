@@ -251,6 +251,7 @@ export class BackendService {
               url: r.url,
               name: r.materialname,
             })),
+          owner: res.owner,
         };
       })
     );
