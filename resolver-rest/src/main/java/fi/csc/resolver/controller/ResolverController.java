@@ -25,16 +25,31 @@ public class ResolverController {
         this.resolverService = resolverService;
     }
 
+    /**
+     * Service health check endpoint.
+     * @return 200 OK on success.
+     */
     @GetMapping("/health")
     public ResponseEntity<Void> health() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Trigger permanent link update after last checkpoint.
+     * @return 200 OK on success.
+     */
     @GetMapping("/update")
     public ResponseEntity<Void> updateLinks() {
+        this.resolverService.populateLinkResources();
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Request redirect target URL for a permanent link.
+     * @param hash SHA-1 encoded hash to identify redirect target.
+     * @return 302 Found with Location header on success.
+     * @throws URISyntaxException Invalid link URL provided.
+     */
     @GetMapping("/link/{hash}")
     public ResponseEntity<Void> redirectToResource(@PathVariable String hash) throws URISyntaxException {
         List<Link> linkList = this.resolverService.resolveIdentifier(hash);

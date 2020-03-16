@@ -16,7 +16,7 @@ public interface EducationalMaterialRepository extends CrudRepository<Educationa
 
     @Query("SELECT em.id AS educationalMaterialId, m.id AS materialId, r.originalFileName AS originalFileName, " +
             "r.fileKey AS fileKey FROM EducationalMaterial em JOIN em.materials m JOIN m.record r " +
-            "WHERE em.createdAt > :from AND em.createdAt < :until")
+            "WHERE em.createdAt > :from AND em.createdAt <= :until")
     Page<Identifier> loadIdentifiers(
             @Param("from") OffsetDateTime from,
             @Param("until") OffsetDateTime until,
