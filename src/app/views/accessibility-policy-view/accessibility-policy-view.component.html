@@ -7,8 +7,8 @@
             <ng-container *ngSwitchDefault>
               <h1>Saavutettavuusseloste</h1>
               <p>Saavutettavuudella tarkoitetaan, että verkkosivut ja mobiilisovellukset sekä niiden sisällöt ovat sellaisia, että kuka tahansa voisi niitä käyttää ja ymmärtää mitä niissä sanotaan.</p>
-              <p>Avointen oppimateriaalien kirjastoa (aoe.fi) koskee <a href="https://www.saavutettavuusvaatimukset.fi/lait-ja-standardit/" target="_blank" rel="noopener">laki digitaalisten palvelujen tarjoamisesta</a>, joka pohjautuu <a href="https://vm.fi/saavutettavuusdirektiivi" target="_blank" rel="noopener">EU:n saavutettavuusdirektiiviin</a>. Lain mukaan kaikilla tulee olla tasavertaiset mahdollisuudet käyttää digitaalisia palveluita.</p>
-              <p><a routerLink="/etusivu">AOE.fi</a>-sivusto on julkaistu vuonna 2019 ja saavutettavuus on arvioitu ulkopuolisen konsultin (Avaava oy) toimesta helmikuussa 2020, jolloin myös tämä seloste on päivitetty. Saavutettavuutta arvioidaan jatkuvasti uusia ominaisuuksia kehitettäessä.</p>
+              <p>Avointen oppimateriaalien kirjastoa (aoe.fi) koskee <a href="https://www.saavutettavuusvaatimukset.fi/lait-ja-standardit/" target="_blank" rel="noopener noreferrer">laki digitaalisten palvelujen tarjoamisesta</a>, joka pohjautuu <a href="https://vm.fi/saavutettavuusdirektiivi" target="_blank" rel="noopener noreferrer">EU:n saavutettavuusdirektiiviin</a>. Lain mukaan kaikilla tulee olla tasavertaiset mahdollisuudet käyttää digitaalisia palveluita.</p>
+              <p>Aoe.fi-sivusto on julkaistu vuonna 2019 ja saavutettavuus on arvioitu ulkopuolisen konsultin (Avaava oy) toimesta helmikuussa 2020, jolloin myös tämä seloste on päivitetty. Saavutettavuutta arvioidaan jatkuvasti uusia ominaisuuksia kehitettäessä.</p>
               <p>Tämän verkkosivuston tulee noudattaa WCAG 2.1 –kriteeristön AA-tasoa. Saavutettavuus on huomioita luotaessa sivuston navigaatiota, värimaailmaa ja toiminnallisuuksia.</p>
 
               <h2>Aoe.fi-sivuston saavutettavuuden tila</h2>
@@ -20,7 +20,7 @@
               <p>Sivustolla on lisäksi joitain pienempiä puutteita saavutettavuudessa. Näitä ovat oppimateriaalien rakenteen välittyminen ruudunlukijoille tarkoituksenmukaisesti välilehtinä, näppäimistökohdistimen näkyminen kaikissa tilanteissa samalla tavalla sekä ruudunlukijalle välittyvä tieto että haitari on sulkeutunut. Nämä saavutettavuuspuutteet on otettu huomioon ja niiden korjaaminen on suunniteltu ja aikataulutettu.</p>
 
               <h2>Oppimateriaalien saavutettavuus</h2>
-              <p>Kunkin sivustolla julkaistun oppimateriaalin saavutettavuudesta vastaa materiaalin tekijät. Oppimateriaaleihin voidaan merkitä miten nämä vastaavat eri saavutettavuushaasteisiin tai mikäli materiaalit ovat jotenkin esteisiä. <a routerLink="/etusivu">Aoe.fi</a>-sivusto myös antaa ohjeita miten huomioida saavutettavuus tehdessä oppimateriaaleja.</p>
+              <p>Kunkin sivustolla julkaistun oppimateriaalin saavutettavuudesta vastaa materiaalin tekijät. Oppimateriaaleihin voidaan merkitä miten nämä vastaavat eri saavutettavuushaasteisiin tai mikäli materiaalit ovat jotenkin esteisiä. Aoe.fi-sivusto myös antaa ohjeita miten huomioida saavutettavuus tehdessä oppimateriaaleja.</p>
 
               <h2>Anna palautetta saavutettavuudesta</h2>
               <p>Avointen oppimateriaalien kirjastoa kehitetään ketterästi ja monet käyttökokemusta parantavat ominaisuudet ovat vielä tuloilla. Pyrimme jatkuvasti parantamaan lähestyttävyyttä eri kohderyhmille ja kuulemme mieluusti miten parantaa saavutettavuutta kohdallanne. Palvelun tiimiin saa yhteyden lähettämällä sähköpostia osoitteeseen <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>. Sähköposti saavuttaa palvelun kehitystiimin, joka informoi asiasta palvelun omistajia.</p>
@@ -28,9 +28,67 @@
               <p>Valvontaviranomaisen yhteystiedot:</p>
               <p>Etelä-Suomen aluehallintovirasto<br>
                 Saavutettavuuden valvonnan yksikkö<br>
-                <a href="http://www.saavutettavuusvaatimukset.fi/" target="_blank" rel="noopener">www.saavutettavuusvaatimukset.fi</a><br>
+                <a href="https://www.saavutettavuusvaatimukset.fi/" target="_blank" rel="noopener noreferrer">www.saavutettavuusvaatimukset.fi</a><br>
                 saavutettavuus(at)avi.fi<br>
                 puhelinnumero vaihde 0295 016 000</p>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'en'">
+              <h1>Accessibility statement</h1>
+              <p>Accessibility means that websites and mobile applications and their content are made so that anyone can use and understand them.</p>
+              <p>The Library of Open Educational Resources (aoe.fi) is regulated under <a href="https://www.saavutettavuusvaatimukset.fi/lait-ja-standardit/" target="_blank" rel="noopener noreferrer">the Act on the Provision of Digital Services</a>, which is based on <a href="https://vm.fi/saavutettavuusdirektiivi" target="_blank" rel="noopener noreferrer">the EU Web Accessibility Directive</a>. According to the Act, all people must have equal access to digital services.</p>
+              <p>The aoe.fi website was launched in 2019, and accessibility was assessed by an external consultant (Avaava Oy) in February 2020, when this statement was also updated. Accessibility is continuously assessed when developing new features.</p>
+              <p>This website must conform with the AA level of the WCAG 2.1 standard. Accessibility is a consideration when creating site navigation, colour palette and functionality.</p>
+
+              <h2>Accessibility status of the aoe.fi website</h2>
+              <p>The aoe.fi website partly meets the legal requirements.</p>
+
+              <h2>Non-accessible content</h2>
+              <p>The most significant shortcomings in accessibility are associated with an inconsistent heading hierarchy and video and audio file management. An inconsistent heading hierarchy means that the hierarchy on some pages skips some of the subheadings, so that the user does not have a clear picture of the page structure on a screen reader and some pages do not have a unique page title. This lack of accessibility has been taken into account and added to the service backlog for correction.</p>
+              <p>Video and audio file management problems occur on some browsers with some screen readers. This problem occurs with videos on Firefox and, in some instances, Chrome browsers, and with audio files on Chrome and Safari browsers. Videos and audio files can be played and stopped, but control functions such as forwarding and rewinding may occasionally be unavailable. We use the browser's own ability to read files to play video and audio files. We have no control over how effectively browsers take accessibility into account, but we will determine if there is a more accessible model for playing video and audio files. All of the video and audio files in the service can be downloaded to the user’s own computer and played on their favorite audio and video file players. Likewise, text files can be downloaded and read by applications of their choice, thus making some materials more accessible.</p>
+              <p>There are also some minor shortcomings in accessibility on the website. These include informing  the structure of learning materials to screen readers in the appropriate tab form, ensuring that the keyboard cursor appears the same in all case and informing the screen reader that the range is closed. These shortcomings in accessibility have been taken into account and their correction has been planned and scheduled.</p>
+
+              <h2>Accessibility of learning materials</h2>
+              <p>The authors of materials are responsible for the accessibility of learning material published on each website. Learning materials may include information on how they meet different accessibility challenges or if they are somewhat inaccessible. The aoe.fi website also provides instructions on how to take accessibility into account when producing learning materials.</p>
+
+              <h2>Provide feedback on accessibility</h2>
+              <p>The Library of Open Educational Resources is being developed in an agile manner, and many features that improve the user experience are still on the way. We are constantly trying to improve accessibility for different target groups and are happy to hear how we can improve accessibility for you. The service team can be contacted by sending an email to <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>. Your email will be sent to the service development team, which will inform the service owners.</p>
+              <p>If you are not satisfied with the response you have received or you do not receive any response after two weeks, you may submit a notification to the Regional State Administrative Agency for Southern Finland. The website of the Regional State Administrative Agency for Southern Finland provides detailed information on how notifications are to be made and how the matter will be handled.</p>
+              <p>Contact details of the supervisory authority:</p>
+              <p>Regional State Administrative Agency for Southern Finland<br>
+                Supervision Unit for Accessibility<br>
+                <a href="https://www.saavutettavuusvaatimukset.fi/" target="_blank" rel="noopener noreferrer">www.saavutettavuusvaatimukset.fi</a><br>
+                saavutettavuus(at)avi.fi<br>
+                Tel (switchboard) +358 (0)295 016 000</p>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'sv'">
+              <h1>Tillgänglighetsbeskrivning</h1>
+              <p>Med tillgänglighet avses att webbplatser, mobilapplikationer och deras innehåll är sådana att vem som helst kan använda dem och förstå vad som sägs i dem.</p>
+              <p>Biblioteket för öppna lärresurser (aoe.fi) ska följa <a href="https://www.xn--tillgnglighetskrav-ptb.fi/lagar-och-standarder/" target="_blank" rel="noopener noreferrer">lagen om tillhandahållande av digitala tjänster</a> som baserar sig på <a href="https://vm.fi/sv/tillganglighetsdirektivet" target="_blank" rel="noopener noreferrer">EU:s tillgänglighetsdirektiv</a>. Enligt lagen ska alla ha möjligheter att använda digitala tjänster på lika villkor.</p>
+              <p>Aoe.fi-webbplatsen publicerades 2019 och tillgängligheten har utvärderats av en utomstående konsult (Avaava Oy) i februari 2020 då även den här beskrivningen har uppdaterats. Tillgängligheten utvärderas kontinuerligt då nya egenskaper utvecklas.</p>
+              <p>Den här webbplatsen ska följa AA-nivån i WCAG 2.1-kriterierna. Tillgängligheten ska beaktas då webbplatsens navigation, färgvärld och funktioner skapas.</p>
+
+              <h2>Status hos tillgängligheten för Aoe.fi-webbplatsen</h2>
+              <p>Aoe.fi-webbplatsen uppfyller delvis kraven i lagen.</p>
+
+              <h2>Icke-tillgängligt material</h2>
+              <p>De mest betydande bristerna i tillgängligheten gäller oenhetlig rubrikhierarki och hanteringen av videor och ljudfiler. Med oenhetlig rubrikhierarki menas att rubrikhierarkin på en del av sidorna hoppar över en del av underrubrikerna så att användaren inte får en tydlig bild av sidans struktur med skärmläsaren, dessutom saknar en del sidor en unik sidrubrik. Den här tillgänglighetsbristen har beaktats och lagts till i tjänstens utvecklingskö för korrigering.</p>
+              <p>I hanteringen av videor och ljudfiler förekommer problem med en del av webbläsarna och deras skärmläsare. Problemet gäller webbläsarna Firefox och delvis Chrome i fråga om videor och webbläsarna Chrome och Safari i fråga om ljudfiler. Videor och ljudfiler kan användas och de kan stoppas, men hanteringsverktygen såsom fram- och bakåtspolning kan tidvis försvinna. Vi använder webbläsarens egna förmåga att läsa filer för att spela upp videor och ljudfiler. Vi kan inte påverka hur väl webbläsarna beaktar tillgängligheten, men vi tar reda på om det finns en mer tillgänglig modell för att spela upp video- och ljudfiler. Alla video- och ljudfiler i tjänsten kan laddas ner på den egna enheten och använda med önskad ljud- och videouppspelningsprogram. Även textfilerna kan laddas ner på enheten och läsas med önskat program. En del av materialet kan vara mer tillgängligt på det här sättet.</p>
+              <p>På webbplatsen finns dessutom några mindre brister i tillgängligheter. Dessa är förmedlingen av läromedlens struktur för skärmläsarna på ett ändamålsenligt sätt som flikar, att tangentbordsfokus syns på samma sätt i alla situationer samt information som förmedlas till skärmläsaren om att dragspelet har stängts. Dessa tillgänglighetsbrister har beaktats och korrigeringen av dem har redan planerats och schemalagts.</p>
+
+              <h2>Läromedlens tillgänglighet</h2>
+              <p>Materialets upphovsmän ansvarar för tillgängligheten hos de läromedel som publiceras på webbplatsen. Läromedlen kan markeras med hur de motsvarar olika tillgänglighetsutmaningar eller ifall något material har några hinder. Aoe.fi-webbplatsen ger även anvisningar för hur man kan beakta tillgängligheten i utarbetningen av läromedel.</p>
+
+              <h2>Ge respons om tillgängligheten</h2>
+              <p>Biblioteket för öppna lärresurser utvecklas smidigt och många egenskaper som förbättrar användarupplevelsen är ännu på kommande. Vi strävar ständigt efter att förbättra lättillgängligheten för olika målgrupper och vi hör gärna hur vi kan förbättra tillgängligheten för dig. Tjänstens team kan kontaktas per e-post på adressen <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>. E-posten når tjänstens utvecklingsteam som informerar tjänstens ägare om saken.</p>
+              <p>Om du inte är nöjd med det svar du får eller om du inte får något svar alls inom två veckor kan du göra en anmälan till regionförvaltningsverket i Södra Finland. På webbplatsen för regionförvaltningsverket i Södra Finland berättas noggrant hur anmälan görs och hur ärendet behandlas.</p>
+              <p>Tillsynsmyndighetens kontaktuppgifter:</p>
+              <p>Regionförvaltningsverket i Södra Finland<br>
+                Enheten för tillgänglighetstillsyn<br>
+                <a href="https://www.xn--tillgnglighetskrav-ptb.fi/" target="_blank" rel="noopener noreferrer">www.tillgänglighetskrav.fi</a><br>
+                webbtillganglighet(at)rfv.fi<br>
+                telefonnummer växeln 0295 016 000</p>
             </ng-container>
           </ng-container>
         </article>
