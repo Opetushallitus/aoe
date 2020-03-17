@@ -85,6 +85,12 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',*/
       },
       {
+        path: 'muokkaa-oppimateriaalia/:materialId/:tabId',
+        component: EducationalMaterialEditFormComponent,
+        /*canActivate: [],
+         runGuardsAndResolvers: 'always',*/
+      },
+      {
         path: 'kayttoehdot',
         component: TermsOfUseViewComponent,
         runGuardsAndResolvers: 'always',
