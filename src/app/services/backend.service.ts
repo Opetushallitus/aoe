@@ -27,6 +27,7 @@ export class BackendService {
   lang: string = this.translate.currentLang;
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
+  public editMaterial$ = new Subject<any>();
 
   private static handleError(error: HttpErrorResponse) {
     console.error(error);
@@ -393,6 +394,20 @@ export class BackendService {
       }));
 
       this.uploadedFiles$.next(materials);
+    });
+  }
+
+  /**
+   * Updates edit material.
+   * @param {number} materialId
+   */
+  updateEditMaterial(materialId: number): void {
+    this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((material) => {
+      this.editMaterial$.next(material);
     });
   }
 
