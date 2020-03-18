@@ -130,11 +130,11 @@ public class ResolverServiceImpl implements ResolverService {
         return encoded;
     }
 
-    private String generateTargetUrl(String encodedRequestUrl) throws URISyntaxException {
+    String generateTargetUrl(String encodedRequestUrl) throws URISyntaxException {
         return new URI( env.getProperty("aoe.material.target-url") + encodedRequestUrl).toString();
     }
 
-    private String encodeUrl(String value) throws UnsupportedEncodingException {
+    String encodeUrl(String value) throws UnsupportedEncodingException {
         return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
     }
 }
