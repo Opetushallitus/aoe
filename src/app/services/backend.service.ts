@@ -12,6 +12,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { Attachment } from '@models/backend/attachment';
+import { EducationalMaterialForm } from '@models/educational-material-form';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class BackendService {
   lang: string = this.translate.currentLang;
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
-  public editMaterial$ = new Subject<any>();
+  public editMaterial$ = new Subject<EducationalMaterialForm>();
 
   private static handleError(error: HttpErrorResponse) {
     console.error(error);
