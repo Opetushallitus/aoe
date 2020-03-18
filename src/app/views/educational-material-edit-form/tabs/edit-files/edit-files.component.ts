@@ -71,6 +71,13 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteFile(fileId: number): void {
+    this.backendSvc.deleteFile(fileId).subscribe(
+      (res) => console.log(res),
+      (err) => console.error(err),
+    );
+  }
+
   onSubmit(): void {
     this.submitted = true;
   }

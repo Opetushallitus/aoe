@@ -1,4 +1,4 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="material">
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
@@ -79,4 +79,34 @@
       </div>
     </ng-template>
   </div>
+
+  <ng-container *ngIf="material.files?.length > 0">
+    <h3>{{ 'forms.educationalResource.files.uploadedFiles.title' | translate }}</h3>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}</th>
+        <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}</th>
+        <th scope="col">{{ 'forms.educationalResource.files.uploadedFiles.actions' | translate }}</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <ng-container *ngFor="let file of material.files">
+        <tr>
+          <th scope="row">{{ file.priority + 1 }}</th>
+          <td>{{ file.file }}{{ file.link }}</td>
+          <td>{{ file.language }}</td>
+          <td>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile(+file.id)">
+              {{ 'forms.common.delete' | translate }}
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </ng-container>
 </form>
