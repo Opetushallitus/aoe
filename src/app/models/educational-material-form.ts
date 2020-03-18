@@ -7,9 +7,10 @@ export interface EducationalMaterialForm {
     sv?: string;
     en?: string;
   };
-  files: [
+  files?: [
     {
-      file?: File;
+      id: string;
+      file?: string;
       link?: string;
       language: string;
       displayName: {
@@ -17,9 +18,10 @@ export interface EducationalMaterialForm {
         sv?: string;
         en?: string;
       };
+      priority: number;
       subtitles?: [
         {
-          file: File;
+          file: string;
           default: boolean;
           kind: 'subtitles';
           label: string;
@@ -38,7 +40,10 @@ export interface EducationalMaterialForm {
   authors: [
     {
       author?: string;
-      organization?: string;
+      organization?: {
+        key: string;
+        value: string;
+      };
     }
   ];
   learningResourceTypes: [
@@ -89,10 +94,10 @@ export interface EducationalMaterialForm {
   upperSecondarySchoolObjectives?: AlignmentObjectExtended[];
   upperSecondarySchoolFramework?: string;
   upperSecondarySchoolSubjectsNew?: AlignmentObjectExtended[];
+  suitsAllUpperSecondarySubjectsNew?: boolean;
   upperSecondarySchoolModulesNew?: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew?: AlignmentObjectExtended[];
   upperSecondarySchoolContentsNew?: AlignmentObjectExtended[];
-  suitsAllUpperSecondarySubjectsNew?: boolean;
   vocationalDegrees?: AlignmentObjectExtended[];
   suitsAllVocationalDegrees?: boolean;
   vocationalUnits?: AlignmentObjectExtended[];
