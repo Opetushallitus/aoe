@@ -7,6 +7,8 @@ import fi.csc.resolver.model.TimeIntervalRequest;
 import fi.csc.resolver.repository.LinkRepository;
 import fi.csc.resolver.service.ResolverService;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -32,6 +34,8 @@ import java.util.Optional;
 
 @Service
 public class ResolverServiceImpl implements ResolverService {
+
+    private final Logger LOG = LoggerFactory.getLogger(ResolverServiceImpl.class);
 
     private Environment env;
     private LinkRepository linkRepository;
@@ -99,16 +103,16 @@ public class ResolverServiceImpl implements ResolverService {
     }
 
     @Retryable(maxAttempts = 5, value = {ConnectException.class, RuntimeException.class}, backoff = @Backoff(delay = 5000))
-    private Page<Identifier> identifierRequest(int currentPage, int pageSize, LocalDateTime now) {
+    Page<Identifier> identifierRequest(int currentPage, int pageSize, LocalDateTime now) {
         ResponseEntity<RestPageImpl<Identifier>> response = restTemplate.exchange(
             env.getProperty("aoe.resolver-data.url") + "/rest/identifiers",
             HttpMethod.POST,
             getRequestEntity(currentPage, pageSize, this.syncPoint, now),
-            new ParameterizedTypeReference<>(){});
+            new ParameterizedTypeReference<>() {});
         return response.getBody();
     }
 
-    private HttpEntity<TimeIntervalRequest> getRequestEntity(int currentPage, int pageSize, LocalDateTime from, LocalDateTime until) {
+    HttpEntity<TimeIntervalRequest> getRequestEntity(int currentPage, int pageSize, LocalDateTime from, LocalDateTime until) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("Accept", MediaType.APPLICATION_JSON_VALUE);
         TimeIntervalRequest timeIntervalRequest = new TimeIntervalRequest();
@@ -119,19 +123,19 @@ public class ResolverServiceImpl implements ResolverService {
         return new HttpEntity<>(timeIntervalRequest, requestHeaders);
     }
 
-    private String generateHash(Identifier identifier) {
+    String generateHash(Identifier identifier) {
         String decoded = identifier.getEducationalMaterialId() + ":" + identifier.getMaterialId() + ":latest:"
             + identifier.getOriginalFileName();
         String encoded = DigestUtils.sha1Hex(decoded);
-        System.out.println("EMID: " + identifier.getEducationalMaterialId()
-                + ", MID: " + identifier.getMaterialId()
-                + ", FILE: " + identifier.getOriginalFileName()
-                + ", HASH: " + encoded);
+        LOG.debug("EMID: " + identifier.getEducationalMaterialId()
+            + ", MID: " + identifier.getMaterialId()
+            + ", FILE: " + identifier.getOriginalFileName()
+            + ", HASH: " + encoded);
         return encoded;
     }
 
     String generateTargetUrl(String encodedRequestUrl) throws URISyntaxException {
-        return new URI( env.getProperty("aoe.material.target-url") + encodedRequestUrl).toString();
+        return new URI(env.getProperty("aoe.material.target-url") + encodedRequestUrl).toString();
     }
 
     String encodeUrl(String value) throws UnsupportedEncodingException {
