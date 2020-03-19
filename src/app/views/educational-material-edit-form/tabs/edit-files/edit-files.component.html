@@ -109,4 +109,21 @@
       </tbody>
     </table>
   </ng-container>
+
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="cancel()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
 </form>
