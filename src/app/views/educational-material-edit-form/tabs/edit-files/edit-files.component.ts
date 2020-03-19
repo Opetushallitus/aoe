@@ -80,5 +80,17 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.submitted = true;
+
+    if (this.form.valid) {
+      console.log('form is valid');
+
+      if (this.form.pristine) {
+        console.log('form is pristine');
+      }
+    }
+  }
+
+  cancel(): void {
+    // @todo: show cancel confirmation dialog
   }
 }
