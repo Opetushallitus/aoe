@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -48,7 +49,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
       this.material = material;
 
-      this.form.patchValue(this.material);
+      if (sessionStorage.getItem(environment.editMaterial) !== null) {
+        this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
+      } else {
+        this.form.patchValue(this.material);
+      }
     });
   }
 
@@ -93,12 +98,14 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.valid) {
-      console.log('form is valid');
+    if (this.form.valid && !this.form.pristine) {
+      const changedMaterial = sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
-      if (this.form.pristine) {
-        console.log('form is pristine');
-      }
+      changedMaterial.name = this.form.get('name').value;
+
+      sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
     }
   }
 
