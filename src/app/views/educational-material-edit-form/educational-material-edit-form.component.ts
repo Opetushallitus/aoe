@@ -35,7 +35,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.backendSvc.updateEditMaterial(+this.materialId);
 
     this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
-      this.tabId = params.get('tabId');
+      this.tabId = +params.get('tabId');
 
       if (!this.tabId) {
         this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, 1]);
