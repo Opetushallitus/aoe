@@ -1,7 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BackendService } from '@services/backend.service';
-import { Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
@@ -12,12 +11,11 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './edit-files.component.html',
   styleUrls: ['./edit-files.component.scss']
 })
-export class EditFilesComponent implements OnInit, OnDestroy {
+export class EditFilesComponent implements OnInit {
+  @Input() material: EducationalMaterialForm;
   form: FormGroup;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
-  materialSubscription: Subscription;
-  material: EducationalMaterialForm;
   translationsModalRef: BsModalRef;
   submitted = false;
   @Output() abortEdit = new EventEmitter();
@@ -46,19 +44,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       this.updateLanguages();
     });
 
-    this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
-      this.material = material;
-
-      if (sessionStorage.getItem(environment.editMaterial) !== null) {
-        this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
-      } else {
-        this.form.patchValue(this.material);
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.materialSubscription.unsubscribe();
+    if (sessionStorage.getItem(environment.editMaterial) !== null) {
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
+    } else {
+      this.form.patchValue(this.material);
+    }
   }
 
   get nameCtrl(): FormControl {
