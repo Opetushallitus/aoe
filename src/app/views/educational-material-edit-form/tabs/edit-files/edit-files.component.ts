@@ -60,11 +60,18 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     return this.form.get(`name.${this.lang}`) as FormControl;
   }
 
+  /**
+   * Filters otherLangs array to exclude current language.
+   */
   updateLanguages(): void {
     // set other than current language to an array
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
   }
 
+  /**
+   * Shows modal for entering translation values.
+   * @param {TemplateRef<any>} template
+   */
   openTranslationsModal(template: TemplateRef<any>): void {
     this.translationsModalRef = this.modalService.show(
       template,
@@ -72,6 +79,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Deletes file by file ID.
+   * @param {number} fileId
+   */
   deleteFile(fileId: number): void {
     this.backendSvc.deleteFile(fileId).subscribe(
       (res) => console.log(res),
@@ -91,6 +102,9 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Emits EventEmitter indicating user wants to abort.
+   */
   abort(): void {
     this.abortEdit.emit();
   }
