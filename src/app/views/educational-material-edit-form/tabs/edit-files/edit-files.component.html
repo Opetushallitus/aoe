@@ -27,7 +27,7 @@
         <button
           type="button"
           class="btn btn-gray"
-          (click)="openModal(nameI18n)"
+          (click)="openTranslationsModal(nameI18n)"
         >{{ 'forms.common.translations.label' | translate }}</button>
 
         <button
@@ -42,7 +42,7 @@
       <div class="modal-header">
         <h5 class="modal-title">{{ 'forms.educationalResource.files.materialName.modal.title' | translate }}</h5>
 
-        <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
+        <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="translationsModalRef.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -74,8 +74,8 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
-        <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
+        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="translationsModalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
+        <button type="button" class="btn btn-blue" (click)="translationsModalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
       </div>
     </ng-template>
   </div>
