@@ -78,7 +78,10 @@
     </ul>
 
     <ng-container [ngSwitch]="tabId">
-      <app-tabs-edit-files *ngSwitchCase="1" (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
+      <app-tabs-edit-files
+        *ngSwitchCase="1"
+        [material]="material"
+        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
 
       <!--<app-tabs-basic-details *ngSwitchCase="2"></app-tabs-basic-details>
 
