@@ -48,6 +48,10 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
+  /**
+   * Shows confirm modal for abort.
+   * @param {TemplateRef<any>} template
+   */
   openConfirmModal(template: TemplateRef<any>): void {
     this.confirmModalRef = this.modalService.show(template);
   }
