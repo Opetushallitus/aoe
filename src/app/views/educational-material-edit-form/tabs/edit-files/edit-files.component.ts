@@ -17,7 +17,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   materialSubscription: Subscription;
   material: EducationalMaterialForm;
-  modalRef: BsModalRef;
+  translationsModalRef: BsModalRef;
   submitted = false;
 
   constructor(
@@ -64,8 +64,8 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
   }
 
-  openModal(template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(
+  openTranslationsModal(template: TemplateRef<any>): void {
+    this.translationsModalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
