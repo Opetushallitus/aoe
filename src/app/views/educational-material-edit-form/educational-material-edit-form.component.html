@@ -83,9 +83,12 @@
         [material]="material"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
 
-      <!--<app-tabs-basic-details *ngSwitchCase="2"></app-tabs-basic-details>
+      <app-tabs-edit-basic-details
+        *ngSwitchCase="2"
+        [material]="material"
+        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
 
-      <app-tabs-educational-details *ngSwitchCase="3"></app-tabs-educational-details>
+      <!--<app-tabs-educational-details *ngSwitchCase="3"></app-tabs-educational-details>
 
       <app-tabs-extended-details *ngSwitchCase="4"></app-tabs-extended-details>
 
