@@ -439,7 +439,7 @@ export class BackendService {
         })),
         educationalRoles: material.educationalRoles.map((role) => ({
           key: role.educationalrolekey,
-          value: role.value,
+          value: role.educationalrole,
         })),
         educationalUses: material.educationalUses.map((use) => ({
           key: use.educationalusekey,
