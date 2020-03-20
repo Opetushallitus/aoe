@@ -78,7 +78,7 @@
     </ul>
 
     <ng-container [ngSwitch]="tabId">
-      <app-tabs-edit-files *ngSwitchCase="1"></app-tabs-edit-files>
+      <app-tabs-edit-files *ngSwitchCase="1" (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
 
       <!--<app-tabs-basic-details *ngSwitchCase="2"></app-tabs-basic-details>
 
@@ -94,3 +94,21 @@
     </ng-container>
   </div>
 </div>
+
+<ng-template #confirmAbort>
+  <div class="modal-body text-center">
+    <p>{{ 'forms.editEducationalResource.abort.text' | translate }}</p>
+
+    <button
+      type="button"
+      class="btn btn-blue"
+      (click)="abort()"
+    >{{ 'forms.editEducationalResource.abort.confirm' | translate }}</button>
+
+    <button
+      type="button"
+      class="btn btn-outline-blue"
+      (click)="confirmModalRef.hide()"
+    >{{ 'forms.editEducationalResource.abort.cancel' | translate }}</button>
+  </div>
+</ng-template>

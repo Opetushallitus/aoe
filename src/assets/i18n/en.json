@@ -477,6 +477,14 @@
         "title": "Preview",
         "confirm": "I confirm that"
       }
+    },
+    "editEducationalResource": {
+      "title": "Oppimateriaalin muokkaus",
+      "abort": {
+        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
+        "confirm": "Kyllä",
+        "cancel": "Ei"
+      }
     }
   },
   "faq": {

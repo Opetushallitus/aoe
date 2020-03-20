@@ -13,4 +13,5 @@ export const environment = {
   cookieSettingsCookie: 'aoe.cookies',
   searchParams: 'aoe.searchParams',
   searchResults: 'aoe.searchResults',
+  editMaterial: 'aoe.editMaterial',
 };

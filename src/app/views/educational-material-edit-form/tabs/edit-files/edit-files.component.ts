@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { BackendService } from '@services/backend.service';
 import { Subscription } from 'rxjs';
@@ -19,6 +19,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   material: EducationalMaterialForm;
   translationsModalRef: BsModalRef;
   submitted = false;
+  @Output() abortEdit = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
@@ -90,7 +91,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  cancel(): void {
-    // @todo: show cancel confirmation dialog
+  abort(): void {
+    this.abortEdit.emit();
   }
 }
