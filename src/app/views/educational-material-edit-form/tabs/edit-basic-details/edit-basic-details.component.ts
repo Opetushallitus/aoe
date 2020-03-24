@@ -190,14 +190,24 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Adds author to authors array.
+   */
   addAuthor(): void {
     this.authorsArray.push(this.createAuthor());
   }
 
+  /**
+   * Adds organization author to authors array.
+   */
   addOrganization(): void {
     this.authorsArray.push(this.createOrganization());
   }
 
+  /**
+   * Removes author at specific index from authors array.
+   * @param {number} i
+   */
   removeAuthor(i: number): void {
     this.authorsArray.removeAt(i);
   }
