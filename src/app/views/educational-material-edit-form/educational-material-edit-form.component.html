@@ -77,7 +77,7 @@
       </li>
     </ul>
 
-    <ng-container [ngSwitch]="tabId">
+    <ng-container [ngSwitch]="tabId" *ngIf="material">
       <app-tabs-edit-files
         *ngSwitchCase="1"
         [material]="material"
