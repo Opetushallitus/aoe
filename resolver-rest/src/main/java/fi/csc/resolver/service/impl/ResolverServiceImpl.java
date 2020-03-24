@@ -35,7 +35,7 @@ import java.util.Optional;
 @Service
 public class ResolverServiceImpl implements ResolverService {
 
-    private final Logger LOG = LoggerFactory.getLogger(ResolverServiceImpl.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     private Environment env;
     private LinkRepository linkRepository;
@@ -127,7 +127,7 @@ public class ResolverServiceImpl implements ResolverService {
         String decoded = identifier.getEducationalMaterialId() + ":" + identifier.getMaterialId() + ":latest:"
             + identifier.getOriginalFileName();
         String encoded = DigestUtils.sha1Hex(decoded);
-        System.out.println("EMID: " + identifier.getEducationalMaterialId()
+        LOGGER.info("EMID: " + identifier.getEducationalMaterialId()
             + ", MID: " + identifier.getMaterialId()
             + ", FILE: " + identifier.getOriginalFileName()
             + ", HASH: " + encoded);
