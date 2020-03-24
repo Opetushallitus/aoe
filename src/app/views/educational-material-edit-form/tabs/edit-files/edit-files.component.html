@@ -2,7 +2,9 @@
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
-        <label for="name">{{ 'forms.educationalResource.files.materialName.label.' + lang | translate }}*</label>
+        <label for="name">
+          {{ 'forms.educationalResource.files.materialName.label.' + lang | translate }}*
+        </label>
 
         <button
           type="button"
@@ -40,18 +42,27 @@
 
     <ng-template #nameI18n>
       <div class="modal-header">
-        <h5 class="modal-title">{{ 'forms.educationalResource.files.materialName.modal.title' | translate }}</h5>
+        <h5 class="modal-title">
+          {{ 'forms.educationalResource.files.materialName.modal.title' | translate }}
+        </h5>
 
-        <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="translationsModalRef.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button
+          type="button"
+          class="close"
+          [attr.aria-label]="'forms.common.close' | translate"
+          (click)="translationsModalRef.hide()"
+        ><span aria-hidden="true">&times;</span></button>
       </div>
 
       <div class="modal-body" formGroupName="name">
-        <h4>{{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}</h4>
+        <h4>
+          {{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}
+        </h4>
 
         <div class="form-group">
-          <label for="name2">{{ 'forms.educationalResource.files.materialName.label.' + otherLangs[0] | translate }}</label>
+          <label for="name2">
+            {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[0] | translate }}
+          </label>
 
           <input
             type="text"
@@ -62,7 +73,9 @@
         </div>
 
         <div class="form-group">
-          <label for="name3">{{ 'forms.educationalResource.files.materialName.label.' + otherLangs[1] | translate }}</label>
+          <label for="name3">
+            {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[1] | translate }}
+          </label>
 
           <input
             type="text"
@@ -74,8 +87,18 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="translationsModalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
-        <button type="button" class="btn btn-blue" (click)="translationsModalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
+        <button
+          type="button"
+          class="btn btn-gray"
+          [attr.aria-label]="'forms.common.cancel' | translate"
+          (click)="translationsModalRef.hide()"
+        >{{ 'forms.common.cancel' | translate }}</button>
+
+        <button
+          type="button"
+          class="btn btn-blue"
+          (click)="translationsModalRef.hide()"
+        >{{ 'forms.common.saveChanges' | translate }}</button>
       </div>
     </ng-template>
   </div>
