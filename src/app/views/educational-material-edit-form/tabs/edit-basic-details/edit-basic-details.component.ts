@@ -50,12 +50,16 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     });
 
     if (sessionStorage.getItem(environment.editMaterial) !== null) {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
+      const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+
+      this.form.patchValue(editMaterial);
+
+      this.patchAuthors(editMaterial.authors);
     } else {
       this.form.patchValue(this.material);
-    }
 
-    // @todo: add authors
+      this.patchAuthors(this.material.authors);
+    }
   }
 
   ngOnDestroy(): void { }
@@ -70,6 +74,20 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   get authorsArray(): FormArray {
     return this.form.get('authors') as FormArray;
+  }
+
+  /**
+   * Patch authors array.
+   * @param authors
+   */
+  patchAuthors(authors): void {
+    authors.forEach((author) => {
+      if (author.author) {
+        this.authorsArray.push(this.createAuthor(author));
+      } else {
+        this.authorsArray.push(this.createOrganization(author));
+      }
+    });
   }
 
   /**
