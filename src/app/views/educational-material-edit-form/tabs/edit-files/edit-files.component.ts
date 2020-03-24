@@ -89,7 +89,7 @@ export class EditFilesComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid && !this.form.pristine) {
-      const changedMaterial = sessionStorage.getItem(environment.editMaterial) !== null
+      const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
         ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
         : this.material;
 
