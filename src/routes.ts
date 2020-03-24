@@ -299,6 +299,12 @@ router.get("/ammattikoulu-tutkinnot/:lang", getAmmattikoulunTutkinnot);
  */
 router.get("/ammattikoulu-tutkinnon-osat/:ids/:lang", getAmmattikoulunTutkinnonOsat);
 
+/**
+ * Returns all oppiaineet-tieteenalat-tutkinnot filters from redis database by given language.
+ * @group Filtterit
+ * @route GET /filters-oppiaineet-tieteenalat-tutkinnot/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
 router.get("/filters-oppiaineet-tieteenalat-tutkinnot/:lang", getOppiaineetTieteenalatTutkinnot);
 
 export default router;
