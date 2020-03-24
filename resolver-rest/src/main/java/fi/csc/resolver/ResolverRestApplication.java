@@ -2,6 +2,7 @@ package fi.csc.resolver;
 
 import fi.csc.resolver.service.ResolverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,7 +19,10 @@ public class ResolverRestApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(ResolverRestApplication.class, args);
+        // SpringApplication.run(ResolverRestApplication.class, args);
+        SpringApplication app = new SpringApplication(ResolverRestApplication.class);
+        app.setBannerMode(Banner.Mode.OFF);
+        app.run(args);
     }
 
     @PostConstruct
