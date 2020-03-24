@@ -127,7 +127,7 @@ public class ResolverServiceImpl implements ResolverService {
         String decoded = identifier.getEducationalMaterialId() + ":" + identifier.getMaterialId() + ":latest:"
             + identifier.getOriginalFileName();
         String encoded = DigestUtils.sha1Hex(decoded);
-        LOG.info("EMID: " + identifier.getEducationalMaterialId()
+        System.out.println("EMID: " + identifier.getEducationalMaterialId()
             + ", MID: " + identifier.getMaterialId()
             + ", FILE: " + identifier.getOriginalFileName()
             + ", HASH: " + encoded);
