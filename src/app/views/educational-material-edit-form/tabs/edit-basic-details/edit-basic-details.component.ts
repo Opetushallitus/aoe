@@ -5,6 +5,13 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { BackendService } from '@services/backend.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
+import { Subscription } from 'rxjs';
+import { KeyValue } from '@angular/common';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { addCustomItem } from '../../../../shared/shared.module';
+import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { EducationalRole } from '@models/koodisto-proxy/educational-role';
+import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -18,6 +25,17 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   translationsModalRef: BsModalRef;
   submitted = false;
+  addCustomItem = addCustomItem;
+  organizationSubscription: Subscription;
+  organizations: KeyValue<string, string>[];
+  keywordSubscription: Subscription;
+  keywords: KeyValue<string, string>[];
+  learningResourceTypeSubscription: Subscription;
+  learningResourceTypes: LearningResourceType[];
+  educationalRoleSubscription: Subscription;
+  educationalRoles: EducationalRole[];
+  educationalUseSubscription: Subscription;
+  educationalUses: EducationalUse[];
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -25,6 +43,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private backendSvc: BackendService,
     private translate: TranslateService,
     private modalService: BsModalService,
+    private koodistoSvc: KoodistoProxyService,
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +65,12 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
+      this.koodistoSvc.updateOrganizations();
+      this.koodistoSvc.updateKeywords();
+      this.koodistoSvc.updateLearningResourceTypes();
+      this.koodistoSvc.updateEducationalRoles();
+      this.koodistoSvc.updateEducationalUses();
+
       this.updateLanguages();
     });
 
@@ -60,9 +85,50 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
       this.patchAuthors(this.material.authors);
     }
+
+    // organizations
+    this.organizationSubscription = this.koodistoSvc.organizations$
+      .subscribe((organizations: KeyValue<string, string>[]) => {
+        this.organizations = organizations;
+      });
+    this.koodistoSvc.updateOrganizations();
+
+    // keywords
+    this.keywordSubscription = this.koodistoSvc.keywords$
+      .subscribe((keywords: KeyValue<string, string>[]) => {
+        this.keywords = keywords;
+      });
+    this.koodistoSvc.updateKeywords();
+
+    // learning resource types
+    this.learningResourceTypeSubscription = this.koodistoSvc.learningResourceTypes$
+      .subscribe((types: LearningResourceType[]) => {
+        this.learningResourceTypes = types;
+      });
+    this.koodistoSvc.updateLearningResourceTypes();
+
+    // educational roles
+    this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$
+      .subscribe((roles: EducationalRole[]) => {
+        this.educationalRoles = roles;
+      });
+    this.koodistoSvc.updateEducationalRoles();
+
+    // educational uses
+    this.educationalUseSubscription = this.koodistoSvc.educationalUses$
+      .subscribe((uses: EducationalUse[]) => {
+        this.educationalUses = uses;
+      });
+    this.koodistoSvc.updateEducationalUses();
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.organizationSubscription.unsubscribe();
+    this.keywordSubscription.unsubscribe();
+    this.learningResourceTypeSubscription.unsubscribe();
+    this.educationalRoleSubscription.unsubscribe();
+    this.educationalUseSubscription.unsubscribe();
+  }
 
   /**
    * Filters otherLangs array to exclude current language.
@@ -134,6 +200,25 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   removeAuthor(i: number): void {
     this.authorsArray.removeAt(i);
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.form.valid && !this.form.pristine) {
+      const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
+
+      changedMaterial.authors = this.form.get('authors').value;
+      changedMaterial.keywords = this.form.get('keywords').value;
+      changedMaterial.learningResourceTypes = this.form.get('learningResourceTypes').value;
+      changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
+      changedMaterial.educationalUses = this.form.get('educationalUses').value;
+      changedMaterial.description = this.form.get('description').value;
+
+      sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+    }
   }
 
   /**
