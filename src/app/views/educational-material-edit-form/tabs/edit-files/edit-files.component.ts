@@ -5,6 +5,7 @@ import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { environment } from '../../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -27,6 +28,7 @@ export class EditFilesComponent implements OnInit {
     private backendSvc: BackendService,
     private translate: TranslateService,
     private modalService: BsModalService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -90,14 +92,18 @@ export class EditFilesComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.valid && !this.form.pristine) {
-      const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-        : this.material;
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+          : this.material;
 
-      changedMaterial.name = this.form.get('name').value;
+        changedMaterial.name = this.form.get('name').value;
 
-      sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+      }
+
+      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
   }
 
