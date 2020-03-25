@@ -20,6 +20,8 @@ import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 })
 export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
+  @Input() materialId: number;
+  @Input() tabId: number;
   form: FormGroup;
   lang: string = this.translate.currentLang;
   otherLangs: string[];

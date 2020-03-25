@@ -13,6 +13,8 @@ import { environment } from '../../../../../environments/environment';
 })
 export class EditFilesComponent implements OnInit {
   @Input() material: EducationalMaterialForm;
+  @Input() materialId: number;
+  @Input() tabId: number;
   form: FormGroup;
   lang: string = this.translate.currentLang;
   otherLangs: string[];
