@@ -219,19 +219,23 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.valid && !this.form.pristine) {
-      const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-        : this.material;
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+          : this.material;
 
-      changedMaterial.authors = this.form.get('authors').value;
-      changedMaterial.keywords = this.form.get('keywords').value;
-      changedMaterial.learningResourceTypes = this.form.get('learningResourceTypes').value;
-      changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
-      changedMaterial.educationalUses = this.form.get('educationalUses').value;
-      changedMaterial.description = this.form.get('description').value;
+        changedMaterial.authors = this.form.get('authors').value;
+        changedMaterial.keywords = this.form.get('keywords').value;
+        changedMaterial.learningResourceTypes = this.form.get('learningResourceTypes').value;
+        changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
+        changedMaterial.educationalUses = this.form.get('educationalUses').value;
+        changedMaterial.description = this.form.get('description').value;
 
-      sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+      }
+
+      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
   }
 
