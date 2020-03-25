@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./educational-material-edit-form.component.scss']
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
-  materialId: string;
+  materialId: number;
   materialSubscription: Subscription;
   material: EducationalMaterialForm;
   tabId: number;
@@ -27,12 +27,12 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.materialId = this.route.snapshot.paramMap.get('materialId');
+    this.materialId = +this.route.snapshot.paramMap.get('materialId');
 
     this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
       this.material = material;
     });
-    this.backendSvc.updateEditMaterial(+this.materialId);
+    this.backendSvc.updateEditMaterial(this.materialId);
 
     this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
       this.tabId = +params.get('tabId');
