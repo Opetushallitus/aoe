@@ -12,6 +12,7 @@ import { addCustomItem } from '../../../../shared/shared.module';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -46,6 +47,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private modalService: BsModalService,
     private koodistoSvc: KoodistoProxyService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -238,5 +240,12 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   abort(): void {
     this.abortEdit.emit();
+  }
+
+  /**
+   * Redirects user to previous tab.
+   */
+  previous(): void {
+    this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId - 1]);
   }
 }
