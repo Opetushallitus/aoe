@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef 
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { BackendService } from '@services/backend.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
@@ -43,7 +42,6 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private backendSvc: BackendService,
     private translate: TranslateService,
     private modalService: BsModalService,
     private koodistoSvc: KoodistoProxyService,
