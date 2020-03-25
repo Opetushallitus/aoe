@@ -89,6 +89,10 @@ export class EditFilesComponent implements OnInit {
     );
   }
 
+  /**
+   * Runs on submit. If form is valid and dirty, changed material is saved on sessionStorage.
+   * If form is valid, redirects user to the next tab.
+   */
   onSubmit(): void {
     this.submitted = true;
 
