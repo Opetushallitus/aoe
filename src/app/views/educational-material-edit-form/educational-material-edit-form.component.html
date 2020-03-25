@@ -81,11 +81,15 @@
       <app-tabs-edit-files
         *ngSwitchCase="1"
         [material]="material"
+        [materialId]="materialId"
+        [tabId]="1"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
 
       <app-tabs-edit-basic-details
         *ngSwitchCase="2"
         [material]="material"
+        [materialId]="materialId"
+        [tabId]="2"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
 
       <!--<app-tabs-educational-details *ngSwitchCase="3"></app-tabs-educational-details>
