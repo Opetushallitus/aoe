@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="material">
+  <div class="form-group">
+    <label for="educationalLevels">
+      {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}*
+    </label>
+
+    <button
+      type="button"
+      class="btn btn-link"
+      [tooltip]="'forms.educationalResource.educationalDetails.educationalLevels.tooltip' | translate"
+    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+    <ng-select
+      [items]="educationalLevels"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      groupBy="children"
+      id="educationalLevels"
+      formControlName="educationalLevels"
+      (change)="educationalLevelsChange($event)"
+    >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+    </ng-select>
+
+    <div *ngIf="submitted && educationalLevelsCtrl.errors" class="alert alert-warning" role="alert">
+      <div *ngIf="educationalLevelsCtrl.errors.required">
+        {{ 'forms.common.required' | translate }}:
+        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
+      </div>
+    </div>
+  </div><!--/educational levels-->
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previous()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="abort()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>
