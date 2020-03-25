@@ -82,6 +82,7 @@ import { SearchResultComponent } from '@components/search-result/search-result.c
 import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
 import { EditFilesComponent } from '@views/educational-material-edit-form/tabs/edit-files/edit-files.component';
 import { EditBasicDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-basic-details/edit-basic-details.component';
+import { EditEducationalDetailsComponent } from './views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
 
 @NgModule({
   imports: [
@@ -157,6 +158,7 @@ import { EditBasicDetailsComponent } from '@views/educational-material-edit-form
     EducationalMaterialEditFormComponent,
     EditFilesComponent,
     EditBasicDetailsComponent,
+    EditEducationalDetailsComponent,
   ],
   providers: [
     {

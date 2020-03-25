@@ -92,9 +92,14 @@
         [tabId]="2"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
 
-      <!--<app-tabs-educational-details *ngSwitchCase="3"></app-tabs-educational-details>
+      <app-tabs-edit-educational-details
+        *ngSwitchCase="3"
+        [material]="material"
+        [materialId]="materialId"
+        [tabId]="3"
+        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-educational-details>
 
-      <app-tabs-extended-details *ngSwitchCase="4"></app-tabs-extended-details>
+      <!--<app-tabs-extended-details *ngSwitchCase="4"></app-tabs-extended-details>
 
       <app-tabs-license *ngSwitchCase="5"></app-tabs-license>
 
