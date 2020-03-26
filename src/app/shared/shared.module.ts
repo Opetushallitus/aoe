@@ -6,6 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 
 @NgModule({
   imports: [
@@ -77,4 +78,32 @@ export function addCustomItem(value: string): KeyValue<string, string> {
 export function deduplicate(array: any[], prop: string): any[] {
   // https://gist.github.com/Vheissu/71dd683ad647e82a0d132076cf6eeef2#gistcomment-2598267
   return Array.from(new Map(array.map((i) => [(prop in i) ? i[prop] : i, i])).values());
+}
+
+/**
+ * Converts string value to early childhood subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'earlyChildhoodEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to early childhood objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addEarlyChildhoodEducationObjective(value): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'earlyChildhoodEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
 }
