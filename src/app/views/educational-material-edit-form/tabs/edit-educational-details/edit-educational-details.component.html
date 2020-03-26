@@ -202,6 +202,123 @@
     </div>
   </ng-container><!--/pre-primary education-->
 
+  <ng-container *ngIf="hasBasicStudies">
+    <div class="form-group">
+      <h3>
+        {{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}
+      </h3>
+
+      <label for="basicStudySubjects">
+        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="basicStudySubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        groupBy="children"
+        id="basicStudySubjects"
+        formControlName="basicStudySubjects"
+        (change)="basicStudySubjectsChange($event)"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="suitsAllBasicStudySubjects"
+          formControlName="suitsAllBasicStudySubjects"
+        >
+
+        <label class="custom-control-label" for="suitsAllBasicStudySubjects">
+          {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
+        </label>
+      </div>
+    </div>
+
+    <ng-container *ngIf="hasBasicStudySubjects">
+      <div class="form-group">
+        <label for="basicStudyFramework">
+          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}
+        </label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <input
+          class="form-control"
+          id="basicStudyFramework"
+          formControlName="basicStudyFramework"
+        >
+      </div><!--/basic education framework-->
+
+      <div class="form-group">
+        <label for="basicStudyObjectives">
+          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="basicStudyObjectives"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="basicStudyObjectives"
+          formControlName="basicStudyObjectives"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.targetName }}
+          </ng-template>
+        </ng-select>
+      </div><!--/basic education objectives-->
+
+      <div class="form-group">
+        <label for="basicStudyContents">
+          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="basicStudyContents"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="basicStudyContents"
+          formControlName="basicStudyContents"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.targetName }}
+          </ng-template>
+        </ng-select>
+      </div><!--/basic education contents-->
+    </ng-container>
+  </ng-container><!--/basic education-->
+
   <div class="row">
     <div class="col">
       <button

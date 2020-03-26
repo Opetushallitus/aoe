@@ -135,6 +135,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.educationalLevelsChange(this.educationalLevelsCtrl.value);
     }
 
+    if (this.basicStudySubjectsCtrl.value && this.basicStudySubjectsCtrl.value.length > 0) {
+      this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
+    }
+
     // educational levels
     this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$
       .subscribe((levels: EducationalLevel[]) => {
@@ -233,6 +237,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('educationalLevels') as FormControl;
   }
 
+  get basicStudySubjectsCtrl(): FormControl {
+    return this.form.get('basicStudySubjects') as FormControl;
+  }
+
   /**
    * Runs on educational levels change. Sets hasX-type educational level boolean values.
    * @param value
@@ -255,6 +263,22 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.hasSelfMotivatedEducation = value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
 
     this.hasHigherEducation = value.filter((e: any) => educationalLevelKeys.higherEducation.includes(e.key)).length > 0;
+  }
+
+  /**
+   * Runs on basic education subjects change. Sets hasBasicStudySubjects boolean if any
+   * subjects are selected. Updates basic education objectives and contents based on selected subjects.
+   * @param value
+   */
+  basicStudySubjectsChange(value): void {
+    this.hasBasicStudySubjects = value.length > 0;
+
+    if (this.hasBasicStudySubjects) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoSvc.updateBasicStudyObjectives(ids);
+      this.koodistoSvc.updateBasicStudyContents(ids);
+    }
   }
 
   /**
@@ -283,6 +307,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.suitsAllPrePrimarySubjects = this.form.get('suitsAllPrePrimarySubjects').value;
         changedMaterial.prePrimaryEducationObjectives = this.form.get('prePrimaryEducationObjectives').value;
         changedMaterial.prePrimaryEducationFramework = this.form.get('prePrimaryEducationFramework').value;
+
+        // basic education
+        changedMaterial.basicStudySubjects = this.basicStudySubjectsCtrl.value;
+        changedMaterial.suitsAllBasicStudySubjects = this.form.get('suitsAllBasicStudySubjects').value;
+        changedMaterial.basicStudyObjectives = this.form.get('basicStudyObjectives').value;
+        changedMaterial.basicStudyContents = this.form.get('basicStudyContents').value;
+        changedMaterial.basicStudyFramework = this.form.get('basicStudyFramework').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
