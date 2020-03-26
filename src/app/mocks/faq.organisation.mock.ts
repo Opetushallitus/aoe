@@ -54,25 +54,25 @@ export const FAQOrganisation = {
   ],
   sv: [
     {
-      question: 'Jag eller min organisation har flera tiotals öppna lärresurser. Hur kan vi föra in dem i tjänsten för öppna lärresurser?',
+      question: 'Jag eller min organisation har flera tiotals öppna lärresurser. Hur kan vi föra in dem i Biblioteket för öppna lärresurser?',
       answer: [
-        'Undervisningsmaterials metadata kan föras in i tjänsten för öppna lärresurser i större mängder på två olika sätt. Det första är höstning (harvesting). För höstning behöver din organisation ha eller skaffa en ”oai phm”-proviantör/protokoll. Dessutom måste tjänstens metadatamodell vara kompatibel med den modell som tjänsten för öppna lärresurser använder. Vi hjälper gärna din organisation att göra metadatamodellerna kompatibla, men som regel måste vissa uppgifter som markerats som obligatoriska i vår metadatamodell finnas i någon form i tjänsten. Mer information om metadatamodellen finns <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">här</a> (på finska).',
-        'Om höstning inte är en möjlighet är alternativet att föra in undervisningsmaterialens metadata i en excel-mall. Uppgifterna fylls i eller kopieras till Excel så att varje rad innehåller uppgifterna för ett material. Åtminstone de obligatoriska metadata ska fyllas i för varje undervisningsmaterial. Mer information om metadatamodellen finns <a href="https://www.suomi.fi/hemsidan" target="_blank" rel="noopener nofollow">här</a> (på finska). Särskilt om undervisningsmaterialen har gemensamma nämnare sparar Excel-metoden tid, exempelvis om en stor del av materialen riktar sig till samma målgrupp och utbildningsstadium. I så fall kan den överlappande informationen kopieras in på varje rad och inmatningen tar inte så lång tid.',
+        'Undervisningsmaterials metadata kan föras in i Biblioteket för öppna lärresurser i större mängder på två olika sätt. Det första är höstning (harvesting). För höstning behöver din organisation ha eller skaffa en ”oai phm”-proviantör/protokoll. Dessutom måste tjänstens metadatamodell vara kompatibel med den modell som Biblioteket för öppna lärresurser använder. Vi hjälper gärna din organisation att göra metadatamodellerna kompatibla, men som regel måste vissa uppgifter som markerats som obligatoriska i vår metadatamodell finnas i någon form i tjänsten. Mer <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">information om metadatamodellen finns här</a>.',
+        'Om höstning inte är en möjlighet är alternativet att föra in undervisningsmaterialens metadata i en excel-mall. Uppgifterna fylls i eller kopieras till Excel så att varje rad innehåller uppgifterna för ett material. Åtminstone de obligatoriska metadata ska fyllas i för varje undervisningsmaterial. Särskilt om undervisningsmaterialen har gemensamma nämnare sparar Excel-metoden tid, exempelvis om en stor del av materialen riktar sig till samma målgrupp och utbildningsstadium. I så fall kan den överlappande informationen kopieras in på varje rad och inmatningen tar inte så lång tid.',
         'Lärresurserna kan också matas in via inmatningsgränssnittet. Detta är särskilt praktiskt om det inte handlar om flera tiotals resurser.',
         'Alla undervisningsmaterial som visas i tjänsten för öppna lärresurser ska ha en öppen Creative Commons-licens.',
-        'Om du eller din organisation är intresserade av dessa alternativ, kontakta oppimateriaalivaranto@csc.fi så vi kan avtala om samarbete.',
+        'Om du eller din organisation är intresserade av dessa alternativ, kontakta <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> så vi kan avtala om samarbete.',
       ]
     },
     {
-      question: 'Hurdana undervisningsmaterial kan föras in tjänsten för öppna lärresurser?',
+      question: 'Hurdana undervisningsmaterial kan föras in Biblioteket för öppna lärresurser?',
       answer: [
-        'Tjänsten för öppna lärresurser är avsedd för öppna undervisningsmaterial som producerats med offentliga medel. För att en resurs ska kunna föras in i tjänsten ska a) materialet ha en Creative Commons-licens, b) materialet ha producerats med eller ha fått offentlig finansiering, c) den som gör det ha rätt att föra in materialet, informationen i det och anknytande personuppgifter i tjänsten för öppna lärresurser samt d) organisationen samtycka till tjänstens dataskyddsbeskrivning och användarvillkor. Om du eller din organisation är intresserad, kontakta oppimateriaalivaranto@csc.fi så vi kan avtala om samarbete.',
+        'Biblioteket för öppna lärresurser är avsedd för öppna undervisningsmaterial som producerats med offentliga medel. För att en resurs ska kunna föras in i tjänsten ska a) materialet ha en Creative Commons-licens, b) materialet ha producerats med eller ha fått offentlig finansiering, c) den som gör det ha rätt att föra in materialet, informationen i det och anknytande personuppgifter i Biblioteket för öppna lärresurser samt d) organisationen samtycka till tjänstens dataskyddsbeskrivning och användarvillkor. Om du eller din organisation är intresserad, kontakta <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> så vi kan avtala om samarbete.',
       ]
     },
     {
-      question: 'Hur ser metadatamodellen för tjänsten för öppna lärresurser ut?',
+      question: 'Hur ser metadatamodellen för Biblioteket för öppna lärresurser ut?',
       answer: [
-        'Tjänsten för öppna lärresurser använder en internationellt kompatibel, LRMI-baserad metadatamodell som är avsedd att göra det lättare att hitta högklassiga lärresurser. Under projektets gång utformades metadatamodellen tillsammans med intressentgrupperna för de behov som finns på det finländska utbildningsfältet. Metadatamodellen vidareutvecklas och den nyaste dokumentationen om den finns här: <a href="https://wiki.eduuni.fi/x/_RxLBg" target="_blank" rel="noopener nofollow">https://wiki.eduuni.fi/x/_RxLBg</a> (på finska). Metadatamodellen och dess terminologier är öppet tillgängliga.',
+        'Biblioteket för öppna lärresurser använder en internationellt kompatibel, LRMI-baserad metadatamodell som är avsedd att göra det lättare att hitta högklassiga lärresurser. Under projektets gång utformades metadatamodellen tillsammans med intressentgrupperna för de behov som finns på det finländska utbildningsfältet. Metadatamodellen vidareutvecklas och den nyaste <a href="https://wiki.eduuni.fi/x/_RxLBg" target="_blank" rel="noopener nofollow">dokumentationen om metadatamodellen finns på den här wikisidan</a>. Metadatamodellen och dess terminologier är öppet tillgängliga.',
       ]
     },
   ]

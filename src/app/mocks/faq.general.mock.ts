@@ -112,29 +112,29 @@ export const FAQGeneral = {
   ],
   sv: [
     {
-      question: 'Vad är tjänsten för öppna lärresurser? Varför och för vilka behov utvecklas tjänsten för öppna lärresurser?',
+      question: 'Vad är Biblioteket för öppna lärresurser? Varför och för vilka behov utvecklas Biblioteket för öppna lärresurser?',
       answer: [
-        'Tjänsten för öppna lärresurser är en tjänst som tillhandahålls av undervisnings- och kulturministeriet och Utbildningsstyrelsen. Den sammanställer de öppna lärresurserna i en tjänst som är gemensam för alla utbildningsnivåer. Från och med höst 2019 kan man lagra sina egna öppna undervisningsmaterial och uppgifter om dem i tjänsten. Med följande utvecklingsversion av tjänsten kan man från årsskiftet söka och utnyttja öppna lärresurser.',
-        'Tjänsten för öppna lärresurser syftar till att främja användningen av de öppna materialen så att material som tagits fram i olika projekt och av enskilda individer får synlighet och varaktighet. Genom att lagra resurserna i tjänsten behöver man inte bekymra sig för vem som ska ansvara för möjligheten att utnyttja materialen vid den egna eller andra läroanstalter och utanför dem ännu länge efter att projektet upphört.',
+        'Biblioteket för öppna lärresurser är en tjänst som tillhandahålls av undervisnings- och kulturministeriet och Utbildningsstyrelsen. Den sammanställer de öppna lärresurserna i en tjänst som är gemensam för alla utbildningsnivåer. Från och med höst 2019 kan man lagra sina egna öppna undervisningsmaterial och uppgifter om dem i tjänsten. Med följande utvecklingsversion av tjänsten kan man från årsskiftet söka och utnyttja öppna lärresurser.',
+        'Biblioteket för öppna lärresurser syftar till att främja användningen av de öppna materialen så att material som tagits fram i olika projekt och av enskilda individer får synlighet och varaktighet. Genom att lagra resurserna i tjänsten behöver man inte bekymra sig för vem som ska ansvara för möjligheten att utnyttja materialen vid den egna eller andra läroanstalter och utanför dem ännu länge efter att projektet upphört.',
       ]
     },
     {
       question: 'Vad är öppna lärresurser?',
       answer: [
         'Öppna lärresurser (OER) är digitala resurser i olika format och andra material avsedda för undervisning, fostran och lärande, vilka lagts ut i public domain eller licenserats med en öppen licens som ger andra rätt att obegränsat eller med obetydliga begränsningar avgiftsfritt komma åt, använda, redigera och dela materialen vidare.',
-        'I tjänsten för öppna lärresurser är en öppen lärresurs en pedagogiskt sammanhållen helhet som licenserats under Creative Commons. ',
+        'I Biblioteket för öppna lärresurser är en öppen lärresurs en pedagogiskt sammanhållen helhet som licenserats under Creative Commons.',
       ]
     },
     {
-      question: 'Till vem riktar sig tjänsten för öppna lärresurser?',
+      question: 'Till vem riktar sig Biblioteket för öppna lärresurser?',
       answer: [
-        'Tjänsten för öppna lärresurser är avsedd för alla utbildningsnivåer och för livslångt lärande. Den betjänar lärare, lärande och dem som stöder lärandet när de söker öppna lärresurser för sin egen undervisning och sina kompetensutvecklingsbehov.',
+        'Biblioteket för öppna lärresurser är avsedd för alla utbildningsnivåer och för livslångt lärande. Den betjänar lärare, lärande och dem som stöder lärandet när de söker öppna lärresurser för sin egen undervisning och sina kompetensutvecklingsbehov.',
       ]
     },
     {
-      question: 'Hur utvecklas tjänsten för öppna lärresurser?',
+      question: 'Hur utvecklas Biblioteket för öppna lärresurser?',
       answer: [
-        'I mars 2019 öppnades en informationssida i tjänsten för öppna lärresurser. I höst 2019 öppnas möjligheten att spara öppna undervisningsmaterial och information om dem i tjänsten. Följande skede i tjänsten sker vid årsskiftet. Då kan man börja söka och använda lärresurserna i tjänsten. Under 2020 införs möjligheten att skapa samlingar och artificiell intelligens utvecklas för att skapa metadata. Samtidigt förbättras tjänsten utgående från den respons som fås, och analysen vidareutvecklas till stöd för dem som utarbetar undervisningsmaterial. År 2020 blir de öppna lärresurserna också tillgängliga för användning via Finna.fi. Behoven av vidareutveckling utvärderas kontinuerligt utgående från responsen på och användningen av tjänsten.',
+        'I mars 2019 öppnades en informationssida i Biblioteket för öppna lärresurser. I höst 2019 öppnade möjligheten att spara öppna undervisningsmaterial och information om dem i tjänsten. Nu kan man okså söka och använda lärresurserna i tjänsten. Under 2020 införs möjligheten att skapa samlingar och artificiell intelligens utvecklas för att skapa metadata. Samtidigt förbättras tjänsten utgående från den respons som fås, och analysen vidareutvecklas till stöd för dem som utarbetar undervisningsmaterial. År 2020 blir de öppna lärresurserna också tillgängliga för användning via Finna.fi. Behoven av vidareutveckling utvärderas kontinuerligt utgående från responsen på och användningen av tjänsten.',
         '<img src="assets/img/aoe_vag.png" class="img-fluid" alt="Pilotfas: 3/2019 Jag får information om den nya tjänsten, 12/2019 Jag kan ladda upp egna lärresurser, 03/2020 Jag kan söka lärresurser. Produktion: 06/2020 Jag kan göra samlingar av lärresurser, hösten 2020 Jag hittar öppna lärresurser även på Finna.fi">',
       ]
     },
@@ -146,20 +146,20 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Vad krävs av det undervisningsmaterial som sparas i tjänsten för öppna lärresurser?',
+      question: 'Vad krävs av det undervisningsmaterial som sparas i Biblioteket för öppna lärresurser?',
       answer: [
-        'Undervisningsmaterial som sparas i tjänsten ska ha en öppen licens. I tjänsten används Creative Commons-licenser. Information om dessa hittar du här: <a href="https://creativecommons.org/choose/?lang=sv" target="_blank" rel="noopener nofollow">https://creativecommons.org/choose/?lang=sv</a> samt i den här listan på vanliga frågor. Licensen anges i lärresursens metadata, men man rekommenderas även att anteckna den i själva lärresursen.',
-        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information: <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">www.saavutettavasti.fi</a> (på finska).',
+        'Undervisningsmaterial som sparas i tjänsten ska ha en öppen licens. I tjänsten används Creative Commons-licenser. Information om dessa <a href="https://creativecommons.org/choose/?lang=sv" target="_blank" rel="noopener nofollow">licenser hittar du här</a>. samt i den här listan på vanliga frågor. Licensen anges i lärresursens metadata, men man rekommenderas även att anteckna den i själva lärresursen.',
+        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
       ]
     },
     {
       question: 'Vad är Creative Commons-licenser?',
       answer: [
         'Creative Commons-licenserna berättar hurdana användningsrättigheter du ger andra: Får de skapa egna undervisningsmaterial utgående från ditt material? Får de använda ditt undervisningsmaterial i sina egna material? Får ditt material uppdateras, översättas till andra språk eller föras över till punktskrift? Får ditt undervisningsmaterial användas i kommersiell utbildning?',
-        'Tjänsten för öppna lärresurser rekommenderar någondera av licenserna Creative Commons ”Erkännande 4.0” eller Creative Commons ”Erkännande-DelaLika”. Bägge säkerställer att du nämns som upphovsman till materialet och att andra fritt kan använda det inom ramen för sina inlärnings-, undervisnings- och utbildningsbehov. De tillåter också att andra gör egna ändringar i materialen. Detta tryggar aktualitet och kontinuitet för dina undervisningsmaterial också efter att du inte själv håller det uppdaterat. Creative Commons ”Erkännande-DelaLika” säkerställer dessutom att alla redigeringar och omarbetningar som görs i ditt material delas med samma öppna licens.',
-        'Creative Commons licensvillkor ”IngaBearbetningar” rekommenderas inte för öppna lärresurser. Licensen förbjuder alla typer av uppdateringar och härledda material. Undervisningsmaterialet kan till exempel inte heller översättas eller föras över till punktskrift. Vi ber också att man överväger saken noggrant innan man använder Creative Commons ”Ickekommersiell”, eftersom den förbjuder användning av materialet exmpelvis i läroanstalters avgiftsbelagda kurser och utbildningar.Mer information (på finska) på <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">https://creativecommons.fi/lisenssit/</a>',
-        'Om flera upphovsmän eller ägare finns till undervisningsmaterialet, ska den öppna licensen avtalas mellan alla parter. Detta sker exempelvis med följande mallavtal (på finska): <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/</a>',
-        'Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, ”Upphovsrätten i undervisningen”: <a href="https://aoe.fi/#/demo/materiaali/14/tekijanoikeudet-opetuksessa" target="_blank" rel="noopener nofollow">https://aoe.fi/#/demo/materiaali/14/tekijanoikeudet-opetuksessa</a>',
+        'Biblioteket för öppna lärresurser rekommenderar någondera av licenserna Creative Commons ”Erkännande 4.0” eller Creative Commons ”Erkännande-DelaLika”. Bägge säkerställer att du nämns som upphovsman till materialet och att andra fritt kan använda det inom ramen för sina inlärnings-, undervisnings- och utbildningsbehov. De tillåter också att andra gör egna ändringar i materialen. Detta tryggar aktualitet och kontinuitet för dina undervisningsmaterial också efter att du inte själv håller det uppdaterat. Creative Commons ”Erkännande-DelaLika” säkerställer dessutom att alla redigeringar och omarbetningar som görs i ditt material delas med samma öppna licens.',
+        'Creative Commons licensvillkor ”IngaBearbetningar” rekommenderas inte för öppna lärresurser. Licensen förbjuder alla typer av uppdateringar och härledda material. Undervisningsmaterialet kan till exempel inte heller översättas eller föras över till punktskrift. Vi ber också att man överväger saken noggrant innan man använder Creative Commons ”Ickekommersiell”, eftersom den förbjuder användning av materialet exmpelvis i läroanstalters avgiftsbelagda kurser och utbildningar. Mer information (på finska) på <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative commons -sidorna</a>.',
+        'Om flera upphovsmän eller ägare finns till undervisningsmaterialet, ska den öppna licensen avtalas mellan alla parter. Detta sker exempelvis med följande <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">mallavtal (på finska)</a>.',
+        'Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">”Upphovsrätten i undervisningen”</a>.',
       ]
     },
   ]
