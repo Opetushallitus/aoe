@@ -12,6 +12,8 @@ import { educationalLevelKeys } from '../../../../constants/educational-level-ke
 import {
   addEarlyChildhoodEducationSubject,
   addEarlyChildhoodEducationObjective,
+  addPrePrimaryEducationSubject,
+  addPrePrimaryEducationObjective,
 } from '../../../../shared/shared.module';
 
 @Component({
@@ -62,6 +64,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   hasHigherEducation = false;
   addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
   addEarlyChildhoodEducationObjective = addEarlyChildhoodEducationObjective;
+  addPrePrimaryEducationSubject = addPrePrimaryEducationSubject;
+  addPrePrimaryEducationObjective = addPrePrimaryEducationObjective;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -273,6 +277,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.suitsAllEarlyChildhoodSubjects = this.form.get('suitsAllEarlyChildhoodSubjects').value;
         changedMaterial.earlyChildhoodEducationObjectives = this.form.get('earlyChildhoodEducationObjectives').value;
         changedMaterial.earlyChildhoodEducationFramework = this.form.get('earlyChildhoodEducationFramework').value;
+
+        // pre-primary education
+        changedMaterial.prePrimaryEducationSubjects = this.form.get('prePrimaryEducationSubjects').value;
+        changedMaterial.suitsAllPrePrimarySubjects = this.form.get('suitsAllPrePrimarySubjects').value;
+        changedMaterial.prePrimaryEducationObjectives = this.form.get('prePrimaryEducationObjectives').value;
+        changedMaterial.prePrimaryEducationFramework = this.form.get('prePrimaryEducationFramework').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }

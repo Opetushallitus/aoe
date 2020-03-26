@@ -85,7 +85,7 @@ export function deduplicate(array: any[], prop: string): any[] {
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
+export function addEarlyChildhoodEducationSubject(value: string): AlignmentObjectExtended {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'earlyChildhoodEducationSubjects',
@@ -99,10 +99,38 @@ export function addEarlyChildhoodEducationSubject(value): AlignmentObjectExtende
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addEarlyChildhoodEducationObjective(value): AlignmentObjectExtended {
+export function addEarlyChildhoodEducationObjective(value: string): AlignmentObjectExtended {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'earlyChildhoodEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to pre-primary subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrePrimaryEducationSubject(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'prePrimaryEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to pre-primary objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrePrimaryEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'prePrimaryEducationObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
