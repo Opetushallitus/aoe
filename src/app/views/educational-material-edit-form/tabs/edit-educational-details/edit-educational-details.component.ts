@@ -9,6 +9,10 @@ import { Subscription } from 'rxjs';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
+import {
+  addEarlyChildhoodEducationSubject,
+  addEarlyChildhoodEducationObjective,
+} from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -56,6 +60,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   hasVocationalDegrees = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
+  addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
+  addEarlyChildhoodEducationObjective = addEarlyChildhoodEducationObjective;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -260,7 +266,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
           ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
           : this.material;
 
-        changedMaterial.educationalLevels = this.form.get('educationalLevels').value;
+        changedMaterial.educationalLevels = this.educationalLevelsCtrl.value;
+
+        // early childhood education
+        changedMaterial.earlyChildhoodEducationSubjects = this.form.get('earlyChildhoodEducationSubjects').value;
+        changedMaterial.suitsAllEarlyChildhoodSubjects = this.form.get('suitsAllEarlyChildhoodSubjects').value;
+        changedMaterial.earlyChildhoodEducationObjectives = this.form.get('earlyChildhoodEducationObjectives').value;
+        changedMaterial.earlyChildhoodEducationFramework = this.form.get('earlyChildhoodEducationFramework').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
