@@ -55,10 +55,10 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
       this.koodistoSvc.updateAccessibilityHazards();
     });
 
-    if (sessionStorage.getItem(environment.editMaterial) !== null) {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
-    } else {
+    if (sessionStorage.getItem(environment.editMaterial) === null) {
       this.form.patchValue(this.material);
+    } else {
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
     }
 
     if (this.expiresCtrl.value) {
