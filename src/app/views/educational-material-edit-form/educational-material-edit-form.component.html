@@ -99,9 +99,14 @@
         [tabId]="3"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-educational-details>
 
-      <!--<app-tabs-extended-details *ngSwitchCase="4"></app-tabs-extended-details>
+      <app-tabs-edit-extended-details
+        *ngSwitchCase="4"
+        [material]="material"
+        [materialId]="materialId"
+        [tabId]="4"
+        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-extended-details>
 
-      <app-tabs-license *ngSwitchCase="5"></app-tabs-license>
+      <!--<app-tabs-license *ngSwitchCase="5"></app-tabs-license>
 
       <app-tabs-based-on-details *ngSwitchCase="6"></app-tabs-based-on-details>
 

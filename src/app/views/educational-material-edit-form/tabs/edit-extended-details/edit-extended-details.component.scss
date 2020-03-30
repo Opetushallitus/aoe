@@ -1,0 +1,6 @@
+@import "mixins";
+
+.group-label {
+  color: #464646;
+  @include font-size(12);
+}

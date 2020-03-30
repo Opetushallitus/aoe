@@ -7,6 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { koodistoSources } from '../constants/koodisto-sources';
 
 @NgModule({
   imports: [
@@ -202,6 +203,20 @@ export function addScienceBranchObjectives(value: string): AlignmentObjectExtend
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'scienceBranchObjectives',
     alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to prerequisites Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrerequisites(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: koodistoSources.prerequisites,
+    alignmentType: 'requires',
     targetName: value.trim(),
   };
 }
