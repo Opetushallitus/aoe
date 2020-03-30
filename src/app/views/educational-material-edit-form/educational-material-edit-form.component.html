@@ -120,7 +120,12 @@
         [tabId]="6"
         (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-based-on-details>
 
-      <!--<app-preview *ngSwitchCase="7"></app-preview>-->
+      <app-tabs-edit-preview
+        *ngSwitchCase="7"
+        [material]="material"
+        [materialId]="materialId"
+        [tabId]="7"
+        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-preview>
     </ng-container>
   </div>
 </div>
