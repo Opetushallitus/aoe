@@ -14,6 +14,7 @@ import {
   addEarlyChildhoodEducationObjective,
   addPrePrimaryEducationSubject,
   addPrePrimaryEducationObjective,
+  addUpperSecondarySchoolObjective,
 } from '../../../../shared/shared.module';
 
 @Component({
@@ -66,6 +67,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   addEarlyChildhoodEducationObjective = addEarlyChildhoodEducationObjective;
   addPrePrimaryEducationSubject = addPrePrimaryEducationSubject;
   addPrePrimaryEducationObjective = addPrePrimaryEducationObjective;
+  addUpperSecondarySchoolObjective = addUpperSecondarySchoolObjective;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -137,6 +139,22 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.basicStudySubjectsCtrl.value && this.basicStudySubjectsCtrl.value.length > 0) {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
+    }
+
+    if (this.upperSecondarySchoolSubjectsCtrl.value && this.upperSecondarySchoolSubjectsCtrl.value.length > 0) {
+      this.currentUpperSecondarySchoolSelected.setValue(true);
+    }
+
+    if (this.upperSecondarySchoolSubjectsNewCtrl.value && this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
+      this.newUpperSecondarySchoolSelected.setValue(true);
+    }
+
+    if (this.upperSecondarySchoolSubjectsNewCtrl.value && this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
+      this.upperSecondarySchoolSubjectsNewChange(this.upperSecondarySchoolSubjectsNewCtrl.value);
+    }
+
+    if (this.upperSecondarySchoolModulesNewCtrl.value && this.upperSecondarySchoolModulesNewCtrl.value.length > 0) {
+      this.upperSecondarySchoolModulesNewChange(this.upperSecondarySchoolModulesNewCtrl.value);
     }
 
     // educational levels
@@ -241,6 +259,26 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('basicStudySubjects') as FormControl;
   }
 
+  get currentUpperSecondarySchoolSelected(): FormControl {
+    return this.form.get('currentUpperSecondarySchoolSelected') as FormControl;
+  }
+
+  get newUpperSecondarySchoolSelected(): FormControl {
+    return this.form.get('newUpperSecondarySchoolSelected') as FormControl;
+  }
+
+  get upperSecondarySchoolSubjectsCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolSubjects') as FormControl;
+  }
+
+  get upperSecondarySchoolSubjectsNewCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolSubjectsNew') as FormControl;
+  }
+
+  get upperSecondarySchoolModulesNewCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolModulesNew') as FormControl;
+  }
+
   /**
    * Runs on educational levels change. Sets hasX-type educational level boolean values.
    * @param value
@@ -266,8 +304,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Runs on basic education subjects change. Sets hasBasicStudySubjects boolean if any
-   * subjects are selected. Updates basic education objectives and contents based on selected subjects.
+   * Runs on basic education subjects change. Sets hasBasicStudySubjects boolean value.
+   * Updates basic education objectives and contents based on selected subjects.
    * @param value
    */
   basicStudySubjectsChange(value): void {
@@ -278,6 +316,36 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoSvc.updateBasicStudyObjectives(ids);
       this.koodistoSvc.updateBasicStudyContents(ids);
+    }
+  }
+
+  /**
+   * Runs on upper secondary school subject (new) change. Sets hasUpperSecondarySchoolSubjectsNew boolean
+   * value. Updates upper secondary school modules based on selected subjects.
+   * @param value
+   */
+  upperSecondarySchoolSubjectsNewChange(value): void {
+    this.hasUpperSecondarySchoolSubjectsNew = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolSubjectsNew) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoSvc.updateUpperSecondarySchoolModulesNew(ids);
+    }
+  }
+
+  /**
+   * Runs on upper secondary school modules change. Sets hasUpperSecondarySchoolModulesNew boolean value.
+   * @param value
+   */
+  upperSecondarySchoolModulesNewChange(value): void {
+    this.hasUpperSecondarySchoolModulesNew = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolModulesNew) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoSvc.updateUpperSecondarySchoolObjectivesNew(ids);
+      this.koodistoSvc.updateUpperSecondarySchoolContentsNew(ids);
     }
   }
 
@@ -314,6 +382,17 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.basicStudyObjectives = this.form.get('basicStudyObjectives').value;
         changedMaterial.basicStudyContents = this.form.get('basicStudyContents').value;
         changedMaterial.basicStudyFramework = this.form.get('basicStudyFramework').value;
+
+        // upper secondary school
+        changedMaterial.upperSecondarySchoolSubjects = this.upperSecondarySchoolSubjectsCtrl.value;
+        changedMaterial.suitsAllUpperSecondarySubjects = this.form.get('suitsAllUpperSecondarySubjects').value;
+        changedMaterial.upperSecondarySchoolObjectives = this.form.get('upperSecondarySchoolObjectives').value;
+        changedMaterial.upperSecondarySchoolFramework = this.form.get('upperSecondarySchoolFramework').value;
+        changedMaterial.upperSecondarySchoolSubjectsNew = this.upperSecondarySchoolSubjectsNewCtrl.value;
+        changedMaterial.suitsAllUpperSecondarySubjectsNew = this.form.get('suitsAllUpperSecondarySubjectsNew').value;
+        changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
+        changedMaterial.upperSecondarySchoolObjectivesNew = this.form.get('upperSecondarySchoolObjectivesNew').value;
+        changedMaterial.upperSecondarySchoolContentsNew = this.form.get('upperSecondarySchoolContentsNew').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
