@@ -135,3 +135,17 @@ export function addPrePrimaryEducationObjective(value: string): AlignmentObjectE
     targetName: value.trim(),
   };
 }
+
+/**
+ * Converts string value to upper secondary school objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addUpperSecondarySchoolObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'upperSecondarySchoolObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
