@@ -149,3 +149,17 @@ export function addUpperSecondarySchoolObjective(value: string): AlignmentObject
     targetName: value.trim(),
   };
 }
+
+/**
+ * Converts string value to vocational education objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addVocationalEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'vocationalEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
