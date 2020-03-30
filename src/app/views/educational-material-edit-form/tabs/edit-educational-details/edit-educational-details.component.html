@@ -695,6 +695,99 @@
     </div>
   </ng-container><!--/self-motivated competence development-->
 
+  <ng-container *ngIf="hasHigherEducation">
+    <h3>
+      {{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="branchesOfScience">
+        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="scienceBranches"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        groupBy="children"
+        bindLabel="targetName"
+        id="branchesOfScience"
+        formControlName="branchesOfScience"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="suitsAllBranches"
+          formControlName="suitsAllBranches"
+        >
+
+        <label class="custom-control-label" for="suitsAllBranches">
+          {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="scienceBranchObjectives">
+        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addScienceBranchObjectives"
+        bindLabel="targetName"
+        id="scienceBranchObjectives"
+        formControlName="scienceBranchObjectives"
+      >
+      </ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="higherEducationFramework">
+        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip' | translate"
+      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="higherEducationFramework"
+        formControlName="higherEducationFramework"
+      >
+    </div>
+  </ng-container><!--/higher education-->
+
   <div class="row">
     <div class="col">
       <button

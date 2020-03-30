@@ -191,3 +191,17 @@ export function addSelfMotivatedEducationObjective(value: string): AlignmentObje
     targetName: value.trim(),
   };
 }
+
+/**
+ * Converts string value to higher education objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addScienceBranchObjectives(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'scienceBranchObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}

@@ -18,6 +18,7 @@ import {
   addVocationalEducationObjective,
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
+  addScienceBranchObjectives,
 } from '../../../../shared/shared.module';
 
 @Component({
@@ -74,6 +75,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   addVocationalEducationObjective = addVocationalEducationObjective;
   addSelfMotivatedEducationSubject = addSelfMotivatedEducationSubject;
   addSelfMotivatedEducationObjective = addSelfMotivatedEducationObjective;
+  addScienceBranchObjectives = addScienceBranchObjectives;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -435,6 +437,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.selfMotivatedEducationSubjects = this.form.get('selfMotivatedEducationSubjects').value;
         changedMaterial.suitsAllSelfMotivatedSubjects = this.form.get('suitsAllSelfMotivatedSubjects').value;
         changedMaterial.selfMotivatedEducationObjectives = this.form.get('selfMotivatedEducationObjectives').value;
+
+        // higher education
+        changedMaterial.branchesOfScience = this.form.get('branchesOfScience').value;
+        changedMaterial.suitsAllBranches = this.form.get('suitsAllBranches').value;
+        changedMaterial.scienceBranchObjectives = this.form.get('scienceBranchObjectives').value;
+        changedMaterial.higherEducationFramework = this.form.get('higherEducationFramework').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
