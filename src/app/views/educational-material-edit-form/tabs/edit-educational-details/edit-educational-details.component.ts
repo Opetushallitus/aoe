@@ -336,6 +336,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
   /**
    * Runs on upper secondary school modules change. Sets hasUpperSecondarySchoolModulesNew boolean value.
+   * Updates upper secondary school objectives and contents based on selected modules.
    * @param value
    */
   upperSecondarySchoolModulesNewChange(value): void {
