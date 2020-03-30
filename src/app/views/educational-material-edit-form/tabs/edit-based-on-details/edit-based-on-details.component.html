@@ -1,0 +1,120 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="material">
+  <h3>
+    {{ 'forms.educationalResource.basedOnDetails.externals.title' | translate }}
+  </h3>
+
+  <p>
+    {{ 'forms.educationalResource.basedOnDetails.addNew.tooltip' | translate }}
+  </p>
+
+  <div formArrayName="externals" *ngFor="let external of externalsArray.controls; let i = index;">
+    <div class="form-row" [formGroupName]="i">
+      <div class="form-group col-md">
+        <label for="{{ 'authorExt-' + i }}">
+          {{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="[]"
+          [multiple]="true"
+          [addTag]="true"
+          id="{{ 'authorExt-' + i }}"
+          formControlName="author"
+          [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
+        ></ng-select>
+
+        <ng-container *ngIf="submitted && external.get('author').errors">
+          <div *ngIf="external.get('author').errors.required">
+            <small class="text-danger">
+              {{ 'forms.common.required' | translate }}
+            </small>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="form-group col-md">
+        <label for="{{ 'url-' + i }}">
+          {{ 'forms.educationalResource.basedOnDetails.externals.inputs.link.label' | translate }}
+        </label>
+
+        <input
+          type="url"
+          id="{{ 'url-' + i }}"
+          class="form-control"
+          formControlName="url"
+          [ngClass]="{ 'is-invalid': submitted && external.get('url').errors }"
+        >
+
+        <div *ngIf="submitted && external.get('url').errors" class="invalid-feedback">
+          <div *ngIf="external.get('url').errors.required">
+            {{ 'forms.common.required' | translate }}
+          </div>
+          <div *ngIf="external.get('url').errors.pattern">
+            {{ 'forms.common.pattern.url' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md">
+        <label for="{{ 'name-' + i }}">
+          {{ 'forms.educationalResource.basedOnDetails.externals.inputs.name.label' | translate }}
+        </label>
+
+        <input
+          type="text"
+          id="{{ 'name-' + i }}"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{ 'is-invalid': submitted && external.get('name').errors }"
+        >
+
+        <div *ngIf="submitted && external.get('name').errors" class="invalid-feedback">
+          <div *ngIf="external.get('name').errors.required">
+            {{ 'forms.common.required' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-auto align-self-end">
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="removeExternal(i)"
+        >{{ 'forms.common.delete' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <button
+      type="button"
+      class="btn btn-gray"
+      (click)="addExternal()"
+    >{{ 'forms.educationalResource.basedOnDetails.addNew.button' | translate }}</button>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previous()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="abort()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>
