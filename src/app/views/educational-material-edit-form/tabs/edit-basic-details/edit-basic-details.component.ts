@@ -76,16 +76,16 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       this.updateLanguages();
     });
 
-    if (sessionStorage.getItem(environment.editMaterial) !== null) {
+    if (sessionStorage.getItem(environment.editMaterial) === null) {
+      this.form.patchValue(this.material);
+
+      this.patchAuthors(this.material.authors);
+    } else {
       const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
       this.form.patchValue(editMaterial);
 
       this.patchAuthors(editMaterial.authors);
-    } else {
-      this.form.patchValue(this.material);
-
-      this.patchAuthors(this.material.authors);
     }
 
     // organizations
