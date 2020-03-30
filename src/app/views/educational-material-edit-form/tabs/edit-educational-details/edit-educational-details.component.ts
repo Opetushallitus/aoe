@@ -15,6 +15,7 @@ import {
   addPrePrimaryEducationSubject,
   addPrePrimaryEducationObjective,
   addUpperSecondarySchoolObjective,
+  addVocationalEducationObjective,
 } from '../../../../shared/shared.module';
 
 @Component({
@@ -68,6 +69,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   addPrePrimaryEducationSubject = addPrePrimaryEducationSubject;
   addPrePrimaryEducationObjective = addPrePrimaryEducationObjective;
   addUpperSecondarySchoolObjective = addUpperSecondarySchoolObjective;
+  addVocationalEducationObjective = addVocationalEducationObjective;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -155,6 +157,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.upperSecondarySchoolModulesNewCtrl.value && this.upperSecondarySchoolModulesNewCtrl.value.length > 0) {
       this.upperSecondarySchoolModulesNewChange(this.upperSecondarySchoolModulesNewCtrl.value);
+    }
+
+    if (this.vocationalDegreesCtrl.value && this.vocationalDegreesCtrl.value.length > 0) {
+      this.vocationalDegreesChange(this.vocationalDegreesCtrl.value);
     }
 
     // educational levels
@@ -279,6 +285,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('upperSecondarySchoolModulesNew') as FormControl;
   }
 
+  get vocationalDegreesCtrl(): FormControl {
+    return this.form.get('vocationalDegrees') as FormControl;
+  }
+
   /**
    * Runs on educational levels change. Sets hasX-type educational level boolean values.
    * @param value
@@ -351,6 +361,21 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Runs on vocational education degree change. Sets hasVocationalDegrees boolean value. Updates
+   * vocational education units based on selected degrees.
+   * @param value
+   */
+  vocationalDegreesChange(value): void {
+    this.hasVocationalDegrees = value.length > 0;
+
+    if (this.hasVocationalDegrees) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+
+      this.koodistoSvc.updateVocationalUnits(ids);
+    }
+  }
+
+  /**
    * Runs on submit. If form is valid and dirty, changed material is saved on sessionStorage.
    * If form is valid, redirects user to the next tab.
    */
@@ -394,6 +419,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
         changedMaterial.upperSecondarySchoolObjectivesNew = this.form.get('upperSecondarySchoolObjectivesNew').value;
         changedMaterial.upperSecondarySchoolContentsNew = this.form.get('upperSecondarySchoolContentsNew').value;
+
+        // vocational education
+        changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
+        changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
+        changedMaterial.vocationalUnits = this.form.get('vocationalUnits').value;
+        changedMaterial.vocationalEducationObjectives = this.form.get('vocationalEducationObjectives').value;
+        changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
