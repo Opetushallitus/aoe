@@ -163,3 +163,31 @@ export function addVocationalEducationObjective(value: string): AlignmentObjectE
     targetName: value.trim(),
   };
 }
+
+/**
+ * Converts string value to self-motivated competence development subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addSelfMotivatedEducationSubject(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'selfMotivatedEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to self-motivated competence development objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addSelfMotivatedEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'selfMotivatedEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}

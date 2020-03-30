@@ -16,6 +16,8 @@ import {
   addPrePrimaryEducationObjective,
   addUpperSecondarySchoolObjective,
   addVocationalEducationObjective,
+  addSelfMotivatedEducationSubject,
+  addSelfMotivatedEducationObjective,
 } from '../../../../shared/shared.module';
 
 @Component({
@@ -70,6 +72,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   addPrePrimaryEducationObjective = addPrePrimaryEducationObjective;
   addUpperSecondarySchoolObjective = addUpperSecondarySchoolObjective;
   addVocationalEducationObjective = addVocationalEducationObjective;
+  addSelfMotivatedEducationSubject = addSelfMotivatedEducationSubject;
+  addSelfMotivatedEducationObjective = addSelfMotivatedEducationObjective;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -426,6 +430,11 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.vocationalUnits = this.form.get('vocationalUnits').value;
         changedMaterial.vocationalEducationObjectives = this.form.get('vocationalEducationObjectives').value;
         changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
+
+        // self-motivated competence development
+        changedMaterial.selfMotivatedEducationSubjects = this.form.get('selfMotivatedEducationSubjects').value;
+        changedMaterial.suitsAllSelfMotivatedSubjects = this.form.get('suitsAllSelfMotivatedSubjects').value;
+        changedMaterial.selfMotivatedEducationObjectives = this.form.get('selfMotivatedEducationObjectives').value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
