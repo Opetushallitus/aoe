@@ -86,6 +86,7 @@ import { EditBasicDetailsComponent } from '@views/educational-material-edit-form
 import { EditEducationalDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
 // tslint:disable-next-line:max-line-length
 import { EditExtendedDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-extended-details/edit-extended-details.component';
+import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
 
 @NgModule({
   imports: [
@@ -163,6 +164,7 @@ import { EditExtendedDetailsComponent } from '@views/educational-material-edit-f
     EditBasicDetailsComponent,
     EditEducationalDetailsComponent,
     EditExtendedDetailsComponent,
+    EditLicenseComponent,
   ],
   providers: [
     {
