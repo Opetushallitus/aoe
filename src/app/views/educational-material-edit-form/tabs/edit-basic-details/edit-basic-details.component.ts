@@ -145,7 +145,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Patch authors array.
+   * Patches authors array.
    * @param authors
    */
   patchAuthors(authors): void {
