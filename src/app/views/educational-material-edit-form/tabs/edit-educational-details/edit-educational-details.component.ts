@@ -135,10 +135,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoSvc.updateScienceBranches();
     });
 
-    if (sessionStorage.getItem(environment.editMaterial) !== null) {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
-    } else {
+    if (sessionStorage.getItem(environment.editMaterial) === null) {
       this.form.patchValue(this.material);
+    } else {
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
     }
 
     if (this.educationalLevelsCtrl.value && this.educationalLevelsCtrl.value.length > 0) {
