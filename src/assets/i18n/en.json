@@ -484,6 +484,12 @@
         "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
         "confirm": "Kyllä",
         "cancel": "Ei"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Editing not permitted",
+          "message": "You are trying to edit a material for which you do not have the permission for. If you have uploaded this material, please check that you are using the correct login method."
+        }
       }
     }
   },

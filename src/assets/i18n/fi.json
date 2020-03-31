@@ -484,6 +484,12 @@
         "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
         "confirm": "Kyllä",
         "cancel": "Ei"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Muokkaaminen ei sallittu",
+          "message": "Yrität muokata materiaali johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
+        }
       }
     }
   },
