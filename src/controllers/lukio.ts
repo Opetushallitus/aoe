@@ -45,7 +45,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
           finnishSubjects.push({
             key: subject.id,
             source: "upperSecondarySchoolSubjectsNew",
-            alignmentType: "teaches",
+            alignmentType: "educationalSubject",
             targetName: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
             targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}`,
           });
@@ -53,7 +53,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
           swedishSubjects.push({
             key: subject.id,
             source: "upperSecondarySchoolSubjectsNew",
-            alignmentType: "teaches",
+            alignmentType: "educationalSubject",
             targetName: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
             targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}`,
           });
