@@ -415,13 +415,12 @@ export class BackendService {
             sv: material.name.find((name) => name.language === 'sv').materialname,
             en: material.name.find((name) => name.language === 'en').materialname,
           },
-          files: material.materials.map((file) => ({
+          fileDetails: material.materials.map((file) => ({
             id: file.id,
             file: file.originalfilename,
             link: file.link,
             language: file.language,
             displayName: file.displayName,
-            priority: file.priority,
           })),
           keywords: material.keywords.map((keyword) => ({
             key: keyword.keywordkey,

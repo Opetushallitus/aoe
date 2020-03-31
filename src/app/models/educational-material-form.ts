@@ -7,27 +7,17 @@ export interface EducationalMaterialForm {
     sv?: string;
     en?: string;
   };
-  files?: [
+  fileDetails?: [
     {
-      id: string;
+      id: string | number;
       file?: string;
       link?: string;
-      language: string;
       displayName: {
         fi?: string;
         sv?: string;
         en?: string;
       };
-      priority: number;
-      subtitles?: [
-        {
-          file: string;
-          default: boolean;
-          kind: 'subtitles';
-          label: string;
-          srclang: string;
-        }
-      ];
+      language: string;
     }
   ];
   // basic details

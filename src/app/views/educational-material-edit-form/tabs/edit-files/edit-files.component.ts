@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '@services/backend.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Language } from '@models/koodisto-proxy/language';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -21,11 +24,14 @@ export class EditFilesComponent implements OnInit {
   otherLangs: string[];
   translationsModalRef: BsModalRef;
   submitted = false;
+  languageSubscription: Subscription;
+  languages: Language[];
   @Output() abortEdit = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
     private backendSvc: BackendService,
+    private koodistoSvc: KoodistoProxyService,
     private translate: TranslateService,
     private modalService: BsModalService,
     private router: Router,
@@ -38,6 +44,19 @@ export class EditFilesComponent implements OnInit {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
+      fileDetails: this.fb.array([
+        this.fb.group({
+          id: this.fb.control([null, { disabled: true }], [ Validators.required ]),
+          file: this.fb.control([null, { disabled: true }]),
+          link: this.fb.control(null),
+          displayName: this.fb.group({
+            fi: this.fb.control(null),
+            sv: this.fb.control(null),
+            en: this.fb.control(null),
+          }),
+          language: this.fb.control(null),
+        }),
+      ]),
     });
 
     this.updateLanguages();
@@ -53,10 +72,20 @@ export class EditFilesComponent implements OnInit {
     } else {
       this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
     }
+
+    // languages
+    this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+      this.languages = languages;
+    });
+    this.koodistoSvc.updateLanguages();
   }
 
   get nameCtrl(): FormControl {
     return this.form.get(`name.${this.lang}`) as FormControl;
+  }
+
+  get fileDetailsArray(): FormArray {
+    return this.form.get('fileDetails') as FormArray;
   }
 
   /**
@@ -103,6 +132,7 @@ export class EditFilesComponent implements OnInit {
           : this.material;
 
         changedMaterial.name = this.form.get('name').value;
+        changedMaterial.fileDetails = this.fileDetailsArray.value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
       }
