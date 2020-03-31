@@ -31,6 +31,11 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
 
     this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
       this.material = material;
+
+      if (this.material === null) {
+        // @todo: show toast
+        this.router.navigate(['/etusivu']);
+      }
     });
     this.backendSvc.updateEditMaterial(this.materialId);
 
