@@ -41,6 +41,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from 'ngx-clipboard';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -123,6 +124,7 @@ import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs
     ImageCropperModule,
     DragDropModule,
     ClipboardModule,
+    ToastrModule.forRoot(),
   ],
   declarations: [
     AppComponent,
