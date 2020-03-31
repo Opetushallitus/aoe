@@ -66,7 +66,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                 value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
               },
               source: "upperSecondarySchoolModulesNew",
-              alignmentType: "teaches",
+              alignmentType: "educationalSubject",
               targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
               targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}/moduulit/${module.id}`,
             });
@@ -78,7 +78,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                 value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
               },
               source: "upperSecondarySchoolModulesNew",
-              alignmentType: "teaches",
+              alignmentType: "educationalSubject",
               targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
               targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${subject.id}/moduulit/${module.id}`,
             });
@@ -105,7 +105,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                   value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
                 },
                 source: "upperSecondarySchoolSubjectsNew",
-                alignmentType: "teaches",
+                alignmentType: "educationalSubject",
                 targetName: course.nimi.fi ? course.nimi.fi : course.nimi.sv,
                 targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}`,
               });
@@ -117,7 +117,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                   value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.en,
                 },
                 source: "upperSecondarySchoolSubjectsNew",
-                alignmentType: "teaches",
+                alignmentType: "educationalSubject",
                 targetName: course.nimi.sv ? course.nimi.sv : course.nimi.fi,
                 targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}`,
               });
@@ -130,7 +130,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                     value: course.nimi.fi ? course.nimi.fi : course.nimi.sv,
                   },
                   source: "upperSecondarySchoolModulesNew",
-                  alignmentType: "teaches",
+                  alignmentType: "educationalSubject",
                   targetName: module.nimi.fi ? module.nimi.fi : module.nimi.sv,
                   targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}/moduulit/${module.id}`,
                 });
@@ -142,7 +142,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                     value: course.nimi.sv ? course.nimi.sv : course.nimi.fi,
                   },
                   source: "upperSecondarySchoolModulesNew",
-                  alignmentType: "teaches",
+                  alignmentType: "educationalSubject",
                   targetName: module.nimi.sv ? module.nimi.sv : module.nimi.fi,
                   targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${course.id}/moduulit/${module.id}`,
                 });
