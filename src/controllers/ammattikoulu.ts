@@ -123,7 +123,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
               value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
             },
             source: "vocationalUnits",
-            alignmentType: "teaches",
+            alignmentType: "educationalSubject",
             targetName: unit.nimi.fi ? unit.nimi.fi : unit.nimi.sv,
           });
 
@@ -134,7 +134,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
               value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
             },
             source: "vocationalUnits",
-            alignmentType: "teaches",
+            alignmentType: "educationalSubject",
             targetName: unit.nimi.sv ? unit.nimi.sv : unit.nimi.fi,
           });
 
@@ -145,7 +145,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
               value: results.nimi.en ? results.nimi.en : results.nimi.fi,
             },
             source: "vocationalUnits",
-            alignmentType: "teaches",
+            alignmentType: "educationalSubject",
             targetName: unit.nimi.en ? unit.nimi.en : unit.nimi.fi,
           });*/
         });
