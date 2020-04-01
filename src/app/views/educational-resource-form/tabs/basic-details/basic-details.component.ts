@@ -219,11 +219,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   uploadImage() {
     if (this.croppedImage.base64) {
-      const data = {
-        'base64image': this.croppedImage.base64,
-      };
-
-      this.backendSvc.uploadImage(data).subscribe(
+      this.backendSvc.uploadImage(this.croppedImage.base64).subscribe(
         (res) => {
           this.uploadResponse = res;
 
