@@ -12,6 +12,9 @@ import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-t
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Router } from '@angular/router';
+import { UploadMessage } from '@models/upload-message';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { BackendService } from '@services/backend.service';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -26,6 +29,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   otherLangs: string[];
   translationsModalRef: BsModalRef;
+  thumbnailModalRef: BsModalRef;
   submitted = false;
   addCustomItem = addCustomItem;
   organizationSubscription: Subscription;
@@ -38,6 +42,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   educationalRoles: EducationalRole[];
   educationalUseSubscription: Subscription;
   educationalUses: EducationalUse[];
+  uploadResponse: UploadMessage = { status: '', message: 0 };
+  imageChangedEvent: any = '';
+  croppedImage: ImageCroppedEvent;
+  thumbnailSrc: string;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -46,6 +54,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
+    private backendSvc: BackendService,
   ) { }
 
   ngOnInit(): void {
@@ -87,6 +96,8 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
       this.patchAuthors(editMaterial.authors);
     }
+
+    this.thumbnailSrc = this.material.thumbnail;
 
     // organizations
     this.organizationSubscription = this.koodistoSvc.organizations$
@@ -142,6 +153,48 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   get authorsArray(): FormArray {
     return this.form.get('authors') as FormArray;
+  }
+
+  /**
+   * Shows modal for uploading thumbnail.
+   * @param {TemplateRef<any>} template
+   */
+  openThumbnailModal(template: TemplateRef<any>): void {
+    this.thumbnailModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered' })
+    );
+  }
+
+  imageChange(event): void {
+    this.imageChangedEvent = event;
+  }
+
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event;
+  }
+
+  uploadImage(): void {
+    if (this.croppedImage.base64) {
+      this.backendSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
+        (res: UploadMessage) => {
+          this.uploadResponse = res;
+          this.thumbnailSrc = this.croppedImage.base64;
+
+          const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+            ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+            : this.material;
+
+          changedMaterial.thumbnail = this.croppedImage.base64;
+
+          sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+
+          // close modal
+          this.thumbnailModalRef.hide();
+        },
+        (err) => console.error(err),
+      );
+    }
   }
 
   /**
