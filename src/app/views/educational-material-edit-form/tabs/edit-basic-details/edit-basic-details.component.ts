@@ -170,10 +170,18 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.imageChangedEvent = event;
   }
 
+  /**
+   * Updates croppedImage.
+   * @param {ImageCroppedEvent} event
+   */
   imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event;
   }
 
+  /**
+   * Uploads image to backend. Sets thumbnailSrc and updates thumbnail in session
+   * storage. Closes thumbnail modal.
+   */
   uploadImage(): void {
     if (this.croppedImage.base64) {
       this.backendSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
