@@ -44,20 +44,7 @@ export class EditFilesComponent implements OnInit {
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
-      fileDetails: this.fb.array([
-        this.fb.group({
-          id: this.fb.control([null, { disabled: true }], [ Validators.required ]),
-          file: this.fb.control([null, { disabled: true }]),
-          link: this.fb.control(null),
-          displayName: this.fb.group({
-            fi: this.fb.control(null),
-            sv: this.fb.control(null),
-            en: this.fb.control(null),
-          }),
-          language: this.fb.control(null, [ Validators.required ]),
-          priority: this.fb.control([null, { disabled: true }], [ Validators.required ]),
-        }),
-      ]),
+      fileDetails: this.fb.array([]),
     });
 
     this.updateLanguages();
@@ -70,8 +57,14 @@ export class EditFilesComponent implements OnInit {
 
     if (sessionStorage.getItem(environment.editMaterial) === null) {
       this.form.patchValue(this.material);
+
+      this.patchFileDetails(this.material.fileDetails);
     } else {
-      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.editMaterial)));
+      const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+
+      this.form.patchValue(editMaterial);
+
+      this.patchFileDetails(editMaterial.fileDetails);
     }
 
     // languages
@@ -106,6 +99,36 @@ export class EditFilesComponent implements OnInit {
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
     );
+  }
+
+  /**
+   * Patches fileDetails array.
+   * @param fileDetails
+   */
+  patchFileDetails(fileDetails): void {
+    fileDetails.forEach((file) => {
+      this.fileDetailsArray.push(this.createFileDetail(file));
+    });
+  }
+
+  /**
+   * Creates fileDetail FormGroup.
+   * @param file
+   * @returns {FormGroup}
+   */
+  createFileDetail(file): FormGroup {
+    return this.fb.group({
+      id: this.fb.control(file.id, [ Validators.required ]),
+      file: this.fb.control(file.file),
+      link: this.fb.control(file.link),
+      displayName: this.fb.group({
+        fi: this.fb.control(file.displayName.fi),
+        sv: this.fb.control(file.displayName.sv),
+        en: this.fb.control(file.displayName.en),
+      }),
+      language: this.fb.control(file.language, [ Validators.required ]),
+      priority: this.fb.control(file.priority, [ Validators.required ]),
+    });
   }
 
   /**
