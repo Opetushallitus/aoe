@@ -1,6 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="material">
   <div class="row">
-    <div class="col-md-2">image</div>
+    <div class="col-md-2">
+      <img [src]="material.thumbnail" class="img-fluid" *ngIf="material.thumbnail">
+    </div><!--/thumbnail-->
 
     <div class="col-md-10">
       <h3>

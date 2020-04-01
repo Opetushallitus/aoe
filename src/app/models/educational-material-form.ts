@@ -22,6 +22,7 @@ export interface EducationalMaterialForm {
     }
   ];
   // basic details
+  thumbnail?: string;
   keywords: [
     {
       key: string;
