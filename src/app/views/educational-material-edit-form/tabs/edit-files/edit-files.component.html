@@ -100,8 +100,8 @@
           (click)="translationsModalRef.hide()"
         >{{ 'forms.common.saveChanges' | translate }}</button>
       </div>
-    </ng-template>
-  </div>
+    </ng-template><!--/modal-->
+  </div><!--/name-->
 
   <ng-container *ngFor="let file of fileDetailsArray.controls; let i = index;">
     <div class="form-group" formArrayName="fileDetails">
@@ -149,8 +149,8 @@
                   {{ 'forms.common.pattern.url' | translate }}
                 </div>
               </div>
-            </div><!--/link-->
-          </ng-template>
+            </div>
+          </ng-template><!--/link-->
 
           <div class="form-group col-lg-2">
             <label for="{{ 'language' + i }}">
@@ -282,11 +282,11 @@
                 (click)="translationsModalRef.hide()"
               >{{ 'forms.common.saveChanges' | translate }}</button>
             </div>
-          </ng-template>
-        </div>
+          </ng-template><!--/modal-->
+        </div><!--/displayName-->
       </ng-container>
     </div>
-  </ng-container>
+  </ng-container><!--/files-->
 
   <div class="row justify-content-end">
     <div class="col-auto">
