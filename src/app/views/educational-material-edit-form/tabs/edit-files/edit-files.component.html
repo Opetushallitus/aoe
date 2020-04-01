@@ -104,16 +104,11 @@
   </div><!--/name-->
 
   <ng-container *ngFor="let file of fileDetailsArray.controls; let i = index;">
-    <div class="form-group" formArrayName="fileDetails">
+    <fieldset class="form-group" formArrayName="fileDetails">
       <ng-container [formGroupName]="i">
-        <h4>
+        <h2>
           {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.files.file.tooltip' | translate"
-          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-        </h4>
+        </h2>
 
         <div class="form-row align-items-end">
           <div class="form-group col-lg" *ngIf="file.get('file').value; else fileLink">
@@ -285,7 +280,7 @@
           </ng-template><!--/modal-->
         </div><!--/displayName-->
       </ng-container>
-    </div>
+    </fieldset>
   </ng-container><!--/files-->
 
   <div class="row justify-content-end">
