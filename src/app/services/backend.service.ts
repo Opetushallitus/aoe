@@ -423,6 +423,7 @@ export class BackendService {
             displayName: file.displayName,
             priority: file.priority,
           })),
+          thumbnail: material.thumbnail ? material.thumbnail.filepath : null,
           keywords: material.keywords.map((keyword) => ({
             key: keyword.keywordkey,
             value: keyword.value,
