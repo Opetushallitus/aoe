@@ -64,6 +64,8 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.materialSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
+
+    sessionStorage.removeItem(environment.editMaterial);
   }
 
   /**
