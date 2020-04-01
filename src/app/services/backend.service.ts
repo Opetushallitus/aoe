@@ -334,13 +334,18 @@ export class BackendService {
   /**
    * Upload thumbnail image for educational material to backend.
    * @param {FormData} data
+   * @param {number} materialId
    * @returns {Observable<UploadMessage>} Upload message
    */
-  uploadImage(data: { base64image: string }): Observable<UploadMessage> {
-    if (sessionStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
+  uploadImage(data: { base64image: string }, materialId?: number): Observable<UploadMessage> {
+    const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${fileUpload.id}`, data, {
+    if (fileUpload !== null || materialId) {
+      if (fileUpload) {
+        materialId = fileUpload.id;
+      }
+
+      return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${materialId}`, data, {
         headers: new HttpHeaders({
           'Accept': 'application/json',
           'Content-Type': 'application/json',
