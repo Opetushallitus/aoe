@@ -54,7 +54,8 @@ export class EditFilesComponent implements OnInit {
             sv: this.fb.control(null),
             en: this.fb.control(null),
           }),
-          language: this.fb.control(null),
+          language: this.fb.control(null, [ Validators.required ]),
+          priority: this.fb.control([null, { disabled: true }], [ Validators.required ]),
         }),
       ]),
     });

@@ -421,6 +421,7 @@ export class BackendService {
             link: file.link,
             language: file.language,
             displayName: file.displayName,
+            priority: file.priority,
           })),
           keywords: material.keywords.map((keyword) => ({
             key: keyword.keywordkey,

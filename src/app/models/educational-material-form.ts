@@ -18,6 +18,7 @@ export interface EducationalMaterialForm {
         en?: string;
       };
       language: string;
+      priority: number;
     }
   ];
   // basic details
