@@ -3,6 +3,8 @@ import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -16,6 +18,7 @@ export class EditPreviewComponent implements OnInit {
   form: FormGroup;
   lang: string;
   submitted = false;
+  previewMaterial: EducationalMaterialForm;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -34,6 +37,20 @@ export class EditPreviewComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });
+
+    if (sessionStorage.getItem(environment.editMaterial) === null) {
+      this.previewMaterial = this.material;
+    } else {
+      this.previewMaterial = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+    }
+  }
+
+  /**
+   * Moves item in array.
+   * @param {CdkDragDrop<any>} event
+   */
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
   }
 
   /**
@@ -44,11 +61,20 @@ export class EditPreviewComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
+      /*const changedMaterial = this.previewMaterial;
+
+      // @ts-ignore
+      changedMaterial.fileDetails = this.previewMaterial.fileDetails.map((file, idx) => ({
+        ...file,
+        priority: idx,
+      }));
+
+      console.log(changedMaterial);*/
       // handle alignment objects?
       // post updated material
     }
 
-    this.router.navigate(['/materiaali', this.materialId]);
+    // this.router.navigate(['/materiaali', this.materialId]);
   }
 
   /**
