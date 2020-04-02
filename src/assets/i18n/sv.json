@@ -109,7 +109,8 @@
       "previous": "Föregående",
       "required": "Obligatorisk uppgift",
       "pattern": {
-        "url": "Sätt prefix http:// eller https://"
+        "url": "Sätt prefix http:// eller https://",
+        "numeric": "Endast nummer är tillåtna"
       },
       "min": "Minst: ",
       "save": "Spara",

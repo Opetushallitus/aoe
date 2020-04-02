@@ -109,7 +109,8 @@
       "previous": "Edellinen",
       "required": "Pakollinen tieto",
       "pattern": {
-        "url": "Aseta etuliite http:// tai https://"
+        "url": "Aseta etuliite http:// tai https://",
+        "numeric": "Vain numerot ovat sallittuja"
       },
       "min": "Vähintään: ",
       "save": "Tallenna",
