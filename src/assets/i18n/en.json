@@ -109,7 +109,8 @@
       "previous": "Previous",
       "required": "Required",
       "pattern": {
-        "url": "Please, provide http:// or https:// prefix"
+        "url": "Please, provide http:// or https:// prefix",
+        "numeric": "Only numbers are allowed"
       },
       "min": "At least: ",
       "save": "Save",

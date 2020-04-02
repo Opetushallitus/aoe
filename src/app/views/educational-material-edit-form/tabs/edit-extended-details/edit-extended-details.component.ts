@@ -41,8 +41,14 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
       typicalAgeRange: this.fb.group({
-        typicalAgeRangeMin: this.fb.control(null, [ Validators.min(0) ]),
-        typicalAgeRangeMax: this.fb.control(null, [ Validators.min(0) ]),
+        typicalAgeRangeMin: this.fb.control(null, [
+          Validators.min(0),
+          Validators.pattern('[0-9]*'),
+        ]),
+        typicalAgeRangeMax: this.fb.control(null, [
+          Validators.min(0),
+          Validators.pattern('[0-9]*'),
+        ]),
       }),
       timeRequired: this.fb.control(null),
       publisher: this.fb.control(null),
