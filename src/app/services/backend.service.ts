@@ -414,6 +414,71 @@ export class BackendService {
       }),
     }).subscribe((material) => {
       if (material.owner) {
+        const earlyChildhoodEducationSubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodSubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const prePrimaryEducationSubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.prePrimarySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const basicStudySubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.basicStudySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+        const upperSecondarySubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const vocationalDegrees = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.vocationalDegrees)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const branchesOfScience = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.scienceBranches)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
         const editMaterial: EducationalMaterialForm = {
           name: {
             fi: material.name.find((name) => name.language === 'fi').materialname,
@@ -463,16 +528,7 @@ export class BackendService {
             key: level.educationallevelkey,
             value: level.value,
           })),
-          earlyChildhoodEducationSubjects: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodSubjects)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          earlyChildhoodEducationSubjects: earlyChildhoodEducationSubjects,
           suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
           earlyChildhoodEducationObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodObjectives)
@@ -484,17 +540,10 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // earlyChildhoodEducationFramework: '',
-          prePrimaryEducationSubjects: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.prePrimarySubjects)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          earlyChildhoodEducationFramework: (earlyChildhoodEducationSubjects.length > 0 && earlyChildhoodEducationSubjects[0].educationalFramework)
+            ? earlyChildhoodEducationSubjects[0].educationalFramework
+            : null,
+          prePrimaryEducationSubjects: prePrimaryEducationSubjects,
           suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
           prePrimaryEducationObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.prePrimaryObjectives)
@@ -506,17 +555,10 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // prePrimaryEducationFramework: '',
-          basicStudySubjects: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.basicStudySubjects)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          prePrimaryEducationFramework: (prePrimaryEducationSubjects.length > 0 && prePrimaryEducationSubjects[0].educationalFramework)
+            ? prePrimaryEducationSubjects[0].educationalFramework
+            : null,
+          basicStudySubjects: basicStudySubjects,
           suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
           basicStudyObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.basicStudyObjectives)
@@ -538,17 +580,10 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // basicStudyFramework: '',
-          upperSecondarySchoolSubjects: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjects)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          basicStudyFramework: (basicStudySubjects.length > 0 && basicStudySubjects[0].educationalFramework)
+            ? basicStudySubjects[0].educationalFramework
+            : null,
+          upperSecondarySchoolSubjects: upperSecondarySubjects,
           suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
           upperSecondarySchoolObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondaryObjectives)
@@ -560,6 +595,9 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
+          upperSecondarySchoolFramework: (upperSecondarySubjects.length > 0 && upperSecondarySubjects[0].educationalFramework)
+            ? upperSecondarySubjects[0].educationalFramework
+            : null,
           upperSecondarySchoolSubjectsNew: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
             .map((alignment) => ({
@@ -570,7 +608,7 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
+          suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
           upperSecondarySchoolModulesNew: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondaryModulesNew)
             .map((alignment) => ({
@@ -601,16 +639,7 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          vocationalDegrees: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.vocationalDegrees)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          vocationalDegrees: vocationalDegrees,
           suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
           vocationalUnits: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.vocationalUnits)
@@ -632,7 +661,9 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // vocationalEducationFramework: '',
+          vocationalEducationFramework: (vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework)
+            ? vocationalDegrees[0].educationalFramework
+            : null,
           selfMotivatedEducationSubjects: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.selfMotivatedSubjects)
             .map((alignment) => ({
@@ -654,16 +685,7 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          branchesOfScience: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.scienceBranches)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          branchesOfScience: branchesOfScience,
           suitsAllBranches: material.suitsAllBranches,
           scienceBranchObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.scienceBranchObjectives)
@@ -675,7 +697,9 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // higherEducationFramework: '',
+          higherEducationFramework: (branchesOfScience.length > 0 && branchesOfScience[0].educationalFramework)
+            ? branchesOfScience[0].educationalFramework
+            : null,
           accessibilityFeatures: material.accessibilityFeatures.map((feature) => ({
             key: feature.accessibilityfeaturekey,
             value: feature.value,
