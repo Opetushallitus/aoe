@@ -560,7 +560,6 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // upperSecondarySchoolFramework: '',
           upperSecondarySchoolSubjectsNew: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
             .map((alignment) => ({
