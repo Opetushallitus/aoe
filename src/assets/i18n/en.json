@@ -111,6 +111,7 @@
       "pattern": {
         "url": "Please, provide http:// or https:// prefix"
       },
+      "min": "At least: ",
       "save": "Save",
       "saveChanges": "Save changes",
       "translations": {

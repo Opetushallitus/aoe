@@ -65,7 +65,12 @@
             class="form-control"
             formControlName="typicalAgeRangeMin"
             min="0"
+            [ngClass]="{ 'is-invalid': submitted && typicalAgeRangeMinCtrl.errors }"
           >
+
+          <div *ngIf="submitted && typicalAgeRangeMinCtrl.errors" class="invalid-feedback">
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
+          </div>
         </div>
 
         <div class="col-auto">
@@ -83,7 +88,12 @@
             class="form-control"
             formControlName="typicalAgeRangeMax"
             min="0"
+            [ngClass]="{ 'is-invalid': submitted && typicalAgeRangeMaxCtrl.errors }"
           >
+
+          <div *ngIf="submitted && typicalAgeRangeMaxCtrl.errors" class="invalid-feedback">
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
+          </div>
         </div>
       </div>
     </div><!--/typical age range-->

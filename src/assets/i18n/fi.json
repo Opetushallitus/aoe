@@ -111,6 +111,7 @@
       "pattern": {
         "url": "Aseta etuliite http:// tai https://"
       },
+      "min": "Vähintään: ",
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {
