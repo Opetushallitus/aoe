@@ -85,6 +85,14 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     this.accessibilityHazardSubscription.unsubscribe();
   }
 
+  get typicalAgeRangeMinCtrl(): FormControl {
+    return this.form.get('typicalAgeRange.typicalAgeRangeMin') as FormControl;
+  }
+
+  get typicalAgeRangeMaxCtrl(): FormControl {
+    return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+  }
+
   get expiresCtrl(): FormControl {
     return this.form.get('expires') as FormControl;
   }

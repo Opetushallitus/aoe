@@ -111,6 +111,7 @@
       "pattern": {
         "url": "Sätt prefix http:// eller https://"
       },
+      "min": "Minst: ",
       "save": "Spara",
       "saveChanges": "Spara ändringar",
       "translations": {
