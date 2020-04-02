@@ -106,6 +106,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       upperSecondarySchoolSubjects: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
@@ -418,6 +419,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         changedMaterial.upperSecondarySchoolSubjects = this.upperSecondarySchoolSubjectsCtrl.value;
         changedMaterial.suitsAllUpperSecondarySubjects = this.form.get('suitsAllUpperSecondarySubjects').value;
         changedMaterial.upperSecondarySchoolObjectives = this.form.get('upperSecondarySchoolObjectives').value;
+        changedMaterial.upperSecondarySchoolFramework = this.form.get('upperSecondarySchoolFramework').value;
         changedMaterial.upperSecondarySchoolSubjectsNew = this.upperSecondarySchoolSubjectsNewCtrl.value;
         changedMaterial.suitsAllUpperSecondarySubjectsNew = this.form.get('suitsAllUpperSecondarySubjectsNew').value;
         changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
