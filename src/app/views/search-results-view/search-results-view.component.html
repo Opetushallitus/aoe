@@ -45,6 +45,38 @@
             </div>
           </div>
 
+          <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0 && allLanguages">
+            <div class="header" (click)="isCollapsedLanguages = !isCollapsedLanguages">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.languages.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0">
+                    {{ languagesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedLanguages" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let language of languagesArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="languages-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="languages-{{ i }}">
+                  {{ getLanguageLabel(languages[i]) }}
+                </label>
+              </div>
+            </div>
+          </div><!--/languages-->
+
           <div class="filter" formArrayName="educationalLevels">
             <div class="header" (click)="isCollapsedLevels = !isCollapsedLevels">
               <div class="row align-items-center">
@@ -244,38 +276,6 @@
               </div>
             </div>
           </div><!--/keywords-->
-
-          <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0">
-            <div class="header" (click)="isCollapsedLanguages = !isCollapsedLanguages">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.languages.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0">
-                    {{ languagesCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedLanguages" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let language of languagesArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="languages-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="languages-{{ i }}">
-                  {{ languages[i] }}
-                </label>
-              </div>
-            </div>
-          </div><!--/languages-->
 
           <div class="filter" formArrayName="educationalSubjects" *ngIf="subjectsArray.controls.length > 0">
             <div class="header" (click)="isCollapsedSubjects = !isCollapsedSubjects">
