@@ -315,6 +315,7 @@ h2 {
       color: $body-color;
       @include font-size(16);
       margin-top: 0;
+      word-break: break-word;
     }
 
     p {
