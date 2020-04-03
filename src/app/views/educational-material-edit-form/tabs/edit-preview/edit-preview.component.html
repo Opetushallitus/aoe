@@ -248,6 +248,16 @@
       </dd>
     </ng-container>
 
+    <ng-container *ngIf="previewMaterial.earlyChildhoodEducationFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.earlyChildhoodEducationFramework }}
+      </dd>
+    </ng-container>
+
     <ng-container *ngIf="previewMaterial.prePrimaryEducationSubjects?.length > 0">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}
@@ -279,6 +289,16 @@
 
       <dd class="col-sm-9">
         {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="previewMaterial.prePrimaryEducationFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.prePrimaryEducationFramework }}
       </dd>
     </ng-container>
 
@@ -328,6 +348,16 @@
       </dd>
     </ng-container>
 
+    <ng-container *ngIf="previewMaterial.basicStudyFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.basicStudyFramework }}
+      </dd>
+    </ng-container>
+
     <ng-container *ngIf="previewMaterial.upperSecondarySchoolSubjects?.length > 0">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
@@ -359,6 +389,16 @@
 
       <dd class="col-sm-9">
         {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="previewMaterial.upperSecondarySchoolFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.upperSecondarySchoolFramework }}
       </dd>
     </ng-container>
 
@@ -453,6 +493,16 @@
 
       <dd class="col-sm-9">
         {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="previewMaterial.vocationalEducationFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.vocationalEducationFramework }}
       </dd>
     </ng-container>
 
