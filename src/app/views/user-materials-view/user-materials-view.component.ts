@@ -17,8 +17,8 @@ export class UserMaterialsViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.backendSvc.getUserMaterialList().subscribe(data => {
-      this.materials = data;
+    this.backendSvc.getUserMaterialList().subscribe((materials: EducationalMaterialList[]) => {
+      this.materials = materials;
     });
   }
 }
