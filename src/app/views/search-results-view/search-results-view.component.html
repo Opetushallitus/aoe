@@ -83,7 +83,7 @@
                 </ng-container>
               </ng-container>
             </div>
-          </div>
+          </div><!--/educationalLevels-->
 
           <div class="filter" formArrayName="learningResourceTypes">
             <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
@@ -115,7 +115,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/learningResourceTypes-->
 
           <div class="filter" formArrayName="authors" *ngIf="authorsArray.controls.length > 0">
             <div class="header" (click)="isCollapsedAuthors = !isCollapsedAuthors">
@@ -147,7 +147,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/authors-->
 
           <div class="filter" formArrayName="organizations" *ngIf="organizationsArray.controls.length > 0">
             <div class="header" (click)="isCollapsedOrganizations = !isCollapsedOrganizations">
@@ -179,7 +179,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/organizations-->
 
           <div class="filter" formArrayName="educationalRoles" *ngIf="educationalRolesArray.controls.length > 0">
             <div class="header" (click)="isCollapsedRoles = !isCollapsedRoles">
@@ -211,7 +211,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/educationalRoles-->
 
           <div class="filter" formArrayName="keywords">
             <div class="header" (click)="isCollapsedKeywords = !isCollapsedKeywords">
@@ -243,7 +243,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/keywords-->
 
           <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0">
             <div class="header" (click)="isCollapsedLanguages = !isCollapsedLanguages">
@@ -275,7 +275,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/languages-->
 
           <div class="filter" formArrayName="educationalSubjects" *ngIf="subjectsArray.controls.length > 0">
             <div class="header" (click)="isCollapsedSubjects = !isCollapsedSubjects">
@@ -307,7 +307,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/educationalSubjects-->
 
           <div class="filter" formArrayName="teaches" *ngIf="teachesArray.controls.length > 0">
             <div class="header" (click)="isCollapsedTeaches = !isCollapsedTeaches">
@@ -339,14 +339,14 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/teaches-->
 
           <button
             type="submit"
             class="btn btn-blue btn-block"
             id="button-narrow-search"
           >{{ 'search.filters.submit' | translate }}</button>
-        </div>
+        </div><!--/filters-->
 
         <div class="col-lg-9">
           <div id="results" *ngIf="results?.hits > 0; else noResults">
