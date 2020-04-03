@@ -372,7 +372,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         { name: this.fileUploadForm.get('name').value },
       );
 
-      // save data to local storage
+      // save data to session storage
       sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       if (!this.materialId) {

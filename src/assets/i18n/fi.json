@@ -562,6 +562,12 @@
       },
       "keywords": {
         "title": "Avainsana"
+      },
+      "languages": {
+        "title": "Kieli"
+      },
+      "teaches": {
+        "title": "Tavoite ja sisältöalue"
       }
     }
   }

@@ -562,6 +562,12 @@
       },
       "keywords": {
         "title": "Nyckelord"
+      },
+      "languages": {
+        "title": "Språk"
+      },
+      "teaches": {
+        "title": "Mål och innehållsområden"
       }
     }
   }

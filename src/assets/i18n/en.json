@@ -562,6 +562,12 @@
       },
       "keywords": {
         "title": "Keyword"
+      },
+      "languages": {
+        "title": "Language"
+      },
+      "teaches": {
+        "title": "Objective and content"
       }
     }
   }

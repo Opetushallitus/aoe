@@ -8,8 +8,8 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { deduplicate } from '../../shared/shared.module';
+import { Language } from '@models/koodisto-proxy/language';
 
 @Component({
   selector: 'app-search-results-view',
@@ -22,11 +22,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   results: SearchResults;
 
   // filters
+  languageSubscription: Subscription;
+  allLanguages: Language[];
+  languages: string[] = [];
+  isCollapsedLanguages = true;
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
   isCollapsedLevels = true;
-  educationalSubjectSubscription: Subscription;
-  educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   isCollapsedTypes = true;
@@ -38,6 +40,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedRoles = true;
   keywords: any[] = [];
   isCollapsedKeywords = true;
+  subjects: any[] = [];
+  isCollapsedSubjects = true;
+  teaches: any[] = [];
+  isCollapsedTeaches = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -48,21 +54,23 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.translate.onLangChange.subscribe(() => {
+      this.koodistoProxySvc.updateLanguages();
       this.koodistoProxySvc.updateEducationalLevels();
-      this.koodistoProxySvc.updateSubjectFilters();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
     this.searchForm = this.fb.group({
       keywords: this.fb.control(null),
       filters: this.fb.group({
+        languages: this.fb.array([]),
         educationalLevels: this.fb.array([]),
-        educationalSubjects: this.fb.control(null),
         learningResourceTypes: this.fb.array([]),
         authors: this.fb.array([]),
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
+        educationalSubjects: this.fb.array([]),
+        teaches: this.fb.array([]),
       }),
     });
 
@@ -85,6 +93,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.setAvailableFilters(results);
       });
+
+    this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
+      this.allLanguages = languages;
+    });
+    this.koodistoProxySvc.updateLanguages();
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
       .subscribe((levels: EducationalLevel[]) => {
@@ -112,12 +125,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
-    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$
-      .subscribe((filters: SubjectFilter[]) => {
-        this.educationalSubjects = filters;
-      });
-    this.koodistoProxySvc.updateSubjectFilters();
-
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
@@ -139,8 +146,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.resultSubscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
-    this.educationalSubjectSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
@@ -153,12 +160,23 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   get filtersCount(): number {
-    return this.educationalLevelsCount
+    return this.languagesCount
+      + this.educationalLevelsCount
       + this.learningResourceTypesCount
       + this.authorsCount
       + this.organizationsCount
       + this.educationalRolesCount
-      + this.keywordsCount;
+      + this.keywordsCount
+      + this.subjectsCount
+      + this.teachesCount;
+  }
+
+  get languagesArray(): FormArray {
+    return this.filters.get('languages') as FormArray;
+  }
+
+  get languagesCount(): number {
+    return this.languagesArray.value.filter((v: boolean) => v === true).length;
   }
 
   get educationalLevelsArray(): FormArray {
@@ -215,8 +233,27 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.keywordsArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get subjectsArray(): FormArray {
+    return this.filters.get('educationalSubjects') as FormArray;
+  }
+
+  get subjectsCount(): number {
+    return this.subjectsArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get teachesArray(): FormArray {
+    return this.filters.get('teaches') as FormArray;
+  }
+
+  get teachesCount(): number {
+    return this.teachesArray.value.filter((v: boolean) => v === true).length;
+  }
+
   setAvailableFilters(results: SearchResults): void {
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
+    const allLanguages: string[] = [];
+    this.languagesArray.clear();
 
     const allAuthors: string[] = [];
     this.authorsArray.clear();
@@ -230,7 +267,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     const allKeywords: any[] = [];
     this.keywordsArray.clear();
 
+    const allSubjects: any[] = [];
+    this.subjectsArray.clear();
+
+    const allTeaches: any[] = [];
+    this.teachesArray.clear();
+
     results.results.forEach((result: SearchResult) => {
+      // languages
+      result.languages.forEach((language: string) => {
+        allLanguages.push(language.toLowerCase());
+      });
+
       // authors and organizations
       result.authors.forEach((author) => {
         if (author.authorname !== '') {
@@ -262,13 +310,36 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           value: keyword.value,
         });
       });
+
+      // subjects
+      result.educationalSubjects.forEach((subject) => {
+        allSubjects.push(subject);
+      });
+
+      // teaches
+      result.teaches.forEach((teach) => {
+        allTeaches.push(teach);
+      });
     });
 
     // https://stackoverflow.com/a/14438954
+    this.languages = [...new Set(allLanguages)];
     this.authors = [...new Set(allAuthors)];
     this.organizations = deduplicate(allOrganizations, 'key');
     this.educationalRoles = deduplicate(allRoles, 'key');
     this.keywords = deduplicate(allKeywords, 'key');
+    this.subjects = deduplicate(allSubjects, 'key');
+    this.teaches = deduplicate(allTeaches, 'key');
+
+    this.languages.forEach((language: string) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.languages) {
+        state = searchParams.filters.languages.includes(language);
+      }
+
+      this.languagesArray.push(this.fb.control(state));
+    });
 
     this.authors.forEach((author: string) => {
       let state = false;
@@ -309,12 +380,45 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.keywordsArray.push(this.fb.control(state));
     });
+
+    this.subjects.forEach((subject) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.educationalSubjects) {
+        state = searchParams.filters.educationalSubjects.includes(subject);
+      }
+
+      this.subjectsArray.push(this.fb.control(state));
+    });
+
+    this.teaches.forEach((teach) => {
+      let state = false;
+
+      if (searchParams && searchParams.filters && searchParams.filters.teaches) {
+        state = searchParams.filters.teaches.includes(teach.key);
+      }
+
+      this.teachesArray.push(this.fb.control(state));
+    });
+  }
+
+  /**
+   * Finds key matching language value.
+   * @param {string} key
+   * @returns {string} value
+   */
+  getLanguageLabel(key: string): string {
+    return this.allLanguages.find((lang: Language) => lang.key === key).value;
   }
 
   onSubmit(): void {
     if (this.searchForm.valid) {
       const searchParams = this.searchForm.value;
       const selectedEducationalLevels: string[] = [];
+
+      searchParams.filters.languages = this.filters.value.languages
+        .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
+        .filter((language: string) => language !== null);
 
       this.filters.value.educationalLevels
         .forEach((level, index: number) => {
@@ -346,6 +450,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.filters.keywords = this.filters.value.keywords
         .map((checked: boolean, index: number) => checked ? this.keywords[index].key : null)
         .filter((value: string) => value !== null);
+
+      searchParams.filters.educationalSubjects = this.filters.value.educationalSubjects
+        .map((checked: boolean, index: number) => checked ? this.subjects[index].key : null)
+        .filter((subject: string) => subject !== null);
+
+      searchParams.filters.teaches = this.filters.value.teaches
+        .map((checked: boolean, index: number) => checked ? this.teaches[index].key : null)
+        .filter((teach: string) => teach !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
     }
