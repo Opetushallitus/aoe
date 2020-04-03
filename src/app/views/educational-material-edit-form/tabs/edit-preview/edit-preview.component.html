@@ -523,6 +523,16 @@
         {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
       </dd>
     </ng-container>
+
+    <ng-container *ngIf="previewMaterial.higherEducationFramework">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        {{ previewMaterial.higherEducationFramework }}
+      </dd>
+    </ng-container>
   </dl>
 
   <hr>
