@@ -45,6 +45,38 @@
             </div>
           </div>
 
+          <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0 && allLanguages">
+            <div class="header" (click)="isCollapsedLanguages = !isCollapsedLanguages">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.languages.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0">
+                    {{ languagesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedLanguages" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let language of languagesArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="languages-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="languages-{{ i }}">
+                  {{ getLanguageLabel(languages[i]) }}
+                </label>
+              </div>
+            </div>
+          </div><!--/languages-->
+
           <div class="filter" formArrayName="educationalLevels">
             <div class="header" (click)="isCollapsedLevels = !isCollapsedLevels">
               <div class="row align-items-center">
@@ -83,199 +115,7 @@
                 </ng-container>
               </ng-container>
             </div>
-          </div>
-
-          <div class="filter" formArrayName="learningResourceTypes">
-            <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.learningResourceTypes.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="learningResourceTypesCount > 0">
-                    {{ learningResourceTypesCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedTypes ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedTypes" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let type of learningResourceTypesArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="learningResourceTypes-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
-                  {{ learningResourceTypes[i].value }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter" formArrayName="authors" *ngIf="authorsArray.controls.length > 0">
-            <div class="header" (click)="isCollapsedAuthors = !isCollapsedAuthors">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.authors.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="authorsCount > 0">
-                    {{ authorsCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedAuthors ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedAuthors" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let author of authorsArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="authors-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="authors-{{ i }}">
-                  {{ authors[i] }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter" formArrayName="organizations" *ngIf="organizationsArray.controls.length > 0">
-            <div class="header" (click)="isCollapsedOrganizations = !isCollapsedOrganizations">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.organizations.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="organizationsCount > 0">
-                    {{ organizationsCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedOrganizations ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedOrganizations" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let organization of organizationsArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="organizations-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="organizations-{{ i }}">
-                  {{ organizations[i].value }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter" formArrayName="educationalRoles" *ngIf="educationalRolesArray.controls.length > 0">
-            <div class="header" (click)="isCollapsedRoles = !isCollapsedRoles">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.educationalRoles.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalRolesCount > 0">
-                    {{ educationalRolesCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedRoles ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedRoles" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let role of educationalRolesArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="educationalRoles-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="educationalRoles-{{ i }}">
-                  {{ educationalRoles[i].value }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter" formArrayName="keywords">
-            <div class="header" (click)="isCollapsedKeywords = !isCollapsedKeywords">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.keywords.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="keywordsCount > 0">
-                    {{ keywordsCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedKeywords" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let keyword of keywordsArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="keywords-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="keywords-{{ i }}">
-                  {{ keywords[i].value }}
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0">
-            <div class="header" (click)="isCollapsedLanguages = !isCollapsedLanguages">
-              <div class="row align-items-center">
-                <div class="col">
-                  <h4>{{ 'search.filters.languages.title' | translate }}</h4>
-                </div>
-
-                <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0">
-                    {{ languagesCount }}
-                  </span>
-
-                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"></i>
-                </div>
-              </div>
-            </div>
-
-            <div class="content" [collapse]="isCollapsedLanguages" [isAnimated]="true">
-              <div class="custom-control custom-checkbox" *ngFor="let language of languagesArray.controls; let i = index">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="languages-{{ i }}"
-                  [formControlName]="i"
-                >
-                <label class="custom-control-label" for="languages-{{ i }}">
-                  {{ languages[i] }}
-                </label>
-              </div>
-            </div>
-          </div>
+          </div><!--/educationalLevels-->
 
           <div class="filter" formArrayName="educationalSubjects" *ngIf="subjectsArray.controls.length > 0">
             <div class="header" (click)="isCollapsedSubjects = !isCollapsedSubjects">
@@ -307,7 +147,7 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/educationalSubjects-->
 
           <div class="filter" formArrayName="teaches" *ngIf="teachesArray.controls.length > 0">
             <div class="header" (click)="isCollapsedTeaches = !isCollapsedTeaches">
@@ -339,14 +179,174 @@
                 </label>
               </div>
             </div>
-          </div>
+          </div><!--/teaches-->
+
+          <div class="filter" formArrayName="learningResourceTypes">
+            <div class="header" (click)="isCollapsedTypes = !isCollapsedTypes">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.learningResourceTypes.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="learningResourceTypesCount > 0">
+                    {{ learningResourceTypesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedTypes ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedTypes" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let type of learningResourceTypesArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="learningResourceTypes-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
+                  {{ learningResourceTypes[i].value }}
+                </label>
+              </div>
+            </div>
+          </div><!--/learningResourceTypes-->
+
+          <div class="filter" formArrayName="authors" *ngIf="authorsArray.controls.length > 0">
+            <div class="header" (click)="isCollapsedAuthors = !isCollapsedAuthors">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.authors.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="authorsCount > 0">
+                    {{ authorsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedAuthors ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedAuthors" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let author of authorsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="authors-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="authors-{{ i }}">
+                  {{ authors[i] }}
+                </label>
+              </div>
+            </div>
+          </div><!--/authors-->
+
+          <div class="filter" formArrayName="organizations" *ngIf="organizationsArray.controls.length > 0">
+            <div class="header" (click)="isCollapsedOrganizations = !isCollapsedOrganizations">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.organizations.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="organizationsCount > 0">
+                    {{ organizationsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedOrganizations ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedOrganizations" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let organization of organizationsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="organizations-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="organizations-{{ i }}">
+                  {{ organizations[i].value }}
+                </label>
+              </div>
+            </div>
+          </div><!--/organizations-->
+
+          <div class="filter" formArrayName="educationalRoles" *ngIf="educationalRolesArray.controls.length > 0">
+            <div class="header" (click)="isCollapsedRoles = !isCollapsedRoles">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.educationalRoles.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalRolesCount > 0">
+                    {{ educationalRolesCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedRoles ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedRoles" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let role of educationalRolesArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="educationalRoles-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="educationalRoles-{{ i }}">
+                  {{ educationalRoles[i].value }}
+                </label>
+              </div>
+            </div>
+          </div><!--/educationalRoles-->
+
+          <div class="filter" formArrayName="keywords">
+            <div class="header" (click)="isCollapsedKeywords = !isCollapsedKeywords">
+              <div class="row align-items-center">
+                <div class="col">
+                  <h4>{{ 'search.filters.keywords.title' | translate }}</h4>
+                </div>
+
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="keywordsCount > 0">
+                    {{ keywordsCount }}
+                  </span>
+
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="content" [collapse]="isCollapsedKeywords" [isAnimated]="true">
+              <div class="custom-control custom-checkbox" *ngFor="let keyword of keywordsArray.controls; let i = index">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="keywords-{{ i }}"
+                  [formControlName]="i"
+                >
+                <label class="custom-control-label" for="keywords-{{ i }}">
+                  {{ keywords[i].value }}
+                </label>
+              </div>
+            </div>
+          </div><!--/keywords-->
 
           <button
             type="submit"
             class="btn btn-blue btn-block"
             id="button-narrow-search"
           >{{ 'search.filters.submit' | translate }}</button>
-        </div>
+        </div><!--/filters-->
 
         <div class="col-lg-9">
           <div id="results" *ngIf="results?.hits > 0; else noResults">
