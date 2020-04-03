@@ -290,7 +290,8 @@ export class BackendService {
               educationalLevels: r.educationalLevels
                 .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
             };
-          });
+          })
+          .sort((a, b) => b.id - a.id);
       }),
       catchError(BackendService.handleError),
     );
