@@ -18,6 +18,8 @@
       <ng-container *ngIf="materials?.length > 0">
         <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of materials">
           <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+
+          <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">Muokkaa</a>
         </div>
       </ng-container>
     </div><!-- .row -->
