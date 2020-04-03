@@ -48,7 +48,7 @@
 
     <div class="form-group col-md-6 col-lg">
       <label class="sr-only" for="educationalSubjects">
-        Oppiaineet, tutkinnot, tieteenalat
+        {{ 'search.filters.educationalSubjecs.title' | translate }}
       </label>
 
       <ng-select
@@ -62,7 +62,7 @@
         groupBy="children"
         id="educationalSubjects"
         formControlName="educationalSubjects"
-        [placeholder]="'Oppiaineet, tutkinnot, tieteenalat'"
+        [placeholder]="'search.filters.educationalSubjecs.title' | translate"
       >
         <ng-template ng-multi-label-tmp let-items="items">
           <div class="ng-value">
