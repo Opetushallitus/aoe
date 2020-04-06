@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '@services/backend.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -59,12 +59,14 @@ export class EditFilesComponent implements OnInit {
       this.form.patchValue(this.material);
 
       this.patchFileDetails(this.material.fileDetails);
+      this.patchSubtitleDetails(this.material.attachments);
     } else {
       const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
       this.form.patchValue(editMaterial);
 
       this.patchFileDetails(editMaterial.fileDetails);
+      this.patchSubtitleDetails(editMaterial.attachments);
     }
 
     // languages
@@ -112,6 +114,19 @@ export class EditFilesComponent implements OnInit {
   }
 
   /**
+   * Patches subtitleDetails for each file.
+   * @param subtitles
+   */
+  patchSubtitleDetails(subtitles): void {
+    subtitles.forEach((subtitle) => {
+      const fileIndex = this.fileDetailsArray.value.findIndex((v) => v.id === subtitle.fileId);
+      const subtitlesArray = this.fileDetailsArray.at(fileIndex).get('subtitles') as FormArray;
+
+      subtitlesArray.push(this.createSubtitle(subtitle));
+    });
+  }
+
+  /**
    * Creates fileDetail FormGroup.
    * @param file
    * @returns {FormGroup}
@@ -128,18 +143,41 @@ export class EditFilesComponent implements OnInit {
       }),
       language: this.fb.control(file.language, [ Validators.required ]),
       priority: this.fb.control(file.priority, [ Validators.required ]),
+      subtitles: this.fb.array([]),
     });
   }
 
   /**
-   * Deletes file by file ID.
-   * @param {number} fileId
+   * Creates subtitle FormGroup.
+   * @param subtitle
+   * @returns {FormGroup}
    */
-  deleteFile(fileId: number): void {
-    this.backendSvc.deleteFile(fileId).subscribe(
-      (res) => console.log(res),
-      (err) => console.error(err),
-    );
+  createSubtitle(subtitle): FormGroup {
+    return this.fb.group({
+      id: this.fb.control(subtitle.id, [ Validators.required ]),
+      fileId: this.fb.control(subtitle.fileId, [ Validators.required ]),
+      subtitle: this.fb.control(subtitle.subtitle),
+      default: this.fb.control(subtitle.default),
+      kind: this.fb.control(subtitle.kind),
+      label: this.fb.control(subtitle.label),
+      srclang: this.fb.control(subtitle.srclang),
+    });
+  }
+
+  /**
+   * Makes sure there are only one default true on each file.
+   * @param event
+   * @param {number} i
+   * @param {number} j
+   */
+  updateDefaultSubtitle(event, i: number, j: number): void {
+    const subtitles = this.fileDetailsArray.at(i).get('subtitles') as FormArray;
+
+    subtitles.controls.forEach((subCtrl: AbstractControl, subIndex: number) => {
+      if (subIndex !== j) {
+        subCtrl.get('default').setValue(false);
+      }
+    });
   }
 
   /**

@@ -496,6 +496,15 @@ export class BackendService {
               priority: file.priority,
             }))
             .sort((a, b) => a.priority - b.priority),
+          attachments: material.attachments.map((subtitle) => ({
+            id: subtitle.id,
+            fileId: subtitle.materialid,
+            subtitle: subtitle.originalfilename,
+            default: subtitle.defaultfile,
+            kind: subtitle.kind,
+            label: subtitle.label,
+            srclang: subtitle.srclang,
+          })),
           thumbnail: material.thumbnail ? material.thumbnail.filepath : null,
           keywords: material.keywords.map((keyword) => ({
             key: keyword.keywordkey,
