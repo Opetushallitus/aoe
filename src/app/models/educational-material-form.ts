@@ -21,6 +21,17 @@ export interface EducationalMaterialForm {
       priority: number;
     }
   ];
+  attachments?: [
+    {
+      id: string | number;
+      fileId: string | number;
+      subtitle: string;
+      default: boolean;
+      kind: string;
+      label: string;
+      srclang: string;
+    }
+  ];
   // basic details
   thumbnail?: string;
   keywords: [

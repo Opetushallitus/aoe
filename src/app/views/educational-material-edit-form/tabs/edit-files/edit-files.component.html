@@ -279,6 +279,95 @@
             </div>
           </ng-template><!--/modal-->
         </div><!--/displayName-->
+
+        <ng-container *ngIf="file.get('subtitles')">
+          <ng-container *ngFor="let subtitle of file.get('subtitles').controls; let j = index;">
+            <fieldset formArrayName="subtitles">
+              <div class="form-row align-items-end" [formGroupName]="j">
+                <div class="form-group col-lg-4">
+                  <label for="{{ 'subtitle' + i + j }}">
+                    {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
+                  </label>
+
+                  <input
+                    type="text"
+                    readonly
+                    class="form-control-plaintext"
+                    id="{{ 'subtitle' + i + j }}"
+                    formControlName="subtitle"
+                  >
+                </div><!--/subtitle-->
+
+                <div class="form-group col-sm-8 col-lg-4">
+                  <label for="{{ 'label' + i + j }}">
+                    {{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'label' + i + j }}"
+                    formControlName="label"
+                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                  >
+
+                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div *ngIf="subtitle.get('label').errors.required">
+                      {{ 'forms.common.required' | translate }}
+                    </div>
+                  </div>
+                </div><!--/label-->
+
+                <div class="form-group col-sm-4 col-lg-2">
+                  <label for="{{ 'srclang' + i + j }}">
+                    {{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*
+                  </label>
+
+                  <ng-select
+                    [items]="languages"
+                    bindLabel="value"
+                    bindValue="key"
+                    id="{{ 'srclang' + i + j }}"
+                    formControlName="srclang"
+                  ></ng-select>
+
+                  <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                    <div *ngIf="subtitle.get('srclang').errors.required">
+                      <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+                    </div>
+                  </ng-container>
+                </div><!--/srclang-->
+
+                <div class="form-group col-lg">
+                  <div class="custom-control custom-checkbox">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="{{ 'default' + i + j }}"
+                      formControlName="default"
+                      (change)="updateDefaultSubtitle($event, i, j)"
+                    >
+
+                    <label class="custom-control-label" for="{{ 'default' + i + j }}">
+                      {{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}
+                    </label>
+                  </div>
+                </div><!--/default-->
+
+                <!--<div class="form-group col-lg-auto">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removeSubtitle(i, j)"
+                  >
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+                  </button>
+                </div>--><!--/actions-->
+              </div>
+            </fieldset>
+          </ng-container>
+        </ng-container><!--/subtitles-->
       </ng-container>
     </fieldset>
   </ng-container><!--/files-->
