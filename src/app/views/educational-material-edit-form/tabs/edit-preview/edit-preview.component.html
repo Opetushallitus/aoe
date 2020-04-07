@@ -48,15 +48,23 @@
       <thead>
         <tr>
           <th></th>
+
           <th scope="col">#</th>
+
           <th scope="col">
             {{ 'forms.educationalResource.files.uploadedFiles.fileOrLink' | translate }}
           </th>
+
           <th scope="col">
             {{ 'forms.educationalResource.files.uploadedFiles.displayName' | translate }}
           </th>
+
           <th scope="col">
             {{ 'forms.educationalResource.files.uploadedFiles.language' | translate }}
+          </th>
+
+          <th scope="col">
+            {{ 'forms.educationalResource.files.uploadedFiles.subtitles' | translate }}
           </th>
         </tr>
       </thead>
@@ -66,27 +74,45 @@
           <td>
             <i class="fa fa-bars" aria-hidden="true"></i>
           </td>
+
           <th scope="row">
             {{ i + 1 }}
           </th>
+
           <td>
             {{ file.file }}{{ file.link }}
           </td>
+
           <td>
             <ul class="list-unstyled">
               <li *ngIf="file.displayName.fi">
                 <strong>fi:</strong> {{ file.displayName.fi }}
               </li>
+
               <li *ngIf="file.displayName.sv">
                 <strong>sv:</strong> {{ file.displayName.sv }}
               </li>
+
               <li *ngIf="file.displayName.en">
                 <strong>en:</strong> {{ file.displayName.en }}
               </li>
             </ul>
           </td>
+
           <td>
             {{ file.language }}
+          </td>
+
+          <td>
+            <ng-container *ngIf="file.subtitles?.length > 0; else noSubtitles">
+              <span *ngFor="let subtitle of file.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
+                {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
+              </span>
+            </ng-container>
+
+            <ng-template #noSubtitles>
+              -
+            </ng-template>
           </td>
         </tr>
       </tbody>
