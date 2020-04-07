@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '@services/auth.service';
 import { BackendService } from '@services/backend.service';
 import { EducationalMaterialList } from '@models/educational-material-list';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-materials-view',
   templateUrl: './user-materials-view.component.html',
 })
-export class UserMaterialsViewComponent implements OnInit {
-  materials: EducationalMaterialList[];
+export class UserMaterialsViewComponent implements OnInit, OnDestroy {
+  publishedMaterialSubscription: Subscription;
+  publishedMaterials: EducationalMaterialList[];
+  unpublishedMaterialSubscription: Subscription;
+  unpublishedMaterials: EducationalMaterialList[];
 
   constructor(
     private authSvc: AuthService,
@@ -17,8 +21,21 @@ export class UserMaterialsViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.backendSvc.getUserMaterialList().subscribe((materials: EducationalMaterialList[]) => {
-      this.materials = materials;
-    });
+    this.publishedMaterialSubscription = this.backendSvc.publishedUserMaterials$
+      .subscribe((materials: EducationalMaterialList[]) => {
+        this.publishedMaterials = materials;
+      });
+
+    this.unpublishedMaterialSubscription = this.backendSvc.unpublishedUserMaterials$
+      .subscribe((materials: EducationalMaterialList[]) => {
+        this.unpublishedMaterials = materials;
+      });
+
+    this.backendSvc.updateUserMaterialList();
+  }
+
+  ngOnDestroy(): void {
+    this.publishedMaterialSubscription.unsubscribe();
+    this.unpublishedMaterialSubscription.unsubscribe();
   }
 }
