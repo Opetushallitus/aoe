@@ -29,6 +29,8 @@ export class BackendService {
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
   public editMaterial$ = new Subject<EducationalMaterialForm | null>();
+  public publishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
+  public unpublishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
 
   private static handleError(error: HttpErrorResponse) {
     console.error(error);
@@ -260,41 +262,50 @@ export class BackendService {
   }
 
   /**
-   * Returns list of educational materials by user.
-   * @returns {Observable<EducationalMaterialList>} List of educational materials
+   * Updates list of educational materials created by user.
    */
-  getUserMaterialList(): Observable<EducationalMaterialList[]> {
-    return this.http.get<any>(`${this.backendUrl}/usermaterial`, {
+  updateUserMaterialList(): void {
+    this.http.get<any>(`${this.backendUrl}/usermaterial`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).pipe(
-      map((res): EducationalMaterialList[] => {
-        return res
-          .filter(r => r.name.length > 0)
-          .map(r => {
-            return {
-              id: r.id,
-              name: r.name,
-              thumbnail: r.thumbnail
-                ? r.thumbnail.thumbnail
-                : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
-              learningResourceTypes: r.learningResourceTypes
-                .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
-              authors: r.authors
-                .map(({ authorname, organization }) => ({ authorname, organization })),
-              description: r.description,
-              license: r.license,
-              keywords: r.keywords
-                .map(({ keywordkey, value }) => ({ keywordkey, value })),
-              educationalLevels: r.educationalLevels
-                .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
-            };
-          })
-          .sort((a, b) => b.id - a.id);
-      }),
-      catchError(BackendService.handleError),
-    );
+    }).subscribe((materials) => {
+      const published: EducationalMaterialList[] = [];
+      const unpublished: EducationalMaterialList[] = [];
+
+      materials.forEach((material) => {
+        const mappedMaterial: EducationalMaterialList = {
+          id: material.id,
+          name: material.name,
+          thumbnail: material.thumbnail
+            ? material.thumbnail.thumbnail
+            : 'assets/img/material.png',
+          learningResourceTypes: material.learningResourceTypes
+            .map(({learningresourcetypekey, value}) => ({learningresourcetypekey, value})),
+          authors: material.authors
+            .map(({authorname, organization}) => ({authorname, organization})),
+          description: material.description,
+          license: material.license,
+          keywords: material.keywords
+            .map(({keywordkey, value}) => ({keywordkey, value})),
+          educationalLevels: material.educationalLevels
+            .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
+          publishedAt: material.publishedat,
+        };
+
+        if (mappedMaterial.publishedAt === null) {
+          unpublished.push(mappedMaterial);
+        } else {
+          published.push(mappedMaterial);
+        }
+      });
+
+      published.sort((a, b) => b.id - a.id);
+      unpublished.sort((a, b) => b.id - a.id);
+
+      this.publishedUserMaterials$.next(published);
+      this.unpublishedUserMaterials$.next(unpublished);
+    });
   }
 
   getRecentMaterialList(): Observable<EducationalMaterialList[]> {
