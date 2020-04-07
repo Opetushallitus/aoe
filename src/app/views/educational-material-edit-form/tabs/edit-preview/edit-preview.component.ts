@@ -63,183 +63,198 @@ export class EditPreviewComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    const changedMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+    // const changedMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
-    if (this.form.valid && changedMaterial) {
+    if (this.form.valid) {
       let alignmentObjects: AlignmentObjectExtended[] = [];
       const fileOrder = [];
 
       // early childhood education
-      changedMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = changedMaterial.earlyChildhoodEducationFramework;
+      this.previewMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
 
         alignmentObjects.push(subject);
       });
-      delete changedMaterial.earlyChildhoodEducationSubjects;
+      delete this.previewMaterial.earlyChildhoodEducationSubjects;
 
-      changedMaterial.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.earlyChildhoodEducationFramework;
+      this.previewMaterial.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.earlyChildhoodEducationObjectives;
-      delete changedMaterial.earlyChildhoodEducationFramework;
+      delete this.previewMaterial.earlyChildhoodEducationObjectives;
+      delete this.previewMaterial.earlyChildhoodEducationFramework;
 
       // pre-primary education
-      changedMaterial.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = changedMaterial.prePrimaryEducationFramework;
+      this.previewMaterial.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
 
         alignmentObjects.push(subject);
       });
-      delete changedMaterial.prePrimaryEducationSubjects;
+      delete this.previewMaterial.prePrimaryEducationSubjects;
 
-      changedMaterial.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.prePrimaryEducationFramework;
+      this.previewMaterial.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.prePrimaryEducationObjectives;
-      delete changedMaterial.prePrimaryEducationFramework;
+      delete this.previewMaterial.prePrimaryEducationObjectives;
+      delete this.previewMaterial.prePrimaryEducationFramework;
 
       // basic education
-      changedMaterial.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = changedMaterial.basicStudyFramework;
+      this.previewMaterial.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.basicStudyFramework;
 
         alignmentObjects.push(subject);
       });
-      delete changedMaterial.basicStudySubjects;
+      delete this.previewMaterial.basicStudySubjects;
 
-      changedMaterial.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.basicStudyFramework;
+      this.previewMaterial.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.basicStudyFramework;
         delete objective.parent;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.basicStudyObjectives;
+      delete this.previewMaterial.basicStudyObjectives;
 
-      changedMaterial.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
-        content.educationalFramework = changedMaterial.basicStudyFramework;
+      this.previewMaterial.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = this.previewMaterial.basicStudyFramework;
         delete content.parent;
 
         alignmentObjects.push(content);
       });
-      delete changedMaterial.basicStudyContents;
-      delete changedMaterial.basicStudyFramework;
+      delete this.previewMaterial.basicStudyContents;
+      delete this.previewMaterial.basicStudyFramework;
 
       // upper secondary school
-      changedMaterial.upperSecondarySchoolSubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = changedMaterial.upperSecondarySchoolFramework;
+      this.previewMaterial.upperSecondarySchoolSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
 
         alignmentObjects.push(subject);
       });
-      delete changedMaterial.upperSecondarySchoolSubjects;
+      delete this.previewMaterial.upperSecondarySchoolSubjects;
 
-      changedMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.upperSecondarySchoolFramework;
+      this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.upperSecondarySchoolObjectives;
-      delete changedMaterial.upperSecondarySchoolFramework;
+      delete this.previewMaterial.upperSecondarySchoolObjectives;
+      delete this.previewMaterial.upperSecondarySchoolFramework;
 
-      alignmentObjects = alignmentObjects.concat(changedMaterial.upperSecondarySchoolSubjectsNew);
-      delete changedMaterial.upperSecondarySchoolSubjectsNew;
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsNew);
+      delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
 
-      changedMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
+      this.previewMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
         delete module.parent;
 
         alignmentObjects.push(module);
       });
-      delete changedMaterial.upperSecondarySchoolModulesNew;
+      delete this.previewMaterial.upperSecondarySchoolModulesNew;
 
-      changedMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
+      this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
         delete objective.parent;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.upperSecondarySchoolObjectivesNew;
+      delete this.previewMaterial.upperSecondarySchoolObjectivesNew;
 
-      changedMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
+      this.previewMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
         delete content.parent;
 
         alignmentObjects.push(content);
       });
-      delete changedMaterial.upperSecondarySchoolContentsNew;
+      delete this.previewMaterial.upperSecondarySchoolContentsNew;
 
       // vocational education
-      changedMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
-        degree.educationalFramework = changedMaterial.vocationalEducationFramework;
+      this.previewMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
+        degree.educationalFramework = this.previewMaterial.vocationalEducationFramework;
 
         alignmentObjects.push(degree);
       });
-      delete changedMaterial.vocationalDegrees;
+      delete this.previewMaterial.vocationalDegrees;
 
-      changedMaterial.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
-        unit.educationalFramework = changedMaterial.vocationalEducationFramework;
+      this.previewMaterial.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
+        unit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
         delete unit.parent;
 
         alignmentObjects.push(unit);
       });
-      delete changedMaterial.vocationalUnits;
+      delete this.previewMaterial.vocationalUnits;
 
-      changedMaterial.vocationalEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.vocationalEducationFramework;
+      this.previewMaterial.vocationalEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.vocationalEducationFramework;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.vocationalEducationObjectives;
-      delete changedMaterial.vocationalEducationFramework;
+      delete this.previewMaterial.vocationalEducationObjectives;
+      delete this.previewMaterial.vocationalEducationFramework;
 
       // self-motivated competence development
-      alignmentObjects = alignmentObjects.concat(changedMaterial.selfMotivatedEducationSubjects);
-      delete changedMaterial.selfMotivatedEducationSubjects;
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationSubjects);
+      delete this.previewMaterial.selfMotivatedEducationSubjects;
 
-      alignmentObjects = alignmentObjects.concat(changedMaterial.selfMotivatedEducationObjectives);
-      delete changedMaterial.selfMotivatedEducationObjectives;
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationObjectives);
+      delete this.previewMaterial.selfMotivatedEducationObjectives;
 
       // higher education
-      changedMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
-        branch.educationalFramework = changedMaterial.higherEducationFramework;
+      this.previewMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
+        branch.educationalFramework = this.previewMaterial.higherEducationFramework;
 
         alignmentObjects.push(branch);
       });
-      delete changedMaterial.branchesOfScience;
+      delete this.previewMaterial.branchesOfScience;
 
-      changedMaterial.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = changedMaterial.higherEducationFramework;
+      this.previewMaterial.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.higherEducationFramework;
 
         alignmentObjects.push(objective);
       });
-      delete changedMaterial.scienceBranchObjectives;
-      delete changedMaterial.higherEducationFramework;
+      delete this.previewMaterial.scienceBranchObjectives;
+      delete this.previewMaterial.higherEducationFramework;
 
       // prerequisites
-      alignmentObjects = alignmentObjects.concat(changedMaterial.prerequisites);
-      delete changedMaterial.prerequisites;
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites);
+      delete this.previewMaterial.prerequisites;
+
+      // attachmentDetails
+      const attachmentDetails = [];
 
       // fileDetails
-      const fileDetails = changedMaterial.fileDetails.map((file, idx: number) => {
+      const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
         fileOrder.push({
           id: file.id,
           priority: idx,
         });
 
+        file.subtitles.forEach((subtitle) => {
+          attachmentDetails.push({
+            id: subtitle.id,
+            kind: subtitle.kind,
+            default: subtitle.default,
+            lang: subtitle.srclang,
+            label: subtitle.label,
+          });
+        });
+
         delete file.file;
         delete file.priority;
+        delete file.subtitles;
 
         return file;
       });
-      delete changedMaterial.fileDetails;
+      delete this.previewMaterial.fileDetails;
 
       // thumbnail
-      delete changedMaterial.thumbnail;
+      delete this.previewMaterial.thumbnail;
 
       const updatedMaterial = Object.assign(
         {},
-        changedMaterial,
+        this.previewMaterial,
         { fileOrder },
         { fileDetails },
-        { alignmentObjects }
+        { attachmentDetails },
+        { alignmentObjects },
       );
 
       this.backendSvc.postMeta(this.materialId, updatedMaterial).subscribe(

@@ -19,17 +19,17 @@ export interface EducationalMaterialForm {
       };
       language: string;
       priority: number;
-    }
-  ];
-  attachments?: [
-    {
-      id: string | number;
-      fileId: string | number;
-      subtitle: string;
-      default: boolean;
-      kind: string;
-      label: string;
-      srclang: string;
+      subtitles?: [
+        {
+          id: string | number;
+          fileId: string | number;
+          subtitle: string;
+          default: boolean;
+          kind: string;
+          label: string;
+          srclang: string;
+        }
+      ];
     }
   ];
   // basic details

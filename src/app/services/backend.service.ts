@@ -415,6 +415,28 @@ export class BackendService {
       }),
     }).subscribe((material) => {
       if (material.owner) {
+        const fileDetails = material.materials
+          .map((file) => ({
+            id: file.id,
+            file: file.originalfilename,
+            link: file.link,
+            language: file.language,
+            displayName: file.displayName,
+            priority: file.priority,
+            subtitles: material.attachments
+              .filter((attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles')
+              .map((subtitle: Attachment) => ({
+                id: subtitle.id,
+                fileId: subtitle.materialid,
+                subtitle: subtitle.originalfilename,
+                default: subtitle.defaultfile,
+                kind: subtitle.kind,
+                label: subtitle.label,
+                srclang: subtitle.srclang,
+              })),
+          }))
+          .sort((a, b) => a.priority - b.priority);
+
         const earlyChildhoodEducationSubjects = material.educationalAlignment
           .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodSubjects)
           .map((alignment) => ({
@@ -486,25 +508,7 @@ export class BackendService {
             sv: material.name.find((name) => name.language === 'sv').materialname,
             en: material.name.find((name) => name.language === 'en').materialname,
           },
-          fileDetails: material.materials
-            .map((file) => ({
-              id: file.id,
-              file: file.originalfilename,
-              link: file.link,
-              language: file.language,
-              displayName: file.displayName,
-              priority: file.priority,
-            }))
-            .sort((a, b) => a.priority - b.priority),
-          attachments: material.attachments.map((subtitle) => ({
-            id: subtitle.id,
-            fileId: subtitle.materialid,
-            subtitle: subtitle.originalfilename,
-            default: subtitle.defaultfile,
-            kind: subtitle.kind,
-            label: subtitle.label,
-            srclang: subtitle.srclang,
-          })),
+          fileDetails: fileDetails,
           thumbnail: material.thumbnail ? material.thumbnail.filepath : null,
           keywords: material.keywords.map((keyword) => ({
             key: keyword.keywordkey,

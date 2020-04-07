@@ -59,14 +59,12 @@ export class EditFilesComponent implements OnInit {
       this.form.patchValue(this.material);
 
       this.patchFileDetails(this.material.fileDetails);
-      this.patchSubtitleDetails(this.material.attachments);
     } else {
       const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
       this.form.patchValue(editMaterial);
 
       this.patchFileDetails(editMaterial.fileDetails);
-      this.patchSubtitleDetails(editMaterial.attachments);
     }
 
     // languages
@@ -114,24 +112,15 @@ export class EditFilesComponent implements OnInit {
   }
 
   /**
-   * Patches subtitleDetails for each file.
-   * @param subtitles
-   */
-  patchSubtitleDetails(subtitles): void {
-    subtitles.forEach((subtitle) => {
-      const fileIndex = this.fileDetailsArray.value.findIndex((v) => v.id === subtitle.fileId);
-      const subtitlesArray = this.fileDetailsArray.at(fileIndex).get('subtitles') as FormArray;
-
-      subtitlesArray.push(this.createSubtitle(subtitle));
-    });
-  }
-
-  /**
    * Creates fileDetail FormGroup.
    * @param file
    * @returns {FormGroup}
    */
   createFileDetail(file): FormGroup {
+    const subtitles = file.subtitles.map((subtitle) => {
+      return this.createSubtitle(subtitle);
+    });
+
     return this.fb.group({
       id: this.fb.control(file.id, [ Validators.required ]),
       file: this.fb.control(file.file),
@@ -143,7 +132,7 @@ export class EditFilesComponent implements OnInit {
       }),
       language: this.fb.control(file.language, [ Validators.required ]),
       priority: this.fb.control(file.priority, [ Validators.required ]),
-      subtitles: this.fb.array([]),
+      subtitles: this.fb.array(subtitles),
     });
   }
 
