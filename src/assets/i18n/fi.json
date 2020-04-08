@@ -510,7 +510,15 @@
   "userMaterials": {
     "title": "Omat oppimateriaalit",
     "createNew": "Luo uusi materiaali",
-    "noMaterials": "Tähän näkymään tulee jakamasi avoimet oppimateriaalit. Et ole vielä lisännyt oppimateriaaleja palveluun. Paina \"Luo uusi materiaali\" ja lisää palveluun ensimmäinen avoin oppimateriaalisi."
+    "noMaterials": "Tähän näkymään tulee jakamasi avoimet oppimateriaalit. Et ole vielä lisännyt oppimateriaaleja palveluun. Paina \"Luo uusi materiaali\" ja lisää palveluun ensimmäinen avoin oppimateriaalisi.",
+    "unpublished": {
+      "title": "Keskeneräiset / julkaisemattomat oppimateriaalit",
+      "unnamed": "Nimeämätön"
+    },
+    "published": {
+      "title": "Julkaistut oppimateriaalit"
+    },
+    "edit": "Muokkaa"
   },
   "footer": {
     "developer": "Palvelun tuottaja",
