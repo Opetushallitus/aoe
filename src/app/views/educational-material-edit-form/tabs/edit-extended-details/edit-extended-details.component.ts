@@ -116,9 +116,19 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
           ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
           : this.material;
 
+        const typicalAgeRange = this.form.get('typicalAgeRange').value;
+
+        if (typicalAgeRange.typicalAgeRangeMin === '') {
+          typicalAgeRange.typicalAgeRangeMin = null;
+        }
+
+        if (typicalAgeRange.typicalAgeRangeMax === '') {
+          typicalAgeRange.typicalAgeRangeMax = null;
+        }
+
         changedMaterial.accessibilityFeatures = this.form.get('accessibilityFeatures').value;
         changedMaterial.accessibilityHazards = this.form.get('accessibilityHazards').value;
-        changedMaterial.typicalAgeRange = this.form.get('typicalAgeRange').value;
+        changedMaterial.typicalAgeRange = typicalAgeRange;
         changedMaterial.timeRequired = this.form.get('timeRequired').value;
         changedMaterial.publisher = this.form.get('publisher').value;
         changedMaterial.expires = this.expiresCtrl.value;
