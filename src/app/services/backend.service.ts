@@ -279,7 +279,9 @@ export class BackendService {
           name: material.name,
           thumbnail: material.thumbnail
             ? material.thumbnail.thumbnail
-            : 'assets/img/material.png',
+            : material.learningResourceTypes.length > 0
+              ? `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`
+              : 'assets/img/material.png',
           learningResourceTypes: material.learningResourceTypes
             .map(({learningresourcetypekey, value}) => ({learningresourcetypekey, value})),
           authors: material.authors
