@@ -81,14 +81,14 @@ export const routes: Routes = [
       {
         path: 'muokkaa-oppimateriaalia/:materialId',
         component: EducationalMaterialEditFormComponent,
-        /*canActivate: [],
-        runGuardsAndResolvers: 'always',*/
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'muokkaa-oppimateriaalia/:materialId/:tabId',
         component: EducationalMaterialEditFormComponent,
-        /*canActivate: [],
-         runGuardsAndResolvers: 'always',*/
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
       },
       {
         path: 'kayttoehdot',
