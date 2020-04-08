@@ -514,11 +514,17 @@ export class BackendService {
           }));
 
         const editMaterial: EducationalMaterialForm = {
-          name: {
-            fi: material.name.find((name) => name.language === 'fi').materialname,
-            sv: material.name.find((name) => name.language === 'sv').materialname,
-            en: material.name.find((name) => name.language === 'en').materialname,
-          },
+          name: material.name.length > 0
+            ? {
+              fi: material.name.find((name) => name.language === 'fi').materialname,
+              sv: material.name.find((name) => name.language === 'sv').materialname,
+              en: material.name.find((name) => name.language === 'en').materialname,
+            }
+            : {
+              fi: null,
+              sv: null,
+              en: null,
+            },
           fileDetails: fileDetails,
           thumbnail: material.thumbnail ? material.thumbnail.filepath : null,
           keywords: material.keywords.map((keyword) => ({
@@ -544,11 +550,17 @@ export class BackendService {
             key: use.educationalusekey,
             value: use.value,
           })),
-          description: {
-            fi: material.description.find((desc) => desc.language === 'fi').description,
-            sv: material.description.find((desc) => desc.language === 'sv').description,
-            en: material.description.find((desc) => desc.language === 'en').description,
-          },
+          description: material.description.length > 0
+            ? {
+              fi: material.description.find((desc) => desc.language === 'fi').description,
+              sv: material.description.find((desc) => desc.language === 'sv').description,
+              en: material.description.find((desc) => desc.language === 'en').description,
+            }
+            : {
+              fi: null,
+              sv: null,
+              en: null,
+            },
           educationalLevels: material.educationalLevels.map((level) => ({
             key: level.educationallevelkey,
             value: level.value,
