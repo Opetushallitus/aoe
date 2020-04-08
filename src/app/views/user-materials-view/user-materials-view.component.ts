@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-user-materials-view',
   templateUrl: './user-materials-view.component.html',
+  styleUrls: ['./user-materials-view.component.scss']
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   publishedMaterialSubscription: Subscription;

@@ -295,6 +295,14 @@ h2 {
   background-color: map_get($theme-colors, 'light');
   padding: 1rem 1rem .5rem;
 
+  &.unpublished {
+    h3 {
+      color: $body-color;
+      @include font-size(16);
+      word-break: break-word;
+    }
+  }
+
   .header {
     border-bottom: 2px solid;
     border-color: $body-bg;

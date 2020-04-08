@@ -510,7 +510,15 @@
   "userMaterials": {
     "title": "My open educational resources",
     "createNew": "Upload a new resource",
-    "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER."
+    "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER.",
+    "unpublished": {
+      "title": "Incompelete / unpublished educational resources",
+      "unnamed": "Unnamed"
+    },
+    "published": {
+      "title": "Published educational resources"
+    },
+    "edit": "Edit"
   },
   "footer": {
     "developer": "Developer of the service",

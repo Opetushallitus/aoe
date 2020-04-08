@@ -510,7 +510,15 @@
   "userMaterials": {
     "title": "Mina lärresurser",
     "createNew": "Publicera en ny lärresurs",
-    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs."
+    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs.",
+    "unpublished": {
+      "title": "Ofullständigt / opublicerat lärresurser",
+      "unnamed": "Namnlös"
+    },
+    "published": {
+      "title": "Publicerat lärresurser"
+    },
+    "edit": "Redigera"
   },
   "footer": {
     "developer": "Utvecklare av tjänsten",
