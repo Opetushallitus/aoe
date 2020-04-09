@@ -50,6 +50,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   imageChangedEvent: any = '';
   croppedImage: ImageCroppedEvent;
+  thumbnailSrc: string;
 
   constructor(
     private koodistoProxySvc: KoodistoProxyService,
@@ -121,6 +122,10 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     });
 
     if (this.savedData) {
+      if (this.savedData.thumbnail) {
+        this.thumbnailSrc = this.savedData.thumbnail;
+      }
+
       if (this.savedData.keywords) {
         this.basicDetailsForm.get('keywords').setValue(this.savedData.keywords);
       }
@@ -224,8 +229,15 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       };
 
       this.backendSvc.uploadImage(data).subscribe(
-        (res) => {
+        (res: UploadMessage) => {
           this.uploadResponse = res;
+          this.thumbnailSrc = this.croppedImage.base64;
+
+          const savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
+
+          savedData.thumbnail = this.croppedImage.base64;
+
+          sessionStorage.setItem(this.savedDataKey, JSON.stringify(savedData));
 
           this.modalRef.hide();
           },
