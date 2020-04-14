@@ -1,0 +1,90 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>{{ 'demo.educationalMaterial.ratings.title' | translate }}</h1>
+
+    <h2>nimi</h2>
+
+    <ng-container *ngIf="ratings?.ratings?.length > 0; else noRatings">
+      <div class="averages">
+        <div class="row">
+          <div class="col-auto number-rating">
+            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingContent' | translate }}</h3>
+
+            <span class="value">
+              4,1 <span class="text-muted">/ 5</span>
+            </span>
+          </div>
+
+          <div class="col-auto number-rating">
+            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingVisual' | translate }}</h3>
+
+            <span class="value">
+              4,1 <span class="text-muted">/ 5</span>
+            </span>
+          </div>
+
+          <div class="col-auto number-rating">
+            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingCount' | translate }}</h3>
+
+            <span class="value count">
+              {{ ratings.ratings.length }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rating" *ngFor="let rating of ratings.ratings">
+        <div class="row justify-content-between mb-4">
+          <div class="col-auto">
+            <time [attr.datetime]="rating.updatedAt | date:'yyyy-MM-dd HH:mm'" class="date">
+              {{ rating.updatedAt | date:'d.M.yyyy HH:mm' }}
+            </time>
+          </div>
+
+          <div class="col-auto">
+            <span class="author">
+              {{ rating.firstName }} {{ rating.lastName }}
+            </span>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-auto number-rating">
+            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingContent' | translate }}</h3>
+
+            <span class="value">
+              {{ rating.ratingContent }}
+            </span>
+          </div>
+
+          <div class="col-auto number-rating">
+            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingVisual' | translate }}</h3>
+
+            <span class="value">
+              {{ rating.ratingVisual }}
+            </span>
+          </div>
+        </div>
+
+        <ng-container>
+          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackPositive' | translate }}</h3>
+          <p>{{ rating.feedbackPositive }}</p>
+        </ng-container>
+
+        <ng-container>
+          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackSuggest' | translate }}</h3>
+          <p>{{ rating.feedbackSuggest }}</p>
+        </ng-container>
+
+        <ng-container>
+          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackPurpose' | translate }}</h3>
+          <p>{{ rating.feedbackPurpose }}</p>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-template #noRatings>
+      <p>Oppimateriaalia ei ole vielä arvosteltu.</p>
+    </ng-template>
+  </div>
+</div>
