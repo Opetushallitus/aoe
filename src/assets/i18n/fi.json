@@ -96,6 +96,17 @@
       "references": {
         "title": "Tämän materiaalin tekemisessä on käytetty seuraavia aineistoja",
         "openLink": "avaa linkki"
+      },
+      "ratings": {
+        "title": "Arvostelut",
+        "rating": {
+          "ratingContent": "Sisältö",
+          "ratingVisual": "Ulkoasu",
+          "ratingCount": "Vastauksia",
+          "feedbackPositive": "Mitä hyvää materiaalissa on?",
+          "feedbackSuggest": "Mitä voisi vielä kehittää?",
+          "feedbackPurpose": "Miten hyödynsin materiaalia?"
+        }
       }
     }
   },

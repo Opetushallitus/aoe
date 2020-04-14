@@ -96,6 +96,17 @@
       "references": {
         "title": "References",
         "openLink": "open the link"
+      },
+      "ratings": {
+        "title": "",
+        "rating": {
+          "ratingContent": "",
+          "ratingVisual": "",
+          "ratingCount": "",
+          "feedbackPositive": "",
+          "feedbackPurpose": "",
+          "feedbackSuggest": ""
+        }
       }
     }
   },

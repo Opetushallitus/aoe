@@ -1,0 +1,57 @@
+@import "mixins";
+
+$border-color: #e0e0e0;
+
+h2 {
+  color: #373737;
+  @include font-size(20);
+}
+
+.number-rating {
+  h3 {
+    @include font-size(16);
+    font-weight: 400;
+  }
+
+  .value {
+    color: #1d891f;
+    @include font-size(30);
+    font-weight: 500;
+
+    &.count {
+      color: #373737;
+    }
+  }
+}
+
+.averages {
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.rating {
+  border-bottom: 1px solid $border-color;
+
+  .date {
+    color: #000000;
+    @include font-size(16);
+    font-weight: 700;
+  }
+
+  .author {
+    color: #000000;
+    @include font-size(16);
+    font-weight: 400;
+  }
+
+  h3 {
+    color: #000000;
+    @include font-size(16);
+    font-weight: 400;
+  }
+
+  p {
+    color: #373737;
+  }
+}
