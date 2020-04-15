@@ -476,18 +476,25 @@ h2 {
   }
 }
 
-.material-metadata {
+.metadata {
   [class^="col"] {
     margin-bottom: 1rem;
   }
 
   .panel-group {
+    margin-bottom: 0;
+
     .panel-heading {
       border-bottom: 0;
     }
 
     .accordion-toggle {
+      margin-bottom: 1rem;
       padding: 0;
+
+      button {
+        padding: 0;
+      }
     }
 
     .panel-body {

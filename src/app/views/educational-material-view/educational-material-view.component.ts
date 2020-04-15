@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
+  styleUrls: ['./educational-material-view.component.scss']
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -25,6 +26,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   materialName: string;
   description: string;
   materials: Material[];
+  metadataHeading: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +58,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.updateMaterials();
       });
     });
+
+    this.updateMetadataHeading(false);
   }
 
   ngOnDestroy(): void {
@@ -91,6 +95,14 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
     if (this.materials.length > 0) {
       this.previewMaterial = this.materials[0];
+    }
+  }
+
+  updateMetadataHeading(event: boolean): void {
+    if (event) {
+      this.metadataHeading = 'Vähemmän kuvailutietoja';
+    } else {
+      this.metadataHeading = 'Lisää kuvailutietoja';
     }
   }
 }
