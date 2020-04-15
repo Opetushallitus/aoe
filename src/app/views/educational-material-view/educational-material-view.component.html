@@ -129,301 +129,381 @@
               </div>
             </div>
 
-            <div class="row material-metadata">
-              <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
-                <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
-                {{ educationalMaterial.timeRequired }}
-              </div>
+            <div class="metadata">
+              <div class="row">
+                <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
+                  <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
+                  {{ educationalMaterial.timeRequired }}
+                </div>
 
-              <div *ngIf="educationalMaterial.publisher" class="col-auto">
-                <h4>{{ 'demo.educationalMaterial.publisher' | translate }}</h4>
-                {{ educationalMaterial.publisher }}
-              </div>
+                <div *ngIf="educationalMaterial.publisher" class="col-auto">
+                  <h4>{{ 'demo.educationalMaterial.publisher' | translate }}</h4>
+                  {{ educationalMaterial.publisher }}
+                </div>
 
-              <div class="col-auto">
-                <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
-                {{ educationalMaterial.license }}
-              </div>
+                <div class="col-auto">
+                  <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
+                  {{ educationalMaterial.license }}
+                </div>
 
-              <div class="col-12">
-                <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
+                <div class="col-12">
+                  <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
 
-                <div class="tags">
-                  <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
-                    {{ keyword.value }}
-                  </button>
+                  <div class="tags">
+                    <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
+                      {{ keyword.value }}
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <accordion>
-                <accordion-group heading="Lisää kuvailutietoja">
-                  <div class="col-12">
+                <accordion-group [heading]="metadataHeading" (isOpenChange)="updateMetadataHeading($event)">
+                  <div class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let level of educationalMaterial.educationalLevels" type="button" class="btn btn-light disabled">
-                        {{ level.value }}
-                      </button>
+                      <button
+                        *ngFor="let level of educationalMaterial.educationalLevels"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ level.value }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let role of educationalMaterial.educationalRoles" type="button" class="btn btn-light disabled">
-                        {{ role.educationalrole }}
-                      </button>
+                      <button
+                        *ngFor="let role of educationalMaterial.educationalRoles"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ role.educationalrole }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let use of educationalMaterial.educationalUses" type="button" class="btn btn-light disabled">
-                        {{ use.value }}
-                      </button>
+                      <button
+                        *ngFor="let use of educationalMaterial.educationalUses"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ use.value }}</button>
                     </div>
                   </div>
 
                   <!-- early childhood education -->
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.earlyChildhoodEducationSubjects" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.earlyChildhoodEducationSubjects"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.earlyChildhoodEducationObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.earlyChildhoodEducationObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- pre primary education -->
-                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.prePrimaryEducationSubjects' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.prePrimaryEducationSubjects" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.prePrimaryEducationSubjects"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.prePrimaryEducationObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.prePrimaryEducationObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.prePrimaryEducationObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- basic education -->
-                  <div *ngIf="educationalMaterial.basicStudySubjects.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.basicStudySubjects.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.basicStudySubjects' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.basicStudySubjects" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.basicStudySubjects"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.basicStudyObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.basicStudyObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.basicStudyObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.basicStudyObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.basicStudyObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.basicStudyContents.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.basicStudyContents.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.basicStudyContents' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let content of educationalMaterial.basicStudyContents" type="button" class="btn btn-light disabled">
-                        {{ content.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let content of educationalMaterial.basicStudyContents"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ content.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- upper secondary education -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjects.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjects.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjects" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjects"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- upper secondary education (new) -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjectsNew" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjectsNew"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let module of educationalMaterial.upperSecondarySchoolModulesNew" type="button" class="btn btn-light disabled">
-                        {{ module.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let module of educationalMaterial.upperSecondarySchoolModulesNew"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ module.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectivesNew" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectivesNew"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let content of educationalMaterial.upperSecondarySchoolContentsNew" type="button" class="btn btn-light disabled">
-                        {{ content.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let content of educationalMaterial.upperSecondarySchoolContentsNew"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ content.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- vocational education -->
-                  <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let degree of educationalMaterial.vocationalDegrees" type="button" class="btn btn-light disabled">
-                        {{ degree.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let degree of educationalMaterial.vocationalDegrees"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ degree.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.vocationalUnits.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.vocationalUnits.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.vocationalUnits' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let unit of educationalMaterial.vocationalUnits" type="button" class="btn btn-light disabled">
-                        {{ unit.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let unit of educationalMaterial.vocationalUnits"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ unit.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.vocationalEducationObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.vocationalEducationObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.vocationalEducationObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.vocationalEducationObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- self-motivated education -->
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let subject of educationalMaterial.selfMotivatedEducationSubjects" type="button" class="btn btn-light disabled">
-                        {{ subject.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let subject of educationalMaterial.selfMotivatedEducationSubjects"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ subject.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.selfMotivatedEducationObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.selfMotivatedEducationObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- higher education -->
-                  <div *ngIf="educationalMaterial.branchesOfScience.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.branchesOfScience.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.branchesOfScience' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let branch of educationalMaterial.branchesOfScience" type="button" class="btn btn-light disabled">
-                        {{ branch.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let branch of educationalMaterial.branchesOfScience"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ branch.targetName }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.scienceBranchObjectives.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.scienceBranchObjectives.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.scienceBranchObjectives' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let objective of educationalMaterial.scienceBranchObjectives" type="button" class="btn btn-light disabled">
-                        {{ objective.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let objective of educationalMaterial.scienceBranchObjectives"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ objective.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- prerequisites -->
-                  <div *ngIf="educationalMaterial.prerequisites.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.prerequisites.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.prerequisites' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let prerequisite of educationalMaterial.prerequisites" type="button" class="btn btn-light disabled">
-                        {{ prerequisite.targetName }}
-                      </button>
+                      <button
+                        *ngFor="let prerequisite of educationalMaterial.prerequisites"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ prerequisite.targetName }}</button>
                     </div>
                   </div>
 
                   <!-- accessibility -->
-                  <div *ngIf="educationalMaterial.accessibilityFeatures.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.accessibilityFeatures.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let feature of educationalMaterial.accessibilityFeatures" type="button" class="btn btn-light disabled">
-                        {{ feature.value }}
-                      </button>
+                      <button
+                        *ngFor="let feature of educationalMaterial.accessibilityFeatures"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ feature.value }}</button>
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.accessibilityHazards.length > 0" class="col-12">
+                  <div *ngIf="educationalMaterial.accessibilityHazards.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
 
                     <div class="tags">
-                      <button *ngFor="let hazard of educationalMaterial.accessibilityHazards" type="button" class="btn btn-light disabled">
-                        {{ hazard.value }}
-                      </button>
+                      <button
+                        *ngFor="let hazard of educationalMaterial.accessibilityHazards"
+                        type="button"
+                        class="btn btn-light disabled"
+                        disabled
+                      >{{ hazard.value }}</button>
                     </div>
                   </div>
                 </accordion-group>
@@ -439,42 +519,16 @@
                 <div class="col">
                   <strong>{{ reference.name }}</strong>
 
-                  <ul class="list-unstyled">
+                  <ul class="list-unstyled mb-0">
                     <li *ngFor="let author of reference.authors">{{ author }}</li>
                   </ul>
                 </div>
+
                 <div class="col-auto">
                   <i class="fa fa-external-link mr-2" aria-hidden="true"></i>
                   <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">{{ 'demo.educationalMaterial.references.openLink' | translate }}</a>
                 </div>
               </div>
-
-              <hr>
-
-              <!--<div class="row">
-                <div class="col-8">
-                  <div class="media">
-                    <img [src]="educationalMaterial.thumbnail" class="align-self-start mr-3">
-
-                    <div class="media-body">
-                      <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-
-                      <ul class="list-unstyled authors">
-                        <li *ngFor="let author of educationalMaterial.authors">
-                          <ng-container *ngIf="author.authorname !== ''">
-                            {{ author.authorname }}
-                            <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-                          </ng-container>
-                          <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-4">
-                  <a href="">avaa</a>
-                </div>
-              </div>-->
             </div>
           </div>
         </div>
