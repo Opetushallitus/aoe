@@ -56,7 +56,7 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'materiaali/arvostelut/:materialId',
+        path: 'materiaali/:materialId/arvostelut',
         component: EducationalMaterialRatingsComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
