@@ -97,6 +97,16 @@
         "title": "Referens",
         "openLink": "öppna länken"
       },
+      "userRatings": {
+        "title": "",
+        "averages": {
+          "title": "",
+          "ratingContent": "",
+          "ratingVisual": "",
+          "allRatings": "",
+          "addRating": ""
+        }
+      },
       "ratings": {
         "title": "",
         "rating": {

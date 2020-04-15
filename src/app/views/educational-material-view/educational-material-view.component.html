@@ -511,6 +511,38 @@
             </div>
           </div>
 
+          <div class="ratings">
+            <h2>{{ 'demo.educationalMaterial.userRatings.title' | translate }}</h2>
+
+            <h3>{{ 'demo.educationalMaterial.userRatings.averages.title' | translate }}</h3>
+
+            <div class="row">
+              <div class="col-auto">
+                <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingContent' | translate }}:</strong>
+                <!--{{ educationalMaterial.ratings.avgContent }}-->
+                <span class="text-muted">/ 5</span>
+              </div>
+
+              <div class="col-auto">
+                <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingVisual' | translate }}:</strong>
+                <!--{{ educationalMaterial.ratings.avgVisual }}-->
+                <span class="text-muted">/ 5</span>
+              </div>
+
+              <div class="col-auto">
+                <a [routerLink]="['/materiaali/arvostelut', materialId]">
+                  {{ 'demo.educationalMaterial.userRatings.averages.allRatings' | translate }}
+                </a>
+              </div>
+
+              <div class="col-auto">
+                <a href="#">
+                  {{ 'demo.educationalMaterial.userRatings.averages.addRating' | translate }}
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div class="references" *ngIf="educationalMaterial.references?.length > 0">
             <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
 

@@ -97,6 +97,16 @@
         "title": "References",
         "openLink": "open the link"
       },
+      "userRatings": {
+        "title": "",
+        "averages": {
+          "title": "",
+          "ratingContent": "",
+          "ratingVisual": "",
+          "allRatings": "",
+          "addRating": ""
+        }
+      },
       "ratings": {
         "title": "",
         "rating": {

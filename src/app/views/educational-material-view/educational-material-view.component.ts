@@ -16,6 +16,7 @@ import { environment } from '../../../environments/environment';
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
+  materialId: number;
   educationalMaterial: EducationalMaterial;
   private routeSubscription: Subscription;
   previewMaterial: Material;
@@ -47,9 +48,11 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
 
     this.routeSubscription = this.route.params.subscribe(params => {
-      this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
+      this.materialId = +params['materialId'];
+
+      this.backendSvc.getMaterial(this.materialId).subscribe(data => {
         this.educationalMaterial = data;
-        this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
+        this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
         // tslint:disable-next-line:max-line-length
         this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${params['materialId']}/${this.lang}" width="720" height="360"></iframe>`;
 
