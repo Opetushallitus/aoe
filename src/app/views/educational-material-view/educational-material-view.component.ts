@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
@@ -13,11 +12,10 @@ import { environment } from '../../../environments/environment';
   templateUrl: './educational-material-view.component.html',
   styleUrls: ['./educational-material-view.component.scss']
 })
-export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
+export class EducationalMaterialViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   materialId: number;
   educationalMaterial: EducationalMaterial;
-  private routeSubscription: Subscription;
   previewMaterial: Material;
   downloadUrl: string;
   embedCode: string;
@@ -35,6 +33,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.materialId = +this.route.snapshot.paramMap.get('materialId');
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
@@ -45,26 +45,18 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.routeSubscription = this.route.params.subscribe(params => {
-      this.materialId = +params['materialId'];
+    this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
+      this.educationalMaterial = data;
+      this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+      // tslint:disable-next-line:max-line-length
+      this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
-      this.backendSvc.getMaterial(this.materialId).subscribe(data => {
-        this.educationalMaterial = data;
-        this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
-        // tslint:disable-next-line:max-line-length
-        this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${params['materialId']}/${this.lang}" width="720" height="360"></iframe>`;
-
-        this.updateMaterialName();
-        this.updateDescription();
-        this.updateMaterials();
-      });
+      this.updateMaterialName();
+      this.updateDescription();
+      this.updateMaterials();
     });
 
     this.updateMetadataHeading(false);
-  }
-
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
   }
 
   setPreviewMaterial(material: Material): void {
