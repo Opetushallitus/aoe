@@ -97,6 +97,16 @@
         "title": "Tämän materiaalin tekemisessä on käytetty seuraavia aineistoja",
         "openLink": "avaa linkki"
       },
+      "userRatings": {
+        "title": "Käyttäjien arviot",
+        "averages": {
+          "title": "Käyttäjien arvostelut",
+          "ratingContent": "Sisältö",
+          "ratingVisual": "Ulkoasu",
+          "allRatings": "Katso kaikki arvostelut",
+          "addRating": "Lisää arvostelu"
+        }
+      },
       "ratings": {
         "title": "Arvostelut",
         "rating": {
