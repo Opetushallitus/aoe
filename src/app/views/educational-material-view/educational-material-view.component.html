@@ -175,9 +175,12 @@
                   <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
 
                   <div class="tags">
-                    <button *ngFor="let keyword of educationalMaterial.keywords" type="button" class="btn btn-light disabled">
-                      {{ keyword.value }}
-                    </button>
+                    <button
+                      *ngFor="let keyword of educationalMaterial.keywords"
+                      type="button"
+                      class="btn btn-light disabled"
+                      disabled
+                    >{{ keyword.value }}</button>
                   </div>
                 </div>
               </div>
