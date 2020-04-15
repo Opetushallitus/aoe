@@ -158,6 +158,8 @@ export class PreviewComponent implements OnInit {
         };
       });
 
+      delete this.savedData.thumbnail;
+
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up session storage
         sessionStorage.removeItem(this.savedDataKey);

@@ -6,20 +6,42 @@
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="[ '/lisaa-oppimateriaali', 1 ]">{{ 'userMaterials.createNew' | translate }}</a>
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col" *ngIf="!(materials?.length > 0)">
-        <p>{{ 'userMaterials.noMaterials' | translate }}</p>
+    <div class="row mb-3" *ngIf="unpublishedMaterials && unpublishedMaterials.length > 0">
+      <div class="col-12">
+        <h2>{{ 'userMaterials.unpublished.title' | translate }}</h2>
       </div>
 
-      <ng-container *ngIf="materials?.length > 0">
-        <div class="col-md-6 col-lg-4" *ngFor="let material of materials">
-          <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of unpublishedMaterials">
+        <div class="card-educational-material unpublished">
+          <h3>{{ 'userMaterials.unpublished.unnamed' | translate }} #{{ material.id }}</h3>
         </div>
-      </ng-container>
-    </div><!-- .row -->
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">
+          {{ 'userMaterials.edit' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <div class="row mb-3" *ngIf="publishedMaterials && publishedMaterials.length > 0; else noPublishedMaterials">
+      <div class="col-12">
+        <h2>{{ 'userMaterials.published.title' | translate }}</h2>
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of publishedMaterials">
+        <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">
+          {{ 'userMaterials.edit' | translate }}
+        </a>
+      </div>
+    </div>
+
+    <ng-template #noPublishedMaterials>
+      <p>{{ 'userMaterials.noMaterials' | translate }}</p>
+    </ng-template>
   </div>
 </div>

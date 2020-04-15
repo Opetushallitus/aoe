@@ -6,7 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem, addPrerequisites } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
@@ -32,6 +32,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
   addCustomItem = addCustomItem;
+  addPrerequisites = addPrerequisites;
 
   constructor(
     private fb: FormBuilder,
@@ -138,15 +139,6 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
   get prerequisites(): FormControl {
     return this.extendedDetailsForm.get('prerequisites') as FormControl;
-  }
-
-  addPrerequisites(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: koodistoSources.prerequisites,
-      alignmentType: 'requires',
-      targetName: value,
-    };
   }
 
   onSubmit() {

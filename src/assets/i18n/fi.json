@@ -120,8 +120,10 @@
       "previous": "Edellinen",
       "required": "Pakollinen tieto",
       "pattern": {
-        "url": "Aseta etuliite http:// tai https://"
+        "url": "Aseta etuliite http:// tai https://",
+        "numeric": "Vain numerot ovat sallittuja"
       },
+      "min": "Vähintään: ",
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {
@@ -488,6 +490,20 @@
         "title": "Esikatselu",
         "confirm": "Vakuutan että"
       }
+    },
+    "editEducationalResource": {
+      "title": "Oppimateriaalin muokkaus",
+      "abort": {
+        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
+        "confirm": "Kyllä",
+        "cancel": "Ei"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Muokkaaminen ei sallittu",
+          "message": "Yrität muokata materiaali johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
+        }
+      }
     }
   },
   "faq": {
@@ -505,7 +521,15 @@
   "userMaterials": {
     "title": "Omat oppimateriaalit",
     "createNew": "Luo uusi materiaali",
-    "noMaterials": "Tähän näkymään tulee jakamasi avoimet oppimateriaalit. Et ole vielä lisännyt oppimateriaaleja palveluun. Paina \"Luo uusi materiaali\" ja lisää palveluun ensimmäinen avoin oppimateriaalisi."
+    "noMaterials": "Tähän näkymään tulee jakamasi avoimet oppimateriaalit. Et ole vielä lisännyt oppimateriaaleja palveluun. Paina \"Luo uusi materiaali\" ja lisää palveluun ensimmäinen avoin oppimateriaalisi.",
+    "unpublished": {
+      "title": "Keskeneräiset / julkaisemattomat oppimateriaalit",
+      "unnamed": "Nimeämätön"
+    },
+    "published": {
+      "title": "Julkaistut oppimateriaalit"
+    },
+    "edit": "Muokkaa"
   },
   "footer": {
     "developer": "Palvelun tuottaja",

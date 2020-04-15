@@ -293,8 +293,15 @@ h2 {
 // Oppimateriaali card
 .card-educational-material {
   background-color: map_get($theme-colors, 'light');
-  margin-bottom: 1rem;
   padding: 1rem 1rem .5rem;
+
+  &.unpublished {
+    h3 {
+      color: $body-color;
+      @include font-size(16);
+      word-break: break-word;
+    }
+  }
 
   .header {
     border-bottom: 2px solid;
@@ -316,6 +323,7 @@ h2 {
       color: $body-color;
       @include font-size(16);
       margin-top: 0;
+      word-break: break-word;
     }
 
     p {
