@@ -59,17 +59,26 @@
               <div class="datetimes">
                 <span class="datetime-item">
                   <strong>{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
-                  <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}</time>
+
+                  <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">
+                    {{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}
+                  </time>
                 </span>
 
                 <span class="datetime-item" *ngIf="educationalMaterial.publishedAt">
                   <strong>{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
-                  <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}</time>
+
+                  <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">
+                    {{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}
+                  </time>
                 </span>
 
                 <span class="datetime-item" *ngIf="educationalMaterial.updatedAt">
                   <strong>{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
-                  <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">{{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}</time>
+
+                  <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">
+                    {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
+                  </time>
                 </span>
               </div>
 
@@ -81,17 +90,28 @@
                 <div class="col-3">
                   <div class="btn-group-vertical" role="group">
                     <ng-container *ngFor="let material of materials">
-                      <button type="button" class="btn btn-file text-dark" [ngClass]="material === previewMaterial ? 'active' : ''" (click)="setPreviewMaterial(material)">
-                        {{ material.displayName[lang] }}
-                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-file text-dark"
+                        [ngClass]="material === previewMaterial ? 'active' : ''"
+                        (click)="setPreviewMaterial(material)"
+                      >{{ material.displayName[lang] }}</button>
                     </ng-container>
                   </div>
                 </div>
 
                 <div class="col-9">
-                  <app-educational-material-preview [material]="previewMaterial" *ngIf="!previewMaterial.link"></app-educational-material-preview>
+                  <app-educational-material-preview
+                    [material]="previewMaterial"
+                    *ngIf="!previewMaterial.link"></app-educational-material-preview>
 
-                  <a *ngIf="previewMaterial.link" [href]="previewMaterial.link" class="btn btn-secondary" target="_blank" rel="noopener">{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                  <a
+                    *ngIf="previewMaterial.link"
+                    [href]="previewMaterial.link"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    rel="noopener nofollow"
+                  >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
                 </div>
               </div>
             </div>
@@ -122,8 +142,13 @@
                       'btn-success': embedCodeCopied
                     }"
                   >
-                    <ng-container *ngIf="!embedCodeCopied; else copied">{{ 'demo.educationalMaterial.embed.copy' | translate }}</ng-container>
-                    <ng-template #copied>{{ 'demo.educationalMaterial.embed.copied' | translate }}</ng-template>
+                    <ng-container *ngIf="!embedCodeCopied; else copied">
+                      {{ 'demo.educationalMaterial.embed.copy' | translate }}
+                    </ng-container>
+
+                    <ng-template #copied>
+                      {{ 'demo.educationalMaterial.embed.copied' | translate }}
+                    </ng-template>
                   </button>
                 </div>
               </div>
