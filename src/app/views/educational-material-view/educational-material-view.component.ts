@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
@@ -31,7 +30,6 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
     private backendSvc: BackendService,
     private translate: TranslateService,
   ) { }
