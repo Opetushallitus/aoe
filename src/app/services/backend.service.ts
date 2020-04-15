@@ -12,6 +12,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { Attachment } from '@models/backend/attachment';
+import { EducationalMaterialForm } from '@models/educational-material-form';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,9 @@ export class BackendService {
   lang: string = this.translate.currentLang;
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
+  public editMaterial$ = new Subject<EducationalMaterialForm | null>();
+  public publishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
+  public unpublishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
 
   private static handleError(error: HttpErrorResponse) {
     console.error(error);
@@ -251,46 +255,59 @@ export class BackendService {
               url: r.url,
               name: r.materialname,
             })),
+          owner: res.owner,
         };
       })
     );
   }
 
   /**
-   * Returns list of educational materials by user.
-   * @returns {Observable<EducationalMaterialList>} List of educational materials
+   * Updates list of educational materials created by user.
    */
-  getUserMaterialList(): Observable<EducationalMaterialList[]> {
-    return this.http.get<any>(`${this.backendUrl}/usermaterial`, {
+  updateUserMaterialList(): void {
+    this.http.get<any>(`${this.backendUrl}/usermaterial`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).pipe(
-      map((res): EducationalMaterialList[] => {
-        return res
-          .filter(r => r.name.length > 0)
-          .map(r => {
-            return {
-              id: r.id,
-              name: r.name,
-              thumbnail: r.thumbnail
-                ? r.thumbnail.thumbnail
-                : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
-              learningResourceTypes: r.learningResourceTypes
-                .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
-              authors: r.authors
-                .map(({ authorname, organization }) => ({ authorname, organization })),
-              description: r.description,
-              license: r.license,
-              keywords: r.keywords
-                .map(({ keywordkey, value }) => ({ keywordkey, value })),
-              educationalLevels: r.educationalLevels
-                .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
-            };
-          });
-      }),
-      catchError(BackendService.handleError),
-    );
+    }).subscribe((materials) => {
+      const published: EducationalMaterialList[] = [];
+      const unpublished: EducationalMaterialList[] = [];
+
+      materials.forEach((material) => {
+        const mappedMaterial: EducationalMaterialList = {
+          id: material.id,
+          name: material.name,
+          thumbnail: material.thumbnail
+            ? material.thumbnail.thumbnail
+            : material.learningResourceTypes.length > 0
+              ? `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`
+              : 'assets/img/material.png',
+          learningResourceTypes: material.learningResourceTypes
+            .map(({learningresourcetypekey, value}) => ({learningresourcetypekey, value})),
+          authors: material.authors
+            .map(({authorname, organization}) => ({authorname, organization})),
+          description: material.description,
+          license: material.license,
+          keywords: material.keywords
+            .map(({keywordkey, value}) => ({keywordkey, value})),
+          educationalLevels: material.educationalLevels
+            .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
+          publishedAt: material.publishedat,
+        };
+
+        if (mappedMaterial.publishedAt === null) {
+          unpublished.push(mappedMaterial);
+        } else {
+          published.push(mappedMaterial);
+        }
+      });
+
+      published.sort((a, b) => b.id - a.id);
+      unpublished.sort((a, b) => b.id - a.id);
+
+      this.publishedUserMaterials$.next(published);
+      this.unpublishedUserMaterials$.next(unpublished);
+    });
   }
 
   getRecentMaterialList(): Observable<EducationalMaterialList[]> {
@@ -330,14 +347,19 @@ export class BackendService {
 
   /**
    * Upload thumbnail image for educational material to backend.
-   * @param {FormData} data
+   * @param {string} base64Image
+   * @param {number} materialId
    * @returns {Observable<UploadMessage>} Upload message
    */
-  uploadImage(data: { base64image: string }): Observable<UploadMessage> {
-    if (sessionStorage.getItem(this.localStorageKey) !== null) {
-      const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
+  uploadImage(base64Image: string, materialId?: number): Observable<UploadMessage> {
+    const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${fileUpload.id}`, data, {
+    if (fileUpload !== null || materialId) {
+      if (fileUpload) {
+        materialId = fileUpload.id;
+      }
+
+      return this.http.post<{ base64image: string }>(`${this.backendUrl}/uploadBase64Image/${materialId}`, { base64image: base64Image }, {
         headers: new HttpHeaders({
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -392,6 +414,366 @@ export class BackendService {
       }));
 
       this.uploadedFiles$.next(materials);
+    });
+  }
+
+  /**
+   * Updates edit material.
+   * @param {number} materialId
+   */
+  updateEditMaterial(materialId: number): void {
+    this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((material) => {
+      if (material.owner) {
+        const fileDetails = material.materials
+          .map((file) => ({
+            id: file.id,
+            file: file.originalfilename,
+            link: file.link,
+            language: file.language,
+            displayName: file.displayName,
+            priority: file.priority,
+            subtitles: material.attachments
+              .filter((attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles')
+              .map((subtitle: Attachment) => ({
+                id: subtitle.id,
+                fileId: subtitle.materialid,
+                subtitle: subtitle.originalfilename,
+                default: subtitle.defaultfile,
+                kind: subtitle.kind,
+                label: subtitle.label,
+                srclang: subtitle.srclang,
+              })),
+          }))
+          .sort((a, b) => a.priority - b.priority);
+
+        const earlyChildhoodEducationSubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodSubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const prePrimaryEducationSubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.prePrimarySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const basicStudySubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.basicStudySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+        const upperSecondarySubjects = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjects)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const vocationalDegrees = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.vocationalDegrees)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const branchesOfScience = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.scienceBranches)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const editMaterial: EducationalMaterialForm = {
+          name: material.name.length > 0
+            ? {
+              fi: material.name.find((name) => name.language === 'fi').materialname,
+              sv: material.name.find((name) => name.language === 'sv').materialname,
+              en: material.name.find((name) => name.language === 'en').materialname,
+            }
+            : {
+              fi: null,
+              sv: null,
+              en: null,
+            },
+          fileDetails: fileDetails,
+          thumbnail: material.thumbnail ? material.thumbnail.filepath : null,
+          keywords: material.keywords.map((keyword) => ({
+            key: keyword.keywordkey,
+            value: keyword.value,
+          })),
+          authors: material.author.map((author) => ({
+            author: author.authorname,
+            organization: {
+              key: author.organizationkey,
+              value: author.organization,
+            },
+          })),
+          learningResourceTypes: material.learningResourceTypes.map((type) => ({
+            key: type.learningresourcetypekey,
+            value: type.value,
+          })),
+          educationalRoles: material.educationalRoles.map((role) => ({
+            key: role.educationalrolekey,
+            value: role.educationalrole,
+          })),
+          educationalUses: material.educationalUses.map((use) => ({
+            key: use.educationalusekey,
+            value: use.value,
+          })),
+          description: material.description.length > 0
+            ? {
+              fi: material.description.find((desc) => desc.language === 'fi').description,
+              sv: material.description.find((desc) => desc.language === 'sv').description,
+              en: material.description.find((desc) => desc.language === 'en').description,
+            }
+            : {
+              fi: null,
+              sv: null,
+              en: null,
+            },
+          educationalLevels: material.educationalLevels.map((level) => ({
+            key: level.educationallevelkey,
+            value: level.value,
+          })),
+          earlyChildhoodEducationSubjects: earlyChildhoodEducationSubjects,
+          suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
+          earlyChildhoodEducationObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.earlyChildhoodObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          earlyChildhoodEducationFramework: (earlyChildhoodEducationSubjects.length > 0 && earlyChildhoodEducationSubjects[0].educationalFramework)
+            ? earlyChildhoodEducationSubjects[0].educationalFramework
+            : null,
+          prePrimaryEducationSubjects: prePrimaryEducationSubjects,
+          suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
+          prePrimaryEducationObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.prePrimaryObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          prePrimaryEducationFramework: (prePrimaryEducationSubjects.length > 0 && prePrimaryEducationSubjects[0].educationalFramework)
+            ? prePrimaryEducationSubjects[0].educationalFramework
+            : null,
+          basicStudySubjects: basicStudySubjects,
+          suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
+          basicStudyObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.basicStudyObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          basicStudyContents: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.basicStudyContents)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          basicStudyFramework: (basicStudySubjects.length > 0 && basicStudySubjects[0].educationalFramework)
+            ? basicStudySubjects[0].educationalFramework
+            : null,
+          upperSecondarySchoolSubjects: upperSecondarySubjects,
+          suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
+          upperSecondarySchoolObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondaryObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          upperSecondarySchoolFramework: (upperSecondarySubjects.length > 0 && upperSecondarySubjects[0].educationalFramework)
+            ? upperSecondarySubjects[0].educationalFramework
+            : null,
+          upperSecondarySchoolSubjectsNew: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
+          upperSecondarySchoolModulesNew: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondaryModulesNew)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          upperSecondarySchoolObjectivesNew: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondaryObjectivesNew)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          upperSecondarySchoolContentsNew: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondaryContentsNew)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          vocationalDegrees: vocationalDegrees,
+          suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
+          vocationalUnits: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.vocationalUnits)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          vocationalEducationObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.vocationalObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          vocationalEducationFramework: (vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework)
+            ? vocationalDegrees[0].educationalFramework
+            : null,
+          selfMotivatedEducationSubjects: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.selfMotivatedSubjects)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          suitsAllSelfMotivatedSubjects: material.suitsAllSelfMotivatedSubjects,
+          selfMotivatedEducationObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.selfMotivatedObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          branchesOfScience: branchesOfScience,
+          suitsAllBranches: material.suitsAllBranches,
+          scienceBranchObjectives: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.scienceBranchObjectives)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          higherEducationFramework: (branchesOfScience.length > 0 && branchesOfScience[0].educationalFramework)
+            ? branchesOfScience[0].educationalFramework
+            : null,
+          accessibilityFeatures: material.accessibilityFeatures.map((feature) => ({
+            key: feature.accessibilityfeaturekey,
+            value: feature.value,
+          })),
+          accessibilityHazards: material.accessibilityHazards.map((hazard) => ({
+            key: hazard.accessibilityhazardkey,
+            value: hazard.value,
+          })),
+          typicalAgeRange: material.typicalAgeRange,
+          timeRequired: material.timeRequired,
+          publisher: material.publisher.map((publisher) => ({
+            key: publisher.publisherkey,
+            value: publisher.name,
+          })),
+          expires: material.expires,
+          prerequisites: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.prerequisites)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              targetName: alignment.targetname,
+            })),
+          license: material.license,
+          externals: material.isBasedOn.map((reference) => ({
+            author: reference.author.map((author) => (author.authorname)),
+            url: reference.url,
+            name: reference.materialname,
+          })),
+        };
+
+        this.editMaterial$.next(editMaterial);
+      } else {
+        this.editMaterial$.next(null);
+      }
     });
   }
 

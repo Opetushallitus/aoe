@@ -6,6 +6,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { koodistoSources } from '../constants/koodisto-sources';
 
 @NgModule({
   imports: [
@@ -77,4 +79,144 @@ export function addCustomItem(value: string): KeyValue<string, string> {
 export function deduplicate(array: any[], prop: string): any[] {
   // https://gist.github.com/Vheissu/71dd683ad647e82a0d132076cf6eeef2#gistcomment-2598267
   return Array.from(new Map(array.map((i) => [(prop in i) ? i[prop] : i, i])).values());
+}
+
+/**
+ * Converts string value to early childhood subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addEarlyChildhoodEducationSubject(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'earlyChildhoodEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to early childhood objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addEarlyChildhoodEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'earlyChildhoodEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to pre-primary subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrePrimaryEducationSubject(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'prePrimaryEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to pre-primary objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrePrimaryEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'prePrimaryEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to upper secondary school objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addUpperSecondarySchoolObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'upperSecondarySchoolObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to vocational education objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addVocationalEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'vocationalEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to self-motivated competence development subject Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addSelfMotivatedEducationSubject(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'selfMotivatedEducationSubjects',
+    alignmentType: 'educationalSubject',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to self-motivated competence development objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addSelfMotivatedEducationObjective(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'selfMotivatedEducationObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to higher education objective Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addScienceBranchObjectives(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: 'scienceBranchObjectives',
+    alignmentType: 'teaches',
+    targetName: value.trim(),
+  };
+}
+
+/**
+ * Converts string value to prerequisites Alignment Object.
+ * @param {string} value
+ * @returns {AlignmentObjectExtended} Alignment Object
+ */
+export function addPrerequisites(value: string): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: koodistoSources.prerequisites,
+    alignmentType: 'requires',
+    targetName: value.trim(),
+  };
 }

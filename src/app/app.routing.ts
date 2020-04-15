@@ -20,6 +20,7 @@ import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
+import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 
 export const routes: Routes = [
@@ -82,6 +83,18 @@ export const routes: Routes = [
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard, FileUploadGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'muokkaa-oppimateriaalia/:materialId',
+        component: EducationalMaterialEditFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'muokkaa-oppimateriaalia/:materialId/:tabId',
+        component: EducationalMaterialEditFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {

@@ -120,8 +120,10 @@
       "previous": "Previous",
       "required": "Required",
       "pattern": {
-        "url": "Please, provide http:// or https:// prefix"
+        "url": "Please, provide http:// or https:// prefix",
+        "numeric": "Only numbers are allowed"
       },
+      "min": "At least: ",
       "save": "Save",
       "saveChanges": "Save changes",
       "translations": {
@@ -488,6 +490,20 @@
         "title": "Preview",
         "confirm": "I confirm that"
       }
+    },
+    "editEducationalResource": {
+      "title": "Oppimateriaalin muokkaus",
+      "abort": {
+        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
+        "confirm": "Kyllä",
+        "cancel": "Ei"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Editing not permitted",
+          "message": "You are trying to edit a material for which you do not have the permission for. If you have uploaded this material, please check that you are using the correct login method."
+        }
+      }
     }
   },
   "faq": {
@@ -505,7 +521,15 @@
   "userMaterials": {
     "title": "My open educational resources",
     "createNew": "Upload a new resource",
-    "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER."
+    "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER.",
+    "unpublished": {
+      "title": "Incompelete / unpublished educational resources",
+      "unnamed": "Unnamed"
+    },
+    "published": {
+      "title": "Published educational resources"
+    },
+    "edit": "Edit"
   },
   "footer": {
     "developer": "Developer of the service",

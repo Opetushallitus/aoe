@@ -41,6 +41,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from 'ngx-clipboard';
+import { ToastrModule } from 'ngx-toastr';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -79,6 +80,17 @@ import { EducationalMaterialEmbedViewComponent } from '@views/educational-materi
 import { SearchComponent } from '@components/search/search.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
 import { SearchResultComponent } from '@components/search-result/search-result.component';
+import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
+import { EditFilesComponent } from '@views/educational-material-edit-form/tabs/edit-files/edit-files.component';
+import { EditBasicDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-basic-details/edit-basic-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditEducationalDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditExtendedDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-extended-details/edit-extended-details.component';
+import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
+// tslint:disable-next-line:max-line-length
+import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
+import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs/edit-preview/edit-preview.component';
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 
 @NgModule({
@@ -113,6 +125,7 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
     ImageCropperModule,
     DragDropModule,
     ClipboardModule,
+    ToastrModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -152,6 +165,14 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
     SearchComponent,
     SearchResultsViewComponent,
     SearchResultComponent,
+    EducationalMaterialEditFormComponent,
+    EditFilesComponent,
+    EditBasicDetailsComponent,
+    EditEducationalDetailsComponent,
+    EditExtendedDetailsComponent,
+    EditLicenseComponent,
+    EditBasedOnDetailsComponent,
+    EditPreviewComponent,
     EducationalMaterialRatingsComponent,
   ],
   providers: [

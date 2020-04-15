@@ -10,6 +10,17 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
+import {
+  addEarlyChildhoodEducationSubject,
+  addEarlyChildhoodEducationObjective,
+  addPrePrimaryEducationSubject,
+  addPrePrimaryEducationObjective,
+  addUpperSecondarySchoolObjective,
+  addVocationalEducationObjective,
+  addSelfMotivatedEducationSubject,
+  addSelfMotivatedEducationObjective,
+  addScienceBranchObjectives,
+} from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-educational-details',
@@ -59,6 +70,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalUnits: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
+
+  addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
+  addEarlyChildhoodEducationObjective = addEarlyChildhoodEducationObjective;
+  addPrePrimaryEducationSubject = addPrePrimaryEducationSubject;
+  addPrePrimaryEducationObjective = addPrePrimaryEducationObjective;
+  addUpperSecondarySchoolObjective = addUpperSecondarySchoolObjective;
+  addVocationalEducationObjective = addVocationalEducationObjective;
+  addSelfMotivatedEducationSubject = addSelfMotivatedEducationSubject;
+  addSelfMotivatedEducationObjective = addSelfMotivatedEducationObjective;
+  addScienceBranchObjectives = addScienceBranchObjectives;
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -585,87 +606,6 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateVocationalUnits(ids);
     }
-  }
-
-  addEarlyChildhoodEducationSubject(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'earlyChildhoodEducationSubjects',
-      alignmentType: 'educationalSubject',
-      targetName: value,
-    };
-  }
-
-  addEarlyChildhoodEducationObjective(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'earlyChildhoodEducationObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
-  }
-
-  addPrePrimaryEducationSubject(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'prePrimaryEducationSubjects',
-      alignmentType: 'educationalSubject',
-      targetName: value,
-    };
-  }
-
-  addPrePrimaryEducationObjective(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'prePrimaryEducationObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
-  }
-
-  addUpperSecondarySchoolObjective(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'upperSecondarySchoolObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
-  }
-
-  addVocationalEducationObjective(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'vocationalEducationObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
-  }
-
-  addSelfMotivatedEducationSubject(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'selfMotivatedEducationSubjects',
-      alignmentType: 'educationalSubject',
-      targetName: value,
-    };
-  }
-
-  addSelfMotivatedEducationObjective(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'selfMotivatedEducationObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
-  }
-
-  addScienceBranchObjectives(value): AlignmentObjectExtended {
-    return {
-      key: value.replace(/[\W_]+/g, ''),
-      source: 'scienceBranchObjectives',
-      alignmentType: 'teaches',
-      targetName: value,
-    };
   }
 
   onSubmit() {

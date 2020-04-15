@@ -120,8 +120,10 @@
       "previous": "Föregående",
       "required": "Obligatorisk uppgift",
       "pattern": {
-        "url": "Sätt prefix http:// eller https://"
+        "url": "Sätt prefix http:// eller https://",
+        "numeric": "Endast nummer är tillåtna"
       },
+      "min": "Minst: ",
       "save": "Spara",
       "saveChanges": "Spara ändringar",
       "translations": {
@@ -488,6 +490,20 @@
         "title": "Förhandsvisning",
         "confirm": "Jag har"
       }
+    },
+    "editEducationalResource": {
+      "title": "Oppimateriaalin muokkaus",
+      "abort": {
+        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
+        "confirm": "Kyllä",
+        "cancel": "Ei"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Det är inte tillåten att ändra materialet",
+          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen,  kolla att du har loggad in med det samma inloggning du  använde tidigare."
+        }
+      }
     }
   },
   "faq": {
@@ -505,7 +521,15 @@
   "userMaterials": {
     "title": "Mina lärresurser",
     "createNew": "Publicera en ny lärresurs",
-    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs."
+    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs.",
+    "unpublished": {
+      "title": "Oavslutade / opublicerat lärresurser",
+      "unnamed": "Namnlös"
+    },
+    "published": {
+      "title": "Publicerat lärresurser"
+    },
+    "edit": "Redigera"
   },
   "footer": {
     "developer": "Utvecklare av tjänsten",

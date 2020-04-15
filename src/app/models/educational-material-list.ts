@@ -20,4 +20,5 @@ export interface EducationalMaterialList {
   license: string;
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
+  publishedAt?: Date;
 }
