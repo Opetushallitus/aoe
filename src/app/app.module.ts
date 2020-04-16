@@ -92,6 +92,8 @@ import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs
 import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
 import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs/edit-preview/edit-preview.component';
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
+// tslint:disable-next-line:max-line-length
+import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 
 @NgModule({
   imports: [
@@ -174,6 +176,10 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
     EditBasedOnDetailsComponent,
     EditPreviewComponent,
     EducationalMaterialRatingsComponent,
+    EducationalMaterialRatingModalComponent,
+  ],
+  entryComponents: [
+    EducationalMaterialRatingModalComponent,
   ],
   providers: [
     {
