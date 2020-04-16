@@ -74,12 +74,6 @@
       "accessibilityFeatures": "Saavutettavuuden tukitoiminnot",
       "accessibilityHazard": "Saavutettavuuden esteet",
       "files": "Tiedostot",
-      "userMetadata": "Käyttäjien kuvailut",
-      "userReviews": "Käyttäjien arviot",
-      "rating": "Arvostelu",
-      "addReview": "Lisää arvio",
-      "comments": "Kommentteja",
-      "showAllComments": "Näytä kaikki käyttäjien kommentit",
       "preview": {
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
         "noAudioSupport": "Selaimesi ei tue audio-elementtiä.",
@@ -97,22 +91,23 @@
         "title": "Tämän materiaalin tekemisessä on käytetty seuraavia aineistoja",
         "openLink": "avaa linkki"
       },
-      "userRatings": {
+      "userReviews": {
         "title": "Käyttäjien arviot",
-        "averages": {
-          "title": "Käyttäjien arvostelut",
-          "ratingContent": "Sisältö",
-          "ratingVisual": "Ulkoasu",
-          "allRatings": "Katso kaikki arvostelut",
-          "addRating": "Lisää arvostelu"
-        }
+        "ratingContent": "Sisältö",
+        "ratingVisual": "Ulkoasu",
+        "feedbackPositive": "Mitä hyvää materiaalissa on?",
+        "feedbackSuggest": "Mitä voisi vielä kehittää?",
+        "feedbackPurpose": "Miten hyödynsin materiaalia?",
+        "allReviews": "Katso kaikki arviot",
+        "addReview": "Lisää arvio",
+        "reviews": "Vastauksia"
       },
-      "ratings": {
-        "title": "Arvostelut",
-        "rating": {
+      "reviews": {
+        "title": "Käyttäjien arviot",
+        "review": {
           "ratingContent": "Sisältö",
           "ratingVisual": "Ulkoasu",
-          "ratingCount": "Vastauksia",
+          "reviews": "Vastauksia",
           "feedbackPositive": "Mitä hyvää materiaalissa on?",
           "feedbackSuggest": "Mitä voisi vielä kehittää?",
           "feedbackPurpose": "Miten hyödynsin materiaalia?"
