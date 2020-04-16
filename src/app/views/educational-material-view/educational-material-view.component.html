@@ -562,9 +562,11 @@
               </div>
 
               <div class="col-auto">
-                <a href="#">
-                  {{ 'demo.educationalMaterial.userRatings.averages.addRating' | translate }}
-                </a>
+                <button
+                  type="button"
+                  class="btn btn-anchor"
+                  (click)="openReviewModal()"
+                >{{ 'demo.educationalMaterial.userReviews.addReview' | translate }}</button>
               </div>
             </div>
           </div>

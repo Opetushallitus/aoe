@@ -6,6 +6,9 @@ import { EducationalMaterial } from '@models/educational-material';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
 import { environment } from '../../../environments/environment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+// tslint:disable-next-line:max-line-length
+import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -25,11 +28,13 @@ export class EducationalMaterialViewComponent implements OnInit {
   description: string;
   materials: Material[];
   metadataHeading: string;
+  reviewModalRef: BsModalRef;
 
   constructor(
     private route: ActivatedRoute,
     private backendSvc: BackendService,
     private translate: TranslateService,
+    private modalSvc: BsModalService,
   ) { }
 
   ngOnInit(): void {
@@ -97,5 +102,14 @@ export class EducationalMaterialViewComponent implements OnInit {
     } else {
       this.metadataHeading = 'Lisää kuvailutietoja';
     }
+  }
+
+  openReviewModal(): void {
+    const initialState = {
+      materialId: this.materialId,
+      materialName: 'Oppimateriaalin nimi',
+    };
+
+    this.reviewModalRef = this.modalSvc.show(EducationalMaterialRatingModalComponent, { initialState });
   }
 }

@@ -1,0 +1,93 @@
+<div class="modal-header">
+  <h1 class="modal-title pull-left">Arvioi oppimateriaali</h1>
+
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <h2>{{ materialName }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="ratingContent">
+        {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}
+      </label>
+
+      <input
+        type="number"
+        class="form-control"
+        id="ratingContent"
+        formControlName="ratingContent"
+        min="1"
+        max="5"
+        step="1"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="ratingVisual">
+        {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}
+      </label>
+
+      <input
+        type="number"
+        class="form-control"
+        id="ratingVisual"
+        formControlName="ratingVisual"
+        min="1"
+        max="5"
+        step="1"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="feedbackPositive">
+        {{ 'demo.educationalMaterial.userReviews.feedbackPositive' | translate }}
+      </label>
+
+      <textarea
+        class="form-control"
+        id="feedbackPositive"
+        formControlName="feedbackPositive"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="feedbackSuggest">
+        {{ 'demo.educationalMaterial.userReviews.feedbackSuggest' | translate }}
+      </label>
+
+      <textarea
+        class="form-control"
+        id="feedbackSuggest"
+        formControlName="feedbackSuggest"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="feedbackPurpose">
+        {{ 'demo.educationalMaterial.userReviews.feedbackPurpose' | translate }}
+      </label>
+
+      <textarea
+        class="form-control"
+        id="feedbackPurpose"
+        formControlName="feedbackPurpose"
+      ></textarea>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-gray"
+      [attr.aria-label]="'forms.common.cancel' | translate"
+      (click)="bsModalRef.hide()"
+    >{{ 'forms.common.cancel' | translate }}</button>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+    >{{ 'forms.common.save' | translate }}</button>
+  </form>
+</div>
