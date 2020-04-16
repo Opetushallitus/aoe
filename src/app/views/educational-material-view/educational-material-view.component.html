@@ -540,26 +540,24 @@
           </div>
 
           <div class="ratings">
-            <h2>{{ 'demo.educationalMaterial.userRatings.title' | translate }}</h2>
-
-            <h3>{{ 'demo.educationalMaterial.userRatings.averages.title' | translate }}</h3>
+            <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
 
             <div class="row">
               <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
-                <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingContent' | translate }}:</strong>
+                <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
                 {{ educationalMaterial.ratingContentAverage }}
                 <span class="text-muted">/ 5</span>
               </div>
 
               <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
-                <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingVisual' | translate }}:</strong>
+                <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
                 {{ educationalMaterial.ratingVisualAverage }}
                 <span class="text-muted">/ 5</span>
               </div>
 
               <div class="col-auto">
                 <a routerLink="arvostelut">
-                  {{ 'demo.educationalMaterial.userRatings.averages.allRatings' | translate }}
+                  {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}
                 </a>
               </div>
 
