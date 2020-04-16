@@ -545,15 +545,15 @@
             <h3>{{ 'demo.educationalMaterial.userRatings.averages.title' | translate }}</h3>
 
             <div class="row">
-              <div class="col-auto">
+              <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
                 <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingContent' | translate }}:</strong>
-                <!--{{ educationalMaterial.ratings.avgContent }}-->
+                {{ educationalMaterial.ratingContentAverage }}
                 <span class="text-muted">/ 5</span>
               </div>
 
-              <div class="col-auto">
+              <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
                 <strong>{{ 'demo.educationalMaterial.userRatings.averages.ratingVisual' | translate }}:</strong>
-                <!--{{ educationalMaterial.ratings.avgVisual }}-->
+                {{ educationalMaterial.ratingVisualAverage }}
                 <span class="text-muted">/ 5</span>
               </div>
 
