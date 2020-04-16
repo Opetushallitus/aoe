@@ -16,9 +16,10 @@ export class RatingsService {
   /**
    * Posts material rating.
    * @param {RatingPost} rating Material rating
+   * @returns {Observable<RatingPost>} Posted rating
    */
-  postRating(rating: RatingPost) {
-    return this.http.post<RatingPost>(`${environment.backendUrl}/rating`, {
+  postRating(rating: RatingPost): Observable<{status: RatingPost}> {
+    return this.http.post<{status: RatingPost}>(`${environment.backendUrl}/rating`, rating, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
