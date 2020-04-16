@@ -275,6 +275,22 @@ h2 {
   }
 }
 
+.btn-anchor {
+  background: none;
+  border: 0;
+  color: $blue;
+  display: inline;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0;
+  vertical-align: baseline;
+
+  &:hover {
+    color: darken($blue, 15%);
+    text-decoration: underline;
+  }
+}
+
 // Modals
 .modal-content {
   border-radius: 0;
