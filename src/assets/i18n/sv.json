@@ -74,12 +74,6 @@
       "accessibilityFeatures": "Tillgänglighet",
       "accessibilityHazard": "Accessibility hazards",
       "files": "Filer",
-      "userMetadata": "User metadata",
-      "userReviews": "User reviews",
-      "rating": "Rating",
-      "addReview": "Lägga till kommentar",
-      "comments": "Kommentarer",
-      "showAllComments": "Visa alla kommentarer",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
@@ -97,25 +91,26 @@
         "title": "Referens",
         "openLink": "öppna länken"
       },
-      "userRatings": {
-        "title": "",
-        "averages": {
-          "title": "",
-          "ratingContent": "",
-          "ratingVisual": "",
-          "allRatings": "",
-          "addRating": ""
-        }
+      "userReviews": {
+        "title": "Recensioner",
+        "ratingContent": "Innehåll",
+        "ratingVisual": "Layout",
+        "feedbackPositive": "Vad var bra med lärresursen?",
+        "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+        "feedbackPurpose": "Hur använde du lärresursen?",
+        "allReviews": "Kolla alla recensioner",
+        "addReview": "Skriv en recension",
+        "reviews": "Recensioner"
       },
-      "ratings": {
-        "title": "",
-        "rating": {
-          "ratingContent": "",
-          "ratingVisual": "",
-          "ratingCount": "",
-          "feedbackPositive": "",
-          "feedbackPurpose": "",
-          "feedbackSuggest": ""
+      "reviews": {
+        "title": "Recensioner",
+        "review": {
+          "ratingContent": "Innehåll",
+          "ratingVisual": "Layout",
+          "reviews": "Recensioner",
+          "feedbackPositive": "Vad var bra med lärresursen?",
+          "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+          "feedbackPurpose": "Hur använde du lärresursen?"
         }
       }
     }

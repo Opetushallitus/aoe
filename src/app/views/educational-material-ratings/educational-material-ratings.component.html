@@ -2,15 +2,15 @@
   <div class="container">
     <a routerLink="../" class="d-inline-block mb-4">&lsaquo; {{ 'common.goBack' | translate }}</a>
 
-    <h1>{{ 'demo.educationalMaterial.ratings.title' | translate }}</h1>
+    <h1>{{ 'demo.educationalMaterial.reviews.title' | translate }}</h1>
 
-    <h2>nimi</h2>
+    <h2>Oppimateriaalin nimi</h2>
 
     <ng-container *ngIf="ratings?.ratings?.length > 0; else noRatings">
       <div class="averages">
         <div class="row">
           <div class="col-auto number-rating">
-            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingContent' | translate }}</h3>
+            <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
             <span class="value">
               4,1 <span class="text-muted">/ 5</span>
@@ -18,7 +18,7 @@
           </div>
 
           <div class="col-auto number-rating">
-            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingVisual' | translate }}</h3>
+            <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
             <span class="value">
               4,1 <span class="text-muted">/ 5</span>
@@ -26,7 +26,7 @@
           </div>
 
           <div class="col-auto number-rating">
-            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingCount' | translate }}</h3>
+            <h3>{{ 'demo.educationalMaterial.reviews.review.reviews' | translate }}</h3>
 
             <span class="value count">
               {{ ratings.ratings.length }}
@@ -52,7 +52,7 @@
 
         <div class="row mb-4">
           <div class="col-auto number-rating">
-            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingContent' | translate }}</h3>
+            <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
             <span class="value">
               {{ rating.ratingContent }}
@@ -60,7 +60,7 @@
           </div>
 
           <div class="col-auto number-rating">
-            <h3>{{ 'demo.educationalMaterial.ratings.rating.ratingVisual' | translate }}</h3>
+            <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
             <span class="value">
               {{ rating.ratingVisual }}
@@ -69,17 +69,17 @@
         </div>
 
         <ng-container>
-          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackPositive' | translate }}</h3>
+          <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackPositive' | translate }}</h3>
           <p>{{ rating.feedbackPositive }}</p>
         </ng-container>
 
         <ng-container>
-          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackSuggest' | translate }}</h3>
+          <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackSuggest' | translate }}</h3>
           <p>{{ rating.feedbackSuggest }}</p>
         </ng-container>
 
         <ng-container>
-          <h3>{{ 'demo.educationalMaterial.ratings.rating.feedbackPurpose' | translate }}</h3>
+          <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackPurpose' | translate }}</h3>
           <p>{{ rating.feedbackPurpose }}</p>
         </ng-container>
       </div>
