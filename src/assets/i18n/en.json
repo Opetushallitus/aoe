@@ -522,7 +522,8 @@
   },
   "footer": {
     "developer": "Developer of the service",
-    "feedback": "Give feedback"
+    "feedback": "Give feedback",
+    "orEmailUs": "or send us an email:"
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
