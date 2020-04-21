@@ -522,7 +522,8 @@
   },
   "footer": {
     "developer": "Palvelun tuottaja",
-    "feedback": "Anna palautetta"
+    "feedback": "Anna palautetta",
+    "orEmailUs": "tai laita meille viesti:"
   },
   "cookies": {
     "cookieSettings": "Evästeasetukset",
