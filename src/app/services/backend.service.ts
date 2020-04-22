@@ -13,6 +13,7 @@ import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { Attachment } from '@models/backend/attachment';
 import { EducationalMaterialForm } from '@models/educational-material-form';
+import { EducationalMaterialPut } from '@models/educational-material-put';
 
 @Injectable({
   providedIn: 'root'
@@ -133,12 +134,12 @@ export class BackendService {
   /**
    * Posts meta data to backend by material ID.
    * @param {number} materialId
-   * @param {any} data
+   * @param {EducationalMaterialPut} data
    */
-  postMeta(materialId: number, data: any) {
+  postMeta(materialId: number, data: EducationalMaterialPut) {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
-    return this.http.put<any>(uploadUrl, data).pipe(
+    return this.http.put(uploadUrl, data).pipe(
       catchError(BackendService.handleError),
     );
   }

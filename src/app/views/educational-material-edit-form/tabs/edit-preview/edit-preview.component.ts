@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../../environments/environment';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { BackendService } from '@services/backend.service';
+import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -220,15 +221,15 @@ export class EditPreviewComponent implements OnInit {
       const isVersioned = false;
 
       // materials
-      const materials = [];
+      const materials: Material[] = [];
 
       // attachmentDetails
-      const attachmentDetails = [];
+      const attachmentDetails: AttachmentDetail[] = [];
 
       // fileDetails
       const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
         materials.push({
-          id: file.id,
+          materialId: file.id,
           priority: idx,
         });
 
@@ -253,7 +254,7 @@ export class EditPreviewComponent implements OnInit {
       // thumbnail
       delete this.previewMaterial.thumbnail;
 
-      const updatedMaterial = Object.assign(
+      const updatedMaterial: EducationalMaterialPut = Object.assign(
         {},
         this.previewMaterial,
         { isVersioned },
