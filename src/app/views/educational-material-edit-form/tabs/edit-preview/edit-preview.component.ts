@@ -67,7 +67,6 @@ export class EditPreviewComponent implements OnInit {
 
     if (this.form.valid) {
       let alignmentObjects: AlignmentObjectExtended[] = [];
-      const fileOrder = [];
 
       // early childhood education
       this.previewMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
@@ -217,12 +216,18 @@ export class EditPreviewComponent implements OnInit {
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites);
       delete this.previewMaterial.prerequisites;
 
+      // versioning
+      const isVersioned = false;
+
+      // materials
+      const materials = [];
+
       // attachmentDetails
       const attachmentDetails = [];
 
       // fileDetails
       const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
-        fileOrder.push({
+        materials.push({
           id: file.id,
           priority: idx,
         });
@@ -251,7 +256,8 @@ export class EditPreviewComponent implements OnInit {
       const updatedMaterial = Object.assign(
         {},
         this.previewMaterial,
-        { fileOrder },
+        { isVersioned },
+        { materials },
         { fileDetails },
         { attachmentDetails },
         { alignmentObjects },
