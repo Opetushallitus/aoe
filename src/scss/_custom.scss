@@ -31,11 +31,6 @@ body {
   font-weight: 500;
 }
 
-.app-footer {
-  background: $gray-800;
-  color: #fff;
-}
-
 .base-heading-style {
   font-weight: 400;
   @include font-size(24);
@@ -188,6 +183,7 @@ h2 {
 // Footer
 .app-footer {
   background-color: $footer-bg-color;
+  color: #fff;
   display: block;
   padding-bottom: 1rem;
   padding-top: 1rem;
@@ -198,7 +194,7 @@ h2 {
     margin-bottom: 1rem;
   }
 
-  .nav-link {
+  a {
     color: $white;
     text-decoration: underline;
 

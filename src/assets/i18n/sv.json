@@ -538,7 +538,8 @@
   },
   "footer": {
     "developer": "Utvecklare av tjänsten",
-    "feedback": "Ge respons"
+    "feedback": "Ge respons",
+    "orEmailUs": "eller ta kontakt:"
   },
   "cookies": {
     "cookieSettings": "Inställningar för cookies",
