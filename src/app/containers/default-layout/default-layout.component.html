@@ -55,7 +55,7 @@
 <!--@todo: this needs to be automated-->
 <div *ngIf="showMaintenanceAlert" class="alert alert-warning mb-0" role="alert">
   <div class="container">
-    Aoe.fi-sivustolla on huoltokatko keskiviikkona 25.3.2020 klo 14.00 - 16.00 välisenä aikana.
+    Aoe.fi-sivustolla on huoltokatko keskiviikkona 22.4.2020 klo 14.00 - 16.00 välisenä aikana.
     Huoltokatko kestää arviolta puoli tuntia. Pahoittelemme palvelukatkosta aiheutuvaa haittaa.
   </div>
 </div>
@@ -91,9 +91,17 @@
           </li>
         </ul>
 
-        <a class="nav-link" href="https://link.webropolsurveys.com/S/3580E5A216266683" target="_blank" rel="noopener">
-          {{ 'footer.feedback' | translate }}
-        </a>
+        <a
+          class="nav-link"
+          href="https://link.webropolsurveys.com/S/3580E5A216266683"
+          target="_blank"
+          rel="noopener nofollow"
+        >{{ 'footer.feedback' | translate }}</a>
+
+        <span>
+          {{ 'footer.orEmailUs' | translate }}
+          <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>
+        </span>
       </div>
     </div>
   </div>
