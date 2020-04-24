@@ -122,16 +122,26 @@ export class EditFilesComponent implements OnInit {
     });
 
     return this.fb.group({
-      id: this.fb.control(file.id, [ Validators.required ]),
+      id: this.fb.control(file.id, [
+        Validators.required,
+      ]),
       file: this.fb.control(file.file),
+      newFile: [''],
       link: this.fb.control(file.link),
+      newLink: this.fb.control(null, [
+        Validators.pattern('https?://.*'),
+      ]),
       displayName: this.fb.group({
         fi: this.fb.control(file.displayName.fi),
         sv: this.fb.control(file.displayName.sv),
         en: this.fb.control(file.displayName.en),
       }),
-      language: this.fb.control(file.language, [ Validators.required ]),
-      priority: this.fb.control(file.priority, [ Validators.required ]),
+      language: this.fb.control(file.language, [
+        Validators.required,
+      ]),
+      priority: this.fb.control(file.priority, [
+        Validators.required,
+      ]),
       subtitles: this.fb.array(subtitles),
     });
   }
