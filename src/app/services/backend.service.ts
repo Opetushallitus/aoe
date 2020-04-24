@@ -163,6 +163,7 @@ export class BackendService {
           id: m.id,
           language: m.language,
           priority: m.priority,
+          filepath: m.filepath,
           originalfilename: m.originalfilename,
           filekey: m.filekey,
           link: m.link,

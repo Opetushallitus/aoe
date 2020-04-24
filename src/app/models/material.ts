@@ -4,6 +4,7 @@ export interface Material {
   id?: string;
   language: string;
   priority: number;
+  filepath?: string;
   originalfilename?: string;
   filekey?: string;
   link?: string;

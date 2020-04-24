@@ -15,6 +15,9 @@ export const mimeTypes = {
   pdf: [
     'application/pdf',
   ],
+  html: [
+    'text/html',
+  ],
   office: [
     'application/msword',
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
