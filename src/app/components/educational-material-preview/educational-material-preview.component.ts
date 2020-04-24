@@ -23,6 +23,10 @@ export class EducationalMaterialPreviewComponent {
       return 'pdf';
     }
 
+    if (mimeTypes.html.includes(mimeType)) {
+      return 'html';
+    }
+
     if (mimeTypes.office.includes(mimeType)) {
       return 'office';
     }
