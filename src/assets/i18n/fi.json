@@ -118,7 +118,9 @@
       "translations": {
         "label": "Kieliversiot",
         "tooltip": "Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
-      }
+      },
+      "replaceFile": "Korvaa tiedosto",
+      "replaceLink": "Korvaa linkki"
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",

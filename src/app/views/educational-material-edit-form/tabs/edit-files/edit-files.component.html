@@ -112,17 +112,44 @@
 
         <div class="form-row">
           <div class="form-group col-lg" *ngIf="file.get('file').value; else fileLink">
-            <label for="{{ 'file' + i }}">
-              {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
-            </label>
+            <ng-container>
+              <label for="{{ 'file' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
+              </label>
 
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="{{ 'file' + i }}"
-              formControlName="file"
-            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="{{ 'file' + i }}"
+                  formControlName="file"
+                >
+
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-gray"
+                    type="button"
+                  >{{ 'forms.common.replaceFile' | translate }}</button>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container>
+              <label for="{{ 'newFile' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
+              </label>
+
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="{{ 'newFile' + i }}"
+                  [lang]="lang"
+                >
+                <span class="custom-file-label">{{ file.get('newFile').value.name }}</span>
+              </div>
+            </ng-container>
           </div><!--/file-->
 
           <ng-template #fileLink>
@@ -131,18 +158,27 @@
                 {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
               </label>
 
-              <input
-                type="url"
-                readonly
-                class="form-control-plaintext"
-                id="{{ 'link' + i }}"
-                formControlName="link"
-                [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
-              >
+              <div class="input-group">
+                <input
+                  type="url"
+                  readonly
+                  class="form-control-plaintext"
+                  id="{{ 'link' + i }}"
+                  formControlName="link"
+                  [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
+                >
 
-              <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
-                <div *ngIf="file.get('link').errors.pattern">
-                  {{ 'forms.common.pattern.url' | translate }}
+                <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
+                  <div *ngIf="file.get('link').errors.pattern">
+                    {{ 'forms.common.pattern.url' | translate }}
+                  </div>
+                </div>
+
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-gray"
+                    type="button"
+                  >{{ 'forms.common.replaceLink' | translate }}</button>
                 </div>
               </div>
             </div>
