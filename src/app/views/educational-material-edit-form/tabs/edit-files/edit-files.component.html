@@ -166,14 +166,7 @@
                   class="form-control-plaintext"
                   id="{{ 'link' + i }}"
                   formControlName="link"
-                  [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
                 >
-
-                <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
-                  <div *ngIf="file.get('link').errors.pattern">
-                    {{ 'forms.common.pattern.url' | translate }}
-                  </div>
-                </div>
 
                 <div class="input-group-append">
                   <button
