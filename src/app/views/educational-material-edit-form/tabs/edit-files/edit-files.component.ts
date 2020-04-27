@@ -26,6 +26,7 @@ export class EditFilesComponent implements OnInit {
   submitted = false;
   languageSubscription: Subscription;
   languages: Language[];
+  showReplaceInput: boolean[] = [];
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -137,6 +138,8 @@ export class EditFilesComponent implements OnInit {
     const subtitles = file.subtitles.map((subtitle) => {
       return this.createSubtitle(subtitle);
     });
+
+    this.showReplaceInput.push(false);
 
     return this.fb.group({
       id: this.fb.control(file.id, [
