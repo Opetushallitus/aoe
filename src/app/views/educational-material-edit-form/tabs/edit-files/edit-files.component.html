@@ -130,12 +130,13 @@
                   <button
                     class="btn btn-outline-gray"
                     type="button"
+                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
                   >{{ 'forms.common.replaceFile' | translate }}</button>
                 </div>
               </div>
             </ng-container>
 
-            <ng-container>
+            <ng-container *ngIf="showReplaceInput[i]">
               <label for="{{ 'newFile' + i }}">
                 {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
               </label>
@@ -178,6 +179,7 @@
                   <button
                     class="btn btn-outline-gray"
                     type="button"
+                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
                   >{{ 'forms.common.replaceLink' | translate }}</button>
                 </div>
               </div>
