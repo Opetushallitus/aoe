@@ -27,6 +27,8 @@ export class EditFilesComponent implements OnInit {
   languageSubscription: Subscription;
   languages: Language[];
   showReplaceInput: boolean[] = [];
+  newMaterialCount: number;
+  completedUploads: number;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -83,7 +85,7 @@ export class EditFilesComponent implements OnInit {
     return this.form.get('name') as FormGroup;
   }
 
-  get fileDetailsArray(): FormArray {
+  get materialDetailsArray(): FormArray {
     return this.form.get('fileDetails') as FormArray;
   }
 
@@ -125,7 +127,7 @@ export class EditFilesComponent implements OnInit {
    */
   patchFileDetails(fileDetails): void {
     fileDetails.forEach((file) => {
-      this.fileDetailsArray.push(this.createFileDetail(file));
+      this.materialDetailsArray.push(this.createFileDetail(file));
     });
   }
 
@@ -190,13 +192,92 @@ export class EditFilesComponent implements OnInit {
    * @param {number} j
    */
   updateDefaultSubtitle(event, i: number, j: number): void {
-    const subtitles = this.fileDetailsArray.at(i).get('subtitles') as FormArray;
+    const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl: AbstractControl, subIndex: number) => {
       if (subIndex !== j) {
         subCtrl.get('default').setValue(false);
       }
     });
+  }
+
+  onFileChange(event, i: number): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      // @todo: subtitle related code
+
+      this.materialDetailsArray.at(i).get('newFile').setValue(file);
+
+      this.materialDetailsArray.at(i).get('displayName').setValue({
+        fi: file.name.replace(/\.[^/.]+$/, ''),
+        sv: file.name.replace(/\.[^/.]+$/, ''),
+        en: file.name.replace(/\.[^/.]+$/, ''),
+      });
+    }
+  }
+
+  /*validateFiles(): void {
+    this.materialDetailsArray.controls = this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('newFile');
+        const linkCtrl = material.get('newLink');
+
+        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+      });
+  }*/
+
+  uploadMaterials(): void {
+    this.materialDetailsArray.value.forEach((material) => {
+      if (material.newFile) {
+        const payload = new FormData();
+        payload.append('file', material.newFile, material.newFile.name.toLowerCase());
+        payload.append('fileDetails', JSON.stringify({
+          displayName: material.displayName,
+          language: material.language,
+          priority: material.priority,
+        }));
+
+        // @todo: post payload
+      }
+
+      if (material.newLink) {
+        const payload = {
+          link: material.newLink,
+          displayName: material.displayName,
+          language: material.language,
+          priority: material.priority,
+        };
+
+        // @todo: post payload
+      }
+    });
+  }
+
+  /**
+   * Calculates the amount of new materials.
+   */
+  calculateNewMaterialCount(): void {
+    this.newMaterialCount = this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('newFile');
+        const linkCtrl = material.get('newLink');
+
+        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+      })
+      .length;
+  }
+
+  /**
+   * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
+   * redirects user to the next tab.
+   */
+  completeUpload(): void {
+    this.completedUploads = this.completedUploads + 1;
+
+    if (this.completedUploads === this.newMaterialCount) {
+      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
+    }
   }
 
   /**
@@ -206,6 +287,9 @@ export class EditFilesComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
+    // @todo: validate materials
+    // @todo: validate subtitles
+
     if (this.form.valid) {
       if (this.form.dirty) {
         const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
@@ -213,9 +297,15 @@ export class EditFilesComponent implements OnInit {
           : this.material;
 
         changedMaterial.name = this.form.get('name').value;
-        changedMaterial.fileDetails = this.fileDetailsArray.value;
+        changedMaterial.fileDetails = this.materialDetailsArray.value;
 
         sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+
+        this.calculateNewMaterialCount();
+
+        if (this.newMaterialCount > 0) {
+          this.uploadMaterials();
+        }
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
