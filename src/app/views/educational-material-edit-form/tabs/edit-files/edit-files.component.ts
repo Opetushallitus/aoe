@@ -78,16 +78,33 @@ export class EditFilesComponent implements OnInit {
     return this.form.get(`name.${this.lang}`) as FormControl;
   }
 
+  get names(): FormGroup {
+    return this.form.get('name') as FormGroup;
+  }
+
   get fileDetailsArray(): FormArray {
     return this.form.get('fileDetails') as FormArray;
   }
 
   /**
-   * Filters otherLangs array to exclude current language.
+   * Filters otherLangs array to exclude current language. Sets
+   * validators for names.
    */
   updateLanguages(): void {
     // set other than current language to an array
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
+
+    // set other languages validators null for name
+    this.otherLangs.forEach((lang: string) => {
+      this.names.get(lang).setValidators(null);
+      this.names.get(lang).updateValueAndValidity();
+    });
+
+    // set current language validator required for name
+    this.names.get(this.lang).setValidators([
+      Validators.required,
+    ]);
+    this.names.get(this.lang).updateValueAndValidity();
   }
 
   /**
