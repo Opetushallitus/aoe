@@ -803,4 +803,39 @@ export class BackendService {
         catchError(BackendService.handleError),
       );
   }
+
+  uploadFile(payload: FormData, materialId: number): Observable<UploadMessage> {
+    return this.http.post(`${this.backendUrl}/material/file/${materialId}`, payload, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+      reportProgress: true,
+      observe: 'events',
+    }).pipe(
+      map((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * event.loaded / event.total);
+            return {
+              status: 'progress',
+              message: progress
+            };
+
+          case HttpEventType.Response:
+            return {
+              status: 'completed',
+              message: 'Upload completed',
+              response: event.body
+            };
+
+          default:
+            return {
+              status: 'error',
+              message: `Unhandled event: ${event.type}`
+            };
+        }
+      }),
+      catchError(BackendService.handleError),
+    );
+  }
 }
