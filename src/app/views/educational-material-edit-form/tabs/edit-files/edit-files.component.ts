@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { UploadMessage } from '@models/upload-message';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -27,8 +28,8 @@ export class EditFilesComponent implements OnInit {
   languageSubscription: Subscription;
   languages: Language[];
   showReplaceInput: boolean[] = [];
-  newMaterialCount: number;
   completedUploads: number;
+  uploadResponses: UploadMessage[] = [];
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -87,6 +88,20 @@ export class EditFilesComponent implements OnInit {
 
   get materialDetailsArray(): FormArray {
     return this.form.get('fileDetails') as FormArray;
+  }
+
+  /**
+   * Calculates the amount of new materials.
+   */
+  get newMaterialCount(): number {
+    return this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('newFile');
+        const linkCtrl = material.get('newLink');
+
+        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+      })
+      .length;
   }
 
   /**
@@ -214,6 +229,8 @@ export class EditFilesComponent implements OnInit {
         sv: file.name.replace(/\.[^/.]+$/, ''),
         en: file.name.replace(/\.[^/.]+$/, ''),
       });
+
+      this.form.markAsDirty();
     }
   }
 
@@ -228,7 +245,7 @@ export class EditFilesComponent implements OnInit {
   }*/
 
   uploadMaterials(): void {
-    this.materialDetailsArray.value.forEach((material) => {
+    this.materialDetailsArray.value.forEach((material, i: number) => {
       if (material.newFile) {
         const payload = new FormData();
         payload.append('file', material.newFile, material.newFile.name.toLowerCase());
@@ -238,7 +255,22 @@ export class EditFilesComponent implements OnInit {
           priority: material.priority,
         }));
 
-        // @todo: post payload
+        this.backendSvc.uploadFile(payload, this.materialId).subscribe(
+          (response: UploadMessage) => {
+            this.uploadResponses[i] = response;
+
+            if (response.status === 'completed') {
+              // update material ID
+              this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
+
+              // update material filename
+              this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createForm);
+              this.materialDetailsArray.at(i).get('newFile').setValue('');
+            }
+          },
+          (error) => console.error(error),
+          () => this.completeUpload(),
+        );
       }
 
       if (material.newLink) {
@@ -255,20 +287,6 @@ export class EditFilesComponent implements OnInit {
   }
 
   /**
-   * Calculates the amount of new materials.
-   */
-  calculateNewMaterialCount(): void {
-    this.newMaterialCount = this.materialDetailsArray.controls
-      .filter((material) => {
-        const fileCtrl = material.get('newFile');
-        const linkCtrl = material.get('newLink');
-
-        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
-      })
-      .length;
-  }
-
-  /**
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * redirects user to the next tab.
    */
@@ -276,8 +294,24 @@ export class EditFilesComponent implements OnInit {
     this.completedUploads = this.completedUploads + 1;
 
     if (this.completedUploads === this.newMaterialCount) {
-      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
+      this.saveMaterial();
+      this.redirectToNextTab();
     }
+  }
+
+  saveMaterial(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.name = this.form.get('name').value;
+    changedMaterial.fileDetails = this.materialDetailsArray.value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+  }
+
+  redirectToNextTab(): void {
+    this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
   }
 
   /**
@@ -292,23 +326,14 @@ export class EditFilesComponent implements OnInit {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.name = this.form.get('name').value;
-        changedMaterial.fileDetails = this.materialDetailsArray.value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
-
-        this.calculateNewMaterialCount();
-
         if (this.newMaterialCount > 0) {
           this.uploadMaterials();
+        } else {
+          this.saveMaterial();
         }
       }
 
-      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
+      this.redirectToNextTab();
     }
   }
 
