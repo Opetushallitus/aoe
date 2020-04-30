@@ -255,21 +255,18 @@ export class EditFilesComponent implements OnInit {
           priority: material.priority,
         }));
 
+        let completedResponse: UploadMessage;
+
         this.backendSvc.uploadFile(payload, this.materialId).subscribe(
           (response: UploadMessage) => {
             this.uploadResponses[i] = response;
 
             if (response.status === 'completed') {
-              // update material ID
-              this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
-
-              // update material filename
-              this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createForm);
-              this.materialDetailsArray.at(i).get('newFile').setValue('');
+              completedResponse = response;
             }
           },
           (error) => console.error(error),
-          () => this.completeUpload(),
+          () => this.completeUpload(completedResponse, i),
         );
       }
 
@@ -290,8 +287,15 @@ export class EditFilesComponent implements OnInit {
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * redirects user to the next tab.
    */
-  completeUpload(): void {
+  completeUpload(response: UploadMessage, i: number): void {
     this.completedUploads = this.completedUploads + 1;
+
+    // update material ID
+    this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
+
+    // update material filename
+    this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createForm);
+    this.materialDetailsArray.at(i).get('newFile').setValue('');
 
     if (this.completedUploads === this.newMaterialCount) {
       this.saveMaterial();
@@ -328,9 +332,9 @@ export class EditFilesComponent implements OnInit {
       if (this.form.dirty) {
         if (this.newMaterialCount > 0) {
           this.uploadMaterials();
-        } else {
-          this.saveMaterial();
         }
+
+        this.saveMaterial();
       }
 
       this.redirectToNextTab();
