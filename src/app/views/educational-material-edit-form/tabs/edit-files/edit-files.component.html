@@ -425,6 +425,17 @@
     </fieldset>
   </ng-container><!--/files-->
 
+  <ng-container *ngFor="let response of uploadResponses">
+    <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
+
+    <div class="form-group" *ngIf="response.status === 'progress'">
+      <progressbar
+        max="100"
+        [value]="response.message"
+      >{{ response.message }}%</progressbar>
+    </div>
+  </ng-container>
+
   <div class="row justify-content-end">
     <div class="col-auto">
       <button
