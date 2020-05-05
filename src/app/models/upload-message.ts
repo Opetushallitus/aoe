@@ -8,6 +8,6 @@ interface SuccessfulUploadResponse {
   id: string;
   material: [{
     id: string,
-    createForm: string,
+    createFrom: string,
   }];
 }

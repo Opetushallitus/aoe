@@ -69,6 +69,10 @@ label {
   @include font-size(16);
 }
 
+.form-control-plaintext {
+  height: $input-height;
+}
+
 // Search form
 .search-form {
   #searchQuery {
@@ -269,6 +273,10 @@ h2 {
     color: darken($input-color, 15%);
     text-decoration: underline;
   }
+}
+
+.btn-tooltip {
+  padding: 0 .5rem;
 }
 
 // Modals

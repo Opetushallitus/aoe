@@ -118,7 +118,9 @@
       "translations": {
         "label": "Språkversioner",
         "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
-      }
+      },
+      "replaceFile": "",
+      "replaceLink": ""
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
