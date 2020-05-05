@@ -7,6 +7,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../../environments/environment';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { BackendService } from '@services/backend.service';
+import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -67,7 +68,6 @@ export class EditPreviewComponent implements OnInit {
 
     if (this.form.valid) {
       let alignmentObjects: AlignmentObjectExtended[] = [];
-      const fileOrder = [];
 
       // early childhood education
       this.previewMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
@@ -217,13 +217,19 @@ export class EditPreviewComponent implements OnInit {
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites);
       delete this.previewMaterial.prerequisites;
 
+      // versioning
+      const isVersioned = this.previewMaterial.isVersioned;
+
+      // materials
+      const materials: Material[] = [];
+
       // attachmentDetails
-      const attachmentDetails = [];
+      const attachmentDetails: AttachmentDetail[] = [];
 
       // fileDetails
       const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
-        fileOrder.push({
-          id: file.id,
+        materials.push({
+          materialId: file.id,
           priority: idx,
         });
 
@@ -248,10 +254,11 @@ export class EditPreviewComponent implements OnInit {
       // thumbnail
       delete this.previewMaterial.thumbnail;
 
-      const updatedMaterial = Object.assign(
+      const updatedMaterial: EducationalMaterialPut = Object.assign(
         {},
         this.previewMaterial,
-        { fileOrder },
+        { isVersioned },
+        { materials },
         { fileDetails },
         { attachmentDetails },
         { alignmentObjects },

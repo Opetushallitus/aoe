@@ -9,7 +9,7 @@ export interface EducationalMaterialForm {
   };
   fileDetails?: [
     {
-      id: string | number;
+      id: number;
       file?: string;
       link?: string;
       displayName: {
@@ -21,7 +21,7 @@ export interface EducationalMaterialForm {
       priority: number;
       subtitles?: [
         {
-          id: string | number;
+          id: number;
           fileId: string | number;
           subtitle: string;
           default: boolean;
@@ -149,4 +149,5 @@ export interface EducationalMaterialForm {
       name: string;
     }
   ];
+  isVersioned?: boolean;
 }

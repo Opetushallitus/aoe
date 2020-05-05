@@ -151,9 +151,12 @@ export class PreviewComponent implements OnInit {
 
   onSubmit() {
     if (this.previewForm.valid) {
-      this.savedData.fileOrder = this.uploadedFiles.map((file: UploadedFile, index: number) => {
+      // new material is always versioned
+      this.savedData.isVersioned = true;
+
+      this.savedData.materials = this.uploadedFiles.map((file: UploadedFile, index: number) => {
         return {
-          id: file.id,
+          materialId: file.id,
           priority: index,
         };
       });

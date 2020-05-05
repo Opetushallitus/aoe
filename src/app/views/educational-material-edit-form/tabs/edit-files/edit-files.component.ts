@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { UploadMessage } from '@models/upload-message';
+import { LinkPost } from '@models/link-post';
+import { LinkPostResponse } from '@models/link-post-response';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -26,6 +29,10 @@ export class EditFilesComponent implements OnInit {
   submitted = false;
   languageSubscription: Subscription;
   languages: Language[];
+  showReplaceInput: boolean[] = [];
+  completedUploads = 0;
+  uploadResponses: UploadMessage[] = [];
+  newMaterialCount = 0;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -82,7 +89,7 @@ export class EditFilesComponent implements OnInit {
     return this.form.get('name') as FormGroup;
   }
 
-  get fileDetailsArray(): FormArray {
+  get materialDetailsArray(): FormArray {
     return this.form.get('fileDetails') as FormArray;
   }
 
@@ -124,7 +131,7 @@ export class EditFilesComponent implements OnInit {
    */
   patchFileDetails(fileDetails): void {
     fileDetails.forEach((file) => {
-      this.fileDetailsArray.push(this.createFileDetail(file));
+      this.materialDetailsArray.push(this.createFileDetail(file));
     });
   }
 
@@ -138,17 +145,29 @@ export class EditFilesComponent implements OnInit {
       return this.createSubtitle(subtitle);
     });
 
+    this.showReplaceInput.push(false);
+
     return this.fb.group({
-      id: this.fb.control(file.id, [ Validators.required ]),
+      id: this.fb.control(file.id, [
+        Validators.required,
+      ]),
       file: this.fb.control(file.file),
+      newFile: [''],
       link: this.fb.control(file.link),
+      newLink: this.fb.control(null, [
+        Validators.pattern('https?://.*'),
+      ]),
       displayName: this.fb.group({
         fi: this.fb.control(file.displayName.fi),
         sv: this.fb.control(file.displayName.sv),
         en: this.fb.control(file.displayName.en),
       }),
-      language: this.fb.control(file.language, [ Validators.required ]),
-      priority: this.fb.control(file.priority, [ Validators.required ]),
+      language: this.fb.control(file.language, [
+        Validators.required,
+      ]),
+      priority: this.fb.control(file.priority, [
+        Validators.required,
+      ]),
       subtitles: this.fb.array(subtitles),
     });
   }
@@ -177,13 +196,168 @@ export class EditFilesComponent implements OnInit {
    * @param {number} j
    */
   updateDefaultSubtitle(event, i: number, j: number): void {
-    const subtitles = this.fileDetailsArray.at(i).get('subtitles') as FormArray;
+    const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl: AbstractControl, subIndex: number) => {
       if (subIndex !== j) {
         subCtrl.get('default').setValue(false);
       }
     });
+  }
+
+  onFileChange(event, i: number): void {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+
+      // @todo: subtitle related code
+
+      this.materialDetailsArray.at(i).get('newFile').setValue(file);
+
+      this.materialDetailsArray.at(i).get('displayName').setValue({
+        fi: file.name.replace(/\.[^/.]+$/, ''),
+        sv: file.name.replace(/\.[^/.]+$/, ''),
+        en: file.name.replace(/\.[^/.]+$/, ''),
+      });
+
+      this.form.markAsDirty();
+    }
+  }
+
+  validateFiles(): void {
+    this.materialDetailsArray.controls = this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('file');
+        const newFileCtrl = material.get('newFile');
+        const linkCtrl = material.get('link');
+        const newLinkCtrl = material.get('newLink');
+
+        return (fileCtrl.value !== '' || newFileCtrl.value !== '')
+          || ((linkCtrl.value !== null || linkCtrl.value !== '') || (newLinkCtrl.value !== null || newLinkCtrl.value !== ''));
+      });
+  }
+
+  uploadMaterials(): void {
+    this.materialDetailsArray.value.forEach((material, i: number) => {
+      if (material.newFile) {
+        const payload = new FormData();
+        payload.append('file', material.newFile, material.newFile.name.toLowerCase());
+        payload.append('fileDetails', JSON.stringify({
+          displayName: material.displayName,
+          language: material.language,
+          priority: material.priority,
+        }));
+
+        let completedResponse: UploadMessage;
+
+        this.backendSvc.uploadFile(payload, this.materialId).subscribe(
+          (response: UploadMessage) => {
+            this.uploadResponses[i] = response;
+
+            if (response.status === 'completed') {
+              completedResponse = response;
+            }
+          },
+          (error) => console.error(error),
+          () => this.completeFileUpload(completedResponse, i),
+        );
+      }
+
+      if (material.newLink) {
+        const payload: LinkPost = {
+          link: material.newLink,
+          displayName: material.displayName,
+          language: material.language,
+          priority: material.priority,
+        };
+
+        let postResponse: LinkPostResponse;
+
+        this.backendSvc.postLink(payload, this.materialId).subscribe(
+          (response: LinkPostResponse) => postResponse = response,
+          (error) => console.error(error),
+          () => this.completeLinkPost(postResponse, i),
+        );
+      }
+    });
+  }
+
+  /**
+   * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
+   * saves material and redirects user to the next tab.
+   */
+  completeFileUpload(response: UploadMessage, i: number): void {
+    this.completedUploads = this.completedUploads + 1;
+
+    // update material ID
+    this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
+
+    // update material filename
+    this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createFrom);
+    this.materialDetailsArray.at(i).get('newFile').setValue('');
+
+    if (this.completedUploads === this.newMaterialCount) {
+      this.saveMaterial();
+      this.redirectToNextTab();
+    }
+  }
+
+  /**
+   * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
+   * saves material and redirects user to the next tab.
+   */
+  completeLinkPost(response: LinkPostResponse, i: number): void {
+    this.completedUploads = this.completedUploads + 1;
+
+    // update material ID
+    this.materialDetailsArray.at(i).get('id').setValue(+response.link.id);
+
+    // update material link
+    this.materialDetailsArray.at(i).get('link').setValue(response.link.link);
+    this.materialDetailsArray.at(i).get('newLink').setValue(null);
+
+    if (this.completedUploads === this.newMaterialCount) {
+      this.saveMaterial();
+      this.redirectToNextTab();
+    }
+  }
+
+  /**
+   * Calculates the amount of new materials.
+   */
+  calculateNewMaterialCount(): void {
+    this.newMaterialCount = this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('newFile');
+        const linkCtrl = material.get('newLink');
+
+        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+      })
+      .length;
+  }
+
+  /**
+   * Saves edited material details on sessionStorage.
+   */
+  saveMaterial(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.name = this.form.get('name').value;
+    changedMaterial.fileDetails = this.materialDetailsArray.value;
+
+    if (this.newMaterialCount > 0) {
+      changedMaterial.isVersioned = true;
+    }
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+  }
+
+  /**
+   * Redirects user to the next tab.
+   */
+  redirectToNextTab(): void {
+    this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
   }
 
   /**
@@ -193,19 +367,21 @@ export class EditFilesComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
+    this.validateFiles();
+    // @todo: validate subtitles
+
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
+        this.calculateNewMaterialCount();
 
-        changedMaterial.name = this.form.get('name').value;
-        changedMaterial.fileDetails = this.fileDetailsArray.value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        if (this.newMaterialCount > 0) {
+          this.uploadMaterials();
+        } else {
+          this.saveMaterial();
+        }
       }
 
-      this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
+      this.redirectToNextTab();
     }
   }
 

@@ -8,7 +8,7 @@
 
         <button
           type="button"
-          class="btn btn-link"
+          class="btn btn-link btn-tooltip"
           [tooltip]="'forms.educationalResource.files.materialName.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
@@ -34,7 +34,7 @@
 
         <button
           type="button"
-          class="btn btn-link"
+          class="btn btn-link btn-tooltip"
           [tooltip]="'forms.common.translations.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
       </div>
@@ -103,26 +103,55 @@
     </ng-template><!--/modal-->
   </div><!--/name-->
 
-  <ng-container *ngFor="let file of fileDetailsArray.controls; let i = index;">
+  <ng-container *ngFor="let material of materialDetailsArray.controls; let i = index;">
     <fieldset class="form-group" formArrayName="fileDetails">
       <ng-container [formGroupName]="i">
         <h2>
           {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
         </h2>
 
-        <div class="form-row align-items-end">
-          <div class="form-group col-lg" *ngIf="file.get('file').value; else fileLink">
-            <label for="{{ 'file' + i }}">
-              {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
-            </label>
+        <div class="form-row">
+          <div class="form-group col-lg" *ngIf="material.get('file').value; else fileLink">
+            <ng-container>
+              <label for="{{ 'file' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
+              </label>
 
-            <input
-              type="text"
-              readonly
-              class="form-control-plaintext"
-              id="{{ 'file' + i }}"
-              formControlName="file"
-            >
+              <div class="input-group">
+                <input
+                  type="text"
+                  readonly
+                  class="form-control-plaintext"
+                  id="{{ 'file' + i }}"
+                  formControlName="file"
+                >
+
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-gray"
+                    type="button"
+                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
+                  >{{ 'forms.common.replaceFile' | translate }}</button>
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="showReplaceInput[i]">
+              <label for="{{ 'newFile' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
+              </label>
+
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="{{ 'newFile' + i }}"
+                  [lang]="lang"
+                  (change)="onFileChange($event, i)"
+                >
+                <span class="custom-file-label">{{ material.get('newFile').value.name }}</span>
+              </div>
+            </ng-container>
           </div><!--/file-->
 
           <ng-template #fileLink>
@@ -131,19 +160,43 @@
                 {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
               </label>
 
-              <input
-                type="url"
-                class="form-control"
-                id="{{ 'link' + i }}"
-                formControlName="link"
-                [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
-              >
+              <div class="input-group">
+                <input
+                  type="url"
+                  readonly
+                  class="form-control-plaintext"
+                  id="{{ 'link' + i }}"
+                  formControlName="link"
+                >
 
-              <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
-                <div *ngIf="file.get('link').errors.pattern">
-                  {{ 'forms.common.pattern.url' | translate }}
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-gray"
+                    type="button"
+                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
+                  >{{ 'forms.common.replaceLink' | translate }}</button>
                 </div>
               </div>
+
+              <ng-container *ngIf="showReplaceInput[i]">
+                <label for="{{ 'newLink' + i }}">
+                  {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
+                </label>
+
+                <input
+                  type="url"
+                  class="form-control"
+                  id="{{ 'newLink' + i }}"
+                  formControlName="newLink"
+                  [ngClass]="{ 'is-invalid': submitted && material.get('newLink').errors }"
+                >
+
+                <div *ngIf="submitted && material.get('newLink').errors" class="invalid-feedback">
+                  <div *ngIf="material.get('newLink').errors.pattern">
+                    {{ 'forms.common.pattern.url' | translate }}
+                  </div>
+                </div>
+              </ng-container>
             </div>
           </ng-template><!--/link-->
 
@@ -154,7 +207,7 @@
 
             <button
               type="button"
-              class="btn btn-link"
+              class="btn btn-link btn-tooltip"
               [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
@@ -166,8 +219,8 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="submitted && file.get('language').errors">
-              <div *ngIf="file.get('language').errors.required">
+            <ng-container *ngIf="submitted && material.get('language').errors">
+              <div *ngIf="material.get('language').errors.required">
                 <small class="text-danger">
                   {{ 'forms.common.required' | translate }}
                 </small>
@@ -184,7 +237,7 @@
 
             <button
               type="button"
-              class="btn btn-link"
+              class="btn btn-link btn-tooltip"
               [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
@@ -193,11 +246,11 @@
               class="form-control"
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': submitted && fileDetailsArray.at(i).get('displayName.' + lang).errors }"
+              [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
             >
 
-            <div *ngIf="submitted && fileDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
-              <div *ngIf="fileDetailsArray.at(i).get('displayName.' + lang).errors.required">
+            <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+              <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
                 {{ 'forms.common.required' | translate }}
               </div>
             </div>
@@ -212,7 +265,7 @@
 
             <button
               type="button"
-              class="btn btn-link"
+              class="btn btn-link btn-tooltip"
               [tooltip]="'forms.common.translations.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
           </div>
@@ -280,8 +333,8 @@
           </ng-template><!--/modal-->
         </div><!--/displayName-->
 
-        <ng-container *ngIf="file.get('subtitles')">
-          <ng-container *ngFor="let subtitle of file.get('subtitles').controls; let j = index;">
+        <ng-container *ngIf="material.get('subtitles')">
+          <ng-container *ngFor="let subtitle of material.get('subtitles').controls; let j = index;">
             <fieldset formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
                 <div class="form-group col-lg-4">
@@ -371,6 +424,17 @@
       </ng-container>
     </fieldset>
   </ng-container><!--/files-->
+
+  <ng-container *ngFor="let response of uploadResponses">
+    <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
+
+    <div class="form-group" *ngIf="response.status === 'progress'">
+      <progressbar
+        max="100"
+        [value]="response.message"
+      >{{ response.message }}%</progressbar>
+    </div>
+  </ng-container>
 
   <div class="row justify-content-end">
     <div class="col-auto">
