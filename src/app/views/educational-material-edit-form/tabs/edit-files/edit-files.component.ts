@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { UploadMessage } from '@models/upload-message';
+import { LinkPost } from '@models/link-post';
+import { LinkPostResponse } from '@models/link-post-response';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -28,8 +30,9 @@ export class EditFilesComponent implements OnInit {
   languageSubscription: Subscription;
   languages: Language[];
   showReplaceInput: boolean[] = [];
-  completedUploads: number;
+  completedUploads = 0;
   uploadResponses: UploadMessage[] = [];
+  newMaterialCount = 0;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -88,20 +91,6 @@ export class EditFilesComponent implements OnInit {
 
   get materialDetailsArray(): FormArray {
     return this.form.get('fileDetails') as FormArray;
-  }
-
-  /**
-   * Calculates the amount of new materials.
-   */
-  get newMaterialCount(): number {
-    return this.materialDetailsArray.controls
-      .filter((material) => {
-        const fileCtrl = material.get('newFile');
-        const linkCtrl = material.get('newLink');
-
-        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
-      })
-      .length;
   }
 
   /**
@@ -234,15 +223,18 @@ export class EditFilesComponent implements OnInit {
     }
   }
 
-  /*validateFiles(): void {
+  validateFiles(): void {
     this.materialDetailsArray.controls = this.materialDetailsArray.controls
       .filter((material) => {
-        const fileCtrl = material.get('newFile');
-        const linkCtrl = material.get('newLink');
+        const fileCtrl = material.get('file');
+        const newFileCtrl = material.get('newFile');
+        const linkCtrl = material.get('link');
+        const newLinkCtrl = material.get('newLink');
 
-        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+        return (fileCtrl.value !== '' || newFileCtrl.value !== '')
+          || ((linkCtrl.value !== null || linkCtrl.value !== '') || (newLinkCtrl.value !== null || newLinkCtrl.value !== ''));
       });
-  }*/
+  }
 
   uploadMaterials(): void {
     this.materialDetailsArray.value.forEach((material, i: number) => {
@@ -266,35 +258,41 @@ export class EditFilesComponent implements OnInit {
             }
           },
           (error) => console.error(error),
-          () => this.completeUpload(completedResponse, i),
+          () => this.completeFileUpload(completedResponse, i),
         );
       }
 
       if (material.newLink) {
-        const payload = {
+        const payload: LinkPost = {
           link: material.newLink,
           displayName: material.displayName,
           language: material.language,
           priority: material.priority,
         };
 
-        // @todo: post payload
+        let postResponse: LinkPostResponse;
+
+        this.backendSvc.postLink(payload, this.materialId).subscribe(
+          (response: LinkPostResponse) => postResponse = response,
+          (error) => console.error(error),
+          () => this.completeLinkPost(postResponse, i),
+        );
       }
     });
   }
 
   /**
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
-   * redirects user to the next tab.
+   * saves material and redirects user to the next tab.
    */
-  completeUpload(response: UploadMessage, i: number): void {
+  completeFileUpload(response: UploadMessage, i: number): void {
     this.completedUploads = this.completedUploads + 1;
 
     // update material ID
     this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
 
     // update material filename
-    this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createForm);
+    this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createFrom);
     this.materialDetailsArray.at(i).get('newFile').setValue('');
 
     if (this.completedUploads === this.newMaterialCount) {
@@ -303,6 +301,43 @@ export class EditFilesComponent implements OnInit {
     }
   }
 
+  /**
+   * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
+   * saves material and redirects user to the next tab.
+   */
+  completeLinkPost(response: LinkPostResponse, i: number): void {
+    this.completedUploads = this.completedUploads + 1;
+
+    // update material ID
+    this.materialDetailsArray.at(i).get('id').setValue(+response.link.id);
+
+    // update material link
+    this.materialDetailsArray.at(i).get('link').setValue(response.link.link);
+    this.materialDetailsArray.at(i).get('newLink').setValue(null);
+
+    if (this.completedUploads === this.newMaterialCount) {
+      this.saveMaterial();
+      this.redirectToNextTab();
+    }
+  }
+
+  /**
+   * Calculates the amount of new materials.
+   */
+  calculateNewMaterialCount(): void {
+    this.newMaterialCount = this.materialDetailsArray.controls
+      .filter((material) => {
+        const fileCtrl = material.get('newFile');
+        const linkCtrl = material.get('newLink');
+
+        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+      })
+      .length;
+  }
+
+  /**
+   * Saves edited material details on sessionStorage.
+   */
   saveMaterial(): void {
     const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
       ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
@@ -311,9 +346,16 @@ export class EditFilesComponent implements OnInit {
     changedMaterial.name = this.form.get('name').value;
     changedMaterial.fileDetails = this.materialDetailsArray.value;
 
+    if (this.newMaterialCount > 0) {
+      changedMaterial.isVersioned = true;
+    }
+
     sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
+  /**
+   * Redirects user to the next tab.
+   */
   redirectToNextTab(): void {
     this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
   }
@@ -325,16 +367,18 @@ export class EditFilesComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // @todo: validate materials
+    this.validateFiles();
     // @todo: validate subtitles
 
     if (this.form.valid) {
       if (this.form.dirty) {
+        this.calculateNewMaterialCount();
+
         if (this.newMaterialCount > 0) {
           this.uploadMaterials();
+        } else {
+          this.saveMaterial();
         }
-
-        this.saveMaterial();
       }
 
       this.redirectToNextTab();

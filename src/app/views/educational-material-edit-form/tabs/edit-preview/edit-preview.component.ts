@@ -218,7 +218,7 @@ export class EditPreviewComponent implements OnInit {
       delete this.previewMaterial.prerequisites;
 
       // versioning
-      const isVersioned = false;
+      const isVersioned = this.previewMaterial.isVersioned;
 
       // materials
       const materials: Material[] = [];
