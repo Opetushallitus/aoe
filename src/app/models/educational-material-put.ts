@@ -103,7 +103,7 @@ export interface Material {
 }
 
 export interface FileDetail {
-  id: number | string;
+  id: number;
   displayName: {
     fi: string;
     sv: string;
@@ -113,7 +113,7 @@ export interface FileDetail {
 }
 
 export interface AttachmentDetail {
-  id: number | string;
+  id: number;
   default: boolean;
   kind: string;
   label: string;

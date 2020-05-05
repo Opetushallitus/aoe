@@ -14,6 +14,8 @@ import { koodistoSources } from '../constants/koodisto-sources';
 import { Attachment } from '@models/backend/attachment';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { EducationalMaterialPut } from '@models/educational-material-put';
+import { LinkPostResponse } from '@models/link-post-response';
+import { LinkPost } from '@models/link-post';
 
 @Injectable({
   providedIn: 'root'
@@ -431,7 +433,7 @@ export class BackendService {
       if (material.owner) {
         const fileDetails = material.materials
           .map((file) => ({
-            id: file.id,
+            id: +file.id,
             file: file.originalfilename,
             link: file.link,
             language: file.language,
@@ -440,7 +442,7 @@ export class BackendService {
             subtitles: material.attachments
               .filter((attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles')
               .map((subtitle: Attachment) => ({
-                id: subtitle.id,
+                id: +subtitle.id,
                 fileId: subtitle.materialid,
                 subtitle: subtitle.originalfilename,
                 default: subtitle.defaultfile,
@@ -818,23 +820,33 @@ export class BackendService {
             const progress = Math.round(100 * event.loaded / event.total);
             return {
               status: 'progress',
-              message: progress
+              message: progress,
             };
 
           case HttpEventType.Response:
             return {
               status: 'completed',
               message: 'Upload completed',
-              response: event.body
+              response: event.body,
             };
 
           default:
             return {
               status: 'error',
-              message: `Unhandled event: ${event.type}`
+              message: `Unhandled event: ${event.type}`,
             };
         }
       }),
+      catchError(BackendService.handleError),
+    );
+  }
+
+  postLink(payload: LinkPost, materialId: number): Observable<LinkPostResponse> {
+    return this.http.post<LinkPostResponse>(`${this.backendUrl}/material/link/${materialId}`, payload, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
       catchError(BackendService.handleError),
     );
   }
