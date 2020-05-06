@@ -765,7 +765,7 @@ export class BackendService {
               alignmentType: alignment.alignmenttype,
               targetName: alignment.targetname,
             })),
-          license: material.license,
+          license: material.license.key,
           externals: material.isBasedOn.map((reference) => ({
             author: reference.author.map((author) => (author.authorname)),
             url: reference.url,

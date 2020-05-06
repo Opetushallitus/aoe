@@ -23,7 +23,10 @@ export interface EducationalMaterial {
   updatedAt?: Date;
   timeRequired?: string;
   publisher?: any[]; // @todo: key value?
-  license: string;
+  license: {
+    key: string;
+    value: string;
+  };
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
   educationalRoles?: [{
