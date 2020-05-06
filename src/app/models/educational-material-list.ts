@@ -17,7 +17,10 @@ export interface EducationalMaterialList {
     description: string;
     language: string;
   }];
-  license: string;
+  license: {
+    key: string;
+    value: string;
+  };
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
   publishedAt?: Date;
