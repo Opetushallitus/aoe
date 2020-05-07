@@ -282,7 +282,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.valid) {
+    if (this.form.valid && this.authorsArray.length > 0) {
       if (this.form.dirty) {
         const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
           ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
