@@ -17,7 +17,11 @@
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of unpublishedMaterials">
         <div class="card-educational-material unpublished">
-          <h3>{{ 'userMaterials.unpublished.unnamed' | translate }} #{{ material.id }}</h3>
+          <h3 *ngIf="material.name; else noName">{{ material.name[lang] }}</h3>
+
+          <ng-template #noName>
+            <h3>{{ 'userMaterials.unpublished.unnamed' | translate }} #{{ material.id }}</h3>
+          </ng-template>
         </div>
 
         <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">

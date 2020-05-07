@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BackendService } from '@services/backend.service';
-import { EducationalMaterialList } from '@models/educational-material-list';
+import { EducationalMaterialCard } from '@models/educational-material-card';
 
 @Component({
   templateUrl: 'main-view.component.html'
 })
 export class MainViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
-  recentMaterials: EducationalMaterialList[];
+  recentMaterials: EducationalMaterialCard[];
 
   constructor(
     private translate: TranslateService,
