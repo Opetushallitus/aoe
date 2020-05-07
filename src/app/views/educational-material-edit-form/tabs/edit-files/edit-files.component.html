@@ -105,7 +105,7 @@
 
   <ng-container *ngFor="let material of materialDetailsArray.controls; let i = index;">
     <fieldset class="form-group border-bottom" formArrayName="fileDetails">
-      <ng-container [formGroupName]="i">
+      <ng-container [formGroupName]="i" *ngIf="materialDetailsArray.at(i).get('file').value || materialDetailsArray.at(i).get('link').value; else newMaterial">
         <h2>
           {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
         </h2>
@@ -431,8 +431,298 @@
           {{ 'forms.common.delete' | translate }}
         </button>
       </ng-container>
+
+      <ng-template #newMaterial>
+        <ng-container [formGroupName]="i">
+          <h2>
+            {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
+          </h2>
+
+          <div class="form-row">
+            <div class="form-group col-lg" *ngIf="!material.get('newLink').value">
+              <label for="{{ 'newMaterialFile' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
+              </label>
+
+              <div class="custom-file">
+                <input
+                  type="file"
+                  class="custom-file-input"
+                  id="{{ 'newMaterialFile' + i }}"
+                  [lang]="lang"
+                  (change)="onFileChange($event, i)"
+                >
+                <span class="custom-file-label">{{ material.get('newFile').value.name }}</span>
+              </div>
+            </div><!--/file-->
+
+            <div
+              class="form-group col-lg-1 text-center"
+              *ngIf="!material.get('newFile').value && !material.get('newLink').value"
+            >{{ 'forms.educationalResource.files.file.or' | translate }}</div>
+
+            <div class="form-group col-lg" *ngIf="!material.get('newFile').value">
+              <label for="{{ 'newMaterialLink' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
+              </label>
+
+              <input
+                type="url"
+                class="form-control"
+                id="{{ 'newMaterialLink' + i }}"
+                formControlName="newLink"
+                [ngClass]="{ 'is-invalid': submitted && material.get('newLink').errors }"
+              >
+
+              <div *ngIf="submitted && material.get('newLink').errors" class="invalid-feedback">
+                <div *ngIf="material.get('newLink').errors.pattern">
+                  {{ 'forms.common.pattern.url' | translate }}
+                </div>
+              </div>
+            </div><!--/link-->
+
+            <div class="form-group col-lg-2">
+              <label for="{{ 'language' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*
+              </label>
+
+              <button
+                type="button"
+                class="btn btn-link btn-tooltip"
+                [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate"
+              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <ng-select
+                [items]="languages"
+                bindLabel="value"
+                bindValue="key"
+                id="{{ 'language' + i }}"
+                formControlName="language"
+              ></ng-select>
+
+              <ng-container *ngIf="submitted && material.get('language').errors">
+                <div *ngIf="material.get('language').errors.required">
+                  <small class="text-danger">
+                    {{ 'forms.common.required' | translate }}
+                  </small>
+                </div>
+              </ng-container>
+            </div><!--/language-->
+          </div>
+
+          <div class="form-row align-items-end" formGroupName="displayName">
+            <div class="form-group col">
+              <label for="{{ 'displayName' + i }}">
+                {{ 'forms.educationalResource.files.file.inputs.displayName.label.' + lang | translate }}*
+              </label>
+
+              <button
+                type="button"
+                class="btn btn-link btn-tooltip"
+                [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate"
+              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <input
+                type="text"
+                class="form-control"
+                id="{{ 'displayName' + i }}"
+                [formControlName]="lang"
+                [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
+              >
+
+              <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+                <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
+                  {{ 'forms.common.required' | translate }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-auto">
+              <button
+                type="button"
+                class="btn btn-gray"
+                (click)="openTranslationsModal(displayName)"
+              >{{ 'forms.common.translations.label' | translate }}</button>
+
+              <button
+                type="button"
+                class="btn btn-link btn-tooltip"
+                [tooltip]="'forms.common.translations.tooltip' | translate"
+              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+            </div>
+
+            <ng-template #displayName>
+              <div class="modal-header">
+                <h5 class="modal-title">
+                  {{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}
+                </h5>
+
+                <button
+                  type="button"
+                  class="close"
+                  [attr.aria-label]="'forms.common.close' | translate"
+                  (click)="translationsModalRef.hide()"
+                ><span aria-hidden="true">&times;</span></button>
+              </div>
+
+              <div class="modal-body">
+                <h4>
+                  {{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}
+                </h4>
+
+                <div class="form-group">
+                  <label for="{{ 'displayName2' + i }}">
+                    {{ 'forms.educationalResource.files.file.inputs.displayName.label.' + otherLangs[0] | translate }}
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'displayName2' + i }}"
+                    [formControlName]="otherLangs[0]"
+                  >
+                </div>
+
+                <div class="form-group">
+                  <label for="{{ 'displayName3' + i }}">
+                    {{ 'forms.educationalResource.files.file.inputs.displayName.label.' + otherLangs[1] | translate }}
+                  </label>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'displayName3' + i }}"
+                    [formControlName]="otherLangs[1]"
+                  >
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-gray"
+                  [attr.aria-label]="'forms.common.cancel' | translate"
+                  (click)="translationsModalRef.hide()"
+                >{{ 'forms.common.cancel' | translate }}</button>
+
+                <button
+                  type="button"
+                  class="btn btn-blue"
+                  (click)="translationsModalRef.hide()"
+                >{{ 'forms.common.saveChanges' | translate }}</button>
+              </div>
+            </ng-template><!--/modal-->
+          </div><!--/displayName-->
+
+          <ng-container *ngIf="material.get('subtitles')">
+            <ng-container *ngFor="let subtitle of material.get('subtitles').controls; let j = index;">
+              <fieldset formArrayName="subtitles">
+                <div class="form-row align-items-end" [formGroupName]="j">
+                  <div class="form-group col-lg-4">
+                    <label for="{{ 'subtitle' + i + j }}">
+                      {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
+                    </label>
+
+                    <input
+                      type="text"
+                      readonly
+                      class="form-control-plaintext"
+                      id="{{ 'subtitle' + i + j }}"
+                      formControlName="subtitle"
+                    >
+                  </div><!--/subtitle-->
+
+                  <div class="form-group col-sm-8 col-lg-4">
+                    <label for="{{ 'label' + i + j }}">
+                      {{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*
+                    </label>
+
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="{{ 'label' + i + j }}"
+                      formControlName="label"
+                      [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                    >
+
+                    <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                      <div *ngIf="subtitle.get('label').errors.required">
+                        {{ 'forms.common.required' | translate }}
+                      </div>
+                    </div>
+                  </div><!--/label-->
+
+                  <div class="form-group col-sm-4 col-lg-2">
+                    <label for="{{ 'srclang' + i + j }}">
+                      {{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*
+                    </label>
+
+                    <ng-select
+                      [items]="languages"
+                      bindLabel="value"
+                      bindValue="key"
+                      id="{{ 'srclang' + i + j }}"
+                      formControlName="srclang"
+                    ></ng-select>
+
+                    <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                      <div *ngIf="subtitle.get('srclang').errors.required">
+                        <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+                      </div>
+                    </ng-container>
+                  </div><!--/srclang-->
+
+                  <div class="form-group col-lg">
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        id="{{ 'default' + i + j }}"
+                        formControlName="default"
+                        (change)="updateDefaultSubtitle($event, i, j)"
+                      >
+
+                      <label class="custom-control-label" for="{{ 'default' + i + j }}">
+                        {{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}
+                      </label>
+                    </div>
+                  </div><!--/default-->
+
+                  <!--<div class="form-group col-lg-auto">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removeSubtitle(i, j)"
+                    >
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                      <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+                    </button>
+                  </div>--><!--/actions-->
+                </div>
+              </fieldset>
+            </ng-container>
+          </ng-container><!--/subtitles-->
+
+          <button
+            type="button"
+            class="btn btn-danger mb-3"
+            (click)="removeMaterial(i)"
+          >
+            <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+            {{ 'forms.common.delete' | translate }}
+          </button>
+        </ng-container>
+      </ng-template>
     </fieldset>
   </ng-container><!--/files-->
+
+  <div class="form-group">
+    <button
+      type="button"
+      class="btn btn-gray"
+      (click)="addMaterial()"
+    >{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
+  </div>
 
   <ng-container *ngFor="let response of uploadResponses">
     <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
