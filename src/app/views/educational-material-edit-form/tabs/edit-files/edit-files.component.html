@@ -104,7 +104,7 @@
   </div><!--/name-->
 
   <ng-container *ngFor="let material of materialDetailsArray.controls; let i = index;">
-    <fieldset class="form-group" formArrayName="fileDetails">
+    <fieldset class="form-group border-bottom" formArrayName="fileDetails">
       <ng-container [formGroupName]="i">
         <h2>
           {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
@@ -421,6 +421,15 @@
             </fieldset>
           </ng-container>
         </ng-container><!--/subtitles-->
+
+        <button
+          type="button"
+          class="btn btn-danger mb-3"
+          (click)="removeMaterial(i)"
+        >
+          <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+          {{ 'forms.common.delete' | translate }}
+        </button>
       </ng-container>
     </fieldset>
   </ng-container><!--/files-->

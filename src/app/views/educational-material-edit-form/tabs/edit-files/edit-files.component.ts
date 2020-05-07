@@ -33,6 +33,7 @@ export class EditFilesComponent implements OnInit {
   completedUploads = 0;
   uploadResponses: UploadMessage[] = [];
   newMaterialCount = 0;
+  isVersioned: boolean;
   @Output() abortEdit = new EventEmitter();
 
   constructor(
@@ -63,11 +64,15 @@ export class EditFilesComponent implements OnInit {
     });
 
     if (sessionStorage.getItem(environment.editMaterial) === null) {
+      this.isVersioned = false;
+
       this.form.patchValue(this.material);
 
       this.patchFileDetails(this.material.fileDetails);
     } else {
       const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+
+      this.isVersioned = editMaterial.isVersioned;
 
       this.form.patchValue(editMaterial);
 
@@ -170,6 +175,16 @@ export class EditFilesComponent implements OnInit {
       ]),
       subtitles: this.fb.array(subtitles),
     });
+  }
+
+  /**
+   * Removes material from composition.
+   * @param i {number}
+   */
+  removeMaterial(i: number): void {
+    this.materialDetailsArray.removeAt(i);
+
+    this.isVersioned = true;
   }
 
   /**
@@ -347,8 +362,10 @@ export class EditFilesComponent implements OnInit {
     changedMaterial.fileDetails = this.materialDetailsArray.value;
 
     if (this.newMaterialCount > 0) {
-      changedMaterial.isVersioned = true;
+      this.isVersioned = true;
     }
+
+    changedMaterial.isVersioned = this.isVersioned;
 
     sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }

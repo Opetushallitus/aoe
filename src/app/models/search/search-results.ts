@@ -25,7 +25,10 @@ export interface SearchResult {
     value: string;
     learningresourcetypekey: string;
   }];
-  license: string;
+  license: {
+    key: string;
+    value: string;
+  };
   educationalLevels: [{
     value: string;
     educationallevelkey: string;

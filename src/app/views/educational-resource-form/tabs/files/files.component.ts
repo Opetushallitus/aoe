@@ -377,6 +377,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       if (!this.materialId) {
         const formData = new FormData();
+        formData.append('name', JSON.stringify(this.names.value));
 
         this.backendSvc.uploadFiles(formData).subscribe(
           () => {},
