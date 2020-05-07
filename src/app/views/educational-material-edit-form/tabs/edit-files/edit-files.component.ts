@@ -185,6 +185,8 @@ export class EditFilesComponent implements OnInit {
     this.materialDetailsArray.removeAt(i);
 
     this.isVersioned = true;
+
+    this.form.markAsDirty();
   }
 
   /**
