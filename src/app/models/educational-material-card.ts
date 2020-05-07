@@ -3,20 +3,22 @@ import { Keyword } from './keyword';
 import { EducationalLevel } from './educational-level';
 import { LearningResourceType } from './learning-resource-type';
 
-export interface EducationalMaterialList {
+export interface EducationalMaterialCard {
   id: number;
-  name: [{
-    materialname: string;
-    language: string;
-  }];
+  name: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
   slug?: string;
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
-  description?: [{
-    description: string;
-    language: string;
-  }];
+  description?: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
   license: {
     key: string;
     value: string;

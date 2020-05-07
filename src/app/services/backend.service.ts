@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { EducationalMaterial } from '@models/educational-material';
 import { UploadMessage } from '@models/upload-message';
-import { EducationalMaterialList } from '@models/educational-material-list';
+import { EducationalMaterialCard } from '@models/educational-material-card';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
@@ -32,8 +32,8 @@ export class BackendService {
 
   public uploadedFiles$ = new Subject<UploadedFile[]>();
   public editMaterial$ = new Subject<EducationalMaterialForm | null>();
-  public publishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
-  public unpublishedUserMaterials$ = new Subject<EducationalMaterialList[]>();
+  public publishedUserMaterials$ = new Subject<EducationalMaterialCard[]>();
+  public unpublishedUserMaterials$ = new Subject<EducationalMaterialCard[]>();
 
   private static handleError(error: HttpErrorResponse) {
     console.error(error);
@@ -273,13 +273,19 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).subscribe((materials) => {
-      const published: EducationalMaterialList[] = [];
-      const unpublished: EducationalMaterialList[] = [];
+      const published: EducationalMaterialCard[] = [];
+      const unpublished: EducationalMaterialCard[] = [];
 
       materials.forEach((material) => {
-        const mappedMaterial: EducationalMaterialList = {
+        const mappedMaterial: EducationalMaterialCard = {
           id: material.id,
-          name: material.name,
+          name: material.name.length > 0
+            ? {
+              fi: material.name.find((row) => row.language === 'fi').materialname,
+              sv: material.name.find((row) => row.language === 'sv').materialname,
+              en: material.name.find((row) => row.language === 'en').materialname,
+            }
+            : null,
           thumbnail: material.thumbnail
             ? material.thumbnail.thumbnail
             : material.learningResourceTypes.length > 0
@@ -289,7 +295,13 @@ export class BackendService {
             .map(({learningresourcetypekey, value}) => ({learningresourcetypekey, value})),
           authors: material.authors
             .map(({authorname, organization}) => ({authorname, organization})),
-          description: material.description,
+          description: material.description.length > 0
+            ? {
+              fi: material.description.find((row) => row.language === 'fi').description,
+              sv: material.description.find((row) => row.language === 'sv').description,
+              en: material.description.find((row) => row.language === 'en').description,
+            }
+            : null,
           license: material.license,
           keywords: material.keywords
             .map(({keywordkey, value}) => ({keywordkey, value})),
@@ -313,21 +325,25 @@ export class BackendService {
     });
   }
 
-  getRecentMaterialList(): Observable<EducationalMaterialList[]> {
+  getRecentMaterialList(): Observable<EducationalMaterialCard[]> {
     return this.http.get<any>(`${this.backendUrl}/recentmaterial`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
     }).pipe(
-      map((res): EducationalMaterialList[] => {
+      map((res): EducationalMaterialCard[] => {
         return res
           .filter(r => r.name.length > 0)
           .map(r => {
             return {
               id: r.id,
-              name: r.name,
-              slug: r.name
-                .find(n => n.language.toLowerCase() === this.lang).slug,
+              name: r.name.length > 0
+                ? {
+                  fi: r.name.find((row) => row.language === 'fi').materialname,
+                  sv: r.name.find((row) => row.language === 'sv').materialname,
+                  en: r.name.find((row) => row.language === 'en').materialname,
+                }
+                : null,
               thumbnail: r.thumbnail
                 ? r.thumbnail.thumbnail
                 : `assets/img/thumbnails/${r.learningResourceTypes[0].learningresourcetypekey}.png`,
@@ -335,7 +351,13 @@ export class BackendService {
                 .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
               authors: r.authors
                 .map(({ authorname, organization }) => ({ authorname, organization })),
-              description: r.description,
+              description: r.description.length > 0
+                ? {
+                  fi: r.description.find((row) => row.language === 'fi').description,
+                  sv: r.description.find((row) => row.language === 'sv').description,
+                  en: r.description.find((row) => row.language === 'en').description,
+                }
+                : null,
               license: r.license,
               keywords: r.keywords
                 .map(({ keywordkey, value }) => ({ keywordkey, value })),
@@ -582,6 +604,7 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
+          // tslint:disable-next-line:max-line-length
           earlyChildhoodEducationFramework: (earlyChildhoodEducationSubjects.length > 0 && earlyChildhoodEducationSubjects[0].educationalFramework)
             ? earlyChildhoodEducationSubjects[0].educationalFramework
             : null,
