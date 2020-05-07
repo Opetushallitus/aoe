@@ -153,9 +153,7 @@ export class EditFilesComponent implements OnInit {
     this.showReplaceInput.push(false);
 
     return this.fb.group({
-      id: this.fb.control(file.id, [
-        Validators.required,
-      ]),
+      id: this.fb.control(file.id),
       file: this.fb.control(file.file),
       newFile: [''],
       link: this.fb.control(file.link),
@@ -173,6 +171,30 @@ export class EditFilesComponent implements OnInit {
       priority: this.fb.control(file.priority),
       subtitles: this.fb.array(subtitles),
     });
+  }
+
+  createNewMaterial(): FormGroup {
+    return this.fb.group({
+      id: this.fb.control(null),
+      file: this.fb.control(null),
+      newFile: [''],
+      link: this.fb.control(null),
+      newLink: this.fb.control(null, [
+        Validators.pattern('https?://.*'),
+      ]),
+      displayName: this.fb.group({
+        fi: this.fb.control(null),
+        sv: this.fb.control(null),
+        en: this.fb.control(null),
+      }),
+      language: this.fb.control(null),
+      priority: this.fb.control(null),
+      subtitles: this.fb.array([]),
+    });
+  }
+
+  addMaterial(): void {
+    this.materialDetailsArray.push(this.createNewMaterial());
   }
 
   /**
@@ -249,6 +271,24 @@ export class EditFilesComponent implements OnInit {
         return (fileCtrl.value !== '' || newFileCtrl.value !== '')
           || ((linkCtrl.value !== null || linkCtrl.value !== '') || (newLinkCtrl.value !== null || newLinkCtrl.value !== ''));
       });
+
+    this.materialDetailsArray.controls.forEach((material, i: number) => {
+      const languageCtrl = material.get('language');
+      const displayNameCtrl = material.get(`displayName.${this.lang}`);
+      const priorityCtrl = material.get('priority');
+
+      languageCtrl.setValidators([
+        Validators.required,
+      ]);
+      languageCtrl.updateValueAndValidity();
+
+      displayNameCtrl.setValidators([
+        Validators.required,
+      ]);
+      displayNameCtrl.updateValueAndValidity();
+
+      priorityCtrl.setValue(i);
+    });
   }
 
   uploadMaterials(): void {
