@@ -197,6 +197,14 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.basicDetailsForm.get('authors') as FormArray;
   }
 
+  get keywordsCtrl(): FormControl {
+    return this.basicDetailsForm.get('keywords') as FormControl;
+  }
+
+  get learningResourceTypesCtrl(): FormControl {
+    return this.basicDetailsForm.get('learningResourceTypes') as FormControl;
+  }
+
   createAuthor(author?): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [ Validators.required ]),

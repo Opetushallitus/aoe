@@ -215,6 +215,12 @@
           id="keywords"
           formControlName="keywords"
         ></ng-select>
+
+        <ng-container *ngIf="submitted && keywordsCtrl.errors">
+          <div *ngIf="keywordsCtrl.errors.required">
+            <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+          </div>
+        </ng-container>
       </div>
 
       <div class="form-row">
@@ -235,6 +241,12 @@
             id="learningResourceTypes"
             formControlName="learningResourceTypes"
           ></ng-select>
+
+          <ng-container *ngIf="submitted && learningResourceTypesCtrl.errors">
+            <div *ngIf="learningResourceTypesCtrl.errors.required">
+              <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
+            </div>
+          </ng-container>
         </div>
 
         <div class="form-group col-sm-6 col-md-4">

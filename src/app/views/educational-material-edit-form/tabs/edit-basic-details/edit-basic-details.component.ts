@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -155,6 +155,14 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('authors') as FormArray;
   }
 
+  get keywordsCtrl(): FormControl {
+    return this.form.get('keywords') as FormControl;
+  }
+
+  get learningResourceTypesCtrl(): FormControl {
+    return this.form.get('learningResourceTypes') as FormControl;
+  }
+
   /**
    * Shows modal for uploading thumbnail.
    * @param {TemplateRef<any>} template
@@ -288,9 +296,9 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
           ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
           : this.material;
 
-        changedMaterial.authors = this.form.get('authors').value;
-        changedMaterial.keywords = this.form.get('keywords').value;
-        changedMaterial.learningResourceTypes = this.form.get('learningResourceTypes').value;
+        changedMaterial.authors = this.authorsArray.value;
+        changedMaterial.keywords = this.keywordsCtrl.value;
+        changedMaterial.learningResourceTypes = this.learningResourceTypesCtrl.value;
         changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
         changedMaterial.educationalUses = this.form.get('educationalUses').value;
         changedMaterial.description = this.form.get('description').value;
