@@ -92,7 +92,7 @@
         </h4>
 
         <div class="form-row align-items-end">
-          <div class="form-group col-lg-5">
+          <div class="form-group col-lg" *ngIf="!file.get('link').value">
             <label for="{{ 'file' + i }}">{{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*</label>
 
             <div class="custom-file">
@@ -107,9 +107,12 @@
             </div>
           </div>
 
-          <div class="form-group col-lg-1 text-center">{{ 'forms.educationalResource.files.file.or' | translate }}</div>
+          <div
+            class="form-group col-lg-1 text-center"
+            *ngIf="!file.get('file').value && !file.get('link').value"
+          >{{ 'forms.educationalResource.files.file.or' | translate }}</div>
 
-          <div class="form-group col-lg-4">
+          <div class="form-group col-lg" *ngIf="!file.get('file').value">
             <label for="{{ 'link' + i }}">{{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*</label>
 
             <input
