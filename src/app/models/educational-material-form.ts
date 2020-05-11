@@ -19,6 +19,7 @@ export interface EducationalMaterialForm {
       };
       language: string;
       priority: number;
+      mimeType: string;
       subtitles?: [
         {
           id: number;

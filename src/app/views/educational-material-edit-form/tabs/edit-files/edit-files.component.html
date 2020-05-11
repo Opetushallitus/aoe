@@ -333,22 +333,72 @@
           </ng-template><!--/modal-->
         </div><!--/displayName-->
 
-        <ng-container *ngIf="material.get('subtitles')">
+        <ng-container *ngIf="videoFiles.includes(i)">
           <ng-container *ngFor="let subtitle of material.get('subtitles').controls; let j = index;">
             <fieldset formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
                 <div class="form-group col-lg-4">
-                  <label for="{{ 'subtitle' + i + j }}">
-                    {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
-                  </label>
+                  <ng-container *ngIf="subtitle.get('subtitle').value; else newSubtitle">
+                    <ng-container>
+                      <label for="{{ 'subtitle' + i + j }}">
+                        {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
+                      </label>
 
-                  <input
-                    type="text"
-                    readonly
-                    class="form-control-plaintext"
-                    id="{{ 'subtitle' + i + j }}"
-                    formControlName="subtitle"
-                  >
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          readonly
+                          class="form-control-plaintext"
+                          id="{{ 'subtitle' + i + j }}"
+                          formControlName="subtitle"
+                        >
+
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-outline-gray"
+                            type="button"
+                            (click)="showReplaceSubtitleInput[i][j] = !showReplaceSubtitleInput[i][j]"
+                          >{{ 'forms.common.replaceFile' | translate }}</button>
+                        </div>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="showReplaceSubtitleInput[i][j]">
+                      <label for="{{ 'replaceSubtitle' + i }}">
+                        {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
+                      </label>
+
+                      <div class="custom-file">
+                        <input
+                          type="file"
+                          class="custom-file-input"
+                          id="{{ 'replaceSubtitle' + i }}"
+                          accept=".vtt"
+                          [lang]="lang"
+                          (change)="onSubtitleChange($event, i, j)"
+                        >
+                        <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+
+                  <ng-template #newSubtitle>
+                    <label for="{{ 'newSubtitle' + i }}">
+                      {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
+                    </label>
+
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="{{ 'newSubtitle' + i }}"
+                        accept=".vtt"
+                        [lang]="lang"
+                        (change)="onSubtitleChange($event, i, j)"
+                      >
+                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                    </div>
+                  </ng-template>
                 </div><!--/subtitle-->
 
                 <div class="form-group col-sm-8 col-lg-4">
@@ -407,19 +457,27 @@
                   </div>
                 </div><!--/default-->
 
-                <!--<div class="form-group col-lg-auto">
+                <div class="form-group col-lg-auto">
                   <button
                     type="button"
                     class="btn btn-danger"
                     (click)="removeSubtitle(i, j)"
                   >
-                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
                     <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
                   </button>
-                </div>--><!--/actions-->
+                </div><!--/actions-->
               </div>
             </fieldset>
           </ng-container>
+
+          <div class="form-group">
+            <button
+              type="button"
+              class="btn btn-gray"
+              (click)="addSubtitle(i)"
+            >{{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}</button>
+          </div>
         </ng-container><!--/subtitles-->
 
         <button

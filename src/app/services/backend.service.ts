@@ -461,6 +461,7 @@ export class BackendService {
             language: file.language,
             displayName: file.displayName,
             priority: file.priority,
+            mimeType: file.mimetype,
             subtitles: material.attachments
               .filter((attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles')
               .map((subtitle: Attachment) => ({
