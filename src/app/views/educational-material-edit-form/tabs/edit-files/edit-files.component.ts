@@ -12,6 +12,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { UploadMessage } from '@models/upload-message';
 import { LinkPost } from '@models/link-post';
 import { LinkPostResponse } from '@models/link-post-response';
+import { mimeTypes } from '../../../../constants/mimetypes';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -30,6 +31,8 @@ export class EditFilesComponent implements OnInit {
   languageSubscription: Subscription;
   languages: Language[];
   showReplaceInput: boolean[] = [];
+  showReplaceSubtitleInput: any[] = [];
+  videoFiles: number[] = [];
   completedUploads = 0;
   uploadResponses: UploadMessage[] = [];
   newMaterialCount = 0;
@@ -135,8 +138,12 @@ export class EditFilesComponent implements OnInit {
    * @param fileDetails
    */
   patchFileDetails(fileDetails): void {
-    fileDetails.forEach((file) => {
+    fileDetails.forEach((file, i: number) => {
       this.materialDetailsArray.push(this.createFileDetail(file));
+
+      if (mimeTypes.video.includes(file.mimeType)) {
+        this.videoFiles.push(i);
+      }
     });
   }
 
@@ -146,11 +153,14 @@ export class EditFilesComponent implements OnInit {
    * @returns {FormGroup}
    */
   createFileDetail(file): FormGroup {
+    const replaceSubtitleArray: boolean[] = [];
     const subtitles = file.subtitles.map((subtitle) => {
+      replaceSubtitleArray.push(false);
       return this.createSubtitle(subtitle);
     });
 
     this.showReplaceInput.push(false);
+    this.showReplaceSubtitleInput.push(replaceSubtitleArray);
 
     return this.fb.group({
       id: this.fb.control(file.id),
@@ -173,6 +183,10 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates new material FormGroup.
+   * @returns {FormGroup}
+   */
   createNewMaterial(): FormGroup {
     return this.fb.group({
       id: this.fb.control(null),
@@ -193,13 +207,49 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates subtitle FormGroup.
+   * @param subtitle
+   * @returns {FormGroup}
+   */
+  createSubtitle(subtitle): FormGroup {
+    return this.fb.group({
+      id: this.fb.control(subtitle.id),
+      fileId: this.fb.control(subtitle.fileId),
+      subtitle: this.fb.control(subtitle.subtitle),
+      newSubtitle: [''],
+      default: this.fb.control(subtitle.default),
+      kind: this.fb.control(subtitle.kind),
+      label: this.fb.control(subtitle.label),
+      srclang: this.fb.control(subtitle.srclang),
+    });
+  }
+
+  createNewSubtitle(): FormGroup {
+    return this.fb.group({
+      id: this.fb.control(null),
+      fileId: this.fb.control(null),
+      subtitle: this.fb.control(null),
+      newSubtitle: [''],
+      default: this.fb.control(false),
+      kind: this.fb.control('subtitles'),
+      label: this.fb.control(null),
+      srclang: this.fb.control(null),
+    });
+  }
+
   addMaterial(): void {
     this.materialDetailsArray.push(this.createNewMaterial());
   }
 
+  addSubtitle(i): void {
+    const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
+    subtitlesArray.push(this.createNewSubtitle());
+  }
+
   /**
    * Removes material from composition.
-   * @param i {number}
+   * @param i {number} Material index
    */
   removeMaterial(i: number): void {
     this.materialDetailsArray.removeAt(i);
@@ -210,20 +260,17 @@ export class EditFilesComponent implements OnInit {
   }
 
   /**
-   * Creates subtitle FormGroup.
-   * @param subtitle
-   * @returns {FormGroup}
+   * Removes subtitle from composition.
+   * @param i {number} Material index
+   * @param j {number} Subtitle index
    */
-  createSubtitle(subtitle): FormGroup {
-    return this.fb.group({
-      id: this.fb.control(subtitle.id, [ Validators.required ]),
-      fileId: this.fb.control(subtitle.fileId, [ Validators.required ]),
-      subtitle: this.fb.control(subtitle.subtitle),
-      default: this.fb.control(subtitle.default),
-      kind: this.fb.control(subtitle.kind),
-      label: this.fb.control(subtitle.label),
-      srclang: this.fb.control(subtitle.srclang),
-    });
+  removeSubtitle(i: number, j: number): void {
+    const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
+    subtitlesArray.removeAt(j);
+
+    this.isVersioned = true;
+
+    this.form.markAsDirty();
   }
 
   /**
@@ -257,6 +304,30 @@ export class EditFilesComponent implements OnInit {
       });
 
       this.form.markAsDirty();
+    }
+  }
+
+  onSubtitleChange(event, i: number, j: number): void {
+    if (event.target.files.length > 0) {
+      const subtitle = event.target.files[0];
+      const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
+
+      subtitlesArray.at(j).get('newSubtitle').setValue(subtitle);
+
+      subtitlesArray.at(j).get('kind').setValidators([
+        Validators.required,
+      ]);
+      subtitlesArray.at(j).get('kind').updateValueAndValidity();
+
+      subtitlesArray.at(j).get('label').setValidators([
+        Validators.required,
+      ]);
+      subtitlesArray.at(j).get('label').updateValueAndValidity();
+
+      subtitlesArray.at(j).get('srclang').setValidators([
+        Validators.required,
+      ]);
+      subtitlesArray.at(j).get('srclang').updateValueAndValidity();
     }
   }
 
