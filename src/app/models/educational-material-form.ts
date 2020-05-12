@@ -33,6 +33,7 @@ export interface EducationalMaterialForm {
       ];
     }
   ];
+  videoFiles?: number[];
   // basic details
   thumbnail?: string;
   keywords: [
