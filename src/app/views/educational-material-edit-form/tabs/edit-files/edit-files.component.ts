@@ -80,6 +80,8 @@ export class EditFilesComponent implements OnInit {
       this.form.patchValue(editMaterial);
 
       this.patchFileDetails(editMaterial.fileDetails);
+
+      this.videoFiles = editMaterial.videoFiles;
     }
 
     // languages
@@ -293,7 +295,14 @@ export class EditFilesComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
-      // @todo: subtitle related code
+      if (mimeTypes.video.includes(file.type)) {
+        this.addSubtitle(i);
+        this.videoFiles.push(i);
+      } else {
+        const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
+        subtitlesArray.clear();
+        this.videoFiles = this.videoFiles.filter((video: number) => video !== i);
+      }
 
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
@@ -362,6 +371,20 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  validateSubtitles(): void {
+    this.materialDetailsArray.controls.forEach((material) => {
+      const subtitlesArray = material.get('subtitles') as FormArray;
+
+      if (subtitlesArray.value.length > 0) {
+        subtitlesArray.controls.forEach((subtitle) => {
+          if (!subtitle.get('subtitle').value && !subtitle.get('newSubtitle').value) {
+            subtitlesArray.removeAt(subtitlesArray.controls.findIndex((subCtrl) => subCtrl === subtitle));
+          }
+        });
+      }
+    });
+  }
+
   uploadMaterials(): void {
     this.materialDetailsArray.value.forEach((material, i: number) => {
       if (material.newFile) {
@@ -381,6 +404,25 @@ export class EditFilesComponent implements OnInit {
 
             if (response.status === 'completed') {
               completedResponse = response;
+
+              /*if (material.subtitles.length > 0) {
+                material.subtitles.forEach((subtitle, j: number) => {
+                  const subtitlePayload = new FormData();
+                  subtitlePayload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
+                  subtitlePayload.append('attachmentDetails', JSON.stringify({
+                    default: subtitle.default,
+                    kind: subtitle.kind,
+                    label: subtitle.label,
+                    srclang: subtitle.srclang,
+                  }));
+
+                  this.backendSvc.uploadSubtitle(completedResponse.response.material[0].id, subtitlePayload).subscribe(
+                    ((subtitleResponse: UploadMessage) => console.log(subtitleResponse)),
+                    (err) => console.error(err),
+                    () => {},
+                  );
+                });
+              }*/
             }
           },
           (error) => console.error(error),
@@ -496,7 +538,7 @@ export class EditFilesComponent implements OnInit {
     this.submitted = true;
 
     this.validateFiles();
-    // @todo: validate subtitles
+    this.validateSubtitles();
 
     if (this.form.valid) {
       if (this.form.dirty) {
