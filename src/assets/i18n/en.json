@@ -119,8 +119,8 @@
         "label": "Translations",
         "tooltip": "With the Language Versions key you can add a Finnish, Swedish or English translation for the name and description of your resource. This will help users with these languages get a better understanding of your resource."
       },
-      "replaceFile": "",
-      "replaceLink": ""
+      "replaceFile": "Replace file",
+      "replaceLink": "Replace link"
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
