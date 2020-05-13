@@ -228,10 +228,7 @@ export class EditPreviewComponent implements OnInit {
 
       // fileDetails
       const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
-        materials.push({
-          materialId: file.id,
-          priority: idx,
-        });
+        const subtitles: number[] = [];
 
         file.subtitles.forEach((subtitle) => {
           attachmentDetails.push({
@@ -241,6 +238,14 @@ export class EditPreviewComponent implements OnInit {
             lang: subtitle.srclang,
             label: subtitle.label,
           });
+
+          subtitles.push(subtitle.id);
+        });
+
+        materials.push({
+          materialId: file.id,
+          priority: idx,
+          attachments: subtitles,
         });
 
         delete file.file;
