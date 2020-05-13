@@ -255,6 +255,7 @@ export class EditPreviewComponent implements OnInit {
         return file;
       });
       delete this.previewMaterial.fileDetails;
+      delete this.previewMaterial.videoFiles;
 
       // thumbnail
       delete this.previewMaterial.thumbnail;
