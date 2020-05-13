@@ -16,6 +16,7 @@ import { EducationalMaterialForm } from '@models/educational-material-form';
 import { EducationalMaterialPut } from '@models/educational-material-put';
 import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
+import { AttachmentPostResponse } from '@models/attachment-post-response';
 
 @Injectable({
   providedIn: 'root'
@@ -92,27 +93,12 @@ export class BackendService {
     );
   }
 
-  uploadSubtitle(fileId: string, data: FormData): Observable<UploadMessage> {
-    return this.http.post<FormData>(`${this.backendUrl}/material/attachment/${fileId}`, data, {
+  uploadSubtitle(fileId: string, data: FormData): Observable<AttachmentPostResponse> {
+    return this.http.post<AttachmentPostResponse>(`${this.backendUrl}/material/attachment/${fileId}`, data, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-      reportProgress: true,
-      observe: 'events',
     }).pipe(
-      map((event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress:
-            const progress = Math.round(100 * event.loaded / event.total);
-            return { status: 'progress', message: progress };
-
-          case HttpEventType.Response:
-            return { status: 'completed', message: 'Upload completed', response: event.body };
-
-          default:
-            return { status: 'error', message: `Unhandled event: ${event.type}` };
-        }
-      }),
       catchError(BackendService.handleError),
     );
   }
