@@ -452,6 +452,8 @@ export class EditFilesComponent implements OnInit {
   /**
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * saves material and redirects user to the next tab.
+   * @param response {UploadMessage}
+   * @param i {number} Material index
    */
   completeFileUpload(response: UploadMessage, i: number): void {
     this.completedUploads = this.completedUploads + 1;
@@ -472,6 +474,8 @@ export class EditFilesComponent implements OnInit {
   /**
    * Increases completedUploads by one. If completedUploads is equal to newMaterialCount
    * saves material and redirects user to the next tab.
+   * @param response {LinkPostResponse}
+   * @param i {number} Material index
    */
   completeLinkPost(response: LinkPostResponse, i: number): void {
     this.completedUploads = this.completedUploads + 1;
