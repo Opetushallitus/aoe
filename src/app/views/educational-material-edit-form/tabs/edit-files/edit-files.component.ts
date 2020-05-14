@@ -340,6 +340,8 @@ export class EditFilesComponent implements OnInit {
         Validators.required,
       ]);
       subtitlesArray.at(j).get('srclang').updateValueAndValidity();
+
+      this.form.markAsDirty();
     }
   }
 
@@ -616,9 +618,9 @@ export class EditFilesComponent implements OnInit {
         } else {
           this.saveMaterial();
         }
+      } else {
+        this.redirectToNextTab();
       }
-
-      this.redirectToNextTab();
     }
   }
 
