@@ -19,6 +19,7 @@ export interface EducationalMaterialForm {
       };
       language: string;
       priority: number;
+      mimeType: string;
       subtitles?: [
         {
           id: number;
@@ -32,6 +33,7 @@ export interface EducationalMaterialForm {
       ];
     }
   ];
+  videoFiles?: number[];
   // basic details
   thumbnail?: string;
   keywords: [
