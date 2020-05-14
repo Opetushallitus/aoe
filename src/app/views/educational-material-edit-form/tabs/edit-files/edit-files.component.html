@@ -677,17 +677,21 @@
               <fieldset formArrayName="subtitles">
                 <div class="form-row align-items-end" [formGroupName]="j">
                   <div class="form-group col-lg-4">
-                    <label for="{{ 'newMaterialSubtitle' + i + j }}">
+                    <label for="{{ 'newMaterialSubtitle' + i }}">
                       {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
                     </label>
 
-                    <input
-                      type="text"
-                      readonly
-                      class="form-control-plaintext"
-                      id="{{ 'newMaterialSubtitle' + i + j }}"
-                      formControlName="subtitle"
-                    >
+                    <div class="custom-file">
+                      <input
+                        type="file"
+                        class="custom-file-input"
+                        id="{{ 'newMaterialSubtitle' + i }}"
+                        accept=".vtt"
+                        [lang]="lang"
+                        (change)="onSubtitleChange($event, i, j)"
+                      >
+                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                    </div>
                   </div><!--/subtitle-->
 
                   <div class="form-group col-sm-8 col-lg-4">
