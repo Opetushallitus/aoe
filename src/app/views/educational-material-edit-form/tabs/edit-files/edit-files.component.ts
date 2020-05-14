@@ -439,22 +439,24 @@ export class EditFilesComponent implements OnInit {
     this.materialDetailsArray.value.forEach((material, i: number) => {
       if (material.subtitles.length > 0) {
         material.subtitles.forEach((subtitle, j: number) => {
-          const payload = new FormData();
-          payload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
-          payload.append('attachmentDetails', JSON.stringify({
-            default: subtitle.default,
-            kind: subtitle.kind,
-            label: subtitle.label,
-            srclang: subtitle.srclang,
-          }));
+          if (subtitle.newSubtitle) {
+            const payload = new FormData();
+            payload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
+            payload.append('attachmentDetails', JSON.stringify({
+              default: subtitle.default,
+              kind: subtitle.kind,
+              label: subtitle.label,
+              srclang: subtitle.srclang,
+            }));
 
-          let completedSubtitleResponse: AttachmentPostResponse;
+            let completedSubtitleResponse: AttachmentPostResponse;
 
-          this.backendSvc.uploadSubtitle(material.id, payload).subscribe(
-            (subtitleResponse: AttachmentPostResponse) => completedSubtitleResponse = subtitleResponse,
-            (err) => console.error(err),
-            () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id),
-          );
+            this.backendSvc.uploadSubtitle(material.id, payload).subscribe(
+              (subtitleResponse: AttachmentPostResponse) => completedSubtitleResponse = subtitleResponse,
+              (err) => console.error(err),
+              () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id),
+            );
+          }
         });
       }
     });
