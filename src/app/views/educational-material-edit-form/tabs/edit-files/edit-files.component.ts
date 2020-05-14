@@ -35,8 +35,10 @@ export class EditFilesComponent implements OnInit {
   showReplaceSubtitleInput: any[] = [];
   videoFiles: number[] = [];
   completedUploads = 0;
+  completedSubtitleUploads = 0;
   uploadResponses: UploadMessage[] = [];
   newMaterialCount = 0;
+  newSubtitleCount = 0;
   isVersioned: boolean;
   @Output() abortEdit = new EventEmitter();
 
@@ -428,12 +430,16 @@ export class EditFilesComponent implements OnInit {
           () => this.completeLinkPost(postResponse, i),
         );
       }
+    });
+  }
 
+  uploadSubtitles(): void {
+    this.materialDetailsArray.value.forEach((material, i: number) => {
       if (material.subtitles.length > 0) {
         material.subtitles.forEach((subtitle, j: number) => {
-          const subtitlePayload = new FormData();
-          subtitlePayload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
-          subtitlePayload.append('attachmentDetails', JSON.stringify({
+          const payload = new FormData();
+          payload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
+          payload.append('attachmentDetails', JSON.stringify({
             default: subtitle.default,
             kind: subtitle.kind,
             label: subtitle.label,
@@ -442,10 +448,10 @@ export class EditFilesComponent implements OnInit {
 
           let completedSubtitleResponse: AttachmentPostResponse;
 
-          this.backendSvc.uploadSubtitle(material.id, subtitlePayload).subscribe(
+          this.backendSvc.uploadSubtitle(material.id, payload).subscribe(
             (subtitleResponse: AttachmentPostResponse) => completedSubtitleResponse = subtitleResponse,
             (err) => console.error(err),
-            () => this.completeSubtitleUpload(completedSubtitleResponse, i, j),
+            () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id),
           );
         });
       }
@@ -469,8 +475,12 @@ export class EditFilesComponent implements OnInit {
     this.materialDetailsArray.at(i).get('newFile').setValue('');
 
     if (this.completedUploads === this.newMaterialCount) {
-      this.saveMaterial();
-      this.redirectToNextTab();
+      if (this.newSubtitleCount > 0) {
+        this.uploadSubtitles();
+      } else {
+        this.saveMaterial();
+        this.redirectToNextTab();
+      }
     }
   }
 
@@ -491,8 +501,12 @@ export class EditFilesComponent implements OnInit {
     this.materialDetailsArray.at(i).get('newLink').setValue(null);
 
     if (this.completedUploads === this.newMaterialCount) {
-      this.saveMaterial();
-      this.redirectToNextTab();
+      if (this.newSubtitleCount > 0) {
+        this.uploadSubtitles();
+      } else {
+        this.saveMaterial();
+        this.redirectToNextTab();
+      }
     }
   }
 
@@ -502,9 +516,10 @@ export class EditFilesComponent implements OnInit {
    * @param response {AttachmentPostResponse}
    * @param i {number} Material index
    * @param j {number} Subtitle index
+   * @param materialId {number} Material ID
    */
-  completeSubtitleUpload(response: AttachmentPostResponse, i: number, j: number): void {
-    this.completedUploads = this.completedUploads + 1;
+  completeSubtitleUpload(response: AttachmentPostResponse, i: number, j: number, materialId: number): void {
+    this.completedSubtitleUploads = this.completedSubtitleUploads + 1;
 
     const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
@@ -512,13 +527,13 @@ export class EditFilesComponent implements OnInit {
     subtitles.at(j).get('id').setValue(+response.id);
 
     // update material ID
-    subtitles.at(j).get('fileId').setValue(this.materialDetailsArray.at(i).get('id').value);
+    subtitles.at(j).get('fileId').setValue(materialId);
 
     // update subtitle filename
     subtitles.at(j).get('subtitle').setValue(subtitles.at(j).get('newSubtitle').value.name.toLowerCase());
     subtitles.at(j).get('newSubtitle').setValue('');
 
-    if (this.completedUploads === this.newMaterialCount) {
+    if (this.completedSubtitleUploads === this.newSubtitleCount) {
       this.saveMaterial();
       this.redirectToNextTab();
     }
@@ -536,16 +551,17 @@ export class EditFilesComponent implements OnInit {
         return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
       })
       .length;
+  }
 
+  /**
+   * Calculates the amount of new subtitles.
+   */
+  calculateNewSubtitleCount(): void {
     this.materialDetailsArray.controls.forEach((material) => {
       const subtitles = material.get('subtitles') as FormArray;
 
-      this.newMaterialCount += subtitles.controls
-        .filter((subtitle) => {
-          const newSubtitleCtrl = subtitle.get('newSubtitle');
-
-          return newSubtitleCtrl.value !== '';
-        })
+      this.newSubtitleCount += subtitles.controls
+        .filter((subtitle) => subtitle.get('newSubtitle').value !== '')
         .length;
     });
   }
@@ -562,7 +578,7 @@ export class EditFilesComponent implements OnInit {
     changedMaterial.fileDetails = this.materialDetailsArray.value;
     changedMaterial.videoFiles = this.videoFiles;
 
-    if (this.newMaterialCount > 0) {
+    if (this.newMaterialCount > 0 || this.newSubtitleCount > 0) {
       this.isVersioned = true;
     }
 
@@ -591,9 +607,12 @@ export class EditFilesComponent implements OnInit {
     if (this.form.valid) {
       if (this.form.dirty) {
         this.calculateNewMaterialCount();
+        this.calculateNewSubtitleCount();
 
         if (this.newMaterialCount > 0) {
           this.uploadMaterials();
+        } else if (this.newSubtitleCount > 0) {
+          this.uploadSubtitles();
         } else {
           this.saveMaterial();
         }
