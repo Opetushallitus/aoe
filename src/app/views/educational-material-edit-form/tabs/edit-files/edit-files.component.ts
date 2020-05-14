@@ -618,9 +618,9 @@ export class EditFilesComponent implements OnInit {
         } else {
           this.saveMaterial();
         }
-      } else {
-        this.redirectToNextTab();
       }
+
+      this.redirectToNextTab();
     }
   }
 
