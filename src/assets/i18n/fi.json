@@ -74,12 +74,6 @@
       "accessibilityFeatures": "Saavutettavuuden tukitoiminnot",
       "accessibilityHazard": "Saavutettavuuden esteet",
       "files": "Tiedostot",
-      "userMetadata": "Käyttäjien kuvailut",
-      "userReviews": "Käyttäjien arviot",
-      "rating": "Arvostelu",
-      "addReview": "Lisää arvio",
-      "comments": "Kommentteja",
-      "showAllComments": "Näytä kaikki käyttäjien kommentit",
       "preview": {
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
         "noAudioSupport": "Selaimesi ei tue audio-elementtiä.",
@@ -96,6 +90,28 @@
       "references": {
         "title": "Tämän materiaalin tekemisessä on käytetty seuraavia aineistoja",
         "openLink": "avaa linkki"
+      },
+      "userReviews": {
+        "title": "Käyttäjien arviot",
+        "ratingContent": "Sisältö",
+        "ratingVisual": "Ulkoasu",
+        "feedbackPositive": "Mitä hyvää materiaalissa on?",
+        "feedbackSuggest": "Mitä voisi vielä kehittää?",
+        "feedbackPurpose": "Miten hyödynsin materiaalia?",
+        "allReviews": "Katso kaikki arviot",
+        "addReview": "Lisää arvio",
+        "reviews": "Vastauksia"
+      },
+      "reviews": {
+        "title": "Käyttäjien arviot",
+        "review": {
+          "ratingContent": "Sisältö",
+          "ratingVisual": "Ulkoasu",
+          "reviews": "Vastauksia",
+          "feedbackPositive": "Mitä hyvää materiaalissa on?",
+          "feedbackSuggest": "Mitä voisi vielä kehittää?",
+          "feedbackPurpose": "Miten hyödynsin materiaalia?"
+        }
       }
     }
   },
@@ -113,6 +129,7 @@
         "numeric": "Vain numerot ovat sallittuja"
       },
       "min": "Vähintään: ",
+      "max": "Enintään: ",
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {
@@ -493,6 +510,9 @@
         "noPermission": {
           "title": "Muokkaaminen ei sallittu",
           "message": "Yrität muokata materiaali johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
+        },
+        "ratingAdded": {
+          "title": "Arvostelu lisätty/päivitetty"
         }
       }
     }

@@ -74,12 +74,6 @@
       "accessibilityFeatures": "Tillgänglighet",
       "accessibilityHazard": "Accessibility hazards",
       "files": "Filer",
-      "userMetadata": "User metadata",
-      "userReviews": "User reviews",
-      "rating": "Rating",
-      "addReview": "Lägga till kommentar",
-      "comments": "Kommentarer",
-      "showAllComments": "Visa alla kommentarer",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
@@ -96,6 +90,28 @@
       "references": {
         "title": "Referens",
         "openLink": "öppna länken"
+      },
+      "userReviews": {
+        "title": "Recensioner",
+        "ratingContent": "Innehåll",
+        "ratingVisual": "Layout",
+        "feedbackPositive": "Vad var bra med lärresursen?",
+        "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+        "feedbackPurpose": "Hur använde du lärresursen?",
+        "allReviews": "Kolla alla recensioner",
+        "addReview": "Skriv en recension",
+        "reviews": "Recensioner"
+      },
+      "reviews": {
+        "title": "Recensioner",
+        "review": {
+          "ratingContent": "Innehåll",
+          "ratingVisual": "Layout",
+          "reviews": "Recensioner",
+          "feedbackPositive": "Vad var bra med lärresursen?",
+          "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+          "feedbackPurpose": "Hur använde du lärresursen?"
+        }
       }
     }
   },
@@ -113,6 +129,7 @@
         "numeric": "Endast nummer är tillåtna"
       },
       "min": "Minst: ",
+      "max": "Max: ",
       "save": "Spara",
       "saveChanges": "Spara ändringar",
       "translations": {
@@ -493,6 +510,9 @@
         "noPermission": {
           "title": "Det är inte tillåten att ändra materialet",
           "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen,  kolla att du har loggad in med det samma inloggning du  använde tidigare."
+        },
+        "ratingAdded": {
+          "title": "Recensioner tillagd/uppdaterad"
         }
       }
     }

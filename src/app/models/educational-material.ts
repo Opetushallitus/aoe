@@ -72,4 +72,6 @@ export interface EducationalMaterial {
     name: string;
   }];
   owner: boolean;
+  ratingContentAverage: string;
+  ratingVisualAverage: string;
 }

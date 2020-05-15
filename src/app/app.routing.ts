@@ -21,6 +21,7 @@ import { EducationalMaterialEmbedViewComponent } from '@views/educational-materi
 import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
 import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
 import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
+import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 
 export const routes: Routes = [
   {
@@ -51,6 +52,12 @@ export const routes: Routes = [
       {
         path: 'materiaali/:materialId',
         component: EducationalMaterialViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'materiaali/:materialId/arvostelut',
+        component: EducationalMaterialRatingsComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },

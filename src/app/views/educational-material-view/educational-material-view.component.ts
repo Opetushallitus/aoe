@@ -1,22 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
 import { environment } from '../../../environments/environment';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+// tslint:disable-next-line:max-line-length
+import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
+  styleUrls: ['./educational-material-view.component.scss']
 })
-export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
+export class EducationalMaterialViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
+  materialId: number;
   educationalMaterial: EducationalMaterial;
-  private routeSubscription: Subscription;
   previewMaterial: Material;
   downloadUrl: string;
   embedCode: string;
@@ -25,15 +27,19 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   materialName: string;
   description: string;
   materials: Material[];
+  metadataHeading: string;
+  reviewModalRef: BsModalRef;
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
     private backendSvc: BackendService,
     private translate: TranslateService,
+    private modalSvc: BsModalService,
   ) { }
 
   ngOnInit(): void {
+    this.materialId = +this.route.snapshot.paramMap.get('materialId');
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
@@ -44,22 +50,18 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.routeSubscription = this.route.params.subscribe(params => {
-      this.backendSvc.getMaterial(+params['materialId']).subscribe(data => {
-        this.educationalMaterial = data;
-        this.downloadUrl = `${environment.backendUrl}/material/file/${params['materialId']}`;
-        // tslint:disable-next-line:max-line-length
-        this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${params['materialId']}/${this.lang}" width="720" height="360"></iframe>`;
+    this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
+      this.educationalMaterial = data;
+      this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+      // tslint:disable-next-line:max-line-length
+      this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
-        this.updateMaterialName();
-        this.updateDescription();
-        this.updateMaterials();
-      });
+      this.updateMaterialName();
+      this.updateDescription();
+      this.updateMaterials();
     });
-  }
 
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+    this.updateMetadataHeading(false);
   }
 
   setPreviewMaterial(material: Material): void {
@@ -92,5 +94,22 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     if (this.materials.length > 0) {
       this.previewMaterial = this.materials[0];
     }
+  }
+
+  updateMetadataHeading(event: boolean): void {
+    if (event) {
+      this.metadataHeading = 'Vähemmän kuvailutietoja';
+    } else {
+      this.metadataHeading = 'Lisää kuvailutietoja';
+    }
+  }
+
+  openReviewModal(): void {
+    const initialState = {
+      materialId: this.materialId,
+      materialName: 'Oppimateriaalin nimi',
+    };
+
+    this.reviewModalRef = this.modalSvc.show(EducationalMaterialRatingModalComponent, { initialState });
   }
 }

@@ -74,12 +74,6 @@
       "accessibilityFeatures": "Accessibility features",
       "accessibilityHazard": "Accessibility hazards",
       "files": "Files",
-      "userMetadata": "User metadata",
-      "userReviews": "User reviews",
-      "rating": "Rating",
-      "addReview": "Add review",
-      "comments": "Comments",
-      "showAllComments": "Show all comments",
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
@@ -96,6 +90,28 @@
       "references": {
         "title": "References",
         "openLink": "open the link"
+      },
+      "userReviews": {
+        "title": "User reviews",
+        "ratingContent": "Content",
+        "ratingVisual": "Layout",
+        "feedbackPositive": "What did you like about the material?",
+        "feedbackSuggest": "How could the material be developed?",
+        "feedbackPurpose": "How did you use the material as part of your teaching or learning?",
+        "allReviews": "See all the reviews",
+        "addReview": "Create review",
+        "reviews": "Amount of reviews"
+      },
+      "reviews": {
+        "title": "User reviews",
+        "review": {
+          "ratingContent": "Content",
+          "ratingVisual": "Layout",
+          "reviews": "Amount of reviews",
+          "feedbackPositive": "What did you like about the material?",
+          "feedbackSuggest": "How could the material be developed?",
+          "feedbackPurpose": "How did you use the material as part of your teaching or learning?"
+        }
       }
     }
   },
@@ -113,6 +129,7 @@
         "numeric": "Only numbers are allowed"
       },
       "min": "At least: ",
+      "max": "At most: ",
       "save": "Save",
       "saveChanges": "Save changes",
       "translations": {
@@ -493,6 +510,9 @@
         "noPermission": {
           "title": "Editing not permitted",
           "message": "You are trying to edit a material for which you do not have the permission for. If you have uploaded this material, please check that you are using the correct login method."
+        },
+        "ratingAdded": {
+          "title": "Rating added/updated"
         }
       }
     }

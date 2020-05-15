@@ -275,6 +275,22 @@ h2 {
   }
 }
 
+.btn-anchor {
+  background: none;
+  border: 0;
+  color: $blue;
+  display: inline;
+  font-weight: 400;
+  line-height: normal;
+  padding: 0;
+  vertical-align: baseline;
+
+  &:hover {
+    color: darken($blue, 15%);
+    text-decoration: underline;
+  }
+}
+
 .btn-tooltip {
   padding: 0 .5rem;
 }
@@ -480,18 +496,25 @@ h2 {
   }
 }
 
-.material-metadata {
+.metadata {
   [class^="col"] {
     margin-bottom: 1rem;
   }
 
   .panel-group {
+    margin-bottom: 0;
+
     .panel-heading {
       border-bottom: 0;
     }
 
     .accordion-toggle {
+      margin-bottom: 1rem;
       padding: 0;
+
+      button {
+        padding: 0;
+      }
     }
 
     .panel-body {

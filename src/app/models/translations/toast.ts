@@ -1,4 +1,4 @@
 export interface Toast {
-  title: string;
-  message: string;
+  title?: string;
+  message?: string;
 }
