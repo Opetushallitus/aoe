@@ -246,6 +246,8 @@ export class BackendService {
               name: r.materialname,
             })),
           owner: res.owner,
+          ratingContentAverage: res.ratingContentAverage,
+          ratingVisualAverage: res.ratingVisualAverage,
         };
       })
     );
