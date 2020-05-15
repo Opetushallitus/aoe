@@ -275,9 +275,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     results.results.forEach((result: SearchResult) => {
       // languages
-      result.languages.forEach((language: string) => {
-        allLanguages.push(language.toLowerCase());
-      });
+      if (result.languages && result.languages.length > 0) {
+        result.languages.forEach((language: string) => {
+          allLanguages.push(language.toLowerCase());
+        });
+      }
 
       // authors and organizations
       result.authors.forEach((author) => {
