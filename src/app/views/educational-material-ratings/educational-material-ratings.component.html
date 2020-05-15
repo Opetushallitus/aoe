@@ -4,7 +4,7 @@
 
     <h1>{{ 'demo.educationalMaterial.reviews.title' | translate }}</h1>
 
-    <h2>Oppimateriaalin nimi</h2>
+    <h2>{{ ratings.name[lang] }}</h2>
 
     <ng-container *ngIf="ratings?.ratings?.length > 0; else noRatings">
       <div class="averages">
@@ -13,7 +13,7 @@
             <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
             <span class="value">
-              4,1 <span class="text-muted">/ 5</span>
+              {{ ratings.averages.content }} <span class="text-muted">/ 5</span>
             </span>
           </div>
 
@@ -21,7 +21,7 @@
             <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
             <span class="value">
-              4,1 <span class="text-muted">/ 5</span>
+              {{ ratings.averages.visual }} <span class="text-muted">/ 5</span>
             </span>
           </div>
 
@@ -29,7 +29,7 @@
             <h3>{{ 'demo.educationalMaterial.reviews.review.reviews' | translate }}</h3>
 
             <span class="value count">
-              {{ ratings.ratings.length }}
+              {{ ratings.ratingsCount }}
             </span>
           </div>
         </div>
