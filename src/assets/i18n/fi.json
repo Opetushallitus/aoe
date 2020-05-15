@@ -129,6 +129,7 @@
         "numeric": "Vain numerot ovat sallittuja"
       },
       "min": "Vähintään: ",
+      "max": "Enintään: ",
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
       "translations": {

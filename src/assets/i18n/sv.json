@@ -129,6 +129,7 @@
         "numeric": "Endast nummer är tillåtna"
       },
       "min": "Minst: ",
+      "max": "Max: ",
       "save": "Spara",
       "saveChanges": "Spara ändringar",
       "translations": {

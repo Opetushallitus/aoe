@@ -129,6 +129,7 @@
         "numeric": "Only numbers are allowed"
       },
       "min": "At least: ",
+      "max": "At most: ",
       "save": "Save",
       "saveChanges": "Save changes",
       "translations": {
