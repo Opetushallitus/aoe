@@ -7,12 +7,10 @@
 </div>
 
 <div class="modal-body">
-  <h2>{{ materialName }}</h2>
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="ratingContent">
-        {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}
+        {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }} (1-5)
       </label>
 
       <input
@@ -23,12 +21,23 @@
         min="1"
         max="5"
         step="1"
+        [ngClass]="{ 'is-invalid': ratingContentCtrl.errors }"
       >
+
+      <div *ngIf="ratingContentCtrl.errors" class="invalid-feedback">
+        <div *ngIf="ratingContentCtrl.errors.min">
+          {{ 'forms.common.min' | translate }} {{ ratingContentCtrl.errors.min.min }}
+        </div>
+
+        <div *ngIf="ratingContentCtrl.errors.max">
+          {{ 'forms.common.max' | translate }} {{ ratingContentCtrl.errors.max.max }}
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="ratingVisual">
-        {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}
+        {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }} (1-5)
       </label>
 
       <input
@@ -39,7 +48,18 @@
         min="1"
         max="5"
         step="1"
+        [ngClass]="{ 'is-invalid': ratingVisualCtrl.errors }"
       >
+
+      <div *ngIf="ratingVisualCtrl.errors" class="invalid-feedback">
+        <div *ngIf="ratingVisualCtrl.errors.min">
+          {{ 'forms.common.min' | translate }} {{ ratingVisualCtrl.errors.min.min }}
+        </div>
+
+        <div *ngIf="ratingVisualCtrl.errors.max">
+          {{ 'forms.common.max' | translate }} {{ ratingVisualCtrl.errors.max.max }}
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -51,7 +71,15 @@
         class="form-control"
         id="feedbackPositive"
         formControlName="feedbackPositive"
+        [ngClass]="{ 'is-invalid': feedbackPositiveCtrl.errors }"
       ></textarea>
+
+      <div *ngIf="feedbackPositiveCtrl.errors" class="invalid-feedback">
+        <div *ngIf="feedbackPositiveCtrl.errors.maxlength">
+          {{ feedbackPositiveCtrl.errors.maxlength.actualLength }}
+          / {{ feedbackPositiveCtrl.errors.maxlength.requiredLength }}
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -63,7 +91,15 @@
         class="form-control"
         id="feedbackSuggest"
         formControlName="feedbackSuggest"
+        [ngClass]="{ 'is-invalid': feedbackSuggestCtrl.errors }"
       ></textarea>
+
+      <div *ngIf="feedbackSuggestCtrl.errors" class="invalid-feedback">
+        <div *ngIf="feedbackSuggestCtrl.errors.maxlength">
+          {{ feedbackSuggestCtrl.errors.maxlength.actualLength }}
+          / {{ feedbackSuggestCtrl.errors.maxlength.requiredLength }}
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -75,7 +111,15 @@
         class="form-control"
         id="feedbackPurpose"
         formControlName="feedbackPurpose"
+        [ngClass]="{ 'is-invalid': feedbackPurposeCtrl.errors }"
       ></textarea>
+
+      <div *ngIf="feedbackPurposeCtrl.errors" class="invalid-feedback">
+        <div *ngIf="feedbackPurposeCtrl.errors.maxlength">
+          {{ feedbackPurposeCtrl.errors.maxlength.actualLength }}
+          / {{ feedbackPurposeCtrl.errors.maxlength.requiredLength }}
+        </div>
+      </div>
     </div>
 
     <button
