@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -35,6 +36,7 @@ export class EducationalMaterialViewComponent implements OnInit {
     private backendSvc: BackendService,
     private translate: TranslateService,
     private modalSvc: BsModalService,
+    public authSvc: AuthService,
   ) { }
 
   ngOnInit(): void {
