@@ -561,7 +561,7 @@
                 </a>
               </div>
 
-              <div class="col-auto">
+              <div class="col-auto" *ngIf="authSvc.hasUserdata()">
                 <button
                   type="button"
                   class="btn btn-anchor"
