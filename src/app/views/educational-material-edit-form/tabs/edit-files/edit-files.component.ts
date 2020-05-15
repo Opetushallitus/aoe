@@ -619,10 +619,11 @@ export class EditFilesComponent implements OnInit {
           this.uploadSubtitles();
         } else {
           this.saveMaterial();
+          this.redirectToNextTab();
         }
+      } else {
+        this.redirectToNextTab();
       }
-
-      this.redirectToNextTab();
     }
   }
 
