@@ -100,7 +100,10 @@
         "feedbackPurpose": "How did you use the material as part of your teaching or learning?",
         "allReviews": "See all the reviews",
         "addReview": "Create review",
-        "reviews": "Amount of reviews"
+        "reviews": "Amount of reviews",
+        "modal": {
+          "title": "Create review"
+        }
       },
       "reviews": {
         "title": "User reviews",
