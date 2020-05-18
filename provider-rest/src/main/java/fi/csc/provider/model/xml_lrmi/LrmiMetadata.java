@@ -3,7 +3,7 @@ package fi.csc.provider.model.xml_lrmi;
 import fi.csc.provider.adapter.DateTimeAdapter;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 
-import javax.xml.bind.Marshaller;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.util.List;
 
 // @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("unused")
-@XmlSeeAlso({Material.class})
+@XmlSeeAlso({Material.class, Person.class, Organization.class})
 @XmlAccessorType(XmlAccessType.NONE)
 /* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
     "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
@@ -80,9 +80,12 @@ public class LrmiMetadata {
     // Invisible field for specifying the attribute status="deleted"
     private LocalDateTime archivedAt;
 
-    @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
-    @XmlElement(name = "lrmi_fi:person")
-    private List<Author> author;
+    // @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
+    // @XmlElement(name = "lrmi_fi:person")
+    // private List<Author> author;
+    @XmlElementWrapper(name = "lrmi_fi:author")
+    @XmlAnyElement
+    private List<JAXBElement<?>> authors;
 
     @XmlElement(name = "lrmi_fi:material")
     private List<Material> material;
@@ -134,11 +137,11 @@ public class LrmiMetadata {
     // JAXB event callback
     // void beforeUnmarshal(Unmarshaller m, Object parent)
     // void afterUnmarshal(Unmarshaller m, Object parent)
-    private void beforeMarshal(Marshaller marshaller) {
+    /*private void beforeMarshal(Marshaller marshaller) {
         if (this.author != null && this.author.isEmpty()) {
             this.author = null;
         }
-    }
+    }*/
 
     public String getIdentifier() {
         return identifier;
@@ -236,12 +239,12 @@ public class LrmiMetadata {
         this.archivedAt = archivedAt;
     }
 
-    public List<Author> getAuthor() {
-        return author;
+    public List<JAXBElement<?>> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(List<Author> author) {
-        this.author = author;
+    public void setAuthors(List<JAXBElement<?>> authors) {
+        this.authors = authors;
     }
 
     public List<Material> getMaterial() {
