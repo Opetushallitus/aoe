@@ -14,17 +14,25 @@
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
-              <span class="value">
+              <span class="value" *ngIf="ratings.averages.content; else noAvgContent">
                 {{ ratings.averages.content }} <span class="text-muted">/ 5</span>
               </span>
+
+              <ng-template #noAvgContent>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
             </div>
 
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
-              <span class="value">
+              <span class="value" *ngIf="ratings.averages.visual; else noAvgVisual">
                 {{ ratings.averages.visual }} <span class="text-muted">/ 5</span>
               </span>
+
+              <ng-template #noAvgVisual>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
             </div>
 
             <div class="col-auto number-rating">
@@ -56,33 +64,53 @@
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
-              <span class="value">
+              <span class="value" *ngIf="rating.ratingContent; else noContent">
                 {{ rating.ratingContent }}
               </span>
+
+              <ng-template #noContent>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
             </div>
 
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
-              <span class="value">
+              <span class="value" *ngIf="rating.ratingVisual; else noVisual">
                 {{ rating.ratingVisual }}
               </span>
+
+              <ng-template #noVisual>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
             </div>
           </div>
 
           <ng-container>
             <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackPositive' | translate }}</h3>
-            <p>{{ rating.feedbackPositive }}</p>
+            <p *ngIf="rating.feedbackPositive; else noPositive">{{ rating.feedbackPositive }}</p>
+
+            <ng-template #noPositive>
+              <p>&ndash;</p>
+            </ng-template>
           </ng-container>
 
           <ng-container>
             <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackSuggest' | translate }}</h3>
-            <p>{{ rating.feedbackSuggest }}</p>
+            <p *ngIf="rating.feedbackSuggest; else noSuggest">{{ rating.feedbackSuggest }}</p>
+
+            <ng-template #noSuggest>
+              <p>&ndash;</p>
+            </ng-template>
           </ng-container>
 
           <ng-container>
             <h3>{{ 'demo.educationalMaterial.reviews.review.feedbackPurpose' | translate }}</h3>
-            <p>{{ rating.feedbackPurpose }}</p>
+            <p *ngIf="rating.feedbackPurpose; else noPurpose">{{ rating.feedbackPurpose }}</p>
+
+            <ng-template #noPurpose>
+              <p>&ndash;</p>
+            </ng-template>
           </ng-container>
         </div>
       </ng-container>
