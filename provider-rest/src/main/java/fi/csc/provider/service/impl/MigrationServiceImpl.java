@@ -4,16 +4,21 @@ import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Author;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.Person;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
+import fi.csc.provider.model.xml_oaipmh.sublevel_1st.ListRecords;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,13 +89,18 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setArchivedAt((amd.getArchivedat()));
 
         // lrmi_fi:author
-        lrmi.setAuthor(amd.getAuthor() != null ? amd.getAuthor().stream()
-            .filter(a -> !a.getAuthorname().isEmpty() && !a.getOrganization().isEmpty())
+        lrmi.setAuthors(amd.getAuthor() != null ? amd.getAuthor().stream()
+            .filter(a -> !a.getAuthorname().isEmpty() || !a.getOrganization().isEmpty())
             .map(a -> {
-                Author author = new Author();
-                author.setName(a.getAuthorname());
-                author.setAffiliation(a.getOrganization());
-                return author;
+                if (a.getAuthorname().isEmpty()) {
+                    return new JAXBElement<>(new QName("lrmi_fi:organization"), Organization.class, new Organization() {{
+                        setLegalName(a.getOrganization());
+                    }});
+                }
+                return new JAXBElement<>(new QName("lrmi_fi:person"), Person.class, new Person() {{
+                    setName(a.getAuthorname());
+                    setAffiliation(a.getOrganization().isEmpty() ? null : a.getOrganization());
+                }});
             })
             .collect(Collectors.toList()) : null);
 
@@ -159,6 +169,7 @@ public class MigrationServiceImpl implements MigrationService {
             })
             .collect(Collectors.toList()) : null);
 
+        // TODO: Collect languages from sub-materials
         // lrmi_fi:inLanguage
         lrmi.setInLanguage(amd.getInlanguage() != null ? amd.getInlanguage().stream()
             .filter(i -> !i.getInlanguage().isEmpty())

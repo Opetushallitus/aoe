@@ -3,10 +3,12 @@ package fi.csc.provider.model.xml_lrmi.sublevel_1st;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("unused")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Author {
+@XmlRootElement(name = "lrmi_fi:person")
+public class Person {
 
     @XmlElement(name = "lrmi_fi:name")
     private String name;
