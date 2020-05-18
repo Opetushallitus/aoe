@@ -25,7 +25,7 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
           "Accept": "application/json",
           "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
         },
-        `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=true&koulutustyyppi=koulutustyyppi_1`
+        `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_1`
       );
 
       results.data.forEach((degree: any) => {
