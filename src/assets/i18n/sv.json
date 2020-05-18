@@ -100,7 +100,10 @@
         "feedbackPurpose": "Hur använde du lärresursen?",
         "allReviews": "Kolla alla recensioner",
         "addReview": "Skriv en recension",
-        "reviews": "Recensioner"
+        "reviews": "Recensioner",
+        "modal": {
+          "title": "Skriv en recension"
+        }
       },
       "reviews": {
         "title": "Recensioner",
@@ -118,8 +121,8 @@
   "forms": {
     "common": {
       "abort": "Avbryt",
-      "cancel": "Peruuta",
-      "close": "Sulje",
+      "cancel": "Annullera",
+      "close": "Stäng",
       "delete": "Ta bort",
       "next": "Nästa",
       "previous": "Föregående",
