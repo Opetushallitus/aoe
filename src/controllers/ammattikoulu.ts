@@ -13,7 +13,7 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
   try {
     let finnishDegrees: AlignmentObjectExtended[] = [];
     let swedishDegrees: AlignmentObjectExtended[] = [];
-    // let englishDegrees: AlignmentObjectExtended[] = [];
+    let englishDegrees: AlignmentObjectExtended[] = [];
     let pageNumber: number = 0;
     let getResults: boolean = true;
 
@@ -29,11 +29,30 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
       );
 
       results.data.forEach((degree: any) => {
+        let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
+        let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
+        let targetNameEn = degree.nimi.en ? degree.nimi.en : (degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv);
+        const validityStarts = degree.voimassaoloAlkaa;
+        const transitionTimeEnds = degree.siirtymaPaattyy;
+        const now = new Date().getTime();
+
+        if (validityStarts > now) {
+          targetNameFi = `${targetNameFi} (Tuleva)`;
+          targetNameSv = `${targetNameSv} (På kommande)`;
+          targetNameEn = `${targetNameEn} (In progress)`;
+        }
+
+        if (transitionTimeEnds) {
+          targetNameFi = `${targetNameFi} (Siirtymäajalla)`;
+          targetNameSv = `${targetNameSv} (Övergångstid)`;
+          targetNameEn = `${targetNameEn} (On transition time)`;
+        }
+
         finnishDegrees.push({
           key: degree.id,
           source: "vocationalDegrees",
           alignmentType: "educationalSubject",
-          targetName: degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv,
+          targetName: targetNameFi,
           targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
         });
 
@@ -41,17 +60,17 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
           key: degree.id,
           source: "vocationalDegrees",
           alignmentType: "educationalSubject",
-          targetName: degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi,
+          targetName: targetNameSv,
           targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
         });
 
-        /*englishDegrees.push({
+        englishDegrees.push({
           key: degree.id,
           source: "vocationalDegrees",
           alignmentType: "educationalSubject",
-          targetName: degree.nimi.en ? degree.nimi.en : degree.nimi.fi,
+          targetName: targetNameEn,
           targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
-        });*/
+        });
       });
 
       pageNumber = results.sivu + 1;
@@ -63,15 +82,15 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
 
     finnishDegrees.sort(sortByTargetName);
     swedishDegrees.sort(sortByTargetName);
-    // englishDegrees.sort(sortByTargetName);
+    englishDegrees.sort(sortByTargetName);
 
     finnishDegrees = getUnique(finnishDegrees, "targetName");
     swedishDegrees = getUnique(swedishDegrees, "targetName");
-    // englishDegrees = getUnique(englishDegrees, "targetName");
+    englishDegrees = getUnique(englishDegrees, "targetName");
 
     await setAsync(`${rediskeyDegrees}.fi`, JSON.stringify(finnishDegrees));
     await setAsync(`${rediskeyDegrees}.sv`, JSON.stringify(swedishDegrees));
-    await setAsync(`${rediskeyDegrees}.en`, JSON.stringify(finnishDegrees)); // use fi as there's no en version yet
+    await setAsync(`${rediskeyDegrees}.en`, JSON.stringify(englishDegrees));
   } catch (err) {
     console.error(err);
   }
@@ -98,7 +117,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
   try {
     const finnishUnits: AlignmentObjectExtended[] = [];
     const swedishUnits: AlignmentObjectExtended[] = [];
-    // const englishUnits: AlignmentObjectExtended[] = [];
+    const englishUnits: AlignmentObjectExtended[] = [];
 
     const degrees: number[] = JSON.parse(await getAsync(`${rediskeyDegrees}.fi`))
       .map((d: AlignmentObjectExtended) => d.key);
@@ -138,16 +157,16 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
             targetName: unit.nimi.sv ? unit.nimi.sv : unit.nimi.fi,
           });
 
-          /*englishUnits.push({
+          englishUnits.push({
             key: unit.id,
             parent: {
               key: results.id,
-              value: results.nimi.en ? results.nimi.en : results.nimi.fi,
+              value: results.nimi.en ? results.nimi.en : (results.nimi.fi ? results.nimi.fi : results.nimi.sv),
             },
             source: "vocationalUnits",
             alignmentType: "educationalSubject",
-            targetName: unit.nimi.en ? unit.nimi.en : unit.nimi.fi,
-          });*/
+            targetName: unit.nimi.en ? unit.nimi.en : (unit.nimi.fi ? unit.nimi.fi : unit.nimi.sv),
+          });
         });
       } catch (err) {
         console.error(err);
@@ -155,7 +174,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 
       await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits));
       await setAsync(`${rediskeyUnits}.sv`, JSON.stringify(swedishUnits));
-      await setAsync(`${rediskeyUnits}.en`, JSON.stringify(finnishUnits)); // use fi as there's no en version yet
+      await setAsync(`${rediskeyUnits}.en`, JSON.stringify(englishUnits));
     }
   } catch (err) {
     console.error(err);
