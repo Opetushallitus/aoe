@@ -100,7 +100,10 @@
         "feedbackPurpose": "Miten hyödynsin materiaalia?",
         "allReviews": "Katso kaikki arviot",
         "addReview": "Lisää arvio",
-        "reviews": "Vastauksia"
+        "reviews": "Vastauksia",
+        "modal": {
+          "title": "Lisää arvio"
+        }
       },
       "reviews": {
         "title": "Käyttäjien arviot",
