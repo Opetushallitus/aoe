@@ -94,6 +94,7 @@ import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 // tslint:disable-next-line:max-line-length
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
+import { CollectionModalComponent } from '@components/collection-modal/collection-modal.component';
 
 @NgModule({
   imports: [
@@ -177,6 +178,7 @@ import { EducationalMaterialRatingModalComponent } from '@components/educational
     EditPreviewComponent,
     EducationalMaterialRatingsComponent,
     EducationalMaterialRatingModalComponent,
+    CollectionModalComponent,
   ],
   entryComponents: [
     EducationalMaterialRatingModalComponent,
