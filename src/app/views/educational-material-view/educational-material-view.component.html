@@ -8,6 +8,14 @@
 
         <div class="col-lg-6 text-lg-right">
           <div class="material-actions">
+            <ng-container *ngIf="authSvc.hasUserdata()">
+              <button
+                type="button"
+                class="btn btn-link"
+                (click)="openCollectionModal()"
+              >{{ 'demo.educationalMaterial.addToCollection' | translate }}</button>
+            </ng-container>
+
             <a class="btn btn-link" [href]="downloadUrl" download>
               <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
               {{ 'demo.educationalMaterial.download' | translate }}
