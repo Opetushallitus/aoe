@@ -34,6 +34,7 @@
     },
     "educationalMaterial": {
       "download": "Download",
+      "addToCollection": "Add to collection",
       "viewCount": "views",
       "downloadCount": "downloads",
       "createdAt": "Created",
@@ -135,6 +136,7 @@
       "max": "At most: ",
       "save": "Save",
       "saveChanges": "Save changes",
+      "add": "Add",
       "translations": {
         "label": "Translations",
         "tooltip": "With the Language Versions key you can add a Finnish, Swedish or English translation for the name and description of your resource. This will help users with these languages get a better understanding of your resource."
@@ -602,6 +604,21 @@
       },
       "teaches": {
         "title": "Objective and content"
+      }
+    }
+  },
+  "collections": {
+    "modal": {
+      "title": "",
+      "createCollection": {
+        "title": "",
+        "name": {
+          "label": "",
+          "placeholder": ""
+        }
+      },
+      "addToCollection": {
+        "title": ""
       }
     }
   }
