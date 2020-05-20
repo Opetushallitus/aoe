@@ -15,7 +15,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class EducationalMaterialRatingModalComponent implements OnInit {
   materialId: number;
-  materialName: string;
   form: FormGroup;
   ratingAddedTitle: string;
 
