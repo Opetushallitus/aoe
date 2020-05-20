@@ -34,6 +34,7 @@
     },
     "educationalMaterial": {
       "download": "Ladda ner",
+      "addToCollection": "Add to collection",
       "viewCount": "sidvisningar ",
       "downloadCount": "nedladdningar",
       "createdAt": "Created",
@@ -135,6 +136,7 @@
       "max": "Max: ",
       "save": "Spara",
       "saveChanges": "Spara ändringar",
+      "add": "Tillsätt",
       "translations": {
         "label": "Språkversioner",
         "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
@@ -602,6 +604,21 @@
       },
       "teaches": {
         "title": "Mål och innehållsområden"
+      }
+    }
+  },
+  "collections": {
+    "modal": {
+      "title": "",
+      "createCollection": {
+        "title": "",
+        "name": {
+          "label": "",
+          "placeholder": ""
+        }
+      },
+      "addToCollection": {
+        "title": ""
       }
     }
   }

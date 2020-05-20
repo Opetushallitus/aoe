@@ -34,6 +34,7 @@
     },
     "educationalMaterial": {
       "download": "Lataa",
+      "addToCollection": "Lisää kokoelmaan",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
       "createdAt": "Lisätty",
@@ -135,6 +136,7 @@
       "max": "Enintään: ",
       "save": "Tallenna",
       "saveChanges": "Tallenna muutokset",
+      "add": "Lisää",
       "translations": {
         "label": "Kieliversiot",
         "tooltip": "Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
@@ -602,6 +604,21 @@
       },
       "teaches": {
         "title": "Tavoite ja sisältöalue"
+      }
+    }
+  },
+  "collections": {
+    "modal": {
+      "title": "Lisää kokoelmaan",
+      "createCollection": {
+        "title": "Luo uusi kokoelma",
+        "name": {
+          "label": "Kokoelman nimi",
+          "placeholder": "Kirjoita kokoelman nimi"
+        }
+      },
+      "addToCollection": {
+        "title": "Valitse olemassa olevista kokoelmista"
       }
     }
   }
