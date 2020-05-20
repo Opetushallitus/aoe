@@ -109,7 +109,6 @@ export class EducationalMaterialViewComponent implements OnInit {
   openReviewModal(): void {
     const initialState = {
       materialId: this.materialId,
-      materialName: 'Oppimateriaalin nimi',
     };
 
     this.reviewModalRef = this.modalSvc.show(EducationalMaterialRatingModalComponent, { initialState });
