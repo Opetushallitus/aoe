@@ -1,1 +1,77 @@
-<p>collection-modal works!</p>
+<div class="modal-header">
+  <h1 class="modal-title pull-left">
+    {{ 'collections.modal.title' | translate }}
+  </h1>
+
+  <button
+    type="button"
+    class="close pull-right"
+    [attr.aria-label]="'forms.common.close' | translate"
+    (click)="bsModalRef.hide()"
+  ><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="newCollectionForm" (ngSubmit)="onCreateCollectionSubmit()">
+    <h2>{{ 'collections.modal.createCollection.title' | translate }}</h2>
+
+    <div class="form-group">
+      <label for="name">
+        {{ 'collections.modal.createCollection.name.label' | translate }}
+      </label>
+
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          id="name"
+          formControlName="name"
+          [placeholder]="'collections.modal.createCollection.name.placeholder' | translate"
+          [ngClass]="{ 'is-invalid': newCollectionSubmitted && nameCtrl.errors }"
+        >
+
+        <div class="input-group-append">
+          <button
+            type="submit"
+            class="btn btn-blue"
+          >{{ 'forms.common.save' | translate }}</button>
+        </div>
+
+        <div *ngIf="nameCtrl.errors" class="invalid-feedback">
+          <div *ngIf="nameCtrl.errors.required">
+            {{ 'forms.common.required' | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form (ngSubmit)="onAddToCollectionSubmit()">
+    <h2>{{ 'collections.modal.addToCollection.title' | translate }}</h2>
+
+    <div class="form-group" *ngIf="userCollections?.length > 0; else noCollections">
+      <div class="custom-control custom-checkbox" *ngFor="let collection of userCollections">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [id]="collection.id"
+          (change)="onCollectionIdChange($event, collection.id)"
+        >
+
+        <label
+          class="custom-control-label"
+          [for]="collection.id"
+        >{{ collection.name }}</label>
+      </div>
+    </div>
+
+    <ng-template #noCollections>
+      <p>Et ole vielä luonut kokoelmia</p>
+    </ng-template>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+    >{{ 'forms.common.add' | translate }}</button>
+  </form>
+</div>
