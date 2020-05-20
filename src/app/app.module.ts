@@ -182,6 +182,7 @@ import { CollectionModalComponent } from '@components/collection-modal/collectio
   ],
   entryComponents: [
     EducationalMaterialRatingModalComponent,
+    CollectionModalComponent,
   ],
   providers: [
     {
