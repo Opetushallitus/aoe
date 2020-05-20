@@ -7,13 +7,14 @@ import { CreateCollectionResponse } from '@models/collections/create-collection-
 import { catchError } from 'rxjs/operators';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
-import { Collection } from '@models/collections/collection';
+import { UserCollection } from '@models/collections/user-collection';
+import { UserCollectionResponse } from '@models/collections/user-collection-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollectionService {
-  public userCollections$ = new Subject<Collection[]>(); // @todo: replace any with Collection
+  public userCollections$ = new Subject<UserCollection[]>();
 
   constructor(
     private http: HttpClient,
@@ -44,12 +45,12 @@ export class CollectionService {
    * Updates array of collections created by user.
    */
   updateUserCollections(): void {
-    this.http.get<Collection[]>(`${environment.backendUrl}/collection/usercollections`, {
+    this.http.get<UserCollectionResponse>(`${environment.backendUrl}/collection/userCollection`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).subscribe((collections: Collection[]) => {
-      this.userCollections$.next(collections);
+    }).subscribe((userCollectionResponse: UserCollectionResponse) => {
+      this.userCollections$.next(userCollectionResponse.collections);
     });
   }
 
