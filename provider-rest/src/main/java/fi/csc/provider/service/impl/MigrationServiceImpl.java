@@ -5,7 +5,6 @@ import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
@@ -21,6 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class MigrationServiceImpl implements MigrationService {
 
+    /**
+     * Parent method for the metadata conversion from the AOE metadata to LRMI metadata.
+     * Basic information provided in DublinCore metadata format.
+     * Descriptive information provided in LRMI metadata format.
+     *
+     * @param amd AOE metadata source
+     * @return Resulting LRMI metadata
+     */
     @Override
     public LrmiMetadata migrateAoeToLrmi(AoeMetadata amd) {
         LrmiMetadata lrmi = new LrmiMetadata();
@@ -39,9 +46,11 @@ public class MigrationServiceImpl implements MigrationService {
     private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // dc:id
+        // Globally unique technical identifier for the educational material.
         lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
 
         // dc:title
+        // Titles (headers) of the educational material.
         lrmi.setTitle(amd.getMaterialname() != null ? amd.getMaterialname().stream()
             .filter(d -> !d.getMaterialname().isEmpty())
             .map(d -> new LangValue(d.getLanguage(), d.getMaterialname()))
@@ -51,57 +60,68 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setDate(amd.getCreatedat()); // updated ???
 
         // dc:description
+        // Descriptions of the educational material.
         lrmi.setDescription(amd.getMaterialdescription() != null ? amd.getMaterialdescription().stream()
             .filter(d -> !d.getDescription().isEmpty())
             .map(d -> new LangValue(d.getLanguage(), d.getDescription()))
             .collect(Collectors.toList()) : null);
 
         // dc:subject
+        // Any concepts and keywords for the search and classifying the educational material.
         lrmi.setKeyword(amd.getKeyword() != null && amd.getKeyword().size() > 0 ? amd.getKeyword().stream()
             .filter(k -> !k.getValue().isEmpty())
             .map(Keyword::getValue)
             .toArray(String[]::new) : null);
 
         // dc:rights
+        // Licences attached to the educational material publishing.
         lrmi.setRights(amd.getLicensecode());
 
         // dc:publisher
+        // Person or organization responsible for the eucational material publishing.
         lrmi.setPublisher(amd.getPublisher() != null && !amd.getPublisher().isEmpty() ? amd.getPublisher().stream()
             .filter(p -> !p.getName().isEmpty())
             .map(Publisher::getName)
             .collect(Collectors.toList()) : null);
 
         // dc:type
+        // Material types like video or audio.
         lrmi.setType(amd.getLearningresourcetype() != null ? amd.getLearningresourcetype().stream()
             .filter(l -> !l.getValue().isEmpty())
             .map(LearningResourceType::getValue)
             .collect(Collectors.toList()) : null);
 
         // dc:valid
+        // At expiration time the educational material is archived and not available for the users anymore.
         lrmi.setValid(amd.getExpires());
     }
 
     /**
-     * Convert AOE data model into LRMI metadata for the OAI-PMH harvesting interface.
-     * Set explicit null value for XML parser to avoid empty XML elements in harvesting results.
+     * Convert AOE data model into LRMI metadata for the OAI-PMH harvesting interface. Set explicit null value for XML
+     * parser to avoid empty XML elements in harvesting results.
      *
-     * @param amd Source data from AOE service.
+     * @param amd  Source data from AOE service.
      * @param lrmi Target LRMI data model.
      */
     private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // lrmi_fi:dateCreated
+        // Original creation time for the educational material (first upload).
         lrmi.setDateCreated(amd.getCreatedat());
 
         // lrmi_fi:dateUpdated
+        // Last modification time for the educational material.
         lrmi.setDateModified(amd.getUpdatedat());
 
         // Invisible field for specifying the attribute status="deleted"
         lrmi.setArchivedAt(amd.getArchivedat());
 
+        // An estimate for the user's time consumed with the educational material.
         lrmi.setTimeRequired(amd.getTimerequired().isEmpty() ? null : amd.getTimerequired());
 
         // lrmi_fi:author
+        // Authors can be persons or organizations (or mixed).
+        // Different LRMI metadata model for both types.
         lrmi.setAuthors(amd.getAuthor() == null ? null : amd.getAuthor().stream()
             .filter(a -> !a.getAuthorname().isEmpty() || !a.getOrganization().isEmpty())
             .map(a -> {
@@ -118,6 +138,7 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toList()));
 
         // lrmi_fi:material
+        // Educational material file or link.
         lrmi.setMaterial(amd.getMaterials() == null ? null : amd.getMaterials().stream()
             // .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
             .map(m -> {
@@ -133,6 +154,7 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toList()));
 
         // lrmi_fi:educationalAudience
+        // Target audience of the educational material.
         lrmi.setEducationalAudience(amd.getEducationalaudience() == null ? null : amd.getEducationalaudience().stream()
             .filter(e -> !e.getEducationalrole().isEmpty())
             .map(e -> {
@@ -143,18 +165,21 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toList()));
 
         // lrmi_fi:accessibilityFeature
+        // Any accessibility feature worth mention.
         lrmi.setAccessibilityFeature(amd.getAccessibilityfeature() == null ? null : amd.getAccessibilityfeature().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(AccessibilityFeature::getValue)
             .toArray(String[]::new));
 
         // lrmi_fi:accessibilityHazard
+        // Accessibility restrictions or warnings for the user's disabilities.
         lrmi.setAccessibilityHazard(amd.getAccessibilityhazard() == null ? null : amd.getAccessibilityhazard().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(AccessibilityHazard::getValue)
             .toArray(String[]::new));
 
         // EducationalLevel => lrmi_fi:alignmentObject
+        // Level of an educational institution the educational material is meant for.
         // If EducationalLevel is present, append new AlignmentObject with alignmentType value "educationalLevel".
         lrmi.setAlignmentObject(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
             .filter(e -> !e.getValue().isEmpty())
@@ -167,12 +192,14 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toCollection(ArrayList::new)));
 
         // lrmi_fi:educationalUse
+        // Purpose of the educational material like "course material".
         lrmi.setEducationalUse(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(EducationalUse::getValue)
             .toArray(String[]::new));
 
         // lrmi_fi:isBasedOn
+        // Sources the education material is based on.
         lrmi.setIsBasedOn(amd.getIsbasedon() == null ? null : amd.getIsbasedon().stream()
             .filter(i -> !i.getMaterialname().isEmpty() && !i.getUrl().isEmpty())
             .map(i -> {
@@ -188,8 +215,9 @@ public class MigrationServiceImpl implements MigrationService {
             })
             .collect(Collectors.toList()));
 
-        // TODO: Collect languages from sub-materials
         // lrmi_fi:inLanguage
+        // Collect unique inLanguage root object values from the material languages.
+        // Languages used in the educational material files and links.
         lrmi.setInLanguage(amd.getMaterials() == null ? null : amd.getMaterials().stream()
             .filter(m -> !m.getLanguage().isEmpty())
             .map(fi.csc.provider.model.aoe_response.sublevel_1st.Material::getLanguage)
