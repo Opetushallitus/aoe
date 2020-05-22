@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 // @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("unused")
@@ -80,6 +81,9 @@ public class LrmiMetadata {
     // Invisible field for specifying the attribute status="deleted"
     private LocalDateTime archivedAt;
 
+    @XmlElement(name = "lrmi_fi:timeRequired")
+    private String timeRequired;
+
     // @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
     // @XmlElement(name = "lrmi_fi:person")
     // private List<Author> author;
@@ -113,9 +117,6 @@ public class LrmiMetadata {
 
     // keyword => dc:subject
 
-    @XmlElement(name = "lrmi_fi:educationalAlignment")
-    private String[] educationalLevel;
-
     @XmlElement(name = "lrmi_fi:educationalUse")
     private String[] educationalUse;
 
@@ -126,8 +127,9 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:isBasedOn")
     private List<IsBasedOn> isBasedOn;
 
+    // Unique collection of language codes used in linked materials - "fi", "en", etc.
     @XmlElement(name = "lrmi_fi:inLanguage")
-    private List<InLanguage> inLanguage;
+    private Set<String> inLanguage;
 
     @XmlElement(name = "lrmi_fi:alignmentObject")
     private List<AlignmentObject> alignmentObject;
@@ -239,6 +241,14 @@ public class LrmiMetadata {
         this.archivedAt = archivedAt;
     }
 
+    public String getTimeRequired() {
+        return timeRequired;
+    }
+
+    public void setTimeRequired(String timeRequired) {
+        this.timeRequired = timeRequired;
+    }
+
     public List<JAXBElement<?>> getAuthors() {
         return authors;
     }
@@ -279,14 +289,6 @@ public class LrmiMetadata {
         this.educationalAudience = educationalAudience;
     }
 
-    public String[] getEducationalLevel() {
-        return educationalLevel;
-    }
-
-    public void setEducationalLevel(String[] educationalLevel) {
-        this.educationalLevel = educationalLevel;
-    }
-
     public String[] getEducationalUse() {
         return educationalUse;
     }
@@ -319,11 +321,11 @@ public class LrmiMetadata {
         this.accessibilityHazard = accessibilityHazard;
     }
 
-    public List<InLanguage> getInLanguage() {
+    public Set<String> getInLanguage() {
         return inLanguage;
     }
 
-    public void setInLanguage(List<InLanguage> inLanguage) {
+    public void setInLanguage(Set<String> inLanguage) {
         this.inLanguage = inLanguage;
     }
 

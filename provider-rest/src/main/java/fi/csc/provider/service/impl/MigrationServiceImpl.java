@@ -4,21 +4,18 @@ import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Person;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.InLanguage;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
-import fi.csc.provider.model.xml_oaipmh.sublevel_1st.ListRecords;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +29,13 @@ public class MigrationServiceImpl implements MigrationService {
         return lrmi;
     }
 
+    /**
+     * Collect basic information from the AOE data model and convert into DublinCore metadata for the OAI-PMH harvesting
+     * interface.
+     *
+     * @param amd  Source data from AOE service.
+     * @param lrmi Target LRMI data model.
+     */
     private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // dc:id
@@ -77,6 +81,13 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setValid(amd.getExpires());
     }
 
+    /**
+     * Convert AOE data model into LRMI metadata for the OAI-PMH harvesting interface.
+     * Set explicit null value for XML parser to avoid empty XML elements in harvesting results.
+     *
+     * @param amd Source data from AOE service.
+     * @param lrmi Target LRMI data model.
+     */
     private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // lrmi_fi:dateCreated
@@ -86,10 +97,12 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setDateModified(amd.getUpdatedat());
 
         // Invisible field for specifying the attribute status="deleted"
-        lrmi.setArchivedAt((amd.getArchivedat()));
+        lrmi.setArchivedAt(amd.getArchivedat());
+
+        lrmi.setTimeRequired(amd.getTimerequired().isEmpty() ? null : amd.getTimerequired());
 
         // lrmi_fi:author
-        lrmi.setAuthors(amd.getAuthor() != null ? amd.getAuthor().stream()
+        lrmi.setAuthors(amd.getAuthor() == null ? null : amd.getAuthor().stream()
             .filter(a -> !a.getAuthorname().isEmpty() || !a.getOrganization().isEmpty())
             .map(a -> {
                 if (a.getAuthorname().isEmpty()) {
@@ -102,10 +115,10 @@ public class MigrationServiceImpl implements MigrationService {
                     setAffiliation(a.getOrganization().isEmpty() ? null : a.getOrganization());
                 }});
             })
-            .collect(Collectors.toList()) : null);
+            .collect(Collectors.toList()));
 
         // lrmi_fi:material
-        lrmi.setMaterial(amd.getMaterials() != null ? amd.getMaterials().stream()
+        lrmi.setMaterial(amd.getMaterials() == null ? null : amd.getMaterials().stream()
             // .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
             .map(m -> {
                 Material material = new Material();
@@ -117,44 +130,50 @@ public class MigrationServiceImpl implements MigrationService {
                 material.setInLanguage(m.getLanguage());
                 return material;
             })
-            .collect(Collectors.toList()) : null);
+            .collect(Collectors.toList()));
 
         // lrmi_fi:educationalAudience
-        lrmi.setEducationalAudience(amd.getEducationalaudience() != null ? amd.getEducationalaudience().stream()
+        lrmi.setEducationalAudience(amd.getEducationalaudience() == null ? null : amd.getEducationalaudience().stream()
             .filter(e -> !e.getEducationalrole().isEmpty())
             .map(e -> {
                 EducationalAudience educationalAudience = new EducationalAudience();
                 educationalAudience.setEducationalRole(e.getEducationalrole());
                 return educationalAudience;
             })
-            .collect(Collectors.toList()) : null);
+            .collect(Collectors.toList()));
 
         // lrmi_fi:accessibilityFeature
-        lrmi.setAccessibilityFeature(amd.getAccessibilityfeature() != null ? amd.getAccessibilityfeature().stream()
+        lrmi.setAccessibilityFeature(amd.getAccessibilityfeature() == null ? null : amd.getAccessibilityfeature().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(AccessibilityFeature::getValue)
-            .toArray(String[]::new) : null);
+            .toArray(String[]::new));
 
         // lrmi_fi:accessibilityHazard
-        lrmi.setAccessibilityHazard(amd.getAccessibilityhazard() != null ? amd.getAccessibilityhazard().stream()
+        lrmi.setAccessibilityHazard(amd.getAccessibilityhazard() == null ? null : amd.getAccessibilityhazard().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(AccessibilityHazard::getValue)
-            .toArray(String[]::new) : null);
+            .toArray(String[]::new));
 
-        // lrmi_fi:educationalAlignment
-        lrmi.setEducationalLevel(amd.getEducationallevel() != null ? amd.getEducationallevel().stream()
-            .filter(a -> !a.getValue().isEmpty())
-            .map(EducationalLevel::getValue)
-            .toArray(String[]::new) : null);
+        // EducationalLevel => lrmi_fi:alignmentObject
+        // If EducationalLevel is present, append new AlignmentObject with alignmentType value "educationalLevel".
+        lrmi.setAlignmentObject(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(e -> {
+                AlignmentObject alignmentObject = new AlignmentObject();
+                alignmentObject.setAlignmentType("educationalLevel");
+                alignmentObject.setTargetName(e.getValue());
+                return alignmentObject;
+            })
+            .collect(Collectors.toCollection(ArrayList::new)));
 
         // lrmi_fi:educationalUse
-        lrmi.setEducationalUse(amd.getEducationaluse() != null ? amd.getEducationaluse().stream()
+        lrmi.setEducationalUse(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
             .filter(a -> !a.getValue().isEmpty())
             .map(EducationalUse::getValue)
-            .toArray(String[]::new) : null);
+            .toArray(String[]::new));
 
         // lrmi_fi:isBasedOn
-        lrmi.setIsBasedOn(amd.getIsbasedon() != null ? amd.getIsbasedon().stream()
+        lrmi.setIsBasedOn(amd.getIsbasedon() == null ? null : amd.getIsbasedon().stream()
             .filter(i -> !i.getMaterialname().isEmpty() && !i.getUrl().isEmpty())
             .map(i -> {
                 IsBasedOn isBasedOn = new IsBasedOn();
@@ -167,20 +186,18 @@ public class MigrationServiceImpl implements MigrationService {
                     .collect(Collectors.toList()) : null);
                 return isBasedOn;
             })
-            .collect(Collectors.toList()) : null);
+            .collect(Collectors.toList()));
 
         // TODO: Collect languages from sub-materials
         // lrmi_fi:inLanguage
-        lrmi.setInLanguage(amd.getInlanguage() != null ? amd.getInlanguage().stream()
-            .filter(i -> !i.getInlanguage().isEmpty())
-            .map(i -> new InLanguage() {{
-                setInLanguage(i.getInlanguage());
-                setUrl(i.getUrl());
-            }})
-            .collect(Collectors.toList()) : null);
+        lrmi.setInLanguage(amd.getMaterials() == null ? null : amd.getMaterials().stream()
+            .filter(m -> !m.getLanguage().isEmpty())
+            .map(fi.csc.provider.model.aoe_response.sublevel_1st.Material::getLanguage)
+            .collect(Collectors.toSet()));
 
         // lrmi_fi:alignmentObject
-        lrmi.setAlignmentObject(amd.getAlignmentobject() != null ? amd.getAlignmentobject().stream()
+        // Always append new AlignmentObjects - data collected from multiple sources.
+        lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
             .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty())
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
@@ -190,6 +207,6 @@ public class MigrationServiceImpl implements MigrationService {
                 alignmentObject.setEducationalFramework(a.getEducationalframework().isEmpty() ? null : a.getEducationalframework());
                 return alignmentObject;
             })
-            .collect(Collectors.toList()) : null);
+            .collect(Collectors.toCollection(lrmi.getAlignmentObject() == null ? ArrayList::new : lrmi::getAlignmentObject)));
     }
 }
