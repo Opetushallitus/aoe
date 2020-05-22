@@ -4,7 +4,7 @@ package fi.csc.provider.model.aoe_response;
 public class AoeMetaFrame<T> {
 
     private String dateMin;
-    private String dateMAx;
+    private String dateMax;
     private Integer materialPerPage;
     private Integer pageNumber;
     private Integer pageTotal;
@@ -19,12 +19,12 @@ public class AoeMetaFrame<T> {
         this.dateMin = dateMin;
     }
 
-    public String getDateMAx() {
-        return dateMAx;
+    public String getDateMax() {
+        return dateMax;
     }
 
-    public void setDateMAx(String dateMAx) {
-        this.dateMAx = dateMAx;
+    public void setDateMax(String dateMax) {
+        this.dateMax = dateMax;
     }
 
     public Integer getMaterialPerPage() {
