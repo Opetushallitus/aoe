@@ -135,7 +135,7 @@ public class MetadataServiceImpl implements MetadataService {
         }
     }
 
-    private void addResumptionToken(OaiPmhFrame frame, AoeMetaFrame aoeMetaFrame, Integer resumptionCounter, boolean identifiersOnly) {
+    private void addResumptionToken(OaiPmhFrame frame, AoeMetaFrame<?> aoeMetaFrame, Integer resumptionCounter, boolean identifiersOnly) {
         Integer next = ++resumptionCounter;
         Integer cursor = aoeMetaFrame.getPageNumber() * aoeMetaFrame.getMaterialPerPage();
         String resumptionString;
