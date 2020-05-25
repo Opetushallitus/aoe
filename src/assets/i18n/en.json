@@ -609,16 +609,16 @@
   },
   "collections": {
     "modal": {
-      "title": "",
+      "title": "Add to collection",
       "createCollection": {
-        "title": "",
+        "title": "Create new collection",
         "name": {
           "label": "",
           "placeholder": ""
         }
       },
       "addToCollection": {
-        "title": ""
+        "title": "Add to existing collection"
       }
     }
   }
