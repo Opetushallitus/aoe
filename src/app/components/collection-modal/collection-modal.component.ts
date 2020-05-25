@@ -7,6 +7,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
+import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 
 @Component({
   selector: 'app-collection-modal',
@@ -60,6 +61,18 @@ export class CollectionModalComponent implements OnInit, OnDestroy {
       this.selectedCollections.push(+collectionId);
     } else {
       this.selectedCollections = this.selectedCollections.filter((collection: number) => collection !== +collectionId);
+
+      const payload: RemoveFromCollectionPost = {
+        collectionId: +collectionId,
+        emId: [
+          this.materialId,
+        ],
+      };
+
+      this.collectionSvc.removeFromCollection(payload).subscribe(() => {
+        // show toast
+        this.toastr.success('Materiaali poistettu kokoelmasta', 'Kokoelma päivitetty');
+      });
     }
   }
 

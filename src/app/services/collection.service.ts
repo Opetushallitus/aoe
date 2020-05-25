@@ -9,6 +9,8 @@ import { AddToCollectionResponse } from '@models/collections/add-to-collection-r
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { UserCollection } from '@models/collections/user-collection';
 import { UserCollectionResponse } from '@models/collections/user-collection-response';
+import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
+import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +63,21 @@ export class CollectionService {
    */
   addToCollection(payload: AddToCollectionPost): Observable<AddToCollectionResponse> {
     return this.http.post<AddToCollectionResponse>(`${environment.backendUrl}/collection/addMaterial`, payload, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
+      catchError(this.handleError),
+    );
+  }
+
+  /**
+   * Removes educational material(s) from selected collection.
+   * @param payload {RemoveFromCollectionPost}
+   * @returns {Observable<RemoveFromCollectionResponse>}
+   */
+  removeFromCollection(payload: RemoveFromCollectionPost): Observable<RemoveFromCollectionResponse> {
+    return this.http.post<RemoveFromCollectionResponse>(`${environment.backendUrl}/collection/removeMaterial`, payload, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
