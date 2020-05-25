@@ -37,6 +37,12 @@ export class CollectionModalComponent implements OnInit, OnDestroy {
 
     this.userCollectionSubscription = this.collectionSvc.userCollections$.subscribe((collections: UserCollection[]) => {
       this.userCollections = collections;
+
+      collections.forEach((collection: UserCollection) => {
+        if (collection.emIds.includes(this.materialId.toString())) {
+          this.selectedCollections.push(+collection.id);
+        }
+      });
     });
     this.collectionSvc.updateUserCollections();
   }

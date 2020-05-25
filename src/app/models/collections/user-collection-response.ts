@@ -4,6 +4,7 @@ export interface UserCollectionResponse {
       id: string;
       publishedat: Date | null;
       name: string;
+      emIds: string[];
     }
   ];
 }

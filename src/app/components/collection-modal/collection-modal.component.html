@@ -56,6 +56,7 @@
           class="custom-control-input"
           [id]="collection.id"
           (change)="onCollectionIdChange($event, collection.id)"
+          [checked]="selectedCollections.includes(+collection.id)"
         >
 
         <label
