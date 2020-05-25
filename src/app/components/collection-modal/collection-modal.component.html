@@ -46,10 +46,10 @@
     </div>
   </form>
 
-  <form (ngSubmit)="onAddToCollectionSubmit()">
+  <form (ngSubmit)="onAddToCollectionSubmit()" *ngIf="userCollections?.length > 0">
     <h2>{{ 'collections.modal.addToCollection.title' | translate }}</h2>
 
-    <div class="form-group" *ngIf="userCollections?.length > 0; else noCollections">
+    <div class="form-group">
       <div class="custom-control custom-checkbox" *ngFor="let collection of userCollections">
         <input
           type="checkbox"
@@ -65,10 +65,6 @@
         >{{ collection.name }}</label>
       </div>
     </div>
-
-    <ng-template #noCollections>
-      <p>Et ole vielä luonut kokoelmia</p>
-    </ng-template>
 
     <button
       type="submit"
