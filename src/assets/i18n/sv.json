@@ -609,16 +609,16 @@
   },
   "collections": {
     "modal": {
-      "title": "",
+      "title": "Lägg till samlingen",
       "createCollection": {
-        "title": "",
+        "title": "Skapa ny samling",
         "name": {
-          "label": "",
-          "placeholder": ""
+          "label": "Namn av samlingen",
+          "placeholder": "Skriva ett namn för samlingen"
         }
       },
       "addToCollection": {
-        "title": ""
+        "title": "Välja en av dina samlingar"
       }
     }
   }
