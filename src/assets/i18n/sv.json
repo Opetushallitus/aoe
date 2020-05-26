@@ -547,6 +547,14 @@
     },
     "edit": "Redigera"
   },
+  "userCollections": {
+    "private": {
+      "title": "Privata samlingar"
+    },
+    "published": {
+      "title": "Publicerade samlingar"
+    }
+  },
   "footer": {
     "developer": "Utvecklare av tjänsten",
     "feedback": "Ge respons",
