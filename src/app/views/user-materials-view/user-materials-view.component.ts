@@ -5,6 +5,8 @@ import { BackendService } from '@services/backend.service';
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { UserCollection } from '@models/collections/user-collection';
+import { CollectionService } from '@services/collection.service';
 
 @Component({
   selector: 'app-user-materials-view',
@@ -17,11 +19,16 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   publishedMaterials: EducationalMaterialCard[];
   unpublishedMaterialSubscription: Subscription;
   unpublishedMaterials: EducationalMaterialCard[];
+  privateCollectionSubscription: Subscription;
+  privateCollections: UserCollection[];
+  publicCollectionSubscription: Subscription;
+  publicCollections: UserCollection[];
 
   constructor(
     private authSvc: AuthService,
     private backendSvc: BackendService,
     private translate: TranslateService,
+    private collectionSvc: CollectionService,
   ) { }
 
   ngOnInit(): void {
@@ -40,10 +47,24 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
       });
 
     this.backendSvc.updateUserMaterialList();
+
+    this.privateCollectionSubscription = this.collectionSvc.privateUserCollections$
+      .subscribe((collections: UserCollection[]) => {
+        this.privateCollections = collections;
+      });
+
+    this.publicCollectionSubscription = this.collectionSvc.publicUserCollections$
+      .subscribe((collections: UserCollection[]) => {
+        this.publicCollections = collections;
+      });
+
+    this.collectionSvc.updateUserCollections();
   }
 
   ngOnDestroy(): void {
     this.publishedMaterialSubscription.unsubscribe();
     this.unpublishedMaterialSubscription.unsubscribe();
+    this.privateCollectionSubscription.unsubscribe();
+    this.publicCollectionSubscription.unsubscribe();
   }
 }
