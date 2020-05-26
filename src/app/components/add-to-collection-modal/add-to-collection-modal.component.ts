@@ -10,11 +10,11 @@ import { AddToCollectionResponse } from '@models/collections/add-to-collection-r
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 
 @Component({
-  selector: 'app-collection-modal',
-  templateUrl: './collection-modal.component.html',
-  styleUrls: ['./collection-modal.component.scss']
+  selector: 'app-add-to-collection-modal',
+  templateUrl: './add-to-collection-modal.component.html',
+  styleUrls: ['./add-to-collection-modal.component.scss']
 })
-export class CollectionModalComponent implements OnInit, OnDestroy {
+export class AddToCollectionModalComponent implements OnInit, OnDestroy {
   materialId: number;
   newCollectionForm: FormGroup;
   newCollectionSubmitted = false;
