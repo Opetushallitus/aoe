@@ -614,7 +614,7 @@
         "title": "Skapa ny samling",
         "name": {
           "label": "Namn av samlingen",
-          "placeholder": ""
+          "placeholder": "Skriva ett namn för samlingen"
         }
       },
       "addToCollection": {

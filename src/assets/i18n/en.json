@@ -614,7 +614,7 @@
         "title": "Create a new collection",
         "name": {
           "label": "Name of the collection",
-          "placeholder": ""
+          "placeholder": "Input a name for the collection"
         }
       },
       "addToCollection": {
