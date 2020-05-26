@@ -10,7 +10,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 // tslint:disable-next-line:max-line-length
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AuthService } from '@services/auth.service';
-import { CollectionModalComponent } from '@components/collection-modal/collection-modal.component';
+import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -121,6 +121,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       materialId: this.materialId,
     };
 
-    this.collectionModalRef = this.modalSvc.show(CollectionModalComponent, { initialState });
+    this.collectionModalRef = this.modalSvc.show(AddToCollectionModalComponent, { initialState });
   }
 }

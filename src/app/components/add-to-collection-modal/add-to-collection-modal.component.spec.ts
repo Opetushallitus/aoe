@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollectionModalComponent } from './collection-modal.component';
+import { AddToCollectionModalComponent } from './add-to-collection-modal.component';
 
 describe('CollectionModalComponent', () => {
-  let component: CollectionModalComponent;
-  let fixture: ComponentFixture<CollectionModalComponent>;
+  let component: AddToCollectionModalComponent;
+  let fixture: ComponentFixture<AddToCollectionModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CollectionModalComponent ]
+      declarations: [ AddToCollectionModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CollectionModalComponent);
+    fixture = TestBed.createComponent(AddToCollectionModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
