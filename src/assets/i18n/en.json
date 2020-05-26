@@ -611,14 +611,14 @@
     "modal": {
       "title": "Add to collection",
       "createCollection": {
-        "title": "Create new collection",
+        "title": "Create a new collection",
         "name": {
-          "label": "",
-          "placeholder": ""
+          "label": "Name of the collection",
+          "placeholder": "Input a name for the collection"
         }
       },
       "addToCollection": {
-        "title": "Add to existing collection"
+        "title": "Choose from pre-existing collections"
       }
     }
   }
