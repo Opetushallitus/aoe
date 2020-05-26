@@ -1,0 +1,71 @@
+<div class="py-4 px-0" id="material-view">
+  <div class="container">
+    <ng-container *ngIf="collection">
+      <div class="row mb-4">
+        <div class="col-lg-6">
+          <h1>{{ collection.collection.name }}</h1>
+        </div>
+
+        <div class="col-lg-6 text-lg-right">
+          muokkaa / poista / lataa
+        </div>
+      </div>
+
+      <div class="collection-material border-top" *ngFor="let collectionMaterial of collection.educationalmaterials; let i = index">
+        <h2>{{ collectionMaterial.name[lang] }}</h2>
+
+        <ul class="list-unstyled authors">
+          <li *ngFor="let author of collectionMaterial.author">
+            <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
+              {{ author.authorname }}
+              <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+            </ng-container>
+
+            <ng-template #organizationAuthor>
+              {{ author.organization }}
+            </ng-template>
+          </li>
+        </ul>
+
+        <div *ngIf="materialsLoading.get(collectionMaterial.id) === false; else loading">
+          <div class="list-files mb-4" *ngIf="collectionMaterials.get(collectionMaterial.id).length > 0">
+            <div class="row no-gutters">
+              <div class="col-3">
+                <div class="btn-group-vertical" role="group">
+                  <ng-container *ngFor="let material of collectionMaterials.get(collectionMaterial.id)">
+                    <button
+                      type="button"
+                      class="btn btn-file text-dark"
+                      [ngClass]="material === previewMaterials.get(collectionMaterial.id) ? 'active' : ''"
+                      (click)="setPreviewMaterial(collectionMaterial.id, material)"
+                    >{{ material.displayName[lang] }}</button>
+                  </ng-container>
+                </div>
+              </div>
+
+              <div class="col-9">
+                <app-educational-material-preview
+                  [material]="previewMaterials.get(collectionMaterial.id)"
+                  *ngIf="!previewMaterials.get(collectionMaterial.id).link"></app-educational-material-preview>
+
+                <a
+                  *ngIf="previewMaterials.get(collectionMaterial.id).link"
+                  [href]="previewMaterials.get(collectionMaterial.id).link"
+                  class="btn btn-secondary"
+                  target="_blank"
+                  rel="noopener nofollow"
+                >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #loading>
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </ng-template>
+      </div>
+    </ng-container>
+  </div>
+</div>
