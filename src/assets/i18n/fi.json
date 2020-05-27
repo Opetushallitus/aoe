@@ -547,6 +547,14 @@
     },
     "edit": "Muokkaa"
   },
+  "userCollections": {
+    "private": {
+      "title": "Yksityiset kokoelmat"
+    },
+    "published": {
+      "title": "Julkaistut kokoelmat"
+    }
+  },
   "footer": {
     "developer": "Palvelun tuottaja",
     "feedback": "Anna palautetta",

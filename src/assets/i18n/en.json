@@ -547,6 +547,14 @@
     },
     "edit": "Edit"
   },
+  "userCollections": {
+    "private": {
+      "title": "Private collections"
+    },
+    "published": {
+      "title": "Published collections"
+    }
+  },
   "footer": {
     "developer": "Developer of the service",
     "feedback": "Give feedback",
