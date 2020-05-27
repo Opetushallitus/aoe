@@ -2,13 +2,15 @@
   <div class="container">
     <ng-container *ngIf="collection">
       <div class="row mb-4">
-        <div class="col-lg-6">
+        <!--@todo: col-lg-6 with actions-->
+        <div class="col-lg-12">
           <h1>{{ collection.collection.name }}</h1>
         </div>
 
-        <div class="col-lg-6 text-lg-right">
+        <!--@todo: add actions-->
+        <!--<div class="col-lg-6 text-lg-right">
           muokkaa / poista / lataa
-        </div>
+        </div>-->
       </div>
 
       <div class="collection-material border-top" *ngFor="let collectionMaterial of collection.educationalmaterials; let i = index">
