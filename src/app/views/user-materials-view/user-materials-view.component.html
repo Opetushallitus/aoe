@@ -47,5 +47,37 @@
     <ng-template #noPublishedMaterials>
       <p>{{ 'userMaterials.noMaterials' | translate }}</p>
     </ng-template>
+
+    <div class="row mb-3" *ngIf="privateCollections && privateCollections.length > 0">
+      <div class="col-12">
+        <h2>{{ 'userCollections.private.title' | translate }}</h2>
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let collection of privateCollections">
+        <div class="card-collection private">
+          <h3>
+            <a [routerLink]="['/kokoelma', collection.id]" class="stretched-link">
+              {{ collection.name }}
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3" *ngIf="publicCollections && publicCollections.length > 0">
+      <div class="col-12">
+        <h2>{{ 'userCollections.published.title' | translate }}</h2>
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let collection of publicCollections">
+        <div class="card-collection">
+          <h3>
+            <a [routerLink]="['/kokoelma', collection.id]" class="stretched-link">
+              {{ collection.name }}
+            </a>
+          </h3>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

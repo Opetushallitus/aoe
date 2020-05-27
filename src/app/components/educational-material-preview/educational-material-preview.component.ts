@@ -9,6 +9,7 @@ import { mimeTypes } from '../../constants/mimetypes';
 })
 export class EducationalMaterialPreviewComponent {
   @Input() material: Material;
+  @Input() isCollection = false;
 
   public checkMimeType(mimeType: string) {
     if (mimeTypes.video.includes(mimeType)) {

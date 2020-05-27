@@ -1,0 +1,37 @@
+@import "mixins";
+@import "variables";
+
+.collection-material {
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+
+  h2 {
+    @include font-size(21);
+    font-weight: 400;
+  }
+
+  .authors {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .list-files {
+    background-color: #eee;
+    padding: .5rem;
+
+    .btn-group-vertical {
+      width: 100%;
+    }
+
+    .btn-file {
+      color: $input-color;
+      font-weight: 400;
+      text-align: left;
+      word-break: break-all;
+
+      &.active {
+        background-color: #fff;
+      }
+    }
+  }
+}

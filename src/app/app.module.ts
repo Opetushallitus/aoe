@@ -95,6 +95,8 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
 // tslint:disable-next-line:max-line-length
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
+import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
+import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 
 @NgModule({
   imports: [
@@ -179,6 +181,8 @@ import { AddToCollectionModalComponent } from '@components/add-to-collection-mod
     EducationalMaterialRatingsComponent,
     EducationalMaterialRatingModalComponent,
     AddToCollectionModalComponent,
+    CollectionViewComponent,
+    PdfReaderViewComponent,
   ],
   entryComponents: [
     EducationalMaterialRatingModalComponent,

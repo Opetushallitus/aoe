@@ -17,6 +17,7 @@ import { EducationalMaterialPut } from '@models/educational-material-put';
 import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
+import { Material } from '@models/material';
 
 @Injectable({
   providedIn: 'root'
@@ -862,6 +863,42 @@ export class BackendService {
       }),
     }).pipe(
       catchError(BackendService.handleError),
+    );
+  }
+
+  /**
+   * Returns materials that belong to specific educational material.
+   * @param materialId {string} Educational material ID
+   * @returns {Observable<Material[]>}
+   */
+  getCollectionMaterials(materialId: string): Observable<Material[]> {
+    return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
+      map((material): Material[] => {
+        return material.materials.map(m => ({
+          id: m.id,
+          language: m.language,
+          priority: m.priority,
+          filepath: m.filepath,
+          originalfilename: m.originalfilename,
+          filekey: m.filekey,
+          link: m.link,
+          mimetype: m.mimetype,
+          displayName: m.displayName,
+          subtitles: material.attachments
+            .filter((a: Attachment) => a.materialid === m.id)
+            .map((a: Attachment) => ({
+              src: `${environment.backendUrl}/download/${a.filekey}`,
+              default: a.defaultfile,
+              kind: a.kind,
+              label: a.label,
+              srclang: a.srclang,
+            })),
+        }));
+      }),
     );
   }
 }
