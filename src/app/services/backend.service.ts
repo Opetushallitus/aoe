@@ -784,6 +784,7 @@ export class BackendService {
             url: reference.url,
             name: reference.materialname,
           })),
+          versions: material.versions,
         };
 
         this.editMaterial$.next(editMaterial);
