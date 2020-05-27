@@ -23,6 +23,7 @@ import { SearchResultsViewComponent } from '@views/search-results-view/search-re
 import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
+import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 
 export const routes: Routes = [
   {
@@ -140,6 +141,10 @@ export const routes: Routes = [
   {
     path: 'embed/:materialId/:lang',
     component: EducationalMaterialEmbedViewComponent,
+  },
+  {
+    path: 'materiaali/pdf/:filekey',
+    component: PdfReaderViewComponent,
   },
   {
     path: '**',
