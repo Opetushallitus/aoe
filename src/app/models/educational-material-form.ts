@@ -152,4 +152,9 @@ export interface EducationalMaterialForm {
     }
   ];
   isVersioned?: boolean;
+  versions: [
+    {
+      publishedat: Date;
+    }
+  ];
 }

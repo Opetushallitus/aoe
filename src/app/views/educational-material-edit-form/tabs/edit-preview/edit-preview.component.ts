@@ -64,8 +64,6 @@ export class EditPreviewComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // const changedMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
-
     if (this.form.valid) {
       let alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -218,7 +216,11 @@ export class EditPreviewComponent implements OnInit {
       delete this.previewMaterial.prerequisites;
 
       // versioning
-      const isVersioned = this.previewMaterial.isVersioned;
+      let isVersioned = this.previewMaterial.isVersioned;
+
+      if (!this.previewMaterial.versions.length) {
+        isVersioned = true;
+      }
 
       // materials
       const materials: Material[] = [];
