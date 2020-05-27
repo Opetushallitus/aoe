@@ -14,7 +14,11 @@
       </div>
 
       <div class="collection-material border-top" *ngFor="let collectionMaterial of collection.educationalmaterials; let i = index">
-        <h2>{{ collectionMaterial.name[lang] }}</h2>
+        <h2>
+          <a [routerLink]="['/materiaali', collectionMaterial.id]">
+            {{ collectionMaterial.name[lang] }}
+          </a>
+        </h2>
 
         <ul class="list-unstyled authors">
           <li *ngFor="let author of collectionMaterial.author">
