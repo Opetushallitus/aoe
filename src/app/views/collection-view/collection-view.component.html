@@ -48,6 +48,7 @@
               <div class="col-9">
                 <app-educational-material-preview
                   [material]="previewMaterials.get(collectionMaterial.id)"
+                  [isCollection]="true"
                   *ngIf="!previewMaterials.get(collectionMaterial.id).link"></app-educational-material-preview>
 
                 <a
