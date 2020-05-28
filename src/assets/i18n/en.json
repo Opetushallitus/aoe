@@ -628,6 +628,22 @@
       "addToCollection": {
         "title": "Choose from pre-existing collections"
       }
+    },
+    "loading": "The learning resource is loading...",
+    "noMaterials": "You have not added any learning resources to your collection. When you find an interesting learning resource, click add to collection thus starting the growth of your collection.",
+    "toasts": {
+      "collectionCreated": {
+        "title": "Collection created",
+        "message": ""
+      },
+      "addedToCollection": {
+        "title": "Collection has been updated",
+        "message": "The learning resources was added to the collection"
+      },
+      "removedFromCollection": {
+        "title": "Collection has been updated",
+        "message": "Learning resources has been removed from the collection"
+      }
     }
   }
 }

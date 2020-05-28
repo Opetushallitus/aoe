@@ -34,7 +34,7 @@
     },
     "educationalMaterial": {
       "download": "Ladda ner",
-      "addToCollection": "Add to collection",
+      "addToCollection": "Lägg till samlingen",
       "viewCount": "sidvisningar ",
       "downloadCount": "nedladdningar",
       "createdAt": "Created",
@@ -627,6 +627,22 @@
       },
       "addToCollection": {
         "title": "Välja en av dina samlingar"
+      }
+    },
+    "loading": "Lärresursen laddas...",
+    "noMaterials": "Du har inga lärresurser i din samling. När du finner en lärresurs som passar bra i din samling, klicka lägg till samlingen, och så börjar din samling växa.",
+    "toasts": {
+      "collectionCreated": {
+        "title": "Samling skapades",
+        "message": ""
+      },
+      "addedToCollection": {
+        "title": "Samlingen uppdaterades",
+        "message": "Lärresursen lades till samlingen"
+      },
+      "removedFromCollection": {
+        "title": "Samlingen uppdaterades",
+        "message": "Lärresursen var tagit ut av samlingen"
       }
     }
   }

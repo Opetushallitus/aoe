@@ -628,6 +628,22 @@
       "addToCollection": {
         "title": "Valitse olemassa olevista kokoelmista"
       }
+    },
+    "loading": "Oppimateriaali latautuu...",
+    "noMaterials": "Et ole lisännyt vielä oppimateriaaleja kokoelmaasi. Klikkaa lisää kokoelmaan kiinnostavan materiaalin kohdalla ja aloita kokoelmasi kartoittaminen.",
+    "toasts": {
+      "collectionCreated": {
+        "title": "Kokoelma lisätty",
+        "message": "Kokoelma lisätty onnistuneesti"
+      },
+      "addedToCollection": {
+        "title": "Kokoelma päivitetty",
+        "message": "Materiaali lisätty kokoelmaan"
+      },
+      "removedFromCollection": {
+        "title": "Kokoelma päivitetty",
+        "message": "Materiaali poistettu kokoelmasta"
+      }
     }
   }
 }
