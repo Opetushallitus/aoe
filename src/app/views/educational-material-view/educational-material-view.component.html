@@ -111,7 +111,7 @@
                   </ng-container>
 
                   <ng-container *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials">
-                    <h3 id="selectMaterial" [ngClass]="materials.length === 1 ? 'sr-only' : ''">
+                    <h3 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
                       {{ 'materialPreview.selectMaterial' | translate }}
                     </h3>
 
@@ -131,15 +131,18 @@
                 <div class="col-9">
                   <app-educational-material-preview
                     [material]="previewMaterial"
-                    *ngIf="!previewMaterial.link"></app-educational-material-preview>
+                    *ngIf="!previewMaterial.link; else linkPreview"></app-educational-material-preview>
 
-                  <a
-                    *ngIf="previewMaterial.link"
-                    [href]="previewMaterial.link"
-                    class="btn btn-secondary"
-                    target="_blank"
-                    rel="noopener nofollow"
-                  >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                  <ng-template #linkPreview>
+                    <div class="link-preview">
+                      <a
+                        [href]="previewMaterial.link"
+                        class="btn btn-secondary"
+                        target="_blank"
+                        rel="noopener nofollow"
+                      >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                    </div>
+                  </ng-template>
                 </div>
               </div>
             </div>

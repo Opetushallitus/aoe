@@ -77,15 +77,18 @@
                   <app-educational-material-preview
                     [material]="previewMaterials.get(collectionMaterial.id)"
                     [isCollection]="true"
-                    *ngIf="!previewMaterials.get(collectionMaterial.id).link"></app-educational-material-preview>
+                    *ngIf="!previewMaterials.get(collectionMaterial.id).link; else linkPreview"></app-educational-material-preview>
 
-                  <a
-                    *ngIf="previewMaterials.get(collectionMaterial.id).link"
-                    [href]="previewMaterials.get(collectionMaterial.id).link"
-                    class="btn btn-secondary"
-                    target="_blank"
-                    rel="noopener nofollow"
-                  >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                  <ng-template #linkPreview>
+                    <div class="link-preview">
+                      <a
+                        [href]="previewMaterials.get(collectionMaterial.id).link"
+                        class="btn btn-secondary"
+                        target="_blank"
+                        rel="noopener nofollow"
+                      >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                    </div>
+                  </ng-template>
                 </div>
               </div>
             </div>
