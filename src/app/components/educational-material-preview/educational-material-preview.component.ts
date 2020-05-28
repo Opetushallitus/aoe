@@ -6,6 +6,7 @@ import { mimeTypes } from '../../constants/mimetypes';
 @Component({
   selector: 'app-educational-material-preview',
   templateUrl: './educational-material-preview.component.html',
+  styleUrls: ['./educational-material-preview.component.scss']
 })
 export class EducationalMaterialPreviewComponent {
   @Input() material: Material;
