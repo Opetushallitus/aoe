@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Collection } from '@models/collections/collection';
 import { CollectionService } from '@services/collection.service';
@@ -23,6 +23,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private translate: TranslateService,
     private collectionSvc: CollectionService,
     private backendSvc: BackendService,
@@ -37,6 +38,10 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
     this.collectionSubscription = this.collectionSvc.collection$.subscribe((collection: Collection) => {
       this.collection = collection;
+
+      if (JSON.stringify(collection) === '{}') {
+        return this.router.navigate(['/etusivu']);
+      }
 
       collection.educationalmaterials.forEach((material, i: number) => {
         // set loading true

@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
+import { TranslateService } from '@ngx-translate/core';
+import { Toast } from '@models/translations/toast';
 
 @Component({
   selector: 'app-add-to-collection-modal',
@@ -21,12 +23,16 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
   userCollectionSubscription: Subscription;
   userCollections: UserCollection[];
   selectedCollections: number[] = [];
+  collectionCreatedToast: Toast;
+  addedToCollectionToast: Toast;
+  removedFromCollectionToast: Toast;
 
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
     private collectionSvc: CollectionService,
     private toastr: ToastrService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +52,18 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
       });
     });
     this.collectionSvc.updateUserCollections();
+
+    this.translate.get('collections.toasts.collectionCreated').subscribe((translation: Toast) => {
+      this.collectionCreatedToast = translation;
+    });
+
+    this.translate.get('collections.toasts.addedToCollection').subscribe((translation: Toast) => {
+      this.addedToCollectionToast = translation;
+    });
+
+    this.translate.get('collections.toasts.removedFromCollection').subscribe((translation: Toast) => {
+      this.removedFromCollectionToast = translation;
+    });
   }
 
   ngOnDestroy(): void {
@@ -71,7 +89,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
 
       this.collectionSvc.removeFromCollection(payload).subscribe(() => {
         // show toast
-        this.toastr.success('Materiaali poistettu kokoelmasta', 'Kokoelma päivitetty');
+        this.toastr.success(this.removedFromCollectionToast.message, this.removedFromCollectionToast.title);
       });
     }
   }
@@ -83,7 +101,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
       if (this.newCollectionForm.dirty) {
         this.collectionSvc.createCollection(this.newCollectionForm.value).subscribe(() => {
           // show toast
-          this.toastr.success(`Kokoelma ${this.nameCtrl.value} lisätty onnistuneesti`, 'Kokoelma lisätty');
+          this.toastr.success(this.collectionCreatedToast.message, this.collectionCreatedToast.title);
 
           // update collections
           this.collectionSvc.updateUserCollections();
@@ -109,7 +127,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
         this.collectionSvc.addToCollection(payload).subscribe((response: AddToCollectionResponse) => {
           if (response.status === 'ok') {
             // show toast
-            this.toastr.success('Materiaali lisätty kokoelmaan', 'Kokoelma päivitetty');
+            this.toastr.success(this.addedToCollectionToast.message, this.addedToCollectionToast.title);
 
             // hide modal
             this.bsModalRef.hide();
