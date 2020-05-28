@@ -628,6 +628,7 @@
       "addToCollection": {
         "title": "Valitse olemassa olevista kokoelmista"
       }
-    }
+    },
+    "loading": "Oppimateriaali latautuu..."
   }
 }

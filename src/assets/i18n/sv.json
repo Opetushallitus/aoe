@@ -628,6 +628,7 @@
       "addToCollection": {
         "title": "Välja en av dina samlingar"
       }
-    }
+    },
+    "loading": "Lärresursen laddas..."
   }
 }
