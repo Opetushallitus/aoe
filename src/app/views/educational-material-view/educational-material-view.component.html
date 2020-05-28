@@ -96,16 +96,36 @@
             <div class="list-files mb-4" *ngIf="materials.length > 0">
               <div class="row no-gutters">
                 <div class="col-3">
-                  <div class="btn-group-vertical" role="group">
-                    <ng-container *ngFor="let material of materials">
+                  <ng-container *ngIf="materialLanguages.length > 1">
+                    <h3 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h3>
+
+                    <div class="btn-group mb-3" role="group" aria-labelledby="selectLanguage">
                       <button
                         type="button"
-                        class="btn btn-file text-dark"
-                        [ngClass]="material === previewMaterial ? 'active' : ''"
-                        (click)="setPreviewMaterial(material)"
-                      >{{ material.displayName[lang] }}</button>
-                    </ng-container>
-                  </div>
+                        class="btn btn-gray"
+                        *ngFor="let lang of materialLanguages"
+                        (click)="setSelectedLanguage(lang)"
+                        [ngClass]="lang === selectedLanguage ? 'active' : ''"
+                      >{{ lang }}</button>
+                    </div>
+                  </ng-container>
+
+                  <ng-container *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials">
+                    <h3 id="selectMaterial" [ngClass]="materials.length === 1 ? 'sr-only' : ''">
+                      {{ 'materialPreview.selectMaterial' | translate }}
+                    </h3>
+
+                    <div class="btn-group-vertical" role="group" aria-labelledby="selectMaterial">
+                      <ng-container *ngFor="let material of filteredMaterials">
+                        <button
+                          type="button"
+                          class="btn btn-file text-dark"
+                          [ngClass]="material === previewMaterial ? 'active' : ''"
+                          (click)="setPreviewMaterial(material)"
+                        >{{ material.displayName[lang] }}</button>
+                      </ng-container>
+                    </div>
+                  </ng-container>
                 </div>
 
                 <div class="col-9">
