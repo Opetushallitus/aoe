@@ -17,6 +17,13 @@ h2 {
   }
 }
 
+.list-files {
+  h3 {
+    @include font-size(16);
+    font-weight: 400;
+  }
+}
+
 .ratings {
   border-bottom: 1px solid $border-color;
   @include font-size(14);
