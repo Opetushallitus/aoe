@@ -23,6 +23,11 @@
     background-color: #eee;
     padding: .5rem;
 
+    h3 {
+      @include font-size(16);
+      font-weight: 400;
+    }
+
     .btn-group-vertical {
       width: 100%;
     }

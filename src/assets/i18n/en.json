@@ -645,5 +645,9 @@
         "message": "Learning resources has been removed from the collection"
       }
     }
+  },
+  "materialPreview": {
+    "selectLanguage": "Choose a language:",
+    "selectMaterial": "Choose a part of the learning resource:"
   }
 }

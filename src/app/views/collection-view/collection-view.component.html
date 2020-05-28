@@ -38,17 +38,28 @@
             <div class="list-files mb-4" *ngIf="collectionMaterials.get(collectionMaterial.id).length > 0">
               <div class="row no-gutters">
                 <div class="col-3">
-                  <div class="btn-group mb-2" role="group" *ngIf="materialLanguages.get(collectionMaterial.id).length > 1">
-                    <button
-                      type="button"
-                      class="btn btn-gray"
-                      *ngFor="let lang of materialLanguages.get(collectionMaterial.id)"
-                      (click)="setSelectedLanguage(collectionMaterial.id, lang)"
-                      [ngClass]="lang === selectedLanguages.get(collectionMaterial.id) ? 'active' : ''"
-                    >{{ lang }}</button>
-                  </div>
+                  <ng-container *ngIf="materialLanguages.get(collectionMaterial.id).length > 1">
+                    <h3
+                      [id]="'selectLanguage' + collectionMaterial.id"
+                    >{{ 'materialPreview.selectLanguage' | translate }}</h3>
 
-                  <div class="btn-group-vertical" role="group">
+                    <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + collectionMaterial.id">
+                      <button
+                        type="button"
+                        class="btn btn-gray"
+                        *ngFor="let lang of materialLanguages.get(collectionMaterial.id)"
+                        (click)="setSelectedLanguage(collectionMaterial.id, lang)"
+                        [ngClass]="lang === selectedLanguages.get(collectionMaterial.id) ? 'active' : ''"
+                      >{{ lang }}</button>
+                    </div>
+                  </ng-container>
+
+                  <h3
+                    [id]="'selectMaterial' + collectionMaterial.id"
+                    [ngClass]="collectionMaterials.get(collectionMaterial.id).length === 1 ? 'sr-only' : ''"
+                  >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+
+                  <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + collectionMaterial.id">
                     <ng-container *ngFor="let material of collectionMaterials.get(collectionMaterial.id)">
                       <button
                         type="button"
