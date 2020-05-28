@@ -645,5 +645,9 @@
         "message": "Lärresursen var tagit ut av samlingen"
       }
     }
+  },
+  "materialPreview": {
+    "selectLanguage": "Välja en språk:",
+    "selectMaterial": "Välja en del av lärresursen:"
   }
 }
