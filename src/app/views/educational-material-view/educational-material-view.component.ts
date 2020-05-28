@@ -32,6 +32,8 @@ export class EducationalMaterialViewComponent implements OnInit {
   metadataHeading: string;
   reviewModalRef: BsModalRef;
   collectionModalRef: BsModalRef;
+  materialLanguages: string[];
+  selectedLanguage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,7 +52,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       if (this.educationalMaterial) {
         this.updateMaterialName();
         this.updateDescription();
-        this.updateMaterials();
       }
     });
 
@@ -62,7 +63,22 @@ export class EducationalMaterialViewComponent implements OnInit {
 
       this.updateMaterialName();
       this.updateDescription();
-      this.updateMaterials();
+
+      // set materials
+      this.materials = data.materials;
+
+      // set preview material
+      this.setPreviewMaterial(this.materials[0]);
+
+      // set material languages
+      this.materialLanguages = [...new Set(this.materials.map((material: Material) => material.language.toLowerCase()))];
+
+      // set default language (1. UI lang, 2. FI, 3. first language in array)
+      this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
+        ? this.materialLanguages.find((lang: string) => lang === this.lang)
+        : this.materialLanguages.find((lang: string) => lang === 'fi')
+          ? this.materialLanguages.find((lang: string) => lang === 'fi')
+          : this.materialLanguages[0];
     });
 
     this.updateMetadataHeading(false);
@@ -70,6 +86,18 @@ export class EducationalMaterialViewComponent implements OnInit {
 
   setPreviewMaterial(material: Material): void {
     this.previewMaterial = material;
+  }
+
+  /**
+   * Sets selected language to preview language. Updates preview material to match selected language.
+   * @param language {string}
+   */
+  setSelectedLanguage(language: string): void {
+    // set language
+    this.selectedLanguage = language;
+
+    // set preview material
+    this.setPreviewMaterial(this.materials.find((material: Material) => material.language === language));
   }
 
   updateMaterialName(): void {
@@ -85,18 +113,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       this.description = this.educationalMaterial.description.find(d => d.language === this.lang).description;
     } else {
       this.description = this.educationalMaterial.description.find(d => d.language === 'fi').description;
-    }
-  }
-
-  updateMaterials(): void {
-    if (this.educationalMaterial.materials.filter(m => m.language === this.lang).length > 0) {
-      this.materials = this.educationalMaterial.materials.filter(m => m.language === this.lang);
-    } else {
-      this.materials = this.educationalMaterial.materials.filter(m => m.language === 'fi');
-    }
-
-    if (this.materials.length > 0) {
-      this.previewMaterial = this.materials[0];
     }
   }
 
