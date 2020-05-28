@@ -67,7 +67,6 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   }
 
   setPreviewMaterial(materialId: string, material: Material): void {
-    console.log(materialId);
     this.previewMaterials.set(materialId, material);
   }
 }
