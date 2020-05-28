@@ -20,6 +20,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   materialsLoading = new Map();
   collectionMaterials = new Map();
   previewMaterials = new Map();
+  materialLanguages = new Map();
+  selectedLanguages = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -43,19 +45,31 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         return this.router.navigate(['/etusivu']);
       }
 
-      collection.educationalmaterials.forEach((material, i: number) => {
+      collection.educationalmaterials.forEach((collectionMaterial, i: number) => {
         // set loading true
-        this.materialsLoading.set(material.id, true);
+        this.materialsLoading.set(collectionMaterial.id, true);
 
-        this.backendSvc.getCollectionMaterials(material.id).subscribe((materials: Material[]) => {
+        this.backendSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
           // set collection materials
-          this.collectionMaterials.set(material.id, materials);
+          this.collectionMaterials.set(collectionMaterial.id, materials);
 
           // set preview material
-          this.previewMaterials.set(material.id, materials[0]);
+          this.previewMaterials.set(collectionMaterial.id, materials[0]);
 
           // set loading false
-          this.materialsLoading.set(material.id, false);
+          this.materialsLoading.set(collectionMaterial.id, false);
+
+          // set material languages
+          const materialLanguages = [...new Set(materials.map((material: Material) => material.language.toLowerCase()))];
+          this.materialLanguages.set(collectionMaterial.id, materialLanguages);
+
+          // set default language (1. UI lang, 2. FI, 3. first language in array)
+          this.selectedLanguages.set(collectionMaterial.id, materialLanguages.find((lang: string) => lang === this.lang)
+            ? materialLanguages.find((lang: string) => lang === this.lang)
+            : materialLanguages.find((lang: string) => lang === 'fi')
+              ? materialLanguages.find((lang: string) => lang === 'fi')
+              : materialLanguages[0]
+          );
         });
       });
     });
@@ -66,7 +80,25 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     this.collectionSubscription.unsubscribe();
   }
 
+  /**
+   * Sets preview material to selected material.
+   * @param materialId {string}
+   * @param material {Material}
+   */
   setPreviewMaterial(materialId: string, material: Material): void {
     this.previewMaterials.set(materialId, material);
+  }
+
+  /**
+   * Sets selected language to preview language. Updates preview material to match selected language.
+   * @param materialId {string}
+   * @param language {string}
+   */
+  setSelectedLanguage(materialId: string, language: string): void {
+    // set selected language
+    this.selectedLanguages.set(materialId, language);
+
+    // set preview material to first material that matches selected language
+    this.setPreviewMaterial(materialId, this.collectionMaterials.get(materialId).find((m) => m.language === language));
   }
 }
