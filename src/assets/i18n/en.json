@@ -628,6 +628,7 @@
       "addToCollection": {
         "title": "Choose from pre-existing collections"
       }
-    }
+    },
+    "loading": "The learning resource is loading..."
   }
 }
