@@ -53,6 +53,10 @@ export class EducationalMaterialViewComponent implements OnInit {
         this.updateMaterialName();
         this.updateDescription();
       }
+
+      if (this.materialLanguages && this.materialLanguages.includes(event.lang.toLowerCase())) {
+        this.setSelectedLanguage(event.lang.toLowerCase());
+      }
     });
 
     this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
@@ -67,9 +71,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       // set materials
       this.materials = data.materials;
 
-      // set preview material
-      this.setPreviewMaterial(this.materials[0]);
-
       // set material languages
       this.materialLanguages = [...new Set(this.materials.map((material: Material) => material.language.toLowerCase()))];
 
@@ -79,6 +80,9 @@ export class EducationalMaterialViewComponent implements OnInit {
         : this.materialLanguages.find((lang: string) => lang === 'fi')
           ? this.materialLanguages.find((lang: string) => lang === 'fi')
           : this.materialLanguages[0];
+
+      // set preview material
+      this.setPreviewMaterial(this.materials.find((material: Material) => material.language === this.selectedLanguage));
     });
 
     this.updateMetadataHeading(false);
