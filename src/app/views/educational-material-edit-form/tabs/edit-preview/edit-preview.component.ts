@@ -48,6 +48,9 @@ export class EditPreviewComponent implements OnInit {
       hasEducationalLevels: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
+      hasLicense: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
       confirm: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
@@ -94,6 +97,10 @@ export class EditPreviewComponent implements OnInit {
         this.form.get('hasEducationalLevels').setValue(true);
       }
     }
+
+    if (this.previewMaterial.license) {
+      this.form.get('hasLicense').setValue(true);
+    }
   }
 
   /**
@@ -122,6 +129,10 @@ export class EditPreviewComponent implements OnInit {
 
   get hasEducationalLevels(): boolean {
     return this.form.get('hasEducationalLevels').value;
+  }
+
+  get hasLicense(): boolean {
+    return this.form.get('hasLicense').value;
   }
 
   /**

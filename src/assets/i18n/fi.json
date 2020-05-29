@@ -505,7 +505,8 @@
           "author": "Tekijä",
           "keywords": "Asiasanat",
           "learningResourceTypes": "Oppimateriaalin tyyppi",
-          "educationalLevels": "Koulutusasteet"
+          "educationalLevels": "Koulutusasteet",
+          "license": "Lisenssi"
         },
         "addMissingDetail": "Lisää puuttuva tieto"
       }
