@@ -36,6 +36,12 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      for (const [key, value] of this.materialLanguages.entries()) {
+        if (value.includes(event.lang.toLowerCase())) {
+          this.setSelectedLanguage(key, event.lang.toLowerCase());
+        }
+      }
     });
 
     this.collectionSubscription = this.collectionSvc.collection$.subscribe((collection: Collection) => {
@@ -53,9 +59,6 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           // set collection materials
           this.collectionMaterials.set(collectionMaterial.id, materials);
 
-          // set preview material
-          this.previewMaterials.set(collectionMaterial.id, materials[0]);
-
           // set loading false
           this.materialsLoading.set(collectionMaterial.id, false);
 
@@ -69,6 +72,13 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
             : materialLanguages.find((lang: string) => lang === 'fi')
               ? materialLanguages.find((lang: string) => lang === 'fi')
               : materialLanguages[0]
+          );
+
+          // set preview material
+          this.setPreviewMaterial(
+            collectionMaterial.id,
+            materials
+              .find((material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id))
           );
         });
       });
