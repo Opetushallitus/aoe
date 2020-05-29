@@ -507,9 +507,10 @@
           "author": "Author",
           "keywords": "Keywords",
           "learningResourceTypes": "Learning Resource Type",
-          "educationalLevels": "Educational Level"
+          "educationalLevels": "Educational Level",
+          "license": "License"
         },
-        "addMissingDetail": "Lisää puuttuva tieto"
+        "addMissingDetail": "Fill in the information"
       }
     },
     "editEducationalResource": {
