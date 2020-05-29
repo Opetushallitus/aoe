@@ -505,9 +505,10 @@
           "author": "Upphovsperson",
           "keywords": "Nyckelord",
           "learningResourceTypes": "Typ av läromaterial",
-          "educationalLevels": "Utbildningsstadium"
+          "educationalLevels": "Utbildningsstadium",
+          "license": "Licens"
         },
-        "addMissingDetail": "Lisää puuttuva tieto"
+        "addMissingDetail": "Fyll i informationen"
       }
     },
     "editEducationalResource": {

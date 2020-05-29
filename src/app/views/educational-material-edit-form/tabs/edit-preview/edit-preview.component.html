@@ -809,12 +809,13 @@
     <hr>
   </ng-container>
 
-  <ng-container *ngIf="previewMaterial.license">
-    <h3>
-      {{ 'forms.educationalResource.nav.licenseDetails' | translate }}
-    </h3>
 
-    <dl class="row">
+  <h3>
+    {{ 'forms.educationalResource.nav.licenseDetails' | translate }}
+  </h3>
+
+  <dl class="row">
+    <ng-container *ngIf="hasLicense; else missingLicense">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.license.title' | translate }}
       </dt>
@@ -822,10 +823,22 @@
       <dd class="col-sm-9">
         {{ previewMaterial.license }}
       </dd>
-    </dl>
+    </ng-container>
 
-    <hr>
-  </ng-container>
+    <ng-template #missingLicense>
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.license' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
+      </dd>
+    </ng-template>
+  </dl>
+
+  <hr>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group custom-control custom-checkbox">
