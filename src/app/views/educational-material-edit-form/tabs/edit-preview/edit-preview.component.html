@@ -4,7 +4,7 @@
   </h2>
 
   <dl class="row">
-    <ng-container *ngIf="previewMaterial.name">
+    <ng-container *ngIf="hasName; else missingName">
       <ng-container *ngIf="previewMaterial.name.fi">
         <dt class="col-sm-3">
           {{ 'forms.educationalResource.files.materialName.label.fi' | translate }}
@@ -35,6 +35,18 @@
         </dd>
       </ng-container>
     </ng-container>
+
+    <ng-template #missingName>
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.name' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
+      </dd>
+    </ng-template>
   </dl>
 
   <hr>
@@ -124,23 +136,37 @@
   </h3>
 
   <dl class="row">
-    <ng-container *ngFor="let author of previewMaterial.authors">
+    <ng-container *ngIf="hasAuthor; else missingAuthor">
+      <ng-container *ngFor="let author of previewMaterial.authors">
+        <dt class="col-sm-3">
+          {{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngIf="author.author">
+            {{ author.author }}<ng-container *ngIf="author.organization">, {{ author.organization.value }}</ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="!author.author">
+            {{ author.organization.value }}
+          </ng-container>
+        </dd>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #missingAuthor>
       <dt class="col-sm-3">
-        {{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}
+        {{ 'forms.educationalResource.preview.required.author' | translate }}
       </dt>
 
       <dd class="col-sm-9">
-        <ng-container *ngIf="author.author">
-          {{ author.author }}<ng-container *ngIf="author.organization">, {{ author.organization.value }}</ng-container>
-        </ng-container>
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <ng-container *ngIf="!author.author">
-          {{ author.organization.value }}
-        </ng-container>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
       </dd>
-    </ng-container>
+    </ng-template>
 
-    <ng-container *ngIf="previewMaterial.keywords?.length > 0">
+    <ng-container *ngIf="hasKeywords; else missingKeywords">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}
       </dt>
@@ -152,7 +178,19 @@
       </dd>
     </ng-container>
 
-    <ng-container *ngIf="previewMaterial.learningResourceTypes?.length > 0">
+    <ng-template #missingKeywords>
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.keywords' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
+      </dd>
+    </ng-template>
+
+    <ng-container *ngIf="hasLearningResourceTypes; else missingLearningResourceTypes">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}
       </dt>
@@ -163,6 +201,18 @@
         </ng-container>
       </dd>
     </ng-container>
+
+    <ng-template #missingLearningResourceTypes>
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.learningResourceTypes' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
+      </dd>
+    </ng-template>
 
     <ng-container *ngIf="previewMaterial.educationalRoles?.length > 0">
       <dt class="col-sm-3">
@@ -228,7 +278,7 @@
   </h3>
 
   <dl class="row">
-    <ng-container *ngIf="previewMaterial.educationalLevels?.length > 0">
+    <ng-container *ngIf="hasEducationalLevels; else missingEducationalLevels">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
       </dt>
@@ -239,6 +289,18 @@
         </ng-container>
       </dd>
     </ng-container>
+
+    <ng-template #missingEducationalLevels>
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.educationalLevels' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a>
+      </dd>
+    </ng-template>
 
     <ng-container *ngIf="previewMaterial.earlyChildhoodEducationSubjects?.length > 0">
       <dt class="col-sm-3">

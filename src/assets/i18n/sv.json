@@ -501,7 +501,15 @@
       },
       "preview": {
         "title": "Förhandsvisning",
-        "confirm": "Jag har"
+        "confirm": "Jag har",
+        "required": {
+          "name": "Namn",
+          "author": "Upphovsperson",
+          "keywords": "Nyckelord",
+          "learningResourceTypes": "Typ av läromaterial",
+          "educationalLevels": "Utbildningsstadium"
+        },
+        "addMissingDetail": "Lisää puuttuva tieto"
       }
     },
     "editEducationalResource": {

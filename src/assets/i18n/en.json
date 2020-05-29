@@ -501,7 +501,15 @@
       },
       "preview": {
         "title": "Preview",
-        "confirm": "I confirm that"
+        "confirm": "I confirm that",
+        "required": {
+          "name": "Name",
+          "author": "Author",
+          "keywords": "Keywords",
+          "learningResourceTypes": "Learning Resource Type",
+          "educationalLevels": "Educational Level"
+        },
+        "addMissingDetail": "Lisää puuttuva tieto"
       }
     },
     "editEducationalResource": {

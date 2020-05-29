@@ -33,7 +33,24 @@ export class EditPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      confirm: this.fb.control(false, [ Validators.requiredTrue ]),
+      hasName: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasAuthor: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasKeywords: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasLearningResourceTypes: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasEducationalLevels: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      confirm: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
     });
 
     this.lang = this.translate.currentLang;
@@ -47,6 +64,36 @@ export class EditPreviewComponent implements OnInit {
     } else {
       this.previewMaterial = JSON.parse(sessionStorage.getItem(environment.editMaterial));
     }
+
+    if (this.previewMaterial.name) {
+      if (this.previewMaterial.name.fi || this.previewMaterial.name.sv || this.previewMaterial.name.en) {
+        this.form.get('hasName').setValue(true);
+      }
+    }
+
+    if (this.previewMaterial.authors) {
+      if (this.previewMaterial.authors.length > 0) {
+        this.form.get('hasAuthor').setValue(true);
+      }
+    }
+
+    if (this.previewMaterial.keywords) {
+      if (this.previewMaterial.keywords.length > 0) {
+        this.form.get('hasKeywords').setValue(true);
+      }
+    }
+
+    if (this.previewMaterial.learningResourceTypes) {
+      if (this.previewMaterial.learningResourceTypes.length > 0) {
+        this.form.get('hasLearningResourceTypes').setValue(true);
+      }
+    }
+
+    if (this.previewMaterial.educationalLevels) {
+      if (this.previewMaterial.educationalLevels.length > 0) {
+        this.form.get('hasEducationalLevels').setValue(true);
+      }
+    }
   }
 
   /**
@@ -55,6 +102,26 @@ export class EditPreviewComponent implements OnInit {
    */
   drop(event: CdkDragDrop<any>) {
     moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
+  }
+
+  get hasName(): boolean {
+    return this.form.get('hasName').value;
+  }
+
+  get hasAuthor(): boolean {
+    return this.form.get('hasAuthor').value;
+  }
+
+  get hasKeywords(): boolean {
+    return this.form.get('hasKeywords').value;
+  }
+
+  get hasLearningResourceTypes(): boolean {
+    return this.form.get('hasLearningResourceTypes').value;
+  }
+
+  get hasEducationalLevels(): boolean {
+    return this.form.get('hasEducationalLevels').value;
   }
 
   /**

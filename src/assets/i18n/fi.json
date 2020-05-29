@@ -501,7 +501,15 @@
       },
       "preview": {
         "title": "Esikatselu",
-        "confirm": "Vakuutan että"
+        "confirm": "Vakuutan että",
+        "required": {
+          "name": "Oppimateriaalin nimi",
+          "author": "Tekijä",
+          "keywords": "Asiasanat",
+          "learningResourceTypes": "Oppimateriaalin tyyppi",
+          "educationalLevels": "Koulutusasteet"
+        },
+        "addMissingDetail": "Lisää puuttuva tieto"
       }
     },
     "editEducationalResource": {
