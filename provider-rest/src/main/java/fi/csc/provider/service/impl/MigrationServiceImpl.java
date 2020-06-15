@@ -256,7 +256,7 @@ public class MigrationServiceImpl implements MigrationService {
             .map(k -> {
                 Thing thing = new Thing();
                 thing.setName(k.getValue());
-                thing.setIdentifier("http:" + k.getKeywordkey());
+                thing.setIdentifier("https:" + k.getKeywordkey());
 
                 About about = new About();
                 about.setThing(thing);
