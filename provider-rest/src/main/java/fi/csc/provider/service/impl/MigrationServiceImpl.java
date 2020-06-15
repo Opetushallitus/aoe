@@ -68,10 +68,10 @@ public class MigrationServiceImpl implements MigrationService {
 
         // dc:subject
         // Any concepts and keywords for the search and classifying the educational material.
-        lrmi.setKeyword(amd.getKeyword() != null && amd.getKeyword().size() > 0 ? amd.getKeyword().stream()
+        /*lrmi.setKeyword(amd.getKeyword() != null && amd.getKeyword().size() > 0 ? amd.getKeyword().stream()
             .filter(k -> !k.getValue().isEmpty())
             .map(Keyword::getValue)
-            .toArray(String[]::new) : null);
+            .toArray(String[]::new) : null);*/
 
         // dc:rights
         // Licences attached to the educational material publishing.
@@ -136,6 +136,9 @@ public class MigrationServiceImpl implements MigrationService {
                 }});
             })
             .collect(Collectors.toList()));
+
+        // lrmi_fi:about > lrmi_fi:thing (dc:subject)
+        setLrmiAboutThing(amd, lrmi);
 
         // lrmi_fi:material
         // Educational material file or link.
@@ -236,5 +239,29 @@ public class MigrationServiceImpl implements MigrationService {
                 return alignmentObject;
             })
             .collect(Collectors.toCollection(lrmi.getAlignmentObject() == null ? ArrayList::new : lrmi::getAlignmentObject)));
+    }
+
+    /**
+     * Migrate descriptive keywords of an educational material with a semantic link.
+     * Keyword LRMI/XML presentation as {@code <lrmi_fi:about><lrmi_fi:thing>...</lrmi_fi:thing></lrmi_fi:about>}.
+     *
+     * @param amd AOE metadata source
+     * @param lrmi LRMI metadata target
+     * @see AoeMetadata
+     * @see LrmiMetadata
+     */
+    void setLrmiAboutThing(AoeMetadata amd, LrmiMetadata lrmi) {
+        lrmi.setAbouts(amd.getKeyword() == null ? null : amd.getKeyword().stream()
+            .filter(k -> !k.getValue().isEmpty() && !k.getKeywordkey().isEmpty())
+            .map(k -> {
+                Thing thing = new Thing();
+                thing.setName(k.getValue());
+                thing.setIdentifier(k.getKeywordkey());
+
+                About about = new About();
+                about.setThing(thing);
+                return about;
+            })
+            .collect(Collectors.toList()));
     }
 }
