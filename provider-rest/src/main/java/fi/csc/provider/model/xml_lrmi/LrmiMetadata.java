@@ -91,6 +91,11 @@ public class LrmiMetadata {
     @XmlAnyElement
     private List<JAXBElement<?>> authors;
 
+    // Descriptive keywords of an educational material (dc:keyword)
+    // @XmlElementWrapper(name = "lrmi_fi:about")
+    @XmlElement(name = "lrmi_fi:about")
+    private List<About> abouts;
+
     @XmlElement(name = "lrmi_fi:material")
     private List<Material> material;
 
@@ -255,6 +260,14 @@ public class LrmiMetadata {
 
     public void setAuthors(List<JAXBElement<?>> authors) {
         this.authors = authors;
+    }
+
+    public List<About> getAbouts() {
+        return abouts;
+    }
+
+    public void setAbouts(List<About> abouts) {
+        this.abouts = abouts;
     }
 
     public List<Material> getMaterial() {
