@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -200,7 +200,8 @@ import { MaterialLanguagePipe } from './pipes/material-language.pipe';
       provide: HTTP_INTERCEPTORS,
       useClass: CredentialInterceptor,
       multi: true,
-    }
+    },
+    Title,
   ],
   bootstrap: [ AppComponent ]
 })
