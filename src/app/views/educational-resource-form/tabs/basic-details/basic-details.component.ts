@@ -15,6 +15,7 @@ import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -59,9 +60,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private backendSvc: BackendService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
     this.updateLanguages();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -73,6 +76,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateEducationalRoles();
       this.koodistoProxySvc.updateEducationalUses();
 
+      this.setTitle();
       this.updateLanguages();
     });
 
@@ -168,6 +172,12 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
     this.educationalRoleSubscription.unsubscribe();
     this.educationalUseSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
+    });
   }
 
   fileChangeEvent(event: any): void {

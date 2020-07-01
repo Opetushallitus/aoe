@@ -14,6 +14,7 @@ import { LinkPost } from '@models/link-post';
 import { LinkPostResponse } from '@models/link-post-response';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -49,9 +50,12 @@ export class EditFilesComponent implements OnInit {
     private translate: TranslateService,
     private modalService: BsModalService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       name: this.fb.group({
         fi: this.fb.control(null),
@@ -66,6 +70,7 @@ export class EditFilesComponent implements OnInit {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
+      this.setTitle();
       this.updateLanguages();
     });
 
@@ -92,6 +97,12 @@ export class EditFilesComponent implements OnInit {
       this.languages = languages;
     });
     this.koodistoSvc.updateLanguages();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
+    });
   }
 
   get nameCtrl(): FormControl {

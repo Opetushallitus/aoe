@@ -7,6 +7,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { License } from '@models/koodisto-proxy/license';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-license',
@@ -29,11 +30,16 @@ export class LicenseComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
 
       this.koodistoProxySvc.updateLicenses();
     });
@@ -59,6 +65,12 @@ export class LicenseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.licenseSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.license} ${environment.title}`);
+    });
   }
 
   get license(): FormControl {

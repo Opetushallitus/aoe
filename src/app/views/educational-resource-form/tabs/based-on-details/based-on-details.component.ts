@@ -5,6 +5,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -24,11 +25,16 @@ export class BasedOnDetailsComponent implements OnInit {
     private translate: TranslateService,
     private fb: FormBuilder,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
     });
 
     this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
@@ -47,6 +53,12 @@ export class BasedOnDetailsComponent implements OnInit {
         });
       }
     }
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
+    });
   }
 
   /*get internals() {

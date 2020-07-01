@@ -20,6 +20,37 @@
     "privacyPolicy": "Privacy Policy",
     "accessibilityPolicy": "Accessibility Policy"
   },
+  "titles": {
+    "home": "Home",
+    "faq": "Frequently Asked Questions",
+    "userMaterials": "My open educational resources",
+    "addMaterial": {
+      "main": "Upload a new resource",
+      "files": "Files",
+      "basic": "Basic information",
+      "education": "Educational information",
+      "extended": "Other information",
+      "license": "License",
+      "references": "References",
+      "preview": "Preview"
+    },
+    "editMaterial": {
+      "main": "Edit resource",
+      "files": "Files",
+      "basic": "Basic information",
+      "education": "Educational information",
+      "extended": "Other information",
+      "license": "License",
+      "references": "References",
+      "preview": "Preview"
+    },
+    "acceptance": "Privacy Policy and the Terms of Use of the service",
+    "accessibility": "Accessibility Policy",
+    "logout": "You have logged out",
+    "privacy": "Privacy Policy",
+    "searchResults": "Search results",
+    "termsOfUse": "Terms of Use"
+  },
   "home": {
     "search": {
       "title": "What do you want to learn?"

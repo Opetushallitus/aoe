@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { UserCollection } from '@models/collections/user-collection';
 import { CollectionService } from '@services/collection.service';
+import { Title } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-materials-view',
@@ -29,11 +31,16 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
     private backendSvc: BackendService,
     private translate: TranslateService,
     private collectionSvc: CollectionService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
     });
 
     this.publishedMaterialSubscription = this.backendSvc.publishedUserMaterials$
@@ -66,5 +73,11 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
     this.unpublishedMaterialSubscription.unsubscribe();
     this.privateCollectionSubscription.unsubscribe();
     this.publicCollectionSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.userMaterials').subscribe((title: string) => {
+      this.titleSvc.setTitle(`${title} ${environment.title}`);
+    });
   }
 }

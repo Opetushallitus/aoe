@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { addCustomItem, addPrerequisites } from '../../../../shared/shared.module';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-extended-details',
@@ -34,9 +35,12 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
@@ -57,6 +61,8 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.translate.onLangChange.subscribe(() => {
+      this.setTitle();
+
       this.koodistoSvc.updateAccessibilityFeatures();
       this.koodistoSvc.updateAccessibilityHazards();
     });
@@ -89,6 +95,12 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.accessibilityFeatureSubscription.unsubscribe();
     this.accessibilityHazardSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
+    });
   }
 
   get typicalAgeRangeMinCtrl(): FormControl {

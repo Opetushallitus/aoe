@@ -20,6 +20,37 @@
     "privacyPolicy": "Tietosuojailmoitus",
     "accessibilityPolicy": "Saavutettavuusseloste"
   },
+  "titles": {
+    "home": "Etusivu",
+    "faq": "Usein kysytyt kysymykset",
+    "userMaterials": "Omat oppimateriaalit",
+    "addMaterial": {
+      "main": "Luo uusi materiaali",
+      "files": "Tiedostot",
+      "basic": "Perustiedot",
+      "education": "Koulutustiedot",
+      "extended": "Tarkemmat tiedot",
+      "license": "Lisenssitiedot",
+      "references": "Hyödynnetyt materiaalit",
+      "preview": "Esikatselu"
+    },
+    "editMaterial": {
+      "main": "Oppimateriaalin muokkaus",
+      "files": "Tiedostot",
+      "basic": "Perustiedot",
+      "education": "Koulutustiedot",
+      "extended": "Tarkemmat tiedot",
+      "license": "Lisenssitiedot",
+      "references": "Hyödynnetyt materiaalit",
+      "preview": "Esikatselu"
+    },
+    "acceptance": "Palvelun käyttöehdot ja tietosuojailmoitus",
+    "accessibility": "Saavutettavuusseloste",
+    "logout": "Olet kirjautunut ulos",
+    "privacy": "Tietosuojailmoitus",
+    "searchResults": "Hakutulokset",
+    "termsOfUse": "Käyttöehdot"
+  },
   "home": {
     "search": {
       "title": "Mitä haluat oppia?"

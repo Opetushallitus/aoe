@@ -3,6 +3,8 @@ import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { Title } from '@angular/platform-browser';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
@@ -20,11 +22,19 @@ export class EditBasedOnDetailsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private translate: TranslateService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       externals: this.fb.array([]),
+    });
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.setTitle();
     });
 
     if (sessionStorage.getItem(environment.editMaterial) === null) {
@@ -38,6 +48,12 @@ export class EditBasedOnDetailsComponent implements OnInit {
 
       this.patchExternals(editMaterial.externals);
     }
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
+    });
   }
 
   get externalsArray(): FormArray {

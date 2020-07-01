@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '@services/auth.service';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-acceptance-view',
@@ -14,12 +17,26 @@ export class AcceptanceViewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authSvc: AuthService
+    private authSvc: AuthService,
+    private titleSvc: Title,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
+    this.translate.onLangChange.subscribe(() => {
+      this.setTitle();
+    });
+
     this.acceptanceForm = this.fb.group({
       acceptance: this.fb.control(false, [ Validators.requiredTrue ]),
+    });
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.acceptance').subscribe((title: string) => {
+      this.titleSvc.setTitle(`${title} ${environment.title}`);
     });
   }
 
