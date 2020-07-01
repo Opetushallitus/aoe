@@ -20,6 +20,37 @@
     "privacyPolicy": "Dataskyddsbeskrivnig",
     "accessibilityPolicy": "Accessibility Policy"
   },
+  "titles": {
+    "home": "Framsida",
+    "faq": "Vanliga frågor",
+    "userMaterials": "Mina lärresurser",
+    "addMaterial": {
+      "main": "Publicera en ny lärresurs",
+      "files": "Filer",
+      "basic": "Grunduppgifter",
+      "education": "Utbildningsinfo",
+      "extended": "Andra uppgifter",
+      "license": "Licensuppgifter",
+      "references": "Referens",
+      "preview": "Förhandsvisning"
+    },
+    "editMaterial": {
+      "main": "Redigera lärresurs",
+      "files": "Filer",
+      "basic": "Grunduppgifter",
+      "education": "Utbildningsinfo",
+      "extended": "Andra uppgifter",
+      "license": "Licensuppgifter",
+      "references": "Referens",
+      "preview": "Förhandsvisning"
+    },
+    "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
+    "accessibility": "Accessibility Policy",
+    "logout": "Du har loggat ut",
+    "privacy": "Dataskyddsbeskrivnig",
+    "searchResults": "Sökresultaten",
+    "termsOfUse": "Användarvilko"
+  },
   "home": {
     "search": {
       "title": "Vad vill du lära dig?"

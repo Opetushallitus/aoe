@@ -7,6 +7,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-license',
@@ -29,15 +30,20 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       license: this.fb.control(null, [ Validators.required ]),
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
 
       this.koodistoSvc.updateLicenses();
     });
@@ -57,6 +63,12 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.licenseSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.license} ${environment.title}`);
+    });
   }
 
   get licenseCtrl(): FormControl {

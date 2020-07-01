@@ -10,6 +10,7 @@ import { BackendService } from '@services/backend.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-preview',
@@ -56,11 +57,16 @@ export class PreviewComponent implements OnInit {
     private router: Router,
     private backendSvc: BackendService,
     private translate: TranslateService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
     });
 
     this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
@@ -143,6 +149,12 @@ export class PreviewComponent implements OnInit {
       this.prerequisites = this.savedData.alignmentObjects
         .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
     }
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
+    });
   }
 
   drop(event: CdkDragDrop<UploadedFile[]>) {

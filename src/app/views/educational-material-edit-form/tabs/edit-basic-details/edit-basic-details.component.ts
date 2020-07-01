@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { UploadMessage } from '@models/upload-message';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { BackendService } from '@services/backend.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -55,9 +56,12 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
     private backendSvc: BackendService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       keywords: this.fb.control(null, [ Validators.required ]),
       authors: this.fb.array([]),
@@ -82,6 +86,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       this.koodistoSvc.updateEducationalRoles();
       this.koodistoSvc.updateEducationalUses();
 
+      this.setTitle();
       this.updateLanguages();
     });
 
@@ -141,6 +146,12 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
     this.educationalRoleSubscription.unsubscribe();
     this.educationalUseSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
+    });
   }
 
   /**

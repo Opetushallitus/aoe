@@ -11,6 +11,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -39,11 +40,16 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
 
       this.koodistoProxySvc.updateAccessibilityFeatures();
       this.koodistoProxySvc.updateAccessibilityHazards();
@@ -123,6 +129,12 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.accessibilityFeatureSubscription.unsubscribe();
     this.accessibilityHazardSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
+    });
   }
 
   get accessibilityFeaturesCtrl(): FormControl {

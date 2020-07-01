@@ -20,6 +20,7 @@ import {
   addSelfMotivatedEducationObjective,
   addScienceBranchObjectives,
 } from '../../../../shared/shared.module';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -83,9 +84,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       educationalLevels: this.fb.control(null, [ Validators.required ]),
       earlyChildhoodEducationSubjects: this.fb.control(null),
@@ -127,6 +131,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.translate.onLangChange.subscribe(() => {
+      this.setTitle();
+
       this.koodistoSvc.updateEducationalLevels();
       this.koodistoSvc.updateBasicStudySubjects();
       this.koodistoSvc.updateUpperSecondarySchoolSubjects();
@@ -261,6 +267,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
+    });
   }
 
   get educationalLevelsCtrl(): FormControl {

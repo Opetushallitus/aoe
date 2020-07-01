@@ -10,6 +10,7 @@ import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-search-results-view',
@@ -50,10 +51,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe(() => {
+      this.setTitle();
+
       this.koodistoProxySvc.updateLanguages();
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateLearningResourceTypes();
@@ -149,6 +155,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.languageSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.searchResults').subscribe((title: string) => {
+      this.titleSvc.setTitle(`${title} ${environment.title}`);
+    });
   }
 
   get keywordsCtrl(): FormControl {

@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { BackendService } from '@services/backend.service';
 import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -29,9 +30,12 @@ export class EditPreviewComponent implements OnInit {
     private translate: TranslateService,
     private backendSvc: BackendService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
+    this.setTitle();
+
     this.form = this.fb.group({
       hasName: this.fb.control(false, [
         Validators.requiredTrue,
@@ -60,6 +64,8 @@ export class EditPreviewComponent implements OnInit {
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
     });
 
     if (sessionStorage.getItem(environment.editMaterial) === null) {
@@ -101,6 +107,12 @@ export class EditPreviewComponent implements OnInit {
     if (this.previewMaterial.license) {
       this.form.get('hasLicense').setValue(true);
     }
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
+    });
   }
 
   /**

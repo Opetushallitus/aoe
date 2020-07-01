@@ -21,6 +21,7 @@ import {
   addSelfMotivatedEducationObjective,
   addScienceBranchObjectives,
 } from '../../../../shared/shared.module';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-educational-details',
@@ -88,11 +89,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private router: Router,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
+
+      this.setTitle();
 
       this.koodistoProxySvc.updateEducationalLevels();
       this.koodistoProxySvc.updateBasicStudySubjects();
@@ -396,6 +402,12 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
+    });
   }
 
   get educationalLevelsCtrl(): FormControl {

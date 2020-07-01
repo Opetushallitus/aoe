@@ -12,6 +12,7 @@ import { UploadMessage } from '@models/upload-message';
 import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tabs-files',
@@ -46,9 +47,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private backendSvc: BackendService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit() {
+    this.setTitle();
+
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
         fi: this.fb.control(null),
@@ -68,6 +72,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       this.koodistoProxySvc.updateLanguages();
 
+      this.setTitle();
       this.updateLanguages();
     });
 
@@ -99,6 +104,12 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
+    });
   }
 
   updateLanguages(): void {
