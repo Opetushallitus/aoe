@@ -11,6 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AuthService } from '@services/auth.service';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -41,6 +42,7 @@ export class EducationalMaterialViewComponent implements OnInit {
     private translate: TranslateService,
     private modalSvc: BsModalService,
     public authSvc: AuthService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
@@ -88,6 +90,10 @@ export class EducationalMaterialViewComponent implements OnInit {
     this.updateMetadataHeading(false);
   }
 
+  setTitle(): void {
+    this.titleSvc.setTitle(`${this.materialName} ${environment.title}`);
+  }
+
   setPreviewMaterial(material: Material): void {
     this.previewMaterial = material;
   }
@@ -110,6 +116,8 @@ export class EducationalMaterialViewComponent implements OnInit {
     } else {
       this.materialName = this.educationalMaterial.name.find(n => n.language === 'fi').materialname;
     }
+
+    this.setTitle();
   }
 
   updateDescription(): void {

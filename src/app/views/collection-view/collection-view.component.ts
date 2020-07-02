@@ -6,6 +6,8 @@ import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
+import { Title } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-collection-view',
@@ -29,6 +31,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private collectionSvc: CollectionService,
     private backendSvc: BackendService,
+    private titleSvc: Title,
   ) { }
 
   ngOnInit(): void {
@@ -50,6 +53,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       if (JSON.stringify(collection) === '{}') {
         return this.router.navigate(['/etusivu']);
       }
+
+      this.setTitle();
 
       collection.educationalmaterials.forEach((collectionMaterial, i: number) => {
         // set loading true
@@ -88,6 +93,10 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.collectionSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.titleSvc.setTitle(`${this.collection.collection.name} ${environment.title}`);
   }
 
   /**
