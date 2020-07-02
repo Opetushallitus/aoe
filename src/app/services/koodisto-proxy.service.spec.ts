@@ -6,7 +6,7 @@ describe('KoodistoProxyService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: KoodistoProxyService = TestBed.get(KoodistoProxyService);
+    const service: KoodistoProxyService = TestBed.inject(KoodistoProxyService);
     expect(service).toBeTruthy();
   });
 });
