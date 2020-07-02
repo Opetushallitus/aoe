@@ -50,7 +50,7 @@
     "jquery": "^3.5.1",
     "mutationobserver-shim": "^0.3.3",
     "ngx-bootstrap": "^5.6.1",
-    "ngx-clipboard": "^12.3.0",
+    "ngx-clipboard": "^12.3.1",
     "ngx-cookie-service": "^2.3.0",
     "ngx-extended-pdf-viewer": "^1.8.4",
     "ngx-image-cropper": "^2.0.4",
