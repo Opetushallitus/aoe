@@ -186,10 +186,6 @@ import { MaterialLanguagePipe } from './pipes/material-language.pipe';
     PdfReaderViewComponent,
     MaterialLanguagePipe,
   ],
-  entryComponents: [
-    EducationalMaterialRatingModalComponent,
-    AddToCollectionModalComponent,
-  ],
   providers: [
     {
       provide: LocationStrategy,
