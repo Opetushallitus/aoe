@@ -6,7 +6,7 @@ import { EducationalMaterial } from '@models/educational-material';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
 import { environment } from '../../../environments/environment';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // tslint:disable-next-line:max-line-length
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AuthService } from '@services/auth.service';

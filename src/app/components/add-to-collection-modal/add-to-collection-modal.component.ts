@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Subscription } from 'rxjs';
 import { UserCollection } from '@models/collections/user-collection';
 import { CollectionService } from '@services/collection.service';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';

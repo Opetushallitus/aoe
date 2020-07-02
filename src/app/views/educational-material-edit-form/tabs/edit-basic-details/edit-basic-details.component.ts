@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EducationalMaterialForm } from '@models/educational-material-form';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';

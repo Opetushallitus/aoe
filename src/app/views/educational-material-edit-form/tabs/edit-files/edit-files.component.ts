@@ -3,7 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { BackendService } from '@services/backend.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
