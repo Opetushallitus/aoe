@@ -110,7 +110,7 @@
       "preview": {
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
-        "fileFormatNotSupported": "Chosen file cannot be previewed.",
+        "fileFormatNotSupported": "The chosen file cannot be previewed. Please download the material to start using it.",
         "openInNewTab": "Open educational material in a new tab",
         "or": "or",
         "download": "Download the file"
