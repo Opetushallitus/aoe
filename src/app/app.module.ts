@@ -1,4 +1,4 @@
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule, HammerModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -132,6 +132,7 @@ import { MaterialLanguagePipe } from './pipes/material-language.pipe';
     DragDropModule,
     ClipboardModule,
     ToastrModule.forRoot(),
+    HammerModule,
   ],
   declarations: [
     AppComponent,
