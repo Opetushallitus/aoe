@@ -333,9 +333,9 @@ export class EditFilesComponent implements OnInit {
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
       this.materialDetailsArray.at(i).get('displayName').setValue({
-        fi: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
-        sv: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
-        en: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        fi: file.name.replace(/\.[^/.]+$/, ''),
+        sv: file.name.replace(/\.[^/.]+$/, ''),
+        en: file.name.replace(/\.[^/.]+$/, ''),
       });
 
       this.form.markAsDirty();
