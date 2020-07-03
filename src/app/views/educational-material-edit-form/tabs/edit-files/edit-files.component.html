@@ -149,7 +149,7 @@
                   [lang]="lang"
                   (change)="onFileChange($event, i)"
                 >
-                <span class="custom-file-label">{{ material.get('newFile').value.name }}</span>
+                <span class="custom-file-label">{{ material.get('newFile').value.name | cleanFilename }}</span>
               </div>
             </ng-container>
           </div><!--/file-->
@@ -377,7 +377,7 @@
                           [lang]="lang"
                           (change)="onSubtitleChange($event, i, j)"
                         >
-                        <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                        <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                       </div>
                     </ng-container>
                   </ng-container>
@@ -396,7 +396,7 @@
                         [lang]="lang"
                         (change)="onSubtitleChange($event, i, j)"
                       >
-                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                     </div>
                   </ng-template>
                 </div><!--/subtitle-->
@@ -510,7 +510,7 @@
                   [lang]="lang"
                   (change)="onFileChange($event, i)"
                 >
-                <span class="custom-file-label">{{ material.get('newFile').value.name }}</span>
+                <span class="custom-file-label">{{ material.get('newFile').value.name | cleanFilename }}</span>
               </div>
             </div><!--/file-->
 
@@ -690,7 +690,7 @@
                         [lang]="lang"
                         (change)="onSubtitleChange($event, i, j)"
                       >
-                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name }}</span>
+                      <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                     </div>
                   </div><!--/subtitle-->
 
