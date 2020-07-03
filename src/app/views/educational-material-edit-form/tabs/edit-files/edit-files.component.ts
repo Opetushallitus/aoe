@@ -241,6 +241,10 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates new subtitle FormGroup.
+   * @returns {FormGroup}
+   */
   createNewSubtitle(): FormGroup {
     return this.fb.group({
       id: this.fb.control(null),
@@ -254,11 +258,18 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds material to material details array.
+   */
   addMaterial(): void {
     this.materialDetailsArray.push(this.createNewMaterial());
   }
 
-  addSubtitle(i): void {
+  /**
+   * Adds subtitle to subtitles array.
+   * @param i {number} Material index
+   */
+  addSubtitle(i: number): void {
     const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
     subtitlesArray.push(this.createNewSubtitle());
   }
