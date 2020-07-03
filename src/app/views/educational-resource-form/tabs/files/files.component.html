@@ -103,7 +103,7 @@
                 [lang]="lang"
                 (change)="onFileChange($event, i)"
               >
-              <span class="custom-file-label">{{ file.get('file').value.name }}</span>
+              <span class="custom-file-label">{{ file.get('file').value.name | cleanFilename }}</span>
             </div>
           </div>
 
@@ -244,7 +244,7 @@
                       [lang]="lang"
                       (change)="onSubtitleChange($event, i, j)"
                     >
-                    <span class="custom-file-label">{{ subtitle.get('file').value.name }}</span>
+                    <span class="custom-file-label">{{ subtitle.get('file').value.name | cleanFilename }}</span>
                   </div>
                 </div>
 
