@@ -203,9 +203,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       // remove extension from filename
       this.files.at(i).get('displayName').setValue({
-        fi: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
-        sv: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
-        en: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        fi: file.name.replace(/\.[^/.]+$/, ''),
+        sv: file.name.replace(/\.[^/.]+$/, ''),
+        en: file.name.replace(/\.[^/.]+$/, ''),
       });
     }
   }
