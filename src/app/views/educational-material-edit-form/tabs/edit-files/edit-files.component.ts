@@ -15,6 +15,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Title } from '@angular/platform-browser';
+import { validateFilename } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -241,6 +242,10 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Creates new subtitle FormGroup.
+   * @returns {FormGroup}
+   */
   createNewSubtitle(): FormGroup {
     return this.fb.group({
       id: this.fb.control(null),
@@ -254,11 +259,18 @@ export class EditFilesComponent implements OnInit {
     });
   }
 
+  /**
+   * Adds material to material details array.
+   */
   addMaterial(): void {
     this.materialDetailsArray.push(this.createNewMaterial());
   }
 
-  addSubtitle(i): void {
+  /**
+   * Adds subtitle to subtitles array.
+   * @param i {number} Material index
+   */
+  addSubtitle(i: number): void {
     const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
     subtitlesArray.push(this.createNewSubtitle());
   }
@@ -321,9 +333,9 @@ export class EditFilesComponent implements OnInit {
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
       this.materialDetailsArray.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
+        fi: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        sv: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        en: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
       });
 
       this.form.markAsDirty();
@@ -405,7 +417,7 @@ export class EditFilesComponent implements OnInit {
     this.materialDetailsArray.value.forEach((material, i: number) => {
       if (material.newFile) {
         const payload = new FormData();
-        payload.append('file', material.newFile, material.newFile.name.toLowerCase());
+        payload.append('file', material.newFile, validateFilename(material.newFile.name));
         payload.append('fileDetails', JSON.stringify({
           displayName: material.displayName,
           language: material.language,
@@ -452,7 +464,7 @@ export class EditFilesComponent implements OnInit {
         material.subtitles.forEach((subtitle, j: number) => {
           if (subtitle.newSubtitle) {
             const payload = new FormData();
-            payload.append('attachment', subtitle.newSubtitle, subtitle.newSubtitle.name.toLowerCase());
+            payload.append('attachment', subtitle.newSubtitle, validateFilename(subtitle.newSubtitle.name));
             payload.append('attachmentDetails', JSON.stringify({
               default: subtitle.default,
               kind: subtitle.kind,

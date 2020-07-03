@@ -220,3 +220,22 @@ export function addPrerequisites(value: string): AlignmentObjectExtended {
     targetName: value.trim(),
   };
 }
+
+/**
+ * Creates valid filename.
+ * @param value {string} Original filename
+ * @returns {string} Valid filename
+ */
+export function validateFilename(value: string): string {
+  const validatedFilename = value
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^\w\s.\-_]/g, '')
+    .replace(/\s/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/-+/g, '-');
+
+  return validatedFilename.length > 0
+    ? validatedFilename
+    : Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
