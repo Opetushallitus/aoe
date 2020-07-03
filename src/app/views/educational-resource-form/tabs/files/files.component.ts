@@ -13,6 +13,7 @@ import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
+import { validateFilename } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-files',
@@ -202,9 +203,9 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       // remove extension from filename
       this.files.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
+        fi: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        sv: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
+        en: validateFilename(file.name.replace(/\.[^/.]+$/, '')),
       });
     }
   }
@@ -295,7 +296,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         );
       } else {
         const formData = new FormData();
-        formData.append('file', file.file, file.file.name.toLowerCase());
+        formData.append('file', file.file, validateFilename(file.file.name));
         formData.append('fileDetails', JSON.stringify({
           displayName: file.displayName,
           language: file.language,
@@ -310,7 +311,7 @@ export class FilesComponent implements OnInit, OnDestroy {
               if (file.subtitles.length > 0) {
                 file.subtitles.forEach(subtitle => {
                   const subFormData = new FormData();
-                  subFormData.append('attachment', subtitle.file, subtitle.file.name.toLowerCase());
+                  subFormData.append('attachment', subtitle.file, validateFilename(subtitle.file.name));
                   subFormData.append('attachmentDetails', JSON.stringify({
                     default: subtitle.default,
                     kind: subtitle.kind,

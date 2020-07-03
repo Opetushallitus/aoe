@@ -98,6 +98,7 @@ import { AddToCollectionModalComponent } from '@components/add-to-collection-mod
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
 import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
+import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
 
 @NgModule({
   imports: [
@@ -185,6 +186,7 @@ import { MaterialLanguagePipe } from './pipes/material-language.pipe';
     CollectionViewComponent,
     PdfReaderViewComponent,
     MaterialLanguagePipe,
+    CleanFilenamePipe,
   ],
   entryComponents: [
     EducationalMaterialRatingModalComponent,
