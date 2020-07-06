@@ -104,13 +104,22 @@
                         type="button"
                         class="btn btn-gray"
                         *ngFor="let lang of materialLanguages"
-                        (click)="setSelectedLanguage(lang)"
                         [ngClass]="lang === selectedLanguage ? 'active' : ''"
+                        [attr.aria-selected]="lang === selectedLanguage"
+                        [attr.aria-controls]="'fileList-' + lang"
+                        [id]="'langSelector-' + lang"
+                        role="tab"
+                        (click)="setSelectedLanguage(lang)"
                       >{{ lang }}</button>
                     </div>
                   </ng-container>
 
-                  <ng-container *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials">
+                  <div
+                    *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials"
+                    [id]="'fileList-' + selectedLanguage"
+                    role="tabpanel"
+                    [attr.aria-labelledby]="'langSelector-' + selectedLanguage"
+                  >
                     <h3 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
                       {{ 'materialPreview.selectMaterial' | translate }}
                     </h3>
@@ -121,28 +130,38 @@
                           type="button"
                           class="btn btn-file text-dark"
                           [ngClass]="material === previewMaterial ? 'active' : ''"
+                          [attr.aria-selected]="material === previewMaterial"
+                          [attr.aria-controls]="'filePreview-' + material.id"
+                          [id]="'fileSelector-' + material.id"
+                          role="tab"
                           (click)="setPreviewMaterial(material)"
                         >{{ material.displayName[lang] }}</button>
                       </ng-container>
                     </div>
-                  </ng-container>
+                  </div>
                 </div>
 
                 <div class="col-9">
-                  <app-educational-material-preview
-                    [material]="previewMaterial"
-                    *ngIf="!previewMaterial.link; else linkPreview"></app-educational-material-preview>
+                  <div
+                    [id]="'filePreview-' + previewMaterial.id"
+                    role="tabpanel"
+                    [attr.aria-labelledby]="'fileSelector-' + previewMaterial.id"
+                  >
+                    <app-educational-material-preview
+                      [material]="previewMaterial"
+                      *ngIf="!previewMaterial.link; else linkPreview"></app-educational-material-preview>
 
-                  <ng-template #linkPreview>
-                    <div class="link-preview">
-                      <a
-                        [href]="previewMaterial.link"
-                        class="btn btn-secondary"
-                        target="_blank"
-                        rel="noopener nofollow"
-                      >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
-                    </div>
-                  </ng-template>
+                    <ng-template #linkPreview>
+                      <div class="link-preview">
+                        <a
+                          [href]="previewMaterial.link"
+                          class="btn btn-secondary"
+                          target="_blank"
+                          rel="noopener nofollow"
+                        >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                      </div>
+                    </ng-template>
+                  </div>
                 </div>
               </div>
             </div>
