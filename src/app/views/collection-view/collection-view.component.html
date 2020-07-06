@@ -48,13 +48,22 @@
                         type="button"
                         class="btn btn-gray"
                         *ngFor="let lang of materialLanguages.get(collectionMaterial.id)"
-                        (click)="setSelectedLanguage(collectionMaterial.id, lang)"
                         [ngClass]="lang === selectedLanguages.get(collectionMaterial.id) ? 'active' : ''"
+                        [attr.aria-selected]="lang === selectedLanguages.get(collectionMaterial.id)"
+                        [attr.aria-controls]="'fileList-' + collectionMaterial.id + '-' + lang"
+                        [id]="'langSelector-' + collectionMaterial.id + '-' + lang"
+                        role="tab"
+                        (click)="setSelectedLanguage(collectionMaterial.id, lang)"
                       >{{ lang }}</button>
                     </div>
                   </ng-container>
 
-                  <ng-container *ngIf="collectionMaterials.get(collectionMaterial.id) | materialLanguage:selectedLanguages.get(collectionMaterial.id) as materials">
+                  <div
+                    *ngIf="collectionMaterials.get(collectionMaterial.id) | materialLanguage:selectedLanguages.get(collectionMaterial.id) as materials"
+                    [id]="'fileList-' + collectionMaterial.id + '-' + selectedLanguages.get(collectionMaterial.id)"
+                    role="tabpanel"
+                    [attr.aria-labelledby]="'langSelector-' + collectionMaterial.id + '-' + selectedLanguages.get(collectionMaterial.id)"
+                  >
                     <h3
                       [id]="'selectMaterial' + collectionMaterial.id"
                       [ngClass]="materials.length === 1 ? 'sr-only' : ''"
@@ -66,29 +75,39 @@
                           type="button"
                           class="btn btn-file text-dark"
                           [ngClass]="material === previewMaterials.get(collectionMaterial.id) ? 'active' : ''"
+                          [attr.aria-selected]="material === previewMaterials.get(collectionMaterial.id)"
+                          [attr.aria-controls]="'filePreview-' + collectionMaterial.id + '-' + material.id"
+                          [id]="'fileSelector-' + collectionMaterial.id + '-' + material.id"
+                          role="tab"
                           (click)="setPreviewMaterial(collectionMaterial.id, material)"
                         >{{ material.displayName[lang] }}</button>
                       </ng-container>
                     </div>
-                  </ng-container>
+                  </div>
                 </div>
 
                 <div class="col-9">
-                  <app-educational-material-preview
-                    [material]="previewMaterials.get(collectionMaterial.id)"
-                    [isCollection]="true"
-                    *ngIf="!previewMaterials.get(collectionMaterial.id).link; else linkPreview"></app-educational-material-preview>
+                  <div
+                    [id]="'filePreview-' + collectionMaterial.id + '-' + previewMaterials.get(collectionMaterial.id).id"
+                    role="tabpanel"
+                    [attr.aria-labelledby]="'fileSelector-' + collectionMaterial.id + '-' + previewMaterials.get(collectionMaterial.id).id"
+                  >
+                    <app-educational-material-preview
+                      [material]="previewMaterials.get(collectionMaterial.id)"
+                      [isCollection]="true"
+                      *ngIf="!previewMaterials.get(collectionMaterial.id).link; else linkPreview"></app-educational-material-preview>
 
-                  <ng-template #linkPreview>
-                    <div class="link-preview">
-                      <a
-                        [href]="previewMaterials.get(collectionMaterial.id).link"
-                        class="btn btn-secondary"
-                        target="_blank"
-                        rel="noopener nofollow"
-                      >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
-                    </div>
-                  </ng-template>
+                    <ng-template #linkPreview>
+                      <div class="link-preview">
+                        <a
+                          [href]="previewMaterials.get(collectionMaterial.id).link"
+                          class="btn btn-secondary"
+                          target="_blank"
+                          rel="noopener nofollow"
+                        >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                      </div>
+                    </ng-template>
+                  </div>
                 </div>
               </div>
             </div>
