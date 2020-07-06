@@ -132,7 +132,7 @@ export class EducationalMaterialViewComponent implements OnInit {
     if (event) {
       this.metadataHeading = 'Vähemmän kuvailutietoja';
     } else {
-      this.metadataHeading = 'Lisää kuvailutietoja';
+      this.metadataHeading = 'Enemmän kuvailutietoja';
     }
   }
 
