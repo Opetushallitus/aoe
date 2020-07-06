@@ -35,6 +35,8 @@ export class EducationalMaterialViewComponent implements OnInit {
   collectionModalRef: BsModalRef;
   materialLanguages: string[];
   selectedLanguage: string;
+  expired: boolean;
+  expires: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -85,6 +87,9 @@ export class EducationalMaterialViewComponent implements OnInit {
 
       // set preview material
       this.setPreviewMaterial(this.materials.find((material: Material) => material.language === this.selectedLanguage));
+
+      // if material expired
+      this.expired = new Date(data.expires) < new Date();
     });
 
     this.updateMetadataHeading(false);
