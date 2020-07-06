@@ -148,7 +148,8 @@
           "feedbackSuggest": "Mitä voisi vielä kehittää?",
           "feedbackPurpose": "Miten hyödynsin materiaalia?"
         }
-      }
+      },
+      "expired": "Oppimateriaali on vanhentunut {{date}}"
     }
   },
   "forms": {

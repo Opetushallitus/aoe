@@ -148,7 +148,8 @@
           "feedbackSuggest": "Hur ska lärresursen utvecklas?",
           "feedbackPurpose": "Hur använde du lärresursen?"
         }
-      }
+      },
+      "expired": "Lärresursen är föråldrat {{date}}"
     }
   },
   "forms": {
