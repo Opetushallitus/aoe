@@ -184,7 +184,9 @@ export class BackendService {
           createdAt: res.createdAt,
           publishedAt: res.publishedAt,
           updatedAt: res.updatedAt,
+          archivedAt: res.archivedAt,
           timeRequired: res.timeRequired,
+          expires: res.expires,
           license: res.license,
           keywords: res.keywords
             .map(({ keywordkey, value }) => ({ keywordkey, value })),
