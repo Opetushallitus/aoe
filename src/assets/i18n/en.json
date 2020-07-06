@@ -148,7 +148,8 @@
           "feedbackSuggest": "How could the material be developed?",
           "feedbackPurpose": "How did you use the material as part of your teaching or learning?"
         }
-      }
+      },
+      "expired": "Educational material has expired {{date}}"
     }
   },
   "forms": {
