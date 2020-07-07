@@ -67,6 +67,7 @@
     "educationalMaterial": {
       "download": "Download",
       "addToCollection": "Add to collection",
+      "edit": "Edit",
       "viewCount": "views",
       "downloadCount": "downloads",
       "createdAt": "Created",

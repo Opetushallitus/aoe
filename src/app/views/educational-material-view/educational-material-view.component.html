@@ -20,6 +20,13 @@
               >{{ 'demo.educationalMaterial.addToCollection' | translate }}</button>
             </ng-container>
 
+            <ng-container *ngIf="educationalMaterial.owner">
+              <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId]">
+                <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
+                {{ 'demo.educationalMaterial.edit' | translate }}
+              </a>
+            </ng-container>
+
             <a class="btn btn-link" [href]="downloadUrl" download>
               <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
               {{ 'demo.educationalMaterial.download' | translate }}
