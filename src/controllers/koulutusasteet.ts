@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { Children, EducationLevel } from "../models/data";
+import { sortByValue } from "../util/data.utils";
 
 const endpoint = "edtech/codeschemes/Koulutusaste";
 const rediskey = "koulutusasteet";
@@ -75,6 +76,21 @@ export async function setKoulutusasteet(): Promise<any> {
           value: child.value.sv !== undefined ? child.value.sv : (child.value.fi !== undefined ? child.value.fi : child.value.en),
         });
       });
+
+      // basic education
+      if (row.key === "8cb1a02f-54cb-499a-b470-4ee980519707") {
+        // sort sub levels by value
+        childrenFi.sort(sortByValue);
+        childrenEn.sort(sortByValue);
+        childrenSv.sort(sortByValue);
+
+        // we need to do some manual sorting to get main level first and 10th grade to last
+        const mainLevelIndex = childrenFi.findIndex((level: Children) => level.key === "8cb1a02f-54cb-499a-b470-4ee980519707");
+        childrenFi.splice(0, 0, childrenFi.splice(mainLevelIndex, 1)[0]);
+
+        const lastLevelIndex = childrenFi.findIndex((level: Children) => level.key === "14fe3b08-8516-4999-946b-96eb90c2d563");
+        childrenFi.splice(childrenFi.length - 1, 0, childrenFi.splice(lastLevelIndex, 1)[0]);
+      }
 
       if (row.parent === undefined) {
         finnish.push({
