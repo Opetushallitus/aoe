@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Userdata } from '@models/userdata';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AuthService {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
+    private cookieSvc: CookieService,
   ) { }
 
   /**
@@ -68,10 +70,14 @@ export class AuthService {
   }
 
   /**
-   * Removes user data.
+   * Removes user data and session id cookie.
    */
   removeUserdata(): void {
+    // remove user data
     sessionStorage.removeItem(this.userdataKey);
+
+    // remove session id
+    this.cookieSvc.delete('connect.sid', '/');
   }
 
   /**
