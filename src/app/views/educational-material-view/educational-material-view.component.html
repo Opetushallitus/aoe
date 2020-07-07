@@ -615,7 +615,7 @@
                 </a>
               </div>
 
-              <div class="col-auto" *ngIf="authSvc.hasUserdata()">
+              <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                 <button
                   type="button"
                   class="btn btn-anchor"
