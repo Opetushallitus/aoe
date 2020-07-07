@@ -67,6 +67,7 @@
     "educationalMaterial": {
       "download": "Lataa",
       "addToCollection": "Lisää kokoelmaan",
+      "edit": "Muokkaa",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
       "createdAt": "Lisätty",
