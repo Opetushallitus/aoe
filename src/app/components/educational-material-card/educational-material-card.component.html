@@ -2,7 +2,11 @@
   <a [routerLink]="[ '/materiaali', educationalMaterial.id ]" class="header">
     <div class="row no-gutters">
       <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left">
-        <img [src]="educationalMaterial.thumbnail" class="img-fluid">
+        <img
+          [src]="educationalMaterial.thumbnail"
+          class="img-fluid"
+          [alt]="'demo.educationalMaterial.cover.alt' | translate"
+        >
       </div>
 
       <div class="col-12 col-sm-8 col-md-12 col-lg-7 px-sm-3">

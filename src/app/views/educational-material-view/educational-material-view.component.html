@@ -33,7 +33,11 @@
           <div class="material-sidebar-left">
             <div class="row">
               <div class="col-auto col-md-12 text-center text-sm-left">
-                <img [src]="educationalMaterial.thumbnail" class="img-fluid mb-4">
+                <img
+                  [src]="educationalMaterial.thumbnail"
+                  class="img-fluid mb-4"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
               </div>
 
               <div class="col">
