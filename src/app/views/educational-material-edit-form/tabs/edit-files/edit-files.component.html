@@ -786,6 +786,12 @@
     </fieldset>
   </ng-container><!--/files-->
 
+  <alert *ngIf="submitted && materialDetailsArray.errors" type="warning">
+    <div *ngIf="materialDetailsArray.errors.required">
+      {{ 'forms.educationalResource.files.file.error' | translate }}
+    </div>
+  </alert>
+
   <div class="form-group">
     <button
       type="button"
