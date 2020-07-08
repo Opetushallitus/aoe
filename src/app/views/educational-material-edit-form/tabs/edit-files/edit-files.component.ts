@@ -397,6 +397,10 @@ export class EditFilesComponent implements OnInit {
 
       priorityCtrl.setValue(i);
     });
+
+    if (this.materialDetailsArray.controls.length === 0) {
+      this.materialDetailsArray.setErrors({ 'required': true });
+    }
   }
 
   validateSubtitles(): void {
