@@ -149,7 +149,10 @@
           "feedbackPurpose": "Miten hyödynsin materiaalia?"
         }
       },
-      "expired": "Oppimateriaali on vanhentunut {{date}}"
+      "expired": "Oppimateriaali on vanhentunut {{date}}",
+      "cover": {
+        "alt": "Oppimateriaalin kansikuva"
+      }
     }
   },
   "forms": {
