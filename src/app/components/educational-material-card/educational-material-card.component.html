@@ -2,7 +2,11 @@
   <a [routerLink]="[ '/materiaali', educationalMaterial.id ]" class="header">
     <div class="row no-gutters">
       <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left">
-        <img [src]="educationalMaterial.thumbnail" class="img-fluid">
+        <img
+          [src]="educationalMaterial.thumbnail"
+          class="img-fluid"
+          [alt]="'demo.educationalMaterial.cover.alt' | translate"
+        >
       </div>
 
       <div class="col-12 col-sm-8 col-md-12 col-lg-7 px-sm-3">
@@ -34,7 +38,11 @@
       {{ educationalMaterial.license.value }}
     </div>
     <div class="type ml-auto">
-      <img src="assets/img/icons/learning-resource-types/{{ educationalMaterial.learningResourceTypes[0].learningresourcetypekey }}.svg" class="img-icon"> {{ educationalMaterial.learningResourceTypes[0].value }}
+      <img
+        src="assets/img/icons/learning-resource-types/{{ educationalMaterial.learningResourceTypes[0].learningresourcetypekey }}.svg"
+        class="img-icon"
+        aria-hidden="true"
+      > {{ educationalMaterial.learningResourceTypes[0].value }}
     </div>
   </div>
 </div>

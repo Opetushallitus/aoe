@@ -150,7 +150,10 @@
           "feedbackPurpose": "Hur använde du lärresursen?"
         }
       },
-      "expired": "Lärresursen är föråldrat {{date}}"
+      "expired": "Lärresursen är föråldrat {{date}}",
+      "cover": {
+        "alt": "Lärresursers omslaget"
+      }
     }
   },
   "forms": {
