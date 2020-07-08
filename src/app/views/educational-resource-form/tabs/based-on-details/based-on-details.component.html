@@ -57,13 +57,14 @@
   <div formArrayName="externals" *ngFor="let external of externals.controls; let i = index;">
     <div class="form-row" [formGroupName]="i">
       <div class="form-group col-md">
-        <label for="{{ 'authorExt-' + i }}">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }}</label>
+        <label [for]="'authorExt-' + i">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }}</label>
 
         <ng-select
           [items]="[]"
           [multiple]="true"
           [addTag]="true"
-          id="{{ 'authorExt-' + i }}"
+          [id]="'authorExt-' + i"
+          [labelForId]="'authorExt-' + i"
           formControlName="author"
           [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
         ></ng-select>

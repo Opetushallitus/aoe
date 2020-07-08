@@ -40,13 +40,21 @@
           <div class="material-sidebar-left">
             <div class="row">
               <div class="col-auto col-md-12 text-center text-sm-left">
-                <img [src]="educationalMaterial.thumbnail" class="img-fluid mb-4">
+                <img
+                  [src]="educationalMaterial.thumbnail"
+                  class="img-fluid mb-4"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
               </div>
 
               <div class="col">
                 <ul class="list-unstyled">
                   <li *ngFor="let type of educationalMaterial.learningResourceTypes">
-                    <img src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg" class="img-icon"> {{ type.value }}
+                    <img
+                      src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"
+                      class="img-icon"
+                      aria-hidden="true"
+                    > {{ type.value }}
                   </li>
                   <!--<li class="text-muted">
                     <i class="fa fa-fw fa-eye" aria-hidden="true"></i>

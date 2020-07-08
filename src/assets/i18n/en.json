@@ -150,7 +150,10 @@
           "feedbackPurpose": "How did you use the material as part of your teaching or learning?"
         }
       },
-      "expired": "Educational material has expired {{date}}"
+      "expired": "Educational material has expired {{date}}",
+      "cover": {
+        "alt": "Cover of the OER"
+      }
     }
   },
   "forms": {
