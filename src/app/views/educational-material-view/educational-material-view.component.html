@@ -43,7 +43,11 @@
               <div class="col">
                 <ul class="list-unstyled">
                   <li *ngFor="let type of educationalMaterial.learningResourceTypes">
-                    <img src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg" class="img-icon"> {{ type.value }}
+                    <img
+                      src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"
+                      class="img-icon"
+                      aria-hidden="true"
+                    > {{ type.value }}
                   </li>
                   <!--<li class="text-muted">
                     <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
