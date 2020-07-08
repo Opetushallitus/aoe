@@ -17,6 +17,7 @@
       bindLabel="value"
       groupBy="children"
       id="educationalLevels"
+      labelForId="educationalLevels"
       formControlName="educationalLevels"
       (change)="educationalLevelsChange($event)"
     >
@@ -58,6 +59,7 @@
         [addTag]="addEarlyChildhoodEducationSubject"
         bindLabel="targetName"
         id="earlyChildhoodEducationSubjects"
+        labelForId="earlyChildhoodEducationSubjects"
         formControlName="earlyChildhoodEducationSubjects"
       ></ng-select>
     </div>
@@ -94,6 +96,7 @@
         [addTag]="addEarlyChildhoodEducationObjective"
         bindLabel="targetName"
         id="earlyChildhoodEducationObjectives"
+        labelForId="earlyChildhoodEducationObjectives"
         formControlName="earlyChildhoodEducationObjectives"
       >
       </ng-select>
@@ -141,6 +144,7 @@
         [addTag]="addPrePrimaryEducationSubject"
         bindLabel="targetName"
         id="prePrimaryEducationSubjects"
+        labelForId="prePrimaryEducationSubjects"
         formControlName="prePrimaryEducationSubjects"
       ></ng-select>
     </div>
@@ -177,6 +181,7 @@
         [addTag]="addPrePrimaryEducationObjective"
         bindLabel="targetName"
         id="prePrimaryEducationObjectives"
+        labelForId="prePrimaryEducationObjectives"
         formControlName="prePrimaryEducationObjectives"
       >
       </ng-select>
@@ -225,6 +230,7 @@
         bindLabel="targetName"
         groupBy="children"
         id="basicStudySubjects"
+        labelForId="basicStudySubjects"
         formControlName="basicStudySubjects"
         (change)="basicStudySubjectsChange($event)"
       >
@@ -283,6 +289,7 @@
           bindLabel="targetName"
           groupBy="parent"
           id="basicStudyObjectives"
+          labelForId="basicStudyObjectives"
           formControlName="basicStudyObjectives"
         >
           <ng-template ng-optgroup-tmp let-item="item">
@@ -306,6 +313,7 @@
           bindLabel="targetName"
           groupBy="parent"
           id="basicStudyContents"
+          labelForId="basicStudyContents"
           formControlName="basicStudyContents"
         >
           <ng-template ng-optgroup-tmp let-item="item">
@@ -374,6 +382,7 @@
           [closeOnSelect]="false"
           bindLabel="targetName"
           id="upperSecondarySchoolSubjects"
+          labelForId="upperSecondarySchoolSubjects"
           formControlName="upperSecondarySchoolSubjects"
         ></ng-select>
       </div>
@@ -410,6 +419,7 @@
           [addTag]="addUpperSecondarySchoolObjective"
           bindLabel="targetName"
           id="upperSecondarySchoolObjectives"
+          labelForId="upperSecondarySchoolObjectives"
           formControlName="upperSecondarySchoolObjectives"
         >
         </ng-select>
@@ -452,6 +462,7 @@
           bindLabel="targetName"
           groupBy="parent"
           id="upperSecondarySchoolSubjectsNew"
+          labelForId="upperSecondarySchoolSubjectsNew"
           formControlName="upperSecondarySchoolSubjectsNew"
           (change)="upperSecondarySchoolSubjectsNewChange($event)"
         >
@@ -489,6 +500,7 @@
             bindLabel="targetName"
             groupBy="parent"
             id="upperSecondarySchoolModulesNew"
+            labelForId="upperSecondarySchoolModulesNew"
             formControlName="upperSecondarySchoolModulesNew"
             (change)="upperSecondarySchoolModulesNewChange($event)"
           ></ng-select>
@@ -506,6 +518,7 @@
             bindLabel="targetName"
             groupBy="parent"
             id="upperSecondarySchoolObjectivesNew"
+            labelForId="upperSecondarySchoolObjectivesNew"
             formControlName="upperSecondarySchoolObjectivesNew"
           ></ng-select>
         </div>
@@ -522,6 +535,7 @@
             bindLabel="targetName"
             groupBy="parent"
             id="upperSecondarySchoolContentsNew"
+            labelForId="upperSecondarySchoolContentsNew"
             formControlName="upperSecondarySchoolContentsNew"
           ></ng-select>
         </div>
@@ -551,6 +565,7 @@
         [closeOnSelect]="false"
         bindLabel="targetName"
         id="vocationalDegrees"
+        labelForId="vocationalDegrees"
         formControlName="vocationalDegrees"
         (change)="vocationalDegreesChange($event)"
       ></ng-select>
@@ -584,6 +599,7 @@
           bindLabel="targetName"
           groupBy="parent"
           id="vocationalUnits"
+          labelForId="vocationalUnits"
           formControlName="vocationalUnits"
         ></ng-select>
       </div>
@@ -606,6 +622,7 @@
         [addTag]="addVocationalEducationObjective"
         bindLabel="targetName"
         id="vocationalEducationObjectives"
+        labelForId="vocationalEducationObjectives"
         formControlName="vocationalEducationObjectives"
       >
       </ng-select>
@@ -653,6 +670,7 @@
         [addTag]="addSelfMotivatedEducationSubject"
         bindLabel="targetName"
         id="selfMotivatedEducationSubjects"
+        labelForId="selfMotivatedEducationSubjects"
         formControlName="selfMotivatedEducationSubjects"
       ></ng-select>
     </div>
@@ -689,6 +707,7 @@
         [addTag]="addSelfMotivatedEducationObjective"
         bindLabel="targetName"
         id="selfMotivatedEducationObjectives"
+        labelForId="selfMotivatedEducationObjectives"
         formControlName="selfMotivatedEducationObjectives"
       >
       </ng-select>
@@ -720,6 +739,7 @@
         groupBy="children"
         bindLabel="targetName"
         id="branchesOfScience"
+        labelForId="branchesOfScience"
         formControlName="branchesOfScience"
       >
         <ng-template ng-optgroup-tmp let-item="item">
@@ -763,6 +783,7 @@
         [addTag]="addScienceBranchObjectives"
         bindLabel="targetName"
         id="scienceBranchObjectives"
+        labelForId="scienceBranchObjectives"
         formControlName="scienceBranchObjectives"
       >
       </ng-select>

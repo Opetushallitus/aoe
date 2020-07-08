@@ -127,7 +127,7 @@
               </div>
 
               <div class="form-group col">
-                <label for="{{ 'affiliate' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}</label>
+                <label [for]="'affiliate' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}</label>
 
                 <button
                   type="button"
@@ -140,7 +140,8 @@
                   [virtualScroll]="true"
                   [addTag]="addCustomItem"
                   bindLabel="value"
-                  id="{{ 'affiliate' + i }}"
+                  [id]="'affiliate' + i"
+                  [labelForId]="'affiliate' + i"
                   formControlName="organization"
                 ></ng-select>
               </div>
@@ -149,7 +150,7 @@
             <!--if organization-->
             <ng-container *ngIf="!author.get('author')">
               <div class="form-group col">
-                <label for="{{ 'organization' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate }}</label>
+                <label [for]="'organization' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate }}</label>
 
                 <button
                   type="button"
@@ -162,7 +163,8 @@
                   [virtualScroll]="true"
                   [addTag]="addCustomItem"
                   bindLabel="value"
-                  id="{{ 'organization' + i }}"
+                  [id]="'organization' + i"
+                  [labelForId]="'organization' + i"
                   formControlName="organization"
                 ></ng-select>
 
@@ -213,6 +215,7 @@
           [addTag]="addCustomItem"
           bindLabel="value"
           id="keywords"
+          labelForId="keywords"
           formControlName="keywords"
         ></ng-select>
 
@@ -239,6 +242,7 @@
             [closeOnSelect]="false"
             bindLabel="value"
             id="learningResourceTypes"
+            labelForId="learningResourceTypes"
             formControlName="learningResourceTypes"
           ></ng-select>
 
@@ -264,6 +268,7 @@
             [closeOnSelect]="false"
             bindLabel="value"
             id="educationalRoles"
+            labelForId="educationalRoles"
             formControlName="educationalRoles"
           ></ng-select>
         </div>
@@ -283,6 +288,7 @@
             [closeOnSelect]="false"
             bindLabel="value"
             id="educationalUses"
+            labelForId="educationalUses"
             formControlName="educationalUses"
           ></ng-select>
         </div>
