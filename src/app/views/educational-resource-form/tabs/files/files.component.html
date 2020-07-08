@@ -129,7 +129,7 @@
           </div>
 
           <div class="form-group col-lg-2">
-            <label for="{{ 'language' + i }}">{{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*</label>
+            <label [for]="'language' + i">{{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*</label>
 
             <button
               type="button"
@@ -141,7 +141,8 @@
               [items]="languages"
               bindLabel="value"
               bindValue="key"
-              id="{{ 'language' + i }}"
+              [id]="'language' + i"
+              [labelForId]="'language' + i"
               formControlName="language"
             ></ng-select>
 
@@ -265,13 +266,14 @@
                 </div>
 
                 <div class="form-group col-sm-4 col-lg-2">
-                  <label for="{{ 'srclang' + i + j }}">{{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*</label>
+                  <label [for]="'srclang' + i + j">{{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*</label>
 
                   <ng-select
                     [items]="languages"
                     bindLabel="value"
                     bindValue="key"
-                    id="{{ 'srclang' + i + j }}"
+                    [id]="'srclang' + i + j"
+                    [labelForId]="'srclang' + i + j"
                     formControlName="srclang"
                   ></ng-select>
 
