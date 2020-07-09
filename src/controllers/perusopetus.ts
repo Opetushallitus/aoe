@@ -275,6 +275,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
     await setAsync(`${rediskeySubjects}.fi`, JSON.stringify(finnishSubjects));
     await setAsync(`${rediskeySubjects}.sv`, JSON.stringify(swedishSubjects));
+    await setAsync(`${rediskeySubjects}.en`, JSON.stringify(finnishSubjects));
 
     finnishObjectives
       .sort(sortByTargetName)
@@ -286,6 +287,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
     await setAsync(`${rediskeyObjectives}.fi`, JSON.stringify(finnishObjectives));
     await setAsync(`${rediskeyObjectives}.sv`, JSON.stringify(swedishObjectives));
+    await setAsync(`${rediskeyObjectives}.en`, JSON.stringify(finnishObjectives));
 
     finnishContents
       .sort(sortByTargetName)
@@ -297,6 +299,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
     await setAsync(`${rediskeyContents}.fi`, JSON.stringify(finnishContents));
     await setAsync(`${rediskeyContents}.sv`, JSON.stringify(swedishContents));
+    await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents));
   } catch (err) {
     console.error(err);
   }
