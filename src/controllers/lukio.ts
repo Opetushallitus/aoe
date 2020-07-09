@@ -162,8 +162,10 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
 
     await setAsync(`${rediskeySubjects}.fi`, JSON.stringify(finnishSubjects));
     await setAsync(`${rediskeySubjects}.sv`, JSON.stringify(swedishSubjects));
+    await setAsync(`${rediskeySubjects}.en`, JSON.stringify(finnishSubjects));
     await setAsync(`${rediskeyModules}.fi`, JSON.stringify(finnishModules));
     await setAsync(`${rediskeyModules}.sv`, JSON.stringify(swedishModules));
+    await setAsync(`${rediskeyModules}.en`, JSON.stringify(finnishModules));
   } catch (err) {
     console.error(err);
   }
@@ -301,8 +303,10 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
 
     await setAsync(`${rediskeyObjectives}.fi`, JSON.stringify(finnishObjectives));
     await setAsync(`${rediskeyObjectives}.sv`, JSON.stringify(swedishObjectives));
+    await setAsync(`${rediskeyObjectives}.en`, JSON.stringify(finnishObjectives));
     await setAsync(`${rediskeyContents}.fi`, JSON.stringify(finnishContents));
     await setAsync(`${rediskeyContents}.sv`, JSON.stringify(swedishContents));
+    await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents));
   } catch (err) {
     console.error(err);
   }
