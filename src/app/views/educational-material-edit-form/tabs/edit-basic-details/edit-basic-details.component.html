@@ -338,7 +338,17 @@
               id="description"
               rows="10"
               [formControlName]="lang"
+              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched) }"
             ></textarea>
+
+            <div
+              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
+                {{ 'forms.errors.description.characters' | translate }}
+              </div>
+            </div>
           </div>
 
           <div class="col-auto">
