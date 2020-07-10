@@ -7,7 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { KeyValue } from '@angular/common';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem, descriptionValidator } from '../../../../shared/shared.module';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
@@ -69,7 +69,9 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null),
+        fi: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
         sv: this.fb.control(null),
         en: this.fb.control(null),
       }),
@@ -172,6 +174,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   get learningResourceTypesCtrl(): FormControl {
     return this.form.get('learningResourceTypes') as FormControl;
+  }
+
+  get descriptionCtrl(): FormGroup {
+    return this.form.get('description') as FormGroup;
   }
 
   /**
