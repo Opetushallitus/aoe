@@ -395,7 +395,17 @@
                 id="description2"
                 rows="10"
                 [formControlName]="otherLangs[0]"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched) }"
               ></textarea>
+
+              <div
+                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -408,7 +418,17 @@
                 id="description3"
                 rows="10"
                 [formControlName]="otherLangs[1]"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched) }"
               ></textarea>
+
+              <div
+                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
+              </div>
             </div>
           </div>
 
