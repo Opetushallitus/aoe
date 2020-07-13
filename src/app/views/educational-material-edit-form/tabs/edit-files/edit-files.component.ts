@@ -15,7 +15,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Title } from '@angular/platform-browser';
-import { validateFilename } from '../../../../shared/shared.module';
+import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -126,13 +126,16 @@ export class EditFilesComponent implements OnInit {
 
     // set other languages validators null for name
     this.otherLangs.forEach((lang: string) => {
-      this.names.get(lang).setValidators(null);
+      this.names.get(lang).setValidators([
+        textInputValidator(),
+      ]);
       this.names.get(lang).updateValueAndValidity();
     });
 
     // set current language validator required for name
     this.names.get(this.lang).setValidators([
       Validators.required,
+      textInputValidator(),
     ]);
     this.names.get(this.lang).updateValueAndValidity();
   }
@@ -186,9 +189,15 @@ export class EditFilesComponent implements OnInit {
         Validators.pattern('https?://.*'),
       ]),
       displayName: this.fb.group({
-        fi: this.fb.control(file.displayName.fi),
-        sv: this.fb.control(file.displayName.sv),
-        en: this.fb.control(file.displayName.en),
+        fi: this.fb.control(file.displayName.fi, [
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(file.displayName.sv, [
+          textInputValidator(),
+        ]),
+        en: this.fb.control(file.displayName.en, [
+          textInputValidator(),
+        ]),
       }),
       language: this.fb.control(file.language, [
         Validators.required,
@@ -212,9 +221,15 @@ export class EditFilesComponent implements OnInit {
         Validators.pattern('https?://.*'),
       ]),
       displayName: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          textInputValidator(),
+        ]),
       }),
       language: this.fb.control(null),
       priority: this.fb.control(null),
@@ -235,7 +250,9 @@ export class EditFilesComponent implements OnInit {
       newSubtitle: [''],
       default: this.fb.control(subtitle.default),
       kind: this.fb.control(subtitle.kind),
-      label: this.fb.control(subtitle.label),
+      label: this.fb.control(subtitle.label, [
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(subtitle.srclang),
     });
   }
@@ -252,7 +269,9 @@ export class EditFilesComponent implements OnInit {
       newSubtitle: [''],
       default: this.fb.control(false),
       kind: this.fb.control('subtitles'),
-      label: this.fb.control(null),
+      label: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(null),
     });
   }
@@ -390,6 +409,7 @@ export class EditFilesComponent implements OnInit {
 
       displayNameCtrl.setValidators([
         Validators.required,
+        textInputValidator(),
       ]);
       displayNameCtrl.updateValueAndValidity();
 
