@@ -89,8 +89,6 @@ export class EditFilesComponent implements OnInit {
       this.form.patchValue(editMaterial);
 
       this.patchFileDetails(editMaterial.fileDetails);
-
-      this.videoFiles = editMaterial.videoFiles;
     }
 
     // languages
@@ -607,7 +605,6 @@ export class EditFilesComponent implements OnInit {
 
     changedMaterial.name = this.form.get('name').value;
     changedMaterial.fileDetails = this.materialDetailsArray.value;
-    changedMaterial.videoFiles = this.videoFiles;
 
     if (this.newMaterialCount > 0 || this.newSubtitleCount > 0) {
       this.isVersioned = true;
