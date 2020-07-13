@@ -182,8 +182,11 @@
       "replaceLink": "Korvaa linkki"
     },
     "errors": {
+      "textInput": {
+        "characters": "Sallitut erikoismerkit: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
       "description": {
-        "characters": "Sallitut erikoismerkit ovat: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Sallitut erikoismerkit: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {

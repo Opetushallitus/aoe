@@ -182,8 +182,11 @@
       "replaceLink": "Replace link"
     },
     "errors": {
+      "textInput": {
+        "characters": "Allowed special characters: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
       "description": {
-        "characters": "Allowed special characters: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Allowed special characters: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {

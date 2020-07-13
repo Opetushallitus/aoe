@@ -182,8 +182,11 @@
       "replaceLink": "Byta länken"
     },
     "errors": {
+      "textInput": {
+        "characters": "Tillåtna specialtecken: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
       "description": {
-        "characters": "Tillåtna specialtecken: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Tillåtna specialtecken: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {

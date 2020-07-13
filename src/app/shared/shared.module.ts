@@ -242,6 +242,20 @@ export function validateFilename(value: string): string {
 }
 
 /**
+ * Text input validator. Checks if there are any not allowed characters in description.
+ * @returns {ValidatorFn}
+ */
+export function textInputValidator(): ValidatorFn {
+  const textInputRe: RegExp = /[^\wåäö\s.\-!'@#£€$%&()=?,:]/i;
+
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const invalid = textInputRe.test(control.value);
+
+    return invalid ? { 'invalidCharacters': { value: control.value } } : null;
+  };
+}
+
+/**
  * Description validator. Checks if there are any not allowed characters in description.
  * @returns {ValidatorFn}
  */
