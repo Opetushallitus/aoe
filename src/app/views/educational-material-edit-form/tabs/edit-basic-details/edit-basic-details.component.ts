@@ -72,8 +72,12 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
         fi: this.fb.control(null, [
           descriptionValidator(),
         ]),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        sv: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
+        en: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
       }),
     });
 
