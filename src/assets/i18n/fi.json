@@ -183,7 +183,7 @@
     },
     "errors": {
       "description": {
-        "characters": "Sallitut erikoismerkit ovat: . , : ; - § ! \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Sallitut erikoismerkit ovat: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
