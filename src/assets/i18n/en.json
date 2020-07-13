@@ -183,7 +183,7 @@
     },
     "errors": {
       "description": {
-        "characters": "Allowed special characters: . , : ; - § ! \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Allowed special characters: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {

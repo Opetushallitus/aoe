@@ -183,7 +183,7 @@
     },
     "errors": {
       "description": {
-        "characters": "Tillåtna specialtecken: . , : ; - § ! \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Tillåtna specialtecken: . , : ; - § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
