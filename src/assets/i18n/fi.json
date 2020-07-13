@@ -181,6 +181,11 @@
       "replaceFile": "Korvaa tiedosto",
       "replaceLink": "Korvaa linkki"
     },
+    "errors": {
+      "description": {
+        "characters": "Sallitut erikoismerkit ovat: . , : ; - § ! \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
