@@ -123,12 +123,19 @@
                     id="{{ 'author' + i }}"
                     [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                     formControlName="author"
-                    [ngClass]="{ 'is-invalid': submitted && authorsArray.at(i).get('author').errors }"
+                    [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched) }"
                   >
 
-                  <div *ngIf="submitted && authorsArray.at(i).get('author').errors" class="invalid-feedback">
+                  <div
+                    *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched)"
+                    class="invalid-feedback"
+                  >
                     <div *ngIf="authorsArray.at(i).get('author').errors.required">
                       {{ 'forms.common.required' | translate }}
+                    </div>
+
+                    <div *ngIf="authorsArray.at(i).get('author').errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
                     </div>
                   </div>
                 </div>
