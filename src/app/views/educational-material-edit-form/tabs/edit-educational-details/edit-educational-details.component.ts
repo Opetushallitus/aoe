@@ -18,7 +18,7 @@ import {
   addVocationalEducationObjective,
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
-  addScienceBranchObjectives,
+  addScienceBranchObjectives, textInputValidator,
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 
@@ -91,26 +91,36 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.setTitle();
 
     this.form = this.fb.group({
-      educationalLevels: this.fb.control(null, [ Validators.required ]),
+      educationalLevels: this.fb.control(null, [
+        Validators.required,
+      ]),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       suitsAllEarlyChildhoodSubjects: this.fb.control(false),
       earlyChildhoodEducationObjectives: this.fb.control(null),
-      earlyChildhoodEducationFramework: this.fb.control(null),
+      earlyChildhoodEducationFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       prePrimaryEducationSubjects: this.fb.control(null),
       suitsAllPrePrimarySubjects: this.fb.control(false),
       prePrimaryEducationObjectives: this.fb.control(null),
-      prePrimaryEducationFramework: this.fb.control(null),
+      prePrimaryEducationFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       basicStudySubjects: this.fb.control(null),
       suitsAllBasicStudySubjects: this.fb.control(false),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
-      basicStudyFramework: this.fb.control(null),
+      basicStudyFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
       upperSecondarySchoolSubjects: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
-      upperSecondarySchoolFramework: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
@@ -120,14 +130,18 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
-      vocationalEducationFramework: this.fb.control(null),
+      vocationalEducationFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       selfMotivatedEducationSubjects: this.fb.control(null),
       suitsAllSelfMotivatedSubjects: this.fb.control(false),
       selfMotivatedEducationObjectives: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
       suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
-      higherEducationFramework: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null, [
+        textInputValidator(),
+      ]),
     });
 
     this.translate.onLangChange.subscribe(() => {

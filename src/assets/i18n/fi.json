@@ -181,6 +181,14 @@
       "replaceFile": "Korvaa tiedosto",
       "replaceLink": "Korvaa linkki"
     },
+    "errors": {
+      "textInput": {
+        "characters": "Sallitut erikoismerkit: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
+      "description": {
+        "characters": "Sallitut erikoismerkit: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {

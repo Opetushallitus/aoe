@@ -17,11 +17,20 @@
           class="form-control"
           id="name"
           [formControlName]="lang"
-          [ngClass]="{ 'is-invalid': submitted && nameCtrl.errors }"
+          [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched) }"
         >
 
-        <div *ngIf="submitted && nameCtrl.errors" class="invalid-feedback">
-          <div *ngIf="nameCtrl.errors.required">{{ 'forms.common.required' | translate }}</div>
+        <div
+          *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="nameCtrl.errors.required">
+            {{ 'forms.common.required' | translate }}
+          </div>
+
+          <div *ngIf="nameCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
         </div>
       </div>
 
@@ -69,7 +78,17 @@
             class="form-control"
             id="name2"
             [formControlName]="otherLangs[0]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -82,7 +101,17 @@
             class="form-control"
             id="name3"
             [formControlName]="otherLangs[1]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -247,12 +276,19 @@
               class="form-control"
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
+              [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched) }"
             >
 
-            <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+            <div
+              *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched)"
+              class="invalid-feedback"
+            >
               <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
                 {{ 'forms.common.required' | translate }}
+              </div>
+
+              <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
+                {{ 'forms.errors.textInput.characters' | translate }}
               </div>
             </div>
           </div>
@@ -300,7 +336,17 @@
                   class="form-control"
                   id="{{ 'displayName2' + i }}"
                   [formControlName]="otherLangs[0]"
+                  [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched) }"
                 >
+
+                <div
+                  *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
@@ -313,7 +359,17 @@
                   class="form-control"
                   id="{{ 'displayName3' + i }}"
                   [formControlName]="otherLangs[1]"
+                  [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched) }"
                 >
+
+                <div
+                  *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -412,12 +468,19 @@
                     class="form-control"
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
-                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                    [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched) }"
                   >
 
-                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                  <div
+                    *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched)"
+                    class="invalid-feedback"
+                  >
                     <div *ngIf="subtitle.get('label').errors.required">
                       {{ 'forms.common.required' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
                     </div>
                   </div>
                 </div><!--/label-->
@@ -588,12 +651,19 @@
                 class="form-control"
                 id="{{ 'newMaterialDisplayName' + i }}"
                 [formControlName]="lang"
-                [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
+                [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched) }"
               >
 
-              <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+              <div
+                *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched)"
+                class="invalid-feedback"
+              >
                 <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
                   {{ 'forms.common.required' | translate }}
+                </div>
+
+                <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
+                  {{ 'forms.errors.textInput.characters' | translate }}
                 </div>
               </div>
             </div>
@@ -641,7 +711,17 @@
                     class="form-control"
                     id="{{ 'newMaterialDisplayName2' + i }}"
                     [formControlName]="otherLangs[0]"
+                    [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched) }"
                   >
+
+                  <div
+                    *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -654,7 +734,17 @@
                     class="form-control"
                     id="{{ 'newMaterialDisplayName3' + i }}"
                     [formControlName]="otherLangs[1]"
+                    [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched) }"
                   >
+
+                  <div
+                    *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -707,12 +797,19 @@
                       class="form-control"
                       id="{{ 'newMaterialLabel' + i + j }}"
                       formControlName="label"
-                      [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                      [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched) }"
                     >
 
-                    <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div
+                      *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched)"
+                      class="invalid-feedback"
+                    >
                       <div *ngIf="subtitle.get('label').errors.required">
                         {{ 'forms.common.required' | translate }}
+                      </div>
+
+                      <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                        {{ 'forms.errors.textInput.characters' | translate }}
                       </div>
                     </div>
                   </div><!--/label-->
