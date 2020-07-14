@@ -293,8 +293,20 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('educationalLevels') as FormControl;
   }
 
+  get earlyChildhoodEducationFrameworkCtrl(): FormControl {
+    return this.form.get('earlyChildhoodEducationFramework') as FormControl;
+  }
+
+  get prePrimaryEducationFrameworkCtrl(): FormControl {
+    return this.form.get('prePrimaryEducationFramework') as FormControl;
+  }
+
   get basicStudySubjectsCtrl(): FormControl {
     return this.form.get('basicStudySubjects') as FormControl;
+  }
+
+  get basicStudyFrameworkCtrl(): FormControl {
+    return this.form.get('basicStudyFramework') as FormControl;
   }
 
   get currentUpperSecondarySchoolSelected(): FormControl {
@@ -309,6 +321,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get upperSecondarySchoolFrameworkCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolFramework') as FormControl;
+  }
+
   get upperSecondarySchoolSubjectsNewCtrl(): FormControl {
     return this.form.get('upperSecondarySchoolSubjectsNew') as FormControl;
   }
@@ -319,6 +335,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalEducationFrameworkCtrl(): FormControl {
+    return this.form.get('vocationalEducationFramework') as FormControl;
+  }
+
+  get higherEducationFrameworkCtrl(): FormControl {
+    return this.form.get('higherEducationFramework') as FormControl;
   }
 
   /**
