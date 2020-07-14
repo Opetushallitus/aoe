@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { textInputValidator } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
@@ -75,12 +76,18 @@ export class EditBasedOnDetailsComponent implements OnInit {
    */
   createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [ Validators.required ]),
+      author: this.fb.control(external ? external.author : null, [
+        Validators.required,
+        textInputValidator(),
+      ]),
       url: this.fb.control(external ? external.url : null, [
         Validators.required,
-        Validators.pattern('https?://.*')
+        Validators.pattern('https?://.*'),
       ]),
-      name: this.fb.control(external ? external.name : null, [ Validators.required ]),
+      name: this.fb.control(external ? external.name : null, [
+        Validators.required,
+        textInputValidator(),
+      ]),
     });
   }
 
