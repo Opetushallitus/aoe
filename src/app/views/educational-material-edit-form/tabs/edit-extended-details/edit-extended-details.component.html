@@ -128,7 +128,17 @@
         class="form-control"
         id="timeRequired"
         formControlName="timeRequired"
+        [ngClass]="{ 'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched) }"
       >
+
+      <div
+        *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+      </div>
     </div><!--/time required-->
 
     <div class="form-group col-sm-6 col-md-4">

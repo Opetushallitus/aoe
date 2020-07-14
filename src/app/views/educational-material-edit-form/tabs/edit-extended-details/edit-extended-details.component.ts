@@ -8,7 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
-import { addCustomItem, addPrerequisites } from '../../../../shared/shared.module';
+import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -54,7 +54,9 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
           Validators.pattern('[0-9]*'),
         ]),
       }),
-      timeRequired: this.fb.control(null),
+      timeRequired: this.fb.control(null, [
+        textInputValidator(),
+      ]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
       prerequisites: this.fb.control(null),
@@ -109,6 +111,10 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
 
   get typicalAgeRangeMaxCtrl(): FormControl {
     return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+  }
+
+  get timeRequiredCtrl(): FormControl {
+    return this.form.get('timeRequired') as FormControl;
   }
 
   get expiresCtrl(): FormControl {
