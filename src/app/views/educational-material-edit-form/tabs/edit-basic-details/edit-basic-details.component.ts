@@ -63,9 +63,13 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.setTitle();
 
     this.form = this.fb.group({
-      keywords: this.fb.control(null, [ Validators.required ]),
+      keywords: this.fb.control(null, [
+        Validators.required,
+      ]),
       authors: this.fb.array([]),
-      learningResourceTypes: this.fb.control(null, [ Validators.required ]),
+      learningResourceTypes: this.fb.control(null, [
+        Validators.required,
+      ]),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
