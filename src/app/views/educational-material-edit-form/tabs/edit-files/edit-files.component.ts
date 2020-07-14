@@ -373,6 +373,7 @@ export class EditFilesComponent implements OnInit {
 
       subtitlesArray.at(j).get('label').setValidators([
         Validators.required,
+        textInputValidator(),
       ]);
       subtitlesArray.at(j).get('label').updateValueAndValidity();
 

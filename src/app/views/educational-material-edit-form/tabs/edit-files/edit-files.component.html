@@ -797,12 +797,19 @@
                       class="form-control"
                       id="{{ 'newMaterialLabel' + i + j }}"
                       formControlName="label"
-                      [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                      [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched) }"
                     >
 
-                    <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div
+                      *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched)"
+                      class="invalid-feedback"
+                    >
                       <div *ngIf="subtitle.get('label').errors.required">
                         {{ 'forms.common.required' | translate }}
+                      </div>
+
+                      <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                        {{ 'forms.errors.textInput.characters' | translate }}
                       </div>
                     </div>
                   </div><!--/label-->
