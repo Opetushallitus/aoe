@@ -181,6 +181,14 @@
       "replaceFile": "Byta filen",
       "replaceLink": "Byta länken"
     },
+    "errors": {
+      "textInput": {
+        "characters": "Tillåtna specialtecken: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
+      "description": {
+        "characters": "Tillåtna specialtecken: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {

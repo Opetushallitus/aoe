@@ -7,7 +7,7 @@ import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { KeyValue } from '@angular/common';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
@@ -69,9 +69,15 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
+        en: this.fb.control(null, [
+          descriptionValidator(),
+        ]),
       }),
     });
 
@@ -174,6 +180,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('learningResourceTypes') as FormControl;
   }
 
+  get descriptionCtrl(): FormGroup {
+    return this.form.get('description') as FormGroup;
+  }
+
   /**
    * Shows modal for uploading thumbnail.
    * @param {TemplateRef<any>} template
@@ -256,7 +266,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   createAuthor(author?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [ Validators.required ]),
+      author: this.fb.control(author ? author.author : null, [
+        Validators.required,
+        textInputValidator(),
+      ]),
       organization: this.fb.control(author ? author.organization : null),
     });
   }
@@ -268,7 +281,9 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   createOrganization(organization?): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null, [ Validators.required ]),
+      organization: this.fb.control(organization ? organization.organization : null, [
+        Validators.required,
+      ]),
     });
   }
 

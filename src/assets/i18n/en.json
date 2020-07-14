@@ -181,6 +181,14 @@
       "replaceFile": "Replace file",
       "replaceLink": "Replace link"
     },
+    "errors": {
+      "textInput": {
+        "characters": "Allowed special characters: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
+      },
+      "description": {
+        "characters": "Allowed special characters: . , : ; - _ § ! ' \" @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
