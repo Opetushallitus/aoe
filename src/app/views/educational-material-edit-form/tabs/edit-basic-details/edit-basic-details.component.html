@@ -123,11 +123,11 @@
                     id="{{ 'author' + i }}"
                     [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                     formControlName="author"
-                    [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched) }"
+                    [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted) }"
                   >
 
                   <div
-                    *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched)"
+                    *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)"
                     class="invalid-feedback"
                   >
                     <div *ngIf="authorsArray.at(i).get('author').errors.required">
@@ -186,7 +186,7 @@
                     formControlName="organization"
                   ></ng-select>
 
-                  <ng-container *ngIf="submitted && authorsArray.at(i).get('organization').errors">
+                  <ng-container *ngIf="authorsArray.at(i).get('organization').invalid && (authorsArray.at(i).get('organization').dirty || authorsArray.at(i).get('organization').touched || submitted)">
                     <div *ngIf="authorsArray.at(i).get('organization').errors.required">
                       <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                     </div>
@@ -246,7 +246,7 @@
           formControlName="keywords"
         ></ng-select>
 
-        <ng-container *ngIf="submitted && keywordsCtrl.errors">
+        <ng-container *ngIf="keywordsCtrl.invalid && (keywordsCtrl.dirty || keywordsCtrl.touched || submitted)">
           <div *ngIf="keywordsCtrl.errors.required">
             <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
           </div>
@@ -275,7 +275,7 @@
             formControlName="learningResourceTypes"
           ></ng-select>
 
-          <ng-container *ngIf="submitted && learningResourceTypesCtrl.errors">
+          <ng-container *ngIf="learningResourceTypesCtrl.invalid && (learningResourceTypesCtrl.dirty || learningResourceTypesCtrl.touched || submitted)">
             <div *ngIf="learningResourceTypesCtrl.errors.required">
               <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
             </div>
@@ -345,11 +345,11 @@
               id="description"
               rows="10"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched) }"
+              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted) }"
             ></textarea>
 
             <div
-              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched)"
+              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)"
               class="invalid-feedback"
             >
               <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
@@ -402,11 +402,11 @@
                 id="description2"
                 rows="10"
                 [formControlName]="otherLangs[0]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched) }"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted) }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched)"
+                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)"
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
@@ -425,11 +425,11 @@
                 id="description3"
                 rows="10"
                 [formControlName]="otherLangs[1]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched) }"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted) }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched)"
+                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)"
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
