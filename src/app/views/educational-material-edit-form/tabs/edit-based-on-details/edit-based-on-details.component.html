@@ -24,7 +24,7 @@
           [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
         ></ng-select>
 
-        <ng-container *ngIf="external.get('author').invalid && (external.get('author').dirty || external.get('author').touched)">
+        <ng-container *ngIf="external.get('author').invalid && (external.get('author').dirty || external.get('author').touched || submitted)">
           <div *ngIf="external.get('author').errors.required">
             <small class="text-danger">
               {{ 'forms.common.required' | translate }}
@@ -49,11 +49,11 @@
           id="{{ 'url-' + i }}"
           class="form-control"
           formControlName="url"
-          [ngClass]="{ 'is-invalid': external.get('url').invalid && (external.get('url').dirty || external.get('url').touched) }"
+          [ngClass]="{ 'is-invalid': external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted) }"
         >
 
         <div
-          *ngIf="external.get('url').invalid && (external.get('url').dirty || external.get('url').touched)"
+          *ngIf="external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted)"
           class="invalid-feedback"
         >
           <div *ngIf="external.get('url').errors.required">
@@ -76,11 +76,11 @@
           id="{{ 'name-' + i }}"
           class="form-control"
           formControlName="name"
-          [ngClass]="{ 'is-invalid': external.get('name').invalid && (external.get('name').dirty || external.get('name').touched) }"
+          [ngClass]="{ 'is-invalid': external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted) }"
         >
 
         <div
-          *ngIf="external.get('name').invalid && (external.get('name').dirty || external.get('name').touched)"
+          *ngIf="external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted)"
           class="invalid-feedback"
         >
           <div *ngIf="external.get('name').errors.required">

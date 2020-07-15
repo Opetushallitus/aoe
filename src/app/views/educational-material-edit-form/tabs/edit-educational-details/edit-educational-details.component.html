@@ -29,7 +29,11 @@
       </ng-template>
     </ng-select>
 
-    <div *ngIf="submitted && educationalLevelsCtrl.errors" class="alert alert-warning" role="alert">
+    <div
+      *ngIf="educationalLevelsCtrl.invalid && (educationalLevelsCtrl.dirty || educationalLevelsCtrl.touched || submitted)"
+      class="alert alert-warning"
+      role="alert"
+    >
       <div *ngIf="educationalLevelsCtrl.errors.required">
         {{ 'forms.common.required' | translate }}:
         {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
@@ -118,11 +122,11 @@
         class="form-control"
         id="earlyChildhoodEducationFramework"
         formControlName="earlyChildhoodEducationFramework"
-        [ngClass]="{ 'is-invalid': earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched) }"
+        [ngClass]="{ 'is-invalid': earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted) }"
       >
 
       <div
-        *ngIf="earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched)"
+        *ngIf="earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
         <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.invalidCharacters">
@@ -213,11 +217,11 @@
         class="form-control"
         id="prePrimaryEducationFramework"
         formControlName="prePrimaryEducationFramework"
-        [ngClass]="{ 'is-invalid': prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched) }"
+        [ngClass]="{ 'is-invalid': prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted) }"
       >
 
       <div
-        *ngIf="prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched)"
+        *ngIf="prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
         <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
@@ -294,11 +298,11 @@
           class="form-control"
           id="basicStudyFramework"
           formControlName="basicStudyFramework"
-          [ngClass]="{ 'is-invalid': basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched) }"
+          [ngClass]="{ 'is-invalid': basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted) }"
         >
 
         <div
-          *ngIf="basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched)"
+          *ngIf="basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)"
           class="invalid-feedback"
         >
           <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
@@ -471,11 +475,11 @@
           class="form-control"
           id="upperSecondarySchoolFramework"
           formControlName="upperSecondarySchoolFramework"
-          [ngClass]="{ 'is-invalid': upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched) }"
+          [ngClass]="{ 'is-invalid': upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted) }"
         >
 
         <div
-          *ngIf="upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched)"
+          *ngIf="upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted)"
           class="invalid-feedback"
         >
           <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
@@ -684,11 +688,11 @@
         class="form-control"
         id="vocationalEducationFramework"
         formControlName="vocationalEducationFramework"
-        [ngClass]="{ 'is-invalid': vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched) }"
+        [ngClass]="{ 'is-invalid': vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted) }"
       >
 
       <div
-        *ngIf="vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched)"
+        *ngIf="vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
         <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
@@ -855,11 +859,11 @@
         class="form-control"
         id="higherEducationFramework"
         formControlName="higherEducationFramework"
-        [ngClass]="{ 'is-invalid': higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched) }"
+        [ngClass]="{ 'is-invalid': higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted) }"
       >
 
       <div
-        *ngIf="higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched)"
+        *ngIf="higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
         <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
