@@ -6,6 +6,7 @@ import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { textInputValidator } from '../../../../shared/shared.module';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
@@ -82,10 +83,12 @@ export class EditBasedOnDetailsComponent implements OnInit {
       ]),
       url: this.fb.control(external ? external.url : null, [
         Validators.required,
-        Validators.pattern('https?://.*'),
+        Validators.pattern(validatorParams.reference.url.pattern),
+        Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
       name: this.fb.control(external ? external.name : null, [
         Validators.required,
+        Validators.maxLength(validatorParams.reference.name.maxLength),
         textInputValidator(),
       ]),
     });
