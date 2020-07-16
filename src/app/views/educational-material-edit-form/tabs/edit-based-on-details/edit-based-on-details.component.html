@@ -63,6 +63,10 @@
           <div *ngIf="external.get('url').errors.pattern">
             {{ 'forms.common.pattern.url' | translate }}
           </div>
+
+          <div *ngIf="external.get('url').errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: external.get('url').errors.maxlength.requiredLength } }}
+          </div>
         </div>
       </div>
 
@@ -89,6 +93,10 @@
 
           <div *ngIf="external.get('name').errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="external.get('name').errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: external.get('name').errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
