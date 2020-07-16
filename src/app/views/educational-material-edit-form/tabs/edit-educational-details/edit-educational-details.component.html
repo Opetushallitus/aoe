@@ -132,6 +132,10 @@
         <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.invalidCharacters">
           {{ 'forms.errors.textInput.characters' | translate }}
         </div>
+
+        <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
       </div>
     </div>
   </ng-container><!--/early childhood education-->
@@ -227,6 +231,10 @@
         <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
           {{ 'forms.errors.textInput.characters' | translate }}
         </div>
+
+        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
       </div>
     </div>
   </ng-container><!--/pre-primary education-->
@@ -307,6 +315,10 @@
         >
           <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div><!--/basic education framework-->
@@ -484,6 +496,10 @@
         >
           <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
@@ -698,6 +714,10 @@
         <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
           {{ 'forms.errors.textInput.characters' | translate }}
         </div>
+
+        <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
       </div>
     </div>
   </ng-container><!--/vocational education-->
@@ -868,6 +888,10 @@
       >
         <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
           {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>

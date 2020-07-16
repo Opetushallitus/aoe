@@ -21,6 +21,7 @@ import {
   addScienceBranchObjectives, textInputValidator,
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -98,12 +99,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllEarlyChildhoodSubjects: this.fb.control(false),
       earlyChildhoodEducationObjectives: this.fb.control(null),
       earlyChildhoodEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
       prePrimaryEducationSubjects: this.fb.control(null),
       suitsAllPrePrimarySubjects: this.fb.control(false),
       prePrimaryEducationObjectives: this.fb.control(null),
       prePrimaryEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
       basicStudySubjects: this.fb.control(null),
@@ -111,6 +114,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
       basicStudyFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
@@ -119,6 +123,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
@@ -131,6 +136,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
       selfMotivatedEducationSubjects: this.fb.control(null),
@@ -140,6 +146,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
       higherEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
     });
