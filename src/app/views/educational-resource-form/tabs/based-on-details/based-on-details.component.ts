@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -21,7 +20,6 @@ export class BasedOnDetailsComponent implements OnInit {
   submitted = false;
 
   constructor(
-    private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private fb: FormBuilder,
     private router: Router,
