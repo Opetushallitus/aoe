@@ -9,13 +9,14 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../../shared/shared.module';
+import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
 import { BackendService } from '@services/backend.service';
 import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -113,15 +114,28 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 
     this.basicDetailsForm = this.fb.group({
-      keywords: this.fb.control(null, [ Validators.required ]),
+      keywords: this.fb.control(null, [
+        Validators.required,
+      ]),
       authors: this.fb.array([]),
-      learningResourceTypes: this.fb.control(null, [ Validators.required ]),
+      learningResourceTypes: this.fb.control(null, [
+        Validators.required,
+      ]),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
       }),
     });
 
@@ -215,16 +229,26 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.basicDetailsForm.get('learningResourceTypes') as FormControl;
   }
 
+  get descriptionCtrl(): FormGroup {
+    return this.basicDetailsForm.get('description') as FormGroup;
+  }
+
   createAuthor(author?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [ Validators.required ]),
+      author: this.fb.control(author ? author.author : null, [
+        Validators.required,
+        Validators.maxLength(validatorParams.author.author.maxLength),
+        textInputValidator(),
+      ]),
       organization: this.fb.control(author ? author.organization : null),
     });
   }
 
   createOrganization(organization?): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null, [ Validators.required ]),
+      organization: this.fb.control(organization ? organization.organization : null, [
+        Validators.required,
+      ]),
     });
   }
 
