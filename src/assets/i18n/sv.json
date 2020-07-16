@@ -183,7 +183,7 @@
     },
     "errors": {
       "common": {
-        "maxLength": ""
+        "maxLength": "{{maxLength}}"
       },
       "textInput": {
         "characters": "Tillåtna specialtecken: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
