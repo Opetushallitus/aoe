@@ -13,7 +13,8 @@ import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
-import { validateFilename } from '../../../../shared/shared.module';
+import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-files',
@@ -119,12 +120,19 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     // set other languages validators null for name
     this.otherLangs.forEach((lang: string) => {
-      this.names.get(lang).setValidators(null);
+      this.names.get(lang).setValidators([
+        Validators.maxLength(validatorParams.name.maxLength),
+        textInputValidator(),
+      ]);
       this.names.get(lang).updateValueAndValidity();
     });
 
     // set current language validator required for name
-    this.names.get(this.lang).setValidators([ Validators.required ]);
+    this.names.get(this.lang).setValidators([
+      Validators.required,
+      Validators.maxLength(validatorParams.name.maxLength),
+      textInputValidator(),
+    ]);
     this.names.get(this.lang).updateValueAndValidity();
 
   }
@@ -144,12 +152,24 @@ export class FilesComponent implements OnInit, OnDestroy {
   createFile(): FormGroup {
     return this.fb.group({
       file: [''],
-      link: this.fb.control(null, [ Validators.pattern('https?://.*') ]),
+      link: this.fb.control(null, [
+        Validators.pattern(validatorParams.file.link.pattern),
+        Validators.maxLength(validatorParams.file.link.maxLength),
+      ]),
       language: this.fb.control(this.lang),
       displayName: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
       }),
       subtitles: this.fb.array([]),
     });
@@ -164,7 +184,10 @@ export class FilesComponent implements OnInit, OnDestroy {
       file: [''],
       default: this.fb.control(false),
       kind: this.fb.control('subtitles'),
-      label: this.fb.control(null),
+      label: this.fb.control(null, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(null),
     });
   }
@@ -218,13 +241,21 @@ export class FilesComponent implements OnInit, OnDestroy {
       subtitles.at(j).get('file').setValue(subtitle);
 
       // add validators
-      subtitles.at(j).get('kind').setValidators([ Validators.required ]);
+      subtitles.at(j).get('kind').setValidators([
+        Validators.required,
+      ]);
       subtitles.at(j).get('kind').updateValueAndValidity();
 
-      subtitles.at(j).get('label').setValidators([ Validators.required ]);
+      subtitles.at(j).get('label').setValidators([
+        Validators.required,
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]);
       subtitles.at(j).get('label').updateValueAndValidity();
 
-      subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
+      subtitles.at(j).get('srclang').setValidators([
+        Validators.required,
+      ]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
   }
@@ -249,10 +280,16 @@ export class FilesComponent implements OnInit, OnDestroy {
       const language = ctrl.get('language');
       const displayName = ctrl.get(`displayName.${this.lang}`);
 
-      language.setValidators([ Validators.required ]);
+      language.setValidators([
+        Validators.required,
+      ]);
       language.updateValueAndValidity();
 
-      displayName.setValidators([ Validators.required ]);
+      displayName.setValidators([
+        Validators.required,
+        Validators.maxLength(validatorParams.file.displayName.maxLength),
+        textInputValidator(),
+      ]);
       displayName.updateValueAndValidity();
     });
 

@@ -19,11 +19,24 @@
           class="form-control"
           id="name"
           [formControlName]="lang"
-          [ngClass]="{ 'is-invalid': submitted && name.errors }"
+          [ngClass]="{ 'is-invalid': name.invalid && (name.dirty || name.touched || submitted) }"
         >
 
-        <div *ngIf="submitted && name.errors" class="invalid-feedback">
-          <div *ngIf="name.errors.required">{{ 'forms.common.required' | translate }}</div>
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched || submitted)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="name.errors.required">
+            {{ 'forms.common.required' | translate }}
+          </div>
+
+          <div *ngIf="name.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="name.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: name.errors.maxlength.requiredLength } }}
+          </div>
         </div>
       </div>
 
@@ -58,7 +71,21 @@
             class="form-control"
             id="name2"
             [formControlName]="otherLangs[0]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+
+            <div *ngIf="names.get(otherLangs[0]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -69,7 +96,21 @@
             class="form-control"
             id="name3"
             [formControlName]="otherLangs[1]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+
+            <div *ngIf="names.get(otherLangs[1]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -120,11 +161,20 @@
               class="form-control"
               id="{{ 'link' + i }}"
               formControlName="link"
-              [ngClass]="{ 'is-invalid': submitted && file.get('link').errors }"
+              [ngClass]="{ 'is-invalid': file.get('link').invalid && (file.get('link').dirty || file.get('link').touched || submitted) }"
             >
 
-            <div *ngIf="submitted && file.get('link').errors" class="invalid-feedback">
-              <div *ngIf="file.get('link').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
+            <div
+              *ngIf="file.get('link').invalid && (file.get('link').dirty || file.get('link').touched || submitted)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="file.get('link').errors.pattern">
+                {{ 'forms.common.pattern.url' | translate }}
+              </div>
+
+              <div *ngIf="file.get('link').errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: file.get('link').errors.maxlength.requiredLength } }}
+              </div>
             </div>
           </div>
 
@@ -146,7 +196,7 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="submitted && file.get('language').errors">
+            <ng-container *ngIf="file.get('language').invalid && (file.get('language').dirty || file.get('language').touched || submitted)">
               <div *ngIf="file.get('language').errors.required">
                 <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
               </div>
@@ -169,11 +219,24 @@
               class="form-control"
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': submitted && files.at(i).get('displayName.' + lang).errors }"
+              [ngClass]="{ 'is-invalid': files.at(i).get('displayName.' + lang).invalid && (files.at(i).get('displayName.' + lang).dirty || files.at(i).get('displayName.' + lang).touched || submitted) }"
             >
 
-            <div *ngIf="submitted && files.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
-              <div *ngIf="files.at(i).get('displayName.' + lang).errors.required">{{ 'forms.common.required' | translate }}</div>
+            <div
+              *ngIf="files.at(i).get('displayName.' + lang).invalid && (files.at(i).get('displayName.' + lang).dirty || files.at(i).get('displayName.' + lang).touched || submitted)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="files.at(i).get('displayName.' + lang).errors.required">
+                {{ 'forms.common.required' | translate }}
+              </div>
+
+              <div *ngIf="files.at(i).get('displayName.' + lang).errors.invalidCharacters">
+                {{ 'forms.errors.textInput.characters' | translate }}
+              </div>
+
+              <div *ngIf="files.at(i).get('displayName.' + lang).errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: files.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
+              </div>
             </div>
           </div>
 
@@ -207,7 +270,21 @@
                   class="form-control"
                   id="{{ 'displayName2' + i }}"
                   [formControlName]="otherLangs[0]"
+                  [ngClass]="{ 'is-invalid': files.at(i).get('displayName.' + otherLangs[0]).invalid && (files.at(i).get('displayName.' + otherLangs[0]).dirty || files.at(i).get('displayName.' + otherLangs[0]).touched || submitted) }"
                 >
+
+                <div
+                  *ngIf="files.at(i).get('displayName.' + otherLangs[0]).invalid && (files.at(i).get('displayName.' + otherLangs[0]).dirty || files.at(i).get('displayName.' + otherLangs[0]).touched || submitted)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="files.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="files.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: files.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
@@ -218,7 +295,21 @@
                   class="form-control"
                   id="{{ 'displayName3' + i }}"
                   [formControlName]="otherLangs[1]"
+                  [ngClass]="{ 'is-invalid': files.at(i).get('displayName.' + otherLangs[1]).invalid && (files.at(i).get('displayName.' + otherLangs[1]).dirty || files.at(i).get('displayName.' + otherLangs[1]).touched || submitted) }"
                 >
+
+                <div
+                  *ngIf="files.at(i).get('displayName.' + otherLangs[1]).invalid && (files.at(i).get('displayName.' + otherLangs[1]).dirty || files.at(i).get('displayName.' + otherLangs[1]).touched || submitted)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="files.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="files.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: files.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -257,11 +348,24 @@
                     class="form-control"
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
-                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                    [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted) }"
                   >
 
-                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
-                    <div *ngIf="subtitle.get('label').errors.required">{{ 'forms.common.required' | translate }}</div>
+                  <div
+                    *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="subtitle.get('label').errors.required">
+                      {{ 'forms.common.required' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
+                    </div>
                   </div>
                 </div>
 
@@ -277,7 +381,7 @@
                     formControlName="srclang"
                   ></ng-select>
 
-                  <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                  <ng-container *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)">
                     <div *ngIf="subtitle.get('srclang').errors.required">
                       <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                     </div>
