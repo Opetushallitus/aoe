@@ -118,11 +118,24 @@
                   id="{{ 'author' + i }}"
                   [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                   formControlName="author"
-                  [ngClass]="{ 'is-invalid': submitted && authors.at(i).get('author').errors }"
+                  [ngClass]="{ 'is-invalid': authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted) }"
                 >
 
-                <div *ngIf="submitted && authors.at(i).get('author').errors" class="invalid-feedback">
-                  <div *ngIf="authors.at(i).get('author').errors.required">{{ 'forms.common.required' | translate }}</div>
+                <div
+                  *ngIf="authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="authors.at(i).get('author').errors.required">
+                    {{ 'forms.common.required' | translate }}
+                  </div>
+
+                  <div *ngIf="authors.at(i).get('author').errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="authors.at(i).get('author').errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: authors.at(i).get('author').errors.maxlength.requiredLength } }}
+                  </div>
                 </div>
               </div>
 
@@ -168,7 +181,7 @@
                   formControlName="organization"
                 ></ng-select>
 
-                <ng-container *ngIf="submitted && authors.at(i).get('organization').errors">
+                <ng-container *ngIf="authors.at(i).get('organization').invalid && (authors.at(i).get('organization').dirty || authors.at(i).get('organization').touched || submitted)">
                   <div *ngIf="authors.at(i).get('organization').errors.required">
                     <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                   </div>
@@ -219,7 +232,7 @@
           formControlName="keywords"
         ></ng-select>
 
-        <ng-container *ngIf="submitted && keywordsCtrl.errors">
+        <ng-container *ngIf="keywordsCtrl.invalid && (keywordsCtrl.dirty || keywordsCtrl.touched || submitted)">
           <div *ngIf="keywordsCtrl.errors.required">
             <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
           </div>
@@ -246,7 +259,7 @@
             formControlName="learningResourceTypes"
           ></ng-select>
 
-          <ng-container *ngIf="submitted && learningResourceTypesCtrl.errors">
+          <ng-container *ngIf="learningResourceTypesCtrl.invalid && (learningResourceTypesCtrl.dirty || learningResourceTypesCtrl.touched || submitted)">
             <div *ngIf="learningResourceTypesCtrl.errors.required">
               <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
             </div>
@@ -310,7 +323,21 @@
               id="description"
               rows="10"
               [formControlName]="lang"
+              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted) }"
             ></textarea>
+
+            <div
+              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)"
+              class="invalid-feedback"
+            >
+              <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
+                {{ 'forms.errors.description.characters' | translate }}
+              </div>
+
+              <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+              </div>
+            </div>
           </div>
 
           <div class="col-auto">
@@ -344,7 +371,21 @@
                 id="descriptionEn"
                 rows="10"
                 [formControlName]="otherLangs[0]"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted) }"
               ></textarea>
+
+              <div
+                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
+
+                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -355,7 +396,21 @@
                 id="descriptionSv"
                 rows="10"
                 [formControlName]="otherLangs[1]"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted) }"
               ></textarea>
+
+              <div
+                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
+
+                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+                </div>
+              </div>
             </div>
           </div>
 
