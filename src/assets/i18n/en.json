@@ -182,6 +182,9 @@
       "replaceLink": "Replace link"
     },
     "errors": {
+      "common": {
+        "maxLength": "Maximum length is {{maxLength}} characters"
+      },
       "textInput": {
         "characters": "Allowed special characters: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
       },

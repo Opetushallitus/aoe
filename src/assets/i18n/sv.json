@@ -182,6 +182,9 @@
       "replaceLink": "Byta länken"
     },
     "errors": {
+      "common": {
+        "maxLength": ""
+      },
       "textInput": {
         "characters": "Tillåtna specialtecken: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
       },
