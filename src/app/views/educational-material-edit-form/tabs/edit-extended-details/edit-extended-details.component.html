@@ -81,6 +81,10 @@
             <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">
               {{ 'forms.common.pattern.numeric' | translate }}
             </div>
+
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength } }}
+            </div>
           </div>
         </div>
 
@@ -113,6 +117,10 @@
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">
               {{ 'forms.common.pattern.numeric' | translate }}
             </div>
+
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength } }}
+            </div>
           </div>
         </div>
       </div>
@@ -143,6 +151,10 @@
       >
         <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
           {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="timeRequiredCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: timeRequiredCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div><!--/time required-->

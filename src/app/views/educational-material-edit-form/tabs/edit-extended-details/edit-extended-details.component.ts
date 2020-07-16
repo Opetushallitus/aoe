@@ -10,6 +10,7 @@ import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-featu
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-extended-details',
@@ -46,15 +47,18 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
       accessibilityHazards: this.fb.control(null),
       typicalAgeRange: this.fb.group({
         typicalAgeRangeMin: this.fb.control(null, [
-          Validators.min(0),
-          Validators.pattern('[0-9]*'),
+          Validators.min(validatorParams.ageRange.min.min),
+          Validators.pattern(validatorParams.ageRange.min.pattern),
+          Validators.maxLength(validatorParams.ageRange.min.maxLength),
         ]),
         typicalAgeRangeMax: this.fb.control(null, [
-          Validators.min(0),
-          Validators.pattern('[0-9]*'),
+          Validators.min(validatorParams.ageRange.max.min),
+          Validators.pattern(validatorParams.ageRange.max.pattern),
+          Validators.maxLength(validatorParams.ageRange.max.maxLength),
         ]),
       }),
       timeRequired: this.fb.control(null, [
+        Validators.maxLength(validatorParams.timeRequired.maxLength),
         textInputValidator(),
       ]),
       publisher: this.fb.control(null),
