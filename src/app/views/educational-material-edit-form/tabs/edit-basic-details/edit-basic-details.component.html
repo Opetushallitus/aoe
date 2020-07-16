@@ -137,6 +137,10 @@
                     <div *ngIf="authorsArray.at(i).get('author').errors.invalidCharacters">
                       {{ 'forms.errors.textInput.characters' | translate }}
                     </div>
+
+                    <div *ngIf="authorsArray.at(i).get('author').errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: authorsArray.at(i).get('author').errors.maxlength.requiredLength } }}
+                    </div>
                   </div>
                 </div>
 
@@ -355,6 +359,10 @@
               <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
                 {{ 'forms.errors.description.characters' | translate }}
               </div>
+
+              <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+              </div>
             </div>
           </div>
 
@@ -412,6 +420,10 @@
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
                   {{ 'forms.errors.description.characters' | translate }}
                 </div>
+
+                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                </div>
               </div>
             </div>
 
@@ -434,6 +446,10 @@
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
                   {{ 'forms.errors.description.characters' | translate }}
+                </div>
+
+                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
                 </div>
               </div>
             </div>
