@@ -25,7 +25,7 @@ export const validatorParams = {
     maxLength: 2000,
   },
   educationalFramework: {
-    maxLength: 50,
+    maxLength: 255,
   },
   ageRange: {
     min: {
@@ -40,7 +40,7 @@ export const validatorParams = {
     },
   },
   timeRequired: {
-    maxLength: 25,
+    maxLength: 50,
   },
   reference: {
     url: {
