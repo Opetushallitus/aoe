@@ -16,6 +16,7 @@ import { mimeTypes } from '../../../../constants/mimetypes';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Title } from '@angular/platform-browser';
 import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -127,6 +128,7 @@ export class EditFilesComponent implements OnInit {
     // set other languages validators null for name
     this.otherLangs.forEach((lang: string) => {
       this.names.get(lang).setValidators([
+        Validators.maxLength(validatorParams.name.maxLength),
         textInputValidator(),
       ]);
       this.names.get(lang).updateValueAndValidity();
@@ -135,6 +137,7 @@ export class EditFilesComponent implements OnInit {
     // set current language validator required for name
     this.names.get(this.lang).setValidators([
       Validators.required,
+      Validators.maxLength(validatorParams.name.maxLength),
       textInputValidator(),
     ]);
     this.names.get(this.lang).updateValueAndValidity();
@@ -186,16 +189,20 @@ export class EditFilesComponent implements OnInit {
       newFile: [''],
       link: this.fb.control(file.link),
       newLink: this.fb.control(null, [
-        Validators.pattern('https?://.*'),
+        Validators.pattern(validatorParams.file.link.pattern),
+        Validators.maxLength(validatorParams.file.link.maxLength),
       ]),
       displayName: this.fb.group({
         fi: this.fb.control(file.displayName.fi, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
         sv: this.fb.control(file.displayName.sv, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
         en: this.fb.control(file.displayName.en, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
       }),
@@ -218,16 +225,20 @@ export class EditFilesComponent implements OnInit {
       newFile: [''],
       link: this.fb.control(null),
       newLink: this.fb.control(null, [
-        Validators.pattern('https?://.*'),
+        Validators.pattern(validatorParams.file.link.pattern),
+        Validators.maxLength(validatorParams.file.link.maxLength),
       ]),
       displayName: this.fb.group({
         fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
         sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
         en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
           textInputValidator(),
         ]),
       }),
@@ -251,6 +262,7 @@ export class EditFilesComponent implements OnInit {
       default: this.fb.control(subtitle.default),
       kind: this.fb.control(subtitle.kind),
       label: this.fb.control(subtitle.label, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
         textInputValidator(),
       ]),
       srclang: this.fb.control(subtitle.srclang),
@@ -270,6 +282,7 @@ export class EditFilesComponent implements OnInit {
       default: this.fb.control(false),
       kind: this.fb.control('subtitles'),
       label: this.fb.control(null, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
         textInputValidator(),
       ]),
       srclang: this.fb.control(null),
@@ -373,6 +386,7 @@ export class EditFilesComponent implements OnInit {
 
       subtitlesArray.at(j).get('label').setValidators([
         Validators.required,
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
         textInputValidator(),
       ]);
       subtitlesArray.at(j).get('label').updateValueAndValidity();
@@ -410,6 +424,7 @@ export class EditFilesComponent implements OnInit {
 
       displayNameCtrl.setValidators([
         Validators.required,
+        Validators.maxLength(validatorParams.file.displayName.maxLength),
         textInputValidator(),
       ]);
       displayNameCtrl.updateValueAndValidity();
