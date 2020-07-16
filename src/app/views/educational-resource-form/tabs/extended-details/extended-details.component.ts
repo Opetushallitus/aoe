@@ -6,12 +6,13 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem, addPrerequisites } from '../../../../shared/shared.module';
+import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -29,6 +30,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   accessibilityHazards: AccessibilityHazard[];
 
   extendedDetailsForm: FormGroup;
+  submitted = false;
 
   private alignmentObjects: AlignmentObjectExtended[] = [];
 
@@ -61,10 +63,21 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
       accessibilityFeatures: this.fb.control(null),
       accessibilityHazards: this.fb.control(null),
       typicalAgeRange: this.fb.group({
-        typicalAgeRangeMin: this.fb.control(null, [ Validators.min(0) ]),
-        typicalAgeRangeMax: this.fb.control(null, [ Validators.min(0) ]),
+        typicalAgeRangeMin: this.fb.control(null, [
+          Validators.min(validatorParams.ageRange.min.min),
+          Validators.pattern(validatorParams.ageRange.min.pattern),
+          Validators.maxLength(validatorParams.ageRange.min.maxLength),
+        ]),
+        typicalAgeRangeMax: this.fb.control(null, [
+          Validators.min(validatorParams.ageRange.max.min),
+          Validators.pattern(validatorParams.ageRange.max.pattern),
+          Validators.maxLength(validatorParams.ageRange.max.maxLength),
+        ]),
       }),
-      timeRequired: this.fb.control(null),
+      timeRequired: this.fb.control(null, [
+        Validators.maxLength(validatorParams.timeRequired.maxLength),
+        textInputValidator(),
+      ]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
       prerequisites: this.fb.control(null),
@@ -145,6 +158,18 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     return this.extendedDetailsForm.get('accessibilityHazards') as FormControl;
   }
 
+  get typicalAgeRangeMinCtrl(): FormControl {
+    return this.extendedDetailsForm.get('typicalAgeRange.typicalAgeRangeMin') as FormControl;
+  }
+
+  get typicalAgeRangeMaxCtrl(): FormControl {
+    return this.extendedDetailsForm.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+  }
+
+  get timeRequiredCtrl(): FormControl {
+    return this.extendedDetailsForm.get('timeRequired') as FormControl;
+  }
+
   get publisherCtrl(): FormControl {
     return this.extendedDetailsForm.get('publisher') as FormControl;
   }
@@ -154,6 +179,8 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.submitted = true;
+
     if (this.extendedDetailsForm.valid) {
       if (this.prerequisites.value) {
         this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
@@ -167,6 +194,14 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
       if (this.accessibilityHazardsCtrl.value && this.accessibilityHazardsCtrl.value.length === 0) {
         this.accessibilityHazardsCtrl.setValue(null);
+      }
+
+      if (this.typicalAgeRangeMinCtrl.value === '') {
+        this.typicalAgeRangeMinCtrl.setValue(null);
+      }
+
+      if (this.typicalAgeRangeMaxCtrl.value === '') {
+        this.typicalAgeRangeMaxCtrl.setValue(null);
       }
 
       if (this.publisherCtrl.value && this.publisherCtrl.value.length === 0) {
