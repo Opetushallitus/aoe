@@ -31,6 +31,10 @@
           <div *ngIf="nameCtrl.errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
           </div>
+
+          <div *ngIf="nameCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+          </div>
         </div>
       </div>
 
@@ -88,6 +92,10 @@
             <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">
               {{ 'forms.errors.textInput.characters' | translate }}
             </div>
+
+            <div *ngIf="names.get(otherLangs[0]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+            </div>
           </div>
         </div>
 
@@ -110,6 +118,10 @@
           >
             <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">
               {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+
+            <div *ngIf="names.get(otherLangs[1]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[1]).errors.maxlength.requiredLength } }}
             </div>
           </div>
         </div>
@@ -227,6 +239,10 @@
                   <div *ngIf="material.get('newLink').errors.pattern">
                     {{ 'forms.common.pattern.url' | translate }}
                   </div>
+
+                  <div *ngIf="material.get('newLink').errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
+                  </div>
                 </div>
               </ng-container>
             </div>
@@ -293,6 +309,10 @@
               <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
                 {{ 'forms.errors.textInput.characters' | translate }}
               </div>
+
+              <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
+              </div>
             </div>
           </div>
 
@@ -349,6 +369,10 @@
                   <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
                     {{ 'forms.errors.textInput.characters' | translate }}
                   </div>
+
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                  </div>
                 </div>
               </div>
 
@@ -371,6 +395,10 @@
                 >
                   <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
                     {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
                   </div>
                 </div>
               </div>
@@ -484,6 +512,10 @@
 
                     <div *ngIf="subtitle.get('label').errors.invalidCharacters">
                       {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
                     </div>
                   </div>
                 </div><!--/label-->
@@ -607,6 +639,10 @@
                 <div *ngIf="material.get('newLink').errors.pattern">
                   {{ 'forms.common.pattern.url' | translate }}
                 </div>
+
+                <div *ngIf="material.get('newLink').errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
+                </div>
               </div>
             </div><!--/link-->
 
@@ -671,6 +707,10 @@
                 <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
                   {{ 'forms.errors.textInput.characters' | translate }}
                 </div>
+
+                <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
+                </div>
               </div>
             </div>
 
@@ -727,6 +767,10 @@
                     <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
                       {{ 'forms.errors.textInput.characters' | translate }}
                     </div>
+
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                    </div>
                   </div>
                 </div>
 
@@ -749,6 +793,10 @@
                   >
                     <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
                       {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
                     </div>
                   </div>
                 </div>
@@ -816,6 +864,10 @@
 
                       <div *ngIf="subtitle.get('label').errors.invalidCharacters">
                         {{ 'forms.errors.textInput.characters' | translate }}
+                      </div>
+
+                      <div *ngIf="subtitle.get('label').errors.maxlength">
+                        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
                       </div>
                     </div>
                   </div><!--/label-->

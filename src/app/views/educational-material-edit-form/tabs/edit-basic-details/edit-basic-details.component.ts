@@ -16,6 +16,7 @@ import { UploadMessage } from '@models/upload-message';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { BackendService } from '@services/backend.service';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -74,12 +75,15 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       educationalUses: this.fb.control(null),
       description: this.fb.group({
         fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
           descriptionValidator(),
         ]),
         sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
           descriptionValidator(),
         ]),
         en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
           descriptionValidator(),
         ]),
       }),
@@ -272,6 +276,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [
         Validators.required,
+        Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
       organization: this.fb.control(author ? author.organization : null),

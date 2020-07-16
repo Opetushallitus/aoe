@@ -182,6 +182,9 @@
       "replaceLink": "Korvaa linkki"
     },
     "errors": {
+      "common": {
+        "maxLength": "Enintään {{maxLength}} merkkiä"
+      },
       "textInput": {
         "characters": "Sallitut erikoismerkit: . , : - _ ! ' @ # £ € $ % & ( ) = ?"
       },
