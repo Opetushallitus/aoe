@@ -246,7 +246,7 @@ export function validateFilename(value: string): string {
  * @returns {ValidatorFn}
  */
 export function textInputValidator(): ValidatorFn {
-  const textInputRe: RegExp = /[^\wåäö\s.\-!'@#£€$%&()=?,:]/i;
+  const textInputRe: RegExp = /[^\wåäö\s.\-!'´`@#£€$%&()=?,:]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = textInputRe.test(control.value);
@@ -260,7 +260,7 @@ export function textInputValidator(): ValidatorFn {
  * @returns {ValidatorFn}
  */
 export function descriptionValidator(): ValidatorFn {
-  const descriptionRe: RegExp = /[^\wåäö\s.\-§!'"@#£€$%&(){}=?+,;:\/\[\]]/i;
+  const descriptionRe: RegExp = /[^\wåäö\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = descriptionRe.test(control.value);
