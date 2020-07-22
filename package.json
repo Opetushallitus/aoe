@@ -1,6 +1,6 @@
 {
   "name": "koodisto-service",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "main": "src/server.ts",
   "repository": "https://kalleurhoilmari@bitbucket.org/kalleurhoilmari/koodisto-service.git",
   "author": "Kalle Lehtonen <kalle.lehtonen@digia.com>",
