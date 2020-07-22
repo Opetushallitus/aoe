@@ -1,22 +1,12 @@
-redis:
-  image: redis:5.0.7-buster
-  container_name: cache
-  expose:
-    - 6379
-  restart: unless-stopped
-
 app:
   build: ./
   volumes:
     - ./:/app
   ports:
     - 3000:3000
-  links:
-    - redis
   environment:
-    - REDIS_URL=redis://cache
     - NODE_ENV=production
-  env_file: .env.example
+  env_file: ../.env.koodisto
   command:
     sh -c 'yarn install && yarn build && yarn serve'
   restart: unless-stopped
