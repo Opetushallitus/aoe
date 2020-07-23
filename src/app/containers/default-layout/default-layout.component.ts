@@ -13,6 +13,8 @@ import { CookieService } from '@services/cookie.service';
   templateUrl: './default-layout.component.html'
 })
 export class DefaultLayoutComponent {
+  languages = new Map();
+
   logos = {
     okm: {
       fi: {
@@ -65,6 +67,21 @@ export class DefaultLayoutComponent {
     private cookieSvc: CookieService,
   ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
+
+    this.languages.set('fi', {
+      label: 'FI',
+      srText: 'Suomi: Vaihda kieli suomeksi',
+    });
+
+    this.languages.set('en', {
+      label: 'EN',
+      srText: 'English: Change language to English',
+    });
+
+    this.languages.set('sv', {
+      label: 'SV',
+      srText: 'Svenska: Byt språk till svenska',
+    });
   }
 
   /**
