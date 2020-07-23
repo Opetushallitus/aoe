@@ -85,6 +85,10 @@
       "publisher": "Julkaisija",
       "license": "Lisenssi",
       "keywords": "Avainsanat",
+      "expandMetadata": {
+        "more": "Näytä kaikki tiedot",
+        "less": "Näytä vähemmän"
+      },
       "educationalRole": "Pääasiallinen kohderyhmä",
       "educationalUse": "Pääasiallinen käyttö opetuksessa",
       "earlyChildhoodEducationSubjects": "Varhaiskasvatuksen oppiaineet",

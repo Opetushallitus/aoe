@@ -85,6 +85,10 @@
       "publisher": "Publisher",
       "license": "License",
       "keywords": "Keywords",
+      "expandMetadata": {
+        "more": "Visa alla detaljer",
+        "less": "Visa mindre"
+      },
       "educationalRole": "Roll",
       "educationalUse": "Educational use",
       "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
