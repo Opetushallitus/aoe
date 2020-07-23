@@ -18,7 +18,10 @@
     },
     "termsOfUse": "Användarvilko",
     "privacyPolicy": "Dataskyddsbeskrivnig",
-    "accessibilityPolicy": "Accessibility Policy"
+    "accessibilityPolicy": "Accessibility Policy",
+    "langSelector": {
+      "label": "Välj språk"
+    }
   },
   "titles": {
     "home": "Framsida",

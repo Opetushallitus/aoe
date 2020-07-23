@@ -18,7 +18,10 @@
     },
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
-    "accessibilityPolicy": "Accessibility Policy"
+    "accessibilityPolicy": "Accessibility Policy",
+    "langSelector": {
+      "label": "Select language"
+    }
   },
   "titles": {
     "home": "Home",

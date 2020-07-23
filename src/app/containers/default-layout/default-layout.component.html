@@ -35,17 +35,22 @@
         </li>
       </ul>
 
-      <ul class="nav ml-auto nav-languages">
-        <li class="nav-item" *ngFor="let lang of translate.getLangs()">
+      <nav
+        class="nav ml-auto nav-languages flex-column flex-lg-row"
+        [attr.aria-label]="'navigation.langSelector.label' | translate"
+      >
+        <ng-container *ngFor="let lang of translate.getLangs()">
           <button
             class="btn btn-link nav-link"
             (click)="changeLanguage(lang)"
             [ngClass]="translate.currentLang === lang ? 'active' : ''"
+            [lang]="lang"
           >
-            {{ lang | uppercase }}
+            <span class="sr-only">{{ languages.get(lang).srText }}</span>
+            <span aria-hidden="true">{{ languages.get(lang).label }}</span>
           </button>
-        </li>
-      </ul>
+        </ng-container>
+      </nav>
 
       <app-nav-login></app-nav-login>
     </div>
