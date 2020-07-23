@@ -264,7 +264,7 @@
               </div>
 
               <accordion>
-                <accordion-group [heading]="metadataHeading" (isOpenChange)="updateMetadataHeading($event)">
+                <accordion-group [heading]="detailsExpanded ? hideDetails : showDetails" (isOpenChange)="detailsExpanded = !detailsExpanded">
                   <div class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
