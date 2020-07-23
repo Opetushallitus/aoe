@@ -18,7 +18,10 @@
     },
     "termsOfUse": "Käyttöehdot",
     "privacyPolicy": "Tietosuojailmoitus",
-    "accessibilityPolicy": "Saavutettavuusseloste"
+    "accessibilityPolicy": "Saavutettavuusseloste",
+    "langSelector": {
+      "label": "Valitse sivuston kieli"
+    }
   },
   "titles": {
     "home": "Etusivu",
