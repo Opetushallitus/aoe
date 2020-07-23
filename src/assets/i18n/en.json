@@ -85,6 +85,10 @@
       "publisher": "Publisher",
       "license": "License",
       "keywords": "Keywords",
+      "expandMetadata": {
+        "more": "Show all details",
+        "less": "Show less"
+      },
       "educationalRole": "Educational role",
       "educationalUse": "Educational use",
       "earlyChildhoodEducationSubjects": "Educational subject of early childhood education",

@@ -30,7 +30,9 @@ export class EducationalMaterialViewComponent implements OnInit {
   materialName: string;
   description: string;
   materials: Material[];
-  metadataHeading: string;
+  detailsExpanded = false;
+  showDetails: string;
+  hideDetails: string;
   reviewModalRef: BsModalRef;
   collectionModalRef: BsModalRef;
   materialLanguages: string[];
@@ -61,6 +63,11 @@ export class EducationalMaterialViewComponent implements OnInit {
       if (this.materialLanguages && this.materialLanguages.includes(event.lang.toLowerCase())) {
         this.setSelectedLanguage(event.lang.toLowerCase());
       }
+
+      this.translate.get('demo.educationalMaterial.expandMetadata').subscribe((translation) => {
+        this.showDetails = translation.more;
+        this.hideDetails = translation.less;
+      });
     });
 
     this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
@@ -93,8 +100,6 @@ export class EducationalMaterialViewComponent implements OnInit {
         this.expired = new Date(data.expires) < new Date();
       }
     });
-
-    this.updateMetadataHeading(false);
   }
 
   setTitle(): void {
@@ -132,14 +137,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       this.description = this.educationalMaterial.description.find(d => d.language === this.lang).description;
     } else {
       this.description = this.educationalMaterial.description.find(d => d.language === 'fi').description;
-    }
-  }
-
-  updateMetadataHeading(event: boolean): void {
-    if (event) {
-      this.metadataHeading = 'Vähemmän kuvailutietoja';
-    } else {
-      this.metadataHeading = 'Enemmän kuvailutietoja';
     }
   }
 
