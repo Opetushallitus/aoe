@@ -559,6 +559,7 @@
         "confirm": "Jag har",
         "required": {
           "name": "Namn",
+          "material": "Filer och länkar",
           "author": "Upphovsperson",
           "keywords": "Nyckelord",
           "learningResourceTypes": "Typ av läromaterial",
