@@ -18,7 +18,10 @@
     },
     "termsOfUse": "Användarvilko",
     "privacyPolicy": "Dataskyddsbeskrivnig",
-    "accessibilityPolicy": "Accessibility Policy"
+    "accessibilityPolicy": "Accessibility Policy",
+    "langSelector": {
+      "label": "Välj språk"
+    }
   },
   "titles": {
     "home": "Framsida",
@@ -82,6 +85,10 @@
       "publisher": "Publisher",
       "license": "License",
       "keywords": "Keywords",
+      "expandMetadata": {
+        "more": "Visa alla detaljer",
+        "less": "Visa mindre"
+      },
       "educationalRole": "Roll",
       "educationalUse": "Educational use",
       "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",

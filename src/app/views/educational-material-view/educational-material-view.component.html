@@ -39,7 +39,7 @@
         <div class="col-lg-3">
           <div class="material-sidebar-left">
             <div class="row">
-              <div class="col-auto col-md-12 text-center text-sm-left">
+              <div class="col-auto col-lg-12 text-center text-sm-left">
                 <img
                   [src]="educationalMaterial.thumbnail"
                   class="img-fluid mb-4"
@@ -84,26 +84,35 @@
               </ul>
 
               <div class="datetimes">
-                <span class="datetime-item">
-                  <strong>{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
+                <span class="datetime-item d-block d-md-inline-block">
+                  <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
 
-                  <time [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'">
+                  <time
+                    [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'"
+                    aria-labelledby="createdAt"
+                  >
                     {{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}
                   </time>
                 </span>
 
-                <span class="datetime-item" *ngIf="educationalMaterial.publishedAt">
-                  <strong>{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
+                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
+                  <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-                  <time [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'">
+                  <time
+                    [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'"
+                    aria-labelledby="publishedAt"
+                  >
                     {{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}
                   </time>
                 </span>
 
-                <span class="datetime-item" *ngIf="educationalMaterial.updatedAt">
-                  <strong>{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
+                  <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-                  <time [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'">
+                  <time
+                    [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'"
+                    aria-labelledby="updatedAt"
+                  >
                     {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
                   </time>
                 </span>
@@ -114,7 +123,7 @@
 
             <div class="list-files mb-4" *ngIf="materials.length > 0">
               <div class="row no-gutters">
-                <div class="col-3">
+                <div class="col-md-3">
                   <ng-container *ngIf="materialLanguages.length > 1">
                     <h3 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h3>
 
@@ -160,7 +169,7 @@
                   </div>
                 </div>
 
-                <div class="col-9">
+                <div class="col-md-9">
                   <div
                     [id]="'filePreview-' + previewMaterial.id"
                     role="tabpanel"
@@ -255,7 +264,7 @@
               </div>
 
               <accordion>
-                <accordion-group [heading]="metadataHeading" (isOpenChange)="updateMetadataHeading($event)">
+                <accordion-group [heading]="detailsExpanded ? hideDetails : showDetails" (isOpenChange)="detailsExpanded = !detailsExpanded">
                   <div class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
