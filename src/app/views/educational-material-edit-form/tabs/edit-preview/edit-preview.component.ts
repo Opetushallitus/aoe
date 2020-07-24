@@ -40,6 +40,9 @@ export class EditPreviewComponent implements OnInit {
       hasName: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
+      hasMaterial: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
       hasAuthor: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
@@ -77,6 +80,12 @@ export class EditPreviewComponent implements OnInit {
     if (this.previewMaterial.name) {
       if (this.previewMaterial.name.fi || this.previewMaterial.name.sv || this.previewMaterial.name.en) {
         this.form.get('hasName').setValue(true);
+      }
+    }
+
+    if (this.previewMaterial.fileDetails) {
+      if (this.previewMaterial.fileDetails.length > 0) {
+        this.form.get('hasMaterial').setValue(true);
       }
     }
 
@@ -125,6 +134,10 @@ export class EditPreviewComponent implements OnInit {
 
   get hasName(): boolean {
     return this.form.get('hasName').value;
+  }
+
+  get hasMaterial(): boolean {
+    return this.form.get('hasMaterial').value;
   }
 
   get hasAuthor(): boolean {

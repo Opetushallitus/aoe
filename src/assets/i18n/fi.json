@@ -171,7 +171,7 @@
       "delete": "Poista",
       "next": "Seuraava",
       "previous": "Edellinen",
-      "required": "Pakollinen tieto",
+      "required": "Pakollinen",
       "pattern": {
         "url": "Aseta etuliite http:// tai https://",
         "numeric": "Vain numerot ovat sallittuja"
@@ -559,6 +559,7 @@
         "confirm": "Vakuutan että",
         "required": {
           "name": "Oppimateriaalin nimi",
+          "material": "Tiedostot ja linkit",
           "author": "Tekijä",
           "keywords": "Asiasanat",
           "learningResourceTypes": "Oppimateriaalin tyyppi",
