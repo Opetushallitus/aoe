@@ -57,9 +57,18 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     this.fileUploadForm = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
       }),
       files: this.fb.array([
         this.createFile(),
@@ -106,6 +115,11 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
+
+    // save data if its valid
+    if (this.fileUploadForm.dirty && this.fileUploadForm.valid) {
+      this.saveData();
+    }
   }
 
   setTitle(): void {
@@ -117,24 +131,6 @@ export class FilesComponent implements OnInit, OnDestroy {
   updateLanguages(): void {
     // set other than current language to an array
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
-
-    // set other languages validators null for name
-    this.otherLangs.forEach((lang: string) => {
-      this.names.get(lang).setValidators([
-        Validators.maxLength(validatorParams.name.maxLength),
-        textInputValidator(),
-      ]);
-      this.names.get(lang).updateValueAndValidity();
-    });
-
-    // set current language validator required for name
-    this.names.get(this.lang).setValidators([
-      Validators.required,
-      Validators.maxLength(validatorParams.name.maxLength),
-      textInputValidator(),
-    ]);
-    this.names.get(this.lang).updateValueAndValidity();
-
   }
 
   get name(): FormControl {
@@ -415,14 +411,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     if (this.fileUploadForm.valid) {
       this.calculateTotalFileCount();
 
-      const data = Object.assign(
-        {},
-        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-        { name: this.fileUploadForm.get('name').value },
-      );
-
-      // save data to session storage
-      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
+      this.saveData();
 
       if (!this.materialId) {
         const formData = new FormData();
@@ -437,6 +426,17 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.uploadFiles();
       }
     }
+  }
+
+  saveData(): void {
+    const data = Object.assign(
+      {},
+      JSON.parse(sessionStorage.getItem(this.savedDataKey)),
+      { name: this.names.value },
+    );
+
+    // save data to session storage
+    sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
   }
 
   resetForm(): void {
