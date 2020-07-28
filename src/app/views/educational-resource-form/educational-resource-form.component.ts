@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-educational-resource-form',
@@ -27,5 +28,8 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
+
+    sessionStorage.removeItem(environment.newERLSKey);
+    sessionStorage.removeItem(environment.fileUploadLSKey);
   }
 }

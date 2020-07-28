@@ -1,4 +1,4 @@
-<form [formGroup]="licenseForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <h3>{{ 'forms.educationalResource.license.title' | translate }}</h3>
 
   <ng-container [ngSwitch]="lang">
@@ -44,9 +44,9 @@
     </div>
   </div>
 
-  <div *ngIf="submitted && license.errors" class="alert alert-warning" role="alert">
+  <!--<div *ngIf="submitted && license.errors" class="alert alert-warning" role="alert">
     <div *ngIf="license.errors.required">{{ 'forms.common.required' | translate }}: {{ 'forms.educationalResource.license.subtitle' | translate }}</div>
-  </div>
+  </div>-->
 
   <div class="row">
     <div class="col">
