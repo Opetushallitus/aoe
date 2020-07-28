@@ -27,7 +27,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   savedData: any;
 
-  fileUploadForm: FormGroup;
+  form: FormGroup;
   videoFiles: number[] = [];
   submitted = false;
   modalRef: BsModalRef;
@@ -55,7 +55,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setTitle();
 
-    this.fileUploadForm = this.fb.group({
+    this.form = this.fb.group({
       name: this.fb.group({
         fi: this.fb.control(null, [
           Validators.maxLength(validatorParams.name.maxLength),
@@ -96,7 +96,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     if (this.savedData) {
       if (this.savedData.name) {
-        this.fileUploadForm.get('name').patchValue(this.savedData.name);
+        this.form.get('name').patchValue(this.savedData.name);
       }
     }
 
@@ -115,7 +115,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // save data if its valid, dirty and not submitted
-    if (this.submitted === false && this.fileUploadForm.dirty && this.fileUploadForm.valid) {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
       this.saveData();
     }
 
@@ -134,15 +134,15 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   get name(): FormControl {
-    return this.fileUploadForm.get(`name.${this.lang}`) as FormControl;
+    return this.form.get(`name.${this.lang}`) as FormControl;
   }
 
   get names(): FormGroup {
-    return this.fileUploadForm.get('name') as FormGroup;
+    return this.form.get('name') as FormGroup;
   }
 
   get files(): FormArray {
-    return this.fileUploadForm.get('files') as FormArray;
+    return this.form.get('files') as FormArray;
   }
 
   createFile(): FormGroup {
@@ -402,8 +402,8 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.validateFiles();
     this.validateSubtitles();
 
-    if (this.fileUploadForm.valid) {
-      if (this.fileUploadForm.dirty) {
+    if (this.form.valid) {
+      if (this.form.dirty) {
         this.saveData();
       }
 
@@ -442,7 +442,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     // reset form values
-    this.fileUploadForm.reset();
+    this.form.reset();
 
     // clear data from session storage
     sessionStorage.removeItem(this.savedDataKey);

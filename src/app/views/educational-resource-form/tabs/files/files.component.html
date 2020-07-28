@@ -2,7 +2,7 @@
   {{ 'forms.educationalResource.files.alert' | translate }}
 </alert>
 
-<form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
