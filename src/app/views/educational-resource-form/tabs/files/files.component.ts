@@ -114,12 +114,12 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
-
     // save data if its valid, dirty and not submitted
     if (this.submitted === false && this.fileUploadForm.dirty && this.fileUploadForm.valid) {
       this.saveData();
     }
+
+    this.languageSubscription.unsubscribe();
   }
 
   setTitle(): void {
