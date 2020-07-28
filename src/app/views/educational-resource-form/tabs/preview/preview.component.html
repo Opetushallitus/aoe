@@ -33,9 +33,9 @@
 
 <hr>
 
-<ng-container *ngIf="uploadedFiles?.length > 0">
-  <h3>{{ 'forms.educationalResource.nav.files' | translate }}</h3>
+<h3>{{ 'forms.educationalResource.nav.files' | translate }}</h3>
 
+<ng-container *ngIf="hasMaterial; else missingMaterial">
   <table class="table">
     <thead>
       <tr>
@@ -72,6 +72,20 @@
     </tbody>
   </table>
 </ng-container>
+
+<ng-template #missingMaterial>
+  <dl class="row">
+    <dt class="col-sm-3">
+      {{ 'forms.educationalResource.preview.required.material' | translate }}
+    </dt>
+
+    <dd class="col-sm-9">
+      <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+      <a [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'forms.educationalResource.files.file.error' | translate }}</a>
+    </dd>
+  </dl>
+</ng-template>
 
 <h3>{{ 'forms.educationalResource.nav.basicDetails' | translate }}</h3>
 

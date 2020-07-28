@@ -74,6 +74,10 @@ export class PreviewComponent implements OnInit {
     if (this.materialId) {
       this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
         this.uploadedFiles = uploadedFiles;
+
+        if (this.uploadedFiles.length > 0) {
+          this.form.get('hasMaterial').setValue(true);
+        }
       });
 
       this.backendSvc.updateUploadedFiles(this.materialId);
