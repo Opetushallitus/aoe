@@ -175,16 +175,16 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // save data if its valid, dirty and not submitted
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.organizationSubscription.unsubscribe();
     this.keywordSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
     this.educationalRoleSubscription.unsubscribe();
     this.educationalUseSubscription.unsubscribe();
-
-    // save data if its valid, dirty and not submitted
-    if (this.submitted === false && this.form.dirty && this.form.valid) {
-      this.saveData();
-    }
   }
 
   setTitle(): void {
@@ -293,8 +293,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       }
 
       this.router.navigate(['/lisaa-oppimateriaali', 3]);
-    } else {
-      return;
     }
   }
 
