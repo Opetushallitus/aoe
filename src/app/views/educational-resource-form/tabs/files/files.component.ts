@@ -403,7 +403,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.validateSubtitles();
 
     if (this.fileUploadForm.valid) {
-      this.saveData();
+      if (this.fileUploadForm.dirty) {
+        this.saveData();
+      }
 
       if (this.totalFileCount > 0) {
         if (!this.materialId) {
