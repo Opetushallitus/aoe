@@ -17,8 +17,6 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './preview.component.html',
 })
 export class PreviewComponent implements OnInit {
-  private savedDataKey = environment.newERLSKey;
-  private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
   fileUpload: any;
@@ -45,7 +43,7 @@ export class PreviewComponent implements OnInit {
   scienceBranchObjectives: AlignmentObjectExtended[];
   prerequisites: AlignmentObjectExtended[];
 
-  previewForm: FormGroup;
+  form: FormGroup;
 
   uploadedFileSubscription: Subscription;
   uploadedFiles: UploadedFile[];
@@ -69,85 +67,146 @@ export class PreviewComponent implements OnInit {
       this.setTitle();
     });
 
-    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
-    this.fileUpload = JSON.parse(sessionStorage.getItem(this.fileUploadLSKey));
-    this.materialId = this.fileUpload.id;
+    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
+    this.fileUpload = JSON.parse(sessionStorage.getItem(environment.fileUploadLSKey));
+    this.materialId = this.fileUpload?.id;
 
-    this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
-      this.uploadedFiles = uploadedFiles;
+    if (this.materialId) {
+      this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+        this.uploadedFiles = uploadedFiles;
+      });
+
+      this.backendSvc.updateUploadedFiles(this.materialId);
+    }
+
+    this.form = this.fb.group({
+      hasName: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasMaterial: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasAuthor: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasKeyword: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasLearningResourceType: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasEducationalLevel: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasLicense: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      confirm: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
     });
 
-    this.backendSvc.updateUploadedFiles(this.materialId);
+    if (this.savedData) {
+      if (this.savedData.name) {
+        if (this.savedData.name.fi || this.savedData.name.sv || this.savedData.name.en) {
+          this.form.get('hasName').setValue(true);
+        }
+      }
 
-    this.previewForm = this.fb.group({
-      confirm: this.fb.control(false, [ Validators.requiredTrue ])
-    });
+      if (this.savedData.authors) {
+        if (this.savedData.authors.length > 0) {
+          this.form.get('hasAuthor').setValue(true);
+        }
+      }
 
-    if (this.savedData && this.savedData.alignmentObjects) {
-      this.earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
+      if (this.savedData.keywords) {
+        if (this.savedData.keywords.length > 0) {
+          this.form.get('hasKeyword').setValue(true);
+        }
+      }
 
-      this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
+      if (this.savedData.learningResourceTypes) {
+        if (this.savedData.learningResourceTypes.length > 0) {
+          this.form.get('hasLearningResourceType').setValue(true);
+        }
+      }
 
-      // @todo: framework
+      if (this.savedData.educationalLevels) {
+        if (this.savedData.educationalLevels.length > 0) {
+          this.form.get('hasEducationalLevel').setValue(true);
+        }
+      }
 
-      this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
+      if (this.savedData.license) {
+        this.form.get('hasLicense').setValue(true);
+      }
 
-      this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
+      if (this.savedData.alignmentObjects) {
+        this.earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
 
-      this.basicStudySubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
+        this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
 
-      this.basicStudyObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
+        // @todo: framework
 
-      this.basicStudyContents = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
+        this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
 
-      this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
+        this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
 
-      this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
+        this.basicStudySubjects = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
 
-      this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
+        this.basicStudyObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
 
-      this.upperSecondarySchoolModulesNew = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
+        this.basicStudyContents = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
 
-      this.upperSecondarySchoolObjectivesNew = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
+        this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
 
-      this.upperSecondarySchoolContentsNew = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
+        this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
 
-      this.vocationalDegrees = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
+        this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
 
-      this.vocationalUnits = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
+        this.upperSecondarySchoolModulesNew = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
 
-      this.vocationalEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives);
+        this.upperSecondarySchoolObjectivesNew = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
 
-      this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
+        this.upperSecondarySchoolContentsNew = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
 
-      this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
+        this.vocationalDegrees = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
 
-      this.branchesOfScience = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
+        this.vocationalUnits = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
 
-      this.scienceBranchObjectives = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
+        this.vocationalEducationObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives);
 
-      this.prerequisites = this.savedData.alignmentObjects
-        .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
+        this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
+
+        this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
+
+        this.branchesOfScience = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
+
+        this.scienceBranchObjectives = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
+
+        this.prerequisites = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
+      }
     }
   }
 
@@ -161,8 +220,36 @@ export class PreviewComponent implements OnInit {
     moveItemInArray(this.uploadedFiles, event.previousIndex, event.currentIndex);
   }
 
+  get hasName(): boolean {
+    return this.form.get('hasName').value;
+  }
+
+  get hasMaterial(): boolean {
+    return this.form.get('hasMaterial').value;
+  }
+
+  get hasAuthor(): boolean {
+    return this.form.get('hasAuthor').value;
+  }
+
+  get hasKeyword(): boolean {
+    return this.form.get('hasKeyword').value;
+  }
+
+  get hasLearningResourceType(): boolean {
+    return this.form.get('hasLearningResourceType').value;
+  }
+
+  get hasEducationalLevel(): boolean {
+    return this.form.get('hasEducationalLevel').value;
+  }
+
+  get hasLicense(): boolean {
+    return this.form.get('hasLicense').value;
+  }
+
   onSubmit() {
-    if (this.previewForm.valid) {
+    if (this.form.valid) {
       // new material is always versioned
       this.savedData.isVersioned = true;
 
@@ -177,8 +264,8 @@ export class PreviewComponent implements OnInit {
 
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up session storage
-        sessionStorage.removeItem(this.savedDataKey);
-        sessionStorage.removeItem(this.fileUploadLSKey);
+        sessionStorage.removeItem(environment.newERLSKey);
+        sessionStorage.removeItem(environment.fileUploadLSKey);
 
         // redirect to new material
         this.router.navigate([ '/materiaali', this.fileUpload.id ]);
@@ -189,11 +276,11 @@ export class PreviewComponent implements OnInit {
   // @todo: some kind of confirmation
   resetForm() {
     // reset form values
-    this.previewForm.reset();
+    this.form.reset();
 
     // clear data from session storage
-    sessionStorage.removeItem(this.savedDataKey);
-    sessionStorage.removeItem(this.fileUploadLSKey);
+    sessionStorage.removeItem(environment.newERLSKey);
+    sessionStorage.removeItem(environment.fileUploadLSKey);
 
     this.router.navigateByUrl('/');
   }
