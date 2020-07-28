@@ -1,5 +1,6 @@
 package fi.csc.provider.service.impl;
 
+import fi.csc.provider.enumeration.Language;
 import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.model.aoe_response.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
@@ -146,12 +147,28 @@ public class MigrationServiceImpl implements MigrationService {
             // .filter(m -> !m.getOriginalfilename().isEmpty() && !m.getFilepath().isEmpty() && !m.getMimetype().isEmpty())
             .map(m -> {
                 Material material = new Material();
-                material.setName(m.getOriginalfilename());
-                material.setUrl(m.getFilepath());
-                material.setPosition(m.getPriority());
-                material.setFormat(m.getMimetype());
-                material.setFileSize(m.getFilesize());
-                material.setInLanguage(m.getLanguage());
+
+                // File material (majority)
+                if (m.getLink() == null || m.getLink().isEmpty()) {
+                    material.setDisplayNames(m.getMaterialdisplayname() == null ? null : m.getMaterialdisplayname().stream()
+                        .filter(n -> !n.getDisplayname().isEmpty() && !n.getLanguage().isEmpty())
+                        .map(n -> new LangValue(Language.fromString(n.getLanguage()), n.getDisplayname()))
+                        .collect(Collectors.toList()));
+                    material.setUrl(m.getFilepath());
+                    material.setPosition(m.getPriority());
+                    material.setFormat(m.getMimetype());
+                    material.setFileSize(m.getFilesize());
+                    material.setInLanguage(m.getLanguage());
+                    return material;
+                }
+
+                // Link material (minority)
+                material.setDisplayNames(m.getMaterialdisplayname() == null ? null : m.getMaterialdisplayname().stream()
+                    .filter(n -> !n.getDisplayname().isEmpty() && !n.getLanguage().isEmpty())
+                    .map(n -> new LangValue(Language.fromString(n.getLanguage()), n.getDisplayname()))
+                    .collect(Collectors.toList()));
+                material.setUrl(m.getLink());
+                material.setFormat(m.getMimetype() == null || m.getMimetype().isEmpty() ? "text/html" : m.getMimetype());
                 return material;
             })
             .collect(Collectors.toList()));
