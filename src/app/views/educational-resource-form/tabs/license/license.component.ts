@@ -14,15 +14,13 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './license.component.html',
 })
 export class LicenseComponent implements OnInit, OnDestroy {
-  private savedDataKey = environment.newERLSKey;
-  private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
 
   licenseSubscription: Subscription;
   licenses: License[];
 
-  licenseForm: FormGroup;
+  form: FormGroup;
   submitted = false;
 
   constructor(
@@ -50,10 +48,10 @@ export class LicenseComponent implements OnInit, OnDestroy {
       });
     this.koodistoProxySvc.updateLicenses();
 
-    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
+    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
 
-    this.licenseForm = this.fb.group({
-      license: this.fb.control(null, [ Validators.required ]),
+    this.form = this.fb.group({
+      license: this.fb.control(null),
     });
 
     if (this.savedData) {
@@ -64,6 +62,11 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // save data if its valid, dirty and not submitted
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.licenseSubscription.unsubscribe();
   }
 
@@ -74,24 +77,30 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   get license(): FormControl {
-    return this.licenseForm.get('license') as FormControl;
+    return this.form.get('license') as FormControl;
   }
 
   onSubmit() {
     this.submitted = true;
 
-    if (this.licenseForm.valid) {
-      const data = Object.assign(
-        {},
-        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-        this.licenseForm.value
-      );
-
-      // save data to session storage
-      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        this.saveData();
+      }
 
       this.router.navigate(['/lisaa-oppimateriaali', 6]);
     }
+  }
+
+  saveData(): void {
+    const data = Object.assign(
+      {},
+      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
+      this.form.value
+    );
+
+    // save data to session storage
+    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
   resetForm() {
@@ -99,11 +108,11 @@ export class LicenseComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     // reset form values
-    this.licenseForm.reset();
+    this.form.reset();
 
     // clear data from session storage
-    sessionStorage.removeItem(this.savedDataKey);
-    sessionStorage.removeItem(this.fileUploadLSKey);
+    sessionStorage.removeItem(environment.newERLSKey);
+    sessionStorage.removeItem(environment.fileUploadLSKey);
 
     this.router.navigateByUrl('/');
   }

@@ -2,7 +2,7 @@
   {{ 'forms.educationalResource.files.alert' | translate }}
 </alert>
 
-<form [formGroup]="fileUploadForm" (ngSubmit)="onSubmit()" novalidate>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
@@ -26,9 +26,9 @@
           *ngIf="name.invalid && (name.dirty || name.touched || submitted)"
           class="invalid-feedback"
         >
-          <div *ngIf="name.errors.required">
+          <!--<div *ngIf="name.errors.required">
             {{ 'forms.common.required' | translate }}
-          </div>
+          </div>-->
 
           <div *ngIf="name.errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
