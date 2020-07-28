@@ -229,6 +229,14 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.basicDetailsForm.get('learningResourceTypes') as FormControl;
   }
 
+  get educationalRolesCtrl(): FormControl {
+    return this.basicDetailsForm.get('educationalRoles') as FormControl;
+  }
+
+  get educationalUsesCtrl(): FormControl {
+    return this.basicDetailsForm.get('educationalUses') as FormControl;
+  }
+
   get descriptionCtrl(): FormGroup {
     return this.basicDetailsForm.get('description') as FormGroup;
   }
@@ -282,14 +290,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
         (err) => this.uploadError = err,
       );
     }
-  }
-
-  get educationalRolesCtrl(): FormControl {
-    return this.basicDetailsForm.get('educationalRoles') as FormControl;
-  }
-
-  get educationalUsesCtrl(): FormControl {
-    return this.basicDetailsForm.get('educationalUses') as FormControl;
   }
 
   onSubmit() {
