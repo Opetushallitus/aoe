@@ -24,6 +24,15 @@ public enum Language {
         return abbr;
     }
 
+    public static Language fromString(String text) {
+        for (Language language : Language.values()) {
+            if (language.abbr.equalsIgnoreCase(text)) {
+                return language;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return abbr;

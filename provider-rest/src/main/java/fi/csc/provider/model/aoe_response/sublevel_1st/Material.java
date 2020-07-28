@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fi.csc.provider.adapter.NumericBooleanDeserializer;
 import fi.csc.provider.adapter.NumericBooleanSerializer;
 import fi.csc.provider.model.aoe_response.sublevel_1st.sublevel_2nd.MaterialDisplayName;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 @SuppressWarnings("unused")
 public class Material {
 
@@ -18,17 +20,14 @@ public class Material {
     @JsonProperty
     private String language;
 
-    @JsonProperty
-    private String key;
+    /*@JsonProperty
+    private String key;*/
 
     @JsonProperty
     private String link;
 
     @JsonProperty
     private Integer priority;
-
-    @JsonProperty
-    private String filepath;
 
     @JsonProperty
     private String originalfilename;
@@ -54,6 +53,9 @@ public class Material {
     private Boolean obsoleted;
 
     @JsonProperty
+    private String filepath;
+
+    @JsonProperty
     private List<MaterialDisplayName> materialdisplayname;
 
     public String getId() {
@@ -64,9 +66,9 @@ public class Material {
         return language;
     }
 
-    public String getKey() {
+    /*public String getKey() {
         return key;
-    }
+    }*/
 
     public String getLink() {
         return link;

@@ -3,13 +3,14 @@ package fi.csc.provider.model.xml_lrmi.sublevel_1st;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.List;
 
 @SuppressWarnings("unused")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Material {
 
     @XmlElement(name = "lrmi_fi:name")
-    private String name;
+    private List<LangValue> displayNames;
 
     @XmlElement(name = "lrmi_fi:url")
     private String url;
@@ -26,12 +27,12 @@ public class Material {
     @XmlElement(name = "lrmi_fi:inLanguage")
     private String inLanguage;
 
-    public String getName() {
-        return name;
+    public List<LangValue> getDisplayNames() {
+        return displayNames;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDisplayNames(List<LangValue> displayNames) {
+        this.displayNames = displayNames;
     }
 
     public String getUrl() {
