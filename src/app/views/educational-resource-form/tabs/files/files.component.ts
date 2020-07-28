@@ -270,9 +270,9 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.files.controls = this.files.controls
       .filter(ctrl => ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== ''));
 
-    const fileCount = this.files.controls.length;
-
     this.files.controls.forEach(ctrl => {
+      this.totalFileCount++;
+
       const language = ctrl.get('language');
       const displayName = ctrl.get(`displayName.${this.lang}`);
 
@@ -288,14 +288,6 @@ export class FilesComponent implements OnInit, OnDestroy {
       ]);
       displayName.updateValueAndValidity();
     });
-
-    if (fileCount === 0) {
-      if (this.uploadedFiles && this.uploadedFiles.length > 0) {
-        this.router.navigate(['/lisaa-oppimateriaali', 2]);
-      } else {
-        this.files.setErrors({ 'required': true });
-      }
-    }
   }
 
   validateSubtitles(): void {
@@ -308,6 +300,8 @@ export class FilesComponent implements OnInit, OnDestroy {
             subtitles.removeAt(subtitles.controls.findIndex(sub => sub === subCtrl));
           }
         });
+
+        this.totalFileCount = this.totalFileCount + subtitles.controls.length;
       }
     });
   }
@@ -409,21 +403,23 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.validateSubtitles();
 
     if (this.fileUploadForm.valid) {
-      this.calculateTotalFileCount();
-
       this.saveData();
 
-      if (!this.materialId) {
-        const formData = new FormData();
-        formData.append('name', JSON.stringify(this.names.value));
+      if (this.totalFileCount > 0) {
+        if (!this.materialId) {
+          const formData = new FormData();
+          formData.append('name', JSON.stringify(this.names.value));
 
-        this.backendSvc.uploadFiles(formData).subscribe(
-          () => {},
-          (err) => console.error(err),
-          () => this.uploadFiles(),
-        );
+          this.backendSvc.uploadFiles(formData).subscribe(
+            () => {},
+            (err) => console.error(err),
+            () => this.uploadFiles(),
+          );
+        } else {
+          this.uploadFiles();
+        }
       } else {
-        this.uploadFiles();
+        this.router.navigate(['/lisaa-oppimateriaali', 2]);
       }
     }
   }
