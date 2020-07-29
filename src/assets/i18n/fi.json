@@ -567,7 +567,7 @@
       "toasts": {
         "noPermission": {
           "title": "Muokkaaminen ei sallittu",
-          "message": "Yrität muokata materiaali johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
+          "message": "Yrität muokata materiaalia johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
         },
         "ratingAdded": {
           "title": "Arvostelu lisätty/päivitetty"
