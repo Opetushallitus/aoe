@@ -52,6 +52,9 @@ public class LrmiMetadata {
     @XmlElement(name = "dc:description")
     private List<LangValue> description;
 
+    @XmlElement(name = "dc:description")
+    private Thumbnail thumbnail;
+
     @XmlElement(name = "dc:subject")
     private String[] keyword;
 
@@ -180,6 +183,14 @@ public class LrmiMetadata {
 
     public void setDescription(List<LangValue> description) {
         this.description = description;
+    }
+
+    public Thumbnail getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Thumbnail thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public String[] getKeyword() {
