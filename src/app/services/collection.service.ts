@@ -12,6 +12,7 @@ import { UserCollectionResponse } from '@models/collections/user-collection-resp
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 import { Collection } from '@models/collections/collection';
+import { CollectionForm } from '@models/collections/collection-form';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class CollectionService {
   public privateUserCollections$ = new Subject<UserCollection[]>();
   public publicUserCollections$ = new Subject<UserCollection[]>();
   public collection$ = new Subject<Collection>();
+  public editCollection$ = new Subject<Collection>();
 
   constructor(
     private http: HttpClient,
@@ -119,6 +121,17 @@ export class CollectionService {
       }),
     }).subscribe((collection: Collection) => {
       this.collection$.next(collection);
+    });
+  }
+
+  updateEditCollection(collectionId: string): void {
+    this.http.get<Collection>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((collection: Collection) => {
+      // @todo: convert Collection -> CollectionForm
+      this.editCollection$.next(collection);
     });
   }
 }

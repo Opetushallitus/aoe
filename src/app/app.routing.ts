@@ -24,6 +24,7 @@ import { EducationalMaterialEditFormComponent } from '@views/educational-materia
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
 import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
+import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
 
 export const routes: Routes = [
   {
@@ -67,6 +68,18 @@ export const routes: Routes = [
         path: 'kokoelma/:collectionId',
         component: CollectionViewComponent,
         canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelma/:collectionId/muokkaa',
+        component: CollectionFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelma/:collectionId/muokkaa/:tabId',
+        component: CollectionFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
