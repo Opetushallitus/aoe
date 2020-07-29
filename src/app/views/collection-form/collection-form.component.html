@@ -1,0 +1,50 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>Kokoelma</h1>
+
+    <ul class="list-inline material-form-tabs">
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          routerLinkActive="active"
+        >Välilehti</a>
+      </li>
+
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 2]"
+          routerLinkActive="active"
+        >Välilehti</a>
+      </li>
+
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 3]"
+          routerLinkActive="active"
+        >Välilehti</a>
+      </li>
+
+      <li class="list-inline-item divider">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 4]"
+          routerLinkActive="active"
+        >Välilehti</a>
+      </li>
+    </ul>
+
+
+    <pre *ngIf="collection">{{ collection | json }}</pre>
+  </div>
+</div>
