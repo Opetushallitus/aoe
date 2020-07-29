@@ -9,6 +9,7 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,18 @@ public class MigrationServiceImpl implements MigrationService {
             .filter(d -> !d.getDescription().isEmpty())
             .map(d -> new LangValue(d.getLanguage(), d.getDescription()))
             .collect(Collectors.toList()) : null);
+
+        // dc:description
+        // Description for the thumbnail image.
+        // Append thumbnail description to descriptions collection.
+        if (amd.getThumbnail() != null) {
+
+            if (amd.getThumbnail().getFilepath() != null && amd.getThumbnail().getMimetype() != null &&
+                !amd.getThumbnail().getFilepath().isEmpty() && !amd.getThumbnail().getMimetype().isEmpty()) {
+                lrmi.setThumbnail(new Thumbnail(amd.getThumbnail().getFilepath(), amd.getThumbnail().getMimetype()));
+            }
+        }
+
 
         // dc:subject
         // Any concepts and keywords for the search and classifying the educational material.

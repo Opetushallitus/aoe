@@ -108,6 +108,9 @@ public class AoeMetadata {
     @JsonProperty
     private List<Owner> owner;
 
+    @JsonProperty
+    private Thumbnail thumbnail;
+
     // Getters only
     public Long getId() {
         return id;
@@ -219,5 +222,9 @@ public class AoeMetadata {
 
     public List<Owner> getOwner() {
         return owner;
+    }
+
+    public Thumbnail getThumbnail() {
+        return thumbnail;
     }
 }

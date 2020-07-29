@@ -5,18 +5,12 @@ import lombok.Getter;
 
 @Getter
 @SuppressWarnings("unused")
-public class Publisher {
+public class Thumbnail {
 
     @JsonProperty
-    private String id;
+    private String filepath;
 
     @JsonProperty
-    private String name;
-
-    @JsonProperty
-    private String educationalmaterialid;
-
-    @JsonProperty
-    private String publisherkey;
+    private String mimetype;
 
 }
