@@ -573,6 +573,20 @@
           "title": "Recensioner tillagd/uppdaterad"
         }
       }
+    },
+    "collection": {
+      "title": "",
+      "toasts": {
+        "noPermission": {
+          "title": "",
+          "message": ""
+        }
+      },
+      "abort": {
+        "text": "",
+        "confirm": "",
+        "cancel": ""
+      }
     }
   },
   "faq": {

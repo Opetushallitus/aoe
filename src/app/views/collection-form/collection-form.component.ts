@@ -35,6 +35,11 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.collectionId = this.route.snapshot.paramMap.get('collectionId');
 
+    this.translate.get('forms.collection.toasts.noPermission').subscribe((translation: Toast) => {
+      this.noPermissionTitle = translation.title;
+      this.noPermissionMessage = translation.message;
+    });
+
     this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
       this.tabId = +params.get('tabId');
 
@@ -47,7 +52,9 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
       this.collection = collection;
 
       if (JSON.stringify(collection) === '{}') {
-        this.toastr.error('Yrität muokata kokoelmaa johon sinulla ei ole oikeutta. Mikäli kokoelma on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi.', 'Käyttöoikeusvirhe');
+        // @todo: replace with translation strings
+        // tslint:disable-next-line:max-line-length
+        this.toastr.error(this.noPermissionMessage, this.noPermissionTitle);
 
         return this.router.navigate(['/etusivu']);
       }
