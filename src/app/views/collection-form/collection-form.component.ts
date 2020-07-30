@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { ToastrService } from 'ngx-toastr';
-import { Collection } from '@models/collections/collection';
+import { CollectionForm } from '@models/collections/collection-form';
 
 @Component({
   selector: 'app-collection-form',
@@ -14,7 +14,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   collectionId: string;
   tabId: number;
   routeSubscription: Subscription;
-  collection: Collection;
+  collection: CollectionForm;
   collectionSubscription: Subscription;
 
   constructor(
@@ -35,7 +35,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.collectionSubscription = this.collectionSvc.editCollection$.subscribe((collection: Collection) => {
+    this.collectionSubscription = this.collectionSvc.editCollection$.subscribe((collection: CollectionForm) => {
       this.collection = collection;
 
       if (JSON.stringify(collection) === '{}') {

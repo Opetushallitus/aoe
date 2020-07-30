@@ -12,7 +12,7 @@ import { UserCollectionResponse } from '@models/collections/user-collection-resp
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 import { Collection } from '@models/collections/collection';
-import { CollectionForm } from '@models/collections/collection-form';
+import { CollectionForm, CollectionFormMaterial, CollectionFormMaterialAuthor } from '@models/collections/collection-form';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class CollectionService {
   public privateUserCollections$ = new Subject<UserCollection[]>();
   public publicUserCollections$ = new Subject<UserCollection[]>();
   public collection$ = new Subject<Collection>();
-  public editCollection$ = new Subject<Collection>();
+  public editCollection$ = new Subject<CollectionForm>();
 
   constructor(
     private http: HttpClient,
@@ -130,8 +130,37 @@ export class CollectionService {
         'Accept': 'application/json',
       }),
     }).subscribe((collection: Collection) => {
-      // @todo: convert Collection -> CollectionForm
-      this.editCollection$.next(collection);
+      const collectionForm: CollectionForm = {
+        id: collection.collection.id,
+        name: collection.collection.name,
+        keywords: collection.keywords,
+        languages: collection.languages,
+        educationalRoles: collection.educationalRoles,
+        educationalUses: collection.educationalUses,
+        accessibilityFeatures: collection.accessibilityFeatures,
+        accessibilityHazards: collection.accessibilityHazards,
+        materials: collection.educationalmaterials.map((material): CollectionFormMaterial => {
+          return {
+            id: material.id,
+            authors: material.author.map((author): CollectionFormMaterialAuthor => {
+              return {
+                author: author.authorname,
+                organization: {
+                  key: author.organizationkey,
+                  value: author.organization,
+                },
+              };
+            }),
+            license: material.license,
+            name: material.name,
+            priority: material.priority,
+          };
+        }),
+        description: collection.collection.description,
+        headings: collection.headings,
+      };
+
+      this.editCollection$.next(collectionForm);
     });
   }
 }
