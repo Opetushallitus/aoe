@@ -47,6 +47,10 @@
       "references": "Referens",
       "preview": "Förhandsvisning"
     },
+    "collection": {
+      "main": "",
+      "basic": ""
+    },
     "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
     "accessibility": "Accessibility Policy",
     "logout": "Du har loggat ut",

@@ -47,6 +47,10 @@
       "references": "References",
       "preview": "Preview"
     },
+    "collection": {
+      "main": "",
+      "basic": ""
+    },
     "acceptance": "Privacy Policy and the Terms of Use of the service",
     "accessibility": "Accessibility Policy",
     "logout": "You have logged out",

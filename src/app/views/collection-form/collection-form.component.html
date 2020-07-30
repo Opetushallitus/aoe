@@ -7,7 +7,7 @@
         <a
           [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
           routerLinkActive="active"
-        >Välilehti</a>
+        >Perustiedot</a>
       </li>
 
       <li class="list-inline-item divider">
@@ -45,7 +45,14 @@
     </ul>
 
 
-    <pre *ngIf="collection">{{ collection | json }}</pre>
+    <ng-container [ngSwitch]="tabId" *ngIf="collection">
+      <app-collection-basic-details-tab
+        *ngSwitchCase="1"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="1"
+        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-basic-details-tab>
+    </ng-container>
   </div>
 </div>
 

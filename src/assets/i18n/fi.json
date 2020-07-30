@@ -47,6 +47,10 @@
       "references": "Hyödynnetyt materiaalit",
       "preview": "Esikatselu"
     },
+    "collection": {
+      "main": "Kokoelman julkaisu",
+      "basic": "Perustiedot"
+    },
     "acceptance": "Palvelun käyttöehdot ja tietosuojailmoitus",
     "accessibility": "Saavutettavuusseloste",
     "logout": "Olet kirjautunut ulos",
