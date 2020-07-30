@@ -4,6 +4,9 @@ import { Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { ToastrService } from 'ngx-toastr';
 import { CollectionForm } from '@models/collections/collection-form';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Toast } from '@models/translations/toast';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-collection-form',
@@ -16,12 +19,17 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   collection: CollectionForm;
   collectionSubscription: Subscription;
+  confirmAbortModalRef: BsModalRef;
+  noPermissionTitle: string;
+  noPermissionMessage: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private collectionSvc: CollectionService,
     private toastr: ToastrService,
+    private modalSvc: BsModalService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit(): void {
@@ -50,5 +58,26 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
     this.collectionSubscription.unsubscribe();
+
+    // @todo: remove collection from session storage
+  }
+
+  /**
+   * Shows confirm modal for abort.
+   * @param {TemplateRef<any>} template
+   */
+  openConfirmAbortModal(template: TemplateRef<any>): void {
+    this.confirmAbortModalRef = this.modalSvc.show(template);
+  }
+
+  /**
+   * Removes collection from session storage. Redirects user to user materials view.
+   */
+  abort(): void {
+    // @todo: remove collection from session storage
+
+    this.confirmAbortModalRef.hide();
+
+    this.router.navigate(['/omat-oppimateriaalit']);
   }
 }
