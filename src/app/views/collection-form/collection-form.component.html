@@ -48,3 +48,21 @@
     <pre *ngIf="collection">{{ collection | json }}</pre>
   </div>
 </div>
+
+<ng-template #confirmAbort>
+  <div class="modal-body text-center">
+    <p>{{ 'forms.collection.abort.text' | translate }}</p>
+
+    <button
+      type="button"
+      class="btn btn-blue"
+      (click)="abort()"
+    >{{ 'forms.collection.abort.confirm' | translate }}</button>
+
+    <button
+      type="button"
+      class="btn btn-outline-blue"
+      (click)="confirmAbortModalRef.hide()"
+    >{{ 'forms.collection.abort.cancel' | translate }}</button>
+  </div>
+</ng-template>
