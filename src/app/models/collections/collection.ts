@@ -4,7 +4,10 @@ export interface Collection {
   collection: {
     id: string;
     publishedat: Date | null;
+    updatedat: Date | null;
+    createdat: Date | null;
     name: string;
+    description: string;
   };
   keywords: [
     {
@@ -60,5 +63,11 @@ export interface Collection {
       value: string;
     }
   ];
-  description: string;
+  headings: [
+    {
+      heading: string;
+      description: string;
+      priority: number;
+    }
+  ];
 }
