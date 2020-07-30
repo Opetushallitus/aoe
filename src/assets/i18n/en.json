@@ -573,6 +573,20 @@
           "title": "Rating added/updated"
         }
       }
+    },
+    "collection": {
+      "title": "",
+      "toasts": {
+        "noPermission": {
+          "title": "",
+          "message": ""
+        }
+      },
+      "abort": {
+        "text": "",
+        "confirm": "",
+        "cancel": ""
+      }
     }
   },
   "faq": {
