@@ -1,6 +1,5 @@
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-
 export interface CollectionForm {
+  id: string;
   name: string;
   keywords: [
     {
@@ -9,53 +8,60 @@ export interface CollectionForm {
     }
   ];
   languages: string[];
-  educationalRoles?: [
+  educationalRoles: [
     {
       key: string;
       value: string;
     }
   ];
-  educationalUses?: [
+  educationalUses: [
     {
       key: string;
       value: string;
     }
   ];
-  accessibilityFeatures?: [
+  accessibilityFeatures: [
     {
       key: string;
       value: string;
     }
   ];
-  accessibilityHazards?: [
+  accessibilityHazards: [
     {
       key: string;
       value: string;
     }
   ];
-  materials: [
+  materials: CollectionFormMaterial[];
+  description: string;
+  headings: [
     {
-      id: string;
-      authors: [
-        {
-          author: string;
-          organization: {
-            key: string;
-            value: string;
-          };
-        }
-      ];
-      license: {
-        key: string;
-        value: string;
-      };
-      name: {
-        fi: string;
-        sv: string;
-        en: string;
-      };
+      heading: string;
+      description: string;
       priority: number;
     }
   ];
-  description: string;
+}
+
+export interface CollectionFormMaterial {
+  id: string;
+  authors: CollectionFormMaterialAuthor[];
+  license: {
+    key: string;
+    value: string;
+  };
+  name: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  priority: number;
+}
+
+export interface CollectionFormMaterialAuthor {
+  author: string;
+  organization: {
+    key: string;
+    value: string;
+  };
 }
