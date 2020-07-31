@@ -86,9 +86,11 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
   /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    */
-  onSubmit(publishCollection?: boolean): void {
+  onSubmit(privateCollection?: boolean): void {
     this.submitted = true;
-    const publish = publishCollection ? publishCollection : true;
+    const publish = !privateCollection;
+
+    console.log(publish);
 
     if (this.form.valid) {
       // @todo: PUT request to backend
