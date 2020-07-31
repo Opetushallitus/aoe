@@ -1,1 +1,38 @@
-<p>collection-preview-tab works!</p>
+<ng-container *ngIf="collection">
+  <p>collection-preview-tab works!</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-gray"
+          (click)="previous()"
+        >{{ 'forms.common.previous' | translate }}</button>
+      </div>
+
+      <div class="col-auto">
+        <button
+          type="reset"
+          class="btn btn-cancel"
+          (click)="emitAbort()"
+        >{{ 'forms.common.abort' | translate }}</button>
+      </div>
+
+      <div class="col-auto">
+        <button
+          type="button"
+          class="btn btn-gray"
+          (click)="onSubmit(true)"
+        >{{ 'forms.collection.preview.saveUnpublished' | translate }}</button>
+      </div>
+
+      <div class="col-auto">
+        <button
+          type="submit"
+          class="btn btn-blue"
+        >{{ 'forms.collection.preview.savePublished' | translate }}</button>
+      </div>
+    </div>
+  </form>
+</ng-container>
