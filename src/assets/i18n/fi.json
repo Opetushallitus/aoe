@@ -580,6 +580,12 @@
     },
     "collection": {
       "title": "Kokoelma",
+      "nav": {
+        "basic": "Perustiedot",
+        "educational": "Koulutustiedot",
+        "material": "Materiaalit",
+        "preview": "Esikatselu"
+      },
       "toasts": {
         "noPermission": {
           "title": "Käyttöoikeusvirhe",
@@ -590,6 +596,40 @@
         "text": "Haluatko varmasti keskeyttää kokoelman muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
         "confirm": "Kyllä",
         "cancel": "Ei"
+      },
+      "basic": {
+        "name": {
+          "label": "Kokoelman nimi",
+          "placeholder": "Kirjoita kokoelman nimi"
+        },
+        "description": {
+          "label": "Kokoelman kuvausteksti",
+          "placeholder": "Kirjoita kokoelman kuvausteksti"
+        },
+        "keywords": {
+          "label": "Asiasanat",
+          "placeholder": "Valitse asiasanat"
+        },
+        "educationalRoles": {
+          "label": "Pääasiallinen kohderyhmä",
+          "placeholder": "Valitse kohderyhmä"
+        },
+        "educationalUses": {
+          "label": "Pääasiallinen käyttötarkoitus",
+          "placeholder": "Valitse käyttötarkoitus"
+        },
+        "languages": {
+          "label": "Kieli",
+          "placeholder": "Valitse kieli"
+        },
+        "accessibilityFeatures": {
+          "label": "Saavutettavuuden ominaisuudet",
+          "placeholder": "Valitse saavutettavuuden ominaisuudet"
+        },
+        "accessibilityHazards": {
+          "label": "Saavutettavuuden esteet",
+          "placeholder": "Valitse saavutettavuuden esteet"
+        }
       }
     }
   },
