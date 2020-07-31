@@ -85,6 +85,7 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
 
   /**
    * Runs on submit. Redirects user to the next tab if form is valid.
+   * @param privateCollection {boolean} Save as private collection?
    */
   onSubmit(privateCollection?: boolean): void {
     this.submitted = true;
