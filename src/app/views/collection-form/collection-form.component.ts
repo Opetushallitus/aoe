@@ -7,6 +7,7 @@ import { CollectionForm } from '@models/collections/collection-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Toast } from '@models/translations/toast';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-collection-form',
@@ -66,7 +67,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
     this.collectionSubscription.unsubscribe();
 
-    // @todo: remove collection from session storage
+    sessionStorage.removeItem(environment.collection);
   }
 
   /**
@@ -81,7 +82,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
    * Removes collection from session storage. Redirects user to user materials view.
    */
   abort(): void {
-    // @todo: remove collection from session storage
+    sessionStorage.removeItem(environment.collection);
 
     this.confirmAbortModalRef.hide();
 
