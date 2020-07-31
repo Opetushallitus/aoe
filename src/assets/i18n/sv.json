@@ -564,14 +564,14 @@
     "editEducationalResource": {
       "title": "Oppimateriaalin muokkaus",
       "abort": {
-        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
-        "confirm": "Kyllä",
-        "cancel": "Ei"
+        "text": "Är du säker på att du vill avbryta redigering av lärresursen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
       },
       "toasts": {
         "noPermission": {
           "title": "Det är inte tillåten att ändra materialet",
-          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen,  kolla att du har loggad in med det samma inloggning du  använde tidigare."
+          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen, kolla att du har loggad in med det samma inloggning du använde tidigare."
         },
         "ratingAdded": {
           "title": "Recensioner tillagd/uppdaterad"
@@ -579,17 +579,57 @@
       }
     },
     "collection": {
-      "title": "",
+      "title": "Samling",
+      "nav": {
+        "basic": "Grunduppgifter",
+        "educational": "Utbildningsinfo",
+        "material": "Material",
+        "preview": "Förhandsvisning"
+      },
       "toasts": {
         "noPermission": {
-          "title": "",
-          "message": ""
+          "title": "Det är inte tillåten att ändra samling",
+          "message": "Du försöker att ändra samlingen som du inte har tillåtelse. Om du har publicerade samlingen, kolla att du har loggad in med det samma inloggning du använde tidigare."
         }
       },
       "abort": {
-        "text": "",
-        "confirm": "",
-        "cancel": ""
+        "text": "Är du säker på att du vill avbryta redigering av samlingen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
+      },
+      "basic": {
+        "name": {
+          "label": "Namn",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        },
+        "keywords": {
+          "label": "Nyckelord",
+          "placeholder": ""
+        },
+        "educationalRoles": {
+          "label": "Målgrupp",
+          "placeholder": ""
+        },
+        "educationalUses": {
+          "label": "Användningsområde",
+          "placeholder": ""
+        },
+        "languages": {
+          "label": "Språk",
+          "placeholder": ""
+        },
+        "accessibilityFeatures": {
+          "label": "Tillgänglighetsegenskaper",
+          "placeholder": ""
+        },
+        "accessibilityHazards": {
+          "label": "Hinder för tillgänglighet",
+          "placeholder": ""
+        }
       }
     }
   },
