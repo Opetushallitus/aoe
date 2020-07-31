@@ -49,7 +49,10 @@
     },
     "collection": {
       "main": "Kokoelman julkaisu",
-      "basic": "Perustiedot"
+      "basic": "Perustiedot",
+      "educational": "Koulutustiedot",
+      "materials": "Materiaalit",
+      "preview": "Esikatselu"
     },
     "acceptance": "Palvelun käyttöehdot ja tietosuojailmoitus",
     "accessibility": "Saavutettavuusseloste",
@@ -630,6 +633,10 @@
           "label": "Saavutettavuuden esteet",
           "placeholder": "Valitse saavutettavuuden esteet"
         }
+      },
+      "preview": {
+        "saveUnpublished": "Tallenna julkaisematta",
+        "savePublished": "Julkaise"
       }
     }
   },
