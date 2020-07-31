@@ -1,1 +1,28 @@
-<p>collection-materials-tab works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
+  <p>collection-materials-tab works!</p>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previous()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="emitAbort()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>
