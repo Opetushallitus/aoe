@@ -90,8 +90,6 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     this.submitted = true;
     const publish = !privateCollection;
 
-    console.log(publish);
-
     if (this.form.valid) {
       // @todo: PUT request to backend
 
