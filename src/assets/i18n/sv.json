@@ -48,8 +48,11 @@
       "preview": "Förhandsvisning"
     },
     "collection": {
-      "main": "",
-      "basic": ""
+      "main": "Samling",
+      "basic": "Grunduppgifter",
+      "educational": "Utbildningsinfo",
+      "materials": "Material",
+      "preview": "Förhandsvisning"
     },
     "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
     "accessibility": "Accessibility Policy",
@@ -630,6 +633,10 @@
           "label": "Hinder för tillgänglighet",
           "placeholder": ""
         }
+      },
+      "preview": {
+        "saveUnpublished": "Spara opublicerad",
+        "savePublished": "Publicera"
       }
     }
   },

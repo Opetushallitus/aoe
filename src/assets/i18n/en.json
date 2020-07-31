@@ -49,7 +49,10 @@
     },
     "collection": {
       "main": "Collection",
-      "basic": "Basic information"
+      "basic": "Basic information",
+      "educational": "Educational information",
+      "materials": "Materials",
+      "preview": "Preview"
     },
     "acceptance": "Privacy Policy and the Terms of Use of the service",
     "accessibility": "Accessibility Policy",
@@ -630,6 +633,10 @@
           "label": "Accessibility Hazards",
           "placeholder": ""
         }
+      },
+      "preview": {
+        "saveUnpublished": "Save unpublished",
+        "savePublished": "Publish"
       }
     }
   },
