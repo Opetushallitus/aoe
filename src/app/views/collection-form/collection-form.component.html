@@ -44,7 +44,6 @@
       </li>
     </ul>
 
-
     <ng-container [ngSwitch]="tabId" *ngIf="collection">
       <app-collection-basic-details-tab
         *ngSwitchCase="1"
@@ -52,6 +51,30 @@
         [collectionId]="collectionId"
         [tabId]="1"
         (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-basic-details-tab>
+
+      <app-collection-educational-details-tab
+        *ngSwitchCase="2"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="2"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-educational-details-tab>
+
+      <app-collection-materials-tab
+        *ngSwitchCase="3"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="3"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-materials-tab>
+
+      <app-collection-preview-tab
+        *ngSwitchCase="4"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="4"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-preview-tab>
     </ng-container>
   </div>
 </div>
