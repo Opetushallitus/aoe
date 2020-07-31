@@ -70,4 +70,5 @@ export interface Collection {
       priority: number;
     }
   ];
+  owner: boolean;
 }
