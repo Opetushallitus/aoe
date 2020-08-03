@@ -13,6 +13,7 @@ import { RemoveFromCollectionPost } from '@models/collections/remove-from-collec
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 import { Collection } from '@models/collections/collection';
 import { CollectionForm, CollectionFormMaterial, CollectionFormMaterialAuthor } from '@models/collections/collection-form';
+import { UpdateCollectionPut } from '@models/collections/update-collection-put';
 
 @Injectable({
   providedIn: 'root'
@@ -162,5 +163,12 @@ export class CollectionService {
 
       this.editCollection$.next(collectionForm);
     });
+  }
+
+  updateCollectionDetails(collection: UpdateCollectionPut) {
+    return this.http.put(`${environment.backendUrl}/collection/update`, collection)
+      .pipe(
+        catchError(this.handleError),
+      );
   }
 }
