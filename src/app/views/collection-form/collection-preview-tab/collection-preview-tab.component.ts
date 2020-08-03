@@ -5,6 +5,8 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
+import { UpdateCollectionPut } from '@models/collections/update-collection-put';
+import { CollectionService } from '@services/collection.service';
 
 @Component({
   selector: 'app-collection-preview-tab',
@@ -26,6 +28,7 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private router: Router,
     private titleSvc: Title,
+    private collectionSvc: CollectionService,
   ) { }
 
   ngOnInit(): void {
@@ -92,11 +95,18 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     const publish = !privateCollection;
 
     if (this.form.valid) {
-      // @todo: PUT request to backend
+      delete this.previewCollection.id;
 
-      // updatedCollection.publish = publish;
+      const updatedCollection: UpdateCollectionPut = Object.assign(
+        {},
+        { collectionId: this.collectionId },
+        { publish },
+        this.previewCollection,
+      );
 
-      this.router.navigate(['/kokoelma', this.collectionId]);
+      this.collectionSvc.updateCollectionDetails(updatedCollection).subscribe(
+        () => this.router.navigate(['/kokoelma', this.collectionId]),
+      );
     }
   }
 
