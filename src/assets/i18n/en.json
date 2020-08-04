@@ -647,6 +647,18 @@
         }
       },
       "preview": {
+        "title": "Preview",
+        "headings": {
+          "basic": "Basic information",
+          "educational": "Educational information",
+          "material": "Materials"
+        },
+        "required": {
+          "name": "Name",
+          "keywords": "Keywords",
+          "description": "Description"
+        },
+        "addMissingDetail": "Fill in the information",
         "saveUnpublished": "Save unpublished",
         "savePublished": "Publish"
       }

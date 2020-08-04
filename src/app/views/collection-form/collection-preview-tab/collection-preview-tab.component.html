@@ -1,5 +1,151 @@
 <ng-container *ngIf="collection">
-  <p>collection-preview-tab works!</p>
+  <h2>
+    {{ 'forms.collection.preview.title' | translate }}
+  </h2>
+
+  <ng-container>
+    <h3>
+      {{ 'forms.collection.preview.headings.basic' | translate }}
+    </h3>
+
+    <dl class="row">
+      <ng-container *ngIf="hasName; else missingName">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.name.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.name }}
+        </dd>
+      </ng-container><!--name-->
+
+      <ng-template #missingName>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.name' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingName-->
+
+      <ng-container *ngIf="hasKeywords; else missingKeywords">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.keywords.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let keyword of previewCollection.keywords; let isLast = last">
+            {{ keyword.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--keywords-->
+
+      <ng-template #missingKeywords>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.keywords' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingKeywords-->
+
+      <ng-container *ngIf="previewCollection.educationalRoles?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.educationalRoles.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let role of previewCollection.educationalRoles; let isLast = last">
+            {{ role.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--educationalRoles-->
+
+      <ng-container *ngIf="previewCollection.educationalUses?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.educationalUses.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let use of previewCollection.educationalUses; let isLast = last">
+            {{ use.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--educationalUses-->
+
+      <ng-container *ngIf="previewCollection.languages?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.languages.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let language of previewCollection.languages; let isLast = last">
+            {{ language }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--languages-->
+
+      <ng-container *ngIf="previewCollection.accessibilityFeatures?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let feature of previewCollection.accessibilityFeatures; let isLast = last">
+            {{ feature.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--accessibilityFeatures-->
+
+      <ng-container *ngIf="previewCollection.accessibilityHazards?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.accessibilityHazards.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let hazard of previewCollection.accessibilityHazards; let isLast = last">
+            {{ hazard.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--accessibilityHazards-->
+
+      <ng-container *ngIf="hasDescription; else missingDescription">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.description.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.description }}
+        </dd>
+      </ng-container><!--description-->
+
+      <ng-template #missingDescription>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.description' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingDescription-->
+    </dl>
+
+    <hr>
+  </ng-container><!--basic details-->
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">

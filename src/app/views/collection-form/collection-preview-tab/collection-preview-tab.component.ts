@@ -86,6 +86,18 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     });
   }
 
+  get hasName(): boolean {
+    return this.form.get('hasName').value;
+  }
+
+  get hasKeywords(): boolean {
+    return this.form.get('hasKeywords').value;
+  }
+
+  get hasDescription(): boolean {
+    return this.form.get('hasDescription').value;
+  }
+
   /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    * @param privateCollection {boolean} Save as private collection?
