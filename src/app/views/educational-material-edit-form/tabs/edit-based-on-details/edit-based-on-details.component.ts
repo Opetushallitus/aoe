@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { validatorParams } from '../../../../constants/validator-params';
   templateUrl: './edit-based-on-details.component.html',
   styleUrls: ['./edit-based-on-details.component.scss']
 })
-export class EditBasedOnDetailsComponent implements OnInit {
+export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
   @Input() materialId: number;
   @Input() tabId: number;
@@ -49,6 +49,12 @@ export class EditBasedOnDetailsComponent implements OnInit {
       this.form.patchValue(editMaterial);
 
       this.patchExternals(editMaterial.externals);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
     }
   }
 
@@ -135,17 +141,21 @@ export class EditBasedOnDetailsComponent implements OnInit {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.externals = this.externalsArray.value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        this.saveData();
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
+  }
+
+  saveData(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.externals = this.externalsArray.value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
   /**
