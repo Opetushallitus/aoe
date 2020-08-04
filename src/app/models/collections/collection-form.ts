@@ -1,5 +1,8 @@
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+
 export interface CollectionForm {
   id: string;
+  // basic
   name: string;
   keywords: [
     {
@@ -32,8 +35,42 @@ export interface CollectionForm {
       value: string;
     }
   ];
-  materials: CollectionFormMaterial[];
   description: string;
+  // educational
+  educationalLevels: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
+  earlyChildhoodEducationSubjects?: AlignmentObjectExtended[];
+  earlyChildhoodEducationObjectives?: AlignmentObjectExtended[];
+  earlyChildhoodEducationFramework?: string;
+  prePrimaryEducationSubjects?: AlignmentObjectExtended[];
+  prePrimaryEducationObjectives?: AlignmentObjectExtended[];
+  prePrimaryEducationFramework?: string;
+  basicStudySubjects?: AlignmentObjectExtended[];
+  basicStudyObjectives?: AlignmentObjectExtended[];
+  basicStudyContents?: AlignmentObjectExtended[];
+  basicStudyFramework?: string;
+  upperSecondarySchoolSubjects?: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectives?: AlignmentObjectExtended[];
+  upperSecondarySchoolFramework?: string;
+  upperSecondarySchoolSubjectsNew?: AlignmentObjectExtended[];
+  upperSecondarySchoolModulesNew?: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectivesNew?: AlignmentObjectExtended[];
+  upperSecondarySchoolContentsNew?: AlignmentObjectExtended[];
+  vocationalDegrees?: AlignmentObjectExtended[];
+  vocationalUnits?: AlignmentObjectExtended[];
+  vocationalEducationObjectives?: AlignmentObjectExtended[];
+  vocationalEducationFramework?: string;
+  selfMotivatedEducationSubjects?: AlignmentObjectExtended[];
+  selfMotivatedEducationObjectives?: AlignmentObjectExtended[];
+  branchesOfScience?: AlignmentObjectExtended[];
+  scienceBranchObjectives?: AlignmentObjectExtended[];
+  higherEducationFramework?: string;
+  // materials
+  materials: CollectionFormMaterial[];
   headings: [
     {
       heading: string;

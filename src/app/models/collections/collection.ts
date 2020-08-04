@@ -17,13 +17,13 @@ export interface Collection {
   ];
   languages: string[];
   alignmentObjects: AlignmentObjectExtended[];
-  educationalRoles?: [
+  educationalRoles: [
     {
       key: string;
       value: string;
     }
   ];
-  educationalUses?: [
+  educationalUses: [
     {
       key: string;
       value: string;
@@ -51,13 +51,13 @@ export interface Collection {
       priority: number;
     }
   ];
-  accessibilityFeatures?: [
+  accessibilityFeatures: [
     {
       key: string;
       value: string;
     }
   ];
-  accessibilityHazards?: [
+  accessibilityHazards: [
     {
       key: string;
       value: string;
@@ -71,4 +71,10 @@ export interface Collection {
     }
   ];
   owner: boolean;
+  educationalLevels: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
 }
