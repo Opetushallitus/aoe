@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CollectionForm } from '@models/collections/collection-form';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -8,12 +8,13 @@ import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { KeyValue } from '@angular/common';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { addCustomItem } from '../../../shared/shared.module';
+import { addCustomItem, descriptionValidator, textInputValidator } from '../../../shared/shared.module';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Language } from '@models/koodisto-proxy/language';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { validatorParams } from '../../../constants/validator-params';
 
 @Component({
   selector: 'app-collection-basic-details-tab',
@@ -67,8 +68,14 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     });
 
     this.form = this.fb.group({
-      name: this.fb.control(null),
-      description: this.fb.control(null),
+      name: this.fb.control(null, [
+        Validators.maxLength(validatorParams.name.maxLength),
+        textInputValidator(),
+      ]),
+      description: this.fb.control(null, [
+        Validators.maxLength(validatorParams.description.maxLength),
+        descriptionValidator(),
+      ]),
       keywords: this.fb.control(null),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
@@ -145,6 +152,14 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     this.translate.get('titles.collection').subscribe((translations: any) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
     });
+  }
+
+  get nameCtrl(): FormControl {
+    return this.form.get('name') as FormControl;
+  }
+
+  get descriptionCtrl(): FormControl {
+    return this.form.get('description') as FormControl;
   }
 
   /**

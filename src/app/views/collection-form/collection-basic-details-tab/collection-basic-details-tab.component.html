@@ -11,7 +11,21 @@
       formControlName="name"
       [placeholder]="'forms.collection.basic.name.placeholder' | translate"
       aria-required="true"
+      [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted) }"
     >
+
+    <div
+      *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
+      class="invalid-feedback"
+    >
+      <div *ngIf="nameCtrl.errors.invalidCharacters">
+        {{ 'forms.errors.textInput.characters' | translate }}
+      </div>
+
+      <div *ngIf="nameCtrl.errors.maxlength">
+        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+      </div>
+    </div>
   </div><!--name-->
 
   <div class="form-row">
@@ -132,7 +146,21 @@
       formControlName="description"
       [placeholder]="'forms.collection.basic.description.placeholder' | translate"
       aria-required="true"
+      [ngClass]="{ 'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted) }"
     ></textarea>
+
+    <div
+      *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)"
+      class="invalid-feedback"
+    >
+      <div *ngIf="descriptionCtrl.errors.invalid">
+        {{ 'forms.errors.description.characters' | translate }}
+      </div>
+
+      <div *ngIf="descriptionCtrl.errors.maxlength">
+        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.errors.maxlength.requiredLength } }}
+      </div>
+    </div>
   </div><!--description-->
 
   <div class="row justify-content-end">
