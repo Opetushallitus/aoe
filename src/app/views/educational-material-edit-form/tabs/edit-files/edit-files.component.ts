@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '@services/backend.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
@@ -23,7 +23,7 @@ import { validatorParams } from '../../../../constants/validator-params';
   templateUrl: './edit-files.component.html',
   styleUrls: ['./edit-files.component.scss']
 })
-export class EditFilesComponent implements OnInit {
+export class EditFilesComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
   @Input() materialId: number;
   @Input() tabId: number;
@@ -60,9 +60,18 @@ export class EditFilesComponent implements OnInit {
 
     this.form = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
       }),
       fileDetails: this.fb.array([]),
     });
@@ -99,6 +108,14 @@ export class EditFilesComponent implements OnInit {
     this.koodistoSvc.updateLanguages();
   }
 
+  ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveMaterial();
+    }
+
+    this.languageSubscription.unsubscribe();
+  }
+
   setTitle(): void {
     this.translate.get('titles.editMaterial').subscribe((translations: any) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
@@ -124,23 +141,6 @@ export class EditFilesComponent implements OnInit {
   updateLanguages(): void {
     // set other than current language to an array
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
-
-    // set other languages validators null for name
-    this.otherLangs.forEach((lang: string) => {
-      this.names.get(lang).setValidators([
-        Validators.maxLength(validatorParams.name.maxLength),
-        textInputValidator(),
-      ]);
-      this.names.get(lang).updateValueAndValidity();
-    });
-
-    // set current language validator required for name
-    this.names.get(this.lang).setValidators([
-      Validators.required,
-      Validators.maxLength(validatorParams.name.maxLength),
-      textInputValidator(),
-    ]);
-    this.names.get(this.lang).updateValueAndValidity();
   }
 
   /**
@@ -431,10 +431,6 @@ export class EditFilesComponent implements OnInit {
 
       priorityCtrl.setValue(i);
     });
-
-    if (this.materialDetailsArray.controls.length === 0) {
-      this.materialDetailsArray.setErrors({ 'required': true });
-    }
   }
 
   validateSubtitles(): void {

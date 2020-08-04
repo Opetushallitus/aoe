@@ -24,10 +24,6 @@
           *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
           class="invalid-feedback"
         >
-          <div *ngIf="nameCtrl.errors.required">
-            {{ 'forms.common.required' | translate }}
-          </div>
-
           <div *ngIf="nameCtrl.errors.invalidCharacters">
             {{ 'forms.errors.textInput.characters' | translate }}
           </div>
