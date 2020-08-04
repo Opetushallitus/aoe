@@ -646,6 +646,92 @@
           "placeholder": ""
         }
       },
+      "educational": {
+        "educationalLevels": {
+          "label": "",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "",
+          "placeholder": ""
+        },
+        "branchesOfScience": {
+          "label": "",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "",
+          "placeholder": ""
+        }
+      },
       "preview": {
         "title": "Preview",
         "headings": {

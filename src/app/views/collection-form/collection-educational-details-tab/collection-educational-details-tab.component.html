@@ -1,5 +1,26 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
-  <p>collection-educational-details-tab works!</p>
+  <div class="form-group">
+    <label for="educationalLevels">
+      {{ 'forms.collection.educational.educationalLevels.label' | translate }}
+    </label>
+
+    <ng-select
+      [items]="educationalLevels"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      bindLabel="value"
+      groupBy="children"
+      labelForId="educationalLevels"
+      formControlName="educationalLevels"
+    >
+      <ng-template ng-optgroup-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+      <ng-template ng-option-tmp let-item="item">
+        {{ item.value }}
+      </ng-template>
+    </ng-select>
+  </div>
 
   <div class="row">
     <div class="col">
