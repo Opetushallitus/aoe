@@ -647,6 +647,18 @@
         }
       },
       "preview": {
+        "title": "Förhandsvisning",
+        "headings": {
+          "basic": "Grunduppgifter",
+          "educational": "Utbildningsinfo",
+          "material": "Material"
+        },
+        "required": {
+          "name": "Namn",
+          "keywords": "Nyckelord",
+          "description": "Beskrivning"
+        },
+        "addMissingDetail": "Fyll i informationen",
         "saveUnpublished": "Spara opublicerad",
         "savePublished": "Publicera"
       }

@@ -647,6 +647,18 @@
         }
       },
       "preview": {
+        "title": "Esikatselu",
+        "headings": {
+          "basic": "Perustiedot",
+          "educational": "Koulutustiedot",
+          "material": "Materiaalit"
+        },
+        "required": {
+          "name": "Kokoelman nimi",
+          "keywords": "Asiasanat",
+          "description": "Kokoelman kuvausteksti"
+        },
+        "addMissingDetail": "Lisää puuttuva tieto",
         "saveUnpublished": "Tallenna julkaisematta",
         "savePublished": "Julkaise"
       }
