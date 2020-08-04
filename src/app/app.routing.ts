@@ -15,7 +15,6 @@ import { AcceptanceViewComponent } from '@views/acceptance-view/acceptance-view.
 import { AcceptanceGuard } from './guards/acceptance.guard';
 import { UserMaterialsViewComponent } from '@views/user-materials-view/user-materials-view.component';
 import { AuthGuard } from './guards/auth.guard';
-import { FileUploadGuard } from './guards/file-upload.guard';
 import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
 import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
 import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
@@ -103,7 +102,7 @@ export const routes: Routes = [
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard, FileUploadGuard ],
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {

@@ -1,17 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { textInputValidator } from '../../../../shared/shared.module';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
   templateUrl: './edit-based-on-details.component.html',
   styleUrls: ['./edit-based-on-details.component.scss']
 })
-export class EditBasedOnDetailsComponent implements OnInit {
+export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
   @Input() materialId: number;
   @Input() tabId: number;
@@ -50,6 +52,12 @@ export class EditBasedOnDetailsComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+  }
+
   setTitle(): void {
     this.translate.get('titles.editMaterial').subscribe((translations: any) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
@@ -75,12 +83,20 @@ export class EditBasedOnDetailsComponent implements OnInit {
    */
   createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [ Validators.required ]),
+      author: this.fb.control(external ? external.author : null, [
+        Validators.required,
+        textInputValidator(),
+      ]),
       url: this.fb.control(external ? external.url : null, [
         Validators.required,
-        Validators.pattern('https?://.*')
+        Validators.pattern(validatorParams.reference.url.pattern),
+        Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
-      name: this.fb.control(external ? external.name : null, [ Validators.required ]),
+      name: this.fb.control(external ? external.name : null, [
+        Validators.required,
+        Validators.maxLength(validatorParams.reference.name.maxLength),
+        textInputValidator(),
+      ]),
     });
   }
 
@@ -125,17 +141,21 @@ export class EditBasedOnDetailsComponent implements OnInit {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.externals = this.externalsArray.value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        this.saveData();
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
+  }
+
+  saveData(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.externals = this.externalsArray.value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
   /**

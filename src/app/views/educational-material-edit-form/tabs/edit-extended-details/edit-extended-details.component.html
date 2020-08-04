@@ -67,16 +67,23 @@
             class="form-control"
             formControlName="typicalAgeRangeMin"
             inputmode="numeric"
-            [ngClass]="{ 'is-invalid': submitted && typicalAgeRangeMinCtrl.errors }"
+            [ngClass]="{ 'is-invalid': typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted) }"
           >
 
-          <div *ngIf="submitted && typicalAgeRangeMinCtrl.errors" class="invalid-feedback">
+          <div
+            *ngIf="typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)"
+            class="invalid-feedback"
+          >
             <div *ngIf="typicalAgeRangeMinCtrl.errors.min">
               {{ 'forms.common.min' | translate }} 0
             </div>
 
             <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">
               {{ 'forms.common.pattern.numeric' | translate }}
+            </div>
+
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength } }}
             </div>
           </div>
         </div>
@@ -96,16 +103,23 @@
             class="form-control"
             formControlName="typicalAgeRangeMax"
             inputmode="numeric"
-            [ngClass]="{ 'is-invalid': submitted && typicalAgeRangeMaxCtrl.errors }"
+            [ngClass]="{ 'is-invalid': typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted) }"
           >
 
-          <div *ngIf="submitted && typicalAgeRangeMaxCtrl.errors" class="invalid-feedback">
+          <div
+            *ngIf="typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)"
+            class="invalid-feedback"
+          >
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">
               {{ 'forms.common.min' | translate }} 0
             </div>
 
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">
               {{ 'forms.common.pattern.numeric' | translate }}
+            </div>
+
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength } }}
             </div>
           </div>
         </div>
@@ -128,7 +142,21 @@
         class="form-control"
         id="timeRequired"
         formControlName="timeRequired"
+        [ngClass]="{ 'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted) }"
       >
+
+      <div
+        *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="timeRequiredCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: timeRequiredCtrl.errors.maxlength.requiredLength } }}
+        </div>
+      </div>
     </div><!--/time required-->
 
     <div class="form-group col-sm-6 col-md-4">
