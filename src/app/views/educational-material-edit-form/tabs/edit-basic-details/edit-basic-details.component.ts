@@ -64,13 +64,9 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.setTitle();
 
     this.form = this.fb.group({
-      keywords: this.fb.control(null, [
-        Validators.required,
-      ]),
+      keywords: this.fb.control(null),
       authors: this.fb.array([]),
-      learningResourceTypes: this.fb.control(null, [
-        Validators.required,
-      ]),
+      learningResourceTypes: this.fb.control(null),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
@@ -155,6 +151,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.organizationSubscription.unsubscribe();
     this.keywordSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
@@ -275,7 +275,6 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   createAuthor(author?): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [
-        Validators.required,
         Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
@@ -290,9 +289,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   createOrganization(organization?): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null, [
-        Validators.required,
-      ]),
+      organization: this.fb.control(organization ? organization.organization : null),
     });
   }
 
@@ -325,24 +322,28 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.form.valid && this.authorsArray.length > 0) {
+    if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.authors = this.authorsArray.value;
-        changedMaterial.keywords = this.keywordsCtrl.value;
-        changedMaterial.learningResourceTypes = this.learningResourceTypesCtrl.value;
-        changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
-        changedMaterial.educationalUses = this.form.get('educationalUses').value;
-        changedMaterial.description = this.form.get('description').value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        this.saveData();
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
+  }
+
+  saveData(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.authors = this.authorsArray.value;
+    changedMaterial.keywords = this.keywordsCtrl.value;
+    changedMaterial.learningResourceTypes = this.learningResourceTypesCtrl.value;
+    changedMaterial.educationalRoles = this.form.get('educationalRoles').value;
+    changedMaterial.educationalUses = this.form.get('educationalUses').value;
+    changedMaterial.description = this.form.get('description').value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
   /**

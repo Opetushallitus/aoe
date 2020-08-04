@@ -28,17 +28,6 @@
         {{ item.value }}
       </ng-template>
     </ng-select>
-
-    <div
-      *ngIf="educationalLevelsCtrl.invalid && (educationalLevelsCtrl.dirty || educationalLevelsCtrl.touched || submitted)"
-      class="alert alert-warning"
-      role="alert"
-    >
-      <div *ngIf="educationalLevelsCtrl.errors.required">
-        {{ 'forms.common.required' | translate }}:
-        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
-      </div>
-    </div>
   </div><!--/educational levels-->
 
   <ng-container *ngIf="hasEarlyChildhoodEducation">
