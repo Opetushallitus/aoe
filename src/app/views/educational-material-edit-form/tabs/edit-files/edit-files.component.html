@@ -17,11 +17,20 @@
           class="form-control"
           id="name"
           [formControlName]="lang"
-          [ngClass]="{ 'is-invalid': submitted && nameCtrl.errors }"
+          [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted) }"
         >
 
-        <div *ngIf="submitted && nameCtrl.errors" class="invalid-feedback">
-          <div *ngIf="nameCtrl.errors.required">{{ 'forms.common.required' | translate }}</div>
+        <div
+          *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="nameCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="nameCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+          </div>
         </div>
       </div>
 
@@ -69,7 +78,21 @@
             class="form-control"
             id="name2"
             [formControlName]="otherLangs[0]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+
+            <div *ngIf="names.get(otherLangs[0]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
@@ -82,7 +105,21 @@
             class="form-control"
             id="name3"
             [formControlName]="otherLangs[1]"
+            [ngClass]="{ 'is-invalid': names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted) }"
           >
+
+          <div
+            *ngIf="names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted)"
+            class="invalid-feedback"
+          >
+            <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+
+            <div *ngIf="names.get(otherLangs[1]).errors.maxlength">
+              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -188,12 +225,19 @@
                   class="form-control"
                   id="{{ 'newLink' + i }}"
                   formControlName="newLink"
-                  [ngClass]="{ 'is-invalid': submitted && material.get('newLink').errors }"
+                  [ngClass]="{ 'is-invalid': material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted) }"
                 >
 
-                <div *ngIf="submitted && material.get('newLink').errors" class="invalid-feedback">
+                <div
+                  *ngIf="material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted)"
+                  class="invalid-feedback"
+                >
                   <div *ngIf="material.get('newLink').errors.pattern">
                     {{ 'forms.common.pattern.url' | translate }}
+                  </div>
+
+                  <div *ngIf="material.get('newLink').errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
                   </div>
                 </div>
               </ng-container>
@@ -220,7 +264,7 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="submitted && material.get('language').errors">
+            <ng-container *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)">
               <div *ngIf="material.get('language').errors.required">
                 <small class="text-danger">
                   {{ 'forms.common.required' | translate }}
@@ -247,12 +291,23 @@
               class="form-control"
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
+              [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted) }"
             >
 
-            <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+            <div
+              *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted)"
+              class="invalid-feedback"
+            >
               <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
                 {{ 'forms.common.required' | translate }}
+              </div>
+
+              <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
+                {{ 'forms.errors.textInput.characters' | translate }}
+              </div>
+
+              <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
               </div>
             </div>
           </div>
@@ -300,7 +355,21 @@
                   class="form-control"
                   id="{{ 'displayName2' + i }}"
                   [formControlName]="otherLangs[0]"
+                  [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted) }"
                 >
+
+                <div
+                  *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                  </div>
+                </div>
               </div>
 
               <div class="form-group">
@@ -313,7 +382,21 @@
                   class="form-control"
                   id="{{ 'displayName3' + i }}"
                   [formControlName]="otherLangs[1]"
+                  [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted) }"
                 >
+
+                <div
+                  *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted)"
+                  class="invalid-feedback"
+                >
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
+                    {{ 'forms.errors.textInput.characters' | translate }}
+                  </div>
+
+                  <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -412,12 +495,23 @@
                     class="form-control"
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
-                    [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                    [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted) }"
                   >
 
-                  <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                  <div
+                    *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted)"
+                    class="invalid-feedback"
+                  >
                     <div *ngIf="subtitle.get('label').errors.required">
                       {{ 'forms.common.required' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="subtitle.get('label').errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
                     </div>
                   </div>
                 </div><!--/label-->
@@ -436,7 +530,7 @@
                     formControlName="srclang"
                   ></ng-select>
 
-                  <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                  <ng-container *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)">
                     <div *ngIf="subtitle.get('srclang').errors.required">
                       <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                     </div>
@@ -531,12 +625,19 @@
                 class="form-control"
                 id="{{ 'newMaterialLink' + i }}"
                 formControlName="newLink"
-                [ngClass]="{ 'is-invalid': submitted && material.get('newLink').errors }"
+                [ngClass]="{ 'is-invalid': material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted) }"
               >
 
-              <div *ngIf="submitted && material.get('newLink').errors" class="invalid-feedback">
+              <div
+                *ngIf="material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted)"
+                class="invalid-feedback"
+              >
                 <div *ngIf="material.get('newLink').errors.pattern">
                   {{ 'forms.common.pattern.url' | translate }}
+                </div>
+
+                <div *ngIf="material.get('newLink').errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
                 </div>
               </div>
             </div><!--/link-->
@@ -561,7 +662,7 @@
                 formControlName="language"
               ></ng-select>
 
-              <ng-container *ngIf="submitted && material.get('language').errors">
+              <ng-container *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)">
                 <div *ngIf="material.get('language').errors.required">
                   <small class="text-danger">
                     {{ 'forms.common.required' | translate }}
@@ -588,12 +689,23 @@
                 class="form-control"
                 id="{{ 'newMaterialDisplayName' + i }}"
                 [formControlName]="lang"
-                [ngClass]="{ 'is-invalid': submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors }"
+                [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted) }"
               >
 
-              <div *ngIf="submitted && materialDetailsArray.at(i).get('displayName.' + lang).errors" class="invalid-feedback">
+              <div
+                *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted)"
+                class="invalid-feedback"
+              >
                 <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.required">
                   {{ 'forms.common.required' | translate }}
+                </div>
+
+                <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.invalidCharacters">
+                  {{ 'forms.errors.textInput.characters' | translate }}
+                </div>
+
+                <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
                 </div>
               </div>
             </div>
@@ -641,7 +753,21 @@
                     class="form-control"
                     id="{{ 'newMaterialDisplayName2' + i }}"
                     [formControlName]="otherLangs[0]"
+                    [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted) }"
                   >
+
+                  <div
+                    *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                    </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -654,7 +780,21 @@
                     class="form-control"
                     id="{{ 'newMaterialDisplayName3' + i }}"
                     [formControlName]="otherLangs[1]"
+                    [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted) }"
                   >
+
+                  <div
+                    *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
+
+                    <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -707,12 +847,23 @@
                       class="form-control"
                       id="{{ 'newMaterialLabel' + i + j }}"
                       formControlName="label"
-                      [ngClass]="{ 'is-invalid': submitted && subtitle.get('label').errors }"
+                      [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted) }"
                     >
 
-                    <div *ngIf="submitted && subtitle.get('label').errors" class="invalid-feedback">
+                    <div
+                      *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted)"
+                      class="invalid-feedback"
+                    >
                       <div *ngIf="subtitle.get('label').errors.required">
                         {{ 'forms.common.required' | translate }}
+                      </div>
+
+                      <div *ngIf="subtitle.get('label').errors.invalidCharacters">
+                        {{ 'forms.errors.textInput.characters' | translate }}
+                      </div>
+
+                      <div *ngIf="subtitle.get('label').errors.maxlength">
+                        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
                       </div>
                     </div>
                   </div><!--/label-->
@@ -731,7 +882,7 @@
                       formControlName="srclang"
                     ></ng-select>
 
-                    <ng-container *ngIf="submitted && subtitle.get('srclang').errors">
+                    <ng-container *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)">
                       <div *ngIf="subtitle.get('srclang').errors.required">
                         <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                       </div>

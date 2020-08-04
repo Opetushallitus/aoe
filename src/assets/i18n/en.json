@@ -195,6 +195,17 @@
       "replaceFile": "Replace file",
       "replaceLink": "Replace link"
     },
+    "errors": {
+      "common": {
+        "maxLength": "Maximum length is {{maxLength}} characters"
+      },
+      "textInput": {
+        "characters": "Allowed special characters: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+      },
+      "description": {
+        "characters": "Allowed special characters: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
@@ -555,6 +566,7 @@
         "confirm": "I confirm that",
         "required": {
           "name": "Name",
+          "material": "Files and links",
           "author": "Author",
           "keywords": "Keywords",
           "learningResourceTypes": "Learning Resource Type",

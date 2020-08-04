@@ -51,11 +51,11 @@
 
   <hr>
 
-  <ng-container *ngIf="previewMaterial.fileDetails?.length > 0">
-    <h3>
-      {{ 'forms.educationalResource.nav.files' | translate }}
-    </h3>
+  <h3>
+    {{ 'forms.educationalResource.nav.files' | translate }}
+  </h3>
 
+  <ng-container *ngIf="hasMaterial; else noMaterials">
     <table class="table">
       <thead>
         <tr>
@@ -130,6 +130,22 @@
       </tbody>
     </table>
   </ng-container>
+
+  <ng-template #noMaterials>
+    <dl class="row">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.preview.required.material' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]">{{ 'forms.educationalResource.files.file.error' | translate }}</a>
+      </dd>
+    </dl>
+  </ng-template>
+
+  <hr>
 
   <h3>
     {{ 'forms.educationalResource.nav.basicDetails' | translate }}
@@ -905,5 +921,4 @@
       </div>
     </div>
   </form>
-
 </ng-container>

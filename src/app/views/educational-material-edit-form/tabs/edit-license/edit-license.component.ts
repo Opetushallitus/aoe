@@ -37,7 +37,7 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
     this.setTitle();
 
     this.form = this.fb.group({
-      license: this.fb.control(null, [ Validators.required ]),
+      license: this.fb.control(null),
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -62,6 +62,10 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.licenseSubscription.unsubscribe();
   }
 
@@ -84,17 +88,21 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.license = this.form.get('license').value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        this.saveData();
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
+  }
+
+  saveData(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.license = this.form.get('license').value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
   /**

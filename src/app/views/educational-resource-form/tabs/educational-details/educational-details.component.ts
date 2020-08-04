@@ -19,21 +19,20 @@ import {
   addVocationalEducationObjective,
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
-  addScienceBranchObjectives,
+  addScienceBranchObjectives, textInputValidator,
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-educational-details',
   templateUrl: './educational-details.component.html',
 })
 export class EducationalDetailsComponent implements OnInit, OnDestroy {
-  private savedDataKey = environment.newERLSKey;
-  private fileUploadLSKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
   savedData: any;
 
-  educationalDetailsForm: FormGroup;
+  form: FormGroup;
   submitted = false;
   hasEarlyChildhoodEducation = false;
   hasPrePrimaryEducation = false;
@@ -108,29 +107,41 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateScienceBranches();
     });
 
-    this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
+    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
 
-    this.educationalDetailsForm = this.fb.group({
-      educationalLevels: this.fb.control(null, [ Validators.required ]),
+    this.form = this.fb.group({
+      educationalLevels: this.fb.control(null),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       suitsAllEarlyChildhoodSubjects: this.fb.control(false),
       earlyChildhoodEducationObjectives: this.fb.control(null),
-      earlyChildhoodEducationFramework: this.fb.control(null),
+      earlyChildhoodEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       prePrimaryEducationSubjects: this.fb.control(null),
       suitsAllPrePrimarySubjects: this.fb.control(false),
       prePrimaryEducationObjectives: this.fb.control(null),
-      prePrimaryEducationFramework: this.fb.control(null),
+      prePrimaryEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       basicStudySubjects: this.fb.control(null),
       suitsAllBasicStudySubjects: this.fb.control(false),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
-      basicStudyFramework: this.fb.control(null),
+      basicStudyFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
       upperSecondarySchoolSubjects: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
-      upperSecondarySchoolFramework: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
@@ -140,14 +151,20 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
-      vocationalEducationFramework: this.fb.control(null),
+      vocationalEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       selfMotivatedEducationSubjects: this.fb.control(null),
       suitsAllSelfMotivatedSubjects: this.fb.control(false),
       selfMotivatedEducationObjectives: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
       suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
-      higherEducationFramework: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
     });
 
     this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
@@ -390,6 +407,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // save data if its valid, dirty and not submitted
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.educationalLevelSubscription.unsubscribe();
     this.basicStudySubjectSubscription.unsubscribe();
     this.basicStudyObjectiveSubscription.unsubscribe();
@@ -411,151 +433,151 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   get educationalLevelsCtrl(): FormControl {
-    return this.educationalDetailsForm.get('educationalLevels') as FormControl;
+    return this.form.get('educationalLevels') as FormControl;
   }
 
   get earlyChildhoodEducationSubjects(): FormControl {
-    return this.educationalDetailsForm.get('earlyChildhoodEducationSubjects') as FormControl;
+    return this.form.get('earlyChildhoodEducationSubjects') as FormControl;
   }
 
   get suitsAllEarlyChildhoodSubjects(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllEarlyChildhoodSubjects') as FormControl;
+    return this.form.get('suitsAllEarlyChildhoodSubjects') as FormControl;
   }
 
   get earlyChildhoodEducationObjectives(): FormControl {
-    return this.educationalDetailsForm.get('earlyChildhoodEducationObjectives') as FormControl;
+    return this.form.get('earlyChildhoodEducationObjectives') as FormControl;
   }
 
   get earlyChildhoodEducationFramework(): FormControl {
-    return this.educationalDetailsForm.get('earlyChildhoodEducationFramework') as FormControl;
+    return this.form.get('earlyChildhoodEducationFramework') as FormControl;
   }
 
   get prePrimaryEducationSubjects(): FormControl {
-    return this.educationalDetailsForm.get('prePrimaryEducationSubjects') as FormControl;
+    return this.form.get('prePrimaryEducationSubjects') as FormControl;
   }
 
   get suitsAllPrePrimarySubjects(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllPrePrimarySubjects') as FormControl;
+    return this.form.get('suitsAllPrePrimarySubjects') as FormControl;
   }
 
   get prePrimaryEducationObjectives(): FormControl {
-    return this.educationalDetailsForm.get('prePrimaryEducationObjectives') as FormControl;
+    return this.form.get('prePrimaryEducationObjectives') as FormControl;
   }
 
   get prePrimaryEducationFramework(): FormControl {
-    return this.educationalDetailsForm.get('prePrimaryEducationFramework') as FormControl;
+    return this.form.get('prePrimaryEducationFramework') as FormControl;
   }
 
   get basicStudySubjectsCtrl(): FormControl {
-    return this.educationalDetailsForm.get('basicStudySubjects') as FormControl;
+    return this.form.get('basicStudySubjects') as FormControl;
   }
 
   get suitsAllBasicStudySubjects(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllBasicStudySubjects') as FormControl;
+    return this.form.get('suitsAllBasicStudySubjects') as FormControl;
   }
 
   get basicStudyObjectivesCtrl(): FormControl {
-    return this.educationalDetailsForm.get('basicStudyObjectives') as FormControl;
+    return this.form.get('basicStudyObjectives') as FormControl;
   }
 
   get basicStudyContentsCtrl(): FormControl {
-    return this.educationalDetailsForm.get('basicStudyContents') as FormControl;
+    return this.form.get('basicStudyContents') as FormControl;
   }
 
   get basicStudyFramework(): FormControl {
-    return this.educationalDetailsForm.get('basicStudyFramework') as FormControl;
+    return this.form.get('basicStudyFramework') as FormControl;
   }
 
   get currentUpperSecondarySchoolSelected(): FormControl {
-    return this.educationalDetailsForm.get('currentUpperSecondarySchoolSelected') as FormControl;
+    return this.form.get('currentUpperSecondarySchoolSelected') as FormControl;
   }
 
   get newUpperSecondarySchoolSelected(): FormControl {
-    return this.educationalDetailsForm.get('newUpperSecondarySchoolSelected') as FormControl;
+    return this.form.get('newUpperSecondarySchoolSelected') as FormControl;
   }
 
   get upperSecondarySchoolSubjectsCtrl(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolSubjects') as FormControl;
+    return this.form.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
   get suitsAllUpperSecondarySubjects(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllUpperSecondarySubjects') as FormControl;
+    return this.form.get('suitsAllUpperSecondarySubjects') as FormControl;
   }
 
   get upperSecondarySchoolObjectives(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolObjectives') as FormControl;
+    return this.form.get('upperSecondarySchoolObjectives') as FormControl;
   }
 
   get upperSecondarySchoolFramework(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolFramework') as FormControl;
+    return this.form.get('upperSecondarySchoolFramework') as FormControl;
   }
 
   get upperSecondarySchoolSubjectsNewCtrl(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolSubjectsNew') as FormControl;
+    return this.form.get('upperSecondarySchoolSubjectsNew') as FormControl;
   }
 
   get suitsAllUpperSecondarySubjectsNew(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllUpperSecondarySubjectsNew') as FormControl;
+    return this.form.get('suitsAllUpperSecondarySubjectsNew') as FormControl;
   }
 
   get upperSecondarySchoolModulesNewCtrl(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolModulesNew') as FormControl;
+    return this.form.get('upperSecondarySchoolModulesNew') as FormControl;
   }
 
   get upperSecondarySchoolObjectivesNewCtrl(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolObjectivesNew') as FormControl;
+    return this.form.get('upperSecondarySchoolObjectivesNew') as FormControl;
   }
 
   get upperSecondarySchoolContentsNewCtrl(): FormControl {
-    return this.educationalDetailsForm.get('upperSecondarySchoolContentsNew') as FormControl;
+    return this.form.get('upperSecondarySchoolContentsNew') as FormControl;
   }
 
   get vocationalDegreesCtrl(): FormControl {
-    return this.educationalDetailsForm.get('vocationalDegrees') as FormControl;
+    return this.form.get('vocationalDegrees') as FormControl;
   }
 
   get suitsAllVocationalDegrees(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllVocationalDegrees') as FormControl;
+    return this.form.get('suitsAllVocationalDegrees') as FormControl;
   }
 
   get vocationalUnitsCtrl(): FormControl {
-    return this.educationalDetailsForm.get('vocationalUnits') as FormControl;
+    return this.form.get('vocationalUnits') as FormControl;
   }
 
   get vocationalEducationObjectives(): FormControl {
-    return this.educationalDetailsForm.get('vocationalEducationObjectives') as FormControl;
+    return this.form.get('vocationalEducationObjectives') as FormControl;
   }
 
   get vocationalEducationFramework(): FormControl {
-    return this.educationalDetailsForm.get('vocationalEducationFramework') as FormControl;
+    return this.form.get('vocationalEducationFramework') as FormControl;
   }
 
   get selfMotivatedEducationSubjects(): FormControl {
-    return this.educationalDetailsForm.get('selfMotivatedEducationSubjects') as FormControl;
+    return this.form.get('selfMotivatedEducationSubjects') as FormControl;
   }
 
   get suitsAllSelfMotivatedSubjects(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllSelfMotivatedSubjects') as FormControl;
+    return this.form.get('suitsAllSelfMotivatedSubjects') as FormControl;
   }
 
   get selfMotivatedEducationObjectives(): FormControl {
-    return this.educationalDetailsForm.get('selfMotivatedEducationObjectives') as FormControl;
+    return this.form.get('selfMotivatedEducationObjectives') as FormControl;
   }
 
   get branchesOfScience(): FormControl {
-    return this.educationalDetailsForm.get('branchesOfScience') as FormControl;
+    return this.form.get('branchesOfScience') as FormControl;
   }
 
   get suitsAllBranches(): FormControl {
-    return this.educationalDetailsForm.get('suitsAllBranches') as FormControl;
+    return this.form.get('suitsAllBranches') as FormControl;
   }
 
   get scienceBranchObjectives(): FormControl {
-    return this.educationalDetailsForm.get('scienceBranchObjectives') as FormControl;
+    return this.form.get('scienceBranchObjectives') as FormControl;
   }
 
   get higherEducationFramework(): FormControl {
-    return this.educationalDetailsForm.get('higherEducationFramework') as FormControl;
+    return this.form.get('higherEducationFramework') as FormControl;
   }
 
   educationalLevelsChange(value): void {
@@ -623,187 +645,193 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.submitted = true;
 
-    if (this.educationalDetailsForm.valid) {
-      if (this.earlyChildhoodEducationSubjects.value) {
-        this.earlyChildhoodEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
-          const earlyChildhoodEducationFramework = this.earlyChildhoodEducationFramework.value;
-
-          if (earlyChildhoodEducationFramework) {
-            subject.educationalFramework = earlyChildhoodEducationFramework;
-          }
-
-          this.alignmentObjects.push(subject);
-        });
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        this.saveData();
       }
-
-      if (this.earlyChildhoodEducationObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.earlyChildhoodEducationObjectives.value);
-      }
-
-      if (this.prePrimaryEducationSubjects.value) {
-        this.prePrimaryEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
-          const prePrimaryEducationFramework = this.prePrimaryEducationFramework.value;
-
-          if (prePrimaryEducationFramework) {
-            subject.educationalFramework = prePrimaryEducationFramework;
-          }
-
-          this.alignmentObjects.push(subject);
-        });
-      }
-
-      if (this.prePrimaryEducationObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.prePrimaryEducationObjectives.value);
-      }
-
-      if (this.basicStudySubjectsCtrl.value) {
-        this.basicStudySubjectsCtrl.value.forEach((subject: AlignmentObjectExtended) => {
-          this.alignmentObjects.push({
-            key: subject.key,
-            source: subject.source,
-            alignmentType: subject.alignmentType,
-            educationalFramework: this.basicStudyFramework.value,
-            targetName: subject.targetName,
-            targetUrl: subject.targetUrl,
-          });
-        });
-
-        if (this.basicStudyObjectivesCtrl.value) {
-          this.basicStudyObjectivesCtrl.value.forEach((objective: AlignmentObjectExtended) => {
-            this.alignmentObjects.push({
-              key: objective.key,
-              source: objective.source,
-              alignmentType: objective.alignmentType,
-              educationalFramework: this.basicStudyFramework.value,
-              targetName: objective.targetName,
-              targetUrl: objective.targetUrl,
-            });
-          });
-        }
-
-        if (this.basicStudyContentsCtrl.value) {
-          this.basicStudyContentsCtrl.value.forEach((content: AlignmentObjectExtended) => {
-            this.alignmentObjects.push({
-              key: content.key,
-              source: content.source,
-              alignmentType: content.alignmentType,
-              educationalFramework: this.basicStudyFramework.value,
-              targetName: content.targetName,
-              targetUrl: content.targetUrl,
-            });
-          });
-        }
-      }
-
-      if (this.upperSecondarySchoolSubjectsCtrl.value) {
-        this.upperSecondarySchoolSubjectsCtrl.value.forEach((subject: AlignmentObjectExtended) => {
-          const upperSecondarySchoolFramework = this.upperSecondarySchoolFramework.value;
-
-          if (upperSecondarySchoolFramework) {
-            subject.educationalFramework = upperSecondarySchoolFramework;
-          }
-
-          this.alignmentObjects.push(subject);
-        });
-      }
-
-      if (this.upperSecondarySchoolObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolObjectives.value);
-      }
-
-      if (this.upperSecondarySchoolSubjectsNewCtrl.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolSubjectsNewCtrl.value);
-
-        if (this.upperSecondarySchoolModulesNewCtrl.value) {
-          this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolModulesNewCtrl.value);
-
-          if (this.upperSecondarySchoolObjectivesNewCtrl.value) {
-            this.upperSecondarySchoolObjectivesNewCtrl.value.forEach((objective: AlignmentObjectExtended) => {
-              delete objective.parent;
-              this.alignmentObjects.push(objective);
-            });
-          }
-
-          if (this.upperSecondarySchoolContentsNewCtrl.value) {
-            this.upperSecondarySchoolContentsNewCtrl.value.forEach((content: AlignmentObjectExtended) => {
-              delete content.parent;
-              this.alignmentObjects.push(content);
-            });
-          }
-        }
-      }
-
-      if (this.vocationalDegreesCtrl.value) {
-        this.vocationalDegreesCtrl.value.forEach((degree: AlignmentObjectExtended) => {
-          const vocationalEducationFramework = this.vocationalEducationFramework.value;
-
-          if (vocationalEducationFramework) {
-            degree.educationalFramework = vocationalEducationFramework;
-          }
-
-          this.alignmentObjects.push(degree);
-        });
-
-        if (this.vocationalUnitsCtrl.value) {
-          this.vocationalUnitsCtrl.value.forEach((unit: AlignmentObjectExtended) => {
-            delete unit.parent;
-            this.alignmentObjects.push(unit);
-          });
-        }
-      }
-
-      if (this.vocationalEducationObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.vocationalEducationObjectives.value);
-      }
-
-      if (this.selfMotivatedEducationSubjects.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.selfMotivatedEducationSubjects.value);
-      }
-
-      if (this.selfMotivatedEducationObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.selfMotivatedEducationObjectives.value);
-      }
-
-      if (this.branchesOfScience.value) {
-        this.branchesOfScience.value.forEach((branch: AlignmentObjectExtended) => {
-          const higherEducationFramework = this.higherEducationFramework.value;
-
-          if (higherEducationFramework) {
-            branch.educationalFramework = higherEducationFramework;
-          }
-
-          this.alignmentObjects.push(branch);
-        });
-      }
-
-      if (this.scienceBranchObjectives.value) {
-        this.alignmentObjects = this.alignmentObjects.concat(this.scienceBranchObjectives.value);
-      }
-
-      const suitsAllSubjects = {
-        suitsAllEarlyChildhoodSubjects: this.suitsAllEarlyChildhoodSubjects.value,
-        suitsAllPrePrimarySubjects: this.suitsAllPrePrimarySubjects.value,
-        suitsAllBasicStudySubjects: this.suitsAllBasicStudySubjects.value,
-        suitsAllUpperSecondarySubjects: this.suitsAllUpperSecondarySubjects.value,
-        suitsAllUpperSecondarySubjectsNew: this.suitsAllUpperSecondarySubjectsNew.value,
-        suitsAllVocationalDegrees: this.suitsAllVocationalDegrees.value,
-        suitsAllSelfMotivatedSubjects: this.suitsAllSelfMotivatedSubjects.value,
-        suitsAllBranches: this.suitsAllBranches.value,
-      };
-
-      const data = Object.assign(
-        {},
-        this.savedData,
-        { educationalLevels: this.educationalLevelsCtrl.value },
-        { alignmentObjects: this.alignmentObjects },
-        suitsAllSubjects
-        );
-
-      // save data to session storage
-      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
 
       this.router.navigate(['/lisaa-oppimateriaali', 4]);
     }
+  }
+
+  saveData(): void {
+    if (this.earlyChildhoodEducationSubjects.value) {
+      this.earlyChildhoodEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
+        const earlyChildhoodEducationFramework = this.earlyChildhoodEducationFramework.value;
+
+        if (earlyChildhoodEducationFramework) {
+          subject.educationalFramework = earlyChildhoodEducationFramework;
+        }
+
+        this.alignmentObjects.push(subject);
+      });
+    }
+
+    if (this.earlyChildhoodEducationObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.earlyChildhoodEducationObjectives.value);
+    }
+
+    if (this.prePrimaryEducationSubjects.value) {
+      this.prePrimaryEducationSubjects.value.forEach((subject: AlignmentObjectExtended) => {
+        const prePrimaryEducationFramework = this.prePrimaryEducationFramework.value;
+
+        if (prePrimaryEducationFramework) {
+          subject.educationalFramework = prePrimaryEducationFramework;
+        }
+
+        this.alignmentObjects.push(subject);
+      });
+    }
+
+    if (this.prePrimaryEducationObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.prePrimaryEducationObjectives.value);
+    }
+
+    if (this.basicStudySubjectsCtrl.value) {
+      this.basicStudySubjectsCtrl.value.forEach((subject: AlignmentObjectExtended) => {
+        this.alignmentObjects.push({
+          key: subject.key,
+          source: subject.source,
+          alignmentType: subject.alignmentType,
+          educationalFramework: this.basicStudyFramework.value,
+          targetName: subject.targetName,
+          targetUrl: subject.targetUrl,
+        });
+      });
+
+      if (this.basicStudyObjectivesCtrl.value) {
+        this.basicStudyObjectivesCtrl.value.forEach((objective: AlignmentObjectExtended) => {
+          this.alignmentObjects.push({
+            key: objective.key,
+            source: objective.source,
+            alignmentType: objective.alignmentType,
+            educationalFramework: this.basicStudyFramework.value,
+            targetName: objective.targetName,
+            targetUrl: objective.targetUrl,
+          });
+        });
+      }
+
+      if (this.basicStudyContentsCtrl.value) {
+        this.basicStudyContentsCtrl.value.forEach((content: AlignmentObjectExtended) => {
+          this.alignmentObjects.push({
+            key: content.key,
+            source: content.source,
+            alignmentType: content.alignmentType,
+            educationalFramework: this.basicStudyFramework.value,
+            targetName: content.targetName,
+            targetUrl: content.targetUrl,
+          });
+        });
+      }
+    }
+
+    if (this.upperSecondarySchoolSubjectsCtrl.value) {
+      this.upperSecondarySchoolSubjectsCtrl.value.forEach((subject: AlignmentObjectExtended) => {
+        const upperSecondarySchoolFramework = this.upperSecondarySchoolFramework.value;
+
+        if (upperSecondarySchoolFramework) {
+          subject.educationalFramework = upperSecondarySchoolFramework;
+        }
+
+        this.alignmentObjects.push(subject);
+      });
+    }
+
+    if (this.upperSecondarySchoolObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolObjectives.value);
+    }
+
+    if (this.upperSecondarySchoolSubjectsNewCtrl.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolSubjectsNewCtrl.value);
+
+      if (this.upperSecondarySchoolModulesNewCtrl.value) {
+        this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolModulesNewCtrl.value);
+
+        if (this.upperSecondarySchoolObjectivesNewCtrl.value) {
+          this.upperSecondarySchoolObjectivesNewCtrl.value.forEach((objective: AlignmentObjectExtended) => {
+            delete objective.parent;
+            this.alignmentObjects.push(objective);
+          });
+        }
+
+        if (this.upperSecondarySchoolContentsNewCtrl.value) {
+          this.upperSecondarySchoolContentsNewCtrl.value.forEach((content: AlignmentObjectExtended) => {
+            delete content.parent;
+            this.alignmentObjects.push(content);
+          });
+        }
+      }
+    }
+
+    if (this.vocationalDegreesCtrl.value) {
+      this.vocationalDegreesCtrl.value.forEach((degree: AlignmentObjectExtended) => {
+        const vocationalEducationFramework = this.vocationalEducationFramework.value;
+
+        if (vocationalEducationFramework) {
+          degree.educationalFramework = vocationalEducationFramework;
+        }
+
+        this.alignmentObjects.push(degree);
+      });
+
+      if (this.vocationalUnitsCtrl.value) {
+        this.vocationalUnitsCtrl.value.forEach((unit: AlignmentObjectExtended) => {
+          delete unit.parent;
+          this.alignmentObjects.push(unit);
+        });
+      }
+    }
+
+    if (this.vocationalEducationObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.vocationalEducationObjectives.value);
+    }
+
+    if (this.selfMotivatedEducationSubjects.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.selfMotivatedEducationSubjects.value);
+    }
+
+    if (this.selfMotivatedEducationObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.selfMotivatedEducationObjectives.value);
+    }
+
+    if (this.branchesOfScience.value) {
+      this.branchesOfScience.value.forEach((branch: AlignmentObjectExtended) => {
+        const higherEducationFramework = this.higherEducationFramework.value;
+
+        if (higherEducationFramework) {
+          branch.educationalFramework = higherEducationFramework;
+        }
+
+        this.alignmentObjects.push(branch);
+      });
+    }
+
+    if (this.scienceBranchObjectives.value) {
+      this.alignmentObjects = this.alignmentObjects.concat(this.scienceBranchObjectives.value);
+    }
+
+    const suitsAllSubjects = {
+      suitsAllEarlyChildhoodSubjects: this.suitsAllEarlyChildhoodSubjects.value,
+      suitsAllPrePrimarySubjects: this.suitsAllPrePrimarySubjects.value,
+      suitsAllBasicStudySubjects: this.suitsAllBasicStudySubjects.value,
+      suitsAllUpperSecondarySubjects: this.suitsAllUpperSecondarySubjects.value,
+      suitsAllUpperSecondarySubjectsNew: this.suitsAllUpperSecondarySubjectsNew.value,
+      suitsAllVocationalDegrees: this.suitsAllVocationalDegrees.value,
+      suitsAllSelfMotivatedSubjects: this.suitsAllSelfMotivatedSubjects.value,
+      suitsAllBranches: this.suitsAllBranches.value,
+    };
+
+    const data = Object.assign(
+      {},
+      this.savedData,
+      { educationalLevels: this.educationalLevelsCtrl.value },
+      { alignmentObjects: this.alignmentObjects },
+      suitsAllSubjects
+    );
+
+    // save data to session storage
+    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
   resetForm() {
@@ -811,11 +839,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     // reset form values
-    this.educationalDetailsForm.reset();
+    this.form.reset();
 
     // clear data from session storage
-    sessionStorage.removeItem(this.savedDataKey);
-    sessionStorage.removeItem(this.fileUploadLSKey);
+    sessionStorage.removeItem(environment.newERLSKey);
+    sessionStorage.removeItem(environment.fileUploadLSKey);
 
     this.router.navigateByUrl('/');
   }

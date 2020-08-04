@@ -8,6 +8,7 @@ import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -238,4 +239,32 @@ export function validateFilename(value: string): string {
   return validatedFilename.length > 0
     ? validatedFilename
     : Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+/**
+ * Text input validator. Checks if there are any not allowed characters in description.
+ * @returns {ValidatorFn}
+ */
+export function textInputValidator(): ValidatorFn {
+  const textInputRe: RegExp = /[^\wåäö\s.\-!'´`@#£€$%&()=?,:]/i;
+
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const invalid = textInputRe.test(control.value);
+
+    return invalid ? { 'invalidCharacters': { value: control.value } } : null;
+  };
+}
+
+/**
+ * Description validator. Checks if there are any not allowed characters in description.
+ * @returns {ValidatorFn}
+ */
+export function descriptionValidator(): ValidatorFn {
+  const descriptionRe: RegExp = /[^\wåäö\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]]/i;
+
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const invalid = descriptionRe.test(control.value);
+
+    return invalid ? { 'invalid': { value: control.value } } : null;
+  };
 }

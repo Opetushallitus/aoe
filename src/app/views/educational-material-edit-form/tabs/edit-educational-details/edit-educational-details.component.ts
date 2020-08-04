@@ -18,9 +18,10 @@ import {
   addVocationalEducationObjective,
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
-  addScienceBranchObjectives,
+  addScienceBranchObjectives, textInputValidator,
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -91,26 +92,38 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.setTitle();
 
     this.form = this.fb.group({
-      educationalLevels: this.fb.control(null, [ Validators.required ]),
+      educationalLevels: this.fb.control(null),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       suitsAllEarlyChildhoodSubjects: this.fb.control(false),
       earlyChildhoodEducationObjectives: this.fb.control(null),
-      earlyChildhoodEducationFramework: this.fb.control(null),
+      earlyChildhoodEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       prePrimaryEducationSubjects: this.fb.control(null),
       suitsAllPrePrimarySubjects: this.fb.control(false),
       prePrimaryEducationObjectives: this.fb.control(null),
-      prePrimaryEducationFramework: this.fb.control(null),
+      prePrimaryEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       basicStudySubjects: this.fb.control(null),
       suitsAllBasicStudySubjects: this.fb.control(false),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
-      basicStudyFramework: this.fb.control(null),
+      basicStudyFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
       upperSecondarySchoolSubjects: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
-      upperSecondarySchoolFramework: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
@@ -120,14 +133,20 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
-      vocationalEducationFramework: this.fb.control(null),
+      vocationalEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       selfMotivatedEducationSubjects: this.fb.control(null),
       suitsAllSelfMotivatedSubjects: this.fb.control(false),
       selfMotivatedEducationObjectives: this.fb.control(null),
       branchesOfScience: this.fb.control(null),
       suitsAllBranches: this.fb.control(false),
       scienceBranchObjectives: this.fb.control(null),
-      higherEducationFramework: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
     });
 
     this.translate.onLangChange.subscribe(() => {
@@ -255,6 +274,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.educationalLevelSubscription.unsubscribe();
     this.basicStudySubjectSubscription.unsubscribe();
     this.basicStudyObjectiveSubscription.unsubscribe();
@@ -279,8 +302,20 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('educationalLevels') as FormControl;
   }
 
+  get earlyChildhoodEducationFrameworkCtrl(): FormControl {
+    return this.form.get('earlyChildhoodEducationFramework') as FormControl;
+  }
+
+  get prePrimaryEducationFrameworkCtrl(): FormControl {
+    return this.form.get('prePrimaryEducationFramework') as FormControl;
+  }
+
   get basicStudySubjectsCtrl(): FormControl {
     return this.form.get('basicStudySubjects') as FormControl;
+  }
+
+  get basicStudyFrameworkCtrl(): FormControl {
+    return this.form.get('basicStudyFramework') as FormControl;
   }
 
   get currentUpperSecondarySchoolSelected(): FormControl {
@@ -295,6 +330,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get upperSecondarySchoolFrameworkCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolFramework') as FormControl;
+  }
+
   get upperSecondarySchoolSubjectsNewCtrl(): FormControl {
     return this.form.get('upperSecondarySchoolSubjectsNew') as FormControl;
   }
@@ -305,6 +344,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalEducationFrameworkCtrl(): FormControl {
+    return this.form.get('vocationalEducationFramework') as FormControl;
+  }
+
+  get higherEducationFrameworkCtrl(): FormControl {
+    return this.form.get('higherEducationFramework') as FormControl;
   }
 
   /**
@@ -402,65 +449,69 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
-
-        changedMaterial.educationalLevels = this.educationalLevelsCtrl.value;
-
-        // early childhood education
-        changedMaterial.earlyChildhoodEducationSubjects = this.form.get('earlyChildhoodEducationSubjects').value;
-        changedMaterial.suitsAllEarlyChildhoodSubjects = this.form.get('suitsAllEarlyChildhoodSubjects').value;
-        changedMaterial.earlyChildhoodEducationObjectives = this.form.get('earlyChildhoodEducationObjectives').value;
-        changedMaterial.earlyChildhoodEducationFramework = this.form.get('earlyChildhoodEducationFramework').value;
-
-        // pre-primary education
-        changedMaterial.prePrimaryEducationSubjects = this.form.get('prePrimaryEducationSubjects').value;
-        changedMaterial.suitsAllPrePrimarySubjects = this.form.get('suitsAllPrePrimarySubjects').value;
-        changedMaterial.prePrimaryEducationObjectives = this.form.get('prePrimaryEducationObjectives').value;
-        changedMaterial.prePrimaryEducationFramework = this.form.get('prePrimaryEducationFramework').value;
-
-        // basic education
-        changedMaterial.basicStudySubjects = this.basicStudySubjectsCtrl.value;
-        changedMaterial.suitsAllBasicStudySubjects = this.form.get('suitsAllBasicStudySubjects').value;
-        changedMaterial.basicStudyObjectives = this.form.get('basicStudyObjectives').value;
-        changedMaterial.basicStudyContents = this.form.get('basicStudyContents').value;
-        changedMaterial.basicStudyFramework = this.form.get('basicStudyFramework').value;
-
-        // upper secondary school
-        changedMaterial.upperSecondarySchoolSubjects = this.upperSecondarySchoolSubjectsCtrl.value;
-        changedMaterial.suitsAllUpperSecondarySubjects = this.form.get('suitsAllUpperSecondarySubjects').value;
-        changedMaterial.upperSecondarySchoolObjectives = this.form.get('upperSecondarySchoolObjectives').value;
-        changedMaterial.upperSecondarySchoolFramework = this.form.get('upperSecondarySchoolFramework').value;
-        changedMaterial.upperSecondarySchoolSubjectsNew = this.upperSecondarySchoolSubjectsNewCtrl.value;
-        changedMaterial.suitsAllUpperSecondarySubjectsNew = this.form.get('suitsAllUpperSecondarySubjectsNew').value;
-        changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
-        changedMaterial.upperSecondarySchoolObjectivesNew = this.form.get('upperSecondarySchoolObjectivesNew').value;
-        changedMaterial.upperSecondarySchoolContentsNew = this.form.get('upperSecondarySchoolContentsNew').value;
-
-        // vocational education
-        changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
-        changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
-        changedMaterial.vocationalUnits = this.form.get('vocationalUnits').value;
-        changedMaterial.vocationalEducationObjectives = this.form.get('vocationalEducationObjectives').value;
-        changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
-
-        // self-motivated competence development
-        changedMaterial.selfMotivatedEducationSubjects = this.form.get('selfMotivatedEducationSubjects').value;
-        changedMaterial.suitsAllSelfMotivatedSubjects = this.form.get('suitsAllSelfMotivatedSubjects').value;
-        changedMaterial.selfMotivatedEducationObjectives = this.form.get('selfMotivatedEducationObjectives').value;
-
-        // higher education
-        changedMaterial.branchesOfScience = this.form.get('branchesOfScience').value;
-        changedMaterial.suitsAllBranches = this.form.get('suitsAllBranches').value;
-        changedMaterial.scienceBranchObjectives = this.form.get('scienceBranchObjectives').value;
-        changedMaterial.higherEducationFramework = this.form.get('higherEducationFramework').value;
-
-        sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
+        this.saveData();
       }
 
       this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
     }
+  }
+
+  saveData(): void {
+    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
+      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+      : this.material;
+
+    changedMaterial.educationalLevels = this.educationalLevelsCtrl.value;
+
+    // early childhood education
+    changedMaterial.earlyChildhoodEducationSubjects = this.form.get('earlyChildhoodEducationSubjects').value;
+    changedMaterial.suitsAllEarlyChildhoodSubjects = this.form.get('suitsAllEarlyChildhoodSubjects').value;
+    changedMaterial.earlyChildhoodEducationObjectives = this.form.get('earlyChildhoodEducationObjectives').value;
+    changedMaterial.earlyChildhoodEducationFramework = this.form.get('earlyChildhoodEducationFramework').value;
+
+    // pre-primary education
+    changedMaterial.prePrimaryEducationSubjects = this.form.get('prePrimaryEducationSubjects').value;
+    changedMaterial.suitsAllPrePrimarySubjects = this.form.get('suitsAllPrePrimarySubjects').value;
+    changedMaterial.prePrimaryEducationObjectives = this.form.get('prePrimaryEducationObjectives').value;
+    changedMaterial.prePrimaryEducationFramework = this.form.get('prePrimaryEducationFramework').value;
+
+    // basic education
+    changedMaterial.basicStudySubjects = this.basicStudySubjectsCtrl.value;
+    changedMaterial.suitsAllBasicStudySubjects = this.form.get('suitsAllBasicStudySubjects').value;
+    changedMaterial.basicStudyObjectives = this.form.get('basicStudyObjectives').value;
+    changedMaterial.basicStudyContents = this.form.get('basicStudyContents').value;
+    changedMaterial.basicStudyFramework = this.form.get('basicStudyFramework').value;
+
+    // upper secondary school
+    changedMaterial.upperSecondarySchoolSubjects = this.upperSecondarySchoolSubjectsCtrl.value;
+    changedMaterial.suitsAllUpperSecondarySubjects = this.form.get('suitsAllUpperSecondarySubjects').value;
+    changedMaterial.upperSecondarySchoolObjectives = this.form.get('upperSecondarySchoolObjectives').value;
+    changedMaterial.upperSecondarySchoolFramework = this.form.get('upperSecondarySchoolFramework').value;
+    changedMaterial.upperSecondarySchoolSubjectsNew = this.upperSecondarySchoolSubjectsNewCtrl.value;
+    changedMaterial.suitsAllUpperSecondarySubjectsNew = this.form.get('suitsAllUpperSecondarySubjectsNew').value;
+    changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
+    changedMaterial.upperSecondarySchoolObjectivesNew = this.form.get('upperSecondarySchoolObjectivesNew').value;
+    changedMaterial.upperSecondarySchoolContentsNew = this.form.get('upperSecondarySchoolContentsNew').value;
+
+    // vocational education
+    changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
+    changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
+    changedMaterial.vocationalUnits = this.form.get('vocationalUnits').value;
+    changedMaterial.vocationalEducationObjectives = this.form.get('vocationalEducationObjectives').value;
+    changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
+
+    // self-motivated competence development
+    changedMaterial.selfMotivatedEducationSubjects = this.form.get('selfMotivatedEducationSubjects').value;
+    changedMaterial.suitsAllSelfMotivatedSubjects = this.form.get('suitsAllSelfMotivatedSubjects').value;
+    changedMaterial.selfMotivatedEducationObjectives = this.form.get('selfMotivatedEducationObjectives').value;
+
+    // higher education
+    changedMaterial.branchesOfScience = this.form.get('branchesOfScience').value;
+    changedMaterial.suitsAllBranches = this.form.get('suitsAllBranches').value;
+    changedMaterial.scienceBranchObjectives = this.form.get('scienceBranchObjectives').value;
+    changedMaterial.higherEducationFramework = this.form.get('higherEducationFramework').value;
+
+    sessionStorage.setItem(environment.editMaterial, JSON.stringify(changedMaterial));
   }
 
   /**

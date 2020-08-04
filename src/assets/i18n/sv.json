@@ -195,6 +195,17 @@
       "replaceFile": "Byta filen",
       "replaceLink": "Byta länken"
     },
+    "errors": {
+      "common": {
+        "maxLength": "{{maxLength}}"
+      },
+      "textInput": {
+        "characters": "Tillåtna specialtecken: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+      },
+      "description": {
+        "characters": "Tillåtna specialtecken: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+      }
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
@@ -555,6 +566,7 @@
         "confirm": "Jag har",
         "required": {
           "name": "Namn",
+          "material": "Filer och länkar",
           "author": "Upphovsperson",
           "keywords": "Nyckelord",
           "learningResourceTypes": "Typ av läromaterial",

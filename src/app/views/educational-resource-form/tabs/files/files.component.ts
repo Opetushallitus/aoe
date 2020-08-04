@@ -13,7 +13,8 @@ import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
-import { validateFilename } from '../../../../shared/shared.module';
+import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { validatorParams } from '../../../../constants/validator-params';
 
 @Component({
   selector: 'app-tabs-files',
@@ -26,7 +27,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   savedData: any;
 
-  fileUploadForm: FormGroup;
+  form: FormGroup;
   videoFiles: number[] = [];
   submitted = false;
   modalRef: BsModalRef;
@@ -54,11 +55,20 @@ export class FilesComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setTitle();
 
-    this.fileUploadForm = this.fb.group({
+    this.form = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.name.maxLength),
+          textInputValidator(),
+        ]),
       }),
       files: this.fb.array([
         this.createFile(),
@@ -86,7 +96,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     if (this.savedData) {
       if (this.savedData.name) {
-        this.fileUploadForm.get('name').patchValue(this.savedData.name);
+        this.form.get('name').patchValue(this.savedData.name);
       }
     }
 
@@ -104,6 +114,11 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // save data if its valid, dirty and not submitted
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
+    }
+
     this.languageSubscription.unsubscribe();
   }
 
@@ -116,40 +131,41 @@ export class FilesComponent implements OnInit, OnDestroy {
   updateLanguages(): void {
     // set other than current language to an array
     this.otherLangs = this.translate.getLangs().filter((lang: string) => lang !== this.lang);
-
-    // set other languages validators null for name
-    this.otherLangs.forEach((lang: string) => {
-      this.names.get(lang).setValidators(null);
-      this.names.get(lang).updateValueAndValidity();
-    });
-
-    // set current language validator required for name
-    this.names.get(this.lang).setValidators([ Validators.required ]);
-    this.names.get(this.lang).updateValueAndValidity();
-
   }
 
   get name(): FormControl {
-    return this.fileUploadForm.get(`name.${this.lang}`) as FormControl;
+    return this.form.get(`name.${this.lang}`) as FormControl;
   }
 
   get names(): FormGroup {
-    return this.fileUploadForm.get('name') as FormGroup;
+    return this.form.get('name') as FormGroup;
   }
 
   get files(): FormArray {
-    return this.fileUploadForm.get('files') as FormArray;
+    return this.form.get('files') as FormArray;
   }
 
   createFile(): FormGroup {
     return this.fb.group({
       file: [''],
-      link: this.fb.control(null, [ Validators.pattern('https?://.*') ]),
+      link: this.fb.control(null, [
+        Validators.pattern(validatorParams.file.link.pattern),
+        Validators.maxLength(validatorParams.file.link.maxLength),
+      ]),
       language: this.fb.control(this.lang),
       displayName: this.fb.group({
-        fi: this.fb.control(null),
-        sv: this.fb.control(null),
-        en: this.fb.control(null),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
       }),
       subtitles: this.fb.array([]),
     });
@@ -164,7 +180,10 @@ export class FilesComponent implements OnInit, OnDestroy {
       file: [''],
       default: this.fb.control(false),
       kind: this.fb.control('subtitles'),
-      label: this.fb.control(null),
+      label: this.fb.control(null, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(null),
     });
   }
@@ -218,13 +237,21 @@ export class FilesComponent implements OnInit, OnDestroy {
       subtitles.at(j).get('file').setValue(subtitle);
 
       // add validators
-      subtitles.at(j).get('kind').setValidators([ Validators.required ]);
+      subtitles.at(j).get('kind').setValidators([
+        Validators.required,
+      ]);
       subtitles.at(j).get('kind').updateValueAndValidity();
 
-      subtitles.at(j).get('label').setValidators([ Validators.required ]);
+      subtitles.at(j).get('label').setValidators([
+        Validators.required,
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]);
       subtitles.at(j).get('label').updateValueAndValidity();
 
-      subtitles.at(j).get('srclang').setValidators([ Validators.required ]);
+      subtitles.at(j).get('srclang').setValidators([
+        Validators.required,
+      ]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
   }
@@ -243,26 +270,24 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.files.controls = this.files.controls
       .filter(ctrl => ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== ''));
 
-    const fileCount = this.files.controls.length;
-
     this.files.controls.forEach(ctrl => {
+      this.totalFileCount++;
+
       const language = ctrl.get('language');
       const displayName = ctrl.get(`displayName.${this.lang}`);
 
-      language.setValidators([ Validators.required ]);
+      language.setValidators([
+        Validators.required,
+      ]);
       language.updateValueAndValidity();
 
-      displayName.setValidators([ Validators.required ]);
+      displayName.setValidators([
+        Validators.required,
+        Validators.maxLength(validatorParams.file.displayName.maxLength),
+        textInputValidator(),
+      ]);
       displayName.updateValueAndValidity();
     });
-
-    if (fileCount === 0) {
-      if (this.uploadedFiles && this.uploadedFiles.length > 0) {
-        this.router.navigate(['/lisaa-oppimateriaali', 2]);
-      } else {
-        this.files.setErrors({ 'required': true });
-      }
-    }
   }
 
   validateSubtitles(): void {
@@ -275,6 +300,8 @@ export class FilesComponent implements OnInit, OnDestroy {
             subtitles.removeAt(subtitles.controls.findIndex(sub => sub === subCtrl));
           }
         });
+
+        this.totalFileCount = this.totalFileCount + subtitles.controls.length;
       }
     });
   }
@@ -375,31 +402,39 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.validateFiles();
     this.validateSubtitles();
 
-    if (this.fileUploadForm.valid) {
-      this.calculateTotalFileCount();
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        this.saveData();
+      }
 
-      const data = Object.assign(
-        {},
-        JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-        { name: this.fileUploadForm.get('name').value },
-      );
+      if (this.totalFileCount > 0) {
+        if (!this.materialId) {
+          const formData = new FormData();
+          formData.append('name', JSON.stringify(this.names.value));
 
-      // save data to session storage
-      sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
-
-      if (!this.materialId) {
-        const formData = new FormData();
-        formData.append('name', JSON.stringify(this.names.value));
-
-        this.backendSvc.uploadFiles(formData).subscribe(
-          () => {},
-          (err) => console.error(err),
-          () => this.uploadFiles(),
-        );
+          this.backendSvc.uploadFiles(formData).subscribe(
+            () => {},
+            (err) => console.error(err),
+            () => this.uploadFiles(),
+          );
+        } else {
+          this.uploadFiles();
+        }
       } else {
-        this.uploadFiles();
+        this.router.navigate(['/lisaa-oppimateriaali', 2]);
       }
     }
+  }
+
+  saveData(): void {
+    const data = Object.assign(
+      {},
+      JSON.parse(sessionStorage.getItem(this.savedDataKey)),
+      { name: this.names.value },
+    );
+
+    // save data to session storage
+    sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));
   }
 
   resetForm(): void {
@@ -407,7 +442,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     // reset form values
-    this.fileUploadForm.reset();
+    this.form.reset();
 
     // clear data from session storage
     sessionStorage.removeItem(this.savedDataKey);
