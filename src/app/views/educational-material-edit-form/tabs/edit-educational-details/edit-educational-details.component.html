@@ -229,11 +229,11 @@
   </ng-container><!--/pre-primary education-->
 
   <ng-container *ngIf="hasBasicStudies">
-    <div class="form-group">
-      <h3>
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}
-      </h3>
+    <h3>
+      {{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}
+    </h3>
 
+    <div class="form-group">
       <label for="basicStudySubjects">
         {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}
       </label>
@@ -593,11 +593,11 @@
   </ng-container><!--/upper secondary school-->
 
   <ng-container *ngIf="hasVocationalEducation">
-    <div class="form-group">
-      <h3>
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}
-      </h3>
+    <h3>
+      {{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}
+    </h3>
 
+    <div class="form-group">
       <label for="vocationalDegrees">
         {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}
       </label>
@@ -673,8 +673,7 @@
         id="vocationalEducationObjectives"
         labelForId="vocationalEducationObjectives"
         formControlName="vocationalEducationObjectives"
-      >
-      </ng-select>
+      ></ng-select>
     </div>
 
     <div class="form-group">
@@ -712,11 +711,11 @@
   </ng-container><!--/vocational education-->
 
   <ng-container *ngIf="hasSelfMotivatedEducation">
-    <div class="form-group">
-      <h3>
-        {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}
-      </h3>
+    <h3>
+      {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}
+    </h3>
 
+    <div class="form-group">
       <label for="selfMotivatedEducationSubjects">
         {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}
       </label>
