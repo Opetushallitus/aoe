@@ -647,102 +647,102 @@
         }
       },
       "educational": {
-        "title": "",
+        "title": "Utbildningsinfo",
         "headings": {
-          "early": "",
-          "prePrimary": "",
-          "basic": "",
-          "upperSecondary": "",
-          "vocational": "",
-          "selfMotivated": "",
-          "higher": ""
+          "early": "Småbarnsfostran",
+          "prePrimary": "Förskoleundervisning",
+          "basic": "Grundläggande utbildning",
+          "upperSecondary": "Gymnasieutbildning",
+          "vocational": "Yrkesutbildning",
+          "selfMotivated": "Självständig utveckling av kompetens",
+          "higher": "Högskoleutbildning"
         },
         "educationalLevels": {
-          "label": "",
+          "label": "Utbildningsstadium",
           "placeholder": ""
         },
         "earlyChildhoodEducationSubjects": {
-          "label": "",
+          "label": "Ämne för småbarnsfostran",
           "placeholder": ""
         },
         "earlyChildhoodEducationObjectives": {
-          "label": "",
+          "label": "Mål för småbarnsfostran",
           "placeholder": ""
         },
         "prePrimaryEducationSubjects": {
-          "label": "",
+          "label": "Ämne för förskoleundervisning",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
-          "label": "",
+          "label": "Mål för förskoleundervisning",
           "placeholder": ""
         },
         "basicStudySubjects": {
-          "label": "",
+          "label": "Ämne för grundläggande utbildning",
           "placeholder": ""
         },
         "basicStudyObjectives": {
-          "label": "",
+          "label": "Mål för grundläggande utbildning",
           "placeholder": ""
         },
         "basicStudyContents": {
-          "label": "",
+          "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
           "placeholder": ""
         },
         "upperSecondarySchoolSelection": {
-          "current": "",
-          "new": ""
+          "current": "Grunderna för gymnasiets läroplan 2015",
+          "new": "Grunderna för gymnasiets läroplan 2019"
         },
         "upperSecondarySchoolSubjects": {
-          "label": "",
+          "label": "Ämne för gymnasieutbildning",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectives": {
-          "label": "",
+          "label": "Mål för gymnasieutbildning",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
-          "label": "",
+          "label": "Ämne",
           "placeholder": ""
         },
         "upperSecondarySchoolModulesNew": {
-          "label": "",
+          "label": "Modul",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectivesNew": {
-          "label": "",
+          "label": "Mål för gymnasieutbildning",
           "placeholder": ""
         },
         "upperSecondarySchoolContentsNew": {
-          "label": "",
+          "label": "Innehållsområden för gymnasieutbildning",
           "placeholder": ""
         },
         "vocationalDegrees": {
-          "label": "",
+          "label": "Examensdel för yrkesutbildning",
           "placeholder": ""
         },
         "vocationalUnits": {
-          "label": "",
+          "label": "Examensdelar för yrkesutbildning",
           "placeholder": ""
         },
         "vocationalEducationObjectives": {
-          "label": "",
+          "label": "Mål för yrkesutbildning",
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "",
+          "label": "Ämne för självständig utveckling av kompetens",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "",
+          "label": "Mål för självständig utveckling av kompetens",
           "placeholder": ""
         },
         "scienceBranches": {
-          "label": "",
+          "label": "Verenskapsgren för högskoleutbildning",
           "placeholder": ""
         },
         "scienceBranchObjectives": {
-          "label": "",
+          "label": "Mål för högskoleutbildning",
           "placeholder": ""
         }
       },
