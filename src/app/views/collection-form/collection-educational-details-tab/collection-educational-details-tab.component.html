@@ -1,4 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
+  <h2 class="sr-only">
+    {{ 'forms.collection.educational.title' | translate }}
+  </h2>
+
   <div class="form-group">
     <label for="educationalLevels">
       {{ 'forms.collection.educational.educationalLevels.label' | translate }}
@@ -12,6 +16,7 @@
       groupBy="children"
       labelForId="educationalLevels"
       formControlName="educationalLevels"
+      (change)="educationalLevelsChange($event)"
     >
       <ng-template ng-optgroup-tmp let-item="item">
         {{ item.value }}
@@ -20,7 +25,442 @@
         {{ item.value }}
       </ng-template>
     </ng-select>
-  </div>
+  </div><!--educationalLevels-->
+
+  <ng-container *ngIf="hasEarlyChildhoodEducation">
+    <h3>
+      {{ 'forms.collection.educational.headings.early' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="earlyChildhoodEducationSubjects">
+        {{ 'forms.collection.educational.earlyChildhoodEducationSubjects.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addEarlyChildhoodEducationSubject"
+        bindLabel="targetName"
+        labelForId="earlyChildhoodEducationSubjects"
+        formControlName="earlyChildhoodEducationSubjects"
+      ></ng-select>
+    </div><!--earlyChildhoodEducationSubjects-->
+
+    <div class="form-group">
+      <label for="earlyChildhoodEducationObjectives">
+        {{ 'forms.collection.educational.earlyChildhoodEducationObjectives.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addEarlyChildhoodEducationObjective"
+        bindLabel="targetName"
+        labelForId="earlyChildhoodEducationObjectives"
+        formControlName="earlyChildhoodEducationObjectives"
+      ></ng-select>
+    </div><!--earlyChildhoodEducationObjectives-->
+  </ng-container><!--earlyChildhoodEducation-->
+
+  <ng-container *ngIf="hasPrePrimaryEducation">
+    <h3>
+      {{ 'forms.collection.educational.headings.prePrimary' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="prePrimaryEducationSubjects">
+        {{ 'forms.collection.educational.prePrimaryEducationSubjects.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addPrePrimaryEducationSubject"
+        bindLabel="targetName"
+        labelForId="prePrimaryEducationSubjects"
+        formControlName="prePrimaryEducationSubjects"
+      ></ng-select>
+    </div><!--prePrimaryEducationSubjects-->
+
+    <div class="form-group">
+      <label for="prePrimaryEducationObjectives">
+        {{ 'forms.collection.educational.prePrimaryEducationObjectives.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addPrePrimaryEducationObjective"
+        bindLabel="targetName"
+        labelForId="prePrimaryEducationObjectives"
+        formControlName="prePrimaryEducationObjectives"
+      ></ng-select>
+    </div><!--prePrimaryEducationObjectives-->
+  </ng-container><!--prePrimaryEducation-->
+
+  <ng-container *ngIf="hasBasicStudies">
+    <h3>
+      {{ 'forms.collection.educational.headings.basic' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="basicStudySubjects">
+        {{ 'forms.collection.educational.basicStudySubjects.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="basicStudySubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        groupBy="children"
+        labelForId="basicStudySubjects"
+        formControlName="basicStudySubjects"
+        (change)="basicStudySubjectsChange($event)"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+      </ng-select>
+    </div><!--basicStudySubjects-->
+
+    <ng-container *ngIf="hasBasicStudySubjects">
+      <div class="form-group">
+        <label for="basicStudyObjectives">
+          {{ 'forms.collection.educational.basicStudyObjectives.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="basicStudyObjectives"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="basicStudyObjectives"
+          formControlName="basicStudyObjectives"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.targetName }}
+          </ng-template>
+        </ng-select>
+      </div><!--basicStudyObjectives-->
+
+      <div class="form-group">
+        <label for="basicStudyContents">
+          {{ 'forms.collection.educational.basicStudyContents.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="basicStudyContents"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="basicStudyContents"
+          formControlName="basicStudyContents"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.targetName }}
+          </ng-template>
+        </ng-select>
+      </div><!--basicStudyContents-->
+    </ng-container>
+  </ng-container><!--basicStudies-->
+
+  <ng-container *ngIf="hasUpperSecondarySchool">
+    <h3>
+      {{ 'forms.collection.educational.headings.upperSecondary' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="currentUpperSecondarySchoolSelected"
+          formControlName="currentUpperSecondarySchoolSelected"
+        >
+
+        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
+          {{ 'forms.collection.educational.upperSecondarySchoolSelection.current' | translate }}
+        </label>
+      </div><!--current-->
+
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="newUpperSecondarySchoolSelected"
+          formControlName="newUpperSecondarySchoolSelected"
+        >
+
+        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">
+          {{ 'forms.collection.educational.upperSecondarySchoolSelection.new' | translate }}
+        </label>
+      </div><!--new-->
+    </div><!--frameworkSelection-->
+
+    <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
+      <h4>
+        {{ 'forms.collection.educational.upperSecondarySchoolSelection.current' | translate }}
+      </h4>
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolSubjects">
+          {{ 'forms.collection.educational.upperSecondarySchoolSubjects.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="upperSecondarySchoolSubjects"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          labelForId="upperSecondarySchoolSubjects"
+          formControlName="upperSecondarySchoolSubjects"
+        ></ng-select>
+      </div><!--upperSecondarySchoolSubjects-->
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolObjectives">
+          {{ 'forms.collection.educational.upperSecondarySchoolObjectives.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="[]"
+          [multiple]="true"
+          [addTag]="addUpperSecondarySchoolObjective"
+          bindLabel="targetName"
+          labelForId="upperSecondarySchoolObjectives"
+          formControlName="upperSecondarySchoolObjectives"
+        ></ng-select>
+      </div><!--upperSecondarySchoolObjectives-->
+    </ng-container><!--current-->
+
+    <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
+      <h4>
+        {{ 'forms.collection.educational.upperSecondarySchoolSelection.new' | translate }}
+      </h4>
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolSubjectsNew">
+          {{ 'forms.collection.educational.upperSecondarySchoolSubjectsNew.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="upperSecondarySchoolSubjectsNew"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="upperSecondarySchoolSubjectsNew"
+          formControlName="upperSecondarySchoolSubjectsNew"
+          (change)="upperSecondarySchoolSubjectsNewChange($event)"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+        </ng-select>
+      </div><!--upperSecondarySchoolSubjectsNew-->
+
+      <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
+        <div class="form-group">
+          <label for="upperSecondarySchoolModulesNew">
+            {{ 'forms.collection.educational.upperSecondarySchoolModulesNew.label' | translate }}
+          </label>
+
+          <ng-select
+            [items]="upperSecondarySchoolModulesNew"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="targetName"
+            groupBy="parent"
+            labelForId="upperSecondarySchoolModulesNew"
+            formControlName="upperSecondarySchoolModulesNew"
+            (change)="upperSecondarySchoolModulesNewChange($event)"
+          ></ng-select>
+        </div><!--upperSecondarySchoolModulesNew-->
+
+        <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
+          <label for="upperSecondarySchoolObjectivesNew">
+            {{ 'forms.collection.educational.upperSecondarySchoolObjectivesNew.label' | translate }}
+          </label>
+
+          <ng-select
+            [items]="upperSecondarySchoolObjectivesNew"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="targetName"
+            groupBy="parent"
+            labelForId="upperSecondarySchoolObjectivesNew"
+            formControlName="upperSecondarySchoolObjectivesNew"
+          ></ng-select>
+        </div><!--upperSecondarySchoolObjectivesNew-->
+
+        <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
+          <label for="upperSecondarySchoolContentsNew">
+            {{ 'forms.collection.educational.upperSecondarySchoolContentsNew.label' | translate }}
+          </label>
+
+          <ng-select
+            [items]="upperSecondarySchoolContentsNew"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="targetName"
+            groupBy="parent"
+            labelForId="upperSecondarySchoolContentsNew"
+            formControlName="upperSecondarySchoolContentsNew"
+          ></ng-select>
+        </div><!--upperSecondarySchoolContentsNew-->
+      </ng-container>
+    </ng-container>
+  </ng-container><!--upperSecondarySchool-->
+
+  <ng-container *ngIf="hasVocationalEducation">
+    <h3>
+      {{ 'forms.collection.educational.headings.vocational' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="vocationalDegrees">
+        {{ 'forms.collection.educational.vocationalDegrees.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="vocationalDegrees"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        labelForId="vocationalDegrees"
+        formControlName="vocationalDegrees"
+        (change)="vocationalDegreesChange($event)"
+      ></ng-select>
+    </div><!--vocationalDegrees-->
+
+    <ng-container *ngIf="hasVocationalDegrees">
+      <div class="form-group">
+        <label for="vocationalUnits">
+          {{ 'forms.collection.educational.vocationalUnits.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="vocationalUnits"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="vocationalUnits"
+          formControlName="vocationalUnits"
+        ></ng-select>
+      </div><!--vocationalUnits-->
+
+      <div class="form-group">
+        <label for="vocationalEducationObjectives">
+          {{ 'forms.collection.educational.vocationalEducationObjectives.label' | translate }}
+        </label>
+
+        <ng-select
+          [items]="[]"
+          [multiple]="true"
+          [addTag]="addVocationalEducationObjective"
+          bindLabel="targetName"
+          labelForId="vocationalEducationObjectives"
+          formControlName="vocationalEducationObjectives"
+        ></ng-select>
+      </div><!--vocationalEducationObjectives-->
+    </ng-container>
+  </ng-container><!--vocationalEducation-->
+
+  <ng-container *ngIf="hasSelfMotivatedEducation">
+    <h3>
+      {{ 'forms.collection.educational.headings.selfMotivated' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="selfMotivatedEducationSubjects">
+        {{ 'forms.collection.educational.selfMotivatedEducationSubjects.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addSelfMotivatedEducationSubject"
+        bindLabel="targetName"
+        labelForId="selfMotivatedEducationSubjects"
+        formControlName="selfMotivatedEducationSubjects"
+      ></ng-select>
+    </div><!--selfMotivatedEducationSubjects-->
+
+    <div class="form-group">
+      <label for="selfMotivatedEducationObjectives">
+        {{ 'forms.collection.educational.selfMotivatedEducationObjectives.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addSelfMotivatedEducationObjective"
+        bindLabel="targetName"
+        labelForId="selfMotivatedEducationObjectives"
+        formControlName="selfMotivatedEducationObjectives"
+      ></ng-select>
+    </div><!--selfMotivatedEducationObjectives-->
+  </ng-container><!--selfMotivatedEducation-->
+
+  <ng-container *ngIf="hasHigherEducation">
+    <h3>
+      {{ 'forms.collection.educational.headings.higher' | translate }}
+    </h3>
+
+    <div class="form-group">
+      <label for="scienceBranches">
+        {{ 'forms.collection.educational.scienceBranches.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="scienceBranches"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        bindLabel="targetName"
+        groupBy="children"
+        labelForId="scienceBranches"
+        formControlName="scienceBranches"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.targetName }}
+        </ng-template>
+      </ng-select>
+    </div><!--scienceBranches-->
+
+    <div class="form-group">
+      <label for="scienceBranchObjectives">
+        {{ 'forms.collection.educational.scienceBranchObjectives.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addScienceBranchObjectives"
+        bindLabel="targetName"
+        labelForId="scienceBranchObjectives"
+        formControlName="scienceBranchObjectives"
+      ></ng-select>
+    </div><!--scienceBranchObjectives-->
+  </ng-container><!--higherEducation-->
 
   <div class="row">
     <div class="col">
