@@ -647,88 +647,102 @@
         }
       },
       "educational": {
+        "title": "Koulutustiedot",
+        "headings": {
+          "early": "Varhaiskasvatus",
+          "prePrimary": "Esiopetus",
+          "basic": "Perusopetus",
+          "upperSecondary": "Lukiokoulutus",
+          "vocational": "Ammatillinen koulutus",
+          "selfMotivated": "Omaehtoisen osaamisen kehittäminen",
+          "higher": "Korkeakoulutus"
+        },
         "educationalLevels": {
           "label": "Koulutusasteet",
           "placeholder": ""
         },
         "earlyChildhoodEducationSubjects": {
-          "label": "",
+          "label": "Varhaiskasvatuksen oppiaineet",
           "placeholder": ""
         },
         "earlyChildhoodEducationObjectives": {
-          "label": "",
+          "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "prePrimaryEducationSubjects": {
-          "label": "",
+          "label": "Esiopetuksen oppiaineet",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
-          "label": "",
+          "label": "Esiopetuksen oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "basicStudySubjects": {
-          "label": "",
+          "label": "Perusopetuksen oppiaineet",
           "placeholder": ""
         },
         "basicStudyObjectives": {
-          "label": "",
+          "label": "Perusopetuksen oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "basicStudyContents": {
-          "label": "",
+          "label": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
           "placeholder": ""
         },
+        "upperSecondarySchoolSelection": {
+          "current": "Lukion opetussuunnitelman perusteet 2015",
+          "new": "Lukion opetussuunnitelman perusteet 2019"
+        },
         "upperSecondarySchoolSubjects": {
-          "label": "",
+          "label": "Lukionkurssit",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectives": {
-          "label": "",
+          "label": "Lukionkurssien tavoitteet",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
-          "label": "",
+          "label": "Oppiaine",
           "placeholder": ""
         },
         "upperSecondarySchoolModulesNew": {
-          "label": "",
+          "label": "Moduuli",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectivesNew": {
-          "label": "",
+          "label": "Tavoite",
           "placeholder": ""
         },
         "upperSecondarySchoolContentsNew": {
-          "label": "",
+          "label": "Sisältö",
           "placeholder": ""
         },
         "vocationalDegrees": {
-          "label": "",
+          "label": "Ammatillisen koulutuksen tutkinnot",
           "placeholder": ""
         },
         "vocationalUnits": {
-          "label": "",
+          "label": "Ammatillisen koulutuksen tutkinnon osat",
           "placeholder": ""
         },
         "vocationalEducationObjectives": {
-          "label": "",
+          "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "",
+          "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "",
+          "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
           "placeholder": ""
         },
-        "branchesOfScience": {
-          "label": "",
+        "scienceBranches": {
+          "label": "Korkeakoulutuksen tieteenalat",
           "placeholder": ""
         },
         "scienceBranchObjectives": {
-          "label": "",
+          "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
           "placeholder": ""
         }
       },

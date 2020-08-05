@@ -53,6 +53,8 @@ export interface CollectionForm {
   basicStudyObjectives?: AlignmentObjectExtended[];
   basicStudyContents?: AlignmentObjectExtended[];
   basicStudyFramework?: string;
+  currentUpperSecondarySchoolSelected?: boolean;
+  newUpperSecondarySchoolSelected?: boolean;
   upperSecondarySchoolSubjects?: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives?: AlignmentObjectExtended[];
   upperSecondarySchoolFramework?: string;
