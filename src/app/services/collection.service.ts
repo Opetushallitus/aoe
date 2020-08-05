@@ -151,7 +151,7 @@ export class CollectionService {
       const vocationalEducationObjectives: AlignmentObjectExtended[] = [];
       const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
       const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
-      const branchesOfScience: AlignmentObjectExtended[] = [];
+      const scienceBranches: AlignmentObjectExtended[] = [];
       const scienceBranchObjectives: AlignmentObjectExtended[] = [];
 
       collection.alignmentObjects.forEach((aObject: AlignmentObjectExtended) => {
@@ -229,7 +229,7 @@ export class CollectionService {
             break;
 
           case koodistoSources.scienceBranches:
-            branchesOfScience.push(aObject);
+            scienceBranches.push(aObject);
             break;
 
           case koodistoSources.scienceBranchObjectives:
@@ -285,7 +285,7 @@ export class CollectionService {
         vocationalEducationObjectives,
         selfMotivatedEducationSubjects,
         selfMotivatedEducationObjectives,
-        branchesOfScience,
+        scienceBranches,
         scienceBranchObjectives,
       };
 

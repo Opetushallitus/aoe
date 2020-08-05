@@ -66,7 +66,7 @@ export interface CollectionForm {
   vocationalEducationFramework?: string;
   selfMotivatedEducationSubjects?: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives?: AlignmentObjectExtended[];
-  branchesOfScience?: AlignmentObjectExtended[];
+  scienceBranches?: AlignmentObjectExtended[];
   scienceBranchObjectives?: AlignmentObjectExtended[];
   higherEducationFramework?: string;
   // materials
