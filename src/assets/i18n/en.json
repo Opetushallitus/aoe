@@ -647,6 +647,16 @@
         }
       },
       "educational": {
+        "title": "",
+        "headings": {
+          "early": "",
+          "prePrimary": "",
+          "basic": "",
+          "upperSecondary": "",
+          "vocational": "",
+          "selfMotivated": "",
+          "higher": ""
+        },
         "educationalLevels": {
           "label": "",
           "placeholder": ""
@@ -678,6 +688,10 @@
         "basicStudyContents": {
           "label": "",
           "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "",
+          "new": ""
         },
         "upperSecondarySchoolSubjects": {
           "label": "",
@@ -723,7 +737,7 @@
           "label": "",
           "placeholder": ""
         },
-        "branchesOfScience": {
+        "scienceBranches": {
           "label": "",
           "placeholder": ""
         },
