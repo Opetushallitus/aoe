@@ -647,102 +647,102 @@
         }
       },
       "educational": {
-        "title": "",
+        "title": "Educational information",
         "headings": {
-          "early": "",
-          "prePrimary": "",
-          "basic": "",
-          "upperSecondary": "",
-          "vocational": "",
-          "selfMotivated": "",
-          "higher": ""
+          "early": "Early childhood education",
+          "prePrimary": "Pre-primary education",
+          "basic": "Basic education",
+          "upperSecondary": "Upper secondary school",
+          "vocational": "Vocational education",
+          "selfMotivated": "Self-motivated competence development",
+          "higher": "Higher education"
         },
         "educationalLevels": {
-          "label": "",
+          "label": "Educational Level",
           "placeholder": ""
         },
         "earlyChildhoodEducationSubjects": {
-          "label": "",
+          "label": "Educational subject of early childhood education",
           "placeholder": ""
         },
         "earlyChildhoodEducationObjectives": {
-          "label": "",
+          "label": "Learning object of early childhood education",
           "placeholder": ""
         },
         "prePrimaryEducationSubjects": {
-          "label": "",
+          "label": "Educational subject of pre-primary education",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
-          "label": "",
+          "label": "Learning object of  pre-primary education",
           "placeholder": ""
         },
         "basicStudySubjects": {
-          "label": "",
+          "label": "Educational subject of basic education",
           "placeholder": ""
         },
         "basicStudyObjectives": {
-          "label": "",
+          "label": "Learning object of basic education",
           "placeholder": ""
         },
         "basicStudyContents": {
-          "label": "",
+          "label": "Educational content and transversal competence of basic education",
           "placeholder": ""
         },
         "upperSecondarySchoolSelection": {
-          "current": "",
-          "new": ""
+          "current": "Educational framework of upper secondary school 2015",
+          "new": "Educational framework of upper secondary school 2019"
         },
         "upperSecondarySchoolSubjects": {
-          "label": "",
+          "label": "Educational subject of upper secondary school",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectives": {
-          "label": "",
+          "label": "Learning object of upper secondary school",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
-          "label": "",
+          "label": "Educational subject",
           "placeholder": ""
         },
         "upperSecondarySchoolModulesNew": {
-          "label": "",
+          "label": "Module",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectivesNew": {
-          "label": "",
+          "label": "Learning object of upper secondary school",
           "placeholder": ""
         },
         "upperSecondarySchoolContentsNew": {
-          "label": "",
+          "label": "Educational content of upper secondary school",
           "placeholder": ""
         },
         "vocationalDegrees": {
-          "label": "",
+          "label": "Educational subject of vocational education",
           "placeholder": ""
         },
         "vocationalUnits": {
-          "label": "",
+          "label": "Units of vocational education",
           "placeholder": ""
         },
         "vocationalEducationObjectives": {
-          "label": "",
+          "label": "Learning object of vocational education",
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "",
+          "label": "Educational subject of self-motivated competence development",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "",
+          "label": "Learning object of self-motivated competence development",
           "placeholder": ""
         },
         "scienceBranches": {
-          "label": "",
+          "label": "Educational subject of higher education",
           "placeholder": ""
         },
         "scienceBranchObjectives": {
-          "label": "",
+          "label": "Learning object of higher education",
           "placeholder": ""
         }
       },
