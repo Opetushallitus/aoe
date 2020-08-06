@@ -274,6 +274,8 @@ export class CollectionService {
         basicStudySubjects,
         basicStudyObjectives,
         basicStudyContents,
+        currentUpperSecondarySchoolSelected: upperSecondarySchoolSubjects.length > 0,
+        newUpperSecondarySchoolSelected: upperSecondarySchoolSubjectsNew.length > 0,
         upperSecondarySchoolSubjects,
         upperSecondarySchoolObjectives,
         upperSecondarySchoolSubjectsNew,
