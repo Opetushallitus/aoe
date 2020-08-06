@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
-  <p>collection-materials-tab works!</p>
+  <pre>{{ collection.materialsAndHeadings | json }}</pre>
 
   <div class="row">
     <div class="col">
