@@ -73,13 +73,7 @@ export interface CollectionForm {
   higherEducationFramework?: string;
   // materials
   materials: CollectionFormMaterial[];
-  headings: [
-    {
-      heading: string;
-      description: string;
-      priority: number;
-    }
-  ];
+  materialsAndHeadings: CollectionFormMaterialAndHeading[];
 }
 
 export interface CollectionFormMaterial {
@@ -103,4 +97,11 @@ export interface CollectionFormMaterialAuthor {
     key: string;
     value: string;
   };
+}
+
+export interface CollectionFormMaterialAndHeading {
+  id?: string;
+  heading?: string;
+  description?: string;
+  priority: number;
 }

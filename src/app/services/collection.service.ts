@@ -12,7 +12,12 @@ import { UserCollectionResponse } from '@models/collections/user-collection-resp
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 import { Collection } from '@models/collections/collection';
-import { CollectionForm, CollectionFormMaterial, CollectionFormMaterialAuthor } from '@models/collections/collection-form';
+import {
+  CollectionForm,
+  CollectionFormMaterial,
+  CollectionFormMaterialAndHeading,
+  CollectionFormMaterialAuthor,
+} from '@models/collections/collection-form';
 import { UpdateCollectionPut } from '@models/collections/update-collection-put';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
@@ -238,6 +243,25 @@ export class CollectionService {
         }
       });
 
+      const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
+
+      collection.educationalmaterials.forEach((material) => {
+        materialsAndHeadings.push({
+          id: material.id,
+          priority: material.priority,
+        });
+      });
+
+      collection.headings.forEach((heading) => {
+        materialsAndHeadings.push({
+          heading: heading.heading,
+          description: heading.description,
+          priority: heading.priority,
+        });
+      });
+
+      materialsAndHeadings.sort((a, b) => a.priority - b.priority);
+
       const collectionForm: CollectionForm = {
         id: collection.collection.id,
         name: collection.collection.name,
@@ -264,8 +288,8 @@ export class CollectionService {
             priority: material.priority,
           };
         }),
+        materialsAndHeadings,
         description: collection.collection.description,
-        headings: collection.headings,
         educationalLevels: collection.educationalLevels,
         earlyChildhoodEducationSubjects,
         earlyChildhoodEducationObjectives,
