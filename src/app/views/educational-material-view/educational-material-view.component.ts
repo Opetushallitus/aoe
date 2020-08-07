@@ -31,8 +31,6 @@ export class EducationalMaterialViewComponent implements OnInit {
   description: string;
   materials: Material[];
   detailsExpanded = false;
-  showDetails: string;
-  hideDetails: string;
   reviewModalRef: BsModalRef;
   collectionModalRef: BsModalRef;
   materialLanguages: string[];
@@ -63,11 +61,6 @@ export class EducationalMaterialViewComponent implements OnInit {
       if (this.materialLanguages && this.materialLanguages.includes(event.lang.toLowerCase())) {
         this.setSelectedLanguage(event.lang.toLowerCase());
       }
-
-      this.translate.get('demo.educationalMaterial.expandMetadata').subscribe((translation) => {
-        this.showDetails = translation.more;
-        this.hideDetails = translation.less;
-      });
     });
 
     this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
