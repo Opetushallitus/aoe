@@ -746,6 +746,9 @@
           "placeholder": ""
         }
       },
+      "material": {
+        "title": "Material"
+      },
       "preview": {
         "title": "Förhandsvisning",
         "headings": {

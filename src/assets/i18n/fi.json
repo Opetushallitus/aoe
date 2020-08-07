@@ -746,6 +746,9 @@
           "placeholder": ""
         }
       },
+      "material": {
+        "title": "Materiaalit"
+      },
       "preview": {
         "title": "Esikatselu",
         "headings": {

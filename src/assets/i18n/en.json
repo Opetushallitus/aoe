@@ -746,6 +746,9 @@
           "placeholder": ""
         }
       },
+      "material": {
+        "title": "Materials"
+      },
       "preview": {
         "title": "Preview",
         "headings": {
