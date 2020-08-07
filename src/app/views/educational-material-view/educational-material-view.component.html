@@ -264,7 +264,16 @@
               </div>
 
               <accordion>
-                <accordion-group [heading]="detailsExpanded ? hideDetails : showDetails" (isOpenChange)="detailsExpanded = !detailsExpanded">
+                <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
+                  <button type="button" class="btn btn-link" accordion-heading >
+                    <ng-container *ngIf="detailsExpanded; else more">
+                      {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
+                    </ng-container>
+
+                    <ng-template #more>
+                      {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
+                    </ng-template>
+                  </button>
                   <div class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
 
