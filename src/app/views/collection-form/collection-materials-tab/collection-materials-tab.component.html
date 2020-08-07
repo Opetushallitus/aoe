@@ -1,5 +1,115 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
-  <pre>{{ collection.materialsAndHeadings | json }}</pre>
+  <h2 class="sr-only">
+    {{ 'forms.collection.material.title' | translate }}
+  </h2>
+
+  <ng-container *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index">
+    <fieldset formArrayName="materialsAndHeadings">
+      <ng-container *ngIf="materialOrHeading.get('id'); else heading">
+        <div class="row justify-content-between">
+          <div class="col-auto">
+            <h3>
+              <span class="mr-2">{{ i + 1 }}</span>
+              {{ materials.get(materialOrHeading.get('id').value).name[lang] }}
+            </h3>
+          </div>
+
+          <div class="col-auto">
+            <button
+              type="button"
+              class="btn btn-sm btn-link"
+              (click)="addHeading(i)"
+            >Lisää yläpuolelle väliotsikko (ja ohjeistava tai kuvaava teksti)</button><!--@todo: replace with translation string-->
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3 col-md-2">
+            thumbnail<!--@todo: replace with actual data-->
+          </div><!--thumbnail-->
+
+          <div class="col-9 col-md-6">
+            <p>kuvaus</p><!--@todo: replace with actual data-->
+
+            <ul class="list-unstyled">
+              <li *ngFor="let author of materials.get(materialOrHeading.get('id').value).authors">
+                <ng-container *ngIf="author.author !== ''">
+                  {{ author.author }}
+                  <ng-container *ngIf="author.organization.value !== ''">({{ author.organization.value }})</ng-container>
+                </ng-container>
+                <ng-container *ngIf="author.author === ''">{{ author.organization.value }}</ng-container>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-12 col-md-4 text-md-right">
+            <div class="tags">
+              <button type="button" class="btn btn-light disabled">
+                meta
+              </button>
+            </div><!--@todo: replace with actual data-->
+          </div>
+        </div>
+
+        <div class="row justify-content-between">
+          <div class="col-auto">
+            <span class="mr-4">
+              <img
+                src="assets/img/icons/learning-resource-types/tyyppi.svg"
+                class="img-icon"
+                aria-hidden="true"
+              > tyyppi
+            </span><!--@todo: replace with actual data-->
+
+            <strong>
+              {{ materials.get(materialOrHeading.get('id').value).license.value }}
+            </strong>
+          </div>
+
+          <div class="col-auto">
+            julkaisu pvm
+          </div><!--@todo: replace with actual data-->
+        </div>
+      </ng-container><!--material-->
+
+      <ng-template #heading>
+        <ng-container *ngIf="materialOrHeading.get('heading').value; else newHeading">
+          <h3>
+            <span class="mr-2">{{ i + 1 }}</span>
+            {{ materialOrHeading.get('heading').value }}
+          </h3>
+
+          <p *ngIf="materialOrHeading.get('description').value">{{ materialOrHeading.get('description').value }}</p>
+        </ng-container><!--existing heading-->
+
+        <ng-template #newHeading>
+          <ng-container [formGroupName]="i">
+            <div class="form-group">
+              <label for="{{ 'heading-' + i }}">Väliotsikko</label><!--@todo: replace with translation string-->
+
+              <input
+                type="text"
+                class="form-control"
+                id="{{ 'heading-' + i }}"
+                formControlName="heading"
+              >
+            </div><!--heading-->
+
+            <div class="form-group">
+              <label for="{{ 'description-' + i }}">Ohjeistava tai kuvaava teksti</label><!--@todo: replace with translation string-->
+
+              <textarea
+                class="form-control"
+                id="{{ 'description-' + i }}"
+                formControlName="description"
+                rows="10"
+              ></textarea>
+            </div><!--description-->
+          </ng-container>
+        </ng-template><!--new heading-->
+      </ng-template><!--heading-->
+    </fieldset>
+  </ng-container>
 
   <div class="row">
     <div class="col">
