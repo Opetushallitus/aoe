@@ -3,7 +3,7 @@
     {{ 'forms.collection.material.title' | translate }}
   </h2>
 
-  <ng-container *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index">
+  <div *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index" class="border-bottom py-4">
     <fieldset formArrayName="materialsAndHeadings">
       <ng-container *ngIf="materialOrHeading.get('id'); else heading">
         <div class="row justify-content-between">
@@ -25,11 +25,17 @@
 
         <div class="row">
           <div class="col-3 col-md-2">
-            thumbnail<!--@todo: replace with actual data-->
+            <img
+              [src]="materials.get(materialOrHeading.get('id').value).thumbnail"
+              class="img-fluid mb-3"
+              [alt]="'demo.educationalMaterial.cover.alt' | translate"
+            >
           </div><!--thumbnail-->
 
           <div class="col-9 col-md-6">
-            <p>kuvaus</p><!--@todo: replace with actual data-->
+            <p *ngIf="materials.get(materialOrHeading.get('id').value).description[lang]">
+              {{ materials.get(materialOrHeading.get('id').value).description[lang] }}
+            </p>
 
             <ul class="list-unstyled">
               <li *ngFor="let author of materials.get(materialOrHeading.get('id').value).authors">
@@ -55,10 +61,10 @@
           <div class="col-auto">
             <span class="mr-4">
               <img
-                src="assets/img/icons/learning-resource-types/tyyppi.svg"
+                src="assets/img/icons/learning-resource-types/{{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key }}.svg"
                 class="img-icon"
                 aria-hidden="true"
-              > tyyppi
+              > {{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].value }}
             </span><!--@todo: replace with actual data-->
 
             <strong>
@@ -67,7 +73,9 @@
           </div>
 
           <div class="col-auto">
-            julkaisu pvm
+            <time [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date:'yyyy-MM-dd'">
+              {{ materials.get(materialOrHeading.get('id').value).publishedAt | date:'d.M.yyyy' }}
+            </time>
           </div><!--@todo: replace with actual data-->
         </div>
       </ng-container><!--material-->
@@ -109,7 +117,7 @@
         </ng-template><!--new heading-->
       </ng-template><!--heading-->
     </fieldset>
-  </ng-container>
+  </div>
 
   <div class="row">
     <div class="col">

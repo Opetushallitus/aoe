@@ -286,6 +286,17 @@ export class CollectionService {
             license: material.license,
             name: material.name,
             priority: material.priority,
+            publishedAt: material.publishedat,
+            description: material.description,
+            thumbnail: material.thumbnail?.thumbnail
+              ? material.thumbnail.thumbnail
+              : `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`,
+            learningResourceTypes: material.learningResourceTypes.map((type) => {
+              return {
+                key: type.learningresourcetypekey,
+                value: type.value,
+              };
+            }),
           };
         }),
         materialsAndHeadings,

@@ -1,4 +1,5 @@
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 
 export interface CollectionForm {
   id: string;
@@ -89,6 +90,14 @@ export interface CollectionFormMaterial {
     en: string;
   };
   priority: number;
+  publishedAt: Date;
+  description: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+  thumbnail: string | null;
+  learningResourceTypes: LearningResourceType[];
 }
 
 export interface CollectionFormMaterialAuthor {
