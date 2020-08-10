@@ -21,7 +21,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   form: FormGroup;
   lang = this.translate.currentLang;
   submitted = false;
-  materials = new Map();
+  materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
 
   constructor(
     private fb: FormBuilder,

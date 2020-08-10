@@ -49,6 +49,23 @@ export interface Collection {
         en: string;
       };
       priority: number;
+      publishedat: Date;
+      description: {
+        fi: string;
+        sv: string;
+        en: string;
+      };
+      thumbnail: {
+        thumbnail?: string;
+      } | null;
+      learningResourceTypes: [
+        {
+          id: string;
+          value: string;
+          educationalmaterialid: string;
+          learningresourcetypekey: string;
+        }
+      ];
     }
   ];
   accessibilityFeatures: [
