@@ -17,6 +17,7 @@ import { validatorParams } from '../../../../constants/validator-params';
 @Component({
   selector: 'app-tabs-extended-details',
   templateUrl: './extended-details.component.html',
+  styleUrls: ['./extended-details.component.scss']
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
