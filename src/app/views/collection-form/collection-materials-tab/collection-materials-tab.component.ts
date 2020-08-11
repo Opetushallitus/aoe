@@ -7,6 +7,11 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
 import { validatorParams } from '../../../constants/validator-params';
 import { descriptionValidator, textInputValidator } from '../../../shared/shared.module';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
+import { CollectionService } from '@services/collection.service';
+import { ToastrService } from 'ngx-toastr';
+import { Toast } from '@models/translations/toast';
 
 @Component({
   selector: 'app-collection-materials-tab',
@@ -22,12 +27,16 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   lang = this.translate.currentLang;
   submitted = false;
   materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
+  removedFromCollectionToast: Toast;
+  removedMaterials: string[] = [];
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private router: Router,
     private titleSvc: Title,
+    private collectionSvc: CollectionService,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +48,10 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
+    this.translate.get('collections.toasts.removedFromCollection').subscribe((translation: Toast) => {
+      this.removedFromCollectionToast = translation;
+    });
+
     this.form = this.fb.group({
       materialsAndHeadings: this.fb.array([]),
     });
@@ -47,7 +60,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       this.patchMaterialsAndHeadings(this.collection.materialsAndHeadings);
       this.mapMaterials(this.collection.materials);
     } else {
-      const changedCollection = JSON.parse(sessionStorage.getItem(environment.collection)).materialsAndHeadings;
+      const changedCollection = JSON.parse(sessionStorage.getItem(environment.collection));
 
       this.patchMaterialsAndHeadings(changedCollection.materialsAndHeadings);
       this.mapMaterials(changedCollection.materials);
@@ -55,6 +68,8 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.removeEmptyHeadings();
+
     if (this.submitted === false && this.form.dirty && this.form.valid) {
       this.saveCollection();
     }
@@ -138,12 +153,58 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Moves item in array.
+   * @param {CdkDragDrop<any>} event
+   */
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.materialsAndHeadingsArray.controls, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.materialsAndHeadingsArray.value, event.previousIndex, event.currentIndex);
+  }
+
+  /**
+   * Removes empty headings.
+   */
+  removeEmptyHeadings(): void {
+    this.materialsAndHeadingsArray.controls
+      .filter((ctrl) => ctrl.get('id') === null)
+      .forEach((ctrl) => {
+        const headingCtrl = ctrl.get('heading');
+
+        if (headingCtrl.value === '' || headingCtrl.value === null) {
+          this.materialsAndHeadingsArray.removeAt(this.materialsAndHeadingsArray.controls.findIndex((_ctrl) => _ctrl === ctrl));
+        }
+      });
+  }
+
+  /**
+   * Removes material from collection.
+   * @param {number} idx
+   */
+  removeFromCollection(idx: number): void {
+    const materialId = this.materialsAndHeadingsArray.at(idx).get('id').value;
+    const payload: RemoveFromCollectionPost = {
+      collectionId: +this.collectionId,
+      emId: [
+        materialId,
+      ]
+    };
+
+    this.collectionSvc.removeFromCollection(payload).subscribe(() => {
+      this.toastr.success(this.removedFromCollectionToast.message, this.removedFromCollectionToast.title);
+    });
+
+    this.removedMaterials.push(materialId);
+
+    this.materialsAndHeadingsArray.removeAt(idx);
+  }
+
+  /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    */
   onSubmit(): void {
     this.submitted = true;
 
-    console.log(this.materialsAndHeadingsArray.value);
+    this.removeEmptyHeadings();
 
     if (this.form.valid) {
       this.saveCollection();
@@ -160,7 +221,15 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       ? JSON.parse(sessionStorage.getItem(environment.collection))
       : this.collection;
 
-    // @todo: add changed values
+    changedCollection.materials = changedCollection.materials
+      .filter((material: CollectionFormMaterial) => this.removedMaterials.includes(material.id) === false);
+
+    changedCollection.materialsAndHeadings = this.materialsAndHeadingsArray.value
+      .map((materialOrHeading: CollectionFormMaterialAndHeading, idx: number) => {
+        materialOrHeading.priority = idx;
+
+        return materialOrHeading;
+      });
 
     sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
   }
