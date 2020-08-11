@@ -747,7 +747,19 @@
         }
       },
       "material": {
-        "title": "Materiaalit"
+        "title": "Materiaalit",
+        "helpText": "Voit muuttaa materiaalien ja otsikoiden järjestystä vetämällä niitä hiirellä.",
+        "addHeadingAndDescription": "Lisää väliotsikko ja kuvaus",
+        "headingAndDescription": "Väliotsikko ja ohjeistava tai kuvaava teksti",
+        "removeFromCollection": "Poista kokoelmasta",
+        "heading": {
+          "label": "Väliotsikko",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Ohjeistava tai kuvaava teksti",
+          "placeholder": ""
+        }
       },
       "preview": {
         "title": "Esikatselu",

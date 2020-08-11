@@ -598,7 +598,7 @@
       "nav": {
         "basic": "Grunduppgifter",
         "educational": "Utbildningsinfo",
-        "material": "Material",
+        "material": "Resurser",
         "preview": "Förhandsvisning"
       },
       "toasts": {
@@ -747,7 +747,19 @@
         }
       },
       "material": {
-        "title": "Material"
+        "title": "Resurser",
+        "helpText": "Du kan ändra ordning av resurser och rubriker genom att dra dem.",
+        "addHeadingAndDescription": "Tillsätt en rubrik och en beskrivning",
+        "headingAndDescription": "Rubrik och beskrivning",
+        "removeFromCollection": "Ta bort från samlingen",
+        "heading": {
+          "label": "Rubrik",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        }
       },
       "preview": {
         "title": "Förhandsvisning",

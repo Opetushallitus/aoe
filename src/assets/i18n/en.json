@@ -598,7 +598,7 @@
       "nav": {
         "basic": "Basic information",
         "educational": "Educational information",
-        "material": "Materials",
+        "material": "Resources",
         "preview": "Preview"
       },
       "toasts": {
@@ -747,7 +747,19 @@
         }
       },
       "material": {
-        "title": "Materials"
+        "title": "Resources",
+        "helpText": "You can change the order of resources and headings by dragging them with a cursor.",
+        "addHeadingAndDescription": "Add a heading and a description",
+        "headingAndDescription": "Heading and description",
+        "removeFromCollection": "Remove from collection",
+        "heading": {
+          "label": "Heading",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Instructions or description",
+          "placeholder": ""
+        }
       },
       "preview": {
         "title": "Preview",
