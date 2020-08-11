@@ -1,50 +1,56 @@
 import { AlignmentObjectExtended } from '../alignment-object-extended';
 
 export interface UpdateCollectionPut {
-  collectionId?: string;
-  publish?: boolean;
-  description?: string;
-  name?: string;
-  materials?: [
+  collectionId: string;
+  publish: boolean;
+  description: string;
+  name: string;
+  materials: [
     {
       id: string;
       priority: number;
     }
   ];
-  headings?: [
+  headings: [
     {
       heading: string;
       description: string;
       priority: number;
     }
   ];
-  keywords?: [
+  keywords: [
     {
       key: string;
       value: string;
     }
   ];
-  languages?: string[];
+  languages: string[];
   educationalRoles?: [
     {
       key: string;
       value: string;
     }
   ];
-  alignmentObjects?: AlignmentObjectExtended[];
-  educationalUses?: [
+  alignmentObjects: AlignmentObjectExtended[];
+  educationalUses: [
     {
       key: string;
       value: string;
     }
   ];
-  accessibilityFeatures?: [
+  accessibilityFeatures: [
     {
       key: string;
       value: string;
     }
   ];
-  accessibilityHazards?: [
+  accessibilityHazards: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
+  educationalLevels: [
     {
       key: string;
       value: string;

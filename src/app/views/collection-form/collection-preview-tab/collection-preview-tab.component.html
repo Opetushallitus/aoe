@@ -1,5 +1,5 @@
 <ng-container *ngIf="collection">
-  <h2>
+  <h2 class="sr-only">
     {{ 'forms.collection.preview.title' | translate }}
   </h2>
 
@@ -406,6 +406,38 @@
       </ng-container><!--scienceBranchObjectives-->
     </dl>
   </ng-container><!--educational details-->
+
+  <ng-container>
+    <h3>
+      {{ 'forms.collection.preview.headings.material' | translate }}
+    </h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Materiaali/väliotsikko</th><!--@todo: i18n-->
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let materialOrHeading of previewCollection.materialsAndHeadings; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <ng-container *ngIf="materialOrHeading.id; else heading">
+              {{ materials.get(materialOrHeading.id).name[lang] }}
+            </ng-container>
+
+            <ng-template #heading>
+              <p class="font-weight-bold">{{ materialOrHeading.heading }}</p>
+
+              <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container><!--materials-->
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">

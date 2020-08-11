@@ -159,7 +159,16 @@ export class CollectionService {
       const scienceBranches: AlignmentObjectExtended[] = [];
       const scienceBranchObjectives: AlignmentObjectExtended[] = [];
 
-      collection.alignmentObjects.forEach((aObject: AlignmentObjectExtended) => {
+      collection.alignmentObjects.map((aObject): AlignmentObjectExtended => {
+        return {
+          alignmentType: aObject.alignmenttype,
+          educationalFramework: aObject.educationalframework,
+          key: aObject.objectkey,
+          source: aObject.source,
+          targetName: aObject.targetname,
+          targetUrl: aObject.targeturl,
+        };
+      }).forEach((aObject: AlignmentObjectExtended) => {
         switch (aObject.source) {
           case koodistoSources.earlyChildhoodSubjects:
             earlyChildhoodEducationSubjects.push(aObject);
