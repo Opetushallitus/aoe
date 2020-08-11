@@ -1,5 +1,3 @@
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-
 export interface Collection {
   collection: {
     id: string;
@@ -16,7 +14,16 @@ export interface Collection {
     }
   ];
   languages: string[];
-  alignmentObjects: AlignmentObjectExtended[];
+  alignmentObjects: [
+    {
+      alignmenttype: 'assesses' | 'teaches' | 'requires' | 'textComplexity' | 'readingLevel' | 'educationalSubject' | 'educationalLevel';
+      educationalframework: string;
+      objectkey: string;
+      source: string;
+      targetname: string;
+      targeturl: string;
+    }
+  ];
   educationalRoles: [
     {
       key: string;

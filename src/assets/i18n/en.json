@@ -766,7 +766,7 @@
         "headings": {
           "basic": "Basic information",
           "educational": "Educational information",
-          "material": "Materials"
+          "material": "Resources"
         },
         "required": {
           "name": "Name",

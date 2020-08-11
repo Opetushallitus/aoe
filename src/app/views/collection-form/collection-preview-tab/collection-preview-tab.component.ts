@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { CollectionForm } from '@models/collections/collection-form';
+import { CollectionForm, CollectionFormMaterial } from '@models/collections/collection-form';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
 import { UpdateCollectionPut } from '@models/collections/update-collection-put';
 import { CollectionService } from '@services/collection.service';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 
 @Component({
   selector: 'app-collection-preview-tab',
@@ -22,6 +23,7 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
   lang = this.translate.currentLang;
   submitted = false;
   previewCollection: CollectionForm;
+  materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
 
   constructor(
     private fb: FormBuilder,
@@ -57,6 +59,8 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     } else {
       this.previewCollection = JSON.parse(sessionStorage.getItem(environment.collection));
     }
+
+    this.mapMaterials(this.previewCollection.materials);
 
     if (this.previewCollection.name) {
       this.form.get('hasName').setValue(true);
@@ -99,6 +103,16 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Maps collection materials to materials Map.
+   * @param {CollectionFormMaterial[]} materials
+   */
+  mapMaterials(materials: CollectionFormMaterial[]): void {
+    materials.forEach((material: CollectionFormMaterial) => {
+      this.materials.set(material.id, material);
+    });
+  }
+
+  /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    * @param privateCollection {boolean} Save as private collection?
    */
@@ -107,12 +121,112 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     const publish = !privateCollection;
 
     if (this.form.valid) {
+      let alignmentObjects: AlignmentObjectExtended[] = [];
+
+      // early childhood education
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.earlyChildhoodEducationSubjects);
+      delete this.previewCollection.earlyChildhoodEducationSubjects;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.earlyChildhoodEducationObjectives);
+      delete this.previewCollection.earlyChildhoodEducationObjectives;
+
+      // pre-primary education
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.prePrimaryEducationSubjects);
+      delete this.previewCollection.prePrimaryEducationSubjects;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.prePrimaryEducationObjectives);
+      delete this.previewCollection.prePrimaryEducationObjectives;
+
+      // basic education
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.basicStudySubjects);
+      delete this.previewCollection.basicStudySubjects;
+
+      this.previewCollection.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
+        delete objective.parent;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewCollection.basicStudyObjectives;
+
+      this.previewCollection.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
+        delete content.parent;
+
+        alignmentObjects.push(content);
+      });
+      delete this.previewCollection.basicStudyContents;
+
+      // upper secondary school
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolSubjects);
+      delete this.previewCollection.upperSecondarySchoolSubjects;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolObjectives);
+      delete this.previewCollection.upperSecondarySchoolObjectives;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolSubjectsNew);
+      delete this.previewCollection.upperSecondarySchoolSubjectsNew;
+
+      this.previewCollection.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
+        delete module.parent;
+
+        alignmentObjects.push(module);
+      });
+      delete this.previewCollection.upperSecondarySchoolModulesNew;
+
+      this.previewCollection.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
+        delete objective.parent;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewCollection.upperSecondarySchoolObjectivesNew;
+
+      this.previewCollection.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
+        delete content.parent;
+
+        alignmentObjects.push(content);
+      });
+      delete this.previewCollection.upperSecondarySchoolContentsNew;
+
+      // vocational education
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalDegrees);
+      delete this.previewCollection.vocationalDegrees;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalUnits);
+      delete this.previewCollection.vocationalUnits;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalEducationObjectives);
+      delete this.previewCollection.vocationalEducationObjectives;
+
+      // self-motivated competence development
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.selfMotivatedEducationSubjects);
+      delete this.previewCollection.selfMotivatedEducationSubjects;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.selfMotivatedEducationObjectives);
+      delete this.previewCollection.selfMotivatedEducationObjectives;
+
+      // higher education
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.scienceBranches);
+      delete this.previewCollection.scienceBranches;
+
+      alignmentObjects = alignmentObjects.concat(this.previewCollection.scienceBranchObjectives);
+      delete this.previewCollection.scienceBranchObjectives;
+
+      // @todo: REMOVE BEFORE PRODUCTION
+      alignmentObjects = alignmentObjects.map((aObject: AlignmentObjectExtended) => {
+        return {
+          ...aObject,
+          educationalFramework: '',
+        };
+      });
+
       delete this.previewCollection.id;
+
+      // @todo: materials and headings
 
       const updatedCollection: UpdateCollectionPut = Object.assign(
         {},
         { collectionId: this.collectionId },
         { publish },
+        { alignmentObjects },
         this.previewCollection,
       );
 
