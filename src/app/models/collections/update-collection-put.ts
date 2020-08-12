@@ -5,19 +5,8 @@ export interface UpdateCollectionPut {
   publish: boolean;
   description: string;
   name: string;
-  materials: [
-    {
-      id: string;
-      priority: number;
-    }
-  ];
-  headings: [
-    {
-      heading: string;
-      description: string;
-      priority: number;
-    }
-  ];
+  materials: UpdateCollectionPutMaterial[];
+  headings: UpdateCollectionPutHeading[];
   keywords: [
     {
       key: string;
@@ -57,3 +46,15 @@ export interface UpdateCollectionPut {
     }
   ];
 }
+
+export interface UpdateCollectionPutMaterial {
+  id: string;
+  priority: number;
+}
+
+export interface UpdateCollectionPutHeading {
+  heading: string;
+  description: string;
+  priority: number;
+}
+
