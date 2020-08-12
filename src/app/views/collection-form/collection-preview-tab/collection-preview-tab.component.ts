@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CollectionForm, CollectionFormMaterial } from '@models/collections/collection-form';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
-import { UpdateCollectionPut } from '@models/collections/update-collection-put';
+import { UpdateCollectionPut, UpdateCollectionPutHeading, UpdateCollectionPutMaterial } from '@models/collections/update-collection-put';
 import { CollectionService } from '@services/collection.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 
@@ -14,7 +14,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
   templateUrl: './collection-preview-tab.component.html',
   styleUrls: ['./collection-preview-tab.component.scss']
 })
-export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
+export class CollectionPreviewTabComponent implements OnInit {
   @Input() collection: CollectionForm;
   @Input() collectionId: string;
   @Input() tabId: number;
@@ -75,12 +75,6 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.submitted === false && this.form.dirty && this.form.valid) {
-      this.saveCollection();
-    }
-  }
-
   /**
    * Updates page title.
    */
@@ -124,109 +118,197 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
       let alignmentObjects: AlignmentObjectExtended[] = [];
 
       // early childhood education
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.earlyChildhoodEducationSubjects);
-      delete this.previewCollection.earlyChildhoodEducationSubjects;
+      this.previewCollection.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...subject,
+          educationalFramework: this.previewCollection.earlyChildhoodEducationFramework,
+        });
+      });
 
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.earlyChildhoodEducationObjectives);
+      this.previewCollection.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.earlyChildhoodEducationFramework,
+        });
+      });
+
+      delete this.previewCollection.earlyChildhoodEducationSubjects;
       delete this.previewCollection.earlyChildhoodEducationObjectives;
+      delete this.previewCollection.earlyChildhoodEducationFramework;
 
       // pre-primary education
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.prePrimaryEducationSubjects);
-      delete this.previewCollection.prePrimaryEducationSubjects;
+      this.previewCollection.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...subject,
+          educationalFramework: this.previewCollection.prePrimaryEducationFramework,
+        });
+      });
 
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.prePrimaryEducationObjectives);
+      this.previewCollection.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.prePrimaryEducationFramework,
+        });
+      });
+
+      delete this.previewCollection.prePrimaryEducationSubjects;
       delete this.previewCollection.prePrimaryEducationObjectives;
+      delete this.previewCollection.prePrimaryEducationFramework;
 
       // basic education
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.basicStudySubjects);
-      delete this.previewCollection.basicStudySubjects;
+      this.previewCollection.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...subject,
+          educationalFramework: this.previewCollection.basicStudyFramework,
+        });
+      });
 
       this.previewCollection.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
         delete objective.parent;
 
-        alignmentObjects.push(objective);
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.basicStudyFramework,
+        });
       });
-      delete this.previewCollection.basicStudyObjectives;
 
       this.previewCollection.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
         delete content.parent;
 
-        alignmentObjects.push(content);
+        alignmentObjects.push({
+          ...content,
+          educationalFramework: this.previewCollection.basicStudyFramework,
+        });
       });
+
+      delete this.previewCollection.basicStudySubjects;
+      delete this.previewCollection.basicStudyObjectives;
       delete this.previewCollection.basicStudyContents;
+      delete this.previewCollection.basicStudyFramework;
 
       // upper secondary school
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolSubjects);
-      delete this.previewCollection.upperSecondarySchoolSubjects;
+      this.previewCollection.upperSecondarySchoolSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...subject,
+          educationalFramework: this.previewCollection.upperSecondarySchoolFramework,
+        });
+      });
 
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolObjectives);
+      this.previewCollection.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.upperSecondarySchoolFramework,
+        });
+      });
+
+      delete this.previewCollection.currentUpperSecondarySchoolSelected;
+      delete this.previewCollection.upperSecondarySchoolSubjects;
       delete this.previewCollection.upperSecondarySchoolObjectives;
+      delete this.previewCollection.upperSecondarySchoolFramework;
 
       alignmentObjects = alignmentObjects.concat(this.previewCollection.upperSecondarySchoolSubjectsNew);
-      delete this.previewCollection.upperSecondarySchoolSubjectsNew;
 
       this.previewCollection.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
         delete module.parent;
 
         alignmentObjects.push(module);
       });
-      delete this.previewCollection.upperSecondarySchoolModulesNew;
 
       this.previewCollection.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
         delete objective.parent;
 
         alignmentObjects.push(objective);
       });
-      delete this.previewCollection.upperSecondarySchoolObjectivesNew;
 
       this.previewCollection.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
         delete content.parent;
 
         alignmentObjects.push(content);
       });
+
+      delete this.previewCollection.newUpperSecondarySchoolSelected;
+      delete this.previewCollection.upperSecondarySchoolSubjectsNew;
+      delete this.previewCollection.upperSecondarySchoolModulesNew;
+      delete this.previewCollection.upperSecondarySchoolObjectivesNew;
       delete this.previewCollection.upperSecondarySchoolContentsNew;
 
       // vocational education
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalDegrees);
+      this.previewCollection.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...degree,
+          educationalFramework: this.previewCollection.vocationalEducationFramework,
+        });
+      });
+
+      this.previewCollection.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...unit,
+          educationalFramework: this.previewCollection.vocationalEducationFramework,
+        });
+      });
+
+      this.previewCollection.vocationalEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.vocationalEducationFramework,
+        });
+      });
+
       delete this.previewCollection.vocationalDegrees;
-
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalUnits);
       delete this.previewCollection.vocationalUnits;
-
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.vocationalEducationObjectives);
       delete this.previewCollection.vocationalEducationObjectives;
+      delete this.previewCollection.vocationalEducationFramework;
 
       // self-motivated competence development
       alignmentObjects = alignmentObjects.concat(this.previewCollection.selfMotivatedEducationSubjects);
-      delete this.previewCollection.selfMotivatedEducationSubjects;
 
       alignmentObjects = alignmentObjects.concat(this.previewCollection.selfMotivatedEducationObjectives);
+
+      delete this.previewCollection.selfMotivatedEducationSubjects;
       delete this.previewCollection.selfMotivatedEducationObjectives;
 
       // higher education
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.scienceBranches);
-      delete this.previewCollection.scienceBranches;
-
-      alignmentObjects = alignmentObjects.concat(this.previewCollection.scienceBranchObjectives);
-      delete this.previewCollection.scienceBranchObjectives;
-
-      // @todo: REMOVE BEFORE PRODUCTION
-      alignmentObjects = alignmentObjects.map((aObject: AlignmentObjectExtended) => {
-        return {
-          ...aObject,
-          educationalFramework: '',
-        };
+      this.previewCollection.scienceBranches.forEach((branch: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...branch,
+          educationalFramework: this.previewCollection.higherEducationFramework,
+        });
       });
+
+      this.previewCollection.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...objective,
+          educationalFramework: this.previewCollection.higherEducationFramework,
+        });
+      });
+
+      delete this.previewCollection.scienceBranches;
+      delete this.previewCollection.scienceBranchObjectives;
+      delete this.previewCollection.higherEducationFramework;
 
       delete this.previewCollection.id;
 
-      // @todo: materials and headings
+      const materials: UpdateCollectionPutMaterial[] = [];
+      const headings: UpdateCollectionPutHeading[] = [];
+
+      this.previewCollection.materialsAndHeadings.forEach((materialOrHeading: any) => {
+        if (materialOrHeading.hasOwnProperty('heading')) {
+          headings.push(materialOrHeading);
+        } else {
+          materials.push(materialOrHeading);
+        }
+      });
+
+      delete this.previewCollection.materials;
+      delete this.previewCollection.materialsAndHeadings;
 
       const updatedCollection: UpdateCollectionPut = Object.assign(
         {},
         { collectionId: this.collectionId },
         { publish },
         { alignmentObjects },
+        { materials },
+        { headings },
         this.previewCollection,
       );
 
@@ -234,19 +316,6 @@ export class CollectionPreviewTabComponent implements OnInit, OnDestroy {
         () => this.router.navigate(['/kokoelma', this.collectionId]),
       );
     }
-  }
-
-  /**
-   * Saves collection to session storage.
-   */
-  saveCollection(): void {
-    const changedCollection: CollectionForm = sessionStorage.getItem(environment.collection) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.collection))
-      : this.collection;
-
-    // @todo: add changed values
-
-    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
   }
 
   /**

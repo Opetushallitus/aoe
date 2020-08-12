@@ -189,6 +189,16 @@
         </dd>
       </ng-container><!--earlyChildhoodEducationObjectives-->
 
+      <ng-container *ngIf="previewCollection.earlyChildhoodEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+         {{ previewCollection.earlyChildhoodEducationFramework }}
+        </dd>
+      </ng-container><!--earlyChildhoodEducationFramework-->
+
       <ng-container *ngIf="previewCollection.prePrimaryEducationSubjects?.length > 0">
         <dt class="col-sm-3">
           {{ 'forms.collection.educational.prePrimaryEducationSubjects.label' | translate }}
@@ -212,6 +222,16 @@
           </ng-container>
         </dd>
       </ng-container><!--prePrimaryEducationObjectives-->
+
+      <ng-container *ngIf="previewCollection.prePrimaryEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.prePrimaryEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.prePrimaryEducationFramework }}
+        </dd>
+      </ng-container><!--prePrimaryEducationFramework-->
 
       <ng-container *ngIf="previewCollection.basicStudySubjects?.length > 0">
         <dt class="col-sm-3">
@@ -249,6 +269,16 @@
         </dd>
       </ng-container><!--basicStudyContents-->
 
+      <ng-container *ngIf="previewCollection.basicStudyFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.basicStudyFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.basicStudyFramework }}
+        </dd>
+      </ng-container><!--basicStudyFramework-->
+
       <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjects?.length > 0">
         <dt class="col-sm-3">
           {{ 'forms.collection.educational.upperSecondarySchoolSubjects.label' | translate }}
@@ -272,6 +302,16 @@
           </ng-container>
         </dd>
       </ng-container><!--upperSecondarySchoolObjectives-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.upperSecondarySchoolFramework }}
+        </dd>
+      </ng-container><!--upperSecondarySchoolFramework-->
 
       <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjectsNew?.length > 0">
         <dt class="col-sm-3">
@@ -357,6 +397,16 @@
         </dd>
       </ng-container><!--vocationalEducationObjectives-->
 
+      <ng-container *ngIf="previewCollection.vocationalEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.vocationalEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.vocationalEducationFramework }}
+        </dd>
+      </ng-container><!--vocationalEducationFramework-->
+
       <ng-container *ngIf="previewCollection.selfMotivatedEducationSubjects?.length > 0">
         <dt class="col-sm-3">
           {{ 'forms.collection.educational.selfMotivatedEducationSubjects.label' | translate }}
@@ -404,6 +454,16 @@
           </ng-container>
         </dd>
       </ng-container><!--scienceBranchObjectives-->
+
+      <ng-container *ngIf="previewCollection.higherEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.higherEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.higherEducationFramework }}
+        </dd>
+      </ng-container><!--higherEducationFramework-->
     </dl>
   </ng-container><!--educational details-->
 

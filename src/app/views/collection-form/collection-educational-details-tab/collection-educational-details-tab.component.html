@@ -61,6 +61,33 @@
         formControlName="earlyChildhoodEducationObjectives"
       ></ng-select>
     </div><!--earlyChildhoodEducationObjectives-->
+
+    <div class="form-group">
+      <label for="earlyChildhoodEducationFramework">
+        {{ 'forms.collection.educational.earlyChildhoodEducationFramework.label' | translate }}
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="earlyChildhoodEducationFramework"
+        formControlName="earlyChildhoodEducationFramework"
+        [ngClass]="{ 'is-invalid': earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted) }"
+      >
+
+      <div
+        *ngIf="earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
+      </div>
+    </div><!--earlyChildhoodEducationFramework-->
   </ng-container><!--earlyChildhoodEducation-->
 
   <ng-container *ngIf="hasPrePrimaryEducation">
@@ -97,6 +124,33 @@
         formControlName="prePrimaryEducationObjectives"
       ></ng-select>
     </div><!--prePrimaryEducationObjectives-->
+
+    <div class="form-group">
+      <label for="prePrimaryEducationFramework">
+        {{ 'forms.collection.educational.prePrimaryEducationFramework.label' | translate }}
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="prePrimaryEducationFramework"
+        formControlName="prePrimaryEducationFramework"
+        [ngClass]="{ 'is-invalid': prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted) }"
+      >
+
+      <div
+        *ngIf="prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
+      </div>
+    </div><!--prePrimaryEducationFramework-->
   </ng-container><!--prePrimaryEducation-->
 
   <ng-container *ngIf="hasBasicStudies">
@@ -174,6 +228,33 @@
           </ng-template>
         </ng-select>
       </div><!--basicStudyContents-->
+
+      <div class="form-group">
+        <label for="basicStudyFramework">
+          {{ 'forms.collection.educational.basicStudyFramework.label' | translate }}
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="basicStudyFramework"
+          formControlName="basicStudyFramework"
+          [ngClass]="{ 'is-invalid': basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted) }"
+        >
+
+        <div
+          *ngIf="basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength } }}
+          </div>
+        </div>
+      </div><!--basicStudyFramework-->
     </ng-container>
   </ng-container><!--basicStudies-->
 
@@ -244,6 +325,33 @@
           formControlName="upperSecondarySchoolObjectives"
         ></ng-select>
       </div><!--upperSecondarySchoolObjectives-->
+
+      <div class="form-group">
+        <label for="upperSecondarySchoolFramework">
+          {{ 'forms.collection.educational.upperSecondarySchoolFramework.label' | translate }}
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="upperSecondarySchoolFramework"
+          formControlName="upperSecondarySchoolFramework"
+          [ngClass]="{ 'is-invalid': upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted) }"
+        >
+
+        <div
+          *ngIf="upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength } }}
+          </div>
+        </div>
+      </div><!--upperSecondarySchoolFramework-->
     </ng-container><!--current-->
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
@@ -377,6 +485,33 @@
           formControlName="vocationalEducationObjectives"
         ></ng-select>
       </div><!--vocationalEducationObjectives-->
+
+      <div class="form-group">
+        <label for="vocationalEducationFramework">
+          {{ 'forms.collection.educational.vocationalEducationFramework.label' | translate }}
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="vocationalEducationFramework"
+          formControlName="vocationalEducationFramework"
+          [ngClass]="{ 'is-invalid': vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted) }"
+        >
+
+        <div
+          *ngIf="vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted)"
+          class="invalid-feedback"
+        >
+          <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+          </div>
+        </div>
+      </div><!--vocationalEducationFramework-->
     </ng-container>
   </ng-container><!--vocationalEducation-->
 
@@ -460,6 +595,33 @@
         formControlName="scienceBranchObjectives"
       ></ng-select>
     </div><!--scienceBranchObjectives-->
+
+    <div class="form-group">
+      <label for="higherEducationFramework">
+        {{ 'forms.collection.educational.higherEducationFramework.label' | translate }}
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="higherEducationFramework"
+        formControlName="higherEducationFramework"
+        [ngClass]="{ 'is-invalid': higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted) }"
+      >
+
+      <div
+        *ngIf="higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
+
+        <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+        </div>
+      </div>
+    </div><!--higherEducationFramework-->
   </ng-container><!--higherEducation-->
 
   <div class="row">

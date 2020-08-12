@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CollectionForm } from '@models/collections/collection-form';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -18,9 +18,11 @@ import {
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
   addScienceBranchObjectives,
+  textInputValidator,
 } from '../../../shared/shared.module';
 import { educationalLevelKeys } from '../../../constants/educational-level-keys';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { validatorParams } from '../../../constants/validator-params';
 
 @Component({
   selector: 'app-collection-educational-details-tab',
@@ -105,15 +107,31 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       educationalLevels: this.fb.control(null),
       earlyChildhoodEducationSubjects: this.fb.control(null),
       earlyChildhoodEducationObjectives: this.fb.control(null),
+      earlyChildhoodEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       prePrimaryEducationSubjects: this.fb.control(null),
       prePrimaryEducationObjectives: this.fb.control(null),
+      prePrimaryEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       basicStudySubjects: this.fb.control(null),
       basicStudyObjectives: this.fb.control(null),
       basicStudyContents: this.fb.control(null),
+      basicStudyFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
       upperSecondarySchoolSubjects: this.fb.control(null),
       upperSecondarySchoolObjectives: this.fb.control(null),
+      upperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
@@ -121,10 +139,18 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       vocationalDegrees: this.fb.control(null),
       vocationalUnits: this.fb.control(null),
       vocationalEducationObjectives: this.fb.control(null),
+      vocationalEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       selfMotivatedEducationSubjects: this.fb.control(null),
       selfMotivatedEducationObjectives: this.fb.control(null),
       scienceBranches: this.fb.control(null),
       scienceBranchObjectives: this.fb.control(null),
+      higherEducationFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
     });
 
     if (sessionStorage.getItem(environment.collection) === null) {
@@ -270,8 +296,20 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     return this.form.get('educationalLevels') as FormControl;
   }
 
+  get earlyChildhoodEducationFrameworkCtrl(): FormControl {
+    return this.form.get('earlyChildhoodEducationFramework') as FormControl;
+  }
+
+  get prePrimaryEducationFrameworkCtrl(): FormControl {
+    return this.form.get('prePrimaryEducationFramework') as FormControl;
+  }
+
   get basicStudySubjectsCtrl(): FormControl {
     return this.form.get('basicStudySubjects') as FormControl;
+  }
+
+  get basicStudyFrameworkCtrl(): FormControl {
+    return this.form.get('basicStudyFramework') as FormControl;
   }
 
   get currentUpperSecondarySchoolSelected(): FormControl {
@@ -286,6 +324,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     return this.form.get('upperSecondarySchoolSubjects') as FormControl;
   }
 
+  get upperSecondarySchoolFrameworkCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolFramework') as FormControl;
+  }
+
   get upperSecondarySchoolSubjectsNewCtrl(): FormControl {
     return this.form.get('upperSecondarySchoolSubjectsNew') as FormControl;
   }
@@ -296,6 +338,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalEducationFrameworkCtrl(): FormControl {
+    return this.form.get('vocationalEducationFramework') as FormControl;
+  }
+
+  get higherEducationFrameworkCtrl(): FormControl {
+    return this.form.get('higherEducationFramework') as FormControl;
   }
 
   /**
@@ -420,22 +470,26 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (!this.hasEarlyChildhoodEducation) {
       this.form.get('earlyChildhoodEducationSubjects').setValue([]);
       this.form.get('earlyChildhoodEducationObjectives').setValue([]);
+      this.earlyChildhoodEducationFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasPrePrimaryEducation) {
       this.form.get('prePrimaryEducationSubjects').setValue([]);
       this.form.get('prePrimaryEducationObjectives').setValue([]);
+      this.prePrimaryEducationFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasBasicStudies) {
       this.basicStudySubjectsCtrl.setValue([]);
       this.form.get('basicStudyObjectives').setValue([]);
       this.form.get('basicStudyContents').setValue([]);
+      this.basicStudyFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasBasicStudySubjects) {
       this.form.get('basicStudyObjectives').setValue([]);
       this.form.get('basicStudyContents').setValue([]);
+      this.basicStudyFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasUpperSecondarySchool) {
@@ -443,6 +497,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.newUpperSecondarySchoolSelected.setValue(false);
       this.upperSecondarySchoolSubjectsCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectives').setValue([]);
+      this.upperSecondarySchoolFrameworkCtrl.setValue(null);
       this.upperSecondarySchoolSubjectsNewCtrl.setValue([]);
       this.upperSecondarySchoolModulesNewCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectivesNew').setValue([]);
@@ -452,6 +507,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (!this.currentUpperSecondarySchoolSelected.value) {
       this.upperSecondarySchoolSubjectsCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectives').setValue([]);
+      this.upperSecondarySchoolFrameworkCtrl.setValue(null);
     }
 
     if (!this.newUpperSecondarySchoolSelected.value) {
@@ -476,11 +532,13 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.vocationalDegreesCtrl.setValue([]);
       this.form.get('vocationalUnits').setValue([]);
       this.form.get('vocationalEducationObjectives').setValue([]);
+      this.vocationalEducationFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasVocationalDegrees) {
       this.form.get('vocationalUnits').setValue([]);
       this.form.get('vocationalEducationObjectives').setValue([]);
+      this.vocationalEducationFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasSelfMotivatedEducation) {
@@ -491,6 +549,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (!this.hasHigherEducation) {
       this.form.get('scienceBranches').setValue([]);
       this.form.get('scienceBranchObjectives').setValue([]);
+      this.higherEducationFrameworkCtrl.setValue(null);
     }
 
     const changedCollection: CollectionForm = Object.assign(
