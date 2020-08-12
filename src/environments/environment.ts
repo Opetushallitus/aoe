@@ -21,4 +21,5 @@ export const environment = {
   searchResults: 'aoe.searchResults',
   editMaterial: 'aoe.editMaterial',
   title: '- Avointen oppimateriaalien kirjasto (aoe.fi)',
+  collection: 'aoe.collection',
 };
