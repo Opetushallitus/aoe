@@ -1,0 +1,182 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
+  <div class="form-group">
+    <label for="name">
+      {{ 'forms.collection.basic.name.label' | translate }} *
+    </label>
+
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      formControlName="name"
+      [placeholder]="'forms.collection.basic.name.placeholder' | translate"
+      aria-required="true"
+      [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted) }"
+    >
+
+    <div
+      *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
+      class="invalid-feedback"
+    >
+      <div *ngIf="nameCtrl.errors.invalidCharacters">
+        {{ 'forms.errors.textInput.characters' | translate }}
+      </div>
+
+      <div *ngIf="nameCtrl.errors.maxlength">
+        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+      </div>
+    </div>
+  </div><!--name-->
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="keywords">
+        {{ 'forms.collection.basic.keywords.label' | translate }} *
+      </label>
+
+      <ng-select
+        [items]="keywords"
+        [virtualScroll]="true"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [addTag]="addCustomItem"
+        bindLabel="value"
+        labelForId="keywords"
+        formControlName="keywords"
+        [placeholder]="'forms.collection.basic.keywords.placeholder' | translate"
+        aria-required="true"
+      ></ng-select>
+    </div><!--keywords-->
+
+    <div class="form-group col-md-6">
+      <label for="educationalRoles">
+        {{ 'forms.collection.basic.educationalRoles.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="educationalRoles"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="educationalRoles"
+        formControlName="educationalRoles"
+        [placeholder]="'forms.collection.basic.educationalRoles.placeholder' | translate"
+      ></ng-select>
+    </div><!--educationalRoles-->
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="educationalUses">
+        {{ 'forms.collection.basic.educationalUses.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="educationalUses"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="educationalUses"
+        formControlName="educationalUses"
+        [placeholder]="'forms.collection.basic.educationalUses.placeholder' | translate"
+      ></ng-select>
+    </div><!--educationalUses-->
+
+    <div class="form-group col-md-6">
+      <label for="languages">
+        {{ 'forms.collection.basic.languages.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="languages"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        bindValue="key"
+        labelForId="languages"
+        formControlName="languages"
+        [placeholder]="'forms.collection.basic.languages.placeholder' | translate"
+      ></ng-select>
+    </div><!--languages-->
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="accessibilityFeatures">
+        {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="accessibilityFeatures"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="accessibilityFeatures"
+        formControlName="accessibilityFeatures"
+        [placeholder]="'forms.collection.basic.accessibilityFeatures.placeholder' | translate"
+      ></ng-select>
+    </div><!--accessibilityFeatures-->
+
+    <div class="form-group col-md-6">
+      <label for="accessibilityHazards">
+        {{ 'forms.collection.basic.accessibilityHazards.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="accessibilityHazards"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="accessibilityHazards"
+        formControlName="accessibilityHazards"
+        [placeholder]="'forms.collection.basic.accessibilityHazards.placeholder' | translate"
+      ></ng-select>
+    </div><!--accessibilityHazards-->
+  </div>
+
+  <div class="form-group">
+    <label for="description">
+      {{ 'forms.collection.basic.description.label' | translate }} *
+    </label>
+
+    <textarea
+      class="form-control"
+      id="description"
+      rows="10"
+      formControlName="description"
+      [placeholder]="'forms.collection.basic.description.placeholder' | translate"
+      aria-required="true"
+      [ngClass]="{ 'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted) }"
+    ></textarea>
+
+    <div
+      *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)"
+      class="invalid-feedback"
+    >
+      <div *ngIf="descriptionCtrl.errors.invalid">
+        {{ 'forms.errors.description.characters' | translate }}
+      </div>
+
+      <div *ngIf="descriptionCtrl.errors.maxlength">
+        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.errors.maxlength.requiredLength } }}
+      </div>
+    </div>
+  </div><!--description-->
+
+  <div class="row justify-content-end">
+    <div class="col-auto">
+      <button
+        type="button"
+        class="btn btn-cancel"
+        (click)="emitAbort()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>

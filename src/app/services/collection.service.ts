@@ -12,6 +12,15 @@ import { UserCollectionResponse } from '@models/collections/user-collection-resp
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
 import { Collection } from '@models/collections/collection';
+import {
+  CollectionForm,
+  CollectionFormMaterial,
+  CollectionFormMaterialAndHeading,
+  CollectionFormMaterialAuthor,
+} from '@models/collections/collection-form';
+import { UpdateCollectionPut } from '@models/collections/update-collection-put';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { koodistoSources } from '../constants/koodisto-sources';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +30,7 @@ export class CollectionService {
   public privateUserCollections$ = new Subject<UserCollection[]>();
   public publicUserCollections$ = new Subject<UserCollection[]>();
   public collection$ = new Subject<Collection>();
+  public editCollection$ = new Subject<CollectionForm>();
 
   constructor(
     private http: HttpClient,
@@ -120,5 +130,225 @@ export class CollectionService {
     }).subscribe((collection: Collection) => {
       this.collection$.next(collection);
     });
+  }
+
+  updateEditCollection(collectionId: string): void {
+    this.http.get<Collection>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((collection: Collection) => {
+      const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
+      const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];
+      const prePrimaryEducationSubjects: AlignmentObjectExtended[] = [];
+      const prePrimaryEducationObjectives: AlignmentObjectExtended[] = [];
+      const basicStudySubjects: AlignmentObjectExtended[] = [];
+      const basicStudyObjectives: AlignmentObjectExtended[] = [];
+      const basicStudyContents: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolSubjects: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = [];
+      const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
+      const vocationalDegrees: AlignmentObjectExtended[] = [];
+      const vocationalUnits: AlignmentObjectExtended[] = [];
+      const vocationalEducationObjectives: AlignmentObjectExtended[] = [];
+      const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
+      const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
+      const scienceBranches: AlignmentObjectExtended[] = [];
+      const scienceBranchObjectives: AlignmentObjectExtended[] = [];
+
+      collection.alignmentObjects.map((aObject): AlignmentObjectExtended => {
+        return {
+          alignmentType: aObject.alignmenttype,
+          educationalFramework: aObject.educationalframework,
+          key: aObject.objectkey,
+          source: aObject.source,
+          targetName: aObject.targetname,
+          targetUrl: aObject.targeturl,
+        };
+      }).forEach((aObject: AlignmentObjectExtended) => {
+        switch (aObject.source) {
+          case koodistoSources.earlyChildhoodSubjects:
+            earlyChildhoodEducationSubjects.push(aObject);
+            break;
+
+          case koodistoSources.earlyChildhoodObjectives:
+            earlyChildhoodEducationObjectives.push(aObject);
+            break;
+
+          case koodistoSources.prePrimarySubjects:
+            prePrimaryEducationSubjects.push(aObject);
+            break;
+
+          case koodistoSources.prePrimaryObjectives:
+            prePrimaryEducationObjectives.push(aObject);
+            break;
+
+          case koodistoSources.basicStudySubjects:
+            basicStudySubjects.push(aObject);
+            break;
+
+          case koodistoSources.basicStudyObjectives:
+            basicStudyObjectives.push(aObject);
+            break;
+
+          case koodistoSources.basicStudyContents:
+            basicStudyContents.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondarySubjects:
+            upperSecondarySchoolSubjects.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondaryObjectives:
+            upperSecondarySchoolObjectives.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondarySubjectsNew:
+            upperSecondarySchoolSubjectsNew.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondaryModulesNew:
+            upperSecondarySchoolModulesNew.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondaryObjectivesNew:
+            upperSecondarySchoolObjectivesNew.push(aObject);
+            break;
+
+          case koodistoSources.upperSecondaryContentsNew:
+            upperSecondarySchoolContentsNew.push(aObject);
+            break;
+
+          case koodistoSources.vocationalDegrees:
+            vocationalDegrees.push(aObject);
+            break;
+
+          case koodistoSources.vocationalUnits:
+            vocationalUnits.push(aObject);
+            break;
+
+          case koodistoSources.vocationalObjectives:
+            vocationalEducationObjectives.push(aObject);
+            break;
+
+          case koodistoSources.selfMotivatedSubjects:
+            selfMotivatedEducationSubjects.push(aObject);
+            break;
+
+          case koodistoSources.selfMotivatedObjectives:
+            selfMotivatedEducationObjectives.push(aObject);
+            break;
+
+          case koodistoSources.scienceBranches:
+            scienceBranches.push(aObject);
+            break;
+
+          case koodistoSources.scienceBranchObjectives:
+            scienceBranchObjectives.push(aObject);
+            break;
+        }
+      });
+
+      const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
+
+      collection.educationalmaterials.forEach((material) => {
+        materialsAndHeadings.push({
+          id: material.id,
+          priority: material.priority,
+        });
+      });
+
+      collection.headings.forEach((heading) => {
+        materialsAndHeadings.push({
+          heading: heading.heading,
+          description: heading.description,
+          priority: heading.priority,
+        });
+      });
+
+      materialsAndHeadings.sort((a, b) => a.priority - b.priority);
+
+      const collectionForm: CollectionForm = {
+        id: collection.collection.id,
+        name: collection.collection.name,
+        keywords: collection.keywords,
+        languages: collection.languages,
+        educationalRoles: collection.educationalRoles,
+        educationalUses: collection.educationalUses,
+        accessibilityFeatures: collection.accessibilityFeatures,
+        accessibilityHazards: collection.accessibilityHazards,
+        materials: collection.educationalmaterials.map((material): CollectionFormMaterial => {
+          return {
+            id: material.id,
+            authors: material.author.map((author): CollectionFormMaterialAuthor => {
+              return {
+                author: author.authorname,
+                organization: {
+                  key: author.organizationkey,
+                  value: author.organization,
+                },
+              };
+            }),
+            license: material.license,
+            name: material.name,
+            priority: material.priority,
+            publishedAt: material.publishedat,
+            description: material.description,
+            thumbnail: material.thumbnail?.thumbnail
+              ? material.thumbnail.thumbnail
+              : `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`,
+            learningResourceTypes: material.learningResourceTypes.map((type) => {
+              return {
+                key: type.learningresourcetypekey,
+                value: type.value,
+              };
+            }),
+          };
+        }),
+        materialsAndHeadings,
+        description: collection.collection.description,
+        educationalLevels: collection.educationalLevels,
+        earlyChildhoodEducationSubjects,
+        earlyChildhoodEducationObjectives,
+        earlyChildhoodEducationFramework: earlyChildhoodEducationSubjects[0]?.educationalFramework,
+        prePrimaryEducationSubjects,
+        prePrimaryEducationObjectives,
+        prePrimaryEducationFramework: prePrimaryEducationSubjects[0]?.educationalFramework,
+        basicStudySubjects,
+        basicStudyObjectives,
+        basicStudyContents,
+        basicStudyFramework: basicStudySubjects[0]?.educationalFramework,
+        currentUpperSecondarySchoolSelected: upperSecondarySchoolSubjects.length > 0,
+        newUpperSecondarySchoolSelected: upperSecondarySchoolSubjectsNew.length > 0,
+        upperSecondarySchoolSubjects,
+        upperSecondarySchoolObjectives,
+        upperSecondarySchoolFramework: upperSecondarySchoolSubjects[0]?.educationalFramework,
+        upperSecondarySchoolSubjectsNew,
+        upperSecondarySchoolModulesNew,
+        upperSecondarySchoolObjectivesNew,
+        upperSecondarySchoolContentsNew,
+        vocationalDegrees,
+        vocationalUnits,
+        vocationalEducationObjectives,
+        vocationalEducationFramework: vocationalDegrees[0]?.educationalFramework,
+        selfMotivatedEducationSubjects,
+        selfMotivatedEducationObjectives,
+        scienceBranches,
+        scienceBranchObjectives,
+        higherEducationFramework: scienceBranches[0]?.educationalFramework,
+      };
+
+      this.editCollection$.next(collectionForm);
+    });
+  }
+
+  updateCollectionDetails(collection: UpdateCollectionPut) {
+    return this.http.put(`${environment.backendUrl}/collection/update`, collection)
+      .pipe(
+        catchError(this.handleError),
+      );
   }
 }

@@ -47,6 +47,13 @@
       "references": "References",
       "preview": "Preview"
     },
+    "collection": {
+      "main": "Collection",
+      "basic": "Basic information",
+      "educational": "Educational information",
+      "materials": "Materials",
+      "preview": "Preview"
+    },
     "acceptance": "Privacy Policy and the Terms of Use of the service",
     "accessibility": "Accessibility Policy",
     "logout": "You have logged out",
@@ -570,11 +577,11 @@
       }
     },
     "editEducationalResource": {
-      "title": "Oppimateriaalin muokkaus",
+      "title": "Editing of educational resource",
       "abort": {
-        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
-        "confirm": "Kyllä",
-        "cancel": "Ei"
+        "text": "Are you sure you want to cancel editing the educational material? Your changes will not be saved.",
+        "confirm": "Yes",
+        "cancel": "No"
       },
       "toasts": {
         "noPermission": {
@@ -584,6 +591,215 @@
         "ratingAdded": {
           "title": "Rating added/updated"
         }
+      }
+    },
+    "collection": {
+      "title": "Collection",
+      "nav": {
+        "basic": "Basic information",
+        "educational": "Educational information",
+        "material": "Resources",
+        "preview": "Preview"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Editing not permitted",
+          "message": "You are trying to edit a collection for which you do not have the permission for. If you have created this collection, please check that you are using the correct login method."
+        }
+      },
+      "abort": {
+        "text": "Are you sure you want to cancel editing the collection? Your changes will not be saved.",
+        "confirm": "Yes",
+        "cancel": "No"
+      },
+      "basic": {
+        "name": {
+          "label": "Name",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": ""
+        },
+        "keywords": {
+          "label": "Keywords",
+          "placeholder": ""
+        },
+        "educationalRoles": {
+          "label": "Educational Role",
+          "placeholder": ""
+        },
+        "educationalUses": {
+          "label": "Educational Use",
+          "placeholder": ""
+        },
+        "languages": {
+          "label": "Language",
+          "placeholder": ""
+        },
+        "accessibilityFeatures": {
+          "label": "Accessibility Features",
+          "placeholder": ""
+        },
+        "accessibilityHazards": {
+          "label": "Accessibility Hazards",
+          "placeholder": ""
+        }
+      },
+      "educational": {
+        "title": "Educational information",
+        "headings": {
+          "early": "Early childhood education",
+          "prePrimary": "Pre-primary education",
+          "basic": "Basic education",
+          "upperSecondary": "Upper secondary school",
+          "vocational": "Vocational education",
+          "selfMotivated": "Self-motivated competence development",
+          "higher": "Higher education"
+        },
+        "educationalLevels": {
+          "label": "Educational Level",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "Educational subject of early childhood education",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "Learning object of early childhood education",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationFramework": {
+          "label": "Educational framework of early childhood education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "Educational subject of pre-primary education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "Learning object of  pre-primary education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Educational framework of pre-primary education",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "Educational subject of basic education",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "Learning object of basic education",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "Educational content and transversal competence of basic education",
+          "placeholder": ""
+        },
+        "basicStudyFramework": {
+          "label": "Educational framework of basic education",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "Educational framework of upper secondary school 2015",
+          "new": "Educational framework of upper secondary school 2019"
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "Educational subject of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "Learning object of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Educational framework of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "Educational subject",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "Module",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "Learning object of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "Educational content of upper secondary school",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "Educational subject of vocational education",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "Units of vocational education",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "Learning object of vocational education",
+          "placeholder": ""
+        },
+        "vocationalEducationFramework": {
+          "label": "Educational framework of vocational education",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "Educational subject of self-motivated competence development",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "Learning object of self-motivated competence development",
+          "placeholder": ""
+        },
+        "scienceBranches": {
+          "label": "Educational subject of higher education",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "Learning object of higher education",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Educational framework of higher education",
+          "placeholder": ""
+        }
+      },
+      "material": {
+        "title": "Resources",
+        "helpText": "You can change the order of resources and headings by dragging them with a cursor.",
+        "addHeadingAndDescription": "Add a heading and a description",
+        "headingAndDescription": "Heading and description",
+        "removeFromCollection": "Remove from collection",
+        "heading": {
+          "label": "Heading",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Instructions or description",
+          "placeholder": ""
+        }
+      },
+      "preview": {
+        "title": "Preview",
+        "headings": {
+          "basic": "Basic information",
+          "educational": "Educational information",
+          "material": "Resources"
+        },
+        "required": {
+          "name": "Name",
+          "keywords": "Keywords",
+          "description": "Description"
+        },
+        "addMissingDetail": "Fill in the information",
+        "saveUnpublished": "Save unpublished",
+        "savePublished": "Publish"
       }
     }
   },

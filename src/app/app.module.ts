@@ -99,6 +99,13 @@ import { CollectionViewComponent } from '@views/collection-view/collection-view.
 import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
 import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
+import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
+// tslint:disable-next-line:max-line-length
+import { CollectionBasicDetailsTabComponent } from '@views/collection-form/collection-basic-details-tab/collection-basic-details-tab.component';
+// tslint:disable-next-line:max-line-length
+import { CollectionEducationalDetailsTabComponent } from '@views/collection-form/collection-educational-details-tab/collection-educational-details-tab.component';
+import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
+import { CollectionPreviewTabComponent } from '@views/collection-form/collection-preview-tab/collection-preview-tab.component';
 
 @NgModule({
   imports: [
@@ -188,6 +195,11 @@ import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
     PdfReaderViewComponent,
     MaterialLanguagePipe,
     CleanFilenamePipe,
+    CollectionFormComponent,
+    CollectionBasicDetailsTabComponent,
+    CollectionEducationalDetailsTabComponent,
+    CollectionMaterialsTabComponent,
+    CollectionPreviewTabComponent,
   ],
   providers: [
     {
