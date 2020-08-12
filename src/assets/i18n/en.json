@@ -669,12 +669,20 @@
           "label": "Learning object of early childhood education",
           "placeholder": ""
         },
+        "earlyChildhoodEducationFramework": {
+          "label": "Educational framework of early childhood education",
+          "placeholder": ""
+        },
         "prePrimaryEducationSubjects": {
           "label": "Educational subject of pre-primary education",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
           "label": "Learning object of  pre-primary education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Educational framework of pre-primary education",
           "placeholder": ""
         },
         "basicStudySubjects": {
@@ -689,6 +697,10 @@
           "label": "Educational content and transversal competence of basic education",
           "placeholder": ""
         },
+        "basicStudyFramework": {
+          "label": "Educational framework of basic education",
+          "placeholder": ""
+        },
         "upperSecondarySchoolSelection": {
           "current": "Educational framework of upper secondary school 2015",
           "new": "Educational framework of upper secondary school 2019"
@@ -699,6 +711,10 @@
         },
         "upperSecondarySchoolObjectives": {
           "label": "Learning object of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Educational framework of upper secondary school",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
@@ -729,6 +745,10 @@
           "label": "Learning object of vocational education",
           "placeholder": ""
         },
+        "vocationalEducationFramework": {
+          "label": "Educational framework of vocational education",
+          "placeholder": ""
+        },
         "selfMotivatedEducationSubjects": {
           "label": "Educational subject of self-motivated competence development",
           "placeholder": ""
@@ -743,6 +763,10 @@
         },
         "scienceBranchObjectives": {
           "label": "Learning object of higher education",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Educational framework of higher education",
           "placeholder": ""
         }
       },

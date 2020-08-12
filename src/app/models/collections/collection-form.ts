@@ -46,19 +46,19 @@ export interface CollectionForm {
   ];
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
-  earlyChildhoodEducationFramework?: string;
+  earlyChildhoodEducationFramework: string;
   prePrimaryEducationSubjects: AlignmentObjectExtended[];
   prePrimaryEducationObjectives: AlignmentObjectExtended[];
-  prePrimaryEducationFramework?: string;
+  prePrimaryEducationFramework: string;
   basicStudySubjects: AlignmentObjectExtended[];
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
-  basicStudyFramework?: string;
+  basicStudyFramework: string;
   currentUpperSecondarySchoolSelected: boolean;
   newUpperSecondarySchoolSelected: boolean;
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
-  upperSecondarySchoolFramework?: string;
+  upperSecondarySchoolFramework: string;
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
@@ -66,12 +66,12 @@ export interface CollectionForm {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalEducationObjectives: AlignmentObjectExtended[];
-  vocationalEducationFramework?: string;
+  vocationalEducationFramework: string;
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   scienceBranches: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
-  higherEducationFramework?: string;
+  higherEducationFramework: string;
   // materials
   materials: CollectionFormMaterial[];
   materialsAndHeadings: CollectionFormMaterialAndHeading[];

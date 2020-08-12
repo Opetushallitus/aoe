@@ -669,12 +669,20 @@
           "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
           "placeholder": ""
         },
+        "earlyChildhoodEducationFramework": {
+          "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
         "prePrimaryEducationSubjects": {
           "label": "Esiopetuksen oppiaineet",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
           "label": "Esiopetuksen oppiaineiden tavoitteet",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
           "placeholder": ""
         },
         "basicStudySubjects": {
@@ -689,6 +697,10 @@
           "label": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
           "placeholder": ""
         },
+        "basicStudyFramework": {
+          "label": "Perusopetuksen opetussuunnitelma",
+          "placeholder": ""
+        },
         "upperSecondarySchoolSelection": {
           "current": "Lukion opetussuunnitelman perusteet 2015",
           "new": "Lukion opetussuunnitelman perusteet 2019"
@@ -699,6 +711,10 @@
         },
         "upperSecondarySchoolObjectives": {
           "label": "Lukionkurssien tavoitteet",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
@@ -729,6 +745,10 @@
           "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
           "placeholder": ""
         },
+        "vocationalEducationFramework": {
+          "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
         "selfMotivatedEducationSubjects": {
           "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
           "placeholder": ""
@@ -743,6 +763,10 @@
         },
         "scienceBranchObjectives": {
           "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
           "placeholder": ""
         }
       },

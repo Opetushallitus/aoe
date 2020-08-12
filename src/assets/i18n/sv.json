@@ -669,12 +669,20 @@
           "label": "Mål för småbarnsfostran",
           "placeholder": ""
         },
+        "earlyChildhoodEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+          "placeholder": ""
+        },
         "prePrimaryEducationSubjects": {
           "label": "Ämne för förskoleundervisning",
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
           "label": "Mål för förskoleundervisning",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för förskoleundervisning",
           "placeholder": ""
         },
         "basicStudySubjects": {
@@ -689,6 +697,10 @@
           "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
           "placeholder": ""
         },
+        "basicStudyFramework": {
+          "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+          "placeholder": ""
+        },
         "upperSecondarySchoolSelection": {
           "current": "Grunderna för gymnasiets läroplan 2015",
           "new": "Grunderna för gymnasiets läroplan 2019"
@@ -699,6 +711,10 @@
         },
         "upperSecondarySchoolObjectives": {
           "label": "Mål för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
           "placeholder": ""
         },
         "upperSecondarySchoolSubjectsNew": {
@@ -729,6 +745,10 @@
           "label": "Mål för yrkesutbildning",
           "placeholder": ""
         },
+        "vocationalEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
+          "placeholder": ""
+        },
         "selfMotivatedEducationSubjects": {
           "label": "Ämne för självständig utveckling av kompetens",
           "placeholder": ""
@@ -743,6 +763,10 @@
         },
         "scienceBranchObjectives": {
           "label": "Mål för högskoleutbildning",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för högskoleutbildning",
           "placeholder": ""
         }
       },
