@@ -678,7 +678,7 @@
           "placeholder": ""
         },
         "prePrimaryEducationObjectives": {
-          "label": "Learning object of  pre-primary education",
+          "label": "Learning object of pre-primary education",
           "placeholder": ""
         },
         "prePrimaryEducationFramework": {
@@ -928,6 +928,41 @@
         "title": "Collection has been updated",
         "message": "Learning resources has been removed from the collection"
       }
+    },
+    "meta": {
+      "keywords": "Keywords",
+      "languages": "Language",
+      "educationalUses": "Educational Use",
+      "educationalRoles": "Educational Role",
+      "accessibilityFeatures": "Accessibility Features",
+      "accessibilityHazards": "Accessibility Hazards",
+      "educationalLevels": "Educational Level",
+      "earlyChildhoodEducationSubjects": "Educational subject of early childhood education",
+      "earlyChildhoodEducationObjectives": "Learning object of early childhood education",
+      "earlyChildhoodEducationFramework": "Educational framework of early childhood education",
+      "prePrimaryEducationSubjects": "Educational subject of pre-primary education",
+      "prePrimaryEducationObjectives": "Learning object of pre-primary education",
+      "prePrimaryEducationFramework": "Educational framework of pre-primary education",
+      "basicStudySubjects": "Educational subject of basic education",
+      "basicStudyObjectives": "Learning object of basic education",
+      "basicStudyContents": "Educational content and transversal competence of basic education",
+      "basicStudyFramework": "Educational framework of basic education",
+      "upperSecondarySchoolSubjects": "Educational subject of upper secondary school",
+      "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
+      "upperSecondarySchoolFramework": "Educational framework of upper secondary school",
+      "upperSecondarySchoolSubjectsNew": "Educational subject",
+      "upperSecondarySchoolModulesNew": "Module",
+      "upperSecondarySchoolObjectivesNew": "Learning object of upper secondary school",
+      "upperSecondarySchoolContentsNew": "Educational content of upper secondary school",
+      "vocationalDegrees": "Educational subject of vocational education",
+      "vocationalUnits": "Units of vocational education",
+      "vocationalEducationObjectives": "Learning object of vocational education",
+      "vocationalEducationFramework": "Educational framework of vocational education",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
+      "scienceBranches": "Educational subject of higher education",
+      "scienceBranchObjectives": "Learning object of higher education",
+      "higherEducationFramework": "Educational framework of higher education"
     }
   },
   "materialPreview": {

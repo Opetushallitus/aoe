@@ -44,3 +44,17 @@
     }
   }
 }
+
+.datetimes {
+  margin-bottom: 1rem;
+
+  .datetime-item {
+    strong {
+      margin-right: .25rem;
+    }
+
+    time {
+      margin-right: .5rem;
+    }
+  }
+}
