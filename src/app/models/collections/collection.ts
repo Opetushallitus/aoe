@@ -1,12 +1,12 @@
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+
 export interface Collection {
-  collection: {
-    id: string;
-    publishedat: Date | null;
-    updatedat: Date | null;
-    createdat: Date | null;
-    name: string;
-    description: string;
-  };
+  id: string;
+  publishedAt: Date | null;
+  updatedAt: Date | null;
+  createdAt: Date | null;
+  name: string;
+  description: string;
   keywords: [
     {
       key: string;
@@ -14,16 +14,6 @@ export interface Collection {
     }
   ];
   languages: string[];
-  alignmentObjects: [
-    {
-      alignmenttype: 'assesses' | 'teaches' | 'requires' | 'textComplexity' | 'readingLevel' | 'educationalSubject' | 'educationalLevel';
-      educationalframework: string;
-      objectkey: string;
-      source: string;
-      targetname: string;
-      targeturl: string;
-    }
-  ];
   educationalRoles: [
     {
       key: string;
@@ -36,7 +26,7 @@ export interface Collection {
       value: string;
     }
   ];
-  educationalmaterials: [
+  educationalMaterials: [
     {
       id: string;
       author: [
@@ -101,4 +91,30 @@ export interface Collection {
       value: string;
     }
   ];
+  earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
+  earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
+  earlyChildhoodEducationFramework: string;
+  prePrimaryEducationSubjects: AlignmentObjectExtended[];
+  prePrimaryEducationObjectives: AlignmentObjectExtended[];
+  prePrimaryEducationFramework: string;
+  basicStudySubjects: AlignmentObjectExtended[];
+  basicStudyObjectives: AlignmentObjectExtended[];
+  basicStudyContents: AlignmentObjectExtended[];
+  basicStudyFramework: string;
+  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectives: AlignmentObjectExtended[];
+  upperSecondarySchoolFramework: string;
+  upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
+  upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
+  upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
+  vocationalDegrees: AlignmentObjectExtended[];
+  vocationalUnits: AlignmentObjectExtended[];
+  vocationalEducationObjectives: AlignmentObjectExtended[];
+  vocationalEducationFramework: string;
+  selfMotivatedEducationSubjects: AlignmentObjectExtended[];
+  selfMotivatedEducationObjectives: AlignmentObjectExtended[];
+  scienceBranches: AlignmentObjectExtended[];
+  scienceBranchObjectives: AlignmentObjectExtended[];
+  higherEducationFramework: string;
 }
