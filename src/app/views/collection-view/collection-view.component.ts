@@ -24,6 +24,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   previewMaterials = new Map();
   materialLanguages = new Map();
   selectedLanguages = new Map();
+  detailsExpanded = false;
 
   constructor(
     private route: ActivatedRoute,
