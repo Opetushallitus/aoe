@@ -11,7 +11,7 @@ import { UserCollection } from '@models/collections/user-collection';
 import { UserCollectionResponse } from '@models/collections/user-collection-response';
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
 import { RemoveFromCollectionResponse } from '@models/collections/remove-from-collection-response';
-import { Collection } from '@models/collections/collection';
+import { CollectionResponse } from '@models/collections/collection-response';
 import {
   CollectionForm,
   CollectionFormMaterial,
@@ -21,6 +21,8 @@ import {
 import { UpdateCollectionPut } from '@models/collections/update-collection-put';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
+import { Collection } from '@models/collections/collection';
+import { AlignmentObjects } from '@models/alignment-objects';
 
 @Injectable({
   providedIn: 'root'
@@ -123,135 +125,69 @@ export class CollectionService {
    * @param collectionId {string}
    */
   updateCollection(collectionId: string): void {
-    this.http.get<Collection>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
+    this.http.get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).subscribe((collection: Collection) => {
+    }).subscribe((collectionResponse: CollectionResponse) => {
+      const alignmentObjects = this.extractAlignmentObjects(collectionResponse.alignmentObjects);
+
+      const collection: Collection = {
+        id: collectionResponse.collection.id,
+        publishedAt: collectionResponse.collection.publishedat,
+        updatedAt: collectionResponse.collection.updatedat,
+        createdAt: collectionResponse.collection.createdat,
+        name: collectionResponse.collection.name,
+        description: collectionResponse.collection.description,
+        keywords: collectionResponse.keywords,
+        languages: collectionResponse.languages,
+        educationalRoles: collectionResponse.educationalRoles,
+        educationalUses: collectionResponse.educationalUses,
+        educationalMaterials: collectionResponse.educationalmaterials,
+        accessibilityFeatures: collectionResponse.accessibilityFeatures,
+        accessibilityHazards: collectionResponse.accessibilityHazards,
+        educationalLevels: collectionResponse.educationalLevels,
+        earlyChildhoodEducationSubjects: alignmentObjects.earlyChildhoodEducationSubjects,
+        earlyChildhoodEducationObjectives: alignmentObjects.earlyChildhoodEducationObjectives,
+        earlyChildhoodEducationFramework: alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
+        prePrimaryEducationSubjects: alignmentObjects.prePrimaryEducationSubjects,
+        prePrimaryEducationObjectives: alignmentObjects.prePrimaryEducationObjectives,
+        prePrimaryEducationFramework: alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
+        basicStudySubjects: alignmentObjects.basicStudySubjects,
+        basicStudyObjectives: alignmentObjects.basicStudyObjectives,
+        basicStudyContents: alignmentObjects.basicStudyContents,
+        basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
+        upperSecondarySchoolSubjects: alignmentObjects.upperSecondarySchoolSubjects,
+        upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
+        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjects[0]?.educationalFramework,
+        upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
+        upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
+        upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
+        upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
+        vocationalDegrees: alignmentObjects.vocationalDegrees,
+        vocationalUnits: alignmentObjects.vocationalUnits,
+        vocationalEducationObjectives: alignmentObjects.vocationalEducationObjectives,
+        vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
+        selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
+        selfMotivatedEducationObjectives: alignmentObjects.selfMotivatedEducationObjectives,
+        scienceBranches: alignmentObjects.scienceBranches,
+        scienceBranchObjectives: alignmentObjects.scienceBranchObjectives,
+        higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
+        headings: collectionResponse.headings,
+        owner: collectionResponse.owner,
+      };
+
       this.collection$.next(collection);
     });
   }
 
   updateEditCollection(collectionId: string): void {
-    this.http.get<Collection>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
+    this.http.get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).subscribe((collection: Collection) => {
-      const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
-      const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];
-      const prePrimaryEducationSubjects: AlignmentObjectExtended[] = [];
-      const prePrimaryEducationObjectives: AlignmentObjectExtended[] = [];
-      const basicStudySubjects: AlignmentObjectExtended[] = [];
-      const basicStudyObjectives: AlignmentObjectExtended[] = [];
-      const basicStudyContents: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolSubjects: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = [];
-      const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
-      const vocationalDegrees: AlignmentObjectExtended[] = [];
-      const vocationalUnits: AlignmentObjectExtended[] = [];
-      const vocationalEducationObjectives: AlignmentObjectExtended[] = [];
-      const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
-      const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
-      const scienceBranches: AlignmentObjectExtended[] = [];
-      const scienceBranchObjectives: AlignmentObjectExtended[] = [];
-
-      collection.alignmentObjects.map((aObject): AlignmentObjectExtended => {
-        return {
-          alignmentType: aObject.alignmenttype,
-          educationalFramework: aObject.educationalframework,
-          key: aObject.objectkey,
-          source: aObject.source,
-          targetName: aObject.targetname,
-          targetUrl: aObject.targeturl,
-        };
-      }).forEach((aObject: AlignmentObjectExtended) => {
-        switch (aObject.source) {
-          case koodistoSources.earlyChildhoodSubjects:
-            earlyChildhoodEducationSubjects.push(aObject);
-            break;
-
-          case koodistoSources.earlyChildhoodObjectives:
-            earlyChildhoodEducationObjectives.push(aObject);
-            break;
-
-          case koodistoSources.prePrimarySubjects:
-            prePrimaryEducationSubjects.push(aObject);
-            break;
-
-          case koodistoSources.prePrimaryObjectives:
-            prePrimaryEducationObjectives.push(aObject);
-            break;
-
-          case koodistoSources.basicStudySubjects:
-            basicStudySubjects.push(aObject);
-            break;
-
-          case koodistoSources.basicStudyObjectives:
-            basicStudyObjectives.push(aObject);
-            break;
-
-          case koodistoSources.basicStudyContents:
-            basicStudyContents.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondarySubjects:
-            upperSecondarySchoolSubjects.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondaryObjectives:
-            upperSecondarySchoolObjectives.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondarySubjectsNew:
-            upperSecondarySchoolSubjectsNew.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondaryModulesNew:
-            upperSecondarySchoolModulesNew.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondaryObjectivesNew:
-            upperSecondarySchoolObjectivesNew.push(aObject);
-            break;
-
-          case koodistoSources.upperSecondaryContentsNew:
-            upperSecondarySchoolContentsNew.push(aObject);
-            break;
-
-          case koodistoSources.vocationalDegrees:
-            vocationalDegrees.push(aObject);
-            break;
-
-          case koodistoSources.vocationalUnits:
-            vocationalUnits.push(aObject);
-            break;
-
-          case koodistoSources.vocationalObjectives:
-            vocationalEducationObjectives.push(aObject);
-            break;
-
-          case koodistoSources.selfMotivatedSubjects:
-            selfMotivatedEducationSubjects.push(aObject);
-            break;
-
-          case koodistoSources.selfMotivatedObjectives:
-            selfMotivatedEducationObjectives.push(aObject);
-            break;
-
-          case koodistoSources.scienceBranches:
-            scienceBranches.push(aObject);
-            break;
-
-          case koodistoSources.scienceBranchObjectives:
-            scienceBranchObjectives.push(aObject);
-            break;
-        }
-      });
-
+    }).subscribe((collection: CollectionResponse) => {
+      const alignmentObjects = this.extractAlignmentObjects(collection.alignmentObjects);
       const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
 
       collection.educationalmaterials.forEach((material) => {
@@ -311,34 +247,34 @@ export class CollectionService {
         materialsAndHeadings,
         description: collection.collection.description,
         educationalLevels: collection.educationalLevels,
-        earlyChildhoodEducationSubjects,
-        earlyChildhoodEducationObjectives,
-        earlyChildhoodEducationFramework: earlyChildhoodEducationSubjects[0]?.educationalFramework,
-        prePrimaryEducationSubjects,
-        prePrimaryEducationObjectives,
-        prePrimaryEducationFramework: prePrimaryEducationSubjects[0]?.educationalFramework,
-        basicStudySubjects,
-        basicStudyObjectives,
-        basicStudyContents,
-        basicStudyFramework: basicStudySubjects[0]?.educationalFramework,
-        currentUpperSecondarySchoolSelected: upperSecondarySchoolSubjects.length > 0,
-        newUpperSecondarySchoolSelected: upperSecondarySchoolSubjectsNew.length > 0,
-        upperSecondarySchoolSubjects,
-        upperSecondarySchoolObjectives,
-        upperSecondarySchoolFramework: upperSecondarySchoolSubjects[0]?.educationalFramework,
-        upperSecondarySchoolSubjectsNew,
-        upperSecondarySchoolModulesNew,
-        upperSecondarySchoolObjectivesNew,
-        upperSecondarySchoolContentsNew,
-        vocationalDegrees,
-        vocationalUnits,
-        vocationalEducationObjectives,
-        vocationalEducationFramework: vocationalDegrees[0]?.educationalFramework,
-        selfMotivatedEducationSubjects,
-        selfMotivatedEducationObjectives,
-        scienceBranches,
-        scienceBranchObjectives,
-        higherEducationFramework: scienceBranches[0]?.educationalFramework,
+        earlyChildhoodEducationSubjects: alignmentObjects.earlyChildhoodEducationSubjects,
+        earlyChildhoodEducationObjectives: alignmentObjects.earlyChildhoodEducationObjectives,
+        earlyChildhoodEducationFramework: alignmentObjects.earlyChildhoodEducationSubjects[0]?.educationalFramework,
+        prePrimaryEducationSubjects: alignmentObjects.prePrimaryEducationSubjects,
+        prePrimaryEducationObjectives: alignmentObjects.prePrimaryEducationObjectives,
+        prePrimaryEducationFramework: alignmentObjects.prePrimaryEducationSubjects[0]?.educationalFramework,
+        basicStudySubjects: alignmentObjects.basicStudySubjects,
+        basicStudyObjectives: alignmentObjects.basicStudyObjectives,
+        basicStudyContents: alignmentObjects.basicStudyContents,
+        basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
+        currentUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjects.length > 0,
+        newUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsNew.length > 0,
+        upperSecondarySchoolSubjects: alignmentObjects.upperSecondarySchoolSubjects,
+        upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
+        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjects[0]?.educationalFramework,
+        upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
+        upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
+        upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
+        upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
+        vocationalDegrees: alignmentObjects.vocationalDegrees,
+        vocationalUnits: alignmentObjects.vocationalUnits,
+        vocationalEducationObjectives: alignmentObjects.vocationalEducationObjectives,
+        vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
+        selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
+        selfMotivatedEducationObjectives: alignmentObjects.selfMotivatedEducationObjectives,
+        scienceBranches: alignmentObjects.scienceBranches,
+        scienceBranchObjectives: alignmentObjects.scienceBranchObjectives,
+        higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
       };
 
       this.editCollection$.next(collectionForm);
@@ -350,5 +286,144 @@ export class CollectionService {
       .pipe(
         catchError(this.handleError),
       );
+  }
+
+  private extractAlignmentObjects(alignmentObjects): AlignmentObjects {
+    const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
+    const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];
+    const prePrimaryEducationSubjects: AlignmentObjectExtended[] = [];
+    const prePrimaryEducationObjectives: AlignmentObjectExtended[] = [];
+    const basicStudySubjects: AlignmentObjectExtended[] = [];
+    const basicStudyObjectives: AlignmentObjectExtended[] = [];
+    const basicStudyContents: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolSubjects: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
+    const vocationalDegrees: AlignmentObjectExtended[] = [];
+    const vocationalUnits: AlignmentObjectExtended[] = [];
+    const vocationalEducationObjectives: AlignmentObjectExtended[] = [];
+    const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
+    const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
+    const scienceBranches: AlignmentObjectExtended[] = [];
+    const scienceBranchObjectives: AlignmentObjectExtended[] = [];
+
+    alignmentObjects.map((aObject): AlignmentObjectExtended => {
+      return {
+        alignmentType: aObject.alignmenttype,
+        educationalFramework: aObject.educationalframework,
+        key: aObject.objectkey,
+        source: aObject.source,
+        targetName: aObject.targetname,
+        targetUrl: aObject.targeturl,
+      };
+    }).forEach((aObject: AlignmentObjectExtended) => {
+      switch (aObject.source) {
+        case koodistoSources.earlyChildhoodSubjects:
+          earlyChildhoodEducationSubjects.push(aObject);
+          break;
+
+        case koodistoSources.earlyChildhoodObjectives:
+          earlyChildhoodEducationObjectives.push(aObject);
+          break;
+
+        case koodistoSources.prePrimarySubjects:
+          prePrimaryEducationSubjects.push(aObject);
+          break;
+
+        case koodistoSources.prePrimaryObjectives:
+          prePrimaryEducationObjectives.push(aObject);
+          break;
+
+        case koodistoSources.basicStudySubjects:
+          basicStudySubjects.push(aObject);
+          break;
+
+        case koodistoSources.basicStudyObjectives:
+          basicStudyObjectives.push(aObject);
+          break;
+
+        case koodistoSources.basicStudyContents:
+          basicStudyContents.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondarySubjects:
+          upperSecondarySchoolSubjects.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondaryObjectives:
+          upperSecondarySchoolObjectives.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondarySubjectsNew:
+          upperSecondarySchoolSubjectsNew.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondaryModulesNew:
+          upperSecondarySchoolModulesNew.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondaryObjectivesNew:
+          upperSecondarySchoolObjectivesNew.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondaryContentsNew:
+          upperSecondarySchoolContentsNew.push(aObject);
+          break;
+
+        case koodistoSources.vocationalDegrees:
+          vocationalDegrees.push(aObject);
+          break;
+
+        case koodistoSources.vocationalUnits:
+          vocationalUnits.push(aObject);
+          break;
+
+        case koodistoSources.vocationalObjectives:
+          vocationalEducationObjectives.push(aObject);
+          break;
+
+        case koodistoSources.selfMotivatedSubjects:
+          selfMotivatedEducationSubjects.push(aObject);
+          break;
+
+        case koodistoSources.selfMotivatedObjectives:
+          selfMotivatedEducationObjectives.push(aObject);
+          break;
+
+        case koodistoSources.scienceBranches:
+          scienceBranches.push(aObject);
+          break;
+
+        case koodistoSources.scienceBranchObjectives:
+          scienceBranchObjectives.push(aObject);
+          break;
+      }
+    });
+
+    return {
+      earlyChildhoodEducationSubjects,
+      earlyChildhoodEducationObjectives,
+      prePrimaryEducationSubjects,
+      prePrimaryEducationObjectives,
+      basicStudySubjects,
+      basicStudyObjectives,
+      basicStudyContents,
+      upperSecondarySchoolSubjects,
+      upperSecondarySchoolObjectives,
+      upperSecondarySchoolSubjectsNew,
+      upperSecondarySchoolModulesNew,
+      upperSecondarySchoolObjectivesNew,
+      upperSecondarySchoolContentsNew,
+      vocationalDegrees,
+      vocationalUnits,
+      vocationalEducationObjectives,
+      selfMotivatedEducationSubjects,
+      selfMotivatedEducationObjectives,
+      scienceBranches,
+      scienceBranchObjectives,
+    };
   }
 }
