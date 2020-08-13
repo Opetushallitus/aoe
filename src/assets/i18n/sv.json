@@ -773,7 +773,10 @@
       "material": {
         "title": "Resurser",
         "helpText": "Du kan ändra ordning av resurser och rubriker genom att dra dem.",
-        "addHeadingAndDescription": "Tillsätt en rubrik och en beskrivning",
+        "addHeadingAndDescription": {
+          "button": "Tillsätt en rubrik och en beskrivning",
+          "tooltip": "Du kan tillsätt rubriker och beskrivningar till exempel för att berätta hur kan man använda samlingen, ge extra information om ämnet och klassificera samlingen."
+        },
         "headingAndDescription": "Rubrik och beskrivning",
         "removeFromCollection": "Ta bort från samlingen",
         "heading": {
