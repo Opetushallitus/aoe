@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Collection } from '@models/collections/collection';
 import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
+import { Collection } from '@models/collections/collection';
 
 @Component({
   selector: 'app-collection-view',
@@ -56,7 +56,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
       this.setTitle();
 
-      collection.educationalmaterials.forEach((collectionMaterial, i: number) => {
+      collection.educationalMaterials.forEach((collectionMaterial) => {
         // set loading true
         this.materialsLoading.set(collectionMaterial.id, true);
 
@@ -96,7 +96,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.titleSvc.setTitle(`${this.collection.collection.name} ${environment.title}`);
+    this.titleSvc.setTitle(`${this.collection.name} ${environment.title}`);
   }
 
   /**
