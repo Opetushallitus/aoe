@@ -773,7 +773,10 @@
       "material": {
         "title": "Resources",
         "helpText": "You can change the order of resources and headings by dragging them with a cursor.",
-        "addHeadingAndDescription": "Add a heading and a description",
+        "addHeadingAndDescription": {
+          "button": "Add a heading and a description",
+          "tooltip": "You can add headings and descriptions to the learning resource to tell how to approach the collection, to add extra information on the subject or to structure the collection."
+        },
         "headingAndDescription": "Heading and description",
         "removeFromCollection": "Remove from collection",
         "heading": {
