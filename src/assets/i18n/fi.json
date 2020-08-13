@@ -773,7 +773,10 @@
       "material": {
         "title": "Materiaalit",
         "helpText": "Voit muuttaa materiaalien ja otsikoiden järjestystä vetämällä niitä hiirellä.",
-        "addHeadingAndDescription": "Lisää väliotsikko ja kuvaus",
+        "addHeadingAndDescription": {
+          "button": "Lisää väliotsikko ja kuvaus",
+          "tooltip": "Voit lisätä kokoelmiin väliotsikoita ja ohjeistavaa tai kuvaavaa tekstiä rytmittämään kokoelmaa ja kertomaan miten kokoelmaa on tarkoitus lähestyä tai esimerkiksi kertoa lyhyesti lisätietoa aiheesta."
+        },
         "headingAndDescription": "Väliotsikko ja ohjeistava tai kuvaava teksti",
         "removeFromCollection": "Poista kokoelmasta",
         "heading": {

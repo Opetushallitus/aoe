@@ -27,7 +27,13 @@
                   type="button"
                   class="btn btn-sm btn-link"
                   (click)="addHeading(i)"
-                >{{ 'forms.collection.material.addHeadingAndDescription' | translate }}</button>
+                >{{ 'forms.collection.material.addHeadingAndDescription.button' | translate }}</button>
+
+                <button
+                  type="button"
+                  class="btn btn-link btn-tooltip"
+                  [tooltip]="'forms.collection.material.addHeadingAndDescription.tooltip' | translate"
+                ><img src="assets/img/icons/ic_help.svg" aria-hidden="true"></button>
               </div>
             </div>
 
