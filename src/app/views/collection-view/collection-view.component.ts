@@ -25,6 +25,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   materialLanguages = new Map();
   selectedLanguages = new Map();
   detailsExpanded = false;
+  materialDetails = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +57,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       }
 
       this.setTitle();
+      this.setMaterialDetails(collection.educationalMaterials);
 
       collection.educationalMaterials.forEach((collectionMaterial) => {
         // set loading true
@@ -120,5 +122,18 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
     // set preview material to first material that matches selected language
     this.setPreviewMaterial(materialId, this.collectionMaterials.get(materialId).find((m) => m.language === language));
+  }
+
+  /**
+   * Sets material details.
+   * @param materials
+   */
+  setMaterialDetails(materials): void {
+    materials.forEach((material) => {
+      this.materialDetails.set(material.id, {
+        name: material.name,
+        authors: material.author,
+      });
+    });
   }
 }

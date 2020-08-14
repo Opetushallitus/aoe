@@ -1,4 +1,5 @@
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form';
 
 export interface Collection {
   id: string;
@@ -65,6 +66,7 @@ export interface Collection {
       ];
     }
   ];
+  materialsAndHeadings: CollectionFormMaterialAndHeading[];
   accessibilityFeatures: [
     {
       key: string;
@@ -75,13 +77,6 @@ export interface Collection {
     {
       key: string;
       value: string;
-    }
-  ];
-  headings: [
-    {
-      heading: string;
-      description: string;
-      priority: number;
     }
   ];
   owner: boolean;
