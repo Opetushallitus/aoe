@@ -3,10 +3,19 @@
 
 .collection-material {
   margin-bottom: 2rem;
-  padding-top: 2rem;
 
   h2 {
     @include font-size(21);
+    font-weight: 500;
+
+    a {
+      color: $primary-theme-color;
+    }
+  }
+
+  h3,
+  .h3 {
+    @include font-size(18);
     font-weight: 400;
 
     a {
