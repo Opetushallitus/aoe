@@ -132,6 +132,25 @@ export class CollectionService {
     }).subscribe((collectionResponse: CollectionResponse) => {
       const alignmentObjects = this.extractAlignmentObjects(collectionResponse.alignmentObjects);
 
+      const materialsAndHeadings: CollectionFormMaterialAndHeading[] = [];
+
+      collectionResponse.educationalmaterials.forEach((material) => {
+        materialsAndHeadings.push({
+          id: material.id,
+          priority: material.priority,
+        });
+      });
+
+      collectionResponse.headings.forEach((heading) => {
+        materialsAndHeadings.push({
+          heading: heading.heading,
+          description: heading.description,
+          priority: heading.priority,
+        });
+      });
+
+      materialsAndHeadings.sort((a, b) => a.priority - b.priority);
+
       const collection: Collection = {
         id: collectionResponse.collection.id,
         publishedAt: collectionResponse.collection.publishedat,
@@ -144,6 +163,7 @@ export class CollectionService {
         educationalRoles: collectionResponse.educationalRoles,
         educationalUses: collectionResponse.educationalUses,
         educationalMaterials: collectionResponse.educationalmaterials,
+        materialsAndHeadings: materialsAndHeadings,
         accessibilityFeatures: collectionResponse.accessibilityFeatures,
         accessibilityHazards: collectionResponse.accessibilityHazards,
         educationalLevels: collectionResponse.educationalLevels,
@@ -173,7 +193,6 @@ export class CollectionService {
         scienceBranches: alignmentObjects.scienceBranches,
         scienceBranchObjectives: alignmentObjects.scienceBranchObjectives,
         higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
-        headings: collectionResponse.headings,
         owner: collectionResponse.owner,
       };
 
