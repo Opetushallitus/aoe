@@ -371,13 +371,21 @@
       </div>
 
       <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
-        <div class="collection-material border-top" *ngFor="let materialOrHeading of collection.materialsAndHeadings">
-          <ng-container *ngIf="materialOrHeading.id; else heading">
-            <h2>
+        <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+          <div class="border-bottom" *ngIf="materialOrHeading.id; else heading">
+            <h3 *ngIf="collection.materialsAndHeadings[i - 1]?.heading; else h2">
               <a [routerLink]="['/materiaali', materialOrHeading.id]">
                 {{ materialDetails.get(materialOrHeading.id).name[lang] }}
               </a>
-            </h2>
+            </h3>
+
+            <ng-template #h2>
+              <h2 class="h3">
+                <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                  {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                </a>
+              </h2>
+            </ng-template>
 
             <ul class="list-unstyled authors">
               <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
@@ -476,7 +484,7 @@
                 <span class="sr-only">{{ 'collections.loading' | translate }}</span>
               </div>
             </ng-template>
-          </ng-container><!--material-->
+          </div><!--material-->
 
           <ng-template #heading>
             <h2>{{ materialOrHeading.heading }}</h2>
