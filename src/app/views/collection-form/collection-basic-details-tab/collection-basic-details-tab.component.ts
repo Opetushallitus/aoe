@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { CollectionForm } from '@models/collections/collection-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,10 @@ import { Language } from '@models/koodisto-proxy/language';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { validatorParams } from '../../../constants/validator-params';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { CollectionService } from '@services/collection.service';
+import { UploadMessage } from '@models/upload-message';
 
 @Component({
   selector: 'app-collection-basic-details-tab',
@@ -42,6 +46,11 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   accessibilityFeatures: AccessibilityFeature[];
   accessibilityHazardSubscription: Subscription;
   accessibilityHazards: AccessibilityHazard[];
+  thumbnailModalRef: BsModalRef;
+  uploadResponse: UploadMessage = { status: '', message: 0 };
+  imageChangedEvent: any = '';
+  croppedImage: string;
+  thumbnailSrc: string;
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +58,8 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleSvc: Title,
     private koodistoSvc: KoodistoProxyService,
+    private modalSvc: BsModalService,
+    private collectionSvc: CollectionService,
   ) { }
 
   ngOnInit(): void {
@@ -160,6 +171,47 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
 
   get descriptionCtrl(): FormControl {
     return this.form.get('description') as FormControl;
+  }
+
+  /**
+   * Shows modal for uploading thumbnail.
+   * @param {TemplateRef<any>} template
+   */
+  openThumbnailModal(template: TemplateRef<any>): void {
+    this.thumbnailModalRef = this.modalSvc.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered' })
+    );
+  }
+
+  imageChange(event: any): void {
+    this.imageChangedEvent = event;
+  }
+
+  /**
+   * Updates croppedImage.
+   * @param {ImageCroppedEvent} event
+   */
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.base64;
+  }
+
+  /**
+   * Uploads thumbnail to backend.
+   */
+  uploadImage(): void {
+    if (this.croppedImage) {
+      this.collectionSvc.uploadImage(this.croppedImage, this.collectionId).subscribe(
+        (res: UploadMessage) => {
+          this.uploadResponse = res;
+        },
+        (err) => console.error(err),
+        () => {
+          this.thumbnailSrc = this.croppedImage;
+          this.thumbnailModalRef.hide();
+        },
+      );
+    }
   }
 
   /**
