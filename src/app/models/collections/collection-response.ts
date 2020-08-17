@@ -101,4 +101,5 @@ export interface CollectionResponse {
       value: string;
     }
   ];
+  authors: string[];
 }

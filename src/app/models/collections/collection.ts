@@ -112,4 +112,5 @@ export interface Collection {
   scienceBranches: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
   higherEducationFramework: string;
+  authors: string[];
 }
