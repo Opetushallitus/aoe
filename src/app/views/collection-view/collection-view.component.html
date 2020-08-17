@@ -20,7 +20,11 @@
 
       <div class="row mb-4">
         <div class="col">
-          <!--@todo: authors-->
+          <ul class="list-unstyled collection-authors">
+            <li *ngFor="let author of collection.authors">
+              {{ author }}
+            </li>
+          </ul>
 
           <div class="datetimes">
             <span class="datetime-item d-block d-md-inline-block">
