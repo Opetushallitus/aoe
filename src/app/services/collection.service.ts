@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateCollectionPost } from '@models/collections/create-collection-post';
 import { CreateCollectionResponse } from '@models/collections/create-collection-response';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { UserCollection } from '@models/collections/user-collection';
@@ -23,6 +23,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { Collection } from '@models/collections/collection';
 import { AlignmentObjects } from '@models/alignment-objects';
+import { UploadMessage } from '@models/upload-message';
 
 @Injectable({
   providedIn: 'root'
@@ -306,6 +307,34 @@ export class CollectionService {
       .pipe(
         catchError(this.handleError),
       );
+  }
+
+  uploadImage(base64Image: string, collectionId: string): Observable<UploadMessage> {
+    return this.http.post<{ base64image: string }>(`${environment.backendUrl}/collection/uploadBase64Image/${collectionId}`, {
+      base64image: base64Image,
+    }, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }),
+      reportProgress: true,
+      observe: 'events',
+    }).pipe(
+      map((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            const progress = Math.round(100 * event.loaded / event.total);
+            return { status: 'progress', message: progress };
+
+          case HttpEventType.Response:
+            return { status: 'completed', message: event.body };
+
+          default:
+            return { status: 'error', message: `Unhandled event: ${event.type}` };
+        }
+      }),
+      catchError(this.handleError),
+    );
   }
 
   private extractAlignmentObjects(alignmentObjects): AlignmentObjects {
