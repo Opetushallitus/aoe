@@ -194,6 +194,7 @@ export class CollectionService {
         scienceBranchObjectives: alignmentObjects.scienceBranchObjectives,
         higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
         owner: collectionResponse.owner,
+        authors: collectionResponse.authors,
       };
 
       this.collection$.next(collection);
