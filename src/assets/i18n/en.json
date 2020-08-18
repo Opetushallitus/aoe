@@ -613,6 +613,7 @@
         "cancel": "No"
       },
       "basic": {
+        "cover": "Upload cover",
         "name": {
           "label": "Name",
           "placeholder": ""
