@@ -287,6 +287,7 @@ export class CollectionPreviewTabComponent implements OnInit {
       delete this.previewCollection.higherEducationFramework;
 
       delete this.previewCollection.id;
+      delete this.previewCollection.thumbnail;
 
       const materials: UpdateCollectionPutMaterial[] = [];
       const headings: UpdateCollectionPutHeading[] = [];
