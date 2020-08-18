@@ -5,6 +5,7 @@ export interface CollectionForm {
   id: string;
   // basic
   name: string;
+  thumbnail?: string;
   keywords: [
     {
       key: string;

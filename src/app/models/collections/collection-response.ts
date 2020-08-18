@@ -102,4 +102,5 @@ export interface CollectionResponse {
     }
   ];
   authors: string[];
+  thumbnail: string | null;
 }
