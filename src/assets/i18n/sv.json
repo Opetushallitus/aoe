@@ -613,6 +613,7 @@
         "cancel": "Nej"
       },
       "basic": {
+        "cover": "Ladda upp omslaget",
         "name": {
           "label": "Namn",
           "placeholder": ""
