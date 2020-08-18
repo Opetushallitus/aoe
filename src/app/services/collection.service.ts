@@ -196,6 +196,9 @@ export class CollectionService {
         higherEducationFramework: alignmentObjects.scienceBranches[0]?.educationalFramework,
         owner: collectionResponse.owner,
         authors: collectionResponse.authors,
+        thumbnail: collectionResponse.thumbnail
+          ? collectionResponse.thumbnail
+          : 'assets/img/thumbnails/kokoelma.png',
       };
 
       this.collection$.next(collection);

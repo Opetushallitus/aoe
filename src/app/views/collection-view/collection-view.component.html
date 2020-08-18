@@ -19,12 +19,20 @@
       </div>
 
       <div class="row mb-4">
-        <div class="col">
+        <div class="col-md-2 col-lg-3 text-center text-md-left">
+          <img
+            [src]="collection.thumbnail"
+            class="img-fluid mb-4"
+            [alt]="'demo.educationalMaterial.cover.alt' | translate"
+          >
+        </div><!--left column-->
+
+        <div class="col-md-10 col-lg-9">
           <ul class="list-unstyled collection-authors">
             <li *ngFor="let author of collection.authors">
               {{ author }}
             </li>
-          </ul>
+          </ul><!--authors-->
 
           <div class="datetimes">
             <span class="datetime-item d-block d-md-inline-block">
@@ -371,136 +379,136 @@
             </ng-container><!--higherEducationFramework-->
             <!--/higher education-->
           </div><!--metadata-->
-        </div>
-      </div>
 
-      <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
-        <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
-          <ng-container *ngIf="materialOrHeading.id; else heading">
-            <h3 *ngIf="collection.materialsAndHeadings[i - 1]?.heading; else h2">
-              <a [routerLink]="['/materiaali', materialOrHeading.id]">
-                {{ materialDetails.get(materialOrHeading.id).name[lang] }}
-              </a>
-            </h3>
+          <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
+            <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+              <ng-container *ngIf="materialOrHeading.id; else heading">
+                <h3 *ngIf="collection.materialsAndHeadings[i - 1]?.heading; else h2">
+                  <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                    {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                  </a>
+                </h3>
 
-            <ng-template #h2>
-              <h2 class="h3">
-                <a [routerLink]="['/materiaali', materialOrHeading.id]">
-                  {{ materialDetails.get(materialOrHeading.id).name[lang] }}
-                </a>
-              </h2>
-            </ng-template>
-
-            <ul class="list-unstyled authors">
-              <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
-                <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
-                  {{ author.authorname }}
-                  <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-                </ng-container>
-
-                <ng-template #organizationAuthor>
-                  {{ author.organization }}
+                <ng-template #h2>
+                  <h2 class="h3">
+                    <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                      {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                    </a>
+                  </h2>
                 </ng-template>
-              </li>
-            </ul>
 
-            <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
-              <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
-                <div class="row no-gutters">
-                  <div class="col-3">
-                    <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
-                      <h3
-                        [id]="'selectLanguage' + materialOrHeading.id"
-                      >{{ 'materialPreview.selectLanguage' | translate }}</h3>
-
-                      <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
-                        <button
-                          type="button"
-                          class="btn btn-gray"
-                          *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
-                          [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
-                          [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
-                          [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
-                          [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
-                          role="tab"
-                          (click)="setSelectedLanguage(materialOrHeading.id, lang)"
-                        >{{ lang }}</button>
-                      </div>
+                <ul class="list-unstyled authors">
+                  <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
+                    <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
+                      {{ author.authorname }}
+                      <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
                     </ng-container>
 
-                    <div
-                      *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
-                      [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
-                      role="tabpanel"
-                      [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
-                    >
-                      <h3
-                        [id]="'selectMaterial' + materialOrHeading.id"
-                        [ngClass]="materials.length === 1 ? 'sr-only' : ''"
-                      >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+                    <ng-template #organizationAuthor>
+                      {{ author.organization }}
+                    </ng-template>
+                  </li>
+                </ul>
 
-                      <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
-                        <ng-container *ngFor="let material of materials">
-                          <button
-                            type="button"
-                            class="btn btn-file text-dark"
-                            [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
-                            [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
-                            [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
-                            [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
-                            role="tab"
-                            (click)="setPreviewMaterial(materialOrHeading.id, material)"
-                          >{{ material.displayName[lang] }}</button>
+                <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
+                  <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
+                          <h3
+                            [id]="'selectLanguage' + materialOrHeading.id"
+                          >{{ 'materialPreview.selectLanguage' | translate }}</h3>
+
+                          <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                            <button
+                              type="button"
+                              class="btn btn-gray"
+                              *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
+                              [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
+                              [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
+                              [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
+                              [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
+                              role="tab"
+                              (click)="setSelectedLanguage(materialOrHeading.id, lang)"
+                            >{{ lang }}</button>
+                          </div>
                         </ng-container>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="col-9">
-                    <div
-                      [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
-                      role="tabpanel"
-                      [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
-                    >
-                      <app-educational-material-preview
-                        [material]="previewMaterials.get(materialOrHeading.id)"
-                        [isCollection]="true"
-                        *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
+                        <div
+                          *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
+                          [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                        >
+                          <h3
+                            [id]="'selectMaterial' + materialOrHeading.id"
+                            [ngClass]="materials.length === 1 ? 'sr-only' : ''"
+                          >{{ 'materialPreview.selectMaterial' | translate }}</h3>
 
-                      <ng-template #linkPreview>
-                        <div class="link-preview">
-                          <a
-                            [href]="previewMaterials.get(materialOrHeading.id).link"
-                            class="btn btn-secondary"
-                            target="_blank"
-                            rel="noopener nofollow"
-                          >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                          <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                            <ng-container *ngFor="let material of materials">
+                              <button
+                                type="button"
+                                class="btn btn-file text-dark"
+                                [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
+                                [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
+                                [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
+                                [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
+                                role="tab"
+                                (click)="setPreviewMaterial(materialOrHeading.id, material)"
+                              >{{ material.displayName[lang] }}</button>
+                            </ng-container>
+                          </div>
                         </div>
-                      </ng-template>
+                      </div>
+
+                      <div class="col-9">
+                        <div
+                          [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                        >
+                          <app-educational-material-preview
+                            [material]="previewMaterials.get(materialOrHeading.id)"
+                            [isCollection]="true"
+                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
+
+                          <ng-template #linkPreview>
+                            <div class="link-preview">
+                              <a
+                                [href]="previewMaterials.get(materialOrHeading.id).link"
+                                class="btn btn-secondary"
+                                target="_blank"
+                                rel="noopener nofollow"
+                              >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+
+                <ng-template #loading>
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">{{ 'collections.loading' | translate }}</span>
+                  </div>
+                </ng-template>
+              </ng-container><!--material-->
+
+              <ng-template #heading>
+                <h2>{{ materialOrHeading.heading }}</h2>
+
+                <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
+              </ng-template><!--heading-->
             </div>
+          </ng-container><!--materials and headings-->
 
-            <ng-template #loading>
-              <div class="spinner-border" role="status">
-                <span class="sr-only">{{ 'collections.loading' | translate }}</span>
-              </div>
-            </ng-template>
-          </ng-container><!--material-->
-
-          <ng-template #heading>
-            <h2>{{ materialOrHeading.heading }}</h2>
-
-            <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
-          </ng-template><!--heading-->
-        </div>
-      </ng-container><!--materials and headings-->
-
-      <ng-template #noMaterials>
-        {{ 'collections.noMaterials' | translate }}
-      </ng-template><!--no materials or headings-->
+          <ng-template #noMaterials>
+            {{ 'collections.noMaterials' | translate }}
+          </ng-template><!--no materials or headings-->
+        </div><!--right column-->
+      </div>
     </ng-container>
   </div>
 </div>
