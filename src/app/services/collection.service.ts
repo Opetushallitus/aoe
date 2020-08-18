@@ -231,6 +231,9 @@ export class CollectionService {
       const collectionForm: CollectionForm = {
         id: collection.collection.id,
         name: collection.collection.name,
+        thumbnail: collection.thumbnail
+         ? collection.thumbnail
+         : 'assets/img/thumbnails/kokoelma.png',
         keywords: collection.keywords,
         languages: collection.languages,
         educationalRoles: collection.educationalRoles,

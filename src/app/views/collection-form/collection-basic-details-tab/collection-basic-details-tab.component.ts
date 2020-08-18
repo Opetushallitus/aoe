@@ -101,6 +101,8 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
       this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.collection)));
     }
 
+    this.thumbnailSrc = this.collection.thumbnail;
+
     // keywords
     this.keywordSubscription = this.koodistoSvc.keywords$
       .subscribe((keywords: KeyValue<string, string>[]) => {
@@ -207,6 +209,14 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
         },
         (err) => console.error(err),
         () => {
+          const changedCollection: CollectionForm = sessionStorage.getItem(environment.collection) !== null
+            ? JSON.parse(sessionStorage.getItem(environment.collection))
+            : this.collection;
+
+          changedCollection.thumbnail = this.croppedImage;
+
+          sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
+
           this.thumbnailSrc = this.croppedImage;
           this.thumbnailModalRef.hide();
         },
