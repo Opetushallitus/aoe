@@ -613,6 +613,7 @@
         "cancel": "Ei"
       },
       "basic": {
+        "cover": "Lataa kansikuva",
         "name": {
           "label": "Kokoelman nimi",
           "placeholder": "Kirjoita kokoelman nimi"
