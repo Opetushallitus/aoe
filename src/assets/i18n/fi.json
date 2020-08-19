@@ -801,6 +801,7 @@
           "keywords": "Asiasanat",
           "description": "Kokoelman kuvausteksti"
         },
+        "materialsAndHeadings": "Materiaalit ja väliotsikot",
         "addMissingDetail": "Lisää puuttuva tieto",
         "saveUnpublished": "Tallenna julkaisematta",
         "savePublished": "Julkaise"
