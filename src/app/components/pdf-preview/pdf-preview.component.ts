@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
 })
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material;
-  @Input() isCollection = false;
   materialUrl: string;
 
   ngOnInit(): void {

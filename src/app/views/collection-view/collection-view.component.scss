@@ -27,31 +27,6 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
-
-  .list-files {
-    background-color: #eee;
-    padding: .5rem;
-
-    h3 {
-      @include font-size(16);
-      font-weight: 400;
-    }
-
-    .btn-group-vertical {
-      width: 100%;
-    }
-
-    .btn-file {
-      color: $input-color;
-      font-weight: 400;
-      text-align: left;
-      word-break: break-all;
-
-      &.active {
-        background-color: #fff;
-      }
-    }
-  }
 }
 
 .collection-authors {
