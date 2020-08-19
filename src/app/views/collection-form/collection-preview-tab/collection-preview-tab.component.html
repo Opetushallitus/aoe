@@ -521,6 +521,7 @@
         <button
           type="button"
           class="btn btn-gray"
+          [disabled]="form.invalid"
           (click)="onSubmit(true)"
         >{{ 'forms.collection.preview.saveUnpublished' | translate }}</button>
       </div>
@@ -529,6 +530,7 @@
         <button
           type="submit"
           class="btn btn-blue"
+          [disabled]="form.invalid"
         >{{ 'forms.collection.preview.savePublished' | translate }}</button>
       </div>
     </div>
