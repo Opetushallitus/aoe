@@ -24,6 +24,7 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
 import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
+import { CollectionMaterialPreviewComponent } from '@views/collection-material-preview/collection-material-preview.component';
 
 export const routes: Routes = [
   {
@@ -157,6 +158,10 @@ export const routes: Routes = [
   {
     path: 'materiaali/pdf/:filekey',
     component: PdfReaderViewComponent,
+  },
+  {
+    path: 'kokoelma/materiaali/:resourceId',
+    component: CollectionMaterialPreviewComponent,
   },
   {
     path: '**',
