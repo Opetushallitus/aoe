@@ -3,6 +3,7 @@ import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-t
 
 export interface CollectionForm {
   id: string;
+  isPublished: boolean;
   // basic
   name: string;
   thumbnail?: string;

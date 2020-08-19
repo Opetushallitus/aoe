@@ -476,7 +476,7 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Materiaali/väliotsikko</th><!--@todo: i18n-->
+          <th scope="col">{{ 'forms.collection.preview.materialsAndHeadings' | translate }}</th>
         </tr>
       </thead>
 
@@ -517,10 +517,11 @@
         >{{ 'forms.common.abort' | translate }}</button>
       </div>
 
-      <div class="col-auto">
+      <div class="col-auto" *ngIf="!collection.isPublished">
         <button
           type="button"
           class="btn btn-gray"
+          [disabled]="form.invalid"
           (click)="onSubmit(true)"
         >{{ 'forms.collection.preview.saveUnpublished' | translate }}</button>
       </div>
@@ -529,7 +530,16 @@
         <button
           type="submit"
           class="btn btn-blue"
-        >{{ 'forms.collection.preview.savePublished' | translate }}</button>
+          [disabled]="form.invalid"
+        >
+          <ng-container *ngIf="collection.isPublished; else publish">
+            {{ 'forms.common.save' | translate }}
+          </ng-container>
+
+          <ng-template #publish>
+            {{ 'forms.collection.preview.savePublished' | translate }}
+          </ng-template>
+        </button>
       </div>
     </div>
   </form>
