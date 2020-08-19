@@ -801,6 +801,7 @@
           "keywords": "Nyckelord",
           "description": "Beskrivning"
         },
+        "materialsAndHeadings": "Resurser och rubriker",
         "addMissingDetail": "Fyll i informationen",
         "saveUnpublished": "Spara opublicerad",
         "savePublished": "Publicera"
