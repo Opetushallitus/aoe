@@ -517,7 +517,7 @@
         >{{ 'forms.common.abort' | translate }}</button>
       </div>
 
-      <div class="col-auto">
+      <div class="col-auto" *ngIf="!collection.isPublished">
         <button
           type="button"
           class="btn btn-gray"
@@ -531,7 +531,15 @@
           type="submit"
           class="btn btn-blue"
           [disabled]="form.invalid"
-        >{{ 'forms.collection.preview.savePublished' | translate }}</button>
+        >
+          <ng-container *ngIf="collection.isPublished; else publish">
+            {{ 'forms.common.save' | translate }}
+          </ng-container>
+
+          <ng-template #publish>
+            {{ 'forms.collection.preview.savePublished' | translate }}
+          </ng-template>
+        </button>
       </div>
     </div>
   </form>

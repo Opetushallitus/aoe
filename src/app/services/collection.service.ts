@@ -233,6 +233,7 @@ export class CollectionService {
 
       const collectionForm: CollectionForm = {
         id: collection.collection.id,
+        isPublished: collection.collection.publishedat !== null,
         name: collection.collection.name,
         thumbnail: collection.thumbnail
          ? collection.thumbnail
