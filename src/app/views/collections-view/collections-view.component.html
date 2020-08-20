@@ -1,0 +1,291 @@
+<div class="content-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ng-container [ngSwitch]="lang">
+          <ng-container *ngSwitchDefault>
+            <h1 class="text-center">Kokoelmat</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'en'">
+            <h1 class="text-center">Collections</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'sv'">
+            <h1 class="text-center">Samlingar</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
+
+<div class="content-wrapper bg-light">
+  <div class="container">
+    <h2 class="text-center">{{ 'collections.recent.title' | translate }}</h2>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+
+      <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card-collection">
+          <a [routerLink]="['/kokoelma', 1]" class="header">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  Kokoelma
+                </h3>
+
+                <p>{{ 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat.' | truncate:[75] }}</p><!--description-->
+
+                <ul class="list-unstyled authors">
+                  <li>Tekijä</li>
+                </ul><!--authors-->
+              </div>
+            </div>
+          </a>
+
+          <div class="tags">
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+
+            <button type="button" class="btn btn-light disabled" disabled>
+              avainsana
+            </button>
+          </div><!--keywords-->
+        </div><!--collection-->
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a class="btn btn-gray" routerLink="kokoelmat/kaikki">Kaikki kokoelmat</a>
+    </div>
+  </div>
+</div>
