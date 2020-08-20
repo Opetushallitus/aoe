@@ -410,9 +410,90 @@
                   </li>
                 </ul><!--authors-->
 
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" [src]="iframeSrc + materialOrHeading.id | safe"></iframe>
+                <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
+                  <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
+                          <h3
+                            [id]="'selectLanguage' + materialOrHeading.id"
+                          >{{ 'materialPreview.selectLanguage' | translate }}</h3>
+
+                          <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                            <button
+                              type="button"
+                              class="btn btn-gray"
+                              *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
+                              [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
+                              [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
+                              [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
+                              [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
+                              role="tab"
+                              (click)="setSelectedLanguage(materialOrHeading.id, lang)"
+                            >{{ lang }}</button>
+                          </div>
+                        </ng-container>
+
+                        <div
+                          *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
+                          [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                        >
+                          <h3
+                            [id]="'selectMaterial' + materialOrHeading.id"
+                            [ngClass]="materials.length === 1 ? 'sr-only' : ''"
+                          >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+
+                          <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                            <ng-container *ngFor="let material of materials">
+                              <button
+                                type="button"
+                                class="btn btn-file text-dark"
+                                [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
+                                [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
+                                [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
+                                [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
+                                role="tab"
+                                (click)="setPreviewMaterial(materialOrHeading.id, material)"
+                              >{{ material.displayName[lang] }}</button>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-9">
+                        <div
+                          [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                        >
+                          <app-educational-material-preview
+                            [material]="previewMaterials.get(materialOrHeading.id)"
+                            [isCollection]="true"
+                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
+
+                          <ng-template #linkPreview>
+                            <div class="link-preview">
+                              <a
+                                [href]="previewMaterials.get(materialOrHeading.id).link"
+                                class="btn btn-secondary"
+                                target="_blank"
+                                rel="noopener nofollow"
+                              >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                <ng-template #loading>
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">{{ 'collections.loading' | translate }}</span>
+                  </div>
+                </ng-template>
               </ng-container><!--material-->
 
               <ng-template #heading>
