@@ -35,13 +35,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -129,7 +129,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
       }
     }),
     AccordionModule.forRoot(),
-    NgxExtendedPdfViewerModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
@@ -143,6 +142,7 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     ClipboardModule,
     ToastrModule.forRoot(),
     HammerModule,
+    PdfJsViewerModule,
   ],
   declarations: [
     AppComponent,
