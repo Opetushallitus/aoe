@@ -87,12 +87,12 @@ export class DefaultLayoutComponent {
   /**
    * Set language
    */
-  public changeLanguage(lang: string): void {
+  changeLanguage(lang: string): void {
     setLanguage(lang);
     this.translate.use(lang);
   }
 
-  private hideCookieNotice(): void {
+  hideCookieNotice(): void {
     this.showNotice = false;
   }
 }
