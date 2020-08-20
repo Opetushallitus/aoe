@@ -96,7 +96,6 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
-import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
 import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
@@ -107,7 +106,6 @@ import { CollectionEducationalDetailsTabComponent } from '@views/collection-form
 import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
 import { CollectionPreviewTabComponent } from '@views/collection-form/collection-preview-tab/collection-preview-tab.component';
 import { TaglistComponent } from '@components/taglist/taglist.component';
-import { CollectionMaterialPreviewComponent } from '@views/collection-material-preview/collection-material-preview.component';
 
 @NgModule({
   imports: [
@@ -194,7 +192,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     EducationalMaterialRatingModalComponent,
     AddToCollectionModalComponent,
     CollectionViewComponent,
-    PdfReaderViewComponent,
     MaterialLanguagePipe,
     CleanFilenamePipe,
     CollectionFormComponent,
@@ -203,7 +200,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     CollectionMaterialsTabComponent,
     CollectionPreviewTabComponent,
     TaglistComponent,
-    CollectionMaterialPreviewComponent,
   ],
   providers: [
     {
