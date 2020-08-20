@@ -414,18 +414,57 @@ h2 {
   background-color: map_get($theme-colors, 'light');
   padding: 1rem 1rem;
 
+  .header {
+    border-bottom: 2px solid;
+    border-color: $body-bg;
+    color: $media-body-color;
+    display: block;
+    padding-bottom: .25rem;
+
+    &:hover {
+      color: rgba($media-body-color, .75);
+      text-decoration: none;
+
+      h3 {
+        color: rgba($body-color, .75);
+      }
+    }
+  }
+
+  .tags {
+    border-bottom: 2px solid;
+    border-color: $body-bg;
+    padding-top: .25rem;
+
+    .btn {
+      border-radius: 0;
+    }
+  }
+
   a {
     color: $body-color;
   }
 
   h3 {
+    color: $body-color;
     @include font-size(16);
+    margin-top: 0;
     word-break: break-word;
+  }
+
+  p {
+    @include font-size(14);
+  }
+
+  .authors {
+    @include font-size(14);
+    margin-bottom: 0;
   }
 }
 
 .bg-light {
-  .card-educational-material {
+  .card-educational-material,
+  .card-collection {
     background-color: $white;
 
     .header {

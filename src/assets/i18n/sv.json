@@ -8,6 +8,7 @@
     "home": "Framsida",
     "info": "Info",
     "myMaterials": "Mina lärresurser",
+    "collections": "Samlingar",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
@@ -965,6 +966,10 @@
       "scienceBranches": "Verenskapsgren för högskoleutbildning",
       "scienceBranchObjectives": "Mål för högskoleutbildning",
       "higherEducationFramework": "Läroplans- eller examensgrunderna för högskoleutbildning"
+    },
+    "recent": {
+      "title": "Senaste samlingar",
+      "showAll": ""
     }
   },
   "materialPreview": {
