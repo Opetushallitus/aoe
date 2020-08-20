@@ -35,13 +35,13 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CookieService } from 'ngx-cookie-service';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -96,7 +96,6 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
-import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
 import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
@@ -107,7 +106,6 @@ import { CollectionEducationalDetailsTabComponent } from '@views/collection-form
 import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
 import { CollectionPreviewTabComponent } from '@views/collection-form/collection-preview-tab/collection-preview-tab.component';
 import { TaglistComponent } from '@components/taglist/taglist.component';
-import { CollectionMaterialPreviewComponent } from '@views/collection-material-preview/collection-material-preview.component';
 
 @NgModule({
   imports: [
@@ -129,7 +127,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
       }
     }),
     AccordionModule.forRoot(),
-    NgxExtendedPdfViewerModule,
     NgSelectModule,
     FormsModule,
     ReactiveFormsModule,
@@ -143,6 +140,7 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     ClipboardModule,
     ToastrModule.forRoot(),
     HammerModule,
+    PdfJsViewerModule,
   ],
   declarations: [
     AppComponent,
@@ -194,7 +192,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     EducationalMaterialRatingModalComponent,
     AddToCollectionModalComponent,
     CollectionViewComponent,
-    PdfReaderViewComponent,
     MaterialLanguagePipe,
     CleanFilenamePipe,
     CollectionFormComponent,
@@ -203,7 +200,6 @@ import { CollectionMaterialPreviewComponent } from '@views/collection-material-p
     CollectionMaterialsTabComponent,
     CollectionPreviewTabComponent,
     TaglistComponent,
-    CollectionMaterialPreviewComponent,
   ],
   providers: [
     {
