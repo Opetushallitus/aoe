@@ -8,6 +8,7 @@
     "home": "Home",
     "info": "Info",
     "myMaterials": "My open educational resources",
+    "collections": "Collections",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
@@ -965,6 +966,10 @@
       "scienceBranches": "Educational subject of higher education",
       "scienceBranchObjectives": "Learning object of higher education",
       "higherEducationFramework": "Educational framework of higher education"
+    },
+    "recent": {
+      "title": "Recent collections",
+      "showAll": ""
     }
   },
   "materialPreview": {

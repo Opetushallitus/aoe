@@ -8,6 +8,7 @@
     "home": "Etusivu",
     "info": "Lisätietoa",
     "myMaterials": "Omat oppimateriaalit",
+    "collections": "Kokoelmat",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
@@ -965,6 +966,10 @@
       "scienceBranches": "Korkeakoulutuksen tieteenalat",
       "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
       "higherEducationFramework": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet"
+    },
+    "recent": {
+      "title": "Uusimmat kokoelmat",
+      "showAll": ""
     }
   },
   "materialPreview": {
