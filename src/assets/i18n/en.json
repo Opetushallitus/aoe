@@ -970,7 +970,8 @@
     "recent": {
       "title": "Recent collections",
       "showAll": ""
-    }
+    },
+    "title": "Collections"
   },
   "materialPreview": {
     "selectLanguage": "Choose a language:",
