@@ -24,6 +24,7 @@ import { koodistoSources } from '../constants/koodisto-sources';
 import { Collection } from '@models/collections/collection';
 import { AlignmentObjects } from '@models/alignment-objects';
 import { UploadMessage } from '@models/upload-message';
+import { CollectionCard } from '@models/collections/collection-card';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,7 @@ export class CollectionService {
   public publicUserCollections$ = new Subject<UserCollection[]>();
   public collection$ = new Subject<Collection>();
   public editCollection$ = new Subject<CollectionForm>();
+  public recentCollections$ = new Subject<CollectionCard[]>();
 
   constructor(
     private http: HttpClient,
@@ -361,6 +363,32 @@ export class CollectionService {
       }),
       catchError(this.handleError),
     );
+  }
+
+  /**
+   * Updates recent collections.
+   */
+  updateRecentCollections(): void {
+    this.http.get<any>(`${environment.backendUrl}/collection/recent`, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((response: any) => {
+      const collections = response.map((collection: any) => {
+        return {
+          id: collection.id,
+          name: collection.name,
+          thumbnail: response.thumbnail
+            ? response.thumbnail
+            : 'assets/img/thumbnails/kokoelma.png',
+          authors: response.authors,
+          description: response.description,
+          keywords: response.keywords,
+        };
+      });
+
+      this.recentCollections$.next(collections);
+    });
   }
 
   /**
