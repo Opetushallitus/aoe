@@ -1,23 +1,27 @@
+<div class="content-wrapper py-sm-7 bg-bulb-image">
+  <div class="container">
+    <div class="row">
+      <div class="col justify-content-center">
+        <h1 class="text-center">{{ 'collections.title' | translate }}</h1>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
+
 <div class="content-wrapper">
   <div class="container">
     <div class="row">
       <div class="col">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <h1 class="text-center">Kokoelmat</h1>
-
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
-            <h1 class="text-center">Collections</h1>
-
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
-            <h1 class="text-center">Samlingar</h1>
-
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus est eget blandit placerat. Donec ut sapien sit amet elit malesuada semper aliquam at leo. Sed metus mi, volutpat et odio quis, accumsan venenatis dolor. Aliquam posuere, nulla vel luctus fermentum, justo tortor laoreet sapien, et semper sem odio tempus ipsum.</p>
           </ng-container>
         </ng-container>
