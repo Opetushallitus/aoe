@@ -39,6 +39,11 @@ export class CollectionService {
     private http: HttpClient,
   ) { }
 
+  /**
+   * Handles errors.
+   * @param {HttpErrorResponse} error
+   * @private
+   */
   private handleError(error: HttpErrorResponse) {
     console.error(error);
 
@@ -47,8 +52,8 @@ export class CollectionService {
 
   /**
    * Creates new collection.
-   * @param payload {CreateCollectionPost}
-   * @returns {Observable<CreateCollectionResponse>}
+   * @param {CreateCollectionPost} payload
+   * @returns {Observable<CreateCollectionResponse>} Response
    */
   createCollection(payload: CreateCollectionPost): Observable<CreateCollectionResponse> {
     return this.http.post<CreateCollectionResponse>(`${environment.backendUrl}/collection/create`, payload, {
@@ -93,8 +98,8 @@ export class CollectionService {
 
   /**
    * Adds educational material(s) to selected collection.
-   * @param payload {AddToCollectionPost}
-   * @returns {Observable<AddToCollectionResponse>}
+   * @param {AddToCollectionPost} payload
+   * @returns {Observable<AddToCollectionResponse>} Response
    */
   addToCollection(payload: AddToCollectionPost): Observable<AddToCollectionResponse> {
     return this.http.post<AddToCollectionResponse>(`${environment.backendUrl}/collection/addMaterial`, payload, {
@@ -108,8 +113,8 @@ export class CollectionService {
 
   /**
    * Removes educational material(s) from selected collection.
-   * @param payload {RemoveFromCollectionPost}
-   * @returns {Observable<RemoveFromCollectionResponse>}
+   * @param {RemoveFromCollectionPost} payload
+   * @returns {Observable<RemoveFromCollectionResponse>} Response
    */
   removeFromCollection(payload: RemoveFromCollectionPost): Observable<RemoveFromCollectionResponse> {
     return this.http.post<RemoveFromCollectionResponse>(`${environment.backendUrl}/collection/removeMaterial`, payload, {
@@ -123,7 +128,7 @@ export class CollectionService {
 
   /**
    * Updates collection details.
-   * @param collectionId {string}
+   * @param {string} collectionId
    */
   updateCollection(collectionId: string): void {
     this.http.get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
@@ -205,6 +210,10 @@ export class CollectionService {
     });
   }
 
+  /**
+   * Updates edit collection.
+   * @param {string} collectionId
+   */
   updateEditCollection(collectionId: string): void {
     this.http.get<CollectionResponse>(`${environment.backendUrl}/collection/getCollection/${collectionId}`, {
       headers: new HttpHeaders({
@@ -309,6 +318,10 @@ export class CollectionService {
     });
   }
 
+  /**
+   * Updates collection details.
+   * @param {UpdateCollectionPut} collection
+   */
   updateCollectionDetails(collection: UpdateCollectionPut) {
     return this.http.put(`${environment.backendUrl}/collection/update`, collection)
       .pipe(
@@ -316,6 +329,12 @@ export class CollectionService {
       );
   }
 
+  /**
+   * Uploads thumbnail image for collection.
+   * @param {string} base64Image
+   * @param {string} collectionId
+   * @returns {Observable<UploadMessage>} Upload message
+   */
   uploadImage(base64Image: string, collectionId: string): Observable<UploadMessage> {
     return this.http.post<{ base64image: string }>(`${environment.backendUrl}/collection/uploadBase64Image/${collectionId}`, {
       base64image: base64Image,
@@ -344,6 +363,12 @@ export class CollectionService {
     );
   }
 
+  /**
+   * Extracts different alignment objects from object array.
+   * @param alignmentObjects
+   * @returns {AlignmentObjects} Alignment objects
+   * @private
+   */
   private extractAlignmentObjects(alignmentObjects): AlignmentObjects {
     const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
     const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];

@@ -870,7 +870,7 @@ export class BackendService {
 
   /**
    * Returns materials that belong to specific educational material.
-   * @param materialId {string} Educational material ID
+   * @param {string} materialId Educational material ID
    * @returns {Observable<Material[]>}
    */
   getCollectionMaterials(materialId: string): Observable<Material[]> {
