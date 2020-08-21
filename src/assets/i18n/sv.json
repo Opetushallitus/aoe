@@ -970,7 +970,8 @@
     "recent": {
       "title": "Senaste samlingar",
       "showAll": ""
-    }
+    },
+    "title": "Samlingar"
   },
   "materialPreview": {
     "selectLanguage": "Välja en språk:",

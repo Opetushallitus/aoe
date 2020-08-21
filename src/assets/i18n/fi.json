@@ -970,7 +970,8 @@
     "recent": {
       "title": "Uusimmat kokoelmat",
       "showAll": ""
-    }
+    },
+    "title": "Kokoelmat"
   },
   "materialPreview": {
     "selectLanguage": "Valitse kieli:",
