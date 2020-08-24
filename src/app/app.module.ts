@@ -108,6 +108,7 @@ import { CollectionPreviewTabComponent } from '@views/collection-form/collection
 import { TaglistComponent } from '@components/taglist/taglist.component';
 import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
 import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
+import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 
 @NgModule({
   imports: [
@@ -204,6 +205,7 @@ import { CollectionCardComponent } from '@components/collection-card/collection-
     TaglistComponent,
     CollectionsViewComponent,
     CollectionCardComponent,
+    CollectionSearchResultsViewComponent,
   ],
   providers: [
     {

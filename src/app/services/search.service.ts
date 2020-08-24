@@ -8,15 +8,8 @@ import { SearchResults } from '@models/search/search-results';
   providedIn: 'root'
 })
 export class SearchService {
-  apiUri = environment.backendUrl;
-
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Accept': 'application/json',
-    }),
-  };
-
   public searchResults$ = new Subject<SearchResults>();
+  public collectionSearchResults$ = new Subject<any>(); // @todo: model
 
   constructor(
     private http: HttpClient,
@@ -29,11 +22,32 @@ export class SearchService {
   updateSearchResults(keywords: string): void {
     sessionStorage.setItem(environment.searchParams, JSON.stringify(keywords));
 
-    this.http.post(`${this.apiUri}/elasticSearch/search`, keywords, this.httpOptions)
-      .subscribe((results: SearchResults) => {
-        sessionStorage.setItem(environment.searchResults, JSON.stringify(results));
+    this.http.post(`${environment.backendUrl}/elasticSearch/search`, keywords, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((results: SearchResults) => {
+      sessionStorage.setItem(environment.searchResults, JSON.stringify(results));
 
-        this.searchResults$.next(results);
-      });
+      this.searchResults$.next(results);
+    });
+  }
+
+  /**
+   * Updates collection search results based on search params.
+   * @param {any} searchParams
+   */
+  updateCollectionSearchResults(searchParams: any): void {
+    // @todo: save search params in session storage
+
+    this.http.post(`${environment.backendUrl}/elasticSearch/searchCollections`, searchParams, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((results: any) => {
+      // @todo: save search results in session storage
+
+      this.collectionSearchResults$.next(results);
+    });
   }
 }
