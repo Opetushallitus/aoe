@@ -24,6 +24,7 @@ import { EducationalMaterialRatingsComponent } from '@views/educational-material
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
 import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
+import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 
 export const routes: Routes = [
   {
@@ -66,6 +67,12 @@ export const routes: Routes = [
       {
         path: 'kokoelmat',
         component: CollectionsViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelmat/haku',
+        component: CollectionSearchResultsViewComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
