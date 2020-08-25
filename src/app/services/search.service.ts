@@ -43,7 +43,7 @@ export class SearchService {
   updateCollectionSearchResults(searchParams: CollectionSearchParams): void {
     sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
 
-    this.http.post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/searchCollections`, searchParams, {
+    this.http.post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/collection/search`, searchParams, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
