@@ -3,13 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { SearchResults } from '@models/search/search-results';
+import { CollectionSearchResults } from '@models/search/collection-search-results';
+import { CollectionSearchParams } from '@models/search/collection-search-params';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
   public searchResults$ = new Subject<SearchResults>();
-  public collectionSearchResults$ = new Subject<any>(); // @todo: model
+  public collectionSearchResults$ = new Subject<CollectionSearchResults>();
 
   constructor(
     private http: HttpClient,
@@ -22,7 +24,7 @@ export class SearchService {
   updateSearchResults(keywords: string): void {
     sessionStorage.setItem(environment.searchParams, JSON.stringify(keywords));
 
-    this.http.post(`${environment.backendUrl}/elasticSearch/search`, keywords, {
+    this.http.post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, keywords, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
@@ -35,16 +37,16 @@ export class SearchService {
 
   /**
    * Updates collection search results based on search params.
-   * @param {any} searchParams
+   * @param {CollectionSearchParams} searchParams
    */
-  updateCollectionSearchResults(searchParams: any): void {
+  updateCollectionSearchResults(searchParams: CollectionSearchParams): void {
     sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
 
-    this.http.post(`${environment.backendUrl}/elasticSearch/searchCollections`, searchParams, {
+    this.http.post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/searchCollections`, searchParams, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).subscribe((results: any) => {
+    }).subscribe((results: CollectionSearchResults) => {
       sessionStorage.setItem(environment.collectionSearchResults, JSON.stringify(results));
 
       this.collectionSearchResults$.next(results);

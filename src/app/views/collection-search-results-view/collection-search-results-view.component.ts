@@ -4,6 +4,7 @@ import { SearchService } from '@services/search.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
+import { CollectionSearchResults } from '@models/search/collection-search-results';
 
 @Component({
   selector: 'app-collection-search-results-view',
@@ -12,7 +13,7 @@ import { environment } from '../../../environments/environment';
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
-  results: any; // @todo: model
+  results: CollectionSearchResults;
 
   constructor(
     private searchSvc: SearchService,
@@ -27,7 +28,7 @@ export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.resultSubscription = this.searchSvc.collectionSearchResults$.subscribe((results: any) => {
+    this.resultSubscription = this.searchSvc.collectionSearchResults$.subscribe((results: CollectionSearchResults) => {
       this.results = results;
     });
     this.searchSvc.updateCollectionSearchResults({ keywords: null });
