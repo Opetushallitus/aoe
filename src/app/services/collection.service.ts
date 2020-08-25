@@ -25,6 +25,7 @@ import { Collection } from '@models/collections/collection';
 import { AlignmentObjects } from '@models/alignment-objects';
 import { UploadMessage } from '@models/upload-message';
 import { CollectionCard } from '@models/collections/collection-card';
+import { RecentCollectionResponse, RecentCollectionsResponse } from '@models/collections/recent-collections-response';
 
 @Injectable({
   providedIn: 'root'
@@ -369,21 +370,21 @@ export class CollectionService {
    * Updates recent collections.
    */
   updateRecentCollections(): void {
-    this.http.get<any>(`${environment.backendUrl}/collection/recent`, {
+    this.http.get<RecentCollectionsResponse>(`${environment.backendUrl}/collection/recentCollection`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
-    }).subscribe((response: any) => {
-      const collections = response.map((collection: any) => {
+    }).subscribe((response: RecentCollectionsResponse) => {
+      const collections = response.collections.map((collection: RecentCollectionResponse) => {
         return {
           id: collection.id,
           name: collection.name,
-          thumbnail: response.thumbnail
-            ? response.thumbnail
+          thumbnail: collection.thumbnail
+            ? collection.thumbnail
             : 'assets/img/thumbnails/kokoelma.png',
-          authors: response.authors,
-          description: response.description,
-          keywords: response.keywords,
+          authors: collection.authors,
+          description: collection.description,
+          keywords: collection.keywords,
         };
       });
 
