@@ -11,3 +11,15 @@
   @include font-size(14);
   font-weight: 500;
 }
+
+.search-result {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+
+  h1 {
+    color: #373737;
+    @include font-size(20);
+    margin-bottom: 1.5rem;
+  }
+}
