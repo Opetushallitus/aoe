@@ -59,7 +59,7 @@ export class DefaultLayoutComponent {
   };
 
   showNotice = true;
-  showMaintenanceAlert = false;
+  showMaintenanceAlert = true;
 
   constructor(
     public translate: TranslateService,
