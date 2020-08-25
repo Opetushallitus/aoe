@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { SearchResults } from '@models/search/search-results';
 import { CollectionSearchResults } from '@models/search/collection-search-results';
 import { CollectionSearchParams } from '@models/search/collection-search-params';
+import { SearchParams } from '@models/search/search-params';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,13 @@ export class SearchService {
   ) { }
 
   /**
-   * Updates search results based on keywords.
-   * @param {string} keywords
+   * Updates search results based on search params.
+   * @param {SearchParams} searchParams
    */
-  updateSearchResults(keywords: string): void {
-    sessionStorage.setItem(environment.searchParams, JSON.stringify(keywords));
+  updateSearchResults(searchParams: SearchParams): void {
+    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
 
-    this.http.post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, keywords, {
+    this.http.post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, searchParams, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
