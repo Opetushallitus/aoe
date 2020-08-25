@@ -35,28 +35,8 @@
     <h2 class="text-center">{{ 'collections.recent.title' | translate }}</h2>
 
     <div class="row">
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
-      </div>
-
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
-      </div>
-
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
-      </div>
-
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
-      </div>
-
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
-      </div>
-
-      <div class="col-md-6 col-lg-4 mb-3">
-        <app-collection-card></app-collection-card>
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let recentCollection of recentCollections">
+        <app-collection-card [collection]="recentCollection"></app-collection-card>
       </div>
     </div>
 
