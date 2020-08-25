@@ -38,14 +38,14 @@ export class SearchService {
    * @param {any} searchParams
    */
   updateCollectionSearchResults(searchParams: any): void {
-    // @todo: save search params in session storage
+    sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
 
     this.http.post(`${environment.backendUrl}/elasticSearch/searchCollections`, searchParams, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
     }).subscribe((results: any) => {
-      // @todo: save search results in session storage
+      sessionStorage.setItem(environment.collectionSearchResults, JSON.stringify(results));
 
       this.collectionSearchResults$.next(results);
     });
