@@ -3,6 +3,8 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { getValuesWithinLimits } from '../../shared/shared.module';
+import { Keyword } from '@models/keyword';
+import { EducationalLevel } from '@models/educational-level';
 
 @Component({
   selector: 'app-educational-material-card',
@@ -14,8 +16,8 @@ export class EducationalMaterialCardComponent implements OnInit {
 
   materialName: string;
   description: string;
-  keywords: any[];
-  educationalLevels: any[];
+  keywords: Keyword[];
+  educationalLevels: EducationalLevel[];
 
   constructor(
     private translate: TranslateService,
