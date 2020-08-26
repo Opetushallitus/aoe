@@ -1,0 +1,36 @@
+<article class="search-result">
+  <h1><a [routerLink]="['/kokoelma', result.id]" class="text-reset">{{ result.name }}</a></h1>
+
+  <div class="row">
+    <div class="col-3 col-md-2">
+      <img
+        [src]="result.thumbnail ? result.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
+        class="img-fluid mb-3"
+        [alt]="'demo.educationalMaterial.cover.alt' | translate"
+      >
+    </div><!--thumbnail-->
+
+    <div class="col-9 col-md-6">
+      <p *ngIf="result.description">
+        {{ result.description }}
+      </p>
+
+      <ul class="list-unstyled">
+        <li *ngFor="let author of result.authors">
+          {{ author }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-12 col-md-4 text-md-right">
+      <div class="tags">
+        <button
+          type="button"
+          class="btn btn-light disabled"
+          disabled
+          *ngFor="let keyword of result.keywords"
+        >{{ keyword.value }}</button>
+      </div>
+    </div>
+  </div>
+</article>
