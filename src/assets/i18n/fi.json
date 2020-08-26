@@ -971,7 +971,11 @@
       "title": "Uusimmat kokoelmat",
       "showAll": ""
     },
-    "title": "Kokoelmat"
+    "title": "Kokoelmat",
+    "search": {
+      "title": "Hakutulokset"
+    },
+    "showAll": "Kaikki kokoelmat"
   },
   "materialPreview": {
     "selectLanguage": "Valitse kieli:",

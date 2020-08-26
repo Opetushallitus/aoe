@@ -971,7 +971,11 @@
       "title": "Recent collections",
       "showAll": ""
     },
-    "title": "Collections"
+    "title": "Collections",
+    "search": {
+      "title": "Search results"
+    },
+    "showAll": "All collections"
   },
   "materialPreview": {
     "selectLanguage": "Choose a language:",

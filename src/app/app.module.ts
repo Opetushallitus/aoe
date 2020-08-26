@@ -109,6 +109,7 @@ import { TaglistComponent } from '@components/taglist/taglist.component';
 import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
 import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
+import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
 
 @NgModule({
   imports: [
@@ -206,6 +207,7 @@ import { CollectionSearchResultsViewComponent } from '@views/collection-search-r
     CollectionsViewComponent,
     CollectionCardComponent,
     CollectionSearchResultsViewComponent,
+    CollectionSearchResultComponent,
   ],
   providers: [
     {
