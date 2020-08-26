@@ -971,7 +971,11 @@
       "title": "Senaste samlingar",
       "showAll": ""
     },
-    "title": "Samlingar"
+    "title": "Samlingar",
+    "search": {
+      "title": "Sökresultaten"
+    },
+    "showAll": "Alla samlingar"
   },
   "materialPreview": {
     "selectLanguage": "Välja en språk:",
