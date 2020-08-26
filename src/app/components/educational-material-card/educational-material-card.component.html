@@ -22,14 +22,22 @@
   </a>
 
   <div class="tags">
-    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled">
-      {{ keyword }}
+    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled" disabled>
+      {{ keyword.value }}
+    </button>
+
+    <button type="button" class="btn btn-light disabled" disabled *ngIf="educationalMaterial.keywords.length > keywords.length">
+      +{{ educationalMaterial.keywords.length - keywords.length }}
     </button>
   </div>
 
   <div class="tags">
-    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled">
-      {{ educationalLevel }}
+    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled" disabled>
+      {{ educationalLevel.value }}
+    </button>
+
+    <button type="button" class="btn btn-light disabled" disabled *ngIf="educationalMaterial.educationalLevels.length > educationalLevels.length">
+      +{{ educationalMaterial.educationalLevels.length - educationalLevels.length }}
     </button>
   </div>
 
