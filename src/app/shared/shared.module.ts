@@ -268,3 +268,23 @@ export function descriptionValidator(): ValidatorFn {
     return invalid ? { 'invalid': { value: control.value } } : null;
   };
 }
+
+export function getValuesWithinLimits(input: any[], prop: string = 'value'): any[] {
+  const charLimit = 30;
+  let usedChars = 0;
+  const values = [];
+
+  const [first, ...rest] = input;
+
+  values.push(first);
+  usedChars += first[prop].length;
+
+  rest.forEach((row: any) => {
+    if (usedChars + row[prop].length <= charLimit) {
+      values.push(row);
+      usedChars += row[prop].length;
+    }
+  });
+
+  return values;
+}
