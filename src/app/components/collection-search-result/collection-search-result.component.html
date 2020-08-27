@@ -19,10 +19,28 @@
         <li *ngFor="let author of result.authors">
           {{ author }}
         </li>
-      </ul>
+      </ul><!--authors-->
     </div>
 
     <div class="col-12 col-md-4 text-md-right">
+      <ul class="nav justify-content-md-end">
+        <li class="nav-item">
+          <a [routerLink]="[ '/kokoelma', result.id ]" class="nav-link">
+            <i class="fa fa-fw fa-folder-o text-dark" aria-hidden="true"></i>
+            {{ 'search.results.open' | translate }}
+          </a>
+        </li>
+      </ul><!--links-->
+
+      <div class="tags" *ngIf="result.educationalLevels.length > 0">
+        <button
+          type="button"
+          class="btn btn-light disabled"
+          disabled
+          *ngFor="let level of result.educationalLevels"
+        >{{ level.value }}</button>
+      </div><!--keywords-->
+
       <div class="tags">
         <button
           type="button"
@@ -30,7 +48,7 @@
           disabled
           *ngFor="let keyword of result.keywords"
         >{{ keyword.value }}</button>
-      </div>
+      </div><!--keywords-->
     </div>
   </div>
 </article>
