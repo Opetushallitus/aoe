@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CollectionCard } from '@models/collections/collection-card';
+import { CollectionCard, CollectionCardKeyword } from '@models/collections/collection-card';
 import { getValuesWithinLimits } from '../../shared/shared.module';
 
 @Component({
@@ -9,11 +9,13 @@ import { getValuesWithinLimits } from '../../shared/shared.module';
 })
 export class CollectionCardComponent implements OnInit {
   @Input() collection: CollectionCard;
-  keywords: any[];
+  educationalLevels: any[];
+  keywords: CollectionCardKeyword[];
 
   constructor() { }
 
   ngOnInit(): void {
+    this.educationalLevels = getValuesWithinLimits(this.collection.educationalLevels, 'value');
     this.keywords = getValuesWithinLimits(this.collection.keywords, 'value');
   }
 }
