@@ -6,6 +6,7 @@ export interface CollectionCard {
   description: string;
   keywords: CollectionCardKeyword[];
   educationalLevels: CollectionCardEducationalLevel[];
+  languages: string[];
 }
 
 export interface CollectionCardKeyword {
