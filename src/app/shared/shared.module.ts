@@ -270,6 +270,10 @@ export function descriptionValidator(): ValidatorFn {
 }
 
 export function getValuesWithinLimits(input: any[], prop: string = 'value'): any[] {
+  if (input.length <= 1) {
+    return input;
+  }
+
   const charLimit = 30;
   let usedChars = 0;
   const values = [];
