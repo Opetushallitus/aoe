@@ -23,6 +23,16 @@
     </div>
   </a>
 
+  <div class="tags" *ngIf="collection.educationalLevels.length > 0">
+    <button type="button" class="btn btn-light disabled" disabled *ngFor="let level of educationalLevels">
+      {{ level.value }}
+    </button>
+
+    <button type="button" class="btn btn-light disabled" disabled *ngIf="collection.educationalLevels.length > educationalLevels.length">
+      +{{ collection.educationalLevels.length - educationalLevels.length }}
+    </button>
+  </div><!--educationalLevels-->
+
   <div class="tags">
     <button type="button" class="btn btn-light disabled" disabled *ngFor="let keyword of keywords">
       {{ keyword.value }}

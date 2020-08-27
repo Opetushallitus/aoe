@@ -4,10 +4,16 @@ export interface CollectionCard {
   thumbnail: string | null;
   authors: string[];
   description: string;
-  keywords: [
-    {
-      key: string;
-      value: string;
-    }
-  ];
+  keywords: CollectionCardKeyword[];
+  educationalLevels: CollectionCardEducationalLevel[];
+}
+
+export interface CollectionCardKeyword {
+  key: string;
+  value: string;
+}
+
+export interface CollectionCardEducationalLevel {
+  key: string;
+  value: string;
 }
