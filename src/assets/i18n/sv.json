@@ -132,9 +132,9 @@
         "download": "Ladda ner filen"
       },
       "embed": {
-        "label": "Embed code",
-        "copy": "Copy",
-        "copied": "Copied"
+        "label": "Bädda in",
+        "copy": "Kopiera",
+        "copied": "Kopierade"
       },
       "references": {
         "title": "Referens",
