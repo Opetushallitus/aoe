@@ -48,12 +48,15 @@ export class DefaultLayoutComponent {
 
   brand = {
     fi: {
+      img: 'assets/img/aoe_logo_fi.png',
       alt: 'Avointen oppimateriaalien kirjasto',
     },
     en: {
+      img: 'assets/img/aoe_logo_en.png',
       alt: 'Library of Open Educational Resources',
     },
     sv: {
+      img: 'assets/img/aoe_logo_sv.png',
       alt: 'Biblioteket för öppna lärresurser',
     },
   };
