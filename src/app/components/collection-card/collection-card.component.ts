@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CollectionCard, CollectionCardKeyword } from '@models/collections/collection-card';
+import {
+  CollectionCard,
+  CollectionCardEducationalLevel,
+  CollectionCardKeyword,
+} from '@models/collections/collection-card';
 import { getValuesWithinLimits } from '../../shared/shared.module';
 
 @Component({
@@ -9,7 +13,7 @@ import { getValuesWithinLimits } from '../../shared/shared.module';
 })
 export class CollectionCardComponent implements OnInit {
   @Input() collection: CollectionCard;
-  educationalLevels: any[];
+  educationalLevels: CollectionCardEducationalLevel[];
   keywords: CollectionCardKeyword[];
 
   constructor() { }
