@@ -386,6 +386,7 @@ export class CollectionService {
           description: collection.description,
           keywords: collection.keywords,
           educationalLevels: collection.educationalLevels,
+          languages: collection.languages,
         };
       });
 
