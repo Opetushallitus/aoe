@@ -202,10 +202,10 @@
         "maxLength": "{{maxLength}}"
       },
       "textInput": {
-        "characters": "Tillåtna specialtecken: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+        "characters": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ?"
       },
       "description": {
-        "characters": "Tillåtna specialtecken: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Tillåtna specialtecken: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
