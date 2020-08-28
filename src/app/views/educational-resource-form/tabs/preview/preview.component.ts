@@ -11,6 +11,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
+import { Subtitle } from '@models/subtitle';
 
 @Component({
   selector: 'app-preview',
@@ -261,6 +262,7 @@ export class PreviewComponent implements OnInit {
         return {
           materialId: file.id,
           priority: index,
+          attachments: file.subtitles.map((subtitle: Subtitle) => subtitle.id),
         };
       });
 
