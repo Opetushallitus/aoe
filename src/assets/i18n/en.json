@@ -193,10 +193,10 @@
         "maxLength": "Maximum length is {{maxLength}} characters"
       },
       "textInput": {
-        "characters": "Allowed special characters: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+        "characters": "Allowed special characters: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ?"
       },
       "description": {
-        "characters": "Allowed special characters: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Allowed special characters: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
