@@ -42,7 +42,7 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.home').subscribe((title: string) => {
+    this.translate.get('titles.collections').subscribe((title: string) => {
       this.titleSvc.setTitle(`${title} ${environment.title}`);
     });
   }
