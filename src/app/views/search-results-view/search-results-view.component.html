@@ -459,12 +459,25 @@
         <div class="col-lg-9">
           <div id="results" *ngIf="results?.hits > 0; else noResults">
             <div class="block-header">
-              <span class="results-count">{{ results.hits }} {{ 'search.results.results' | translate }}</span>
+              <div class="row justify-content-center justify-content-md-between align-items-md-center">
+                <div class="col-auto">
+                  <div class="results-count mb-2 mb-md-0">{{ from + 1 }} - {{ page * resultsPerPage }} / {{ results.hits }} {{ 'search.results.results' | translate }}</div>
+                </div>
+
+                <div class="col-auto">
+                  <pagination-controls
+                    (pageChange)="getPage($event)"
+                    class="search-pagination"
+                    [previousLabel]="'forms.common.previous' | translate"
+                    [nextLabel]="'forms.common.next' | translate"
+                  ></pagination-controls>
+                </div>
+              </div>
             </div>
 
             <div class="row">
               <div class="col">
-                <app-search-result *ngFor="let result of results.results" [result]="result"></app-search-result>
+                <app-search-result *ngFor="let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }" [result]="result"></app-search-result>
               </div>
             </div>
           </div>

@@ -98,6 +98,7 @@ import { AddToCollectionModalComponent } from '@components/add-to-collection-mod
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
 import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
 // tslint:disable-next-line:max-line-length
 import { CollectionBasicDetailsTabComponent } from '@views/collection-form/collection-basic-details-tab/collection-basic-details-tab.component';
@@ -144,6 +145,7 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
     ClipboardModule,
     ToastrModule.forRoot(),
     HammerModule,
+    NgxPaginationModule,
     PdfJsViewerModule,
   ],
   declarations: [
