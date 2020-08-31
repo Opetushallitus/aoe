@@ -100,6 +100,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.resultSubscription = this.searchSvc.searchResults$
       .subscribe((results: SearchResults) => {
         this.results = results;
+        this.loading = false;
 
         this.setAvailableFilters(results);
       });

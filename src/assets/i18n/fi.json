@@ -647,7 +647,8 @@
       "open": "Avaa",
       "download": "Lataa",
       "narrowSearch": "Rajaa hakua",
-      "results": "tulosta"
+      "results": "tulosta",
+      "loading": "Latautuu..."
     },
     "filters": {
       "submit": "Rajaa",
