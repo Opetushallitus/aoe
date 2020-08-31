@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResult, SearchResults } from '@models/search/search-results';
@@ -25,6 +25,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   page = 1;
   resultsPerPage = 15;
   loading: boolean;
+  @ViewChild('resultsContainer') resultsContainer;
 
   // filters
   languageSubscription: Subscription;
@@ -104,8 +105,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.setAvailableFilters(results);
       });
-
-    this.getPage(1);
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
@@ -428,6 +427,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   getPage(pageNumber: number): void {
+    this.resultsContainer.nativeElement.scrollIntoView();
     this.loading = true;
     this.page = pageNumber;
 
