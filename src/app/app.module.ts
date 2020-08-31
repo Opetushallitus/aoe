@@ -99,6 +99,7 @@ import { CollectionViewComponent } from '@views/collection-view/collection-view.
 import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
 import { MaterialLanguagePipe } from './pipes/material-language.pipe';
 import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -134,6 +135,7 @@ import { CleanFilenamePipe } from './pipes/clean-filename.pipe';
     ClipboardModule,
     ToastrModule.forRoot(),
     HammerModule,
+    NgxPaginationModule,
   ],
   declarations: [
     AppComponent,

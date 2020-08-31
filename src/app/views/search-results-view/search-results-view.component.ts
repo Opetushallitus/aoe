@@ -21,6 +21,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   resultSubscription: Subscription;
   results: SearchResults;
+  page = 1;
+  resultsPerPage = 15;
+  loading: boolean;
 
   // filters
   languageSubscription: Subscription;
@@ -99,6 +102,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.setAvailableFilters(results);
       });
+
+    this.getPage(1);
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
@@ -261,6 +266,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.teachesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get from(): number {
+    return (this.page - 1) * this.resultsPerPage;
+  }
+
   setAvailableFilters(results: SearchResults): void {
     const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
@@ -416,6 +425,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  getPage(pageNumber: number): void {
+    this.loading = true;
+    this.page = pageNumber;
+
+    this.onSubmit();
+  }
+
   /**
    * Finds key matching language value.
    * @param {string} key
@@ -429,6 +445,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     if (this.searchForm.valid) {
       const searchParams = this.searchForm.value;
       const selectedEducationalLevels: string[] = [];
+
+      searchParams.from = this.from;
+      searchParams.size = this.resultsPerPage;
 
       searchParams.filters.languages = this.filters.value.languages
         .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
