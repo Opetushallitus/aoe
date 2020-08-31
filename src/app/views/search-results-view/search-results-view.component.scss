@@ -1,4 +1,5 @@
 @import "mixins";
+@import "variables";
 
 .block-header {
   background-color: #f9f9f9;
@@ -53,4 +54,13 @@
 .results-count {
   @include font-size(14);
   font-weight: 500;
+}
+
+.search-pagination::ng-deep .ngx-pagination {
+  @include font-size(14);
+  margin-bottom: 0;
+
+  .current {
+    background-color: $blue;
+  }
 }
