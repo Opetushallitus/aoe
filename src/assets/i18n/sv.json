@@ -870,7 +870,8 @@
       "open": "Öppna",
       "download": "Ladda ner",
       "narrowSearch": "Begränsa sökningen",
-      "results": "resultat"
+      "results": "resultat",
+      "loading": "Laddning..."
     },
     "filters": {
       "submit": "Begränsa",

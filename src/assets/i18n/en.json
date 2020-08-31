@@ -870,7 +870,8 @@
       "open": "Open",
       "download": "Download",
       "narrowSearch": "Narrow search",
-      "results": "results"
+      "results": "results",
+      "loading": "Loading..."
     },
     "filters": {
       "submit": "Narrow",
