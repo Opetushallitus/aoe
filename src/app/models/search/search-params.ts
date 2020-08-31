@@ -11,4 +11,6 @@ export interface SearchParams {
     educationalSubjects?: string[] | null;
     teaches?: string[] | null;
   };
+  from?: number;
+  size?: number;
 }
