@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { SearchResults } from '@models/search/search-results';
+import { SearchParams } from '@models/search/search-params';
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +25,9 @@ export class SearchService {
 
   /**
    * Updates search results based on keywords.
-   * @param {string} keywords
+   * @param {SearchParams} keywords
    */
-  updateSearchResults(keywords: string): void {
+  updateSearchResults(keywords: SearchParams): void {
     sessionStorage.setItem(environment.searchParams, JSON.stringify(keywords));
 
     this.http.post(`${this.apiUri}/elasticSearch/search`, keywords, this.httpOptions)
