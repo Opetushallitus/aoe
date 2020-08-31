@@ -105,8 +105,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         this.setAvailableFilters(results);
       });
 
-    this.getPage(1);
-
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
     });
