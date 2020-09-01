@@ -8,6 +8,7 @@ import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-t
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
+import { SearchParams } from '@models/search/search-params';
 
 @Component({
   selector: 'app-search',
@@ -22,6 +23,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   educationalSubjects: SubjectFilter[];
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
+  resultsPerPage = 15;
 
   constructor(
     private searchSvc: SearchService,
@@ -91,7 +93,12 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.searchForm.valid) {
-      this.searchSvc.updateSearchResults(this.searchForm.value);
+      const searchParams: SearchParams = this.searchForm.value;
+
+      searchParams.from = 0;
+      searchParams.size = this.resultsPerPage;
+
+      this.searchSvc.updateSearchResults(searchParams);
 
       this.router.navigate(['/haku']);
     }
