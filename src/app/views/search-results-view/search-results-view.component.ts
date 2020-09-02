@@ -12,6 +12,7 @@ import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
+import { SearchFilters } from '@models/search/search-filters';
 
 @Component({
   selector: 'app-search-results-view',
@@ -50,6 +51,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedSubjects = true;
   teaches: any[] = [];
   isCollapsedTeaches = true;
+  isCollapsedKeywords2 = true;
+
+  // filters 2.0
+  searchFilters: SearchFilters;
+  searchFilterSubscription: Subscription;
+  filtersShownAtFirst = 8;
+  filtersShown = new Map();
 
   constructor(
     private searchSvc: SearchService,
@@ -82,6 +90,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         keywords: this.fb.array([]),
         educationalSubjects: this.fb.array([]),
         teaches: this.fb.array([]),
+        keywords2: this.fb.array([]),
       }),
     });
 
@@ -89,13 +98,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     if (searchParams) {
       this.keywordsCtrl.setValue(searchParams.keywords);
-    }
 
-    const searchResults: SearchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
-
-    if (searchResults) {
-      this.results = searchResults;
-      this.setAvailableFilters(searchResults);
+      this.searchSvc.updateSearchResults(searchParams);
+      this.searchSvc.updateSearchFilters(searchParams);
     }
 
     this.resultSubscription = this.searchSvc.searchResults$
@@ -105,6 +110,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.setAvailableFilters(results);
       });
+
+    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
+      this.searchFilters = filters;
+
+      this.setAvailableFilters2(filters);
+    });
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
@@ -161,11 +172,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.languageSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
+    this.searchFilterSubscription.unsubscribe();
+
+    sessionStorage.removeItem(environment.searchParams);
   }
 
   setTitle(): void {
     this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
+      this.titleSvc.setTitle(`${title} ${this.page} ${environment.title}`);
     });
   }
 
@@ -267,12 +281,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.teachesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get keywords2Array(): FormArray {
+    return this.filters.get('keywords2') as FormArray;
+  }
+
+  get keywords2Count(): number {
+    return this.keywords2Array.value.filter((v: boolean) => v === true).length;
+  }
+
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
   }
 
   setAvailableFilters(results: SearchResults): void {
-    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     const allLanguages: string[] = [];
     this.languagesArray.clear();
@@ -426,12 +448,37 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  getPage(pageNumber: number): void {
-    this.resultsContainer.nativeElement.scrollIntoView();
-    this.loading = true;
-    this.page = pageNumber;
+  setAvailableFilters2(searchFilters: SearchFilters): void {
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
-    this.onSubmit();
+    this.keywords2Array.clear();
+
+    this.filtersShown.set('keywords', this.filtersShownAtFirst);
+
+    searchFilters.keywords.forEach((keyword) => {
+      let state = false;
+
+      if (searchParams?.filters?.keywords) {
+        state = searchParams.filters.keywords.includes(keyword.key);
+      }
+
+      this.keywords2Array.push(this.fb.control(state));
+    });
+  }
+
+  getPage(pageNumber: number): void {
+    if (this.searchForm.valid) {
+      this.resultsContainer.nativeElement.scrollIntoView();
+      this.loading = true;
+      this.page = pageNumber;
+
+      const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+      searchParams.from = this.from;
+
+      this.searchSvc.updateSearchResults(searchParams);
+
+      this.setTitle();
+    }
   }
 
   /**
@@ -495,6 +542,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         .filter((teach: string) => teach !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
+      this.searchSvc.updateSearchFilters(searchParams);
     }
   }
 }
