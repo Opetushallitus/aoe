@@ -6,6 +6,7 @@ import { SearchResult, SearchResults } from '@models/search/search-results';
 import { SearchParams } from '@models/search/search-params';
 import { deduplicate } from '../shared/shared.module';
 import { KeyValue } from '@angular/common';
+import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class SearchService {
   };
 
   public searchResults$ = new Subject<SearchResults>();
-  public searchFilters$ = new Subject<any>();
+  public searchFilters$ = new Subject<SearchFilters>();
 
   constructor(
     private http: HttpClient,
@@ -48,9 +49,9 @@ export class SearchService {
         let languages: string[] = [];
         let authors: string[] = [];
         let organizations: KeyValue<string, string>[] = [];
-        let educationalRoles: KeyValue<string, string>[] = [];
+        let roles: KeyValue<string, string>[] = [];
         let keywords: KeyValue<string, string>[] = [];
-        let subjects: any[] = [];
+        let subjects: SearchFilterEducationalSubject[] = [];
         let teaches: KeyValue<string | number, string>[] = [];
 
         results.results.forEach((result: SearchResult) => {
@@ -75,7 +76,7 @@ export class SearchService {
 
           // educational roles
           result.educationalRoles?.forEach((role) => {
-            educationalRoles.push({
+            roles.push({
               key: role.educationalrolekey,
               value: role.value,
             });
@@ -104,18 +105,18 @@ export class SearchService {
         });
 
         languages = [...new Set(languages)];
-        authors = [...new Set(authors)];
-        organizations = deduplicate(organizations, 'key');
-        educationalRoles = deduplicate(educationalRoles, 'key');
-        keywords = deduplicate(keywords, 'key');
-        subjects = deduplicate(subjects, 'key');
-        teaches = deduplicate(teaches, 'key');
+        authors = [...new Set(authors)].sort((a, b) => a.localeCompare(b));
+        organizations = deduplicate(organizations, 'key').sort((a, b) => a.value.localeCompare(b.value));
+        roles = deduplicate(roles, 'key').sort((a, b) => a.value.localeCompare(b.value));
+        keywords = deduplicate(keywords, 'key').sort((a, b) => a.value.localeCompare(b.value));
+        subjects = deduplicate(subjects, 'key').sort((a, b) => a.value.localeCompare(b.value));
+        teaches = deduplicate(teaches, 'key').sort((a, b) => a.value.localeCompare(b.value));
 
         this.searchFilters$.next({
           languages,
           authors,
           organizations,
-          educationalRoles,
+          roles,
           keywords,
           subjects,
           teaches,

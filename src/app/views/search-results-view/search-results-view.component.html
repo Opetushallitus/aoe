@@ -405,7 +405,7 @@
             </div>
           </div><!--/educationalRoles-->
 
-          <div class="filter" formArrayName="keywords">
+          <!--<div class="filter" formArrayName="keywords">
             <div
               class="header"
               role="button"
@@ -447,7 +447,68 @@
                 </label>
               </div>
             </div>
-          </div><!--/keywords-->
+          </div>--><!--/keywords-->
+
+          <ng-container *ngIf="searchFilters; else loadingFilters">
+            <div class="filter" formArrayName="keywords2">
+              <div
+                class="header"
+                role="button"
+                [attr.aria-expanded]="!isCollapsedKeywords2"
+                aria-controls="filter-keywords2"
+                (click)="isCollapsedKeywords2 = !isCollapsedKeywords2"
+              >
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h4 id="filter-keywords2-header">{{ 'search.filters.keywords.title' | translate }}</h4>
+                  </div>
+
+                  <div class="col-auto">
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="keywords2Count > 0">
+                      {{ keywords2Count }}
+                    </span>
+
+                    <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords2 ? 'fa-plus' : 'fa-minus'"></i>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="content"
+                id="filter-keywords2"
+                aria-labelledby="filter-keywords2-header"
+                [collapse]="isCollapsedKeywords2"
+                [isAnimated]="true"
+              >
+                <div class="custom-control custom-checkbox" *ngFor="let keyword of keywords2Array.controls | slice:0:filtersShown.get('keywords'); let i = index">
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="keywords2-{{ i }}"
+                    [formControlName]="i"
+                  >
+                  <label class="custom-control-label" for="keywords2-{{ i }}">
+                    {{ searchFilters.keywords[i].value }}
+                  </label>
+                </div>
+
+                <button
+                  #showAllKeywords
+                  type="button"
+                  class="btn btn-link"
+                  (click)="filtersShown.set('keywords', keywords2Array.controls.length);showAllKeywords.hidden = true"
+                >Näytä kaikki</button>
+              </div>
+            </div><!--/keywords2-->
+          </ng-container>
+
+          <ng-template #loadingFilters>
+            <div class="filter">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">{{ 'search.results.loading' | translate }}</span>
+              </div>
+            </div>
+          </ng-template>
 
           <button
             type="submit"
