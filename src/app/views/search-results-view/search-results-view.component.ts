@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResult, SearchResults } from '@models/search/search-results';
@@ -12,7 +12,7 @@ import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { SearchFilters } from '@models/search/search-filters';
 
 @Component({
   selector: 'app-search-results-view',
@@ -51,10 +51,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedSubjects = true;
   teaches: any[] = [];
   isCollapsedTeaches = true;
+  isCollapsedKeywords2 = true;
 
   // filters 2.0
-  searchFilters: any;
+  searchFilters: SearchFilters;
   searchFilterSubscription: Subscription;
+  filtersShownAtFirst = 8;
+  filtersShown = new Map();
 
   constructor(
     private searchSvc: SearchService,
@@ -87,6 +90,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         keywords: this.fb.array([]),
         educationalSubjects: this.fb.array([]),
         teaches: this.fb.array([]),
+        keywords2: this.fb.array([]),
       }),
     });
 
@@ -107,8 +111,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         this.setAvailableFilters(results);
       });
 
-    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: any) => {
+    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
       this.searchFilters = filters;
+
+      this.setAvailableFilters2(filters);
     });
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
@@ -275,12 +281,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.teachesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get keywords2Array(): FormArray {
+    return this.filters.get('keywords2') as FormArray;
+  }
+
+  get keywords2Count(): number {
+    return this.keywords2Array.value.filter((v: boolean) => v === true).length;
+  }
+
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
   }
 
   setAvailableFilters(results: SearchResults): void {
-    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     const allLanguages: string[] = [];
     this.languagesArray.clear();
@@ -355,13 +369,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // https://stackoverflow.com/a/14438954
-    this.languages = [...new Set(allLanguages)].slice(0, 8);
-    this.authors = [...new Set(allAuthors)].slice(0, 8);
-    this.organizations = deduplicate(allOrganizations, 'key').slice(0, 8);
-    this.educationalRoles = deduplicate(allRoles, 'key').slice(0, 8);
-    this.keywords = deduplicate(allKeywords, 'key').slice(0, 8);
-    this.subjects = deduplicate(allSubjects, 'key').slice(0, 8);
-    this.teaches = deduplicate(allTeaches, 'key').slice(0, 8);
+    this.languages = [...new Set(allLanguages)];
+    this.authors = [...new Set(allAuthors)];
+    this.organizations = deduplicate(allOrganizations, 'key');
+    this.educationalRoles = deduplicate(allRoles, 'key');
+    this.keywords = deduplicate(allKeywords, 'key');
+    this.subjects = deduplicate(allSubjects, 'key');
+    this.teaches = deduplicate(allTeaches, 'key');
 
     this.languages.forEach((language: string) => {
       let state = false;
@@ -431,6 +445,24 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }
 
       this.teachesArray.push(this.fb.control(state));
+    });
+  }
+
+  setAvailableFilters2(searchFilters: SearchFilters): void {
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
+    this.keywords2Array.clear();
+
+    this.filtersShown.set('keywords', this.filtersShownAtFirst);
+
+    searchFilters.keywords.forEach((keyword) => {
+      let state = false;
+
+      if (searchParams?.filters?.keywords) {
+        state = searchParams.filters.keywords.includes(keyword.key);
+      }
+
+      this.keywords2Array.push(this.fb.control(state));
     });
   }
 
