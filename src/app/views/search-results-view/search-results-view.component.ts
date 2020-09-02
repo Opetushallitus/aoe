@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResult, SearchResults } from '@models/search/search-results';
@@ -12,6 +12,7 @@ import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-search-results-view',
@@ -51,6 +52,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   teaches: any[] = [];
   isCollapsedTeaches = true;
 
+  // filters 2.0
+  searchFilters: any;
+  searchFilterSubscription: Subscription;
+
   constructor(
     private searchSvc: SearchService,
     private fb: FormBuilder,
@@ -85,17 +90,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }),
     });
 
-    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
       this.keywordsCtrl.setValue(searchParams.keywords);
-    }
 
-    const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
-
-    if (searchResults) {
-      this.results = searchResults;
-      this.setAvailableFilters(searchResults);
+      this.searchSvc.updateSearchResults(searchParams);
+      this.searchSvc.updateSearchFilters(searchParams);
     }
 
     this.resultSubscription = this.searchSvc.searchResults$
@@ -105,6 +106,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.setAvailableFilters(results);
       });
+
+    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: any) => {
+      this.searchFilters = filters;
+    });
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
@@ -161,9 +166,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.languageSubscription.unsubscribe();
     this.educationalLevelSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
+    this.searchFilterSubscription.unsubscribe();
 
     sessionStorage.removeItem(environment.searchParams);
-    sessionStorage.removeItem(environment.searchResults);
   }
 
   setTitle(): void {
@@ -505,6 +510,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         .filter((teach: string) => teach !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
+      this.searchSvc.updateSearchFilters(searchParams);
     }
   }
 }
