@@ -355,13 +355,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // https://stackoverflow.com/a/14438954
-    this.languages = [...new Set(allLanguages)];
-    this.authors = [...new Set(allAuthors)];
-    this.organizations = deduplicate(allOrganizations, 'key');
-    this.educationalRoles = deduplicate(allRoles, 'key');
-    this.keywords = deduplicate(allKeywords, 'key');
-    this.subjects = deduplicate(allSubjects, 'key');
-    this.teaches = deduplicate(allTeaches, 'key');
+    this.languages = [...new Set(allLanguages)].slice(0, 8);
+    this.authors = [...new Set(allAuthors)].slice(0, 8);
+    this.organizations = deduplicate(allOrganizations, 'key').slice(0, 8);
+    this.educationalRoles = deduplicate(allRoles, 'key').slice(0, 8);
+    this.keywords = deduplicate(allKeywords, 'key').slice(0, 8);
+    this.subjects = deduplicate(allSubjects, 'key').slice(0, 8);
+    this.teaches = deduplicate(allTeaches, 'key').slice(0, 8);
 
     this.languages.forEach((language: string) => {
       let state = false;
