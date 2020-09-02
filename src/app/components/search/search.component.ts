@@ -9,6 +9,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { SearchParams } from '@models/search/search-params';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -98,7 +99,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
 
-      this.searchSvc.updateSearchResults(searchParams);
+      sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
 
       this.router.navigate(['/haku']);
     }
