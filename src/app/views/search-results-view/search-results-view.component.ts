@@ -168,7 +168,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   setTitle(): void {
     this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
+      this.titleSvc.setTitle(`${title} ${this.page} ${environment.title}`);
     });
   }
 
