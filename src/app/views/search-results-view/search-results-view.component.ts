@@ -430,11 +430,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   getPage(pageNumber: number): void {
-    this.resultsContainer.nativeElement.scrollIntoView();
-    this.loading = true;
-    this.page = pageNumber;
+    if (this.searchForm.valid) {
+      this.resultsContainer.nativeElement.scrollIntoView();
+      this.loading = true;
+      this.page = pageNumber;
 
-    this.onSubmit();
+      const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+      searchParams.from = this.from;
+
+      this.searchSvc.updateSearchResults(searchParams);
+
+      this.setTitle();
+    }
   }
 
   /**
