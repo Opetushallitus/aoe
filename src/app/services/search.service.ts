@@ -71,7 +71,7 @@ export class SearchService {
       let roles: KeyValue<string, string>[] = [];
       let keywords: KeyValue<string, string>[] = [];
       let subjects: SearchFilterEducationalSubject[] = [];
-      let teaches: KeyValue<string | number, string>[] = [];
+      let teaches: KeyValue<string, string>[] = [];
 
       results.results.forEach((result: SearchResult) => {
         // languages
@@ -111,13 +111,17 @@ export class SearchService {
 
         // subjects
         result.educationalSubjects?.forEach((subject) => {
-          subjects.push(subject);
+          subjects.push({
+            key: subject.key.toString(),
+            source: subject.source,
+            value: subject.value,
+          });
         });
 
         // teaches
         result.teaches?.forEach((teach) => {
           teaches.push({
-            key: teach.key,
+            key: teach.key.toString(),
             value: teach.value,
           });
         });
