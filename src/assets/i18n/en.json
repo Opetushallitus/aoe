@@ -875,6 +875,7 @@
     },
     "filters": {
       "submit": "Narrow",
+      "showAll": "Show all",
       "educationalLevels": {
         "title": "Educational Level"
       },

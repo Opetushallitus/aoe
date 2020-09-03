@@ -875,6 +875,7 @@
     },
     "filters": {
       "submit": "Rajaa",
+      "showAll": "Näytä kaikki",
       "educationalLevels": {
         "title": "Koulutusaste"
       },

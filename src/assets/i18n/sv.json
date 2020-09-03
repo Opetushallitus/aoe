@@ -875,6 +875,7 @@
     },
     "filters": {
       "submit": "Begränsa",
+      "showAll": "Visa alla",
       "educationalLevels": {
         "title": "Utbildningsstadium"
       },
