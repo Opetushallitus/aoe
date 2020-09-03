@@ -12,6 +12,7 @@ import { EducationalMaterialRatingModalComponent } from '@components/educational
 import { AuthService } from '@services/auth.service';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 import { Title } from '@angular/platform-browser';
+import { Subtitle } from '@models/subtitle';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -76,7 +77,17 @@ export class EducationalMaterialViewComponent implements OnInit {
       this.materials = data.materials;
 
       // set material languages
-      this.materialLanguages = [...new Set(this.materials.map((material: Material) => material.language.toLowerCase()))];
+      const materialLanguages: string[] = [];
+
+      this.materials.forEach((material: Material) => {
+        materialLanguages.push(material.language.toLowerCase());
+
+        material.subtitles.forEach((subtitle: Subtitle) => {
+          materialLanguages.push(subtitle.srclang.toLowerCase());
+        });
+      });
+
+      this.materialLanguages = [...new Set(materialLanguages)];
 
       // set default language (1. UI lang, 2. FI, 3. first language in array)
       this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
@@ -86,7 +97,11 @@ export class EducationalMaterialViewComponent implements OnInit {
           : this.materialLanguages[0];
 
       // set preview material
-      this.setPreviewMaterial(this.materials.find((material: Material) => material.language === this.selectedLanguage));
+      this.setPreviewMaterial(this.materials.find((material: Material) => {
+        if (material.language === this.selectedLanguage || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
+          return material;
+        }
+      }));
 
       // if material expired
       if (data.expires) {
@@ -112,7 +127,11 @@ export class EducationalMaterialViewComponent implements OnInit {
     this.selectedLanguage = language;
 
     // set preview material
-    this.setPreviewMaterial(this.materials.find((material: Material) => material.language === language));
+    this.setPreviewMaterial(this.materials.find((material: Material) => {
+      if (material.language === language || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)) {
+        return material;
+      }
+    }));
   }
 
   updateMaterialName(): void {
