@@ -267,7 +267,7 @@
               "label": "Label",
               "srclang": "Language",
               "default": "Default",
-              "addSubtitle": "Add a subtitle"
+              "addSubtitle": "Ladda upp undertexter"
             }
           },
           "addFile": "Tillsätt en annan fil",
@@ -579,7 +579,7 @@
       }
     },
     "editEducationalResource": {
-      "title": "Oppimateriaalin muokkaus",
+      "title": "Redigering",
       "abort": {
         "text": "Är du säker på att du vill avbryta redigering av lärresursen? Dina ändringar sparas inte.",
         "confirm": "Ja",
