@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SearchService } from '@services/search.service';
-import { SearchResult, SearchResults } from '@models/search/search-results';
+import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
-import { SearchFilters } from '@models/search/search-filters';
+import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
 
 @Component({
   selector: 'app-search-results-view',
@@ -26,38 +25,35 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   page = 1;
   resultsPerPage = 15;
   loading: boolean;
-  @ViewChild('resultsContainer') resultsContainer;
+  @ViewChild('resultsContainer') resultsContainer: ElementRef;
 
   // filters
-  languageSubscription: Subscription;
-  allLanguages: Language[];
-  languages: string[] = [];
-  isCollapsedLanguages = true;
-  educationalLevelSubscription: Subscription;
-  educationalLevels: EducationalLevel[];
-  isCollapsedLevels = true;
-  learningResourceTypeSubscription: Subscription;
-  learningResourceTypes: LearningResourceType[];
-  isCollapsedTypes = true;
-  authors: string[] = [];
-  isCollapsedAuthors = true;
-  organizations: any[] = [];
-  isCollapsedOrganizations = true;
-  educationalRoles: any[] = [];
-  isCollapsedRoles = true;
-  keywords: any[] = [];
-  isCollapsedKeywords = true;
-  subjects: any[] = [];
-  isCollapsedSubjects = true;
-  teaches: any[] = [];
-  isCollapsedTeaches = true;
-  isCollapsedKeywords2 = true;
-
-  // filters 2.0
   searchFilters: SearchFilters;
   searchFilterSubscription: Subscription;
   filtersShownAtFirst = 8;
   filtersShown = new Map();
+  languageSubscription: Subscription;
+  allLanguages: Language[];
+  isCollapsedLanguages = true;
+  showAllLanguages = true;
+  educationalLevelSubscription: Subscription;
+  educationalLevels: EducationalLevel[];
+  isCollapsedLevels = true;
+  isCollapsedSubjects = true;
+  showAllSubjects = true;
+  isCollapsedTeaches = true;
+  showAllTeaches = true;
+  learningResourceTypeSubscription: Subscription;
+  learningResourceTypes: LearningResourceType[];
+  isCollapsedTypes = true;
+  isCollapsedAuthors = true;
+  showAllAuthors = true;
+  isCollapsedOrganizations = true;
+  showAllOrganizations = true;
+  isCollapsedRoles = true;
+  showAllRoles = true;
+  isCollapsedKeywords = true;
+  showAllKeywords = true;
 
   constructor(
     private searchSvc: SearchService,
@@ -83,14 +79,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       filters: this.fb.group({
         languages: this.fb.array([]),
         educationalLevels: this.fb.array([]),
+        educationalSubjects: this.fb.array([]),
+        teaches: this.fb.array([]),
         learningResourceTypes: this.fb.array([]),
         authors: this.fb.array([]),
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
-        educationalSubjects: this.fb.array([]),
-        teaches: this.fb.array([]),
-        keywords2: this.fb.array([]),
       }),
     });
 
@@ -107,14 +102,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       .subscribe((results: SearchResults) => {
         this.results = results;
         this.loading = false;
-
-        this.setAvailableFilters(results);
       });
 
     this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
       this.searchFilters = filters;
 
-      this.setAvailableFilters2(filters);
+      this.setAvailableFilters(filters);
+
+      this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllTeaches = this.teachesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllAuthors = this.authorsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllOrganizations = this.organizationsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
     });
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
@@ -225,6 +226,22 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return count;
   }
 
+  get subjectsArray(): FormArray {
+    return this.filters.get('educationalSubjects') as FormArray;
+  }
+
+  get subjectsCount(): number {
+    return this.subjectsArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get teachesArray(): FormArray {
+    return this.filters.get('teaches') as FormArray;
+  }
+
+  get teachesCount(): number {
+    return this.teachesArray.value.filter((v: boolean) => v === true).length;
+  }
+
   get learningResourceTypesArray(): FormArray {
     return this.filters.get('learningResourceTypes') as FormArray;
   }
@@ -265,196 +282,96 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.keywordsArray.value.filter((v: boolean) => v === true).length;
   }
 
-  get subjectsArray(): FormArray {
-    return this.filters.get('educationalSubjects') as FormArray;
-  }
-
-  get subjectsCount(): number {
-    return this.subjectsArray.value.filter((v: boolean) => v === true).length;
-  }
-
-  get teachesArray(): FormArray {
-    return this.filters.get('teaches') as FormArray;
-  }
-
-  get teachesCount(): number {
-    return this.teachesArray.value.filter((v: boolean) => v === true).length;
-  }
-
-  get keywords2Array(): FormArray {
-    return this.filters.get('keywords2') as FormArray;
-  }
-
-  get keywords2Count(): number {
-    return this.keywords2Array.value.filter((v: boolean) => v === true).length;
-  }
-
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
   }
 
-  setAvailableFilters(results: SearchResults): void {
+  setAvailableFilters(searchFilters: SearchFilters): void {
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
-    const allLanguages: string[] = [];
     this.languagesArray.clear();
-
-    const allAuthors: string[] = [];
+    this.subjectsArray.clear();
+    this.teachesArray.clear();
     this.authorsArray.clear();
-
-    const allOrganizations: any[] = [];
     this.organizationsArray.clear();
-
-    const allRoles: any[] = [];
     this.educationalRolesArray.clear();
-
-    const allKeywords: any[] = [];
     this.keywordsArray.clear();
 
-    const allSubjects: any[] = [];
-    this.subjectsArray.clear();
+    this.filtersShown.set('languages', this.filtersShownAtFirst);
+    this.filtersShown.set('subjects', this.filtersShownAtFirst);
+    this.filtersShown.set('teaches', this.filtersShownAtFirst);
+    this.filtersShown.set('authors', this.filtersShownAtFirst);
+    this.filtersShown.set('organizations', this.filtersShownAtFirst);
+    this.filtersShown.set('roles', this.filtersShownAtFirst);
+    this.filtersShown.set('keywords', this.filtersShownAtFirst);
 
-    const allTeaches: any[] = [];
-    this.teachesArray.clear();
-
-    results.results.forEach((result: SearchResult) => {
-      // languages
-      if (result.languages && result.languages.length > 0) {
-        result.languages.forEach((language: string) => {
-          allLanguages.push(language.toLowerCase());
-        });
-      }
-
-      // authors and organizations
-      result.authors.forEach((author) => {
-        if (author.authorname !== '') {
-          allAuthors.push(author.authorname.trim());
-        }
-
-        if (author.organization !== '') {
-          allOrganizations.push({
-            key: author.organizationkey.trim(),
-            value: author.organization.trim(),
-          });
-        }
-      });
-
-      // educational roles
-      if (result.educationalRoles && result.educationalRoles.length > 0) {
-        result.educationalRoles.forEach((role) => {
-          allRoles.push({
-            key: role.educationalrolekey,
-            value: role.value.trim(),
-          });
-        });
-      }
-
-      // keywords
-      result.keywords.forEach((keyword) => {
-        allKeywords.push({
-          key: keyword.keywordkey,
-          value: keyword.value,
-        });
-      });
-
-      // subjects
-      result.educationalSubjects.forEach((subject) => {
-        allSubjects.push(subject);
-      });
-
-      // teaches
-      result.teaches.forEach((teach) => {
-        allTeaches.push(teach);
-      });
-    });
-
-    // https://stackoverflow.com/a/14438954
-    this.languages = [...new Set(allLanguages)];
-    this.authors = [...new Set(allAuthors)];
-    this.organizations = deduplicate(allOrganizations, 'key');
-    this.educationalRoles = deduplicate(allRoles, 'key');
-    this.keywords = deduplicate(allKeywords, 'key');
-    this.subjects = deduplicate(allSubjects, 'key');
-    this.teaches = deduplicate(allTeaches, 'key');
-
-    this.languages.forEach((language: string) => {
+    // languages
+    searchFilters.languages.forEach((language: string) => {
       let state = false;
 
-      if (searchParams && searchParams.filters && searchParams.filters.languages) {
+      if (searchParams?.filters?.languages) {
         state = searchParams.filters.languages.includes(language);
       }
 
       this.languagesArray.push(this.fb.control(state));
     });
 
-    this.authors.forEach((author: string) => {
+    // subjects
+    searchFilters.subjects.forEach((subject: SearchFilterEducationalSubject) => {
       let state = false;
 
-      if (searchParams && searchParams.filters && searchParams.filters.authors) {
+      if (searchParams?.filters?.educationalSubjects) {
+        state = searchParams.filters.educationalSubjects.includes(subject.key);
+      }
+
+      this.subjectsArray.push(this.fb.control(state));
+    });
+
+    // teaches
+    searchFilters.teaches.forEach((teach) => {
+      let state = false;
+
+      if (searchParams?.filters?.teaches) {
+        state = searchParams.filters.teaches.includes(teach.key);
+      }
+
+      this.teachesArray.push(this.fb.control(state));
+    });
+
+    // authors
+    searchFilters.authors.forEach((author: string) => {
+      let state = false;
+
+      if (searchParams?.filters?.authors) {
         state = searchParams.filters.authors.includes(author);
       }
 
       this.authorsArray.push(this.fb.control(state));
     });
 
-    this.organizations.forEach((organization) => {
+    // organizations
+    searchFilters.organizations.forEach((organization) => {
       let state = false;
 
-      if (searchParams && searchParams.filters && searchParams.filters.organizations) {
+      if (searchParams?.filters?.organizations) {
         state = searchParams.filters.organizations.includes(organization.key);
       }
 
       this.organizationsArray.push(this.fb.control(state));
     });
 
-    this.educationalRoles.forEach((role) => {
+    // roles
+    searchFilters.roles.forEach((role) => {
       let state = false;
 
-      if (searchParams && searchParams.filters && searchParams.filters.educationalRoles) {
+      if (searchParams?.filters?.educationalRoles) {
         state = searchParams.filters.educationalRoles.includes(role.key);
       }
 
       this.educationalRolesArray.push(this.fb.control(state));
     });
 
-    this.keywords.forEach((keyword) => {
-      let state = false;
-
-      if (searchParams && searchParams.filters && searchParams.filters.keywords) {
-        state = searchParams.filters.keywords.includes(keyword.key);
-      }
-
-      this.keywordsArray.push(this.fb.control(state));
-    });
-
-    this.subjects.forEach((subject) => {
-      let state = false;
-
-      if (searchParams && searchParams.filters && searchParams.filters.educationalSubjects) {
-        state = searchParams.filters.educationalSubjects.includes(subject);
-      }
-
-      this.subjectsArray.push(this.fb.control(state));
-    });
-
-    this.teaches.forEach((teach) => {
-      let state = false;
-
-      if (searchParams && searchParams.filters && searchParams.filters.teaches) {
-        state = searchParams.filters.teaches.includes(teach.key);
-      }
-
-      this.teachesArray.push(this.fb.control(state));
-    });
-  }
-
-  setAvailableFilters2(searchFilters: SearchFilters): void {
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
-
-    this.keywords2Array.clear();
-
-    this.filtersShown.set('keywords', this.filtersShownAtFirst);
-
+    // keywords
     searchFilters.keywords.forEach((keyword) => {
       let state = false;
 
@@ -462,7 +379,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         state = searchParams.filters.keywords.includes(keyword.key);
       }
 
-      this.keywords2Array.push(this.fb.control(state));
+      this.keywordsArray.push(this.fb.control(state));
     });
   }
 
@@ -499,7 +416,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.size = this.resultsPerPage;
 
       searchParams.filters.languages = this.filters.value.languages
-        .map((checked: boolean, index: number) => checked ? this.languages[index] : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.languages[index] : null)
         .filter((language: string) => language !== null);
 
       this.filters.value.educationalLevels
@@ -518,27 +435,27 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         .filter((value: string) => value !== null);
 
       searchParams.filters.authors = this.filters.value.authors
-        .map((checked: boolean, index: number) => checked ? this.authors[index] : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.authors[index] : null)
         .filter((value: string) => value !== null);
 
       searchParams.filters.organizations = this.filters.value.organizations
-        .map((checked: boolean, index: number) => checked ? this.organizations[index].key : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.organizations[index].key : null)
         .filter((value: string) => value !== null);
 
       searchParams.filters.educationalRoles = this.filters.value.educationalRoles
-        .map((checked: boolean, index: number) => checked ? this.educationalRoles[index].key : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.roles[index].key : null)
         .filter((value: string) => value !== null);
 
       searchParams.filters.keywords = this.filters.value.keywords
-        .map((checked: boolean, index: number) => checked ? this.keywords[index].key : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.keywords[index].key : null)
         .filter((value: string) => value !== null);
 
       searchParams.filters.educationalSubjects = this.filters.value.educationalSubjects
-        .map((checked: boolean, index: number) => checked ? this.subjects[index].key : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.subjects[index].key : null)
         .filter((subject: string) => subject !== null);
 
       searchParams.filters.teaches = this.filters.value.teaches
-        .map((checked: boolean, index: number) => checked ? this.teaches[index].key : null)
+        .map((checked: boolean, index: number) => checked ? this.searchFilters.teaches[index].key : null)
         .filter((teach: string) => teach !== null);
 
       this.searchSvc.updateSearchResults(searchParams);
