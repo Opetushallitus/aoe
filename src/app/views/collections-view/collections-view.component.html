@@ -1,0 +1,49 @@
+<div class="content-wrapper py-sm-7 bg-bulb-image">
+  <div class="container">
+    <div class="row">
+      <div class="col justify-content-center">
+        <h1 class="text-center">{{ 'collections.title' | translate }}</h1>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
+
+<div class="content-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ng-container [ngSwitch]="lang">
+          <ng-container *ngSwitchDefault>
+            <p>Kokoelmat ovat kuratoituja näkymiä Avointen oppimateriaalien kirjaston oppimateriaaleihin. Niiden avulla käyttäjät voivat koota eri tekijöiden oppimateriaaleja yhteiselle sivulle, oman teeman alle. Tältä sivulta löydät yhteiseen käyttöön avatut kokoelmat. Sinäkin voit tehdä kokoelmia - niin omaan käyttöön, kuin yhteiseksi avattuna. Voit aloittaa omien kokoelmien luomisen kirjautumalla sisään ja klikkaammalla oppimateriaalin kohdalla Lisää kokoelmaan.</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'en'">
+            <p>Collections are curated views to the learning resources of Library of Open Educational Resources. With the collection-tool users can collect learning resources made by different people, making their own thematic views. In this page you can see collections that are opened to common use. You too can make collections, both for your own private use as well as for common use. To start making collections, sign in and click Add to collection.</p>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'sv'">
+            <p>I Biblioteket för öppna lärresurser kan man skapa samlingar över de lärresurser som finns i tjänsten. Samlingar är vyer där du till exempel kan samla lärresurser som intresserar dig eller sammanställa alla lärresurser för exempelvis ett projekt eller någon viss kurs. Samlingar kan skapas av inloggade användare, och en användare kan ha flera samlingar (både privata och öppna). Här kan du finna alla samlingarna som är öppna för alla.</p>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div><!--/.row-->
+  </div>
+</div>
+
+<div class="content-wrapper bg-light">
+  <div class="container">
+    <h2 class="text-center">{{ 'collections.recent.title' | translate }}</h2>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let recentCollection of recentCollections">
+        <app-collection-card [collection]="recentCollection"></app-collection-card>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <a class="btn btn-gray" routerLink="haku">
+        {{ 'collections.showAll' | translate }}
+      </a>
+    </div>
+  </div>
+</div>

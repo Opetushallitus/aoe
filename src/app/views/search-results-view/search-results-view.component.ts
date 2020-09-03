@@ -11,6 +11,7 @@ import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-t
 import { deduplicate } from '../../shared/shared.module';
 import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
+import { SearchParams } from '@models/search/search-params';
 
 @Component({
   selector: 'app-search-results-view',
@@ -80,13 +81,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }),
     });
 
-    const searchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
       this.keywordsCtrl.setValue(searchParams.keywords);
     }
 
-    const searchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
+    const searchResults: SearchResults = JSON.parse(sessionStorage.getItem(environment.searchResults));
 
     if (searchResults) {
       this.results = searchResults;
@@ -427,7 +428,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (this.searchForm.valid) {
-      const searchParams = this.searchForm.value;
+      const searchParams: SearchParams = this.searchForm.value;
       const selectedEducationalLevels: string[] = [];
 
       searchParams.filters.languages = this.filters.value.languages

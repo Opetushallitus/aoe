@@ -22,7 +22,9 @@ import { SearchResultsViewComponent } from '@views/search-results-view/search-re
 import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
 import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
 import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
-import { PdfReaderViewComponent } from '@views/pdf-reader-view/pdf-reader-view.component';
+import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
+import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
+import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 
 export const routes: Routes = [
   {
@@ -63,9 +65,33 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
+        path: 'kokoelmat',
+        component: CollectionsViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelmat/haku',
+        component: CollectionSearchResultsViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
         path: 'kokoelma/:collectionId',
         component: CollectionViewComponent,
         canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelma/:collectionId/muokkaa',
+        component: CollectionFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'kokoelma/:collectionId/muokkaa/:tabId',
+        component: CollectionFormComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
@@ -140,10 +166,6 @@ export const routes: Routes = [
   {
     path: 'embed/:materialId/:lang',
     component: EducationalMaterialEmbedViewComponent,
-  },
-  {
-    path: 'materiaali/pdf/:filekey',
-    component: PdfReaderViewComponent,
   },
   {
     path: '**',
