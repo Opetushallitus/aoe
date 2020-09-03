@@ -9,12 +9,6 @@ import { SearchParams } from '@models/search/search-params';
 import { deduplicate } from '../shared/shared.module';
 import { KeyValue } from '@angular/common';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
-=========
-import { SearchResults } from '@models/search/search-results';
-import { CollectionSearchResults } from '@models/search/collection-search-results';
-import { CollectionSearchParams } from '@models/search/collection-search-params';
-import { SearchParams } from '@models/search/search-params';
->>>>>>>>> Temporary merge branch 2
 
 @Injectable({
   providedIn: 'root'
@@ -150,24 +144,6 @@ export class SearchService {
         subjects,
         teaches,
       });
-    });
-  }
-
-  /**
-   * Updates collection search results based on search params.
-   * @param {CollectionSearchParams} searchParams
-   */
-  updateCollectionSearchResults(searchParams: CollectionSearchParams): void {
-    sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
-
-    this.http.post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/collection/search`, searchParams, {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-      }),
-    }).subscribe((results: CollectionSearchResults) => {
-      sessionStorage.setItem(environment.collectionSearchResults, JSON.stringify(results));
-
-      this.collectionSearchResults$.next(results);
     });
   }
 }
