@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Collection } from '@models/collections/collection';
 import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
 import { BackendService } from '@services/backend.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
+import { Collection } from '@models/collections/collection';
 
 @Component({
   selector: 'app-collection-view',
@@ -24,6 +24,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   previewMaterials = new Map();
   materialLanguages = new Map();
   selectedLanguages = new Map();
+  detailsExpanded = false;
+  materialDetails = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -55,8 +57,9 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       }
 
       this.setTitle();
+      this.setMaterialDetails(collection.educationalMaterials);
 
-      collection.educationalmaterials.forEach((collectionMaterial, i: number) => {
+      collection.educationalMaterials.forEach((collectionMaterial) => {
         // set loading true
         this.materialsLoading.set(collectionMaterial.id, true);
 
@@ -96,13 +99,13 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.titleSvc.setTitle(`${this.collection.collection.name} ${environment.title}`);
+    this.titleSvc.setTitle(`${this.collection.name} ${environment.title}`);
   }
 
   /**
    * Sets preview material to selected material.
-   * @param materialId {string}
-   * @param material {Material}
+   * @param {string} materialId
+   * @param {Material} material
    */
   setPreviewMaterial(materialId: string, material: Material): void {
     this.previewMaterials.set(materialId, material);
@@ -110,8 +113,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
   /**
    * Sets selected language to preview language. Updates preview material to match selected language.
-   * @param materialId {string}
-   * @param language {string}
+   * @param {string} materialId
+   * @param {string} language
    */
   setSelectedLanguage(materialId: string, language: string): void {
     // set selected language
@@ -119,5 +122,18 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
     // set preview material to first material that matches selected language
     this.setPreviewMaterial(materialId, this.collectionMaterials.get(materialId).find((m) => m.language === language));
+  }
+
+  /**
+   * Sets material details.
+   * @param materials
+   */
+  setMaterialDetails(materials): void {
+    materials.forEach((material) => {
+      this.materialDetails.set(material.id, {
+        name: material.name,
+        authors: material.author,
+      });
+    });
   }
 }

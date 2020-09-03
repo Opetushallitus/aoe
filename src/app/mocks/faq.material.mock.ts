@@ -1,5 +1,7 @@
 // tslint:disable:max-line-length
 
+import { environment } from '../../environments/environment';
+
 /**
  * Frequently Asked Questions mock
  */
@@ -31,8 +33,8 @@ export const FAQMaterial = {
     {
       question: 'Miten oppimateriaalin lisääminen tapahtuu?',
       answer: [
-        'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on. Teemme oppimateriaalin lisäämisestä tarkemman ohjevideon lokakuussa 2019 ja myös käyttöliittymä ohjeistaa ongelmatilanteissa. Oppimateriaalin lisääminen tulee mahdolliseksi syksyllä 2019.',
-        '<div class="embed-responsive embed-responsive-16by9"><video class="embed-responsive-item" controls><source src="https://demo.aoe.fi/files/faq/video_oppimateriaalin_tallentamisesta.mp4" type="video/mp4"><track label="suomi" kind="subtitles" srclang="fi" src="https://demo.aoe.fi/files/faq/ohjevideo.vtt" default></video></div>',
+        'Lisääminen on yksinkertaista: kirjaudut sisään, lataat tiedoston ja vastaat muutamiin kysymyksiin jotta muut pystyvät helposti ja nopeasti selvittämään millainen ja kenelle tarkoitettu oppimateriaalisi on.',
+        `Tarkemman ohjeistuksen löydät <a href="${environment.frontendUrl}/#/materiaali/606">käyttöohjeistamme</a>.`,
       ]
     },
     {
@@ -106,7 +108,8 @@ export const FAQMaterial = {
     {
       question: 'How do I go about uploading educational resources?',
       answer: [
-        'Uploading resources to the service is easy. Simply log in, upload the file, and answer a few questions that help others quickly and easily ascertain the type and intended target users of your resource. A video with more detailed instructions is coming in October 2019, with instructions for dealing with problems also built into the user interface.',
+        'Uploading resources to the service is easy. Simply log in, upload the file, and answer a few questions that help others quickly and easily ascertain the type and intended target users of your resource.',
+        `Read more from our <a href="${environment.frontendUrl}/#/materiaali/606">instructions</a>.`,
       ]
     },
     {
@@ -174,7 +177,8 @@ export const FAQMaterial = {
     {
       question: 'Hur läggs material till?',
       answer: [
-        'Att lägga till resurser i tjänsten är enkelt: du loggar in, laddar upp filen och besvarar några frågor, så att andra enkelt och snabbt kan avgöra hurdant ditt material är och för vem det är avsett. Vi kommer att göra en video med noggrannare instruktioner i oktober 2019. Dessutom ger gränssnittet instruktioner i problemsituationer. Från och med höst 2019 kan man föra in resurser i tjänsten. ',
+        'Att lägga till resurser i tjänsten är enkelt: du loggar in, laddar upp filen och besvarar några frågor, så att andra enkelt och snabbt kan avgöra hurdant ditt material är och för vem det är avsett.',
+        `Läs mer från våra <a href="${environment.frontendUrl}/#/materiaali/606">anvisningarna</a>.`,
       ]
     },
     {

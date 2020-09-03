@@ -8,6 +8,7 @@
     "home": "Framsida",
     "info": "Info",
     "myMaterials": "Mina lärresurser",
+    "collections": "Samlingar",
     "toggler": {
       "aria": {
         "label": "Toggle navigation"
@@ -47,13 +48,21 @@
       "references": "Referens",
       "preview": "Förhandsvisning"
     },
+    "collection": {
+      "main": "Samling",
+      "basic": "Grunduppgifter",
+      "educational": "Utbildningsinfo",
+      "materials": "Material",
+      "preview": "Förhandsvisning"
+    },
     "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
     "accessibility": "Accessibility Policy",
     "logout": "Du har loggat ut",
     "privacy": "Dataskyddsbeskrivnig",
     "searchResults": "Sökresultaten",
     "termsOfUse": "Användarvilko",
-    "reviews": "Recensioner"
+    "reviews": "Recensioner",
+    "collections": "Samlingar"
   },
   "home": {
     "search": {
@@ -193,10 +202,10 @@
         "maxLength": "{{maxLength}}"
       },
       "textInput": {
-        "characters": "Tillåtna specialtecken: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+        "characters": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ?"
       },
       "description": {
-        "characters": "Tillåtna specialtecken: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Tillåtna specialtecken: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
@@ -258,7 +267,7 @@
               "label": "Label",
               "srclang": "Language",
               "default": "Default",
-              "addSubtitle": "Add a subtitle"
+              "addSubtitle": "Ladda upp undertexter"
             }
           },
           "addFile": "Tillsätt en annan fil",
@@ -570,20 +579,234 @@
       }
     },
     "editEducationalResource": {
-      "title": "Oppimateriaalin muokkaus",
+      "title": "Redigering",
       "abort": {
-        "text": "Haluatko varmasti keskeyttää oppimateriaalin muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
-        "confirm": "Kyllä",
-        "cancel": "Ei"
+        "text": "Är du säker på att du vill avbryta redigering av lärresursen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
       },
       "toasts": {
         "noPermission": {
           "title": "Det är inte tillåten att ändra materialet",
-          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen,  kolla att du har loggad in med det samma inloggning du  använde tidigare."
+          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen, kolla att du har loggad in med det samma inloggning du använde tidigare."
         },
         "ratingAdded": {
           "title": "Recensioner tillagd/uppdaterad"
         }
+      }
+    },
+    "collection": {
+      "title": "Samling",
+      "nav": {
+        "basic": "Grunduppgifter",
+        "educational": "Utbildningsinfo",
+        "material": "Resurser",
+        "preview": "Förhandsvisning"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Det är inte tillåten att ändra samling",
+          "message": "Du försöker att ändra samlingen som du inte har tillåtelse. Om du har publicerade samlingen, kolla att du har loggad in med det samma inloggning du använde tidigare."
+        }
+      },
+      "abort": {
+        "text": "Är du säker på att du vill avbryta redigering av samlingen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
+      },
+      "basic": {
+        "cover": "Ladda upp omslaget",
+        "name": {
+          "label": "Namn",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        },
+        "keywords": {
+          "label": "Nyckelord",
+          "placeholder": ""
+        },
+        "educationalRoles": {
+          "label": "Målgrupp",
+          "placeholder": ""
+        },
+        "educationalUses": {
+          "label": "Användningsområde",
+          "placeholder": ""
+        },
+        "languages": {
+          "label": "Språk",
+          "placeholder": ""
+        },
+        "accessibilityFeatures": {
+          "label": "Tillgänglighetsegenskaper",
+          "placeholder": ""
+        },
+        "accessibilityHazards": {
+          "label": "Hinder för tillgänglighet",
+          "placeholder": ""
+        }
+      },
+      "educational": {
+        "title": "Utbildningsinfo",
+        "headings": {
+          "early": "Småbarnsfostran",
+          "prePrimary": "Förskoleundervisning",
+          "basic": "Grundläggande utbildning",
+          "upperSecondary": "Gymnasieutbildning",
+          "vocational": "Yrkesutbildning",
+          "selfMotivated": "Självständig utveckling av kompetens",
+          "higher": "Högskoleutbildning"
+        },
+        "educationalLevels": {
+          "label": "Utbildningsstadium",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "Ämne för småbarnsfostran",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "Mål för småbarnsfostran",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "Ämne för förskoleundervisning",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "Mål för förskoleundervisning",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för förskoleundervisning",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "Ämne för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "Mål för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyFramework": {
+          "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "Grunderna för gymnasiets läroplan 2015",
+          "new": "Grunderna för gymnasiets läroplan 2019"
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "Ämne för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "Mål för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "Ämne",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "Modul",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "Mål för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "Innehållsområden för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "Examensdel för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "Examensdelar för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "Mål för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "Ämne för självständig utveckling av kompetens",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "Mål för självständig utveckling av kompetens",
+          "placeholder": ""
+        },
+        "scienceBranches": {
+          "label": "Verenskapsgren för högskoleutbildning",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "Mål för högskoleutbildning",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för högskoleutbildning",
+          "placeholder": ""
+        }
+      },
+      "material": {
+        "title": "Resurser",
+        "helpText": "Du kan ändra ordning av resurser och rubriker genom att dra dem.",
+        "addHeadingAndDescription": {
+          "button": "Tillsätt en rubrik och en beskrivning",
+          "tooltip": "Du kan tillsätt rubriker och beskrivningar till exempel för att berätta hur kan man använda samlingen, ge extra information om ämnet och klassificera samlingen."
+        },
+        "headingAndDescription": "Rubrik och beskrivning",
+        "removeFromCollection": "Ta bort från samlingen",
+        "heading": {
+          "label": "Rubrik",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        }
+      },
+      "preview": {
+        "title": "Förhandsvisning",
+        "headings": {
+          "basic": "Grunduppgifter",
+          "educational": "Utbildningsinfo",
+          "material": "Resurser"
+        },
+        "required": {
+          "name": "Namn",
+          "keywords": "Nyckelord",
+          "description": "Beskrivning"
+        },
+        "materialsAndHeadings": "Resurser och rubriker",
+        "addMissingDetail": "Fyll i informationen",
+        "saveUnpublished": "Spara opublicerad",
+        "savePublished": "Publicera"
       }
     }
   },
@@ -710,10 +933,54 @@
         "title": "Samlingen uppdaterades",
         "message": "Lärresursen var tagit ut av samlingen"
       }
-    }
+    },
+    "meta": {
+      "keywords": "Nyckelord",
+      "languages": "Språk",
+      "educationalUses": " Användningsområde",
+      "educationalRoles": "Målgrupp",
+      "accessibilityFeatures": "Tillgänglighetsegenskaper",
+      "accessibilityHazards": " Hinder för tillgänglighet",
+      "educationalLevels": "Utbildningsstadium",
+      "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
+      "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",
+      "earlyChildhoodEducationFramework": "Läroplans- eller examensgrunderna för småbarnsfostran",
+      "prePrimaryEducationSubjects": "Ämne för förskoleundervisning",
+      "prePrimaryEducationObjectives": "Mål för förskoleundervisning",
+      "prePrimaryEducationFramework": "Läroplans- eller examensgrunderna för förskoleundervisning",
+      "basicStudySubjects": "Ämne för grundläggande utbildning",
+      "basicStudyObjectives": "Mål för grundläggande utbildning",
+      "basicStudyContents": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
+      "basicStudyFramework": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning",
+      "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolFramework": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+      "upperSecondarySchoolSubjectsNew": "Ämne",
+      "upperSecondarySchoolModulesNew": "Modul",
+      "upperSecondarySchoolObjectivesNew": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
+      "vocationalDegrees": "Examensdel för yrkesutbildning",
+      "vocationalUnits": "Examensdelar för yrkesutbildning",
+      "vocationalEducationObjectives": "Mål för yrkesutbildning",
+      "vocationalEducationFramework": "Läroplans- eller examensgrunderna för yrkesutbildning",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
+      "scienceBranches": "Verenskapsgren för högskoleutbildning",
+      "scienceBranchObjectives": "Mål för högskoleutbildning",
+      "higherEducationFramework": "Läroplans- eller examensgrunderna för högskoleutbildning"
+    },
+    "recent": {
+      "title": "Senaste samlingar",
+      "showAll": ""
+    },
+    "title": "Samlingar",
+    "search": {
+      "title": "Sökresultaten"
+    },
+    "showAll": "Alla samlingar"
   },
   "materialPreview": {
-    "selectLanguage": "Välja ett språk:",
-    "selectMaterial": "Välja en del av lärresursen:"
+    "selectLanguage": "Välj språk:",
+    "selectMaterial": "Välj del av lärresursen:"
   }
 }

@@ -1,0 +1,13 @@
+<strong class="h4 d-block mb-2" [id]="id">
+  {{ title }}
+</strong>
+
+<div class="tags">
+  <button
+    *ngFor="let tag of tags"
+    type="button"
+    class="btn btn-light disabled"
+    [attr.aria-labelledby]="id"
+    disabled
+  >{{ property ? tag[property] : tag }}</button>
+</div>

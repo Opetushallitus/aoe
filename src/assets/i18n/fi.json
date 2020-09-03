@@ -8,6 +8,7 @@
     "home": "Etusivu",
     "info": "Lisätietoa",
     "myMaterials": "Omat oppimateriaalit",
+    "collections": "Kokoelmat",
     "toggler": {
       "aria": {
         "label": "Avaa/Sulje valikko"
@@ -47,13 +48,21 @@
       "references": "Hyödynnetyt materiaalit",
       "preview": "Esikatselu"
     },
+    "collection": {
+      "main": "Kokoelman julkaisu",
+      "basic": "Perustiedot",
+      "educational": "Koulutustiedot",
+      "materials": "Materiaalit",
+      "preview": "Esikatselu"
+    },
     "acceptance": "Palvelun käyttöehdot ja tietosuojailmoitus",
     "accessibility": "Saavutettavuusseloste",
     "logout": "Olet kirjautunut ulos",
     "privacy": "Tietosuojailmoitus",
     "searchResults": "Hakutulokset",
     "termsOfUse": "Käyttöehdot",
-    "reviews": "Käyttäjien arviot"
+    "reviews": "Käyttäjien arviot",
+    "collections": "Kokoelmat"
   },
   "home": {
     "search": {
@@ -193,10 +202,10 @@
         "maxLength": "Enintään {{maxLength}} merkkiä"
       },
       "textInput": {
-        "characters": "Sallitut erikoismerkit: . , : - _ ! ' ´ ` @ # £ € $ % & ( ) = ?"
+        "characters": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ?"
       },
       "description": {
-        "characters": "Sallitut erikoismerkit: . , : ; - _ § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Sallitut erikoismerkit: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
     "educationalResource": {
@@ -579,11 +588,225 @@
       "toasts": {
         "noPermission": {
           "title": "Muokkaaminen ei sallittu",
-          "message": "Yrität muokata materiaali johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
+          "message": "Yrität muokata materiaalia johon sinulla ei ole oikeutta. Mikäli materiaali on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi."
         },
         "ratingAdded": {
           "title": "Arvostelu lisätty/päivitetty"
         }
+      }
+    },
+    "collection": {
+      "title": "Kokoelma",
+      "nav": {
+        "basic": "Perustiedot",
+        "educational": "Koulutustiedot",
+        "material": "Materiaalit",
+        "preview": "Esikatselu"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Käyttöoikeusvirhe",
+          "message": "Yrität muokata kokoelmaa johon sinulla ei ole oikeutta. Mikäli kokoelma on sinun tallentamasi, tarkistathan että olet kirjautunut samalla tunnistautumisella mitä käytit materiaalin jakaessasi.', 'Käyttöoikeusvirhe"
+        }
+      },
+      "abort": {
+        "text": "Haluatko varmasti keskeyttää kokoelman muokkauksen? Tekemiäsi muutoksia ei tallenneta.",
+        "confirm": "Kyllä",
+        "cancel": "Ei"
+      },
+      "basic": {
+        "cover": "Lataa kansikuva",
+        "name": {
+          "label": "Kokoelman nimi",
+          "placeholder": "Kirjoita kokoelman nimi"
+        },
+        "description": {
+          "label": "Kokoelman kuvausteksti",
+          "placeholder": "Kirjoita kokoelman kuvausteksti"
+        },
+        "keywords": {
+          "label": "Asiasanat",
+          "placeholder": "Valitse asiasanat"
+        },
+        "educationalRoles": {
+          "label": "Pääasiallinen kohderyhmä",
+          "placeholder": "Valitse kohderyhmä"
+        },
+        "educationalUses": {
+          "label": "Pääasiallinen käyttötarkoitus",
+          "placeholder": "Valitse käyttötarkoitus"
+        },
+        "languages": {
+          "label": "Kieli",
+          "placeholder": "Valitse kieli"
+        },
+        "accessibilityFeatures": {
+          "label": "Saavutettavuuden ominaisuudet",
+          "placeholder": "Valitse saavutettavuuden ominaisuudet"
+        },
+        "accessibilityHazards": {
+          "label": "Saavutettavuuden esteet",
+          "placeholder": "Valitse saavutettavuuden esteet"
+        }
+      },
+      "educational": {
+        "title": "Koulutustiedot",
+        "headings": {
+          "early": "Varhaiskasvatus",
+          "prePrimary": "Esiopetus",
+          "basic": "Perusopetus",
+          "upperSecondary": "Lukiokoulutus",
+          "vocational": "Ammatillinen koulutus",
+          "selfMotivated": "Omaehtoisen osaamisen kehittäminen",
+          "higher": "Korkeakoulutus"
+        },
+        "educationalLevels": {
+          "label": "Koulutusasteet",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "Varhaiskasvatuksen oppiaineet",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationFramework": {
+          "label": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "Esiopetuksen oppiaineet",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "Esiopetuksen oppiaineiden tavoitteet",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "Perusopetuksen oppiaineet",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "Perusopetuksen oppiaineiden tavoitteet",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
+          "placeholder": ""
+        },
+        "basicStudyFramework": {
+          "label": "Perusopetuksen opetussuunnitelma",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "Lukion opetussuunnitelman perusteet 2015",
+          "new": "Lukion opetussuunnitelman perusteet 2019"
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "Lukionkurssit",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "Lukionkurssien tavoitteet",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "Oppiaine",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "Moduuli",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "Tavoite",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "Sisältö",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "Ammatillisen koulutuksen tutkinnot",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "Ammatillisen koulutuksen tutkinnon osat",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+          "placeholder": ""
+        },
+        "vocationalEducationFramework": {
+          "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+          "placeholder": ""
+        },
+        "scienceBranches": {
+          "label": "Korkeakoulutuksen tieteenalat",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "Korkeakoulutuksen tieteenalojen tavoitteet",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
+          "placeholder": ""
+        }
+      },
+      "material": {
+        "title": "Materiaalit",
+        "helpText": "Voit muuttaa materiaalien ja otsikoiden järjestystä vetämällä niitä hiirellä.",
+        "addHeadingAndDescription": {
+          "button": "Lisää väliotsikko ja kuvaus",
+          "tooltip": "Voit lisätä kokoelmiin väliotsikoita ja ohjeistavaa tai kuvaavaa tekstiä rytmittämään kokoelmaa ja kertomaan miten kokoelmaa on tarkoitus lähestyä tai esimerkiksi kertoa lyhyesti lisätietoa aiheesta."
+        },
+        "headingAndDescription": "Väliotsikko ja ohjeistava tai kuvaava teksti",
+        "removeFromCollection": "Poista kokoelmasta",
+        "heading": {
+          "label": "Väliotsikko",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Ohjeistava tai kuvaava teksti",
+          "placeholder": ""
+        }
+      },
+      "preview": {
+        "title": "Esikatselu",
+        "headings": {
+          "basic": "Perustiedot",
+          "educational": "Koulutustiedot",
+          "material": "Materiaalit"
+        },
+        "required": {
+          "name": "Kokoelman nimi",
+          "keywords": "Asiasanat",
+          "description": "Kokoelman kuvausteksti"
+        },
+        "materialsAndHeadings": "Materiaalit ja väliotsikot",
+        "addMissingDetail": "Lisää puuttuva tieto",
+        "saveUnpublished": "Tallenna julkaisematta",
+        "savePublished": "Julkaise"
       }
     }
   },
@@ -710,7 +933,51 @@
         "title": "Kokoelma päivitetty",
         "message": "Materiaali poistettu kokoelmasta"
       }
-    }
+    },
+    "meta": {
+      "keywords": "Asiasanat",
+      "languages": "Kieli",
+      "educationalUses": "Pääasiallinen käyttötarkoitus",
+      "educationalRoles": "Pääasiallinen kohderyhmä",
+      "accessibilityFeatures": "Saavutettavuuden ominaisuudet",
+      "accessibilityHazards": "Saavutettavuuden esteet",
+      "educationalLevels": "Koulutusasteet",
+      "earlyChildhoodEducationSubjects": "Varhaiskasvatuksen oppiaineet",
+      "earlyChildhoodEducationObjectives": "Varhaiskasvatuksen oppiaineiden tavoitteet",
+      "earlyChildhoodEducationFramework": "Varhaiskasvatuksen opetussuunnitelman tai tutkinnon perusteet",
+      "prePrimaryEducationSubjects": "Esiopetuksen oppiaineet",
+      "prePrimaryEducationObjectives": "Esiopetuksen oppiaineiden tavoitteet",
+      "prePrimaryEducationFramework": "Esiopetuksen opetussuunnitelman tai tutkinnon perusteet",
+      "basicStudySubjects": "Perusopetuksen oppiaineet",
+      "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
+      "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
+      "basicStudyFramework": "Perusopetuksen opetussuunnitelma",
+      "upperSecondarySchoolSubjects": "Lukionkurssit",
+      "upperSecondarySchoolObjectives": "Lukionkurssien tavoitteet",
+      "upperSecondarySchoolFramework": "Lukion opetussuunnitelman tai tutkinnon perusteet",
+      "upperSecondarySchoolSubjectsNew": "Oppiaine",
+      "upperSecondarySchoolModulesNew": "Moduuli",
+      "upperSecondarySchoolObjectivesNew": "Tavoite",
+      "upperSecondarySchoolContentsNew": "Sisältö",
+      "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
+      "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
+      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+      "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+      "scienceBranches": "Korkeakoulutuksen tieteenalat",
+      "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
+      "higherEducationFramework": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet"
+    },
+    "recent": {
+      "title": "Uusimmat kokoelmat",
+      "showAll": ""
+    },
+    "title": "Kokoelmat",
+    "search": {
+      "title": "Hakutulokset"
+    },
+    "showAll": "Kaikki kokoelmat"
   },
   "materialPreview": {
     "selectLanguage": "Valitse kieli:",

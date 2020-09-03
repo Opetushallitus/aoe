@@ -55,12 +55,28 @@
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let collection of privateCollections">
         <div class="card-collection private">
-          <h3>
-            <a [routerLink]="['/kokoelma', collection.id]" class="stretched-link">
-              {{ collection.name }}
-            </a>
-          </h3>
+          <a [routerLink]="['/kokoelma', collection.id]">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  {{ collection.name }}
+                </h3>
+              </div>
+            </div>
+          </a>
         </div>
+
+        <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
+          {{ 'userMaterials.edit' | translate }}
+        </a>
       </div>
     </div>
 
@@ -69,14 +85,32 @@
         <h2>{{ 'userCollections.published.title' | translate }}</h2>
       </div>
 
+      <!--<a [routerLink]="['/kokoelma', collection.id]"></a>-->
+
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let collection of publicCollections">
         <div class="card-collection">
-          <h3>
-            <a [routerLink]="['/kokoelma', collection.id]" class="stretched-link">
-              {{ collection.name }}
-            </a>
-          </h3>
+          <a [routerLink]="['/kokoelma', collection.id]">
+            <div class="row no-gutters">
+              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+                <img
+                  [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
+                  class="img-fluid"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div>
+
+              <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+                <h3>
+                  {{ collection.name }}
+                </h3>
+              </div>
+            </div>
+          </a>
         </div>
+
+        <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
+          {{ 'userMaterials.edit' | translate }}
+        </a>
       </div>
     </div>
   </div>

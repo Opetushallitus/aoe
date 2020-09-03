@@ -15,4 +15,7 @@ export const environment = {
   searchResults: 'aoe.searchResults',
   editMaterial: 'aoe.editMaterial',
   title: '- Avointen oppimateriaalien kirjasto (demo.aoe.fi)',
+  collection: 'aoe.collection',
+  collectionSearchParams: 'aoe.collectionSearchParams',
+  collectionSearchResults: 'aoe.collectionSearchResults',
 };
