@@ -9,6 +9,12 @@ import { SearchParams } from '@models/search/search-params';
 import { deduplicate } from '../shared/shared.module';
 import { KeyValue } from '@angular/common';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
+=========
+import { SearchResults } from '@models/search/search-results';
+import { CollectionSearchResults } from '@models/search/collection-search-results';
+import { CollectionSearchParams } from '@models/search/collection-search-params';
+import { SearchParams } from '@models/search/search-params';
+>>>>>>>>> Temporary merge branch 2
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +40,25 @@ export class SearchService {
         'Accept': 'application/json',
       }),
     }).subscribe((results: SearchResults) => {
-      sessionStorage.setItem(environment.searchResults, JSON.stringify(results));
-
       this.searchResults$.next(results);
+    });
+  }
+
+  /**
+   * Updates collection search results based on search params.
+   * @param {CollectionSearchParams} searchParams
+   */
+  updateCollectionSearchResults(searchParams: CollectionSearchParams): void {
+    sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
+
+    this.http.post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/collection/search`, searchParams, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe((results: CollectionSearchResults) => {
+      sessionStorage.setItem(environment.collectionSearchResults, JSON.stringify(results));
+
+      this.collectionSearchResults$.next(results);
     });
   }
 
@@ -55,7 +77,7 @@ export class SearchService {
       let roles: KeyValue<string, string>[] = [];
       let keywords: KeyValue<string, string>[] = [];
       let subjects: SearchFilterEducationalSubject[] = [];
-      let teaches: KeyValue<string | number, string>[] = [];
+      let teaches: KeyValue<string, string>[] = [];
 
       results.results.forEach((result: SearchResult) => {
         // languages
@@ -95,13 +117,17 @@ export class SearchService {
 
         // subjects
         result.educationalSubjects?.forEach((subject) => {
-          subjects.push(subject);
+          subjects.push({
+            key: subject.key.toString(),
+            source: subject.source,
+            value: subject.value,
+          });
         });
 
         // teaches
         result.teaches?.forEach((teach) => {
           teaches.push({
-            key: teach.key,
+            key: teach.key.toString(),
             value: teach.value,
           });
         });
