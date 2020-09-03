@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PdfReaderViewComponent } from './pdf-reader-view.component';
+import { CollectionFormComponent } from './collection-form.component';
 
-describe('PdfReaderViewComponent', () => {
-  let component: PdfReaderViewComponent;
-  let fixture: ComponentFixture<PdfReaderViewComponent>;
+describe('CollectionFormComponent', () => {
+  let component: CollectionFormComponent;
+  let fixture: ComponentFixture<CollectionFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PdfReaderViewComponent ]
+      declarations: [ CollectionFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PdfReaderViewComponent);
+    fixture = TestBed.createComponent(CollectionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

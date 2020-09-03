@@ -244,10 +244,10 @@
                   {{ educationalMaterial.publisher }}
                 </div>
 
-              <div class="col-auto">
-                <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
-                {{ educationalMaterial.license.value }}
-              </div>
+                <div class="col-auto">
+                  <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
+                  {{ educationalMaterial.license.value }}
+                </div>
 
                 <div class="col-12">
                   <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
@@ -265,7 +265,7 @@
 
               <accordion>
                 <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
-                  <button type="button" class="btn btn-link" accordion-heading >
+                  <button type="button" class="btn btn-link" accordion-heading>
                     <ng-container *ngIf="detailsExpanded; else more">
                       {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
                     </ng-container>

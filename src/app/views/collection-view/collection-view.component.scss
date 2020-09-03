@@ -3,10 +3,19 @@
 
 .collection-material {
   margin-bottom: 2rem;
-  padding-top: 2rem;
 
   h2 {
     @include font-size(21);
+    font-weight: 500;
+
+    a {
+      color: $primary-theme-color;
+    }
+  }
+
+  h3,
+  .h3 {
+    @include font-size(18);
     font-weight: 400;
 
     a {
@@ -41,6 +50,26 @@
       &.active {
         background-color: #fff;
       }
+    }
+  }
+}
+
+.collection-authors {
+  color: $primary-theme-color;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.datetimes {
+  margin-bottom: 1rem;
+
+  .datetime-item {
+    strong {
+      margin-right: .25rem;
+    }
+
+    time {
+      margin-right: .5rem;
     }
   }
 }

@@ -1,0 +1,546 @@
+<ng-container *ngIf="collection">
+  <h2 class="sr-only">
+    {{ 'forms.collection.preview.title' | translate }}
+  </h2>
+
+  <ng-container>
+    <h3>
+      {{ 'forms.collection.preview.headings.basic' | translate }}
+    </h3>
+
+    <dl class="row">
+      <ng-container *ngIf="hasName; else missingName">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.name.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.name }}
+        </dd>
+      </ng-container><!--name-->
+
+      <ng-template #missingName>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.name' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingName-->
+
+      <ng-container *ngIf="hasKeywords; else missingKeywords">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.keywords.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let keyword of previewCollection.keywords; let isLast = last">
+            {{ keyword.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--keywords-->
+
+      <ng-template #missingKeywords>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.keywords' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingKeywords-->
+
+      <ng-container *ngIf="previewCollection.educationalRoles?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.educationalRoles.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let role of previewCollection.educationalRoles; let isLast = last">
+            {{ role.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--educationalRoles-->
+
+      <ng-container *ngIf="previewCollection.educationalUses?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.educationalUses.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let use of previewCollection.educationalUses; let isLast = last">
+            {{ use.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--educationalUses-->
+
+      <ng-container *ngIf="previewCollection.languages?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.languages.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let language of previewCollection.languages; let isLast = last">
+            {{ language }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--languages-->
+
+      <ng-container *ngIf="previewCollection.accessibilityFeatures?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let feature of previewCollection.accessibilityFeatures; let isLast = last">
+            {{ feature.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--accessibilityFeatures-->
+
+      <ng-container *ngIf="previewCollection.accessibilityHazards?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.accessibilityHazards.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let hazard of previewCollection.accessibilityHazards; let isLast = last">
+            {{ hazard.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--accessibilityHazards-->
+
+      <ng-container *ngIf="hasDescription; else missingDescription">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.basic.description.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.description }}
+        </dd>
+      </ng-container><!--description-->
+
+      <ng-template #missingDescription>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.preview.required.description' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
+
+          <a
+            [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          >{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+        </dd>
+      </ng-template><!--missingDescription-->
+    </dl>
+
+    <hr>
+  </ng-container><!--basic details-->
+
+  <ng-container>
+    <h3>
+      {{ 'forms.collection.preview.headings.educational' | translate }}
+    </h3>
+
+    <dl class="row">
+      <ng-container *ngIf="previewCollection.educationalLevels?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.educationalLevels.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let level of previewCollection.educationalLevels; let isLast = last">
+            {{ level.value }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--educationalLevels-->
+
+      <ng-container *ngIf="previewCollection.earlyChildhoodEducationSubjects?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationSubjects.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.earlyChildhoodEducationSubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--earlyChildhoodEducationSubjects-->
+
+      <ng-container *ngIf="previewCollection.earlyChildhoodEducationObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.earlyChildhoodEducationObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--earlyChildhoodEducationObjectives-->
+
+      <ng-container *ngIf="previewCollection.earlyChildhoodEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+         {{ previewCollection.earlyChildhoodEducationFramework }}
+        </dd>
+      </ng-container><!--earlyChildhoodEducationFramework-->
+
+      <ng-container *ngIf="previewCollection.prePrimaryEducationSubjects?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.prePrimaryEducationSubjects.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.prePrimaryEducationSubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--prePrimaryEducationSubjects-->
+
+      <ng-container *ngIf="previewCollection.prePrimaryEducationObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.prePrimaryEducationObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.prePrimaryEducationObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--prePrimaryEducationObjectives-->
+
+      <ng-container *ngIf="previewCollection.prePrimaryEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.prePrimaryEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.prePrimaryEducationFramework }}
+        </dd>
+      </ng-container><!--prePrimaryEducationFramework-->
+
+      <ng-container *ngIf="previewCollection.basicStudySubjects?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.basicStudySubjects.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.basicStudySubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--basicStudySubjects-->
+
+      <ng-container *ngIf="previewCollection.basicStudyObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.basicStudyObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.basicStudyObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--basicStudyObjectives-->
+
+      <ng-container *ngIf="previewCollection.basicStudyContents?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.basicStudyContents.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let content of previewCollection.basicStudyContents; let isLast = last">
+            {{ content.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--basicStudyContents-->
+
+      <ng-container *ngIf="previewCollection.basicStudyFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.basicStudyFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.basicStudyFramework }}
+        </dd>
+      </ng-container><!--basicStudyFramework-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjects?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolSubjects.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.upperSecondarySchoolSubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolSubjects-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.upperSecondarySchoolObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolObjectives-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.upperSecondarySchoolFramework }}
+        </dd>
+      </ng-container><!--upperSecondarySchoolFramework-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjectsNew?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolSubjectsNew.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.upperSecondarySchoolSubjectsNew; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolSubjectsNew-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolModulesNew?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolModulesNew.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let module of previewCollection.upperSecondarySchoolModulesNew; let isLast = last">
+            {{ module.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolModulesNew-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolObjectivesNew?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolObjectivesNew.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.upperSecondarySchoolObjectivesNew; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolObjectivesNew-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolContentsNew?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolContentsNew.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let content of previewCollection.upperSecondarySchoolContentsNew; let isLast = last">
+            {{ content.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolContentsNew-->
+
+      <ng-container *ngIf="previewCollection.vocationalDegrees?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.vocationalDegrees.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let degree of previewCollection.vocationalDegrees; let isLast = last">
+            {{ degree.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--vocationalDegrees-->
+
+      <ng-container *ngIf="previewCollection.vocationalUnits?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.vocationalUnits.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let unit of previewCollection.vocationalUnits; let isLast = last">
+            {{ unit.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--vocationalUnits-->
+
+      <ng-container *ngIf="previewCollection.vocationalEducationObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.vocationalEducationObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.vocationalEducationObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--vocationalEducationObjectives-->
+
+      <ng-container *ngIf="previewCollection.vocationalEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.vocationalEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.vocationalEducationFramework }}
+        </dd>
+      </ng-container><!--vocationalEducationFramework-->
+
+      <ng-container *ngIf="previewCollection.selfMotivatedEducationSubjects?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.selfMotivatedEducationSubjects.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.selfMotivatedEducationSubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--selfMotivatedEducationSubjects-->
+
+      <ng-container *ngIf="previewCollection.selfMotivatedEducationObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.selfMotivatedEducationObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.selfMotivatedEducationObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--selfMotivatedEducationObjectives-->
+
+      <ng-container *ngIf="previewCollection.scienceBranches?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.scienceBranches.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let branch of previewCollection.scienceBranches; let isLast = last">
+            {{ branch.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--scienceBranches-->
+
+      <ng-container *ngIf="previewCollection.scienceBranchObjectives?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.scienceBranchObjectives.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.scienceBranchObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--scienceBranchObjectives-->
+
+      <ng-container *ngIf="previewCollection.higherEducationFramework">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.higherEducationFramework.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          {{ previewCollection.higherEducationFramework }}
+        </dd>
+      </ng-container><!--higherEducationFramework-->
+    </dl>
+  </ng-container><!--educational details-->
+
+  <ng-container>
+    <h3>
+      {{ 'forms.collection.preview.headings.material' | translate }}
+    </h3>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">{{ 'forms.collection.preview.materialsAndHeadings' | translate }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let materialOrHeading of previewCollection.materialsAndHeadings; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <ng-container *ngIf="materialOrHeading.id; else heading">
+              {{ materials.get(materialOrHeading.id).name[lang] }}
+            </ng-container>
+
+            <ng-template #heading>
+              <p class="font-weight-bold">{{ materialOrHeading.heading }}</p>
+
+              <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container><!--materials-->
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-gray"
+          (click)="previous()"
+        >{{ 'forms.common.previous' | translate }}</button>
+      </div>
+
+      <div class="col-auto">
+        <button
+          type="reset"
+          class="btn btn-cancel"
+          (click)="emitAbort()"
+        >{{ 'forms.common.abort' | translate }}</button>
+      </div>
+
+      <div class="col-auto" *ngIf="!collection.isPublished">
+        <button
+          type="button"
+          class="btn btn-gray"
+          [disabled]="form.invalid"
+          (click)="onSubmit(true)"
+        >{{ 'forms.collection.preview.saveUnpublished' | translate }}</button>
+      </div>
+
+      <div class="col-auto">
+        <button
+          type="submit"
+          class="btn btn-blue"
+          [disabled]="form.invalid"
+        >
+          <ng-container *ngIf="collection.isPublished; else publish">
+            {{ 'forms.common.save' | translate }}
+          </ng-container>
+
+          <ng-template #publish>
+            {{ 'forms.collection.preview.savePublished' | translate }}
+          </ng-template>
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-container>

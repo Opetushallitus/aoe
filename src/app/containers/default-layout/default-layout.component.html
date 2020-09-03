@@ -23,6 +23,11 @@
             {{ 'navigation.home' | translate }}
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/kokoelmat" routerLinkActive="active">
+            {{ 'navigation.collections' | translate }}
+          </a>
+        </li>
         <li class="nav-item" *ngIf="authSvc.hasUserdata()">
           <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
             {{ 'navigation.myMaterials' | translate }}
