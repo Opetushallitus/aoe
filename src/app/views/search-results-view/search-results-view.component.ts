@@ -391,6 +391,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
       searchParams.from = this.from;
+      searchParams.size = this.resultsPerPage;
 
       this.searchSvc.updateSearchResults(searchParams);
 
@@ -412,7 +413,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       const searchParams: SearchParams = this.searchForm.value;
       const selectedEducationalLevels: string[] = [];
 
-      searchParams.from = this.from;
+      searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
 
       searchParams.filters.languages = this.filters.value.languages
@@ -460,6 +461,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.searchSvc.updateSearchResults(searchParams);
       this.searchSvc.updateSearchFilters(searchParams);
+
+      this.page = 1;
     }
   }
 }
