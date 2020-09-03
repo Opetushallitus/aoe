@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Material } from '@models/material';
 import { environment } from '../../../environments/environment';
@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material;
   materialUrl: string;
+  @ViewChild('pdfViewer') public pdfViewer;
 
   ngOnInit(): void {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
@@ -17,5 +18,7 @@ export class PdfPreviewComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.pdfViewer.pdfSrc = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.pdfViewer.refresh();
   }
 }
