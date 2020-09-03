@@ -3,4 +3,5 @@ export interface UserCollection {
   publishedat: Date | null;
   name: string;
   emIds: string[];
+  thumbnail: string | null;
 }

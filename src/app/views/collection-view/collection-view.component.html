@@ -2,128 +2,513 @@
   <div class="container">
     <ng-container *ngIf="collection">
       <div class="row mb-4">
-        <!--@todo: col-lg-6 with actions-->
-        <div class="col-lg-12">
-          <h1>{{ collection.collection.name }}</h1>
+        <div class="col-lg-6">
+          <h1>{{ collection.name }}</h1>
         </div>
 
-        <!--@todo: add actions-->
-        <!--<div class="col-lg-6 text-lg-right">
-          muokkaa / poista / lataa
-        </div>-->
+        <div class="col-lg-6 text-lg-right">
+          <div class="material-actions">
+            <ng-container *ngIf="collection.owner">
+              <a class="btn btn-link" [routerLink]="['/kokoelma', collectionId, 'muokkaa']">
+                <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
+                {{ 'demo.educationalMaterial.edit' | translate }}
+              </a>
+            </ng-container>
+          </div>
+        </div>
       </div>
 
-      <ng-container *ngIf="collection.educationalmaterials.length > 0; else noMaterials">
-        <div class="collection-material border-top" *ngFor="let collectionMaterial of collection.educationalmaterials; let i = index">
-          <h2>
-            <a [routerLink]="['/materiaali', collectionMaterial.id]">
-              {{ collectionMaterial.name[lang] }}
-            </a>
-          </h2>
+      <div class="row mb-4">
+        <div class="col-md-2 col-lg-3 text-center text-md-left">
+          <img
+            [src]="collection.thumbnail"
+            class="img-fluid mb-4"
+            [alt]="'demo.educationalMaterial.cover.alt' | translate"
+          >
+        </div><!--left column-->
 
-          <ul class="list-unstyled authors">
-            <li *ngFor="let author of collectionMaterial.author">
-              <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
-                {{ author.authorname }}
-                <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-              </ng-container>
-
-              <ng-template #organizationAuthor>
-                {{ author.organization }}
-              </ng-template>
+        <div class="col-md-10 col-lg-9">
+          <ul class="list-unstyled collection-authors">
+            <li *ngFor="let author of collection.authors">
+              {{ author }}
             </li>
-          </ul>
+          </ul><!--authors-->
 
-          <div *ngIf="materialsLoading.get(collectionMaterial.id) === false; else loading">
-            <div class="list-files mb-4" *ngIf="collectionMaterials.get(collectionMaterial.id).length > 0">
-              <div class="row no-gutters">
-                <div class="col-3">
-                  <ng-container *ngIf="materialLanguages.get(collectionMaterial.id).length > 1">
-                    <h3
-                      [id]="'selectLanguage' + collectionMaterial.id"
-                    >{{ 'materialPreview.selectLanguage' | translate }}</h3>
+          <div class="datetimes">
+            <span class="datetime-item d-block d-md-inline-block">
+              <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
 
-                    <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + collectionMaterial.id">
-                      <button
-                        type="button"
-                        class="btn btn-gray"
-                        *ngFor="let lang of materialLanguages.get(collectionMaterial.id)"
-                        [ngClass]="lang === selectedLanguages.get(collectionMaterial.id) ? 'active' : ''"
-                        [attr.aria-selected]="lang === selectedLanguages.get(collectionMaterial.id)"
-                        [attr.aria-controls]="'fileList-' + collectionMaterial.id + '-' + lang"
-                        [id]="'langSelector-' + collectionMaterial.id + '-' + lang"
-                        role="tab"
-                        (click)="setSelectedLanguage(collectionMaterial.id, lang)"
-                      >{{ lang }}</button>
-                    </div>
-                  </ng-container>
+              <time
+                [attr.datetime]="collection.createdAt | date:'yyyy-MM-dd HH:mm'"
+                aria-labelledby="createdAt"
+              >
+                {{ collection.createdAt | date:'d.M.yyyy HH:mm' }}
+              </time>
+            </span>
 
-                  <div
-                    *ngIf="collectionMaterials.get(collectionMaterial.id) | materialLanguage:selectedLanguages.get(collectionMaterial.id) as materials"
-                    [id]="'fileList-' + collectionMaterial.id + '-' + selectedLanguages.get(collectionMaterial.id)"
-                    role="tabpanel"
-                    [attr.aria-labelledby]="'langSelector-' + collectionMaterial.id + '-' + selectedLanguages.get(collectionMaterial.id)"
-                  >
-                    <h3
-                      [id]="'selectMaterial' + collectionMaterial.id"
-                      [ngClass]="materials.length === 1 ? 'sr-only' : ''"
-                    >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+            <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
+              <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-                    <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + collectionMaterial.id">
-                      <ng-container *ngFor="let material of materials">
-                        <button
-                          type="button"
-                          class="btn btn-file text-dark"
-                          [ngClass]="material === previewMaterials.get(collectionMaterial.id) ? 'active' : ''"
-                          [attr.aria-selected]="material === previewMaterials.get(collectionMaterial.id)"
-                          [attr.aria-controls]="'filePreview-' + collectionMaterial.id + '-' + material.id"
-                          [id]="'fileSelector-' + collectionMaterial.id + '-' + material.id"
-                          role="tab"
-                          (click)="setPreviewMaterial(collectionMaterial.id, material)"
-                        >{{ material.displayName[lang] }}</button>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
+              <time
+                [attr.datetime]="collection.publishedAt | date:'yyyy-MM-dd HH:mm'"
+                aria-labelledby="publishedAt"
+              >
+                {{ collection.publishedAt | date:'d.M.yyyy HH:mm' }}
+              </time>
+            </span>
 
-                <div class="col-9">
-                  <div
-                    [id]="'filePreview-' + collectionMaterial.id + '-' + previewMaterials.get(collectionMaterial.id).id"
-                    role="tabpanel"
-                    [attr.aria-labelledby]="'fileSelector-' + collectionMaterial.id + '-' + previewMaterials.get(collectionMaterial.id).id"
-                  >
-                    <app-educational-material-preview
-                      [material]="previewMaterials.get(collectionMaterial.id)"
-                      [isCollection]="true"
-                      *ngIf="!previewMaterials.get(collectionMaterial.id).link; else linkPreview"></app-educational-material-preview>
+            <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
+              <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-                    <ng-template #linkPreview>
-                      <div class="link-preview">
-                        <a
-                          [href]="previewMaterials.get(collectionMaterial.id).link"
-                          class="btn btn-secondary"
-                          target="_blank"
-                          rel="noopener nofollow"
-                        >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
-                      </div>
+              <time
+                [attr.datetime]="collection.updatedAt | date:'yyyy-MM-dd HH:mm'"
+                aria-labelledby="updatedAt"
+              >
+                {{ collection.updatedAt | date:'d.M.yyyy HH:mm' }}
+              </time>
+            </span>
+          </div><!--datetimes-->
+
+          <p *ngIf="collection.description">{{ collection.description }}</p><!--description-->
+
+          <app-taglist
+            *ngIf="collection.keywords?.length > 0"
+            id="collection-keywords"
+            [tags]="collection.keywords"
+            [title]="'collections.meta.keywords' | translate"
+            property="value"
+          ></app-taglist><!--keywords-->
+
+          <button
+            type="button"
+            class="btn btn-link px-0"
+            (click)="detailsExpanded = !detailsExpanded"
+            [attr.aria-expanded]="detailsExpanded"
+            aria-controls="metadata"
+          >
+            <ng-container *ngIf="detailsExpanded; else more">
+              {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
+            </ng-container>
+
+            <ng-template #more>
+              {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
+            </ng-template>
+          </button><!--toggle metadata-->
+
+          <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
+            <app-taglist
+              *ngIf="collection.languages?.length > 0"
+              id="collection-languages"
+              [tags]="collection.languages"
+              [title]="'collections.meta.languages' | translate"
+            ></app-taglist><!--languages-->
+
+            <app-taglist
+              *ngIf="collection.educationalUses?.length > 0"
+              id="collection-educationalUses"
+              [tags]="collection.educationalUses"
+              [title]="'collections.meta.educationalUses' | translate"
+              property="value"
+            ></app-taglist><!--educationalUses-->
+
+            <app-taglist
+              *ngIf="collection.educationalRoles?.length > 0"
+              id="collection-educationalRoles"
+              [tags]="collection.educationalRoles"
+              [title]="'collections.meta.educationalRoles' | translate"
+              property="value"
+            ></app-taglist><!--educationalRoles-->
+
+            <app-taglist
+              *ngIf="collection.accessibilityFeatures?.length > 0"
+              id="collection-accessibilityFeatures"
+              [tags]="collection.accessibilityFeatures"
+              [title]="'collections.meta.accessibilityFeatures' | translate"
+              property="value"
+            ></app-taglist><!--accessibilityFeatures-->
+
+            <app-taglist
+              *ngIf="collection.accessibilityHazards?.length > 0"
+              id="collection-accessibilityHazards"
+              [tags]="collection.accessibilityHazards"
+              [title]="'collections.meta.accessibilityHazards' | translate"
+              property="value"
+            ></app-taglist><!--accessibilityHazards-->
+
+            <app-taglist
+              *ngIf="collection.educationalLevels?.length > 0"
+              id="collection-educationalLevels"
+              [tags]="collection.educationalLevels"
+              [title]="'collections.meta.educationalLevels' | translate"
+              property="value"
+            ></app-taglist><!--educationalLevels-->
+
+            <!--early childhood education-->
+            <app-taglist
+              *ngIf="collection.earlyChildhoodEducationSubjects?.length > 0"
+              id="collection-earlyChildhoodEducationSubjects"
+              [tags]="collection.earlyChildhoodEducationSubjects"
+              [title]="'collections.meta.earlyChildhoodEducationSubjects' | translate"
+              property="targetName"
+            ></app-taglist><!--earlyChildhoodEducationSubjects-->
+
+            <app-taglist
+              *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
+              id="collection-earlyChildhoodEducationObjectives"
+              [tags]="collection.earlyChildhoodEducationObjectives"
+              [title]="'collections.meta.earlyChildhoodEducationObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--earlyChildhoodEducationObjectives-->
+
+            <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
+              <strong class="h4 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
+                {{ 'collections.meta.earlyChildhoodEducationFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-earlyChildhoodEducationFramework">
+                {{ collection.earlyChildhoodEducationFramework }}
+              </p>
+            </ng-container><!--earlyChildhoodEducationFramework-->
+            <!--/early childhood education-->
+
+            <!--pre primary education-->
+            <app-taglist
+              *ngIf="collection.prePrimaryEducationSubjects?.length > 0"
+              id="collection-prePrimaryEducationSubjects"
+              [tags]="collection.prePrimaryEducationSubjects"
+              [title]="'collections.meta.prePrimaryEducationSubjects' | translate"
+              property="targetName"
+            ></app-taglist><!--prePrimaryEducationSubjects-->
+
+            <app-taglist
+              *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
+              id="collection-prePrimaryEducationObjectives"
+              [tags]="collection.prePrimaryEducationObjectives"
+              [title]="'collections.meta.prePrimaryEducationObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--prePrimaryEducationObjectives-->
+
+            <ng-container *ngIf="collection.prePrimaryEducationFramework">
+              <strong class="h4 d-block mb-2" id="collection-prePrimaryEducationFramework">
+                {{ 'collections.meta.prePrimaryEducationFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-prePrimaryEducationFramework">
+                {{ collection.prePrimaryEducationFramework }}
+              </p>
+            </ng-container><!--prePrimaryEducationFramework-->
+            <!--/pre primary education-->
+
+            <!--basic education-->
+            <app-taglist
+              *ngIf="collection.basicStudySubjects?.length > 0"
+              id="collection-basicStudySubjects"
+              [tags]="collection.basicStudySubjects"
+              [title]="'collections.meta.basicStudySubjects' | translate"
+              property="targetName"
+            ></app-taglist><!--basicStudySubjects-->
+
+            <app-taglist
+              *ngIf="collection.basicStudyObjectives?.length > 0"
+              id="collection-basicStudyObjectives"
+              [tags]="collection.basicStudyObjectives"
+              [title]="'collections.meta.basicStudyObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--basicStudyObjectives-->
+
+            <app-taglist
+              *ngIf="collection.basicStudyContents?.length > 0"
+              id="collection-basicStudyContents"
+              [tags]="collection.basicStudyContents"
+              [title]="'collections.meta.basicStudyContents' | translate"
+              property="targetName"
+            ></app-taglist><!--basicStudyContents-->
+
+            <ng-container *ngIf="collection.basicStudyFramework">
+              <strong class="h4 d-block mb-2" id="collection-basicStudyFramework">
+                {{ 'collections.meta.basicStudyFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-basicStudyFramework">
+                {{ collection.basicStudyFramework }}
+              </p>
+            </ng-container><!--basicStudyFramework-->
+            <!--/basic education-->
+
+            <!--upper secondary education-->
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolSubjects?.length > 0"
+              id="collection-upperSecondarySchoolSubjects"
+              [tags]="collection.upperSecondarySchoolSubjects"
+              [title]="'collections.meta.upperSecondarySchoolSubjects' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolSubjects-->
+
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
+              id="collection-upperSecondarySchoolObjectives"
+              [tags]="collection.upperSecondarySchoolObjectives"
+              [title]="'collections.meta.upperSecondarySchoolObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolObjectives-->
+
+            <ng-container *ngIf="collection.upperSecondarySchoolFramework">
+              <strong class="h4 d-block mb-2" id="collection-upperSecondarySchoolFramework">
+                {{ 'collections.meta.upperSecondarySchoolFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-upperSecondarySchoolFramework">
+                {{ collection.upperSecondarySchoolFramework }}
+              </p>
+            </ng-container><!--upperSecondarySchoolFramework-->
+            <!--/upper secondary education-->
+
+            <!--upper secondary education (new)-->
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolSubjectsNew?.length > 0"
+              id="collection-upperSecondarySchoolSubjectsNew"
+              [tags]="collection.upperSecondarySchoolSubjectsNew"
+              [title]="'collections.meta.upperSecondarySchoolSubjectsNew' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
+
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
+              id="collection-upperSecondarySchoolModulesNew"
+              [tags]="collection.upperSecondarySchoolModulesNew"
+              [title]="'collections.meta.upperSecondarySchoolModulesNew' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolModulesNew-->
+
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
+              id="collection-upperSecondarySchoolObjectivesNew"
+              [tags]="collection.upperSecondarySchoolObjectivesNew"
+              [title]="'collections.meta.upperSecondarySchoolObjectivesNew' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
+
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
+              id="collection-upperSecondarySchoolContentsNew"
+              [tags]="collection.upperSecondarySchoolContentsNew"
+              [title]="'collections.meta.upperSecondarySchoolContentsNew' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolContentsNew-->
+            <!--/upper secondary education (new)-->
+
+            <!--vocational education-->
+            <app-taglist
+              *ngIf="collection.vocationalDegrees?.length > 0"
+              id="collection-vocationalDegrees"
+              [tags]="collection.vocationalDegrees"
+              [title]="'collections.meta.vocationalDegrees' | translate"
+              property="targetName"
+            ></app-taglist><!--vocationalDegrees-->
+
+            <app-taglist
+              *ngIf="collection.vocationalUnits?.length > 0"
+              id="collection-vocationalUnits"
+              [tags]="collection.vocationalUnits"
+              [title]="'collections.meta.vocationalUnits' | translate"
+              property="targetName"
+            ></app-taglist><!--vocationalUnits-->
+
+            <app-taglist
+              *ngIf="collection.vocationalEducationObjectives?.length > 0"
+              id="collection-vocationalEducationObjectives"
+              [tags]="collection.vocationalEducationObjectives"
+              [title]="'collections.meta.vocationalEducationObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--vocationalEducationObjectives-->
+
+            <ng-container *ngIf="collection.vocationalEducationFramework">
+              <strong class="h4 d-block mb-2" id="collection-vocationalEducationFramework">
+                {{ 'collections.meta.vocationalEducationFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-vocationalEducationFramework">
+                {{ collection.vocationalEducationFramework }}
+              </p>
+            </ng-container><!--vocationalEducationFramework-->
+            <!--/vocational education-->
+
+            <!--self-motivated education-->
+            <app-taglist
+              *ngIf="collection.selfMotivatedEducationSubjects?.length > 0"
+              id="collection-selfMotivatedEducationSubjects"
+              [tags]="collection.selfMotivatedEducationSubjects"
+              [title]="'collections.meta.selfMotivatedEducationSubjects' | translate"
+              property="targetName"
+            ></app-taglist><!--selfMotivatedEducationSubjects-->
+
+            <app-taglist
+              *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
+              id="collection-selfMotivatedEducationObjectives"
+              [tags]="collection.selfMotivatedEducationObjectives"
+              [title]="'collections.meta.selfMotivatedEducationObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--selfMotivatedEducationObjectives-->
+            <!--/self-motivated education-->
+
+            <!--higher education-->
+            <app-taglist
+              *ngIf="collection.scienceBranches?.length > 0"
+              id="collection-scienceBranches"
+              [tags]="collection.scienceBranches"
+              [title]="'collections.meta.scienceBranches' | translate"
+              property="targetName"
+            ></app-taglist><!--scienceBranches-->
+
+            <app-taglist
+              *ngIf="collection.scienceBranchObjectives?.length > 0"
+              id="collection-scienceBranchObjectives"
+              [tags]="collection.scienceBranchObjectives"
+              [title]="'collections.meta.scienceBranchObjectives' | translate"
+              property="targetName"
+            ></app-taglist><!--scienceBranchObjectives-->
+
+            <ng-container *ngIf="collection.higherEducationFramework">
+              <strong class="h4 d-block mb-2" id="collection-higherEducationFramework">
+                {{ 'collections.meta.higherEducationFramework' | translate }}
+              </strong>
+
+              <p aria-labelledby="collection-higherEducationFramework">
+                {{ collection.higherEducationFramework }}
+              </p>
+            </ng-container><!--higherEducationFramework-->
+            <!--/higher education-->
+          </div><!--metadata-->
+
+          <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
+            <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+              <ng-container *ngIf="materialOrHeading.id; else heading">
+                <h3 *ngIf="collection.materialsAndHeadings[i - 1]?.heading; else h2">
+                  <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                    {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                  </a>
+                </h3>
+
+                <ng-template #h2>
+                  <h2 class="h3">
+                    <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                      {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                    </a>
+                  </h2>
+                </ng-template>
+
+                <ul class="list-unstyled authors">
+                  <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
+                    <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
+                      {{ author.authorname }}
+                      <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                    </ng-container>
+
+                    <ng-template #organizationAuthor>
+                      {{ author.organization }}
                     </ng-template>
+                  </li>
+                </ul><!--authors-->
+
+                <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
+                  <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
+                          <h3
+                            [id]="'selectLanguage' + materialOrHeading.id"
+                          >{{ 'materialPreview.selectLanguage' | translate }}</h3>
+
+                          <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                            <button
+                              type="button"
+                              class="btn btn-gray"
+                              *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
+                              [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
+                              [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
+                              [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
+                              [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
+                              role="tab"
+                              (click)="setSelectedLanguage(materialOrHeading.id, lang)"
+                            >{{ lang }}</button>
+                          </div>
+                        </ng-container>
+
+                        <div
+                          *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
+                          [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                        >
+                          <h3
+                            [id]="'selectMaterial' + materialOrHeading.id"
+                            [ngClass]="materials.length === 1 ? 'sr-only' : ''"
+                          >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+
+                          <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                            <ng-container *ngFor="let material of materials">
+                              <button
+                                type="button"
+                                class="btn btn-file text-dark"
+                                [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
+                                [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
+                                [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
+                                [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
+                                role="tab"
+                                (click)="setPreviewMaterial(materialOrHeading.id, material)"
+                              >{{ material.displayName[lang] }}</button>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-9">
+                        <div
+                          [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          role="tabpanel"
+                          [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                        >
+                          <app-educational-material-preview
+                            [material]="previewMaterials.get(materialOrHeading.id)"
+                            [isCollection]="true"
+                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
+
+                          <ng-template #linkPreview>
+                            <div class="link-preview">
+                              <a
+                                [href]="previewMaterials.get(materialOrHeading.id).link"
+                                class="btn btn-secondary"
+                                target="_blank"
+                                rel="noopener nofollow"
+                              >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                            </div>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <ng-template #loading>
-            <div class="spinner-border" role="status">
-              <span class="sr-only">{{ 'collections.loading' | translate }}</span>
-            </div>
-          </ng-template>
-        </div>
-      </ng-container>
+                <ng-template #loading>
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">{{ 'collections.loading' | translate }}</span>
+                  </div>
+                </ng-template>
+              </ng-container><!--material-->
 
-      <ng-template #noMaterials>
-        {{ 'collections.noMaterials' | translate }}
-      </ng-template>
+              <ng-template #heading>
+                <h2>{{ materialOrHeading.heading }}</h2>
+
+                <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
+              </ng-template><!--heading-->
+            </div>
+          </ng-container><!--materials and headings-->
+
+          <ng-template #noMaterials>
+            <p>{{ 'collections.noMaterials' | translate }}</p>
+          </ng-template><!--no materials or headings-->
+        </div><!--right column-->
+      </div>
     </ng-container>
   </div>
 </div>

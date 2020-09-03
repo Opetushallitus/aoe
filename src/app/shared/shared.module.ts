@@ -87,140 +87,140 @@ export function deduplicate(array: any[], prop: string): any[] {
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addEarlyChildhoodEducationSubject(value: string): AlignmentObjectExtended {
+export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'earlyChildhoodEducationSubjects',
     alignmentType: 'educationalSubject',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to early childhood objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addEarlyChildhoodEducationObjective(value: string): AlignmentObjectExtended {
+export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'earlyChildhoodEducationObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to pre-primary subject Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addPrePrimaryEducationSubject(value: string): AlignmentObjectExtended {
+export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'prePrimaryEducationSubjects',
     alignmentType: 'educationalSubject',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to pre-primary objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addPrePrimaryEducationObjective(value: string): AlignmentObjectExtended {
+export const addPrePrimaryEducationObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'prePrimaryEducationObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to upper secondary school objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addUpperSecondarySchoolObjective(value: string): AlignmentObjectExtended {
+export const addUpperSecondarySchoolObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'upperSecondarySchoolObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to vocational education objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addVocationalEducationObjective(value: string): AlignmentObjectExtended {
+export const addVocationalEducationObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'vocationalEducationObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to self-motivated competence development subject Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addSelfMotivatedEducationSubject(value: string): AlignmentObjectExtended {
+export const addSelfMotivatedEducationSubject = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'selfMotivatedEducationSubjects',
     alignmentType: 'educationalSubject',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to self-motivated competence development objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addSelfMotivatedEducationObjective(value: string): AlignmentObjectExtended {
+export const addSelfMotivatedEducationObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'selfMotivatedEducationObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to higher education objective Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addScienceBranchObjectives(value: string): AlignmentObjectExtended {
+export const addScienceBranchObjectives = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: 'scienceBranchObjectives',
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Converts string value to prerequisites Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
-export function addPrerequisites(value: string): AlignmentObjectExtended {
+export const addPrerequisites = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
     source: koodistoSources.prerequisites,
     alignmentType: 'requires',
     targetName: value.trim(),
   };
-}
+};
 
 /**
  * Creates valid filename.
@@ -246,7 +246,7 @@ export function validateFilename(value: string): string {
  * @returns {ValidatorFn}
  */
 export function textInputValidator(): ValidatorFn {
-  const textInputRe: RegExp = /[^\wåäö\s.\-!'´`@#£€$%&()=?,:]/i;
+  const textInputRe: RegExp = /[^\wåäö\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = textInputRe.test(control.value);
@@ -260,11 +260,35 @@ export function textInputValidator(): ValidatorFn {
  * @returns {ValidatorFn}
  */
 export function descriptionValidator(): ValidatorFn {
-  const descriptionRe: RegExp = /[^\wåäö\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]]/i;
+  const descriptionRe: RegExp = /[^\wåäö\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = descriptionRe.test(control.value);
 
     return invalid ? { 'invalid': { value: control.value } } : null;
   };
+}
+
+export function getValuesWithinLimits(input: any[], prop: string = 'value'): any[] {
+  if (input.length <= 1) {
+    return input;
+  }
+
+  const charLimit = 30;
+  let usedChars = 0;
+  const values = [];
+
+  const [first, ...rest] = input;
+
+  values.push(first);
+  usedChars += first[prop].length;
+
+  rest.forEach((row: any) => {
+    if (usedChars + row[prop].length <= charLimit) {
+      values.push(row);
+      usedChars += row[prop].length;
+    }
+  });
+
+  return values;
 }

@@ -1,0 +1,163 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
+  <h2 class="sr-only">
+    {{ 'forms.collection.material.title' | translate }}
+  </h2>
+
+  <alert type="info" aria-hidden="true">
+    <i class="fa fa-info-circle fa-fw"></i>
+    {{ 'forms.collection.material.helpText' | translate }}
+  </alert>
+
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="mb-4">
+    <div cdkDrag *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index" class="border-bottom py-4">
+      <fieldset formArrayName="materialsAndHeadings">
+        <ng-container [formGroupName]="i">
+          <ng-container *ngIf="materialOrHeading.get('id'); else heading">
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <h3>
+                  <i class="fa fa-bars fa-fw mr-2" aria-hidden="true"></i>
+                  <span class="mr-2">{{ i + 1 }}</span>
+                  {{ materials.get(materialOrHeading.get('id').value).name[lang] }}
+                </h3>
+              </div>
+
+              <div class="col-auto">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-link"
+                  (click)="addHeading(i)"
+                >{{ 'forms.collection.material.addHeadingAndDescription.button' | translate }}</button>
+
+                <button
+                  type="button"
+                  class="btn btn-link btn-tooltip"
+                  [tooltip]="'forms.collection.material.addHeadingAndDescription.tooltip' | translate"
+                ><img src="assets/img/icons/ic_help.svg" aria-hidden="true"></button>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-3 col-md-2">
+                <img
+                  [src]="materials.get(materialOrHeading.get('id').value).thumbnail"
+                  class="img-fluid mb-3"
+                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                >
+              </div><!--thumbnail-->
+
+              <div class="col-9 col-md-6">
+                <p *ngIf="materials.get(materialOrHeading.get('id').value).description[lang]">
+                  {{ materials.get(materialOrHeading.get('id').value).description[lang] }}
+                </p>
+
+                <ul class="list-unstyled">
+                  <li *ngFor="let author of materials.get(materialOrHeading.get('id').value).authors">
+                    <ng-container *ngIf="author.author !== ''">
+                      {{ author.author }}
+                      <ng-container *ngIf="author.organization.value !== ''">({{ author.organization.value }})</ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="author.author === ''">{{ author.organization.value }}</ng-container>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-12 col-md-4 text-md-right">
+                <button type="button" class="btn btn-link" (click)="removeFromCollection(i)">
+                  <i class="fa fa-trash fa-fw text-dark" aria-hidden="true"></i>
+                  {{ 'forms.collection.material.removeFromCollection' | translate }}
+                </button>
+                <!--<div class="tags">
+                  <button type="button" class="btn btn-light disabled">
+                    meta
+                  </button>
+                </div>&lt;!&ndash;@todo: replace with actual data&ndash;&gt;-->
+              </div>
+            </div>
+
+            <div class="row justify-content-between">
+              <div class="col-auto">
+                <span class="mr-4">
+                  <img
+                    src="assets/img/icons/learning-resource-types/{{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key }}.svg"
+                    class="img-icon"
+                    aria-hidden="true"
+                  > {{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].value }}
+                </span>
+
+                <strong>
+                  {{ materials.get(materialOrHeading.get('id').value).license.value }}
+                </strong>
+              </div>
+
+              <div class="col-auto">
+                <time [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date:'yyyy-MM-dd'">
+                  {{ materials.get(materialOrHeading.get('id').value).publishedAt | date:'d.M.yyyy' }}
+                </time>
+              </div>
+            </div>
+          </ng-container><!--material-->
+
+          <ng-template #heading>
+            <h3>
+              <i class="fa fa-bars fa-fw mr-2" aria-hidden="true"></i>
+              <span class="mr-2">{{ i + 1 }}</span>
+              {{ 'forms.collection.material.headingAndDescription' | translate }}
+            </h3>
+
+            <div class="form-group">
+              <label for="{{ 'heading-' + i }}">
+                {{ 'forms.collection.material.heading.label' | translate }}*
+              </label>
+
+              <input
+                type="text"
+                class="form-control"
+                id="{{ 'heading-' + i }}"
+                formControlName="heading"
+              >
+            </div><!--heading-->
+
+            <div class="form-group">
+              <label for="{{ 'description-' + i }}">
+                {{ 'forms.collection.material.description.label' | translate }}
+              </label>
+
+              <textarea
+                class="form-control"
+                id="{{ 'description-' + i }}"
+                formControlName="description"
+                rows="10"
+              ></textarea>
+            </div><!--description-->
+          </ng-template><!--heading-->
+        </ng-container>
+      </fieldset>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-gray"
+        (click)="previous()"
+      >{{ 'forms.common.previous' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="reset"
+        class="btn btn-cancel"
+        (click)="emitAbort()"
+      >{{ 'forms.common.abort' | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button
+        type="submit"
+        class="btn btn-blue"
+      >{{ 'forms.common.next' | translate }}</button>
+    </div>
+  </div>
+</form>

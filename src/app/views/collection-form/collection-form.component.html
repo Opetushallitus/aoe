@@ -1,0 +1,98 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>{{ 'forms.collection.title' | translate }}</h1>
+
+    <ul class="list-inline material-form-tabs">
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]"
+          routerLinkActive="active"
+        >{{ 'forms.collection.nav.basic' | translate }}</a>
+      </li>
+
+      <li class="list-inline-item divider" aria-hidden="true">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 2]"
+          routerLinkActive="active"
+        >{{ 'forms.collection.nav.educational' | translate }}</a>
+      </li>
+
+      <li class="list-inline-item divider" aria-hidden="true">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 3]"
+          routerLinkActive="active"
+        >{{ 'forms.collection.nav.material' | translate }}</a>
+      </li>
+
+      <li class="list-inline-item divider" aria-hidden="true">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+      </li>
+
+      <li class="list-inline-item">
+        <a
+          [routerLink]="['/kokoelma', collectionId, 'muokkaa', 4]"
+          routerLinkActive="active"
+        >{{ 'forms.collection.nav.preview' | translate }}</a>
+      </li>
+    </ul>
+
+    <ng-container [ngSwitch]="tabId" *ngIf="collection">
+      <app-collection-basic-details-tab
+        *ngSwitchCase="1"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="1"
+        (abort)="openConfirmAbortModal(confirmAbort)"></app-collection-basic-details-tab>
+
+      <app-collection-educational-details-tab
+        *ngSwitchCase="2"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="2"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-educational-details-tab>
+
+      <app-collection-materials-tab
+        *ngSwitchCase="3"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="3"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-materials-tab>
+
+      <app-collection-preview-tab
+        *ngSwitchCase="4"
+        [collection]="collection"
+        [collectionId]="collectionId"
+        [tabId]="4"
+        (abort)="openConfirmAbortModal(confirmAbort)"
+      ></app-collection-preview-tab>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #confirmAbort>
+  <div class="modal-body text-center">
+    <p>{{ 'forms.collection.abort.text' | translate }}</p>
+
+    <button
+      type="button"
+      class="btn btn-blue"
+      (click)="abort()"
+    >{{ 'forms.collection.abort.confirm' | translate }}</button>
+
+    <button
+      type="button"
+      class="btn btn-outline-blue"
+      (click)="confirmAbortModalRef.hide()"
+    >{{ 'forms.collection.abort.cancel' | translate }}</button>
+  </div>
+</ng-template>
