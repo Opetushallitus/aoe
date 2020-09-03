@@ -42,6 +42,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -110,7 +111,6 @@ import { CollectionsViewComponent } from '@views/collections-view/collections-vi
 import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   imports: [
