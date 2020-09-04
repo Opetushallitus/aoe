@@ -850,14 +850,7 @@ h2 {
   }
 }
 
-/*@media (min-width: map_get($grid-breakpoints, 'sm')) {
-  .search-box {
-    margin-top: -4rem;
-    padding: 2rem 3rem 1rem;
-  }
-}*/
-
-@media (min-width: map_get($grid-breakpoints, 'md')) {
+@include media-breakpoint-up(md) {
   h1 {
     @include font-size(32);
     margin-bottom: 2rem;
@@ -869,7 +862,7 @@ h2 {
   }
 }
 
-@media (min-width: map_get($grid-breakpoints, 'lg')) {
+@include media-breakpoint-up(lg) {
   h1 {
     margin-bottom: 3rem;
   }
