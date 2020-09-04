@@ -266,7 +266,7 @@
               "subtitle": "Subtitle file",
               "label": "Label",
               "srclang": "Language",
-              "default": "Default",
+              "default": "Default subtitle",
               "addSubtitle": "Add a subtitle"
             }
           },

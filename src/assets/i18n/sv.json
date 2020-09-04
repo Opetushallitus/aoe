@@ -263,10 +263,10 @@
               }
             },
             "subtitles": {
-              "subtitle": "Subtitle file",
-              "label": "Label",
-              "srclang": "Language",
-              "default": "Default",
+              "subtitle": "Undertextfil",
+              "label": "Namn",
+              "srclang": "Språk",
+              "default": "Standardundertext",
               "addSubtitle": "Ladda upp undertexter"
             }
           },

@@ -266,7 +266,7 @@
               "subtitle": "Tekstitystiedosto",
               "label": "Nimi",
               "srclang": "Kieli",
-              "default": "Oletus",
+              "default": "Oletustekstitys",
               "addSubtitle": "Lisää tekstitys"
             }
           },
