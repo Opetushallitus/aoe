@@ -301,6 +301,15 @@ h2 {
   padding: 0 .5rem;
 }
 
+.btn-search {
+  background-color: $white;
+  color: $black;
+
+  &:hover {
+    background-color: darken($white, 15%);
+  }
+}
+
 // Modals
 .modal-content {
   border-radius: 0;
@@ -708,6 +717,16 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  &.main-view {
+    background-image: url(../assets/img/AdobeStock_210031646v3.jpg);
+    background-position: bottom center;
+  }
+}
+
+.search-box {
+  background-color: #4f9d51;
+  //padding: 2rem 3rem 1rem;
 }
 
 // Educational resource form
