@@ -717,16 +717,11 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
-  &.main-view {
-    background-image: url(../assets/img/AdobeStock_210031646v3.jpg);
-    background-position: bottom center;
-  }
 }
 
 .search-box {
   background-color: #4f9d51;
-  //padding: 2rem 3rem 1rem;
+  padding: 1rem;
 }
 
 // Educational resource form
@@ -855,14 +850,19 @@ h2 {
   }
 }
 
-@media (min-width: map_get($grid-breakpoints, 'md')) {
+@include media-breakpoint-up(md) {
   h1 {
     @include font-size(32);
     margin-bottom: 2rem;
   }
+
+  .search-box {
+    margin-top: -4rem;
+    padding: 2rem 3rem 1rem;
+  }
 }
 
-@media (min-width: map_get($grid-breakpoints, 'lg')) {
+@include media-breakpoint-up(lg) {
   h1 {
     margin-bottom: 3rem;
   }
