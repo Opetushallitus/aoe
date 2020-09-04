@@ -418,10 +418,14 @@
         </div><!--/displayName-->
 
         <ng-container *ngIf="videoFiles.includes(i)">
-          <ng-container *ngFor="let subtitle of material.get('subtitles').controls; let j = index;">
+          <div
+            class="border-top pt-1"
+            *ngFor="let subtitle of material.get('subtitles').controls; let j = index; let isLast = last;"
+            [ngClass]="{ 'border-bottom mb-2': isLast }"
+          >
             <fieldset formArrayName="subtitles">
               <div class="form-row align-items-end" [formGroupName]="j">
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg order-1">
                   <ng-container *ngIf="subtitle.get('subtitle').value; else newSubtitle">
                     <ng-container>
                       <label for="{{ 'subtitle' + i + j }}">
@@ -485,7 +489,7 @@
                   </ng-template>
                 </div><!--/subtitle-->
 
-                <div class="form-group col-sm-8 col-lg-4">
+                <div class="form-group col-sm-8 col-lg order-2">
                   <label for="{{ 'label' + i + j }}">
                     {{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*
                   </label>
@@ -516,7 +520,7 @@
                   </div>
                 </div><!--/label-->
 
-                <div class="form-group col-sm-4 col-lg-2">
+                <div class="form-group col-sm-4 col-lg order-3">
                   <label [for]="'srclang' + i + j">
                     {{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*
                   </label>
@@ -537,7 +541,18 @@
                   </ng-container>
                 </div><!--/srclang-->
 
-                <div class="form-group col-lg">
+                <div class="form-group col-lg-auto order-last order-lg-4">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="removeSubtitle(i, j)"
+                  >
+                    <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                    <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+                  </button>
+                </div><!--/actions-->
+
+                <div class="form-group col-lg-12 order-4">
                   <div class="custom-control custom-checkbox">
                     <input
                       type="checkbox"
@@ -552,20 +567,9 @@
                     </label>
                   </div>
                 </div><!--/default-->
-
-                <div class="form-group col-lg-auto">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="removeSubtitle(i, j)"
-                  >
-                    <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
-                    <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
-                  </button>
-                </div><!--/actions-->
               </div>
             </fieldset>
-          </ng-container>
+          </div>
 
           <div class="form-group">
             <button
@@ -816,10 +820,14 @@
           </div><!--/displayName-->
 
           <ng-container *ngIf="material.get('subtitles')">
-            <ng-container *ngFor="let subtitle of material.get('subtitles').controls; let j = index;">
+            <div
+              class="border-top pt-1"
+              *ngFor="let subtitle of material.get('subtitles').controls; let j = index; let isLast = last;"
+              [ngClass]="{ 'border-bottom mb-2': isLast }"
+            >
               <fieldset formArrayName="subtitles">
                 <div class="form-row align-items-end" [formGroupName]="j">
-                  <div class="form-group col-lg-4">
+                  <div class="form-group col-lg order-1">
                     <label for="{{ 'newMaterialSubtitle' + i }}">
                       {{ 'forms.educationalResource.files.file.inputs.subtitles.subtitle' | translate }}*
                     </label>
@@ -837,7 +845,7 @@
                     </div>
                   </div><!--/subtitle-->
 
-                  <div class="form-group col-sm-8 col-lg-4">
+                  <div class="form-group col-sm-8 col-lg order-2">
                     <label for="{{ 'newMaterialLabel' + i + j }}">
                       {{ 'forms.educationalResource.files.file.inputs.subtitles.label' | translate }}*
                     </label>
@@ -868,7 +876,7 @@
                     </div>
                   </div><!--/label-->
 
-                  <div class="form-group col-sm-4 col-lg-2">
+                  <div class="form-group col-sm-4 col-lg order-3">
                     <label [for]="'newMaterialSrclang' + i + j">
                       {{ 'forms.educationalResource.files.file.inputs.subtitles.srclang' | translate }}*
                     </label>
@@ -889,7 +897,18 @@
                     </ng-container>
                   </div><!--/srclang-->
 
-                  <div class="form-group col-lg">
+                  <div class="form-group col-lg-auto order-last order-lg-4">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      (click)="removeSubtitle(i, j)"
+                    >
+                      <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
+                      <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+                    </button>
+                  </div><!--/actions-->
+
+                  <div class="form-group col-lg-12 order-4">
                     <div class="custom-control custom-checkbox">
                       <input
                         type="checkbox"
@@ -904,20 +923,9 @@
                       </label>
                     </div>
                   </div><!--/default-->
-
-                  <div class="form-group col-lg-auto">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="removeSubtitle(i, j)"
-                    >
-                      <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
-                      <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
-                    </button>
-                  </div><!--/actions-->
                 </div>
               </fieldset>
-            </ng-container>
+            </div>
 
             <div class="form-group">
               <button
