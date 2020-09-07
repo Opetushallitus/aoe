@@ -1,4 +1,4 @@
-<strong class="h4 d-block mb-2" [id]="id">
+<strong class="h3 d-block mb-2" [id]="elementId">
   {{ title }}
 </strong>
 
@@ -7,7 +7,7 @@
     *ngFor="let tag of tags"
     type="button"
     class="btn btn-light disabled"
-    [attr.aria-labelledby]="id"
+    [attr.aria-labelledby]="elementId"
     disabled
   >{{ property ? tag[property] : tag }}</button>
 </div>

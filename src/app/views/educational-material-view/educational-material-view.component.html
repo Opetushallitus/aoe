@@ -195,7 +195,7 @@
             </div>
 
             <div class="embed-code">
-              <h4>{{ 'demo.educationalMaterial.embed.label' | translate }}</h4>
+              <h3>{{ 'demo.educationalMaterial.embed.label' | translate }}</h3>
 
               <div class="input-group mb-4">
                 <input
@@ -235,22 +235,22 @@
             <div class="metadata">
               <div class="row">
                 <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
-                  <h4>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h4>
+                  <h3>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h3>
                   {{ educationalMaterial.timeRequired }}
                 </div>
 
                 <div *ngIf="educationalMaterial.publisher" class="col-auto">
-                  <h4>{{ 'demo.educationalMaterial.publisher' | translate }}</h4>
+                  <h3>{{ 'demo.educationalMaterial.publisher' | translate }}</h3>
                   {{ educationalMaterial.publisher }}
                 </div>
 
                 <div class="col-auto">
-                  <h4>{{ 'demo.educationalMaterial.license' | translate }}</h4>
+                  <h3>{{ 'demo.educationalMaterial.license' | translate }}</h3>
                   {{ educationalMaterial.license.value }}
                 </div>
 
                 <div class="col-12">
-                  <h4>{{ 'demo.educationalMaterial.keywords' | translate }}</h4>
+                  <h3>{{ 'demo.educationalMaterial.keywords' | translate }}</h3>
 
                   <div class="tags">
                     <button
@@ -275,7 +275,7 @@
                     </ng-template>
                   </button>
                   <div class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -288,7 +288,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -301,7 +301,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -315,7 +315,7 @@
 
                   <!-- early childhood education -->
                   <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -328,7 +328,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -342,7 +342,7 @@
 
                   <!-- pre primary education -->
                   <div *ngIf="educationalMaterial.prePrimaryEducationSubjects.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.prePrimaryEducationSubjects' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.prePrimaryEducationSubjects' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -355,7 +355,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.prePrimaryEducationObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.prePrimaryEducationObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.prePrimaryEducationObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -369,7 +369,7 @@
 
                   <!-- basic education -->
                   <div *ngIf="educationalMaterial.basicStudySubjects.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.basicStudySubjects' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.basicStudySubjects' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -382,7 +382,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.basicStudyObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.basicStudyObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.basicStudyObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -395,7 +395,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.basicStudyContents.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.basicStudyContents' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.basicStudyContents' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -409,7 +409,7 @@
 
                   <!-- upper secondary education -->
                   <div *ngIf="educationalMaterial.upperSecondarySchoolSubjects.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -422,7 +422,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -436,7 +436,7 @@
 
                   <!-- upper secondary education (new) -->
                   <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -449,7 +449,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -462,7 +462,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -475,7 +475,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -489,7 +489,7 @@
 
                   <!-- vocational education -->
                   <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -502,7 +502,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.vocationalUnits.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.vocationalUnits' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.vocationalUnits' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -515,7 +515,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.vocationalEducationObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -529,7 +529,7 @@
 
                   <!-- self-motivated education -->
                   <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -542,7 +542,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -556,7 +556,7 @@
 
                   <!-- higher education -->
                   <div *ngIf="educationalMaterial.branchesOfScience.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.branchesOfScience' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.branchesOfScience' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -569,7 +569,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.scienceBranchObjectives.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.scienceBranchObjectives' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.scienceBranchObjectives' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -583,7 +583,7 @@
 
                   <!-- prerequisites -->
                   <div *ngIf="educationalMaterial.prerequisites.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.prerequisites' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.prerequisites' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -597,7 +597,7 @@
 
                   <!-- accessibility -->
                   <div *ngIf="educationalMaterial.accessibilityFeatures.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h3>
 
                     <div class="tags">
                       <button
@@ -610,7 +610,7 @@
                   </div>
 
                   <div *ngIf="educationalMaterial.accessibilityHazards.length > 0" class="metadata-group">
-                    <h4>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h4>
+                    <h3>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h3>
 
                     <div class="tags">
                       <button

@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./taglist.component.scss']
 })
 export class TaglistComponent implements OnInit {
-  @Input() id: string;
+  @Input() elementId: string;
   @Input() tags: any[];
   @Input() title: string;
   @Input() property?: string;
