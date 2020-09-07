@@ -125,9 +125,9 @@
               <div class="row no-gutters">
                 <div class="col-md-3">
                   <ng-container *ngIf="materialLanguages.length > 1">
-                    <h3 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h3>
+                    <h2 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h2>
 
-                    <div class="btn-group mb-3" role="group" aria-labelledby="selectLanguage">
+                    <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguage">
                       <button
                         type="button"
                         class="btn btn-gray"
@@ -152,7 +152,7 @@
                       {{ 'materialPreview.selectMaterial' | translate }}
                     </h3>
 
-                    <div class="btn-group-vertical" role="group" aria-labelledby="selectMaterial">
+                    <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
                       <ng-container *ngFor="let material of filteredMaterials">
                         <button
                           type="button"
