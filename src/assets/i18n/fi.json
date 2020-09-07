@@ -169,7 +169,8 @@
       "expired": "Oppimateriaali on vanhentunut {{date}}",
       "cover": {
         "alt": "Oppimateriaalin kansikuva"
-      }
+      },
+      "detailsHeading": "Tarkemmat tiedot"
     }
   },
   "forms": {
