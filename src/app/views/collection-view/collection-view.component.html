@@ -73,7 +73,7 @@
 
           <app-taglist
             *ngIf="collection.keywords?.length > 0"
-            id="collection-keywords"
+            elementId="collection-keywords"
             [tags]="collection.keywords"
             [title]="'collections.meta.keywords' | translate"
             property="value"
@@ -98,14 +98,14 @@
           <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
             <app-taglist
               *ngIf="collection.languages?.length > 0"
-              id="collection-languages"
+              elementId="collection-languages"
               [tags]="collection.languages"
               [title]="'collections.meta.languages' | translate"
             ></app-taglist><!--languages-->
 
             <app-taglist
               *ngIf="collection.educationalUses?.length > 0"
-              id="collection-educationalUses"
+              elementId="collection-educationalUses"
               [tags]="collection.educationalUses"
               [title]="'collections.meta.educationalUses' | translate"
               property="value"
@@ -113,7 +113,7 @@
 
             <app-taglist
               *ngIf="collection.educationalRoles?.length > 0"
-              id="collection-educationalRoles"
+              elementId="collection-educationalRoles"
               [tags]="collection.educationalRoles"
               [title]="'collections.meta.educationalRoles' | translate"
               property="value"
@@ -121,7 +121,7 @@
 
             <app-taglist
               *ngIf="collection.accessibilityFeatures?.length > 0"
-              id="collection-accessibilityFeatures"
+              elementId="collection-accessibilityFeatures"
               [tags]="collection.accessibilityFeatures"
               [title]="'collections.meta.accessibilityFeatures' | translate"
               property="value"
@@ -129,7 +129,7 @@
 
             <app-taglist
               *ngIf="collection.accessibilityHazards?.length > 0"
-              id="collection-accessibilityHazards"
+              elementId="collection-accessibilityHazards"
               [tags]="collection.accessibilityHazards"
               [title]="'collections.meta.accessibilityHazards' | translate"
               property="value"
@@ -137,7 +137,7 @@
 
             <app-taglist
               *ngIf="collection.educationalLevels?.length > 0"
-              id="collection-educationalLevels"
+              elementId="collection-educationalLevels"
               [tags]="collection.educationalLevels"
               [title]="'collections.meta.educationalLevels' | translate"
               property="value"
@@ -146,7 +146,7 @@
             <!--early childhood education-->
             <app-taglist
               *ngIf="collection.earlyChildhoodEducationSubjects?.length > 0"
-              id="collection-earlyChildhoodEducationSubjects"
+              elementId="collection-earlyChildhoodEducationSubjects"
               [tags]="collection.earlyChildhoodEducationSubjects"
               [title]="'collections.meta.earlyChildhoodEducationSubjects' | translate"
               property="targetName"
@@ -154,7 +154,7 @@
 
             <app-taglist
               *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
-              id="collection-earlyChildhoodEducationObjectives"
+              elementId="collection-earlyChildhoodEducationObjectives"
               [tags]="collection.earlyChildhoodEducationObjectives"
               [title]="'collections.meta.earlyChildhoodEducationObjectives' | translate"
               property="targetName"
@@ -174,7 +174,7 @@
             <!--pre primary education-->
             <app-taglist
               *ngIf="collection.prePrimaryEducationSubjects?.length > 0"
-              id="collection-prePrimaryEducationSubjects"
+              elementId="collection-prePrimaryEducationSubjects"
               [tags]="collection.prePrimaryEducationSubjects"
               [title]="'collections.meta.prePrimaryEducationSubjects' | translate"
               property="targetName"
@@ -182,7 +182,7 @@
 
             <app-taglist
               *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
-              id="collection-prePrimaryEducationObjectives"
+              elementId="collection-prePrimaryEducationObjectives"
               [tags]="collection.prePrimaryEducationObjectives"
               [title]="'collections.meta.prePrimaryEducationObjectives' | translate"
               property="targetName"
@@ -202,7 +202,7 @@
             <!--basic education-->
             <app-taglist
               *ngIf="collection.basicStudySubjects?.length > 0"
-              id="collection-basicStudySubjects"
+              elementId="collection-basicStudySubjects"
               [tags]="collection.basicStudySubjects"
               [title]="'collections.meta.basicStudySubjects' | translate"
               property="targetName"
@@ -210,7 +210,7 @@
 
             <app-taglist
               *ngIf="collection.basicStudyObjectives?.length > 0"
-              id="collection-basicStudyObjectives"
+              elementId="collection-basicStudyObjectives"
               [tags]="collection.basicStudyObjectives"
               [title]="'collections.meta.basicStudyObjectives' | translate"
               property="targetName"
@@ -218,7 +218,7 @@
 
             <app-taglist
               *ngIf="collection.basicStudyContents?.length > 0"
-              id="collection-basicStudyContents"
+              elementId="collection-basicStudyContents"
               [tags]="collection.basicStudyContents"
               [title]="'collections.meta.basicStudyContents' | translate"
               property="targetName"
@@ -238,7 +238,7 @@
             <!--upper secondary education-->
             <app-taglist
               *ngIf="collection.upperSecondarySchoolSubjects?.length > 0"
-              id="collection-upperSecondarySchoolSubjects"
+              elementId="collection-upperSecondarySchoolSubjects"
               [tags]="collection.upperSecondarySchoolSubjects"
               [title]="'collections.meta.upperSecondarySchoolSubjects' | translate"
               property="targetName"
@@ -246,7 +246,7 @@
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
-              id="collection-upperSecondarySchoolObjectives"
+              elementId="collection-upperSecondarySchoolObjectives"
               [tags]="collection.upperSecondarySchoolObjectives"
               [title]="'collections.meta.upperSecondarySchoolObjectives' | translate"
               property="targetName"
@@ -266,7 +266,7 @@
             <!--upper secondary education (new)-->
             <app-taglist
               *ngIf="collection.upperSecondarySchoolSubjectsNew?.length > 0"
-              id="collection-upperSecondarySchoolSubjectsNew"
+              elementId="collection-upperSecondarySchoolSubjectsNew"
               [tags]="collection.upperSecondarySchoolSubjectsNew"
               [title]="'collections.meta.upperSecondarySchoolSubjectsNew' | translate"
               property="targetName"
@@ -274,7 +274,7 @@
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
-              id="collection-upperSecondarySchoolModulesNew"
+              elementId="collection-upperSecondarySchoolModulesNew"
               [tags]="collection.upperSecondarySchoolModulesNew"
               [title]="'collections.meta.upperSecondarySchoolModulesNew' | translate"
               property="targetName"
@@ -282,7 +282,7 @@
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
-              id="collection-upperSecondarySchoolObjectivesNew"
+              elementId="collection-upperSecondarySchoolObjectivesNew"
               [tags]="collection.upperSecondarySchoolObjectivesNew"
               [title]="'collections.meta.upperSecondarySchoolObjectivesNew' | translate"
               property="targetName"
@@ -290,7 +290,7 @@
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
-              id="collection-upperSecondarySchoolContentsNew"
+              elementId="collection-upperSecondarySchoolContentsNew"
               [tags]="collection.upperSecondarySchoolContentsNew"
               [title]="'collections.meta.upperSecondarySchoolContentsNew' | translate"
               property="targetName"
@@ -300,7 +300,7 @@
             <!--vocational education-->
             <app-taglist
               *ngIf="collection.vocationalDegrees?.length > 0"
-              id="collection-vocationalDegrees"
+              elementId="collection-vocationalDegrees"
               [tags]="collection.vocationalDegrees"
               [title]="'collections.meta.vocationalDegrees' | translate"
               property="targetName"
@@ -308,7 +308,7 @@
 
             <app-taglist
               *ngIf="collection.vocationalUnits?.length > 0"
-              id="collection-vocationalUnits"
+              elementId="collection-vocationalUnits"
               [tags]="collection.vocationalUnits"
               [title]="'collections.meta.vocationalUnits' | translate"
               property="targetName"
@@ -316,7 +316,7 @@
 
             <app-taglist
               *ngIf="collection.vocationalEducationObjectives?.length > 0"
-              id="collection-vocationalEducationObjectives"
+              elementId="collection-vocationalEducationObjectives"
               [tags]="collection.vocationalEducationObjectives"
               [title]="'collections.meta.vocationalEducationObjectives' | translate"
               property="targetName"
@@ -336,7 +336,7 @@
             <!--self-motivated education-->
             <app-taglist
               *ngIf="collection.selfMotivatedEducationSubjects?.length > 0"
-              id="collection-selfMotivatedEducationSubjects"
+              elementId="collection-selfMotivatedEducationSubjects"
               [tags]="collection.selfMotivatedEducationSubjects"
               [title]="'collections.meta.selfMotivatedEducationSubjects' | translate"
               property="targetName"
@@ -344,7 +344,7 @@
 
             <app-taglist
               *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
-              id="collection-selfMotivatedEducationObjectives"
+              elementId="collection-selfMotivatedEducationObjectives"
               [tags]="collection.selfMotivatedEducationObjectives"
               [title]="'collections.meta.selfMotivatedEducationObjectives' | translate"
               property="targetName"
@@ -354,7 +354,7 @@
             <!--higher education-->
             <app-taglist
               *ngIf="collection.scienceBranches?.length > 0"
-              id="collection-scienceBranches"
+              elementId="collection-scienceBranches"
               [tags]="collection.scienceBranches"
               [title]="'collections.meta.scienceBranches' | translate"
               property="targetName"
@@ -362,7 +362,7 @@
 
             <app-taglist
               *ngIf="collection.scienceBranchObjectives?.length > 0"
-              id="collection-scienceBranchObjectives"
+              elementId="collection-scienceBranchObjectives"
               [tags]="collection.scienceBranchObjectives"
               [title]="'collections.meta.scienceBranchObjectives' | translate"
               property="targetName"
@@ -419,7 +419,7 @@
                             [id]="'selectLanguage' + materialOrHeading.id"
                           >{{ 'materialPreview.selectLanguage' | translate }}</h3>
 
-                          <div class="btn-group mb-3" role="group" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                          <div class="btn-group mb-3" role="tablist" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
                             <button
                               type="button"
                               class="btn btn-gray"
@@ -445,7 +445,7 @@
                             [ngClass]="materials.length === 1 ? 'sr-only' : ''"
                           >{{ 'materialPreview.selectMaterial' | translate }}</h3>
 
-                          <div class="btn-group-vertical" role="group" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                          <div class="btn-group-vertical" role="tablist" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
                             <ng-container *ngFor="let material of materials">
                               <button
                                 type="button"
