@@ -169,7 +169,8 @@
       "expired": "Lärresursen är föråldrat {{date}}",
       "cover": {
         "alt": "Lärresursers omslaget"
-      }
+      },
+      "detailsHeading": "Detaljerad information"
     }
   },
   "forms": {

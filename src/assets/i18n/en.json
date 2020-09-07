@@ -169,7 +169,8 @@
       "expired": "Educational material has expired {{date}}",
       "cover": {
         "alt": "Cover of the OER"
-      }
+      },
+      "detailsHeading": "Details"
     }
   },
   "forms": {
