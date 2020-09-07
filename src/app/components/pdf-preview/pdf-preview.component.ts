@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 export class PdfPreviewComponent implements OnInit, OnChanges {
   @Input() material: Material;
   materialUrl: string;
-  @ViewChild('pdfViewer') public pdfViewer;
+  @ViewChild('pdfViewer', { static: true }) public pdfViewer;
 
   ngOnInit(): void {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
