@@ -148,9 +148,9 @@
                     role="tabpanel"
                     [attr.aria-labelledby]="'langSelector-' + selectedLanguage"
                   >
-                    <h3 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
+                    <h2 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
                       {{ 'materialPreview.selectMaterial' | translate }}
-                    </h3>
+                    </h2>
 
                     <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
                       <ng-container *ngFor="let material of filteredMaterials">
