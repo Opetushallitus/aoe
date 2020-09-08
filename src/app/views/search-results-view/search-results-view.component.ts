@@ -89,14 +89,19 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }),
     });
 
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    let searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
     if (searchParams) {
       this.keywordsCtrl.setValue(searchParams.keywords);
-
-      this.searchSvc.updateSearchResults(searchParams);
-      this.searchSvc.updateSearchFilters(searchParams);
+    } else {
+      searchParams = {
+        keywords: null,
+        filters: {},
+      };
     }
+
+    this.searchSvc.updateSearchResults(searchParams);
+    this.searchSvc.updateSearchFilters(searchParams);
 
     this.resultSubscription = this.searchSvc.searchResults$
       .subscribe((results: SearchResults) => {
