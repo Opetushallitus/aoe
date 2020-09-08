@@ -115,7 +115,21 @@
                 class="form-control"
                 id="{{ 'heading-' + i }}"
                 formControlName="heading"
+                [ngClass]="{ 'is-invalid': materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted) }"
               >
+
+              <div
+                *ngIf="materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="materialOrHeading.get('heading').errors.invalidCharacters">
+                  {{ 'forms.errors.textInput.characters' | translate }}
+                </div>
+
+                <div *ngIf="materialOrHeading.get('heading').errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialOrHeading.get('heading').errors.maxlength.requiredLength } }}
+                </div>
+              </div>
             </div><!--heading-->
 
             <div class="form-group">
@@ -128,7 +142,21 @@
                 id="{{ 'description-' + i }}"
                 formControlName="description"
                 rows="10"
+                [ngClass]="{ 'is-invalid': materialOrHeading.get('description').invalid && (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted) }"
               ></textarea>
+
+              <div
+                *ngIf="materialOrHeading.get('description').invalid && (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)"
+                class="invalid-feedback"
+              >
+                <div *ngIf="materialOrHeading.get('description').errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
+
+                <div *ngIf="materialOrHeading.get('description').errors.maxlength">
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialOrHeading.get('description').errors.maxlength.requiredLength } }}
+                </div>
+              </div>
             </div><!--description-->
           </ng-template><!--heading-->
         </ng-container>
