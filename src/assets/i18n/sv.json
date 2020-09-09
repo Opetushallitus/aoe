@@ -901,7 +901,8 @@
         "title": "Språk"
       },
       "teaches": {
-        "title": "Mål och innehållsområden"
+        "title": "Mål och innehållsområden",
+        "showFull": "Visa full"
       }
     }
   },

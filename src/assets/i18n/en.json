@@ -901,7 +901,8 @@
         "title": "Language"
       },
       "teaches": {
-        "title": "Objective and content"
+        "title": "Objective and content",
+        "showFull": "Show full"
       }
     }
   },
