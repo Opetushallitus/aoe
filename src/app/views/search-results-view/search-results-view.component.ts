@@ -43,6 +43,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   showAllSubjects = true;
   isCollapsedTeaches = true;
   showAllTeaches = true;
+  teachesTruncates = new Map();
   learningResourceTypeSubscription: Subscription;
   learningResourceTypes: LearningResourceType[];
   isCollapsedTypes = true;
@@ -333,7 +334,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // teaches
-    searchFilters.teaches.forEach((teach) => {
+    searchFilters.teaches.forEach((teach, i: number) => {
       let state = false;
 
       if (searchParams?.filters?.teaches) {
@@ -341,6 +342,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }
 
       this.teachesArray.push(this.fb.control(state));
+
+      this.teachesTruncates.set(i, teach.value.length >= 60 ? 60 : teach.value.length);
     });
 
     // authors

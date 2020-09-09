@@ -238,8 +238,17 @@
                     [formControlName]="i"
                   >
                   <label class="custom-control-label" for="teaches-{{ i }}">
-                    {{ searchFilters.teaches[i].value }}
+                    {{ searchFilters.teaches[i].value | truncate:[teachesTruncates.get(i)] }}
                   </label>
+
+                  <button
+                    *ngIf="searchFilters.teaches[i].value.length > teachesTruncates.get(i)"
+                    type="button"
+                    class="btn btn-link btn-sm"
+                    (click)="teachesTruncates.set(i, searchFilters.teaches[i].value.length)"
+                  >
+                    {{ 'search.filters.teaches.showFull' | translate }}
+                  </button>
                 </div>
 
                 <button
