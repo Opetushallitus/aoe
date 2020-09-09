@@ -901,7 +901,8 @@
         "title": "Kieli"
       },
       "teaches": {
-        "title": "Tavoite ja sisältöalue"
+        "title": "Tavoite ja sisältöalue",
+        "showFull": "Näytä kokonaan"
       }
     }
   },
