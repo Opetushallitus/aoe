@@ -23,6 +23,7 @@ import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
 import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot } from "./controllers/ammattikoulu";
 import { getOppiaineetTieteenalatTutkinnot } from "./controllers/filters";
+import { getLukionVanhatKurssit, getLukionVanhatOppiaineet } from "./controllers/vanha-lukio";
 
 const router: Router = Router();
 
@@ -246,6 +247,23 @@ router.get("/lukionkurssit/:lang", getLukionkurssit);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/lukionkurssit/:key/:lang", getLukionkurssi);
+
+/**
+ * Returns all lukio-vanha-oppiaineet from redis database by given language
+ * @group Lukio (vanha ops)
+ * @route GET /lukio-vanha-oppiaineet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-vanha-oppiaineet/:lang", getLukionVanhatOppiaineet);
+
+/**
+ * Returns all lukio-vanha-kurssit from redis database by given ids and language
+ * @group Lukio (vanha ops)
+ * @param {string} ids.path.required - List of upper secondary school subject ids, separated by comma
+ * @route GET /lukio-vanha-kurssit/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/lukio-vanha-kurssit/:ids/:lang", getLukionVanhatKurssit);
 
 /**
  * Returns all lukio-oppiaineet from redis database by given language
