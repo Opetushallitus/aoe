@@ -78,6 +78,26 @@ export const FAQMaterial = {
         'Avointen oppimateriaalien kirjastossa voit myös lisätä kuvailuun tiedon siitä, miten oppimateriaalissa on huomioitu saavutettavuus. Tämä auttaa oppimateriaalien käyttäjiä löytämään itselle sopivia materiaaleja helpommin. <a href="https://wiki.eduuni.fi/display/CscOppimateriaalivaranto/Oppimateriaalien+metatietomalli#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">Saavutettavuuteen liittyvistä kuvailutiedoista lisätietoa palvelun avoimesta wikialueesta</a>.',
       ]
     },
+    {
+      question: 'Mitä teen jos löydän virheellistä tai muuten sopimatonta sisältöä?',
+      answer: [
+        'Avointen oppimateriaalien kirjasto on avoin paikka oppimateriaalien jakamiseen. Kaikki kirjastoon oppimateriaalinsa jakavat sitoutuvat palvelun käyttöehtoihin, mutta silti joskus saattaa palveluun päätyä sopimatonta sisältöä. Voit ottaa tällöin meihin yhteyttä osoitteeseen oppimateriaalivaranto@csc.fi. Viestissäsi kerro mistä oppimateriaalista on kyse ja mikä materiaalissa on mielestäsi vikana. Tarkastamme kaikki meille ilmoitetut oppimateriaalit ja arkistoimme ne mikäli ne eivät vastaa palvelun käyttöehtoja.',
+      ],
+    },
+    {
+      question: 'Mitä voin tehdä jos materiaalini ei toimikaan?',
+      answer: [
+        'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota asiakastukeemme yhteys laittamalla sähköpostia osoitteeseen oppimateriaalivaranto@csc.fi. Viestissäsi kerro, mikä on vikana, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
+        'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome, tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.',
+      ],
+    },
+    {
+      question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaali poistaa?',
+      answer: [
+        'Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.',
+        'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme oppimateriaalivaranto@csc.fi ja ylläpitäjä voi poistaa materiaalin.',
+      ],
+    },
   ],
   en: [
     {
@@ -147,6 +167,26 @@ export const FAQMaterial = {
         'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource. This makes it easier for users to find resources that meet their needs. For more information on material descriptions, see the service’s <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">open wiki</a>.',
       ]
     },
+    {
+      question: 'What to do if I find improper or incorrect resources or comments?',
+      answer: [
+        'The Library of Open Educational Resources is an open space for sharing OER. Everyone that shares their resources in the services has agreed to follow the Terms of Use of the service, but some content not meant for the service can still sometimes find it\'s way here. If you find such content, please contact us at oppimateriaalivaranto@csc.fi. In your mail, please report to us the learning resource in question and what appears to be wrong with it. We inspect every reported resource and archive them if they do not follow our Terms of Use.',
+      ],
+    },
+    {
+      question: 'What can I do, if my learning resource is not functioning correctly?',
+      answer: [
+        'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email oppimateriaalivaranto@csc.fi. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
+        'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?.',
+      ],
+    },
+    {
+      question: 'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
+      answer: [
+        'You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. You can find a more detailed instruction here. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.',
+        'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at oppimateriaalivaranto@csc.fi so that an admin can delete the resource.',
+      ],
+    },
   ],
   sv: [
     {
@@ -215,6 +255,26 @@ export const FAQMaterial = {
         'Mer information finns till exempel i <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">snabbguiden för innehållsproducenter i Förbundet Utvecklingshämnings tjänst Papunet</a> (på finska).',
         'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet. Det underlättar för användarna att hitta material som passar dem. Det finns mera information <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">om metadata i tjänstens öppna wiki</a> (på finska).',
       ]
+    },
+    {
+      question: 'Vad kan jag göra om jag finner en lärresurs som är felaktig?',
+      answer: [
+        'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: oppimateriaalivaranto@csc.fi. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
+      ],
+    },
+    {
+      question: 'Vad kan jag göra om min lärresurs inte fungerar?',
+      answer: [
+        'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support oppimateriaalivaranto@csc.fi. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
+        'Tjänsten fungerar bäst med en uppdaterad webbläsare. Du har den bästa upplevelsen, när du använder Chrome eller Firefox -webbläsare och uppdaterar dem regelbundet. Du kan också kolla vilka format kan användas direkt i tjänsten på den här sidan i frågan Vilka material kan lagras i tjänsten?.',
+      ],
+    },
+    {
+      question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
+      answer: [
+        'Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. Anvisning för redigering av lärresurser finns här. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.',
+        'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på oppimateriaalivaranto@csc.fi så att en administratör kan ta bort resursen.',
+      ],
     },
   ]
 };
