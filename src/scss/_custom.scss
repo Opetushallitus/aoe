@@ -797,6 +797,17 @@ h2 {
   color: $input-color;
 }
 
+.alert-feedback {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  margin-bottom: 0;
+
+  .alert-link {
+    color: #062c33;
+  }
+}
+
 // Cookie notice
 .cookie-notice {
   background-color: $white;
