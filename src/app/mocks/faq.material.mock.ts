@@ -94,7 +94,7 @@ export const FAQMaterial = {
     {
       question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaali poistaa?',
       answer: [
-        'Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.',
+        'Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a href="https://aoe.fi/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.',
         'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme oppimateriaalivaranto@csc.fi ja ylläpitäjä voi poistaa materiaalin.',
       ],
     },
@@ -183,7 +183,7 @@ export const FAQMaterial = {
     {
       question: 'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
       answer: [
-        'You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. You can find a more detailed instruction here. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.',
+        'You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a href="https://aoe.fi/#/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.',
         'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at oppimateriaalivaranto@csc.fi so that an admin can delete the resource.',
       ],
     },
@@ -272,7 +272,7 @@ export const FAQMaterial = {
     {
       question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
       answer: [
-        'Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. Anvisning för redigering av lärresurser finns här. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.',
+        'Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a href="https://aoe.fi/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.',
         'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på oppimateriaalivaranto@csc.fi så att en administratör kan ta bort resursen.',
       ],
     },
