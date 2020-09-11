@@ -8,6 +8,8 @@ export const koodistoSources = {
   basicStudyContents: 'basicStudyContents',
   upperSecondarySubjects: 'upperSecondarySchoolSubjects',
   upperSecondaryObjectives: 'upperSecondarySchoolObjectives',
+  upperSecondarySubjectsOld: 'upperSecondarySchoolSubjectsOld',
+  upperSecondaryCoursesOld: 'upperSecondarySchoolCoursesOld',
   upperSecondarySubjectsNew: 'upperSecondarySchoolSubjectsNew',
   upperSecondaryModulesNew: 'upperSecondarySchoolModulesNew',
   upperSecondaryObjectivesNew: 'upperSecondarySchoolObjectivesNew',
