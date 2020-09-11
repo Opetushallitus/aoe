@@ -30,19 +30,21 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
 
     // handle results
     results.oppiaineet.forEach((subject: Oppiaine) => {
-      finnishSubjects.push({
-        key: subject.koodiArvo,
-        source: "upperSecondarySchoolSubjectsOld",
-        alignmentType: "educationalSubject",
-        targetName: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
-      });
+      if (subject.oppimaarat.length === 0) {
+        finnishSubjects.push({
+          key: subject.koodiArvo,
+          source: "upperSecondarySchoolSubjectsOld",
+          alignmentType: "educationalSubject",
+          targetName: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
+        });
 
-      swedishSubjects.push({
-        key: subject.koodiArvo,
-        source: "upperSecondarySchoolSubjectsOld",
-        alignmentType: "educationalSubject",
-        targetName: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
-      });
+        swedishSubjects.push({
+          key: subject.koodiArvo,
+          source: "upperSecondarySchoolSubjectsOld",
+          alignmentType: "educationalSubject",
+          targetName: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
+        });
+      }
 
       // courses
       subject.kurssit?.forEach((course: Kurssi) => {
