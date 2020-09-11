@@ -317,29 +317,6 @@
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
-  <ng-container *ngIf="upperSecondarySchoolSubjects?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let subject of upperSecondarySchoolSubjects; let isLast = last">
-        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
-
-  <ng-container *ngIf="upperSecondarySchoolObjectives?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let objective of upperSecondarySchoolObjectives; let isLast = last">
-        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
-
-  <ng-container *ngIf="savedData?.suitsAllUpperSecondarySubjects">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</dt>
-    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
-  </ng-container>
-
   <ng-container *ngIf="upperSecondarySchoolSubjectsOld?.length > 0">
     <dt class="col-sm-3">
       {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
@@ -363,6 +340,20 @@
       </ng-container>
     </dd>
   </ng-container><!--upperSecondarySchoolCoursesOld-->
+
+  <ng-container *ngIf="upperSecondarySchoolObjectives?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let objective of upperSecondarySchoolObjectives; let isLast = last">
+        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
+  <ng-container *ngIf="savedData?.suitsAllUpperSecondarySubjects">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</dt>
+    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
+  </ng-container>
 
   <ng-container *ngIf="upperSecondarySchoolSubjectsNew?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</dt>
