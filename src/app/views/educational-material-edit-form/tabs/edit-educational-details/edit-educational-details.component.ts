@@ -42,8 +42,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContentSubscription: Subscription;
   basicStudyContents: AlignmentObjectExtended[];
-  upperSecondarySchoolSubjectSubscription: Subscription;
-  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectOldSubscription: Subscription;
+  upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
+  upperSecondarySchoolCourseOldSubscription: Subscription;
+  upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectNewSubscription: Subscription;
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModuleNewSubscription: Subscription;
@@ -63,6 +65,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   hasBasicStudies = false;
   hasBasicStudySubjects = false;
   hasUpperSecondarySchool = false;
+  hasUpperSecondarySchoolSubjectsOld = false;
   hasUpperSecondarySchoolSubjectsNew = false;
   hasUpperSecondarySchoolModulesNew = false;
   hasVocationalEducation = false;
@@ -117,7 +120,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
-      upperSecondarySchoolSubjects: this.fb.control(null),
+      upperSecondarySchoolSubjectsOld: this.fb.control(null),
+      upperSecondarySchoolCoursesOld: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null, [
@@ -154,7 +158,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoSvc.updateEducationalLevels();
       this.koodistoSvc.updateBasicStudySubjects();
-      this.koodistoSvc.updateUpperSecondarySchoolSubjects();
+      this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
       this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
       this.koodistoSvc.updateVocationalDegrees();
       this.koodistoSvc.updateScienceBranches();
@@ -174,15 +178,16 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
     }
 
-    if (this.upperSecondarySchoolSubjectsCtrl.value && this.upperSecondarySchoolSubjectsCtrl.value.length > 0) {
+    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 || this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0) {
       this.currentUpperSecondarySchoolSelected.setValue(true);
+    }
+
+    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0) {
+      this.upperSecondarySchoolSubjectsOldChange(this.upperSecondarySchoolSubjectsOldCtrl.value);
     }
 
     if (this.upperSecondarySchoolSubjectsNewCtrl.value && this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
       this.newUpperSecondarySchoolSelected.setValue(true);
-    }
-
-    if (this.upperSecondarySchoolSubjectsNewCtrl.value && this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
       this.upperSecondarySchoolSubjectsNewChange(this.upperSecondarySchoolSubjectsNewCtrl.value);
     }
 
@@ -220,12 +225,17 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         this.basicStudyContents = contents;
       });
 
-    // upper secondary school subjects
-    this.upperSecondarySchoolSubjectSubscription = this.koodistoSvc.upperSecondarySchoolSubjects$
+    // upper secondary school subjects (old)
+    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$
       .subscribe((subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjects = subjects;
+        this.upperSecondarySchoolSubjectsOld = subjects;
       });
-    this.koodistoSvc.updateUpperSecondarySchoolSubjects();
+    this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
+
+    this.upperSecondarySchoolCourseOldSubscription = this.koodistoSvc.upperSecondarySchoolCoursesOld$
+      .subscribe((courses: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolCoursesOld = courses;
+      });
 
     // upper secondary school subjects (new)
     this.upperSecondarySchoolSubjectNewSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsNew$
@@ -282,7 +292,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.basicStudySubjectSubscription.unsubscribe();
     this.basicStudyObjectiveSubscription.unsubscribe();
     this.basicStudyContentSubscription.unsubscribe();
-    this.upperSecondarySchoolSubjectSubscription.unsubscribe();
+    this.upperSecondarySchoolSubjectOldSubscription.unsubscribe();
+    this.upperSecondarySchoolCourseOldSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectNewSubscription.unsubscribe();
     this.upperSecondarySchoolModuleNewSubscription.unsubscribe();
     this.upperSecondarySchoolObjectiveNewSubscription.unsubscribe();
@@ -326,8 +337,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('newUpperSecondarySchoolSelected') as FormControl;
   }
 
-  get upperSecondarySchoolSubjectsCtrl(): FormControl {
-    return this.form.get('upperSecondarySchoolSubjects') as FormControl;
+  get upperSecondarySchoolSubjectsOldCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolSubjectsOld') as FormControl;
+  }
+
+  get upperSecondarySchoolCoursesOldCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolCoursesOld') as FormControl;
   }
 
   get upperSecondarySchoolFrameworkCtrl(): FormControl {
@@ -391,6 +406,21 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
       this.koodistoSvc.updateBasicStudyObjectives(ids);
       this.koodistoSvc.updateBasicStudyContents(ids);
+    }
+  }
+
+  /**
+   * Runs on upper secondary school subject (old) change. Sets hasUpperSecondarySchoolSubjectsOld boolean
+   * value. Updates upper secondary school courses based on selected subjects.
+   * @param value
+   */
+  upperSecondarySchoolSubjectsOldChange(value): void {
+    this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolSubjectsOld) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoSvc.updateUpperSecondarySchoolCoursesOld(ids);
     }
   }
 
@@ -483,7 +513,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     changedMaterial.basicStudyFramework = this.form.get('basicStudyFramework').value;
 
     // upper secondary school
-    changedMaterial.upperSecondarySchoolSubjects = this.upperSecondarySchoolSubjectsCtrl.value;
+    changedMaterial.upperSecondarySchoolSubjectsOld = this.upperSecondarySchoolSubjectsOldCtrl.value;
+    changedMaterial.upperSecondarySchoolCoursesOld = this.upperSecondarySchoolCoursesOldCtrl.value;
     changedMaterial.suitsAllUpperSecondarySubjects = this.form.get('suitsAllUpperSecondarySubjects').value;
     changedMaterial.upperSecondarySchoolObjectives = this.form.get('upperSecondarySchoolObjectives').value;
     changedMaterial.upperSecondarySchoolFramework = this.form.get('upperSecondarySchoolFramework').value;

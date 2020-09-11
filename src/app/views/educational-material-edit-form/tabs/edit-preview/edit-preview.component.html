@@ -462,17 +462,29 @@
       </dd>
     </ng-container>
 
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolSubjects?.length > 0">
+    <ng-container *ngIf="previewMaterial.upperSecondarySchoolSubjectsOld?.length > 0">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <ng-container *ngFor="let subject of previewMaterial.upperSecondarySchoolSubjectsOld; let isLast = last">
+          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+        </ng-container>
+      </dd>
+    </ng-container><!--upperSecondarySchoolSubjectsOld-->
+
+    <ng-container *ngIf="previewMaterial.upperSecondarySchoolCoursesOld?.length > 0">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
       </dt>
 
       <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.upperSecondarySchoolSubjects; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+        <ng-container *ngFor="let course of previewMaterial.upperSecondarySchoolCoursesOld; let isLast = last">
+          {{ course.targetName }}{{ isLast ? '' : ', ' }}
         </ng-container>
       </dd>
-    </ng-container>
+    </ng-container><!--upperSecondarySchoolCoursesOld-->
 
     <ng-container *ngIf="previewMaterial.upperSecondarySchoolObjectives?.length > 0">
       <dt class="col-sm-3">
