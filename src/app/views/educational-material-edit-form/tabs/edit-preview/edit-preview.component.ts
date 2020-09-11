@@ -228,12 +228,15 @@ export class EditPreviewComponent implements OnInit {
       delete this.previewMaterial.basicStudyFramework;
 
       // upper secondary school
-      this.previewMaterial.upperSecondarySchoolSubjects.forEach((subject: AlignmentObjectExtended) => {
-        subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsOld);
+      delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
 
-        alignmentObjects.push(subject);
+      this.previewMaterial.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
+        delete course.parent;
+
+        alignmentObjects.push(course);
       });
-      delete this.previewMaterial.upperSecondarySchoolSubjects;
+      delete this.previewMaterial.upperSecondarySchoolCoursesOld;
 
       this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
         objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
