@@ -31,14 +31,14 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
     // handle results
     results.oppiaineet.forEach((subject: Oppiaine) => {
       finnishSubjects.push({
-        key: subject.id,
+        key: subject.koodiArvo,
         source: "upperSecondarySchoolSubjectsOld",
         alignmentType: "educationalSubject",
         targetName: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
       });
 
       swedishSubjects.push({
-        key: subject.id,
+        key: subject.koodiArvo,
         source: "upperSecondarySchoolSubjectsOld",
         alignmentType: "educationalSubject",
         targetName: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
@@ -47,9 +47,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
       // courses
       subject.kurssit?.forEach((course: Kurssi) => {
         finnishCourses.push({
-          key: course.id,
+          key: course.koodiArvo,
           parent: {
-            key: subject.id,
+            key: subject.koodiArvo,
             value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
           },
           source: "upperSecondarySchoolCoursesOld",
@@ -58,9 +58,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
         });
 
         swedishCourses.push({
-          key: course.id,
+          key: course.koodiArvo,
           parent: {
-            key: subject.id,
+            key: subject.koodiArvo,
             value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
           },
           source: "upperSecondarySchoolCoursesOld",
@@ -72,9 +72,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
       // sub subjects
       subject.oppimaarat?.forEach((subSubject: Oppiaine) => {
         finnishSubjects.push({
-          key: subSubject.id,
+          key: subSubject.koodiArvo,
           parent: {
-            key: subject.id,
+            key: subject.koodiArvo,
             value: subject.nimi.fi ? subject.nimi.fi : subject.nimi.sv,
           },
           source: "upperSecondarySchoolSubjectsOld",
@@ -83,9 +83,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
         });
 
         swedishSubjects.push({
-          key: subSubject.id,
+          key: subSubject.koodiArvo,
           parent: {
-            key: subject.id,
+            key: subject.koodiArvo,
             value: subject.nimi.sv ? subject.nimi.sv : subject.nimi.fi,
           },
           source: "upperSecondarySchoolSubjectsOld",
@@ -96,9 +96,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
         // courses
         subSubject.kurssit?.forEach((subCourse: Kurssi) => {
           finnishCourses.push({
-            key: subCourse.id,
+            key: subCourse.koodiArvo,
             parent: {
-              key: subSubject.id,
+              key: subSubject.koodiArvo,
               value: subSubject.nimi.fi ? subSubject.nimi.fi : subSubject.nimi.sv,
             },
             source: "upperSecondarySchoolCoursesOld",
@@ -107,9 +107,9 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
           });
 
           swedishCourses.push({
-            key: subCourse.id,
+            key: subCourse.koodiArvo,
             parent: {
-              key: subSubject.id,
+              key: subSubject.koodiArvo,
               value: subSubject.nimi.sv ? subSubject.nimi.sv : subSubject.nimi.fi,
             },
             source: "upperSecondarySchoolCoursesOld",
