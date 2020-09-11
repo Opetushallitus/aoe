@@ -31,6 +31,8 @@ export class PreviewComponent implements OnInit {
   basicStudyContents: AlignmentObjectExtended[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
+  upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
@@ -175,6 +177,12 @@ export class PreviewComponent implements OnInit {
 
         this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
+
+        this.upperSecondarySchoolSubjectsOld = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld);
+
+        this.upperSecondarySchoolCoursesOld = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld);
 
         this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);

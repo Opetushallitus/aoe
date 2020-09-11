@@ -340,6 +340,30 @@
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
+  <ng-container *ngIf="upperSecondarySchoolSubjectsOld?.length > 0">
+    <dt class="col-sm-3">
+      {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
+    </dt>
+
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let subject of upperSecondarySchoolSubjectsOld; let isLast = last">
+        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container><!--upperSecondarySchoolSubjectsOld-->
+
+  <ng-container *ngIf="upperSecondarySchoolCoursesOld?.length > 0">
+    <dt class="col-sm-3">
+      {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
+    </dt>
+
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let course of upperSecondarySchoolCoursesOld; let isLast = last">
+        {{ course.targetName }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container><!--upperSecondarySchoolCoursesOld-->
+
   <ng-container *ngIf="upperSecondarySchoolSubjectsNew?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">

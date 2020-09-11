@@ -38,6 +38,8 @@ export class KoodistoProxyService {
   public basicStudyObjectives$ = new Subject<AlignmentObjectExtended[]>();
   public basicStudyContents$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolSubjectsOld$ = new Subject<AlignmentObjectExtended[]>();
+  public upperSecondarySchoolCoursesOld$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjectsNew$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolModulesNew$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolObjectivesNew$ = new Subject<AlignmentObjectExtended[]>();
@@ -165,6 +167,36 @@ export class KoodistoProxyService {
       .subscribe((upperSecondarySchoolSubjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjects$.next(upperSecondarySchoolSubjects);
       });
+  }
+
+  /**
+   * Updates upper secondary school subjects (old).
+   */
+  updateUpperSecondarySchoolSubjectsOld(): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-vanha-oppiaineet/${lang}`, this.httpOptions)
+      .subscribe((subjects: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolSubjectsOld$.next(subjects);
+      });
+  }
+
+  /**
+   * Updates upper secondary school courses (old).
+   * @param {string} ids
+   */
+  updateUpperSecondarySchoolCoursesOld(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-vanha-kurssit/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (subjects: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolCoursesOld$.next(subjects);
+        },
+        () => {
+          this.upperSecondarySchoolCoursesOld$.next([]);
+        },
+      );
   }
 
   /**
