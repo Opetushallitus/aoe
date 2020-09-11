@@ -500,8 +500,21 @@ export class BackendService {
             targetName: alignment.targetname,
             targetUrl: alignment.targeturl,
           }));
-        const upperSecondarySubjects = material.educationalAlignment
-          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjects)
+
+        const upperSecondarySubjectsOld = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsOld)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
+        const upperSecondaryCoursesOld = material.educationalAlignment
+          // tslint:disable-next-line:max-line-length
+          .filter((alignment) => alignment.source === koodistoSources.upperSecondaryCoursesOld || alignment.source === koodistoSources.upperSecondarySubjects)
           .map((alignment) => ({
             key: alignment.objectkey,
             source: alignment.source,
@@ -641,7 +654,8 @@ export class BackendService {
           basicStudyFramework: (basicStudySubjects.length > 0 && basicStudySubjects[0].educationalFramework)
             ? basicStudySubjects[0].educationalFramework
             : null,
-          upperSecondarySchoolSubjects: upperSecondarySubjects,
+          upperSecondarySchoolSubjectsOld: upperSecondarySubjectsOld,
+          upperSecondarySchoolCoursesOld: upperSecondaryCoursesOld,
           suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
           upperSecondarySchoolObjectives: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondaryObjectives)
@@ -653,8 +667,8 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          upperSecondarySchoolFramework: (upperSecondarySubjects.length > 0 && upperSecondarySubjects[0].educationalFramework)
-            ? upperSecondarySubjects[0].educationalFramework
+          upperSecondarySchoolFramework: (upperSecondarySubjectsOld.length > 0 && upperSecondarySubjectsOld[0].educationalFramework)
+            ? upperSecondarySubjectsOld[0].educationalFramework
             : null,
           upperSecondarySchoolSubjectsNew: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
