@@ -80,4 +80,8 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
       this.titleSvc.setTitle(`${title} ${environment.title}`);
     });
   }
+
+  isExpired(date: Date): boolean {
+    return date ? new Date(date) < new Date() : false;
+  }
 }
