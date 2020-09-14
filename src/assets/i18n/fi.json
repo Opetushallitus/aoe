@@ -833,7 +833,8 @@
     "published": {
       "title": "Julkaistut oppimateriaalit"
     },
-    "edit": "Muokkaa"
+    "edit": "Muokkaa",
+    "expired": "Vanhentunut {{date}}"
   },
   "userCollections": {
     "private": {
