@@ -584,30 +584,28 @@
         ></ng-select>
       </div>
 
-      <ng-container *ngIf="vocationalRequirements?.length > 0">
-        <div class="form-group">
-          <label for="vocationalRequirements">
-            {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
-          </label>
+      <div class="form-group">
+        <label for="vocationalRequirements">
+          {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
+        </label>
 
-          <button
-            type="button"
-            class="btn btn-link"
-            [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
-          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-          <ng-select
-            [items]="vocationalRequirements"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            [addTag]="addVocationalEducationObjective"
-            bindLabel="targetName"
-            groupBy="parent"
-            labelForId="vocationalRequirements"
-            formControlName="vocationalRequirements"
-          ></ng-select>
-        </div><!--vocationalRequirements-->
-      </ng-container>
+        <ng-select
+          [items]="vocationalRequirements"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [addTag]="addVocationalEducationObjective"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="vocationalRequirements"
+          formControlName="vocationalRequirements"
+        ></ng-select>
+      </div><!--vocationalRequirements-->
     </ng-container>
 
     <div class="form-group">
