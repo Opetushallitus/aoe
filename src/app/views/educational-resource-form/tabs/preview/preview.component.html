@@ -418,28 +418,22 @@
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="vocationalEducationObjectives?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}</dt>
+  <ng-container *ngIf="vocationalRequirements?.length > 0">
+    <dt class="col-sm-3">
+      {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
+    </dt>
+
     <dd class="col-sm-9">
-      <ng-container *ngFor="let objective of vocationalEducationObjectives; let isLast = last">
-        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+      <ng-container *ngFor="let requirement of vocationalRequirements; let isLast = last">
+        {{ requirement.targetName }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
-  </ng-container>
+  </ng-container><!--vocationalRequirements-->
 
   <ng-container *ngIf="savedData?.suitsAllVocationalDegrees">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</dt>
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
-
-  <!--<ng-container *ngIf="vocationalEducationFramework?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let framework of vocationalEducationFramework; let isLast = last">
-        {{ framework.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>-->
 
   <ng-container *ngIf="selfMotivatedEducationSubjects?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</dt>
