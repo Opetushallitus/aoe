@@ -459,7 +459,7 @@
               "tooltip": ""
             },
             "objectives": {
-              "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+              "label": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
