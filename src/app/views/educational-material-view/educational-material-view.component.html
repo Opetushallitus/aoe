@@ -27,7 +27,7 @@
               </a>
             </ng-container>
 
-            <a class="btn btn-link" [href]="downloadUrl" download>
+            <a class="btn btn-link" [href]="downloadUrl" download *ngIf="educationalMaterial.hasDownloadableFiles">
               <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
               {{ 'demo.educationalMaterial.download' | translate }}
             </a>

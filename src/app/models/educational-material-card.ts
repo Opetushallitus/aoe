@@ -26,4 +26,5 @@ export interface EducationalMaterialCard {
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
   publishedAt?: Date;
+  expires: Date | null;
 }

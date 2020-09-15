@@ -36,6 +36,10 @@
       </div>
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of publishedMaterials">
+        <alert *ngIf="isExpired(material.expires)" type="expired">
+          {{ 'userMaterials.expired' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+        </alert>
+
         <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
 
         <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">

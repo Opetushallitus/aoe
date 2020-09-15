@@ -834,7 +834,8 @@
     "published": {
       "title": "Published educational resources"
     },
-    "edit": "Edit"
+    "edit": "Edit",
+    "expired": "Expired {{date}}"
   },
   "userCollections": {
     "private": {
