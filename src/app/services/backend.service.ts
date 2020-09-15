@@ -251,6 +251,7 @@ export class BackendService {
           owner: res.owner,
           ratingContentAverage: res.ratingContentAverage,
           ratingVisualAverage: res.ratingVisualAverage,
+          hasDownloadableFiles: res.hasDownloadableFiles,
         };
       })
     );
