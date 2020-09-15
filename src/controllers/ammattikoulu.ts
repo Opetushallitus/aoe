@@ -8,6 +8,7 @@ import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 const endpoint = "perusteet";
 const rediskeyDegrees = "ammattikoulu-tutkinnot";
 const rediskeyUnits = "ammattikoulu-tutkinnonosat";
+const rediskeyRequirements = "ammattikoulu-vaatimukset";
 
 export async function setAmmattikoulunTutkinnot(): Promise<any> {
   try {
@@ -118,6 +119,8 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
     const finnishUnits: AlignmentObjectExtended[] = [];
     const swedishUnits: AlignmentObjectExtended[] = [];
     const englishUnits: AlignmentObjectExtended[] = [];
+    const finnishRequirements: AlignmentObjectExtended[] = [];
+    const swedishRequirements: AlignmentObjectExtended[] = [];
 
     const degrees: number[] = JSON.parse(await getAsync(`${rediskeyDegrees}.fi`))
       .map((d: AlignmentObjectExtended) => d.key);
@@ -167,6 +170,33 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
             alignmentType: "educationalSubject",
             targetName: unit.nimi.en ? unit.nimi.en : (unit.nimi.fi ? unit.nimi.fi : unit.nimi.sv),
           });
+
+          // vocational competence requirements
+          unit.ammattitaitovaatimukset2019?.kohdealueet?.forEach((target: any) => {
+            target.vaatimukset?.forEach((requirement: any) => {
+              finnishRequirements.push({
+                key: requirement.koodi.arvo,
+                parent: {
+                  key: unit.id,
+                  value: target.kuvaus.fi ? target.kuvaus.fi : target.kuvaus.sv,
+                },
+                source: "vocationalRequirements",
+                alignmentType: "teaches",
+                targetName: requirement.vaatimus.fi ? requirement.vaatimus.fi : requirement.vaatimus.sv,
+              });
+
+              swedishRequirements.push({
+                key: requirement.koodi.arvo,
+                parent: {
+                  key: unit.id,
+                  value: target.kuvaus.sv ? target.kuvaus.sv : target.kuvaus.fi,
+                },
+                source: "vocationalRequirements",
+                alignmentType: "teaches",
+                targetName: requirement.vaatimus.sv ? requirement.vaatimus.sv : requirement.vaatimus.fi,
+              });
+            });
+          });
         });
       } catch (err) {
         console.error(err);
@@ -175,6 +205,9 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
       await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits));
       await setAsync(`${rediskeyUnits}.sv`, JSON.stringify(swedishUnits));
       await setAsync(`${rediskeyUnits}.en`, JSON.stringify(englishUnits));
+      await setAsync(`${rediskeyRequirements}.fi`, JSON.stringify(finnishRequirements));
+      await setAsync(`${rediskeyRequirements}.sv`, JSON.stringify(swedishRequirements));
+      await setAsync(`${rediskeyRequirements}.en`, JSON.stringify(finnishRequirements));
     }
   } catch (err) {
     console.error(err);
@@ -191,6 +224,31 @@ export const getAmmattikoulunTutkinnonOsat = async (req: Request, res: Response,
         unit.parent = unit.parent.value;
 
         return unit;
+      });
+
+    if (data.length > 0) {
+      res.status(200).json(data);
+    } else {
+      res.sendStatus(404);
+
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
+  }
+};
+
+export const getAmmattikoulunVaatimukset = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  try {
+    const ids = req.params.ids.split(",");
+
+    const data = JSON.parse(await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`))
+      .filter((requirement: AlignmentObjectExtended) => ids.includes(requirement.parent.key.toString()))
+      .map((requirement: AlignmentObjectExtended) => {
+        requirement.parent = requirement.parent.value;
+
+        return requirement;
       });
 
     if (data.length > 0) {

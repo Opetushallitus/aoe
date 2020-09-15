@@ -21,7 +21,7 @@ import {
 import { getLisenssi, getLisenssit } from "./controllers/lisenssit";
 import { getLukionkurssi, getLukionkurssit } from "./controllers/lukionkurssit";
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from "./controllers/lukio";
-import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot } from "./controllers/ammattikoulu";
+import { getAmmattikoulunTutkinnonOsat, getAmmattikoulunTutkinnot, getAmmattikoulunVaatimukset } from "./controllers/ammattikoulu";
 import { getOppiaineetTieteenalatTutkinnot } from "./controllers/filters";
 import { getLukionVanhatKurssit, getLukionVanhatOppiaineet } from "./controllers/vanha-lukio";
 
@@ -316,6 +316,15 @@ router.get("/ammattikoulu-tutkinnot/:lang", getAmmattikoulunTutkinnot);
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get("/ammattikoulu-tutkinnon-osat/:ids/:lang", getAmmattikoulunTutkinnonOsat);
+
+/**
+ * Returns all ammattikoulu-vaatimukset from redis database by given ids and language
+ * @group Ammattikoulu
+ * @route GET /ammattikoulu-vaatimukset/{ids}/{lang}
+ * @param {string} ids.path.required - List of vocational unit ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ */
+router.get("/ammattikoulu-vaatimukset/:ids/:lang", getAmmattikoulunVaatimukset);
 
 /**
  * Returns all oppiaineet-tieteenalat-tutkinnot filters from redis database by given language.
