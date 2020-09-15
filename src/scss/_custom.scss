@@ -808,6 +808,13 @@ h2 {
   }
 }
 
+.alert-expired {
+  @extend .alert-warning;
+  margin-bottom: 0;
+  padding: .5rem 1rem;
+  text-align: center;
+}
+
 // Cookie notice
 .cookie-notice {
   background-color: $white;

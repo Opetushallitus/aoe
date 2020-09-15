@@ -834,7 +834,8 @@
     "published": {
       "title": "Publicerat lärresurser"
     },
-    "edit": "Redigera"
+    "edit": "Redigera",
+    "expired": "Föråldrat {{date}}"
   },
   "userCollections": {
     "private": {

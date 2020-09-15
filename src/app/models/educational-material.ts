@@ -76,4 +76,5 @@ export interface EducationalMaterial {
   owner: boolean;
   ratingContentAverage: string;
   ratingVisualAverage: string;
+  hasDownloadableFiles: boolean;
 }

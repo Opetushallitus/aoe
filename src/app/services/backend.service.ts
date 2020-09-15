@@ -251,6 +251,7 @@ export class BackendService {
           owner: res.owner,
           ratingContentAverage: res.ratingContentAverage,
           ratingVisualAverage: res.ratingVisualAverage,
+          hasDownloadableFiles: res.hasDownloadableFiles,
         };
       })
     );
@@ -300,6 +301,7 @@ export class BackendService {
           educationalLevels: material.educationalLevels
             .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
           publishedAt: material.publishedat,
+          expires: material.expires,
         };
 
         if (mappedMaterial.publishedAt === null) {
