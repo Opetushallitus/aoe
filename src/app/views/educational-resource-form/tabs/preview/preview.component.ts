@@ -37,7 +37,7 @@ export class PreviewComponent implements OnInit {
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
-  vocationalEducationObjectives: AlignmentObjectExtended[];
+  vocationalRequirements: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   branchesOfScience: AlignmentObjectExtended[];
@@ -194,8 +194,8 @@ export class PreviewComponent implements OnInit {
         this.vocationalUnits = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
 
-        this.vocationalEducationObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives);
+        this.vocationalRequirements = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
 
         this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);

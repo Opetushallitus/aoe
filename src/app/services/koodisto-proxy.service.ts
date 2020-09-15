@@ -44,6 +44,7 @@ export class KoodistoProxyService {
   public upperSecondarySchoolContentsNew$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalUnits$ = new Subject<AlignmentObjectExtended[]>();
+  public vocationalRequirements$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
   public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
@@ -259,6 +260,24 @@ export class KoodistoProxyService {
         },
         () => {
           this.vocationalUnits$.next([]);
+        },
+      );
+  }
+
+  /**
+   * Updates vocational requirements.
+   * @param {string} ids
+   */
+  updateVocationalRequirements(ids: string): void {
+    const lang = this.translate.currentLang;
+
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-vaatimukset/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (requirements: AlignmentObjectExtended[]) => {
+          this.vocationalRequirements$.next(requirements);
+        },
+        () => {
+          this.vocationalRequirements$.next([]);
         },
       );
   }

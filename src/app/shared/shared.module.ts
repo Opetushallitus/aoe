@@ -160,7 +160,7 @@ export const addUpperSecondarySchoolObjective = (value: string): AlignmentObject
 export const addVocationalEducationObjective = (value: string): AlignmentObjectExtended => {
   return {
     key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'vocationalEducationObjectives',
+    source: koodistoSources.vocationalRequirements,
     alignmentType: 'teaches',
     targetName: value.trim(),
   };
