@@ -460,7 +460,7 @@
               "tooltip": ""
             },
             "objectives": {
-              "label": "Mål för yrkesutbildning",
+              "label": "Krav på yrkesskicklighet för yrkesutbildning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {

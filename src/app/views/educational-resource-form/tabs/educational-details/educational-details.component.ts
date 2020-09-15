@@ -44,6 +44,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   hasUpperSecondarySchoolModulesNew = false;
   hasVocationalEducation = false;
   hasVocationalDegrees = false;
+  hasVocationalUnits = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
 
@@ -71,6 +72,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  vocationalRequirementSubscription: Subscription;
+  vocationalRequirements: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
 
@@ -154,7 +157,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       vocationalDegrees: this.fb.control(null),
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
-      vocationalEducationObjectives: this.fb.control(null),
+      vocationalRequirements: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
@@ -234,6 +237,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.vocationalUnitSubscription = this.koodistoProxySvc.vocationalUnits$
       .subscribe((vocationalUnits: AlignmentObjectExtended[]) => {
         this.vocationalUnits = vocationalUnits;
+      });
+
+    this.vocationalRequirementSubscription = this.koodistoProxySvc.vocationalRequirements$
+      .subscribe((requirements: AlignmentObjectExtended[]) => {
+        this.vocationalRequirements = requirements;
       });
 
     this.scienceBranchSubscription = this.koodistoProxySvc.scienceBranches$
@@ -352,10 +360,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         const vocationalUnits = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
         this.vocationalUnitsCtrl.setValue(vocationalUnits);
+        this.vocationalUnitsChange(vocationalUnits);
 
-        const vocationalEducationObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives);
-        this.vocationalEducationObjectives.setValue(vocationalEducationObjectives);
+        const vocationalRequirements = this.savedData.alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
+        this.vocationalRequirementsCtrl.setValue(vocationalRequirements);
 
         if (vocationalDegrees.length > 0 && 'educationalFramework' in vocationalDegrees[0]) {
           // tslint:disable-next-line:max-line-length
@@ -438,6 +447,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
+    this.vocationalRequirementSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
   }
 
@@ -563,8 +573,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('vocationalUnits') as FormControl;
   }
 
-  get vocationalEducationObjectives(): FormControl {
-    return this.form.get('vocationalEducationObjectives') as FormControl;
+  get vocationalRequirementsCtrl(): FormControl {
+    return this.form.get('vocationalRequirements') as FormControl;
   }
 
   get vocationalEducationFramework(): FormControl {
@@ -668,6 +678,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
 
       this.koodistoProxySvc.updateVocationalUnits(ids);
+    }
+  }
+
+  vocationalUnitsChange(value): void {
+    this.hasVocationalUnits = value.length > 0;
+
+    if (this.hasVocationalUnits) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+
+      this.koodistoProxySvc.updateVocationalRequirements(ids);
     }
   }
 
@@ -816,11 +836,14 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
           delete unit.parent;
           this.alignmentObjects.push(unit);
         });
-      }
-    }
 
-    if (this.vocationalEducationObjectives.value) {
-      this.alignmentObjects = this.alignmentObjects.concat(this.vocationalEducationObjectives.value);
+        if (this.vocationalRequirementsCtrl.value) {
+          this.vocationalRequirementsCtrl.value.forEach((requirement: AlignmentObjectExtended) => {
+            delete requirement.parent;
+            this.alignmentObjects.push(requirement);
+          });
+        }
+      }
     }
 
     if (this.selfMotivatedEducationSubjects.value) {
