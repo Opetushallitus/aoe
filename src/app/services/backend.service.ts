@@ -301,7 +301,7 @@ export class BackendService {
           educationalLevels: material.educationalLevels
             .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
           publishedAt: material.publishedat,
-          expires: material.expiresat,
+          expires: material.expires,
         };
 
         if (mappedMaterial.publishedAt === null) {
