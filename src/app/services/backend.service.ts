@@ -214,8 +214,11 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
           basicStudyContents: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
-          upperSecondarySchoolSubjects: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects),
+          upperSecondarySchoolSubjectsOld: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld),
+          upperSecondarySchoolCoursesOld: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld
+              || alignmentObject.source === koodistoSources.upperSecondarySubjects),
           upperSecondarySchoolObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
           upperSecondarySchoolSubjectsNew: alignmentObjects

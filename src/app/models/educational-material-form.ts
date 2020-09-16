@@ -94,7 +94,6 @@ export interface EducationalMaterialForm {
   basicStudyObjectives?: AlignmentObjectExtended[];
   basicStudyContents?: AlignmentObjectExtended[];
   basicStudyFramework?: string;
-  upperSecondarySchoolSubjects?: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld?: AlignmentObjectExtended[];
   upperSecondarySchoolCoursesOld?: AlignmentObjectExtended[];
   suitsAllUpperSecondarySubjects?: boolean;
