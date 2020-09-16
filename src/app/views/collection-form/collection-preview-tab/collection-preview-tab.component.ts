@@ -247,16 +247,16 @@ export class CollectionPreviewTabComponent implements OnInit {
         });
       });
 
-      this.previewCollection.vocationalEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+      this.previewCollection.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
         alignmentObjects.push({
-          ...objective,
+          ...requirement,
           educationalFramework: this.previewCollection.vocationalEducationFramework,
         });
       });
 
       delete this.previewCollection.vocationalDegrees;
       delete this.previewCollection.vocationalUnits;
-      delete this.previewCollection.vocationalEducationObjectives;
+      delete this.previewCollection.vocationalRequirements;
       delete this.previewCollection.vocationalEducationFramework;
 
       // self-motivated competence development
