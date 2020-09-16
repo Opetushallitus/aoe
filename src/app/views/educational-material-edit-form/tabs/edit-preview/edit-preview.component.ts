@@ -286,12 +286,12 @@ export class EditPreviewComponent implements OnInit {
       });
       delete this.previewMaterial.vocationalUnits;
 
-      this.previewMaterial.vocationalEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+      this.previewMaterial.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
+        requirement.educationalFramework = this.previewMaterial.vocationalEducationFramework;
 
-        alignmentObjects.push(objective);
+        alignmentObjects.push(requirement);
       });
-      delete this.previewMaterial.vocationalEducationObjectives;
+      delete this.previewMaterial.vocationalRequirements;
       delete this.previewMaterial.vocationalEducationFramework;
 
       // self-motivated competence development

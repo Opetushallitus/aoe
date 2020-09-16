@@ -315,12 +315,12 @@
             ></app-taglist><!--vocationalUnits-->
 
             <app-taglist
-              *ngIf="collection.vocationalEducationObjectives?.length > 0"
-              elementId="collection-vocationalEducationObjectives"
-              [tags]="collection.vocationalEducationObjectives"
+              *ngIf="collection.vocationalRequirements?.length > 0"
+              elementId="collection-vocationalRequirements"
+              [tags]="collection.vocationalRequirements"
               [title]="'collections.meta.vocationalEducationObjectives' | translate"
               property="targetName"
-            ></app-taglist><!--vocationalEducationObjectives-->
+            ></app-taglist><!--vocationalRequirements-->
 
             <ng-container *ngIf="collection.vocationalEducationFramework">
               <strong class="h4 d-block mb-2" id="collection-vocationalEducationFramework">

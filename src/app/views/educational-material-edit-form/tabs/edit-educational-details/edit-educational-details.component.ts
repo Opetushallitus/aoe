@@ -58,6 +58,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  vocationalRequirementSubscription: Subscription;
+  vocationalRequirements: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
   hasEarlyChildhoodEducation = false;
@@ -70,6 +72,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   hasUpperSecondarySchoolModulesNew = false;
   hasVocationalEducation = false;
   hasVocationalDegrees = false;
+  hasVocationalUnits = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
   addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
@@ -136,7 +139,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       vocationalDegrees: this.fb.control(null),
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
-      vocationalEducationObjectives: this.fb.control(null),
+      vocationalRequirements: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
@@ -197,6 +200,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.vocationalDegreesCtrl.value && this.vocationalDegreesCtrl.value.length > 0) {
       this.vocationalDegreesChange(this.vocationalDegreesCtrl.value);
+    }
+
+    if (this.vocationalUnitsCtrl.value?.length > 0) {
+      this.vocationalUnitsChange(this.vocationalUnitsCtrl.value);
     }
 
     // educational levels
@@ -275,6 +282,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         this.vocationalUnits = units;
       });
 
+    // vocational requirements
+    this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$
+      .subscribe((requirements: AlignmentObjectExtended[]) => {
+        this.vocationalRequirements = requirements;
+      });
+
     // science branches
     this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$
       .subscribe((branches: AlignmentObjectExtended[]) => {
@@ -300,6 +313,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
+    this.vocationalRequirementSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
   }
 
@@ -359,6 +373,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalUnitsCtrl(): FormControl {
+    return this.form.get('vocationalUnits') as FormControl;
+  }
+
+  get vocationalRequirementsCtrl(): FormControl {
+    return this.form.get('vocationalRequirements') as FormControl;
   }
 
   get vocationalEducationFrameworkCtrl(): FormControl {
@@ -471,6 +493,21 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Runs on vocational education unit change. Sets hasVocationalUnits boolean value. Updates
+   * vocational education requirements based on selected units.
+   * @param value
+   */
+  vocationalUnitsChange(value): void {
+    this.hasVocationalUnits = value.length > 0;
+
+    if (this.hasVocationalUnits) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+
+      this.koodistoSvc.updateVocationalRequirements(ids);
+    }
+  }
+
+  /**
    * Runs on submit. If form is valid and dirty, changed material is saved on sessionStorage.
    * If form is valid, redirects user to the next tab.
    */
@@ -527,8 +564,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     // vocational education
     changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
     changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
-    changedMaterial.vocationalUnits = this.form.get('vocationalUnits').value;
-    changedMaterial.vocationalEducationObjectives = this.form.get('vocationalEducationObjectives').value;
+    changedMaterial.vocationalUnits = this.vocationalUnitsCtrl.value;
+    changedMaterial.vocationalRequirements = this.vocationalRequirementsCtrl.value;
     changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
 
     // self-motivated competence development

@@ -115,7 +115,7 @@
       "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
       "vocationalDegrees": "Examensdel för yrkesutbildning",
       "vocationalUnits": "Examensdelar för yrkesutbildning",
-      "vocationalEducationObjectives": "Mål för yrkesutbildning",
+      "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
       "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
       "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
       "branchesOfScience": "Verenskapsgren för högskoleutbildning",
@@ -746,7 +746,7 @@
           "placeholder": ""
         },
         "vocationalEducationObjectives": {
-          "label": "Mål för yrkesutbildning",
+          "label": "Krav på yrkesskicklighet för yrkesutbildning",
           "placeholder": ""
         },
         "vocationalEducationFramework": {
@@ -965,7 +965,7 @@
       "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
       "vocationalDegrees": "Examensdel för yrkesutbildning",
       "vocationalUnits": "Examensdelar för yrkesutbildning",
-      "vocationalEducationObjectives": "Mål för yrkesutbildning",
+      "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
       "vocationalEducationFramework": "Läroplans- eller examensgrunderna för yrkesutbildning",
       "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
       "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",

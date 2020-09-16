@@ -468,21 +468,24 @@
           groupBy="parent"
           labelForId="vocationalUnits"
           formControlName="vocationalUnits"
+          (change)="vocationalUnitsChange($event)"
         ></ng-select>
       </div><!--vocationalUnits-->
 
       <div class="form-group">
-        <label for="vocationalEducationObjectives">
+        <label for="vocationalRequirements">
           {{ 'forms.collection.educational.vocationalEducationObjectives.label' | translate }}
         </label>
 
         <ng-select
-          [items]="[]"
+          [items]="vocationalRequirements"
           [multiple]="true"
+          [closeOnSelect]="false"
           [addTag]="addVocationalEducationObjective"
           bindLabel="targetName"
-          labelForId="vocationalEducationObjectives"
-          formControlName="vocationalEducationObjectives"
+          groupBy="parent"
+          labelForId="vocationalRequirements"
+          formControlName="vocationalRequirements"
         ></ng-select>
       </div><!--vocationalEducationObjectives-->
 

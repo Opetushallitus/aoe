@@ -195,7 +195,7 @@ export class CollectionService {
         upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
         vocationalDegrees: alignmentObjects.vocationalDegrees,
         vocationalUnits: alignmentObjects.vocationalUnits,
-        vocationalEducationObjectives: alignmentObjects.vocationalEducationObjectives,
+        vocationalRequirements: alignmentObjects.vocationalRequirements,
         vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
         selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
         selfMotivatedEducationObjectives: alignmentObjects.selfMotivatedEducationObjectives,
@@ -308,7 +308,7 @@ export class CollectionService {
         upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
         vocationalDegrees: alignmentObjects.vocationalDegrees,
         vocationalUnits: alignmentObjects.vocationalUnits,
-        vocationalEducationObjectives: alignmentObjects.vocationalEducationObjectives,
+        vocationalRequirements: alignmentObjects.vocationalRequirements,
         vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
         selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
         selfMotivatedEducationObjectives: alignmentObjects.selfMotivatedEducationObjectives,
@@ -416,7 +416,7 @@ export class CollectionService {
     const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
     const vocationalDegrees: AlignmentObjectExtended[] = [];
     const vocationalUnits: AlignmentObjectExtended[] = [];
-    const vocationalEducationObjectives: AlignmentObjectExtended[] = [];
+    const vocationalRequirements: AlignmentObjectExtended[] = [];
     const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
     const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
     const scienceBranches: AlignmentObjectExtended[] = [];
@@ -494,7 +494,11 @@ export class CollectionService {
           break;
 
         case koodistoSources.vocationalObjectives:
-          vocationalEducationObjectives.push(aObject);
+          vocationalRequirements.push(aObject);
+          break;
+
+        case koodistoSources.vocationalRequirements:
+          vocationalRequirements.push(aObject);
           break;
 
         case koodistoSources.selfMotivatedSubjects:
@@ -531,7 +535,7 @@ export class CollectionService {
       upperSecondarySchoolContentsNew,
       vocationalDegrees,
       vocationalUnits,
-      vocationalEducationObjectives,
+      vocationalRequirements,
       selfMotivatedEducationSubjects,
       selfMotivatedEducationObjectives,
       scienceBranches,

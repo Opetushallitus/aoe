@@ -62,7 +62,7 @@ export interface EducationalMaterial {
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
-  vocationalEducationObjectives: AlignmentObjectExtended[];
+  vocationalRequirements: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   branchesOfScience: AlignmentObjectExtended[];
