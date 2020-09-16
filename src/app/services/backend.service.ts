@@ -230,8 +230,8 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees),
           vocationalUnits: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
-          vocationalEducationObjectives: alignmentObjects
-            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalObjectives),
+          vocationalRequirements: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
           selfMotivatedEducationSubjects: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
           selfMotivatedEducationObjectives: alignmentObjects
