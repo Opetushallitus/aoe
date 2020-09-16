@@ -514,16 +514,16 @@
                     </div>
                   </div>
 
-                  <div *ngIf="educationalMaterial.vocationalEducationObjectives.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.vocationalRequirements.length > 0" class="metadata-group">
                     <h4>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h4>
 
                     <div class="tags">
                       <button
-                        *ngFor="let objective of educationalMaterial.vocationalEducationObjectives"
+                        *ngFor="let requirement of educationalMaterial.vocationalRequirements"
                         type="button"
                         class="btn btn-light disabled"
                         disabled
-                      >{{ objective.targetName }}</button>
+                      >{{ requirement.targetName }}</button>
                     </div>
                   </div>
 

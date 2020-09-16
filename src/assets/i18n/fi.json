@@ -115,7 +115,7 @@
       "upperSecondarySchoolContentsNew": "Lukion sisältöalueet",
       "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
-      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
       "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
       "branchesOfScience": "Korkeakoulutuksen tieteenalat",
@@ -745,7 +745,7 @@
           "placeholder": ""
         },
         "vocationalEducationObjectives": {
-          "label": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+          "label": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
           "placeholder": ""
         },
         "vocationalEducationFramework": {
@@ -960,7 +960,7 @@
       "upperSecondarySchoolContentsNew": "Sisältö",
       "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
-      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen tavoitteet",
+      "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
       "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
