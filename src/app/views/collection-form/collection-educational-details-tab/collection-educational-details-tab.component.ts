@@ -58,6 +58,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  vocationalRequirementSubscription: Subscription;
+  vocationalRequirements: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
   hasEarlyChildhoodEducation = false;
@@ -69,6 +71,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   hasUpperSecondarySchoolModulesNew = false;
   hasVocationalEducation = false;
   hasVocationalDegrees = false;
+  hasVocationalUnits = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
   addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
@@ -138,7 +141,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       upperSecondarySchoolContentsNew: this.fb.control(null),
       vocationalDegrees: this.fb.control(null),
       vocationalUnits: this.fb.control(null),
-      vocationalEducationObjectives: this.fb.control(null),
+      vocationalRequirements: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
@@ -245,7 +248,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       });
     this.koodistoSvc.updateVocationalDegrees();
 
-    if (this.vocationalDegreesCtrl.value.length > 0) {
+    if (this.vocationalDegreesCtrl.value?.length > 0) {
       this.vocationalDegreesChange(this.vocationalDegreesCtrl.value);
     }
 
@@ -253,6 +256,16 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$
       .subscribe((units: AlignmentObjectExtended[]) => {
         this.vocationalUnits = units;
+      });
+
+    if (this.vocationalUnitsCtrl.value?.length > 0) {
+      this.vocationalUnitsChange(this.vocationalUnitsCtrl.value);
+    }
+
+    // vocational requirements
+    this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$
+      .subscribe((requirements: AlignmentObjectExtended[]) => {
+        this.vocationalRequirements = requirements;
       });
 
     // science branches
@@ -279,6 +292,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
+    this.vocationalRequirementSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
   }
 
@@ -338,6 +352,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
+  }
+
+  get vocationalUnitsCtrl(): FormControl {
+    return this.form.get('vocationalUnits') as FormControl;
+  }
+
+  get vocationalRequirementsCtrl(): FormControl {
+    return this.form.get('vocationalRequirements') as FormControl;
   }
 
   get vocationalEducationFrameworkCtrl(): FormControl {
@@ -449,6 +471,21 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   }
 
   /**
+   * Runs on vocational education unit change. Sets hasVocationalUnits boolean value. Updates
+   * vocational education requirements based on selected units.
+   * @param value
+   */
+  vocationalUnitsChange(value): void {
+    this.hasVocationalUnits = value.length > 0;
+
+    if (this.hasVocationalUnits) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+
+      this.koodistoSvc.updateVocationalRequirements(ids);
+    }
+  }
+
+  /**
    * Runs on submit. Redirects user to the next tab if form is valid.
    */
   onSubmit(): void {
@@ -530,14 +567,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
     if (!this.hasVocationalEducation) {
       this.vocationalDegreesCtrl.setValue([]);
-      this.form.get('vocationalUnits').setValue([]);
-      this.form.get('vocationalEducationObjectives').setValue([]);
+      this.vocationalUnitsCtrl.setValue([]);
+      this.vocationalRequirementsCtrl.setValue([]);
       this.vocationalEducationFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasVocationalDegrees) {
-      this.form.get('vocationalUnits').setValue([]);
-      this.form.get('vocationalEducationObjectives').setValue([]);
+      this.vocationalUnitsCtrl.setValue([]);
+      this.vocationalRequirementsCtrl.setValue([]);
       this.vocationalEducationFrameworkCtrl.setValue(null);
     }
 

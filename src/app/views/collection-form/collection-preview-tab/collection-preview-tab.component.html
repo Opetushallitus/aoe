@@ -385,14 +385,14 @@
         </dd>
       </ng-container><!--vocationalUnits-->
 
-      <ng-container *ngIf="previewCollection.vocationalEducationObjectives?.length > 0">
+      <ng-container *ngIf="previewCollection.vocationalRequirements?.length > 0">
         <dt class="col-sm-3">
           {{ 'forms.collection.educational.vocationalEducationObjectives.label' | translate }}
         </dt>
 
         <dd class="col-sm-9">
-          <ng-container *ngFor="let objective of previewCollection.vocationalEducationObjectives; let isLast = last">
-            {{ objective.targetName }}{{ isLast ? '' : ', ' }}
+          <ng-container *ngFor="let requirement of previewCollection.vocationalRequirements; let isLast = last">
+            {{ requirement.targetName }}{{ isLast ? '' : ', ' }}
           </ng-container>
         </dd>
       </ng-container><!--vocationalEducationObjectives-->
