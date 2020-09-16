@@ -522,6 +522,17 @@ export class BackendService {
             targetUrl: alignment.targeturl,
           }));
 
+        const vocationalRequirements = material.educationalAlignment
+          // tslint:disable-next-line:max-line-length
+          .filter((alignment) => alignment.source === koodistoSources.vocationalRequirements || alignment.source === koodistoSources.vocationalObjectives)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+          }));
+
         const branchesOfScience = material.educationalAlignment
           .filter((alignment) => alignment.source === koodistoSources.scienceBranches)
           .map((alignment) => ({
@@ -709,16 +720,7 @@ export class BackendService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          vocationalEducationObjectives: material.educationalAlignment
-            .filter((alignment) => alignment.source === koodistoSources.vocationalObjectives)
-            .map((alignment) => ({
-              key: alignment.objectkey,
-              source: alignment.source,
-              alignmentType: alignment.alignmenttype,
-              educationalFramework: alignment.educationalframework,
-              targetName: alignment.targetname,
-              targetUrl: alignment.targeturl,
-            })),
+          vocationalRequirements: vocationalRequirements,
           vocationalEducationFramework: (vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework)
             ? vocationalDegrees[0].educationalFramework
             : null,

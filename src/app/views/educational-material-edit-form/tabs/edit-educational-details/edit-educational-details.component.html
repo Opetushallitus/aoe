@@ -650,31 +650,33 @@
           id="vocationalUnits"
           labelForId="vocationalUnits"
           formControlName="vocationalUnits"
+          (change)="vocationalUnitsChange($event)"
         ></ng-select>
       </div>
+
+      <div class="form-group">
+        <label for="vocationalRequirements">
+          {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
+        </label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <ng-select
+          [items]="vocationalRequirements"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [addTag]="addVocationalEducationObjective"
+          bindLabel="targetName"
+          groupBy="parent"
+          labelForId="vocationalRequirements"
+          formControlName="vocationalRequirements"
+        ></ng-select>
+      </div><!--vocationalRequirements-->
     </ng-container>
-
-    <div class="form-group">
-      <label for="vocationalEducationObjectives">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
-      </label>
-
-      <button
-        type="button"
-        class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addVocationalEducationObjective"
-        bindLabel="targetName"
-        id="vocationalEducationObjectives"
-        labelForId="vocationalEducationObjectives"
-        formControlName="vocationalEducationObjectives"
-      ></ng-select>
-    </div>
 
     <div class="form-group">
       <label for="vocationalEducationFramework">
