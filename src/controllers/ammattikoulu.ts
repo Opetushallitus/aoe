@@ -175,7 +175,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
           unit.ammattitaitovaatimukset2019?.kohdealueet?.forEach((target: any) => {
             target.vaatimukset?.forEach((requirement: any) => {
               finnishRequirements.push({
-                key: requirement.koodi.arvo,
+                key: requirement.koodi?.arvo ? requirement.koodi.arvo : requirement.vaatimus._id,
                 parent: {
                   key: unit.id,
                   value: target.kuvaus.fi ? target.kuvaus.fi : target.kuvaus.sv,
@@ -186,7 +186,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
               });
 
               swedishRequirements.push({
-                key: requirement.koodi.arvo,
+                key: requirement.koodi?.arvo ? requirement.koodi.arvo : requirement.vaatimus._id,
                 parent: {
                   key: unit.id,
                   value: target.kuvaus.sv ? target.kuvaus.sv : target.kuvaus.fi,
