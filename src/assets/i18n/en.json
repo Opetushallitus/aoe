@@ -107,9 +107,9 @@
       "basicStudySubjects": "Educational subject of basic education",
       "basicStudyObjectives": "Learning object of basic education",
       "basicStudyContents": "Educational content of basic education",
-      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school",
-      "upperSecondarySchoolCourses": "Educational subject of upper secondary school",
-      "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
+      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Learning object of upper secondary school (LOPS2015)",
       "upperSecondarySchoolSubjectsNew": "Educational subjects of upper secondary school",
       "upperSecondarySchoolModulesNew": "Educational modules of upper secondary school",
       "upperSecondarySchoolObjectivesNew": "Learning object of upper secondary school",
@@ -711,6 +711,10 @@
           "new": "Educational framework of upper secondary school 2019"
         },
         "upperSecondarySchoolSubjects": {
+          "label": "Educational subjects of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
           "label": "Educational subject of upper secondary school",
           "placeholder": ""
         },
@@ -957,7 +961,8 @@
       "basicStudyObjectives": "Learning object of basic education",
       "basicStudyContents": "Educational content and transversal competence of basic education",
       "basicStudyFramework": "Educational framework of basic education",
-      "upperSecondarySchoolSubjects": "Educational subject of upper secondary school",
+      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
       "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
       "upperSecondarySchoolFramework": "Educational framework of upper secondary school",
       "upperSecondarySchoolSubjectsNew": "Educational subject",

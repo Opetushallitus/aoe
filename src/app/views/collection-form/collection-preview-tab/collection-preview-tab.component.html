@@ -279,17 +279,29 @@
         </dd>
       </ng-container><!--basicStudyFramework-->
 
-      <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjects?.length > 0">
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjectsOld?.length > 0">
         <dt class="col-sm-3">
           {{ 'forms.collection.educational.upperSecondarySchoolSubjects.label' | translate }}
         </dt>
 
         <dd class="col-sm-9">
-          <ng-container *ngFor="let subject of previewCollection.upperSecondarySchoolSubjects; let isLast = last">
+          <ng-container *ngFor="let subject of previewCollection.upperSecondarySchoolSubjectsOld; let isLast = last">
             {{ subject.targetName }}{{ isLast ? '' : ', ' }}
           </ng-container>
         </dd>
-      </ng-container><!--upperSecondarySchoolSubjects-->
+      </ng-container><!--upperSecondarySchoolSubjectsOld-->
+
+      <ng-container *ngIf="previewCollection.upperSecondarySchoolCoursesOld?.length > 0">
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolCourses.label' | translate }}
+        </dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let course of previewCollection.upperSecondarySchoolCoursesOld; let isLast = last">
+            {{ course.targetName }}{{ isLast ? '' : ', ' }}
+          </ng-container>
+        </dd>
+      </ng-container><!--upperSecondarySchoolCoursesOld-->
 
       <ng-container *ngIf="previewCollection.upperSecondarySchoolObjectives?.length > 0">
         <dt class="col-sm-3">

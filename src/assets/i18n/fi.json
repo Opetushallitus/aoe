@@ -107,9 +107,9 @@
       "basicStudySubjects": "Perusopetuksen oppiaineet",
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet",
-      "upperSecondarySchoolSubjects": "Lukion oppiaineet",
-      "upperSecondarySchoolCourses": "Lukionkurssit",
-      "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet",
+      "upperSecondarySchoolSubjects": "Lukion oppiaineet (LOPS2015)",
+      "upperSecondarySchoolCourses": "Lukion kurssit (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet (LOPS2015)",
       "upperSecondarySchoolSubjectsNew": "Lukion oppiaineet",
       "upperSecondarySchoolModulesNew": "Lukion moduulit",
       "upperSecondarySchoolObjectivesNew": "Lukion tavoitteet",
@@ -418,11 +418,11 @@
           },
           "inputs": {
             "subjects": {
-              "label": "Lukionkurssit",
+              "label": "Lukion kurssit",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
-              "label": "Lukionkurssien tavoitteet",
+              "label": "Lukion kurssien tavoitteet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
@@ -711,11 +711,15 @@
           "new": "Lukion opetussuunnitelman perusteet 2019"
         },
         "upperSecondarySchoolSubjects": {
-          "label": "Lukionkurssit",
+          "label": "Lukion oppiaineet",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
+          "label": "Lukion kurssit",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectives": {
-          "label": "Lukionkurssien tavoitteet",
+          "label": "Lukion kurssien tavoitteet",
           "placeholder": ""
         },
         "upperSecondarySchoolFramework": {
@@ -957,8 +961,9 @@
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
       "basicStudyFramework": "Perusopetuksen opetussuunnitelma",
-      "upperSecondarySchoolSubjects": "Lukionkurssit",
-      "upperSecondarySchoolObjectives": "Lukionkurssien tavoitteet",
+      "upperSecondarySchoolSubjects": "Lukion oppiaineet (LOPS2015)",
+      "upperSecondarySchoolCourses": "Lukion kurssit (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet",
       "upperSecondarySchoolFramework": "Lukion opetussuunnitelman tai tutkinnon perusteet",
       "upperSecondarySchoolSubjectsNew": "Oppiaine",
       "upperSecondarySchoolModulesNew": "Moduuli",
