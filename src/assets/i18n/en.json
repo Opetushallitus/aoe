@@ -710,6 +710,10 @@
           "new": "Educational framework of upper secondary school 2019"
         },
         "upperSecondarySchoolSubjects": {
+          "label": "Educational subjects of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
           "label": "Educational subject of upper secondary school",
           "placeholder": ""
         },

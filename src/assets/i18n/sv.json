@@ -713,6 +713,10 @@
           "label": "Ämne för gymnasieutbildning",
           "placeholder": ""
         },
+        "upperSecondarySchoolCourses": {
+          "label": "Kurs för gymnasieutbildning",
+          "placeholder": ""
+        },
         "upperSecondarySchoolObjectives": {
           "label": "Mål för gymnasieutbildning",
           "placeholder": ""
