@@ -237,12 +237,20 @@
 
             <!--upper secondary education-->
             <app-taglist
-              *ngIf="collection.upperSecondarySchoolSubjects?.length > 0"
-              id="collection-upperSecondarySchoolSubjects"
-              [tags]="collection.upperSecondarySchoolSubjects"
+              *ngIf="collection.upperSecondarySchoolSubjectsOld?.length > 0"
+              id="collection-upperSecondarySchoolSubjectsOld"
+              [tags]="collection.upperSecondarySchoolSubjectsOld"
               [title]="'collections.meta.upperSecondarySchoolSubjects' | translate"
               property="targetName"
-            ></app-taglist><!--upperSecondarySchoolSubjects-->
+            ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
+
+            <app-taglist
+              *ngIf="collection.upperSecondarySchoolCoursesOld?.length > 0"
+              id="collection-upperSecondarySchoolCoursesOld"
+              [tags]="collection.upperSecondarySchoolCoursesOld"
+              [title]="'collections.meta.upperSecondarySchoolCourses' | translate"
+              property="targetName"
+            ></app-taglist><!--upperSecondarySchoolCoursesOld-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
@@ -261,7 +269,7 @@
                 {{ collection.upperSecondarySchoolFramework }}
               </p>
             </ng-container><!--upperSecondarySchoolFramework-->
-            <!--/upper secondary education-->
+            <!--/upper secondary education (old)-->
 
             <!--upper secondary education (new)-->
             <app-taglist

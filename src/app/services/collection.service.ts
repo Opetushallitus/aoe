@@ -186,9 +186,10 @@ export class CollectionService {
         basicStudyObjectives: alignmentObjects.basicStudyObjectives,
         basicStudyContents: alignmentObjects.basicStudyContents,
         basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
-        upperSecondarySchoolSubjects: alignmentObjects.upperSecondarySchoolSubjects,
+        upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
+        upperSecondarySchoolCoursesOld: alignmentObjects.upperSecondarySchoolCoursesOld,
         upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
-        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjects[0]?.educationalFramework,
+        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
         upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
         upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
         upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
@@ -297,11 +298,12 @@ export class CollectionService {
         basicStudyObjectives: alignmentObjects.basicStudyObjectives,
         basicStudyContents: alignmentObjects.basicStudyContents,
         basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
-        currentUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjects.length > 0,
+        currentUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsOld.length > 0,
         newUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsNew.length > 0,
-        upperSecondarySchoolSubjects: alignmentObjects.upperSecondarySchoolSubjects,
+        upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
+        upperSecondarySchoolCoursesOld: alignmentObjects.upperSecondarySchoolCoursesOld,
         upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
-        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjects[0]?.educationalFramework,
+        upperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsOld[0]?.educationalFramework,
         upperSecondarySchoolSubjectsNew: alignmentObjects.upperSecondarySchoolSubjectsNew,
         upperSecondarySchoolModulesNew: alignmentObjects.upperSecondarySchoolModulesNew,
         upperSecondarySchoolObjectivesNew: alignmentObjects.upperSecondarySchoolObjectivesNew,
@@ -408,7 +410,8 @@ export class CollectionService {
     const basicStudySubjects: AlignmentObjectExtended[] = [];
     const basicStudyObjectives: AlignmentObjectExtended[] = [];
     const basicStudyContents: AlignmentObjectExtended[] = [];
-    const upperSecondarySchoolSubjects: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[] = [];
+    const upperSecondarySchoolCoursesOld: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolModulesNew: AlignmentObjectExtended[] = [];
@@ -461,8 +464,16 @@ export class CollectionService {
           basicStudyContents.push(aObject);
           break;
 
+        case koodistoSources.upperSecondarySubjectsOld:
+          upperSecondarySchoolSubjectsOld.push(aObject);
+          break;
+
+        case koodistoSources.upperSecondaryCoursesOld:
+          upperSecondarySchoolCoursesOld.push(aObject);
+          break;
+
         case koodistoSources.upperSecondarySubjects:
-          upperSecondarySchoolSubjects.push(aObject);
+          upperSecondarySchoolCoursesOld.push(aObject);
           break;
 
         case koodistoSources.upperSecondaryObjectives:
@@ -523,7 +534,8 @@ export class CollectionService {
       basicStudySubjects,
       basicStudyObjectives,
       basicStudyContents,
-      upperSecondarySchoolSubjects,
+      upperSecondarySchoolSubjectsOld,
+      upperSecondarySchoolCoursesOld,
       upperSecondarySchoolObjectives,
       upperSecondarySchoolSubjectsNew,
       upperSecondarySchoolModulesNew,
