@@ -100,7 +100,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
       this.koodistoSvc.updateEducationalLevels();
       this.koodistoSvc.updateBasicStudySubjects();
-      this.koodistoSvc.updateUpperSecondarySchoolSubjects();
+      this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
       this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
       this.koodistoSvc.updateVocationalDegrees();
       this.koodistoSvc.updateScienceBranches();

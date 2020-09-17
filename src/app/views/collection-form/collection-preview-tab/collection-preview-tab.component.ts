@@ -187,11 +187,17 @@ export class CollectionPreviewTabComponent implements OnInit {
       delete this.previewCollection.basicStudyFramework;
 
       // upper secondary school
-      this.previewCollection.upperSecondarySchoolSubjects.forEach((subject: AlignmentObjectExtended) => {
+      this.previewCollection.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
         alignmentObjects.push({
           ...subject,
           educationalFramework: this.previewCollection.upperSecondarySchoolFramework,
         });
+      });
+
+      this.previewCollection.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
+        delete course.parent;
+
+        alignmentObjects.push(course);
       });
 
       this.previewCollection.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
@@ -202,7 +208,8 @@ export class CollectionPreviewTabComponent implements OnInit {
       });
 
       delete this.previewCollection.currentUpperSecondarySchoolSelected;
-      delete this.previewCollection.upperSecondarySchoolSubjects;
+      delete this.previewCollection.upperSecondarySchoolSubjectsOld;
+      delete this.previewCollection.upperSecondarySchoolCoursesOld;
       delete this.previewCollection.upperSecondarySchoolObjectives;
       delete this.previewCollection.upperSecondarySchoolFramework;
 
