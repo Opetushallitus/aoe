@@ -8,6 +8,7 @@
     type="button"
     class="btn btn-light disabled"
     [attr.aria-labelledby]="elementId"
-    disabled
+    [disabled]="!filterType"
+    (click)="search(searchProperty ? tag[searchProperty] : tag)"
   >{{ property ? tag[property] : tag }}</button>
 </div>
