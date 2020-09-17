@@ -297,19 +297,49 @@
       </h4>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolSubjects">
-          {{ 'forms.collection.educational.upperSecondarySchoolSubjects.label' | translate }}
+        <label for="upperSecondarySchoolSubjectsOld">
+          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
         </label>
 
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
+        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
         <ng-select
-          [items]="upperSecondarySchoolSubjects"
+          [items]="upperSecondarySchoolSubjectsOld"
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
-          labelForId="upperSecondarySchoolSubjects"
-          formControlName="upperSecondarySchoolSubjects"
-        ></ng-select>
-      </div><!--upperSecondarySchoolSubjects-->
+          groupBy="parent"
+          labelForId="upperSecondarySchoolSubjectsOld"
+          formControlName="upperSecondarySchoolSubjectsOld"
+          (change)="upperSecondarySchoolSubjectsOldChange($event)"
+        >
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ item.parent }}
+          </ng-template>
+        </ng-select>
+      </div><!--upperSecondarySubjectsOld-->
+
+      <ng-container *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0">
+        <div class="form-group">
+          <label for="upperSecondarySchoolCoursesOld">
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
+          </label>
+
+          <ng-select
+            [items]="upperSecondarySchoolCoursesOld"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="targetName"
+            groupBy="parent"
+            labelForId="upperSecondarySchoolCoursesOld"
+            formControlName="upperSecondarySchoolCoursesOld"
+          ></ng-select>
+        </div>
+      </ng-container><!--upperSecondaryCoursesOld-->
 
       <div class="form-group">
         <label for="upperSecondarySchoolObjectives">

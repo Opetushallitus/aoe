@@ -96,7 +96,8 @@ export interface Collection {
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
   basicStudyFramework: string;
-  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
+  upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolFramework: string;
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];

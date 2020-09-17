@@ -107,9 +107,9 @@
       "basicStudySubjects": "Ämne för grundläggande utbildning",
       "basicStudyObjectives": "Mål för grundläggande utbildning",
       "basicStudyContents": "Innehållsområden för grundläggande utbildning",
-      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning",
-      "upperSecondarySchoolCourses": "Ämne för gymnasieutbildning",
-      "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolSubjectsNew": "Ämne för gymnasieutbildning",
       "upperSecondarySchoolModulesNew": "Modul för gymnasieutbildning",
       "upperSecondarySchoolObjectivesNew": "Mål för gymnasieutbildning",
@@ -714,6 +714,10 @@
           "label": "Ämne för gymnasieutbildning",
           "placeholder": ""
         },
+        "upperSecondarySchoolCourses": {
+          "label": "Kurs för gymnasieutbildning",
+          "placeholder": ""
+        },
         "upperSecondarySchoolObjectives": {
           "label": "Mål för gymnasieutbildning",
           "placeholder": ""
@@ -957,7 +961,8 @@
       "basicStudyObjectives": "Mål för grundläggande utbildning",
       "basicStudyContents": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
       "basicStudyFramework": "Läroplans- eller examensgrunderna för grundläggande utbildning",
-      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning",
+      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
       "upperSecondarySchoolFramework": "Läroplans- eller examensgrunderna för gymnasieutbildning",
       "upperSecondarySchoolSubjectsNew": "Ämne",
