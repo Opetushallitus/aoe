@@ -710,6 +710,10 @@
           "new": "Lukion opetussuunnitelman perusteet 2019"
         },
         "upperSecondarySchoolSubjects": {
+          "label": "Lukion oppiaineet",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
           "label": "Lukion kurssit",
           "placeholder": ""
         },

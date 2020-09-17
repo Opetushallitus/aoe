@@ -44,8 +44,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContentSubscription: Subscription;
   basicStudyContents: AlignmentObjectExtended[];
-  upperSecondarySchoolSubjectSubscription: Subscription;
-  upperSecondarySchoolSubjects: AlignmentObjectExtended[];
+  upperSecondarySchoolSubjectOldSubscription: Subscription;
+  upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
+  upperSecondarySchoolCourseOldSubscription: Subscription;
+  upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectNewSubscription: Subscription;
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModuleNewSubscription: Subscription;
@@ -65,6 +67,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   hasBasicStudies = false;
   hasBasicStudySubjects = false;
   hasUpperSecondarySchool = false;
+  hasUpperSecondarySchoolSubjectsOld = false;
   hasUpperSecondarySchoolSubjectsNew = false;
   hasUpperSecondarySchoolModulesNew = false;
   hasVocationalEducation = false;
@@ -126,7 +129,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
-      upperSecondarySchoolSubjects: this.fb.control(null),
+      upperSecondarySchoolSubjectsOld: this.fb.control(null),
+      upperSecondarySchoolCoursesOld: this.fb.control(null),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
@@ -193,16 +197,25 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
         this.basicStudyContents = contents;
       });
 
-    // upper secondary school subjects
-    this.upperSecondarySchoolSubjectSubscription = this.koodistoSvc.upperSecondarySchoolSubjects$
+    // upper secondary school subjects (old)
+    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$
       .subscribe((subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjects = subjects;
+        this.upperSecondarySchoolSubjectsOld = subjects;
       });
-    this.koodistoSvc.updateUpperSecondarySchoolSubjects();
+    this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
 
-    if (this.upperSecondarySchoolSubjectsCtrl.value.length > 0) {
+    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 || this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0) {
       this.currentUpperSecondarySchoolSelected.setValue(true);
     }
+
+    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0) {
+      this.upperSecondarySchoolSubjectsOldChange(this.upperSecondarySchoolSubjectsOldCtrl.value);
+    }
+
+    this.upperSecondarySchoolCourseOldSubscription = this.koodistoSvc.upperSecondarySchoolCoursesOld$
+      .subscribe((courses: AlignmentObjectExtended[]) => {
+        this.upperSecondarySchoolCoursesOld = courses;
+      });
 
     // upper secondary school subjects (new)
     this.upperSecondarySchoolSubjectNewSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsNew$
@@ -272,7 +285,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.basicStudySubjectSubscription.unsubscribe();
     this.basicStudyObjectiveSubscription.unsubscribe();
     this.basicStudyContentSubscription.unsubscribe();
-    this.upperSecondarySchoolSubjectSubscription.unsubscribe();
+    this.upperSecondarySchoolSubjectOldSubscription.unsubscribe();
+    this.upperSecondarySchoolCourseOldSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectNewSubscription.unsubscribe();
     this.upperSecondarySchoolModuleNewSubscription.unsubscribe();
     this.upperSecondarySchoolObjectiveNewSubscription.unsubscribe();
@@ -320,8 +334,12 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     return this.form.get('newUpperSecondarySchoolSelected') as FormControl;
   }
 
-  get upperSecondarySchoolSubjectsCtrl(): FormControl {
-    return this.form.get('upperSecondarySchoolSubjects') as FormControl;
+  get upperSecondarySchoolSubjectsOldCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolSubjectsOld') as FormControl;
+  }
+
+  get upperSecondarySchoolCoursesOldCtrl(): FormControl {
+    return this.form.get('upperSecondarySchoolCoursesOld') as FormControl;
   }
 
   get upperSecondarySchoolFrameworkCtrl(): FormControl {
@@ -399,6 +417,21 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
       this.koodistoSvc.updateBasicStudyObjectives(ids);
       this.koodistoSvc.updateBasicStudyContents(ids);
+    }
+  }
+
+  /**
+   * Runs on upper secondary school subject (old) change. Sets hasUpperSecondarySchoolSubjectsOld boolean
+   * value. Updates upper secondary school courses based on selected subjects.
+   * @param value
+   */
+  upperSecondarySchoolSubjectsOldChange(value): void {
+    this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
+
+    if (this.hasUpperSecondarySchoolSubjectsOld) {
+      const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
+
+      this.koodistoSvc.updateUpperSecondarySchoolCoursesOld(ids);
     }
   }
 
@@ -495,7 +528,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (!this.hasUpperSecondarySchool) {
       this.currentUpperSecondarySchoolSelected.setValue(false);
       this.newUpperSecondarySchoolSelected.setValue(false);
-      this.upperSecondarySchoolSubjectsCtrl.setValue([]);
+      this.upperSecondarySchoolSubjectsOldCtrl.setValue([]);
+      this.upperSecondarySchoolCoursesOldCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectives').setValue([]);
       this.upperSecondarySchoolFrameworkCtrl.setValue(null);
       this.upperSecondarySchoolSubjectsNewCtrl.setValue([]);
@@ -505,9 +539,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     if (!this.currentUpperSecondarySchoolSelected.value) {
-      this.upperSecondarySchoolSubjectsCtrl.setValue([]);
+      this.upperSecondarySchoolSubjectsOldCtrl.setValue([]);
+      this.upperSecondarySchoolCoursesOldCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectives').setValue([]);
       this.upperSecondarySchoolFrameworkCtrl.setValue(null);
+    }
+
+    if (!this.hasUpperSecondarySchoolSubjectsOld) {
+      this.upperSecondarySchoolCoursesOldCtrl.setValue([]);
     }
 
     if (!this.newUpperSecondarySchoolSelected.value) {
