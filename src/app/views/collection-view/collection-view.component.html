@@ -77,6 +77,8 @@
             [tags]="collection.keywords"
             [title]="'collections.meta.keywords' | translate"
             property="value"
+            searchProperty="key"
+            filterType="keywords"
           ></app-taglist><!--keywords-->
 
           <button
@@ -101,6 +103,7 @@
               elementId="collection-languages"
               [tags]="collection.languages"
               [title]="'collections.meta.languages' | translate"
+              filterType="languages"
             ></app-taglist><!--languages-->
 
             <app-taglist
