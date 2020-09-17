@@ -417,11 +417,11 @@
           },
           "inputs": {
             "subjects": {
-              "label": "Lukionkurssit",
+              "label": "Lukion kurssit",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
-              "label": "Lukionkurssien tavoitteet",
+              "label": "Lukion kurssien tavoitteet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "framework": {
@@ -710,11 +710,11 @@
           "new": "Lukion opetussuunnitelman perusteet 2019"
         },
         "upperSecondarySchoolSubjects": {
-          "label": "Lukionkurssit",
+          "label": "Lukion kurssit",
           "placeholder": ""
         },
         "upperSecondarySchoolObjectives": {
-          "label": "Lukionkurssien tavoitteet",
+          "label": "Lukion kurssien tavoitteet",
           "placeholder": ""
         },
         "upperSecondarySchoolFramework": {
@@ -952,8 +952,8 @@
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
       "basicStudyFramework": "Perusopetuksen opetussuunnitelma",
-      "upperSecondarySchoolSubjects": "Lukionkurssit",
-      "upperSecondarySchoolObjectives": "Lukionkurssien tavoitteet",
+      "upperSecondarySchoolSubjects": "Lukion kurssit",
+      "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet",
       "upperSecondarySchoolFramework": "Lukion opetussuunnitelman tai tutkinnon perusteet",
       "upperSecondarySchoolSubjectsNew": "Oppiaine",
       "upperSecondarySchoolModulesNew": "Moduuli",
