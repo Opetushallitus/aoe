@@ -8,7 +8,7 @@
   :disabled,
   .disabled {
     background-color: transparent;
-    cursor: not-allowed;
     opacity: 1;
+    user-select: auto;
   }
 }
