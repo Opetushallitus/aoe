@@ -41,9 +41,14 @@
       </ul>
 
       <div class="tags">
-        <button *ngFor="let level of result.educationalLevels" type="button" class="btn btn-light disabled">
-          {{ level.value }}
-        </button>
+        <app-taglist
+          *ngIf="result.educationalLevels?.length > 0"
+          [elementId]="'result-educationalLevels' + result.id"
+          [tags]="result.educationalLevels"
+          [title]="'collections.meta.educationalLevels' | translate"
+          [card]="true"
+          property="value"
+        ></app-taglist><!--educationalLevels-->
       </div>
     </div>
   </div>
