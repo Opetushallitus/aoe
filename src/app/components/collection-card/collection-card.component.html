@@ -25,7 +25,7 @@
 
   <app-taglist
     *ngIf="collection.educationalLevels?.length > 0"
-    elementId="collection-educationalLevels"
+    [elementId]="'collection-educationalLevels' + collection.id"
     [tags]="educationalLevels"
     [title]="'collections.meta.educationalLevels' | translate"
     [card]="true"
@@ -37,7 +37,7 @@
 
   <app-taglist
     *ngIf="collection.keywords?.length > 0"
-    elementId="collection-keywords"
+    [elementId]="'collection-keywords' + collection.id"
     [tags]="keywords"
     [title]="'collections.meta.keywords' | translate"
     [card]="true"
@@ -49,7 +49,7 @@
 
   <app-taglist
     *ngIf="collection.languages?.length > 0 && languages"
-    elementId="collection-languages"
+    [elementId]="'collection-languages' + collection.id"
     [tags]="languages"
     [title]="'collections.meta.languages' | translate"
     [card]="true"
