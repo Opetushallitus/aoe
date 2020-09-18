@@ -5,8 +5,13 @@
     margin-bottom: 0;
   }
 
+  :disabled,
+  .disabled {
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
   .disabled {
     background-color: transparent;
-    cursor: not-allowed;
   }
 }
