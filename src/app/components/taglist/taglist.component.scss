@@ -4,4 +4,9 @@
   &.is-card {
     margin-bottom: 0;
   }
+
+  .disabled {
+    background-color: transparent;
+    cursor: not-allowed;
+  }
 }

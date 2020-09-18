@@ -6,7 +6,8 @@
   <button
     *ngFor="let tag of tags"
     type="button"
-    class="btn btn-light disabled"
+    class="btn btn-light"
+    [ngClass]="{ 'disabled': !filterType }"
     [attr.aria-labelledby]="elementId"
     [disabled]="!filterType"
     (click)="search(searchProperty ? tag[searchProperty] : tag)"
@@ -15,7 +16,7 @@
   <button
     *ngIf="hiddenTagsAmount > 0"
     type="button"
-    class="btn btn-light disabled"
+    class="btn btn-light"
     disabled
   >+{{ hiddenTagsAmount }}</button>
 </div>
