@@ -12,6 +12,8 @@ export class TaglistComponent implements OnInit {
   @Input() elementId: string;
   @Input() tags: any[];
   @Input() title: string;
+  @Input() card?: boolean;
+  @Input() hiddenTagsAmount?: number;
   @Input() property?: string;
   @Input() searchProperty?: string;
   @Input() filterType?: string;

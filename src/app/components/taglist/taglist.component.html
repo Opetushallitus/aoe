@@ -1,8 +1,8 @@
-<strong class="h3 d-block mb-2" [id]="elementId">
+<strong class="h3 d-block mb-2" [id]="elementId" [ngClass]="{ 'sr-only': card }">
   {{ title }}
 </strong>
 
-<div class="tags">
+<div class="tags" [ngClass]="{ 'is-card': card }">
   <button
     *ngFor="let tag of tags"
     type="button"
@@ -11,4 +11,11 @@
     [disabled]="!filterType"
     (click)="search(searchProperty ? tag[searchProperty] : tag)"
   >{{ property ? tag[property] : tag }}</button>
+
+  <button
+    *ngIf="hiddenTagsAmount > 0"
+    type="button"
+    class="btn btn-light disabled"
+    disabled
+  >+{{ hiddenTagsAmount }}</button>
 </div>
