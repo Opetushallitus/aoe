@@ -99,10 +99,12 @@
 
           <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
             <app-taglist
-              *ngIf="collection.languages?.length > 0"
+              *ngIf="collection.languages?.length > 0 && languages"
               elementId="collection-languages"
-              [tags]="collection.languages"
+              [tags]="languages"
               [title]="'collections.meta.languages' | translate"
+              property="value"
+              searchProperty="key"
               filterType="languages"
             ></app-taglist><!--languages-->
 
