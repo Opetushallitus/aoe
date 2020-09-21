@@ -550,7 +550,7 @@
                   <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
                 </div><!--loading-->
 
-                <app-search-result *ngFor="let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }" [result]="result"></app-search-result>
+                <app-search-result *ngFor="let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }" [result]="result" (executeFilteredSearch)="filterSearch()"></app-search-result>
               </div>
             </div>
 

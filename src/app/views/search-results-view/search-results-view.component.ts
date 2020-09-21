@@ -473,4 +473,22 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.page = 1;
     }
   }
+
+  filterSearch(): void {
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
+    this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
+      level.children.forEach((child: EducationalLevel, childIndex: number) => {
+        if (searchParams.filters.educationalLevels.includes(child.key)) {
+          const levels = <FormArray>this.educationalLevelsArray.controls[index].get('levels');
+          levels.at(childIndex).setValue(true);
+        }
+      });
+    });
+
+    this.searchSvc.updateSearchResults(searchParams);
+    this.searchSvc.updateSearchFilters(searchParams);
+
+    this.page = 1;
+  }
 }
