@@ -43,6 +43,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -223,6 +224,7 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
       multi: true,
     },
     Title,
+    DeviceDetectorService,
   ],
   bootstrap: [ AppComponent ]
 })

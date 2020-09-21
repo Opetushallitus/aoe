@@ -12,6 +12,7 @@ import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-search-results-view',
@@ -63,10 +64,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private titleSvc: Title,
+    private deviceSvc: DeviceDetectorService,
   ) { }
 
   ngOnInit() {
     this.setTitle();
+
+    if (this.deviceSvc.isMobile()) {
+      this.isCollapsedFilters = true;
+    }
 
     this.translate.onLangChange.subscribe(() => {
       this.setTitle();
