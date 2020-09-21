@@ -32,6 +32,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   searchFilterSubscription: Subscription;
   filtersShownAtFirst = 8;
   filtersShown = new Map();
+  isCollapsedFilters = false;
   languageSubscription: Subscription;
   allLanguages: Language[];
   isCollapsedLanguages = true;
