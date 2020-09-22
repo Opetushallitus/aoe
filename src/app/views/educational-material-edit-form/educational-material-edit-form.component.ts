@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BackendService } from '@services/backend.service';
 import { Observable, Subscription } from 'rxjs';
@@ -8,6 +8,15 @@ import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from '@models/translations/toast';
+import { EditFilesComponent } from '@views/educational-material-edit-form/tabs/edit-files/edit-files.component';
+import { EditBasicDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-basic-details/edit-basic-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditEducationalDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditExtendedDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-extended-details/edit-extended-details.component';
+import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
+// tslint:disable-next-line:max-line-length
+import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
 
 @Component({
   selector: 'app-educational-material-edit-form',
@@ -24,6 +33,12 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   noPermissionTitle: string;
   noPermissionMessage: string;
   abortMessage: string;
+  @ViewChild(EditFilesComponent) filesTab: EditFilesComponent;
+  @ViewChild(EditBasicDetailsComponent) basicTab: EditBasicDetailsComponent;
+  @ViewChild(EditEducationalDetailsComponent) educationalTab: EditEducationalDetailsComponent;
+  @ViewChild(EditExtendedDetailsComponent) extendedTab: EditExtendedDetailsComponent;
+  @ViewChild(EditLicenseComponent) licenseTab: EditLicenseComponent;
+  @ViewChild(EditBasedOnDetailsComponent) referencesTab: EditBasedOnDetailsComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -94,6 +109,17 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
+    if (
+      this.filesTab?.form.dirty
+      || this.basicTab?.form.dirty
+      || this.educationalTab?.form.dirty
+      || this.extendedTab?.form.dirty
+      || this.licenseTab?.form.dirty
+      || this.referencesTab?.form.dirty
+    ) {
+      return confirm(this.abortMessage);
+    }
+
     const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
     if (editMaterial) {
