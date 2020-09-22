@@ -25,6 +25,7 @@ import { CollectionViewComponent } from '@views/collection-view/collection-view.
 import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
 import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 export const routes: Routes = [
   {
@@ -128,6 +129,7 @@ export const routes: Routes = [
         path: 'muokkaa-oppimateriaalia/:materialId/:tabId',
         component: EducationalMaterialEditFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
+        canDeactivate: [ UnsavedChangesGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
