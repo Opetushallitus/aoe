@@ -111,6 +111,7 @@ import { CollectionsViewComponent } from '@views/collections-view/collections-vi
 import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 @NgModule({
   imports: [
@@ -223,6 +224,7 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
       multi: true,
     },
     Title,
+    UnsavedChangesGuard,
   ],
   bootstrap: [ AppComponent ]
 })

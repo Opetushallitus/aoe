@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BackendService } from '@services/backend.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../environments/environment';
@@ -23,6 +23,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   confirmModalRef: BsModalRef;
   noPermissionTitle: string;
   noPermissionMessage: string;
+  abortMessage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +40,10 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.translate.get('forms.editEducationalResource.toasts.noPermission').subscribe((translation: Toast) => {
       this.noPermissionTitle = translation.title;
       this.noPermissionMessage = translation.message;
+    });
+
+    this.translate.get('forms.editEducationalResource.abort.text').subscribe((translation: string) => {
+      this.abortMessage = translation;
     });
 
     this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
@@ -85,5 +90,18 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/omat-oppimateriaalit']);
 
     this.confirmModalRef.hide();
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+
+    if (editMaterial) {
+      return editMaterial === this.material
+        ? true
+        : confirm(this.abortMessage);
+    }
+
+    return true;
   }
 }
