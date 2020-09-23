@@ -16,12 +16,6 @@ const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
 
-import {
-  AppBreadcrumbModule,
-  AppFooterModule,
-  AppSidebarModule,
-} from '@coreui/angular';
-
 // Import routing module
 import { AppRoutingModule } from './app.routing';
 
@@ -66,7 +60,6 @@ import { BasicDetailsComponent } from '@views/educational-resource-form/tabs/bas
 import { EducationalDetailsComponent } from '@views/educational-resource-form/tabs/educational-details/educational-details.component';
 import { ExtendedDetailsComponent } from '@views/educational-resource-form/tabs/extended-details/extended-details.component';
 import { BasedOnDetailsComponent } from '@views/educational-resource-form/tabs/based-on-details/based-on-details.component';
-import { DialogComponent } from '@components/dialog/dialog.component';
 import { LicenseComponent } from '@views/educational-resource-form/tabs/license/license.component';
 import { NavLoginComponent } from '@components/nav-login/nav-login.component';
 import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
@@ -119,9 +112,6 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppSidebarModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     SharedModule,
@@ -174,7 +164,6 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
     EducationalDetailsComponent,
     ExtendedDetailsComponent,
     BasedOnDetailsComponent,
-    DialogComponent,
     LicenseComponent,
     AcceptanceViewComponent,
     NavLoginComponent,
