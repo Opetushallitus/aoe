@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { ToastrService } from 'ngx-toastr';
 import { CollectionForm } from '@models/collections/collection-form';
@@ -8,6 +8,11 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Toast } from '@models/translations/toast';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
+// tslint:disable-next-line:max-line-length
+import { CollectionBasicDetailsTabComponent } from '@views/collection-form/collection-basic-details-tab/collection-basic-details-tab.component';
+// tslint:disable-next-line:max-line-length
+import { CollectionEducationalDetailsTabComponent } from '@views/collection-form/collection-educational-details-tab/collection-educational-details-tab.component';
+import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
 
 @Component({
   selector: 'app-collection-form',
@@ -23,6 +28,10 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   confirmAbortModalRef: BsModalRef;
   noPermissionTitle: string;
   noPermissionMessage: string;
+  abortMessage: string;
+  @ViewChild(CollectionBasicDetailsTabComponent) basicTab: CollectionBasicDetailsTabComponent;
+  @ViewChild(CollectionEducationalDetailsTabComponent) educationalTab: CollectionEducationalDetailsTabComponent;
+  @ViewChild(CollectionMaterialsTabComponent) materialsTab: CollectionMaterialsTabComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +48,10 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     this.translate.get('forms.collection.toasts.noPermission').subscribe((translation: Toast) => {
       this.noPermissionTitle = translation.title;
       this.noPermissionMessage = translation.message;
+    });
+
+    this.translate.get('forms.editEducationalResource.abort.text').subscribe((translation: string) => {
+      this.abortMessage = translation;
     });
 
     this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
@@ -87,5 +100,26 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     this.confirmAbortModalRef.hide();
 
     this.router.navigate(['/omat-oppimateriaalit']);
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    if (
+      this.basicTab?.form.dirty
+      || this.educationalTab?.form.dirty
+      || this.materialsTab?.form.dirty
+    ) {
+      return confirm(this.abortMessage);
+    }
+
+    const changedCollection: CollectionForm = JSON.parse(sessionStorage.getItem(environment.collection));
+
+    if (changedCollection) {
+      return changedCollection === this.collection
+        ? true
+        : confirm(this.abortMessage);
+    }
+
+    return true;
   }
 }

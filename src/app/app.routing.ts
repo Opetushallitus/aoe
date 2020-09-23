@@ -93,6 +93,7 @@ export const routes: Routes = [
         path: 'kokoelma/:collectionId/muokkaa/:tabId',
         component: CollectionFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
+        canDeactivate: [ UnsavedChangesGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
@@ -117,6 +118,7 @@ export const routes: Routes = [
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
+        canDeactivate: [ UnsavedChangesGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
