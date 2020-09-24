@@ -21,6 +21,7 @@ export class PreviewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   savedData: any;
   fileUpload: any;
+  canDeactivate = false;
 
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
@@ -263,6 +264,8 @@ export class PreviewComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      this.canDeactivate = true;
+
       // new material is always versioned
       this.savedData.isVersioned = true;
 

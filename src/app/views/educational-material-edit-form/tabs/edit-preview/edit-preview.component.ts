@@ -22,6 +22,7 @@ export class EditPreviewComponent implements OnInit {
   form: FormGroup;
   lang: string;
   submitted = false;
+  canDeactivate = false;
   previewMaterial: EducationalMaterialForm;
   @Output() abortEdit = new EventEmitter();
 
@@ -168,6 +169,8 @@ export class EditPreviewComponent implements OnInit {
     this.submitted = true;
 
     if (this.form.valid) {
+      this.canDeactivate = true;
+
       let alignmentObjects: AlignmentObjectExtended[] = [];
 
       // early childhood education

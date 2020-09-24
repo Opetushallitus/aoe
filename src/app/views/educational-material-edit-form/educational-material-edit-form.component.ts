@@ -17,6 +17,7 @@ import { EditExtendedDetailsComponent } from '@views/educational-material-edit-f
 import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
 // tslint:disable-next-line:max-line-length
 import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
+import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs/edit-preview/edit-preview.component';
 
 @Component({
   selector: 'app-educational-material-edit-form',
@@ -39,6 +40,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   @ViewChild(EditExtendedDetailsComponent) extendedTab: EditExtendedDetailsComponent;
   @ViewChild(EditLicenseComponent) licenseTab: EditLicenseComponent;
   @ViewChild(EditBasedOnDetailsComponent) referencesTab: EditBasedOnDetailsComponent;
+  @ViewChild(EditPreviewComponent) previewTab: EditPreviewComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -118,6 +120,10 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
       || this.referencesTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
+    }
+
+    if (this.previewTab?.canDeactivate) {
+      return true;
     }
 
     const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));

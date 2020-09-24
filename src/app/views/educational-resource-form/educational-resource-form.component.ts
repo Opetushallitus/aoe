@@ -9,6 +9,7 @@ import { ExtendedDetailsComponent } from '@views/educational-resource-form/tabs/
 import { LicenseComponent } from '@views/educational-resource-form/tabs/license/license.component';
 import { BasedOnDetailsComponent } from '@views/educational-resource-form/tabs/based-on-details/based-on-details.component';
 import { TranslateService } from '@ngx-translate/core';
+import { PreviewComponent } from '@views/educational-resource-form/tabs/preview/preview.component';
 
 @Component({
   selector: 'app-educational-resource-form',
@@ -24,6 +25,7 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
   @ViewChild(ExtendedDetailsComponent) extendedTab: ExtendedDetailsComponent;
   @ViewChild(LicenseComponent) licenseTab: LicenseComponent;
   @ViewChild(BasedOnDetailsComponent) referencesTab: BasedOnDetailsComponent;
+  @ViewChild(PreviewComponent) previewTab: PreviewComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +65,10 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
       || this.referencesTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
+    }
+
+    if (this.previewTab?.canDeactivate) {
+      return true;
     }
 
     const materialId = sessionStorage.getItem(environment.fileUploadLSKey);
