@@ -13,6 +13,7 @@ import { CollectionBasicDetailsTabComponent } from '@views/collection-form/colle
 // tslint:disable-next-line:max-line-length
 import { CollectionEducationalDetailsTabComponent } from '@views/collection-form/collection-educational-details-tab/collection-educational-details-tab.component';
 import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
+import { CollectionPreviewTabComponent } from '@views/collection-form/collection-preview-tab/collection-preview-tab.component';
 
 @Component({
   selector: 'app-collection-form',
@@ -32,6 +33,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
   @ViewChild(CollectionBasicDetailsTabComponent) basicTab: CollectionBasicDetailsTabComponent;
   @ViewChild(CollectionEducationalDetailsTabComponent) educationalTab: CollectionEducationalDetailsTabComponent;
   @ViewChild(CollectionMaterialsTabComponent) materialsTab: CollectionMaterialsTabComponent;
+  @ViewChild(CollectionPreviewTabComponent) previewTab: CollectionPreviewTabComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -110,6 +112,10 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
       || this.materialsTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
+    }
+
+    if (this.previewTab?.canDeactivate) {
+      return true;
     }
 
     const changedCollection: CollectionForm = JSON.parse(sessionStorage.getItem(environment.collection));
