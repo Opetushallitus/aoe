@@ -28,9 +28,17 @@
           </div>
         </div>
 
-        <div class="selected-search-filters" *ngIf="selectedFilters">
-          <span class="badge badge-gray search-filter" *ngFor="let filter of selectedFilters">
-            <button type="button" class="btn btn-light" (click)="removeFilter(filter.key, filter.type, filter.index)">&times;</button>
+        <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
+          <span id="used-filters-label" class="mr-1">
+            {{ 'search.filters.usedFilters' | translate }}
+          </span>
+
+          <span class="badge badge-gray search-filter" *ngFor="let filter of usedFilters" aria-labelledby="used-filters-label">
+            <button type="button" class="btn btn-light" (click)="removeFilter(filter.key, filter.type, filter.index)">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+            </button>
+
             {{ filter.value }}
           </span>
         </div>
@@ -89,7 +97,6 @@
                     class="custom-control-input"
                     id="languages-{{ i }}"
                     [formControlName]="i"
-                    (change)="updateSelectedFilters()"
                   >
                   <label class="custom-control-label" for="languages-{{ i }}">
                     {{ getLanguageLabel(searchFilters.languages[i]) }}
@@ -304,7 +311,6 @@
                     class="custom-control-input"
                     id="learningResourceTypes-{{ i }}"
                     [formControlName]="i"
-                    (change)="updateSelectedFilters()"
                   >
                   <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
                     {{ learningResourceTypes[i].value }}

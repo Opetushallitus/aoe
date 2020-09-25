@@ -910,7 +910,8 @@
       "teaches": {
         "title": "Tavoite ja sisältöalue",
         "showFull": "Näytä kokonaan"
-      }
+      },
+      "usedFilters": "Käytetyt rajaukset:"
     }
   },
   "collections": {
