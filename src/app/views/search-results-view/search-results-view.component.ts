@@ -55,6 +55,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   showAllRoles = true;
   isCollapsedKeywords = true;
   showAllKeywords = true;
+  selectedFilters: any[] = [];
 
   constructor(
     private searchSvc: SearchService,
@@ -114,6 +115,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.searchFilters = filters;
 
       this.setAvailableFilters(filters);
+      this.updateSelectedFilters();
 
       this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
       this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
@@ -290,6 +292,46 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
+  }
+
+  updateSelectedFilters(): void {
+    const selectedFilters: any[] = [];
+
+    // languages
+    this.filters.value.languages
+      .map((checked: boolean, index: number) => checked ? { key: this.searchFilters.languages[index], value: this.getLanguageLabel(this.searchFilters.languages[index]), type: 'language', index: index } : null)
+      .filter((language: any) => {
+        if (language !== null) {
+          selectedFilters.push(language);
+        }
+      });
+
+    // learningResourceTypes
+    this.filters.value.learningResourceTypes
+      .map((checked: boolean, index: number) => checked ? { ...this.learningResourceTypes[index], type: 'type', index: index } : null)
+      .filter((value: LearningResourceType) => {
+        if (value !== null) {
+          selectedFilters.push(value);
+        }
+      });
+
+    this.selectedFilters = selectedFilters;
+  }
+
+  removeFilter(key: string, type: string, index: number) {
+    switch (type) {
+      case 'language':
+        this.languagesArray.at(index).setValue(false);
+        break;
+      case 'type':
+        this.learningResourceTypesArray.at(index).setValue(false);
+        break;
+
+      default:
+        break;
+    }
+
+    this.selectedFilters = this.selectedFilters.filter((filter: any) => filter.key !== key);
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {

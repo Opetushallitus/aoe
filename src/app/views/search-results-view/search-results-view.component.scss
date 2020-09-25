@@ -65,3 +65,17 @@
     background-color: $blue;
   }
 }
+
+.search-filter {
+  @include font-size(14);
+  font-weight: 500;
+  margin-right: .25rem;
+
+  button {
+    border-radius: .125rem;
+    @include font-size(12);
+    line-height: 1;
+    padding: .05rem .2rem;
+    vertical-align: baseline;
+  }
+}

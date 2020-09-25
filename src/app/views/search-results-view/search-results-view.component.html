@@ -4,7 +4,7 @@
 
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-search">
       <div class="mb-4">
-        <div class="input-group">
+        <div class="input-group mb-2">
           <label class="sr-only" for="keywords">{{ 'search.inputs.keywords.label' | translate }}</label>
           <input
             type="search"
@@ -26,6 +26,13 @@
               </span>
             </button>
           </div>
+        </div>
+
+        <div class="selected-search-filters" *ngIf="selectedFilters">
+          <span class="badge badge-gray search-filter" *ngFor="let filter of selectedFilters">
+            <button type="button" class="btn btn-light" (click)="removeFilter(filter.key, filter.type, filter.index)">&times;</button>
+            {{ filter.value }}
+          </span>
         </div>
       </div>
 
@@ -82,6 +89,7 @@
                     class="custom-control-input"
                     id="languages-{{ i }}"
                     [formControlName]="i"
+                    (change)="updateSelectedFilters()"
                   >
                   <label class="custom-control-label" for="languages-{{ i }}">
                     {{ getLanguageLabel(searchFilters.languages[i]) }}
@@ -296,6 +304,7 @@
                     class="custom-control-input"
                     id="learningResourceTypes-{{ i }}"
                     [formControlName]="i"
+                    (change)="updateSelectedFilters()"
                   >
                   <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
                     {{ learningResourceTypes[i].value }}
