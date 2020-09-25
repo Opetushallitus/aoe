@@ -143,7 +143,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           level.children.forEach((child) => {
             let state = false;
 
-            if (searchParams && searchParams.filters && searchParams.filters.educationalLevels) {
+            if (searchParams?.filters?.educationalLevels) {
               state = searchParams.filters.educationalLevels.includes(child.key);
             }
 
@@ -166,7 +166,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         types.forEach((type: LearningResourceType) => {
           let state = false;
 
-          if (searchParams && searchParams.filters && searchParams.filters.learningResourceTypes) {
+          if (searchParams?.filters?.learningResourceTypes) {
             state = searchParams.filters.learningResourceTypes.includes(type.key);
           }
 
@@ -362,6 +362,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       if (searchParams?.filters?.languages) {
         state = searchParams.filters.languages.includes(language);
+
+        // @todo: updated used filters here?
       }
 
       this.languagesArray.push(this.fb.control(state));
