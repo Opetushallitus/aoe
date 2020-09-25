@@ -57,7 +57,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   showAllRoles = true;
   isCollapsedKeywords = true;
   showAllKeywords = true;
-  selectedFilters: any[] = [];
+  usedFilters: any[] = [];
 
   constructor(
     private searchSvc: SearchService,
@@ -122,7 +122,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.searchFilters = filters;
 
       this.setAvailableFilters(filters);
-      this.updateSelectedFilters();
+      this.updateUsedFilters();
 
       this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
       this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
@@ -301,15 +301,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return (this.page - 1) * this.resultsPerPage;
   }
 
-  updateSelectedFilters(): void {
-    const selectedFilters: any[] = [];
+  updateUsedFilters(): void {
+    const usedFilters: any[] = [];
 
     // languages
     this.filters.value.languages
       .map((checked: boolean, index: number) => checked ? { key: this.searchFilters.languages[index], value: this.getLanguageLabel(this.searchFilters.languages[index]), type: 'language', index: index } : null)
       .filter((language: any) => {
         if (language !== null) {
-          selectedFilters.push(language);
+          usedFilters.push(language);
         }
       });
 
@@ -318,11 +318,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       .map((checked: boolean, index: number) => checked ? { ...this.learningResourceTypes[index], type: 'type', index: index } : null)
       .filter((value: LearningResourceType) => {
         if (value !== null) {
-          selectedFilters.push(value);
+          usedFilters.push(value);
         }
       });
 
-    this.selectedFilters = selectedFilters;
+    this.usedFilters = usedFilters;
   }
 
   removeFilter(key: string, type: string, index: number) {
@@ -330,6 +330,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       case 'language':
         this.languagesArray.at(index).setValue(false);
         break;
+
       case 'type':
         this.learningResourceTypesArray.at(index).setValue(false);
         break;
@@ -338,7 +339,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         break;
     }
 
-    this.selectedFilters = this.selectedFilters.filter((filter: any) => filter.key !== key);
+    this.onSubmit();
+
+    // this.usedFilters = this.usedFilters.filter((filter: any) => filter.key !== key);
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
