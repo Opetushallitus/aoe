@@ -308,7 +308,7 @@
                   </div>
 
                   <!-- early childhood education -->
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects?.length > 0 || educationalMaterial.suitsAllEarlyChildhoodSubjects" class="metadata-group">
                     <app-taglist
                       elementId="material-earlyChildhoodEducationSubjects"
                       [tags]="educationalMaterial.earlyChildhoodEducationSubjects"
@@ -316,6 +316,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllEarlyChildhoodSubjects"
                     ></app-taglist><!--earlyChildhoodEducationSubjects-->
                   </div>
 
@@ -331,7 +332,7 @@
                   </div>
 
                   <!-- pre primary education -->
-                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0 || educationalMaterial.suitsAllPrePrimarySubjects" class="metadata-group">
                     <app-taglist
                       elementId="material-prePrimaryEducationSubjects"
                       [tags]="educationalMaterial.prePrimaryEducationSubjects"
@@ -339,6 +340,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllPrePrimarySubjects"
                     ></app-taglist><!--prePrimaryEducationSubjects-->
                   </div>
 
@@ -354,7 +356,7 @@
                   </div>
 
                   <!-- basic education -->
-                  <div *ngIf="educationalMaterial.basicStudySubjects?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.basicStudySubjects?.length > 0 || educationalMaterial.suitsAllBasicStudySubjects" class="metadata-group">
                     <app-taglist
                       elementId="material-basicStudySubjects"
                       [tags]="educationalMaterial.basicStudySubjects"
@@ -362,6 +364,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
                     ></app-taglist><!--basicStudySubjects-->
                   </div>
 
@@ -388,7 +391,7 @@
                   </div>
 
                   <!-- upper secondary education -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjects" class="metadata-group">
                     <app-taglist
                       elementId="material-upperSecondarySchoolSubjectsOld"
                       [tags]="educationalMaterial.upperSecondarySchoolSubjectsOld"
@@ -396,6 +399,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjects"
                     ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
                   </div>
 
@@ -422,7 +426,7 @@
                   </div>
 
                   <!-- upper secondary education (new) -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjectsNew" class="metadata-group">
                     <app-taglist
                       elementId="material-upperSecondarySchoolSubjectsNew"
                       [tags]="educationalMaterial.upperSecondarySchoolSubjectsNew"
@@ -430,6 +434,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
                     ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
                   </div>
 
@@ -467,7 +472,7 @@
                   </div>
 
                   <!-- vocational education -->
-                  <div *ngIf="educationalMaterial.vocationalDegrees?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.vocationalDegrees?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
                     <app-taglist
                       elementId="material-vocationalDegrees"
                       [tags]="educationalMaterial.vocationalDegrees"
@@ -475,6 +480,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
                     ></app-taglist><!--vocationalDegrees-->
                   </div>
 
@@ -501,7 +507,7 @@
                   </div>
 
                   <!-- self-motivated education -->
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects?.length > 0 || educationalMaterial.suitsAllSelfMotivatedSubjects" class="metadata-group">
                     <app-taglist
                       elementId="material-selfMotivatedEducationSubjects"
                       [tags]="educationalMaterial.selfMotivatedEducationSubjects"
@@ -509,6 +515,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllSelfMotivatedSubjects"
                     ></app-taglist><!--selfMotivatedEducationSubjects-->
                   </div>
 
@@ -524,7 +531,7 @@
                   </div>
 
                   <!-- higher education -->
-                  <div *ngIf="educationalMaterial.branchesOfScience?.length > 0" class="metadata-group">
+                  <div *ngIf="educationalMaterial.branchesOfScience?.length > 0 || educationalMaterial.suitsAllBranches" class="metadata-group">
                     <app-taglist
                       elementId="material-scienceBranches"
                       [tags]="educationalMaterial.branchesOfScience"
@@ -532,6 +539,7 @@
                       property="targetName"
                       searchProperty="key"
                       filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllBranches"
                     ></app-taglist><!--scienceBranches-->
                   </div>
 
