@@ -17,6 +17,7 @@ export class TaglistComponent implements OnInit {
   @Input() property?: string;
   @Input() searchProperty?: string;
   @Input() filterType?: string;
+  @Input() suitsAll?: boolean;
   private from = 0;
   private resultsPerPage = 15;
 
