@@ -205,16 +205,19 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects),
           earlyChildhoodEducationObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives),
+          suitsAllEarlyChildhoodSubjects: res.suitsAllEarlyChildhoodSubjects,
           prePrimaryEducationSubjects: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects),
           prePrimaryEducationObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives),
+          suitsAllPrePrimarySubjects: res.suitsAllPrePrimarySubjects,
           basicStudySubjects: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects),
           basicStudyObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
           basicStudyContents: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
+          suitsAllBasicStudySubjects: res.suitsAllBasicStudySubjects,
           upperSecondarySchoolSubjectsOld: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld),
           upperSecondarySchoolCoursesOld: alignmentObjects
@@ -222,6 +225,7 @@ export class BackendService {
               || alignmentObject.source === koodistoSources.upperSecondarySubjects),
           upperSecondarySchoolObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
+          suitsAllUpperSecondarySubjects: res.suitsAllUpperSecondarySubjects,
           upperSecondarySchoolSubjectsNew: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew),
           upperSecondarySchoolModulesNew: alignmentObjects
@@ -230,20 +234,24 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew),
           upperSecondarySchoolContentsNew: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
+          suitsAllUpperSecondarySubjectsNew: res.suitsAllUpperSecondarySubjectsNew,
           vocationalDegrees: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees),
           vocationalUnits: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
           vocationalRequirements: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
+          suitsAllVocationalDegrees: res.suitsAllVocationalDegrees,
           selfMotivatedEducationSubjects: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
           selfMotivatedEducationObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives),
+          suitsAllSelfMotivatedSubjects: res.suitsAllSelfMotivatedSubjects,
           branchesOfScience: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches),
           scienceBranchObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
+          suitsAllBranches: res.suitsAllBranches,
           prerequisites: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
           references: res.isBasedOn
