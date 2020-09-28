@@ -187,6 +187,7 @@ export class BackendService {
           archivedAt: res.archivedAt,
           timeRequired: res.timeRequired,
           expires: res.expires,
+          publisher: res.publisher.map((publisher) => publisher.name),
           license: res.license,
           keywords: res.keywords
             .map(({ keywordkey, value }) => ({ keywordkey, value })),
