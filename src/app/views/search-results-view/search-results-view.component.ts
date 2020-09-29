@@ -295,6 +295,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   updateUsedFilters(): void {
+    console.log('updateUsedFilters fired'); // @todo: remove after debugging on dev
     const usedFilters: any[] = [];
 
     // languages
@@ -316,6 +317,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       });
 
     this.usedFilters = usedFilters;
+    console.log('end of updateUsedFilters'); // @todo: remove after debugging on dev
   }
 
   removeFilter(key: string, type: string, index: number) {
