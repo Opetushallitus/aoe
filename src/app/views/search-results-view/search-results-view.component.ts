@@ -169,11 +169,19 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         this.learningResourceTypesArray.clear();
 
-        types.forEach((type: LearningResourceType) => {
+        types.forEach((type: LearningResourceType, index: number) => {
           let state = false;
 
           if (searchParams?.filters?.learningResourceTypes) {
             state = searchParams.filters.learningResourceTypes.includes(type.key);
+
+            if (state) {
+              this.usedFilters.push({
+                ...this.learningResourceTypes[index],
+                type: 'type',
+                index: index,
+              });
+            }
           }
 
           this.learningResourceTypesArray.push(this.fb.control(state));
@@ -300,31 +308,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return (this.page - 1) * this.resultsPerPage;
   }
 
-  updateUsedFilters(): void {
-    const usedFilters: any[] = [];
-
-    // languages
-    this.filters.value.languages
-      .map((checked: boolean, index: number) => checked ? { key: this.searchFilters.languages[index], value: this.getLanguageLabel(this.searchFilters.languages[index]), type: 'language', index: index } : null)
-      .filter((language: any) => {
-        if (language !== null) {
-          usedFilters.push(language);
-        }
-      });
-
-    // learningResourceTypes
-    this.filters.value.learningResourceTypes
-      .map((checked: boolean, index: number) => checked ? { ...this.learningResourceTypes[index], type: 'type', index: index } : null)
-      .filter((value: LearningResourceType) => {
-        if (value !== null) {
-          usedFilters.push(value);
-        }
-      });
-
-    this.usedFilters = usedFilters;
-    console.log('this.usedFilters', this.usedFilters); // @todo: remove after debugging on dev
-  }
-
   removeFilter(key: string, type: string, index: number) {
     switch (type) {
       case 'language':
@@ -338,6 +321,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       default:
         break;
     }
+
+    this.usedFilters = this.usedFilters.filter((filter) => filter.key !== key);
 
     this.onSubmit();
   }
@@ -362,13 +347,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.filtersShown.set('keywords', this.filtersShownAtFirst);
 
     // languages
-    searchFilters.languages.forEach((language: string) => {
+    searchFilters.languages.forEach((language: string, index: number) => {
       let state = false;
 
       if (searchParams?.filters?.languages) {
         state = searchParams.filters.languages.includes(language);
 
-        // @todo: updated used filters here?
+        if (state) {
+          this.usedFilters.push({
+            key: language,
+            value: this.getLanguageLabel(language),
+            type: 'language',
+            index: index,
+          });
+        }
       }
 
       this.languagesArray.push(this.fb.control(state));
@@ -441,8 +433,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.keywordsArray.push(this.fb.control(state));
     });
-
-    this.updateUsedFilters();
   }
 
   getPage(pageNumber: number): void {
