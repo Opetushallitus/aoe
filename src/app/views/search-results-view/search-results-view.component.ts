@@ -122,7 +122,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.searchFilters = filters;
 
       this.setAvailableFilters(filters);
-      this.updateUsedFilters();
 
       this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
       this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
@@ -341,8 +340,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     }
 
     this.onSubmit();
-
-    // this.usedFilters = this.usedFilters.filter((filter: any) => filter.key !== key);
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
@@ -444,6 +441,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.keywordsArray.push(this.fb.control(state));
     });
+
+    this.updateUsedFilters();
   }
 
   getPage(pageNumber: number): void {
