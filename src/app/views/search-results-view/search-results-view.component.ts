@@ -348,7 +348,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   setAvailableFilters(searchFilters: SearchFilters): void {
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
-    // this.usedFilters = [];
     this.languagesArray.clear();
     this.subjectsArray.clear();
     this.teachesArray.clear();
