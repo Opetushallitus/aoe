@@ -12,6 +12,7 @@ import { Language } from '@models/koodisto-proxy/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-search-results-view',
@@ -32,6 +33,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   searchFilterSubscription: Subscription;
   filtersShownAtFirst = 8;
   filtersShown = new Map();
+  isCollapsedFilters = false;
   languageSubscription: Subscription;
   allLanguages: Language[];
   isCollapsedLanguages = true;
@@ -62,10 +64,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
     private titleSvc: Title,
+    private deviceSvc: DeviceDetectorService,
   ) { }
 
   ngOnInit() {
     this.setTitle();
+
+    if (this.deviceSvc.isMobile()) {
+      this.isCollapsedFilters = true;
+    }
 
     this.translate.onLangChange.subscribe(() => {
       this.setTitle();
@@ -472,5 +479,23 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       this.page = 1;
     }
+  }
+
+  filterSearch(): void {
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+
+    this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
+      level.children.forEach((child: EducationalLevel, childIndex: number) => {
+        if (searchParams.filters.educationalLevels.includes(child.key)) {
+          const levels = <FormArray>this.educationalLevelsArray.controls[index].get('levels');
+          levels.at(childIndex).setValue(true);
+        }
+      });
+    });
+
+    this.searchSvc.updateSearchResults(searchParams);
+    this.searchSvc.updateSearchFilters(searchParams);
+
+    this.page = 1;
   }
 }

@@ -40,11 +40,19 @@
         </li>
       </ul>
 
-      <div class="tags">
-        <button *ngFor="let level of result.educationalLevels" type="button" class="btn btn-light disabled">
-          {{ level.value }}
-        </button>
-      </div>
+      <div class="tags" *ngIf="result.educationalLevels?.length > 0">
+        <span class="sr-only" [id]="'result-educationalLevels' + result.id">
+          {{ 'collections.meta.educationalLevels' | translate }}
+        </span>
+
+        <button
+          *ngFor="let level of result.educationalLevels"
+          type="button"
+          class="btn btn-light"
+          [attr.aria-labelledby]="'result-educationalLevels' + result.id"
+          (click)="filterSearch(level.educationallevelkey)"
+        >{{ level.value }}</button>
+      </div><!--educationalLevels-->
     </div>
   </div>
 

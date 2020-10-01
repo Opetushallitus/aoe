@@ -252,16 +252,15 @@
                 </div>
 
                 <div class="col-12">
-                  <h3>{{ 'demo.educationalMaterial.keywords' | translate }}</h3>
-
-                  <div class="tags">
-                    <button
-                      *ngFor="let keyword of educationalMaterial.keywords"
-                      type="button"
-                      class="btn btn-light disabled"
-                      disabled
-                    >{{ keyword.value }}</button>
-                  </div>
+                  <app-taglist
+                    *ngIf="educationalMaterial.keywords?.length > 0"
+                    elementId="material-keywords"
+                    [tags]="educationalMaterial.keywords"
+                    [title]="'demo.educationalMaterial.keywords' | translate"
+                    property="value"
+                    searchProperty="keywordkey"
+                    filterType="keywords"
+                  ></app-taglist><!--keywords-->
                 </div>
               </div>
 
@@ -276,365 +275,312 @@
                       {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
                     </ng-template>
                   </button>
-                  <div class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.eduLevel' | translate }}</h3>
 
-                    <div class="tags">
-                      <button
-                        *ngFor="let level of educationalMaterial.educationalLevels"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ level.value }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.educationalLevels?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-educationalLevels"
+                      [tags]="educationalMaterial.educationalLevels"
+                      [title]="'demo.educationalMaterial.eduLevel' | translate"
+                      property="value"
+                      searchProperty="educationallevelkey"
+                      filterType="educationalLevels"
+                    ></app-taglist><!--educationalLevels-->
                   </div>
 
                   <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.educationalRole' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let role of educationalMaterial.educationalRoles"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ role.educationalrole }}</button>
-                    </div>
+                    <app-taglist
+                      elementId="material-educationalRoles"
+                      [tags]="educationalMaterial.educationalRoles"
+                      [title]="'demo.educationalMaterial.educationalRole' | translate"
+                      property="educationalrole"
+                      searchProperty="educationalrolekey"
+                      filterType="educationalRoles"
+                    ></app-taglist><!--educationalRoles-->
                   </div>
 
                   <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.educationalUse' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let use of educationalMaterial.educationalUses"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ use.value }}</button>
-                    </div>
+                    <app-taglist
+                      elementId="material-educationalUses"
+                      [tags]="educationalMaterial.educationalUses"
+                      [title]="'demo.educationalMaterial.educationalUse' | translate"
+                      property="value"
+                    ></app-taglist><!--educationalUses-->
                   </div>
 
                   <!-- early childhood education -->
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.earlyChildhoodEducationSubjects"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects?.length > 0 || educationalMaterial.suitsAllEarlyChildhoodSubjects" class="metadata-group">
+                    <app-taglist
+                      elementId="material-earlyChildhoodEducationSubjects"
+                      [tags]="educationalMaterial.earlyChildhoodEducationSubjects"
+                      [title]="'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllEarlyChildhoodSubjects"
+                    ></app-taglist><!--earlyChildhoodEducationSubjects-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.earlyChildhoodEducationObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-earlyChildhoodEducationObjectives"
+                      [tags]="educationalMaterial.earlyChildhoodEducationObjectives"
+                      [title]="'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--earlyChildhoodEducationObjectives-->
                   </div>
 
                   <!-- pre primary education -->
-                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.prePrimaryEducationSubjects' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.prePrimaryEducationSubjects"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0 || educationalMaterial.suitsAllPrePrimarySubjects" class="metadata-group">
+                    <app-taglist
+                      elementId="material-prePrimaryEducationSubjects"
+                      [tags]="educationalMaterial.prePrimaryEducationSubjects"
+                      [title]="'demo.educationalMaterial.prePrimaryEducationSubjects' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllPrePrimarySubjects"
+                    ></app-taglist><!--prePrimaryEducationSubjects-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.prePrimaryEducationObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.prePrimaryEducationObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-prePrimaryEducationObjectives"
+                      [tags]="educationalMaterial.prePrimaryEducationObjectives"
+                      [title]="'demo.educationalMaterial.prePrimaryEducationObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--prePrimaryEducationObjectives-->
                   </div>
 
                   <!-- basic education -->
-                  <div *ngIf="educationalMaterial.basicStudySubjects.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.basicStudySubjects' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.basicStudySubjects"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.basicStudySubjects?.length > 0 || educationalMaterial.suitsAllBasicStudySubjects" class="metadata-group">
+                    <app-taglist
+                      elementId="material-basicStudySubjects"
+                      [tags]="educationalMaterial.basicStudySubjects"
+                      [title]="'demo.educationalMaterial.basicStudySubjects' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
+                    ></app-taglist><!--basicStudySubjects-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.basicStudyObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.basicStudyObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.basicStudyObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.basicStudyObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-basicStudyObjectives"
+                      [tags]="educationalMaterial.basicStudyObjectives"
+                      [title]="'demo.educationalMaterial.basicStudyObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--basicStudyObjectives-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.basicStudyContents.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.basicStudyContents' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let content of educationalMaterial.basicStudyContents"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ content.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.basicStudyContents?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-basicStudyContents"
+                      [tags]="educationalMaterial.basicStudyContents"
+                      [title]="'demo.educationalMaterial.basicStudyContents' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--basicStudyContents-->
                   </div>
 
                   <!-- upper secondary education -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjectsOld"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjects" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolSubjectsOld"
+                      [tags]="educationalMaterial.upperSecondarySchoolSubjectsOld"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjects"
+                    ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolCourses' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let course of educationalMaterial.upperSecondarySchoolCoursesOld"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ course.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolCoursesOld"
+                      [tags]="educationalMaterial.upperSecondarySchoolCoursesOld"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolCourses' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                    ></app-taglist><!--upperSecondarySchoolCoursesOld-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolObjectives"
+                      [tags]="educationalMaterial.upperSecondarySchoolObjectives"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--upperSecondarySchoolObjectives-->
                   </div>
 
                   <!-- upper secondary education (new) -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.upperSecondarySchoolSubjectsNew"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjectsNew" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolSubjectsNew"
+                      [tags]="educationalMaterial.upperSecondarySchoolSubjectsNew"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
+                    ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let module of educationalMaterial.upperSecondarySchoolModulesNew"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ module.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolModulesNew"
+                      [tags]="educationalMaterial.upperSecondarySchoolModulesNew"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                    ></app-taglist><!--upperSecondarySchoolModulesNew-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.upperSecondarySchoolObjectivesNew"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolObjectivesNew"
+                      [tags]="educationalMaterial.upperSecondarySchoolObjectivesNew"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let content of educationalMaterial.upperSecondarySchoolContentsNew"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ content.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-upperSecondarySchoolContentsNew"
+                      [tags]="educationalMaterial.upperSecondarySchoolContentsNew"
+                      [title]="'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--upperSecondarySchoolContentsNew-->
                   </div>
 
                   <!-- vocational education -->
-                  <div *ngIf="educationalMaterial.vocationalDegrees.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.vocationalDegrees' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let degree of educationalMaterial.vocationalDegrees"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ degree.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.vocationalDegrees?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                    <app-taglist
+                      elementId="material-vocationalDegrees"
+                      [tags]="educationalMaterial.vocationalDegrees"
+                      [title]="'demo.educationalMaterial.vocationalDegrees' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                    ></app-taglist><!--vocationalDegrees-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.vocationalUnits.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.vocationalUnits' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let unit of educationalMaterial.vocationalUnits"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ unit.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-vocationalUnits"
+                      [tags]="educationalMaterial.vocationalUnits"
+                      [title]="'demo.educationalMaterial.vocationalUnits' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                    ></app-taglist><!--vocationalUnits-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.vocationalRequirements.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.vocationalEducationObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let requirement of educationalMaterial.vocationalRequirements"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ requirement.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.vocationalRequirements?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-vocationalRequirements"
+                      [tags]="educationalMaterial.vocationalRequirements"
+                      [title]="'demo.educationalMaterial.vocationalEducationObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--vocationalRequirements-->
                   </div>
 
                   <!-- self-motivated education -->
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let subject of educationalMaterial.selfMotivatedEducationSubjects"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ subject.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects?.length > 0 || educationalMaterial.suitsAllSelfMotivatedSubjects" class="metadata-group">
+                    <app-taglist
+                      elementId="material-selfMotivatedEducationSubjects"
+                      [tags]="educationalMaterial.selfMotivatedEducationSubjects"
+                      [title]="'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllSelfMotivatedSubjects"
+                    ></app-taglist><!--selfMotivatedEducationSubjects-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.selfMotivatedEducationObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-selfMotivatedEducationObjectives"
+                      [tags]="educationalMaterial.selfMotivatedEducationObjectives"
+                      [title]="'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--selfMotivatedEducationObjectives-->
                   </div>
 
                   <!-- higher education -->
-                  <div *ngIf="educationalMaterial.branchesOfScience.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.branchesOfScience' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let branch of educationalMaterial.branchesOfScience"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ branch.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.branchesOfScience?.length > 0 || educationalMaterial.suitsAllBranches" class="metadata-group">
+                    <app-taglist
+                      elementId="material-scienceBranches"
+                      [tags]="educationalMaterial.branchesOfScience"
+                      [title]="'demo.educationalMaterial.branchesOfScience' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="educationalSubjects"
+                      [suitsAll]="educationalMaterial.suitsAllBranches"
+                    ></app-taglist><!--scienceBranches-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.scienceBranchObjectives.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.scienceBranchObjectives' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let objective of educationalMaterial.scienceBranchObjectives"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ objective.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.scienceBranchObjectives?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-scienceBranchObjectives"
+                      [tags]="educationalMaterial.scienceBranchObjectives"
+                      [title]="'demo.educationalMaterial.scienceBranchObjectives' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="teaches"
+                    ></app-taglist><!--scienceBranchObjectives-->
                   </div>
 
                   <!-- prerequisites -->
-                  <div *ngIf="educationalMaterial.prerequisites.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.prerequisites' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let prerequisite of educationalMaterial.prerequisites"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ prerequisite.targetName }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.prerequisites?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-prerequisites"
+                      [tags]="educationalMaterial.prerequisites"
+                      [title]="'demo.educationalMaterial.prerequisites' | translate"
+                      property="targetName"
+                    ></app-taglist><!--prerequisites-->
                   </div>
 
                   <!-- accessibility -->
-                  <div *ngIf="educationalMaterial.accessibilityFeatures.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.accessibilityFeatures' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let feature of educationalMaterial.accessibilityFeatures"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ feature.value }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.accessibilityFeatures?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-accessibilityFeatures"
+                      [tags]="educationalMaterial.accessibilityFeatures"
+                      [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
+                      property="value"
+                    ></app-taglist><!--accessibilityFeatures-->
                   </div>
 
-                  <div *ngIf="educationalMaterial.accessibilityHazards.length > 0" class="metadata-group">
-                    <h3>{{ 'demo.educationalMaterial.accessibilityHazard' | translate }}</h3>
-
-                    <div class="tags">
-                      <button
-                        *ngFor="let hazard of educationalMaterial.accessibilityHazards"
-                        type="button"
-                        class="btn btn-light disabled"
-                        disabled
-                      >{{ hazard.value }}</button>
-                    </div>
+                  <div *ngIf="educationalMaterial.accessibilityHazards?.length > 0" class="metadata-group">
+                    <app-taglist
+                      elementId="material-accessibilityHazards"
+                      [tags]="educationalMaterial.accessibilityHazards"
+                      [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
+                      property="value"
+                    ></app-taglist><!--accessibilityHazards-->
                   </div>
                 </accordion-group>
               </accordion>

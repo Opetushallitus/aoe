@@ -20,7 +20,7 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
   educationalLevels: CollectionCardEducationalLevel[];
   keywords: CollectionCardKeyword[];
   languageSubscription: Subscription;
-  allLanguages: Language[];
+  languages: Language[];
 
   constructor(
     private translate: TranslateService,
@@ -33,7 +33,7 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
     });
 
     this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
-      this.allLanguages = languages;
+      this.languages = languages.filter((lang: Language) => this.collection.languages.includes(lang.key.toLowerCase()));
     });
     this.koodistoSvc.updateLanguages();
 
@@ -43,14 +43,5 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
-  }
-
-  /**
-   * Finds key matching language value.
-   * @param {string} key
-   * @returns {string} value
-   */
-  getLanguage(key: string): string {
-    return this.allLanguages.find((lang: Language) => lang.key === key).value;
   }
 }
