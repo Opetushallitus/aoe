@@ -16,12 +16,6 @@ const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
 
-import {
-  AppBreadcrumbModule,
-  AppFooterModule,
-  AppSidebarModule,
-} from '@coreui/angular';
-
 // Import routing module
 import { AppRoutingModule } from './app.routing';
 
@@ -43,6 +37,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ToastrModule } from 'ngx-toastr';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
@@ -65,7 +60,6 @@ import { BasicDetailsComponent } from '@views/educational-resource-form/tabs/bas
 import { EducationalDetailsComponent } from '@views/educational-resource-form/tabs/educational-details/educational-details.component';
 import { ExtendedDetailsComponent } from '@views/educational-resource-form/tabs/extended-details/extended-details.component';
 import { BasedOnDetailsComponent } from '@views/educational-resource-form/tabs/based-on-details/based-on-details.component';
-import { DialogComponent } from '@components/dialog/dialog.component';
 import { LicenseComponent } from '@views/educational-resource-form/tabs/license/license.component';
 import { NavLoginComponent } from '@components/nav-login/nav-login.component';
 import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
@@ -111,15 +105,13 @@ import { CollectionsViewComponent } from '@views/collections-view/collections-vi
 import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
+import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 
 @NgModule({
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AppBreadcrumbModule.forRoot(),
-    AppFooterModule,
-    AppSidebarModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     SharedModule,
@@ -172,7 +164,6 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
     EducationalDetailsComponent,
     ExtendedDetailsComponent,
     BasedOnDetailsComponent,
-    DialogComponent,
     LicenseComponent,
     AcceptanceViewComponent,
     NavLoginComponent,
@@ -223,6 +214,8 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
       multi: true,
     },
     Title,
+    UnsavedChangesGuard,
+    DeviceDetectorService,
   ],
   bootstrap: [ AppComponent ]
 })

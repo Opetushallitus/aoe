@@ -1,13 +1,30 @@
-<strong class="h3 d-block mb-2" [id]="elementId">
+<strong class="h3 d-block mb-2" [id]="elementId" [ngClass]="{ 'sr-only': card }">
   {{ title }}
 </strong>
 
-<div class="tags">
+<div class="tags" [ngClass]="{ 'is-card': card }">
   <button
     *ngFor="let tag of tags"
     type="button"
+    class="btn btn-light"
+    [ngClass]="{ 'disabled': !filterType }"
+    [attr.aria-labelledby]="elementId"
+    [disabled]="!filterType"
+    (click)="search(searchProperty ? tag[searchProperty] : tag)"
+  >{{ property ? tag[property] : tag }}</button>
+
+  <button
+    *ngIf="suitsAll"
+    type="button"
     class="btn btn-light disabled"
     [attr.aria-labelledby]="elementId"
+    [disabled]="true"
+  >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</button>
+
+  <button
+    *ngIf="hiddenTagsAmount > 0"
+    type="button"
+    class="btn btn-light"
     disabled
-  >{{ property ? tag[property] : tag }}</button>
+  >+{{ hiddenTagsAmount }}</button>
 </div>

@@ -1,7 +1,11 @@
-<!--<div class="embed-responsive embed-responsive-1by1">
-  <iframe class="embed-responsive-item" [src]="iframeSrc | safe"></iframe>
-</div>-->
+<ng-container [ngSwitch]="lang">
+  <p *ngSwitchDefault>Tämä materiaali on muunnettu pdf:ksi esikatselua varten. Ota alkuperäinen materiaali käyttöön <a [href]="downloadUrl" download>lataamalla se tästä</a>.</p>
 
-<a [href]="iframeSrc" class="btn btn-outline-secondary" target="_blank" rel="noopener">{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
-{{ 'demo.educationalMaterial.preview.or' | translate }}
-<a [href]="materialUrl" class="btn btn-outline-secondary" download>{{ 'demo.educationalMaterial.preview.download' | translate }}</a>
+  <p *ngSwitchCase="'en'">This learning resource is shown as a pdf for preview purposes. You can <a [href]="downloadUrl" download>download the original resources</a> to access it's all functionalities.</p>
+
+  <p *ngSwitchCase="'sv'">Denna lärresurs visas som pdf för förhandsgranskning. Du kan <a [href]="downloadUrl" download>ladda ner resursen</a> för att använda alla funktioner.</p>
+</ng-container>
+
+<div style="height: 80vh">
+  <ng2-pdfjs-viewer [pdfSrc]="materialUrl" #officeViewer></ng2-pdfjs-viewer>
+</div>
