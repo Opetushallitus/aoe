@@ -1,13 +1,23 @@
-import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BackendService } from '@services/backend.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from '@models/translations/toast';
+import { EditFilesComponent } from '@views/educational-material-edit-form/tabs/edit-files/edit-files.component';
+import { EditBasicDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-basic-details/edit-basic-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditEducationalDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
+// tslint:disable-next-line:max-line-length
+import { EditExtendedDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-extended-details/edit-extended-details.component';
+import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
+// tslint:disable-next-line:max-line-length
+import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
+import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs/edit-preview/edit-preview.component';
 
 @Component({
   selector: 'app-educational-material-edit-form',
@@ -23,6 +33,14 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   confirmModalRef: BsModalRef;
   noPermissionTitle: string;
   noPermissionMessage: string;
+  abortMessage: string;
+  @ViewChild(EditFilesComponent) filesTab: EditFilesComponent;
+  @ViewChild(EditBasicDetailsComponent) basicTab: EditBasicDetailsComponent;
+  @ViewChild(EditEducationalDetailsComponent) educationalTab: EditEducationalDetailsComponent;
+  @ViewChild(EditExtendedDetailsComponent) extendedTab: EditExtendedDetailsComponent;
+  @ViewChild(EditLicenseComponent) licenseTab: EditLicenseComponent;
+  @ViewChild(EditBasedOnDetailsComponent) referencesTab: EditBasedOnDetailsComponent;
+  @ViewChild(EditPreviewComponent) previewTab: EditPreviewComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +57,10 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.translate.get('forms.editEducationalResource.toasts.noPermission').subscribe((translation: Toast) => {
       this.noPermissionTitle = translation.title;
       this.noPermissionMessage = translation.message;
+    });
+
+    this.translate.get('forms.editEducationalResource.abort.text').subscribe((translation: string) => {
+      this.abortMessage = translation;
     });
 
     this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
@@ -85,5 +107,33 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/omat-oppimateriaalit']);
 
     this.confirmModalRef.hide();
+  }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    if (
+      this.filesTab?.form.dirty
+      || this.basicTab?.form.dirty
+      || this.educationalTab?.form.dirty
+      || this.extendedTab?.form.dirty
+      || this.licenseTab?.form.dirty
+      || this.referencesTab?.form.dirty
+    ) {
+      return confirm(this.abortMessage);
+    }
+
+    if (this.previewTab?.canDeactivate) {
+      return true;
+    }
+
+    const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+
+    if (editMaterial) {
+      return editMaterial === this.material
+        ? true
+        : confirm(this.abortMessage);
+    }
+
+    return true;
   }
 }

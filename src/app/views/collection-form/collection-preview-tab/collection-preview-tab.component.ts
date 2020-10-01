@@ -22,6 +22,7 @@ export class CollectionPreviewTabComponent implements OnInit {
   form: FormGroup;
   lang = this.translate.currentLang;
   submitted = false;
+  canDeactivate = false;
   previewCollection: CollectionForm;
   materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
 
@@ -115,6 +116,8 @@ export class CollectionPreviewTabComponent implements OnInit {
     const publish = !privateCollection;
 
     if (this.form.valid) {
+      this.canDeactivate = true;
+
       let alignmentObjects: AlignmentObjectExtended[] = [];
 
       // early childhood education
