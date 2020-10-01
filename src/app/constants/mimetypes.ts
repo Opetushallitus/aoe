@@ -31,6 +31,7 @@ export const mimeTypes = {
     'application/vnd.ms-excel.template.macroEnabled.12',
     'application/vnd.ms-excel.addin.macroEnabled.12',
     'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
+    'application/vnd.oasis.opendocument.spreadsheet',
     'application/vnd.oasis.opendocument.text',
     'application/vnd.ms-powerpoint',
     'application/vnd.openxmlformats-officedocument.presentationml.presentation',
