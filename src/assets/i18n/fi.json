@@ -36,7 +36,7 @@
       "extended": "Tarkemmat tiedot",
       "license": "Lisenssitiedot",
       "references": "Hyödynnetyt materiaalit",
-      "preview": "Esikatselu"
+      "preview": "Esikatselu ja tallennus"
     },
     "editMaterial": {
       "main": "Oppimateriaalin muokkaus",
@@ -46,14 +46,14 @@
       "extended": "Tarkemmat tiedot",
       "license": "Lisenssitiedot",
       "references": "Hyödynnetyt materiaalit",
-      "preview": "Esikatselu"
+      "preview": "Esikatselu ja tallennus"
     },
     "collection": {
       "main": "Kokoelman julkaisu",
       "basic": "Perustiedot",
       "educational": "Koulutustiedot",
       "materials": "Materiaalit",
-      "preview": "Esikatselu"
+      "preview": "Esikatselu ja tallennus"
     },
     "acceptance": "Palvelun käyttöehdot ja tietosuojailmoitus",
     "accessibility": "Saavutettavuusseloste",
@@ -219,7 +219,7 @@
         "extendedDetails": "Tarkemmat tiedot",
         "licenseDetails": "Lisenssitiedot",
         "basedOnDetails": "Hyödynnetyt materiaalit",
-        "preview": "Esikatselu"
+        "preview": "Esikatselu ja tallennus"
       },
       "files": {
         "alert": "Voit tallentaa oman oppimateriaalisi tai linkittää sen avointen oppimateriaalien palveluun tämän lomakkeen avulla. Oppimateriaalin tallentamista varten sinun tulee lisätä muutama tieto oppimateriaalista sekä valita sille sopiva lisenssi. Nämä tiedot helpottavat muita käyttäjiä löytämään oppimateriaalisi sekä kertovat miten oppimateriaaliasi voi käyttää. Jokaisen kentän kohdalla on pieni kysymysmerkki josta saat tarvittaessa lisätietoa. Lataa ensiksi oppimateriaalisi tiedosto(t) tai linkitä oppimateriaalisi ja jatka sitten täydentämään materiaalisi perustiedot. Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle suomen, ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on.",
@@ -566,7 +566,7 @@
         }
       },
       "preview": {
-        "title": "Esikatselu",
+        "title": "Esikatselu ja tallennus",
         "confirm": "Vakuutan että",
         "required": {
           "name": "Oppimateriaalin nimi",
@@ -603,7 +603,7 @@
         "basic": "Perustiedot",
         "educational": "Koulutustiedot",
         "material": "Materiaalit",
-        "preview": "Esikatselu"
+        "preview": "Esikatselu ja tallennus"
       },
       "toasts": {
         "noPermission": {
@@ -798,7 +798,7 @@
         }
       },
       "preview": {
-        "title": "Esikatselu",
+        "title": "Esikatselu ja tallennus",
         "headings": {
           "basic": "Perustiedot",
           "educational": "Koulutustiedot",

@@ -4,9 +4,10 @@
 .collection-material {
   margin-bottom: 2rem;
 
-  h2 {
+  .title {
     @include font-size(21);
-    font-weight: 500;
+    font-weight: 400;
+    margin-bottom: .5rem;
 
     a {
       color: $primary-theme-color;

@@ -36,7 +36,7 @@
       "extended": "Andra uppgifter",
       "license": "Licensuppgifter",
       "references": "Referens",
-      "preview": "Förhandsvisning"
+      "preview": "Förhandsvisning och spara"
     },
     "editMaterial": {
       "main": "Redigera lärresurs",
@@ -46,14 +46,14 @@
       "extended": "Andra uppgifter",
       "license": "Licensuppgifter",
       "references": "Referens",
-      "preview": "Förhandsvisning"
+      "preview": "Förhandsvisning och spara"
     },
     "collection": {
       "main": "Samling",
       "basic": "Grunduppgifter",
       "educational": "Utbildningsinfo",
       "materials": "Material",
-      "preview": "Förhandsvisning"
+      "preview": "Förhandsvisning och spara"
     },
     "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
     "accessibility": "Accessibility Policy",
@@ -219,7 +219,7 @@
         "extendedDetails": "Andra uppgifter",
         "licenseDetails": "Licensuppgifter",
         "basedOnDetails": "Referens",
-        "preview": "Förhandsvisning"
+        "preview": "Förhandsvisning och spara"
       },
       "files": {
         "alert": "Du kan spara ditt läromaterial eller länka till det i tjänsten för öppna lärresurser med hjälp av den här blanketten. Inför sparandet av läromaterialet ska du lägga till några uppgifter om läromaterialet samt välja ut en lämplig licens för det. De här uppgifterna gör det lättare för andra användare att hitta ditt läromaterial samt redogör för vad ditt läromaterial kan användas till. Vid varje fält finns ett litet frågetecken där du vid behov kan få tilläggsuppgifter. Ladda först upp filen/filerna eller länka till ditt läromaterial och fortsätt sedan fylla i de grundläggande uppgifterna om ditt material. Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är.",
@@ -566,7 +566,7 @@
         }
       },
       "preview": {
-        "title": "Förhandsvisning",
+        "title": "Förhandsvisning och spara",
         "confirm": "Jag har",
         "required": {
           "name": "Namn",
@@ -603,7 +603,7 @@
         "basic": "Grunduppgifter",
         "educational": "Utbildningsinfo",
         "material": "Resurser",
-        "preview": "Förhandsvisning"
+        "preview": "Förhandsvisning och spara"
       },
       "toasts": {
         "noPermission": {
@@ -798,7 +798,7 @@
         }
       },
       "preview": {
-        "title": "Förhandsvisning",
+        "title": "Förhandsvisning och spara",
         "headings": {
           "basic": "Grunduppgifter",
           "educational": "Utbildningsinfo",

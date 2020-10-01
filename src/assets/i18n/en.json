@@ -36,7 +36,7 @@
       "extended": "Other information",
       "license": "License",
       "references": "References",
-      "preview": "Preview"
+      "preview": "Preview and save"
     },
     "editMaterial": {
       "main": "Edit resource",
@@ -46,14 +46,14 @@
       "extended": "Other information",
       "license": "License",
       "references": "References",
-      "preview": "Preview"
+      "preview": "Preview and save"
     },
     "collection": {
       "main": "Collection",
       "basic": "Basic information",
       "educational": "Educational information",
       "materials": "Materials",
-      "preview": "Preview"
+      "preview": "Preview and save"
     },
     "acceptance": "Privacy Policy and the Terms of Use of the service",
     "accessibility": "Accessibility Policy",
@@ -219,7 +219,7 @@
         "extendedDetails": "Other information",
         "licenseDetails": "License",
         "basedOnDetails": "References",
-        "preview": "Preview"
+        "preview": "Preview and save"
       },
       "files": {
         "alert": "You can upload your OER or link it to the service with this form. In order to upload the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First upload or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
@@ -566,7 +566,7 @@
         }
       },
       "preview": {
-        "title": "Preview",
+        "title": "Preview and save",
         "confirm": "I confirm that",
         "required": {
           "name": "Name",
@@ -603,7 +603,7 @@
         "basic": "Basic information",
         "educational": "Educational information",
         "material": "Resources",
-        "preview": "Preview"
+        "preview": "Preview and save"
       },
       "toasts": {
         "noPermission": {
@@ -798,7 +798,7 @@
         }
       },
       "preview": {
-        "title": "Preview",
+        "title": "Preview and save",
         "headings": {
           "basic": "Basic information",
           "educational": "Educational information",

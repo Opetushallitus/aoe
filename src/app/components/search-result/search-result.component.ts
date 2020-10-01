@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SearchResult } from '@models/search/search-results';
 import { environment } from '../../../environments/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { SearchParams } from '@models/search/search-params';
 
 @Component({
   selector: 'app-search-result',
@@ -10,11 +11,14 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 })
 export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult;
+  @Output() executeFilteredSearch = new EventEmitter();
   lang: string = this.translate.currentLang;
   materialName: string;
   description: string;
   downloadUrl: string;
   thumbnailUrl: string;
+  private from = 0;
+  private resultsPerPage = 15;
 
   constructor(
     private translate: TranslateService,
@@ -52,5 +56,20 @@ export class SearchResultComponent implements OnInit {
     if (description !== '') {
       this.description = description;
     }
+  }
+
+  filterSearch(param: string): void {
+    const searchParams: SearchParams = {
+      keywords: null,
+      filters: {
+        educationalLevels: [param],
+      },
+      from: this.from,
+      size: this.resultsPerPage,
+    };
+
+    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+
+    this.executeFilteredSearch.emit();
   }
 }
