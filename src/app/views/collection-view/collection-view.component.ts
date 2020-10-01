@@ -8,6 +8,8 @@ import { BackendService } from '@services/backend.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
+import { Language } from '@models/koodisto-proxy/language';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 
 @Component({
   selector: 'app-collection-view',
@@ -19,6 +21,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   collectionId: string;
   collectionSubscription: Subscription;
   collection: Collection;
+  languageSubscription: Subscription;
+  languages: Language[];
   materialsLoading = new Map();
   collectionMaterials = new Map();
   previewMaterials = new Map();
@@ -34,6 +38,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     private collectionSvc: CollectionService,
     private backendSvc: BackendService,
     private titleSvc: Title,
+    private koodistoSvc: KoodistoProxyService,
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +63,11 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
       this.setTitle();
       this.setMaterialDetails(collection.educationalMaterials);
+
+      this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+        this.languages = languages.filter((lang: Language) => this.collection.languages.includes(lang.key.toLowerCase()));
+      });
+      this.koodistoSvc.updateLanguages();
 
       collection.educationalMaterials.forEach((collectionMaterial) => {
         // set loading true
@@ -96,6 +106,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.collectionSubscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
   }
 
   setTitle(): void {

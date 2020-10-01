@@ -21,25 +21,29 @@
     </div>
   </a>
 
-  <div class="tags">
-    <button *ngFor="let keyword of keywords" type="button" class="btn btn-light disabled" disabled>
-      {{ keyword.value }}
-    </button>
+  <app-taglist
+    *ngIf="educationalMaterial.keywords?.length > 0"
+    [elementId]="'material-keywords' + educationalMaterial.id"
+    [tags]="keywords"
+    [title]="'collections.meta.keywords' | translate"
+    [card]="true"
+    [hiddenTagsAmount]="educationalMaterial.keywords.length - keywords.length"
+    property="value"
+    searchProperty="keywordkey"
+    filterType="keywords"
+  ></app-taglist><!--keywords-->
 
-    <button type="button" class="btn btn-light disabled" disabled *ngIf="educationalMaterial.keywords.length > keywords.length">
-      +{{ educationalMaterial.keywords.length - keywords.length }}
-    </button>
-  </div>
-
-  <div class="tags">
-    <button *ngFor="let educationalLevel of educationalLevels" type="button" class="btn btn-light disabled" disabled>
-      {{ educationalLevel.value }}
-    </button>
-
-    <button type="button" class="btn btn-light disabled" disabled *ngIf="educationalMaterial.educationalLevels.length > educationalLevels.length">
-      +{{ educationalMaterial.educationalLevels.length - educationalLevels.length }}
-    </button>
-  </div>
+  <app-taglist
+    *ngIf="educationalMaterial.educationalLevels?.length > 0"
+    [elementId]="'material-educationalLevels' + educationalMaterial.id"
+    [tags]="educationalLevels"
+    [title]="'collections.meta.educationalLevels' | translate"
+    [card]="true"
+    [hiddenTagsAmount]="educationalMaterial.educationalLevels.length - educationalLevels.length"
+    property="value"
+    searchProperty="educationallevelkey"
+    filterType="educationalLevels"
+  ></app-taglist><!--educationalLevels-->
 
   <div class="details d-flex flex-row">
     <div class="license text-dark">
