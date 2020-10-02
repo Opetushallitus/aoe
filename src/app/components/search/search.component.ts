@@ -94,8 +94,10 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   educationLevelChange(): void {
     if (this.educationalLevelsCtrl.value.length > 0) {
+      const educationLevelKeys = this.educationalLevelsCtrl.value?.map((level) => level.key);
+
       this.educationalSubjects = this.educationalSubjects
-        .filter((subject: SubjectFilter) => this.educationalLevelsCtrl.value.includes(subject.key));
+        .filter((subject: SubjectFilter) => educationLevelKeys.includes(subject.key));
     } else {
       this.koodistoProxySvc.updateSubjectFilters();
     }
