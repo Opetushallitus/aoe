@@ -128,7 +128,25 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       .subscribe((levels: EducationalLevel[]) => {
         this.educationalLevels = levels;
 
-        this.setEducationalLevels();
+        this.educationalLevelsArray.clear();
+
+        this.educationalLevels.forEach((level: EducationalLevel) => {
+          const children = this.fb.array([]);
+
+          level.children.forEach((child) => {
+            let state = false;
+
+            if (searchParams?.filters?.educationalLevels) {
+              state = searchParams.filters.educationalLevels.includes(child.key);
+            }
+
+            children.push(this.fb.control(state));
+          });
+
+          this.educationalLevelsArray.push(this.fb.group({
+            levels: children,
+          }));
+        });
       });
     this.koodistoProxySvc.updateEducationalLevels();
 
@@ -136,7 +154,17 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       .subscribe((types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
 
-        this.setLearningResourceTypes();
+        this.learningResourceTypesArray.clear();
+
+        this.learningResourceTypes.forEach((type: LearningResourceType) => {
+          let state = false;
+
+          if (searchParams?.filters?.learningResourceTypes) {
+            state = searchParams.filters.learningResourceTypes.includes(type.key);
+          }
+
+          this.learningResourceTypesArray.push(this.fb.control(state));
+        });
       });
     this.koodistoProxySvc.updateLearningResourceTypes();
 
@@ -274,46 +302,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return (this.page - 1) * this.resultsPerPage;
   }
 
-  setEducationalLevels(): void {
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
-
-    this.educationalLevelsArray.clear();
-
-    this.educationalLevels.forEach((level: EducationalLevel) => {
-      const children = this.fb.array([]);
-
-      level.children.forEach((child) => {
-        let state = false;
-
-        if (searchParams?.filters?.educationalLevels) {
-          state = searchParams.filters.educationalLevels.includes(child.key);
-        }
-
-        children.push(this.fb.control(state));
-      });
-
-      this.educationalLevelsArray.push(this.fb.group({
-        levels: children,
-      }));
-    });
-  }
-
-  setLearningResourceTypes(): void {
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
-
-    this.learningResourceTypesArray.clear();
-
-    this.learningResourceTypes.forEach((type: LearningResourceType, index: number) => {
-      let state = false;
-
-      if (searchParams?.filters?.learningResourceTypes) {
-        state = searchParams.filters.learningResourceTypes.includes(type.key);
-      }
-
-      this.learningResourceTypesArray.push(this.fb.control(state));
-    });
-  }
-
   setAvailableFilters(searchFilters: SearchFilters): void {
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
@@ -345,7 +333,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // levels
-    this.setEducationalLevels();
+    this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
+      level.children.forEach((child: EducationalLevel, childIndex: number) => {
+        const levels = <FormArray>this.educationalLevelsArray.controls[index].get('levels');
+
+        levels.at(childIndex).setValue(searchParams?.filters?.educationalLevels?.includes(child.key));
+      });
+    });
 
     // subjects
     searchFilters.subjects.forEach((subject: SearchFilterEducationalSubject) => {
@@ -372,7 +366,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // types
-    this.setLearningResourceTypes();
+    this.learningResourceTypes.forEach((type: LearningResourceType, index: number) => {
+      this.learningResourceTypesArray.at(index).setValue(searchParams?.filters?.learningResourceTypes?.includes(type.key));
+    });
 
     // authors
     searchFilters.authors.forEach((author: string) => {
