@@ -13,6 +13,7 @@ export const environment = {
   cookieSettingsCookie: 'aoe.cookies',
   searchParams: 'aoe.searchParams',
   searchResults: 'aoe.searchResults',
+  usedFilters: 'aoe.usedFilters',
   editMaterial: 'aoe.editMaterial',
   title: '- Avointen oppimateriaalien kirjasto (demo.aoe.fi)',
   collection: 'aoe.collection',
