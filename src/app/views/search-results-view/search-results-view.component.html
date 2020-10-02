@@ -34,7 +34,7 @@
           </span>
 
           <span class="badge badge-gray search-filter" *ngFor="let filter of usedFilters" aria-labelledby="used-filters-label">
-            <button type="button" class="btn btn-light" (click)="removeFilter(filter.type, filter.index, filter.childIndex)">
+            <button type="button" class="btn btn-light" (click)="onSubmit(filter)">
               <span aria-hidden="true">&times;</span>
               <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
             </button>

@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
+import { UsedFilter } from '@models/search/used-filter';
 
 @Component({
   selector: 'app-search',
@@ -83,6 +84,14 @@ export class SearchComponent implements OnInit, OnDestroy {
     return this.filters.get('educationalLevels') as FormControl;
   }
 
+  get educationalSubjectsCtrl(): FormControl {
+    return this.filters.get('educationalSubjects') as FormControl;
+  }
+
+  get learningResourceTypesCtrl(): FormControl {
+    return this.filters.get('learningResourceTypes') as FormControl;
+  }
+
   educationLevelChange(): void {
     if (this.educationalLevelsCtrl.value.length > 0) {
       this.educationalSubjects = this.educationalSubjects
@@ -92,10 +101,48 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
 
+  setUsedFilters(): void {
+    const usedFilters: UsedFilter[] = [];
+
+    this.educationalLevelsCtrl.value?.forEach((level) => {
+      usedFilters.push({
+        key: level.key,
+        value: level.value,
+        type: 'level',
+      });
+    });
+
+    this.educationalSubjectsCtrl.value?.forEach((subject) => {
+      usedFilters.push({
+        key: subject.key,
+        value: subject.value,
+        type: 'subject',
+      });
+    });
+
+    this.learningResourceTypesCtrl.value?.forEach((type) => {
+      usedFilters.push({
+        key: type.key,
+        value: type.value,
+        type: 'type',
+      });
+    });
+
+    sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
+  }
+
   onSubmit(): void {
     if (this.searchForm.valid) {
-      const searchParams: SearchParams = this.searchForm.value;
+      this.setUsedFilters();
 
+      const searchParams: SearchParams = {
+        keywords: null,
+        filters: {},
+      };
+
+      searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key);
+      searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) => subject.key);
+      searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
 
