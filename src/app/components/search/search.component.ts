@@ -116,7 +116,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     this.educationalSubjectsCtrl.value?.forEach((subject) => {
       usedFilters.push({
-        key: subject.key,
+        key: subject.key.toString(),
         value: subject.value,
         type: 'subject',
       });
@@ -143,7 +143,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       };
 
       searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key);
-      searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) => subject.key);
+      searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) => subject.key.toString());
       searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
