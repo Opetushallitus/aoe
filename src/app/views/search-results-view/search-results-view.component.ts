@@ -113,6 +113,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       .subscribe((results: SearchResults) => {
         this.results = results;
         this.loading = false;
+
+        if (results.hits > 0) {
+          this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
+        }
       });
 
     this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
@@ -644,14 +648,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
         }
 
+        console.log(usedFilters);
         usedFilters = usedFilters.filter((filter: UsedFilter) => filter.key !== removedFilter.key);
+        console.log(usedFilters);
       }
 
       this.usedFilters = usedFilters;
       sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
 
       this.searchSvc.updateSearchResults(searchParams);
-      this.searchSvc.updateSearchFilters(searchParams);
 
       this.page = 1;
     }
@@ -670,7 +675,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     this.searchSvc.updateSearchResults(searchParams);
-    this.searchSvc.updateSearchFilters(searchParams);
 
     this.page = 1;
   }
