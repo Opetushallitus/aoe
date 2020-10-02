@@ -569,12 +569,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         .map((checked: boolean, index: number) => {
           if (checked) {
             usedFilters.push({
-              key: this.searchFilters.subjects[index].key,
+              key: this.searchFilters.subjects[index].key.toString(),
               value: this.searchFilters.subjects[index].value,
               type: 'subject',
             });
 
-            return this.searchFilters.subjects[index].key;
+            return this.searchFilters.subjects[index].key.toString();
           }
 
           return null;
@@ -648,9 +648,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
         }
 
-        console.log(usedFilters);
         usedFilters = usedFilters.filter((filter: UsedFilter) => filter.key !== removedFilter.key);
-        console.log(usedFilters);
       }
 
       this.usedFilters = usedFilters;
