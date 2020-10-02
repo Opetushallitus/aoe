@@ -119,20 +119,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
-      this.searchFilters = filters;
-
-      this.setAvailableFilters(filters);
-
-      this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
-      this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
-      this.showAllTeaches = this.teachesArray.controls.length > this.filtersShownAtFirst;
-      this.showAllAuthors = this.authorsArray.controls.length > this.filtersShownAtFirst;
-      this.showAllOrganizations = this.organizationsArray.controls.length > this.filtersShownAtFirst;
-      this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
-      this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
-    });
-
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
     });
@@ -153,6 +139,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         this.setLearningResourceTypes();
       });
     this.koodistoProxySvc.updateLearningResourceTypes();
+
+    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
+      this.searchFilters = filters;
+
+      this.setAvailableFilters(filters);
+
+      this.showAllLanguages = this.languagesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllSubjects = this.subjectsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllTeaches = this.teachesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllAuthors = this.authorsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllOrganizations = this.organizationsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
+    });
   }
 
   ngOnDestroy(): void {
