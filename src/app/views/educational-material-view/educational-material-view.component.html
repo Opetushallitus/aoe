@@ -116,6 +116,33 @@
                     {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
                   </time>
                 </span>
+
+                <!--@todo: version list-->
+                <div class="btn-group" dropdown *ngIf="educationalMaterial.versions?.length > 0">
+                  <button
+                    id="button-basic"
+                    dropdownToggle
+                    type="button"
+                    class="btn btn-link"
+                    aria-controls="dropdown-basic"
+                  >Versiohistoria</button>
+
+                  <ul
+                    id="dropdown-basic"
+                    *dropdownMenu class="dropdown-menu"
+                    role="menu"
+                    aria-labelledby="button-basic"
+                  >
+                    <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
+                      <a
+                        class="dropdown-item"
+                        [routerLink]="['/materiaali', materialId, version]"
+                        routerLinkActive="active"
+                        [ngClass]="{ 'active': !materialVersionDate && isFirst }"
+                      >{{ version | date:'dd.MM.yyyy HH:mm:ss' }}</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <p *ngIf="description">{{ description }}</p>
