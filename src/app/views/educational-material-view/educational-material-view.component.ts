@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
@@ -22,6 +22,7 @@ import { Subtitle } from '@models/subtitle';
 export class EducationalMaterialViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   materialId: number;
+  materialVersionDate: string;
   educationalMaterial: EducationalMaterial;
   previewMaterial: Material;
   downloadUrl: string;
@@ -49,7 +50,10 @@ export class EducationalMaterialViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.materialId = +this.route.snapshot.paramMap.get('materialId');
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.materialId = +params.get('materialId');
+      this.materialVersionDate = params.get('versionDate');
+    });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
@@ -64,7 +68,7 @@ export class EducationalMaterialViewComponent implements OnInit {
       }
     });
 
-    this.backendSvc.getMaterial(this.materialId).subscribe((data: EducationalMaterial) => {
+    this.backendSvc.getMaterial(this.materialId, this.materialVersionDate).subscribe((data: EducationalMaterial) => {
       this.educationalMaterial = data;
       this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
       // tslint:disable-next-line:max-line-length
@@ -111,7 +115,11 @@ export class EducationalMaterialViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.titleSvc.setTitle(`${this.materialName} ${environment.title}`);
+    if (this.materialVersionDate) {
+      this.titleSvc.setTitle(`${this.materialName} (${this.materialVersionDate}) ${environment.title}`);
+    } else {
+      this.titleSvc.setTitle(`${this.materialName} ${environment.title}`);
+    }
   }
 
   setPreviewMaterial(material: Material): void {

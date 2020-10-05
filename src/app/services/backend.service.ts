@@ -136,10 +136,17 @@ export class BackendService {
   /**
    * Returns material from backend by material ID.
    * @param {number} materialId
+   * @param {string} versionDate
    * @returns {Observable<EducationalMaterial>} Educational Material
    */
-  getMaterial(materialId: number): Observable<EducationalMaterial> {
-    return this.http.get<any>(`${this.backendUrl}/material/${materialId}`, {
+  getMaterial(materialId: number, versionDate?: string): Observable<EducationalMaterial> {
+    let materialUrl = `${this.backendUrl}/material/${materialId}`;
+
+    if (versionDate) {
+      materialUrl = `${materialUrl}/${versionDate}`;
+    }
+
+    return this.http.get<any>(materialUrl, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
@@ -263,6 +270,9 @@ export class BackendService {
           ratingContentAverage: res.ratingContentAverage,
           ratingVisualAverage: res.ratingVisualAverage,
           hasDownloadableFiles: res.hasDownloadableFiles,
+          versions: res.versions
+            .map((version) => version.publishedat)
+            .sort((a, b) => a - b),
         };
       })
     );
