@@ -333,7 +333,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // levels
-    this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
+    this.educationalLevels?.forEach((level: EducationalLevel, index: number) => {
       level.children.forEach((child: EducationalLevel, childIndex: number) => {
         const levels = <FormArray>this.educationalLevelsArray.controls[index].get('levels');
 
@@ -366,7 +366,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     // types
-    this.learningResourceTypes.forEach((type: LearningResourceType, index: number) => {
+    this.learningResourceTypes?.forEach((type: LearningResourceType, index: number) => {
       this.learningResourceTypesArray.at(index).setValue(searchParams?.filters?.learningResourceTypes?.includes(type.key));
     });
 
@@ -465,7 +465,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         })
         .filter((language: string) => language !== null);
 
-      this.filters.value.educationalLevels
+      this.educationalLevelsArray.value
         .forEach((level, index: number) => {
           level.levels.forEach((checked: boolean, childIndex: number) => {
             if (checked) {
@@ -481,7 +481,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.filters.educationalLevels = selectedEducationalLevels;
 
-      searchParams.filters.learningResourceTypes = this.filters.value.learningResourceTypes
+      searchParams.filters.learningResourceTypes = this.learningResourceTypesArray.value
         .map((checked: boolean, index: number) => {
           if (checked) {
             usedFilters.push({
