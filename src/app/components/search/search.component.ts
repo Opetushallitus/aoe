@@ -76,6 +76,10 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.learningResourceTypeSubscription.unsubscribe();
   }
 
+  get keywordsCtrl(): FormControl {
+    return this.searchForm.get('keywords') as FormControl;
+  }
+
   get filters(): FormControl {
     return this.searchForm.get('filters') as FormControl;
   }
@@ -142,6 +146,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         filters: {},
       };
 
+      searchParams.keywords = this.keywordsCtrl.value;
       searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key);
       searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) => subject.key.toString());
       searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
