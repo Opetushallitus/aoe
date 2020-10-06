@@ -85,6 +85,7 @@
       "createdAt": "Created",
       "publishedAt": "Published",
       "updatedAt": "Edited",
+      "versionHistory": "Version history",
       "eduLevel": "Educational level",
       "eduSubject": "Educational subject",
       "subject": "educational sciences",

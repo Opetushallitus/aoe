@@ -117,21 +117,20 @@
                   </time>
                 </span>
 
-                <!--@todo: version list-->
                 <div class="btn-group" dropdown *ngIf="educationalMaterial.versions?.length > 0">
                   <button
-                    id="button-basic"
+                    id="toggle-version-history"
                     dropdownToggle
                     type="button"
                     class="btn btn-link"
-                    aria-controls="dropdown-basic"
-                  >Versiohistoria</button>
+                    aria-controls="version-history"
+                  >{{ 'demo.educationalMaterial.versionHistory' | translate }}</button>
 
                   <ul
-                    id="dropdown-basic"
+                    id="version-history"
                     *dropdownMenu class="dropdown-menu"
                     role="menu"
-                    aria-labelledby="button-basic"
+                    aria-labelledby="toggle-version-history"
                   >
                     <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
                       <a
