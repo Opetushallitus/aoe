@@ -189,9 +189,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.educationalLevelSubscription.unsubscribe();
     this.learningResourceTypeSubscription.unsubscribe();
     this.searchFilterSubscription.unsubscribe();
-
-    sessionStorage.removeItem(environment.searchParams);
-    sessionStorage.removeItem(environment.usedFilters);
   }
 
   setTitle(): void {
