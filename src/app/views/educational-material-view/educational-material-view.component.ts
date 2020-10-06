@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
@@ -13,16 +13,18 @@ import { AuthService } from '@services/auth.service';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
   styleUrls: ['./educational-material-view.component.scss']
 })
-export class EducationalMaterialViewComponent implements OnInit {
+export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   materialId: number;
   materialVersionDate: string;
+  educationalMaterialSubscription: Subscription;
   educationalMaterial: EducationalMaterial;
   previewMaterial: Material;
   downloadUrl: string;
@@ -53,6 +55,8 @@ export class EducationalMaterialViewComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.materialId = +params.get('materialId');
       this.materialVersionDate = params.get('versionDate');
+
+      this.backendSvc.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -68,8 +72,9 @@ export class EducationalMaterialViewComponent implements OnInit {
       }
     });
 
-    this.backendSvc.getMaterial(this.materialId, this.materialVersionDate).subscribe((data: EducationalMaterial) => {
-      this.educationalMaterial = data;
+    this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
+      this.educationalMaterial = material;
+
       this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
       // tslint:disable-next-line:max-line-length
       this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
@@ -78,15 +83,15 @@ export class EducationalMaterialViewComponent implements OnInit {
       this.updateDescription();
 
       // set materials
-      this.materials = data.materials;
+      this.materials = material.materials;
 
       // set material languages
       const materialLanguages: string[] = [];
 
-      this.materials.forEach((material: Material) => {
-        materialLanguages.push(material.language.toLowerCase());
+      this.materials.forEach((m: Material) => {
+        materialLanguages.push(m.language.toLowerCase());
 
-        material.subtitles.forEach((subtitle: Subtitle) => {
+        m.subtitles.forEach((subtitle: Subtitle) => {
           materialLanguages.push(subtitle.srclang.toLowerCase());
         });
       });
@@ -101,17 +106,21 @@ export class EducationalMaterialViewComponent implements OnInit {
           : this.materialLanguages[0];
 
       // set preview material
-      this.setPreviewMaterial(this.materials.find((material: Material) => {
-        if (material.language === this.selectedLanguage || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
-          return material;
+      this.setPreviewMaterial(this.materials.find((m: Material) => {
+        if (m.language === this.selectedLanguage || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
+          return m;
         }
       }));
 
       // if material expired
-      if (data.expires) {
-        this.expired = new Date(data.expires) < new Date();
+      if (material.expires) {
+        this.expired = new Date(material.expires) < new Date();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.educationalMaterialSubscription.unsubscribe();
   }
 
   setTitle(): void {
