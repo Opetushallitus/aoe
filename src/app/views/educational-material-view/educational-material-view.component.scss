@@ -7,6 +7,11 @@ h2 {
   font-weight: 400;
 }
 
+#toggle-version-history {
+  @include font-size(16);
+  padding: 0 .25rem;
+}
+
 .metadata {
   border-bottom: 1px solid $border-color;
   margin-bottom: 1.5rem;

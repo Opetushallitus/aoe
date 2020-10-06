@@ -86,4 +86,5 @@ export interface EducationalMaterial {
   ratingContentAverage: string;
   ratingVisualAverage: string;
   hasDownloadableFiles: boolean;
+  versions: Date[];
 }
