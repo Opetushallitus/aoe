@@ -85,7 +85,10 @@
       "createdAt": "Lisätty",
       "publishedAt": "Julkaistu",
       "updatedAt": "Muokattu",
-      "versionHistory": "Versiohistoria",
+      "versionHistory": {
+        "button": "Versiohistoria",
+        "helpText": "Versionhistoriasta voit avata oppimateriaalin aiemmat versiot. Versio tallentuu aina kun oppimateriaalin tekijä lisää, poistaa tai vaihtaa oppimateriaalin osia (tiedostoja ja linkkejä). Versiohistoriaan ei tallennu kuvailutietoihin tehtyjä muutoksia."
+      },
       "eduLevel": "Koulutusaste",
       "eduSubject": "Oppiaine",
       "subject": "kasvatustieteet",
