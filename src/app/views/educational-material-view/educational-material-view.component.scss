@@ -7,6 +7,10 @@ h2 {
   font-weight: 400;
 }
 
+.version-history {
+  vertical-align: inherit;
+}
+
 #toggle-version-history {
   @include font-size(16);
   padding: 0 .25rem;
