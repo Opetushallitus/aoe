@@ -85,7 +85,10 @@
       "createdAt": "Created",
       "publishedAt": "Published",
       "updatedAt": "Edited",
-      "versionHistory": "Version history",
+      "versionHistory": {
+        "button": "Version history",
+        "helpText": "In the Version history you can see the previous versions of the learning resource. A version is created every time the author uploads a new file and/or deletes or changes an existing one. Changes in descriptions and metadata are not saved in the Version history."
+      },
       "eduLevel": "Educational level",
       "eduSubject": "Educational subject",
       "subject": "educational sciences",

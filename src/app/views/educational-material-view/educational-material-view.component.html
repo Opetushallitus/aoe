@@ -124,7 +124,13 @@
                     type="button"
                     class="btn btn-link"
                     aria-controls="version-history"
-                  >{{ 'demo.educationalMaterial.versionHistory' | translate }}</button>
+                  >{{ 'demo.educationalMaterial.versionHistory.button' | translate }}</button>
+
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate"
+                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
                   <ul
                     id="version-history"
