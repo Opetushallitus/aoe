@@ -83,13 +83,15 @@ export interface EducationalMaterialPut {
   ];
   expires: Date;
   license: string;
-  externals: [
-    {
-      author: string[];
-      url: string;
-      name: string;
-    }
-  ];
+  isBasedOn: {
+    externals: [
+      {
+        author: string[];
+        url: string;
+        name: string;
+      }
+    ];
+  };
   isVersioned: boolean;
   materials: Material[];
   fileDetails: FileDetail[];
