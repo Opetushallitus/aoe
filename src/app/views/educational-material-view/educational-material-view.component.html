@@ -56,14 +56,14 @@
                       aria-hidden="true"
                     > {{ type.value }}
                   </li>
-                  <!--<li class="text-muted">
+                  <li>
                     <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                    0 {{ 'demo.educationalMaterial.viewCount' | translate }}
+                    {{ educationalMaterial.viewCounter }} {{ 'demo.educationalMaterial.viewCount' | translate }}
                   </li>
-                  <li class="text-muted">
+                  <li>
                     <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                    0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                  </li>-->
+                    {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                  </li>
                 </ul>
               </div>
             </div>

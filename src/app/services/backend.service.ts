@@ -272,6 +272,8 @@ export class BackendService {
         versions: material.versions
           .map((version) => version.publishedat)
           .sort((a, b) => a - b),
+        viewCounter: +material.viewCounter,
+        downloadCounter: +material.downloadCounter,
       });
     });
   }
