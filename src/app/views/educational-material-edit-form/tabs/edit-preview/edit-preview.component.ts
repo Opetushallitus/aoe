@@ -371,6 +371,12 @@ export class EditPreviewComponent implements OnInit {
       // thumbnail
       delete this.previewMaterial.thumbnail;
 
+      // references
+      const isBasedOn = {
+        externals: this.previewMaterial.externals,
+      };
+      delete this.previewMaterial.externals;
+
       const updatedMaterial: EducationalMaterialPut = Object.assign(
         {},
         this.previewMaterial,
@@ -379,6 +385,7 @@ export class EditPreviewComponent implements OnInit {
         { fileDetails },
         { attachmentDetails },
         { alignmentObjects },
+        { isBasedOn },
       );
 
       this.backendSvc.postMeta(this.materialId, updatedMaterial).subscribe(
