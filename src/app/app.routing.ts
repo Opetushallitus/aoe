@@ -60,14 +60,14 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'materiaali/:materialId/:versionDate',
-        component: EducationalMaterialViewComponent,
+        path: 'materiaali/:materialId/arvostelut',
+        component: EducationalMaterialRatingsComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'materiaali/:materialId/arvostelut',
-        component: EducationalMaterialRatingsComponent,
+        path: 'materiaali/:materialId/:versionDate',
+        component: EducationalMaterialViewComponent,
         canActivate: [ AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
