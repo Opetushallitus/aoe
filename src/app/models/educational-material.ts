@@ -89,4 +89,8 @@ export interface EducationalMaterial {
   versions: Date[];
   viewCounter: number;
   downloadCounter: number;
+  typicalAgeRange?: {
+    typicalAgeRangeMin: number;
+    typicalAgeRangeMax: number;
+  };
 }
