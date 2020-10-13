@@ -614,6 +614,29 @@
                       property="value"
                     ></app-taglist><!--accessibilityHazards-->
                   </div>
+
+                  <!-- typicalAgeRange -->
+                  <div *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin || educationalMaterial.typicalAgeRange.typicalAgeRangeMax" class="metadata-group">
+                    <strong class="h3 d-block mb-2">
+                      {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
+                    </strong>
+
+                    <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin && educationalMaterial.typicalAgeRange.typicalAgeRangeMax; else onlyMinOrMax">
+                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                      &ndash;
+                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                    </ng-container>
+
+                    <ng-template #onlyMinOrMax>
+                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin">
+                        &gt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                      </ng-container>
+
+                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMax">
+                        &lt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                      </ng-container>
+                    </ng-template>
+                  </div>
                 </accordion-group>
               </accordion>
             </div>
