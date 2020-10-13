@@ -128,6 +128,7 @@
       "prerequisites": "Aiempi osaaminen",
       "accessibilityFeatures": "Saavutettavuuden tukitoiminnot",
       "accessibilityHazard": "Saavutettavuuden esteet",
+      "typicalAgeRange": "Kohderyhmän ikä",
       "files": "Tiedostot",
       "preview": {
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
