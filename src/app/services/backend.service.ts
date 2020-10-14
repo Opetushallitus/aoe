@@ -325,6 +325,8 @@ export class BackendService {
             .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
           publishedAt: material.publishedat,
           expires: material.expires,
+          viewCounter: material.viewcounter,
+          downloadCounter: material.downloadcounter,
         };
 
         if (mappedMaterial.publishedAt === null) {
