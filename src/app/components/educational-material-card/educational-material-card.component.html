@@ -57,4 +57,16 @@
       > {{ educationalMaterial.learningResourceTypes[0].value }}
     </div>
   </div>
+
+  <div class="counters" *ngIf="educationalMaterial.viewCounter && educationalMaterial.downloadCounter">
+    <div class="counter">
+      <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
+      {{ educationalMaterial.viewCounter }}
+    </div>
+
+    <div class="counter">
+      <i class="fa fa-fw fa-download" aria-hidden="true"></i>
+      {{ educationalMaterial.downloadCounter }}
+    </div>
+  </div>
 </div>

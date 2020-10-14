@@ -27,4 +27,6 @@ export interface EducationalMaterialCard {
   educationalLevels: EducationalLevel[];
   publishedAt?: Date;
   expires: Date | null;
+  viewCounter?: number;
+  downloadCounter?: number;
 }
