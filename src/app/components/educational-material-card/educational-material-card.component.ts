@@ -9,6 +9,7 @@ import { EducationalLevel } from '@models/educational-level';
 @Component({
   selector: 'app-educational-material-card',
   templateUrl: './educational-material-card.component.html',
+  styleUrls: ['./educational-material-card.component.scss']
 })
 export class EducationalMaterialCardComponent implements OnInit {
   @Input() educationalMaterial: EducationalMaterialCard;
