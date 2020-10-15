@@ -36,6 +36,8 @@
 <h3>{{ 'forms.educationalResource.nav.files' | translate }}</h3>
 
 <ng-container *ngIf="hasMaterial; else missingMaterial">
+  <p>{{ 'forms.educationalResource.preview.material-help' | translate }}</p>
+
   <table class="table">
     <thead>
       <tr>
