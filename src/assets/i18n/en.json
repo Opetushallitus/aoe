@@ -215,6 +215,9 @@
         "characters": "Allowed special characters: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
+    "helpTexts": {
+      "multipleItems": "To add information to this field, write your content and press enter. In this way you can add several pieces of information."
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
@@ -309,7 +312,7 @@
             },
             "affiliate": {
               "label": "Affiliation",
-              "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field."
+              "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field. If your organization is not on the list, you can add your own by writing the word and clicking enter."
             },
             "organization": {
               "label": "Organization",
@@ -318,14 +321,14 @@
           },
           "addAuthor": "Add a person",
           "addOrganization": "Add an organisation",
-          "error": "Lisää vähintään yksi tekijä"
+          "error": "Add at least one author"
         },
         "otherDetails": {
           "title": "Other basic information"
         },
         "keywords": {
           "label": "About",
-          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion."
+          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter."
         },
         "learningResourceTypes": {
           "label": "Learning Resource Type",

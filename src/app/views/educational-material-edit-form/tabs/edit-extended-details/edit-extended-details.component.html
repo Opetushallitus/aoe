@@ -178,7 +178,12 @@
         id="publisher"
         labelForId="publisher"
         formControlName="publisher"
+        aria-describedby="publisher-help"
       ></ng-select>
+
+      <small id="publisher-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div><!--/publisher-->
 
     <div class="form-group col-sm-6 col-md-4">
@@ -221,7 +226,12 @@
         id="prerequisites"
         labelForId="prerequisites"
         formControlName="prerequisites"
+        aria-describedby="prerequisites-help"
       ></ng-select>
+
+      <small id="prerequisites-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div><!--/prerequisites-->
   </div>
 
