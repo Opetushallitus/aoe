@@ -575,6 +575,7 @@
       },
       "preview": {
         "title": "Förhandsvisning och spara",
+        "material-help": "Här kan du ordna filerna i din lärresurs genom att dra dem i den ordning du vill visa dem.",
         "confirm": "Jag har",
         "required": {
           "name": "Namn",

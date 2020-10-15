@@ -575,6 +575,7 @@
       },
       "preview": {
         "title": "Esikatselu ja tallennus",
+        "material-help": "Voit järjestää oppimateriaalisi tiedostot ja linkit haluamaasi järjestykseen raahamalla niitä.",
         "confirm": "Vakuutan että",
         "required": {
           "name": "Oppimateriaalin nimi",
