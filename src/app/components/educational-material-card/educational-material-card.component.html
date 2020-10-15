@@ -61,11 +61,13 @@
   <div class="counters" *ngIf="educationalMaterial.viewCounter && educationalMaterial.downloadCounter">
     <div class="counter">
       <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'demo.educationalMaterial.viewCount' | translate }}: </span>
       {{ educationalMaterial.viewCounter }}
     </div>
 
     <div class="counter">
       <i class="fa fa-fw fa-download" aria-hidden="true"></i>
+      <span class="sr-only">{{ 'demo.educationalMaterial.downloadCount' | translate }}: </span>
       {{ educationalMaterial.downloadCounter }}
     </div>
   </div>
