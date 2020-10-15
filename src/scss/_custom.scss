@@ -23,6 +23,17 @@ body {
   overflow-y: scroll;
 }
 
+:focus {
+  outline: transparent !important;
+  opacity: 1 !important;
+  box-shadow:
+    0 0 2px 2px transparent,
+    inset 0 0 0 1px #fff,
+    inset 0 0 0 2px #000,
+    0 0 0 1px #fff,
+    0 0 0 2px #000 !important;
+}
+
 .font-weight-medium {
   font-weight: 500;
 }
