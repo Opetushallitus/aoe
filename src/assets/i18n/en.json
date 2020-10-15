@@ -575,6 +575,7 @@
       },
       "preview": {
         "title": "Preview and save",
+        "material-help": "In here you can arrange the files of your learning resource by dragging them into the order in which you wish to exhibit them.",
         "confirm": "I confirm that",
         "required": {
           "name": "Name",
