@@ -215,6 +215,9 @@
         "characters": "Tillåtna specialtecken: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
+    "helpTexts": {
+      "multipleItems": "För att lägga till information i det här fältet, skriv ditt innehåll och tryck på enter. På det här sättet kan du lägga till flera uppgifter."
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
@@ -309,7 +312,7 @@
             },
             "affiliate": {
               "label": "Organisation",
-              "tooltip": "Här kan du fylla i vilken organisation, till exempel skola eller projekt, som du representerar. Fältet är inte obligatoriskt."
+              "tooltip": "Här kan du fylla i vilken organisation, till exempel skola eller projekt, som du representerar. Fältet är inte obligatoriskt. Om din organisation inte finns på listan kan du lägga till din egen genom att skriva ordet och klicka på Enter."
             },
             "organization": {
               "label": "Organisation",
@@ -325,7 +328,7 @@
         },
         "keywords": {
           "label": "Nyckelord",
-          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi."
+          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
         },
         "learningResourceTypes": {
           "label": "Typ av läromaterial",

@@ -67,7 +67,12 @@
           [labelForId]="'authorExt-' + i"
           formControlName="author"
           [placeholder]="'forms.educationalResource.basedOnDetails.externals.inputs.author.placeholder' | translate"
+          [attr.aria-describedby]="'author-' + i + '-help'"
         ></ng-select>
+
+        <small [id]="'author-' + i + '-help'" class="form-text text-muted">
+          {{ 'forms.helpTexts.multipleItems' | translate }}
+        </small>
 
         <ng-container *ngIf="external.get('author').invalid && (external.get('author').dirty || external.get('author').touched || submitted)">
           <div *ngIf="external.get('author').errors.required">

@@ -215,6 +215,9 @@
         "characters": "Sallitut erikoismerkit: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
     },
+    "helpTexts": {
+      "multipleItems": "Lisätäksesi tähän kenttään tietoja, kirjoita sisältösi ja paina enter. Voit lisätä tällä tavalla useita tietoja."
+    },
     "educationalResource": {
       "title": "Lisää materiaaleja",
       "nav": {
@@ -309,7 +312,7 @@
             },
             "affiliate": {
               "label": "Organisaatio",
-              "tooltip": "Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+              "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field. If your organization is not on the list, you can add your own by writing the word and clicking enter."
             },
             "organization": {
               "label": "Organisaatio",
@@ -325,7 +328,7 @@
         },
         "keywords": {
           "label": "Asiasanat",
-          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
         },
         "learningResourceTypes": {
           "label": "Oppimateriaalin tyyppi",
