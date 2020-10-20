@@ -23,10 +23,9 @@ body {
   overflow-y: scroll;
 }
 
-.btn:focus {
-  outline: none;
-}
-
+.ng-select .ng-select-container .ng-value-container .ng-input > input:focus,
+.btn:focus,
+.form-control:focus,
 :focus {
   outline: transparent;
   opacity: 1;
@@ -36,6 +35,12 @@ body {
     inset 0 0 0 2px #000,
     0 0 0 1px #fff,
     0 0 0 2px #000;
+}
+
+// removes focus styling on mouse clicks
+:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
 }
 
 .font-weight-medium {
