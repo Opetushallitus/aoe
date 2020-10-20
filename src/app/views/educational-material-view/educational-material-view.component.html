@@ -273,9 +273,12 @@
                   {{ educationalMaterial.timeRequired }}
                 </div>
 
-                <div *ngIf="educationalMaterial.publisher" class="col-auto">
+                <div *ngIf="educationalMaterial.publisher?.length > 0" class="col-auto">
                   <h3>{{ 'demo.educationalMaterial.publisher' | translate }}</h3>
-                  {{ educationalMaterial.publisher }}
+
+                  <ng-container *ngFor="let publisher of educationalMaterial.publisher; let isLast = last">
+                    {{ publisher }}<span *ngIf="!isLast">, </span>
+                  </ng-container>
                 </div>
 
                 <div class="col-auto">

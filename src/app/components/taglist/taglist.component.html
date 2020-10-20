@@ -10,7 +10,7 @@
     [ngClass]="{ 'disabled': !filterType }"
     [attr.aria-labelledby]="elementId"
     [disabled]="!filterType"
-    (click)="search(searchProperty ? tag[searchProperty] : tag)"
+    (click)="search(searchProperty ? tag[searchProperty] : tag, property ? tag[property] : tag)"
   >{{ property ? tag[property] : tag }}</button>
 
   <button
