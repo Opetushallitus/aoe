@@ -85,6 +85,10 @@
       "createdAt": "Lisätty",
       "publishedAt": "Julkaistu",
       "updatedAt": "Muokattu",
+      "versionHistory": {
+        "button": "Versiohistoria",
+        "helpText": "Versionhistoriasta voit avata oppimateriaalin aiemmat versiot. Versio tallentuu aina kun oppimateriaalin tekijä lisää, poistaa tai vaihtaa oppimateriaalin osia (tiedostoja ja linkkejä). Versiohistoriaan ei tallennu kuvailutietoihin tehtyjä muutoksia."
+      },
       "eduLevel": "Koulutusaste",
       "eduSubject": "Oppiaine",
       "subject": "kasvatustieteet",
@@ -124,6 +128,7 @@
       "prerequisites": "Aiempi osaaminen",
       "accessibilityFeatures": "Saavutettavuuden tukitoiminnot",
       "accessibilityHazard": "Saavutettavuuden esteet",
+      "typicalAgeRange": "Kohderyhmän ikä",
       "files": "Tiedostot",
       "preview": {
         "noVideoSupport": "Selaimesi ei tue video-elementtiä.",
@@ -209,6 +214,9 @@
       "description": {
         "characters": "Sallitut erikoismerkit: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
       }
+    },
+    "helpTexts": {
+      "multipleItems": "Lisätäksesi tähän kenttään tietoja, kirjoita sisältösi ja paina enter. Voit lisätä tällä tavalla useita tietoja."
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
@@ -304,7 +312,7 @@
             },
             "affiliate": {
               "label": "Organisaatio",
-              "tooltip": "Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen."
+              "tooltip": "Voit tähän täydentää mitä organisaatiota, esimerkiksi koulua tai hanketta, edustat. Kenttä ei ole pakollinen. Jos organisaatiosi ei löydy listalta, kirjoita organisaatiosi nimi ja paina enter, niin organisaatiosi tallentuu."
             },
             "organization": {
               "label": "Organisaatio",
@@ -320,7 +328,7 @@
         },
         "keywords": {
           "label": "Asiasanat",
-          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia."
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
         },
         "learningResourceTypes": {
           "label": "Oppimateriaalin tyyppi",
@@ -567,6 +575,7 @@
       },
       "preview": {
         "title": "Esikatselu ja tallennus",
+        "material-help": "Voit järjestää oppimateriaalisi tiedostot ja linkit haluamaasi järjestykseen raahamalla niitä.",
         "confirm": "Vakuutan että",
         "required": {
           "name": "Oppimateriaalin nimi",

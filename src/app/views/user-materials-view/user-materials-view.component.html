@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <div class="row mb-3" *ngIf="unpublishedMaterials && unpublishedMaterials.length > 0">
+    <div class="row mb-3" *ngIf="unpublishedMaterials?.length > 0">
       <div class="col-12">
         <h2>{{ 'userMaterials.unpublished.title' | translate }}</h2>
       </div>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="row mb-3" *ngIf="publishedMaterials && publishedMaterials.length > 0; else noPublishedMaterials">
+    <div class="row mb-3" *ngIf="publishedMaterials?.length > 0; else noPublishedMaterials">
       <div class="col-12">
         <h2>{{ 'userMaterials.published.title' | translate }}</h2>
       </div>
