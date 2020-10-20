@@ -50,7 +50,7 @@
           type="button"
           class="btn btn-light"
           [attr.aria-labelledby]="'result-educationalLevels' + result.id"
-          (click)="filterSearch(level.educationallevelkey)"
+          (click)="filterSearch(level.educationallevelkey, level.value)"
         >{{ level.value }}</button>
       </div><!--educationalLevels-->
     </div>

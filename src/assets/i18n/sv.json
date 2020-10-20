@@ -919,7 +919,8 @@
       "teaches": {
         "title": "Mål och innehållsområden",
         "showFull": "Visa full"
-      }
+      },
+      "usedFilters": "Nuvarande begränsningar:"
     }
   },
   "collections": {

@@ -919,7 +919,8 @@
       "teaches": {
         "title": "Objective and content",
         "showFull": "Show full"
-      }
+      },
+      "usedFilters": "Search narrowed by:"
     }
   },
   "collections": {

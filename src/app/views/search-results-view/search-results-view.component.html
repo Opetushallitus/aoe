@@ -4,7 +4,7 @@
 
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-search">
       <div class="mb-4">
-        <div class="input-group">
+        <div class="input-group mb-2">
           <label class="sr-only" for="keywords">{{ 'search.inputs.keywords.label' | translate }}</label>
           <input
             type="search"
@@ -26,6 +26,21 @@
               </span>
             </button>
           </div>
+        </div>
+
+        <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
+          <span id="used-filters-label" class="mr-1">
+            {{ 'search.filters.usedFilters' | translate }}
+          </span>
+
+          <span class="badge badge-gray search-filter" *ngFor="let filter of usedFilters" aria-labelledby="used-filters-label">
+            <button type="button" class="btn btn-light" (click)="onSubmit(filter)">
+              <span aria-hidden="true">&times;</span>
+              <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+            </button>
+
+            {{ filter.value }}
+          </span>
         </div>
       </div>
 

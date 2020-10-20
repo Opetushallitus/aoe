@@ -24,7 +24,7 @@ export interface EducationalMaterial {
   archivedAt?: Date | null;
   timeRequired?: string;
   expires?: Date | null;
-  publisher?: any[]; // @todo: key value?
+  publisher?: string[]; // @todo: key value?
   license: {
     key: string;
     value: string;
