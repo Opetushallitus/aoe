@@ -519,7 +519,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
               type: 'organization',
             });
 
-            return this.searchFilters.organizations[index].key
+            return this.searchFilters.organizations[index].key;
           }
 
           return null;
@@ -665,8 +665,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       });
     });
 
+    this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
     this.searchSvc.updateSearchResults(searchParams);
-
     this.page = 1;
   }
 }
