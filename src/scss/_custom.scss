@@ -38,6 +38,9 @@ body {
 }
 
 // removes focus styling on mouse clicks
+.ng-select .ng-select-container .ng-value-container .ng-input > input:focus:not(:focus-visible),
+.btn:focus:not(:focus-visible),
+.form-control:focus:not(:focus-visible),
 :focus:not(:focus-visible) {
   outline: none;
   box-shadow: none;
