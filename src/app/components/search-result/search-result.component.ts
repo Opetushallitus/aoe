@@ -3,6 +3,7 @@ import { SearchResult } from '@models/search/search-results';
 import { environment } from '../../../environments/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { SearchParams } from '@models/search/search-params';
+import { UsedFilter } from '@models/search/used-filter';
 
 @Component({
   selector: 'app-search-result',
@@ -58,17 +59,26 @@ export class SearchResultComponent implements OnInit {
     }
   }
 
-  filterSearch(param: string): void {
+  filterSearch(key: string, value: string): void {
     const searchParams: SearchParams = {
       keywords: null,
       filters: {
-        educationalLevels: [param],
+        educationalLevels: [key],
       },
       from: this.from,
       size: this.resultsPerPage,
     };
 
+    const usedFilters: UsedFilter[] = [
+      {
+        key: key,
+        value: value,
+        type: 'level',
+      }
+    ];
+
     sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+    sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
 
     this.executeFilteredSearch.emit();
   }
