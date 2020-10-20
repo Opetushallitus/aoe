@@ -66,6 +66,12 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
+        path: 'materiaali/:materialId/:versionDate',
+        component: EducationalMaterialViewComponent,
+        canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
         path: 'kokoelmat',
         component: CollectionsViewComponent,
         canActivate: [ AcceptanceGuard ],

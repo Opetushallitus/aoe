@@ -56,14 +56,14 @@
                       aria-hidden="true"
                     > {{ type.value }}
                   </li>
-                  <!--<li class="text-muted">
+                  <li>
                     <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                    0 {{ 'demo.educationalMaterial.viewCount' | translate }}
+                    {{ educationalMaterial.viewCounter }} {{ 'demo.educationalMaterial.viewCount' | translate }}
                   </li>
-                  <li class="text-muted">
+                  <li>
                     <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                    0 {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                  </li>-->
+                    {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                  </li>
                 </ul>
               </div>
             </div>
@@ -116,6 +116,38 @@
                     {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
                   </time>
                 </span>
+
+                <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
+                  <button
+                    id="toggle-version-history"
+                    dropdownToggle
+                    type="button"
+                    class="btn btn-link"
+                    aria-controls="version-history"
+                  >{{ 'demo.educationalMaterial.versionHistory.button' | translate }}</button>
+
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate"
+                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+                  <ul
+                    id="version-history"
+                    *dropdownMenu class="dropdown-menu"
+                    role="menu"
+                    aria-labelledby="toggle-version-history"
+                  >
+                    <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
+                      <a
+                        class="dropdown-item"
+                        [routerLink]="['/materiaali', materialId, version]"
+                        routerLinkActive="active"
+                        [ngClass]="{ 'active': !materialVersionDate && isFirst }"
+                      >{{ version | date:'dd.MM.yyyy HH:mm:ss' }}</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
               <p *ngIf="description">{{ description }}</p>
@@ -581,6 +613,29 @@
                       [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
                       property="value"
                     ></app-taglist><!--accessibilityHazards-->
+                  </div>
+
+                  <!-- typicalAgeRange -->
+                  <div *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin || educationalMaterial.typicalAgeRange.typicalAgeRangeMax" class="metadata-group">
+                    <strong class="h3 d-block mb-2">
+                      {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
+                    </strong>
+
+                    <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin && educationalMaterial.typicalAgeRange.typicalAgeRangeMax; else onlyMinOrMax">
+                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                      &ndash;
+                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                    </ng-container>
+
+                    <ng-template #onlyMinOrMax>
+                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin">
+                        &gt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                      </ng-container>
+
+                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMax">
+                        &lt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                      </ng-container>
+                    </ng-template>
                   </div>
                 </accordion-group>
               </accordion>
