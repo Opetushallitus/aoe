@@ -26,7 +26,9 @@ body {
 .ng-select .ng-select-container .ng-value-container .ng-input > input:focus,
 .btn:focus,
 .form-control:focus,
-a:focus {
+.custom-control-input:focus ~ .custom-control-label::before,
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
+:focus {
   outline: transparent;
   opacity: 1;
   box-shadow:
@@ -35,15 +37,7 @@ a:focus {
     inset 0 0 0 2px #000,
     0 0 0 1px #fff,
     0 0 0 2px #000;
-}
-
-// removes focus styling on mouse clicks
-.ng-select .ng-select-container .ng-value-container .ng-input > input:focus:not(:focus-visible),
-.btn:focus:not(:focus-visible),
-.form-control:focus:not(:focus-visible),
-a:focus:not(:focus-visible) {
-  outline: none;
-  box-shadow: none;
+  border: none;
 }
 
 .font-weight-medium {
