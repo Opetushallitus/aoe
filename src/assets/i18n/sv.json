@@ -15,7 +15,7 @@
       }
     },
     "login": {
-      "selectLoginMethod": "Välj inloggningsmetod"
+      "userDetails": "My Account"
     },
     "termsOfUse": "Användarvilko",
     "privacyPolicy": "Dataskyddsbeskrivnig",
