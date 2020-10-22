@@ -15,7 +15,7 @@
       }
     },
     "login": {
-      "userDetails": "My Account"
+      "userDetails": "Mina uppgifter"
     },
     "termsOfUse": "Användarvilko",
     "privacyPolicy": "Dataskyddsbeskrivnig",
@@ -62,7 +62,8 @@
     "searchResults": "Sökresultaten",
     "termsOfUse": "Användarvilko",
     "reviews": "Recensioner",
-    "collections": "Samlingar"
+    "collections": "Samlingar",
+    "userDetails": "Mina uppgifter"
   },
   "home": {
     "search": {
@@ -836,6 +837,23 @@
     "termsOfUse": "Användarvilko",
     "privacyPolicy": "Dataskyddsbeskrivnig",
     "acceptance": "Jag har läst och jag accepterar tjänstens  dataskyddsbeskrivning och användarvillkor"
+  },
+  "userDetails": {
+    "title": "Mina uppgifter",
+    "emails": {
+      "subTitle": "Jag vill ha ett meddelande per e-post:",
+      "newRatings": "Om nya recensioner av min lärresurs",
+      "almostExpired": "När det föråldras datum som jag angett för lärresursen närmar sig",
+      "termsUpdated": "När det har gjorts ändringar i användarvillkoren"
+    },
+    "email": {
+      "label": "E-post",
+      "placeholder": ""
+    },
+    "allowTransfer": {
+      "helpText": "Om du har loggat in i tjänsten med Haka eller MPASSid kan du i något skede byta ditt användarnamn (t.ex. vid byte av arbetsplats). Med ett nytt användarnamn kan du inte direkt redigera den lärresurs du sparat med ditt nuvarande användarnamn. Här kan du ge oss tillstånd att överföra administrationsrätten för din lärresurs i en situation där du kontaktar oss via din e-post. För att överföra administrationsrätten för lärresurser räcker det inte med att godkänna nedanstående, utan det krävs alltid kontakt till kundservicen. Om situationen är aktuell, inled processen genom att kontakta oppimateriaalivaranto@csc.fi.",
+      "label": "Administrationsrätten för min lärresurs får överföras till den användare jag uppgett om jag tar kontakt från min e-postadress ovan."
+    }
   },
   "userMaterials": {
     "title": "Mina lärresurser",

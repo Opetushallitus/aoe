@@ -106,6 +106,7 @@ import { CollectionCardComponent } from '@components/collection-card/collection-
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
+import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 
 @NgModule({
   imports: [
@@ -201,6 +202,7 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
     CollectionCardComponent,
     CollectionSearchResultsViewComponent,
     CollectionSearchResultComponent,
+    UserDetailsViewComponent,
   ],
   providers: [
     {
