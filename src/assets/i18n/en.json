@@ -62,7 +62,8 @@
     "searchResults": "Search results",
     "termsOfUse": "Terms of Use",
     "reviews": "User reviews",
-    "collections": "Collections"
+    "collections": "Collections",
+    "userDetails": "My Account"
   },
   "home": {
     "search": {
@@ -836,6 +837,23 @@
     "termsOfUse": "Terms of Use",
     "privacyPolicy": "Privacy Policy",
     "acceptance": "I have read and accept the Privacy Policy and the Terms of Use of the service"
+  },
+  "userDetails": {
+    "title": "My Account",
+    "emails": {
+      "subTitle": "I would like to receive a notification when:",
+      "newRatings": "My educational resources gets new reviews",
+      "almostExpired": "The expires-date I have given to my educational resources is near",
+      "termsUpdated": "Terms of Use changes"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": ""
+    },
+    "allowTransfer": {
+      "helpText": "If you have logged in to the service by using Haka- or MPASSid-identification, the identification you use may change at some point (f.ex. when changing your workplace). With your new identification you cannot see the educational resources you have submitted with your previous identification in the My open educational resources view. On this page you can give us the permission to change the account tied to administering your learning resources in the case you contact us through the email you have given us above. To transfer your learning resources from one account to another, you always need to contact customer service, so a simple yes to the check box below does not lead to any action. If this situation is relevant to you now, please contact us at oppimateriaalivaranto@csc.fi and approve the check box below.",
+      "label": "The right to administer my learning resources can be transferred to another user of my choice if I contact you from the emailaddress I have given above"
+    }
   },
   "userMaterials": {
     "title": "My open educational resources",

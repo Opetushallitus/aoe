@@ -62,7 +62,8 @@
     "searchResults": "Hakutulokset",
     "termsOfUse": "Käyttöehdot",
     "reviews": "Käyttäjien arviot",
-    "collections": "Kokoelmat"
+    "collections": "Kokoelmat",
+    "userDetails": "Omat tiedot"
   },
   "home": {
     "search": {
@@ -836,6 +837,23 @@
     "termsOfUse": "Käyttöehdot",
     "privacyPolicy": "Tietosuojailmoitus",
     "acceptance": "Olen lukenut tietosuojailmoituksen ja hyväksyn palvelun käyttöehdot"
+  },
+  "userDetails": {
+    "title": "Omat tiedot",
+    "emails": {
+      "subTitle": "Haluan ilmoituksen sähköpostiini:",
+      "newRatings": "Oppimateriaaleilleni annetuista uusista arvioista",
+      "almostExpired": "Oppimateriaalille asettamani vanhenee-päivämäärän lähestyessä",
+      "termsUpdated": "Kun käyttöehtoihin on tehty muutos"
+    },
+    "email": {
+      "label": "Sähköposti",
+      "placeholder": ""
+    },
+    "allowTransfer": {
+      "helpText": "Mikäli olet kirjautunut palveluun Haka- tai MPASSid-tunnuksella voi käyttämäsi tunnus jossain vaiheessa vaihtua (esim. työpaikan vaihdoksessa). Uudella tunnuksella et pääse suoraan muokkaamaan nykyisellä tunnuksellasi tallentamiasi oppimateriaaleja. Voit tässä antaa meille luvan oppimateriaalisi hallinnointioikeuden siirtämiseksi tilanteessa, jossa otat meihin yhteyttä ylläantamastasi sähköpostista. Oppimateriaalin hallintaoikeuden siirtämiseksi ei riitä alla olevan hyväksyminen vaan se vaatii aina asiakaspalvelukontaktin. Mikäli tilanne on ajankohtainen, aloita prosessi ottamalla yhteys oppimateriaalivaranto@csc.fi.",
+      "label": "Oppimateriaalieni hallintaoikeus voidaan siirtää ilmoittamalleni käyttäjälle, mikäli otan ylläolevasta sähköpostista yhteyttä"
+    }
   },
   "userMaterials": {
     "title": "Omat oppimateriaalit",

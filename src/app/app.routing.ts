@@ -26,6 +26,7 @@ import { CollectionFormComponent } from '@views/collection-form/collection-form.
 import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
+import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 
 export const routes: Routes = [
   {
@@ -106,6 +107,12 @@ export const routes: Routes = [
         path: 'lisatietoa',
         component: HelpViewComponent,
         canActivate: [ AcceptanceGuard ],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'omat-tiedot',
+        component: UserDetailsViewComponent,
+        canActivate: [ AuthGuard, AcceptanceGuard ],
         runGuardsAndResolvers: 'always',
       },
       {
