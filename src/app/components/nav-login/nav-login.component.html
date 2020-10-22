@@ -1,18 +1,36 @@
 <button
+  *ngIf="!authSvc.hasUserdata(); else loggedIn"
   class="btn nav-link"
   type="button"
   (click)="login()"
-  *ngIf="!authSvc.hasUserdata(); else loggedIn"
->
-  {{ 'common.login' | translate }}
-</button>
+>{{ 'common.login' | translate }}</button>
 
 <ng-template #loggedIn>
-  <button
-    class="btn nav-link"
-    type="button"
-    (click)="logout()"
-  >
-    {{ authSvc.getUserdata()?.userdata.name }} - {{ 'common.logout' | translate }}
-  </button>
+  <ul class="navbar-nav">
+    <li class="nav-item dropdown">
+      <a
+        class="nav-link dropdown-toggle"
+        href="#"
+        id="user-details-dropdown"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >{{ authSvc.getUserdata()?.userdata.name }}</a>
+
+      <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
+        <a
+          class="dropdown-item"
+          routerLink="/omat-tiedot"
+          routerLinkActive="active"
+        >{{ 'navigation.login.userDetails' | translate }}</a>
+
+        <button
+          class="dropdown-item"
+          type="button"
+          (click)="logout()"
+        >{{ 'common.logout' | translate }}</button>
+      </div>
+    </li>
+  </ul>
 </ng-template>
