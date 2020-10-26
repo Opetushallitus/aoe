@@ -107,6 +107,7 @@ import { CollectionSearchResultsViewComponent } from '@views/collection-search-r
 import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { FocusRemoverDirective } from './directives/focus-remover.directive';
+import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 
 @NgModule({
   imports: [
@@ -203,6 +204,7 @@ import { FocusRemoverDirective } from './directives/focus-remover.directive';
     CollectionSearchResultsViewComponent,
     CollectionSearchResultComponent,
     FocusRemoverDirective,
+    UserDetailsViewComponent,
   ],
   providers: [
     {
@@ -216,8 +218,8 @@ import { FocusRemoverDirective } from './directives/focus-remover.directive';
       multi: true,
     },
     Title,
-    DeviceDetectorService,
     UnsavedChangesGuard,
+    DeviceDetectorService,
   ],
   bootstrap: [ AppComponent ]
 })
