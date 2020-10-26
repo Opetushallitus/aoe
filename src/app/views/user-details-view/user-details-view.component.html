@@ -1,0 +1,42 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>{{ 'userDetails.title' | translate }}</h1>
+
+    <form>
+      <div class="form-group">
+        <span class="d-inline-block mb-2">{{ 'userDetails.emails.subTitle' | translate }}</span>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="newRatings">
+          <label class="custom-control-label" for="newRatings">{{ 'userDetails.emails.newRatings' | translate }}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="almostExpired">
+          <label class="custom-control-label" for="almostExpired">{{ 'userDetails.emails.almostExpired' | translate }}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="termsUpdated">
+          <label class="custom-control-label" for="termsUpdated">{{ 'userDetails.emails.termsUpdated' | translate }}</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">{{ 'userDetails.email.label' | translate }}</label>
+        <input type="email" class="form-control" id="email">
+      </div>
+
+      <p>{{ 'userDetails.allowTransfer.helpText' | translate }}</p>
+
+      <div class="form-group">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="allowTransfer">
+          <label class="custom-control-label" for="allowTransfer">{{ 'userDetails.allowTransfer.label' | translate }}</label>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
+    </form>
+  </div>
+</div>
