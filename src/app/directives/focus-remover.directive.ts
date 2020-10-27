@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: 'button, a, input, [role=button]'
+  selector: 'button, a, [role=button]'
 })
 export class FocusRemoverDirective {
   constructor(
