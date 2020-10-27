@@ -2,41 +2,91 @@
   <div class="container">
     <h1>{{ 'userDetails.title' | translate }}</h1>
 
-    <form>
-      <div class="form-group">
-        <span class="d-inline-block mb-2">{{ 'userDetails.emails.subTitle' | translate }}</span>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group" formGroupName="notifications">
+        <span class="d-inline-block mb-2">
+          {{ 'userDetails.emails.subTitle' | translate }}
+        </span>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="newRatings">
-          <label class="custom-control-label" for="newRatings">{{ 'userDetails.emails.newRatings' | translate }}</label>
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="newRatings"
+            formControlName="newRatings">
+
+          <label
+            class="custom-control-label"
+            for="newRatings"
+          >{{ 'userDetails.emails.newRatings' | translate }}</label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="almostExpired">
-          <label class="custom-control-label" for="almostExpired">{{ 'userDetails.emails.almostExpired' | translate }}</label>
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="almostExpired"
+            formControlName="almostExpired">
+
+          <label
+            class="custom-control-label"
+            for="almostExpired"
+          >{{ 'userDetails.emails.almostExpired' | translate }}</label>
         </div>
 
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="termsUpdated">
-          <label class="custom-control-label" for="termsUpdated">{{ 'userDetails.emails.termsUpdated' | translate }}</label>
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="termsUpdated"
+            formControlName="termsUpdated">
+
+          <label
+            class="custom-control-label"
+            for="termsUpdated"
+          >{{ 'userDetails.emails.termsUpdated' | translate }}</label>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="email">{{ 'userDetails.email.label' | translate }}</label>
-        <input type="email" class="form-control" id="email">
+        <label
+          for="email"
+        >{{ 'userDetails.email.label' | translate }}</label>
+
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email">
       </div>
 
       <p>{{ 'userDetails.allowTransfer.helpText' | translate }}</p>
 
       <div class="form-group">
         <div class="custom-control custom-checkbox">
-          <input type="checkbox" class="custom-control-input" id="allowTransfer">
-          <label class="custom-control-label" for="allowTransfer">{{ 'userDetails.allowTransfer.label' | translate }}</label>
+          <input
+            type="checkbox"
+            class="custom-control-input"
+            id="allowTransfer"
+            formControlName="allowTransfer">
+
+          <label
+            class="custom-control-label"
+            for="allowTransfer"
+          >{{ 'userDetails.allowTransfer.label' | translate }}</label>
         </div>
       </div>
 
-      <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
+      <button
+        type="submit"
+        class="btn btn-blue"
+        [ngClass]="{ 'mb-4': submitted && form.valid }"
+        [disabled]="form.invalid"
+      >{{ 'forms.common.save' | translate }}</button>
     </form>
+
+    <alert type="confirm" *ngIf="submitted && form.valid">
+      {{ 'userDetails.email.confirm' | translate }}
+    </alert>
   </div>
 </div>
