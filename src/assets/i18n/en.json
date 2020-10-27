@@ -848,7 +848,8 @@
     },
     "email": {
       "label": "Email",
-      "placeholder": ""
+      "placeholder": "",
+      "confirm": "We have sent you an email for you to verify that you want to get notifications from the Library of Open Educational Resources. Please verify your approval through the email."
     },
     "allowTransfer": {
       "helpText": "If you have logged in to the service by using Haka- or MPASSid-identification, the identification you use may change at some point (f.ex. when changing your workplace). With your new identification you cannot see the educational resources you have submitted with your previous identification in the My open educational resources view. On this page you can give us the permission to change the account tied to administering your learning resources in the case you contact us through the email you have given us above. To transfer your learning resources from one account to another, you always need to contact customer service, so a simple yes to the check box below does not lead to any action. If this situation is relevant to you now, please contact us at oppimateriaalivaranto@csc.fi and approve the check box below.",
