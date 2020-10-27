@@ -808,6 +808,12 @@ h2 {
   }
 }
 
+.alert-confirm {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
 .alert-expired {
   @extend .alert-warning;
   margin-bottom: 0;
