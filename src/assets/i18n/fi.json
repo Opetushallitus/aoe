@@ -848,7 +848,8 @@
     },
     "email": {
       "label": "Sähköposti",
-      "placeholder": ""
+      "placeholder": "",
+      "confirm": "Olemme lähettäneet sinulle sähköpostin, jonka avulla voit hyväksyä sähköposti-ilmoitusten saamisen meiltä. Käythän vahvistamassa osoitteesi sähköpostissasi!"
     },
     "allowTransfer": {
       "helpText": "Mikäli olet kirjautunut palveluun Haka- tai MPASSid-tunnuksella voi käyttämäsi tunnus jossain vaiheessa vaihtua (esim. työpaikan vaihdoksessa). Uudella tunnuksella et pääse suoraan muokkaamaan nykyisellä tunnuksellasi tallentamiasi oppimateriaaleja. Voit tässä antaa meille luvan oppimateriaalisi hallinnointioikeuden siirtämiseksi tilanteessa, jossa otat meihin yhteyttä ylläantamastasi sähköpostista. Oppimateriaalin hallintaoikeuden siirtämiseksi ei riitä alla olevan hyväksyminen vaan se vaatii aina asiakaspalvelukontaktin. Mikäli tilanne on ajankohtainen, aloita prosessi ottamalla yhteys oppimateriaalivaranto@csc.fi.",
