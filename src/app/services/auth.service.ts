@@ -48,7 +48,7 @@ export class AuthService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      map((res): Userdata => {
+      map((res: Userdata): Userdata => {
         sessionStorage.setItem(environment.userdataKey, JSON.stringify(res));
 
         return res;
@@ -118,12 +118,20 @@ export class AuthService {
    * @returns {Observable<UpdateUserSettingsResponse>}
    */
   updateUserSettings(userSettings: UserSettings): Observable<UpdateUserSettingsResponse> {
-    return this.http.post<UpdateUserSettingsResponse>(`${environment.backendUrl}/user-endpoint`, userSettings, {
+    return this.http.put<UpdateUserSettingsResponse>(`${environment.backendUrl}/updateSettings`, userSettings, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
     }).pipe(
       catchError(this.handleError),
     );
+  }
+
+  hasEmail(): boolean {
+    return !!this.getUserdata()?.email;
+  }
+
+  hasVerifiedEmail(): boolean {
+    return this.getUserdata()?.verifiedEmail;
   }
 }
