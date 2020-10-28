@@ -57,7 +57,8 @@
           type="email"
           class="form-control"
           id="email"
-          formControlName="email">
+          formControlName="email"
+          [ngClass]="{ 'is-valid': authSvc.getUserdata()?.email === emailCtrl.value && authSvc.hasVerifiedEmail() }">
       </div>
 
       <p>{{ 'userDetails.allowTransfer.helpText' | translate }}</p>
@@ -80,12 +81,12 @@
       <button
         type="submit"
         class="btn btn-blue"
-        [ngClass]="{ 'mb-4': submitted && form.valid }"
-        [disabled]="form.invalid"
+        [ngClass]="{ 'mb-4': authSvc.hasEmail() && !authSvc.hasVerifiedEmail() }"
+        [disabled]="form.invalid || form.pristine"
       >{{ 'forms.common.save' | translate }}</button>
     </form>
 
-    <alert type="confirm" *ngIf="submitted && form.valid">
+    <alert type="confirm" *ngIf="authSvc.hasEmail() && !authSvc.hasVerifiedEmail()">
       {{ 'userDetails.email.confirm' | translate }}
     </alert>
   </div>

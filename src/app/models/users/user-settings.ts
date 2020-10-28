@@ -4,6 +4,6 @@ export interface UserSettings {
     almostExpired: boolean;
     termsUpdated: boolean;
   };
-  email: string;
+  email?: string;
   allowTransfer: boolean;
 }
