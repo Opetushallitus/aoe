@@ -25,13 +25,12 @@ export class AcceptanceGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user: Userdata = this.authSvc.getUserdata();
 
-    if (!user || (user && user.termsofusage === true)) {
+    if (!user || user?.termsofusage === true) {
       return true;
     }
 
     // redirect to acceptance route.
-    this.router.navigate(['/hyvaksynta']);
-    return false;
+    return this.router.parseUrl('/hyvaksynta');
   }
 
 }
