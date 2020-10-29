@@ -116,6 +116,11 @@ export const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
+        path: 'sahkoposti-vahvistettu',
+        redirectTo: 'omat-tiedot',
+        pathMatch: 'full',
+      },
+      {
         path: 'omat-oppimateriaalit',
         component: UserMaterialsViewComponent,
         canActivate: [ AuthGuard, AcceptanceGuard ],
