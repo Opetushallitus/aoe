@@ -14,6 +14,7 @@ import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UsedFilter } from '@models/search/used-filter';
+import { sortOptions } from '../../constants/sort-options';
 
 @Component({
   selector: 'app-search-results-view',
@@ -60,6 +61,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedKeywords = true;
   showAllKeywords = true;
   usedFilters: UsedFilter[] = [];
+  sortOptions = sortOptions;
 
   constructor(
     private searchSvc: SearchService,
@@ -98,6 +100,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
       }),
+      sort: this.fb.control('relevance'),
     });
 
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
@@ -301,6 +304,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
+  }
+
+  get sortCtrl(): FormControl {
+    return this.searchForm.get('sort') as FormControl;
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
@@ -672,5 +679,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
     this.searchSvc.updateSearchResults(searchParams);
     this.page = 1;
+  }
+
+  sortChange(): void {
+    // @todo: execute search
   }
 }
