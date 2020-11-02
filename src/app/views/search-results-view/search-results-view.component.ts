@@ -25,6 +25,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
   results: SearchResults;
   page = 1;
+  pages = 0;
   resultsPerPage = 15;
   loading: boolean;
   @ViewChild('resultsContainer') resultsContainer: ElementRef;
@@ -116,6 +117,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         if (results.hits > 0) {
           this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
+
+          this.pages = Math.ceil(this.results.hits / this.resultsPerPage);
+          this.setTitle();
         }
       });
 
@@ -193,7 +197,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   setTitle(): void {
     this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${this.page} ${environment.title}`);
+      this.titleSvc.setTitle(`${title} ${this.page}/${this.pages} ${environment.title}`);
     });
   }
 
