@@ -815,6 +815,13 @@ h2 {
 }
 
 .alert-expired {
+  @extend .alert-danger;
+  margin-bottom: 0;
+  padding: .5rem 1rem;
+  text-align: center;
+}
+
+.alert-expires {
   @extend .alert-warning;
   margin-bottom: 0;
   padding: .5rem 1rem;
