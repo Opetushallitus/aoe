@@ -868,7 +868,8 @@
       "title": "Published educational resources"
     },
     "edit": "Edit",
-    "expired": "Expired {{date}}"
+    "expired": "Expired {{date}}",
+    "expires": "Expires {{date}}"
   },
   "userCollections": {
     "private": {
