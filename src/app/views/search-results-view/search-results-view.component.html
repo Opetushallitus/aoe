@@ -555,7 +555,7 @@
         <div class="col-lg-9">
           <div id="results" *ngIf="results?.hits > 0; else noResults" #resultsContainer>
             <div class="block-header">
-              <div class="row justify-content-md-between align-items-md-center">
+              <div class="row justify-content-md-between align-items-md-center mb-2">
                 <div class="col-md-4 text-center text-md-left">
                   <div class="results-count mb-2 mb-md-0">{{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} / {{ results.hits }} {{ 'search.results.results' | translate }}</div>
                 </div>
@@ -567,6 +567,26 @@
                     [previousLabel]="'forms.common.previous' | translate"
                     [nextLabel]="'forms.common.next' | translate"
                   ></pagination-controls>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-auto">
+                  <div class="form-group mb-0">
+                    <label for="sort" class="sr-only">Järjestä hakutulokset:</label><!--@todo: i18n-->
+
+                    <select
+                      class="form-control"
+                      id="sort"
+                      formControlName="sort"
+                      (change)="sortChange()"
+                    >
+                      <option [ngValue]="sortOptions.relevance.value">{{ 'search.sort.relevance' | translate }}</option>
+                      <option [ngValue]="sortOptions.newest.value">{{ 'search.sort.newest' | translate }}</option>
+                      <option [ngValue]="sortOptions.oldest.value">{{ 'search.sort.oldest' | translate }}</option>
+                      <option [ngValue]="sortOptions.popularity.value">{{ 'search.sort.popularity' | translate }}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>

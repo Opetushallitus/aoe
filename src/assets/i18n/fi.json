@@ -921,6 +921,12 @@
         "showFull": "Näytä kokonaan"
       },
       "usedFilters": "Käytetyt rajaukset:"
+    },
+    "sort": {
+      "relevance": "Relevanssi",
+      "newest": "Uusin ensin",
+      "oldest": "Vanhin ensin",
+      "popularity": "Suosituin"
     }
   },
   "collections": {
