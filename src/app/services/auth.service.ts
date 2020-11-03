@@ -7,14 +7,13 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Userdata } from '@models/userdata';
 import { CookieService } from 'ngx-cookie-service';
+import { UserSettings } from '@models/users/user-settings';
+import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  backendUrl = environment.backendUrl;
-  userdataKey = environment.userdataKey;
-
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
@@ -22,10 +21,21 @@ export class AuthService {
   ) { }
 
   /**
+   * Handles errors.
+   * @param {HttpErrorResponse} error
+   * @private
+   */
+  private handleError(error: HttpErrorResponse) {
+    console.error(error);
+
+    return throwError('Something bad happened; please try again later.');
+  }
+
+  /**
    * Redirects user to login page.
    */
   login(): void {
-    this.document.location.href = `${this.backendUrl}/login`;
+    this.document.location.href = `${environment.backendUrl}/login`;
   }
 
   /**
@@ -33,13 +43,13 @@ export class AuthService {
    * @returns {Observable<Userdata>}
    */
   setUserdata(): Observable<Userdata> {
-    return this.http.get<Userdata>(`${this.backendUrl}/userdata`, {
+    return this.http.get<Userdata>(`${environment.backendUrl}/userdata`, {
       headers: new HttpHeaders({
         'Accept': 'application/json',
       }),
     }).pipe(
-      map((res): Userdata => {
-        sessionStorage.setItem(this.userdataKey, JSON.stringify(res));
+      map((res: Userdata): Userdata => {
+        sessionStorage.setItem(environment.userdataKey, JSON.stringify(res));
 
         return res;
       }),
@@ -58,7 +68,7 @@ export class AuthService {
    * @returns {Userdata}
    */
   getUserdata(): Userdata {
-    return JSON.parse(sessionStorage.getItem(this.userdataKey));
+    return JSON.parse(sessionStorage.getItem(environment.userdataKey));
   }
 
   /**
@@ -74,7 +84,7 @@ export class AuthService {
    */
   removeUserdata(): void {
     // remove user data
-    sessionStorage.removeItem(this.userdataKey);
+    sessionStorage.removeItem(environment.userdataKey);
 
     // remove session id
     this.cookieSvc.delete('connect.sid', '/');
@@ -88,9 +98,9 @@ export class AuthService {
     const userdata = this.getUserdata();
     userdata.termsofusage = true;
 
-    sessionStorage.setItem(this.userdataKey, JSON.stringify(userdata));
+    sessionStorage.setItem(environment.userdataKey, JSON.stringify(userdata));
 
-    return this.http.put<any>(`${this.backendUrl}/termsofusage`, null);
+    return this.http.put<any>(`${environment.backendUrl}/termsofusage`, null);
   }
 
   /**
@@ -99,6 +109,29 @@ export class AuthService {
   logout(): void {
     this.removeUserdata();
 
-    this.document.location.href = `${this.backendUrl}/logout`;
+    this.document.location.href = `${environment.backendUrl}/logout`;
+  }
+
+  /**
+   * Updates user settings.
+   * @param {UserSettings} userSettings
+   * @returns {Observable<UpdateUserSettingsResponse>}
+   */
+  updateUserSettings(userSettings: UserSettings): Observable<UpdateUserSettingsResponse> {
+    return this.http.put<UpdateUserSettingsResponse>(`${environment.backendUrl}/updateSettings`, userSettings, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).pipe(
+      catchError(this.handleError),
+    );
+  }
+
+  hasEmail(): boolean {
+    return !!this.getUserdata()?.email;
+  }
+
+  hasVerifiedEmail(): boolean {
+    return this.getUserdata()?.verifiedEmail;
   }
 }
