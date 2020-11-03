@@ -48,22 +48,27 @@
         <div class="col-lg-3 mb-2 mb-md-0" id="filters" formGroupName="filters">
           <div class="block-header">
             <div
-              class="row align-items-center"
+              class="header"
               role="button"
               [attr.aria-expanded]="!isCollapsedFilters"
               aria-controls="search-filters"
               (click)="isCollapsedFilters = !isCollapsedFilters"
+              (keydown.enter)="isCollapsedFilters = !isCollapsedFilters"
+              (keydown.space)="isCollapsedFilters = !isCollapsedFilters"
+              tabindex="0"
             >
-              <div class="col">
-                <h2>{{ 'search.results.narrowSearch' | translate }}</h2>
-              </div>
+              <div class="row align-items-center">
+                <div class="col">
+                  <h2>{{ 'search.results.narrowSearch' | translate }}</h2>
+                </div>
 
-              <div class="col-auto">
-                <span class="badge badge-pill badge-blue mr-2" *ngIf="filtersCount > 0">
-                  {{ filtersCount }}
-                </span>
+                <div class="col-auto">
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="filtersCount > 0">
+                    {{ filtersCount }}
+                  </span>
 
-                <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFilters ? 'fa-plus' : 'fa-minus'"></i>
+                  <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFilters ? 'fa-plus' : 'fa-minus'"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -81,6 +86,9 @@
                 [attr.aria-expanded]="!isCollapsedLanguages"
                 aria-controls="filter-languages"
                 (click)="isCollapsedLanguages = !isCollapsedLanguages"
+                (keydown.enter)="isCollapsedLanguages = !isCollapsedLanguages"
+                (keydown.space)="isCollapsedLanguages = !isCollapsedLanguages"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -132,6 +140,9 @@
                 [attr.aria-expanded]="!isCollapsedLevels"
                 aria-controls="filter-levels"
                 (click)="isCollapsedLevels = !isCollapsedLevels"
+                (keydown.enter)="isCollapsedLevels = !isCollapsedLevels"
+                (keydown.space)="isCollapsedLevels = !isCollapsedLevels"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -184,6 +195,9 @@
                 [attr.aria-expanded]="!isCollapsedSubjects"
                 aria-controls="filter-subjects"
                 (click)="isCollapsedSubjects = !isCollapsedSubjects"
+                (keydown.enter)="isCollapsedSubjects = !isCollapsedSubjects"
+                (keydown.space)="isCollapsedSubjects = !isCollapsedSubjects"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -235,6 +249,9 @@
                 [attr.aria-expanded]="!isCollapsedTeaches"
                 aria-controls="filter-teaches"
                 (click)="isCollapsedTeaches = !isCollapsedTeaches"
+                (keydown.enter)="isCollapsedTeaches = !isCollapsedTeaches"
+                (keydown.space)="isCollapsedTeaches = !isCollapsedTeaches"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -295,6 +312,9 @@
                 [attr.aria-expanded]="!isCollapsedTypes"
                 aria-controls="filter-types"
                 (click)="isCollapsedTypes = !isCollapsedTypes"
+                (keydown.enter)="isCollapsedTypes = !isCollapsedTypes"
+                (keydown.space)="isCollapsedTypes = !isCollapsedTypes"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -339,6 +359,9 @@
                 [attr.aria-expanded]="!isCollapsedAuthors"
                 aria-controls="filter-authors"
                 (click)="isCollapsedAuthors = !isCollapsedAuthors"
+                (keydown.enter)="isCollapsedAuthors = !isCollapsedAuthors"
+                (keydown.space)="isCollapsedAuthors = !isCollapsedAuthors"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -390,6 +413,9 @@
                 [attr.aria-expanded]="!isCollapsedOrganizations"
                 aria-controls="filter-organizations"
                 (click)="isCollapsedOrganizations = !isCollapsedOrganizations"
+                (keydown.enter)="isCollapsedOrganizations = !isCollapsedOrganizations"
+                (keydown.space)="isCollapsedOrganizations = !isCollapsedOrganizations"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -441,6 +467,9 @@
                 [attr.aria-expanded]="!isCollapsedRoles"
                 aria-controls="filter-roles"
                 (click)="isCollapsedRoles = !isCollapsedRoles"
+                (keydown.enter)="isCollapsedRoles = !isCollapsedRoles"
+                (keydown.space)="isCollapsedRoles = !isCollapsedRoles"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">
@@ -492,6 +521,9 @@
                 [attr.aria-expanded]="!isCollapsedKeywords"
                 aria-controls="filter-keywords"
                 (click)="isCollapsedKeywords = !isCollapsedKeywords"
+                (keydown.enter)="isCollapsedKeywords = !isCollapsedKeywords"
+                (keydown.space)="isCollapsedKeywords = !isCollapsedKeywords"
+                tabindex="0"
               >
                 <div class="row align-items-center">
                   <div class="col">

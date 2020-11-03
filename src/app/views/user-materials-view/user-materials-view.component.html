@@ -36,8 +36,16 @@
       </div>
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of publishedMaterials">
-        <alert *ngIf="isExpired(material.expires)" type="expired">
-          {{ 'userMaterials.expired' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+        <alert *ngIf="material.expires" [type]="expireAlertType(material.expires)">
+          <ng-container [ngSwitch]="expireAlertType(material.expires)">
+            <ng-container *ngSwitchCase="'expired'">
+              {{ 'userMaterials.expired' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              {{ 'userMaterials.expires' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+            </ng-container>
+          </ng-container>
         </alert>
 
         <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>

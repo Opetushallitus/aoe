@@ -81,7 +81,7 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  isExpired(date: Date): boolean {
-    return date ? new Date(date) < new Date() : false;
+  expireAlertType(date: Date): string {
+    return new Date(date) < new Date() ? 'expired' : 'expires';
   }
 }
