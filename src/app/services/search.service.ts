@@ -9,6 +9,7 @@ import { SearchParams } from '@models/search/search-params';
 import { deduplicate } from '../shared/shared.module';
 import { KeyValue } from '@angular/common';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
+import { sortOptions } from '../constants/sort-options';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class SearchService {
    */
   updateSearchResults(searchParams: SearchParams): void {
     sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+
+    if (searchParams.sort) {
+      searchParams.sort = sortOptions[searchParams.sort].sort;
+    }
 
     this.http.post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, searchParams, {
       headers: new HttpHeaders({

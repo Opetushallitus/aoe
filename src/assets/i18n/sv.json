@@ -941,6 +941,13 @@
         "showFull": "Visa full"
       },
       "usedFilters": "Nuvarande begränsningar:"
+    },
+    "sort": {
+      "label": "Sortera sökresultat:",
+      "relevance": "Relevans",
+      "newest": "Nyast först",
+      "oldest": "Äldst först",
+      "popularity": "Populäraste"
     }
   },
   "collections": {

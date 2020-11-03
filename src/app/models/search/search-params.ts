@@ -13,4 +13,6 @@ export interface SearchParams {
   };
   from?: number;
   size?: number;
+  sort?: any;
+  sort2?: any;
 }
