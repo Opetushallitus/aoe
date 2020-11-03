@@ -101,6 +101,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         keywords: this.fb.array([]),
       }),
       sort: this.fb.control('relevance'),
+      sort2: this.fb.control('relevance'),
     });
 
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
@@ -188,6 +189,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
       this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
     });
+
+    // keep both controls in sync
+    this.sortCtrl.valueChanges.subscribe((value) => this.sort2Ctrl.setValue(value, { emitEvent: false }));
+    this.sort2Ctrl.valueChanges.subscribe((value) => this.sortCtrl.setValue(value, { emitEvent: false }));
   }
 
   ngOnDestroy(): void {
@@ -308,6 +313,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   get sortCtrl(): FormControl {
     return this.searchForm.get('sort') as FormControl;
+  }
+
+  get sort2Ctrl(): FormControl {
+    return this.searchForm.get('sort2') as FormControl;
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
@@ -456,6 +465,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
+
+      delete searchParams.sort2;
 
       searchParams.filters.languages = this.filters.value.languages
         .map((checked: boolean, index: number) => {
@@ -679,9 +690,5 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
     this.searchSvc.updateSearchResults(searchParams);
     this.page = 1;
-  }
-
-  sortChange(): void {
-    // @todo: execute search
   }
 }

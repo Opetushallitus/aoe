@@ -28,11 +28,11 @@ export class SearchService {
    * @param {SearchParams} searchParams
    */
   updateSearchResults(searchParams: SearchParams): void {
+    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+
     if (searchParams.sort) {
       searchParams.sort = sortOptions[searchParams.sort].sort;
     }
-
-    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
 
     this.http.post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, searchParams, {
       headers: new HttpHeaders({
