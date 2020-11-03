@@ -14,6 +14,7 @@ import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UsedFilter } from '@models/search/used-filter';
+import { sortOptions } from '../../constants/sort-options';
 
 @Component({
   selector: 'app-search-results-view',
@@ -25,6 +26,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
   results: SearchResults;
   page = 1;
+  pages = 0;
   resultsPerPage = 15;
   loading: boolean;
   @ViewChild('resultsContainer') resultsContainer: ElementRef;
@@ -59,6 +61,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedKeywords = true;
   showAllKeywords = true;
   usedFilters: UsedFilter[] = [];
+  sortOptions = sortOptions;
 
   constructor(
     private searchSvc: SearchService,
@@ -97,6 +100,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
       }),
+      sort: this.fb.control('relevance'),
+      sort2: this.fb.control('relevance'),
     });
 
     const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
@@ -116,6 +121,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
         if (results.hits > 0) {
           this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
+
+          this.pages = Math.ceil(this.results.hits / this.resultsPerPage);
+          this.setTitle();
         }
       });
 
@@ -181,6 +189,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
       this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
     });
+
+    // keep both controls in sync
+    this.sortCtrl.valueChanges.subscribe((value) => this.sort2Ctrl.setValue(value, { emitEvent: false }));
+    this.sort2Ctrl.valueChanges.subscribe((value) => this.sortCtrl.setValue(value, { emitEvent: false }));
   }
 
   ngOnDestroy(): void {
@@ -193,7 +205,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   setTitle(): void {
     this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${this.page} ${environment.title}`);
+      this.titleSvc.setTitle(`${title} ${this.page}/${this.pages} ${environment.title}`);
     });
   }
 
@@ -297,6 +309,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
   get from(): number {
     return (this.page - 1) * this.resultsPerPage;
+  }
+
+  get sortCtrl(): FormControl {
+    return this.searchForm.get('sort') as FormControl;
+  }
+
+  get sort2Ctrl(): FormControl {
+    return this.searchForm.get('sort2') as FormControl;
   }
 
   setAvailableFilters(searchFilters: SearchFilters): void {
@@ -445,6 +465,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
+
+      delete searchParams.sort2;
 
       searchParams.filters.languages = this.filters.value.languages
         .map((checked: boolean, index: number) => {

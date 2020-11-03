@@ -941,6 +941,13 @@
         "showFull": "Show full"
       },
       "usedFilters": "Search narrowed by:"
+    },
+    "sort": {
+      "label": "Sort search results:",
+      "relevance": "Relevance",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "popularity": "Most popular"
     }
   },
   "collections": {
