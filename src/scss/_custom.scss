@@ -23,6 +23,23 @@ body {
   overflow-y: scroll;
 }
 
+.ng-select .ng-select-container .ng-value-container .ng-input > input:focus,
+.btn:focus,
+.form-control:focus,
+.custom-control-input:focus ~ .custom-control-label::before,
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before,
+:focus {
+  outline: transparent;
+  opacity: 1;
+  box-shadow:
+    0 0 2px 2px transparent,
+    inset 0 0 0 1px #fff,
+    inset 0 0 0 2px #000,
+    0 0 0 1px #fff,
+    0 0 0 2px #000;
+  border: none;
+}
+
 .font-weight-medium {
   font-weight: 500;
 }
@@ -246,7 +263,7 @@ h2 {
     background-color: $btn-light;
     border-color: $btn-light;
 
-    &:focus,
+    //&:focus,
     &:hover {
       background-color: $btn-light-hover;
     }
@@ -256,7 +273,7 @@ h2 {
     background-color: $btn-dark;
     border-color: $btn-dark;
 
-    &:focus,
+    //&:focus,
     &:hover {
       background-color: $btn-dark-hover;
     }
@@ -498,7 +515,7 @@ h2 {
   .btn {
     font-size: 1rem;
 
-    &:focus,
+    //&:focus,
     &:hover {
       text-decoration: none;
     }
