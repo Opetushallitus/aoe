@@ -60,6 +60,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   showAllRoles = true;
   isCollapsedKeywords = true;
   showAllKeywords = true;
+  isCollapsedUses = true;
+  isCollapsedAccHazards = true;
+  isCollapsedAccFeatures = true;
+  isCollapsedLicenses = true;
   usedFilters: UsedFilter[] = [];
   sortOptions = sortOptions;
 
@@ -99,6 +103,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
+        educationalUse: this.fb.array([]),
+        accessibilityHazards: this.fb.array([]),
+        accessibilityFeatures: this.fb.array([]),
+        license: this.fb.array([]),
       }),
       sort: this.fb.control('relevance'),
       sort2: this.fb.control('relevance'),
