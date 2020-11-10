@@ -160,10 +160,12 @@ export class SearchService {
         });
 
         // licenses
-        licenses.push({
-          key: result.license.key,
-          value: result.license.value,
-        });
+        if (result.license?.key && result.license?.value) {
+          licenses.push({
+            key: result.license.key,
+            value: result.license.value,
+          });
+        }
       });
 
       languages = [...new Set(languages)];

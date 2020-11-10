@@ -61,9 +61,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   isCollapsedKeywords = true;
   showAllKeywords = true;
   isCollapsedUses = true;
-  isCollapsedAccHazards = true;
-  isCollapsedAccFeatures = true;
+  showAllUses = true;
+  isCollapsedHazards = true;
+  showAllHazards = true;
+  isCollapsedFeatures = true;
+  showAllFeatures = true;
   isCollapsedLicenses = true;
+  showAllLicenses = true;
   usedFilters: UsedFilter[] = [];
   sortOptions = sortOptions;
 
@@ -103,10 +107,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         organizations: this.fb.array([]),
         educationalRoles: this.fb.array([]),
         keywords: this.fb.array([]),
-        educationalUse: this.fb.array([]),
+        educationalUses: this.fb.array([]),
         accessibilityHazards: this.fb.array([]),
         accessibilityFeatures: this.fb.array([]),
-        license: this.fb.array([]),
+        licenses: this.fb.array([]),
       }),
       sort: this.fb.control('relevance'),
       sort2: this.fb.control('relevance'),
@@ -196,6 +200,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.showAllOrganizations = this.organizationsArray.controls.length > this.filtersShownAtFirst;
       this.showAllRoles = this.educationalRolesArray.controls.length > this.filtersShownAtFirst;
       this.showAllKeywords = this.keywordsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllUses = this.usesArray.controls.length > this.filtersShownAtFirst;
+      this.showAllHazards = this.hazardsArray.controls.length > this.filtersShownAtFirst;
+      this.showAllFeatures = this.featuresArray.controls.length > this.filtersShownAtFirst;
+      this.showAllLicenses = this.licensesArray.controls.length > this.filtersShownAtFirst;
     });
 
     // keep both controls in sync
@@ -234,7 +242,11 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       + this.educationalRolesCount
       + this.keywordsCount
       + this.subjectsCount
-      + this.teachesCount;
+      + this.teachesCount
+      + this.usesCount
+      + this.hazardsCount
+      + this.featuresCount
+      + this.licensesCount;
   }
 
   get languagesArray(): FormArray {
@@ -307,6 +319,38 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     return this.educationalRolesArray.value.filter((v: boolean) => v === true).length;
   }
 
+  get usesArray(): FormArray {
+    return this.filters.get('educationalUses') as FormArray;
+  }
+
+  get usesCount(): number {
+    return this.usesArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get hazardsArray(): FormArray {
+    return this.filters.get('accessibilityHazards') as FormArray;
+  }
+
+  get hazardsCount(): number {
+    return this.hazardsArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get featuresArray(): FormArray {
+    return this.filters.get('accessibilityFeatures') as FormArray;
+  }
+
+  get featuresCount(): number {
+    return this.featuresArray.value.filter((v: boolean) => v === true).length;
+  }
+
+  get licensesArray(): FormArray {
+    return this.filters.get('licenses') as FormArray;
+  }
+
+  get licensesCount(): number {
+    return this.licensesArray.value.filter((v: boolean) => v === true).length;
+  }
+
   get keywordsArray(): FormArray {
     return this.filters.get('keywords') as FormArray;
   }
@@ -337,6 +381,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.organizationsArray.clear();
     this.educationalRolesArray.clear();
     this.keywordsArray.clear();
+    this.usesArray.clear();
+    this.hazardsArray.clear();
+    this.featuresArray.clear();
+    this.licensesArray.clear();
 
     this.filtersShown.set('languages', this.filtersShownAtFirst);
     this.filtersShown.set('subjects', this.filtersShownAtFirst);
@@ -345,6 +393,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.filtersShown.set('organizations', this.filtersShownAtFirst);
     this.filtersShown.set('roles', this.filtersShownAtFirst);
     this.filtersShown.set('keywords', this.filtersShownAtFirst);
+    this.filtersShown.set('uses', this.filtersShownAtFirst);
+    this.filtersShown.set('hazards', this.filtersShownAtFirst);
+    this.filtersShown.set('features', this.filtersShownAtFirst);
+    this.filtersShown.set('licenses', this.filtersShownAtFirst);
 
     // languages
     searchFilters.languages.forEach((language: string) => {
@@ -437,6 +489,50 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       }
 
       this.keywordsArray.push(this.fb.control(state));
+    });
+
+    // uses
+    searchFilters.uses.forEach((use) => {
+      let state = false;
+
+      if (searchParams?.filters?.educationalUses) {
+        state = searchParams.filters.educationalUses.includes(use.key);
+      }
+
+      this.usesArray.push(this.fb.control(state));
+    });
+
+    // hazards
+    searchFilters.hazards.forEach((hazard) => {
+      let state = false;
+
+      if (searchParams?.filters?.accessibilityHazards) {
+        state = searchParams.filters.accessibilityHazards.includes(hazard.key);
+      }
+
+      this.hazardsArray.push(this.fb.control(state));
+    });
+
+    // features
+    searchFilters.features.forEach((feature) => {
+      let state = false;
+
+      if (searchParams?.filters?.accessibilityFeatures) {
+        state = searchParams.filters.accessibilityFeatures.includes(feature.key);
+      }
+
+      this.featuresArray.push(this.fb.control(state));
+    });
+
+    // licenses
+    searchFilters.licenses.forEach((license) => {
+      let state = false;
+
+      if (searchParams?.filters?.licenses) {
+        state = searchParams.filters.licenses.includes(license.key);
+      }
+
+      this.licensesArray.push(this.fb.control(state));
     });
   }
 
@@ -620,6 +716,70 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         })
         .filter((teach: string) => teach !== null);
 
+      searchParams.filters.educationalUses = this.filters.value.educationalUses
+        .map((checked: boolean, index: number) => {
+          if (checked) {
+            usedFilters.push({
+              key: this.searchFilters.uses[index].key,
+              value: this.searchFilters.uses[index].value,
+              type: 'use',
+            });
+
+            return this.searchFilters.uses[index].key;
+          }
+
+          return null;
+        })
+        .filter((use: string) => use !== null);
+
+      searchParams.filters.accessibilityHazards = this.filters.value.accessibilityHazards
+        .map((checked: boolean, index: number) => {
+          if (checked) {
+            usedFilters.push({
+              key: this.searchFilters.hazards[index].key,
+              value: this.searchFilters.hazards[index].value,
+              type: 'hazard',
+            });
+
+            return this.searchFilters.hazards[index].key;
+          }
+
+          return null;
+        })
+        .filter((hazard: string) => hazard !== null);
+
+      searchParams.filters.accessibilityFeatures = this.filters.value.accessibilityFeatures
+        .map((checked: boolean, index: number) => {
+          if (checked) {
+            usedFilters.push({
+              key: this.searchFilters.features[index].key,
+              value: this.searchFilters.features[index].value,
+              type: 'feature',
+            });
+
+            return this.searchFilters.features[index].key;
+          }
+
+          return null;
+        })
+        .filter((feature: string) => feature !== null);
+
+      searchParams.filters.licenses = this.filters.value.licenses
+        .map((checked: boolean, index: number) => {
+          if (checked) {
+            usedFilters.push({
+              key: this.searchFilters.licenses[index].key,
+              value: this.searchFilters.licenses[index].value,
+              type: 'license',
+            });
+
+            return this.searchFilters.licenses[index].key;
+          }
+
+          return null;
+        })
+        .filter((license: string) => license !== null);
+
       if (removedFilter) {
         switch (removedFilter.type) {
           case 'language':
@@ -665,6 +825,26 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
           case 'keyword':
             searchParams.filters.keywords = searchParams.filters.keywords
               .filter((keyword: string) => keyword !== removedFilter.key);
+            break;
+
+          case 'use':
+            searchParams.filters.educationalUses = searchParams.filters.educationalUses
+              .filter((use: string) => use !== removedFilter.key);
+            break;
+
+          case 'hazard':
+            searchParams.filters.accessibilityHazards = searchParams.filters.accessibilityHazards
+              .filter((hazard: string) => hazard !== removedFilter.key);
+            break;
+
+          case 'feature':
+            searchParams.filters.accessibilityFeatures = searchParams.filters.accessibilityFeatures
+              .filter((feature: string) => feature !== removedFilter.key);
+            break;
+
+          case 'license':
+            searchParams.filters.licenses = searchParams.filters.licenses
+              .filter((license: string) => license !== removedFilter.key);
             break;
 
           default:
