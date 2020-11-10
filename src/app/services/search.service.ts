@@ -136,9 +136,34 @@ export class SearchService {
         });
 
         // educational uses
+        result.educationalUses?.forEach((use) => {
+          uses.push({
+            key: use.key,
+            value: use.value,
+          });
+        });
+
         // accessibility hazards
+        result.accessibilityHazards?.forEach((hazard) => {
+          hazards.push({
+            key: hazard.key,
+            value: hazard.value,
+          });
+        });
+
         // accessibility features
+        result.accessibilityFeatures?.forEach((feature) => {
+          features.push({
+            key: feature.key,
+            value: feature.value,
+          });
+        });
+
         // licenses
+        licenses.push({
+          key: result.license.key,
+          value: result.license.value,
+        });
       });
 
       languages = [...new Set(languages)];

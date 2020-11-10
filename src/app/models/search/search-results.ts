@@ -62,4 +62,22 @@ export interface SearchResult {
     filekey: string;
     filebucket: string;
   };
+  educationalUses?: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
+  accessibilityHazards?: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
+  accessibilityFeatures?: [
+    {
+      key: string;
+      value: string;
+    }
+  ];
 }
