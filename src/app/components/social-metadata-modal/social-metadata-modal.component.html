@@ -1,0 +1,97 @@
+<div class="modal-header">
+  <h1 class="modal-title pull-left">
+    {{ 'TITLE' | translate }}<!--@todo: replace with an actual title-->
+  </h1>
+
+  <button
+    type="button"
+    class="close pull-right"
+    [attr.aria-label]="'forms.common.close' | translate"
+    (click)="bsModalRef.hide()"
+  ><span aria-hidden="true">&times;</span></button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="keywords">
+        {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="keywords"
+        [virtualScroll]="true"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="keywords"
+        formControlName="keywords"
+      ></ng-select>
+    </div><!--/keywords-->
+
+    <div class="form-group">
+      <label for="accessibilityFeatures">
+        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="accessibilityFeatures"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="accessibilityFeatures"
+        formControlName="accessibilityFeatures"
+      ></ng-select>
+    </div><!--/accessibility features-->
+
+    <div class="form-group">
+      <label for="accessibilityHazards">
+        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="accessibilityHazards"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        labelForId="accessibilityHazards"
+        formControlName="accessibilityHazards"
+      ></ng-select>
+    </div><!--/accessibility hazards-->
+
+    <div class="form-group">
+      <label for="educationalLevels">
+        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="educationalLevels"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="children"
+        labelForId="educationalLevels"
+        formControlName="educationalLevels"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">
+          {{ item.value }}
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+        </ng-template>
+      </ng-select>
+    </div><!--/educational levels-->
+
+    <button
+      type="button"
+      class="btn btn-gray"
+      [attr.aria-label]="'forms.common.cancel' | translate"
+      (click)="bsModalRef.hide()"
+    >{{ 'forms.common.cancel' | translate }}</button>
+
+    <button
+      type="submit"
+      class="btn btn-blue"
+    >{{ 'forms.common.save' | translate }}</button>
+  </form>
+</div>

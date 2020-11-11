@@ -648,6 +648,20 @@
           <div class="ratings">
             <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
 
+            <h3>Käyttäjien mielestä tämä materiaali soveltuu myös:</h3>
+
+            <div class="row">
+              <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
+                <button
+                  type="button"
+                  class="btn btn-anchor"
+                  (click)="openSocialMetadataModal()"
+                >Lisää kuvailutietoja</button>
+              </div>
+            </div>
+
+            <h3>Käyttäjien arvostelut</h3>
+
             <div class="row">
               <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
                 <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>

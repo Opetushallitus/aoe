@@ -14,6 +14,7 @@ import { AddToCollectionModalComponent } from '@components/add-to-collection-mod
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
 import { Subscription } from 'rxjs';
+import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -37,6 +38,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   detailsExpanded = false;
   reviewModalRef: BsModalRef;
   collectionModalRef: BsModalRef;
+  socialMetadataModalRef: BsModalRef;
   materialLanguages: string[];
   selectedLanguage: string;
   expired = false;
@@ -183,5 +185,13 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     };
 
     this.collectionModalRef = this.modalSvc.show(AddToCollectionModalComponent, { initialState });
+  }
+
+  openSocialMetadataModal(): void {
+    const initialState = {
+      materialId: this.materialId,
+    };
+
+    this.socialMetadataModalRef = this.modalSvc.show(SocialMetadataModalComponent, { initialState });
   }
 }
