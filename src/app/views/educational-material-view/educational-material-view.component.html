@@ -648,7 +648,7 @@
           <div class="ratings">
             <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
 
-            <h3>Käyttäjien mielestä tämä materiaali soveltuu myös:</h3>
+            <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
 
             <div class="row">
               <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
@@ -656,11 +656,11 @@
                   type="button"
                   class="btn btn-anchor"
                   (click)="openSocialMetadataModal()"
-                >Lisää kuvailutietoja</button>
+                >{{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}</button>
               </div>
             </div>
 
-            <h3>Käyttäjien arvostelut</h3>
+            <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
 
             <div class="row">
               <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">

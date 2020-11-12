@@ -12,6 +12,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
 import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { Toast } from '@models/translations/toast';
 
 @Component({
   selector: 'app-social-metadata-modal',
@@ -30,6 +31,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
   userSocialMetadataSubscription: Subscription;
+  successfulToast: Toast;
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -87,6 +89,10 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
       this.form.patchValue(metadata);
     });
     this.socialMetadataSvc.updateUserSocialMetadata(this.materialId);
+
+    this.translate.get('demo.educationalMaterial.socialMetadata.toasts.success').subscribe((translation: Toast) => {
+      this.successfulToast = translation;
+    });
   }
 
   ngOnDestroy(): void {
@@ -103,7 +109,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
         this.socialMetadataSvc.putMaterialSocialMetadata(this.materialId, this.form.value).subscribe(
           () => {
             this.bsModalRef.hide();
-            this.toastr.success(null, 'SUCCESS'); // @todo: replace with an actual title
+            this.toastr.success(null, this.successfulToast.title);
           },
           (err: HttpErrorResponse) => this.toastr.error(null, err.error),
         );
