@@ -109,6 +109,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
         this.socialMetadataSvc.putMaterialSocialMetadata(this.materialId, this.form.value).subscribe(
           () => {
             this.bsModalRef.hide();
+            this.socialMetadataSvc.updateSocialMetadata(this.materialId);
             this.toastr.success(null, this.successfulToast.title);
           },
           (err: HttpErrorResponse) => this.toastr.error(null, err.error),
