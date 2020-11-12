@@ -650,7 +650,7 @@
 
             <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
 
-            <div class="row" *ngIf="socialMetadata.keywords?.length > 0 || socialMetadata.accessibilityFeatures?.length > 0 || socialMetadata.accessibilityHazards?.length > 0 || socialMetadata.educationalLevels?.length > 0">
+            <div class="row" *ngIf="socialMetadata.keywords?.length > 0 || socialMetadata.accessibilityFeatures?.length > 0 || socialMetadata.accessibilityHazards?.length > 0 || socialMetadata.educationalLevels?.length > 0; else noMetadata">
               <!--keywords-->
               <div *ngIf="socialMetadata.keywords?.length > 0" class="col-auto metadata-group">
                 <app-taglist
@@ -697,6 +697,10 @@
               </div><!--educationalLevels-->
             </div><!--social metadata-->
 
+            <ng-template #noMetadata>
+              <p>{{ 'demo.educationalMaterial.socialMetadata.noMetadata' | translate }}</p>
+            </ng-template>
+
             <ng-container *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
               <button
                 type="button"
@@ -707,24 +711,32 @@
 
             <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
 
-            <div class="row">
-              <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
-                <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
-                {{ educationalMaterial.ratingContentAverage }}
-                <span class="text-muted">/ 5</span>
-              </div>
+            <div class="row mb-2">
+              <ng-container *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage; else noRatings">
+                <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
+                  <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
+                  {{ educationalMaterial.ratingContentAverage }}
+                  <span class="text-muted">/ 5</span>
+                </div>
 
-              <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
-                <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
-                {{ educationalMaterial.ratingVisualAverage }}
-                <span class="text-muted">/ 5</span>
-              </div>
+                <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
+                  <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
+                  {{ educationalMaterial.ratingVisualAverage }}
+                  <span class="text-muted">/ 5</span>
+                </div>
 
-              <div class="col-auto">
-                <a routerLink="arvostelut">
-                  {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}
-                </a>
-              </div>
+                <div class="col-auto">
+                  <a routerLink="arvostelut">
+                    {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}
+                  </a>
+                </div>
+              </ng-container>
+
+              <ng-template #noRatings>
+                <div class="col-12">
+                  <p>{{ 'demo.educationalMaterial.reviews.noRatings' | translate }}</p>
+                </div>
+              </ng-template>
 
               <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                 <button
@@ -734,6 +746,10 @@
                 >{{ 'demo.educationalMaterial.userReviews.addReview' | translate }}</button>
               </div>
             </div>
+
+            <p *ngIf="authSvc.hasUserdata() && educationalMaterial.owner">
+              {{ 'demo.educationalMaterial.reviews.ownerInfo' | translate }}
+            </p>
           </div>
 
           <div class="references" *ngIf="educationalMaterial.references?.length > 0">

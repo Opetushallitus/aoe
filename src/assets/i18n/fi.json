@@ -172,7 +172,8 @@
           "success": {
             "title": "Kuvailutiedot tallennettu"
           }
-        }
+        },
+        "noMetadata": "Tähän oppimateriaaliin ei ole vielä vinkattu mihin kaikkeen se soveltuu. Voit lisätä oman näkemyksesi kirjautumalla sisään."
       },
       "reviews": {
         "title": "Käyttäjien arviot",
@@ -183,7 +184,9 @@
           "feedbackPositive": "Mitä hyvää materiaalissa on?",
           "feedbackSuggest": "Mitä voisi vielä kehittää?",
           "feedbackPurpose": "Miten hyödynsin materiaalia?"
-        }
+        },
+        "noRatings": "Oppimateriaalia ei ole vielä arvosteltu.",
+        "ownerInfo": "Et voi arvioida itse lisäämääsi oppimateriaalia. Mikäli haluat täydentää materiaalisi kuvailutietoja, tee se sivun ylälaidasta muokkaa-toiminnon avulla."
       },
       "expired": "Oppimateriaali on vanhentunut {{date}}",
       "cover": {

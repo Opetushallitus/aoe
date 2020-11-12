@@ -172,7 +172,8 @@
           "success": {
             "title": "Uppgifter uppdaterades"
           }
-        }
+        },
+        "noMetadata": "Det har ännu inte föreslagits för vad denna lärresurs är lämplig för. Du kan lägga till din egen vy genom att logga in."
       },
       "reviews": {
         "title": "Recensioner",
@@ -183,7 +184,9 @@
           "feedbackPositive": "Vad var bra med lärresursen?",
           "feedbackSuggest": "Hur ska lärresursen utvecklas?",
           "feedbackPurpose": "Hur använde du lärresursen?"
-        }
+        },
+        "noRatings": "Denna lärresurs har inga recensioner ännu.",
+        "ownerInfo": "Du kan inte ge recensioner till din egen lärresurs. Om du vill ändra metadata för din lärresurs kan du redigera lärresursen."
       },
       "expired": "Lärresursen är föråldrat {{date}}",
       "cover": {
