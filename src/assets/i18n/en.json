@@ -172,7 +172,8 @@
           "success": {
             "title": "Metadata updated"
           }
-        }
+        },
+        "noMetadata": "It has not yet been suggested for what this learning resource is suitable for. You can add your own view by logging in."
       },
       "reviews": {
         "title": "User reviews",
@@ -183,7 +184,9 @@
           "feedbackPositive": "What did you like about the material?",
           "feedbackSuggest": "How could the material be developed?",
           "feedbackPurpose": "How did you use the material as part of your teaching or learning?"
-        }
+        },
+        "noRatings": "The learning resource has no reviews yet.",
+        "ownerInfo": "You cannot give reviews to your own learning resource. If you wish to change the metadata of your learning resource, you can do that with the edit-function on the top right corner of the page."
       },
       "expired": "Educational material has expired {{date}}",
       "cover": {
