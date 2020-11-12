@@ -4,6 +4,7 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SocialMetadata } from '@models/social-metadata/social-metadata';
 import { environment } from '../../environments/environment';
+import { UpdateSocialMetadataResponse } from '@models/social-metadata/update-social-metadata-response';
 
 @Injectable({
   providedIn: 'root'
@@ -63,9 +64,9 @@ export class SocialMetadataService {
    * Updates educational material social metadata.
    * @param {number} materialId
    * @param {SocialMetadata} metadata
-   * @returns {Observable<any>} @todo: REPLACE WITH ACTUAL RESPONSE MODEL
+   * @returns {Observable<UpdateSocialMetadataResponse>}
    */
-  putMaterialSocialMetadata(materialId: number, metadata: SocialMetadata): Observable<any> {
+  putMaterialSocialMetadata(materialId: number, metadata: SocialMetadata): Observable<UpdateSocialMetadataResponse> {
     return this.http.put<any>(`${environment.backendUrl}/metadata/${materialId}`, metadata)
       .pipe(
         catchError(this.handleError),
