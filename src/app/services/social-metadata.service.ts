@@ -54,8 +54,6 @@ export class SocialMetadataService {
         'Accept': 'application/json',
       }),
     }).subscribe((metadata: SocialMetadata) => {
-      console.log(metadata);
-
       this.userSocialMetadata$.next(metadata);
     });
   }
