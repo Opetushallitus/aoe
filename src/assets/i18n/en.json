@@ -162,6 +162,18 @@
           "title": "Create review"
         }
       },
+      "socialMetadata": {
+        "title": "Users find that this learning resource is suitable also for:",
+        "addMetadata": "Add information",
+        "modal": {
+          "title": "Add information"
+        },
+        "toasts": {
+          "success": {
+            "title": "Metadata updated"
+          }
+        }
+      },
       "reviews": {
         "title": "User reviews",
         "review": {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
@@ -14,6 +14,9 @@ import { AddToCollectionModalComponent } from '@components/add-to-collection-mod
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
 import { Subscription } from 'rxjs';
+import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
+import { SocialMetadata } from '@models/social-metadata/social-metadata';
+import { SocialMetadataService } from '@services/social-metadata.service';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -30,17 +33,19 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   downloadUrl: string;
   embedCode: string;
   embedCodeCopied: boolean;
-
   materialName: string;
   description: string;
   materials: Material[];
   detailsExpanded = false;
   reviewModalRef: BsModalRef;
   collectionModalRef: BsModalRef;
+  socialMetadataModalRef: BsModalRef;
   materialLanguages: string[];
   selectedLanguage: string;
   expired = false;
   expires: string;
+  socialMetadataSubscription: Subscription;
+  socialMetadata: SocialMetadata;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +54,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     private modalSvc: BsModalService,
     public authSvc: AuthService,
     private titleSvc: Title,
+    private socialMetadataSvc: SocialMetadataService,
   ) { }
 
   ngOnInit(): void {
@@ -117,10 +123,16 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.expired = new Date(material.expires) < new Date();
       }
     });
+
+    this.socialMetadataSubscription = this.socialMetadataSvc.socialMetadata$.subscribe((metadata: SocialMetadata) => {
+      this.socialMetadata = metadata;
+    });
+    this.socialMetadataSvc.updateSocialMetadata(this.materialId);
   }
 
   ngOnDestroy(): void {
     this.educationalMaterialSubscription.unsubscribe();
+    this.socialMetadataSubscription.unsubscribe();
   }
 
   setTitle(): void {
@@ -183,5 +195,13 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     };
 
     this.collectionModalRef = this.modalSvc.show(AddToCollectionModalComponent, { initialState });
+  }
+
+  openSocialMetadataModal(): void {
+    const initialState = {
+      materialId: this.materialId,
+    };
+
+    this.socialMetadataModalRef = this.modalSvc.show(SocialMetadataModalComponent, { initialState });
   }
 }
