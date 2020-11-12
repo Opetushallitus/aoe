@@ -162,6 +162,18 @@
           "title": "Lisää arvio"
         }
       },
+      "socialMetadata": {
+        "title": "Käyttäjien mielestä tämä materiaali soveltuu myös:",
+        "addMetadata": "Lisää kuvailutietoja",
+        "modal": {
+          "title": "Lisää kuvailutietoja"
+        },
+        "toasts": {
+          "success": {
+            "title": "Kuvailutiedot tallennettu"
+          }
+        }
+      },
       "reviews": {
         "title": "Käyttäjien arviot",
         "review": {
