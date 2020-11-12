@@ -650,15 +650,60 @@
 
             <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
 
-            <div class="row">
-              <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
-                <button
-                  type="button"
-                  class="btn btn-anchor"
-                  (click)="openSocialMetadataModal()"
-                >{{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}</button>
-              </div>
-            </div>
+            <div class="row" *ngIf="socialMetadata.keywords?.length > 0 || socialMetadata.accessibilityFeatures?.length > 0 || socialMetadata.accessibilityHazards?.length > 0 || socialMetadata.educationalLevels?.length > 0">
+              <!--keywords-->
+              <div *ngIf="socialMetadata.keywords?.length > 0" class="col-auto metadata-group">
+                <app-taglist
+                  *ngIf="socialMetadata.keywords?.length > 0"
+                  elementId="socialMetadata-keywords"
+                  [tags]="socialMetadata.keywords"
+                  [title]="'demo.educationalMaterial.keywords' | translate"
+                  property="value"
+                  searchProperty="key"
+                  filterType="keywords"
+                ></app-taglist>
+              </div><!--keywords-->
+
+              <!--accessibilityFeatures-->
+              <div *ngIf="socialMetadata.accessibilityFeatures?.length > 0" class="col-auto metadata-group">
+                <app-taglist
+                  elementId="socialMetadata-accessibilityFeatures"
+                  [tags]="socialMetadata.accessibilityFeatures"
+                  [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
+                  property="value"
+                ></app-taglist>
+              </div><!--accessibilityFeatures-->
+
+              <!--accessibilityHazards-->
+              <div *ngIf="socialMetadata.accessibilityHazards?.length > 0" class="col-auto metadata-group">
+                <app-taglist
+                  elementId="socialMetadata-accessibilityHazards"
+                  [tags]="socialMetadata.accessibilityHazards"
+                  [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
+                  property="value"
+                ></app-taglist>
+              </div><!--accessibilityHazards-->
+
+              <!--educationalLevels-->
+              <div *ngIf="socialMetadata.educationalLevels?.length > 0" class="col-auto metadata-group">
+                <app-taglist
+                  elementId="socialMetadata-educationalLevels"
+                  [tags]="socialMetadata.educationalLevels"
+                  [title]="'demo.educationalMaterial.eduLevel' | translate"
+                  property="value"
+                  searchProperty="key"
+                  filterType="educationalLevels"
+                ></app-taglist>
+              </div><!--educationalLevels-->
+            </div><!--social metadata-->
+
+            <ng-container *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
+              <button
+                type="button"
+                class="btn btn-anchor mb-4"
+                (click)="openSocialMetadataModal()"
+              >{{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}</button>
+            </ng-container>
 
             <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
 
