@@ -162,6 +162,18 @@
           "title": "Skriv en recension"
         }
       },
+      "socialMetadata": {
+        "title": "Andra tycker att denna lärresurs är lämplig även för:",
+        "addMetadata": "Fyll uppgifter",
+        "modal": {
+          "title": "Fyll uppgifter"
+        },
+        "toasts": {
+          "success": {
+            "title": "Uppgifter uppdaterades"
+          }
+        }
+      },
       "reviews": {
         "title": "Recensioner",
         "review": {

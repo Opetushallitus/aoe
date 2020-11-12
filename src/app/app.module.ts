@@ -108,6 +108,7 @@ import { CollectionSearchResultComponent } from '@components/collection-search-r
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { FocusRemoverDirective } from './directives/focus-remover.directive';
 import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
+import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
 
 @NgModule({
   imports: [
@@ -205,6 +206,7 @@ import { UserDetailsViewComponent } from '@views/user-details-view/user-details-
     CollectionSearchResultComponent,
     FocusRemoverDirective,
     UserDetailsViewComponent,
+    SocialMetadataModalComponent,
   ],
   providers: [
     {
