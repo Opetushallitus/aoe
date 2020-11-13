@@ -1,5 +1,7 @@
 package fi.csc.provider.model.xml_lrmi.sublevel_1st;
 
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -14,6 +16,9 @@ public class Material {
 
     @XmlElement(name = "lrmi_fi:url")
     private String url;
+
+    @XmlElement(name = "lrmi_fi:url")
+    private Url pdfUrl;
 
     @XmlElement(name = "lrmi_fi:position")
     private Integer position;
@@ -41,6 +46,14 @@ public class Material {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Url getPdfUrl() {
+        return pdfUrl;
+    }
+
+    public void setPdfUrl(Url pdfUrl) {
+        this.pdfUrl = pdfUrl;
     }
 
     public Integer getPosition() {

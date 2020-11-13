@@ -56,6 +56,9 @@ public class Material {
     private String filepath;
 
     @JsonProperty
+    private String pdfpath;
+
+    @JsonProperty
     private List<MaterialDisplayName> materialdisplayname;
 
     public String getId() {
@@ -80,6 +83,10 @@ public class Material {
 
     public String getFilepath() {
         return filepath;
+    }
+
+    public String getPdfpath() {
+        return pdfpath;
     }
 
     public String getOriginalfilename() {
