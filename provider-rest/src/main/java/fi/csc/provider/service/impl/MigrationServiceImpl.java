@@ -11,6 +11,7 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.stereotype.Service;
 
@@ -168,6 +169,8 @@ public class MigrationServiceImpl implements MigrationService {
                         .map(n -> new LangValue(Language.fromString(n.getLanguage()), n.getDisplayname()))
                         .collect(Collectors.toList()));
                     material.setUrl(m.getFilepath());
+                    material.setPdfUrl(m.getPdfpath() != null && !m.getPdfpath().isEmpty() ?
+                        new Url(m.getPdfpath(), "application/pdf") : null);
                     material.setPosition(m.getPriority());
                     material.setFormat(m.getMimetype());
                     material.setFileSize(m.getFilesize());
