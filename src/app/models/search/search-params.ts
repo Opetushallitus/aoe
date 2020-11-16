@@ -10,6 +10,10 @@ export interface SearchParams {
     keywords?: string[] | null;
     educationalSubjects?: string[] | null;
     teaches?: string[] | null;
+    educationalUses?: string[] | null;
+    accessibilityHazards?: string[] | null;
+    accessibilityFeatures?: string[] | null;
+    licenses?: string[] | null;
   };
   from?: number;
   size?: number;

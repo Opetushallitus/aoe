@@ -955,6 +955,18 @@
         "title": "Objective and content",
         "showFull": "Show full"
       },
+      "uses": {
+        "title": "Educational Use"
+      },
+      "hazards": {
+        "title": "Accessibility Hazard"
+      },
+      "features": {
+        "title": "Accessibility Feature"
+      },
+      "licenses": {
+        "title": "License"
+      },
       "usedFilters": "Search narrowed by:"
     },
     "sort": {

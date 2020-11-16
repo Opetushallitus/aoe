@@ -77,6 +77,10 @@ export class SearchService {
       let keywords: KeyValue<string, string>[] = [];
       let subjects: SearchFilterEducationalSubject[] = [];
       let teaches: KeyValue<string, string>[] = [];
+      let uses: KeyValue<string, string>[] = [];
+      let hazards: KeyValue<string, string>[] = [];
+      let features: KeyValue<string, string>[] = [];
+      let licenses: KeyValue<string, string>[] = [];
 
       results.results.forEach((result: SearchResult) => {
         // languages
@@ -130,6 +134,38 @@ export class SearchService {
             value: teach.value,
           });
         });
+
+        // educational uses
+        result.educationalUses?.forEach((use) => {
+          uses.push({
+            key: use.educationalusekey,
+            value: use.value,
+          });
+        });
+
+        // accessibility hazards
+        result.accessibilityHazards?.forEach((hazard) => {
+          hazards.push({
+            key: hazard.accessibilityhazardkey,
+            value: hazard.value,
+          });
+        });
+
+        // accessibility features
+        result.accessibilityFeatures?.forEach((feature) => {
+          features.push({
+            key: feature.accessibilityfeaturekey,
+            value: feature.value,
+          });
+        });
+
+        // licenses
+        if (result.license?.key && result.license?.value) {
+          licenses.push({
+            key: result.license.key,
+            value: result.license.value,
+          });
+        }
       });
 
       languages = [...new Set(languages)];
@@ -139,6 +175,10 @@ export class SearchService {
       keywords = deduplicate(keywords, 'key').sort((a, b) => a.value.localeCompare(b.value));
       subjects = deduplicate(subjects, 'key').sort((a, b) => a.value.localeCompare(b.value));
       teaches = deduplicate(teaches, 'key').sort((a, b) => a.value.localeCompare(b.value));
+      uses = deduplicate(uses, 'key').sort((a, b) => a.value.localeCompare(b.value));
+      hazards = deduplicate(hazards, 'key').sort((a, b) => a.value.localeCompare(b.value));
+      features = deduplicate(features, 'key').sort((a, b) => a.value.localeCompare(b.value));
+      licenses = deduplicate(licenses, 'key').sort((a, b) => a.value.localeCompare(b.value));
 
       this.searchFilters$.next({
         languages,
@@ -148,6 +188,10 @@ export class SearchService {
         keywords,
         subjects,
         teaches,
+        uses,
+        hazards,
+        features,
+        licenses,
       });
     });
   }

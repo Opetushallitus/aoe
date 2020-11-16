@@ -97,7 +97,7 @@
       "timeRequired": "Tiden som krävs",
       "datePublished": "Date published",
       "publisher": "Publisher",
-      "license": "License",
+      "license": "Licens",
       "keywords": "Keywords",
       "expandMetadata": {
         "more": "Visa alla detaljer",
@@ -955,6 +955,18 @@
         "title": "Mål och innehållsområden",
         "showFull": "Visa full"
       },
+      "uses": {
+        "title": "Användningsområde"
+      },
+      "hazards": {
+        "title": "Hinder för tillgänglighet"
+      },
+      "features": {
+        "title": "Tillgänglighetsegenskaper"
+      },
+      "licenses": {
+        "title": "Licens"
+      },
       "usedFilters": "Nuvarande begränsningar:"
     },
     "sort": {
@@ -1001,7 +1013,7 @@
       "educationalUses": " Användningsområde",
       "educationalRoles": "Målgrupp",
       "accessibilityFeatures": "Tillgänglighetsegenskaper",
-      "accessibilityHazards": " Hinder för tillgänglighet",
+      "accessibilityHazards": "Hinder för tillgänglighet",
       "educationalLevels": "Utbildningsstadium",
       "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
       "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",

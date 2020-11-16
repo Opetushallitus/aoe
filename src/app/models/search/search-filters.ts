@@ -8,6 +8,10 @@ export interface SearchFilters {
   organizations?: KeyValue<string, string>[] | null;
   roles?: KeyValue<string, string>[] | null;
   keywords?: KeyValue<string, string>[] | null;
+  uses?: KeyValue<string, string>[] | null;
+  hazards?: KeyValue<string, string>[] | null;
+  features?: KeyValue<string, string>[] | null;
+  licenses?: KeyValue<string, string>[] | null;
 }
 
 export interface SearchFilterEducationalSubject {
