@@ -955,6 +955,18 @@
         "title": "Tavoite ja sisältöalue",
         "showFull": "Näytä kokonaan"
       },
+      "uses": {
+        "title": "Käyttötarkoitus"
+      },
+      "hazards": {
+        "title": "Saavutettavuuden este"
+      },
+      "features": {
+        "title": "Saavutettavuuden ominaisuus"
+      },
+      "licenses": {
+        "title": "Lisenssi"
+      },
       "usedFilters": "Käytetyt rajaukset:"
     },
     "sort": {
