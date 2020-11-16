@@ -62,6 +62,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.materialId = +params.get('materialId');
       this.materialVersionDate = params.get('versionDate');
 
+      this.downloadUrl = this.materialVersionDate
+        ? `${environment.backendUrl}/material/file/${this.materialId}/${this.materialVersionDate}`
+        : `${environment.backendUrl}/material/file/${this.materialId}`;
+
       this.backendSvc.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
@@ -81,7 +85,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
 
-      this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+      // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
       // tslint:disable-next-line:max-line-length
       this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
