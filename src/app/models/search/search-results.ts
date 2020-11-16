@@ -64,19 +64,19 @@ export interface SearchResult {
   };
   educationalUses?: [
     {
-      key: string;
+      educationalusekey: string;
       value: string;
     }
   ];
   accessibilityHazards?: [
     {
-      key: string;
+      accessibilityhazardkey: string;
       value: string;
     }
   ];
   accessibilityFeatures?: [
     {
-      key: string;
+      accessibilityfeaturekey: string;
       value: string;
     }
   ];

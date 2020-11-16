@@ -138,7 +138,7 @@ export class SearchService {
         // educational uses
         result.educationalUses?.forEach((use) => {
           uses.push({
-            key: use.key,
+            key: use.educationalusekey,
             value: use.value,
           });
         });
@@ -146,7 +146,7 @@ export class SearchService {
         // accessibility hazards
         result.accessibilityHazards?.forEach((hazard) => {
           hazards.push({
-            key: hazard.key,
+            key: hazard.accessibilityhazardkey,
             value: hazard.value,
           });
         });
@@ -154,7 +154,7 @@ export class SearchService {
         // accessibility features
         result.accessibilityFeatures?.forEach((feature) => {
           features.push({
-            key: feature.key,
+            key: feature.accessibilityfeaturekey,
             value: feature.value,
           });
         });
