@@ -84,39 +84,52 @@
 
 <footer class="app-footer">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-auto text-center">
-        <h2>aoe.fi</h2>
+    <h2 class="text-center">aoe.fi</h2>
 
-        <ul class="nav">
+    <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/kayttoehdot">
+            <a routerLink="/kayttoehdot">
               {{ 'navigation.termsOfUse' | translate }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/tietosuojailmoitus">
+            <a routerLink="/tietosuojailmoitus">
               {{ 'navigation.privacyPolicy' | translate }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/saavutettavuusseloste">
+            <a routerLink="/saavutettavuusseloste">
               {{ 'navigation.accessibilityPolicy' | translate }}
             </a>
           </li>
         </ul>
+      </div>
 
-        <a
-          class="nav-link"
-          href="https://link.webropolsurveys.com/S/3580E5A216266683"
-          target="_blank"
-          rel="noopener nofollow"
-        >{{ 'footer.feedback' | translate }}</a>
+      <div class="col-sm-6 col-md-4">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="https://link.webropolsurveys.com/S/3580E5A216266683">{{ 'footer.feedback' | translate }}</a>
+          </li>
 
-        <span>
-          {{ 'footer.orEmailUs' | translate }}
-          <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>
-        </span>
+          <li class="nav-item">
+            {{ 'footer.orEmailUs' | translate }}
+            <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-sm-6 col-md-4">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="https://twitter.com/AOE_Suomi">{{ 'footer.twitter' | translate }}</a>
+          </li>
+
+          <li class="nav-item">
+            <a href="https://finna.fi/">Finna.fi</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

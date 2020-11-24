@@ -882,7 +882,8 @@
   "footer": {
     "developer": "Palvelun tuottaja",
     "feedback": "Anna palautetta",
-    "orEmailUs": "tai laita meille viesti:"
+    "orEmailUs": "tai laita meille viesti:",
+    "twitter": "Seuraa meitä Twitterissä"
   },
   "cookies": {
     "cookieSettings": "Evästeasetukset",

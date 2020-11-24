@@ -882,7 +882,8 @@
   "footer": {
     "developer": "Utvecklare av tjänsten",
     "feedback": "Ge respons",
-    "orEmailUs": "eller ta kontakt:"
+    "orEmailUs": "eller ta kontakt:",
+    "twitter": "Följ oss på Twitter"
   },
   "cookies": {
     "cookieSettings": "Inställningar för cookies",
