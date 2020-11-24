@@ -16,11 +16,11 @@
 
 <div class="content-wrapper">
   <div class="container">
-    <div class="row">
-      <div class="col">
+    <div class="row align-items-md-center">
+      <div class="col-md-6">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <p>Avointen oppimateriaalien kirjastossa voit löytää ja tallentaa omia avoimia oppimateriaaleja kaikilta koulutusasteilta. Vaiheittain vuonna 2019 ja 2020 käyttöön tulevaa palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset. Palvelua kehittävät Opetus- ja kulttuuriministeriö ja Opetushallitus ja sen kehitystä koordinoi CSC &ndash; Tieteen tietotekniikan keskus. Lue lisää <a routerLink="/lisatietoa">Lisätietoa</a>-sivulta.</p>
+            <p>Avointen oppimateriaalien kirjastossa voit löytää ja tallentaa avoimia oppimateriaaleja kaikilta koulutusasteilta. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset. Oppimateriaalit ovat löydettävissä myös museoiden, kirjastojen ja arkistojen aineistoja kokoavasta <a href="https://finna.fi/" rel="noopener">Finna.fistä</a>. Avointen oppimateriaalien kirjastoa kehittää Opetus- ja kulttuuriministeriö, Opetushallitus ja CSC – Tieteen tietotekniikan keskus. Lue lisää <a routerLink="/lisatietoa">Lisätietoa</a>-sivulta.</p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
@@ -31,6 +31,12 @@
             <p>I biblioteket för öppna lärresurser kan du hitta och spara egna öppna lärresurser från alla utbildningsstadier. Tjänsten tas i bruk stegvis under 2019 och 2020 och materialet är tillgängligt för alla lärare, lärande och andra intresserade. Tjänsten utvecklas av Undervisnings- och kulturministeriet och Utbildningsstyrelsen och utvecklingen koordineras av CSC &ndash; Tieteen tietotekniikan keskus. Läs mer på sidan <a routerLink="/lisatietoa">Vanliga frågor</a>.</p>
           </ng-container>
         </ng-container>
+      </div>
+
+      <div class="col-md-6">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/UF26O3zXcUU?rel=0" allowfullscreen></iframe>
+        </div>
       </div>
     </div><!--/.row-->
   </div>

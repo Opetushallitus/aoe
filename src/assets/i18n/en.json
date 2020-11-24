@@ -897,7 +897,8 @@
   "footer": {
     "developer": "Developer of the service",
     "feedback": "Give feedback",
-    "orEmailUs": "or send us an email:"
+    "orEmailUs": "or send us an email:",
+    "twitter": "Follow us on Twitter"
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
