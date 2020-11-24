@@ -84,10 +84,10 @@
 
 <footer class="app-footer">
   <div class="container">
-    <h2 class="text-center">aoe.fi</h2>
+    <h2 class="text-center">{{ 'footer.name' | translate }}</h2>
 
-    <div class="row">
-      <div class="col-sm-6 col-md-4">
+    <div class="row justify-content-md-center text-md-center">
+      <div class="col-sm-6 col-md">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a routerLink="/kayttoehdot">
@@ -107,20 +107,20 @@
         </ul>
       </div>
 
-      <div class="col-sm-6 col-md-4">
+      <div class="col-sm-6 col-md-auto">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a href="https://link.webropolsurveys.com/S/3580E5A216266683">{{ 'footer.feedback' | translate }}</a>
           </li>
 
           <li class="nav-item">
-            {{ 'footer.orEmailUs' | translate }}
+            {{ 'footer.orEmailUs' | translate }}<br>
             <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a>
           </li>
         </ul>
       </div>
 
-      <div class="col-sm-6 col-md-4">
+      <div class="col-sm-6 col-md">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a href="https://twitter.com/AOE_Suomi">{{ 'footer.twitter' | translate }}</a>
