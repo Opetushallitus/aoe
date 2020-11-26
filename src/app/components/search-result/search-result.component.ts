@@ -73,7 +73,7 @@ export class SearchResultComponent implements OnInit {
       {
         key: key,
         value: value,
-        type: 'level',
+        type: 'educationalLevels',
       }
     ];
 
