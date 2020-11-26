@@ -596,7 +596,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
               usedFilters.push({
                 ...this.educationalLevels[index].children[childIndex],
-                type: 'level',
+                type: 'educationalLevels',
               });
             }
           });
@@ -610,7 +610,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             usedFilters.push({
               key: this.learningResourceTypes[index].key,
               value: this.learningResourceTypes[index].value,
-              type: 'type',
+              type: 'learningResourceTypes',
             });
 
             return this.learningResourceTypes[index].key;
@@ -690,7 +690,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             usedFilters.push({
               key: this.searchFilters.subjects[index].key.toString(),
               value: this.searchFilters.subjects[index].value,
-              type: 'subject',
+              type: 'educationalSubjects',
             });
 
             return this.searchFilters.subjects[index].key.toString();
@@ -782,67 +782,67 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
       if (removedFilter) {
         switch (removedFilter.type) {
-          case 'language':
+          case 'languages':
             searchParams.filters.languages = searchParams.filters.languages
               .filter((lang: string) => lang !== removedFilter.key);
             break;
 
-          case 'level':
+          case 'educationalLevels':
             searchParams.filters.educationalLevels = searchParams.filters.educationalLevels
               .filter((level: string) => level !== removedFilter.key);
             break;
 
-          case 'subject':
+          case 'educationalSubjects':
             searchParams.filters.educationalSubjects = searchParams.filters.educationalSubjects
               .filter((subject: string) => subject !== removedFilter.key);
             break;
 
-          case 'teach':
+          case 'teaches':
             searchParams.filters.teaches = searchParams.filters.teaches
               .filter((teach: string) => teach !== removedFilter.key);
             break;
 
-          case 'type':
+          case 'learningResourceTypes':
             searchParams.filters.learningResourceTypes = searchParams.filters.learningResourceTypes
               .filter((type: string) => type !== removedFilter.key);
             break;
 
-          case 'author':
+          case 'authors':
             searchParams.filters.authors = searchParams.filters.authors
               .filter((author: string) => author !== removedFilter.key);
             break;
 
-          case 'organization':
+          case 'organizations':
             searchParams.filters.organizations = searchParams.filters.organizations
               .filter((organization: string) => organization !== removedFilter.key);
             break;
 
-          case 'role':
+          case 'educationalRoles':
             searchParams.filters.educationalRoles = searchParams.filters.educationalRoles
               .filter((role: string) => role !== removedFilter.key);
             break;
 
-          case 'keyword':
+          case 'keywords':
             searchParams.filters.keywords = searchParams.filters.keywords
               .filter((keyword: string) => keyword !== removedFilter.key);
             break;
 
-          case 'use':
+          case 'educationalUses':
             searchParams.filters.educationalUses = searchParams.filters.educationalUses
               .filter((use: string) => use !== removedFilter.key);
             break;
 
-          case 'hazard':
+          case 'accessibilityHazards':
             searchParams.filters.accessibilityHazards = searchParams.filters.accessibilityHazards
               .filter((hazard: string) => hazard !== removedFilter.key);
             break;
 
-          case 'feature':
+          case 'accessibilityFeatures':
             searchParams.filters.accessibilityFeatures = searchParams.filters.accessibilityFeatures
               .filter((feature: string) => feature !== removedFilter.key);
             break;
 
-          case 'license':
+          case 'licenses':
             searchParams.filters.licenses = searchParams.filters.licenses
               .filter((license: string) => license !== removedFilter.key);
             break;

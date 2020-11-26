@@ -114,7 +114,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       usedFilters.push({
         key: level.key,
         value: level.value,
-        type: 'level',
+        type: 'educationalLevels',
       });
     });
 
@@ -122,7 +122,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       usedFilters.push({
         key: subject.key.toString(),
         value: subject.value,
-        type: 'subject',
+        type: 'educationalSubjects',
       });
     });
 
@@ -130,7 +130,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       usedFilters.push({
         key: type.key,
         value: type.value,
-        type: 'type',
+        type: 'learningResourceTypes',
       });
     });
 
