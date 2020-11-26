@@ -169,8 +169,8 @@ public class MigrationServiceImpl implements MigrationService {
                         .map(n -> new LangValue(Language.fromString(n.getLanguage()), n.getDisplayname()))
                         .collect(Collectors.toList()));
                     material.setUrl(m.getFilepath());
-                    material.setPdfUrl(m.getPdfpath() != null && !m.getPdfpath().isEmpty() ?
-                        new Url(m.getPdfpath(), "application/pdf") : null);
+//                    material.setPdfUrl(m.getPdfpath() != null && !m.getPdfpath().isEmpty() ?
+//                        new Url(m.getPdfpath(), "application/pdf") : null);
                     material.setPosition(m.getPriority());
                     material.setFormat(m.getMimetype());
                     material.setFileSize(m.getFilesize());
