@@ -183,13 +183,13 @@ export const getLukionOppiaineet = async (req: any, res: any, next: any): Promis
     if (data) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -208,13 +208,13 @@ export const getLukionModuulit = async (req: any, res: any, next: any): Promise<
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -325,13 +325,13 @@ export const getLukionTavoitteet = async (req: any, res: any, next: any): Promis
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -350,12 +350,12 @@ export const getLukionSisallot = async (req: any, res: any, next: any): Promise<
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };

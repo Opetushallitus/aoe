@@ -109,13 +109,13 @@ export const getKielet = async (req: any, res: any, next: any): Promise<any> => 
     if (redisData) {
       res.status(200).json(JSON.parse(redisData));
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -139,15 +139,15 @@ export const getKieli = async (req: any, res: any, next: any): Promise<any> => {
       if (row !== undefined) {
         res.status(200).json(row);
       } else {
-        res.sendStatus(404);
+        res.status(404).json({"error": "Not Found"});
       }
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };

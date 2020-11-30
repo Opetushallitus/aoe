@@ -19,13 +19,13 @@ export const getOppiaineetTieteenalatTutkinnot = async (req: any, res: any, next
     if (data) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
