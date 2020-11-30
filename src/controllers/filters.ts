@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import { getAsync } from "../util/redis.utils";
 import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 import { FilterOption, FilterOptionChild } from "../models/filter-option";
@@ -8,7 +7,7 @@ const rediskeyUpperSecondary = "lukio-uusi-oppiaineet";
 const rediskeyVocational = "ammattikoulu-tutkinnot";
 const rediskeyHigher = "tieteenalat";
 
-export const getOppiaineetTieteenalatTutkinnot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getOppiaineetTieteenalatTutkinnot = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const data: FilterOption[] = [
       await getPerusopetuksenOppiaineet(req.params.lang.toLowerCase()),

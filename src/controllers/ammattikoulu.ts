@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from "express";
-
 import { getDataFromApi } from "../util/api.utils";
 import { getUnique, sortByTargetName } from "../util/data.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
@@ -97,7 +95,7 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
   }
 }
 
-export const getAmmattikoulunTutkinnot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAmmattikoulunTutkinnot = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const data = await getAsync(`${rediskeyDegrees}.${req.params.lang.toLowerCase()}`);
 
@@ -214,7 +212,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
   }
 }
 
-export const getAmmattikoulunTutkinnonOsat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 
@@ -239,7 +237,7 @@ export const getAmmattikoulunTutkinnonOsat = async (req: Request, res: Response,
   }
 };
 
-export const getAmmattikoulunVaatimukset = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 
