@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from "express";
-
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { Children, EducationLevel } from "../models/data";
@@ -124,13 +122,13 @@ export async function setKoulutusasteet(): Promise<any> {
 /**
  * Get data from redis database
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getKoulutusasteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getKoulutusasteet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
@@ -150,13 +148,13 @@ export const getKoulutusasteet = async (req: Request, res: Response, next: NextF
 /**
  * Get single row from redis database key-value
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getKoulutusaste = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getKoulutusaste = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 

@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import striptags from "striptags";
 
 import { getDataFromApi } from "../util/api.utils";
@@ -308,13 +307,13 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 /**
  * Get data from redis database
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getPerusopetuksenOppiaineet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`);
 
@@ -334,13 +333,13 @@ export const getPerusopetuksenOppiaineet = async (req: Request, res: Response, n
 /**
  * Get data from redis database
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getPerusopetuksenTavoitteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getPerusopetuksenTavoitteet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = JSON.parse(await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`));
     const ids = req.params.ids.split(",");
@@ -369,13 +368,13 @@ export const getPerusopetuksenTavoitteet = async (req: Request, res: Response, n
 /**
  * Get data from redis database
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getPerusopetuksenSisaltoalueet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getPerusopetuksenSisaltoalueet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     let data: AlignmentObjectExtended[] = [];
     const ids = req.params.ids.split(",");

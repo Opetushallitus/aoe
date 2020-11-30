@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import { parseString, processors } from "xml2js";
 
 import { getDataFromApi } from "../util/api.utils";
@@ -83,13 +82,13 @@ export async function setAsiasanat(): Promise<any> {
 /**
  * Get data from redis database
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getAsiasanat = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAsiasanat = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
@@ -109,13 +108,13 @@ export const getAsiasanat = async (req: Request, res: Response, next: NextFuncti
 /**
  * Get single row from redis database key-value
  *
- * @param {Request} req
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {any} req
+ * @param {any} res
+ * @param {any} next
  *
  * @returns {Promise<any>}
  */
-export const getAsiasana = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getAsiasana = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 

@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from "express";
-
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { sortByTargetName } from "../util/data.utils";
@@ -171,7 +169,7 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
   }
 }
 
-export const getLukionOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionOppiaineet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const data = JSON.parse(await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`))
       .map((subject: AlignmentObjectExtended) => {
@@ -195,7 +193,7 @@ export const getLukionOppiaineet = async (req: Request, res: Response, next: Nex
   }
 };
 
-export const getLukionModuulit = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionModuulit = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 
@@ -312,7 +310,7 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
   }
 }
 
-export const getLukionTavoitteet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionTavoitteet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 
@@ -337,7 +335,7 @@ export const getLukionTavoitteet = async (req: Request, res: Response, next: Nex
   }
 };
 
-export const getLukionSisallot = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionSisallot = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 

@@ -1,5 +1,3 @@
-import { NextFunction, Request, Response } from "express";
-
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
 import { sortByTargetName } from "../util/data.utils";
@@ -138,7 +136,7 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
   }
 }
 
-export const getLukionVanhatOppiaineet = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionVanhatOppiaineet = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const data = JSON.parse(await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`))
       .map((subject: AlignmentObjectExtended) => {
@@ -162,7 +160,7 @@ export const getLukionVanhatOppiaineet = async (req: Request, res: Response, nex
   }
 };
 
-export const getLukionVanhatKurssit = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const getLukionVanhatKurssit = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
 
