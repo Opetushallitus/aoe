@@ -102,13 +102,13 @@ export const getAmmattikoulunTutkinnot = async (req: any, res: any, next: any): 
     if (data) {
       res.status(200).json(JSON.parse(data));
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -227,13 +227,13 @@ export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: an
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -252,12 +252,12 @@ export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any)
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };

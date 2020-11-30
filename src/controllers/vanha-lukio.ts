@@ -150,13 +150,13 @@ export const getLukionVanhatOppiaineet = async (req: any, res: any, next: any): 
     if (data) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
 
@@ -175,12 +175,12 @@ export const getLukionVanhatKurssit = async (req: any, res: any, next: any): Pro
     if (data.length > 0) {
       res.status(200).json(data);
     } else {
-      res.sendStatus(404);
+      res.status(404).json({"error": "Not Found"});
 
       return next();
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Something went wrong");
+    res.status(500).json({"error": "Something went wrong"});
   }
 };
