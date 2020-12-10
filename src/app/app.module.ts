@@ -109,6 +109,7 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { FocusRemoverDirective } from './directives/focus-remover.directive';
 import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
+import { HttpErrorInterceptor } from './providers/http-error.interceptor';
 
 @NgModule({
   imports: [
@@ -217,6 +218,11 @@ import { SocialMetadataModalComponent } from '@components/social-metadata-modal/
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CredentialInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
       multi: true,
     },
     Title,
