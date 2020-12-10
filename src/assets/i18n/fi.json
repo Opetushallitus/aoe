@@ -225,10 +225,10 @@
         "maxLength": "Enintään {{maxLength}} merkkiä"
       },
       "textInput": {
-        "characters": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ?"
+        "characters": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
       },
       "description": {
-        "characters": "Sallitut erikoismerkit: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ]"
+        "characters": "Sallitut erikoismerkit: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ] * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
       }
     },
     "helpTexts": {
