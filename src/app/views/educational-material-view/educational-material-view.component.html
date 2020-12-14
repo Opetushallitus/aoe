@@ -84,17 +84,6 @@
               </ul>
 
               <div class="datetimes">
-                <span class="datetime-item d-block d-md-inline-block">
-                  <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
-
-                  <time
-                    [attr.datetime]="educationalMaterial.createdAt | date:'yyyy-MM-dd HH:mm'"
-                    aria-labelledby="createdAt"
-                  >
-                    {{ educationalMaterial.createdAt | date:'d.M.yyyy HH:mm' }}
-                  </time>
-                </span>
-
                 <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
                   <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
@@ -114,6 +103,17 @@
                     aria-labelledby="updatedAt"
                   >
                     {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
+                  </time>
+                </span>
+
+                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
+                  <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
+
+                  <time
+                    [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
+                    aria-labelledby="expires"
+                  >
+                    {{ educationalMaterial.expires | date:'d.M.yyyy' }}
                   </time>
                 </span>
 

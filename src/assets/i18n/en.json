@@ -86,6 +86,7 @@
       "createdAt": "Created",
       "publishedAt": "Published",
       "updatedAt": "Edited",
+      "expires": "Expires",
       "versionHistory": {
         "button": "Version history",
         "helpText": "In the Version history you can see the previous versions of the learning resource. A version is created every time the author uploads a new file and/or deletes or changes an existing one. Changes in descriptions and metadata are not saved in the Version history."
