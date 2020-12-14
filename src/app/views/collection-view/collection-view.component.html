@@ -448,18 +448,18 @@
           <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
             <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
               <ng-container *ngIf="materialOrHeading.id; else heading">
-                <h3 *ngIf="collection.materialsAndHeadings[i - 1]?.heading; else h2" class="title">
+                <h2 *ngIf="headingLevels.get(i) === 'h2'; else h3" class="title">
                   <a [routerLink]="['/materiaali', materialOrHeading.id]">
                     {{ materialDetails.get(materialOrHeading.id).name[lang] }}
                   </a>
-                </h3>
+                </h2>
 
-                <ng-template #h2>
-                  <h2 class="title">
+                <ng-template #h3>
+                  <h3 class="title">
                     <a [routerLink]="['/materiaali', materialOrHeading.id]">
                       {{ materialDetails.get(materialOrHeading.id).name[lang] }}
                     </a>
-                  </h2>
+                  </h3>
                 </ng-template>
 
                 <ul class="list-unstyled authors">
