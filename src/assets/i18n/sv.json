@@ -84,8 +84,9 @@
       "viewCount": "sidvisningar ",
       "downloadCount": "nedladdningar",
       "createdAt": "Created",
-      "publishedAt": "Published",
-      "updatedAt": "Edited",
+      "publishedAt": "Skapad",
+      "updatedAt": "Redigerad",
+      "expires": "Föråldras",
       "versionHistory": {
         "button": "Versionshistorik",
         "helpText": "I Versionshistoriken kan du se de tidigare versionerna av lärresursen. En version skapas varje gång upphovsmannen laddar upp en ny fil och / eller tar bort eller ändrar en befintlig fil. Ändringar i beskrivningar och metadata sparas inte i Versionshistoriken."
