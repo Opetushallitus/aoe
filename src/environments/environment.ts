@@ -25,4 +25,5 @@ export const environment = {
   collection: 'aoe.collection',
   collectionSearchParams: 'aoe.collectionSearchParams',
   collectionSearchResults: 'aoe.collectionSearchResults',
+  sessionMaxAge: 60 * 5 * 1000, // 60 * 60 * 8 * 1000
 };
