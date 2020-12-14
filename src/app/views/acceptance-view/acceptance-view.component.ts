@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { AuthService } from '@services/auth.service';
 import { Title } from '@angular/platform-browser';
@@ -16,7 +15,6 @@ export class AcceptanceViewComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private authSvc: AuthService,
     private titleSvc: Title,
     private translate: TranslateService,
@@ -41,8 +39,6 @@ export class AcceptanceViewComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.authSvc.updateAcceptance().subscribe();
-
-    this.router.navigate(['/etusivu']);
+    this.authSvc.updateAcceptance();
   }
 }

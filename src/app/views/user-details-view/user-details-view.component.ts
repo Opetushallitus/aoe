@@ -78,6 +78,7 @@ export class UserDetailsViewComponent implements OnInit {
       this.authSvc.updateUserSettings(userSettings).subscribe(
         () => {
           this.form.markAsPristine();
+          this.authSvc.removeUserdata();
           this.authSvc.setUserdata().subscribe();
         },
         (err) => console.error(err),

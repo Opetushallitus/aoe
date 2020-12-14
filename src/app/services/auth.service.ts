@@ -9,6 +9,7 @@ import { Userdata } from '@models/userdata';
 import { CookieService } from 'ngx-cookie-service';
 import { UserSettings } from '@models/users/user-settings';
 import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AuthService {
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
     private cookieSvc: CookieService,
+    private router: Router,
   ) { }
 
   /**
@@ -49,7 +51,10 @@ export class AuthService {
       }),
     }).pipe(
       map((res: Userdata): Userdata => {
-        sessionStorage.setItem(environment.userdataKey, JSON.stringify(res));
+        const expires = new Date();
+        expires.setTime(expires.getTime() + environment.sessionMaxAge);
+
+        this.cookieSvc.set(environment.userdataKey, JSON.stringify(res), expires);
 
         return res;
       }),
@@ -68,7 +73,7 @@ export class AuthService {
    * @returns {Userdata}
    */
   getUserdata(): Userdata {
-    return JSON.parse(sessionStorage.getItem(environment.userdataKey));
+    return this.hasUserdata() ? JSON.parse(this.cookieSvc.get(environment.userdataKey)) : null;
   }
 
   /**
@@ -76,7 +81,7 @@ export class AuthService {
    * @returns {boolean}
    */
   hasUserdata(): boolean {
-    return !!this.getUserdata();
+    return this.cookieSvc.check(environment.userdataKey);
   }
 
   /**
@@ -84,7 +89,7 @@ export class AuthService {
    */
   removeUserdata(): void {
     // remove user data
-    sessionStorage.removeItem(environment.userdataKey);
+    this.cookieSvc.delete(environment.userdataKey);
 
     // remove session id
     this.cookieSvc.delete('connect.sid', '/');
@@ -94,13 +99,15 @@ export class AuthService {
    * Updates acceptance.
    * @returns {Observable<string>}
    */
-  updateAcceptance(): Observable<string> {
-    const userdata = this.getUserdata();
-    userdata.termsofusage = true;
-
-    sessionStorage.setItem(environment.userdataKey, JSON.stringify(userdata));
-
-    return this.http.put<any>(`${environment.backendUrl}/termsofusage`, null);
+  updateAcceptance(): void {
+    this.http.put<any>(`${environment.backendUrl}/termsofusage`, null).subscribe(
+      () => this.removeUserdata(),
+      (err) => console.error(err),
+      () => {
+        this.setUserdata().subscribe();
+        this.router.navigate(['/etusivu']);
+      },
+    );
   }
 
   /**
