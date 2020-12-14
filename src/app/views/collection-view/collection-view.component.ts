@@ -106,7 +106,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.collectionSubscription.unsubscribe();
-    this.languageSubscription.unsubscribe();
+    // this.languageSubscription.unsubscribe();
   }
 
   setTitle(): void {
