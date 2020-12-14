@@ -4,9 +4,26 @@
 .collection-material {
   margin-bottom: 2rem;
 
+  h2,
+  .h2 {
+    &.title {
+      @include font-size(21);
+    }
+  }
+
+  h3,
+  .h3 {
+    &.title {
+      @include font-size(18);
+
+      a {
+        color: #373737;
+      }
+    }
+  }
+
   .title {
-    @include font-size(21);
-    font-weight: 400;
+    font-weight: 500;
     margin-bottom: .5rem;
 
     a {
@@ -14,18 +31,8 @@
     }
   }
 
-  h3,
-  .h3 {
-    @include font-size(18);
-    font-weight: 400;
-
-    a {
-      color: $primary-theme-color;
-    }
-  }
-
   .authors {
-    font-weight: 700;
+    font-weight: 400;
     margin-bottom: 1.5rem;
   }
 
