@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form';
 
 @Component({
   selector: 'app-collection-view',
@@ -30,6 +31,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   selectedLanguages = new Map();
   detailsExpanded = false;
   materialDetails = new Map();
+  headingLevels = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +65,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
       this.setTitle();
       this.setMaterialDetails(collection.educationalMaterials);
+      this.setHeadingLevels(collection.materialsAndHeadings);
 
       this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
         this.languages = languages.filter((lang: Language) => this.collection.languages.includes(lang.key.toLowerCase()));
@@ -145,6 +148,19 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         name: material.name,
         authors: material.author,
       });
+    });
+  }
+
+  setHeadingLevels(materialsAndHeadings: CollectionFormMaterialAndHeading[]): void {
+    materialsAndHeadings.forEach((materialOrHeading: CollectionFormMaterialAndHeading, idx: number) => {
+      // skip headings, they are always h2
+      if (materialOrHeading.id) {
+        if (materialsAndHeadings[idx - 1]?.heading || this.headingLevels.get(idx - 1) === 'h3') {
+          this.headingLevels.set(idx, 'h3');
+        } else {
+          this.headingLevels.set(idx, 'h2');
+        }
+      }
     });
   }
 }
