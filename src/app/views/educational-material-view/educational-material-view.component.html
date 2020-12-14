@@ -106,6 +106,17 @@
                   </time>
                 </span>
 
+                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
+                  <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
+
+                  <time
+                    [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
+                    aria-labelledby="expires"
+                  >
+                    {{ educationalMaterial.expires | date:'d.M.yyyy' }}
+                  </time>
+                </span>
+
                 <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
                   <button
                     id="toggle-version-history"
