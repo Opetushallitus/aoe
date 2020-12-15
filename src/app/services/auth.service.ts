@@ -70,7 +70,7 @@ export class AuthService {
         return res;
       }),
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
+        if (error.status === 401 && this.hasUserdata()) {
           this.removeUserdata();
         }
 
@@ -106,7 +106,7 @@ export class AuthService {
     this.cookieSvc.delete('connect.sid', '/');
 
     // show toast
-    this.toastr.info(this.loggedOutToast.message, this.loggedOutToast.title);
+    this.toastr.info(this.loggedOutToast.title);
   }
 
   /**
