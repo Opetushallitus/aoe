@@ -1059,5 +1059,12 @@
   "materialPreview": {
     "selectLanguage": "Valitse kieli:",
     "selectMaterial": "Valitse oppimateriaalin osa:"
+  },
+  "session": {
+    "toasts": {
+      "loggedOut": {
+        "title": "Sinut on kirjattu ulos palvelusta."
+      }
+    }
   }
 }
