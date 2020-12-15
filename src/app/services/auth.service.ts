@@ -10,17 +10,28 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserSettings } from '@models/users/user-settings';
 import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { Toast } from '@models/translations/toast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  loggedOutToast: Toast;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
     private cookieSvc: CookieService,
     private router: Router,
-  ) { }
+    private toastr: ToastrService,
+    private translate: TranslateService,
+  ) {
+    this.translate.get('session.toasts.loggedOut').subscribe((translation: Toast) => {
+      this.loggedOutToast = translation;
+    });
+  }
 
   /**
    * Handles errors.
@@ -93,6 +104,9 @@ export class AuthService {
 
     // remove session id
     this.cookieSvc.delete('connect.sid', '/');
+
+    // show toast
+    this.toastr.info(this.loggedOutToast.message, this.loggedOutToast.title);
   }
 
   /**
