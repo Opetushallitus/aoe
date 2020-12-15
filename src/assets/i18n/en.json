@@ -1059,5 +1059,12 @@
   "materialPreview": {
     "selectLanguage": "Choose a language:",
     "selectMaterial": "Choose a part of the learning resource:"
+  },
+  "session": {
+    "toasts": {
+      "loggedOut": {
+        "title": "You have been logged out of the service."
+      }
+    }
   }
 }

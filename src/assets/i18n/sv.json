@@ -1059,5 +1059,12 @@
   "materialPreview": {
     "selectLanguage": "Välj språk:",
     "selectMaterial": "Välj del av lärresursen:"
+  },
+  "session": {
+    "toasts": {
+      "loggedOut": {
+        "title": "Du har loggats ut från tjänsten."
+      }
+    }
   }
 }
