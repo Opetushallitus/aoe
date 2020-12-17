@@ -27,6 +27,7 @@ import { CollectionsViewComponent } from '@views/collections-view/collections-vi
 import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
 import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
+import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -183,6 +184,15 @@ export const routes: Routes = [
   {
     path: 'embed/:materialId/:lang',
     component: EducationalMaterialEmbedViewComponent,
+  },
+  {
+    path: 'bryssel',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    canActivate: [
+      AuthGuard,
+      AdminGuard,
+    ],
+    runGuardsAndResolvers: 'always',
   },
   {
     path: '**',

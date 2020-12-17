@@ -19,7 +19,10 @@
       ],
       "@views/*": [
         "app/views/*"
-      ]
+      ],
+      "@admin/*": [
+        "app/admin/*"
+      ],
     }
   },
   "files": [
