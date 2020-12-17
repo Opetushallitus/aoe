@@ -1,0 +1,34 @@
+<h1>Poista materiaali</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="materialId">Oppimateriaalin ID</label>
+
+    <input
+      type="text"
+      class="form-control"
+      id="materialId"
+      formControlName="materialId"
+      inputmode="numeric"
+      [ngClass]="{ 'is-invalid': materialIdCtrl.invalid && submitted }"
+    >
+
+    <div
+      *ngIf="materialIdCtrl.invalid && submitted"
+      class="invalid-feedback"
+    >
+      <div *ngIf="materialIdCtrl.errors.required">
+        Pakollinen tieto
+      </div>
+
+      <div *ngIf="materialIdCtrl.errors.pattern">
+        Vain numerot ovat sallittuja
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-blue"
+  >Poista materiaali</button>
+</form>

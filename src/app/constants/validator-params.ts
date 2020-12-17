@@ -51,4 +51,9 @@ export const validatorParams = {
       maxLength: 255,
     },
   },
+  common: {
+    pattern: {
+      numeric: '[0-9]*',
+    }
+  },
 };
