@@ -20,7 +20,7 @@ export class AdminGuard implements CanActivate {
     return this.adminSvc.getAdminStatus().pipe(
       map((response: HttpResponse<string>) => {
         if (response.status !== 200) {
-          return this.router.parseUrl('/etusivu');
+          return this.router.parseUrl('/404');
         }
 
         return true;
