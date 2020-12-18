@@ -37,7 +37,7 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'vaihda-omistajaa',
+        path: 'vaihda-omistaja',
         component: ChangeMaterialOwnerComponent,
         canActivate: [
           AuthGuard,
