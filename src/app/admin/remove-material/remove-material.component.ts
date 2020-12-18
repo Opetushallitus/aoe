@@ -40,9 +40,9 @@ export class RemoveMaterialComponent implements OnInit {
       this.adminSvc.removeMaterial(this.materialIdCtrl.value).subscribe(
         (response: RemoveMaterialResponse) => {
           if (response.status === 'success') {
-            this.toastr.info('Materiaali poistettu onnistuneesti');
+            this.toastr.info('Materiaali arkistoitu onnistuneesti');
           } else {
-            this.toastr.error('Materiaalia ei poistettu');
+            this.toastr.error('Materiaalia ei arkistoitu');
           }
         },
         (err) => {
