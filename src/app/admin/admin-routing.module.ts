@@ -28,7 +28,7 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
-        path: 'poista-materiaali',
+        path: 'arkistoi-materiaali',
         component: RemoveMaterialComponent,
         canActivate: [
           AuthGuard,
