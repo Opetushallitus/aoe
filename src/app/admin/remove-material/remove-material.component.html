@@ -11,6 +11,7 @@
       formControlName="materialId"
       inputmode="numeric"
       [ngClass]="{ 'is-invalid': materialIdCtrl.invalid && submitted }"
+      (keyup)="getMaterialInfo($event)"
     >
 
     <div
@@ -24,6 +25,24 @@
       <div *ngIf="materialIdCtrl.errors.pattern">
         Vain numerot ovat sallittuja
       </div>
+    </div>
+
+    <div *ngIf="materialInfo" class="mt-3">
+      <small class="mb-2">Materiaalin tiedot</small>
+
+      <div class="border p-2">
+        <ul class="list-unstyled">
+          <li *ngFor="let name of materialInfo.name">
+            {{ name.materialname }} ({{ name.language }})
+          </li>
+        </ul>
+
+        <p class="mb-0">{{ materialInfo.owner.firstname }} {{ materialInfo.owner.lastname }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="materialIdCtrl.valid && !materialInfo" class="mt-3">
+      <p>Syötetyllä ID:llä ei löytynyt oppimateriaalia.</p>
     </div>
   </div>
 

@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { AoeUser } from '../../models/admin/aoe-users-response';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatorParams } from '../../constants/validator-params';
 import { ChangeOwnerPost } from '../../models/admin/change-owner-post';
 import { ChangeOwnerResponse } from '../../models/admin/change-owner-response';
 import { ToastrService } from 'ngx-toastr';
+import { MaterialInfoResponse } from '../../models/admin/material-info-response';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-change-material-owner',
@@ -18,6 +20,9 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   userSubscription: Subscription;
   form: FormGroup;
   submitted: boolean;
+  materialInfo: MaterialInfoResponse;
+  materialInfoSubscription: Subscription;
+  materialInfoSubject = new Subject<string>();
 
   constructor(
     private adminSvc: AdminService,
@@ -40,10 +45,20 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
         Validators.required,
       ]),
     });
+
+    this.materialInfoSubscription = this.adminSvc.materialInfo$.subscribe((response: MaterialInfoResponse) => {
+      this.materialInfo = response;
+    });
+
+    this.materialInfoSubject.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe((value: string) => this.adminSvc.updateMaterialInfo(value));
   }
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+    this.materialInfoSubscription.unsubscribe();
   }
 
   get materialIdCtrl(): FormControl {
@@ -66,6 +81,16 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
       || user.firstname.toLowerCase().indexOf(term) > -1
       || user.lastname.toLowerCase().indexOf(term) > -1
       || user.email?.toLowerCase().indexOf(term) > -1;
+  }
+
+  getMaterialInfo($event): void {
+    const value = $event.target.value;
+
+    if (this.materialIdCtrl.valid && value) {
+      this.materialInfoSubject.next(value);
+    } else {
+      this.materialInfo = null;
+    }
   }
 
   onSubmit(): void {

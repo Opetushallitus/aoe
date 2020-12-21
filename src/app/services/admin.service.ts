@@ -7,12 +7,14 @@ import { AoeUser, AoeUsersResponse } from '@models/admin/aoe-users-response';
 import { ChangeOwnerResponse } from '@models/admin/change-owner-response';
 import { ChangeOwnerPost } from '@models/admin/change-owner-post';
 import { RemoveMaterialResponse } from '@models/admin/remove-material-response';
+import { MaterialInfoResponse } from '@models/admin/material-info-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
   public users$ = new Subject<AoeUser[]>();
+  public materialInfo$ = new Subject<MaterialInfoResponse>();
 
   constructor(
     private http: HttpClient,
@@ -80,6 +82,15 @@ export class AdminService {
       `${environment.backendUrl}/removeMaterial/${materialId}`,
     ).pipe(
       catchError(this.handleError),
+    );
+  }
+
+  updateMaterialInfo(materialId: string): void {
+    this.http.get<MaterialInfoResponse>(
+      `${environment.backendUrl}/names/${materialId}`,
+    ).subscribe(
+      (response: MaterialInfoResponse) => this.materialInfo$.next(response),
+      () => this.materialInfo$.next(null),
     );
   }
 }
