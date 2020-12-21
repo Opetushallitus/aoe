@@ -27,8 +27,11 @@ export class AlertService {
       `${environment.backendUrl}/messages/info`,
       ).pipe(
         map((response: AlertsResponse) => {
-          if (response.allas.enabled === '0') {
+          if (response.allas.enabled === '1') {
+            sessionStorage.setItem(environment.disableForms, JSON.stringify(true));
+          } else {
             delete response.allas;
+            sessionStorage.setItem(environment.disableForms, JSON.stringify(false));
           }
 
           if (response.login.enabled === '0') {
@@ -39,5 +42,9 @@ export class AlertService {
         }),
       catchError(this.handleError),
     );
+  }
+
+  disableForms(): boolean {
+    return JSON.parse(sessionStorage.getItem(environment.disableForms));
   }
 }
