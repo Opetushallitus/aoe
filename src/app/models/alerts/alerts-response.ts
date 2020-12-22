@@ -5,6 +5,10 @@ export interface AlertsResponse {
 
 export interface AlertBody {
   enabled: '1' | '0';
-  message: string;
+  message: {
+    fi: string;
+    en: string;
+    sv: string;
+  };
   alertType: string;
 }

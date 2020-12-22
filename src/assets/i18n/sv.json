@@ -1066,5 +1066,12 @@
         "title": "Du har loggats ut från tjänsten."
       }
     }
+  },
+  "errors": {
+    "toasts": {
+      "disableForms": {
+        "message": "Publicering av nya lärresurser har blockerats tills tjänstens problemet har lösts."
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AlertService } from '@services/alert.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class DisableFormsGuard implements CanActivate {
     private router: Router,
     private alertSvc: AlertService,
     private toastr: ToastrService,
+    private translate: TranslateService,
   ) { }
 
   canActivate(
@@ -19,7 +21,7 @@ export class DisableFormsGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     if (this.alertSvc.disableForms()) {
-      this.toastr.warning('Uusien oppimateriaalien ja tiedostojen lisääminen on estetty palvelussa olevan virhetilanteen selvittämisen ajaksi');
+      this.toastr.warning(this.translate.instant('errors.toasts.disableForms').message);
 
       return this.router.parseUrl('/etusivu');
     }
