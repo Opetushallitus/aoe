@@ -64,11 +64,11 @@
 
 <div *ngIf="alerts" class="alerts">
   <alert *ngIf="alerts.allas" [type]="alerts.allas.alertType">
-    <div class="container">{{ alerts.allas.message }}</div>
+    <div class="container">{{ alerts.allas.message[translate.currentLang] }}</div>
   </alert>
 
   <alert *ngIf="alerts.login" [type]="alerts.login.alertType">
-    <div class="container">{{ alerts.login.message }}</div>
+    <div class="container">{{ alerts.login.message[translate.currentLang] }}</div>
   </alert>
 </div>
 

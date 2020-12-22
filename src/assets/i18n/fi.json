@@ -1066,5 +1066,12 @@
         "title": "Sinut on kirjattu ulos palvelusta."
       }
     }
+  },
+  "errors": {
+    "toasts": {
+      "disableForms": {
+        "message": "Uusien oppimateriaalien ja tiedostojen lisääminen on estetty palvelussa olevan virhetilanteen selvittämisen ajaksi."
+      }
+    }
   }
 }
