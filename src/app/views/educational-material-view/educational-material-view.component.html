@@ -47,7 +47,7 @@
                 >
               </div>
 
-              <div class="col">
+              <div class="col col-lg-12">
                 <ul class="list-unstyled">
                   <li *ngFor="let type of educationalMaterial.learningResourceTypes">
                     <img
@@ -65,6 +65,22 @@
                     {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
                   </li>
                 </ul>
+              </div>
+
+              <div class="col col-lg-12">
+                <p>
+                  <strong class="d-inline-block align-middle">
+                    <ng-container *ngIf="!materialVersionDate; else version">{{ 'demo.educationalMaterial.pid.label.latest' | translate }}</ng-container>
+                    <ng-template #version>{{ 'demo.educationalMaterial.pid.label.version' | translate }}</ng-template>
+
+                    <button
+                      type="button"
+                      class="btn btn-link btn-tooltip"
+                      [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate"
+                    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                  </strong>
+                  <a href="https://urn.fi/urn:nbn:fi:oerfi-202012_00045163_6" rel="noopener noreferrer">urn:nbn:fi:oerfi-202012_00045163_6</a><!--@todo: replace with actual data-->
+                </p>
               </div>
             </div>
           </div>
