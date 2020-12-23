@@ -83,6 +83,13 @@
       "edit": "Muokkaa",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
+      "pid": {
+        "label": {
+          "latest": "Julkaisun pysyvä osoite",
+          "version": "Version pysyvä osoite"
+        },
+        "tooltip": "URN-tunnus (Uniform Resource Name) on pysyvä, ainutkertainen tunniste, joka helpottaa verkkoaineistojen ja oppimateriaalin löytämistä, tunnistamista ja linkittämistä. Voit käyttää tunnusta oppimateriaaleihin viittaamisen ja linkittämisen välineenä verkko-osoitteen sijasta tai lisäksi."
+      },
       "createdAt": "Lisätty",
       "publishedAt": "Julkaistu",
       "updatedAt": "Muokattu",

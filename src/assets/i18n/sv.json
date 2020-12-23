@@ -83,6 +83,13 @@
       "edit": "Redigera",
       "viewCount": "sidvisningar ",
       "downloadCount": "nedladdningar",
+      "pid": {
+        "label": {
+          "latest": "Publikationens permanenta adress",
+          "version": "Versionens permanenta adress"
+        },
+        "tooltip": "URN identifierare (Uniform Resource Name) är en permanent, unik identifierare som hjälper till att upptäcka, identifiera och länka onlinematerial och undervisningmaterial. Du kan använda identifieraren som ett sätt att hänvisa till och länka till undervisningmaterial istället för webbadressen."
+      },
       "createdAt": "Created",
       "publishedAt": "Skapad",
       "updatedAt": "Redigerad",

@@ -83,6 +83,13 @@
       "edit": "Edit",
       "viewCount": "views",
       "downloadCount": "downloads",
+      "pid": {
+        "label": {
+          "latest": "The permanent address of the publication",
+          "version": "The permanent address of the version"
+        },
+        "tooltip": "URN identifier (Uniform Resource Name) is a permanent, unique identifier that helps to discover, identify and link online materials and educational resources. You can use the identifier instead of a web address when you refer to or link to an educational resource."
+      },
       "createdAt": "Created",
       "publishedAt": "Published",
       "updatedAt": "Edited",
