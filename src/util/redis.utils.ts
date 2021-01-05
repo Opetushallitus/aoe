@@ -16,8 +16,16 @@ import { setOppimateriaalityypit } from "../controllers/oppimateriaalityypit";
 import { setPerusopetuksenOppiaineet } from "../controllers/perusopetus";
 import { setLisenssit } from "../controllers/lisenssit";
 import { setLukionkurssit } from "../controllers/lukionkurssit";
-import { setLukionOppiaineetModuulit, setLukionTavoitteetSisallot } from "../controllers/lukio";
-import { setAmmattikoulunTutkinnonOsat, setAmmattikoulunTutkinnot } from "../controllers/ammattikoulu";
+import {
+  setLukionOppiaineetModuulit,
+  setLukionTavoitteetSisallot,
+} from "../controllers/lukio";
+import {
+  setAmmattikoulunTutkinnonOsat,
+  setAmmattikoulunPerustutkinnot,
+  setAmmattikoulunAmmattitutkinnot,
+  setAmmattikoulunErikoisammattitutkinnot,
+} from "../controllers/ammattikoulu";
 import { setLukionVanhatOppiaineetKurssit } from "../controllers/vanha-lukio";
 
 export const client = redis.createClient({
@@ -44,7 +52,9 @@ export async function updateRedis(): Promise<any> {
   await setLukionkurssit();
   await setLukionOppiaineetModuulit();
   await setLukionTavoitteetSisallot();
-  await setAmmattikoulunTutkinnot();
+  await setAmmattikoulunPerustutkinnot();
   await setAmmattikoulunTutkinnonOsat();
   await setLukionVanhatOppiaineetKurssit();
+  await setAmmattikoulunAmmattitutkinnot();
+  await setAmmattikoulunErikoisammattitutkinnot();
 }

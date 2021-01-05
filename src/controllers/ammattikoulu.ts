@@ -4,11 +4,13 @@ import { getAsync, setAsync } from "../util/redis.utils";
 import { AlignmentObjectExtended } from "../models/alignment-object-extended";
 
 const endpoint = "perusteet";
-const rediskeyDegrees = "ammattikoulu-tutkinnot";
+const rediskeyBasicDegrees = "ammattikoulu-perustutkinnot";
+const rediskeyFurtherVocQuals = "ammattikoulu-ammattitutkinnot";
+const rediskeySpecialistVocQuals = "ammattikoulu-erikoisammattitutkinnot";
 const rediskeyUnits = "ammattikoulu-tutkinnonosat";
 const rediskeyRequirements = "ammattikoulu-vaatimukset";
 
-export async function setAmmattikoulunTutkinnot(): Promise<any> {
+export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
   try {
     let finnishDegrees: AlignmentObjectExtended[] = [];
     let swedishDegrees: AlignmentObjectExtended[] = [];
@@ -87,17 +89,17 @@ export async function setAmmattikoulunTutkinnot(): Promise<any> {
     swedishDegrees = getUnique(swedishDegrees, "targetName");
     englishDegrees = getUnique(englishDegrees, "targetName");
 
-    await setAsync(`${rediskeyDegrees}.fi`, JSON.stringify(finnishDegrees));
-    await setAsync(`${rediskeyDegrees}.sv`, JSON.stringify(swedishDegrees));
-    await setAsync(`${rediskeyDegrees}.en`, JSON.stringify(englishDegrees));
+    await setAsync(`${rediskeyBasicDegrees}.fi`, JSON.stringify(finnishDegrees));
+    await setAsync(`${rediskeyBasicDegrees}.sv`, JSON.stringify(swedishDegrees));
+    await setAsync(`${rediskeyBasicDegrees}.en`, JSON.stringify(englishDegrees));
   } catch (err) {
     console.error(err);
   }
 }
 
-export const getAmmattikoulunTutkinnot = async (req: any, res: any, next: any): Promise<any> => {
+export const getAmmattikoulunPerustutkinnot = async (req: any, res: any, next: any): Promise<any> => {
   try {
-    const data = await getAsync(`${rediskeyDegrees}.${req.params.lang.toLowerCase()}`);
+    const data = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`);
 
     if (data) {
       res.status(200).json(JSON.parse(data));
@@ -120,7 +122,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
     const finnishRequirements: AlignmentObjectExtended[] = [];
     const swedishRequirements: AlignmentObjectExtended[] = [];
 
-    const degrees: number[] = JSON.parse(await getAsync(`${rediskeyDegrees}.fi`))
+    const degrees: number[] = JSON.parse(await getAsync(`${rediskeyBasicDegrees}.fi`))
       .map((d: AlignmentObjectExtended) => d.key);
 
     for (const degree of degrees) {
@@ -251,6 +253,214 @@ export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any)
 
     if (data.length > 0) {
       res.status(200).json(data);
+    } else {
+      res.status(404).json({"error": "Not Found"});
+
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({"error": "Something went wrong"});
+  }
+};
+
+export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
+  try {
+    let finnishQuals: AlignmentObjectExtended[] = [];
+    let swedishQuals: AlignmentObjectExtended[] = [];
+    let englishQuals: AlignmentObjectExtended[] = [];
+    let pageNumber: number = 0;
+    let getResults: boolean = true;
+
+    while (getResults) {
+      const results = await getDataFromApi(
+        process.env.EPERUSTEET_SERVICE_URL,
+        `/${endpoint}/`,
+        {
+          "Accept": "application/json",
+          "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+        },
+        `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_11`
+      );
+
+      results.data.forEach((degree: any) => {
+        let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
+        let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
+        let targetNameEn = degree.nimi.en ? degree.nimi.en : (degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv);
+        const validityStarts = degree.voimassaoloAlkaa;
+        const transitionTimeEnds = degree.siirtymaPaattyy;
+        const now = new Date().getTime();
+
+        if (validityStarts > now) {
+          targetNameFi = `${targetNameFi} (Tuleva)`;
+          targetNameSv = `${targetNameSv} (På kommande)`;
+          targetNameEn = `${targetNameEn} (In progress)`;
+        }
+
+        if (transitionTimeEnds) {
+          targetNameFi = `${targetNameFi} (Siirtymäajalla)`;
+          targetNameSv = `${targetNameSv} (Övergångstid)`;
+          targetNameEn = `${targetNameEn} (On transition time)`;
+        }
+
+        finnishQuals.push({
+          key: degree.id,
+          source: "furtherVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameFi,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+
+        swedishQuals.push({
+          key: degree.id,
+          source: "furtherVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameSv,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+
+        englishQuals.push({
+          key: degree.id,
+          source: "furtherVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameEn,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+      });
+
+      pageNumber = results.sivu + 1;
+
+      if (pageNumber >= results.sivuja) {
+        getResults = false;
+      }
+    }
+
+    finnishQuals.sort(sortByTargetName);
+    swedishQuals.sort(sortByTargetName);
+    englishQuals.sort(sortByTargetName);
+
+    finnishQuals = getUnique(finnishQuals, "targetName");
+    swedishQuals = getUnique(swedishQuals, "targetName");
+    englishQuals = getUnique(englishQuals, "targetName");
+
+    await setAsync(`${rediskeyFurtherVocQuals}.fi`, JSON.stringify(finnishQuals));
+    await setAsync(`${rediskeyFurtherVocQuals}.sv`, JSON.stringify(swedishQuals));
+    await setAsync(`${rediskeyFurtherVocQuals}.en`, JSON.stringify(englishQuals));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export const getAmmattikoulunAmmattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
+  try {
+    const data = await getAsync(`${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`);
+
+    if (data) {
+      res.status(200).json(JSON.parse(data));
+    } else {
+      res.status(404).json({"error": "Not Found"});
+
+      return next();
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({"error": "Something went wrong"});
+  }
+};
+
+export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
+  try {
+    let finnishQuals: AlignmentObjectExtended[] = [];
+    let swedishQuals: AlignmentObjectExtended[] = [];
+    let englishQuals: AlignmentObjectExtended[] = [];
+    let pageNumber: number = 0;
+    let getResults: boolean = true;
+
+    while (getResults) {
+      const results = await getDataFromApi(
+        process.env.EPERUSTEET_SERVICE_URL,
+        `/${endpoint}/`,
+        {
+          "Accept": "application/json",
+          "Caller-Id": `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`
+        },
+        `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_12`
+      );
+
+      results.data.forEach((degree: any) => {
+        let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
+        let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
+        let targetNameEn = degree.nimi.en ? degree.nimi.en : (degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv);
+        const validityStarts = degree.voimassaoloAlkaa;
+        const transitionTimeEnds = degree.siirtymaPaattyy;
+        const now = new Date().getTime();
+
+        if (validityStarts > now) {
+          targetNameFi = `${targetNameFi} (Tuleva)`;
+          targetNameSv = `${targetNameSv} (På kommande)`;
+          targetNameEn = `${targetNameEn} (In progress)`;
+        }
+
+        if (transitionTimeEnds) {
+          targetNameFi = `${targetNameFi} (Siirtymäajalla)`;
+          targetNameSv = `${targetNameSv} (Övergångstid)`;
+          targetNameEn = `${targetNameEn} (On transition time)`;
+        }
+
+        finnishQuals.push({
+          key: degree.id,
+          source: "specialistVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameFi,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+
+        swedishQuals.push({
+          key: degree.id,
+          source: "specialistVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameSv,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+
+        englishQuals.push({
+          key: degree.id,
+          source: "specialistVocationalQualifications",
+          alignmentType: "educationalSubject",
+          targetName: targetNameEn,
+          targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+        });
+      });
+
+      pageNumber = results.sivu + 1;
+
+      if (pageNumber >= results.sivuja) {
+        getResults = false;
+      }
+    }
+
+    finnishQuals.sort(sortByTargetName);
+    swedishQuals.sort(sortByTargetName);
+    englishQuals.sort(sortByTargetName);
+
+    finnishQuals = getUnique(finnishQuals, "targetName");
+    swedishQuals = getUnique(swedishQuals, "targetName");
+    englishQuals = getUnique(englishQuals, "targetName");
+
+    await setAsync(`${rediskeySpecialistVocQuals}.fi`, JSON.stringify(finnishQuals));
+    await setAsync(`${rediskeySpecialistVocQuals}.sv`, JSON.stringify(swedishQuals));
+    await setAsync(`${rediskeySpecialistVocQuals}.en`, JSON.stringify(englishQuals));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
+  try {
+    const data = await getAsync(`${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`);
+
+    if (data) {
+      res.status(200).json(JSON.parse(data));
     } else {
       res.status(404).json({"error": "Not Found"});
 
