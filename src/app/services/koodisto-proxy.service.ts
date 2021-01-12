@@ -21,6 +21,7 @@ import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 })
 export class KoodistoProxyService {
   apiUri = environment.koodistoUrl;
+  lang: string;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -47,6 +48,8 @@ export class KoodistoProxyService {
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalUnits$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalRequirements$ = new Subject<AlignmentObjectExtended[]>();
+  public furtherVocationalQualifications$ = new Subject<AlignmentObjectExtended[]>();
+  public specialistVocationalQualifications$ = new Subject<AlignmentObjectExtended[]>();
   public scienceBranches$ = new Subject<AlignmentObjectExtended[]>();
   public accessibilityFeatures$ = new Subject<AccessibilityFeature[]>();
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
@@ -58,7 +61,9 @@ export class KoodistoProxyService {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-  ) { }
+  ) {
+    this.lang = this.translate.currentLang;
+  }
 
   /**
    * Updates languages.
@@ -312,6 +317,30 @@ export class KoodistoProxyService {
           this.vocationalRequirements$.next([]);
         },
       );
+  }
+
+  /**
+   * Updates further vocational qualifications.
+   */
+  updateFurtherVocationalQualifications(): void {
+    this.http.get<AlignmentObjectExtended[]>(
+      `${environment.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`,
+      this.httpOptions,
+    ).subscribe((qualifications: AlignmentObjectExtended[]) => {
+      this.furtherVocationalQualifications$.next(qualifications);
+    });
+  }
+
+  /**
+   * Updates specialist vocational qualifications.
+   */
+  updateSpecialistVocationalQualifications(): void {
+    this.http.get<AlignmentObjectExtended[]>(
+      `${environment.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`,
+      this.httpOptions,
+    ).subscribe((qualifications: AlignmentObjectExtended[]) => {
+      this.specialistVocationalQualifications$.next(qualifications);
+    });
   }
 
   /**

@@ -18,6 +18,8 @@ export const koodistoSources = {
   vocationalUnits: 'vocationalUnits',
   vocationalRequirements: 'vocationalRequirements',
   vocationalObjectives: 'vocationalEducationObjectives',
+  furtherVocationalQualifications: 'furtherVocationalQualifications',
+  specialistVocationalQualifications: 'specialistVocationalQualifications',
   selfMotivatedSubjects: 'selfMotivatedEducationSubjects',
   selfMotivatedObjectives: 'selfMotivatedEducationObjectives',
   scienceBranches: 'branchesOfScience',

@@ -41,6 +41,8 @@ export class PreviewComponent implements OnInit {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
+  furtherVocationalQualifications: AlignmentObjectExtended[];
+  specialistVocationalQualifications: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   branchesOfScience: AlignmentObjectExtended[];
@@ -206,6 +208,12 @@ export class PreviewComponent implements OnInit {
         this.vocationalRequirements = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
 
+        this.furtherVocationalQualifications = this.savedData.alignmentObjects
+          .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications);
+
+        this.specialistVocationalQualifications = this.savedData.alignmentObjects
+          .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
+
         this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
 
@@ -278,6 +286,7 @@ export class PreviewComponent implements OnInit {
       });
 
       delete this.savedData.thumbnail;
+      delete this.savedData.prerequisites;
 
       this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up session storage

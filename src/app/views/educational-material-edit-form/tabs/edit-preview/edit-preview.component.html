@@ -580,6 +580,30 @@
       </dd>
     </ng-container>
 
+    <ng-container *ngIf="previewMaterial.furtherVocationalQualifications?.length > 0">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <ng-container *ngFor="let qualification of previewMaterial.furtherVocationalQualifications; let isLast = last">
+          {{ qualification.targetName }}{{ isLast ? '' : ', ' }}
+        </ng-container>
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="previewMaterial.specialistVocationalQualifications?.length > 0">
+      <dt class="col-sm-3">
+        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate }}
+      </dt>
+
+      <dd class="col-sm-9">
+        <ng-container *ngFor="let qualification of previewMaterial.specialistVocationalQualifications; let isLast = last">
+          {{ qualification.targetName }}{{ isLast ? '' : ', ' }}
+        </ng-container>
+      </dd>
+    </ng-container>
+
     <ng-container *ngIf="previewMaterial.vocationalUnits?.length > 0">
       <dt class="col-sm-3">
         {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate }}

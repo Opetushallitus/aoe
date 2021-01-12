@@ -537,6 +537,30 @@
                     ></app-taglist><!--vocationalDegrees-->
                   </div>
 
+                  <div *ngIf="educationalMaterial.furtherVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                    <app-taglist
+                      elementId="material-furtherVocationalQualifications"
+                      [tags]="educationalMaterial.furtherVocationalQualifications"
+                      [title]="'demo.educationalMaterial.furtherVocationalQualifications' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="furtherVocationalQualifications"
+                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                    ></app-taglist><!--furtherVocationalQualifications-->
+                  </div>
+
+                  <div *ngIf="educationalMaterial.specialistVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                    <app-taglist
+                      elementId="material-specialistVocationalQualifications"
+                      [tags]="educationalMaterial.specialistVocationalQualifications"
+                      [title]="'demo.educationalMaterial.specialistVocationalQualifications' | translate"
+                      property="targetName"
+                      searchProperty="key"
+                      filterType="specialistVocationalQualifications"
+                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                    ></app-taglist><!--specialistVocationalQualifications-->
+                  </div>
+
                   <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
                     <app-taglist
                       elementId="material-vocationalUnits"

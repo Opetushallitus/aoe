@@ -592,6 +592,36 @@
     </div>
 
     <div class="form-group">
+      <label for="furtherVocationalQualifications">
+        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="furtherVocationalQualifications"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        labelForId="furtherVocationalQualifications"
+        formControlName="furtherVocationalQualifications"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
+      <label for="specialistVocationalQualifications">
+        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="specialistVocationalQualifications"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        labelForId="specialistVocationalQualifications"
+        formControlName="specialistVocationalQualifications"
+      ></ng-select>
+    </div>
+
+    <div class="form-group">
       <div class="custom-control custom-checkbox">
         <input
           type="checkbox"
