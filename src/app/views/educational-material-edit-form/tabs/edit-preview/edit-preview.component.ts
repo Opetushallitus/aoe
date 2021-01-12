@@ -295,6 +295,20 @@ export class EditPreviewComponent implements OnInit {
         alignmentObjects.push(requirement);
       });
       delete this.previewMaterial.vocationalRequirements;
+
+      this.previewMaterial.furtherVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
+        qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+
+        alignmentObjects.push(qualification);
+      });
+      delete this.previewMaterial.furtherVocationalQualifications;
+
+      this.previewMaterial.specialistVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
+        qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+
+        alignmentObjects.push(qualification);
+      });
+      delete this.previewMaterial.specialistVocationalQualifications;
       delete this.previewMaterial.vocationalEducationFramework;
 
       // self-motivated competence development

@@ -120,9 +120,11 @@
       "upperSecondarySchoolModulesNew": "Lukion moduulit",
       "upperSecondarySchoolObjectivesNew": "Lukion tavoitteet",
       "upperSecondarySchoolContentsNew": "Lukion sisältöalueet",
-      "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
+      "vocationalDegrees": "Ammatillisen koulutuksen perustutkinnot",
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
+      "furtherVocationalQualifications": "Ammattitutkinnot",
+      "specialistVocationalQualifications": "Erityisammattitutkinnot",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
       "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
       "branchesOfScience": "Korkeakoulutuksen tieteenalat",
@@ -478,7 +480,7 @@
           "title": "Ammatillinen koulutus",
           "inputs": {
             "degrees": {
-              "label": "Ammatillisen koulutuksen tutkinnot",
+              "label": "Ammatillisen koulutuksen perustutkinnot",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "units": {
@@ -492,6 +494,14 @@
             "framework": {
               "label": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
               "tooltip": "Voit tähän lisätä tiedon siitä minkä opetussuunnitelman tai tutkintorakenteen mukaisien sisältöjen opettamiseksi oppimateriaali on tehty."
+            },
+            "furtherVocationalQualifications": {
+              "label": "Ammattitutkinnot",
+              "tooltip": ""
+            },
+            "specialistVocationalQualifications": {
+              "label": "Erityisammattitutkinnot",
+              "tooltip": ""
             }
           }
         },
@@ -769,7 +779,7 @@
           "placeholder": ""
         },
         "vocationalDegrees": {
-          "label": "Ammatillisen koulutuksen tutkinnot",
+          "label": "Ammatillisen koulutuksen perustutkinnot",
           "placeholder": ""
         },
         "vocationalUnits": {
@@ -1036,7 +1046,7 @@
       "upperSecondarySchoolModulesNew": "Moduuli",
       "upperSecondarySchoolObjectivesNew": "Tavoite",
       "upperSecondarySchoolContentsNew": "Sisältö",
-      "vocationalDegrees": "Ammatillisen koulutuksen tutkinnot",
+      "vocationalDegrees": "Ammatillisen koulutuksen perustutkinnot",
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",

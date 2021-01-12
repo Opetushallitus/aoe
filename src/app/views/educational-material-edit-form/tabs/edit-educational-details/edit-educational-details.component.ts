@@ -60,6 +60,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirementSubscription: Subscription;
   vocationalRequirements: AlignmentObjectExtended[];
+  furtherVocationalQualificationSubscription: Subscription;
+  furtherVocationalQualifications: AlignmentObjectExtended[];
+  specialistVocationalQualificationSubscription: Subscription;
+  specialistVocationalQualifications: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
   scienceBranches: AlignmentObjectExtended[];
   hasEarlyChildhoodEducation = false;
@@ -144,6 +148,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
+      furtherVocationalQualifications: this.fb.control(null),
+      specialistVocationalQualifications: this.fb.control(null),
       selfMotivatedEducationSubjects: this.fb.control(null),
       suitsAllSelfMotivatedSubjects: this.fb.control(false),
       selfMotivatedEducationObjectives: this.fb.control(null),
@@ -164,6 +170,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
       this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
       this.koodistoSvc.updateVocationalDegrees();
+      this.koodistoSvc.updateFurtherVocationalQualifications();
+      this.koodistoSvc.updateSpecialistVocationalQualifications();
       this.koodistoSvc.updateScienceBranches();
     });
 
@@ -288,6 +296,20 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
         this.vocationalRequirements = requirements;
       });
 
+    // further vocational qualifications
+    this.furtherVocationalQualificationSubscription = this.koodistoSvc.furtherVocationalQualifications$
+      .subscribe((qualifications: AlignmentObjectExtended[]) => {
+        this.furtherVocationalQualifications = qualifications;
+      });
+    this.koodistoSvc.updateFurtherVocationalQualifications();
+
+    // specialist vocational qualifications
+    this.specialistVocationalQualificationSubscription = this.koodistoSvc.specialistVocationalQualifications$
+      .subscribe((qualifications: AlignmentObjectExtended[]) => {
+        this.specialistVocationalQualifications = qualifications;
+      });
+    this.koodistoSvc.updateSpecialistVocationalQualifications();
+
     // science branches
     this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$
       .subscribe((branches: AlignmentObjectExtended[]) => {
@@ -314,6 +336,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
     this.vocationalRequirementSubscription.unsubscribe();
+    this.furtherVocationalQualificationSubscription.unsubscribe();
+    this.specialistVocationalQualificationSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
   }
 
@@ -385,6 +409,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
   get vocationalEducationFrameworkCtrl(): FormControl {
     return this.form.get('vocationalEducationFramework') as FormControl;
+  }
+
+  get furtherVocationalQualificationsCtrl(): FormControl {
+    return this.form.get('furtherVocationalQualifications') as FormControl;
+  }
+
+  get specialistVocationalQualificationsCtrl(): FormControl {
+    return this.form.get('specialistVocationalQualifications') as FormControl;
   }
 
   get higherEducationFrameworkCtrl(): FormControl {
@@ -567,6 +599,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     changedMaterial.vocationalUnits = this.vocationalUnitsCtrl.value;
     changedMaterial.vocationalRequirements = this.vocationalRequirementsCtrl.value;
     changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
+    changedMaterial.furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
+    changedMaterial.specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
 
     // self-motivated competence development
     changedMaterial.selfMotivatedEducationSubjects = this.form.get('selfMotivatedEducationSubjects').value;
