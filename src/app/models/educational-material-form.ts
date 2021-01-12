@@ -109,6 +109,8 @@ export interface EducationalMaterialForm {
   vocationalUnits?: AlignmentObjectExtended[];
   vocationalRequirements?: AlignmentObjectExtended[];
   vocationalEducationFramework?: string;
+  furtherVocationalQualifications: AlignmentObjectExtended[];
+  specialistVocationalQualifications: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects?: AlignmentObjectExtended[];
   suitsAllSelfMotivatedSubjects?: boolean;
   selfMotivatedEducationObjectives?: AlignmentObjectExtended[];
