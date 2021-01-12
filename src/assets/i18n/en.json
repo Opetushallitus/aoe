@@ -130,6 +130,8 @@
       "vocationalDegrees": "Educational subject of vocational education",
       "vocationalUnits": "Vocational units",
       "vocationalEducationObjectives": "Learning object of vocational education",
+      "furtherVocationalQualifications": "Further vocational qualification",
+      "specialistVocationalQualifications": "Specialist vocational qualification",
       "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
       "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
       "branchesOfScience": "Educational subject of higher education",
@@ -499,6 +501,14 @@
             "framework": {
               "label": "Educational framework of vocational education",
               "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            },
+            "furtherVocationalQualifications": {
+              "label": "Further vocational qualification",
+              "tooltip": ""
+            },
+            "specialistVocationalQualifications": {
+              "label": "Specialist vocational qualification",
+              "tooltip": ""
             }
           }
         },

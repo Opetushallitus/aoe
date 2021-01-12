@@ -129,6 +129,8 @@
       "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
       "vocationalDegrees": "Examensdel för yrkesutbildning",
       "vocationalUnits": "Examensdelar för yrkesutbildning",
+      "furtherVocationalQualifications": "Yrkesexamen",
+      "specialistVocationalQualifications": "Specialyrkesexamen",
       "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
       "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
       "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
@@ -499,6 +501,14 @@
             "framework": {
               "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            },
+            "furtherVocationalQualifications": {
+              "label": "Yrkesexamen",
+              "tooltip": ""
+            },
+            "specialistVocationalQualifications": {
+              "label": "Specialyrkesexamen",
+              "tooltip": ""
             }
           }
         },

@@ -247,6 +247,10 @@ export class BackendService {
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
         vocationalRequirements: alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
+        furtherVocationalQualifications: alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.furtherVocationalQualifications),
+        specialistVocationalQualifications: alignmentObjects
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.specialistVocationalQualifications),
         suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
         selfMotivatedEducationSubjects: alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
@@ -765,6 +769,26 @@ export class BackendService {
           vocationalEducationFramework: (vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework)
             ? vocationalDegrees[0].educationalFramework
             : null,
+          furtherVocationalQualifications: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.furtherVocationalQualifications)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
+          specialistVocationalQualifications: material.educationalAlignment
+            .filter((alignment) => alignment.source === koodistoSources.specialistVocationalQualifications)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            })),
           selfMotivatedEducationSubjects: material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.selfMotivatedSubjects)
             .map((alignment) => ({
