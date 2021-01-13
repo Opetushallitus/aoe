@@ -276,6 +276,7 @@ export class BackendService {
         viewCounter: +material.viewCounter,
         downloadCounter: +material.downloadCounter,
         typicalAgeRange: material.typicalAgeRange,
+        urn: material.urn,
       });
     });
   }
