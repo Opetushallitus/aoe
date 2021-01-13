@@ -242,15 +242,13 @@ export class BackendService {
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
         suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
         vocationalDegrees: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees),
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees
+            || alignmentObject.source === koodistoSources.furtherVocationalQualifications
+            || alignmentObject.source === koodistoSources.specialistVocationalQualifications),
         vocationalUnits: alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
         vocationalRequirements: alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
-        furtherVocationalQualifications: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.furtherVocationalQualifications),
-        specialistVocationalQualifications: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.specialistVocationalQualifications),
         suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
         selfMotivatedEducationSubjects: alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
