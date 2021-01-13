@@ -67,7 +67,7 @@
                 </ul>
               </div>
 
-              <div class="col col-lg-12">
+              <div class="col col-lg-12" *ngIf="educationalMaterial.urn">
                 <p>
                   <strong class="d-inline-block align-middle">
                     <ng-container *ngIf="!materialVersionDate; else version">{{ 'demo.educationalMaterial.pid.label.latest' | translate }}</ng-container>
@@ -79,7 +79,7 @@
                       [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate"
                     ><img src="assets/img/icons/ic_help.svg" alt=""></button>
                   </strong>
-                  <a href="https://urn.fi/urn:nbn:fi:oerfi-202012_00045163_6" rel="noopener noreferrer">urn:nbn:fi:oerfi-202012_00045163_6</a><!--@todo: replace with actual data-->
+                  <a [href]="educationalMaterial.urn" rel="noopener noreferrer">{{ educationalMaterial.urn }}</a>
                 </p>
               </div>
             </div>
