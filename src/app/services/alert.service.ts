@@ -34,8 +34,11 @@ export class AlertService {
             sessionStorage.setItem(environment.disableForms, JSON.stringify(false));
           }
 
-          if (response.login.enabled === '0') {
+          if (response.login.enabled === '1') {
+            sessionStorage.setItem(environment.disableLogin, JSON.stringify(true));
+          } else {
             delete response.login;
+            sessionStorage.setItem(environment.disableLogin, JSON.stringify(false));
           }
 
           return response;
@@ -46,5 +49,9 @@ export class AlertService {
 
   disableForms(): boolean {
     return JSON.parse(sessionStorage.getItem(environment.disableForms));
+  }
+
+  disableLogin(): boolean {
+    return JSON.parse(sessionStorage.getItem(environment.disableLogin));
   }
 }
