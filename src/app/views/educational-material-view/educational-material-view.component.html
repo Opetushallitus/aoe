@@ -69,9 +69,8 @@
 
               <div class="col col-lg-12" *ngIf="educationalMaterial.urn">
                 <p>
-                  <strong class="d-inline-block align-middle">
-                    <ng-container *ngIf="!materialVersionDate; else version">{{ 'demo.educationalMaterial.pid.label.latest' | translate }}</ng-container>
-                    <ng-template #version>{{ 'demo.educationalMaterial.pid.label.version' | translate }}</ng-template>
+                  <strong class="d-block">
+                    {{ 'demo.educationalMaterial.pid.label.version' | translate }}
 
                     <button
                       type="button"
@@ -79,7 +78,10 @@
                       [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate"
                     ><img src="assets/img/icons/ic_help.svg" alt=""></button>
                   </strong>
-                  <a [href]="educationalMaterial.urn" rel="noopener noreferrer">{{ educationalMaterial.urn }}</a>
+
+                  <a href="https://urn.fi/{{ educationalMaterial.urn }}" rel="noopener noreferrer">
+                    {{ educationalMaterial.urn }}
+                  </a>
                 </p>
               </div>
             </div>
