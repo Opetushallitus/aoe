@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { UserSettings } from '@models/users/user-settings';
 import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response';
 import { Router } from '@angular/router';
+import { AlertService } from '@services/alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthService {
     private http: HttpClient,
     private cookieSvc: CookieService,
     private router: Router,
+    private alertSvc: AlertService,
   ) { }
 
   /**
@@ -37,7 +39,9 @@ export class AuthService {
    * Redirects user to login page.
    */
   login(): void {
-    this.document.location.href = `${environment.backendUrl}/login`;
+    if (!this.alertSvc.disableLogin()) {
+      this.document.location.href = `${environment.backendUrl}/login`;
+    }
   }
 
   /**
