@@ -53,8 +53,8 @@ export async function updateRedis(): Promise<any> {
   await setLukionOppiaineetModuulit();
   await setLukionTavoitteetSisallot();
   await setAmmattikoulunPerustutkinnot();
-  await setAmmattikoulunTutkinnonOsat();
-  await setLukionVanhatOppiaineetKurssit();
   await setAmmattikoulunAmmattitutkinnot();
   await setAmmattikoulunErikoisammattitutkinnot();
+  await setAmmattikoulunTutkinnonOsat();
+  await setLukionVanhatOppiaineetKurssit();
 }

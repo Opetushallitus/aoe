@@ -122,8 +122,10 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
     const finnishRequirements: AlignmentObjectExtended[] = [];
     const swedishRequirements: AlignmentObjectExtended[] = [];
 
-    const degrees: number[] = JSON.parse(await getAsync(`${rediskeyBasicDegrees}.fi`))
+    let degrees: number[] = JSON.parse(await getAsync(`${rediskeyBasicDegrees}.fi`))
       .map((d: AlignmentObjectExtended) => d.key);
+    degrees = degrees.concat(JSON.parse(await getAsync(`${rediskeyFurtherVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
+    degrees = degrees.concat(JSON.parse(await getAsync(`${rediskeySpecialistVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
 
     for (const degree of degrees) {
       try {
