@@ -207,7 +207,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     }
 
     if (this.vocationalDegreesCtrl.value && this.vocationalDegreesCtrl.value.length > 0) {
-      this.vocationalDegreesChange(this.vocationalDegreesCtrl.value);
+      this.vocationalDegreesChange();
     }
 
     if (this.vocationalUnitsCtrl.value?.length > 0) {
@@ -512,13 +512,17 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   /**
    * Runs on vocational education degree change. Sets hasVocationalDegrees boolean value. Updates
    * vocational education units based on selected degrees.
-   * @param value
    */
-  vocationalDegreesChange(value): void {
-    this.hasVocationalDegrees = value.length > 0;
+  vocationalDegreesChange(): void {
+    const basicDegrees = this.vocationalDegreesCtrl.value;
+    const furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
+    const specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
+    const degrees = basicDegrees.concat(furtherVocationalQualifications, specialistVocationalQualifications);
+
+    this.hasVocationalDegrees = degrees.length > 0;
 
     if (this.hasVocationalDegrees) {
-      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+      const ids = degrees.map((degree: AlignmentObjectExtended) => degree.key).join(',');
 
       this.koodistoSvc.updateVocationalUnits(ids);
     }
