@@ -111,12 +111,17 @@ export class AuthService {
   }
 
   /**
-   * Removes user data and redirects user to logout endpoint.
+   * Removes user data and redirects user to front page.
    */
   logout(): void {
-    this.removeUserdata();
-
-    this.document.location.href = `${environment.backendUrl}/logout`;
+    this.http.post(`${environment.backendUrl}/logout`, {}, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+      }),
+    }).subscribe(() => {
+      this.removeUserdata();
+      this.router.navigate(['/etusivu']);
+    });
   }
 
   /**
