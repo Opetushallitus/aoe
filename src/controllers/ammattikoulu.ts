@@ -139,7 +139,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
           `${degree}/kaikki`
         );
 
-        results.tutkinnonOsat.forEach((unit: any) => {
+        results.tutkinnonOsat?.forEach((unit: any) => {
           finnishUnits.push({
             key: unit.id,
             parent: {
@@ -219,7 +219,6 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
-
     const data = JSON.parse(await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`))
       .filter((unit: AlignmentObjectExtended) => ids.includes(unit.parent.key.toString()))
       .map((unit: AlignmentObjectExtended) => {
