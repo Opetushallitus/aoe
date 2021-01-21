@@ -518,6 +518,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     const furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
     const specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
     const degrees = basicDegrees.concat(furtherVocationalQualifications, specialistVocationalQualifications);
+    console.log(basicDegrees);
+    console.log(furtherVocationalQualifications);
+    console.log(specialistVocationalQualifications);
+    console.log(degrees);
 
     this.hasVocationalDegrees = degrees.length > 0;
 
