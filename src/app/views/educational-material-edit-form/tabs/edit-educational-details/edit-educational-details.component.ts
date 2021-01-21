@@ -206,8 +206,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.upperSecondarySchoolModulesNewChange(this.upperSecondarySchoolModulesNewCtrl.value);
     }
 
-    if (this.vocationalDegreesCtrl.value && this.vocationalDegreesCtrl.value.length > 0) {
-      this.vocationalDegreesChange();
+    if (this.vocationalDegreesCtrl.value?.length > 0
+      || this.furtherVocationalQualificationsCtrl.value?.length > 0
+      || this.specialistVocationalQualificationsCtrl.value?.length > 0) {
+        this.vocationalDegreesChange();
     }
 
     if (this.vocationalUnitsCtrl.value?.length > 0) {
@@ -518,10 +520,6 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     const furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
     const specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
     const degrees = basicDegrees.concat(furtherVocationalQualifications, specialistVocationalQualifications);
-    console.log(basicDegrees);
-    console.log(furtherVocationalQualifications);
-    console.log(specialistVocationalQualifications);
-    console.log(degrees);
 
     this.hasVocationalDegrees = degrees.length > 0;
 
