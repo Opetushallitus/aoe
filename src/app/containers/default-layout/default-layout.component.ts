@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from '@services/cookie.service';
+import { interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+import { AlertService } from '@services/alert.service';
+import { AlertsResponse } from '@models/alerts/alerts-response';
 
 /**
  * @ignore
@@ -12,8 +16,9 @@ import { CookieService } from '@services/cookie.service';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnInit {
   languages = new Map();
+  alerts: AlertsResponse;
 
   logos = {
     okm: {
@@ -68,6 +73,7 @@ export class DefaultLayoutComponent {
     public translate: TranslateService,
     public authSvc: AuthService,
     private cookieSvc: CookieService,
+    private alertSvc: AlertService,
   ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
 
@@ -85,6 +91,15 @@ export class DefaultLayoutComponent {
       label: 'SV',
       srText: 'Svenska: Byt språk till svenska',
     });
+  }
+
+  ngOnInit(): void {
+    interval(5 * 60 * 1000) // minutes x seconds x milliseconds
+      .pipe(
+        startWith(0),
+        switchMap(() => this.alertSvc.updateAlerts())
+      )
+      .subscribe((response: AlertsResponse) => this.alerts = response);
   }
 
   /**

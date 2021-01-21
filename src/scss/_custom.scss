@@ -812,6 +812,12 @@ h2 {
 }
 
 // Alerts
+.alerts {
+  .alert {
+    margin-bottom: 0;
+  }
+}
+
 .alert-info {
   background-color: $white;
   border-color: $primary-theme-color;
