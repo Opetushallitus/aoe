@@ -587,7 +587,7 @@
         id="vocationalDegrees"
         labelForId="vocationalDegrees"
         formControlName="vocationalDegrees"
-        (change)="vocationalDegreesChange($event)"
+        (change)="vocationalDegreesChange()"
       ></ng-select>
     </div>
 
@@ -603,6 +603,7 @@
         bindLabel="targetName"
         labelForId="furtherVocationalQualifications"
         formControlName="furtherVocationalQualifications"
+        (change)="vocationalDegreesChange()"
       ></ng-select>
     </div>
 
@@ -618,6 +619,7 @@
         bindLabel="targetName"
         labelForId="specialistVocationalQualifications"
         formControlName="specialistVocationalQualifications"
+        (change)="vocationalDegreesChange()"
       ></ng-select>
     </div>
 
