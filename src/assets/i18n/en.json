@@ -1076,5 +1076,12 @@
         "title": "You have been logged out of the service."
       }
     }
+  },
+  "errors": {
+    "toasts": {
+      "disableForms": {
+        "message": "Uploading new learning resources has been blocked until the current error situation is resolved."
+      }
+    }
   }
 }

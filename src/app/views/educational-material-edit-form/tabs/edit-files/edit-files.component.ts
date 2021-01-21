@@ -17,6 +17,7 @@ import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Title } from '@angular/platform-browser';
 import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -53,6 +54,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private router: Router,
     private titleSvc: Title,
+    private authSvc: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -661,25 +663,30 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    this.validateFiles();
-    this.validateSubtitles();
+    if (this.authSvc.hasUserdata()) {
+      this.validateFiles();
+      this.validateSubtitles();
 
-    if (this.form.valid) {
-      if (this.form.dirty) {
-        this.calculateNewMaterialCount();
-        this.calculateNewSubtitleCount();
+      if (this.form.valid) {
+        if (this.form.dirty) {
+          this.calculateNewMaterialCount();
+          this.calculateNewSubtitleCount();
 
-        if (this.newMaterialCount > 0) {
-          this.uploadMaterials();
-        } else if (this.newSubtitleCount > 0) {
-          this.uploadSubtitles();
+          if (this.newMaterialCount > 0) {
+            this.uploadMaterials();
+          } else if (this.newSubtitleCount > 0) {
+            this.uploadSubtitles();
+          } else {
+            this.saveMaterial();
+            this.redirectToNextTab();
+          }
         } else {
-          this.saveMaterial();
           this.redirectToNextTab();
         }
-      } else {
-        this.redirectToNextTab();
       }
+    } else {
+      this.form.markAsPristine();
+      this.router.navigateByUrl('/etusivu');
     }
   }
 

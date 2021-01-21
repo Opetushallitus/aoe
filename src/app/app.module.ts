@@ -109,6 +109,8 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { FocusRemoverDirective } from './directives/focus-remover.directive';
 import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
+import { AdminGuard } from './guards/admin.guard';
+import { DisableFormsGuard } from './guards/disable-forms.guard';
 
 @NgModule({
   imports: [
@@ -222,6 +224,8 @@ import { SocialMetadataModalComponent } from '@components/social-metadata-modal/
     Title,
     UnsavedChangesGuard,
     DeviceDetectorService,
+    AdminGuard,
+    DisableFormsGuard,
   ],
   bootstrap: [ AppComponent ]
 })

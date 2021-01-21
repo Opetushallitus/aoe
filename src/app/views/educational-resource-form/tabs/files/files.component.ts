@@ -15,6 +15,7 @@ import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
 import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-tabs-files',
@@ -50,6 +51,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private backendSvc: BackendService,
     private titleSvc: Title,
+    private authSvc: AuthService,
   ) { }
 
   ngOnInit() {
@@ -399,30 +401,35 @@ export class FilesComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     this.submitted = true;
 
-    this.validateFiles();
-    this.validateSubtitles();
+    if (this.authSvc.hasUserdata()) {
+      this.validateFiles();
+      this.validateSubtitles();
 
-    if (this.form.valid) {
-      if (this.form.dirty) {
-        this.saveData();
-      }
-
-      if (this.totalFileCount > 0) {
-        if (!this.materialId) {
-          const formData = new FormData();
-          formData.append('name', JSON.stringify(this.names.value));
-
-          this.backendSvc.uploadFiles(formData).subscribe(
-            () => {},
-            (err) => console.error(err),
-            () => this.uploadFiles(),
-          );
-        } else {
-          this.uploadFiles();
+      if (this.form.valid) {
+        if (this.form.dirty) {
+          this.saveData();
         }
-      } else {
-        this.router.navigate(['/lisaa-oppimateriaali', 2]);
+
+        if (this.totalFileCount > 0) {
+          if (!this.materialId) {
+            const formData = new FormData();
+            formData.append('name', JSON.stringify(this.names.value));
+
+            this.backendSvc.uploadFiles(formData).subscribe(
+              () => {},
+              (err) => console.error(err),
+              () => this.uploadFiles(),
+            );
+          } else {
+            this.uploadFiles();
+          }
+        } else {
+          this.router.navigate(['/lisaa-oppimateriaali', 2]);
+        }
       }
+    } else {
+      this.form.markAsPristine();
+      this.router.navigateByUrl('/etusivu');
     }
   }
 
