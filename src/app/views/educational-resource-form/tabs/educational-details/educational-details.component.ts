@@ -377,7 +377,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         const vocationalDegrees = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
         this.vocationalDegreesCtrl.setValue(vocationalDegrees);
-        this.vocationalDegreesChange(vocationalDegrees);
+        this.vocationalDegreesChange();
 
         const vocationalUnits = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
@@ -396,10 +396,12 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         const furtherVocationalQualifications = this.savedData.alignmentObjects
           .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications);
         this.furtherVocationalQualificationsCtrl.setValue(furtherVocationalQualifications);
+        this.vocationalDegreesChange();
 
         const specialistVocationalQualifications = this.savedData.alignmentObjects
           .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
         this.specialistVocationalQualificationsCtrl.setValue(specialistVocationalQualifications);
+        this.vocationalDegreesChange();
 
         // self-motivated competence development
         const selfMotivatedEducationSubjects = this.savedData.alignmentObjects
@@ -711,11 +713,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  vocationalDegreesChange(value): void {
-    this.hasVocationalDegrees = value.length > 0;
+  vocationalDegreesChange(): void {
+    const basicDegrees = this.vocationalDegreesCtrl.value;
+    const furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
+    const specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
+    const degrees = basicDegrees.concat(furtherVocationalQualifications, specialistVocationalQualifications);
+
+    this.hasVocationalDegrees = degrees.length > 0;
 
     if (this.hasVocationalDegrees) {
-      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+      const ids = degrees.map((degree: AlignmentObjectExtended) => degree.key).join(',');
 
       this.koodistoProxySvc.updateVocationalUnits(ids);
     }
