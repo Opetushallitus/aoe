@@ -56,6 +56,20 @@ export class EditPreviewComponent implements OnInit {
       hasEducationalLevels: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
+      shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
+      hasBasicEduObjectives: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasBasicEduContents: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
+      hasUpperSecondaryEduObjectives: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasUpperSecondaryEduContents: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
       hasLicense: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
@@ -114,6 +128,24 @@ export class EditPreviewComponent implements OnInit {
       }
     }
 
+    if (this.previewMaterial.basicStudySubjects?.length > 0) {
+      this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(true);
+      this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
+      this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
+    } else {
+      this.form.get('hasBasicEduObjectives').setValue(true);
+      this.form.get('hasBasicEduContents').setValue(true);
+    }
+
+    if (this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 && this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0) {
+      this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
+      this.form.get('hasUpperSecondaryEduObjectives').setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
+      this.form.get('hasUpperSecondaryEduContents').setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
+    } else {
+      this.form.get('hasUpperSecondaryEduObjectives').setValue(true);
+      this.form.get('hasUpperSecondaryEduContents').setValue(true);
+    }
+
     if (this.previewMaterial.license) {
       this.form.get('hasLicense').setValue(true);
     }
@@ -155,6 +187,30 @@ export class EditPreviewComponent implements OnInit {
 
   get hasEducationalLevels(): boolean {
     return this.form.get('hasEducationalLevels').value;
+  }
+
+  get shouldHaveBasicEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveBasicEduObjectivesAndContents').value;
+  }
+
+  get hasBasicEduObjectives(): boolean {
+    return this.form.get('hasBasicEduObjectives').value;
+  }
+
+  get hasBasicEduContents(): boolean {
+    return this.form.get('hasBasicEduContents').value;
+  }
+
+  get shouldHaveUppSecondaryEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').value;
+  }
+
+  get hasUpperSecondaryEduObjectives(): boolean {
+    return this.form.get('hasUpperSecondaryEduObjectives').value;
+  }
+
+  get hasUpperSecondaryEduContents(): boolean {
+    return this.form.get('hasUpperSecondaryEduContents').value;
   }
 
   get hasLicense(): boolean {
