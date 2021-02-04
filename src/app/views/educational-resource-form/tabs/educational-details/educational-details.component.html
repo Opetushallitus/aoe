@@ -544,7 +544,10 @@
         </div>
 
         <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
-          <label for="upperSecondarySchoolObjectivesNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}</label>
+          <label for="upperSecondarySchoolObjectivesNew">
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}*
+            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+          </label>
 
           <ng-select
             [items]="upperSecondarySchoolObjectivesNew"
@@ -559,7 +562,10 @@
         </div>
 
         <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
-          <label for="upperSecondarySchoolContentsNew">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}</label>
+          <label for="upperSecondarySchoolContentsNew">
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}*
+            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+          </label>
 
           <ng-select
             [items]="upperSecondarySchoolContentsNew"
