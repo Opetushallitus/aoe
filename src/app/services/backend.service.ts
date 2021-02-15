@@ -151,134 +151,144 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).subscribe((material) => {
-      const alignmentObjects: AlignmentObjectExtended[] = material.educationalAlignment
-        // tslint:disable-next-line:max-line-length
-        .map(({ objectkey, source, alignmenttype, educationalframework, targetname }) => ({ key: objectkey, source: source, alignmentType: alignmenttype, educationalFramework: educationalframework, targetName: targetname }));
+      if (JSON.stringify(material) === '{}') {
+        this.material$.next(material);
+      } else {
+        const alignmentObjects: AlignmentObjectExtended[] = material.educationalAlignment
+          // tslint:disable-next-line:max-line-length
+          .map(({objectkey, source, alignmenttype, educationalframework, targetname}) => ({
+            key: objectkey,
+            source: source,
+            alignmentType: alignmenttype,
+            educationalFramework: educationalframework,
+            targetName: targetname
+          }));
 
-      const materials = material.materials.map(m => ({
-        id: m.id,
-        language: m.language,
-        priority: m.priority,
-        filepath: m.filepath,
-        originalfilename: m.originalfilename,
-        filekey: m.filekey,
-        link: m.link,
-        mimetype: m.mimetype,
-        displayName: m.displayName,
-        subtitles: material.attachments
-          .filter((a: Attachment) => a.materialid === m.id)
-          .map((a: Attachment) => ({
-            src: `${environment.backendUrl}/download/${a.filekey}`,
-            default: a.defaultfile,
-            kind: a.kind,
-            label: a.label,
-            srclang: a.srclang,
-          })),
-      }));
+        const materials = material.materials.map(m => ({
+          id: m.id,
+          language: m.language,
+          priority: m.priority,
+          filepath: m.filepath,
+          originalfilename: m.originalfilename,
+          filekey: m.filekey,
+          link: m.link,
+          mimetype: m.mimetype,
+          displayName: m.displayName,
+          subtitles: material.attachments
+            .filter((a: Attachment) => a.materialid === m.id)
+            .map((a: Attachment) => ({
+              src: `${environment.backendUrl}/download/${a.filekey}`,
+              default: a.defaultfile,
+              kind: a.kind,
+              label: a.label,
+              srclang: a.srclang,
+            })),
+        }));
 
-      this.material$.next({
-        name: material.name,
-        thumbnail: material.thumbnail
-          ? material.thumbnail.filepath
-          : `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`,
-        learningResourceTypes: material.learningResourceTypes
-          .map(({ learningresourcetypekey, value }) => ({ learningresourcetypekey, value })),
-        authors: material.author
-          .map(({ authorname, organization }) => ({ authorname, organization })),
-        description: material.description,
-        materials: materials,
-        createdAt: material.createdAt,
-        publishedAt: material.publishedAt,
-        updatedAt: material.updatedAt,
-        archivedAt: material.archivedAt,
-        timeRequired: material.timeRequired,
-        expires: material.expires,
-        publisher: material.publisher.map((publisher) => publisher.name),
-        license: material.license,
-        keywords: material.keywords
-          .map(({ keywordkey, value }) => ({ keywordkey, value })),
-        educationalLevels: material.educationalLevels
-          .map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
-        educationalRoles: material.educationalRoles
-          .map(({ educationalrolekey, educationalrole }) => ({ educationalrolekey, educationalrole })),
-        educationalUses: material.educationalUses
-          .map(({ educationalusekey, value }) => ({ educationalusekey, value })),
-        accessibilityFeatures: material.accessibilityFeatures
-          .map(({ accessibilityfeaturekey, value }) => ({ accessibilityfeaturekey, value })),
-        accessibilityHazards: material.accessibilityHazards
-          .map(({ accessibilityhazardkey, value }) => ({ accessibilityhazardkey, value })),
-        earlyChildhoodEducationSubjects: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects),
-        earlyChildhoodEducationObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives),
-        suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
-        prePrimaryEducationSubjects: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects),
-        prePrimaryEducationObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives),
-        suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
-        basicStudySubjects: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects),
-        basicStudyObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
-        basicStudyContents: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
-        suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
-        upperSecondarySchoolSubjectsOld: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld),
-        upperSecondarySchoolCoursesOld: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld
-            || alignmentObject.source === koodistoSources.upperSecondarySubjects),
-        upperSecondarySchoolObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
-        suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
-        upperSecondarySchoolSubjectsNew: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew),
-        upperSecondarySchoolModulesNew: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew),
-        upperSecondarySchoolObjectivesNew: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew),
-        upperSecondarySchoolContentsNew: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
-        suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
-        vocationalDegrees: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees
-            || alignmentObject.source === koodistoSources.furtherVocationalQualifications
-            || alignmentObject.source === koodistoSources.specialistVocationalQualifications),
-        vocationalUnits: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
-        vocationalRequirements: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
-        suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
-        selfMotivatedEducationSubjects: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
-        selfMotivatedEducationObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives),
-        suitsAllSelfMotivatedSubjects: material.suitsAllSelfMotivatedSubjects,
-        branchesOfScience: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches),
-        scienceBranchObjectives: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
-        suitsAllBranches: material.suitsAllBranches,
-        prerequisites: alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
-        references: material.isBasedOn
-          .map(r => ({
-            authors: r.author.map(author => author.authorname),
-            url: r.url,
-            name: r.materialname,
-          })),
-        owner: material.owner,
-        ratingContentAverage: material.ratingContentAverage,
-        ratingVisualAverage: material.ratingVisualAverage,
-        hasDownloadableFiles: material.hasDownloadableFiles,
-        versions: material.versions
-          .map((version) => version.publishedat)
-          .sort((a, b) => a - b),
-        viewCounter: +material.viewCounter,
-        downloadCounter: +material.downloadCounter,
-        typicalAgeRange: material.typicalAgeRange,
-      });
+        this.material$.next({
+          name: material.name,
+          thumbnail: material.thumbnail
+            ? material.thumbnail.filepath
+            : `assets/img/thumbnails/${material.learningResourceTypes[0].learningresourcetypekey}.png`,
+          learningResourceTypes: material.learningResourceTypes
+            .map(({learningresourcetypekey, value}) => ({learningresourcetypekey, value})),
+          authors: material.author
+            .map(({authorname, organization}) => ({authorname, organization})),
+          description: material.description,
+          materials: materials,
+          createdAt: material.createdAt,
+          publishedAt: material.publishedAt,
+          updatedAt: material.updatedAt,
+          archivedAt: material.archivedAt,
+          timeRequired: material.timeRequired,
+          expires: material.expires,
+          publisher: material.publisher.map((publisher) => publisher.name),
+          license: material.license,
+          keywords: material.keywords
+            .map(({keywordkey, value}) => ({keywordkey, value})),
+          educationalLevels: material.educationalLevels
+            .map(({educationallevelkey, value}) => ({educationallevelkey, value})),
+          educationalRoles: material.educationalRoles
+            .map(({educationalrolekey, educationalrole}) => ({educationalrolekey, educationalrole})),
+          educationalUses: material.educationalUses
+            .map(({educationalusekey, value}) => ({educationalusekey, value})),
+          accessibilityFeatures: material.accessibilityFeatures
+            .map(({accessibilityfeaturekey, value}) => ({accessibilityfeaturekey, value})),
+          accessibilityHazards: material.accessibilityHazards
+            .map(({accessibilityhazardkey, value}) => ({accessibilityhazardkey, value})),
+          earlyChildhoodEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects),
+          earlyChildhoodEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives),
+          suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
+          prePrimaryEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects),
+          prePrimaryEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives),
+          suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
+          basicStudySubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects),
+          basicStudyObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
+          basicStudyContents: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
+          suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
+          upperSecondarySchoolSubjectsOld: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld),
+          upperSecondarySchoolCoursesOld: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld
+              || alignmentObject.source === koodistoSources.upperSecondarySubjects),
+          upperSecondarySchoolObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
+          suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
+          upperSecondarySchoolSubjectsNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew),
+          upperSecondarySchoolModulesNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew),
+          upperSecondarySchoolObjectivesNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew),
+          upperSecondarySchoolContentsNew: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
+          suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
+          vocationalDegrees: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees
+              || alignmentObject.source === koodistoSources.furtherVocationalQualifications
+              || alignmentObject.source === koodistoSources.specialistVocationalQualifications),
+          vocationalUnits: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
+          vocationalRequirements: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements),
+          suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
+          selfMotivatedEducationSubjects: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects),
+          selfMotivatedEducationObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives),
+          suitsAllSelfMotivatedSubjects: material.suitsAllSelfMotivatedSubjects,
+          branchesOfScience: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches),
+          scienceBranchObjectives: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
+          suitsAllBranches: material.suitsAllBranches,
+          prerequisites: alignmentObjects
+            .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites),
+          references: material.isBasedOn
+            .map(r => ({
+              authors: r.author.map(author => author.authorname),
+              url: r.url,
+              name: r.materialname,
+            })),
+          owner: material.owner,
+          ratingContentAverage: material.ratingContentAverage,
+          ratingVisualAverage: material.ratingVisualAverage,
+          hasDownloadableFiles: material.hasDownloadableFiles,
+          versions: material.versions
+            .map((version) => version.publishedat)
+            .sort((a, b) => a - b),
+          viewCounter: +material.viewCounter,
+          downloadCounter: +material.downloadCounter,
+          typicalAgeRange: material.typicalAgeRange,
+        });
+      }
     });
   }
 
