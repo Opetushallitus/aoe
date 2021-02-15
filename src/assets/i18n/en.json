@@ -80,6 +80,7 @@
     },
     "educationalMaterial": {
       "download": "Download",
+      "downloadAllFiles": "Download all files",
       "addToCollection": "Add to collection",
       "edit": "Edit",
       "viewCount": "views",
