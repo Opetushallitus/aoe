@@ -29,6 +29,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   materialVersionDate: string;
   educationalMaterialSubscription: Subscription;
   educationalMaterial: EducationalMaterial;
+  materialIsLoading = true;
+  materialIsArchived = false;
   previewMaterial: Material;
   downloadUrl: string;
   embedCode: string;
@@ -66,6 +68,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         ? `${environment.backendUrl}/material/file/${this.materialId}/${this.materialVersionDate}`
         : `${environment.backendUrl}/material/file/${this.materialId}`;
 
+      this.materialIsLoading = true;
       this.backendSvc.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
@@ -84,47 +87,54 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
     this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
+      this.materialIsLoading = false;
 
-      // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
-      // tslint:disable-next-line:max-line-length
-      this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
+      if (JSON.stringify(material) === '{}') {
+        this.materialIsArchived = true;
+      } else {
+        this.materialIsArchived = false;
 
-      this.updateMaterialName();
-      this.updateDescription();
+        // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+        // tslint:disable-next-line:max-line-length
+        this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
-      // set materials
-      this.materials = material.materials;
+        this.updateMaterialName();
+        this.updateDescription();
 
-      // set material languages
-      const materialLanguages: string[] = [];
+        // set materials
+        this.materials = material.materials;
 
-      this.materials.forEach((m: Material) => {
-        materialLanguages.push(m.language.toLowerCase());
+        // set material languages
+        const materialLanguages: string[] = [];
 
-        m.subtitles.forEach((subtitle: Subtitle) => {
-          materialLanguages.push(subtitle.srclang.toLowerCase());
+        this.materials.forEach((m: Material) => {
+          materialLanguages.push(m.language.toLowerCase());
+
+          m.subtitles.forEach((subtitle: Subtitle) => {
+            materialLanguages.push(subtitle.srclang.toLowerCase());
+          });
         });
-      });
 
-      this.materialLanguages = [...new Set(materialLanguages)];
+        this.materialLanguages = [...new Set(materialLanguages)];
 
-      // set default language (1. UI lang, 2. FI, 3. first language in array)
-      this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
-        ? this.materialLanguages.find((lang: string) => lang === this.lang)
-        : this.materialLanguages.find((lang: string) => lang === 'fi')
-          ? this.materialLanguages.find((lang: string) => lang === 'fi')
-          : this.materialLanguages[0];
+        // set default language (1. UI lang, 2. FI, 3. first language in array)
+        this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
+          ? this.materialLanguages.find((lang: string) => lang === this.lang)
+          : this.materialLanguages.find((lang: string) => lang === 'fi')
+            ? this.materialLanguages.find((lang: string) => lang === 'fi')
+            : this.materialLanguages[0];
 
-      // set preview material
-      this.setPreviewMaterial(this.materials.find((m: Material) => {
-        if (m.language === this.selectedLanguage || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
-          return m;
+        // set preview material
+        this.setPreviewMaterial(this.materials.find((m: Material) => {
+          if (m.language === this.selectedLanguage || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
+            return m;
+          }
+        }));
+
+        // if material expired
+        if (material.expires) {
+          this.expired = new Date(material.expires) < new Date();
         }
-      }));
-
-      // if material expired
-      if (material.expires) {
-        this.expired = new Date(material.expires) < new Date();
       }
     });
 

@@ -1,89 +1,100 @@
 <div class="py-4 px-0 material-view">
   <div class="container">
-    <ng-container *ngIf="educationalMaterial">
-      <alert type="warning" *ngIf="expired">
-        {{ 'demo.educationalMaterial.expired' | translate:{ date: educationalMaterial.expires | date:'d.M.yyyy' } }}
-      </alert>
-
-      <div class="row mb-4">
-        <div class="col-lg-6">
-          <h1>{{ materialName }}</h1>
-        </div>
-
-        <div class="col-lg-6 text-lg-right">
-          <div class="material-actions">
-            <ng-container *ngIf="authSvc.hasUserdata()">
-              <button
-                type="button"
-                class="btn btn-link"
-                (click)="openCollectionModal()"
-              >{{ 'demo.educationalMaterial.addToCollection' | translate }}</button>
-            </ng-container>
-
-            <ng-container *ngIf="educationalMaterial.owner">
-              <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId]">
-                <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
-                {{ 'demo.educationalMaterial.edit' | translate }}
-              </a>
-            </ng-container>
-
-            <a class="btn btn-link" [href]="downloadUrl" download *ngIf="educationalMaterial.hasDownloadableFiles">
-              <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
-              {{ 'demo.educationalMaterial.download' | translate }}
-            </a>
-          </div>
-        </div>
+    <ng-container *ngIf="materialIsLoading; else materialLoaded">
+      <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
       </div>
+    </ng-container>
 
-      <div class="row">
-        <div class="col-lg-3">
-          <div class="material-sidebar-left">
-            <div class="row">
-              <div class="col-auto col-lg-12 text-center text-sm-left">
-                <img
-                  [src]="educationalMaterial.thumbnail"
-                  class="img-fluid mb-4"
-                  [alt]="'demo.educationalMaterial.cover.alt' | translate"
-                >
-              </div>
+    <ng-template #materialLoaded>
+      <ng-container *ngIf="materialIsArchived; else material">
+        <app-archived-material [materialId]="materialId"></app-archived-material>
+      </ng-container>
 
-              <div class="col">
-                <ul class="list-unstyled">
-                  <li *ngFor="let type of educationalMaterial.learningResourceTypes">
-                    <img
-                      src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"
-                      class="img-icon"
-                      aria-hidden="true"
-                    > {{ type.value }}
-                  </li>
-                  <li>
-                    <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                    {{ educationalMaterial.viewCounter }} {{ 'demo.educationalMaterial.viewCount' | translate }}
-                  </li>
-                  <li>
-                    <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                    {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
-                  </li>
-                </ul>
-              </div>
+      <ng-template #material>
+        <alert type="warning" *ngIf="expired">
+          {{ 'demo.educationalMaterial.expired' | translate:{ date: educationalMaterial.expires | date:'d.M.yyyy' } }}
+        </alert>
+
+        <div class="row mb-4">
+          <div class="col-lg-6">
+            <h1>{{ materialName }}</h1>
+          </div>
+
+          <div class="col-lg-6 text-lg-right">
+            <div class="material-actions">
+              <ng-container *ngIf="authSvc.hasUserdata()">
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  (click)="openCollectionModal()"
+                >{{ 'demo.educationalMaterial.addToCollection' | translate }}</button>
+              </ng-container>
+
+              <ng-container *ngIf="educationalMaterial.owner">
+                <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId]">
+                  <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
+                  {{ 'demo.educationalMaterial.edit' | translate }}
+                </a>
+              </ng-container>
+
+              <a class="btn btn-link" [href]="downloadUrl" download *ngIf="educationalMaterial.hasDownloadableFiles">
+                <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
+                {{ 'demo.educationalMaterial.download' | translate }}
+              </a>
             </div>
           </div>
         </div>
 
-        <div class="col-12 col-lg-9">
-          <div class="material-content">
-            <div class="material-description">
-              <ul class="list-unstyled authors">
-                <li *ngFor="let author of educationalMaterial.authors">
-                  <ng-container *ngIf="author.authorname !== ''">
-                    {{ author.authorname }}
-                    <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-                </li>
-              </ul>
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="material-sidebar-left">
+              <div class="row">
+                <div class="col-auto col-lg-12 text-center text-sm-left">
+                  <img
+                    [src]="educationalMaterial.thumbnail"
+                    class="img-fluid mb-4"
+                    [alt]="'demo.educationalMaterial.cover.alt' | translate"
+                  >
+                </div>
 
-              <div class="datetimes">
+                <div class="col">
+                  <ul class="list-unstyled">
+                    <li *ngFor="let type of educationalMaterial.learningResourceTypes">
+                      <img
+                        src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"
+                        class="img-icon"
+                        aria-hidden="true"
+                      > {{ type.value }}
+                    </li>
+                    <li>
+                      <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
+                      {{ educationalMaterial.viewCounter }} {{ 'demo.educationalMaterial.viewCount' | translate }}
+                    </li>
+                    <li>
+                      <i class="fa fa-fw fa-download" aria-hidden="true"></i>
+                      {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-9">
+            <div class="material-content">
+              <div class="material-description">
+                <ul class="list-unstyled authors">
+                  <li *ngFor="let author of educationalMaterial.authors">
+                    <ng-container *ngIf="author.authorname !== ''">
+                      {{ author.authorname }}
+                      <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+                  </li>
+                </ul>
+
+                <div class="datetimes">
                 <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
                   <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
@@ -95,7 +106,7 @@
                   </time>
                 </span>
 
-                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
+                  <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
                   <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
                   <time
@@ -106,7 +117,7 @@
                   </time>
                 </span>
 
-                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
+                  <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
                   <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
 
                   <time
@@ -117,697 +128,698 @@
                   </time>
                 </span>
 
-                <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
-                  <button
-                    id="toggle-version-history"
-                    dropdownToggle
-                    type="button"
-                    class="btn btn-link"
-                    aria-controls="version-history"
-                  >{{ 'demo.educationalMaterial.versionHistory.button' | translate }}</button>
+                  <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
+                    <button
+                      id="toggle-version-history"
+                      dropdownToggle
+                      type="button"
+                      class="btn btn-link"
+                      aria-controls="version-history"
+                    >{{ 'demo.educationalMaterial.versionHistory.button' | translate }}</button>
 
-                  <button
-                    type="button"
-                    class="btn btn-link"
-                    [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate"
-                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                    <button
+                      type="button"
+                      class="btn btn-link"
+                      [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate"
+                    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-                  <ul
-                    id="version-history"
-                    *dropdownMenu class="dropdown-menu"
-                    role="menu"
-                    aria-labelledby="toggle-version-history"
-                  >
-                    <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
-                      <a
-                        class="dropdown-item"
-                        [routerLink]="['/materiaali', materialId, version]"
-                        routerLinkActive="active"
-                        [ngClass]="{ 'active': !materialVersionDate && isFirst }"
-                      >{{ version | date:'dd.MM.yyyy HH:mm:ss' }}</a>
-                    </li>
-                  </ul>
+                    <ul
+                      id="version-history"
+                      *dropdownMenu class="dropdown-menu"
+                      role="menu"
+                      aria-labelledby="toggle-version-history"
+                    >
+                      <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
+                        <a
+                          class="dropdown-item"
+                          [routerLink]="['/materiaali', materialId, version]"
+                          routerLinkActive="active"
+                          [ngClass]="{ 'active': !materialVersionDate && isFirst }"
+                        >{{ version | date:'dd.MM.yyyy HH:mm:ss' }}</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
+
+                <p *ngIf="description">{{ description }}</p>
               </div>
 
-              <p *ngIf="description">{{ description }}</p>
-            </div>
+              <div class="list-files mb-4" *ngIf="materials.length > 0">
+                <div class="row no-gutters">
+                  <div class="col-md-3">
+                    <ng-container *ngIf="materialLanguages.length > 1">
+                      <h2 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h2>
 
-            <div class="list-files mb-4" *ngIf="materials.length > 0">
-              <div class="row no-gutters">
-                <div class="col-md-3">
-                  <ng-container *ngIf="materialLanguages.length > 1">
-                    <h2 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h2>
-
-                    <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguage">
-                      <button
-                        type="button"
-                        class="btn btn-gray"
-                        *ngFor="let lang of materialLanguages"
-                        [ngClass]="lang === selectedLanguage ? 'active' : ''"
-                        [attr.aria-selected]="lang === selectedLanguage"
-                        [attr.aria-controls]="'fileList-' + lang"
-                        [id]="'langSelector-' + lang"
-                        role="tab"
-                        (click)="setSelectedLanguage(lang)"
-                      >{{ lang }}</button>
-                    </div>
-                  </ng-container>
-
-                  <div
-                    *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials"
-                    [id]="'fileList-' + selectedLanguage"
-                    role="tabpanel"
-                    [attr.aria-labelledby]="'langSelector-' + selectedLanguage"
-                  >
-                    <h2 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
-                      {{ 'materialPreview.selectMaterial' | translate }}
-                    </h2>
-
-                    <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
-                      <ng-container *ngFor="let material of filteredMaterials">
+                      <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguage">
                         <button
                           type="button"
-                          class="btn btn-file text-dark"
-                          [ngClass]="material === previewMaterial ? 'active' : ''"
-                          [attr.aria-selected]="material === previewMaterial"
-                          [attr.aria-controls]="'filePreview-' + material.id"
-                          [id]="'fileSelector-' + material.id"
+                          class="btn btn-gray"
+                          *ngFor="let lang of materialLanguages"
+                          [ngClass]="lang === selectedLanguage ? 'active' : ''"
+                          [attr.aria-selected]="lang === selectedLanguage"
+                          [attr.aria-controls]="'fileList-' + lang"
+                          [id]="'langSelector-' + lang"
                           role="tab"
-                          (click)="setPreviewMaterial(material)"
-                        >{{ material.displayName[lang] }}</button>
-                      </ng-container>
+                          (click)="setSelectedLanguage(lang)"
+                        >{{ lang }}</button>
+                      </div>
+                    </ng-container>
+
+                    <div
+                      *ngIf="materials | materialLanguage:selectedLanguage as filteredMaterials"
+                      [id]="'fileList-' + selectedLanguage"
+                      role="tabpanel"
+                      [attr.aria-labelledby]="'langSelector-' + selectedLanguage"
+                    >
+                      <h2 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
+                        {{ 'materialPreview.selectMaterial' | translate }}
+                      </h2>
+
+                      <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
+                        <ng-container *ngFor="let material of filteredMaterials">
+                          <button
+                            type="button"
+                            class="btn btn-file text-dark"
+                            [ngClass]="material === previewMaterial ? 'active' : ''"
+                            [attr.aria-selected]="material === previewMaterial"
+                            [attr.aria-controls]="'filePreview-' + material.id"
+                            [id]="'fileSelector-' + material.id"
+                            role="tab"
+                            (click)="setPreviewMaterial(material)"
+                          >{{ material.displayName[lang] }}</button>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-9">
+                    <div
+                      [id]="'filePreview-' + previewMaterial.id"
+                      role="tabpanel"
+                      [attr.aria-labelledby]="'fileSelector-' + previewMaterial.id"
+                    >
+                      <app-educational-material-preview
+                        [material]="previewMaterial"
+                        *ngIf="!previewMaterial.link; else linkPreview"></app-educational-material-preview>
+
+                      <ng-template #linkPreview>
+                        <div class="link-preview">
+                          <a
+                            [href]="previewMaterial.link"
+                            class="btn btn-secondary"
+                            target="_blank"
+                            rel="noopener nofollow"
+                          >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
+                        </div>
+                      </ng-template>
                     </div>
                   </div>
                 </div>
-
-                <div class="col-md-9">
-                  <div
-                    [id]="'filePreview-' + previewMaterial.id"
-                    role="tabpanel"
-                    [attr.aria-labelledby]="'fileSelector-' + previewMaterial.id"
-                  >
-                    <app-educational-material-preview
-                      [material]="previewMaterial"
-                      *ngIf="!previewMaterial.link; else linkPreview"></app-educational-material-preview>
-
-                    <ng-template #linkPreview>
-                      <div class="link-preview">
-                        <a
-                          [href]="previewMaterial.link"
-                          class="btn btn-secondary"
-                          target="_blank"
-                          rel="noopener nofollow"
-                        >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a>
-                      </div>
-                    </ng-template>
-                  </div>
-                </div>
               </div>
-            </div>
 
-            <h2 class="sr-only">{{ 'demo.educationalMaterial.detailsHeading' | translate }}</h2>
+              <h2 class="sr-only">{{ 'demo.educationalMaterial.detailsHeading' | translate }}</h2>
 
-            <div class="embed-code">
-              <h3>{{ 'demo.educationalMaterial.embed.label' | translate }}</h3>
+              <div class="embed-code">
+                <h3>{{ 'demo.educationalMaterial.embed.label' | translate }}</h3>
 
-              <div class="input-group mb-4">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="embedCodeInput"
-                  [attr.aria-label]="'demo.educationalMaterial.embed.label' | translate"
-                  [value]="embedCode"
-                  readonly
-                  #embedCodeInput
-                  (focus)="$event.target.select()"
-                >
+                <div class="input-group mb-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="embedCodeInput"
+                    [attr.aria-label]="'demo.educationalMaterial.embed.label' | translate"
+                    [value]="embedCode"
+                    readonly
+                    #embedCodeInput
+                    (focus)="$event.target.select()"
+                  >
 
-                <div class="input-group-append">
-                  <button
-                    class="btn"
-                    type="button"
-                    [ngxClipboard]="embedCodeInput"
-                    (cbOnSuccess)="embedCodeCopied = true"
-                    [ngClass]="{
+                  <div class="input-group-append">
+                    <button
+                      class="btn"
+                      type="button"
+                      [ngxClipboard]="embedCodeInput"
+                      (cbOnSuccess)="embedCodeCopied = true"
+                      [ngClass]="{
                       'btn-outline-secondary': !embedCodeCopied,
                       'btn-success': embedCodeCopied
                     }"
-                  >
-                    <ng-container *ngIf="!embedCodeCopied; else copied">
-                      {{ 'demo.educationalMaterial.embed.copy' | translate }}
-                    </ng-container>
+                    >
+                      <ng-container *ngIf="!embedCodeCopied; else copied">
+                        {{ 'demo.educationalMaterial.embed.copy' | translate }}
+                      </ng-container>
 
-                    <ng-template #copied>
-                      {{ 'demo.educationalMaterial.embed.copied' | translate }}
-                    </ng-template>
-                  </button>
+                      <ng-template #copied>
+                        {{ 'demo.educationalMaterial.embed.copied' | translate }}
+                      </ng-template>
+                    </button>
+                  </div>
                 </div>
+              </div>
+
+              <div class="metadata">
+                <div class="row">
+                  <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
+                    <h3>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h3>
+                    {{ educationalMaterial.timeRequired }}
+                  </div>
+
+                  <div *ngIf="educationalMaterial.publisher?.length > 0" class="col-auto">
+                    <h3>{{ 'demo.educationalMaterial.publisher' | translate }}</h3>
+
+                    <ng-container *ngFor="let publisher of educationalMaterial.publisher; let isLast = last">
+                      {{ publisher }}<span *ngIf="!isLast">, </span>
+                    </ng-container>
+                  </div>
+
+                  <div class="col-auto">
+                    <h3>{{ 'demo.educationalMaterial.license' | translate }}</h3>
+                    {{ educationalMaterial.license.value }}
+                  </div>
+
+                  <div class="col-12">
+                    <app-taglist
+                      *ngIf="educationalMaterial.keywords?.length > 0"
+                      elementId="material-keywords"
+                      [tags]="educationalMaterial.keywords"
+                      [title]="'demo.educationalMaterial.keywords' | translate"
+                      property="value"
+                      searchProperty="keywordkey"
+                      filterType="keywords"
+                    ></app-taglist><!--keywords-->
+                  </div>
+                </div>
+
+                <accordion>
+                  <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
+                    <button type="button" class="btn btn-link" accordion-heading>
+                      <ng-container *ngIf="detailsExpanded; else more">
+                        {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
+                      </ng-container>
+
+                      <ng-template #more>
+                        {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
+                      </ng-template>
+                    </button>
+
+                    <div *ngIf="educationalMaterial.educationalLevels?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-educationalLevels"
+                        [tags]="educationalMaterial.educationalLevels"
+                        [title]="'demo.educationalMaterial.eduLevel' | translate"
+                        property="value"
+                        searchProperty="educationallevelkey"
+                        filterType="educationalLevels"
+                      ></app-taglist><!--educationalLevels-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-educationalRoles"
+                        [tags]="educationalMaterial.educationalRoles"
+                        [title]="'demo.educationalMaterial.educationalRole' | translate"
+                        property="educationalrole"
+                        searchProperty="educationalrolekey"
+                        filterType="educationalRoles"
+                      ></app-taglist><!--educationalRoles-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-educationalUses"
+                        [tags]="educationalMaterial.educationalUses"
+                        [title]="'demo.educationalMaterial.educationalUse' | translate"
+                        property="value"
+                        searchProperty="educationalusekey"
+                        filterType="educationalUses"
+                      ></app-taglist><!--educationalUses-->
+                    </div>
+
+                    <!-- early childhood education -->
+                    <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects?.length > 0 || educationalMaterial.suitsAllEarlyChildhoodSubjects" class="metadata-group">
+                      <app-taglist
+                        elementId="material-earlyChildhoodEducationSubjects"
+                        [tags]="educationalMaterial.earlyChildhoodEducationSubjects"
+                        [title]="'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllEarlyChildhoodSubjects"
+                      ></app-taglist><!--earlyChildhoodEducationSubjects-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-earlyChildhoodEducationObjectives"
+                        [tags]="educationalMaterial.earlyChildhoodEducationObjectives"
+                        [title]="'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--earlyChildhoodEducationObjectives-->
+                    </div>
+
+                    <!-- pre primary education -->
+                    <div *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0 || educationalMaterial.suitsAllPrePrimarySubjects" class="metadata-group">
+                      <app-taglist
+                        elementId="material-prePrimaryEducationSubjects"
+                        [tags]="educationalMaterial.prePrimaryEducationSubjects"
+                        [title]="'demo.educationalMaterial.prePrimaryEducationSubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllPrePrimarySubjects"
+                      ></app-taglist><!--prePrimaryEducationSubjects-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.prePrimaryEducationObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-prePrimaryEducationObjectives"
+                        [tags]="educationalMaterial.prePrimaryEducationObjectives"
+                        [title]="'demo.educationalMaterial.prePrimaryEducationObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--prePrimaryEducationObjectives-->
+                    </div>
+
+                    <!-- basic education -->
+                    <div *ngIf="educationalMaterial.basicStudySubjects?.length > 0 || educationalMaterial.suitsAllBasicStudySubjects" class="metadata-group">
+                      <app-taglist
+                        elementId="material-basicStudySubjects"
+                        [tags]="educationalMaterial.basicStudySubjects"
+                        [title]="'demo.educationalMaterial.basicStudySubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
+                      ></app-taglist><!--basicStudySubjects-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.basicStudyObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-basicStudyObjectives"
+                        [tags]="educationalMaterial.basicStudyObjectives"
+                        [title]="'demo.educationalMaterial.basicStudyObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--basicStudyObjectives-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.basicStudyContents?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-basicStudyContents"
+                        [tags]="educationalMaterial.basicStudyContents"
+                        [title]="'demo.educationalMaterial.basicStudyContents' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--basicStudyContents-->
+                    </div>
+
+                    <!-- upper secondary education -->
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjects" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolSubjectsOld"
+                        [tags]="educationalMaterial.upperSecondarySchoolSubjectsOld"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjects"
+                      ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolCoursesOld"
+                        [tags]="educationalMaterial.upperSecondarySchoolCoursesOld"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolCourses' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                      ></app-taglist><!--upperSecondarySchoolCoursesOld-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolObjectives"
+                        [tags]="educationalMaterial.upperSecondarySchoolObjectives"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--upperSecondarySchoolObjectives-->
+                    </div>
+
+                    <!-- upper secondary education (new) -->
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjectsNew" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolSubjectsNew"
+                        [tags]="educationalMaterial.upperSecondarySchoolSubjectsNew"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
+                      ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolModulesNew"
+                        [tags]="educationalMaterial.upperSecondarySchoolModulesNew"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                      ></app-taglist><!--upperSecondarySchoolModulesNew-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolObjectivesNew"
+                        [tags]="educationalMaterial.upperSecondarySchoolObjectivesNew"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolContentsNew"
+                        [tags]="educationalMaterial.upperSecondarySchoolContentsNew"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--upperSecondarySchoolContentsNew-->
+                    </div>
+
+                    <!-- vocational education -->
+                    <div *ngIf="educationalMaterial.vocationalDegrees?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                      <app-taglist
+                        elementId="material-vocationalDegrees"
+                        [tags]="educationalMaterial.vocationalDegrees"
+                        [title]="'demo.educationalMaterial.vocationalDegrees' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                      ></app-taglist><!--vocationalDegrees-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.furtherVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                      <app-taglist
+                        elementId="material-furtherVocationalQualifications"
+                        [tags]="educationalMaterial.furtherVocationalQualifications"
+                        [title]="'demo.educationalMaterial.furtherVocationalQualifications' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="furtherVocationalQualifications"
+                        [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                      ></app-taglist><!--furtherVocationalQualifications-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.specialistVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                      <app-taglist
+                        elementId="material-specialistVocationalQualifications"
+                        [tags]="educationalMaterial.specialistVocationalQualifications"
+                        [title]="'demo.educationalMaterial.specialistVocationalQualifications' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="specialistVocationalQualifications"
+                        [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
+                      ></app-taglist><!--specialistVocationalQualifications-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-vocationalUnits"
+                        [tags]="educationalMaterial.vocationalUnits"
+                        [title]="'demo.educationalMaterial.vocationalUnits' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                      ></app-taglist><!--vocationalUnits-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.vocationalRequirements?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-vocationalRequirements"
+                        [tags]="educationalMaterial.vocationalRequirements"
+                        [title]="'demo.educationalMaterial.vocationalEducationObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--vocationalRequirements-->
+                    </div>
+
+                    <!-- self-motivated education -->
+                    <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects?.length > 0 || educationalMaterial.suitsAllSelfMotivatedSubjects" class="metadata-group">
+                      <app-taglist
+                        elementId="material-selfMotivatedEducationSubjects"
+                        [tags]="educationalMaterial.selfMotivatedEducationSubjects"
+                        [title]="'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllSelfMotivatedSubjects"
+                      ></app-taglist><!--selfMotivatedEducationSubjects-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-selfMotivatedEducationObjectives"
+                        [tags]="educationalMaterial.selfMotivatedEducationObjectives"
+                        [title]="'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--selfMotivatedEducationObjectives-->
+                    </div>
+
+                    <!-- higher education -->
+                    <div *ngIf="educationalMaterial.branchesOfScience?.length > 0 || educationalMaterial.suitsAllBranches" class="metadata-group">
+                      <app-taglist
+                        elementId="material-scienceBranches"
+                        [tags]="educationalMaterial.branchesOfScience"
+                        [title]="'demo.educationalMaterial.branchesOfScience' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                        [suitsAll]="educationalMaterial.suitsAllBranches"
+                      ></app-taglist><!--scienceBranches-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.scienceBranchObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-scienceBranchObjectives"
+                        [tags]="educationalMaterial.scienceBranchObjectives"
+                        [title]="'demo.educationalMaterial.scienceBranchObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"
+                      ></app-taglist><!--scienceBranchObjectives-->
+                    </div>
+
+                    <!-- prerequisites -->
+                    <div *ngIf="educationalMaterial.prerequisites?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-prerequisites"
+                        [tags]="educationalMaterial.prerequisites"
+                        [title]="'demo.educationalMaterial.prerequisites' | translate"
+                        property="targetName"
+                      ></app-taglist><!--prerequisites-->
+                    </div>
+
+                    <!-- accessibility -->
+                    <div *ngIf="educationalMaterial.accessibilityFeatures?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-accessibilityFeatures"
+                        [tags]="educationalMaterial.accessibilityFeatures"
+                        [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
+                        property="value"
+                        searchProperty="accessibilityfeaturekey"
+                        filterType="accessibilityFeatures"
+                      ></app-taglist><!--accessibilityFeatures-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.accessibilityHazards?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-accessibilityHazards"
+                        [tags]="educationalMaterial.accessibilityHazards"
+                        [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
+                        property="value"
+                        searchProperty="accessibilityhazardkey"
+                        filterType="accessibilityHazards"
+                      ></app-taglist><!--accessibilityHazards-->
+                    </div>
+
+                    <!-- typicalAgeRange -->
+                    <div *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin || educationalMaterial.typicalAgeRange.typicalAgeRangeMax" class="metadata-group">
+                      <strong class="h3 d-block mb-2">
+                        {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
+                      </strong>
+
+                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin && educationalMaterial.typicalAgeRange.typicalAgeRangeMax; else onlyMinOrMax">
+                        {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                        &ndash;
+                        {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                      </ng-container>
+
+                      <ng-template #onlyMinOrMax>
+                        <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin">
+                          &gt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
+                        </ng-container>
+
+                        <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMax">
+                          &lt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
+                        </ng-container>
+                      </ng-template>
+                    </div>
+                  </accordion-group>
+                </accordion>
               </div>
             </div>
 
-            <div class="metadata">
-              <div class="row">
-                <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
-                  <h3>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h3>
-                  {{ educationalMaterial.timeRequired }}
-                </div>
+            <div class="ratings">
+              <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
 
-                <div *ngIf="educationalMaterial.publisher?.length > 0" class="col-auto">
-                  <h3>{{ 'demo.educationalMaterial.publisher' | translate }}</h3>
+              <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
 
-                  <ng-container *ngFor="let publisher of educationalMaterial.publisher; let isLast = last">
-                    {{ publisher }}<span *ngIf="!isLast">, </span>
-                  </ng-container>
-                </div>
-
-                <div class="col-auto">
-                  <h3>{{ 'demo.educationalMaterial.license' | translate }}</h3>
-                  {{ educationalMaterial.license.value }}
-                </div>
-
-                <div class="col-12">
+              <div class="row" *ngIf="socialMetadata.keywords?.length > 0 || socialMetadata.accessibilityFeatures?.length > 0 || socialMetadata.accessibilityHazards?.length > 0 || socialMetadata.educationalLevels?.length > 0; else noMetadata">
+                <!--keywords-->
+                <div *ngIf="socialMetadata.keywords?.length > 0" class="col-auto metadata-group">
                   <app-taglist
-                    *ngIf="educationalMaterial.keywords?.length > 0"
-                    elementId="material-keywords"
-                    [tags]="educationalMaterial.keywords"
+                    *ngIf="socialMetadata.keywords?.length > 0"
+                    elementId="socialMetadata-keywords"
+                    [tags]="socialMetadata.keywords"
                     [title]="'demo.educationalMaterial.keywords' | translate"
                     property="value"
-                    searchProperty="keywordkey"
+                    searchProperty="key"
                     filterType="keywords"
-                  ></app-taglist><!--keywords-->
-                </div>
-              </div>
+                  ></app-taglist>
+                </div><!--keywords-->
 
-              <accordion>
-                <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
-                  <button type="button" class="btn btn-link" accordion-heading>
-                    <ng-container *ngIf="detailsExpanded; else more">
-                      {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
-                    </ng-container>
+                <!--accessibilityFeatures-->
+                <div *ngIf="socialMetadata.accessibilityFeatures?.length > 0" class="col-auto metadata-group">
+                  <app-taglist
+                    elementId="socialMetadata-accessibilityFeatures"
+                    [tags]="socialMetadata.accessibilityFeatures"
+                    [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
+                    property="value"
+                    searchProperty="key"
+                    filterType="accessibilityFeatures"
+                  ></app-taglist>
+                </div><!--accessibilityFeatures-->
 
-                    <ng-template #more>
-                      {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
-                    </ng-template>
-                  </button>
+                <!--accessibilityHazards-->
+                <div *ngIf="socialMetadata.accessibilityHazards?.length > 0" class="col-auto metadata-group">
+                  <app-taglist
+                    elementId="socialMetadata-accessibilityHazards"
+                    [tags]="socialMetadata.accessibilityHazards"
+                    [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
+                    property="value"
+                    searchProperty="key"
+                    filterType="accessibilityHazards"
+                  ></app-taglist>
+                </div><!--accessibilityHazards-->
 
-                  <div *ngIf="educationalMaterial.educationalLevels?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-educationalLevels"
-                      [tags]="educationalMaterial.educationalLevels"
-                      [title]="'demo.educationalMaterial.eduLevel' | translate"
-                      property="value"
-                      searchProperty="educationallevelkey"
-                      filterType="educationalLevels"
-                    ></app-taglist><!--educationalLevels-->
-                  </div>
+                <!--educationalLevels-->
+                <div *ngIf="socialMetadata.educationalLevels?.length > 0" class="col-auto metadata-group">
+                  <app-taglist
+                    elementId="socialMetadata-educationalLevels"
+                    [tags]="socialMetadata.educationalLevels"
+                    [title]="'demo.educationalMaterial.eduLevel' | translate"
+                    property="value"
+                    searchProperty="key"
+                    filterType="educationalLevels"
+                  ></app-taglist>
+                </div><!--educationalLevels-->
+              </div><!--social metadata-->
 
-                  <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-educationalRoles"
-                      [tags]="educationalMaterial.educationalRoles"
-                      [title]="'demo.educationalMaterial.educationalRole' | translate"
-                      property="educationalrole"
-                      searchProperty="educationalrolekey"
-                      filterType="educationalRoles"
-                    ></app-taglist><!--educationalRoles-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-educationalUses"
-                      [tags]="educationalMaterial.educationalUses"
-                      [title]="'demo.educationalMaterial.educationalUse' | translate"
-                      property="value"
-                      searchProperty="educationalusekey"
-                      filterType="educationalUses"
-                    ></app-taglist><!--educationalUses-->
-                  </div>
-
-                  <!-- early childhood education -->
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationSubjects?.length > 0 || educationalMaterial.suitsAllEarlyChildhoodSubjects" class="metadata-group">
-                    <app-taglist
-                      elementId="material-earlyChildhoodEducationSubjects"
-                      [tags]="educationalMaterial.earlyChildhoodEducationSubjects"
-                      [title]="'demo.educationalMaterial.earlyChildhoodEducationSubjects' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllEarlyChildhoodSubjects"
-                    ></app-taglist><!--earlyChildhoodEducationSubjects-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-earlyChildhoodEducationObjectives"
-                      [tags]="educationalMaterial.earlyChildhoodEducationObjectives"
-                      [title]="'demo.educationalMaterial.earlyChildhoodEducationObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--earlyChildhoodEducationObjectives-->
-                  </div>
-
-                  <!-- pre primary education -->
-                  <div *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0 || educationalMaterial.suitsAllPrePrimarySubjects" class="metadata-group">
-                    <app-taglist
-                      elementId="material-prePrimaryEducationSubjects"
-                      [tags]="educationalMaterial.prePrimaryEducationSubjects"
-                      [title]="'demo.educationalMaterial.prePrimaryEducationSubjects' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllPrePrimarySubjects"
-                    ></app-taglist><!--prePrimaryEducationSubjects-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.prePrimaryEducationObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-prePrimaryEducationObjectives"
-                      [tags]="educationalMaterial.prePrimaryEducationObjectives"
-                      [title]="'demo.educationalMaterial.prePrimaryEducationObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--prePrimaryEducationObjectives-->
-                  </div>
-
-                  <!-- basic education -->
-                  <div *ngIf="educationalMaterial.basicStudySubjects?.length > 0 || educationalMaterial.suitsAllBasicStudySubjects" class="metadata-group">
-                    <app-taglist
-                      elementId="material-basicStudySubjects"
-                      [tags]="educationalMaterial.basicStudySubjects"
-                      [title]="'demo.educationalMaterial.basicStudySubjects' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
-                    ></app-taglist><!--basicStudySubjects-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.basicStudyObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-basicStudyObjectives"
-                      [tags]="educationalMaterial.basicStudyObjectives"
-                      [title]="'demo.educationalMaterial.basicStudyObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--basicStudyObjectives-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.basicStudyContents?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-basicStudyContents"
-                      [tags]="educationalMaterial.basicStudyContents"
-                      [title]="'demo.educationalMaterial.basicStudyContents' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--basicStudyContents-->
-                  </div>
-
-                  <!-- upper secondary education -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsOld?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjects" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolSubjectsOld"
-                      [tags]="educationalMaterial.upperSecondarySchoolSubjectsOld"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolSubjects' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjects"
-                    ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolCoursesOld"
-                      [tags]="educationalMaterial.upperSecondarySchoolCoursesOld"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolCourses' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                    ></app-taglist><!--upperSecondarySchoolCoursesOld-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolObjectives"
-                      [tags]="educationalMaterial.upperSecondarySchoolObjectives"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--upperSecondarySchoolObjectives-->
-                  </div>
-
-                  <!-- upper secondary education (new) -->
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolSubjectsNew?.length > 0 || educationalMaterial.suitsAllUpperSecondarySubjectsNew" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolSubjectsNew"
-                      [tags]="educationalMaterial.upperSecondarySchoolSubjectsNew"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolSubjectsNew' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
-                    ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolModulesNew"
-                      [tags]="educationalMaterial.upperSecondarySchoolModulesNew"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolModulesNew' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                    ></app-taglist><!--upperSecondarySchoolModulesNew-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolObjectivesNew"
-                      [tags]="educationalMaterial.upperSecondarySchoolObjectivesNew"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolObjectivesNew' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-upperSecondarySchoolContentsNew"
-                      [tags]="educationalMaterial.upperSecondarySchoolContentsNew"
-                      [title]="'demo.educationalMaterial.upperSecondarySchoolContentsNew' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--upperSecondarySchoolContentsNew-->
-                  </div>
-
-                  <!-- vocational education -->
-                  <div *ngIf="educationalMaterial.vocationalDegrees?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
-                    <app-taglist
-                      elementId="material-vocationalDegrees"
-                      [tags]="educationalMaterial.vocationalDegrees"
-                      [title]="'demo.educationalMaterial.vocationalDegrees' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                    ></app-taglist><!--vocationalDegrees-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.furtherVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
-                    <app-taglist
-                      elementId="material-furtherVocationalQualifications"
-                      [tags]="educationalMaterial.furtherVocationalQualifications"
-                      [title]="'demo.educationalMaterial.furtherVocationalQualifications' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="furtherVocationalQualifications"
-                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                    ></app-taglist><!--furtherVocationalQualifications-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.specialistVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
-                    <app-taglist
-                      elementId="material-specialistVocationalQualifications"
-                      [tags]="educationalMaterial.specialistVocationalQualifications"
-                      [title]="'demo.educationalMaterial.specialistVocationalQualifications' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="specialistVocationalQualifications"
-                      [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                    ></app-taglist><!--specialistVocationalQualifications-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-vocationalUnits"
-                      [tags]="educationalMaterial.vocationalUnits"
-                      [title]="'demo.educationalMaterial.vocationalUnits' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                    ></app-taglist><!--vocationalUnits-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.vocationalRequirements?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-vocationalRequirements"
-                      [tags]="educationalMaterial.vocationalRequirements"
-                      [title]="'demo.educationalMaterial.vocationalEducationObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--vocationalRequirements-->
-                  </div>
-
-                  <!-- self-motivated education -->
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationSubjects?.length > 0 || educationalMaterial.suitsAllSelfMotivatedSubjects" class="metadata-group">
-                    <app-taglist
-                      elementId="material-selfMotivatedEducationSubjects"
-                      [tags]="educationalMaterial.selfMotivatedEducationSubjects"
-                      [title]="'demo.educationalMaterial.selfMotivatedEducationSubjects' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllSelfMotivatedSubjects"
-                    ></app-taglist><!--selfMotivatedEducationSubjects-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-selfMotivatedEducationObjectives"
-                      [tags]="educationalMaterial.selfMotivatedEducationObjectives"
-                      [title]="'demo.educationalMaterial.selfMotivatedEducationObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--selfMotivatedEducationObjectives-->
-                  </div>
-
-                  <!-- higher education -->
-                  <div *ngIf="educationalMaterial.branchesOfScience?.length > 0 || educationalMaterial.suitsAllBranches" class="metadata-group">
-                    <app-taglist
-                      elementId="material-scienceBranches"
-                      [tags]="educationalMaterial.branchesOfScience"
-                      [title]="'demo.educationalMaterial.branchesOfScience' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="educationalSubjects"
-                      [suitsAll]="educationalMaterial.suitsAllBranches"
-                    ></app-taglist><!--scienceBranches-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.scienceBranchObjectives?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-scienceBranchObjectives"
-                      [tags]="educationalMaterial.scienceBranchObjectives"
-                      [title]="'demo.educationalMaterial.scienceBranchObjectives' | translate"
-                      property="targetName"
-                      searchProperty="key"
-                      filterType="teaches"
-                    ></app-taglist><!--scienceBranchObjectives-->
-                  </div>
-
-                  <!-- prerequisites -->
-                  <div *ngIf="educationalMaterial.prerequisites?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-prerequisites"
-                      [tags]="educationalMaterial.prerequisites"
-                      [title]="'demo.educationalMaterial.prerequisites' | translate"
-                      property="targetName"
-                    ></app-taglist><!--prerequisites-->
-                  </div>
-
-                  <!-- accessibility -->
-                  <div *ngIf="educationalMaterial.accessibilityFeatures?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-accessibilityFeatures"
-                      [tags]="educationalMaterial.accessibilityFeatures"
-                      [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
-                      property="value"
-                      searchProperty="accessibilityfeaturekey"
-                      filterType="accessibilityFeatures"
-                    ></app-taglist><!--accessibilityFeatures-->
-                  </div>
-
-                  <div *ngIf="educationalMaterial.accessibilityHazards?.length > 0" class="metadata-group">
-                    <app-taglist
-                      elementId="material-accessibilityHazards"
-                      [tags]="educationalMaterial.accessibilityHazards"
-                      [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
-                      property="value"
-                      searchProperty="accessibilityhazardkey"
-                      filterType="accessibilityHazards"
-                    ></app-taglist><!--accessibilityHazards-->
-                  </div>
-
-                  <!-- typicalAgeRange -->
-                  <div *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin || educationalMaterial.typicalAgeRange.typicalAgeRangeMax" class="metadata-group">
-                    <strong class="h3 d-block mb-2">
-                      {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
-                    </strong>
-
-                    <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin && educationalMaterial.typicalAgeRange.typicalAgeRangeMax; else onlyMinOrMax">
-                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
-                      &ndash;
-                      {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
-                    </ng-container>
-
-                    <ng-template #onlyMinOrMax>
-                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMin">
-                        &gt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMin }}
-                      </ng-container>
-
-                      <ng-container *ngIf="educationalMaterial.typicalAgeRange.typicalAgeRangeMax">
-                        &lt; {{ educationalMaterial.typicalAgeRange.typicalAgeRangeMax }}
-                      </ng-container>
-                    </ng-template>
-                  </div>
-                </accordion-group>
-              </accordion>
-            </div>
-          </div>
-
-          <div class="ratings">
-            <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
-
-            <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
-
-            <div class="row" *ngIf="socialMetadata.keywords?.length > 0 || socialMetadata.accessibilityFeatures?.length > 0 || socialMetadata.accessibilityHazards?.length > 0 || socialMetadata.educationalLevels?.length > 0; else noMetadata">
-              <!--keywords-->
-              <div *ngIf="socialMetadata.keywords?.length > 0" class="col-auto metadata-group">
-                <app-taglist
-                  *ngIf="socialMetadata.keywords?.length > 0"
-                  elementId="socialMetadata-keywords"
-                  [tags]="socialMetadata.keywords"
-                  [title]="'demo.educationalMaterial.keywords' | translate"
-                  property="value"
-                  searchProperty="key"
-                  filterType="keywords"
-                ></app-taglist>
-              </div><!--keywords-->
-
-              <!--accessibilityFeatures-->
-              <div *ngIf="socialMetadata.accessibilityFeatures?.length > 0" class="col-auto metadata-group">
-                <app-taglist
-                  elementId="socialMetadata-accessibilityFeatures"
-                  [tags]="socialMetadata.accessibilityFeatures"
-                  [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
-                  property="value"
-                  searchProperty="key"
-                  filterType="accessibilityFeatures"
-                ></app-taglist>
-              </div><!--accessibilityFeatures-->
-
-              <!--accessibilityHazards-->
-              <div *ngIf="socialMetadata.accessibilityHazards?.length > 0" class="col-auto metadata-group">
-                <app-taglist
-                  elementId="socialMetadata-accessibilityHazards"
-                  [tags]="socialMetadata.accessibilityHazards"
-                  [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
-                  property="value"
-                  searchProperty="key"
-                  filterType="accessibilityHazards"
-                ></app-taglist>
-              </div><!--accessibilityHazards-->
-
-              <!--educationalLevels-->
-              <div *ngIf="socialMetadata.educationalLevels?.length > 0" class="col-auto metadata-group">
-                <app-taglist
-                  elementId="socialMetadata-educationalLevels"
-                  [tags]="socialMetadata.educationalLevels"
-                  [title]="'demo.educationalMaterial.eduLevel' | translate"
-                  property="value"
-                  searchProperty="key"
-                  filterType="educationalLevels"
-                ></app-taglist>
-              </div><!--educationalLevels-->
-            </div><!--social metadata-->
-
-            <ng-template #noMetadata>
-              <p>{{ 'demo.educationalMaterial.socialMetadata.noMetadata' | translate }}</p>
-            </ng-template>
-
-            <ng-container *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
-              <button
-                type="button"
-                class="btn btn-anchor mb-4"
-                (click)="openSocialMetadataModal()"
-              >{{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}</button>
-            </ng-container>
-
-            <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
-
-            <div class="row mb-2">
-              <ng-container *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage; else noRatings">
-                <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
-                  <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
-                  {{ educationalMaterial.ratingContentAverage }}
-                  <span class="text-muted">/ 5</span>
-                </div>
-
-                <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
-                  <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
-                  {{ educationalMaterial.ratingVisualAverage }}
-                  <span class="text-muted">/ 5</span>
-                </div>
-
-                <div class="col-auto">
-                  <a routerLink="arvostelut">
-                    {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}
-                  </a>
-                </div>
-              </ng-container>
-
-              <ng-template #noRatings>
-                <div class="col-12">
-                  <p>{{ 'demo.educationalMaterial.reviews.noRatings' | translate }}</p>
-                </div>
+              <ng-template #noMetadata>
+                <p>{{ 'demo.educationalMaterial.socialMetadata.noMetadata' | translate }}</p>
               </ng-template>
 
-              <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
+              <ng-container *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                 <button
                   type="button"
-                  class="btn btn-anchor"
-                  (click)="openReviewModal()"
-                >{{ 'demo.educationalMaterial.userReviews.addReview' | translate }}</button>
+                  class="btn btn-anchor mb-4"
+                  (click)="openSocialMetadataModal()"
+                >{{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}</button>
+              </ng-container>
+
+              <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
+
+              <div class="row mb-2">
+                <ng-container *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage; else noRatings">
+                  <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
+                    <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
+                    {{ educationalMaterial.ratingContentAverage }}
+                    <span class="text-muted">/ 5</span>
+                  </div>
+
+                  <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
+                    <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
+                    {{ educationalMaterial.ratingVisualAverage }}
+                    <span class="text-muted">/ 5</span>
+                  </div>
+
+                  <div class="col-auto">
+                    <a routerLink="arvostelut">
+                      {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}
+                    </a>
+                  </div>
+                </ng-container>
+
+                <ng-template #noRatings>
+                  <div class="col-12">
+                    <p>{{ 'demo.educationalMaterial.reviews.noRatings' | translate }}</p>
+                  </div>
+                </ng-template>
+
+                <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
+                  <button
+                    type="button"
+                    class="btn btn-anchor"
+                    (click)="openReviewModal()"
+                  >{{ 'demo.educationalMaterial.userReviews.addReview' | translate }}</button>
+                </div>
               </div>
+
+              <p *ngIf="authSvc.hasUserdata() && educationalMaterial.owner">
+                {{ 'demo.educationalMaterial.reviews.ownerInfo' | translate }}
+              </p>
             </div>
 
-            <p *ngIf="authSvc.hasUserdata() && educationalMaterial.owner">
-              {{ 'demo.educationalMaterial.reviews.ownerInfo' | translate }}
-            </p>
-          </div>
+            <div class="references" *ngIf="educationalMaterial.references?.length > 0">
+              <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
 
-          <div class="references" *ngIf="educationalMaterial.references?.length > 0">
-            <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
+              <div class="reference" *ngFor="let reference of educationalMaterial.references">
+                <div class="row">
+                  <div class="col">
+                    <strong>{{ reference.name }}</strong>
 
-            <div class="reference" *ngFor="let reference of educationalMaterial.references">
-              <div class="row">
-                <div class="col">
-                  <strong>{{ reference.name }}</strong>
+                    <ul class="list-unstyled mb-0">
+                      <li *ngFor="let author of reference.authors">{{ author }}</li>
+                    </ul>
+                  </div>
 
-                  <ul class="list-unstyled mb-0">
-                    <li *ngFor="let author of reference.authors">{{ author }}</li>
-                  </ul>
-                </div>
-
-                <div class="col-auto">
-                  <i class="fa fa-external-link mr-2" aria-hidden="true"></i>
-                  <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">{{ 'demo.educationalMaterial.references.openLink' | translate }}</a>
+                  <div class="col-auto">
+                    <i class="fa fa-external-link mr-2" aria-hidden="true"></i>
+                    <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">{{ 'demo.educationalMaterial.references.openLink' | translate }}</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-template>
+    </ng-template>
   </div>
 </div>
