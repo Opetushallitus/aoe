@@ -1,0 +1,21 @@
+<article>
+  <ng-container [ngSwitch]="lang">
+    <ng-container *ngSwitchDefault>
+      <h1>Arkistoitu oppimateriaali (ID: {{ materialId }})</h1>
+
+      <p>Tämä materiaali on arkistoitu palvelun ylläpitäjien toimesta käyttöehtojen vastaisena tai muun painavan syyn takia. Lisätietoa saat palvelun ylläpitäjiltä ottamalla yhteyttä osoitteeseen oppimateriaalivaranto@csc.fi ja kysymällä materiaalista sen id:n kera.</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'en'">
+      <h1>Archived learning resource (ID: {{ materialId }})</h1>
+
+      <p>This material has been archived by the admins of the service. Learning resources can archived if they violate the terms and conditions of the service or through other significant reasons. For more information contact admins through oppimateriaalivaranto@csc.fi.</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'sv'">
+      <h1>Arkiverad lärresurs (ID: {{ materialId }})</h1>
+
+      <p>Detta material har arkiverats av tjänstens administratörer. Lärresurser kan arkiveras om de bryter mot användningsvillkor för tjänsten eller av andra viktiga skäl. För mer information kontakta administratörer via oppimateriaalivaranto@csc.fi.</p>
+    </ng-container>
+  </ng-container>
+</article>

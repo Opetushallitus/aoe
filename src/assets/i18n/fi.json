@@ -63,7 +63,8 @@
     "termsOfUse": "Käyttöehdot",
     "reviews": "Käyttäjien arviot",
     "collections": "Kokoelmat",
-    "userDetails": "Omat tiedot"
+    "userDetails": "Omat tiedot",
+    "archived": "Arkistoitu oppimateriaali"
   },
   "home": {
     "search": {
@@ -124,7 +125,7 @@
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "furtherVocationalQualifications": "Ammattitutkinnot",
-      "specialistVocationalQualifications": "Erityisammattitutkinnot",
+      "specialistVocationalQualifications": "Erikoisammattitutkinnot",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
       "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
       "branchesOfScience": "Korkeakoulutuksen tieteenalat",
@@ -500,7 +501,7 @@
               "tooltip": ""
             },
             "specialistVocationalQualifications": {
-              "label": "Erityisammattitutkinnot",
+              "label": "Erikoisammattitutkinnot",
               "tooltip": ""
             }
           }
