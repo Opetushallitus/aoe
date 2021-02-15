@@ -111,6 +111,7 @@ import { UserDetailsViewComponent } from '@views/user-details-view/user-details-
 import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
 import { AdminGuard } from './guards/admin.guard';
 import { DisableFormsGuard } from './guards/disable-forms.guard';
+import { ArchivedMaterialComponent } from '@components/archived-material/archived-material.component';
 
 @NgModule({
   imports: [
@@ -209,6 +210,7 @@ import { DisableFormsGuard } from './guards/disable-forms.guard';
     FocusRemoverDirective,
     UserDetailsViewComponent,
     SocialMetadataModalComponent,
+    ArchivedMaterialComponent,
   ],
   providers: [
     {
