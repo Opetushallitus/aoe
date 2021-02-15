@@ -1,6 +1,6 @@
 <div class="py-4 px-0 material-view">
   <div class="container">
-    <ng-container *ngIf="educationalMaterial">
+    <ng-container *ngIf="educationalMaterial; else archivedMaterial">
       <alert type="warning" *ngIf="expired">
         {{ 'demo.educationalMaterial.expired' | translate:{ date: educationalMaterial.expires | date:'d.M.yyyy' } }}
       </alert>
@@ -809,5 +809,9 @@
         </div>
       </div>
     </ng-container>
+
+    <ng-template #archivedMaterial>
+      <app-archived-material [materialId]="materialId"></app-archived-material>
+    </ng-template>
   </div>
 </div>
