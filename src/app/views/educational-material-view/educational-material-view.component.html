@@ -125,26 +125,26 @@
                   </span>
 
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
-                  <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                    <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-                  <time
-                    [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'"
-                    aria-labelledby="updatedAt"
-                  >
-                    {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
-                  </time>
-                </span>
+                    <time
+                      [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'"
+                      aria-labelledby="updatedAt"
+                    >
+                      {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
+                    </time>
+                  </span>
 
-                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
-                  <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
+                  <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
+                    <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
 
-                  <time
-                    [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
-                    aria-labelledby="expires"
-                  >
-                    {{ educationalMaterial.expires | date:'d.M.yyyy' }}
-                  </time>
-                </span>
+                    <time
+                      [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
+                      aria-labelledby="expires"
+                    >
+                      {{ educationalMaterial.expires | date:'d.M.yyyy' }}
+                    </time>
+                  </span>
 
                   <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
                     <button
