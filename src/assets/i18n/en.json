@@ -81,6 +81,7 @@
     "educationalMaterial": {
       "download": "Download",
       "downloadAllFiles": "Download all files",
+      "downloadSingleFile": "Download one of the files:",
       "addToCollection": "Add to collection",
       "edit": "Edit",
       "viewCount": "views",
