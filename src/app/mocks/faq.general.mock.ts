@@ -26,13 +26,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Miten Avointen oppimateriaalien kirjastoa kehitetään?',
-      answer: [
-        'Avointen oppimateriaalien kirjaston kehitys aloitettiin loppuvuodesta 2018. Uusia ominaisuuksia otettiin vähitellen käyttöön vuoden 2019 aikana ja nyt palveluun voin jakaa avoimia oppimateriaaleja ja niitä voi sieltä etsiä. Vuonna 2020 palveluun lisätään ominaisuuksia kommentointiin, kokoelmien tekoon ja kehitetään tekoälyavusteista kuvailua. Samalla parannetaan palvelua palautteen perusteella sekä kehitetään analytiikkaa oppimateriaalien tekijöiden avuksi. Vuonna 2020 avoimet oppimateriaalit tulevat käytettäväksi myös Finna.fi:n kautta. Palvelun jatkokehitystarpeita arvioidaan palautteen ja käytön perusteella jatkuvasti. Palvelun aikajana:',
-        '<img src="assets/img/aoe_polku.png" class="img-fluid" alt="Pilottivaihe: 3/2019 Saan tietoa tulevasta palvelusta, 12/2019 Voin tallentaaoppimateriaalejani, 03/2020 Voin hakea oppimateriaaleja. Tuotanto: 06/2020 Voin tehdäoppimateriaalikokoelmia, syksy/2020 Löydän avoimia oppimateriaaleja myös Finna.fistä.">',
-      ]
-    },
-    {
       question: 'Vaatiiko palvelu tunnistautumista?',
       answer: [
         'Oppimateriaalien käyttäminen ja niiden hakeminen on kaikille mahdollista ilman sisäänkirjautumista.',
@@ -43,7 +36,7 @@ export const FAQGeneral = {
       question: 'Mitä Avointen oppimateriaalien kirjastoon tallennettavalta oppimateriaalilta vaaditaan?',
       answer: [
         'Avointen oppimateriaalien kirjastoon lisättävä oppimateriaali on oltava avoimesti lisensoitu. Palvelussa käytetään Creative Commons -lisenssejä, joista <a href="https://creativecommons.org/choose/?lang=fi" target="_blank" rel="noopener nofollow">lisätietoa Creative Commonsin -sivuilla</a> sekä tällä sivulla. Lisenssi merkitään oppimateriaalin yhteyteen sen kuvailutietoihin, mutta on suositeltavaa merkitä se myös oppimateriaalin sisälle.',
-        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
+        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
       ]
     },
     {
@@ -94,13 +87,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'How is the service being developed?',
-      answer: [
-        'The Library of Open Educational Resources info page was launched in March 2019. Users will be able to save open educational resources and associated data in the service starting in autumn 2019. At the next stage in late 2019 and early 2020, resources will become available for search and use via the service. The year 2020 will see a feature added for creating collections as well as the further development of AI-aided description. In addition, improvements will be made based on feedback and analytics will be developed to help creators of educational resources. In 2020, the open educational resources will also become available through the Finna.fi service. Further development needs are continuously assessed on the basis of feedback and use.',
-        '<img src="assets/img/aoe_path.png" class="img-fluid" alt="Piloting stage: 3/2019 I can find information on future services, 12/2019 I can save my own OER and 03/2020 I can search for OER. Production: 06/2020 I can compile my own OER, autumn/2020 I can also find OER on Finna.fi">',
-      ]
-    },
-    {
       question: 'Are users required to log in to the service?',
       answer: [
         'Using and searching educational resources is available to everyone, with no login necessary.',
@@ -111,7 +97,7 @@ export const FAQGeneral = {
       question: 'What are the requirements for resources stored in the service?',
       answer: [
         'Materials uploaded to the Library of Open Educational Resources must be openly licensed. The service uses Creative Commons licenses. For further information, see <a href="https://creativecommons.org/choose/?lang=en" target="_blank" rel="noopener nofollow">Creative Commons -webpage</a> and this FAQ. The license is indicated in the material description of the resource in question, but it is advisable to also make a note of it within the resource itself.',
-        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
+        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
       ]
     },
     {
@@ -162,13 +148,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Hur utvecklas Biblioteket för öppna lärresurser?',
-      answer: [
-        'I mars 2019 öppnades en informationssida i Biblioteket för öppna lärresurser. I höst 2019 öppnade möjligheten att spara öppna undervisningsmaterial och information om dem i tjänsten. Nu kan man okså söka och använda lärresurserna i tjänsten. Under 2020 införs möjligheten att skapa samlingar och artificiell intelligens utvecklas för att skapa metadata. Samtidigt förbättras tjänsten utgående från den respons som fås, och analysen vidareutvecklas till stöd för dem som utarbetar undervisningsmaterial. År 2020 blir de öppna lärresurserna också tillgängliga för användning via Finna.fi. Behoven av vidareutveckling utvärderas kontinuerligt utgående från responsen på och användningen av tjänsten.',
-        '<img src="assets/img/aoe_vag.png" class="img-fluid" alt="Pilotfas: 3/2019 Jag får information om den nya tjänsten, 12/2019 Jag kan ladda upp egna lärresurser, 03/2020 Jag kan söka lärresurser. Produktion: 06/2020 Jag kan göra samlingar av lärresurser, hösten 2020 Jag hittar öppna lärresurser även på Finna.fi">',
-      ]
-    },
-    {
       question: 'Kräver tjänsten inloggning?',
       answer: [
         'Alla kan använda och söka bland lärresurserna utan att logga in.',
@@ -179,7 +158,7 @@ export const FAQGeneral = {
       question: 'Vad krävs av det undervisningsmaterial som sparas i Biblioteket för öppna lärresurser?',
       answer: [
         'Undervisningsmaterial som sparas i tjänsten ska ha en öppen licens. I tjänsten används Creative Commons-licenser. Information om dessa <a href="https://creativecommons.org/choose/?lang=sv" target="_blank" rel="noopener nofollow">licenser hittar du här</a>. samt i den här listan på vanliga frågor. Licensen anges i lärresursens metadata, men man rekommenderas även att anteckna den i själva lärresursen.',
-        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
+        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
       ]
     },
     {
