@@ -36,7 +36,7 @@ export const FAQGeneral = {
       question: 'Mitä Avointen oppimateriaalien kirjastoon tallennettavalta oppimateriaalilta vaaditaan?',
       answer: [
         'Avointen oppimateriaalien kirjastoon lisättävä oppimateriaali on oltava avoimesti lisensoitu. Palvelussa käytetään Creative Commons -lisenssejä, joista <a href="https://creativecommons.org/choose/?lang=fi" target="_blank" rel="noopener nofollow">lisätietoa Creative Commonsin -sivuilla</a> sekä tällä sivulla. Lisenssi merkitään oppimateriaalin yhteyteen sen kuvailutietoihin, mutta on suositeltavaa merkitä se myös oppimateriaalin sisälle.',
-        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
+        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
       ]
     },
     {
@@ -97,7 +97,7 @@ export const FAQGeneral = {
       question: 'What are the requirements for resources stored in the service?',
       answer: [
         'Materials uploaded to the Library of Open Educational Resources must be openly licensed. The service uses Creative Commons licenses. For further information, see <a href="https://creativecommons.org/choose/?lang=en" target="_blank" rel="noopener nofollow">Creative Commons -webpage</a> and this FAQ. The license is indicated in the material description of the resource in question, but it is advisable to also make a note of it within the resource itself.',
-        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
+        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
       ]
     },
     {
@@ -158,7 +158,7 @@ export const FAQGeneral = {
       question: 'Vad krävs av det undervisningsmaterial som sparas i Biblioteket för öppna lärresurser?',
       answer: [
         'Undervisningsmaterial som sparas i tjänsten ska ha en öppen licens. I tjänsten används Creative Commons-licenser. Information om dessa <a href="https://creativecommons.org/choose/?lang=sv" target="_blank" rel="noopener nofollow">licenser hittar du här</a>. samt i den här listan på vanliga frågor. Licensen anges i lärresursens metadata, men man rekommenderas även att anteckna den i själva lärresursen.',
-        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
+        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
       ]
     },
     {
