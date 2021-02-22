@@ -80,6 +80,8 @@
     },
     "educationalMaterial": {
       "download": "Lataa",
+      "downloadAllFiles": "Lataa kaikki tiedostot",
+      "downloadSingleFile": "Lataa yksittäinen tiedosto:",
       "addToCollection": "Lisää kokoelmaan",
       "edit": "Muokkaa",
       "viewCount": "näyttökertaa",

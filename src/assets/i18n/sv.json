@@ -80,6 +80,8 @@
     },
     "educationalMaterial": {
       "download": "Ladda ner",
+      "downloadAllFiles": "Ladda ner alla filer",
+      "downloadSingleFile": "Ladda ner en av filerna:",
       "addToCollection": "Lägg till samlingen",
       "edit": "Redigera",
       "viewCount": "sidvisningar ",

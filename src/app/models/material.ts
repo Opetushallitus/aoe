@@ -15,4 +15,5 @@ export interface Material {
     en: string;
   };
   subtitles?: Subtitle[];
+  downloadUrl?: string;
 }
