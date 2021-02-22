@@ -1,8 +1,20 @@
 <div class="py-4 px-0">
   <div class="container">
-    <div class="row">
+    <div class="row justify-content-between">
       <div class="col">
         <h1>{{ 'faq.title' | translate }}</h1>
+      </div>
+
+      <div class="col-auto">
+        <button type="button" class="btn btn-blue" (click)="isOpen = !isOpen">
+          <ng-container *ngIf="isOpen; else openAll">
+            {{ 'faq.closeAll' | translate }}
+          </ng-container>
+
+          <ng-template #openAll>
+            {{ 'faq.openAll' | translate }}
+          </ng-template>
+        </button>
       </div>
     </div><!--/.row-->
 
@@ -11,7 +23,7 @@
         <h2>{{ 'faq.general' | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqGeneral" #group1>
+          <accordion-group *ngFor="let item of faqGeneral" [isOpen]="isOpen" #group1>
             <div accordion-heading class="row">
               <div class="col">{{ item.question }}</div>
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group1.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
@@ -24,7 +36,7 @@
         <h2>{{ 'faq.material' | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqMaterial" #group2>
+          <accordion-group *ngFor="let item of faqMaterial" [isOpen]="isOpen" #group2>
             <div accordion-heading class="row">
               <div class="col">{{ item.question }}</div>
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group2.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>
@@ -37,7 +49,7 @@
         <h2>{{ 'faq.organization' | translate }}</h2>
 
         <accordion>
-          <accordion-group *ngFor="let item of faqOrganisation" #group3>
+          <accordion-group *ngFor="let item of faqOrganisation" [isOpen]="isOpen" #group3>
             <div accordion-heading class="row">
               <div class="col">{{ item.question }}</div>
               <div class="col-auto"><i class="fa" aria-hidden="true" [ngClass]="group3.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i></div>

@@ -17,6 +17,7 @@ export class HelpViewComponent implements OnInit, OnDestroy {
   public faqGeneral;
   public faqMaterial;
   public faqOrganisation;
+  isOpen = false;
 
   constructor(
     private translate: TranslateService,
