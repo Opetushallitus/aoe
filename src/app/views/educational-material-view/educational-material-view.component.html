@@ -38,10 +38,39 @@
                 </a>
               </ng-container>
 
-              <a class="btn btn-link" [href]="downloadUrl" download *ngIf="educationalMaterial.hasDownloadableFiles">
-                <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
-                {{ 'demo.educationalMaterial.download' | translate }}
-              </a>
+              <div class="dropdown" *ngIf="educationalMaterial.hasDownloadableFiles">
+                <button
+                  class="btn btn-blue dropdown-toggle"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >{{ 'demo.educationalMaterial.download' | translate }}</button>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <a
+                    class="dropdown-item"
+                    [href]="downloadUrl"
+                    download
+                  >{{ 'demo.educationalMaterial.downloadAllFiles' | translate }}</a>
+
+                  <strong class="dropdown-header">{{ 'demo.educationalMaterial.downloadSingleFile' | translate }}</strong>
+
+                  <ng-container *ngFor="let lang of materialLanguages">
+                    <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">{{ getLanguageValue(lang) }}</strong>
+
+                    <ng-container *ngIf="materials | materialLanguage:lang as filteredMaterials">
+                      <ng-container *ngFor="let material of filteredMaterials">
+                        <a
+                          class="dropdown-item"
+                          [href]="material.downloadUrl"
+                          download
+                        >{{ material.displayName[lang] }}</a>
+                      </ng-container>
+                    </ng-container>
+                  </ng-container>
+                </div>
+              </div>
             </div>
           </div>
         </div>
