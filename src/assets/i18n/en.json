@@ -859,7 +859,9 @@
     "title": "Frequently Asked Questions",
     "general": "General questions",
     "material": "For creators of educational resources",
-    "organization": "For Organizations"
+    "organization": "For Organizations",
+    "closeAll": "Close all",
+    "openAll": "Show all"
   },
   "acceptance": {
     "title": "Privacy Policy and the Terms of Use of the service",
