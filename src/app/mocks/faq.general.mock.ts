@@ -26,13 +26,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Miten Avointen oppimateriaalien kirjastoa kehitetään?',
-      answer: [
-        'Avointen oppimateriaalien kirjaston kehitys aloitettiin loppuvuodesta 2018. Uusia ominaisuuksia otettiin vähitellen käyttöön vuoden 2019 aikana ja nyt palveluun voin jakaa avoimia oppimateriaaleja ja niitä voi sieltä etsiä. Vuonna 2020 palveluun lisätään ominaisuuksia kommentointiin, kokoelmien tekoon ja kehitetään tekoälyavusteista kuvailua. Samalla parannetaan palvelua palautteen perusteella sekä kehitetään analytiikkaa oppimateriaalien tekijöiden avuksi. Vuonna 2020 avoimet oppimateriaalit tulevat käytettäväksi myös Finna.fi:n kautta. Palvelun jatkokehitystarpeita arvioidaan palautteen ja käytön perusteella jatkuvasti. Palvelun aikajana:',
-        '<img src="assets/img/aoe_polku.png" class="img-fluid" alt="Pilottivaihe: 3/2019 Saan tietoa tulevasta palvelusta, 12/2019 Voin tallentaaoppimateriaalejani, 03/2020 Voin hakea oppimateriaaleja. Tuotanto: 06/2020 Voin tehdäoppimateriaalikokoelmia, syksy/2020 Löydän avoimia oppimateriaaleja myös Finna.fistä.">',
-      ]
-    },
-    {
       question: 'Vaatiiko palvelu tunnistautumista?',
       answer: [
         'Oppimateriaalien käyttäminen ja niiden hakeminen on kaikille mahdollista ilman sisäänkirjautumista.',
@@ -94,13 +87,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'How is the service being developed?',
-      answer: [
-        'The Library of Open Educational Resources info page was launched in March 2019. Users will be able to save open educational resources and associated data in the service starting in autumn 2019. At the next stage in late 2019 and early 2020, resources will become available for search and use via the service. The year 2020 will see a feature added for creating collections as well as the further development of AI-aided description. In addition, improvements will be made based on feedback and analytics will be developed to help creators of educational resources. In 2020, the open educational resources will also become available through the Finna.fi service. Further development needs are continuously assessed on the basis of feedback and use.',
-        '<img src="assets/img/aoe_path.png" class="img-fluid" alt="Piloting stage: 3/2019 I can find information on future services, 12/2019 I can save my own OER and 03/2020 I can search for OER. Production: 06/2020 I can compile my own OER, autumn/2020 I can also find OER on Finna.fi">',
-      ]
-    },
-    {
       question: 'Are users required to log in to the service?',
       answer: [
         'Using and searching educational resources is available to everyone, with no login necessary.',
@@ -159,13 +145,6 @@ export const FAQGeneral = {
       question: 'Till vem riktar sig Biblioteket för öppna lärresurser?',
       answer: [
         'Biblioteket för öppna lärresurser är avsedd för alla utbildningsnivåer och för livslångt lärande. Den betjänar lärare, lärande och dem som stöder lärandet när de söker öppna lärresurser för sin egen undervisning och sina kompetensutvecklingsbehov.',
-      ]
-    },
-    {
-      question: 'Hur utvecklas Biblioteket för öppna lärresurser?',
-      answer: [
-        'I mars 2019 öppnades en informationssida i Biblioteket för öppna lärresurser. I höst 2019 öppnade möjligheten att spara öppna undervisningsmaterial och information om dem i tjänsten. Nu kan man okså söka och använda lärresurserna i tjänsten. Under 2020 införs möjligheten att skapa samlingar och artificiell intelligens utvecklas för att skapa metadata. Samtidigt förbättras tjänsten utgående från den respons som fås, och analysen vidareutvecklas till stöd för dem som utarbetar undervisningsmaterial. År 2020 blir de öppna lärresurserna också tillgängliga för användning via Finna.fi. Behoven av vidareutveckling utvärderas kontinuerligt utgående från responsen på och användningen av tjänsten.',
-        '<img src="assets/img/aoe_vag.png" class="img-fluid" alt="Pilotfas: 3/2019 Jag får information om den nya tjänsten, 12/2019 Jag kan ladda upp egna lärresurser, 03/2020 Jag kan söka lärresurser. Produktion: 06/2020 Jag kan göra samlingar av lärresurser, hösten 2020 Jag hittar öppna lärresurser även på Finna.fi">',
       ]
     },
     {
