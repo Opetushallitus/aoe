@@ -56,6 +56,21 @@ export const FAQGeneral = {
         'Huomioithan myös, että mikäli käytät muiden tekijöiden kuvia tms materiaaleja osana oppimateriaaliasi, tulee näidenkin olla avoimesti lisensoituja tai sinulla oikeus käyttää niitä avoimesti lisensoidussa oppimateriaalissa. Tekijänoikeuksista ja avoimesta lisensoinnista on myös opettajille suunnattu oppimateriaali <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">Tarmo Toikkasen tekemä Tekijänoikeudet opetuksessa -oppimateriaali (linkki materiaaliin aoe.fissä)</a>.',
       ]
     },
+    {
+      question: 'Löytyykö Avointen oppimateriaalien kirjastosta kansainvälisten oppimateriaalivarantojen oppimateriaaleja? Miten näitä voi hyödyntää?',
+      answer: [
+        'Avointen oppimateriaalien kirjastosta ei löydy kansainvälisten oppimateriaalivarantojen oppimateriaaleja. Niiden hyödyntäminen on kuitenkin suositeltavaa! Voit etsiä näitä materiaaleja käyttäen palvelujen omia hakutoimintoja. Luotettavia lähteitä ovat esimerkiksi <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> ja <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a>. Myös muita avoimia materiaaleja voi käyttää, esimerkiksi <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeanasta</a> löytyy paljon avoimia kuvia historiaan ja taiteisiin liittyen.',
+        'Mikäli oppimateriaali on lisensoitu Creative Commons -lisenssillä joka sallii muokkauksen (CC BY, CC BY-SA, CC BY-SA-NC, CC BY-NC), muulla vastaavalla lisenssillä tai olet hankkinut luvan materiaalin muokkaamiseen, voit tämän kansainvälisen materiaalin pohjalta tehdä oman versiosi, esimerkiksi kääntää oppimateriaalin. Voit myös halutessasi julkaista tämän oman mukaelmasi oppimateriaalista Avointen oppimateriaalien kirjastoon. Muistathan tällöin merkitä Hyödynnetty oppimateriaali -kenttään hyödyntämäsi oppimateriaalin tiedot.',
+      ]
+    },
+    {
+      question: 'Miten viittaan Avointen oppimateriaalien kirjastosta löytyvään oppimateriaaliin?',
+      answer: [
+        'Kun haluat viitata Avointen oppimateriaalien kirjastosta löytyvään materiaaliin, merkitse se seuraavalla tavalla:',
+        'Tekijä, <em>materiaalin nimi</em>. (Julkaisija, jos ilmoitettu.) Julkaisuvuosi. Pysyvä URN-tunniste.',
+        'Eli esimerkiksi: Toikkanen Tarmo, <em>Tekijänoikeudet opetuksessa</em>. 2019. URN-tunnus.',
+      ]
+    },
   ],
   en: [
     {
@@ -109,6 +124,21 @@ export const FAQGeneral = {
         'Please also consider that if you use other creators’ images or other materials as part of your educational resource, these must be openly licensed or you must have permission to use them as part of openly licensed educational materials. Information on copyright and open licensing for teachers is available in the <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">“Copyrights in Education” resource</a>.',
       ]
     },
+    {
+      question: 'Can you find OER from international digital libraries in Library of Open Educational Resources (aoe.fi)? How can I use resources from such libraries?',
+      answer: [
+        'You will not find automatically harvested resources from different international digital libraries in the Library of Open Educational Resources (aoe.fi). But we do encourage you to use them! You can find OER from different digital libraries, for example in <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> (Estonian) and <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a> (Norweigian). We also encourage you to use other open materials, for example you can find many open pictures relating to history and arts in <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeana</a>.',
+        'You can use open materials you find to make something yourself, for example translate different OER. You can also publish there modified OER you have made to the Library of Open Educational Resources (aoe.fi). If you do, remember to use the References-page to add information about the resources you used as a base for your OER.',
+      ]
+    },
+    {
+      question: 'How do I make a reference to an educational resource found in the Library of Open Educational Resources?',
+      answer: [
+        'To refer to material found in the Library of Open Educational Resources, mark it as follows:',
+        'Author, <em>name of the resource</em>. (Publisher, if indicated.) Publishing year. Permanent URN identifier.',
+        'E.g. Toikkanen Tarmo, <em>Copyrights in Education</em>. 2019. URN identifier.',
+      ]
+    },
   ],
   sv: [
     {
@@ -160,6 +190,21 @@ export const FAQGeneral = {
         'Creative Commons licensvillkor ”IngaBearbetningar” rekommenderas inte för öppna lärresurser. Licensen förbjuder alla typer av uppdateringar och härledda material. Undervisningsmaterialet kan till exempel inte heller översättas eller föras över till punktskrift. Vi ber också att man överväger saken noggrant innan man använder Creative Commons ”Ickekommersiell”, eftersom den förbjuder användning av materialet exmpelvis i läroanstalters avgiftsbelagda kurser och utbildningar. Mer information (på finska) på <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative commons -sidorna</a>.',
         'Om flera upphovsmän eller ägare finns till undervisningsmaterialet, ska den öppna licensen avtalas mellan alla parter. Detta sker exempelvis med följande <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">mallavtal (på finska)</a>.',
         'Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">”Upphovsrätten i undervisningen”</a>.',
+      ]
+    },
+    {
+      question: 'Kan du hitta lärresurser från internationella digitala bibliotek i Biblioteket för öppna lärresurser (aoe.fi)? Hur kan jag använda resurser från sådana bibliotek?',
+      answer: [
+        'Vi importerar inte automatiskt data från internationella lärresursbibliotek i Biblioteket för öppna lärresurser (aoe.fi). Men vi rekommenderar dig att använda dem! Du kan hitta lärresurser från olika digitala bibliotek, till exempel i <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> och <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a>. Vi rekommenderar dig också att använda andra öppna material, till exempel kan du hitta många öppna bilder om historia och konst i <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeana</a>.',
+        'Du kan använda öppna material som du hittar för att göra något själv, till exempel översätta olika lärresurser. Du kan också publicera den modifierade lärresurs som du har gjort till Biblioteket för öppna lärresurser (aoe.fi). I det här fallet, kom ihåg att skriva informationen om det lärresurs du använde i fältet Referens.',
+      ]
+    },
+    {
+      question: 'Hur hänvisar jag till det undervisningmaterial som finns i Biblioteket för öppna lärresurser?',
+      answer: [
+        'För att hänvisa till material som finns i Biblioteket för öppna lärresurser, markera det enligt följande:',
+        'Författare, <em>undervisningsmaterialets namn</em>. (Utgivare, om det anges.) Utgivningsår. Permanent URN identifierare.',
+        'T.ex: Toikkanen Tarmo, <em>Upphovsrätten i undervisningen</em>. 2019. URN identifierar',
       ]
     },
   ]
