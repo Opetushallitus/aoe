@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SocialMetadataModalComponent } from './social-metadata-modal.component';
 
@@ -6,7 +6,7 @@ describe('SocialMetadataModalComponent', () => {
   let component: SocialMetadataModalComponent;
   let fixture: ComponentFixture<SocialMetadataModalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SocialMetadataModalComponent ]
     })
