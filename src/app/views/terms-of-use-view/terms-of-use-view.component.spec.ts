@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TermsOfUseViewComponent } from './terms-of-use-view.component';
 
@@ -6,7 +6,7 @@ describe('TermsOfUseViewComponent', () => {
   let component: TermsOfUseViewComponent;
   let fixture: ComponentFixture<TermsOfUseViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TermsOfUseViewComponent ]
     })
