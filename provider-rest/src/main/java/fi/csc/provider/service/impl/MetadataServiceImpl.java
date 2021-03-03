@@ -112,7 +112,7 @@ public class MetadataServiceImpl implements MetadataService {
 
             migratedMetadata.forEach(meta -> {
                 RecordHeader recordHeader = new RecordHeader(
-                    (meta.getArchivedAt() == null ? null : "deleted"),
+                    (meta.getArchivedAt() == null ? "deleted": null),
                     meta.getIdentifier(),
                     (meta.getDateCreated() != null ? CUSTOM_DATETIME.format(meta.getDateCreated()) : ""));
 
