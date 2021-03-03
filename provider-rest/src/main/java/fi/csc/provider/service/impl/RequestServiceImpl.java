@@ -47,7 +47,7 @@ public class RequestServiceImpl implements RequestService {
             metadataRequest.setDateMin(LocalDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.of("UTC")));
             metadataRequest.setDateMax(LocalDateTime.now(ZoneOffset.UTC));
         }
-        metadataRequest.setMaterialPerPage(Integer.parseInt(env.getProperty("aoe.request.per-page", "100")));
+        metadataRequest.setMaterialPerPage(Integer.parseInt(env.getProperty("aoe.request.per-page", "20")));
         metadataRequest.setPageNumber(resumptionCounter);
 
         HttpHeaders headers = new HttpHeaders();
