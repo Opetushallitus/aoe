@@ -129,7 +129,7 @@ public class MetadataServiceImpl implements MetadataService {
 
                 Record record = new Record();
                 record.setHeader(recordHeader);
-                record.setMetadata(meta.getDeleted() ? null : recordMetadata);
+                record.setMetadata(identifiersOnly || meta.getDeleted() ? null : recordMetadata);
                 records.add(record);
             });
             
