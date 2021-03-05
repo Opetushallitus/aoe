@@ -37,6 +37,9 @@ public class LrmiMetadata {
     @XmlAttribute(name = "xsi:schemaLocation")
     protected final String xsi_schemaLocation = "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd";
 
+    // Temporary deleted status based on AOE obsoleted field - dropped out from the final LRMI results.
+    private Boolean deleted;
+
     // DC - Dublin Core
 
     @XmlElement(name = "dc:id")
@@ -152,6 +155,14 @@ public class LrmiMetadata {
             this.author = null;
         }
     }*/
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getIdentifier() {
         return identifier;
