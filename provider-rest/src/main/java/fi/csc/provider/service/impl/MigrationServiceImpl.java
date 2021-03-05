@@ -120,6 +120,9 @@ public class MigrationServiceImpl implements MigrationService {
      */
     private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
+        // Temporary deleted status based on AOE obsoleted field - dropped out from the final LRMI results.
+        lrmi.setDeleted(amd.getObsoleted());
+
         // lrmi_fi:dateCreated
         // Original creation time for the educational material (first upload).
         lrmi.setDateCreated(amd.getCreatedat());
@@ -128,7 +131,7 @@ public class MigrationServiceImpl implements MigrationService {
         // Last modification time for the educational material.
         lrmi.setDateModified(amd.getUpdatedat());
 
-        // Invisible field for specifying the attribute status="deleted"
+        // Invisible field (always null) for specifying the attribute status="deleted"
         lrmi.setArchivedAt(amd.getArchivedat());
 
         // An estimate for the user's time consumed with the educational material.
