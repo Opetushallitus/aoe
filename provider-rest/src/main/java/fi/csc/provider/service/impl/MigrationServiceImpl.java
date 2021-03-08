@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -120,8 +122,8 @@ public class MigrationServiceImpl implements MigrationService {
      */
     private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
-        // Temporary deleted status based on AOE obsoleted field - dropped out from the final LRMI results.
-        lrmi.setDeleted(amd.getObsoleted());
+        // Temporary deleted status based on AOE obsoleted field and expires date/time - dropped out from the final LRMI results.
+        lrmi.setDeleted(amd.getObsoleted() || amd.getExpires().isBefore(LocalDateTime.now(ZoneOffset.UTC)));
 
         // lrmi_fi:dateCreated
         // Original creation time for the educational material (first upload).
