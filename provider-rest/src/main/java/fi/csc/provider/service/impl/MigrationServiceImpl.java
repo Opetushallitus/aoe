@@ -123,7 +123,7 @@ public class MigrationServiceImpl implements MigrationService {
     private void setLrmiData(AoeMetadata amd, LrmiMetadata lrmi) {
 
         // Temporary deleted status based on AOE obsoleted field and expires date/time - dropped out from the final LRMI results.
-        lrmi.setDeleted(amd.getObsoleted() || amd.getExpires().isBefore(LocalDateTime.now(ZoneOffset.UTC)));
+        lrmi.setDeleted(amd.getObsoleted() || (amd.getExpires() != null && amd.getExpires().isBefore(LocalDateTime.now(ZoneOffset.UTC))));
 
         // lrmi_fi:dateCreated
         // Original creation time for the educational material (first upload).
