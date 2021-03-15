@@ -247,7 +247,7 @@ export function validateFilename(value: string): string {
  */
 export function textInputValidator(): ValidatorFn {
   // tslint:disable-next-line:max-line-length
-  const textInputRe: RegExp = /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02]/i;
+  const textInputRe: RegExp = /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = textInputRe.test(control.value);
@@ -262,7 +262,7 @@ export function textInputValidator(): ValidatorFn {
  */
 export function descriptionValidator(): ValidatorFn {
   // tslint:disable-next-line:max-line-length
-  const descriptionRe: RegExp = /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02]/i;
+  const descriptionRe: RegExp = /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     const invalid = descriptionRe.test(control.value);
