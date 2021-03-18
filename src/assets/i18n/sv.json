@@ -141,7 +141,7 @@
         "noVideoSupport": "Your browser does not support the video element.",
         "noAudioSupport": "Your browser does not support the audio element.",
         "fileFormatNotSupported": "Filen kan inte förhandsgranskas. Ladda ner materialen om du vill använda filen.",
-        "openInNewTab": "Öppna utbildningsmaterialen på en ny flik",
+        "openInNewTab": "Öppna utbildningsmaterialet i en ny flik",
         "or": "eller",
         "download": "Ladda ner filen"
       },
