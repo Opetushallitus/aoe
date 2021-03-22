@@ -18,6 +18,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Material } from '@models/material';
+import { deduplicate } from '../shared/shared.module';
 
 @Injectable({
   providedIn: 'root'
@@ -196,7 +197,7 @@ export class BackendService {
           authors: material.author
             .map(({authorname, organization}) => ({authorname, organization})),
           description: material.description,
-          materials: materials,
+          materials: deduplicate(materials, 'id'),
           createdAt: material.createdAt,
           publishedAt: material.publishedAt,
           updatedAt: material.updatedAt,
@@ -470,7 +471,7 @@ export class BackendService {
           })),
       }));
 
-      this.uploadedFiles$.next(materials);
+      this.uploadedFiles$.next(deduplicate(materials, 'id'));
     });
   }
 
