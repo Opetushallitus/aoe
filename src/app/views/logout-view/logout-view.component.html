@@ -4,15 +4,15 @@
       <div class="col">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <p>Olet kirjautunut onnistuneesti ulos aoe.fi-sivustolta. <a [routerLink]="['/etusivu']">Palaa etusivulle</a></p>
+            <p>Olet kirjautunut ulos palvelusta. Jos käytät yhteiskäytössä olevaa tietokonetta, suosittelemme että tyhjennät selaimesi välimuistin tai suljet selaimen.</p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
-            <p>You have logged out of aoe.fi. <a [routerLink]="['/etusivu']">Return to the front page</a></p>
+            <p>You have logged out of the service. If you are using a shared computer, we recommend that you delete your browser’s cache or close the browser.</p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
-            <p>Du har loggat ut från aoe.fi. <a [routerLink]="['/etusivu']">Återvänd till huvudsidan</a></p>
+            <p>Du har loggat ut ur tjänsten. Om du använder en dator som är i allmänt bruk rekommenderar vi att du stänger webbläsaren eller att du tömmer webbläsarens mellanminne.</p>
           </ng-container>
         </ng-container>
       </div>
