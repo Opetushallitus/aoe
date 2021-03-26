@@ -1,7 +1,8 @@
 @import "mixins";
+@import "variables";
 
 .block-header {
-  background-color: #f9f9f9;
+  background-color: $light;
   border-radius: .25rem;
   margin-bottom: 1rem;
   padding: 1.5rem 1rem;
