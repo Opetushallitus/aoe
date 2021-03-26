@@ -348,7 +348,7 @@ h2 {
 
 // Oppimateriaali card
 .card-educational-material {
-  background-color: map_get($theme-colors, 'light');
+  background-color: #f5f5f5;
   padding: 1rem 1rem .5rem;
 
   &.unpublished {
@@ -441,7 +441,7 @@ h2 {
 
 // Kokoelma card
 .card-collection {
-  background-color: map_get($theme-colors, 'light');
+  background-color: #f5f5f5;
   padding: 1rem 1rem;
 
   .header {
