@@ -203,7 +203,7 @@ export class BackendService {
           updatedAt: material.updatedAt,
           archivedAt: material.archivedAt,
           timeRequired: material.timeRequired,
-          expires: material.expires,
+          expires: material.expires !== '9999-01-01T00:00:00.000Z' ? material.expires : null,
           publisher: material.publisher.map((publisher) => publisher.name),
           license: material.license,
           keywords: material.keywords
