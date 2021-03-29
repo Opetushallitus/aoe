@@ -46,10 +46,10 @@ const options = {
     info: {
       description: "Koodisto microservice",
       title: "koodisto-service",
-      version: "1.0.0",
+      version: "2.3.1",
     },
-    host: "koodisto.aoe.fi",
-    basePath: "/api/v1",
+    host: "aoe.fi",
+    basePath: "/ref/api/v1",
     produces: [
       "application/json"
     ],
