@@ -19,13 +19,7 @@ $ yarn install
 
 ### Run redis docker container
 
-``` bash
-# pull docker image
-$ docker pull redis
-
-# run docker container
-$ docker run --detach --publish 6379:6379 --name=koodisto-redis redis
-```
+https://github.com/CSCfi/aoe-server-config
 
 ## Usage
 
