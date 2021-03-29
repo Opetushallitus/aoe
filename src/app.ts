@@ -46,7 +46,7 @@ const options = {
     info: {
       description: "Koodisto microservice",
       title: "koodisto-service",
-      version: "2.3.1",
+      version: "2.3.2",
     },
     host: "aoe.fi",
     basePath: "/ref/api/v1",
