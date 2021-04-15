@@ -52,6 +52,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   socialMetadata: SocialMetadata;
   languageSubscription: Subscription;
   languages: Language[];
+  previewMaterialDomain: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -174,6 +175,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   setPreviewMaterial(material: Material): void {
     this.previewMaterial = material;
+
+    if (material.link) {
+      this.previewMaterialDomain = new URL(material.link).hostname.replace('www.', '');
+    }
   }
 
   /**
