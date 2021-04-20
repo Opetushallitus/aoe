@@ -12,7 +12,7 @@ export const FAQMaterial = {
       answer: [
         'Avointen oppimateriaalien kirjaston näkökulmasta huomioitavaa on vain se, että osaat ladata/tallentaa valitsemastasi työkalusta teoksesi tiedostona koneellesi ja että sinulla on oikeus lisensoida oppimateriaalisi avoimesti. Hyväksytyistä tiedostomuodoista saat lisätietoa seuraavasta kysymyksestä. Avoimesta lisenssistä lisätietoa tällä sivulla kohdassa Mitä ovat Creative Commons -lisenssit.',
         'Myös linkittäminen on mahdollista mikäli tallentaminen ei tule kyseeseen: varmista tällöin, että materiaali on avoimesti ilman sisäänkirjautumista ja muita rajoitteita saatavilla nyt ja myös oppimateriaalin tekemisen jälkeen sillä alustalla jonne se on tehty.',
-        'Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a href="https://www.eamk.fi/fi/campusonline/laatukriteerit/" target="_blank" rel="noopener nofollow">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.',
+        `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a href="${environment.frontendUrl}/#/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`,
       ]
     },
     {
@@ -94,7 +94,7 @@ export const FAQMaterial = {
     {
       question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaali poistaa?',
       answer: [
-        'Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a href="https://aoe.fi/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.',
+        `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a href="${environment.frontendUrl}/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
         'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme oppimateriaalivaranto@csc.fi ja ylläpitäjä voi poistaa materiaalin.',
       ],
     },
@@ -105,8 +105,8 @@ export const FAQMaterial = {
       answer: [
         'The Library of Open Educational Resources only requires that you are able to download/save your work onto your computer in a file format, and that you have permission to openly license your work. For more information on open licenses, see “What are Creative Commons licenses?” on this page.',
         'Linking to resources is also possible if they cannot be saved. Please ensure that the material is available openly, with no login or other restrictions, and that it can be accessed now and after its creation on the platform on which it was created.',
-        'It is also advisable to read through <a href="https://www.edu.fi/verkko_oppimateriaalit/e-oppimateriaalin_laatukriteerit" target="_blank" rel="noopener nofollow">the Finnish National Agency for Education quality criteria for digital learning resources</a>, and consider what digital resources should accomplish (link in Finnish).',
-        'Relevant sections of the quality criteria for online implementations created as part of the eAMK project can also be useful.',
+        'It is also advisable to read through <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">the Finnish National Agency for Education quality criteria for digital learning resources</a>, and consider what digital resources should accomplish (link in Finnish).',
+        `Relevant sections of the <a href="${environment.frontendUrl}/#/materiaali/120">quality criteria for online implementations created</a> as part of the eAMK project can also be useful.`,
         'This page has a dedicated section for questions regarding accessibility.',
       ]
     },
@@ -195,7 +195,7 @@ export const FAQMaterial = {
         'Det enda att tänka på när det gäller Biblioteket för öppna lärresurser är att du i det verktyg du använder ska kunna ladda upp/spara en fil av ditt verk på din dator, och att du har rätt att licensera ditt undervisningsmaterial öppet. Du hittar mer information om öppna licenser på den här sidan under rubriken Vad är Creative Commons-licenser?',
         'Om fillagring inte är aktuell kan man också länka materialet. Försäkra dig i så fall om att materialet är öppet tillgängligt utan inloggning eller andra begränsningar såväl nu som senare på den plattform där det skapats.',
         'Det lönar sig att gå igenom <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Utbildningsstyrelsens kvalitetskriterier</a> för digitala läromaterial och fundera på vad man själv vill ha ut av dem.',
-        'Också projektet <a href="https://www.eamk.fi/sv/kursutbud/kvalitetskriterierna/" target="_blank" rel="noopener nofollow">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.',
+        `Också projektet <a href="${environment.frontendUrl}/#/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
         'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.',
       ]
     },
@@ -272,7 +272,7 @@ export const FAQMaterial = {
     {
       question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
       answer: [
-        'Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a href="https://aoe.fi/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.',
+        `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a href="${environment.frontendUrl}/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
         'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på oppimateriaalivaranto@csc.fi så att en administratör kan ta bort resursen.',
       ],
     },
