@@ -110,100 +110,102 @@
       <h3>{{ 'forms.educationalResource.basicDetails.author.title' | translate }}</h3>
 
       <ng-container *ngFor="let author of authors.controls; let i = index;">
-        <div class="form-row" formArrayName="authors">
-          <ng-container [formGroupName]="i">
-            <!--if author & organization-->
-            <ng-container *ngIf="author.get('author')">
-              <div class="form-group col">
-                <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*</label>
+        <fieldset class="border-bottom mb-2">
+          <div class="form-row" formArrayName="authors">
+            <ng-container [formGroupName]="i">
+              <!--if author & organization-->
+              <ng-container *ngIf="author.get('author')">
+                <div class="form-group col-md">
+                  <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*</label>
 
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate"
-                ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate"
+                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
-                <input
-                  type="text"
-                  class="form-control"
-                  id="{{ 'author' + i }}"
-                  [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
-                  formControlName="author"
-                  [ngClass]="{ 'is-invalid': authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted) }"
-                  [attr.aria-describedby]="'author-help-' + i"
-                >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="{{ 'author' + i }}"
+                    [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
+                    formControlName="author"
+                    [ngClass]="{ 'is-invalid': authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted) }"
+                    [attr.aria-describedby]="'author-help-' + i"
+                  >
 
-                <small [id]="'author-help-' + i" class="form-text text-muted">
-                  {{ 'forms.educationalResource.basicDetails.author.inputs.author.helpText' | translate }}
-                </small>
+                  <small [id]="'author-help-' + i" class="form-text text-muted">
+                    {{ 'forms.educationalResource.basicDetails.author.inputs.author.helpText' | translate }}
+                  </small>
 
-                <div
-                  *ngIf="authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)"
-                  class="invalid-feedback"
-                >
-                  <div *ngIf="authors.at(i).get('author').errors.invalidCharacters">
-                    {{ 'forms.errors.textInput.characters' | translate }}
-                  </div>
+                  <div
+                    *ngIf="authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="authors.at(i).get('author').errors.invalidCharacters">
+                      {{ 'forms.errors.textInput.characters' | translate }}
+                    </div>
 
-                  <div *ngIf="authors.at(i).get('author').errors.maxlength">
-                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: authors.at(i).get('author').errors.maxlength.requiredLength } }}
+                    <div *ngIf="authors.at(i).get('author').errors.maxlength">
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: authors.at(i).get('author').errors.maxlength.requiredLength } }}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="form-group col">
-                <label [for]="'affiliate' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}</label>
+                <div class="form-group col-md">
+                  <label [for]="'affiliate' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}</label>
 
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip' | translate"
+                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+                  <ng-select
+                    [items]="organizations"
+                    [virtualScroll]="true"
+                    [addTag]="addCustomItem"
+                    bindLabel="value"
+                    [id]="'affiliate' + i"
+                    [labelForId]="'affiliate' + i"
+                    formControlName="organization"
+                  ></ng-select>
+                </div>
+              </ng-container>
+
+              <!--if organization-->
+              <ng-container *ngIf="!author.get('author')">
+                <div class="form-group col">
+                  <label [for]="'organization' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate }}</label>
+
+                  <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organization.tooltip' | translate"
+                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+                  <ng-select
+                    [items]="organizations"
+                    [virtualScroll]="true"
+                    [addTag]="addCustomItem"
+                    bindLabel="value"
+                    [id]="'organization' + i"
+                    [labelForId]="'organization' + i"
+                    formControlName="organization"
+                  ></ng-select>
+                </div>
+              </ng-container>
+
+              <div class="form-group col-12">
                 <button
                   type="button"
-                  class="btn btn-link"
-                  [tooltip]="'forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip' | translate"
-                ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-                <ng-select
-                  [items]="organizations"
-                  [virtualScroll]="true"
-                  [addTag]="addCustomItem"
-                  bindLabel="value"
-                  [id]="'affiliate' + i"
-                  [labelForId]="'affiliate' + i"
-                  formControlName="organization"
-                ></ng-select>
+                  class="btn btn-danger"
+                  (click)="removeAuthor(i)"
+                >{{ 'forms.common.delete' | translate }}</button>
               </div>
             </ng-container>
-
-            <!--if organization-->
-            <ng-container *ngIf="!author.get('author')">
-              <div class="form-group col">
-                <label [for]="'organization' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate }}</label>
-
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organization.tooltip' | translate"
-                ><img src="assets/img/icons/ic_help.svg" alt=""></button>
-
-                <ng-select
-                  [items]="organizations"
-                  [virtualScroll]="true"
-                  [addTag]="addCustomItem"
-                  bindLabel="value"
-                  [id]="'organization' + i"
-                  [labelForId]="'organization' + i"
-                  formControlName="organization"
-                ></ng-select>
-              </div>
-            </ng-container>
-
-            <div class="form-group col-12">
-              <button
-                type="button"
-                class="btn btn-danger"
-                (click)="removeAuthor(i)"
-              >{{ 'forms.common.delete' | translate }}</button>
-            </div>
-          </ng-container>
-        </div>
+          </div>
+        </fieldset>
       </ng-container>
 
       <div class="form-group">
