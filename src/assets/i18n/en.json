@@ -331,7 +331,8 @@
             "author": {
               "label": "Author",
               "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
-              "placeholder": "Surname, First Name"
+              "placeholder": "Surname, First Name",
+              "helpText": "Enter the name(s) in the form of Surname, First Name."
             },
             "affiliate": {
               "label": "Affiliation",
