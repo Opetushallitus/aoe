@@ -112,7 +112,7 @@
       </h3>
 
       <ng-container *ngFor="let author of authorsArray.controls; let i = index;">
-        <fieldset>
+        <fieldset class="border-bottom mb-2">
           <div class="form-row" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
