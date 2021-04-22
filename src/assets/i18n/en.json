@@ -316,6 +316,7 @@
       },
       "basicDetails": {
         "uploadImage": "Upload cover",
+        "thumbnailHelp": "Upload a cover to boost your learning resources appeal.",
         "image": {
           "label": "Cover photo",
           "tooltip": "Cover picture is the visual info shown on your learning resources page and views. If you do not choose a cover, an icon matching the learning resource type is presented.",
