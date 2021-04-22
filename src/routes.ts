@@ -102,12 +102,14 @@ const router: Router = Router();
  * @typedef AccessibilityFeature
  * @property {string} key
  * @property {string} value
+ * @property {string} description
  */
 
 /**
  * @typedef AccessibilityHazard
  * @property {string} key
  * @property {string} value
+ * @property {string} description
  */
 
 /**

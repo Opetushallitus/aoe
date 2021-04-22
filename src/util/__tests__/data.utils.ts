@@ -1,4 +1,4 @@
-import { getUnique, sortByTargetName, sortByValue } from "../data.utils";
+import { getUnique, sortByOrder, sortByTargetName, sortByValue } from "../data.utils";
 
 describe("Test data utils", () => {
   it("should return unique array based on given property", () => {
@@ -65,5 +65,21 @@ describe("Test data utils", () => {
     ];
 
     expect(arrayToBeSorted.sort(sortByTargetName)).toEqual(expectedSortedArray);
+  });
+
+  it("should return sorted object array by order property", () => {
+    const input = [
+      { order: 5 },
+      { order: 1 },
+      { order: 3 },
+    ];
+
+    const expected = [
+      { order: 1 },
+      { order: 3 },
+      { order: 5 },
+    ];
+
+    expect(input.sort(sortByOrder)).toEqual(expected);
   });
 });

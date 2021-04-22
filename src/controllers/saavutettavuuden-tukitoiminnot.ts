@@ -1,7 +1,7 @@
 import { getDataFromApi } from "../util/api.utils";
 import { getAsync, setAsync } from "../util/redis.utils";
-import { sortByValue } from "../util/data.utils";
-import { KeyValue } from "../models/data";
+import { sortByOrder } from "../util/data.utils";
+import { Accessibility } from "../models/data";
 
 const endpoint = "edtech/codeschemes/AccessibilityFeatures";
 const rediskey = "saavutettavuudentukitoiminnot";
@@ -21,30 +21,66 @@ export async function setSaavutettavuudenTukitoiminnot(): Promise<any> {
       params
     );
 
-    const finnish: KeyValue<string, string>[] = [];
-    const english: KeyValue<string, string>[] = [];
-    const swedish: KeyValue<string, string>[] = [];
+    const finnish: Accessibility[] = [];
+    const english: Accessibility[] = [];
+    const swedish: Accessibility[] = [];
 
     results.results.forEach((result: any) => {
       finnish.push({
         key: result.id,
-        value: result.prefLabel.fi !== undefined ? result.prefLabel.fi : (result.prefLabel.sv !== undefined ? result.prefLabel.sv : result.prefLabel.en),
+        value: result.prefLabel.fi !== undefined
+          ? result.prefLabel.fi
+          : (result.prefLabel.sv !== undefined
+            ? result.prefLabel.sv
+            : result.prefLabel.en
+          ),
+        description: result.description?.fi !== undefined
+          ? result.description?.fi
+          : (result.description?.sv !== undefined
+            ? result.description?.sv
+            : result.description?.en
+          ),
+        order: result.order,
       });
 
       english.push({
         key: result.id,
-        value: result.prefLabel.en !== undefined ? result.prefLabel.en : (result.prefLabel.fi !== undefined ? result.prefLabel.fi : result.prefLabel.sv),
+        value: result.prefLabel.en !== undefined
+          ? result.prefLabel.en
+          : (result.prefLabel.fi !== undefined
+            ? result.prefLabel.fi
+            : result.prefLabel.sv
+          ),
+        description: result.description?.fi !== undefined
+          ? result.description?.fi
+          : (result.description?.sv !== undefined
+            ? result.description?.sv
+            : result.description?.en
+          ),
+        order: result.order,
       });
 
       swedish.push({
         key: result.id,
-        value: result.prefLabel.sv !== undefined ? result.prefLabel.sv : (result.prefLabel.fi !== undefined ? result.prefLabel.fi : result.prefLabel.en),
+        value: result.prefLabel.sv !== undefined
+          ? result.prefLabel.sv
+          : (result.prefLabel.fi !== undefined
+            ? result.prefLabel.fi
+            : result.prefLabel.en
+          ),
+        description: result.description?.sv !== undefined
+          ? result.description?.sv
+          : (result.description?.fi !== undefined
+            ? result.description?.fi
+            : result.description?.en
+          ),
+        order: result.order,
       });
     });
 
-    finnish.sort(sortByValue);
-    english.sort(sortByValue);
-    swedish.sort(sortByValue);
+    finnish.sort(sortByOrder);
+    english.sort(sortByOrder);
+    swedish.sort(sortByOrder);
 
     await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
     await setAsync(`${rediskey}.en`, JSON.stringify(english));

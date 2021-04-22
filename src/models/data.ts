@@ -20,3 +20,10 @@ export interface License {
   link: string;
   description: string;
 }
+
+export interface Accessibility {
+  key: string;
+  value: string;
+  description: string;
+  order: number;
+}
