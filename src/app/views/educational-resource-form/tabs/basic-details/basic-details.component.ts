@@ -143,7 +143,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       }
 
       if (this.savedData.learningResourceTypes) {
-        this.form.get('learningResourceTypes').setValue(this.savedData.learningResourceTypes);
+        this.learningResourceTypesCtrl.setValue(this.savedData.learningResourceTypes);
       }
 
       if (this.savedData.educationalRoles) {
@@ -214,6 +214,10 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   get authors(): FormArray {
     return this.form.get('authors') as FormArray;
+  }
+
+  get learningResourceTypesCtrl(): FormControl {
+    return this.form.get('learningResourceTypes') as FormControl;
   }
 
   get educationalRolesCtrl(): FormControl {
