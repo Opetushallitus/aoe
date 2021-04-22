@@ -64,7 +64,8 @@
     "reviews": "User reviews",
     "collections": "Collections",
     "userDetails": "My Account",
-    "archived": "Archived learning resource"
+    "archived": "Archived learning resource",
+    "accessibilityDescriptions": "Accessibility"
   },
   "home": {
     "search": {
@@ -547,7 +548,7 @@
           "inputs": {
             "features": {
               "label": "Accessibility Feature",
-              "tooltip": "Here you can choose wether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
+              "tooltip": "Here you can choose whether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
             },
             "hazards": {
               "label": "Accessibility Hazard",
@@ -1090,5 +1091,12 @@
         "message": "Uploading new learning resources has been blocked until the current error situation is resolved."
       }
     }
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "features": "Accessibility features",
+    "hazards": "Accessibility hazards",
+    "closeAll": "Close all",
+    "openAll": "Show all"
   }
 }

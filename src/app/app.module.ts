@@ -112,6 +112,7 @@ import { SocialMetadataModalComponent } from '@components/social-metadata-modal/
 import { AdminGuard } from './guards/admin.guard';
 import { DisableFormsGuard } from './guards/disable-forms.guard';
 import { ArchivedMaterialComponent } from '@components/archived-material/archived-material.component';
+import { AccessibilityViewComponent } from '@views/accessibility-view/accessibility-view.component';
 
 @NgModule({
   imports: [
@@ -211,6 +212,7 @@ import { ArchivedMaterialComponent } from '@components/archived-material/archive
     UserDetailsViewComponent,
     SocialMetadataModalComponent,
     ArchivedMaterialComponent,
+    AccessibilityViewComponent,
   ],
   providers: [
     {

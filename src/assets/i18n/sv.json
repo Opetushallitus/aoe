@@ -64,7 +64,8 @@
     "reviews": "Recensioner",
     "collections": "Samlingar",
     "userDetails": "Mina uppgifter",
-    "archived": "Arkiverad lärresurs"
+    "archived": "Arkiverad lärresurs",
+    "accessibilityDescriptions": "Tillgänglighet"
   },
   "home": {
     "search": {
@@ -1090,5 +1091,12 @@
         "message": "Publicering av nya lärresurser har blockerats tills tjänstens problemet har lösts."
       }
     }
+  },
+  "accessibility": {
+    "title": "Tillgänglighet",
+    "features": "Tillgänglighetsegenskaper",
+    "hazards": "Hinder för tillgänglighet",
+    "closeAll": "Stäng alla",
+    "openAll": "Visa alla"
   }
 }
