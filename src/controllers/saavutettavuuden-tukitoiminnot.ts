@@ -51,11 +51,11 @@ export async function setSaavutettavuudenTukitoiminnot(): Promise<any> {
             ? result.prefLabel.fi
             : result.prefLabel.sv
           ),
-        description: result.description?.fi !== undefined
-          ? result.description?.fi
-          : (result.description?.sv !== undefined
-            ? result.description?.sv
-            : result.description?.en
+        description: result.description?.en !== undefined
+          ? result.description?.en
+          : (result.description?.fi !== undefined
+            ? result.description?.fi
+            : result.description?.sv
           ),
         order: result.order,
       });

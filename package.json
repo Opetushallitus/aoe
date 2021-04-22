@@ -1,6 +1,6 @@
 {
   "name": "koodisto-service",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "main": "src/server.ts",
   "repository": "https://github.com/CSCfi/koodisto-service.git",
   "author": "Kalle Lehtonen <kalle.lehtonen@digia.com>",
