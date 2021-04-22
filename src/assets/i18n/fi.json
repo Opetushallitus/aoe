@@ -338,7 +338,8 @@
             "author": {
               "label": "Tekijän nimi",
               "tooltip": "Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi.",
-              "placeholder": "Sukunimi, Etunimi"
+              "placeholder": "Sukunimi, Etunimi",
+              "helpText": "Syötä tekijöiden nimet muodossa Sukunimi, Etunimi."
             },
             "affiliate": {
               "label": "Organisaatio",
@@ -358,7 +359,8 @@
         },
         "keywords": {
           "label": "Asiasanat",
-          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu.",
+          "helpText": "Kun aloitat kirjoittaa asiasanaasi, saat ehdotuksia jo kirjoittamasi perusteella. Käytäthän näitä aina kun mahdollista! Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
         },
         "learningResourceTypes": {
           "label": "Oppimateriaalin tyyppi",
