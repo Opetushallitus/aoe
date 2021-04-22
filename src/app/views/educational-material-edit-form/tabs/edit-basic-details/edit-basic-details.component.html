@@ -4,9 +4,15 @@
       <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail">
 
       <ng-template #noThumbnail>
-        <div class="material-image-upload d-flex flex-column justify-content-center mb-2 border">
-          <img src="assets/img/icons/ic_camera.svg">
+        <div *ngIf="learningResourceTypesCtrl.value?.length > 0; else defaultThumbnail">
+          <img src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png" class="img-fluid mb-2 border">
         </div>
+
+        <ng-template #defaultThumbnail>
+          <div class="material-image-upload d-flex justify-content-center mb-2 border mx-auto">
+            <img src="assets/img/icons/ic_camera.svg">
+          </div>
+        </ng-template>
       </ng-template>
 
       <button
