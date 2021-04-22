@@ -364,11 +364,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
-      this.materialDetailsArray.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
-      });
+      this.materialDetailsArray.at(i).get(`displayName.${this.lang}`).setValue(file.name.replace(/\.[^/.]+$/, ''));
 
       this.form.markAsDirty();
     }
