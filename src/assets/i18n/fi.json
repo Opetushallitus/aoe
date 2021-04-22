@@ -64,7 +64,8 @@
     "reviews": "Käyttäjien arviot",
     "collections": "Kokoelmat",
     "userDetails": "Omat tiedot",
-    "archived": "Arkistoitu oppimateriaali"
+    "archived": "Arkistoitu oppimateriaali",
+    "accessibilityDescriptions": "Saavutettavuus"
   },
   "home": {
     "search": {
@@ -1090,5 +1091,12 @@
         "message": "Uusien oppimateriaalien ja tiedostojen lisääminen on estetty palvelussa olevan virhetilanteen selvittämisen ajaksi."
       }
     }
+  },
+  "accessibility": {
+    "title": "Saavutettavuus",
+    "features": "Saavutettavuuden ominaisuudet",
+    "hazards": "Saavutettavuuden esteet",
+    "closeAll": "Sulje kaikki",
+    "openAll": "Avaa kaikki"
   }
 }
