@@ -223,11 +223,7 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.files.at(i).get('file').setValue(file);
 
       // remove extension from filename
-      this.files.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
-      });
+      this.files.at(i).get(`displayName.${this.lang}`).setValue(file.name.replace(/\.[^/.]+$/, ''));
     }
   }
 
