@@ -1,0 +1,57 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1>{{ 'accessibility.title' | translate }}</h1>
+      </div>
+
+      <div class="col-auto">
+        <button type="button" class="btn btn-blue" (click)="isOpen = !isOpen">
+          <ng-container *ngIf="isOpen; else openAll">
+            {{ 'accessibility.closeAll' | translate }}
+          </ng-container>
+
+          <ng-template #openAll>
+            {{ 'accessibility.openAll' | translate }}
+          </ng-template>
+        </button>
+      </div>
+    </div>
+
+    <h2>{{ 'accessibility.features' | translate }}</h2>
+
+    <accordion>
+      <accordion-group *ngFor="let feature of accessibilityFeatures" [isOpen]="isOpen" #features>
+        <div accordion-heading class="row">
+          <div class="col">
+            {{ feature.value }}
+          </div>
+
+          <div class="col-auto">
+            <i class="fa" aria-hidden="true" [ngClass]="features.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          </div>
+        </div>
+
+        <p>{{ feature.description || '-' }}</p>
+      </accordion-group>
+    </accordion>
+
+    <h2>{{ 'accessibility.hazards' | translate }}</h2>
+
+    <accordion>
+      <accordion-group *ngFor="let hazard of accessibilityHazards" [isOpen]="isOpen" #hazards>
+        <div accordion-heading class="row">
+          <div class="col">
+            {{ hazard.value }}
+          </div>
+
+          <div class="col-auto">
+            <i class="fa" aria-hidden="true" [ngClass]="hazards.isOpen ? 'fa-chevron-down' : 'fa-chevron-up'"></i>
+          </div>
+        </div>
+
+        <p>{{ hazard.description || '-' }}</p>
+      </accordion-group>
+    </accordion>
+  </div>
+</div>
