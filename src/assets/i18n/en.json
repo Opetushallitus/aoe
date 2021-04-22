@@ -352,7 +352,8 @@
         },
         "keywords": {
           "label": "About",
-          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter."
+          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter.",
+          "helpText": "In the about-field, you get suggestions based on what you are writing. Please use these suggestions when possible! If suitable words are not on the list, you can add your own by writing the word and clicking enter."
         },
         "learningResourceTypes": {
           "label": "Learning Resource Type",
