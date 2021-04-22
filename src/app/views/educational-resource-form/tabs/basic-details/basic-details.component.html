@@ -243,7 +243,12 @@
           labelForId="keywords"
           formControlName="keywords"
           (paste)="false"
+          aria-describedby="keywords-help"
         ></ng-select>
+
+        <small id="keywords-help" class="form-text text-muted">
+          {{ 'forms.educationalResource.basicDetails.keywords.helpText' | translate }}
+        </small>
       </div>
 
       <div class="form-row">
