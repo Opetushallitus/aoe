@@ -12,3 +12,7 @@ export const sortByValue = (a: any, b: any) => {
 export const sortByTargetName = (a: any, b: any) => {
   return a.targetName.localeCompare(b.targetName, undefined, { numeric: true, sensitivity: "accent" });
 };
+
+export const sortByOrder = (a: any, b: any) => {
+  return a.order - b.order;
+};
