@@ -749,9 +749,14 @@ h2 {
 // Educational resource form
 .material-image-upload {
   background-color: $comment-odd-bg-color;
-  min-height: 200px;
+  max-width: 154px;
+  min-height: 230px;
   padding: .5rem;
   text-align: center;
+}
+
+.thumbnail-help {
+  line-height: 1.2;
 }
 
 // Tabs
