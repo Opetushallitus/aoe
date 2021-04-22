@@ -318,7 +318,7 @@
         "uploadImage": "Ladda upp omslaget",
         "image": {
           "label": "Omslaget",
-          "tooltip": "",
+          "tooltip": "Omslagsbild är den visuella informationen som visas på din lärresurs vyer. Om du inte väljer ett omslag visas en ikon som matchar typ av läromaterial.",
           "modal": {
             "title": "Add cover photo",
             "preview": "Förhandsvisning"

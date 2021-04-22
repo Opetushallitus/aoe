@@ -318,7 +318,7 @@
         "uploadImage": "Lataa kansikuva",
         "image": {
           "label": "Kansikuva",
-          "tooltip": "",
+          "tooltip": "Kansikuva näkyy oppimateriaalien tietojen yhteydessä. Se voi olla esimerkiksi oppimateriaalisi kansilehti. Mikäli et valitse omaa kansikuvaa, näkyy oppimateriaalin tiedoissa sen tyyppiä vastaava kuvake.",
           "modal": {
             "title": "Lisää kansikuva",
             "preview": "Esikatselu"
