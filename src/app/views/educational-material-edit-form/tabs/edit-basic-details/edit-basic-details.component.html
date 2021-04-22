@@ -67,6 +67,7 @@
               [imageChangedEvent]="imageChangedEvent"
               outputType="both"
               [maintainAspectRatio]="true"
+              [containWithinAspectRatio]="true"
               [aspectRatio]="152 / 228"
               [resizeToWidth]="152"
               [cropperMinWidth]="152"
@@ -111,12 +112,12 @@
       </h3>
 
       <ng-container *ngFor="let author of authorsArray.controls; let i = index;">
-        <fieldset>
+        <fieldset class="border-bottom mb-2">
           <div class="form-row" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
               <ng-container *ngIf="author.get('author')">
-                <div class="form-group col">
+                <div class="form-group col-md">
                   <label for="{{ 'author' + i }}">
                     {{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*
                   </label>
@@ -134,7 +135,12 @@
                     [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                     formControlName="author"
                     [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted) }"
+                    [attr.aria-describedby]="'author-help-' + i"
                   >
+
+                  <small [id]="'author-help-' + i" class="form-text text-muted">
+                    {{ 'forms.educationalResource.basicDetails.author.inputs.author.helpText' | translate }}
+                  </small>
 
                   <div
                     *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)"
@@ -150,7 +156,7 @@
                   </div>
                 </div>
 
-                <div class="form-group col">
+                <div class="form-group col-md">
                   <label [for]="'affiliate' + i">
                     {{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}
                   </label>
@@ -198,7 +204,7 @@
                 </div>
               </ng-container>
 
-              <div class="form-group align-self-end col-auto">
+              <div class="form-group col-12">
                 <button
                   type="button"
                   class="btn btn-danger"
@@ -249,11 +255,16 @@
           labelForId="keywords"
           formControlName="keywords"
           (paste)="false"
+          aria-describedby="keywords-help"
         ></ng-select>
+
+        <small id="keywords-help" class="form-text text-muted">
+          {{ 'forms.educationalResource.basicDetails.keywords.helpText' | translate }}
+        </small>
       </div><!--/keywords-->
 
       <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
+        <div class="form-group col-md-6 col-lg-4">
           <label for="learningResourceTypes">
             {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}*
           </label>
@@ -275,7 +286,7 @@
           ></ng-select>
         </div><!--/learning resource types-->
 
-        <div class="form-group col-sm-6 col-md-4">
+        <div class="form-group col-md-6 col-lg-4">
           <label for="educationalRoles">
             {{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}
           </label>
@@ -297,7 +308,7 @@
           ></ng-select>
         </div><!--/educational roles-->
 
-        <div class="form-group col-sm-6 col-md-4">
+        <div class="form-group col-md-6 col-lg-4">
           <label for="educationalUses">
             {{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}
           </label>

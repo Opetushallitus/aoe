@@ -338,7 +338,8 @@
             "author": {
               "label": "Upphovsperson",
               "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
-              "placeholder": "Efternamn, Förnamn"
+              "placeholder": "Efternamn, Förnamn",
+              "helpText": "Mata in upphovspersonernas namn i formatet Efternamn, Förnamn."
             },
             "affiliate": {
               "label": "Organisation",
@@ -358,7 +359,8 @@
         },
         "keywords": {
           "label": "Nyckelord",
-          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
+          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter.",
+          "helpText": "När du börjar skriva ditt nyckelord får du förslag baserat på det du skriver. Använd dessa när det är möjligt! Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
         },
         "learningResourceTypes": {
           "label": "Typ av läromaterial",
