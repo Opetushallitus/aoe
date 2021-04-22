@@ -318,7 +318,7 @@
         "uploadImage": "Upload cover",
         "image": {
           "label": "Cover photo",
-          "tooltip": "",
+          "tooltip": "Cover picture is the visual info shown on your learning resources page and views. If you do not choose a cover, an icon matching the learning resource type is presented.",
           "modal": {
             "title": "Add cover photo",
             "preview": "Preview"
