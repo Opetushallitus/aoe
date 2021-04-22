@@ -1,19 +1,27 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="material">
   <div class="row">
     <div class="col-md-2 text-center">
-      <img [src]="thumbnailSrc" class="img-fluid mb-2" *ngIf="thumbnailSrc; else noThumbnail">
+      <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail">
 
       <ng-template #noThumbnail>
-        <div class="material-image-upload d-flex flex-column justify-content-center mb-2">
-          <img src="assets/img/icons/ic_camera.svg">
+        <div *ngIf="learningResourceTypesCtrl.value?.length > 0; else defaultThumbnail">
+          <img src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png" class="img-fluid mb-2 border">
         </div>
+
+        <ng-template #defaultThumbnail>
+          <div class="material-image-upload d-flex justify-content-center mb-2 border mx-auto">
+            <img src="assets/img/icons/ic_camera.svg">
+          </div>
+        </ng-template>
       </ng-template>
 
       <button
         type="button"
-        class="btn btn-gray"
+        class="btn btn-blue mb-2"
         (click)="openThumbnailModal(thumbnail)"
       >{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</button>
+
+      <p class="thumbnail-help"><small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small></p>
 
       <ng-template #thumbnail>
         <div class="modal-header">
@@ -34,6 +42,12 @@
             <label for="image">
               {{ 'forms.educationalResource.basicDetails.image.label' | translate }}
             </label>
+
+            <button
+              type="button"
+              class="btn btn-link"
+              [tooltip]="'forms.educationalResource.basicDetails.image.tooltip' | translate"
+            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
 
             <div class="custom-file">
               <input
