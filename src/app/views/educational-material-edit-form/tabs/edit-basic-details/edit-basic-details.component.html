@@ -135,7 +135,12 @@
                     [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                     formControlName="author"
                     [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted) }"
+                    [attr.aria-describedby]="'author-help-' + i"
                   >
+
+                  <small [id]="'author-help-' + i" class="form-text text-muted">
+                    {{ 'forms.educationalResource.basicDetails.author.inputs.author.helpText' | translate }}
+                  </small>
 
                   <div
                     *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)"
@@ -199,7 +204,7 @@
                 </div>
               </ng-container>
 
-              <div class="form-group align-self-end col-auto">
+              <div class="form-group col-12">
                 <button
                   type="button"
                   class="btn btn-danger"
