@@ -1,19 +1,21 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-md-2 text-center">
-      <img [src]="thumbnailSrc" class="img-fluid mb-2" *ngIf="thumbnailSrc; else noThumbnail">
+      <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail">
 
       <ng-template #noThumbnail>
-        <div class="material-image-upload d-flex flex-column justify-content-center mb-2">
+        <div class="material-image-upload d-flex flex-column justify-content-center mb-2 border">
           <img src="assets/img/icons/ic_camera.svg">
         </div>
       </ng-template>
 
       <button
         type="button"
-        class="btn btn-blue"
+        class="btn btn-blue mb-2"
         (click)="openModal(thumbnail)"
       >{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</button>
+
+      <p class="thumbnail-help"><small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small></p>
 
       <ng-template #thumbnail>
         <div class="modal-header">

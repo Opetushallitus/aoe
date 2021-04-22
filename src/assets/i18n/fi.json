@@ -316,6 +316,7 @@
       },
       "basicDetails": {
         "uploadImage": "Lataa kansikuva",
+        "thumbnailHelp": "Valitse kansikuva lisätäksesi oppimateriaalin houkuttelevuutta.",
         "image": {
           "label": "Kansikuva",
           "tooltip": "Kansikuva näkyy oppimateriaalien tietojen yhteydessä. Se voi olla esimerkiksi oppimateriaalisi kansilehti. Mikäli et valitse omaa kansikuvaa, näkyy oppimateriaalin tiedoissa sen tyyppiä vastaava kuvake.",

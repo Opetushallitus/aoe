@@ -753,6 +753,10 @@ h2 {
   text-align: center;
 }
 
+.thumbnail-help {
+  line-height: 1.2;
+}
+
 // Tabs
 .material-form-tabs {
   @include font-size(18);
