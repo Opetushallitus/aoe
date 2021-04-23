@@ -317,7 +317,7 @@
       },
       "basicDetails": {
         "uploadImage": "Upload cover",
-        "thumbnailHelp": "Upload a cover to boost your learning resources appeal.",
+        "thumbnailHelp": "Upload a cover to boost your learning resource's appeal.",
         "image": {
           "label": "Cover photo",
           "tooltip": "Cover picture is the visual info shown on your learning resources page and views. If you do not choose a cover, an icon matching the learning resource type is presented.",
@@ -333,7 +333,7 @@
               "label": "Author",
               "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
               "placeholder": "Surname, First Name",
-              "helpText": "Enter the name(s) in the form of Surname, First Name."
+              "helpText": "Enter the name in the form of Surname, First Name."
             },
             "affiliate": {
               "label": "Affiliation",
