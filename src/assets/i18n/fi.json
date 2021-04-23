@@ -333,7 +333,7 @@
               "label": "Tekijän nimi",
               "tooltip": "Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi.",
               "placeholder": "Sukunimi, Etunimi",
-              "helpText": "Syötä tekijöiden nimet muodossa Sukunimi, Etunimi."
+              "helpText": "Syötä tekijän nimi muodossa Sukunimi, Etunimi."
             },
             "affiliate": {
               "label": "Organisaatio",
