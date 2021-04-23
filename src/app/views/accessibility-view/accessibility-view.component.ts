@@ -1,23 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { Component, OnInit } from '@angular/core';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { Title } from '@angular/platform-browser';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
+import { AccessibilityTable } from '@models/mocks/accessibility-table';
+import { Accessibility } from '../../mocks/accessibility.mock';
 
 @Component({
   selector: 'app-accessibility-view',
   templateUrl: './accessibility-view.component.html',
   styleUrls: ['./accessibility-view.component.scss']
 })
-export class AccessibilityViewComponent implements OnInit, OnDestroy {
-  accessibilityFeatureSubscription: Subscription;
-  accessibilityFeatures: AccessibilityFeature[];
-  accessibilityHazardSubscription: Subscription;
-  accessibilityHazards: AccessibilityHazard[];
-  isOpen = false;
+export class AccessibilityViewComponent implements OnInit {
+  lang: string = this.translate.currentLang;
+  accessibilityTable: AccessibilityTable = Accessibility;
 
   constructor(
     private koodistoSvc: KoodistoProxyService,
@@ -28,30 +24,11 @@ export class AccessibilityViewComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setTitle();
 
-    this.translate.onLangChange.subscribe(() => {
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+
       this.setTitle();
-
-      this.koodistoSvc.updateAccessibilityFeatures();
-      this.koodistoSvc.updateAccessibilityHazards();
     });
-
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$
-      .subscribe((features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      });
-    this.koodistoSvc.updateAccessibilityFeatures();
-
-    // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$
-      .subscribe((hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      });
-    this.koodistoSvc.updateAccessibilityHazards();
-  }
-
-  ngOnDestroy(): void {
-    this.accessibilityFeatureSubscription.unsubscribe();
-    this.accessibilityHazardSubscription.unsubscribe();
   }
 
   setTitle(): void {
