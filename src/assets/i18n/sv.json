@@ -378,6 +378,13 @@
           "modal": {
             "title": "Språkversioner: Beskrivning",
             "subtitle": "Tillsätt en språversion"
+          },
+          "example": {
+            "title": "Exempelbeskrivning",
+            "subtitleFull": "Exempel på beskrivning på lärresurssidan",
+            "subtitleTrunc": "Exempel på hur beskrivningen visas på förstasidan",
+            "description": "Lär dig grunderna i att publicera läromedel, väga dem och organisera intressanta lärresurser till meningsfulla listor och åsikter. Med den här guiden hittar du svar på frågor som: vad är metadata och varför man gör det, hur man lyfter fram OER gjord av andra och hur man samlar in dem för eget bruk. Denna lärresurs är avsedd för användarna av Biblioteket för öppna lärresurser, men den är också lämplig för organisationer att sporra och stödja användningen av biblioteket. Genom att använda inbäddningslänken eller ladda ner lärresursen kan du bädda in den till till exempel din organisations webbsida. Denna lärresurs består av en video som visar uppladdningsprocessen och av dokumentation som steg för steg beskriver med bilder och text hur man använder verktygen för att ladda upp, redigera, granska och samla lärresurser.",
+            "button": "Öppna exemplet"
           }
         }
       },

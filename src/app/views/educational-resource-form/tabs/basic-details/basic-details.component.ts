@@ -42,6 +42,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   addCustomItem = addCustomItem;
 
   modalRef: BsModalRef;
+  exampleDescriptionModalRef: BsModalRef;
 
   form: FormGroup;
 
@@ -209,6 +210,17 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(
       template,
       Object.assign({}, { class: 'modal-dialog-centered' })
+    );
+  }
+
+  /**
+   * Shows modal for example description.
+   * @param {TemplateRef<any>} template
+   */
+  openExampleDescriptionModal(template: TemplateRef<any>): void {
+    this.exampleDescriptionModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
     );
   }
 
