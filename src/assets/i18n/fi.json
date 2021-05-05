@@ -385,6 +385,13 @@
           "modal": {
             "title": "Kieliversiot: Kuvaus",
             "subtitle": "Kieliversioiden lisääminen"
+          },
+          "example": {
+            "title": "Esimerkkikuvaus",
+            "subtitleFull": "Kuvaus oppimateriaalin sivulla",
+            "subtitleTrunc": "Kuvauksen näkyminen etusivulla",
+            "description": "Opi perusteet oppimateriaalien julkaisemisessa, niiden arvioinnissa ja itseä kiinnostavien oppimateriaalien organisoimisessa Avointen oppimateriaalien kirjastossa. Tämän oppaan avulla löydät vastauksia esimerkiksi seuraaviin asioihin: Mitä tarkoittaa kuvailu ja miksi nähdä siihen vaivaa? Voiko toisten loistavia oppimateriaaleja nostaa esille tai kerätä itselle muistiin? Oppimateriaali on tarkoitettu kirjaston käyttäjille. Se soveltuu myös organisaation sisäisen ohjeistuksen tueksi kun halutaan tukea ja kannustaa kirjaston käyttöön: upota-toiminnon avulla tai lataamalla voit upottaa ohjeistuksen myös esimerkiksi oman oppilaitoksesi sivuille. Oppimateriaali koostuu julkaisua demoavasta ohjevideosta sekä dokumenteista, jossa käydään askel askeleelta läpi kuvien ja tekstin avulla julkaisu-, muokkaus-, arviointi- ja kokoelma-työkalujen toiminta.",
+            "button": "Avaa esimerkki"
           }
         }
       },
