@@ -51,7 +51,7 @@ services:
 #      - resolver-network
 
 networks:
-  provider-network:
+  network-provider-prod:
     driver: bridge
 #  resolver-network:
 #    driver: bridge
