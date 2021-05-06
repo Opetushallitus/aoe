@@ -3,7 +3,7 @@ services:
   provider-rest:
     build:
       context: ./provider-rest
-      dockerfile: Dockerfile
+      dockerfile: dev.Dockerfile
     image: provider-rest:latest
     container_name: provider-rest
     restart: always
