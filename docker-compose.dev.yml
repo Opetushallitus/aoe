@@ -4,7 +4,7 @@ services:
     build:
       context: ./provider-rest
       dockerfile: dev.Dockerfile
-    image: provider-rest:latest
+    image: provider-rest-dev:latest
     container_name: provider-rest-dev
     restart: always
     ports:
