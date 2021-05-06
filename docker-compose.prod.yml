@@ -1,18 +1,18 @@
 version: '3'
 services:
-  provider-rest:
+  provider-rest-prod:
     build:
       context: ./provider-rest
       dockerfile: prod.Dockerfile
     image: provider-rest:latest
-    container_name: provider-rest
+    container_name: provider-rest-prod
     restart: always
     ports:
       - 8001:8001
     environment:
       SPRING_PROFILES_ACTIVE: 'prod'
     networks:
-      - provider-network
+      - network-provider-prod
 
 #  TEMPORARILY DISABLED SERVICES
 #

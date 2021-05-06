@@ -1,11 +1,11 @@
 version: '3'
 services:
-  provider-rest:
+  provider-rest-dev:
     build:
       context: ./provider-rest
       dockerfile: dev.Dockerfile
     image: provider-rest:latest
-    container_name: provider-rest
+    container_name: provider-rest-dev
     restart: always
     ports:
       - 8002:8002
