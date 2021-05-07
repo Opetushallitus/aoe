@@ -359,7 +359,7 @@
 
             <button
               type="button"
-              class="btn btn-gray"
+              class="btn btn-outline-gray"
               (click)="openExampleDescriptionModal(exampleDescription)"
             >{{ 'forms.educationalResource.basicDetails.description.example.button' | translate }}</button>
           </div>
@@ -449,17 +449,20 @@
           </div>
 
           <div class="modal-body">
-            <h4>
-              {{ 'forms.educationalResource.basicDetails.description.example.subtitleFull' | translate }}
-            </h4>
-
             <p>{{ 'forms.educationalResource.basicDetails.description.example.description' | translate }}</p>
+
+            <p class="font-italic">
+              {{ 'forms.educationalResource.basicDetails.description.example.details' | translate }}
+              <a href="https://aoe.fi/#/materiaali/606">{{ 'forms.educationalResource.basicDetails.description.example.detailsLink' | translate }}</a>.
+            </p>
 
             <h4>
               {{ 'forms.educationalResource.basicDetails.description.example.subtitleTrunc' | translate }}
             </h4>
 
-            <p>{{ 'forms.educationalResource.basicDetails.description.example.description' | translate | truncate:[75] }}</p>
+            <p>{{ 'forms.educationalResource.basicDetails.description.example.detailsTrunc' | translate }}</p>
+
+            <img src="assets/img/description-example-card.png" alt="example description card" class="img-fluid border" />
           </div>
 
           <div class="modal-footer">
