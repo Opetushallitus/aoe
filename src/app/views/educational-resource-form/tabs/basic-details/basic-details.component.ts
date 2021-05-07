@@ -42,6 +42,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   addCustomItem = addCustomItem;
 
   modalRef: BsModalRef;
+  exampleDescriptionModalRef: BsModalRef;
 
   form: FormGroup;
 
@@ -143,7 +144,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       }
 
       if (this.savedData.learningResourceTypes) {
-        this.form.get('learningResourceTypes').setValue(this.savedData.learningResourceTypes);
+        this.learningResourceTypesCtrl.setValue(this.savedData.learningResourceTypes);
       }
 
       if (this.savedData.educationalRoles) {
@@ -212,8 +213,23 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Shows modal for example description.
+   * @param {TemplateRef<any>} template
+   */
+  openExampleDescriptionModal(template: TemplateRef<any>): void {
+    this.exampleDescriptionModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
+    );
+  }
+
   get authors(): FormArray {
     return this.form.get('authors') as FormArray;
+  }
+
+  get learningResourceTypesCtrl(): FormControl {
+    return this.form.get('learningResourceTypes') as FormControl;
   }
 
   get educationalRolesCtrl(): FormControl {

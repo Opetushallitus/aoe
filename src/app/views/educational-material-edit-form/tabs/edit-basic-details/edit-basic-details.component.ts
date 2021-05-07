@@ -32,6 +32,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   otherLangs: string[];
   translationsModalRef: BsModalRef;
   thumbnailModalRef: BsModalRef;
+  exampleDescriptionModalRef: BsModalRef;
   submitted = false;
   addCustomItem = addCustomItem;
   organizationSubscription: Subscription;
@@ -313,6 +314,17 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   removeAuthor(i: number): void {
     this.authorsArray.removeAt(i);
+  }
+
+  /**
+   * Shows modal for example description.
+   * @param {TemplateRef<any>} template
+   */
+  openExampleDescriptionModal(template: TemplateRef<any>): void {
+    this.exampleDescriptionModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
+    );
   }
 
   /**

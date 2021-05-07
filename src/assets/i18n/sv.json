@@ -64,7 +64,8 @@
     "reviews": "Recensioner",
     "collections": "Samlingar",
     "userDetails": "Mina uppgifter",
-    "archived": "Arkiverad lärresurs"
+    "archived": "Arkiverad lärresurs",
+    "accessibilityDescriptions": "Tillgänglighet"
   },
   "home": {
     "search": {
@@ -316,9 +317,10 @@
       },
       "basicDetails": {
         "uploadImage": "Ladda upp omslaget",
+        "thumbnailHelp": "Ladda upp ett omslag för att göra din lärresurs mer markant.",
         "image": {
           "label": "Omslaget",
-          "tooltip": "",
+          "tooltip": "Omslagsbild är den visuella informationen som visas på din lärresurs vyer. Om du inte väljer ett omslag visas en ikon som matchar typ av läromaterial.",
           "modal": {
             "title": "Add cover photo",
             "preview": "Förhandsvisning"
@@ -330,7 +332,8 @@
             "author": {
               "label": "Upphovsperson",
               "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
-              "placeholder": "Efternamn, Förnamn"
+              "placeholder": "Efternamn, Förnamn",
+              "helpText": "Mata in upphovspersonens namn i formatet Efternamn, Förnamn."
             },
             "affiliate": {
               "label": "Organisation",
@@ -350,7 +353,8 @@
         },
         "keywords": {
           "label": "Nyckelord",
-          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
+          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter.",
+          "helpText": "När du börjar skriva ditt nyckelord får du förslag baserat på det du skriver. Använd dessa när det är möjligt! Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
         },
         "learningResourceTypes": {
           "label": "Typ av läromaterial",
@@ -374,6 +378,15 @@
           "modal": {
             "title": "Språkversioner: Beskrivning",
             "subtitle": "Tillsätt en språversion"
+          },
+          "example": {
+            "title": "Exempelbeskrivning",
+            "subtitleTrunc": "Exempel på hur beskrivningen visas på förstasidan",
+            "description": "Lär dig grunderna i att publicera läromedel, väga dem och organisera intressanta lärresurser till meningsfulla listor och åsikter. Med den här guiden hittar du svar på frågor som: vad är metadata och varför man gör det, hur man lyfter fram OER gjord av andra och hur man samlar in dem för eget bruk. Denna lärresurs är avsedd för användarna av Biblioteket för öppna lärresurser, men den är också lämplig för organisationer att sporra och stödja användningen av biblioteket. Genom att använda inbäddningslänken eller ladda ner lärresursen kan du bädda in den till till exempel din organisations webbsida. Denna lärresurs består av en video som visar uppladdningsprocessen och av dokumentation som steg för steg beskriver med bilder och text hur man använder verktygen för att ladda upp, redigera, granska och samla lärresurser.",
+            "details": "Denna beskrivning kommer från läromedel Anvisning för Biblioteket för öppna lärresurser.",
+            "detailsLink": "Studiematerialet hittar du här",
+            "detailsTrunc": "Beskrivningen bryts i förhandsvisningen på förstasidan. Här kan du jämföra hur texten förkortas.",
+            "button": "Öppna exemplet"
           }
         }
       },
@@ -1087,5 +1100,12 @@
         "message": "Publicering av nya lärresurser har blockerats tills tjänstens problemet har lösts."
       }
     }
+  },
+  "accessibility": {
+    "title": "Tillgänglighet",
+    "features": "Tillgänglighetsegenskaper",
+    "hazards": "Hinder för tillgänglighet",
+    "closeAll": "Stäng alla",
+    "openAll": "Visa alla"
   }
 }
