@@ -11,5 +11,19 @@
 
   <app-image-preview *ngSwitchCase="'image'" [material]="material"></app-image-preview>
 
-  <em *ngSwitchDefault>{{ 'demo.educationalMaterial.preview.fileFormatNotSupported' | translate }}</em>
+  <ng-container *ngSwitchDefault>
+    <ng-container [ngSwitch]="lang">
+      <ng-container *ngSwitchDefault>
+        <em>Valittu tiedosto ei ole esikatseltavissa. Ota oppimateriaali käyttöön <a [href]="material.downloadUrl" download>lataamalla se</a>.</em>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'en'">
+        <em>The chosen file cannot be previewed. Please <a [href]="material.downloadUrl" download>download the material</a> to start using it.</em>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'sv'">
+        <em>Filen kan inte förhandsgranskas. <a [href]="material.downloadUrl" download>Ladda ner materialen</a> om du vill använda filen.</em>
+      </ng-container>
+    </ng-container>
+  </ng-container>
 </div>

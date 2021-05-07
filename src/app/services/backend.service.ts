@@ -976,6 +976,8 @@ export class BackendService {
               label: a.label,
               srclang: a.srclang,
             })),
+          downloadUrl: `${environment.backendUrl}/download/${m.filekey}`,
+          domain: m.link ? new URL(m.link).hostname.replace('www.', '') : null,
         }));
       }),
     );
