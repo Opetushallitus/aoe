@@ -388,9 +388,11 @@
           },
           "example": {
             "title": "Example description",
-            "subtitleFull": "Example description on the learning resources page",
             "subtitleTrunc": "Example on how the description is displayed on the front page",
             "description": "Learn the basics in uploading open educational resources (OER), in reviewing them and organizing interesting educational resources to meaningful lists and views in the Library of Open Educational Resources. With this guide you will find answers to questions such as what is metadata and why to do it, how to highlight OER made by others and how to collect them for your own uses. This OER is meant for the users of the Library of Open Educational Resources, but it is also suited for organizations to encourage and support the use of the library. By using the embed link or downloading the OER, you can embed it to for example your organizations web page. This OER consist of a video that shows the uploading process and of documentation that describes step-by-step with pictures and text how to use the tools for uploading, editing, reviewing and collecting OER.",
+            "details": "This description is from the learning resource Instructions for the use of Library of Open Educational Resources.",
+            "detailsLink": "You can find the learning resource here",
+            "detailsTrunc": "The description breaks in the preview seen on the front page. Here you can compare how the text is shortened.",
             "button": "Open an example"
           }
         }
