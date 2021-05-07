@@ -15,7 +15,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Title } from '@angular/platform-browser';
-import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
 import { AuthService } from '@services/auth.service';
 
@@ -364,11 +364,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
-      this.materialDetailsArray.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
-      });
+      const fileName = file.name
+        .replace(/\.[^/.]+$/, '')
+        .replace(textInputRe, '');
+
+      this.materialDetailsArray.at(i).get(`displayName.${this.lang}`).setValue(fileName);
 
       this.form.markAsDirty();
     }
