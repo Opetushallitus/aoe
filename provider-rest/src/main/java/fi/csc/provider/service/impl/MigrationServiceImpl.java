@@ -13,6 +13,8 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
 import fi.csc.provider.service.MigrationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
@@ -24,6 +26,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class MigrationServiceImpl implements MigrationService {
+
+    private Environment env;
+
+    @Autowired
+    public MigrationServiceImpl(Environment env) {
+        this.env = env;
+    }
 
     /**
      * Parent method for the metadata conversion from the AOE metadata to LRMI metadata.
@@ -52,7 +61,8 @@ public class MigrationServiceImpl implements MigrationService {
 
         // dc:id
         // Globally unique technical identifier for the educational material.
-        lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
+        // lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
+        lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
         // dc:title
         // Titles (headers) of the educational material.
