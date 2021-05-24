@@ -229,7 +229,8 @@
     },
     "errors": {
       "common": {
-        "maxLength": "{{maxLength}}"
+        "maxLength": "{{maxLength}}",
+        "translations": "Granska Språkversioner"
       },
       "textInput": {
         "characters": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"

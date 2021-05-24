@@ -331,6 +331,13 @@ h2 {
   }
 }
 
+.btn {
+  &.is-invalid {
+    border-color: $red;
+    box-shadow: 0 0 0 0.2rem rgba($red, .5);
+  }
+}
+
 // Modals
 .modal-content {
   border-radius: 0;
