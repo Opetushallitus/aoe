@@ -236,7 +236,8 @@
     },
     "errors": {
       "common": {
-        "maxLength": "Enintään {{maxLength}} merkkiä"
+        "maxLength": "Enintään {{maxLength}} merkkiä",
+        "translations": "Tarkista kieliversioiden sisältö"
       },
       "textInput": {
         "characters": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"

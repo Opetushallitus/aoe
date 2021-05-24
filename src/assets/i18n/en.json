@@ -236,7 +236,8 @@
     },
     "errors": {
       "common": {
-        "maxLength": "Maximum length is {{maxLength}} characters"
+        "maxLength": "Maximum length is {{maxLength}} characters",
+        "translations": "Please check the Translations"
       },
       "textInput": {
         "characters": "Allowed special characters: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
