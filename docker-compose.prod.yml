@@ -14,44 +14,6 @@ services:
     networks:
       - network-provider-prod
 
-#  TEMPORARILY DISABLED SERVICES
-#
-#  resolver-data:
-#    build:
-#      context: ./resolver-data
-#      dockerfile: Dockerfile
-#    image: resolver-data:latest
-#    container_name: resolver-data
-#    restart: always
-#    ports:
-#      - 8002:8002
-#    environment:
-#      SPRING_PROFILES_ACTIVE: 'prod'
-#      SPRING_DATASOURCE_URL: 'jdbc:postgresql://86.50.27.23:5433/aoe'
-#      SPRING_DATASOURCE_USERNAME: 'resolver'
-#      SPRING_DATASOURCE_PASSWORD: 'postgres'
-#    networks:
-#      - resolver-network
-#
-#  resolver-rest:
-#    build:
-#      context: ./resolver-rest
-#      dockerfile: Dockerfile
-#    image: resolver-rest:latest
-#    container_name: resolver-rest
-#    restart: always
-#    ports:
-#      - 8003:8003
-#    depends_on:
-#      - resolver-data
-#    environment:
-#      SPRING_PROFILES_ACTIVE: 'prod'
-#      AOE_RESOLVER-DATA_URL: 'http://resolver-data:8002'
-#    networks:
-#      - resolver-network
-
 networks:
   network-provider-prod:
     driver: bridge
-#  resolver-network:
-#    driver: bridge
