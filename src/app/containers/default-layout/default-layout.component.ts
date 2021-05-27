@@ -67,7 +67,7 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   showNotice = true;
-  showMaintenanceAlert = true;
+  showMaintenanceAlert = false;
 
   constructor(
     public translate: TranslateService,
