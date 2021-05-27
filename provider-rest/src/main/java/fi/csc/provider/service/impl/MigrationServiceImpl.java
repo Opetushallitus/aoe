@@ -300,7 +300,7 @@ public class MigrationServiceImpl implements MigrationService {
         // lrmi_fi:alignmentObject
         // Always append new AlignmentObjects - data collected from multiple sources.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
-            .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty())
+            .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty() && !a.getAlignmenttype().equalsIgnoreCase("teaches"))
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
                 alignmentObject.setAlignmentType(a.getAlignmenttype());
