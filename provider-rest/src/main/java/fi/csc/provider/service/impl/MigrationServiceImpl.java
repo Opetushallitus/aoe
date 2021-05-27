@@ -10,7 +10,9 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.EducationalLevel;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Teaches;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -35,9 +38,8 @@ public class MigrationServiceImpl implements MigrationService {
     }
 
     /**
-     * Parent method for the metadata conversion from the AOE metadata to LRMI metadata.
-     * Basic information provided in DublinCore metadata format.
-     * Descriptive information provided in LRMI metadata format.
+     * Parent method for the metadata conversion from the AOE metadata to LRMI metadata. Basic information provided in
+     * DublinCore metadata format. Descriptive information provided in LRMI metadata format.
      *
      * @param amd AOE metadata source
      * @return Resulting LRMI metadata
@@ -229,19 +231,6 @@ public class MigrationServiceImpl implements MigrationService {
             .map(AccessibilityHazard::getValue)
             .toArray(String[]::new));
 
-        // EducationalLevel => lrmi_fi:alignmentObject
-        // Level of an educational institution the educational material is meant for.
-        // If EducationalLevel is present, append new AlignmentObject with alignmentType value "educationalLevel".
-        lrmi.setAlignmentObject(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
-            .filter(e -> !e.getValue().isEmpty())
-            .map(e -> {
-                AlignmentObject alignmentObject = new AlignmentObject();
-                alignmentObject.setAlignmentType("educationalLevel");
-                alignmentObject.setTargetName(e.getValue());
-                return alignmentObject;
-            })
-            .collect(Collectors.toCollection(ArrayList::new)));
-
         // lrmi_fi:educationalUse
         // Purpose of the educational material like "course material".
         lrmi.setEducationalUse(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
@@ -274,6 +263,40 @@ public class MigrationServiceImpl implements MigrationService {
             .map(fi.csc.provider.model.aoe_response.sublevel_1st.Material::getLanguage)
             .collect(Collectors.toSet()));
 
+        // EducationalLevel => lrmi_fi:learningResource > lrmi_fi:educationalLevel
+        // Level of an educational institution the educational material is meant for.
+        lrmi.setLearningResourceList(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(e -> {
+                EducationalLevel educationalLevel = new EducationalLevel();
+                educationalLevel.setValue(e.getValue());
+
+                LearningResource learningResource = new LearningResource();
+                learningResource.setLearningResourceElement(
+                    new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), EducationalLevel.class, educationalLevel)
+                );
+                return learningResource;
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+        );
+
+        // Teaches => lrmi_fi:teaches > lrmi_fi:teaches
+        lrmi.setLearningResourceList(amd.getAlignmentobject() == null && lrmi.getLearningResourceList() == null ?
+            null : amd.getAlignmentobject().stream()
+            .filter(a -> a.getAlignmenttype().equalsIgnoreCase("teaches") && !a.getTargetname().isEmpty())
+            .map(a -> {
+                Teaches teaches = new Teaches();
+                teaches.setValue(a.getTargetname());
+
+                LearningResource learningResource = new LearningResource();
+                learningResource.setLearningResourceElement(
+                    new JAXBElement<>(new QName("lrmi_fi:teaches"), Teaches.class, teaches)
+                );
+                return learningResource;
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+        );
+
         // lrmi_fi:alignmentObject
         // Always append new AlignmentObjects - data collected from multiple sources.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
@@ -290,10 +313,10 @@ public class MigrationServiceImpl implements MigrationService {
     }
 
     /**
-     * Migrate descriptive keywords of an educational material with a semantic link.
-     * Keyword LRMI/XML presentation as {@code <lrmi_fi:about><lrmi_fi:thing>...</lrmi_fi:thing></lrmi_fi:about>}.
+     * Migrate descriptive keywords of an educational material with a semantic link. Keyword LRMI/XML presentation as
+     * {@code <lrmi_fi:about><lrmi_fi:thing>...</lrmi_fi:thing></lrmi_fi:about>}.
      *
-     * @param amd AOE metadata source
+     * @param amd  AOE metadata source
      * @param lrmi LRMI metadata target
      * @see AoeMetadata
      * @see LrmiMetadata

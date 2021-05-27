@@ -12,7 +12,7 @@ import java.util.Set;
 
 // @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("unused")
-@XmlSeeAlso({Material.class, Person.class, Organization.class})
+@XmlSeeAlso({Material.class, Person.class, Organization.class, LearningResource.class})
 @XmlAccessorType(XmlAccessType.NONE)
 /* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
     "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
@@ -132,7 +132,6 @@ public class LrmiMetadata {
     private String[] educationalUse;
 
     // publisher => dc:publisher
-
     // author => dc:author
 
     @XmlElement(name = "lrmi_fi:isBasedOn")
@@ -141,6 +140,9 @@ public class LrmiMetadata {
     // Unique collection of language codes used in linked materials - "fi", "en", etc.
     @XmlElement(name = "lrmi_fi:inLanguage")
     private Set<String> inLanguage;
+
+    @XmlElement(name = "lrmi_fi:learningResource")
+    private List<LearningResource> learningResourceList;
 
     @XmlElement(name = "lrmi_fi:alignmentObject")
     private List<AlignmentObject> alignmentObject;
@@ -362,6 +364,14 @@ public class LrmiMetadata {
 
     public void setInLanguage(Set<String> inLanguage) {
         this.inLanguage = inLanguage;
+    }
+
+    public List<LearningResource> getLearningResourceList() {
+        return learningResourceList;
+    }
+
+    public void setLearningResourceList(List<LearningResource> learningResourceList) {
+        this.learningResourceList = learningResourceList;
     }
 
     public List<AlignmentObject> getAlignmentObject() {
