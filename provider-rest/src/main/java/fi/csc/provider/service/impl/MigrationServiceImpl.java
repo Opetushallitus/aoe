@@ -8,29 +8,33 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.EducationalLevel;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.GeneralType;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Teaches;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
 public class MigrationServiceImpl implements MigrationService {
 
     private Environment env;
+
+    @Value("#{'${metadata.lrmi.learning-resource.types}'.split(',')}")
+    private List<String> learningResourceTypes;
 
     @Autowired
     public MigrationServiceImpl(Environment env) {
@@ -268,39 +272,38 @@ public class MigrationServiceImpl implements MigrationService {
         lrmi.setLearningResourceList(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
             .filter(e -> !e.getValue().isEmpty())
             .map(e -> {
-                EducationalLevel educationalLevel = new EducationalLevel();
-                educationalLevel.setValue(e.getValue());
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(e.getValue());
 
                 LearningResource learningResource = new LearningResource();
                 learningResource.setLearningResourceElement(
-                    new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), EducationalLevel.class, educationalLevel)
+                    new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), GeneralType.class, generalType)
                 );
                 return learningResource;
             })
             .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
         );
 
-        // Teaches => lrmi_fi:teaches > lrmi_fi:teaches
+        // Alignment types found in learningResourceTypes (list) are converted into learning resources.
         lrmi.setLearningResourceList(amd.getAlignmentobject() == null && lrmi.getLearningResourceList() == null ?
             null : amd.getAlignmentobject().stream()
-            .filter(a -> a.getAlignmenttype().equalsIgnoreCase("teaches") && !a.getTargetname().isEmpty())
+            .filter(a -> learningResourceTypes.stream().anyMatch(t -> t.equalsIgnoreCase(a.getAlignmenttype())))
             .map(a -> {
-                Teaches teaches = new Teaches();
-                teaches.setValue(a.getTargetname());
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(a.getTargetname());
 
                 LearningResource learningResource = new LearningResource();
                 learningResource.setLearningResourceElement(
-                    new JAXBElement<>(new QName("lrmi_fi:teaches"), Teaches.class, teaches)
+                    new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType)
                 );
                 return learningResource;
             })
             .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
         );
 
-        // lrmi_fi:alignmentObject
-        // Always append new AlignmentObjects - data collected from multiple sources.
+        // Alignment types NOT found in learningResourceTypes (list) are converted into alignment objects.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
-            .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty() && !a.getAlignmenttype().equalsIgnoreCase("teaches"))
+            .filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
                 alignmentObject.setAlignmentType(a.getAlignmenttype());
