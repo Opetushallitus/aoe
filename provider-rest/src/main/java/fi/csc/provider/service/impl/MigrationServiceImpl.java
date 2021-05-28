@@ -287,7 +287,7 @@ public class MigrationServiceImpl implements MigrationService {
         // Alignment types found in learningResourceTypes (list) are converted into learning resources.
         lrmi.setLearningResourceList(amd.getAlignmentobject() == null && lrmi.getLearningResourceList() == null ?
             null : amd.getAlignmentobject().stream()
-            .filter(a -> learningResourceTypes.stream().anyMatch(t -> t.equalsIgnoreCase(a.getAlignmenttype())))
+            .filter(a -> learningResourceTypes.stream().anyMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 GeneralType generalType = new GeneralType();
                 generalType.setValue(a.getTargetname());
@@ -303,7 +303,8 @@ public class MigrationServiceImpl implements MigrationService {
 
         // Alignment types NOT found in learningResourceTypes (list) are converted into alignment objects.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
-            .filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
+            //.filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
+            .filter(a -> learningResourceTypes.stream().noneMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
                 alignmentObject.setAlignmentType(a.getAlignmenttype());
