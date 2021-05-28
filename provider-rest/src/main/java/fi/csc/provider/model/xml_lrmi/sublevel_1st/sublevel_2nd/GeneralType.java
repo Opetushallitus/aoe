@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlValue;
 @Getter
 @Setter
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "lrmi_fi:teaches")
-public class Teaches {
+public class GeneralType {
 
     @XmlValue
     private String value;
