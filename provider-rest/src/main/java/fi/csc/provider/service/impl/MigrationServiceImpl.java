@@ -2,13 +2,11 @@ package fi.csc.provider.service.impl;
 
 import fi.csc.provider.enumeration.Language;
 import fi.csc.provider.model.aoe_response.AoeMetadata;
-import fi.csc.provider.model.aoe_response.sublevel_1st.*;
+import fi.csc.provider.model.aoe_response.sublevel_1st.AccessibilityFeature;
+import fi.csc.provider.model.aoe_response.sublevel_1st.AccessibilityHazard;
+import fi.csc.provider.model.aoe_response.sublevel_1st.LearningResourceType;
+import fi.csc.provider.model.aoe_response.sublevel_1st.Publisher;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.GeneralType;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
@@ -25,7 +23,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service

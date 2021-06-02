@@ -2,6 +2,7 @@ package fi.csc.provider.model.xml_lrmi;
 
 import fi.csc.provider.adapter.DateTimeAdapter;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.GeneralType;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-@XmlSeeAlso({Material.class, Person.class, Organization.class})
+@XmlSeeAlso({Material.class, Person.class, Organization.class, GeneralType.class})
 @XmlAccessorType(XmlAccessType.NONE)
 /* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
     "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
