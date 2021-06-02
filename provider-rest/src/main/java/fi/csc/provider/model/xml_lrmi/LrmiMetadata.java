@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-@XmlSeeAlso({Material.class, Person.class, Organization.class, LearningResource.class})
+@XmlSeeAlso({Material.class, Person.class, Organization.class})
 @XmlAccessorType(XmlAccessType.NONE)
 /* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
     "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
@@ -129,9 +129,6 @@ public class LrmiMetadata {
     // Unique collection of language codes used in linked materials - "fi", "en", etc.
     @XmlElement(name = "lrmi_fi:inLanguage")
     private Set<String> inLanguage;
-
-    @XmlElement(name = "lrmi_fi:learningResource")
-    private List<LearningResource> learningResourceList;
 
     @XmlElementWrapper(name = "lrmi_fi:learningResource")
     @XmlAnyElement
@@ -349,14 +346,6 @@ public class LrmiMetadata {
 
     public void setInLanguage(Set<String> inLanguage) {
         this.inLanguage = inLanguage;
-    }
-
-    public List<LearningResource> getLearningResourceList() {
-        return learningResourceList;
-    }
-
-    public void setLearningResourceList(List<LearningResource> learningResourceList) {
-        this.learningResourceList = learningResourceList;
     }
 
     public List<JAXBElement<?>> getLearningResources() {
