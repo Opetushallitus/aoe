@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-// @JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("unused")
 @XmlSeeAlso({Material.class, Person.class, Organization.class, LearningResource.class})
 @XmlAccessorType(XmlAccessType.NONE)
@@ -74,7 +73,7 @@ public class LrmiMetadata {
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private LocalDateTime valid;
 
-    // LRMI
+    // LRMI - Learning Resource Metadata Initiative
 
     @XmlElement(name = "lrmi_fi:dateCreated")
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
@@ -118,21 +117,11 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:educationalAudience")
     private List<EducationalAudience> educationalAudience;
 
-    // learningResourceType => dc:type
-
     @XmlElement(name = "lrmi_fi:accessibilityFeature")
     private String[] accessibilityFeature;
 
     @XmlElement(name = "lrmi_fi:accessibilityHazard")
     private String[] accessibilityHazard;
-
-    // keyword => dc:subject
-
-    @XmlElement(name = "lrmi_fi:educationalUse")
-    private String[] educationalUse;
-
-    // publisher => dc:publisher
-    // author => dc:author
 
     @XmlElement(name = "lrmi_fi:isBasedOn")
     private List<IsBasedOn> isBasedOn;
@@ -144,6 +133,10 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:learningResource")
     private List<LearningResource> learningResourceList;
 
+    @XmlElementWrapper(name = "lrmi_fi:learningResource")
+    @XmlAnyElement
+    private List<JAXBElement<?>> learningResources;
+
     @XmlElement(name = "lrmi_fi:alignmentObject")
     private List<AlignmentObject> alignmentObject;
 
@@ -152,11 +145,11 @@ public class LrmiMetadata {
     // JAXB event callback
     // void beforeUnmarshal(Unmarshaller m, Object parent)
     // void afterUnmarshal(Unmarshaller m, Object parent)
-    /*private void beforeMarshal(Marshaller marshaller) {
-        if (this.author != null && this.author.isEmpty()) {
-            this.author = null;
-        }
-    }*/
+    // private void beforeMarshal(Marshaller marshaller) {
+    //     if (this.author != null && this.author.isEmpty()) {
+    //         this.author = null;
+    //     }
+    // }
 
     public Boolean getDeleted() {
         return deleted;
@@ -326,14 +319,6 @@ public class LrmiMetadata {
         this.educationalAudience = educationalAudience;
     }
 
-    public String[] getEducationalUse() {
-        return educationalUse;
-    }
-
-    public void setEducationalUse(String[] educationalUse) {
-        this.educationalUse = educationalUse;
-    }
-
     public List<IsBasedOn> getIsBasedOn() {
         return isBasedOn;
     }
@@ -372,6 +357,14 @@ public class LrmiMetadata {
 
     public void setLearningResourceList(List<LearningResource> learningResourceList) {
         this.learningResourceList = learningResourceList;
+    }
+
+    public List<JAXBElement<?>> getLearningResources() {
+        return learningResources;
+    }
+
+    public void setLearningResources(List<JAXBElement<?>> learningResources) {
+        this.learningResources = learningResources;
     }
 
     public List<AlignmentObject> getAlignmentObject() {

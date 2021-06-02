@@ -262,54 +262,39 @@ public class MigrationServiceImpl implements MigrationService {
 
         // LearningResource: EducationalLevel
         // Level of an educational institution the educational material is meant for.
-        lrmi.setLearningResourceList(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
+        lrmi.setLearningResources(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
             .filter(e -> !e.getValue().isEmpty())
             .map(e -> {
                 GeneralType generalType = new GeneralType();
                 generalType.setValue(e.getValue());
-
-                LearningResource learningResource = new LearningResource();
-                learningResource.setLearningResourceElement(
-                    new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), GeneralType.class, generalType)
-                );
-                return learningResource;
+                return new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), GeneralType.class, generalType);
             })
-            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
         );
 
         // LearningResource: EducationalUse
         // Purpose of the educational material like "course material".
-        lrmi.setLearningResourceList(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
+        lrmi.setLearningResources(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
             .filter(e -> !e.getValue().isEmpty())
             .map(e -> {
                 GeneralType generalType = new GeneralType();
                 generalType.setValue(e.getValue());
-
-                LearningResource learningResource = new LearningResource();
-                learningResource.setLearningResourceElement(
-                    new JAXBElement<>(new QName("lrmi_fi:educationalUse"), GeneralType.class, generalType)
-                );
-                return learningResource;
+                return new JAXBElement<>(new QName("lrmi_fi:educationalUse"), GeneralType.class, generalType);
             })
-            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
         );
 
         // LearningResource: EducationalAlignment, Teaches
         // Alignment types found in learningResourceTypes converted into learning resources.
-        lrmi.setLearningResourceList(amd.getAlignmentobject() == null && lrmi.getLearningResourceList() == null ?
+        lrmi.setLearningResources(amd.getAlignmentobject() == null && lrmi.getLearningResources() == null ?
             null : amd.getAlignmentobject().stream()
             .filter(a -> learningResourceTypes.stream().anyMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 GeneralType generalType = new GeneralType();
                 generalType.setValue(a.getTargetname());
-
-                LearningResource learningResource = new LearningResource();
-                learningResource.setLearningResourceElement(
-                    new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType)
-                );
-                return learningResource;
+                return new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType);
             })
-            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
         );
 
         // AlignmentObjects
