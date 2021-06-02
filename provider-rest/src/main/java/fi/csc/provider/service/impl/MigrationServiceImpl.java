@@ -235,13 +235,6 @@ public class MigrationServiceImpl implements MigrationService {
             .map(AccessibilityHazard::getValue)
             .toArray(String[]::new));
 
-        // lrmi_fi:educationalUse
-        // Purpose of the educational material like "course material".
-        lrmi.setEducationalUse(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
-            .filter(a -> !a.getValue().isEmpty())
-            .map(EducationalUse::getValue)
-            .toArray(String[]::new));
-
         // lrmi_fi:isBasedOn
         // Sources the education material is based on.
         lrmi.setIsBasedOn(amd.getIsbasedon() == null ? null : amd.getIsbasedon().stream()
@@ -267,7 +260,7 @@ public class MigrationServiceImpl implements MigrationService {
             .map(fi.csc.provider.model.aoe_response.sublevel_1st.Material::getLanguage)
             .collect(Collectors.toSet()));
 
-        // EducationalLevel => lrmi_fi:learningResource > lrmi_fi:educationalLevel
+        // LearningResource: EducationalLevel
         // Level of an educational institution the educational material is meant for.
         lrmi.setLearningResourceList(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
             .filter(e -> !e.getValue().isEmpty())
@@ -284,7 +277,25 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
         );
 
-        // Alignment types found in learningResourceTypes (list) are converted into learning resources.
+        // LearningResource: EducationalUse
+        // Purpose of the educational material like "course material".
+        lrmi.setLearningResourceList(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(e -> {
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(e.getValue());
+
+                LearningResource learningResource = new LearningResource();
+                learningResource.setLearningResourceElement(
+                    new JAXBElement<>(new QName("lrmi_fi:educationalUse"), GeneralType.class, generalType)
+                );
+                return learningResource;
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
+        );
+
+        // LearningResource: EducationalAlignment, Teaches
+        // Alignment types found in learningResourceTypes converted into learning resources.
         lrmi.setLearningResourceList(amd.getAlignmentobject() == null && lrmi.getLearningResourceList() == null ?
             null : amd.getAlignmentobject().stream()
             .filter(a -> learningResourceTypes.stream().anyMatch(a.getAlignmenttype()::equalsIgnoreCase))
@@ -301,6 +312,7 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toCollection(lrmi.getLearningResourceList() == null ? ArrayList::new : lrmi::getLearningResourceList))
         );
 
+        // AlignmentObjects
         // Alignment types NOT found in learningResourceTypes (list) are converted into alignment objects.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
             //.filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
