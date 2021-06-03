@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-@XmlSeeAlso({Material.class, Person.class, Organization.class, GeneralType.class})
+@XmlSeeAlso({Material.class, Person.class, Organization.class, GeneralType.class, EducationalAlignment.class})
 @XmlAccessorType(XmlAccessType.NONE)
 /* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
     "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
