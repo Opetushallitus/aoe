@@ -95,14 +95,6 @@ public class MigrationServiceImpl implements MigrationService {
             }
         }
 
-
-        // dc:subject
-        // Any concepts and keywords for the search and classifying the educational material.
-        /*lrmi.setKeyword(amd.getKeyword() != null && amd.getKeyword().size() > 0 ? amd.getKeyword().stream()
-            .filter(k -> !k.getValue().isEmpty())
-            .map(Keyword::getValue)
-            .toArray(String[]::new) : null);*/
-
         // dc:rights
         // Licences attached to the educational material publishing.
         lrmi.setRights(amd.getLicensecode());
@@ -271,7 +263,7 @@ public class MigrationServiceImpl implements MigrationService {
 
         // LearningResource: EducationalUse
         // Purpose of the educational material like "course material".
-        lrmi.setLearningResources(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
+        lrmi.setLearningResources(amd.getEducationaluse() == null && lrmi.getLearningResources() == null ? null : amd.getEducationaluse().stream()
             .filter(e -> !e.getValue().isEmpty())
             .map(e -> {
                 GeneralType generalType = new GeneralType();
@@ -281,14 +273,21 @@ public class MigrationServiceImpl implements MigrationService {
             .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
         );
 
-        // LearningResource: EducationalAlignment, Teaches
-        // Alignment types found in learningResourceTypes converted into learning resources.
+        // LearningResource: EducationalAlignment, Teaches, etc.
+        // AlignmentObject > educationalSubject converted to educationalAlignment.
+        // NOTE: Exception in EducationalSubject structure in the LearningResource element.
         lrmi.setLearningResources(amd.getAlignmentobject() == null && lrmi.getLearningResources() == null ?
             null : amd.getAlignmentobject().stream()
             .filter(a -> learningResourceTypes.stream().anyMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 GeneralType generalType = new GeneralType();
                 generalType.setValue(a.getTargetname());
+
+                if (a.getAlignmenttype().equalsIgnoreCase("educationalSubject")) {
+                    EducationalAlignment educationalAlignment = new EducationalAlignment();
+                    educationalAlignment.setEducationalSubject(generalType);
+                    return new JAXBElement<>(new QName("lrmi_fi:educationalAlignment"), EducationalAlignment.class, educationalAlignment);
+                }
                 return new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType);
             })
             .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
