@@ -286,6 +286,7 @@ public class MigrationServiceImpl implements MigrationService {
                 if (a.getAlignmenttype().equalsIgnoreCase("educationalSubject")) {
                     EducationalAlignment educationalAlignment = new EducationalAlignment();
                     educationalAlignment.setEducationalSubject(generalType);
+                    educationalAlignment.setEducationalFramework(a.getEducationalframework().isEmpty() ? null : a.getEducationalframework());
                     return new JAXBElement<>(new QName("lrmi_fi:educationalAlignment"), EducationalAlignment.class, educationalAlignment);
                 }
                 return new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType);

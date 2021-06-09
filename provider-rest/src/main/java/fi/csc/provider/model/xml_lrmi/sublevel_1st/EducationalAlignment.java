@@ -17,4 +17,7 @@ public class EducationalAlignment {
     @XmlElement(name = "lrmi_fi:educationalSubject")
     private GeneralType educationalSubject;
 
+    @XmlElement(name = "lrmi_fi:educationalFramework")
+    private String educationalFramework;
+
 }
