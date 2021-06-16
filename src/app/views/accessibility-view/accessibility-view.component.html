@@ -1,0 +1,38 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <h1>{{ 'accessibility.title' | translate }}</h1>
+
+    <table class="table table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col" class="w-25">Asia</th>
+          <th scope="col" class="w-25">Esimerkkejä, miten huomioida</th>
+          <th scope="col" class="w-25">Lisätietoa</th>
+          <th scope="col" class="w-25">Miten merkitä AOEssa</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let accessibilityRow of accessibilityTable[lang]">
+          <td>
+            {{ accessibilityRow.topic }}
+          </td>
+
+          <td>
+            <p *ngFor="let example of accessibilityRow.examples">
+              {{ example }}
+            </p>
+          </td>
+
+          <td>
+            <p *ngFor="let detail of accessibilityRow.details" [innerHTML]="detail"></p>
+          </td>
+
+          <td>
+            <p *ngFor="let how of accessibilityRow.howTo" [innerHTML]="how"></p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CollectionPreviewTabComponent } from './collection-preview-tab.component';
 
@@ -6,7 +6,7 @@ describe('CollectionPreviewTabComponent', () => {
   let component: CollectionPreviewTabComponent;
   let fixture: ComponentFixture<CollectionPreviewTabComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CollectionPreviewTabComponent ]
     })

@@ -124,7 +124,7 @@ export class AuthService {
       }),
     }).subscribe(() => {
       this.removeUserdata();
-      this.router.navigate(['/etusivu']);
+      this.router.navigate(['/logout']);
     });
   }
 

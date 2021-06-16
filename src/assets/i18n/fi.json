@@ -64,7 +64,8 @@
     "reviews": "Käyttäjien arviot",
     "collections": "Kokoelmat",
     "userDetails": "Omat tiedot",
-    "archived": "Arkistoitu oppimateriaali"
+    "archived": "Arkistoitu oppimateriaali",
+    "accessibilityDescriptions": "Saavutettavuus"
   },
   "home": {
     "search": {
@@ -80,6 +81,8 @@
     },
     "educationalMaterial": {
       "download": "Lataa",
+      "downloadAllFiles": "Lataa kaikki tiedostot",
+      "downloadSingleFile": "Lataa yksittäinen tiedosto:",
       "addToCollection": "Lisää kokoelmaan",
       "edit": "Muokkaa",
       "viewCount": "näyttökertaa",
@@ -314,9 +317,10 @@
       },
       "basicDetails": {
         "uploadImage": "Lataa kansikuva",
+        "thumbnailHelp": "Valitse kansikuva lisätäksesi oppimateriaalin houkuttelevuutta.",
         "image": {
           "label": "Kansikuva",
-          "tooltip": "",
+          "tooltip": "Kansikuva näkyy oppimateriaalien tietojen yhteydessä. Se voi olla esimerkiksi oppimateriaalisi kansilehti. Mikäli et valitse omaa kansikuvaa, näkyy oppimateriaalin tiedoissa sen tyyppiä vastaava kuvake.",
           "modal": {
             "title": "Lisää kansikuva",
             "preview": "Esikatselu"
@@ -328,7 +332,8 @@
             "author": {
               "label": "Tekijän nimi",
               "tooltip": "Oppimateriaalin tekijä tai tekijät. Syötä tekijöiden nimet muodossa Sukunimi, Etunimi.",
-              "placeholder": "Sukunimi, Etunimi"
+              "placeholder": "Sukunimi, Etunimi",
+              "helpText": "Syötä tekijän nimi muodossa Sukunimi, Etunimi."
             },
             "affiliate": {
               "label": "Organisaatio",
@@ -348,7 +353,8 @@
         },
         "keywords": {
           "label": "Asiasanat",
-          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
+          "tooltip": "Lisää tähän mitä tarkempia aiheita oppimateriaalisi käsittelee ja/tai millä tavoin aihetta käsitellään. Esimerkiksi flipped learning, ilmastonmuutos, uskontososiologia. Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu.",
+          "helpText": "Kun aloitat kirjoittaa asiasanaasi, saat ehdotuksia jo kirjoittamasi perusteella. Käytäthän näitä aina kun mahdollista! Jos haluamasi asiasana ei löydy listalta, kirjoita se ja paina enter, niin syöttämäsi tieto tallentuu."
         },
         "learningResourceTypes": {
           "label": "Oppimateriaalin tyyppi",
@@ -372,6 +378,15 @@
           "modal": {
             "title": "Kieliversiot: Kuvaus",
             "subtitle": "Kieliversioiden lisääminen"
+          },
+          "example": {
+            "title": "Esimerkkikuvaus",
+            "subtitleTrunc": "Kuvauksen näkyminen etusivulla",
+            "description": "Opi perusteet oppimateriaalien julkaisemisessa, niiden arvioinnissa ja itseä kiinnostavien oppimateriaalien organisoimisessa Avointen oppimateriaalien kirjastossa. Tämän oppaan avulla löydät vastauksia esimerkiksi seuraaviin asioihin: Mitä tarkoittaa kuvailu ja miksi nähdä siihen vaivaa? Voiko toisten loistavia oppimateriaaleja nostaa esille tai kerätä itselle muistiin? Oppimateriaali on tarkoitettu kirjaston käyttäjille. Se soveltuu myös organisaation sisäisen ohjeistuksen tueksi kun halutaan tukea ja kannustaa kirjaston käyttöön: upota-toiminnon avulla tai lataamalla voit upottaa ohjeistuksen myös esimerkiksi oman oppilaitoksesi sivuille. Oppimateriaali koostuu julkaisua demoavasta ohjevideosta sekä dokumenteista, jossa käydään askel askeleelta läpi kuvien ja tekstin avulla julkaisu-, muokkaus-, arviointi- ja kokoelma-työkalujen toiminta.",
+            "details": "Tämä kuvaus on Avointen oppimateriaalien kirjaston käyttöohje -oppimateriaalista.",
+            "detailsLink": "Löydät itse oppimateriaalin täältä",
+            "detailsTrunc": "Kuvaus katkeaa etusivulla nähtävässä esikatselussa. Voit tästä verrata, miten teksti lyhenee.",
+            "button": "Avaa esimerkki"
           }
         }
       },
@@ -911,7 +926,8 @@
     "feedback": "Anna palautetta",
     "orEmailUs": "tai laita meille viesti:",
     "twitter": "Seuraa meitä Twitterissä",
-    "name": "Avointen oppimateriaalien kirjasto (aoe.fi)"
+    "name": "Avointen oppimateriaalien kirjasto (aoe.fi)",
+    "blog": "Ajankohtaista"
   },
   "cookies": {
     "cookieSettings": "Evästeasetukset",
@@ -1084,5 +1100,12 @@
         "message": "Uusien oppimateriaalien ja tiedostojen lisääminen on estetty palvelussa olevan virhetilanteen selvittämisen ajaksi."
       }
     }
+  },
+  "accessibility": {
+    "title": "Saavutettavuus",
+    "features": "Saavutettavuuden ominaisuudet",
+    "hazards": "Saavutettavuuden esteet",
+    "closeAll": "Sulje kaikki",
+    "openAll": "Avaa kaikki"
   }
 }

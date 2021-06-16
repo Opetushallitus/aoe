@@ -2,7 +2,7 @@
 @import "variables";
 
 .block-header {
-  background-color: #f9f9f9;
+  background-color: $light;
   border-radius: .25rem;
   margin-bottom: 1rem;
   padding: 1.5rem 1rem;
@@ -22,7 +22,7 @@
 }
 
 .filter {
-  border-bottom: 2px solid #eee;
+  border-bottom: 1px solid #ccc;
   padding: 1.5rem 1rem;
 
   .header {
@@ -78,4 +78,8 @@
     padding: .05rem .2rem;
     vertical-align: baseline;
   }
+}
+
+#search-filters {
+  background-color: $light;
 }

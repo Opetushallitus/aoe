@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AudioPreviewComponent } from './audio-preview.component';
 
@@ -6,7 +6,7 @@ describe('AudioPreviewComponent', () => {
   let component: AudioPreviewComponent;
   let fixture: ComponentFixture<AudioPreviewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AudioPreviewComponent ]
     })

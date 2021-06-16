@@ -18,6 +18,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Material } from '@models/material';
+import { deduplicate } from '../shared/shared.module';
 
 @Injectable({
   providedIn: 'root'
@@ -183,6 +184,7 @@ export class BackendService {
               label: a.label,
               srclang: a.srclang,
             })),
+          downloadUrl: `${environment.backendUrl}/download/${m.filekey}`,
         }));
 
         this.material$.next({
@@ -195,13 +197,13 @@ export class BackendService {
           authors: material.author
             .map(({authorname, organization}) => ({authorname, organization})),
           description: material.description,
-          materials: materials,
+          materials: deduplicate(materials, 'id'),
           createdAt: material.createdAt,
           publishedAt: material.publishedAt,
           updatedAt: material.updatedAt,
           archivedAt: material.archivedAt,
           timeRequired: material.timeRequired,
-          expires: material.expires,
+          expires: material.expires !== '9999-01-01T00:00:00.000Z' ? material.expires : null,
           publisher: material.publisher.map((publisher) => publisher.name),
           license: material.license,
           keywords: material.keywords
@@ -469,7 +471,7 @@ export class BackendService {
           })),
       }));
 
-      this.uploadedFiles$.next(materials);
+      this.uploadedFiles$.next(deduplicate(materials, 'id'));
     });
   }
 
@@ -974,6 +976,8 @@ export class BackendService {
               label: a.label,
               srclang: a.srclang,
             })),
+          downloadUrl: `${environment.backendUrl}/download/${m.filekey}`,
+          domain: m.link ? new URL(m.link).hostname.replace('www.', '') : null,
         }));
       }),
     );
