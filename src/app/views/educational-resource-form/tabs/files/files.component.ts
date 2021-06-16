@@ -13,7 +13,7 @@ import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
-import { textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
 import { AuthService } from '@services/auth.service';
 
@@ -223,11 +223,11 @@ export class FilesComponent implements OnInit, OnDestroy {
       this.files.at(i).get('file').setValue(file);
 
       // remove extension from filename
-      this.files.at(i).get('displayName').setValue({
-        fi: file.name.replace(/\.[^/.]+$/, ''),
-        sv: file.name.replace(/\.[^/.]+$/, ''),
-        en: file.name.replace(/\.[^/.]+$/, ''),
-      });
+      const fileName = file.name
+        .replace(/\.[^/.]+$/, '')
+        .replace(textInputRe, '');
+
+      this.files.at(i).get(`displayName.${this.lang}`).setValue(fileName);
     }
   }
 

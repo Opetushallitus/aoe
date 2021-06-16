@@ -17,6 +17,8 @@ import { Subscription } from 'rxjs';
 import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
 import { SocialMetadata } from '@models/social-metadata/social-metadata';
 import { SocialMetadataService } from '@services/social-metadata.service';
+import { Language } from '@models/koodisto-proxy/language';
+import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -48,6 +50,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   expires: string;
   socialMetadataSubscription: Subscription;
   socialMetadata: SocialMetadata;
+  languageSubscription: Subscription;
+  languages: Language[];
+  previewMaterialDomain: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +62,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     public authSvc: AuthService,
     private titleSvc: Title,
     private socialMetadataSvc: SocialMetadataService,
+    private koodistoSvc: KoodistoProxyService,
   ) { }
 
   ngOnInit(): void {
@@ -80,10 +86,15 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.updateDescription();
       }
 
-      if (this.materialLanguages && this.materialLanguages.includes(event.lang.toLowerCase())) {
+      if (this.materialLanguages?.includes(event.lang.toLowerCase())) {
         this.setSelectedLanguage(event.lang.toLowerCase());
       }
     });
+
+    this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+      this.languages = languages;
+    });
+    this.koodistoSvc.updateLanguages();
 
     this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
@@ -147,6 +158,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.educationalMaterialSubscription.unsubscribe();
     this.socialMetadataSubscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
   }
 
   setTitle(): void {
@@ -157,8 +169,16 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  getLanguageValue(lang): string {
+    return this.languages?.find((language: Language) => language.key === lang)?.value;
+  }
+
   setPreviewMaterial(material: Material): void {
     this.previewMaterial = material;
+
+    if (material.link) {
+      this.previewMaterialDomain = new URL(material.link).hostname.replace('www.', '');
+    }
   }
 
   /**

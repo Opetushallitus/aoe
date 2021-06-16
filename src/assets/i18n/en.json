@@ -64,7 +64,8 @@
     "reviews": "User reviews",
     "collections": "Collections",
     "userDetails": "My Account",
-    "archived": "Archived learning resource"
+    "archived": "Archived learning resource",
+    "accessibilityDescriptions": "Accessibility"
   },
   "home": {
     "search": {
@@ -80,6 +81,8 @@
     },
     "educationalMaterial": {
       "download": "Download",
+      "downloadAllFiles": "Download all files",
+      "downloadSingleFile": "Download one of the files:",
       "addToCollection": "Add to collection",
       "edit": "Edit",
       "viewCount": "views",
@@ -314,9 +317,10 @@
       },
       "basicDetails": {
         "uploadImage": "Upload cover",
+        "thumbnailHelp": "Upload a cover to boost your learning resource's appeal.",
         "image": {
           "label": "Cover photo",
-          "tooltip": "",
+          "tooltip": "Cover picture is the visual info shown on your learning resources page and views. If you do not choose a cover, an icon matching the learning resource type is presented.",
           "modal": {
             "title": "Add cover photo",
             "preview": "Preview"
@@ -328,7 +332,8 @@
             "author": {
               "label": "Author",
               "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
-              "placeholder": "Surname, First Name"
+              "placeholder": "Surname, First Name",
+              "helpText": "Enter the name in the form of Surname, First Name."
             },
             "affiliate": {
               "label": "Affiliation",
@@ -348,7 +353,8 @@
         },
         "keywords": {
           "label": "About",
-          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter."
+          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter.",
+          "helpText": "In the about-field, you get suggestions based on what you are writing. Please use these suggestions when possible! If suitable words are not on the list, you can add your own by writing the word and clicking enter."
         },
         "learningResourceTypes": {
           "label": "Learning Resource Type",
@@ -372,6 +378,15 @@
           "modal": {
             "title": "Translations: Description",
             "subtitle": "Add a translation"
+          },
+          "example": {
+            "title": "Example description",
+            "subtitleTrunc": "Example on how the description is displayed on the front page",
+            "description": "Learn the basics in uploading open educational resources (OER), in reviewing them and organizing interesting educational resources to meaningful lists and views in the Library of Open Educational Resources. With this guide you will find answers to questions such as what is metadata and why to do it, how to highlight OER made by others and how to collect them for your own uses. This OER is meant for the users of the Library of Open Educational Resources, but it is also suited for organizations to encourage and support the use of the library. By using the embed link or downloading the OER, you can embed it to for example your organizations web page. This OER consist of a video that shows the uploading process and of documentation that describes step-by-step with pictures and text how to use the tools for uploading, editing, reviewing and collecting OER.",
+            "details": "This description is from the learning resource Instructions for the use of Library of Open Educational Resources.",
+            "detailsLink": "You can find the learning resource here",
+            "detailsTrunc": "The description breaks in the preview seen on the front page. Here you can compare how the text is shortened.",
+            "button": "Open an example"
           }
         }
       },
@@ -542,7 +557,7 @@
           "inputs": {
             "features": {
               "label": "Accessibility Feature",
-              "tooltip": "Here you can choose wether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
+              "tooltip": "Here you can choose whether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
             },
             "hazards": {
               "label": "Accessibility Hazard",
@@ -911,7 +926,8 @@
     "feedback": "Give feedback",
     "orEmailUs": "or send us an email:",
     "twitter": "Follow us on Twitter",
-    "name": "Library of Open Educational Resources (aoe.fi)"
+    "name": "Library of Open Educational Resources (aoe.fi)",
+    "blog": "News"
   },
   "cookies": {
     "cookieSettings": "Cookie settings",
@@ -1084,5 +1100,12 @@
         "message": "Uploading new learning resources has been blocked until the current error situation is resolved."
       }
     }
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "features": "Accessibility features",
+    "hazards": "Accessibility hazards",
+    "closeAll": "Close all",
+    "openAll": "Show all"
   }
 }

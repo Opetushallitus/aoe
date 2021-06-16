@@ -29,6 +29,7 @@ import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
 import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
 import { AdminGuard } from './guards/admin.guard';
 import { DisableFormsGuard } from './guards/disable-forms.guard';
+import { AccessibilityViewComponent } from '@views/accessibility-view/accessibility-view.component';
 
 export const routes: Routes = [
   {
@@ -180,6 +181,11 @@ export const routes: Routes = [
         component: SearchResultsViewComponent,
         runGuardsAndResolvers: 'always',
       },
+      {
+        path: 'saavutettavuus',
+        component: AccessibilityViewComponent,
+        runGuardsAndResolvers: 'always',
+      },
     ],
   },
   {
@@ -202,7 +208,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
+  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
   exports: [ RouterModule ]
 })
 export class AppRoutingModule {}
