@@ -12,6 +12,7 @@ import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
+import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 
 @Component({
   selector: 'app-preview',
@@ -245,21 +246,33 @@ export class PreviewComponent implements OnInit {
       }
 
       if (this.basicStudySubjects?.length > 0) {
-        this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(true);
         this.form.get('hasBasicEduObjectives').setValue(this.basicStudyObjectives?.length > 0);
         this.form.get('hasBasicEduContents').setValue(this.basicStudyContents?.length > 0);
-      } else {
-        this.form.get('hasBasicEduObjectives').setValue(true);
-        this.form.get('hasBasicEduContents').setValue(true);
+
+        const ignoredSubjectsList = this.basicStudySubjects
+          .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
+
+        this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
+      }
+
+      if (this.shouldHaveBasicEduObjectivesAndContents === false) {
+        this.form.get('hasBasicEduObjectives').setValidators(null);
+        this.form.get('hasBasicEduObjectives').updateValueAndValidity();
+        this.form.get('hasBasicEduContents').setValidators(null);
+        this.form.get('hasBasicEduContents').updateValueAndValidity();
       }
 
       if (this.upperSecondarySchoolSubjectsNew?.length > 0 && this.upperSecondarySchoolModulesNew?.length > 0) {
         this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
         this.form.get('hasUpperSecondaryEduObjectives').setValue(this.upperSecondarySchoolObjectivesNew?.length > 0);
         this.form.get('hasUpperSecondaryEduContents').setValue(this.upperSecondarySchoolContentsNew?.length > 0);
-      } else {
-        this.form.get('hasUpperSecondaryEduObjectives').setValue(true);
-        this.form.get('hasUpperSecondaryEduContents').setValue(true);
+      }
+
+      if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
+        this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
+        this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
+        this.form.get('hasUpperSecondaryEduContents').setValidators(null);
+        this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
       }
     }
   }
