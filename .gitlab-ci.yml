@@ -1,12 +1,4 @@
 image: docker/compose:1.29.2
-#services:
-#  - docker:dind
-#
-#before_script:
-#  - apk update
-#  - apk upgrade
-#  - apk add --no-cache py3-pip
-#  - pip install docker-compose
 
 stages:
   - build
