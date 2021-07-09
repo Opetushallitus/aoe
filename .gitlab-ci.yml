@@ -1,5 +1,18 @@
 image: docker:latest
 
+variables:
+  DOCKER_DRIVER: overlay
+
+services:
+  - docker:dind
+
+before_script:
+  - docker info
+  - apk update
+  - apk upgrade
+  - apk add python python-dev py-pip build-base
+  - pip install docker-compose
+
 stages:
   - build
   - deploy
@@ -8,9 +21,7 @@ build_dev:
   stage: build
   script:
     - echo "DEV build"
-    - sudo apt-get install -y python-pip
-    - sudo pip install docker-compose
-    - sudo docker-compose version
+    - docker-compose version
   only:
     - dev
   tags:
