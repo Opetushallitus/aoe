@@ -1,12 +1,12 @@
-image: docker:latest
-services:
-  - docker:dind
-
-before_script:
+image: docker/compose:1.23.2
+#services:
+#  - docker:dind
+#
+#before_script:
 #  - apk update
 #  - apk upgrade
-  - apk add --no-cache py3-pip
-  - pip install docker-compose
+#  - apk add --no-cache py3-pip
+#  - pip install docker-compose
 
 stages:
   - build
@@ -16,7 +16,7 @@ build_dev:
   stage: build
   script:
     - echo "DEV build"
-    - docker-compose version
+    - docker-compose -v
   only:
     - dev
   tags:
