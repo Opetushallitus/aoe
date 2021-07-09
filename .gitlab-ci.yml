@@ -1,11 +1,18 @@
+image: docker:latest
+services:
+  - docker:dind
+
 stages:
   - build
-  - deploy
+#  - deploy
 
 build_dev:
   stage: build
   script:
     - echo "DEV build"
+    - sudo apt-get install -y python-pip
+    - sudo pip install docker-compose
+    - sudo docker-compose version
   only:
     - dev
   tags:
