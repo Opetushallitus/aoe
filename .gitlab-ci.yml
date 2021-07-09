@@ -3,9 +3,9 @@ services:
   - docker:dind
 
 before_script:
-  - apk update
-  - apk upgrade
-  - apk add --no-cache python3 py3-pip
+#  - apk update
+#  - apk upgrade
+  - apk add --no-cache py3-pip
   - pip install docker-compose
 
 stages:
