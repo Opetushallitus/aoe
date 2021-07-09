@@ -1,0 +1,39 @@
+stages:
+  - build
+  - deploy
+
+build_dev:
+  stage: build
+  script:
+    - echo "DEV build"
+  only:
+    - dev
+  tags:
+    - oaipmh
+
+deploy_dev:
+  stage: deploy
+  script:
+    - echo "DEV deploy"
+  only:
+    - dev
+  tags:
+    - oaipmh
+
+build_prod:
+  stage: build
+  script:
+    - echo "PROD build"
+  only:
+    - master
+  tags:
+    - oaipmh
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "PROD deploy"
+  only:
+    - master
+  tags:
+    - oaipmh
