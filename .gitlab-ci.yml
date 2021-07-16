@@ -1,14 +1,26 @@
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+
 image: docker/compose:1.29.2
+
+services:
+  - docker:dind
 
 stages:
   - build
   - deploy
 
+before_script:
+  - docker version
+  - docker-compose version
+
 build_dev:
   stage: build
   script:
-    - echo "DEV build"
-    - docker-compose -v
+    - echo "DEMO build"
+    - docker-compose -f docker-compose.demo.yml down
+    - docker-compose -f docker-compose.demo.yml build
   only:
     - dev
   tags:
@@ -17,7 +29,8 @@ build_dev:
 deploy_dev:
   stage: deploy
   script:
-    - echo "DEV deploy"
+    - echo "DEMO deploy"
+    - docker-compose -f docker-compose.demo.yml up -d
   only:
     - dev
   tags:
@@ -27,15 +40,6 @@ build_prod:
   stage: build
   script:
     - echo "PROD build"
-  only:
-    - master
-  tags:
-    - oaipmh
-
-deploy_prod:
-  stage: deploy
-  script:
-    - echo "PROD deploy"
   only:
     - master
   tags:
