@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  aoe-web-frontend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.demo
+    image: aoe-web-frontend-demo:latest
+    container_name: aoe-web-frontend-demo
+    restart: unless-stopped
+    ports:
+      - "8282:80"
+    volumes:
+      - /webdata:/usr/share/nginx/html/webdata:ro
+    user: "root:5606"
+    networks:
+      - network-frontend-demo
+
+networks:
+  network-frontend-demo:
+    driver: bridge
