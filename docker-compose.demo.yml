@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=production
     env_file: /environment/aoe-semantic-apis/.env
-    command: sh -c "echo 'Starting the app...' && yarn serve"
+    command: sh -c "yarn serve"
     networks:
       - network-semantic-apis-demo
 
