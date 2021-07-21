@@ -4,7 +4,7 @@ services:
   aoe-semantic-apis:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.demo
+      dockerfile: ./docker/Dockerfile
     image: aoe-semantic-apis-demo:latest
     container_name: aoe-semantic-apis-demo
     restart: unless-stopped
@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=production
     env_file: /environment/aoe-semantic-apis/.env
-    command: sh -c "yarn install --frozen-lockfile && yarn build && yarn serve"
+    command: sh -c "echo 'Starting the app...' && yarn serve"
     networks:
       - network-semantic-apis-demo
 
