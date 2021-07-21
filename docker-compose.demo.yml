@@ -13,10 +13,7 @@ services:
     environment:
       - NODE_ENV=production
     env_file: /opt/aoe-environment/aoe-semantic-apis/.env
-    command:
-      sh -c 'yarn install && yarn build && yarn serve'
-#    volumes:
-#      - ./:/app
+    command: sh -c "yarn install && yarn build && yarn serve"
     networks:
       - network-semantic-apis-demo
 
