@@ -3,7 +3,7 @@ services:
   aoe-web-frontend:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.demo
+      dockerfile: ./docker/Dockerfile
     image: aoe-web-frontend-demo:latest
     container_name: aoe-web-frontend-demo
     restart: unless-stopped
