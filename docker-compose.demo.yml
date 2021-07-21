@@ -12,7 +12,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-    env_file: /opt/aoe-environment/aoe-semantic-apis/.env
+    env_file: ./.env
     command: sh -c "yarn install && yarn build && yarn serve"
     volumes:
       - /opt/aoe-environment/aoe-semantic-apis/.env:./.env
