@@ -29,23 +29,23 @@ build_demo:
   tags:
     - demo
 
-#deploy_demo:
-#  stage: deploy
-#  script:
-#    - echo "DEMO deploy"
-#    - docker-compose -f docker-compose.demo.yml up -d
-#  only:
-#    - dev
-#  tags:
-#    - demo
+# deploy_demo:
+#   stage: deploy
+#   script:
+#     - echo "DEMO deploy"
+#     - docker-compose -f docker-compose.demo.yml up -d
+#   only:
+#     - dev
+#   tags:
+#     - demo
 #
-#cleanup:
-#  stage: cleanup
-#  script:
-#    - echo "Cleaning up the system"
-#    - docker system prune -a -f
-#  only:
-#    - dev
-#    - master
-#  tags:
-#    - demo
+# cleanup:
+#   stage: cleanup
+#   script:
+#     - echo "Cleaning up the system"
+#     - docker system prune -a -f
+#   only:
+#     - dev
+#     - master
+#   tags:
+#     - demo
