@@ -397,6 +397,14 @@
                       ></app-taglist><!--earlyChildhoodEducationSubjects-->
                     </div>
 
+                    <div *ngIf="educationalMaterial.earlyChildhoodEducationFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-earlyChildhoodEducationFrameworks"
+                        [tags]="educationalMaterial.earlyChildhoodEducationFrameworks"
+                        [title]="'demo.educationalMaterial.earlyChildhoodEducationFrameworks' | translate"
+                      ></app-taglist><!--earlyChildhoodEducationFrameworks-->
+                    </div>
+
                     <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0" class="metadata-group">
                       <app-taglist
                         elementId="material-earlyChildhoodEducationObjectives"
@@ -421,6 +429,14 @@
                       ></app-taglist><!--prePrimaryEducationSubjects-->
                     </div>
 
+                    <div *ngIf="educationalMaterial.prePrimaryEducationFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-prePrimaryEducationFrameworks"
+                        [tags]="educationalMaterial.prePrimaryEducationFrameworks"
+                        [title]="'demo.educationalMaterial.prePrimaryEducationFrameworks' | translate"
+                      ></app-taglist><!--prePrimaryEducationFrameworks-->
+                    </div>
+
                     <div *ngIf="educationalMaterial.prePrimaryEducationObjectives?.length > 0" class="metadata-group">
                       <app-taglist
                         elementId="material-prePrimaryEducationObjectives"
@@ -443,6 +459,14 @@
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
                       ></app-taglist><!--basicStudySubjects-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.basicStudyFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-basicStudyFrameworks"
+                        [tags]="educationalMaterial.basicStudyFrameworks"
+                        [title]="'demo.educationalMaterial.basicStudyFrameworks' | translate"
+                      ></app-taglist><!--basicStudyFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.basicStudyObjectives?.length > 0" class="metadata-group">
@@ -480,6 +504,14 @@
                       ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
                     </div>
 
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolFrameworks"
+                        [tags]="educationalMaterial.upperSecondarySchoolFrameworks"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworks' | translate"
+                      ></app-taglist><!--upperSecondarySchoolFrameworks-->
+                    </div>
+
                     <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld?.length > 0" class="metadata-group">
                       <app-taglist
                         elementId="material-upperSecondarySchoolCoursesOld"
@@ -513,6 +545,14 @@
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
                       ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.upperSecondarySchoolFrameworksNew?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-upperSecondarySchoolFrameworksNew"
+                        [tags]="educationalMaterial.upperSecondarySchoolFrameworksNew"
+                        [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworksNew' | translate"
+                      ></app-taglist><!--upperSecondarySchoolFrameworksNew-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
@@ -561,7 +601,16 @@
                       ></app-taglist><!--vocationalDegrees-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.furtherVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
+                    <div *ngIf="educationalMaterial.vocationalFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-vocationalFrameworks"
+                        [tags]="educationalMaterial.vocationalFrameworks"
+                        [title]="'demo.educationalMaterial.vocationalFrameworks' | translate"
+                      ></app-taglist><!--vocationalFrameworks-->
+                    </div>
+
+                    <!-- @todo: whats up with this? 6.8.2021-->
+                    <!--<div *ngIf="educationalMaterial.furtherVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
                       <app-taglist
                         elementId="material-furtherVocationalQualifications"
                         [tags]="educationalMaterial.furtherVocationalQualifications"
@@ -570,7 +619,7 @@
                         searchProperty="key"
                         filterType="furtherVocationalQualifications"
                         [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                      ></app-taglist><!--furtherVocationalQualifications-->
+                      ></app-taglist>&lt;!&ndash;furtherVocationalQualifications&ndash;&gt;
                     </div>
 
                     <div *ngIf="educationalMaterial.specialistVocationalQualifications?.length > 0 || educationalMaterial.suitsAllVocationalDegrees" class="metadata-group">
@@ -582,8 +631,8 @@
                         searchProperty="key"
                         filterType="specialistVocationalQualifications"
                         [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                      ></app-taglist><!--specialistVocationalQualifications-->
-                    </div>
+                      ></app-taglist>&lt;!&ndash;specialistVocationalQualifications&ndash;&gt;
+                    </div>-->
 
                     <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
                       <app-taglist
@@ -642,6 +691,14 @@
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllBranches"
                       ></app-taglist><!--scienceBranches-->
+                    </div>
+
+                    <div *ngIf="educationalMaterial.higherEducationFrameworks?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-higherEducationFrameworks"
+                        [tags]="educationalMaterial.higherEducationFrameworks"
+                        [title]="'demo.educationalMaterial.higherEducationFrameworks' | translate"
+                      ></app-taglist><!--higherEducationFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.scienceBranchObjectives?.length > 0" class="metadata-group">
