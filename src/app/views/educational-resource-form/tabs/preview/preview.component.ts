@@ -12,6 +12,7 @@ import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
+import { getUniqueFrameworks } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-preview',
@@ -25,28 +26,35 @@ export class PreviewComponent implements OnInit {
 
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
+  earlyChildhoodEducationFramework: string[];
   prePrimaryEducationSubjects: AlignmentObjectExtended[];
   prePrimaryEducationObjectives: AlignmentObjectExtended[];
+  prePrimaryEducationFramework: string[];
   basicStudySubjects: AlignmentObjectExtended[];
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
+  basicStudyFramework: string[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
   upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
+  upperSecondarySchoolFramework: string[];
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
+  // upperSecondarySchoolFrameworkNew: string[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
   furtherVocationalQualifications: AlignmentObjectExtended[];
   specialistVocationalQualifications: AlignmentObjectExtended[];
+  vocationalFramework: string[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   branchesOfScience: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
+  higherEducationFramework: string[];
   prerequisites: AlignmentObjectExtended[];
 
   form: FormGroup;
@@ -158,13 +166,15 @@ export class PreviewComponent implements OnInit {
         this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
 
-        // @todo: framework
+        this.earlyChildhoodEducationFramework = getUniqueFrameworks(this.earlyChildhoodEducationSubjects);
 
         this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
 
         this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
+
+        this.prePrimaryEducationFramework = getUniqueFrameworks(this.prePrimaryEducationSubjects);
 
         this.basicStudySubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
@@ -174,6 +184,8 @@ export class PreviewComponent implements OnInit {
 
         this.basicStudyContents = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
+
+        this.basicStudyFramework = getUniqueFrameworks(this.basicStudySubjects);
 
         this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
@@ -187,6 +199,8 @@ export class PreviewComponent implements OnInit {
         this.upperSecondarySchoolCoursesOld = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld);
 
+        this.upperSecondarySchoolFramework = getUniqueFrameworks(this.upperSecondarySchoolSubjects);
+
         this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
 
@@ -198,6 +212,8 @@ export class PreviewComponent implements OnInit {
 
         this.upperSecondarySchoolContentsNew = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
+
+        // this.upperSecondarySchoolFrameworkNew = getUniqueFrameworks(this.upperSecondarySchoolSubjectsNew);
 
         this.vocationalDegrees = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
@@ -214,6 +230,12 @@ export class PreviewComponent implements OnInit {
         this.specialistVocationalQualifications = this.savedData.alignmentObjects
           .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
 
+        this.vocationalFramework = getUniqueFrameworks([
+          ...this.vocationalDegrees,
+          ...this.furtherVocationalQualifications,
+          ...this.specialistVocationalQualifications,
+        ]);
+
         this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
 
@@ -225,6 +247,8 @@ export class PreviewComponent implements OnInit {
 
         this.scienceBranchObjectives = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
+
+        this.higherEducationFramework = getUniqueFrameworks(this.branchesOfScience);
 
         this.prerequisites = this.savedData.alignmentObjects
           .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
