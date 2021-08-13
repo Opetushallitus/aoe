@@ -241,14 +241,27 @@
     [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
   ></app-preview-row>
 
-  <!--<ng-container *ngIf="earlyChildhoodEducationFramework?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let framework of earlyChildhoodEducationFramework; let isLast = last">
-        {{ framework.value }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>-->
+  <app-preview-row
+    *ngIf="earlyChildhoodEducationFramework?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate"
+    [items]="earlyChildhoodEducationFramework"
+  ></app-preview-row>
+
+  <!-- pre-primary education -->
+
+  <app-preview-row
+    *ngIf="prePrimaryEducationSubjects?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate"
+    [items]="prePrimaryEducationSubjects"
+    property="targetName"
+  ></app-preview-row>
+
+  <app-preview-row
+    *ngIf="prePrimaryEducationObjectives?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate"
+    [items]="prePrimaryEducationObjectives"
+    property="targetName"
+  ></app-preview-row>
 
   <app-preview-row
     *ngIf="savedData?.suitsAllPrePrimarySubjects"
@@ -256,14 +269,11 @@
     [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
   ></app-preview-row>
 
-  <ng-container *ngIf="prePrimaryEducationObjectives?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let objective of prePrimaryEducationObjectives; let isLast = last">
-        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="prePrimaryEducationFramework?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate"
+    [items]="prePrimaryEducationFramework"
+  ></app-preview-row>
 
   <!-- basic education -->
 
@@ -294,10 +304,11 @@
     [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
   ></app-preview-row>
 
-  <ng-container *ngIf="savedData?.suitsAllBasicStudySubjects">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</dt>
-    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="basicStudyFramework?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate"
+    [items]="basicStudyFramework"
+  ></app-preview-row>
 
   <!-- upper secondary education -->
 
@@ -328,10 +339,13 @@
     [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
   ></app-preview-row>
 
-  <ng-container *ngIf="savedData?.suitsAllUpperSecondarySubjects">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</dt>
-    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="upperSecondarySchoolFramework?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate"
+    [items]="upperSecondarySchoolFramework"
+  ></app-preview-row>
+
+  <!-- upper secondary education (LOPS2019) -->
 
   <ng-container *ngIf="upperSecondarySchoolSubjectsNew?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</dt>
@@ -369,11 +383,11 @@
     </dd>
   </ng-container>
 
-  <!--<ng-container *ngIf="upperSecondarySchoolFramework?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</dt>
+  <!--<ng-container *ngIf="upperSecondarySchoolFrameworkNew?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
-      <ng-container *ngFor="let framework of upperSecondarySchoolFramework; let isLast = last">
-        {{ framework.targetName }}{{ isLast ? '' : ', ' }}
+      <ng-container *ngFor="let framework of upperSecondarySchoolFrameworkNew; let isLast = last">
+        {{ framework }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
   </ng-container>-->
@@ -437,6 +451,15 @@
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
+  <ng-container *ngIf="vocationalFramework?.length > 0">
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</dt>
+    <dd class="col-sm-9">
+      <ng-container *ngFor="let framework of vocationalFramework; let isLast = last">
+        {{ framework }}{{ isLast ? '' : ', ' }}
+      </ng-container>
+    </dd>
+  </ng-container>
+
   <ng-container *ngIf="selfMotivatedEducationSubjects?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</dt>
     <dd class="col-sm-9">
@@ -483,14 +506,14 @@
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
-  <!--<ng-container *ngIf="higherEducationFramework?.length > 0">
+  <ng-container *ngIf="higherEducationFramework?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}</dt>
     <dd class="col-sm-9">
       <ng-container *ngFor="let framework of higherEducationFramework; let isLast = last">
-        {{ framework.targetName }}<br *ngIf="!isLast">
+        {{ framework }}{{ isLast ? '' : ', ' }}
       </ng-container>
     </dd>
-  </ng-container>-->
+  </ng-container>
 </dl>
 
 <hr>
