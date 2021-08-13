@@ -219,6 +219,8 @@
     </dd>
   </ng-template>
 
+  <!-- early childhood education -->
+
   <app-preview-row
     *ngIf="earlyChildhoodEducationSubjects?.length > 0"
     [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate"
@@ -248,14 +250,11 @@
     </dd>
   </ng-container>-->
 
-  <ng-container *ngIf="prePrimaryEducationSubjects?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let subject of prePrimaryEducationSubjects; let isLast = last">
-        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="savedData?.suitsAllPrePrimarySubjects"
+    [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate"
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+  ></app-preview-row>
 
   <ng-container *ngIf="prePrimaryEducationObjectives?.length > 0">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate }}</dt>
@@ -266,84 +265,68 @@
     </dd>
   </ng-container>
 
-  <ng-container *ngIf="savedData?.suitsAllPrePrimarySubjects">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</dt>
-    <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
-  </ng-container>
+  <!-- basic education -->
 
-  <!--<ng-container *ngIf="prePrimaryEducationFramework?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let framework of prePrimaryEducationFramework; let isLast = last">
-        {{ framework.value }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>-->
+  <app-preview-row
+    *ngIf="basicStudySubjects?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate"
+    [items]="basicStudySubjects"
+    property="targetName"
+  ></app-preview-row>
 
-  <ng-container *ngIf="basicStudySubjects?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let subject of basicStudySubjects; let isLast = last">
-        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="basicStudyObjectives?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate"
+    [items]="basicStudyObjectives"
+    property="targetName"
+  ></app-preview-row>
 
-  <ng-container *ngIf="basicStudyObjectives?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let objective of basicStudyObjectives; let isLast = last">
-        {{ objective.targetName }}<br *ngIf="!isLast">
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="basicStudyContents?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate"
+    [items]="basicStudyContents"
+    property="targetName"
+  ></app-preview-row>
 
-  <ng-container *ngIf="basicStudyContents?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let content of basicStudyContents; let isLast = last">
-        {{ content.targetName }}<br *ngIf="!isLast">
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="savedData?.suitsAllBasicStudySubjects"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.title' | translate"
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+  ></app-preview-row>
 
   <ng-container *ngIf="savedData?.suitsAllBasicStudySubjects">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</dt>
     <dd class="col-sm-9">{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</dd>
   </ng-container>
 
-  <ng-container *ngIf="upperSecondarySchoolSubjectsOld?.length > 0">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
-    </dt>
+  <!-- upper secondary education -->
 
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let subject of upperSecondarySchoolSubjectsOld; let isLast = last">
-        {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container><!--upperSecondarySchoolSubjectsOld-->
+  <app-preview-row
+    *ngIf="upperSecondarySchoolSubjectsOld?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate"
+    [items]="upperSecondarySchoolSubjectsOld"
+    property="targetName"
+  ></app-preview-row><!--upperSecondarySchoolSubjectsOld-->
 
-  <ng-container *ngIf="upperSecondarySchoolCoursesOld?.length > 0">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
-    </dt>
+  <app-preview-row
+    *ngIf="upperSecondarySchoolCoursesOld?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate"
+    [items]="upperSecondarySchoolCoursesOld"
+    property="targetName"
+  ></app-preview-row><!--upperSecondarySchoolCoursesOld-->
 
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let course of upperSecondarySchoolCoursesOld; let isLast = last">
-        {{ course.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container><!--upperSecondarySchoolCoursesOld-->
+  <app-preview-row
+    *ngIf="upperSecondarySchoolObjectives?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate"
+    [items]="upperSecondarySchoolObjectives"
+    property="targetName"
+  ></app-preview-row>
 
-  <ng-container *ngIf="upperSecondarySchoolObjectives?.length > 0">
-    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</dt>
-    <dd class="col-sm-9">
-      <ng-container *ngFor="let objective of upperSecondarySchoolObjectives; let isLast = last">
-        {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="savedData?.suitsAllUpperSecondarySubjects"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate"
+    [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+  ></app-preview-row>
 
   <ng-container *ngIf="savedData?.suitsAllUpperSecondarySubjects">
     <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</dt>
