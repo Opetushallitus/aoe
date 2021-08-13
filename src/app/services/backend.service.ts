@@ -18,7 +18,7 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Material } from '@models/material';
-import { deduplicate } from '../shared/shared.module';
+import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
 
 @Injectable({
   providedIn: 'root'
@@ -249,24 +249,24 @@ export class BackendService {
           accessibilityHazards: material.accessibilityHazards
             .map(({accessibilityhazardkey, value}) => ({accessibilityhazardkey, value})),
           earlyChildhoodEducationSubjects: earlyChildhoodEducationSubjects,
-          earlyChildhoodEducationFrameworks: this.getUniqueFrameworks(earlyChildhoodEducationSubjects),
+          earlyChildhoodEducationFrameworks: getUniqueFrameworks(earlyChildhoodEducationSubjects),
           earlyChildhoodEducationObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives),
           suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
           prePrimaryEducationSubjects: prePrimaryEducationSubjects,
-          prePrimaryEducationFrameworks: this.getUniqueFrameworks(prePrimaryEducationSubjects),
+          prePrimaryEducationFrameworks: getUniqueFrameworks(prePrimaryEducationSubjects),
           prePrimaryEducationObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives),
           suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
           basicStudySubjects: basicStudySubjects,
-          basicStudyFrameworks: this.getUniqueFrameworks(basicStudySubjects),
+          basicStudyFrameworks: getUniqueFrameworks(basicStudySubjects),
           basicStudyObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives),
           basicStudyContents: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents),
           suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
           upperSecondarySchoolSubjectsOld: upperSecondarySchoolSubjectsOld,
-          upperSecondarySchoolFrameworks: this.getUniqueFrameworks(upperSecondarySchoolSubjectsOld),
+          upperSecondarySchoolFrameworks: getUniqueFrameworks(upperSecondarySchoolSubjectsOld),
           upperSecondarySchoolCoursesOld: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld
               || alignmentObject.source === koodistoSources.upperSecondarySubjects),
@@ -274,7 +274,7 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives),
           suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
           upperSecondarySchoolSubjectsNew: upperSecondarySchoolSubjectsNew,
-          upperSecondarySchoolFrameworksNew: this.getUniqueFrameworks(upperSecondarySchoolSubjectsNew),
+          upperSecondarySchoolFrameworksNew: getUniqueFrameworks(upperSecondarySchoolSubjectsNew),
           upperSecondarySchoolModulesNew: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew),
           upperSecondarySchoolObjectivesNew: alignmentObjects
@@ -283,7 +283,7 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew),
           suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
           vocationalDegrees: vocationalDegrees,
-          vocationalFrameworks: this.getUniqueFrameworks(vocationalDegrees),
+          vocationalFrameworks: getUniqueFrameworks(vocationalDegrees),
           vocationalUnits: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits),
           vocationalRequirements: alignmentObjects
@@ -295,7 +295,7 @@ export class BackendService {
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives),
           suitsAllSelfMotivatedSubjects: material.suitsAllSelfMotivatedSubjects,
           branchesOfScience: scienceBranches,
-          higherEducationFrameworks: this.getUniqueFrameworks(scienceBranches),
+          higherEducationFrameworks: getUniqueFrameworks(scienceBranches),
           scienceBranchObjectives: alignmentObjects
             .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives),
           suitsAllBranches: material.suitsAllBranches,
@@ -1009,9 +1009,5 @@ export class BackendService {
         }));
       }),
     );
-  }
-
-  private getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
-    return [...new Set(subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework))];
   }
 }
