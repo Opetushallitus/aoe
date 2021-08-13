@@ -113,6 +113,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { DisableFormsGuard } from './guards/disable-forms.guard';
 import { ArchivedMaterialComponent } from '@components/archived-material/archived-material.component';
 import { AccessibilityViewComponent } from '@views/accessibility-view/accessibility-view.component';
+import { PreviewRowComponent } from '@components/preview-row/preview-row.component';
 
 @NgModule({
   imports: [
@@ -213,6 +214,7 @@ import { AccessibilityViewComponent } from '@views/accessibility-view/accessibil
     SocialMetadataModalComponent,
     ArchivedMaterialComponent,
     AccessibilityViewComponent,
+    PreviewRowComponent,
   ],
   providers: [
     {
