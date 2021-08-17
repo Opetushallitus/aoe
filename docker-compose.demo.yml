@@ -10,7 +10,6 @@ services:
     ports:
       - "8282:80"
     volumes:
-      - /webdata:/webdata
       - /webdata:/usr/share/nginx/html/webdata:ro
     user: "root:5606"
     networks:
