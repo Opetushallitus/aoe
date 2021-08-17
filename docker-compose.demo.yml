@@ -10,7 +10,7 @@ services:
     ports:
       - "8282:80"
     volumes:
-      - /webdata:/usr/share/nginx/html/webdata:ro
+      - /webdata:/usr/share/nginx/html/webdata
     networks:
       - network-frontend-demo
 
