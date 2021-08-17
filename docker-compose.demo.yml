@@ -11,7 +11,6 @@ services:
       - "8282:80"
     volumes:
       - /webdata:/usr/share/nginx/html/webdata:ro
-    user: "root:5606"
     networks:
       - network-frontend-demo
 
