@@ -9,8 +9,8 @@ services:
     restart: unless-stopped
     ports:
       - "8282:80"
-#    volumes:
-#      - /webdata:/usr/share/nginx/html/webdata:ro
+    volumes:
+      - /webdata:/webdata
     user: "root:5606"
     networks:
       - network-frontend-demo

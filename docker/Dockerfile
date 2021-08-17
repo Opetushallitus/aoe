@@ -7,4 +7,5 @@ RUN npm ci && \
 FROM openresty/openresty:1.13.6.2-stretch
 COPY --from=front-builder /app/dist/ /usr/share/nginx/html/
 COPY ./docker/server.conf /etc/nginx/conf.d/default.conf
-RUN ln -s /webdata /usr/share/nginx/html/webdata
+RUN mkdir -p /webdata && \
+    ln -s /webdata /usr/share/nginx/html/webdata
