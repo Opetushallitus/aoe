@@ -481,19 +481,19 @@
             },
             "new": {
               "subjects": {
-                "label": "Oppiaine",
+                "label": "Lukion oppiaineet",
                 "tooltip": ""
               },
               "modules": {
-                "label": "Moduuli",
+                "label": "Lukion moduulit",
                 "tooltip": ""
               },
               "objectives": {
-                "label": "Tavoite",
+                "label": "Lukion oppiaineiden tavoitteet",
                 "tooltip": ""
               },
               "contents": {
-                "label": "Sisältö",
+                "label": "Lukion oppiaineiden sisältöalueet",
                 "tooltip": ""
               }
             }
