@@ -25,6 +25,7 @@ export class EditPreviewComponent implements OnInit {
   canDeactivate = false;
   previewMaterial: EducationalMaterialForm;
   @Output() abortEdit = new EventEmitter();
+  typicalAgeRange: string;
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +82,10 @@ export class EditPreviewComponent implements OnInit {
     this.form.get('hasLearningResourceTypes').setValue(this.previewMaterial?.learningResourceTypes?.length > 0);
     this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
     this.form.get('hasLicense').setValue(this.previewMaterial?.license);
+
+    if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
+      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
+    }
   }
 
   setTitle(): void {
