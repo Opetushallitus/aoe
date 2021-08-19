@@ -4,32 +4,34 @@ import { Routes, RouterModule } from '@angular/router';
 // Import Containers
 import { DefaultLayoutComponent } from './containers';
 
-import { P404Component } from '@views/error/404.component';
-import { MainViewComponent } from '@views/mainView/main-view.component';
-import { EducationalMaterialViewComponent } from '@views/educational-material-view/educational-material-view.component';
-import { EducationalResourceFormComponent } from '@views/educational-resource-form/educational-resource-form.component';
-import { HelpViewComponent } from '@views/help-view/help-view.component';
-import { TermsOfUseViewComponent } from '@views/terms-of-use-view/terms-of-use-view.component';
-import { PrivacyPolicyViewComponent } from '@views/privacy-policy-view/privacy-policy-view.component';
-import { AcceptanceViewComponent } from '@views/acceptance-view/acceptance-view.component';
-import { AcceptanceGuard } from './guards/acceptance.guard';
-import { UserMaterialsViewComponent } from '@views/user-materials-view/user-materials-view.component';
-import { AuthGuard } from './guards/auth.guard';
-import { LogoutViewComponent } from '@views/logout-view/logout-view.component';
-import { EducationalMaterialEmbedViewComponent } from '@views/educational-material-embed-view/educational-material-embed-view.component';
-import { AccessibilityPolicyViewComponent } from '@views/accessibility-policy-view/accessibility-policy-view.component';
-import { SearchResultsViewComponent } from '@views/search-results-view/search-results-view.component';
-import { EducationalMaterialEditFormComponent } from '@views/educational-material-edit-form/educational-material-edit-form.component';
-import { EducationalMaterialRatingsComponent } from '@views/educational-material-ratings/educational-material-ratings.component';
-import { CollectionViewComponent } from '@views/collection-view/collection-view.component';
-import { CollectionFormComponent } from '@views/collection-form/collection-form.component';
-import { CollectionsViewComponent } from '@views/collections-view/collections-view.component';
-import { CollectionSearchResultsViewComponent } from '@views/collection-search-results-view/collection-search-results-view.component';
-import { UnsavedChangesGuard } from './guards/unsaved-changes.guard';
-import { UserDetailsViewComponent } from '@views/user-details-view/user-details-view.component';
-import { AdminGuard } from './guards/admin.guard';
-import { DisableFormsGuard } from './guards/disable-forms.guard';
-import { AccessibilityViewComponent } from '@views/accessibility-view/accessibility-view.component';
+// guards
+import { AcceptanceGuard } from './guards';
+import { AuthGuard } from './guards';
+import { UnsavedChangesGuard } from './guards';
+import { AdminGuard } from './guards';
+import { DisableFormsGuard } from './guards';
+// views
+import { P404Component } from './views';
+import { MainViewComponent } from './views';
+import { EducationalMaterialViewComponent } from './views';
+import { EducationalResourceFormComponent } from './views';
+import { HelpViewComponent } from './views';
+import { TermsOfUseViewComponent } from './views';
+import { PrivacyPolicyViewComponent } from './views';
+import { AcceptanceViewComponent } from './views';
+import { UserMaterialsViewComponent } from './views';
+import { LogoutViewComponent } from './views';
+import { EducationalMaterialEmbedViewComponent } from './views';
+import { AccessibilityPolicyViewComponent } from './views';
+import { SearchResultsViewComponent } from './views';
+import { EducationalMaterialEditFormComponent } from './views';
+import { EducationalMaterialRatingsComponent } from './views';
+import { CollectionViewComponent } from './views';
+import { CollectionFormComponent } from './views';
+import { CollectionsViewComponent } from './views';
+import { CollectionSearchResultsViewComponent } from './views';
+import { UserDetailsViewComponent } from './views';
+import { AccessibilityViewComponent } from './views';
 
 export const routes: Routes = [
   {
