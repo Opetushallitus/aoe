@@ -5,35 +5,23 @@
 
   <dl class="row">
     <ng-container *ngIf="hasName; else missingName">
-      <ng-container *ngIf="previewMaterial.name.fi">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.files.materialName.label.fi' | translate }}
-        </dt>
+      <app-preview-row
+        *ngIf="previewMaterial?.name?.fi"
+        [title]="'forms.educationalResource.files.materialName.label.fi' | translate"
+        [item]="previewMaterial.name.fi"
+      ></app-preview-row>
 
-        <dd class="col-sm-9">
-          {{ previewMaterial.name.fi }}
-        </dd>
-      </ng-container>
+      <app-preview-row
+        *ngIf="previewMaterial?.name?.en"
+        [title]="'forms.educationalResource.files.materialName.label.en' | translate"
+        [item]="previewMaterial.name.en"
+      ></app-preview-row>
 
-      <ng-container *ngIf="previewMaterial.name.en">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.files.materialName.label.en' | translate }}
-        </dt>
-
-        <dd class="col-sm-9">
-          {{ previewMaterial.name.en }}
-        </dd>
-      </ng-container>
-
-      <ng-container *ngIf="previewMaterial.name.sv">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.files.materialName.label.sv' | translate }}
-        </dt>
-
-        <dd class="col-sm-9">
-          {{ previewMaterial.name.sv }}
-        </dd>
-      </ng-container>
+      <app-preview-row
+        *ngIf="previewMaterial?.name?.sv"
+        [title]="'forms.educationalResource.files.materialName.label.sv' | translate"
+        [item]="previewMaterial.name.sv"
+      ></app-preview-row>
     </ng-container>
 
     <ng-template #missingName>
@@ -184,17 +172,12 @@
       </dd>
     </ng-template>
 
-    <ng-container *ngIf="hasKeywords; else missingKeywords">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let keyword of previewMaterial.keywords; let isLast = last">
-          {{ keyword.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="hasKeywords; else missingKeywords"
+      [title]="'forms.educationalResource.basicDetails.keywords.label' | translate"
+      [items]="previewMaterial?.keywords"
+      property="value"
+    ></app-preview-row>
 
     <ng-template #missingKeywords>
       <dt class="col-sm-3">
@@ -208,17 +191,12 @@
       </dd>
     </ng-template>
 
-    <ng-container *ngIf="hasLearningResourceTypes; else missingLearningResourceTypes">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let type of previewMaterial.learningResourceTypes; let isLast = last">
-          {{ type.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="hasLearningResourceTypes; else missingLearningResourceTypes"
+      [title]="'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate"
+      [items]="previewMaterial?.learningResourceTypes"
+      property="value"
+    ></app-preview-row>
 
     <ng-template #missingLearningResourceTypes>
       <dt class="col-sm-3">
@@ -232,60 +210,38 @@
       </dd>
     </ng-template>
 
-    <ng-container *ngIf="previewMaterial.educationalRoles?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}
-      </dt>
+    <app-preview-row
+      *ngIf="previewMaterial?.educationalRoles?.length > 0"
+      [title]="'forms.educationalResource.basicDetails.educationalRoles.label' | translate"
+      [items]="previewMaterial.educationalRoles"
+      property="value"
+    ></app-preview-row>
 
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let role of previewMaterial.educationalRoles; let isLast = last">
-          {{ role.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="previewMaterial?.educationalUses?.length > 0"
+      [title]="'forms.educationalResource.basicDetails.educationalUses.label' | translate"
+      [items]="previewMaterial.educationalUses"
+      property="value"
+    ></app-preview-row>
 
-    <ng-container *ngIf="previewMaterial.educationalUses?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}
-      </dt>
+    <ng-container *ngIf="previewMaterial?.description">
+      <app-preview-row
+        *ngIf="previewMaterial?.description?.fi"
+        [title]="'forms.educationalResource.basicDetails.description.label.fi' | translate"
+        [item]="previewMaterial.description.fi"
+      ></app-preview-row>
 
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let use of previewMaterial.educationalUses; let isLast = last">
-          {{ use.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+      <app-preview-row
+        *ngIf="previewMaterial?.description?.en"
+        [title]="'forms.educationalResource.basicDetails.description.label.en' | translate"
+        [item]="previewMaterial.description.en"
+      ></app-preview-row>
 
-    <ng-container *ngIf="previewMaterial.description">
-      <ng-container *ngIf="previewMaterial.description.fi">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.basicDetails.description.label.fi' | translate }}
-        </dt>
-
-        <dd class="col-sm-9">
-          {{ previewMaterial.description.fi }}
-        </dd>
-      </ng-container>
-
-      <ng-container *ngIf="previewMaterial.description.en">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.basicDetails.description.label.en' | translate }}
-        </dt>
-
-        <dd class="col-sm-9">
-          {{ previewMaterial.description.en }}
-        </dd>
-      </ng-container>
-
-      <ng-container *ngIf="previewMaterial.description.sv">
-        <dt class="col-sm-3">
-          {{ 'forms.educationalResource.basicDetails.description.label.sv' | translate }}
-        </dt>
-
-        <dd class="col-sm-9">
-          {{ previewMaterial.description.sv }}
-        </dd>
-      </ng-container>
+      <app-preview-row
+        *ngIf="previewMaterial?.description?.sv"
+        [title]="'forms.educationalResource.basicDetails.description.label.sv' | translate"
+        [item]="previewMaterial.description.sv"
+      ></app-preview-row>
     </ng-container>
   </dl>
 
@@ -296,17 +252,12 @@
   </h3>
 
   <dl class="row">
-    <ng-container *ngIf="hasEducationalLevels; else missingEducationalLevels">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let level of previewMaterial.educationalLevels; let isLast = last">
-          {{ level.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="hasEducationalLevels; else missingEducationalLevels"
+      [title]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
+      [items]="previewMaterial?.educationalLevels"
+      property="value"
+    ></app-preview-row>
 
     <ng-template #missingEducationalLevels>
       <dt class="col-sm-3">
@@ -320,411 +271,260 @@
       </dd>
     </ng-template>
 
-    <ng-container *ngIf="previewMaterial.earlyChildhoodEducationSubjects?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.earlyChildhoodEducationSubjects; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.earlyChildhoodEducationObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.earlyChildhoodEducationObjectives; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllEarlyChildhoodSubjects">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.earlyChildhoodEducationFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.earlyChildhoodEducationFramework }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.prePrimaryEducationSubjects?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.prePrimaryEducationSubjects; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.prePrimaryEducationObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.prePrimaryEducationObjectives; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllPrePrimarySubjects">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.prePrimaryEducationFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.prePrimaryEducationFramework }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.basicStudySubjects?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.basicStudySubjects; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.basicStudyObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.basicStudyObjectives; let isLast = last">
-          {{ objective.targetName }}<br *ngIf="!isLast">
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.basicStudyContents?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let content of previewMaterial.basicStudyContents; let isLast = last">
-          {{ content.targetName }}<br *ngIf="!isLast">
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllBasicStudySubjects">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.basicStudyFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.basicStudyFramework }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolSubjectsOld?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.upperSecondarySchoolSubjectsOld; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container><!--upperSecondarySchoolSubjectsOld-->
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolCoursesOld?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let course of previewMaterial.upperSecondarySchoolCoursesOld; let isLast = last">
-          {{ course.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container><!--upperSecondarySchoolCoursesOld-->
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.upperSecondarySchoolObjectives; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllUpperSecondarySubjects">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.upperSecondarySchoolFramework }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.upperSecondarySchoolSubjectsNew; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolModulesNew?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let module of previewMaterial.upperSecondarySchoolModulesNew; let isLast = last">
-          {{ module.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.upperSecondarySchoolObjectivesNew; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.upperSecondarySchoolContentsNew?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let content of previewMaterial.upperSecondarySchoolContentsNew; let isLast = last">
-          {{ content.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.vocationalDegrees?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let degree of previewMaterial.vocationalDegrees; let isLast = last">
-          {{ degree.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.furtherVocationalQualifications?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let qualification of previewMaterial.furtherVocationalQualifications; let isLast = last">
-          {{ qualification.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.specialistVocationalQualifications?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let qualification of previewMaterial.specialistVocationalQualifications; let isLast = last">
-          {{ qualification.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.vocationalUnits?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let unit of previewMaterial.vocationalUnits; let isLast = last">
-          {{ unit.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.vocationalRequirements?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let requirement of previewMaterial.vocationalRequirements; let isLast = last">
-          {{ requirement.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllVocationalDegrees">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.vocationalEducationFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.vocationalEducationFramework }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.selfMotivatedEducationSubjects?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let subject of previewMaterial.selfMotivatedEducationSubjects; let isLast = last">
-          {{ subject.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.selfMotivatedEducationObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.selfMotivatedEducationObjectives; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllSelfMotivatedSubjects">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.branchesOfScience?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let branch of previewMaterial.branchesOfScience; let isLast = last">
-          {{ branch.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.scienceBranchObjectives?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let objective of previewMaterial.scienceBranchObjectives; let isLast = last">
-          {{ objective.targetName }}<br *ngIf="!isLast">
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.suitsAllBranches">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.higherEducationFramework">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.higherEducationFramework }}
-      </dd>
-    </ng-container>
+    <!-- early childhood education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.earlyChildhoodEducationSubjects?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.earlyChildhoodEducationSubjects"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.earlyChildhoodEducationObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.earlyChildhoodEducationObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllEarlyChildhoodSubjects"
+      [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.earlyChildhoodEducationFramework"
+      [title]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.earlyChildhoodEducationFramework"
+    ></app-preview-row>
+
+    <!-- pre-primary education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial.prePrimaryEducationSubjects?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.prePrimaryEducationSubjects"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial.prePrimaryEducationObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.prePrimaryEducationObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllPrePrimarySubjects"
+      [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.prePrimaryEducationFramework"
+      [title]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.prePrimaryEducationFramework"
+    ></app-preview-row>
+
+    <!-- basic education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.basicStudySubjects?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.basicStudySubjects"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.basicStudyObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.basicStudyObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.basicStudyContents?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate"
+      [items]="previewMaterial.basicStudyContents"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllBasicStudySubjects"
+      [title]="'forms.educationalResource.educationalDetails.basicEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.basicStudyFramework"
+      [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.basicStudyFramework"
+    ></app-preview-row>
+
+    <!-- upper secondary education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolSubjectsOld?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolSubjectsOld"
+      property="targetName"
+    ></app-preview-row><!--upperSecondarySchoolSubjectsOld-->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolCoursesOld?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolCoursesOld"
+      property="targetName"
+    ></app-preview-row><!--upperSecondarySchoolCoursesOld-->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllUpperSecondarySubjects"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolFramework"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.upperSecondarySchoolFramework"
+    ></app-preview-row>
+
+    <!-- upper secondary education (LOPS2019) -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolSubjectsNew?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolSubjectsNew"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolModulesNew?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolModulesNew"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolObjectivesNew?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolObjectivesNew"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.upperSecondarySchoolContentsNew?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate"
+      [items]="previewMaterial.upperSecondarySchoolContentsNew"
+      property="targetName"
+    ></app-preview-row>
+
+    <!-- vocational education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.vocationalDegrees?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate"
+      [items]="previewMaterial.vocationalDegrees"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.furtherVocationalQualifications?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate"
+      [items]="previewMaterial.furtherVocationalQualifications"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.specialistVocationalQualifications?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate"
+      [items]="previewMaterial.specialistVocationalQualifications"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.vocationalUnits?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate"
+      [items]="previewMaterial.vocationalUnits"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.vocationalRequirements?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.vocationalRequirements"
+      property="targetName"
+    ></app-preview-row><!--vocationalRequirements-->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllVocationalDegrees"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.vocationalEducationFramework"
+      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.vocationalEducationFramework"
+    ></app-preview-row>
+
+    <!-- self-motivated education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.selfMotivatedEducationSubjects?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.selfMotivatedEducationSubjects"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.selfMotivatedEducationObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.selfMotivatedEducationObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllSelfMotivatedSubjects"
+      [title]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <!-- higher education-->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.branchesOfScience?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate"
+      [items]="previewMaterial.branchesOfScience"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.scienceBranchObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.scienceBranchObjectives"
+      property="targetName"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.suitsAllBranches"
+      [title]="'forms.educationalResource.educationalDetails.higherEducation.title' | translate"
+      [item]="'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate"
+    ></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.higherEducationFramework?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate"
+      [item]="previewMaterial.higherEducationFramework"
+    ></app-preview-row>
   </dl>
 
   <hr>
@@ -734,83 +534,51 @@
   </h3>
 
   <dl class="row">
-    <ng-container *ngIf="previewMaterial.accessibilityFeatures && previewMaterial.accessibilityFeatures.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}
-      </dt>
+    <app-preview-row
+      *ngIf="previewMaterial?.accessibilityFeatures?.length > 0"
+      [title]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate"
+      [items]="previewMaterial.accessibilityFeatures"
+      property="value"
+    ></app-preview-row>
 
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let feature of previewMaterial.accessibilityFeatures; let isLast = last">
-          {{ feature.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="previewMaterial?.accessibilityHazards?.length > 0"
+      [title]="'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate"
+      [items]="previewMaterial.accessibilityHazards"
+      property="value"
+    ></app-preview-row>
 
-    <ng-container *ngIf="previewMaterial.accessibilityHazards && previewMaterial.accessibilityHazards.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}
-      </dt>
+    <app-preview-row
+      *ngIf="typicalAgeRange"
+      [title]="'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate"
+      [item]="typicalAgeRange"
+    ></app-preview-row>
 
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let hazard of previewMaterial.accessibilityHazards; let isLast = last">
-          {{ hazard.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="previewMaterial?.timeRequired"
+      [title]="'forms.educationalResource.extendedDetails.timeRequired.label' | translate"
+      [item]="previewMaterial.timeRequired"
+    ></app-preview-row>
 
-    <ng-container *ngIf="previewMaterial.typicalAgeRange && (previewMaterial.typicalAgeRange.typicalAgeRangeMin || previewMaterial.typicalAgeRange.typicalAgeRangeMax)">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}
-      </dt>
+    <app-preview-row
+      *ngIf="previewMaterial?.publisher?.length > 0"
+      [title]="'forms.educationalResource.extendedDetails.publisher.label' | translate"
+      [items]="previewMaterial.publisher"
+      property="value"
+    ></app-preview-row>
 
-      <dd class="col-sm-9">
-        {{ previewMaterial.typicalAgeRange.typicalAgeRangeMin }} - {{ previewMaterial.typicalAgeRange.typicalAgeRangeMax }}
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="previewMaterial?.expires"
+      [title]="'forms.educationalResource.extendedDetails.expires.label' | translate"
+      [item]="previewMaterial.expires | date:'d.M.yyyy'"
+    ></app-preview-row>
 
-    <ng-container *ngIf="previewMaterial.timeRequired">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.timeRequired }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.publisher && previewMaterial.publisher.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let publisher of previewMaterial.publisher; let isLast = last">
-          {{ publisher.value }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.expires">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.expires.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.expires | date:'d.M.yyyy' }}
-      </dd>
-    </ng-container>
-
-    <ng-container *ngIf="previewMaterial.prerequisites?.length > 0">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        <ng-container *ngFor="let prerequisite of previewMaterial.prerequisites; let isLast = last">
-          {{ prerequisite.targetName }}<br *ngIf="!isLast">
-        </ng-container>
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="previewMaterial?.prerequisites?.length > 0"
+      [title]="'forms.educationalResource.extendedDetails.prerequisites.label' | translate"
+      [items]="previewMaterial.prerequisites"
+      property="targetName"
+    ></app-preview-row>
   </dl>
 
   <hr>
@@ -869,15 +637,11 @@
   </h3>
 
   <dl class="row">
-    <ng-container *ngIf="hasLicense; else missingLicense">
-      <dt class="col-sm-3">
-        {{ 'forms.educationalResource.license.title' | translate }}
-      </dt>
-
-      <dd class="col-sm-9">
-        {{ previewMaterial.license }}
-      </dd>
-    </ng-container>
+    <app-preview-row
+      *ngIf="hasLicense; else missingLicense"
+      [title]="'forms.educationalResource.license.title' | translate"
+      [item]="previewMaterial?.license"
+    ></app-preview-row>
 
     <ng-template #missingLicense>
       <dt class="col-sm-3">

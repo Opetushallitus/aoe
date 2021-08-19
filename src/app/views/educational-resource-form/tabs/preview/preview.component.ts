@@ -223,8 +223,8 @@ export class PreviewComponent implements OnInit {
     this.prerequisites = this.savedData?.alignmentObjects
       .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
 
-    if (this.savedData?.typicalAgeRange) {
-      this.typicalAgeRange = `${this.savedData?.typicalAgeRange.typicalAgeRangeMin ?? ''} - ${this.savedData?.typicalAgeRange.typicalAgeRangeMax ?? ''}`;
+    if (this.savedData?.typicalAgeRange?.typicalAgeRangeMin || this.savedData?.typicalAgeRange?.typicalAgeRangeMax) {
+      this.typicalAgeRange = `${this.savedData?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.savedData?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
     }
   }
 
