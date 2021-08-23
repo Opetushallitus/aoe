@@ -39,13 +39,43 @@ deploy_demo:
   tags:
     - demo
 
-cleanup:
+cleanup_demo:
   stage: cleanup
   script:
-    - echo "Cleaning up the system"
+    - echo "DEMO system clean up"
     - docker system prune -a -f
   only:
     - dev
-    - master
   tags:
     - demo
+
+build_prod:
+  stage: build
+  script:
+    - echo "PROD build"
+    - docker-compose -f docker-compose.prod.yml down
+    - docker-compose -f docker-compose.prod.yml build
+  only:
+    - master
+  tags:
+    - prod
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "PROD deploy"
+    - docker-compose -f docker-compose.prod.yml up -d
+  only:
+    - master
+  tags:
+    - prod
+
+cleanup_prod:
+  stage: cleanup
+  script:
+    - echo "PROD system clean up"
+    - docker system prune -a -f
+  only:
+    - master
+  tags:
+    - prod
