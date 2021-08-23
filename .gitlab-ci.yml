@@ -53,7 +53,7 @@ build_prod:
   stage: build
   script:
     - echo "PROD build"
-    - docker-compose -f docker-compose.prod.yml down
+#    - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
     - master
