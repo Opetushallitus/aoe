@@ -16,5 +16,5 @@ services:
       - network-frontend-prod
 
 networks:
-  network-frontend-demo:
+  network-frontend-prod:
     driver: bridge
