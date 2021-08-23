@@ -39,10 +39,10 @@ deploy_demo:
   tags:
     - demo
 
-cleanup:
+cleanup_demo:
   stage: cleanup
   script:
-    - echo "Cleaning up the system"
+    - echo "DEMO system clean up"
     - docker system prune -a -f
   only:
     - dev
