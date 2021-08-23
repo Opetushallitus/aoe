@@ -3,9 +3,9 @@ services:
   aoe-web-frontend:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.demo
-    image: aoe-web-frontend-demo:latest
-    container_name: aoe-web-frontend-demo
+      dockerfile: ./docker/Dockerfile.prod
+    image: aoe-web-frontend-prod:latest
+    container_name: aoe-web-frontend-prod
     restart: unless-stopped
     ports:
       - "8282:80"
@@ -13,7 +13,7 @@ services:
       - /webdata:/usr/share/nginx/html/webdata
     user: "root:5606"
     networks:
-      - network-frontend-demo
+      - network-frontend-prod
 
 networks:
   network-frontend-demo:
