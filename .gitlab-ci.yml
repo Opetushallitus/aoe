@@ -78,4 +78,4 @@ cleanup_prod:
   only:
     - master
   tags:
-    - demo
+    - prod
