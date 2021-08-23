@@ -9,6 +9,7 @@ import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { BackendService } from '@services/backend.service';
 import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 import { Title } from '@angular/platform-browser';
+import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -54,6 +55,20 @@ export class EditPreviewComponent implements OnInit {
         Validators.requiredTrue,
       ]),
       hasEducationalLevels: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
+      hasBasicEduObjectives: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasBasicEduContents: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
+      hasUpperSecondaryEduObjectives: this.fb.control(false, [
+        Validators.requiredTrue,
+      ]),
+      hasUpperSecondaryEduContents: this.fb.control(false, [
         Validators.requiredTrue,
       ]),
       hasLicense: this.fb.control(false, [
@@ -114,6 +129,36 @@ export class EditPreviewComponent implements OnInit {
       }
     }
 
+    if (this.previewMaterial.basicStudySubjects?.length > 0) {
+      this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
+      this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
+
+      const ignoredSubjectsList = this.previewMaterial.basicStudySubjects
+        .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
+
+      this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
+    }
+
+    if (this.shouldHaveBasicEduObjectivesAndContents === false) {
+      this.form.get('hasBasicEduObjectives').setValidators(null);
+      this.form.get('hasBasicEduObjectives').updateValueAndValidity();
+      this.form.get('hasBasicEduContents').setValidators(null);
+      this.form.get('hasBasicEduContents').updateValueAndValidity();
+    }
+
+    if (this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 && this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0) {
+      this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
+      this.form.get('hasUpperSecondaryEduObjectives').setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
+      this.form.get('hasUpperSecondaryEduContents').setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
+    }
+
+    if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
+      this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
+      this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
+      this.form.get('hasUpperSecondaryEduContents').setValidators(null);
+      this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
+    }
+
     if (this.previewMaterial.license) {
       this.form.get('hasLicense').setValue(true);
     }
@@ -155,6 +200,30 @@ export class EditPreviewComponent implements OnInit {
 
   get hasEducationalLevels(): boolean {
     return this.form.get('hasEducationalLevels').value;
+  }
+
+  get shouldHaveBasicEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveBasicEduObjectivesAndContents').value;
+  }
+
+  get hasBasicEduObjectives(): boolean {
+    return this.form.get('hasBasicEduObjectives').value;
+  }
+
+  get hasBasicEduContents(): boolean {
+    return this.form.get('hasBasicEduContents').value;
+  }
+
+  get shouldHaveUppSecondaryEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').value;
+  }
+
+  get hasUpperSecondaryEduObjectives(): boolean {
+    return this.form.get('hasUpperSecondaryEduObjectives').value;
+  }
+
+  get hasUpperSecondaryEduContents(): boolean {
+    return this.form.get('hasUpperSecondaryEduContents').value;
   }
 
   get hasLicense(): boolean {

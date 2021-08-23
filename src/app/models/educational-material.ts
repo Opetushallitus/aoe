@@ -93,4 +93,5 @@ export interface EducationalMaterial {
     typicalAgeRangeMin: number;
     typicalAgeRangeMax: number;
   };
+  urn: string;
 }

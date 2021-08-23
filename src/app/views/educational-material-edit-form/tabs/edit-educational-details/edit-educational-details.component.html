@@ -2,6 +2,7 @@
   <div class="form-group">
     <label for="educationalLevels">
       {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}*
+      <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
     </label>
 
     <button
@@ -332,7 +333,8 @@
 
       <div class="form-group">
         <label for="basicStudyObjectives">
-          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}
+          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}*
+          <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
         </label>
 
         <ng-select
@@ -356,7 +358,8 @@
 
       <div class="form-group">
         <label for="basicStudyContents">
-          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}
+          {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}*
+          <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
         </label>
 
         <ng-select
@@ -598,7 +601,8 @@
 
         <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
           <label for="upperSecondarySchoolObjectivesNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}*
+            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
           </label>
 
           <ng-select
@@ -615,7 +619,8 @@
 
         <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
           <label for="upperSecondarySchoolContentsNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}*
+            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
           </label>
 
           <ng-select
