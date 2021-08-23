@@ -319,6 +319,7 @@ h2 {
 }
 
 .btn-tooltip {
+  line-height: 1;
   padding: 0 .5rem;
 }
 
@@ -328,6 +329,13 @@ h2 {
 
   &:hover {
     background-color: darken($white, 15%);
+  }
+}
+
+.btn {
+  &.is-invalid {
+    border-color: $red;
+    box-shadow: 0 0 0 0.2rem rgba($red, .5);
   }
 }
 

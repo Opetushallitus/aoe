@@ -37,13 +37,23 @@
       </div>
 
       <div class="col-auto">
-        <button type="button" class="btn btn-gray" (click)="openModal(nameI18n)">{{ 'forms.common.translations.label' | translate }}</button>
+        <button
+          type="button"
+          class="btn btn-gray"
+          (click)="openModal(nameI18n)"
+          [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid }"
+        >{{ 'forms.common.translations.label' | translate }}</button>
 
         <button
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.common.translations.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <div
+          *ngIf="names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid"
+          class="invalid-feedback"
+        >{{ 'forms.errors.common.translations' | translate }}</div>
       </div>
     </div>
 
@@ -237,13 +247,23 @@
           </div>
 
           <div class="form-group col-auto">
-            <button type="button" class="btn btn-gray" (click)="openModal(displayName)">{{ 'forms.common.translations.label' | translate }}</button>
+            <button
+              type="button"
+              class="btn btn-gray"
+              (click)="openModal(displayName)"
+              [ngClass]="{ 'is-invalid': files.at(i).get('displayName.' + otherLangs[0]).invalid || files.at(i).get('displayName.' + otherLangs[1]).invalid }"
+            >{{ 'forms.common.translations.label' | translate }}</button>
 
             <button
               type="button"
               class="btn btn-link"
               [tooltip]="'forms.common.translations.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+            <div
+              *ngIf="files.at(i).get('displayName.' + otherLangs[0]).invalid || files.at(i).get('displayName.' + otherLangs[1]).invalid"
+              class="invalid-feedback"
+            >{{ 'forms.errors.common.translations' | translate }}</div>
           </div>
 
           <ng-template #displayName>

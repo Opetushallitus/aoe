@@ -87,6 +87,13 @@
       "edit": "Redigera",
       "viewCount": "sidvisningar ",
       "downloadCount": "nedladdningar",
+      "pid": {
+        "label": {
+          "latest": "Publikationens permanenta adress",
+          "version": "Versionens permanenta adress"
+        },
+        "tooltip": "URN identifierare (Uniform Resource Name) är en permanent, unik identifierare som hjälper till att upptäcka, identifiera och länka onlinematerial och undervisningmaterial. Du kan använda identifieraren som ett sätt att hänvisa till och länka till undervisningmaterial istället för webbadressen."
+      },
       "createdAt": "Created",
       "publishedAt": "Skapad",
       "updatedAt": "Redigerad",
@@ -229,7 +236,8 @@
     },
     "errors": {
       "common": {
-        "maxLength": "{{maxLength}}"
+        "maxLength": "{{maxLength}}",
+        "translations": "Granska Språkversioner"
       },
       "textInput": {
         "characters": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
@@ -872,7 +880,9 @@
     "title": "Vanliga frågor",
     "general": "Vanliga frågor",
     "material": "För skapare av undervisningsmaterial",
-    "organization": "För organisationer"
+    "organization": "För organisationer",
+    "closeAll": "Stäng alla",
+    "openAll": "Visa alla"
   },
   "acceptance": {
     "title": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
