@@ -87,6 +87,13 @@
       "edit": "Muokkaa",
       "viewCount": "näyttökertaa",
       "downloadCount": "latauskertaa",
+      "pid": {
+        "label": {
+          "latest": "Julkaisun pysyvä osoite",
+          "version": "Version pysyvä osoite"
+        },
+        "tooltip": "URN-tunnus (Uniform Resource Name) on pysyvä, ainutkertainen tunniste, joka helpottaa verkkoaineistojen ja oppimateriaalin löytämistä, tunnistamista ja linkittämistä. Voit käyttää tunnusta oppimateriaaleihin viittaamisen ja linkittämisen välineenä verkko-osoitteen sijasta tai lisäksi."
+      },
       "createdAt": "Lisätty",
       "publishedAt": "Julkaistu",
       "updatedAt": "Muokattu",
@@ -229,7 +236,8 @@
     },
     "errors": {
       "common": {
-        "maxLength": "Enintään {{maxLength}} merkkiä"
+        "maxLength": "Enintään {{maxLength}} merkkiä",
+        "translations": "Tarkista kieliversioiden sisältö"
       },
       "textInput": {
         "characters": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
@@ -872,7 +880,9 @@
     "title": "Usein kysytyt kysymykset",
     "general": "Yleisiä kysymyksiä",
     "material": "Oppimateriaalien tekijöille",
-    "organization": "Organisaatioille"
+    "organization": "Organisaatioille",
+    "closeAll": "Sulje kaikki",
+    "openAll": "Avaa kaikki"
   },
   "acceptance": {
     "title": "Palvelun käyttöehdot ja tietosuojailmoitus",
