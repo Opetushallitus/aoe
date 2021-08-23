@@ -43,7 +43,7 @@ cleanup_demo:
   stage: cleanup
   script:
     - echo "DEMO system clean up"
-    - docker system prune -a -f
+    - docker system prune -a --volumes -f
   only:
     - dev
   tags:
@@ -74,7 +74,7 @@ cleanup_prod:
   stage: cleanup
   script:
     - echo "PROD system clean up"
-    - docker system prune -a -f
+    - docker system prune -a --volumes -f
   only:
     - master
   tags:
