@@ -101,6 +101,10 @@ export class EditPreviewComponent implements OnInit {
     this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
     this.form.get('hasLicense').setValue(this.previewMaterial?.license !== null);
 
+    if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
+      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
+    }
+
     if (this.previewMaterial.basicStudySubjects?.length > 0) {
       this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
       this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
@@ -129,10 +133,6 @@ export class EditPreviewComponent implements OnInit {
       this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
       this.form.get('hasUpperSecondaryEduContents').setValidators(null);
       this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
-    }
-
-    if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
-      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
     }
   }
 

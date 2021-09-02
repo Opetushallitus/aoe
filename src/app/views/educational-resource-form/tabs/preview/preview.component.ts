@@ -12,8 +12,8 @@ import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
-import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 import { getUniqueFrameworks } from '../../../../shared/shared.module';
+import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 
 @Component({
   selector: 'app-preview',
