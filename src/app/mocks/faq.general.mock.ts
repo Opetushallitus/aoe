@@ -26,13 +26,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Miten Avointen oppimateriaalien kirjastoa kehitetään?',
-      answer: [
-        'Avointen oppimateriaalien kirjaston kehitys aloitettiin loppuvuodesta 2018. Uusia ominaisuuksia otettiin vähitellen käyttöön vuoden 2019 aikana ja nyt palveluun voin jakaa avoimia oppimateriaaleja ja niitä voi sieltä etsiä. Vuonna 2020 palveluun lisätään ominaisuuksia kommentointiin, kokoelmien tekoon ja kehitetään tekoälyavusteista kuvailua. Samalla parannetaan palvelua palautteen perusteella sekä kehitetään analytiikkaa oppimateriaalien tekijöiden avuksi. Vuonna 2020 avoimet oppimateriaalit tulevat käytettäväksi myös Finna.fi:n kautta. Palvelun jatkokehitystarpeita arvioidaan palautteen ja käytön perusteella jatkuvasti. Palvelun aikajana:',
-        '<img src="assets/img/aoe_polku.png" class="img-fluid" alt="Pilottivaihe: 3/2019 Saan tietoa tulevasta palvelusta, 12/2019 Voin tallentaaoppimateriaalejani, 03/2020 Voin hakea oppimateriaaleja. Tuotanto: 06/2020 Voin tehdäoppimateriaalikokoelmia, syksy/2020 Löydän avoimia oppimateriaaleja myös Finna.fistä.">',
-      ]
-    },
-    {
       question: 'Vaatiiko palvelu tunnistautumista?',
       answer: [
         'Oppimateriaalien käyttäminen ja niiden hakeminen on kaikille mahdollista ilman sisäänkirjautumista.',
@@ -43,7 +36,7 @@ export const FAQGeneral = {
       question: 'Mitä Avointen oppimateriaalien kirjastoon tallennettavalta oppimateriaalilta vaaditaan?',
       answer: [
         'Avointen oppimateriaalien kirjastoon lisättävä oppimateriaali on oltava avoimesti lisensoitu. Palvelussa käytetään Creative Commons -lisenssejä, joista <a href="https://creativecommons.org/choose/?lang=fi" target="_blank" rel="noopener nofollow">lisätietoa Creative Commonsin -sivuilla</a> sekä tällä sivulla. Lisenssi merkitään oppimateriaalin yhteyteen sen kuvailutietoihin, mutta on suositeltavaa merkitä se myös oppimateriaalin sisälle.',
-        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
+        'Jokaiseen lisättävään oppimateriaaliin on myös täydennettävä kuvailutietoa, jotka helpottavat oppimateriaalien löytämistä ja arviointia. Kuvailutiedot kertovat mm. kuka oppimateriaalin on tehnyt ja miten se on suhteessa opetussuunnitelmiin. On myös hyvä huomioida materiaalin saavutettavuus. <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Lisätietoja saavutettavuudesta Celian verkkosivuilta</a> sekä tältä lisätietoa-sivulta.',
       ]
     },
     {
@@ -54,6 +47,21 @@ export const FAQGeneral = {
         'Creative Commons EiMuutoksia -lisenssiehtoa ei suositella käytettäväksi avoimissa oppimateriaaleissa. Lisenssi estää oppimateriaalin kaikenlaisen päivittämisen ja johdannaismateriaalien tekemisen. Oppimateriaalia ei voi myöskään esimerkiksi kääntää tai muuttaa pistekirjoitukseksi. Pyydämme myös harkitsemaan Creative Commons EiKaupallinen -lisenssien käyttöä, sillä se estää materiaalin käytön esimerkiksi oppilaitosten järjestämissä maksullisissa kursseissa ja koulutuksissa. Nämäkin lisenssiehdot voi kuitenkin valita oppimateriaalille. Lisätietoa <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative Commonsin sivuilta</a>.',
         'Mikäli oppimateriaalilla on useita tekijöitä tai omistajia, tulee avoimesta lisenssistä sopia kaikkien osapuolten kesken. Tämän voi tehdä esimerkiksi hyödyntämällä <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">oheisia sopimuspohjia (linkki Opettajan tekijänoikeus -sivuille)</a>.',
         'Huomioithan myös, että mikäli käytät muiden tekijöiden kuvia tms materiaaleja osana oppimateriaaliasi, tulee näidenkin olla avoimesti lisensoituja tai sinulla oikeus käyttää niitä avoimesti lisensoidussa oppimateriaalissa. Tekijänoikeuksista ja avoimesta lisensoinnista on myös opettajille suunnattu oppimateriaali <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">Tarmo Toikkasen tekemä Tekijänoikeudet opetuksessa -oppimateriaali (linkki materiaaliin aoe.fissä)</a>.',
+      ]
+    },
+    {
+      question: 'Löytyykö Avointen oppimateriaalien kirjastosta kansainvälisten oppimateriaalivarantojen oppimateriaaleja? Miten näitä voi hyödyntää?',
+      answer: [
+        'Avointen oppimateriaalien kirjastosta ei löydy kansainvälisten oppimateriaalivarantojen oppimateriaaleja. Niiden hyödyntäminen on kuitenkin suositeltavaa! Voit etsiä näitä materiaaleja käyttäen palvelujen omia hakutoimintoja. Luotettavia lähteitä ovat esimerkiksi <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> ja <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a>. Myös muita avoimia materiaaleja voi käyttää, esimerkiksi <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeanasta</a> löytyy paljon avoimia kuvia historiaan ja taiteisiin liittyen.',
+        'Mikäli oppimateriaali on lisensoitu Creative Commons -lisenssillä joka sallii muokkauksen (CC BY, CC BY-SA, CC BY-SA-NC, CC BY-NC), muulla vastaavalla lisenssillä tai olet hankkinut luvan materiaalin muokkaamiseen, voit tämän kansainvälisen materiaalin pohjalta tehdä oman versiosi, esimerkiksi kääntää oppimateriaalin. Voit myös halutessasi julkaista tämän oman mukaelmasi oppimateriaalista Avointen oppimateriaalien kirjastoon. Muistathan tällöin merkitä Hyödynnetty oppimateriaali -kenttään hyödyntämäsi oppimateriaalin tiedot.',
+      ]
+    },
+    {
+      question: 'Miten viittaan Avointen oppimateriaalien kirjastosta löytyvään oppimateriaaliin?',
+      answer: [
+        'Kun haluat viitata Avointen oppimateriaalien kirjastosta löytyvään materiaaliin, merkitse se seuraavalla tavalla:',
+        'Tekijä, <em>materiaalin nimi</em>. (Julkaisija, jos ilmoitettu.) Julkaisuvuosi. Pysyvä URN-tunniste.',
+        'Eli esimerkiksi: Toikkanen Tarmo, <em>Tekijänoikeudet opetuksessa</em>. 2019. URN-tunnus.',
       ]
     },
   ],
@@ -79,13 +87,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'How is the service being developed?',
-      answer: [
-        'The Library of Open Educational Resources info page was launched in March 2019. Users will be able to save open educational resources and associated data in the service starting in autumn 2019. At the next stage in late 2019 and early 2020, resources will become available for search and use via the service. The year 2020 will see a feature added for creating collections as well as the further development of AI-aided description. In addition, improvements will be made based on feedback and analytics will be developed to help creators of educational resources. In 2020, the open educational resources will also become available through the Finna.fi service. Further development needs are continuously assessed on the basis of feedback and use.',
-        '<img src="assets/img/aoe_path.png" class="img-fluid" alt="Piloting stage: 3/2019 I can find information on future services, 12/2019 I can save my own OER and 03/2020 I can search for OER. Production: 06/2020 I can compile my own OER, autumn/2020 I can also find OER on Finna.fi">',
-      ]
-    },
-    {
       question: 'Are users required to log in to the service?',
       answer: [
         'Using and searching educational resources is available to everyone, with no login necessary.',
@@ -96,7 +97,7 @@ export const FAQGeneral = {
       question: 'What are the requirements for resources stored in the service?',
       answer: [
         'Materials uploaded to the Library of Open Educational Resources must be openly licensed. The service uses Creative Commons licenses. For further information, see <a href="https://creativecommons.org/choose/?lang=en" target="_blank" rel="noopener nofollow">Creative Commons -webpage</a> and this FAQ. The license is indicated in the material description of the resource in question, but it is advisable to also make a note of it within the resource itself.',
-        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
+        'All uploaded resources must also be accompanied by material descriptions, which help users find and evaluate them. The descriptions include information e.g. on who has created the resource and how it relates to curricula. Accessibility factors should also be taken into account when necessary. Further information in <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">Saavutettavasti-webpage (in Finnish)</a> or on this FAQ.',
       ]
     },
     {
@@ -107,6 +108,21 @@ export const FAQGeneral = {
         'The Creative Commons “NoDerivatives” license condition is not recommended with open educational resources. This license does not allow any updates, derivative works, or translations into other languages or into braille by users other than the original creator. We also ask users to bear in mind that the Creative Commons “NonCommercial” licenses do not allow the material to be used in the context, for example, of courses and training for which educational institutions charge fees. For further <a href="https://creativecommons.org/licenses/?lang=en" target="_blank" rel="noopener nofollow">information on licenses, see this link</a>.',
         'If an educational resource has multiple creators or owners, the open license must be agreed on by all parties. This can be done for example by using these <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">contract templates (in Finnish)</a>.',
         'Please also consider that if you use other creators’ images or other materials as part of your educational resource, these must be openly licensed or you must have permission to use them as part of openly licensed educational materials. Information on copyright and open licensing for teachers is available in the <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">“Copyrights in Education” resource</a>.',
+      ]
+    },
+    {
+      question: 'Can you find OER from international digital libraries in Library of Open Educational Resources (aoe.fi)? How can I use resources from such libraries?',
+      answer: [
+        'You will not find automatically harvested resources from different international digital libraries in the Library of Open Educational Resources (aoe.fi). But we do encourage you to use them! You can find OER from different digital libraries, for example in <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> (Estonian) and <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a> (Norweigian). We also encourage you to use other open materials, for example you can find many open pictures relating to history and arts in <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeana</a>.',
+        'You can use open materials you find to make something yourself, for example translate different OER. You can also publish there modified OER you have made to the Library of Open Educational Resources (aoe.fi). If you do, remember to use the References-page to add information about the resources you used as a base for your OER.',
+      ]
+    },
+    {
+      question: 'How do I make a reference to an educational resource found in the Library of Open Educational Resources?',
+      answer: [
+        'To refer to material found in the Library of Open Educational Resources, mark it as follows:',
+        'Author, <em>name of the resource</em>. (Publisher, if indicated.) Publishing year. Permanent URN identifier.',
+        'E.g. Toikkanen Tarmo, <em>Copyrights in Education</em>. 2019. URN identifier.',
       ]
     },
   ],
@@ -132,13 +148,6 @@ export const FAQGeneral = {
       ]
     },
     {
-      question: 'Hur utvecklas Biblioteket för öppna lärresurser?',
-      answer: [
-        'I mars 2019 öppnades en informationssida i Biblioteket för öppna lärresurser. I höst 2019 öppnade möjligheten att spara öppna undervisningsmaterial och information om dem i tjänsten. Nu kan man okså söka och använda lärresurserna i tjänsten. Under 2020 införs möjligheten att skapa samlingar och artificiell intelligens utvecklas för att skapa metadata. Samtidigt förbättras tjänsten utgående från den respons som fås, och analysen vidareutvecklas till stöd för dem som utarbetar undervisningsmaterial. År 2020 blir de öppna lärresurserna också tillgängliga för användning via Finna.fi. Behoven av vidareutveckling utvärderas kontinuerligt utgående från responsen på och användningen av tjänsten.',
-        '<img src="assets/img/aoe_vag.png" class="img-fluid" alt="Pilotfas: 3/2019 Jag får information om den nya tjänsten, 12/2019 Jag kan ladda upp egna lärresurser, 03/2020 Jag kan söka lärresurser. Produktion: 06/2020 Jag kan göra samlingar av lärresurser, hösten 2020 Jag hittar öppna lärresurser även på Finna.fi">',
-      ]
-    },
-    {
       question: 'Kräver tjänsten inloggning?',
       answer: [
         'Alla kan använda och söka bland lärresurserna utan att logga in.',
@@ -149,7 +158,7 @@ export const FAQGeneral = {
       question: 'Vad krävs av det undervisningsmaterial som sparas i Biblioteket för öppna lärresurser?',
       answer: [
         'Undervisningsmaterial som sparas i tjänsten ska ha en öppen licens. I tjänsten används Creative Commons-licenser. Information om dessa <a href="https://creativecommons.org/choose/?lang=sv" target="_blank" rel="noopener nofollow">licenser hittar du här</a>. samt i den här listan på vanliga frågor. Licensen anges i lärresursens metadata, men man rekommenderas även att anteckna den i själva lärresursen.',
-        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
+        'För varje lärresurs som sparas i tjänsten ska man också fylla i metadata. Dessa gör det lättare att hitta och utvärdera lärresursen. Resursens metadata beskriver bland annat vem som har utarbetat materialet och hur det förhåller sig till läroplanerna. Också materialets tillgänglighet ska gärna beaktas. Mer information om <a href="https://www.saavutettavasti.fi" target="_blank" rel="noopener nofollow">tillgänglighet till example i Saavutettavasti-websidan</a> (på finska) eller på dessa sidan.',
       ]
     },
     {
@@ -160,6 +169,21 @@ export const FAQGeneral = {
         'Creative Commons licensvillkor ”IngaBearbetningar” rekommenderas inte för öppna lärresurser. Licensen förbjuder alla typer av uppdateringar och härledda material. Undervisningsmaterialet kan till exempel inte heller översättas eller föras över till punktskrift. Vi ber också att man överväger saken noggrant innan man använder Creative Commons ”Ickekommersiell”, eftersom den förbjuder användning av materialet exmpelvis i läroanstalters avgiftsbelagda kurser och utbildningar. Mer information (på finska) på <a href="https://creativecommons.fi/lisenssit/" target="_blank" rel="noopener nofollow">Creative commons -sidorna</a>.',
         'Om flera upphovsmän eller ägare finns till undervisningsmaterialet, ska den öppna licensen avtalas mellan alla parter. Detta sker exempelvis med följande <a href="https://www.opettajantekijanoikeus.fi/aineisto/sopimusmallit-avoimeen-sisallontuotantoon/" target="_blank" rel="noopener nofollow">mallavtal (på finska)</a>.',
         'Observera också att om du använt andras bilder eller material i ditt eget undervisningsmaterial, ska också dessa ha öppen licens eller så ska du ha rätt att använda dem i ditt öppet licensierade undervisningsmaterial. Det finns också undervisningsmaterial om upphovsrätt och öppen licensiering för lärare, <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow">”Upphovsrätten i undervisningen”</a>.',
+      ]
+    },
+    {
+      question: 'Kan du hitta lärresurser från internationella digitala bibliotek i Biblioteket för öppna lärresurser (aoe.fi)? Hur kan jag använda resurser från sådana bibliotek?',
+      answer: [
+        'Vi importerar inte automatiskt data från internationella lärresursbibliotek i Biblioteket för öppna lärresurser (aoe.fi). Men vi rekommenderar dig att använda dem! Du kan hitta lärresurser från olika digitala bibliotek, till exempel i <a href="https://www.oercommons.org/" target="_blank" rel="noopener nofollow">OERCommons</a>, <a href="https://discovery.x5gon.org/" target="_blank" rel="noopener nofollow">x5Gon-discovery</a>, <a href="https://e-koolikott.ee/" target="_blank" rel="noopener nofollow">eKoolikott</a> och <a href="https://ndla.no/en/" target="_blank" rel="noopener nofollow">NDLA</a>. Vi rekommenderar dig också att använda andra öppna material, till exempel kan du hitta många öppna bilder om historia och konst i <a href="https://www.europeana.eu/en" target="_blank" rel="noopener nofollow">Europeana</a>.',
+        'Du kan använda öppna material som du hittar för att göra något själv, till exempel översätta olika lärresurser. Du kan också publicera den modifierade lärresurs som du har gjort till Biblioteket för öppna lärresurser (aoe.fi). I det här fallet, kom ihåg att skriva informationen om det lärresurs du använde i fältet Referens.',
+      ]
+    },
+    {
+      question: 'Hur hänvisar jag till det undervisningmaterial som finns i Biblioteket för öppna lärresurser?',
+      answer: [
+        'För att hänvisa till material som finns i Biblioteket för öppna lärresurser, markera det enligt följande:',
+        'Författare, <em>undervisningsmaterialets namn</em>. (Utgivare, om det anges.) Utgivningsår. Permanent URN identifierare.',
+        'T.ex: Toikkanen Tarmo, <em>Upphovsrätten i undervisningen</em>. 2019. URN identifierar',
       ]
     },
   ]

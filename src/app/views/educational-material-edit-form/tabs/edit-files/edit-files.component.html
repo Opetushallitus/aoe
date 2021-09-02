@@ -39,6 +39,7 @@
           type="button"
           class="btn btn-gray"
           (click)="openTranslationsModal(nameI18n)"
+          [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid }"
         >{{ 'forms.common.translations.label' | translate }}</button>
 
         <button
@@ -46,6 +47,11 @@
           class="btn btn-link btn-tooltip"
           [tooltip]="'forms.common.translations.tooltip' | translate"
         ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+        <div
+          *ngIf="names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid"
+          class="invalid-feedback"
+        >{{ 'forms.errors.common.translations' | translate }}</div>
       </div>
     </div>
 
@@ -317,6 +323,7 @@
               type="button"
               class="btn btn-gray"
               (click)="openTranslationsModal(displayName)"
+              [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid }"
             >{{ 'forms.common.translations.label' | translate }}</button>
 
             <button
@@ -324,6 +331,11 @@
               class="btn btn-link btn-tooltip"
               [tooltip]="'forms.common.translations.tooltip' | translate"
             ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+            <div
+              *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid"
+              class="invalid-feedback"
+            >{{ 'forms.errors.common.translations' | translate }}</div>
           </div>
 
           <ng-template #displayName>
@@ -719,6 +731,7 @@
                 type="button"
                 class="btn btn-gray"
                 (click)="openTranslationsModal(newMaterialDisplayName)"
+                [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid }"
               >{{ 'forms.common.translations.label' | translate }}</button>
 
               <button
@@ -726,6 +739,11 @@
                 class="btn btn-link btn-tooltip"
                 [tooltip]="'forms.common.translations.tooltip' | translate"
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <div
+                *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid"
+                class="invalid-feedback"
+              >{{ 'forms.errors.common.translations' | translate }}</div>
             </div>
 
             <ng-template #newMaterialDisplayName>

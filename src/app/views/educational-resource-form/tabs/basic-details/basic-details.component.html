@@ -348,13 +348,23 @@
 
           <div class="col-auto">
             <div class="mb-2">
-              <button type="button" class="btn btn-gray" (click)="openModal(langVersions)">{{ 'forms.common.translations.label' | translate }}</button>
+              <button
+                type="button"
+                class="btn btn-gray"
+                (click)="openModal(langVersions)"
+                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid }"
+              >{{ 'forms.common.translations.label' | translate }}</button>
 
               <button
                 type="button"
                 class="btn btn-link"
                 [tooltip]="'forms.common.translations.tooltip' | translate"
               ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+
+              <div
+                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid"
+                class="invalid-feedback"
+              >{{ 'forms.errors.common.translations' | translate }}</div>
             </div>
 
             <button

@@ -87,7 +87,7 @@
                   >
                 </div>
 
-                <div class="col">
+                <div class="col col-lg-12">
                   <ul class="list-unstyled">
                     <li *ngFor="let type of educationalMaterial.learningResourceTypes">
                       <img
@@ -105,6 +105,24 @@
                       {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
                     </li>
                   </ul>
+                </div>
+
+                <div class="col col-lg-12" *ngIf="educationalMaterial.urn">
+                  <p>
+                    <strong class="d-block">
+                      {{ 'demo.educationalMaterial.pid.label.version' | translate }}
+
+                      <button
+                        type="button"
+                        class="btn btn-link btn-tooltip"
+                        [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate"
+                      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                    </strong>
+
+                    <a href="https://urn.fi/{{ educationalMaterial.urn }}" rel="noopener noreferrer">
+                      {{ educationalMaterial.urn }}
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -124,38 +142,38 @@
                 </ul>
 
                 <div class="datetimes">
-                <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
-                  <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
+                  <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
+                    <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-                  <time
-                    [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'"
-                    aria-labelledby="publishedAt"
-                  >
-                    {{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}
-                  </time>
-                </span>
+                    <time
+                      [attr.datetime]="educationalMaterial.publishedAt | date:'yyyy-MM-dd HH:mm'"
+                      aria-labelledby="publishedAt"
+                    >
+                      {{ educationalMaterial.publishedAt | date:'d.M.yyyy HH:mm' }}
+                    </time>
+                  </span>
 
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
-                  <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                    <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-                  <time
-                    [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'"
-                    aria-labelledby="updatedAt"
-                  >
-                    {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
-                  </time>
-                </span>
+                    <time
+                      [attr.datetime]="educationalMaterial.updatedAt | date:'yyyy-MM-dd HH:mm'"
+                      aria-labelledby="updatedAt"
+                    >
+                      {{ educationalMaterial.updatedAt | date:'d.M.yyyy HH:mm' }}
+                    </time>
+                  </span>
 
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
-                  <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
+                    <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
 
-                  <time
-                    [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
-                    aria-labelledby="expires"
-                  >
-                    {{ educationalMaterial.expires | date:'d.M.yyyy' }}
-                  </time>
-                </span>
+                    <time
+                      [attr.datetime]="educationalMaterial.expires | date:'yyyy-MM-dd'"
+                      aria-labelledby="expires"
+                    >
+                      {{ educationalMaterial.expires | date:'d.M.yyyy' }}
+                    </time>
+                  </span>
 
                   <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
                     <button
