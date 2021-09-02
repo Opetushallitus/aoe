@@ -1,0 +1,13 @@
+<dt class="col-sm-3">{{ title }}</dt>
+
+<dd class="col-sm-9">
+  <ng-container *ngIf="items?.length > 0; else singleItem">
+    <ng-container *ngFor="let item of items; let isLast = last">
+      {{ property ? item[property] : item }}{{ isLast ? '' : ', ' }}
+    </ng-container>
+  </ng-container>
+
+  <ng-template #singleItem>
+    {{ item }}
+  </ng-template>
+</dd>

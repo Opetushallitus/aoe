@@ -8,16 +8,15 @@ import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from '@models/translations/toast';
-import { EditFilesComponent } from '@views/educational-material-edit-form/tabs/edit-files/edit-files.component';
-import { EditBasicDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-basic-details/edit-basic-details.component';
-// tslint:disable-next-line:max-line-length
-import { EditEducationalDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-educational-details/edit-educational-details.component';
-// tslint:disable-next-line:max-line-length
-import { EditExtendedDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-extended-details/edit-extended-details.component';
-import { EditLicenseComponent } from '@views/educational-material-edit-form/tabs/edit-license/edit-license.component';
-// tslint:disable-next-line:max-line-length
-import { EditBasedOnDetailsComponent } from '@views/educational-material-edit-form/tabs/edit-based-on-details/edit-based-on-details.component';
-import { EditPreviewComponent } from '@views/educational-material-edit-form/tabs/edit-preview/edit-preview.component';
+import {
+  EditBasedOnDetailsComponent,
+  EditBasicDetailsComponent,
+  EditEducationalDetailsComponent,
+  EditExtendedDetailsComponent,
+  EditFilesComponent,
+  EditLicenseComponent,
+  EditPreviewComponent,
+} from './tabs';
 
 @Component({
   selector: 'app-educational-material-edit-form',

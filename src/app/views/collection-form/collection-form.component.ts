@@ -8,12 +8,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Toast } from '@models/translations/toast';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
-// tslint:disable-next-line:max-line-length
-import { CollectionBasicDetailsTabComponent } from '@views/collection-form/collection-basic-details-tab/collection-basic-details-tab.component';
-// tslint:disable-next-line:max-line-length
-import { CollectionEducationalDetailsTabComponent } from '@views/collection-form/collection-educational-details-tab/collection-educational-details-tab.component';
-import { CollectionMaterialsTabComponent } from '@views/collection-form/collection-materials-tab/collection-materials-tab.component';
-import { CollectionPreviewTabComponent } from '@views/collection-form/collection-preview-tab/collection-preview-tab.component';
+import {
+  CollectionBasicDetailsTabComponent,
+  CollectionEducationalDetailsTabComponent,
+  CollectionMaterialsTabComponent,
+  CollectionPreviewTabComponent,
+} from './index'; // @todo: this might need rework
 
 @Component({
   selector: 'app-collection-form',
