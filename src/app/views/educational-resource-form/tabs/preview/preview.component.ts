@@ -123,12 +123,15 @@ export class PreviewComponent implements OnInit {
       ]),
     });
 
-    this.form.get('hasName').setValue(this.savedData?.name?.fi || this.savedData?.name?.sv || this.savedData?.name?.en);
+    if (this.savedData?.name?.fi || this.savedData?.name?.sv || this.savedData?.name?.en) {
+      this.form.get('hasName').setValue(true);
+    }
+
     this.form.get('hasAuthor').setValue(this.savedData?.authors?.length > 0);
     this.form.get('hasKeyword').setValue(this.savedData?.keywords?.length > 0);
     this.form.get('hasLearningResourceType').setValue(this.savedData?.learningResourceTypes?.length > 0);
     this.form.get('hasEducationalLevel').setValue(this.savedData?.educationalLevels?.length > 0);
-    this.form.get('hasLicense').setValue(this.savedData?.license);
+    this.form.get('hasLicense').setValue(this.savedData?.license !== null);
 
     this.earlyChildhoodEducationSubjects = this.savedData?.alignmentObjects
       .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
