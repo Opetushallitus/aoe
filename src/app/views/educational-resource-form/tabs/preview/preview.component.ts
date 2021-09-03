@@ -12,6 +12,7 @@ import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
+import { getUniqueFrameworks } from '../../../../shared/shared.module';
 import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 
 @Component({
@@ -26,29 +27,37 @@ export class PreviewComponent implements OnInit {
 
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
+  earlyChildhoodEducationFramework: string[];
   prePrimaryEducationSubjects: AlignmentObjectExtended[];
   prePrimaryEducationObjectives: AlignmentObjectExtended[];
+  prePrimaryEducationFramework: string[];
   basicStudySubjects: AlignmentObjectExtended[];
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
+  basicStudyFramework: string[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
   upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
+  upperSecondarySchoolFramework: string[];
   upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[];
   upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
+  // upperSecondarySchoolFrameworkNew: string[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
   furtherVocationalQualifications: AlignmentObjectExtended[];
   specialistVocationalQualifications: AlignmentObjectExtended[];
+  vocationalFramework: string[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
   branchesOfScience: AlignmentObjectExtended[];
   scienceBranchObjectives: AlignmentObjectExtended[];
+  higherEducationFramework: string[];
   prerequisites: AlignmentObjectExtended[];
+  typicalAgeRange: string;
 
   form: FormGroup;
 
@@ -82,9 +91,7 @@ export class PreviewComponent implements OnInit {
       this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
         this.uploadedFiles = uploadedFiles;
 
-        if (this.uploadedFiles.length > 0) {
-          this.form.get('hasMaterial').setValue(true);
-        }
+        this.form.get('hasMaterial').setValue(this.uploadedFiles?.length > 0);
       });
 
       this.backendSvc.updateUploadedFiles(this.materialId);
@@ -131,149 +138,141 @@ export class PreviewComponent implements OnInit {
       ]),
     });
 
-    if (this.savedData) {
-      if (this.savedData.name) {
-        if (this.savedData.name.fi || this.savedData.name.sv || this.savedData.name.en) {
-          this.form.get('hasName').setValue(true);
-        }
-      }
+    if (this.savedData?.name?.fi || this.savedData?.name?.sv || this.savedData?.name?.en) {
+      this.form.get('hasName').setValue(true);
+    }
 
-      if (this.savedData.authors) {
-        if (this.savedData.authors.length > 0) {
-          this.form.get('hasAuthor').setValue(true);
-        }
-      }
+    this.form.get('hasAuthor').setValue(this.savedData?.authors?.length > 0);
+    this.form.get('hasKeyword').setValue(this.savedData?.keywords?.length > 0);
+    this.form.get('hasLearningResourceType').setValue(this.savedData?.learningResourceTypes?.length > 0);
+    this.form.get('hasEducationalLevel').setValue(this.savedData?.educationalLevels?.length > 0);
+    this.form.get('hasLicense').setValue(this.savedData?.license !== null);
 
-      if (this.savedData.keywords) {
-        if (this.savedData.keywords.length > 0) {
-          this.form.get('hasKeyword').setValue(true);
-        }
-      }
+    this.earlyChildhoodEducationSubjects = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
 
-      if (this.savedData.learningResourceTypes) {
-        if (this.savedData.learningResourceTypes.length > 0) {
-          this.form.get('hasLearningResourceType').setValue(true);
-        }
-      }
+    this.earlyChildhoodEducationObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
 
-      if (this.savedData.educationalLevels) {
-        if (this.savedData.educationalLevels.length > 0) {
-          this.form.get('hasEducationalLevel').setValue(true);
-        }
-      }
+    this.earlyChildhoodEducationFramework = getUniqueFrameworks(this.earlyChildhoodEducationSubjects);
 
-      if (this.savedData.license) {
-        this.form.get('hasLicense').setValue(true);
-      }
+    this.prePrimaryEducationSubjects = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
 
-      if (this.savedData.alignmentObjects) {
-        this.earlyChildhoodEducationSubjects = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
+    this.prePrimaryEducationObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
 
-        this.earlyChildhoodEducationObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
+    this.prePrimaryEducationFramework = getUniqueFrameworks(this.prePrimaryEducationSubjects);
 
-        // @todo: framework
+    this.basicStudySubjects = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
 
-        this.prePrimaryEducationSubjects = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
+    this.basicStudyObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
 
-        this.prePrimaryEducationObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
+    this.basicStudyContents = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
 
-        this.basicStudySubjects = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
+    this.basicStudyFramework = getUniqueFrameworks(this.basicStudySubjects);
 
-        this.basicStudyObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
+    this.upperSecondarySchoolSubjects = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
 
-        this.basicStudyContents = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
+    this.upperSecondarySchoolObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
 
-        this.upperSecondarySchoolSubjects = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
+    this.upperSecondarySchoolSubjectsOld = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld);
 
-        this.upperSecondarySchoolObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
+    this.upperSecondarySchoolCoursesOld = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld);
 
-        this.upperSecondarySchoolSubjectsOld = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld);
+    this.upperSecondarySchoolFramework = getUniqueFrameworks(this.upperSecondarySchoolSubjects);
 
-        this.upperSecondarySchoolCoursesOld = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld);
+    this.upperSecondarySchoolSubjectsNew = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
 
-        this.upperSecondarySchoolSubjectsNew = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
+    this.upperSecondarySchoolModulesNew = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
 
-        this.upperSecondarySchoolModulesNew = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
+    this.upperSecondarySchoolObjectivesNew = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
 
-        this.upperSecondarySchoolObjectivesNew = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
+    this.upperSecondarySchoolContentsNew = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
 
-        this.upperSecondarySchoolContentsNew = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
+    // this.upperSecondarySchoolFrameworkNew = getUniqueFrameworks(this.upperSecondarySchoolSubjectsNew);
 
-        this.vocationalDegrees = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
+    this.vocationalDegrees = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
 
-        this.vocationalUnits = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
+    this.vocationalUnits = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
 
-        this.vocationalRequirements = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
+    this.vocationalRequirements = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
 
-        this.furtherVocationalQualifications = this.savedData.alignmentObjects
-          .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications);
+    this.furtherVocationalQualifications = this.savedData?.alignmentObjects
+      .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications);
 
-        this.specialistVocationalQualifications = this.savedData.alignmentObjects
-          .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
+    this.specialistVocationalQualifications = this.savedData?.alignmentObjects
+      .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
 
-        this.selfMotivatedEducationSubjects = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
+    this.vocationalFramework = getUniqueFrameworks([
+      ...this.vocationalDegrees,
+      ...this.furtherVocationalQualifications,
+      ...this.specialistVocationalQualifications,
+    ]);
 
-        this.selfMotivatedEducationObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
+    this.selfMotivatedEducationSubjects = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
 
-        this.branchesOfScience = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
+    this.selfMotivatedEducationObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
 
-        this.scienceBranchObjectives = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
+    this.branchesOfScience = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
 
-        this.prerequisites = this.savedData.alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
-      }
+    this.scienceBranchObjectives = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
 
-      if (this.basicStudySubjects?.length > 0) {
-        this.form.get('hasBasicEduObjectives').setValue(this.basicStudyObjectives?.length > 0);
-        this.form.get('hasBasicEduContents').setValue(this.basicStudyContents?.length > 0);
+    this.higherEducationFramework = getUniqueFrameworks(this.branchesOfScience);
 
-        const ignoredSubjectsList = this.basicStudySubjects
-          .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
+    this.prerequisites = this.savedData?.alignmentObjects
+      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
 
-        this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
-      }
+    if (this.savedData?.typicalAgeRange?.typicalAgeRangeMin || this.savedData?.typicalAgeRange?.typicalAgeRangeMax) {
+      this.typicalAgeRange = `${this.savedData?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.savedData?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
+    }
 
-      if (this.shouldHaveBasicEduObjectivesAndContents === false) {
-        this.form.get('hasBasicEduObjectives').setValidators(null);
-        this.form.get('hasBasicEduObjectives').updateValueAndValidity();
-        this.form.get('hasBasicEduContents').setValidators(null);
-        this.form.get('hasBasicEduContents').updateValueAndValidity();
-      }
+    if (this.basicStudySubjects?.length > 0) {
+      this.form.get('hasBasicEduObjectives').setValue(this.basicStudyObjectives?.length > 0);
+      this.form.get('hasBasicEduContents').setValue(this.basicStudyContents?.length > 0);
 
-      if (this.upperSecondarySchoolSubjectsNew?.length > 0 && this.upperSecondarySchoolModulesNew?.length > 0) {
-        this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
-        this.form.get('hasUpperSecondaryEduObjectives').setValue(this.upperSecondarySchoolObjectivesNew?.length > 0);
-        this.form.get('hasUpperSecondaryEduContents').setValue(this.upperSecondarySchoolContentsNew?.length > 0);
-      }
+      const ignoredSubjectsList = this.basicStudySubjects
+        .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
 
-      if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
-        this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
-        this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
-        this.form.get('hasUpperSecondaryEduContents').setValidators(null);
-        this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
-      }
+      this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
+    }
+
+    if (this.shouldHaveBasicEduObjectivesAndContents === false) {
+      this.form.get('hasBasicEduObjectives').setValidators(null);
+      this.form.get('hasBasicEduObjectives').updateValueAndValidity();
+      this.form.get('hasBasicEduContents').setValidators(null);
+      this.form.get('hasBasicEduContents').updateValueAndValidity();
+    }
+
+    if (this.upperSecondarySchoolSubjectsNew?.length > 0 && this.upperSecondarySchoolModulesNew?.length > 0) {
+      this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
+      this.form.get('hasUpperSecondaryEduObjectives').setValue(this.upperSecondarySchoolObjectivesNew?.length > 0);
+      this.form.get('hasUpperSecondaryEduContents').setValue(this.upperSecondarySchoolContentsNew?.length > 0);
+    }
+
+    if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
+      this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
+      this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
+      this.form.get('hasUpperSecondaryEduContents').setValidators(null);
+      this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
     }
   }
 
