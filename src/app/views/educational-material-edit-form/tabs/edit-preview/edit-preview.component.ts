@@ -26,6 +26,7 @@ export class EditPreviewComponent implements OnInit {
   canDeactivate = false;
   previewMaterial: EducationalMaterialForm;
   @Output() abortEdit = new EventEmitter();
+  typicalAgeRange: string;
 
   constructor(
     private fb: FormBuilder,
@@ -87,46 +88,21 @@ export class EditPreviewComponent implements OnInit {
       this.setTitle();
     });
 
-    if (sessionStorage.getItem(environment.editMaterial) === null) {
-      this.previewMaterial = this.material;
-    } else {
-      this.previewMaterial = JSON.parse(sessionStorage.getItem(environment.editMaterial));
+    this.previewMaterial = JSON.parse(sessionStorage.getItem(environment.editMaterial)) ?? this.material;
+
+    if (this.previewMaterial?.name?.fi || this.previewMaterial?.name?.sv || this.previewMaterial?.name?.en) {
+      this.form.get('hasName').setValue(true);
     }
 
-    if (this.previewMaterial.name) {
-      if (this.previewMaterial.name.fi || this.previewMaterial.name.sv || this.previewMaterial.name.en) {
-        this.form.get('hasName').setValue(true);
-      }
-    }
+    this.form.get('hasMaterial').setValue(this.previewMaterial?.fileDetails?.length > 0);
+    this.form.get('hasAuthor').setValue(this.previewMaterial?.authors?.length > 0);
+    this.form.get('hasKeywords').setValue(this.previewMaterial?.keywords?.length > 0);
+    this.form.get('hasLearningResourceTypes').setValue(this.previewMaterial?.learningResourceTypes?.length > 0);
+    this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
+    this.form.get('hasLicense').setValue(this.previewMaterial?.license !== null);
 
-    if (this.previewMaterial.fileDetails) {
-      if (this.previewMaterial.fileDetails.length > 0) {
-        this.form.get('hasMaterial').setValue(true);
-      }
-    }
-
-    if (this.previewMaterial.authors) {
-      if (this.previewMaterial.authors.length > 0) {
-        this.form.get('hasAuthor').setValue(true);
-      }
-    }
-
-    if (this.previewMaterial.keywords) {
-      if (this.previewMaterial.keywords.length > 0) {
-        this.form.get('hasKeywords').setValue(true);
-      }
-    }
-
-    if (this.previewMaterial.learningResourceTypes) {
-      if (this.previewMaterial.learningResourceTypes.length > 0) {
-        this.form.get('hasLearningResourceTypes').setValue(true);
-      }
-    }
-
-    if (this.previewMaterial.educationalLevels) {
-      if (this.previewMaterial.educationalLevels.length > 0) {
-        this.form.get('hasEducationalLevels').setValue(true);
-      }
+    if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
+      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
     }
 
     if (this.previewMaterial.basicStudySubjects?.length > 0) {
@@ -157,10 +133,6 @@ export class EditPreviewComponent implements OnInit {
       this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
       this.form.get('hasUpperSecondaryEduContents').setValidators(null);
       this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
-    }
-
-    if (this.previewMaterial.license) {
-      this.form.get('hasLicense').setValue(true);
     }
   }
 

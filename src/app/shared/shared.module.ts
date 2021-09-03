@@ -292,3 +292,7 @@ export function getValuesWithinLimits(input: any[], prop: string = 'value'): any
 
   return values;
 }
+
+export function getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
+  return [...new Set(subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework))];
+}

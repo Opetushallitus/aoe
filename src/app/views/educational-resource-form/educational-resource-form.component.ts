@@ -2,14 +2,16 @@ import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { FilesComponent } from '@views/educational-resource-form/tabs/files/files.component';
-import { BasicDetailsComponent } from '@views/educational-resource-form/tabs/basic-details/basic-details.component';
-import { EducationalDetailsComponent } from '@views/educational-resource-form/tabs/educational-details/educational-details.component';
-import { ExtendedDetailsComponent } from '@views/educational-resource-form/tabs/extended-details/extended-details.component';
-import { LicenseComponent } from '@views/educational-resource-form/tabs/license/license.component';
-import { BasedOnDetailsComponent } from '@views/educational-resource-form/tabs/based-on-details/based-on-details.component';
+import {
+  BasedOnDetailsComponent,
+  BasicDetailsComponent,
+  EducationalDetailsComponent,
+  ExtendedDetailsComponent,
+  FilesComponent,
+  LicenseComponent,
+  PreviewComponent,
+} from './tabs';
 import { TranslateService } from '@ngx-translate/core';
-import { PreviewComponent } from '@views/educational-resource-form/tabs/preview/preview.component';
 
 @Component({
   selector: 'app-educational-resource-form',
