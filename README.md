@@ -1,4 +1,4 @@
-# Avoimet oppimatariaalit frontend
+# AOE - Avointen oppimateriaalien kirjasto (aoe-web-frontend)
 
 Project is based on [CoreUI Angular 2+ Admin template.](https://github.com/coreui/coreui-free-angular-admin-template)
 
