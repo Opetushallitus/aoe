@@ -56,14 +56,14 @@ export const FAQGeneral = {
         'Mikäli oppimateriaali on lisensoitu Creative Commons -lisenssillä joka sallii muokkauksen (CC BY, CC BY-SA, CC BY-SA-NC, CC BY-NC), muulla vastaavalla lisenssillä tai olet hankkinut luvan materiaalin muokkaamiseen, voit tämän kansainvälisen materiaalin pohjalta tehdä oman versiosi, esimerkiksi kääntää oppimateriaalin. Voit myös halutessasi julkaista tämän oman mukaelmasi oppimateriaalista Avointen oppimateriaalien kirjastoon. Muistathan tällöin merkitä Hyödynnetty oppimateriaali -kenttään hyödyntämäsi oppimateriaalin tiedot.',
       ]
     },
-    {
+    /*{
       question: 'Miten viittaan Avointen oppimateriaalien kirjastosta löytyvään oppimateriaaliin?',
       answer: [
         'Kun haluat viitata Avointen oppimateriaalien kirjastosta löytyvään materiaaliin, merkitse se seuraavalla tavalla:',
         'Tekijä, <em>materiaalin nimi</em>. (Julkaisija, jos ilmoitettu.) Julkaisuvuosi. Pysyvä URN-tunniste.',
         'Eli esimerkiksi: Toikkanen Tarmo, <em>Tekijänoikeudet opetuksessa</em>. 2019. URN-tunnus.',
       ]
-    },
+    },*/
   ],
   en: [
     {
@@ -117,14 +117,14 @@ export const FAQGeneral = {
         'You can use open materials you find to make something yourself, for example translate different OER. You can also publish there modified OER you have made to the Library of Open Educational Resources (aoe.fi). If you do, remember to use the References-page to add information about the resources you used as a base for your OER.',
       ]
     },
-    {
+    /*{
       question: 'How do I make a reference to an educational resource found in the Library of Open Educational Resources?',
       answer: [
         'To refer to material found in the Library of Open Educational Resources, mark it as follows:',
         'Author, <em>name of the resource</em>. (Publisher, if indicated.) Publishing year. Permanent URN identifier.',
         'E.g. Toikkanen Tarmo, <em>Copyrights in Education</em>. 2019. URN identifier.',
       ]
-    },
+    },*/
   ],
   sv: [
     {
@@ -178,13 +178,13 @@ export const FAQGeneral = {
         'Du kan använda öppna material som du hittar för att göra något själv, till exempel översätta olika lärresurser. Du kan också publicera den modifierade lärresurs som du har gjort till Biblioteket för öppna lärresurser (aoe.fi). I det här fallet, kom ihåg att skriva informationen om det lärresurs du använde i fältet Referens.',
       ]
     },
-    {
+    /*{
       question: 'Hur hänvisar jag till det undervisningmaterial som finns i Biblioteket för öppna lärresurser?',
       answer: [
         'För att hänvisa till material som finns i Biblioteket för öppna lärresurser, markera det enligt följande:',
         'Författare, <em>undervisningsmaterialets namn</em>. (Utgivare, om det anges.) Utgivningsår. Permanent URN identifierare.',
         'T.ex: Toikkanen Tarmo, <em>Upphovsrätten i undervisningen</em>. 2019. URN identifierar',
       ]
-    },
+    },*/
   ]
 };
