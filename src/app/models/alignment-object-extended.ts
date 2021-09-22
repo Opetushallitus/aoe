@@ -3,10 +3,20 @@ export interface AlignmentObjectExtended {
   parent?: string | number;
   gradeEntity?: number;
   source?: string;
-  alignmentType: 'assesses' | 'teaches' | 'requires' | 'textComplexity' | 'readingLevel' | 'educationalSubject' | 'educationalLevel';
+  alignmentType: AlignmentType;
   educationalFramework?: string;
   targetDescription?: string;
   targetName: string;
   targetUrl?: string;
   children?: AlignmentObjectExtended[];
+}
+
+export enum AlignmentType {
+  assesses = 'assesses',
+  teaches = 'teaches',
+  requires = 'requires',
+  textComplexity = 'textComplexity',
+  readingLevel = 'readingLevel',
+  educationalSubject = 'educationalSubject',
+  educationalLevel = 'educationalLevel',
 }
