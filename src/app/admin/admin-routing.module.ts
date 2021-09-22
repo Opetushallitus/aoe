@@ -3,9 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminComponent } from './admin.component';
 import { RemoveMaterialComponent } from './remove-material/remove-material.component';
-import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from '../guards';
 import { ChangeMaterialOwnerComponent } from './change-material-owner/change-material-owner.component';
-import { AdminGuard } from '../guards/admin.guard';
+import { AdminGuard } from '../guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [

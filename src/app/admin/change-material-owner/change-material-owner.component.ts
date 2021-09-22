@@ -1,13 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { AoeUser } from '../../models/admin/aoe-users-response';
+import {
+  AoeUser,
+  ChangeOwnerPost,
+  ChangeOwnerResponse,
+  MaterialInfoResponse,
+} from '../../models/admin';
 import { Subject, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatorParams } from '../../constants/validator-params';
-import { ChangeOwnerPost } from '../../models/admin/change-owner-post';
-import { ChangeOwnerResponse } from '../../models/admin/change-owner-response';
 import { ToastrService } from 'ngx-toastr';
-import { MaterialInfoResponse } from '../../models/admin/material-info-response';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
