@@ -215,7 +215,7 @@ export class BackendService {
 
         // higher education
         const scienceBranches: AlignmentObjectExtended[] = alignmentObjects
-          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches)
+          .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
 
         this.material$.next({
           name: material.name,
