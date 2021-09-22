@@ -293,6 +293,11 @@ export function getValuesWithinLimits(input: any[], prop: string = 'value'): any
   return values;
 }
 
+/**
+ * Returns unique educational frameworks as string array.
+ * @param {AlignmentObjectExtended[]} subjects
+ * @returns {string[]} Unique educational frameworks
+ */
 export function getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
   return [
     ...new Set(subjects
