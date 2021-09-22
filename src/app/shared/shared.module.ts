@@ -228,7 +228,7 @@ export const addPrerequisites = (value: string): AlignmentObjectExtended => {
 
 /**
  * Creates valid filename.
- * @param value {string} Original filename
+ * @param {string} value Original filename
  * @returns {string} Valid filename
  */
 export function validateFilename(value: string): string {
