@@ -21,7 +21,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-prod": "ng build --prod",
+    "build-prod": "ng build --configuration production",
     "build-demo": "ng build --configuration demo",
     "test": "ng test",
     "lint": "ng lint",
