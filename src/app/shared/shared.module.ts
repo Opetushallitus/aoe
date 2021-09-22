@@ -6,7 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -93,17 +93,27 @@ export function deduplicate(array: any[], prop: string): any[] {
 }
 
 /**
+ * Returns extended alignment object.
+ * @param {string} value
+ * @param {string} source
+ * @param {AlignmentType} alignmentType
+ */
+function createExtendedAlignmentObjectFromString(value: string, source: string, alignmentType: AlignmentType): AlignmentObjectExtended {
+  return {
+    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    source: source,
+    alignmentType: alignmentType,
+    targetName: value.trim(),
+  };
+}
+
+/**
  * Converts string value to early childhood subject Alignment Object.
  * @param {string} value
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'earlyChildhoodEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'earlyChildhoodEducationSubjects', AlignmentType.educationalSubject);
 };
 
 /**
@@ -112,12 +122,7 @@ export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjec
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'earlyChildhoodEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'earlyChildhoodEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -126,12 +131,7 @@ export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObj
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'prePrimaryEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'prePrimaryEducationSubjects', AlignmentType.educationalSubject);
 };
 
 /**
@@ -140,12 +140,7 @@ export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExt
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrePrimaryEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'prePrimaryEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'prePrimaryEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -154,12 +149,7 @@ export const addPrePrimaryEducationObjective = (value: string): AlignmentObjectE
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addUpperSecondarySchoolObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'upperSecondarySchoolObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'upperSecondarySchoolObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -168,12 +158,7 @@ export const addUpperSecondarySchoolObjective = (value: string): AlignmentObject
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addVocationalEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: koodistoSources.vocationalRequirements,
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, koodistoSources.vocationalRequirements, AlignmentType.teaches);
 };
 
 /**
@@ -182,12 +167,7 @@ export const addVocationalEducationObjective = (value: string): AlignmentObjectE
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addSelfMotivatedEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'selfMotivatedEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'selfMotivatedEducationSubjects', AlignmentType.educationalSubject);
 };
 
 /**
@@ -196,12 +176,7 @@ export const addSelfMotivatedEducationSubject = (value: string): AlignmentObject
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addSelfMotivatedEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'selfMotivatedEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'selfMotivatedEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -210,12 +185,7 @@ export const addSelfMotivatedEducationObjective = (value: string): AlignmentObje
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addScienceBranchObjectives = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'scienceBranchObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'scienceBranchObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -224,12 +194,7 @@ export const addScienceBranchObjectives = (value: string): AlignmentObjectExtend
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrerequisites = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: koodistoSources.prerequisites,
-    alignmentType: 'requires',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, koodistoSources.prerequisites, AlignmentType.requires);
 };
 
 /**
