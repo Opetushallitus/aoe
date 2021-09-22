@@ -228,7 +228,7 @@ export const addPrerequisites = (value: string): AlignmentObjectExtended => {
 
 /**
  * Creates valid filename.
- * @param value {string} Original filename
+ * @param {string} value Original filename
  * @returns {string} Valid filename
  */
 export function validateFilename(value: string): string {
@@ -293,6 +293,16 @@ export function getValuesWithinLimits(input: any[], prop: string = 'value'): any
   return values;
 }
 
+/**
+ * Returns unique educational frameworks as string array.
+ * @param {AlignmentObjectExtended[]} subjects
+ * @returns {string[]} Unique educational frameworks
+ */
 export function getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
-  return [...new Set(subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework))];
+  return [
+    ...new Set(subjects
+      .map((subject: AlignmentObjectExtended) => subject.educationalFramework)
+      .filter(fw => fw) // removes empty strings
+    )
+  ];
 }
