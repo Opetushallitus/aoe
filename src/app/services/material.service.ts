@@ -23,12 +23,12 @@ import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
 @Injectable({
   providedIn: 'root'
 })
-export class BackendService {
-
+export class MaterialService {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
   ) { }
+
   backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
@@ -92,7 +92,7 @@ export class BackendService {
             return { status: 'error', message: `Unhandled event: ${event.type}` };
         }
       }),
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -102,7 +102,7 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -118,7 +118,7 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -131,7 +131,7 @@ export class BackendService {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put(uploadUrl, data).pipe(
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -428,7 +428,7 @@ export class BackendService {
             };
           });
       }),
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -467,7 +467,7 @@ export class BackendService {
               return { status: 'error', message: `Unhandled event: ${event.type}` };
           }
         }),
-        catchError(BackendService.handleError),
+        catchError(MaterialService.handleError),
       );
     }
   }
@@ -913,7 +913,7 @@ export class BackendService {
 
       return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
         .pipe(
-          catchError(BackendService.handleError),
+          catchError(MaterialService.handleError),
         );
     }
   }
@@ -925,7 +925,7 @@ export class BackendService {
   deleteAttachment(attachmentId: number): Observable<any> {
     return this.http.delete(`${this.backendUrl}/material/attachment/${attachmentId}`)
       .pipe(
-        catchError(BackendService.handleError),
+        catchError(MaterialService.handleError),
       );
   }
 
@@ -960,7 +960,7 @@ export class BackendService {
             };
         }
       }),
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 
@@ -970,7 +970,7 @@ export class BackendService {
         'Accept': 'application/json',
       }),
     }).pipe(
-      catchError(BackendService.handleError),
+      catchError(MaterialService.handleError),
     );
   }
 

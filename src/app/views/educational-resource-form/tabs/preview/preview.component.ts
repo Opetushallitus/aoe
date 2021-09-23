@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { environment } from '../../../../../environments/environment';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
@@ -69,7 +69,7 @@ export class PreviewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private translate: TranslateService,
     private titleSvc: Title,
   ) { }
@@ -88,13 +88,13 @@ export class PreviewComponent implements OnInit {
     this.materialId = this.fileUpload?.id;
 
     if (this.materialId) {
-      this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+      this.uploadedFileSubscription = this.materialSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
         this.uploadedFiles = uploadedFiles;
 
         this.form.get('hasMaterial').setValue(this.uploadedFiles?.length > 0);
       });
 
-      this.backendSvc.updateUploadedFiles(this.materialId);
+      this.materialSvc.updateUploadedFiles(this.materialId);
     }
 
     this.form = this.fb.group({
@@ -356,7 +356,7 @@ export class PreviewComponent implements OnInit {
       delete this.savedData.thumbnail;
       delete this.savedData.prerequisites;
 
-      this.backendSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
+      this.materialSvc.postMeta(+this.fileUpload.id, this.savedData).subscribe(() => {
         // clean up session storage
         sessionStorage.removeItem(environment.newERLSKey);
         sessionStorage.removeItem(environment.fileUploadLSKey);

@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
@@ -38,7 +38,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private collectionSvc: CollectionService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
     private koodistoSvc: KoodistoProxyService,
   ) { }
@@ -76,7 +76,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         // set loading true
         this.materialsLoading.set(collectionMaterial.id, true);
 
-        this.backendSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
+        this.materialSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
           // set collection materials
           this.collectionMaterials.set(collectionMaterial.id, materials);
 

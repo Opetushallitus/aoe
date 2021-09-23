@@ -6,7 +6,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from '../../../../../environments/environment';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 import { Title } from '@angular/platform-browser';
 import { ignoredSubjects } from '../../../../constants/ignored-subjects';
@@ -31,7 +31,7 @@ export class EditPreviewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private router: Router,
     private titleSvc: Title,
   ) { }
@@ -443,7 +443,7 @@ export class EditPreviewComponent implements OnInit {
         { isBasedOn },
       );
 
-      this.backendSvc.postMeta(this.materialId, updatedMaterial).subscribe(
+      this.materialSvc.postMeta(this.materialId, updatedMaterial).subscribe(
         () => this.router.navigate(['/materiaali', this.materialId]),
         (err) => console.error(err),
       );
