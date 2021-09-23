@@ -10,7 +10,7 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
@@ -59,7 +59,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
   ) { }
 
@@ -274,7 +274,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   uploadImage() {
     if (this.croppedImage.base64) {
-      this.backendSvc.uploadImage(this.croppedImage.base64).subscribe(
+      this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
         (res) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;

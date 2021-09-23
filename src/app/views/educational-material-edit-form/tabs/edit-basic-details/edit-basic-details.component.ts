@@ -14,7 +14,7 @@ import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Router } from '@angular/router';
 import { UploadMessage } from '@models/upload-message';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
 
@@ -57,7 +57,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
   ) { }
 
@@ -222,7 +222,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   uploadImage(): void {
     if (this.croppedImage.base64) {
-      this.backendSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
+      this.materialSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
         (res: UploadMessage) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;

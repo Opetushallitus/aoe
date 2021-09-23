@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Material } from '@models/material';
 import { EducationalMaterial } from '@models/educational-material';
 
@@ -21,7 +21,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
 
   constructor(
     private route: ActivatedRoute,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
   ) { }
 
   ngOnInit(): void {
@@ -29,10 +29,10 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
       this.materialId = +params.get('materialId');
       this.lang = params.get('lang').toLowerCase();
 
-      this.backendSvc.updateMaterial(this.materialId);
+      this.materialSvc.updateMaterial(this.materialId);
     });
 
-    this.materialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
+    this.materialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
 
       if (this.educationalMaterial.materials.filter(m => m.language === this.lang).length > 0) {

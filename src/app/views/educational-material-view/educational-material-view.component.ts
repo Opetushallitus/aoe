@@ -4,7 +4,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
 import { Material } from '@models/material';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { environment } from '../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // tslint:disable-next-line:max-line-length
@@ -56,7 +56,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private translate: TranslateService,
     private modalSvc: BsModalService,
     public authSvc: AuthService,
@@ -75,7 +75,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         : `${environment.backendUrl}/material/file/${this.materialId}`;
 
       this.materialIsLoading = true;
-      this.backendSvc.updateMaterial(this.materialId, this.materialVersionDate);
+      this.materialSvc.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -96,7 +96,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
     this.koodistoSvc.updateLanguages();
 
-    this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
+    this.educationalMaterialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
       this.materialIsLoading = false;
 
