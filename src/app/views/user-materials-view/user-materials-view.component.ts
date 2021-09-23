@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '@services/auth.service';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -28,7 +28,7 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private authSvc: AuthService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private translate: TranslateService,
     private collectionSvc: CollectionService,
     private titleSvc: Title,
@@ -43,17 +43,17 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.publishedMaterialSubscription = this.backendSvc.publishedUserMaterials$
+    this.publishedMaterialSubscription = this.materialSvc.publishedUserMaterials$
       .subscribe((materials: EducationalMaterialCard[]) => {
         this.publishedMaterials = materials;
       });
 
-    this.unpublishedMaterialSubscription = this.backendSvc.unpublishedUserMaterials$
+    this.unpublishedMaterialSubscription = this.materialSvc.unpublishedUserMaterials$
       .subscribe((materials: EducationalMaterialCard[]) => {
         this.unpublishedMaterials = materials;
       });
 
-    this.backendSvc.updateUserMaterialList();
+    this.materialSvc.updateUserMaterialList();
 
     this.privateCollectionSubscription = this.collectionSvc.privateUserCollections$
       .subscribe((collections: UserCollection[]) => {

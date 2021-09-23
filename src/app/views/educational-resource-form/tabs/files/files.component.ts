@@ -7,7 +7,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
 import { Language } from '@models/koodisto-proxy/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
@@ -49,7 +49,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
     private authSvc: AuthService,
   ) { }
@@ -107,11 +107,11 @@ export class FilesComponent implements OnInit, OnDestroy {
 
       this.materialId = fileUpload.id;
 
-      this.uploadedFileSubscription = this.backendSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
+      this.uploadedFileSubscription = this.materialSvc.uploadedFiles$.subscribe((uploadedFiles: UploadedFile[]) => {
         this.uploadedFiles = uploadedFiles;
       });
 
-      this.backendSvc.updateUploadedFiles(this.materialId);
+      this.materialSvc.updateUploadedFiles(this.materialId);
     }
   }
 
@@ -313,7 +313,7 @@ export class FilesComponent implements OnInit, OnDestroy {
 
     this.files.value.forEach((file, i) => {
       if (file.link) {
-        this.backendSvc.postLinks({
+        this.materialSvc.postLinks({
           link: file.link,
           displayName: file.displayName,
           language: file.language,
@@ -332,7 +332,7 @@ export class FilesComponent implements OnInit, OnDestroy {
           priority: nth + i,
         }));
 
-        this.backendSvc.uploadFiles(formData).subscribe(
+        this.materialSvc.uploadFiles(formData).subscribe(
           (res) => {
             this.uploadResponses[i] = res;
 
@@ -348,7 +348,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                     srclang: subtitle.srclang,
                   }));
 
-                  this.backendSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
+                  this.materialSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
                     (subRes) => console.log(subRes),
                     (subErr) => console.error(subErr),
                     () => this.completeUpload(),
@@ -385,15 +385,15 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   deleteFile(fileId: number): void {
-    this.backendSvc.deleteFile(fileId).subscribe(
-      () => this.backendSvc.updateUploadedFiles(this.materialId),
+    this.materialSvc.deleteFile(fileId).subscribe(
+      () => this.materialSvc.updateUploadedFiles(this.materialId),
       (err) => console.error(err),
     );
   }
 
   deleteAttachment(attachmentId: number): void {
-    this.backendSvc.deleteAttachment(attachmentId).subscribe(
-      () => this.backendSvc.updateUploadedFiles(this.materialId),
+    this.materialSvc.deleteAttachment(attachmentId).subscribe(
+      () => this.materialSvc.updateUploadedFiles(this.materialId),
       (err) => console.error(err),
     );
   }
@@ -415,7 +415,7 @@ export class FilesComponent implements OnInit, OnDestroy {
             const formData = new FormData();
             formData.append('name', JSON.stringify(this.names.value));
 
-            this.backendSvc.uploadFiles(formData).subscribe(
+            this.materialSvc.uploadFiles(formData).subscribe(
               () => {},
               (err) => console.error(err),
               () => this.uploadFiles(),
