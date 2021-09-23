@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
@@ -14,7 +14,7 @@ export class MainViewComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
   ) { }
 
@@ -27,7 +27,7 @@ export class MainViewComponent implements OnInit {
       this.setTitle();
     });
 
-    this.backendSvc.getRecentMaterialList().subscribe(data => {
+    this.materialSvc.getRecentMaterialList().subscribe(data => {
       this.recentMaterials = data;
     });
   }

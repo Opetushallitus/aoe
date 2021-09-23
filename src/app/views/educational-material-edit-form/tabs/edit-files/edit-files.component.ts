@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -48,7 +48,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private koodistoSvc: KoodistoProxyService,
     private translate: TranslateService,
     private modalService: BsModalService,
@@ -462,7 +462,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
         let completedResponse: UploadMessage;
 
-        this.backendSvc.uploadFile(payload, this.materialId).subscribe(
+        this.materialSvc.uploadFile(payload, this.materialId).subscribe(
           (response: UploadMessage) => {
             this.uploadResponses[i] = response;
 
@@ -485,7 +485,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
         let postResponse: LinkPostResponse;
 
-        this.backendSvc.postLink(payload, this.materialId).subscribe(
+        this.materialSvc.postLink(payload, this.materialId).subscribe(
           (response: LinkPostResponse) => postResponse = response,
           (error) => console.error(error),
           () => this.completeLinkPost(postResponse, i),
@@ -510,7 +510,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
             let completedSubtitleResponse: AttachmentPostResponse;
 
-            this.backendSvc.uploadSubtitle(material.id, payload).subscribe(
+            this.materialSvc.uploadSubtitle(material.id, payload).subscribe(
               (subtitleResponse: AttachmentPostResponse) => completedSubtitleResponse = subtitleResponse,
               (err) => console.error(err),
               () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id),
