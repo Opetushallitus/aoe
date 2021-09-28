@@ -48,6 +48,7 @@ cleanup_demo:
     - dev
   tags:
     - demo
+  when: manual
 
 build_prod:
   stage: build
@@ -79,3 +80,4 @@ cleanup_prod:
     - master
   tags:
     - prod
+  when: manual
