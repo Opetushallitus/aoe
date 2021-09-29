@@ -1,0 +1,100 @@
+{
+    "name": "aoe-streaming-app",
+    "version": "0.1.0",
+    "description": "Streaming Service for the Library of Open Educational Resources",
+    "repository": {
+        "type": "git",
+        "url": "git@gitlab.ci.csc.fi:10022/aoe/aoe-streaming-app.git"
+    },
+    "author": "Mika Ropponen <mroppone@csc.fi>",
+    "license": "MIT",
+    "scripts": {
+        "dev": "ts-node-dev --respawn --pretty --transpile-only src/server.ts",
+        "start": "npm run serve",
+        "build": "npm run build-ts && npm run lint",
+        "build-ts": "npx tsc",
+        "lint": "eslint src/**/*.ts",
+        "serve": "node dist/server.js",
+        "test": "jest --forceExit --coverage",
+        "watch-ts": "npx tsc -w",
+        "watch-test": "npm run test -- --watchAll"
+    },
+    "dependencies": {
+        "adm-zip": "^0.4.16",
+        "async": "^3.2.0",
+        "aws-sdk": "^2.789.0",
+        "body-parser": "^1.19.0",
+        "compression": "^1.7.4",
+        "connect-flash": "^0.1.1",
+        "console-stamp": "^3.0.3",
+        "content-disposition": "^0.5.3",
+        "cookie-parser": "^1.4.5",
+        "cookie-session": "^2.0.0-rc.1",
+        "cors": "^2.8.5",
+        "dotenv": "^8.6.0",
+        "errorhandler": "^1.5.1",
+        "express": "^4.17.1",
+        "express-flash": "0.0.2",
+        "express-session": "^1.17.1",
+        "express-validator": "^6.6.1",
+        "lodash": "^4.17.21",
+        "lusca": "^1.6.0",
+        "mime": "^2.4.6",
+        "moment": "^2.29.1",
+        "morgan": "^1.10.0",
+        "multer": "^1.4.2",
+        "nowjs-core": "^0.39.0",
+        "request": "^2.88.2",
+        "request-promise": "^4.2.6",
+        "s3": "^4.4.0",
+        "s3-zip": "^3.1.3",
+        "utf8": "^3.0.0",
+        "winston": "^3.3.3"
+    },
+    "devDependencies": {
+        "@types/async": "^3.2.3",
+        "@types/body-parser": "^1.19.0",
+        "@types/compression": "^1.7.0",
+        "@types/connect-flash": "0.0.37",
+        "@types/cookie-parser": "^1.4.2",
+        "@types/cors": "^2.8.12",
+        "@types/dotenv": "^8.2.0",
+        "@types/errorhandler": "^1.5.0",
+        "@types/express": "^4.17.9",
+        "@types/express-session": "^1.17.3",
+        "@types/jest": "^25.2.3",
+        "@types/lodash": "^4.14.165",
+        "@types/lusca": "^1.6.2",
+        "@types/morgan": "^1.9.2",
+        "@types/multer": "^1.4.7",
+        "@types/node": "^14.14.7",
+        "@types/request": "^2.48.5",
+        "@types/supertest": "^2.0.10",
+        "@typescript-eslint/eslint-plugin": "^4.31.2",
+        "@typescript-eslint/parser": "^4.31.2",
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "concurrently": "^5.3.0",
+        "connect-pg-pool": "^4.0.0",
+        "eslint": "^7.32.0",
+        "jest": "^26.6.3",
+        "jest-junit": "^10.0.0",
+        "ts-jest": "^26.4.4",
+        "ts-node": "^8.10.2",
+        "ts-node-dev": "^1.1.8",
+        "typescript": "^3.9.7"
+    },
+    "jest": {
+        "coverageReporters": [
+            "text"
+        ],
+        "reporters": [
+            "default",
+            "jest-junit"
+        ]
+    },
+    "jest-junit": {
+        "output": "output/coverage/junit/junit.xml",
+        "usePathForSuiteName": "true"
+    }
+}

@@ -1,0 +1,11 @@
+# Directories
+dist/
+node_modules/
+output/
+
+# Files
+.env
+
+# IDEs
+.idea/
+.vscode/
