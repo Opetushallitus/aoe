@@ -290,7 +290,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.earlyChildhoodEducationObjectives.setValue(earlyChildhoodEducationObjectives);
 
         if (earlyChildhoodEducationSubjects.length > 0 && 'educationalFramework' in earlyChildhoodEducationSubjects[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.earlyChildhoodEducationFramework.setValue(earlyChildhoodEducationSubjects[0].educationalFramework);
         }
 
@@ -304,7 +304,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.prePrimaryEducationObjectives.setValue(prePrimaryEducationObjectives);
 
         if (prePrimaryEducationSubjects.length > 0 && 'educationalFramework' in prePrimaryEducationSubjects[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.prePrimaryEducationFramework.setValue(prePrimaryEducationSubjects[0].educationalFramework);
         }
 
@@ -323,7 +323,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.basicStudyContentsCtrl.setValue(basicStudyContents);
 
         if (basicStudySubjects.length > 0 && 'educationalFramework' in basicStudySubjects[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.basicStudyFramework.setValue(basicStudySubjects[0].educationalFramework);
         }
 
@@ -346,7 +346,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.upperSecondarySchoolObjectives.setValue(upperSecondarySchoolObjectives);
 
         if (upperSecondarySchoolSubjectsOld.length > 0 && 'educationalFramework' in upperSecondarySchoolSubjectsOld[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.upperSecondarySchoolFramework.setValue(upperSecondarySchoolSubjectsOld[0].educationalFramework);
         }
 
@@ -389,7 +389,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.vocationalRequirementsCtrl.setValue(vocationalRequirements);
 
         if (vocationalDegrees.length > 0 && 'educationalFramework' in vocationalDegrees[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.vocationalEducationFramework.setValue(vocationalDegrees[0].educationalFramework);
         }
 
@@ -422,7 +422,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.scienceBranchObjectives.setValue(scienceBranchObjectives);
 
         if (branchesOfScience.length > 0 && 'educationalFramework' in branchesOfScience[0]) {
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           this.higherEducationFramework.setValue(branchesOfScience[0].educationalFramework);
         }
       }

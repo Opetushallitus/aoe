@@ -1,6 +1,6 @@
 import { AccessibilityTable } from '@models/mocks/accessibility-table';
 
-// tslint:disable:max-line-length
+/* eslint-disable max-len */
 export const Accessibility: AccessibilityTable = {
   fi: [
     {
