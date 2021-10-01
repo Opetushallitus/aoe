@@ -156,7 +156,7 @@ export class MaterialService {
         this.material$.next(material);
       } else {
         const alignmentObjects: AlignmentObjectExtended[] = material.educationalAlignment
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           .map(({objectkey, source, alignmenttype, educationalframework, targetname}) => ({
             key: objectkey,
             source: source,
@@ -583,7 +583,7 @@ export class MaterialService {
           }));
 
         const upperSecondaryCoursesOld = material.educationalAlignment
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           .filter((alignment) => alignment.source === koodistoSources.upperSecondaryCoursesOld || alignment.source === koodistoSources.upperSecondarySubjects)
           .map((alignment) => ({
             key: alignment.objectkey,
@@ -606,7 +606,7 @@ export class MaterialService {
           }));
 
         const vocationalRequirements = material.educationalAlignment
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           .filter((alignment) => alignment.source === koodistoSources.vocationalRequirements || alignment.source === koodistoSources.vocationalObjectives)
           .map((alignment) => ({
             key: alignment.objectkey,
@@ -691,7 +691,7 @@ export class MaterialService {
               targetName: alignment.targetname,
               targetUrl: alignment.targeturl,
             })),
-          // tslint:disable-next-line:max-line-length
+          // eslint-disable-next-line max-len
           earlyChildhoodEducationFramework: (earlyChildhoodEducationSubjects.length > 0 && earlyChildhoodEducationSubjects[0].educationalFramework)
             ? earlyChildhoodEducationSubjects[0].educationalFramework
             : null,

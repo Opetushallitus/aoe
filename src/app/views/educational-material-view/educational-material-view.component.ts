@@ -7,7 +7,7 @@ import { Material } from '@models/material';
 import { MaterialService } from '@services/material.service';
 import { environment } from '../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AuthService } from '@services/auth.service';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
@@ -106,7 +106,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.materialIsArchived = false;
 
         // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
         this.updateMaterialName();

@@ -8,7 +8,7 @@ import { CookieService } from '@services/cookie.service';
 import { AuthService } from '@services/auth.service';
 
 @Component({
-  // tslint:disable-next-line
+  // eslint-disable-next-line
   selector: 'body',
   template: '<router-outlet></router-outlet>'
 })

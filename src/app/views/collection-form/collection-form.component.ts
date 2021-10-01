@@ -69,7 +69,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
 
       if (JSON.stringify(collection) === '{}') {
         // @todo: replace with translation strings
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastr.error(this.noPermissionMessage, this.noPermissionTitle);
 
         return this.router.navigate(['/etusivu']);
