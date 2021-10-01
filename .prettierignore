@@ -47,6 +47,11 @@ Thumbs.db
 # Documentation
 /documentation/*
 
+/docker
+.browserslistrc
+.dockerignore
+.editorconfig
+.gitignore
 *.json
 *.yml
 *.conf.js
