@@ -44,6 +44,7 @@
         "morgan": "^1.10.0",
         "multer": "^1.4.2",
         "nowjs-core": "^0.39.0",
+        "pug": "^3.0.2",
         "request": "^2.88.2",
         "request-promise": "^4.2.6",
         "s3": "^4.4.0",
