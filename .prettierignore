@@ -47,11 +47,8 @@ Thumbs.db
 # Documentation
 /documentation/*
 
-# Educational Materials
-/src/files
-
 *.json
 *.yml
 *.conf.js
-.md
+*.md
 
