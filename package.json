@@ -51,7 +51,7 @@
     "jquery": "^3.5.1",
     "mutationobserver-shim": "^0.3.7",
     "ng2-pdfjs-viewer": "^6.0.1",
-    "ngx-bootstrap": "^6.2.0",
+    "ngx-bootstrap": "^7.1.0",
     "ngx-clipboard": "^14.0.1",
     "ngx-cookie-service": "^11.0.2",
     "ngx-device-detector": "^2.0.6",
