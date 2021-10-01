@@ -1,12 +1,11 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: 'button, a, [role=button]'
+  // eslint-disable-next-line
+  selector: 'button, a, [role=button]',
 })
 export class FocusRemoverDirective {
-  constructor(
-    private elRef: ElementRef,
-  ) { }
+  constructor(private elRef: ElementRef) {}
 
   @HostListener('click') onClick() {
     this.elRef.nativeElement.blur();
