@@ -162,6 +162,7 @@
     }
   },
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }
