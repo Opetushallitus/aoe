@@ -1,5 +1,5 @@
 import cors from 'cors';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 import express from 'express';
 import router from './router/router';
 
@@ -11,7 +11,7 @@ const app = express();
 const corsOptions: cors.CorsOptions = {
     origin: '*',
     methods: 'GET',
-    optionsSuccessStatus: 204,
+    optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
 
@@ -21,6 +21,6 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 app.use('/', router);
-app.use("/favicon.ico", express.static('views/favicon.ico'));
+app.use("/favicon.ico", express.static('./views/favicon.ico'));
 
 export default app;
