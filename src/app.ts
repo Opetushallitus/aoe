@@ -12,10 +12,10 @@ dotenv.config();
 const app = express();
 
 // Morgan configuration for HTTP logging
-const morganMiddleware = morgan("combined", {
+const morganMiddleware = morgan(':method :url :status HTTP/:http-version :remote-addr :user-agent', {
     skip: (req: Request, res: Response) => res.statusCode < 400,
     stream: {
-        write: (message: string) => logger.http(message)
+        write: (message: string) => logger.http(message.slice(0, -1)) // Remove new line charcter \n
     }
 });
 
