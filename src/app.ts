@@ -5,21 +5,22 @@ import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 
 import logger from './util/logger';
-import router from './route/router';
+import routerRootModule from './route/router-root.module';
+import routerV1Module from './route/router-v1.module';
 
 dotenv.config();
 
 const app = express();
 
 // Morgan configuration for HTTP logging
-const morganMiddleware = morgan(':method :url :status HTTP/:http-version :remote-addr :user-agent', {
+const morganHttpLogger = morgan(':status :method :url :req[accept] HTTP/:http-version :remote-addr :user-agent', {
     skip: (req: Request, res: Response) => res.statusCode < 400,
     stream: {
-        write: (message: string) => logger.http(message.slice(0, -1)) // Remove new line charcter \n
+        write: (message: string) => logger.http(message.slice(0, -1)) // Remove \n character to avoid empty lines (bug)
     }
 });
 
-// CORS Configuration
+// CORS Configuration (cross-origin read only)
 const corsOptions: cors.CorsOptions = {
     origin: '*',
     methods: 'GET',
@@ -27,14 +28,18 @@ const corsOptions: cors.CorsOptions = {
 };
 app.use(cors(corsOptions));
 
-// app.set('port', 3000);
+// Set appliaction to operate correctly behind a proxy server (get client information from  X-Forwarded-* headers)
 // app.set('trust proxy', 1);
+
+// Root status page with Pug template
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-app.use('/', router);
-app.use("/favicon.ico", express.static('./views/favicon.ico'));
+// Connected middlewares and API versions
+app.use(morganHttpLogger);
+app.use('/', routerRootModule);
+app.use('/api/v1', routerV1Module);
+app.use('/favicon.ico', express.static('./views/favicon.ico'));
 app.use(errorHandler());
-app.use(morganMiddleware);
 
 export default app;
