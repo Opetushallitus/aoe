@@ -23,7 +23,7 @@ const logger: Logger = winston.createLogger({
     exitOnError: false,
     format: format.combine(
         format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
-        format.printf((info: Logform.TransformableInfo) => `[${info.level.toUpperCase()}] ${info.timestamp} ${info.message}`)
+        format.printf((log: Logform.TransformableInfo) => `[${log.level.toUpperCase()}] ${log.timestamp} ${log.message}`)
     ),
     levels: loggingLevels.levels,
     transports: [
