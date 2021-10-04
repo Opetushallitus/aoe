@@ -1,13 +1,15 @@
+import bodyParser from 'body-parser';
+import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import errorHandler from 'errorhandler';
 import express, { Request, Response } from 'express';
+import middleware from './api/middleware';
 import morgan from 'morgan';
 
-import { postHttpProcessor } from './util/middlewares.module';
-import winstonLogger from './util/winston-logger.module';
-import apiRouterRoot from './api/api-root.module';
-import apiRouterV1 from './api/api-v1.module';
+import apiRouterRoot from './api/api-router-root';
+import apiRouterV1 from './api/api-router-v1';
+import winstonLogger from './util/winston-logger';
 
 dotenv.config();
 
@@ -36,11 +38,15 @@ app.use(cors(corsOptions));
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-// Connected middlewares and API versions
+// HTTP request handlers
+app.use(compression());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(morganHttpLogger);
-// app.use(httpPostProcessor);
+
+// Connected API versions and custom middlewares
 app.use('/', apiRouterRoot);
-app.use('/api/v1', postHttpProcessor, apiRouterV1);
+app.use('/api/v1', middleware.postHttpProcessor, apiRouterV1);
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
 app.use(errorHandler());
 

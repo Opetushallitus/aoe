@@ -12,16 +12,16 @@ export {};
  *
  * For more information see https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
  */
-declare module 'express-session' {
-    interface SessionData {
-        passport: Passport;
-    }
-
-    interface Passport {
-        user: User;
-    }
-
-    interface User {
-        uid: string;
-    }
-}
+// declare module 'express-session' {
+//     interface SessionData {
+//         passport: Passport;
+//     }
+//
+//     interface Passport {
+//         user: User;
+//     }
+//
+//     interface User {
+//         uid: string;
+//     }
+// }

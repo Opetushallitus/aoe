@@ -1,6 +1,6 @@
 import app from './app';
 import consoleStamp from 'console-stamp';
-import winstonLoggerModule from './util/winston-logger.module';
+import winstonLogger from './util/winston-logger';
 import { Server } from 'net';
 
 // Add timestamp to console logging
@@ -12,7 +12,7 @@ consoleStamp(console, {
 if (!process.env.PORT) process.exit(1);
 const PORT: number = parseInt(process.env.PORT as string, 10);
 const server: Server = app.listen(PORT, () => {
-    winstonLoggerModule.info(`App is running at http://localhost:${PORT} in ${app.get('env')} mode`);
+    winstonLogger.info(`App is running at http://localhost:${PORT} in ${app.get('env')} mode`);
 });
 
 // Socket event handlers for the debugging purposes
