@@ -1,7 +1,6 @@
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
-import dotenv from 'dotenv';
 import errorHandler from 'errorhandler';
 import express from 'express';
 import middleware from './api/middleware';
@@ -9,8 +8,6 @@ import morganHttpLogger from './util/morgan-http-logger';
 
 import apiRouterRoot from './api/api-router-root';
 import apiRouterV1 from './api/api-router-v1';
-
-dotenv.config();
 
 const app = express();
 
