@@ -19,7 +19,7 @@ const consoleOptions: ConsoleTransportOptions = {
 };
 
 // Configuration for logging format and transports
-const winstonLogger: Logger = winston.createLogger({
+export default winston.createLogger({
     exitOnError: false,
     format: format.combine(
         format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
@@ -30,5 +30,3 @@ const winstonLogger: Logger = winston.createLogger({
         new (winston.transports.Console)(consoleOptions)
     ]
 });
-
-export default winstonLogger;
