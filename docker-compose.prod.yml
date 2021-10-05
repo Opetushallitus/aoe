@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-    image: aoe-semantic-apis-demo:latest
-    container_name: aoe-semantic-apis-demo
+    image: aoe-semantic-apis:latest
+    container_name: aoe-semantic-apis
     restart: unless-stopped
     ports:
       - "3000:3000"
