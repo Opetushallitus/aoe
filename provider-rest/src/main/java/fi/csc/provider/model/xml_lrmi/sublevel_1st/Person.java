@@ -1,11 +1,16 @@
 package fi.csc.provider.model.xml_lrmi.sublevel_1st;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @SuppressWarnings("unused")
+@Getter
+@Setter
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "lrmi_fi:person")
 public class Person {
@@ -16,19 +21,4 @@ public class Person {
     @XmlElement(name = "lrmi_fi:affiliation")
     private String affiliation;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAffiliation() {
-        return affiliation;
-    }
-
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
-    }
 }

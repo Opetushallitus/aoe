@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Development Utils ###
+/provider-rest/src/main/java/fi/csc/provider/utils/
