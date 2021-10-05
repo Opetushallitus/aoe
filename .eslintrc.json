@@ -1,7 +1,10 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "dist",
+    "docker",
+    "documentation",
+    "node_modules"
   ],
   "overrides": [
     {
