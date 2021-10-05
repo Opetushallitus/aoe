@@ -19,12 +19,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   submitted = false;
 
-  constructor(
-    private translate: TranslateService,
-    private fb: FormBuilder,
-    private router: Router,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private fb: FormBuilder, private router: Router, private titleSvc: Title) {}
 
   ngOnInit() {
     this.setTitle();
@@ -39,14 +34,14 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       // internals: this.fb.array([ this.createInternal() ]),
-      externals: this.fb.array([ this.createExternal() ]),
+      externals: this.fb.array([this.createExternal()]),
     });
 
     if (this.savedData && this.savedData.isBasedOn) {
       if (this.savedData.isBasedOn.externals.length > 0) {
         this.removeExternal(0);
 
-        this.savedData.isBasedOn.externals.forEach(external => {
+        this.savedData.isBasedOn.externals.forEach((external) => {
           this.externals.push(this.createExternal(external));
         });
       }
@@ -83,10 +78,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
   createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [
-        Validators.required,
-        textInputValidator(),
-      ]),
+      author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
       url: this.fb.control(external ? external.url : null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
@@ -117,13 +109,13 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   validateExternals(): void {
-    this.externals.controls.forEach(ctrl => {
+    this.externals.controls.forEach((ctrl) => {
       const author = ctrl.get('author');
       const url = ctrl.get('url');
       const name = ctrl.get('name');
 
       if (!author.value && !url.value && !name.value) {
-        this.removeExternal(this.externals.controls.findIndex(ext => ext === ctrl));
+        this.removeExternal(this.externals.controls.findIndex((ext) => ext === ctrl));
       }
     });
   }
@@ -150,11 +142,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
       },
     };
 
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      basedOnData,
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), basedOnData);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));

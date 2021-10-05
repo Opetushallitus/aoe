@@ -8,9 +8,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 export class PrivacyPolicyComponent implements OnInit {
   lang: string = this.translate.currentLang;
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

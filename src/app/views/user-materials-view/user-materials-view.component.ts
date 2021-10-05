@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-user-materials-view',
   templateUrl: './user-materials-view.component.html',
-  styleUrls: ['./user-materials-view.component.scss']
+  styleUrls: ['./user-materials-view.component.scss'],
 })
 export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -32,7 +32,7 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private collectionSvc: CollectionService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -43,27 +43,23 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.publishedMaterialSubscription = this.materialSvc.publishedUserMaterials$
-      .subscribe((materials: EducationalMaterialCard[]) => {
-        this.publishedMaterials = materials;
-      });
+    this.publishedMaterialSubscription = this.materialSvc.publishedUserMaterials$.subscribe((materials: EducationalMaterialCard[]) => {
+      this.publishedMaterials = materials;
+    });
 
-    this.unpublishedMaterialSubscription = this.materialSvc.unpublishedUserMaterials$
-      .subscribe((materials: EducationalMaterialCard[]) => {
-        this.unpublishedMaterials = materials;
-      });
+    this.unpublishedMaterialSubscription = this.materialSvc.unpublishedUserMaterials$.subscribe((materials: EducationalMaterialCard[]) => {
+      this.unpublishedMaterials = materials;
+    });
 
     this.materialSvc.updateUserMaterialList();
 
-    this.privateCollectionSubscription = this.collectionSvc.privateUserCollections$
-      .subscribe((collections: UserCollection[]) => {
-        this.privateCollections = collections;
-      });
+    this.privateCollectionSubscription = this.collectionSvc.privateUserCollections$.subscribe((collections: UserCollection[]) => {
+      this.privateCollections = collections;
+    });
 
-    this.publicCollectionSubscription = this.collectionSvc.publicUserCollections$
-      .subscribe((collections: UserCollection[]) => {
-        this.publicCollections = collections;
-      });
+    this.publicCollectionSubscription = this.collectionSvc.publicUserCollections$.subscribe((collections: UserCollection[]) => {
+      this.publicCollections = collections;
+    });
 
     this.collectionSvc.updateUserCollections();
   }

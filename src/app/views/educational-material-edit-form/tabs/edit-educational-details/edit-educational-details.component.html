@@ -9,7 +9,9 @@
       type="button"
       class="btn btn-link"
       [tooltip]="'forms.educationalResource.educationalDetails.educationalLevels.tooltip' | translate"
-    ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+    >
+      <img src="assets/img/icons/ic_help.svg" alt="" />
+    </button>
 
     <ng-select
       [items]="educationalLevels"
@@ -22,19 +24,14 @@
       formControlName="educationalLevels"
       (change)="educationalLevelsChange($event)"
     >
-      <ng-template ng-optgroup-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
-      <ng-template ng-option-tmp let-item="item">
-        {{ item.value }}
-      </ng-template>
+      <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+      <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
     </ng-select>
-  </div><!--/educational levels-->
+  </div>
+  <!--/educational levels-->
 
   <ng-container *ngIf="hasEarlyChildhoodEducation">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="earlyChildhoodEducationSubjects">
@@ -45,7 +42,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -58,9 +57,7 @@
         aria-describedby="early-subjects-help"
       ></ng-select>
 
-      <small id="early-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="early-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
@@ -70,7 +67,7 @@
           class="custom-control-input"
           id="suitsAllEarlyChildhoodSubjects"
           formControlName="suitsAllEarlyChildhoodSubjects"
-        >
+        />
 
         <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -87,7 +84,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -100,9 +99,7 @@
         aria-describedby="early-objectives-help"
       ></ng-select>
 
-      <small id="early-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="early-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
@@ -114,7 +111,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <input
         type="text"
@@ -122,7 +121,7 @@
         id="earlyChildhoodEducationFramework"
         formControlName="earlyChildhoodEducationFramework"
         [ngClass]="{ 'is-invalid': earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted) }"
-      >
+      />
 
       <div
         *ngIf="earlyChildhoodEducationFrameworkCtrl.invalid && (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted)"
@@ -133,16 +132,15 @@
         </div>
 
         <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength }
+          }}
         </div>
       </div>
-    </div>
-  </ng-container><!--/early childhood education-->
+    </div> </ng-container
+  ><!--/early childhood education-->
 
   <ng-container *ngIf="hasPrePrimaryEducation">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="prePrimaryEducationSubjects">
@@ -153,7 +151,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -166,19 +166,12 @@
         aria-describedby="pre-subjects-help"
       ></ng-select>
 
-      <small id="pre-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="pre-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="suitsAllPrePrimarySubjects"
-          formControlName="suitsAllPrePrimarySubjects"
-        >
+        <input type="checkbox" class="custom-control-input" id="suitsAllPrePrimarySubjects" formControlName="suitsAllPrePrimarySubjects" />
 
         <label class="custom-control-label" for="suitsAllPrePrimarySubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -195,7 +188,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -208,9 +203,7 @@
         aria-describedby="pre-objectives-help"
       ></ng-select>
 
-      <small id="pre-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="pre-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
@@ -222,7 +215,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <input
         type="text"
@@ -230,27 +225,23 @@
         id="prePrimaryEducationFramework"
         formControlName="prePrimaryEducationFramework"
         [ngClass]="{ 'is-invalid': prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted) }"
-      >
+      />
 
       <div
         *ngIf="prePrimaryEducationFrameworkCtrl.invalid && (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
-        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
-        </div>
+        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
           {{ 'forms.errors.common.maxLength' | translate:{ maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
-    </div>
-  </ng-container><!--/pre-primary education-->
+    </div> </ng-container
+  ><!--/pre-primary education-->
 
   <ng-container *ngIf="hasBasicStudies">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="basicStudySubjects">
@@ -261,7 +252,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="basicStudySubjects"
@@ -274,23 +267,14 @@
         formControlName="basicStudySubjects"
         (change)="basicStudySubjectsChange($event)"
       >
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.targetName }}
-        </ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.targetName }}
-        </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
       </ng-select>
     </div>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="suitsAllBasicStudySubjects"
-          formControlName="suitsAllBasicStudySubjects"
-        >
+        <input type="checkbox" class="custom-control-input" id="suitsAllBasicStudySubjects" formControlName="suitsAllBasicStudySubjects" />
 
         <label class="custom-control-label" for="suitsAllBasicStudySubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -308,28 +292,29 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <input
           class="form-control"
           id="basicStudyFramework"
           formControlName="basicStudyFramework"
           [ngClass]="{ 'is-invalid': basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted) }"
-        >
+        />
 
         <div
           *ngIf="basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)"
           class="invalid-feedback"
         >
-          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
-            {{ 'forms.errors.textInput.characters' | translate }}
-          </div>
+          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
           <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
             {{ 'forms.errors.common.maxLength' | translate:{ maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength } }}
           </div>
         </div>
-      </div><!--/basic education framework-->
+      </div>
+      <!--/basic education framework-->
 
       <div class="form-group">
         <label for="basicStudyObjectives">
@@ -347,14 +332,11 @@
           labelForId="basicStudyObjectives"
           formControlName="basicStudyObjectives"
         >
-          <ng-template ng-optgroup-tmp let-item="item">
-            {{ item.parent }}
-          </ng-template>
-          <ng-template ng-option-tmp let-item="item">
-            {{ item.targetName }}
-          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
+          <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
         </ng-select>
-      </div><!--/basic education objectives-->
+      </div>
+      <!--/basic education objectives-->
 
       <div class="form-group">
         <label for="basicStudyContents">
@@ -372,21 +354,16 @@
           labelForId="basicStudyContents"
           formControlName="basicStudyContents"
         >
-          <ng-template ng-optgroup-tmp let-item="item">
-            {{ item.parent }}
-          </ng-template>
-          <ng-template ng-option-tmp let-item="item">
-            {{ item.targetName }}
-          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
+          <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
         </ng-select>
-      </div><!--/basic education contents-->
-    </ng-container>
-  </ng-container><!--/basic education-->
+      </div>
+      <!--/basic education contents-->
+    </ng-container> </ng-container
+  ><!--/basic education-->
 
   <ng-container *ngIf="hasUpperSecondarySchool">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
@@ -395,7 +372,7 @@
           class="custom-control-input"
           id="currentUpperSecondarySchoolSelected"
           formControlName="currentUpperSecondarySchoolSelected"
-        >
+        />
 
         <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
           {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}
@@ -408,7 +385,7 @@
           class="custom-control-input"
           id="newUpperSecondarySchoolSelected"
           formControlName="newUpperSecondarySchoolSelected"
-        >
+        />
 
         <label class="custom-control-label" for="newUpperSecondarySchoolSelected">
           {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}
@@ -417,9 +394,7 @@
     </div>
 
     <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
-      <h4>
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}
-      </h4>
+      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsOld">
@@ -430,7 +405,9 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <ng-select
           [items]="upperSecondarySchoolSubjectsOld"
@@ -442,11 +419,10 @@
           formControlName="upperSecondarySchoolSubjectsOld"
           (change)="upperSecondarySchoolSubjectsOldChange($event)"
         >
-          <ng-template ng-optgroup-tmp let-item="item">
-            {{ item.parent }}
-          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
         </ng-select>
-      </div><!--upperSecondarySubjectsOld-->
+      </div>
+      <!--upperSecondarySubjectsOld-->
 
       <ng-container *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0">
         <div class="form-group">
@@ -463,8 +439,8 @@
             labelForId="upperSecondarySchoolCoursesOld"
             formControlName="upperSecondarySchoolCoursesOld"
           ></ng-select>
-        </div>
-      </ng-container><!--upperSecondaryCoursesOld-->
+        </div> </ng-container
+      ><!--upperSecondaryCoursesOld-->
 
       <div class="form-group">
         <div class="custom-control custom-checkbox">
@@ -473,7 +449,7 @@
             class="custom-control-input"
             id="suitsAllUpperSecondarySubjects"
             formControlName="suitsAllUpperSecondarySubjects"
-          >
+          />
 
           <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">
             {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -490,7 +466,9 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <ng-select
           [items]="[]"
@@ -513,7 +491,9 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <input
           type="text"
@@ -521,7 +501,7 @@
           id="upperSecondarySchoolFramework"
           formControlName="upperSecondarySchoolFramework"
           [ngClass]="{ 'is-invalid': upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted) }"
-        >
+        />
 
         <div
           *ngIf="upperSecondarySchoolFrameworkCtrl.invalid && (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted)"
@@ -532,16 +512,15 @@
           </div>
 
           <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength } }}
+            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength }
+            }}
           </div>
         </div>
-      </div>
-    </ng-container><!--/upper secondary school (current)-->
+      </div> </ng-container
+    ><!--/upper secondary school (current)-->
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
-      <h4>
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}
-      </h4>
+      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsNew">
@@ -559,9 +538,7 @@
           formControlName="upperSecondarySchoolSubjectsNew"
           (change)="upperSecondarySchoolSubjectsNewChange($event)"
         >
-          <ng-template ng-optgroup-tmp let-item="item">
-            {{ item.parent }}
-          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
         </ng-select>
       </div>
 
@@ -572,7 +549,7 @@
             class="custom-control-input"
             id="suitsAllUpperSecondarySubjectsNew"
             formControlName="suitsAllUpperSecondarySubjectsNew"
-          >
+          />
 
           <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">
             {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -634,14 +611,12 @@
             formControlName="upperSecondarySchoolContentsNew"
           ></ng-select>
         </div>
-      </ng-container>
-    </ng-container><!--/upper secondary school (new)-->
-  </ng-container><!--/upper secondary school-->
+      </ng-container> </ng-container
+    ><!--/upper secondary school (new)--> </ng-container
+  ><!--/upper secondary school-->
 
   <ng-container *ngIf="hasVocationalEducation">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="vocationalDegrees">
@@ -652,7 +627,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="vocationalDegrees"
@@ -700,12 +677,7 @@
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="suitsAllVocationalDegrees"
-          formControlName="suitsAllVocationalDegrees"
-        >
+        <input type="checkbox" class="custom-control-input" id="suitsAllVocationalDegrees" formControlName="suitsAllVocationalDegrees" />
 
         <label class="custom-control-label" for="suitsAllVocationalDegrees">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -741,7 +713,9 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <ng-select
           [items]="vocationalRequirements"
@@ -753,7 +727,8 @@
           labelForId="vocationalRequirements"
           formControlName="vocationalRequirements"
         ></ng-select>
-      </div><!--vocationalRequirements-->
+      </div>
+      <!--vocationalRequirements-->
     </ng-container>
 
     <div class="form-group">
@@ -765,7 +740,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <input
         type="text"
@@ -773,27 +750,23 @@
         id="vocationalEducationFramework"
         formControlName="vocationalEducationFramework"
         [ngClass]="{ 'is-invalid': vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted) }"
-      >
+      />
 
       <div
         *ngIf="vocationalEducationFrameworkCtrl.invalid && (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
-        <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
-        </div>
+        <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
           {{ 'forms.errors.common.maxLength' | translate:{ maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
-    </div>
-  </ng-container><!--/vocational education-->
+    </div> </ng-container
+  ><!--/vocational education-->
 
   <ng-container *ngIf="hasSelfMotivatedEducation">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="selfMotivatedEducationSubjects">
@@ -804,7 +777,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -817,9 +792,7 @@
         aria-describedby="self-subjects-help"
       ></ng-select>
 
-      <small id="self-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="self-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
@@ -829,7 +802,7 @@
           class="custom-control-input"
           id="suitsAllSelfMotivatedSubjects"
           formControlName="suitsAllSelfMotivatedSubjects"
-        >
+        />
 
         <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -846,7 +819,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -859,16 +834,12 @@
         aria-describedby="self-objectives-help"
       ></ng-select>
 
-      <small id="self-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
-    </div>
-  </ng-container><!--/self-motivated competence development-->
+      <small id="self-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+    </div> </ng-container
+  ><!--/self-motivated competence development-->
 
   <ng-container *ngIf="hasHigherEducation">
-    <h3>
-      {{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}
-    </h3>
+    <h3>{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</h3>
 
     <div class="form-group">
       <label for="branchesOfScience">
@@ -879,7 +850,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="scienceBranches"
@@ -893,23 +866,14 @@
         labelForId="branchesOfScience"
         formControlName="branchesOfScience"
       >
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.targetName }}
-        </ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.targetName }}
-        </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
       </ng-select>
     </div>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="suitsAllBranches"
-          formControlName="suitsAllBranches"
-        >
+        <input type="checkbox" class="custom-control-input" id="suitsAllBranches" formControlName="suitsAllBranches" />
 
         <label class="custom-control-label" for="suitsAllBranches">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -926,7 +890,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <ng-select
         [items]="[]"
@@ -939,9 +905,7 @@
         aria-describedby="higher-objectives-help"
       ></ng-select>
 
-      <small id="higher-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
-      </small>
+      <small id="higher-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
     </div>
 
     <div class="form-group">
@@ -953,7 +917,9 @@
         type="button"
         class="btn btn-link"
         [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.tooltip' | translate"
-      ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+      >
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
 
       <input
         type="text"
@@ -961,45 +927,32 @@
         id="higherEducationFramework"
         formControlName="higherEducationFramework"
         [ngClass]="{ 'is-invalid': higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted) }"
-      >
+      />
 
       <div
         *ngIf="higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)"
         class="invalid-feedback"
       >
-        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
-        </div>
+        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
           {{ 'forms.errors.common.maxLength' | translate:{ maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
-    </div>
-  </ng-container><!--/higher education-->
+    </div> </ng-container
+  ><!--/higher education-->
 
   <div class="row">
     <div class="col">
-      <button
-        type="button"
-        class="btn btn-gray"
-        (click)="previous()"
-      >{{ 'forms.common.previous' | translate }}</button>
+      <button type="button" class="btn btn-gray" (click)="previous()">{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="reset"
-        class="btn btn-cancel"
-        (click)="abort()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="abort()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-      >{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
 </form>

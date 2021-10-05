@@ -1,4 +1,4 @@
-@use "sass:math";
+@use 'sass:math';
 
 // Convert pixels to rem (with px fallback)
 @mixin font-size($size: 16) {

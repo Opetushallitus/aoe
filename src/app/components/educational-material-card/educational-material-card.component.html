@@ -2,11 +2,7 @@
   <a [routerLink]="[ '/materiaali', educationalMaterial.id ]" class="header">
     <div class="row no-gutters">
       <div class="col-12 col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
-        <img
-          [src]="educationalMaterial.thumbnail"
-          class="img-fluid border"
-          [alt]="'demo.educationalMaterial.cover.alt' | translate"
-        >
+        <img [src]="educationalMaterial.thumbnail" class="img-fluid border" [alt]="'demo.educationalMaterial.cover.alt' | translate" />
       </div>
 
       <div class="col-12 col-sm-8 col-md-12 col-lg-7 px-sm-3">
@@ -31,7 +27,8 @@
     property="value"
     searchProperty="keywordkey"
     filterType="keywords"
-  ></app-taglist><!--keywords-->
+  ></app-taglist
+  ><!--keywords-->
 
   <app-taglist
     *ngIf="educationalMaterial.educationalLevels?.length > 0"
@@ -43,18 +40,18 @@
     property="value"
     searchProperty="educationallevelkey"
     filterType="educationalLevels"
-  ></app-taglist><!--educationalLevels-->
+  ></app-taglist
+  ><!--educationalLevels-->
 
   <div class="details d-flex flex-row">
-    <div class="license text-dark">
-      {{ educationalMaterial.license.value }}
-    </div>
+    <div class="license text-dark">{{ educationalMaterial.license.value }}</div>
     <div class="type ml-auto">
       <img
         src="assets/img/icons/learning-resource-types/{{ educationalMaterial.learningResourceTypes[0].learningresourcetypekey }}.svg"
         class="img-icon"
         aria-hidden="true"
-      > {{ educationalMaterial.learningResourceTypes[0].value }}
+      />
+      {{ educationalMaterial.learningResourceTypes[0].value }}
     </div>
   </div>
 

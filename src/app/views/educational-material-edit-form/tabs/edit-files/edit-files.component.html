@@ -2,15 +2,15 @@
   <div class="form-group">
     <div class="form-row align-items-end">
       <div class="col" formGroupName="name">
-        <label for="name">
-          {{ 'forms.educationalResource.files.materialName.label.' + lang | translate }}*
-        </label>
+        <label for="name"> {{ 'forms.educationalResource.files.materialName.label.' + lang | translate }}* </label>
 
         <button
           type="button"
           class="btn btn-link btn-tooltip"
           [tooltip]="'forms.educationalResource.files.materialName.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <input
           type="text"
@@ -18,15 +18,10 @@
           id="name"
           [formControlName]="lang"
           [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted) }"
-        >
+        />
 
-        <div
-          *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
-          class="invalid-feedback"
-        >
-          <div *ngIf="nameCtrl.errors.invalidCharacters">
-            {{ 'forms.errors.textInput.characters' | translate }}
-          </div>
+        <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)" class="invalid-feedback">
+          <div *ngIf="nameCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
           <div *ngIf="nameCtrl.errors.maxlength">
             {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
@@ -40,44 +35,34 @@
           class="btn btn-gray"
           (click)="openTranslationsModal(nameI18n)"
           [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid }"
-        >{{ 'forms.common.translations.label' | translate }}</button>
+        >
+          {{ 'forms.common.translations.label' | translate }}
+        </button>
 
-        <button
-          type="button"
-          class="btn btn-link btn-tooltip"
-          [tooltip]="'forms.common.translations.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        <button type="button" class="btn btn-link btn-tooltip" [tooltip]="'forms.common.translations.tooltip' | translate">
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
-        <div
-          *ngIf="names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid"
-          class="invalid-feedback"
-        >{{ 'forms.errors.common.translations' | translate }}</div>
+        <div *ngIf="names.get(otherLangs[0]).invalid || names.get(otherLangs[1]).invalid" class="invalid-feedback">
+          {{ 'forms.errors.common.translations' | translate }}
+        </div>
       </div>
     </div>
 
     <ng-template #nameI18n>
       <div class="modal-header">
-        <h5 class="modal-title">
-          {{ 'forms.educationalResource.files.materialName.modal.title' | translate }}
-        </h5>
+        <h5 class="modal-title">{{ 'forms.educationalResource.files.materialName.modal.title' | translate }}</h5>
 
-        <button
-          type="button"
-          class="close"
-          [attr.aria-label]="'forms.common.close' | translate"
-          (click)="translationsModalRef.hide()"
-        ><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="translationsModalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
 
       <div class="modal-body" formGroupName="name">
-        <h4>
-          {{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}
-        </h4>
+        <h4>{{ 'forms.educationalResource.files.materialName.modal.subtitle' | translate }}</h4>
 
         <div class="form-group">
-          <label for="name2">
-            {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[0] | translate }}
-          </label>
+          <label for="name2"> {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[0] | translate }} </label>
 
           <input
             type="text"
@@ -85,15 +70,13 @@
             id="name2"
             [formControlName]="otherLangs[0]"
             [ngClass]="{ 'is-invalid': names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted) }"
-          >
+          />
 
           <div
             *ngIf="names.get(otherLangs[0]).invalid && (names.get(otherLangs[0]).dirty || names.get(otherLangs[0]).touched || submitted)"
             class="invalid-feedback"
           >
-            <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">
-              {{ 'forms.errors.textInput.characters' | translate }}
-            </div>
+            <div *ngIf="names.get(otherLangs[0]).errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
             <div *ngIf="names.get(otherLangs[0]).errors.maxlength">
               {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[0]).errors.maxlength.requiredLength } }}
@@ -102,9 +85,7 @@
         </div>
 
         <div class="form-group">
-          <label for="name3">
-            {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[1] | translate }}
-          </label>
+          <label for="name3"> {{ 'forms.educationalResource.files.materialName.label.' + otherLangs[1] | translate }} </label>
 
           <input
             type="text"
@@ -112,15 +93,13 @@
             id="name3"
             [formControlName]="otherLangs[1]"
             [ngClass]="{ 'is-invalid': names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted) }"
-          >
+          />
 
           <div
             *ngIf="names.get(otherLangs[1]).invalid && (names.get(otherLangs[1]).dirty || names.get(otherLangs[1]).touched || submitted)"
             class="invalid-feedback"
           >
-            <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">
-              {{ 'forms.errors.textInput.characters' | translate }}
-            </div>
+            <div *ngIf="names.get(otherLangs[1]).errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
             <div *ngIf="names.get(otherLangs[1]).errors.maxlength">
               {{ 'forms.errors.common.maxLength' | translate:{ maxLength: names.get(otherLangs[1]).errors.maxlength.requiredLength } }}
@@ -135,96 +114,69 @@
           class="btn btn-gray"
           [attr.aria-label]="'forms.common.cancel' | translate"
           (click)="translationsModalRef.hide()"
-        >{{ 'forms.common.cancel' | translate }}</button>
+        >
+          {{ 'forms.common.cancel' | translate }}
+        </button>
 
-        <button
-          type="button"
-          class="btn btn-blue"
-          (click)="translationsModalRef.hide()"
-        >{{ 'forms.common.saveChanges' | translate }}</button>
-      </div>
-    </ng-template><!--/modal-->
-  </div><!--/name-->
+        <button type="button" class="btn btn-blue" (click)="translationsModalRef.hide()">
+          {{ 'forms.common.saveChanges' | translate }}
+        </button>
+      </div> </ng-template
+    ><!--/modal-->
+  </div>
+  <!--/name-->
 
   <ng-container *ngFor="let material of materialDetailsArray.controls; let i = index;">
     <fieldset class="form-group border-bottom" formArrayName="fileDetails">
-      <ng-container [formGroupName]="i" *ngIf="materialDetailsArray.at(i).get('file').value || materialDetailsArray.at(i).get('link').value; else newMaterial">
-        <h2>
-          {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
-        </h2>
+      <ng-container
+        [formGroupName]="i"
+        *ngIf="materialDetailsArray.at(i).get('file').value || materialDetailsArray.at(i).get('link').value; else newMaterial"
+      >
+        <h2>{{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}</h2>
 
         <div class="form-row">
           <div class="form-group col-lg" *ngIf="material.get('file').value; else fileLink">
             <ng-container>
-              <label for="{{ 'file' + i }}">
-                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
-              </label>
+              <label for="{{ 'file' + i }}"> {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}* </label>
 
               <div class="input-group">
-                <input
-                  type="text"
-                  readonly
-                  class="form-control-plaintext"
-                  id="{{ 'file' + i }}"
-                  formControlName="file"
-                >
+                <input type="text" readonly class="form-control-plaintext" id="{{ 'file' + i }}" formControlName="file" />
 
                 <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-gray"
-                    type="button"
-                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
-                  >{{ 'forms.common.replaceFile' | translate }}</button>
+                  <button class="btn btn-outline-gray" type="button" (click)="showReplaceInput[i] = !showReplaceInput[i]">
+                    {{ 'forms.common.replaceFile' | translate }}
+                  </button>
                 </div>
               </div>
             </ng-container>
 
             <ng-container *ngIf="showReplaceInput[i]">
-              <label for="{{ 'newFile' + i }}">
-                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
-              </label>
+              <label for="{{ 'newFile' + i }}"> {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}* </label>
 
               <div class="custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="{{ 'newFile' + i }}"
-                  [lang]="lang"
-                  (change)="onFileChange($event, i)"
-                >
+                <input type="file" class="custom-file-input" id="{{ 'newFile' + i }}" [lang]="lang" (change)="onFileChange($event, i)" />
                 <span class="custom-file-label">{{ material.get('newFile').value.name | cleanFilename }}</span>
               </div>
             </ng-container>
-          </div><!--/file-->
+          </div>
+          <!--/file-->
 
           <ng-template #fileLink>
             <div class="form-group col-lg">
-              <label for="{{ 'link' + i }}">
-                {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
-              </label>
+              <label for="{{ 'link' + i }}"> {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}* </label>
 
               <div class="input-group">
-                <input
-                  type="url"
-                  readonly
-                  class="form-control-plaintext"
-                  id="{{ 'link' + i }}"
-                  formControlName="link"
-                >
+                <input type="url" readonly class="form-control-plaintext" id="{{ 'link' + i }}" formControlName="link" />
 
                 <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-gray"
-                    type="button"
-                    (click)="showReplaceInput[i] = !showReplaceInput[i]"
-                  >{{ 'forms.common.replaceLink' | translate }}</button>
+                  <button class="btn btn-outline-gray" type="button" (click)="showReplaceInput[i] = !showReplaceInput[i]">
+                    {{ 'forms.common.replaceLink' | translate }}
+                  </button>
                 </div>
               </div>
 
               <ng-container *ngIf="showReplaceInput[i]">
-                <label for="{{ 'newLink' + i }}">
-                  {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
-                </label>
+                <label for="{{ 'newLink' + i }}"> {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}* </label>
 
                 <input
                   type="url"
@@ -232,34 +184,32 @@
                   id="{{ 'newLink' + i }}"
                   formControlName="newLink"
                   [ngClass]="{ 'is-invalid': material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted) }"
-                >
+                />
 
                 <div
                   *ngIf="material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted)"
                   class="invalid-feedback"
                 >
-                  <div *ngIf="material.get('newLink').errors.pattern">
-                    {{ 'forms.common.pattern.url' | translate }}
-                  </div>
+                  <div *ngIf="material.get('newLink').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
 
                   <div *ngIf="material.get('newLink').errors.maxlength">
                     {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
                   </div>
                 </div>
               </ng-container>
-            </div>
-          </ng-template><!--/link-->
+            </div> </ng-template
+          ><!--/link-->
 
           <div class="form-group col-lg-2">
-            <label [for]="'language' + i">
-              {{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}*
-            </label>
+            <label [for]="'language' + i"> {{ 'forms.educationalResource.files.file.inputs.language.label' | translate }}* </label>
 
             <button
               type="button"
               class="btn btn-link btn-tooltip"
               [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate"
-            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+            >
+              <img src="assets/img/icons/ic_help.svg" alt="" />
+            </button>
 
             <ng-select
               [items]="languages"
@@ -270,14 +220,15 @@
               formControlName="language"
             ></ng-select>
 
-            <ng-container *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)">
+            <ng-container
+              *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)"
+            >
               <div *ngIf="material.get('language').errors.required">
-                <small class="text-danger">
-                  {{ 'forms.common.required' | translate }}
-                </small>
+                <small class="text-danger"> {{ 'forms.common.required' | translate }} </small>
               </div>
             </ng-container>
-          </div><!--/language-->
+          </div>
+          <!--/language-->
         </div>
 
         <div class="form-row align-items-end" formGroupName="displayName">
@@ -290,7 +241,9 @@
               type="button"
               class="btn btn-link btn-tooltip"
               [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate"
-            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+            >
+              <img src="assets/img/icons/ic_help.svg" alt="" />
+            </button>
 
             <input
               type="text"
@@ -298,7 +251,7 @@
               id="{{ 'displayName' + i }}"
               [formControlName]="lang"
               [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted) }"
-            >
+            />
 
             <div
               *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted)"
@@ -313,7 +266,8 @@
               </div>
 
               <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
-                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
+                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                lang).errors.maxlength.requiredLength } }}
               </div>
             </div>
           </div>
@@ -324,38 +278,38 @@
               class="btn btn-gray"
               (click)="openTranslationsModal(displayName)"
               [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid }"
-            >{{ 'forms.common.translations.label' | translate }}</button>
+            >
+              {{ 'forms.common.translations.label' | translate }}
+            </button>
 
-            <button
-              type="button"
-              class="btn btn-link btn-tooltip"
-              [tooltip]="'forms.common.translations.tooltip' | translate"
-            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+            <button type="button" class="btn btn-link btn-tooltip" [tooltip]="'forms.common.translations.tooltip' | translate">
+              <img src="assets/img/icons/ic_help.svg" alt="" />
+            </button>
 
             <div
               *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid"
               class="invalid-feedback"
-            >{{ 'forms.errors.common.translations' | translate }}</div>
+            >
+              {{ 'forms.errors.common.translations' | translate }}
+            </div>
           </div>
 
           <ng-template #displayName>
             <div class="modal-header">
-              <h5 class="modal-title">
-                {{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}
-              </h5>
+              <h5 class="modal-title">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}</h5>
 
               <button
                 type="button"
                 class="close"
                 [attr.aria-label]="'forms.common.close' | translate"
                 (click)="translationsModalRef.hide()"
-              ><span aria-hidden="true">&times;</span></button>
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
 
             <div class="modal-body">
-              <h4>
-                {{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}
-              </h4>
+              <h4>{{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}</h4>
 
               <div class="form-group">
                 <label for="{{ 'displayName2' + i }}">
@@ -368,7 +322,7 @@
                   id="{{ 'displayName2' + i }}"
                   [formControlName]="otherLangs[0]"
                   [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted) }"
-                >
+                />
 
                 <div
                   *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted)"
@@ -379,7 +333,8 @@
                   </div>
 
                   <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
-                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                    otherLangs[0]).errors.maxlength.requiredLength } }}
                   </div>
                 </div>
               </div>
@@ -395,7 +350,7 @@
                   id="{{ 'displayName3' + i }}"
                   [formControlName]="otherLangs[1]"
                   [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted) }"
-                >
+                />
 
                 <div
                   *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted)"
@@ -406,7 +361,8 @@
                   </div>
 
                   <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
-                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
+                    {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                    otherLangs[1]).errors.maxlength.requiredLength } }}
                   </div>
                 </div>
               </div>
@@ -418,16 +374,17 @@
                 class="btn btn-gray"
                 [attr.aria-label]="'forms.common.cancel' | translate"
                 (click)="translationsModalRef.hide()"
-              >{{ 'forms.common.cancel' | translate }}</button>
+              >
+                {{ 'forms.common.cancel' | translate }}
+              </button>
 
-              <button
-                type="button"
-                class="btn btn-blue"
-                (click)="translationsModalRef.hide()"
-              >{{ 'forms.common.saveChanges' | translate }}</button>
-            </div>
-          </ng-template><!--/modal-->
-        </div><!--/displayName-->
+              <button type="button" class="btn btn-blue" (click)="translationsModalRef.hide()">
+                {{ 'forms.common.saveChanges' | translate }}
+              </button>
+            </div> </ng-template
+          ><!--/modal-->
+        </div>
+        <!--/displayName-->
 
         <ng-container *ngIf="videoFiles.includes(i)">
           <div
@@ -451,14 +408,16 @@
                           class="form-control-plaintext"
                           id="{{ 'subtitle' + i + j }}"
                           formControlName="subtitle"
-                        >
+                        />
 
                         <div class="input-group-append">
                           <button
                             class="btn btn-outline-gray"
                             type="button"
                             (click)="showReplaceSubtitleInput[i][j] = !showReplaceSubtitleInput[i][j]"
-                          >{{ 'forms.common.replaceFile' | translate }}</button>
+                          >
+                            {{ 'forms.common.replaceFile' | translate }}
+                          </button>
                         </div>
                       </div>
                     </ng-container>
@@ -476,7 +435,7 @@
                           accept=".vtt"
                           [lang]="lang"
                           (change)="onSubtitleChange($event, i, j)"
-                        >
+                        />
                         <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                       </div>
                     </ng-container>
@@ -495,11 +454,12 @@
                         accept=".vtt"
                         [lang]="lang"
                         (change)="onSubtitleChange($event, i, j)"
-                      >
+                      />
                       <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                     </div>
                   </ng-template>
-                </div><!--/subtitle-->
+                </div>
+                <!--/subtitle-->
 
                 <div class="form-group col-sm-8 col-lg order-2">
                   <label for="{{ 'label' + i + j }}">
@@ -512,25 +472,22 @@
                     id="{{ 'label' + i + j }}"
                     formControlName="label"
                     [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted) }"
-                  >
+                  />
 
                   <div
                     *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted)"
                     class="invalid-feedback"
                   >
-                    <div *ngIf="subtitle.get('label').errors.required">
-                      {{ 'forms.common.required' | translate }}
-                    </div>
+                    <div *ngIf="subtitle.get('label').errors.required">{{ 'forms.common.required' | translate }}</div>
 
-                    <div *ngIf="subtitle.get('label').errors.invalidCharacters">
-                      {{ 'forms.errors.textInput.characters' | translate }}
-                    </div>
+                    <div *ngIf="subtitle.get('label').errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
                     <div *ngIf="subtitle.get('label').errors.maxlength">
                       {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
                     </div>
                   </div>
-                </div><!--/label-->
+                </div>
+                <!--/label-->
 
                 <div class="form-group col-sm-4 col-lg order-3">
                   <label [for]="'srclang' + i + j">
@@ -546,23 +503,23 @@
                     formControlName="srclang"
                   ></ng-select>
 
-                  <ng-container *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)">
+                  <ng-container
+                    *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)"
+                  >
                     <div *ngIf="subtitle.get('srclang').errors.required">
                       <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                     </div>
                   </ng-container>
-                </div><!--/srclang-->
+                </div>
+                <!--/srclang-->
 
                 <div class="form-group col-lg-auto order-last order-lg-4">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="removeSubtitle(i, j)"
-                  >
+                  <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                     <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
                     <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
                   </button>
-                </div><!--/actions-->
+                </div>
+                <!--/actions-->
 
                 <div class="form-group col-lg-12 order-4">
                   <div class="custom-control custom-checkbox">
@@ -572,31 +529,26 @@
                       id="{{ 'default' + i + j }}"
                       formControlName="default"
                       (change)="updateDefaultSubtitle($event, i, j)"
-                    >
+                    />
 
                     <label class="custom-control-label" for="{{ 'default' + i + j }}">
                       {{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}
                     </label>
                   </div>
-                </div><!--/default-->
+                </div>
+                <!--/default-->
               </div>
             </fieldset>
           </div>
 
           <div class="form-group">
-            <button
-              type="button"
-              class="btn btn-gray"
-              (click)="addSubtitle(i)"
-            >{{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}</button>
-          </div>
-        </ng-container><!--/subtitles-->
+            <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">
+              {{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}
+            </button>
+          </div> </ng-container
+        ><!--/subtitles-->
 
-        <button
-          type="button"
-          class="btn btn-danger mb-3"
-          (click)="removeMaterial(i)"
-        >
+        <button type="button" class="btn btn-danger mb-3" (click)="removeMaterial(i)">
           <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
           {{ 'forms.common.delete' | translate }}
         </button>
@@ -604,15 +556,11 @@
 
       <ng-template #newMaterial>
         <ng-container [formGroupName]="i">
-          <h2>
-            {{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}
-          </h2>
+          <h2>{{ i + 1 }}{{ 'forms.educationalResource.files.file.title' | translate }}</h2>
 
           <div class="form-row">
             <div class="form-group col-lg" *ngIf="!material.get('newLink').value">
-              <label for="{{ 'newMaterialFile' + i }}">
-                {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}*
-              </label>
+              <label for="{{ 'newMaterialFile' + i }}"> {{ 'forms.educationalResource.files.file.inputs.file.label' | translate }}* </label>
 
               <div class="custom-file">
                 <input
@@ -621,20 +569,18 @@
                   id="{{ 'newMaterialFile' + i }}"
                   [lang]="lang"
                   (change)="onFileChange($event, i)"
-                >
+                />
                 <span class="custom-file-label">{{ material.get('newFile').value.name | cleanFilename }}</span>
               </div>
-            </div><!--/file-->
+            </div>
+            <!--/file-->
 
-            <div
-              class="form-group col-lg-1 text-center"
-              *ngIf="!material.get('newFile').value && !material.get('newLink').value"
-            >{{ 'forms.educationalResource.files.file.or' | translate }}</div>
+            <div class="form-group col-lg-1 text-center" *ngIf="!material.get('newFile').value && !material.get('newLink').value">
+              {{ 'forms.educationalResource.files.file.or' | translate }}
+            </div>
 
             <div class="form-group col-lg" *ngIf="!material.get('newFile').value">
-              <label for="{{ 'newMaterialLink' + i }}">
-                {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}*
-              </label>
+              <label for="{{ 'newMaterialLink' + i }}"> {{ 'forms.educationalResource.files.file.inputs.link.label' | translate }}* </label>
 
               <input
                 type="url"
@@ -642,21 +588,20 @@
                 id="{{ 'newMaterialLink' + i }}"
                 formControlName="newLink"
                 [ngClass]="{ 'is-invalid': material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted) }"
-              >
+              />
 
               <div
                 *ngIf="material.get('newLink').invalid && (material.get('newLink').dirty || material.get('newLink').touched || submitted)"
                 class="invalid-feedback"
               >
-                <div *ngIf="material.get('newLink').errors.pattern">
-                  {{ 'forms.common.pattern.url' | translate }}
-                </div>
+                <div *ngIf="material.get('newLink').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
 
                 <div *ngIf="material.get('newLink').errors.maxlength">
                   {{ 'forms.errors.common.maxLength' | translate:{ maxLength: material.get('newLink').errors.maxlength.requiredLength } }}
                 </div>
               </div>
-            </div><!--/link-->
+            </div>
+            <!--/link-->
 
             <div class="form-group col-lg-2">
               <label [for]="'newMaterialLanguage' + i">
@@ -667,7 +612,9 @@
                 type="button"
                 class="btn btn-link btn-tooltip"
                 [tooltip]="'forms.educationalResource.files.file.inputs.language.tooltip' | translate"
-              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+              >
+                <img src="assets/img/icons/ic_help.svg" alt="" />
+              </button>
 
               <ng-select
                 [items]="languages"
@@ -678,14 +625,15 @@
                 formControlName="language"
               ></ng-select>
 
-              <ng-container *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)">
+              <ng-container
+                *ngIf="material.get('language').invalid && (material.get('language').dirty || material.get('language').touched || submitted)"
+              >
                 <div *ngIf="material.get('language').errors.required">
-                  <small class="text-danger">
-                    {{ 'forms.common.required' | translate }}
-                  </small>
+                  <small class="text-danger"> {{ 'forms.common.required' | translate }} </small>
                 </div>
               </ng-container>
-            </div><!--/language-->
+            </div>
+            <!--/language-->
           </div>
 
           <div class="form-row align-items-end" formGroupName="displayName">
@@ -698,7 +646,9 @@
                 type="button"
                 class="btn btn-link btn-tooltip"
                 [tooltip]="'forms.educationalResource.files.file.inputs.displayName.tooltip' | translate"
-              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+              >
+                <img src="assets/img/icons/ic_help.svg" alt="" />
+              </button>
 
               <input
                 type="text"
@@ -706,7 +656,7 @@
                 id="{{ 'newMaterialDisplayName' + i }}"
                 [formControlName]="lang"
                 [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted) }"
-              >
+              />
 
               <div
                 *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).invalid && (materialDetailsArray.at(i).get('displayName.' + lang).dirty || materialDetailsArray.at(i).get('displayName.' + lang).touched || submitted)"
@@ -721,7 +671,8 @@
                 </div>
 
                 <div *ngIf="materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + lang).errors.maxlength.requiredLength } }}
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                  lang).errors.maxlength.requiredLength } }}
                 </div>
               </div>
             </div>
@@ -732,38 +683,38 @@
                 class="btn btn-gray"
                 (click)="openTranslationsModal(newMaterialDisplayName)"
                 [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid }"
-              >{{ 'forms.common.translations.label' | translate }}</button>
+              >
+                {{ 'forms.common.translations.label' | translate }}
+              </button>
 
-              <button
-                type="button"
-                class="btn btn-link btn-tooltip"
-                [tooltip]="'forms.common.translations.tooltip' | translate"
-              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+              <button type="button" class="btn btn-link btn-tooltip" [tooltip]="'forms.common.translations.tooltip' | translate">
+                <img src="assets/img/icons/ic_help.svg" alt="" />
+              </button>
 
               <div
                 *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid"
                 class="invalid-feedback"
-              >{{ 'forms.errors.common.translations' | translate }}</div>
+              >
+                {{ 'forms.errors.common.translations' | translate }}
+              </div>
             </div>
 
             <ng-template #newMaterialDisplayName>
               <div class="modal-header">
-                <h5 class="modal-title">
-                  {{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}
-                </h5>
+                <h5 class="modal-title">{{ 'forms.educationalResource.files.file.inputs.displayName.modal.title' | translate }}</h5>
 
                 <button
                   type="button"
                   class="close"
                   [attr.aria-label]="'forms.common.close' | translate"
                   (click)="translationsModalRef.hide()"
-                ><span aria-hidden="true">&times;</span></button>
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
 
               <div class="modal-body">
-                <h4>
-                  {{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}
-                </h4>
+                <h4>{{ 'forms.educationalResource.files.file.inputs.displayName.modal.subtitle' | translate }}</h4>
 
                 <div class="form-group">
                   <label for="{{ 'newMaterialDisplayName2' + i }}">
@@ -776,7 +727,7 @@
                     id="{{ 'newMaterialDisplayName2' + i }}"
                     [formControlName]="otherLangs[0]"
                     [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted) }"
-                  >
+                  />
 
                   <div
                     *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).touched || submitted)"
@@ -787,7 +738,8 @@
                     </div>
 
                     <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength">
-                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[0]).errors.maxlength.requiredLength } }}
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                      otherLangs[0]).errors.maxlength.requiredLength } }}
                     </div>
                   </div>
                 </div>
@@ -803,7 +755,7 @@
                     id="{{ 'newMaterialDisplayName3' + i }}"
                     [formControlName]="otherLangs[1]"
                     [ngClass]="{ 'is-invalid': materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted) }"
-                  >
+                  />
 
                   <div
                     *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).invalid && (materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).dirty || materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).touched || submitted)"
@@ -814,7 +766,8 @@
                     </div>
 
                     <div *ngIf="materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength">
-                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' + otherLangs[1]).errors.maxlength.requiredLength } }}
+                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialDetailsArray.at(i).get('displayName.' +
+                      otherLangs[1]).errors.maxlength.requiredLength } }}
                     </div>
                   </div>
                 </div>
@@ -826,16 +779,17 @@
                   class="btn btn-gray"
                   [attr.aria-label]="'forms.common.cancel' | translate"
                   (click)="translationsModalRef.hide()"
-                >{{ 'forms.common.cancel' | translate }}</button>
+                >
+                  {{ 'forms.common.cancel' | translate }}
+                </button>
 
-                <button
-                  type="button"
-                  class="btn btn-blue"
-                  (click)="translationsModalRef.hide()"
-                >{{ 'forms.common.saveChanges' | translate }}</button>
-              </div>
-            </ng-template><!--/modal-->
-          </div><!--/displayName-->
+                <button type="button" class="btn btn-blue" (click)="translationsModalRef.hide()">
+                  {{ 'forms.common.saveChanges' | translate }}
+                </button>
+              </div> </ng-template
+            ><!--/modal-->
+          </div>
+          <!--/displayName-->
 
           <ng-container *ngIf="material.get('subtitles')">
             <div
@@ -858,10 +812,11 @@
                         accept=".vtt"
                         [lang]="lang"
                         (change)="onSubtitleChange($event, i, j)"
-                      >
+                      />
                       <span class="custom-file-label">{{ subtitle.get('newSubtitle').value.name | cleanFilename }}</span>
                     </div>
-                  </div><!--/subtitle-->
+                  </div>
+                  <!--/subtitle-->
 
                   <div class="form-group col-sm-8 col-lg order-2">
                     <label for="{{ 'newMaterialLabel' + i + j }}">
@@ -874,25 +829,25 @@
                       id="{{ 'newMaterialLabel' + i + j }}"
                       formControlName="label"
                       [ngClass]="{ 'is-invalid': subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted) }"
-                    >
+                    />
 
                     <div
                       *ngIf="subtitle.get('label').invalid && (subtitle.get('label').dirty || subtitle.get('label').touched || submitted)"
                       class="invalid-feedback"
                     >
-                      <div *ngIf="subtitle.get('label').errors.required">
-                        {{ 'forms.common.required' | translate }}
-                      </div>
+                      <div *ngIf="subtitle.get('label').errors.required">{{ 'forms.common.required' | translate }}</div>
 
                       <div *ngIf="subtitle.get('label').errors.invalidCharacters">
                         {{ 'forms.errors.textInput.characters' | translate }}
                       </div>
 
                       <div *ngIf="subtitle.get('label').errors.maxlength">
-                        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength } }}
+                        {{ 'forms.errors.common.maxLength' | translate:{ maxLength: subtitle.get('label').errors.maxlength.requiredLength }
+                        }}
                       </div>
                     </div>
-                  </div><!--/label-->
+                  </div>
+                  <!--/label-->
 
                   <div class="form-group col-sm-4 col-lg order-3">
                     <label [for]="'newMaterialSrclang' + i + j">
@@ -908,23 +863,23 @@
                       formControlName="srclang"
                     ></ng-select>
 
-                    <ng-container *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)">
+                    <ng-container
+                      *ngIf="subtitle.get('srclang').invalid && (subtitle.get('srclang').dirty || subtitle.get('srclang').touched || submitted)"
+                    >
                       <div *ngIf="subtitle.get('srclang').errors.required">
                         <small class="text-danger">{{ 'forms.common.required' | translate }}</small>
                       </div>
                     </ng-container>
-                  </div><!--/srclang-->
+                  </div>
+                  <!--/srclang-->
 
                   <div class="form-group col-lg-auto order-last order-lg-4">
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      (click)="removeSubtitle(i, j)"
-                    >
+                    <button type="button" class="btn btn-danger" (click)="removeSubtitle(i, j)">
                       <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
                       <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
                     </button>
-                  </div><!--/actions-->
+                  </div>
+                  <!--/actions-->
 
                   <div class="form-group col-lg-12 order-4">
                     <div class="custom-control custom-checkbox">
@@ -934,51 +889,42 @@
                         id="{{ 'newMaterialDefault' + i + j }}"
                         formControlName="default"
                         (change)="updateDefaultSubtitle($event, i, j)"
-                      >
+                      />
 
                       <label class="custom-control-label" for="{{ 'newMaterialDefault' + i + j }}">
                         {{ 'forms.educationalResource.files.file.inputs.subtitles.default' | translate }}
                       </label>
                     </div>
-                  </div><!--/default-->
+                  </div>
+                  <!--/default-->
                 </div>
               </fieldset>
             </div>
 
             <div class="form-group">
-              <button
-                type="button"
-                class="btn btn-gray"
-                (click)="addSubtitle(i)"
-              >{{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}</button>
-            </div>
-          </ng-container><!--/subtitles-->
+              <button type="button" class="btn btn-gray" (click)="addSubtitle(i)">
+                {{ 'forms.educationalResource.files.file.inputs.subtitles.addSubtitle' | translate }}
+              </button>
+            </div> </ng-container
+          ><!--/subtitles-->
 
-          <button
-            type="button"
-            class="btn btn-danger mb-3"
-            (click)="removeMaterial(i)"
-          >
+          <button type="button" class="btn btn-danger mb-3" (click)="removeMaterial(i)">
             <i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>
             {{ 'forms.common.delete' | translate }}
           </button>
         </ng-container>
       </ng-template>
-    </fieldset>
-  </ng-container><!--/files-->
+    </fieldset> </ng-container
+  ><!--/files-->
 
   <alert *ngIf="submitted && materialDetailsArray.errors" type="warning">
-    <div *ngIf="materialDetailsArray.errors.required">
-      {{ 'forms.educationalResource.files.file.error' | translate }}
-    </div>
+    <div *ngIf="materialDetailsArray.errors.required">{{ 'forms.educationalResource.files.file.error' | translate }}</div>
   </alert>
 
   <div class="form-group">
-    <button
-      type="button"
-      class="btn btn-gray"
-      (click)="addMaterial()"
-    >{{ 'forms.educationalResource.files.file.addFile' | translate }}</button>
+    <button type="button" class="btn btn-gray" (click)="addMaterial()">
+      {{ 'forms.educationalResource.files.file.addFile' | translate }}
+    </button>
   </div>
 
   <ng-container *ngFor="let response of uploadResponses">
@@ -986,28 +932,18 @@
       <div class="form-group" *ngIf="response.status === 'error'">{{ response.message }}</div>
 
       <div class="form-group" *ngIf="response.status === 'progress'">
-        <progressbar
-          max="100"
-          [value]="response.message"
-        >{{ response.message }}%</progressbar>
+        <progressbar max="100" [value]="response.message">{{ response.message }}%</progressbar>
       </div>
     </ng-container>
   </ng-container>
 
   <div class="row justify-content-end">
     <div class="col-auto">
-      <button
-        type="button"
-        class="btn btn-cancel"
-        (click)="abort()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="button" class="btn btn-cancel" (click)="abort()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-      >{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
 </form>

@@ -19,10 +19,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
   previewMaterial: Material;
   materials: Material[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private materialSvc: MaterialService,
-  ) { }
+  constructor(private route: ActivatedRoute, private materialSvc: MaterialService) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -35,10 +32,10 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     this.materialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
 
-      if (this.educationalMaterial.materials.filter(m => m.language === this.lang).length > 0) {
-        this.materials = this.educationalMaterial.materials.filter(m => m.language === this.lang);
+      if (this.educationalMaterial.materials.filter((m) => m.language === this.lang).length > 0) {
+        this.materials = this.educationalMaterial.materials.filter((m) => m.language === this.lang);
       } else {
-        this.materials = this.educationalMaterial.materials.filter(m => m.language === 'fi');
+        this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'fi');
       }
 
       if (this.materials.length > 0) {

@@ -13,11 +13,7 @@ export class CookieNoticeComponent implements OnInit {
   @Output() hideCookieNotice = new EventEmitter();
   lang: string = this.translate.currentLang;
 
-  constructor(
-    private fb: FormBuilder,
-    private cookieSvc: CookieService,
-    private translate: TranslateService,
-  ) { }
+  constructor(private fb: FormBuilder, private cookieSvc: CookieService, private translate: TranslateService) {}
 
   ngOnInit() {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -25,7 +21,7 @@ export class CookieNoticeComponent implements OnInit {
     });
 
     this.cookies = this.fb.group({
-      aoe: this.fb.control({ value: true, disabled: true }, [ Validators.requiredTrue ]),
+      aoe: this.fb.control({ value: true, disabled: true }, [Validators.requiredTrue]),
       googleAnalytics: this.fb.control(true),
     });
   }

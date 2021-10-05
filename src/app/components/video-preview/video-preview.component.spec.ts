@@ -6,12 +6,13 @@ describe('VideoPreviewComponent', () => {
   let component: VideoPreviewComponent;
   let fixture: ComponentFixture<VideoPreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ VideoPreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [VideoPreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VideoPreviewComponent);

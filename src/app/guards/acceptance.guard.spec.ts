@@ -5,7 +5,7 @@ import { AcceptanceGuard } from './acceptance.guard';
 describe('AcceptanceGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AcceptanceGuard]
+      providers: [AcceptanceGuard],
     });
   });
 

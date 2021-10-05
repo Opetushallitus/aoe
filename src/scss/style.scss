@@ -1,14 +1,14 @@
 // If you want to override variables do it here
-@import "variables";
+@import 'variables';
 
 // Import styles
-@import "~@coreui/coreui/scss/coreui";
-@import "ng-select";
+@import '~@coreui/coreui/scss/coreui';
+@import 'ng-select';
 
 // Import mixins
-@import "mixins";
+@import 'mixins';
 
 @import '~ngx-toastr/toastr-bs4-alert';
 
 // If you want to add something do it here
-@import "custom";
+@import 'custom';

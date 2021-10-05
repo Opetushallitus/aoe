@@ -6,13 +6,10 @@ import { AuthService } from '@services/auth.service';
 import { Userdata } from '@models/userdata';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AcceptanceGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private authSvc: AuthService,
-  ) { }
+  constructor(private router: Router, private authSvc: AuthService) {}
 
   /**
    * Checks if logged in user has accepted terms of use.
@@ -22,7 +19,8 @@ export class AcceptanceGuard implements CanActivate {
    */
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot,
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user: Userdata = this.authSvc.getUserdata();
 
     if (!user || user?.termsofusage === true) {
@@ -32,5 +30,4 @@ export class AcceptanceGuard implements CanActivate {
     // redirect to acceptance route.
     return this.router.parseUrl('/hyvaksynta');
   }
-
 }

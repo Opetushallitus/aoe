@@ -12,7 +12,7 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-tabs-edit-license',
   templateUrl: './edit-license.component.html',
-  styleUrls: ['./edit-license.component.scss']
+  styleUrls: ['./edit-license.component.scss'],
 })
 export class EditLicenseComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -31,7 +31,7 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -96,9 +96,10 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.license = this.form.get('license').value;
 

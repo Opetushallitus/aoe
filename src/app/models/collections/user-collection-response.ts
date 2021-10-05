@@ -6,6 +6,6 @@ export interface UserCollectionResponse {
       name: string;
       emIds: string[];
       thumbnail: string | null;
-    }
+    },
   ];
 }

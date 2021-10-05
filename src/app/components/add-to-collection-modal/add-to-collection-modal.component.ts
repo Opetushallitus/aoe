@@ -14,7 +14,7 @@ import { Toast } from '@models/translations/toast';
 @Component({
   selector: 'app-add-to-collection-modal',
   templateUrl: './add-to-collection-modal.component.html',
-  styleUrls: ['./add-to-collection-modal.component.scss']
+  styleUrls: ['./add-to-collection-modal.component.scss'],
 })
 export class AddToCollectionModalComponent implements OnInit, OnDestroy {
   materialId: number;
@@ -33,13 +33,11 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
     private collectionSvc: CollectionService,
     private toastr: ToastrService,
     private translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.newCollectionForm = this.fb.group({
-      name: this.fb.control(null, [
-        Validators.required,
-      ]),
+      name: this.fb.control(null, [Validators.required]),
     });
 
     this.userCollectionSubscription = this.collectionSvc.userCollections$.subscribe((collections: UserCollection[]) => {
@@ -82,9 +80,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
 
       const payload: RemoveFromCollectionPost = {
         collectionId: +collectionId,
-        emId: [
-          this.materialId,
-        ],
+        emId: [this.materialId],
       };
 
       this.collectionSvc.removeFromCollection(payload).subscribe(() => {
@@ -119,9 +115,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
       this.selectedCollections.forEach((collection: number) => {
         const payload: AddToCollectionPost = {
           collectionId: collection,
-          emId: [
-            this.materialId,
-          ],
+          emId: [this.materialId],
         };
 
         this.collectionSvc.addToCollection(payload).subscribe((response: AddToCollectionResponse) => {

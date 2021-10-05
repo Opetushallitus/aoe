@@ -8,9 +8,8 @@ describe('AccessibilityViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccessibilityViewComponent ]
-    })
-    .compileComponents();
+      declarations: [AccessibilityViewComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

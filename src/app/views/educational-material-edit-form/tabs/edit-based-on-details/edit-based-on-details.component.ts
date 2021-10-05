@@ -11,7 +11,7 @@ import { validatorParams } from '../../../../constants/validator-params';
 @Component({
   selector: 'app-tabs-edit-based-on-details',
   templateUrl: './edit-based-on-details.component.html',
-  styleUrls: ['./edit-based-on-details.component.scss']
+  styleUrls: ['./edit-based-on-details.component.scss'],
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -21,12 +21,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
   @Output() abortEdit = new EventEmitter();
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private fb: FormBuilder, private router: Router, private translate: TranslateService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -83,10 +78,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
    */
   createExternal(external?): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [
-        Validators.required,
-        textInputValidator(),
-      ]),
+      author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
       url: this.fb.control(external ? external.url : null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
@@ -119,13 +111,13 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
    * Removes empty objects from externals array.
    */
   removeEmptyExternals(): void {
-    this.externalsArray.controls.forEach(ctrl => {
+    this.externalsArray.controls.forEach((ctrl) => {
       const author = ctrl.get('author');
       const url = ctrl.get('url');
       const name = ctrl.get('name');
 
       if (!author.value && !url.value && !name.value) {
-        this.removeExternal(this.externalsArray.controls.findIndex(ext => ext === ctrl));
+        this.removeExternal(this.externalsArray.controls.findIndex((ext) => ext === ctrl));
       }
     });
   }
@@ -149,9 +141,10 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.externals = this.externalsArray.value;
 

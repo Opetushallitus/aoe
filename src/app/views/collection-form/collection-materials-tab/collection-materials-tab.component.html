@@ -1,7 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
-  <h2 class="sr-only">
-    {{ 'forms.collection.material.title' | translate }}
-  </h2>
+  <h2 class="sr-only">{{ 'forms.collection.material.title' | translate }}</h2>
 
   <alert type="info" aria-hidden="true">
     <i class="fa fa-info-circle fa-fw"></i>
@@ -23,17 +21,17 @@
               </div>
 
               <div class="col-auto">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-link"
-                  (click)="addHeading(i)"
-                >{{ 'forms.collection.material.addHeadingAndDescription.button' | translate }}</button>
+                <button type="button" class="btn btn-sm btn-link" (click)="addHeading(i)">
+                  {{ 'forms.collection.material.addHeadingAndDescription.button' | translate }}
+                </button>
 
                 <button
                   type="button"
                   class="btn btn-link btn-tooltip"
                   [tooltip]="'forms.collection.material.addHeadingAndDescription.tooltip' | translate"
-                ><img src="assets/img/icons/ic_help.svg" aria-hidden="true"></button>
+                >
+                  <img src="assets/img/icons/ic_help.svg" aria-hidden="true" />
+                </button>
               </div>
             </div>
 
@@ -43,8 +41,9 @@
                   [src]="materials.get(materialOrHeading.get('id').value).thumbnail"
                   class="img-fluid mb-3"
                   [alt]="'demo.educationalMaterial.cover.alt' | translate"
-                >
-              </div><!--thumbnail-->
+                />
+              </div>
+              <!--thumbnail-->
 
               <div class="col-9 col-md-6">
                 <p *ngIf="materials.get(materialOrHeading.get('id').value).description[lang]">
@@ -82,12 +81,11 @@
                     src="assets/img/icons/learning-resource-types/{{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key }}.svg"
                     class="img-icon"
                     aria-hidden="true"
-                  > {{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].value }}
+                  />
+                  {{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].value }}
                 </span>
 
-                <strong>
-                  {{ materials.get(materialOrHeading.get('id').value).license.value }}
-                </strong>
+                <strong> {{ materials.get(materialOrHeading.get('id').value).license.value }} </strong>
               </div>
 
               <div class="col-auto">
@@ -95,8 +93,8 @@
                   {{ materials.get(materialOrHeading.get('id').value).publishedAt | date:'d.M.yyyy' }}
                 </time>
               </div>
-            </div>
-          </ng-container><!--material-->
+            </div> </ng-container
+          ><!--material-->
 
           <ng-template #heading>
             <h3>
@@ -106,9 +104,7 @@
             </h3>
 
             <div class="form-group">
-              <label for="{{ 'heading-' + i }}">
-                {{ 'forms.collection.material.heading.label' | translate }}*
-              </label>
+              <label for="{{ 'heading-' + i }}"> {{ 'forms.collection.material.heading.label' | translate }}* </label>
 
               <input
                 type="text"
@@ -116,7 +112,7 @@
                 id="{{ 'heading-' + i }}"
                 formControlName="heading"
                 [ngClass]="{ 'is-invalid': materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted) }"
-              >
+              />
 
               <div
                 *ngIf="materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted)"
@@ -127,15 +123,15 @@
                 </div>
 
                 <div *ngIf="materialOrHeading.get('heading').errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialOrHeading.get('heading').errors.maxlength.requiredLength } }}
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
+                  materialOrHeading.get('heading').errors.maxlength.requiredLength } }}
                 </div>
               </div>
-            </div><!--heading-->
+            </div>
+            <!--heading-->
 
             <div class="form-group">
-              <label for="{{ 'description-' + i }}">
-                {{ 'forms.collection.material.description.label' | translate }}
-              </label>
+              <label for="{{ 'description-' + i }}"> {{ 'forms.collection.material.description.label' | translate }} </label>
 
               <textarea
                 class="form-control"
@@ -154,11 +150,13 @@
                 </div>
 
                 <div *ngIf="materialOrHeading.get('description').errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: materialOrHeading.get('description').errors.maxlength.requiredLength } }}
+                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
+                  materialOrHeading.get('description').errors.maxlength.requiredLength } }}
                 </div>
               </div>
-            </div><!--description-->
-          </ng-template><!--heading-->
+            </div>
+            <!--description--> </ng-template
+          ><!--heading-->
         </ng-container>
       </fieldset>
     </div>
@@ -166,26 +164,15 @@
 
   <div class="row">
     <div class="col">
-      <button
-        type="button"
-        class="btn btn-gray"
-        (click)="previous()"
-      >{{ 'forms.common.previous' | translate }}</button>
+      <button type="button" class="btn btn-gray" (click)="previous()">{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="reset"
-        class="btn btn-cancel"
-        (click)="emitAbort()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="emitAbort()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-      >{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
 </form>

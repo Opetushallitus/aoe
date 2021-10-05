@@ -22,9 +22,7 @@
   </ng-container>
 
   <ng-template #missingName>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.name' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.name' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -34,7 +32,7 @@
   </ng-template>
 </dl>
 
-<hr>
+<hr />
 
 <h3>{{ 'forms.educationalResource.nav.files' | translate }}</h3>
 
@@ -68,7 +66,7 @@
         <td>{{ upload.language }}</td>
         <td>
           <span *ngFor="let subtitle of upload.subtitles; let isLast = last" [class.font-weight-bold]="subtitle.default">
-            {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast">
+            {{ subtitle.label }} ({{ subtitle.srclang }})<br *ngIf="!isLast" />
           </span>
 
           <span *ngIf="upload.subtitles.length === 0">-</span>
@@ -80,9 +78,7 @@
 
 <ng-template #missingMaterial>
   <dl class="row">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.material' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.material' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -103,17 +99,13 @@
           {{ author.author }}<ng-container *ngIf="author.organization">, {{ author.organization.value }}</ng-container>
         </ng-container>
 
-        <ng-container *ngIf="!author.author">
-          {{ author.organization.value }}
-        </ng-container>
+        <ng-container *ngIf="!author.author"> {{ author.organization.value }} </ng-container>
       </dd>
     </ng-container>
   </ng-container>
 
   <ng-template #missingAuthor>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.author' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.author' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -130,9 +122,7 @@
   ></app-preview-row>
 
   <ng-template #missingKeyword>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.keywords' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.keywords' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -149,9 +139,7 @@
   ></app-preview-row>
 
   <ng-template #missingLearningResourceType>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.learningResourceTypes' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.learningResourceTypes' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -195,7 +183,7 @@
   </ng-container>
 </dl>
 
-<hr>
+<hr />
 
 <h3>{{ 'forms.educationalResource.nav.educationalDetails' | translate }}</h3>
 
@@ -208,9 +196,7 @@
   ></app-preview-row>
 
   <ng-template #missingEducationalLevel>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.educationalLevels' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.educationalLevels' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -285,14 +271,12 @@
   ></app-preview-row>
 
   <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduObjectives">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}</dt>
 
     <dd class="col-sm-9">
       <ng-container *ngIf="hasBasicEduObjectives">
         <ng-container *ngFor="let objective of basicStudyObjectives; let isLast = last">
-          {{ objective.targetName }}<br *ngIf="!isLast">
+          {{ objective.targetName }}<br *ngIf="!isLast" />
         </ng-container>
       </ng-container>
 
@@ -305,14 +289,12 @@
   </ng-container>
 
   <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduContents">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}</dt>
 
     <dd class="col-sm-9">
       <ng-container *ngIf="hasBasicEduContents">
         <ng-container *ngFor="let content of basicStudyContents; let isLast = last">
-          {{ content.targetName }}<br *ngIf="!isLast">
+          {{ content.targetName }}<br *ngIf="!isLast" />
         </ng-container>
       </ng-container>
 
@@ -343,14 +325,16 @@
     [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate"
     [items]="upperSecondarySchoolSubjectsOld"
     property="targetName"
-  ></app-preview-row><!--upperSecondarySchoolSubjectsOld-->
+  ></app-preview-row
+  ><!--upperSecondarySchoolSubjectsOld-->
 
   <app-preview-row
     *ngIf="upperSecondarySchoolCoursesOld?.length > 0"
     [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate"
     [items]="upperSecondarySchoolCoursesOld"
     property="targetName"
-  ></app-preview-row><!--upperSecondarySchoolCoursesOld-->
+  ></app-preview-row
+  ><!--upperSecondarySchoolCoursesOld-->
 
   <app-preview-row
     *ngIf="upperSecondarySchoolObjectives?.length > 0"
@@ -462,7 +446,8 @@
     [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate"
     [items]="vocationalRequirements"
     property="targetName"
-  ></app-preview-row><!--vocationalRequirements-->
+  ></app-preview-row
+  ><!--vocationalRequirements-->
 
   <app-preview-row
     *ngIf="savedData?.suitsAllVocationalDegrees"
@@ -527,7 +512,7 @@
   ></app-preview-row>
 </dl>
 
-<hr>
+<hr />
 
 <h3>{{ 'forms.educationalResource.nav.extendedDetails' | translate }}</h3>
 
@@ -579,7 +564,7 @@
   ></app-preview-row>
 </dl>
 
-<hr>
+<hr />
 
 <ng-container *ngIf="savedData?.isBasedOn">
   <h3>{{ 'forms.educationalResource.nav.basedOnDetails' | translate }}</h3>
@@ -608,7 +593,7 @@
     </ng-container>
   </dl>
 
-  <hr>
+  <hr />
 </ng-container>
 
 <h3>{{ 'forms.educationalResource.nav.licenseDetails' | translate }}</h3>
@@ -621,9 +606,7 @@
   ></app-preview-row>
 
   <ng-template #missingLicense>
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.preview.required.license' | translate }}
-    </dt>
+    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.license' | translate }}</dt>
 
     <dd class="col-sm-9">
       <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
@@ -633,25 +616,31 @@
   </ng-template>
 </dl>
 
-<hr>
+<hr />
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group custom-control custom-checkbox">
-    <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm">
+    <input type="checkbox" class="custom-control-input" id="confirm" formControlName="confirm" />
     <label class="custom-control-label" for="confirm">{{ 'forms.educationalResource.preview.confirm' | translate }}</label>
 
     <ul>
       <ng-container [ngSwitch]="lang">
         <ng-container *ngSwitchDefault>
           <li>kaikki tekijät ovat hyväksyneet materiaalin julkaisun avoimella lisenssillä,</li>
-          <li>muiden tekijöiden aineistot (esim. kuvat) voidaan julkaista avoimesti joko aineistojen oman avoimen lisenssin tai erikseen saadun luvan perusteella,</li>
+          <li>
+            muiden tekijöiden aineistot (esim. kuvat) voidaan julkaista avoimesti joko aineistojen oman avoimen lisenssin tai erikseen
+            saadun luvan perusteella,
+          </li>
           <li>materiaalissa näkyvien henkilöiden kuvien tai muiden henkilötietojen osalta lupa julkaisuun on saatu ko. henkilöiltä ja</li>
           <li>materiaali on parhaan tietomme mukaan alan hyvien tapojen mukainen</li>
         </ng-container>
 
         <ng-container *ngSwitchCase="'en'">
           <li>all authors have agreed to publish the OER with an open licence</li>
-          <li>I have permission to use materials made by others that are included in my material (f.ex. pictures) through licence or other agreement</li>
+          <li>
+            I have permission to use materials made by others that are included in my material (f.ex. pictures) through licence or other
+            agreement
+          </li>
           <li>I have gained permission from the relevant parties to include any personal data included in the OER</li>
           <li>the OER is according to our best knowledge made with best practices of our field</li>
         </ng-container>
@@ -668,27 +657,15 @@
 
   <div class="row">
     <div class="col">
-      <button
-        type="button"
-        class="btn btn-gray"
-        (click)="previousTab()"
-      >{{ 'forms.common.previous' | translate }}</button>
+      <button type="button" class="btn btn-gray" (click)="previousTab()">{{ 'forms.common.previous' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="reset"
-        class="btn btn-cancel"
-        (click)="resetForm()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-        [disabled]="form?.invalid"
-      >{{ 'forms.common.save' | translate }}</button>
+      <button type="submit" class="btn btn-blue" [disabled]="form?.invalid">{{ 'forms.common.save' | translate }}</button>
     </div>
   </div>
 </form>

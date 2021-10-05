@@ -15,7 +15,7 @@ import { CollectionFormMaterialAndHeading } from '@models/collections/collection
 @Component({
   selector: 'app-collection-view',
   templateUrl: './collection-view.component.html',
-  styleUrls: ['./collection-view.component.scss']
+  styleUrls: ['./collection-view.component.scss'],
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -41,7 +41,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     private materialSvc: MaterialService,
     private titleSvc: Title,
     private koodistoSvc: KoodistoProxyService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.collectionId = this.route.snapshot.paramMap.get('collectionId');
@@ -88,18 +88,19 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           this.materialLanguages.set(collectionMaterial.id, materialLanguages);
 
           // set default language (1. UI lang, 2. FI, 3. first language in array)
-          this.selectedLanguages.set(collectionMaterial.id, materialLanguages.find((lang: string) => lang === this.lang)
-            ? materialLanguages.find((lang: string) => lang === this.lang)
-            : materialLanguages.find((lang: string) => lang === 'fi')
+          this.selectedLanguages.set(
+            collectionMaterial.id,
+            materialLanguages.find((lang: string) => lang === this.lang)
+              ? materialLanguages.find((lang: string) => lang === this.lang)
+              : materialLanguages.find((lang: string) => lang === 'fi')
               ? materialLanguages.find((lang: string) => lang === 'fi')
-              : materialLanguages[0]
+              : materialLanguages[0],
           );
 
           // set preview material
           this.setPreviewMaterial(
             collectionMaterial.id,
-            materials
-              .find((material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id))
+            materials.find((material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id)),
           );
         });
       });
@@ -135,7 +136,10 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     this.selectedLanguages.set(materialId, language);
 
     // set preview material to first material that matches selected language
-    this.setPreviewMaterial(materialId, this.collectionMaterials.get(materialId).find((m) => m.language === language));
+    this.setPreviewMaterial(
+      materialId,
+      this.collectionMaterials.get(materialId).find((m) => m.language === language),
+    );
   }
 
   /**

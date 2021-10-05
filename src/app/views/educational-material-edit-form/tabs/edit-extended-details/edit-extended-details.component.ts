@@ -15,7 +15,7 @@ import { validatorParams } from '../../../../constants/validator-params';
 @Component({
   selector: 'app-tabs-edit-extended-details',
   templateUrl: './edit-extended-details.component.html',
-  styleUrls: ['./edit-extended-details.component.scss']
+  styleUrls: ['./edit-extended-details.component.scss'],
 })
 export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -37,7 +37,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -57,10 +57,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
           Validators.maxLength(validatorParams.ageRange.max.maxLength),
         ]),
       }),
-      timeRequired: this.fb.control(null, [
-        Validators.maxLength(validatorParams.timeRequired.maxLength),
-        textInputValidator(),
-      ]),
+      timeRequired: this.fb.control(null, [Validators.maxLength(validatorParams.timeRequired.maxLength), textInputValidator()]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
       prerequisites: this.fb.control(null),
@@ -84,17 +81,15 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     }
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$
-      .subscribe((features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
+      this.accessibilityFeatures = features;
+    });
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$
-      .subscribe((hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
+      this.accessibilityHazards = hazards;
+    });
     this.koodistoSvc.updateAccessibilityHazards();
   }
 
@@ -134,9 +129,10 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
+        const changedMaterial: EducationalMaterialForm =
+          sessionStorage.getItem(environment.editMaterial) !== null
+            ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+            : this.material;
 
         const typicalAgeRange = this.form.get('typicalAgeRange').value;
 
