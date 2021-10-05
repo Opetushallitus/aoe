@@ -2,18 +2,18 @@ package fi.csc.provider.service.impl;
 
 import fi.csc.provider.enumeration.Language;
 import fi.csc.provider.model.aoe_response.AoeMetadata;
-import fi.csc.provider.model.aoe_response.sublevel_1st.*;
+import fi.csc.provider.model.aoe_response.sublevel_1st.AccessibilityFeature;
+import fi.csc.provider.model.aoe_response.sublevel_1st.AccessibilityHazard;
+import fi.csc.provider.model.aoe_response.sublevel_1st.LearningResourceType;
+import fi.csc.provider.model.aoe_response.sublevel_1st.Publisher;
 import fi.csc.provider.model.xml_lrmi.LrmiMetadata;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.AlignmentObject;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.EducationalAudience;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.IsBasedOn;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Material;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.*;
-import fi.csc.provider.model.xml_lrmi.sublevel_1st.Thumbnail;
+import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.GeneralType;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.IsBasedOnAuthor;
 import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.Url;
 import fi.csc.provider.service.MigrationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,7 @@ import javax.xml.namespace.QName;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,15 +30,17 @@ public class MigrationServiceImpl implements MigrationService {
 
     private Environment env;
 
+    @Value("#{'${metadata.lrmi.learning-resource.types}'.split(',')}")
+    private List<String> learningResourceTypes;
+
     @Autowired
     public MigrationServiceImpl(Environment env) {
         this.env = env;
     }
 
     /**
-     * Parent method for the metadata conversion from the AOE metadata to LRMI metadata.
-     * Basic information provided in DublinCore metadata format.
-     * Descriptive information provided in LRMI metadata format.
+     * Parent method for the metadata conversion from the AOE metadata to LRMI metadata. Basic information provided in
+     * DublinCore metadata format. Descriptive information provided in LRMI metadata format.
      *
      * @param amd AOE metadata source
      * @return Resulting LRMI metadata
@@ -91,14 +94,6 @@ public class MigrationServiceImpl implements MigrationService {
                 lrmi.setThumbnail(new Thumbnail(amd.getThumbnail().getFilepath(), amd.getThumbnail().getMimetype()));
             }
         }
-
-
-        // dc:subject
-        // Any concepts and keywords for the search and classifying the educational material.
-        /*lrmi.setKeyword(amd.getKeyword() != null && amd.getKeyword().size() > 0 ? amd.getKeyword().stream()
-            .filter(k -> !k.getValue().isEmpty())
-            .map(Keyword::getValue)
-            .toArray(String[]::new) : null);*/
 
         // dc:rights
         // Licences attached to the educational material publishing.
@@ -229,26 +224,6 @@ public class MigrationServiceImpl implements MigrationService {
             .map(AccessibilityHazard::getValue)
             .toArray(String[]::new));
 
-        // EducationalLevel => lrmi_fi:alignmentObject
-        // Level of an educational institution the educational material is meant for.
-        // If EducationalLevel is present, append new AlignmentObject with alignmentType value "educationalLevel".
-        lrmi.setAlignmentObject(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
-            .filter(e -> !e.getValue().isEmpty())
-            .map(e -> {
-                AlignmentObject alignmentObject = new AlignmentObject();
-                alignmentObject.setAlignmentType("educationalLevel");
-                alignmentObject.setTargetName(e.getValue());
-                return alignmentObject;
-            })
-            .collect(Collectors.toCollection(ArrayList::new)));
-
-        // lrmi_fi:educationalUse
-        // Purpose of the educational material like "course material".
-        lrmi.setEducationalUse(amd.getEducationaluse() == null ? null : amd.getEducationaluse().stream()
-            .filter(a -> !a.getValue().isEmpty())
-            .map(EducationalUse::getValue)
-            .toArray(String[]::new));
-
         // lrmi_fi:isBasedOn
         // Sources the education material is based on.
         lrmi.setIsBasedOn(amd.getIsbasedon() == null ? null : amd.getIsbasedon().stream()
@@ -274,10 +249,56 @@ public class MigrationServiceImpl implements MigrationService {
             .map(fi.csc.provider.model.aoe_response.sublevel_1st.Material::getLanguage)
             .collect(Collectors.toSet()));
 
-        // lrmi_fi:alignmentObject
-        // Always append new AlignmentObjects - data collected from multiple sources.
+        // LearningResource: EducationalLevel
+        // Level of an educational institution the educational material is meant for.
+        lrmi.setLearningResources(amd.getEducationallevel() == null ? null : amd.getEducationallevel().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(e -> {
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(e.getValue());
+                return new JAXBElement<>(new QName("lrmi_fi:educationalLevel"), GeneralType.class, generalType);
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
+        );
+
+        // LearningResource: EducationalUse
+        // Purpose of the educational material like "course material".
+        lrmi.setLearningResources(amd.getEducationaluse() == null && lrmi.getLearningResources() == null ? null : amd.getEducationaluse().stream()
+            .filter(e -> !e.getValue().isEmpty())
+            .map(e -> {
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(e.getValue());
+                return new JAXBElement<>(new QName("lrmi_fi:educationalUse"), GeneralType.class, generalType);
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
+        );
+
+        // LearningResource: EducationalAlignment, Teaches, etc.
+        // AlignmentObject > educationalSubject converted to educationalAlignment.
+        // NOTE: Exception in EducationalSubject structure in the LearningResource element.
+        lrmi.setLearningResources(amd.getAlignmentobject() == null && lrmi.getLearningResources() == null ?
+            null : amd.getAlignmentobject().stream()
+            .filter(a -> learningResourceTypes.stream().anyMatch(a.getAlignmenttype()::equalsIgnoreCase))
+            .map(a -> {
+                GeneralType generalType = new GeneralType();
+                generalType.setValue(a.getTargetname());
+
+                if (a.getAlignmenttype().equalsIgnoreCase("educationalSubject")) {
+                    EducationalAlignment educationalAlignment = new EducationalAlignment();
+                    educationalAlignment.setEducationalSubject(generalType);
+                    educationalAlignment.setEducationalFramework(a.getEducationalframework().isEmpty() ? null : a.getEducationalframework());
+                    return new JAXBElement<>(new QName("lrmi_fi:educationalAlignment"), EducationalAlignment.class, educationalAlignment);
+                }
+                return new JAXBElement<>(new QName("lrmi_fi:" + a.getAlignmenttype()), GeneralType.class, generalType);
+            })
+            .collect(Collectors.toCollection(lrmi.getLearningResources() == null ? ArrayList::new : lrmi::getLearningResources))
+        );
+
+        // AlignmentObjects
+        // Alignment types NOT found in learningResourceTypes (list) are converted into alignment objects.
         lrmi.setAlignmentObject(amd.getAlignmentobject() == null ? null : amd.getAlignmentobject().stream()
-            .filter(a -> !a.getAlignmenttype().isEmpty() && !a.getTargetname().isEmpty())
+            //.filter(a -> !learningResourceTypes.contains(a.getAlignmenttype()))
+            .filter(a -> learningResourceTypes.stream().noneMatch(a.getAlignmenttype()::equalsIgnoreCase))
             .map(a -> {
                 AlignmentObject alignmentObject = new AlignmentObject();
                 alignmentObject.setAlignmentType(a.getAlignmenttype());
@@ -290,10 +311,10 @@ public class MigrationServiceImpl implements MigrationService {
     }
 
     /**
-     * Migrate descriptive keywords of an educational material with a semantic link.
-     * Keyword LRMI/XML presentation as {@code <lrmi_fi:about><lrmi_fi:thing>...</lrmi_fi:thing></lrmi_fi:about>}.
+     * Migrate descriptive keywords of an educational material with a semantic link. Keyword LRMI/XML presentation as
+     * {@code <lrmi_fi:about><lrmi_fi:thing>...</lrmi_fi:thing></lrmi_fi:about>}.
      *
-     * @param amd AOE metadata source
+     * @param amd  AOE metadata source
      * @param lrmi LRMI metadata target
      * @see AoeMetadata
      * @see LrmiMetadata

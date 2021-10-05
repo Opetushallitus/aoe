@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  provider-rest-demo:
+    build:
+      context: ./provider-rest
+      dockerfile: Dockerfile.demo
+    image: provider-rest-demo:latest
+    container_name: provider-rest-demo
+    restart: unless-stopped
+    ports:
+      - 8002:8002
+    environment:
+      SPRING_PROFILES_ACTIVE: 'dev'
+    networks:
+      - network-provider-demo
+
+networks:
+  network-provider-demo:
+    driver: bridge
