@@ -7,16 +7,14 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-educational-material-preview',
   templateUrl: './educational-material-preview.component.html',
-  styleUrls: ['./educational-material-preview.component.scss']
+  styleUrls: ['./educational-material-preview.component.scss'],
 })
 export class EducationalMaterialPreviewComponent implements OnInit {
   @Input() material: Material;
   @Input() isCollection = false;
   lang: string = this.translate.currentLang;
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

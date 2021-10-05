@@ -29,9 +29,9 @@ export interface EducationalMaterialForm {
           kind: string;
           label: string;
           srclang: string;
-        }
+        },
       ];
-    }
+    },
   ];
   videoFiles?: number[];
   // basic details
@@ -40,7 +40,7 @@ export interface EducationalMaterialForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   authors: [
     {
@@ -49,25 +49,25 @@ export interface EducationalMaterialForm {
         key: string;
         value: string;
       };
-    }
+    },
   ];
   learningResourceTypes: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalRoles?: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalUses?: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   description?: {
     fi?: string;
@@ -79,7 +79,7 @@ export interface EducationalMaterialForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   earlyChildhoodEducationSubjects?: AlignmentObjectExtended[];
   suitsAllEarlyChildhoodSubjects?: boolean;
@@ -123,13 +123,13 @@ export interface EducationalMaterialForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards?: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   typicalAgeRange?: {
     typicalAgeRangeMin?: number;
@@ -140,7 +140,7 @@ export interface EducationalMaterialForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   expires?: Date;
   prerequisites?: AlignmentObjectExtended[];
@@ -152,12 +152,12 @@ export interface EducationalMaterialForm {
       author: string[];
       url: string;
       name: string;
-    }
+    },
   ];
   isVersioned?: boolean;
   versions: [
     {
       publishedat: Date;
-    }
+    },
   ];
 }

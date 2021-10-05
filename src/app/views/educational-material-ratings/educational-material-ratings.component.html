@@ -5,7 +5,6 @@
     <h1>{{ 'demo.educationalMaterial.reviews.title' | translate }}</h1>
 
     <ng-container *ngIf="ratings">
-
       <h2>{{ ratings.name[lang] }}</h2>
 
       <ng-container *ngIf="ratings?.ratings?.length > 0; else noRatings">
@@ -38,9 +37,7 @@
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.reviews' | translate }}</h3>
 
-              <span class="value count">
-                {{ ratings.ratingsCount }}
-              </span>
+              <span class="value count"> {{ ratings.ratingsCount }} </span>
             </div>
           </div>
         </div>
@@ -54,9 +51,7 @@
             </div>
 
             <div class="col-auto">
-              <span class="author">
-                {{ rating.firstName }} {{ rating.lastName }}
-              </span>
+              <span class="author"> {{ rating.firstName }} {{ rating.lastName }} </span>
             </div>
           </div>
 
@@ -64,9 +59,7 @@
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingContent' | translate }}</h3>
 
-              <span class="value" *ngIf="rating.ratingContent; else noContent">
-                {{ rating.ratingContent }}
-              </span>
+              <span class="value" *ngIf="rating.ratingContent; else noContent"> {{ rating.ratingContent }} </span>
 
               <ng-template #noContent>
                 <span class="value text-muted">&ndash;</span>
@@ -76,9 +69,7 @@
             <div class="col-auto number-rating">
               <h3>{{ 'demo.educationalMaterial.reviews.review.ratingVisual' | translate }}</h3>
 
-              <span class="value" *ngIf="rating.ratingVisual; else noVisual">
-                {{ rating.ratingVisual }}
-              </span>
+              <span class="value" *ngIf="rating.ratingVisual; else noVisual"> {{ rating.ratingVisual }} </span>
 
               <ng-template #noVisual>
                 <span class="value text-muted">&ndash;</span>

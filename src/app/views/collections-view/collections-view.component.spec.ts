@@ -6,12 +6,13 @@ describe('CollectionsViewComponent', () => {
   let component: CollectionsViewComponent;
   let fixture: ComponentFixture<CollectionsViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionsViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CollectionsViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionsViewComponent);

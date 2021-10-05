@@ -9,9 +9,7 @@ import { environment } from '../../environments/environment';
   encapsulation: ViewEncapsulation.None,
 })
 export class AdminComponent implements OnInit {
-  constructor(
-    private titleSvc: Title,
-  ) { }
+  constructor(private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.titleSvc.setTitle(`Bryssel ${environment.title}`);

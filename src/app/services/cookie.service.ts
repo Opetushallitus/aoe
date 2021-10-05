@@ -4,12 +4,10 @@ import { CookieSettings } from '@models/cookie-settings';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CookieService {
-  constructor(
-    private cookieSvc: CookieSvc,
-  ) { }
+  constructor(private cookieSvc: CookieSvc) {}
 
   /**
    * Set cookie settings.
@@ -21,11 +19,7 @@ export class CookieService {
       googleAnalytics: values.googleAnalytics,
     };
 
-    this.cookieSvc.set(
-      environment.cookieSettingsCookie,
-      JSON.stringify(cookieSettings),
-      30,
-    );
+    this.cookieSvc.set(environment.cookieSettingsCookie, JSON.stringify(cookieSettings), 30);
 
     // delete Google Analytics cookies
     if (values.googleAnalytics === false && this.cookieSvc.check('_ga')) {

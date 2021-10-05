@@ -6,12 +6,13 @@ describe('EditBasicDetailsComponent', () => {
   let component: EditBasicDetailsComponent;
   let fixture: ComponentFixture<EditBasicDetailsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditBasicDetailsComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EditBasicDetailsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditBasicDetailsComponent);

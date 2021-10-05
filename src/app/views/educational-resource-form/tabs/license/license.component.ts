@@ -29,7 +29,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.setTitle();
@@ -42,10 +42,9 @@ export class LicenseComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateLicenses();
     });
 
-    this.licenseSubscription = this.koodistoProxySvc.licenses$
-      .subscribe((licenses: License[]) => {
-        this.licenses = licenses;
-      });
+    this.licenseSubscription = this.koodistoProxySvc.licenses$.subscribe((licenses: License[]) => {
+      this.licenses = licenses;
+    });
     this.koodistoProxySvc.updateLicenses();
 
     this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
@@ -93,11 +92,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      this.form.value
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));

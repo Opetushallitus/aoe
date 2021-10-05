@@ -1,4 +1,4 @@
-@import "mixins";
+@import 'mixins';
 
 .search-result {
   border-bottom: 1px solid #eee;
@@ -12,6 +12,6 @@
   }
 
   .tags {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 }

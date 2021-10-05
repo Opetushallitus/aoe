@@ -2,23 +2,19 @@
   <a [routerLink]="['/kokoelma', collection.id]" class="header">
     <div class="row no-gutters">
       <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
-        <img
-          [src]="collection.thumbnail"
-          class="img-fluid border"
-          [alt]="'demo.educationalMaterial.cover.alt' | translate"
-        >
+        <img [src]="collection.thumbnail" class="img-fluid border" [alt]="'demo.educationalMaterial.cover.alt' | translate" />
       </div>
 
       <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
-        <h3>
-          {{ collection.name }}
-        </h3>
+        <h3>{{ collection.name }}</h3>
 
-        <p *ngIf="collection.description">{{ collection.description | truncate:[75] }}</p><!--description-->
+        <p *ngIf="collection.description">{{ collection.description | truncate:[75] }}</p>
+        <!--description-->
 
         <ul class="list-unstyled authors">
           <li *ngFor="let author of collection.authors">{{ author }}</li>
-        </ul><!--authors-->
+        </ul>
+        <!--authors-->
       </div>
     </div>
   </a>
@@ -33,7 +29,8 @@
     property="value"
     searchProperty="key"
     filterType="educationalLevels"
-  ></app-taglist><!--educationalLevels-->
+  ></app-taglist
+  ><!--educationalLevels-->
 
   <app-taglist
     *ngIf="collection.keywords?.length > 0"
@@ -45,7 +42,8 @@
     property="value"
     searchProperty="key"
     filterType="keywords"
-  ></app-taglist><!--keywords-->
+  ></app-taglist
+  ><!--keywords-->
 
   <app-taglist
     *ngIf="collection.languages?.length > 0 && languages"
@@ -56,5 +54,6 @@
     property="value"
     searchProperty="key"
     filterType="languages"
-  ></app-taglist><!--languages-->
+  ></app-taglist
+  ><!--languages-->
 </div>

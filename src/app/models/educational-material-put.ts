@@ -15,7 +15,7 @@ export interface EducationalMaterialPut {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   authors: [
     {
@@ -24,31 +24,31 @@ export interface EducationalMaterialPut {
         key: string;
         value: string;
       };
-    }
+    },
   ];
   learningResourceTypes: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalRoles: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalUses: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalLevels: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   suitsAllEarlyChildhoodSubjects: boolean;
   suitsAllPrePrimarySubjects: boolean;
@@ -62,13 +62,13 @@ export interface EducationalMaterialPut {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   typicalAgeRange: {
     typicalAgeRangeMin: number;
@@ -79,7 +79,7 @@ export interface EducationalMaterialPut {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   expires: Date;
   license: string;
@@ -89,7 +89,7 @@ export interface EducationalMaterialPut {
         author: string[];
         url: string;
         name: string;
-      }
+      },
     ];
   };
   isVersioned: boolean;

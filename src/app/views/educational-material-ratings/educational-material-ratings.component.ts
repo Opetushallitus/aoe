@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-educational-material-ratings',
   templateUrl: './educational-material-ratings.component.html',
-  styleUrls: ['./educational-material-ratings.component.scss']
+  styleUrls: ['./educational-material-ratings.component.scss'],
 })
 export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
   materialId: number | string;
@@ -23,14 +23,14 @@ export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
     private ratingsSvc: RatingsService,
     private translate: TranslateService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
 
     this.materialId = this.route.snapshot.paramMap.get('materialId');
 
-    this.ratingSubscription = this.ratingsSvc.getRatings(this.materialId).subscribe((ratings: Ratings) => this.ratings = ratings);
+    this.ratingSubscription = this.ratingsSvc.getRatings(this.materialId).subscribe((ratings: Ratings) => (this.ratings = ratings));
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;

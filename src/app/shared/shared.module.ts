@@ -21,29 +21,22 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
       },
     }),
   ],
-  declarations: [
-    TruncatePipe,
-    SafePipe,
-  ],
-  exports: [
-    CommonModule,
-    TranslateModule,
-    TruncatePipe,
-    SafePipe,
-  ],
+  declarations: [TruncatePipe, SafePipe],
+  exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe],
 })
-
-export class SharedModule { }
+export class SharedModule {}
 
 /**
  * Regular expression for validating text inputs.
  */
-export const textInputRe: RegExp = /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
+export const textInputRe: RegExp =
+  /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
 /**
  * Regular expression for validating descriptions.
  */
-export const descriptionRe: RegExp = /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
+export const descriptionRe: RegExp =
+  /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
 /**
  * @ignore
@@ -89,7 +82,7 @@ export function addCustomItem(value: string): KeyValue<string, string> {
  */
 export function deduplicate(array: any[], prop: string): any[] {
   // https://gist.github.com/Vheissu/71dd683ad647e82a0d132076cf6eeef2#gistcomment-2598267
-  return Array.from(new Map(array.map((i) => [(prop in i) ? i[prop] : i, i])).values());
+  return Array.from(new Map(array.map((i) => [prop in i ? i[prop] : i, i])).values());
 }
 
 /**
@@ -100,7 +93,10 @@ export function deduplicate(array: any[], prop: string): any[] {
  */
 function createExtendedAlignmentObjectFromString(value: string, source: string, alignmentType: AlignmentType): AlignmentObjectExtended {
   return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
+    key: value
+      .replace(/[\W_]+/g, '')
+      .trim()
+      .toLowerCase(),
     source: source,
     alignmentType: alignmentType,
     targetName: value.trim(),
@@ -221,10 +217,10 @@ export function validateFilename(value: string): string {
  * @returns {ValidatorFn}
  */
 export function textInputValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const invalid = textInputRe.test(control.value);
 
-    return invalid ? { 'invalidCharacters': { value: control.value } } : null;
+    return invalid ? { invalidCharacters: { value: control.value } } : null;
   };
 }
 
@@ -233,10 +229,10 @@ export function textInputValidator(): ValidatorFn {
  * @returns {ValidatorFn}
  */
 export function descriptionValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const invalid = descriptionRe.test(control.value);
 
-    return invalid ? { 'invalid': { value: control.value } } : null;
+    return invalid ? { invalid: { value: control.value } } : null;
   };
 }
 
@@ -271,9 +267,8 @@ export function getValuesWithinLimits(input: any[], prop: string = 'value'): any
  */
 export function getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
   return [
-    ...new Set(subjects
-      .map((subject: AlignmentObjectExtended) => subject.educationalFramework)
-      .filter(fw => fw) // removes empty strings
-    )
+    ...new Set(
+      subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework).filter((fw) => fw), // removes empty strings
+    ),
   ];
 }

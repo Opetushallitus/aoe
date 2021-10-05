@@ -6,12 +6,13 @@ describe('CollectionModalComponent', () => {
   let component: AddToCollectionModalComponent;
   let fixture: ComponentFixture<AddToCollectionModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AddToCollectionModalComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AddToCollectionModalComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToCollectionModalComponent);

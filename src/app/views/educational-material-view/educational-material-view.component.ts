@@ -23,7 +23,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
-  styleUrls: ['./educational-material-view.component.scss']
+  styleUrls: ['./educational-material-view.component.scss'],
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -63,7 +63,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     private titleSvc: Title,
     private socialMetadataSvc: SocialMetadataService,
     private koodistoSvc: KoodistoProxyService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -132,15 +132,20 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
           ? this.materialLanguages.find((lang: string) => lang === this.lang)
           : this.materialLanguages.find((lang: string) => lang === 'fi')
-            ? this.materialLanguages.find((lang: string) => lang === 'fi')
-            : this.materialLanguages[0];
+          ? this.materialLanguages.find((lang: string) => lang === 'fi')
+          : this.materialLanguages[0];
 
         // set preview material
-        this.setPreviewMaterial(this.materials.find((m: Material) => {
-          if (m.language === this.selectedLanguage || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
-            return m;
-          }
-        }));
+        this.setPreviewMaterial(
+          this.materials.find((m: Material) => {
+            if (
+              m.language === this.selectedLanguage ||
+              m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
+            ) {
+              return m;
+            }
+          }),
+        );
 
         // if material expired
         if (material.expires) {
@@ -190,28 +195,30 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     this.selectedLanguage = language;
 
     // set preview material
-    this.setPreviewMaterial(this.materials.find((material: Material) => {
-      if (material.language === language || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)) {
-        return material;
-      }
-    }));
+    this.setPreviewMaterial(
+      this.materials.find((material: Material) => {
+        if (material.language === language || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)) {
+          return material;
+        }
+      }),
+    );
   }
 
   updateMaterialName(): void {
-    if (this.educationalMaterial.name.find(n => n.language === this.lang).materialname !== '') {
-      this.materialName = this.educationalMaterial.name.find(n => n.language === this.lang).materialname;
+    if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
     } else {
-      this.materialName = this.educationalMaterial.name.find(n => n.language === 'fi').materialname;
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === 'fi').materialname;
     }
 
     this.setTitle();
   }
 
   updateDescription(): void {
-    if (this.educationalMaterial.description.find(d => d.language === this.lang).description !== '') {
-      this.description = this.educationalMaterial.description.find(d => d.language === this.lang).description;
+    if (this.educationalMaterial.description.find((d) => d.language === this.lang).description !== '') {
+      this.description = this.educationalMaterial.description.find((d) => d.language === this.lang).description;
     } else {
-      this.description = this.educationalMaterial.description.find(d => d.language === 'fi').description;
+      this.description = this.educationalMaterial.description.find((d) => d.language === 'fi').description;
     }
   }
 

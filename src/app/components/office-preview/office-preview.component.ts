@@ -14,9 +14,7 @@ export class OfficePreviewComponent implements OnInit, OnChanges {
   downloadUrl: string;
   @ViewChild('officeViewer', { static: true }) public pdfViewer;
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

@@ -14,14 +14,10 @@
 
       <tbody>
         <tr *ngFor="let accessibilityRow of accessibilityTable[lang]">
-          <td>
-            {{ accessibilityRow.topic }}
-          </td>
+          <td>{{ accessibilityRow.topic }}</td>
 
           <td>
-            <p *ngFor="let example of accessibilityRow.examples">
-              {{ example }}
-            </p>
+            <p *ngFor="let example of accessibilityRow.examples">{{ example }}</p>
           </td>
 
           <td>

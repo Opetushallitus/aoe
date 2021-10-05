@@ -23,7 +23,7 @@ import { UploadMessage } from '@models/upload-message';
 @Component({
   selector: 'app-collection-basic-details-tab',
   templateUrl: './collection-basic-details-tab.component.html',
-  styleUrls: ['./collection-basic-details-tab.component.scss']
+  styleUrls: ['./collection-basic-details-tab.component.scss'],
 })
 export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm;
@@ -60,7 +60,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private modalSvc: BsModalService,
     private collectionSvc: CollectionService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -79,14 +79,8 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     });
 
     this.form = this.fb.group({
-      name: this.fb.control(null, [
-        Validators.maxLength(validatorParams.name.maxLength),
-        textInputValidator(),
-      ]),
-      description: this.fb.control(null, [
-        Validators.maxLength(validatorParams.description.maxLength),
-        descriptionValidator(),
-      ]),
+      name: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+      description: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
       keywords: this.fb.control(null),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
@@ -104,24 +98,21 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     this.thumbnailSrc = this.collection.thumbnail;
 
     // keywords
-    this.keywordSubscription = this.koodistoSvc.keywords$
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords = keywords;
-      });
+    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
     this.koodistoSvc.updateKeywords();
 
     // educational roles
-    this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$
-      .subscribe((roles: EducationalRole[]) => {
-        this.educationalRoles = roles;
-      });
+    this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$.subscribe((roles: EducationalRole[]) => {
+      this.educationalRoles = roles;
+    });
     this.koodistoSvc.updateEducationalRoles();
 
     // educational uses
-    this.educationalUseSubscription = this.koodistoSvc.educationalUses$
-      .subscribe((uses: EducationalUse[]) => {
-        this.educationalUses = uses;
-      });
+    this.educationalUseSubscription = this.koodistoSvc.educationalUses$.subscribe((uses: EducationalUse[]) => {
+      this.educationalUses = uses;
+    });
     this.koodistoSvc.updateEducationalUses();
 
     // languages
@@ -131,17 +122,15 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateLanguages();
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$
-      .subscribe((features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
+      this.accessibilityFeatures = features;
+    });
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$
-      .subscribe((hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
+      this.accessibilityHazards = hazards;
+    });
     this.koodistoSvc.updateAccessibilityHazards();
   }
 
@@ -180,10 +169,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openThumbnailModal(template: TemplateRef<any>): void {
-    this.thumbnailModalRef = this.modalSvc.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+    this.thumbnailModalRef = this.modalSvc.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   imageChange(event: any): void {
@@ -209,9 +195,10 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
         },
         (err) => console.error(err),
         () => {
-          const changedCollection: CollectionForm = sessionStorage.getItem(environment.collection) !== null
-            ? JSON.parse(sessionStorage.getItem(environment.collection))
-            : this.collection;
+          const changedCollection: CollectionForm =
+            sessionStorage.getItem(environment.collection) !== null
+              ? JSON.parse(sessionStorage.getItem(environment.collection))
+              : this.collection;
 
           changedCollection.thumbnail = this.croppedImage;
 
@@ -243,9 +230,10 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    * Saves collection to session storage.
    */
   saveCollection(): void {
-    const changedCollection: CollectionForm = sessionStorage.getItem(environment.collection) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.collection))
-      : this.collection;
+    const changedCollection: CollectionForm =
+      sessionStorage.getItem(environment.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.collection))
+        : this.collection;
 
     changedCollection.name = this.form.get('name').value;
     changedCollection.description = this.form.get('description').value;

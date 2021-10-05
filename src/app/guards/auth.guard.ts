@@ -5,13 +5,10 @@ import { Observable } from 'rxjs';
 import { AuthService } from '@services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private authSvc: AuthService,
-    private router: Router,
-    ) { }
+  constructor(private authSvc: AuthService, private router: Router) {}
 
   /**
    * Checks if user is logged in.
@@ -21,8 +18,8 @@ export class AuthGuard implements CanActivate {
    */
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+    state: RouterStateSnapshot,
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authSvc.hasUserdata()) {
       return this.router.parseUrl('/etusivu');
     } else {
