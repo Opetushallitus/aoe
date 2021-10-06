@@ -19,7 +19,7 @@ import { sortOptions } from '../../constants/sort-options';
 @Component({
   selector: 'app-search-results-view',
   templateUrl: './search-results-view.component.html',
-  styleUrls: ['./search-results-view.component.scss']
+  styleUrls: ['./search-results-view.component.scss'],
 })
 export class SearchResultsViewComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
@@ -78,9 +78,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private titleSvc: Title,
     private deviceSvc: DeviceDetectorService,
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     if (this.deviceSvc.isMobile()) {
@@ -126,66 +126,65 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.searchSvc.updateSearchResults(searchParams);
     this.searchSvc.updateSearchFilters(searchParams);
 
-    this.resultSubscription = this.searchSvc.searchResults$
-      .subscribe((results: SearchResults) => {
-        this.results = results;
-        this.loading = false;
+    this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
+      this.results = results;
+      this.loading = false;
 
-        if (results.hits > 0) {
-          this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
+      if (results.hits > 0) {
+        this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
 
-          this.pages = Math.ceil(this.results.hits / this.resultsPerPage);
-          this.setTitle();
-        }
-      });
+        this.pages = Math.ceil(this.results.hits / this.resultsPerPage);
+        this.setTitle();
+      }
+    });
 
     this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
       this.allLanguages = languages;
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
-      .subscribe((levels: EducationalLevel[]) => {
-        this.educationalLevels = levels;
+    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
+      this.educationalLevels = levels;
 
-        this.educationalLevelsArray.clear();
+      this.educationalLevelsArray.clear();
 
-        this.educationalLevels.forEach((level: EducationalLevel) => {
-          const children = this.fb.array([]);
+      this.educationalLevels.forEach((level: EducationalLevel) => {
+        const children = this.fb.array([]);
 
-          level.children.forEach((child) => {
-            let state = false;
-
-            if (searchParams?.filters?.educationalLevels) {
-              state = searchParams.filters.educationalLevels.includes(child.key);
-            }
-
-            children.push(this.fb.control(state));
-          });
-
-          this.educationalLevelsArray.push(this.fb.group({
-            levels: children,
-          }));
-        });
-      });
-    this.koodistoProxySvc.updateEducationalLevels();
-
-    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
-      .subscribe((types: LearningResourceType[]) => {
-        this.learningResourceTypes = types;
-
-        this.learningResourceTypesArray.clear();
-
-        this.learningResourceTypes.forEach((type: LearningResourceType) => {
+        level.children.forEach((child) => {
           let state = false;
 
-          if (searchParams?.filters?.learningResourceTypes) {
-            state = searchParams.filters.learningResourceTypes.includes(type.key);
+          if (searchParams?.filters?.educationalLevels) {
+            state = searchParams.filters.educationalLevels.includes(child.key);
           }
 
-          this.learningResourceTypesArray.push(this.fb.control(state));
+          children.push(this.fb.control(state));
         });
+
+        this.educationalLevelsArray.push(
+          this.fb.group({
+            levels: children,
+          }),
+        );
       });
+    });
+    this.koodistoProxySvc.updateEducationalLevels();
+
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe((types: LearningResourceType[]) => {
+      this.learningResourceTypes = types;
+
+      this.learningResourceTypesArray.clear();
+
+      this.learningResourceTypes.forEach((type: LearningResourceType) => {
+        let state = false;
+
+        if (searchParams?.filters?.learningResourceTypes) {
+          state = searchParams.filters.learningResourceTypes.includes(type.key);
+        }
+
+        this.learningResourceTypesArray.push(this.fb.control(state));
+      });
+    });
     this.koodistoProxySvc.updateLearningResourceTypes();
 
     this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
@@ -234,19 +233,21 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   get filtersCount(): number {
-    return this.languagesCount
-      + this.educationalLevelsCount
-      + this.learningResourceTypesCount
-      + this.authorsCount
-      + this.organizationsCount
-      + this.educationalRolesCount
-      + this.keywordsCount
-      + this.subjectsCount
-      + this.teachesCount
-      + this.usesCount
-      + this.hazardsCount
-      + this.featuresCount
-      + this.licensesCount;
+    return (
+      this.languagesCount +
+      this.educationalLevelsCount +
+      this.learningResourceTypesCount +
+      this.authorsCount +
+      this.organizationsCount +
+      this.educationalRolesCount +
+      this.keywordsCount +
+      this.subjectsCount +
+      this.teachesCount +
+      this.usesCount +
+      this.hazardsCount +
+      this.featuresCount +
+      this.licensesCount
+    );
   }
 
   get languagesArray(): FormArray {
@@ -588,19 +589,18 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         })
         .filter((language: string) => language !== null);
 
-      this.educationalLevelsArray.value
-        .forEach((level, index: number) => {
-          level.levels.forEach((checked: boolean, childIndex: number) => {
-            if (checked) {
-              selectedEducationalLevels.push(this.educationalLevels[index].children[childIndex].key);
+      this.educationalLevelsArray.value.forEach((level, index: number) => {
+        level.levels.forEach((checked: boolean, childIndex: number) => {
+          if (checked) {
+            selectedEducationalLevels.push(this.educationalLevels[index].children[childIndex].key);
 
-              usedFilters.push({
-                ...this.educationalLevels[index].children[childIndex],
-                type: 'educationalLevels',
-              });
-            }
-          });
+            usedFilters.push({
+              ...this.educationalLevels[index].children[childIndex],
+              type: 'educationalLevels',
+            });
+          }
         });
+      });
 
       searchParams.filters.educationalLevels = selectedEducationalLevels;
 
@@ -783,68 +783,69 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       if (removedFilter) {
         switch (removedFilter.type) {
           case 'language':
-            searchParams.filters.languages = searchParams.filters.languages
-              .filter((lang: string) => lang !== removedFilter.key);
+            searchParams.filters.languages = searchParams.filters.languages.filter((lang: string) => lang !== removedFilter.key);
             break;
 
           case 'educationalLevels':
-            searchParams.filters.educationalLevels = searchParams.filters.educationalLevels
-              .filter((level: string) => level !== removedFilter.key);
+            searchParams.filters.educationalLevels = searchParams.filters.educationalLevels.filter(
+              (level: string) => level !== removedFilter.key,
+            );
             break;
 
           case 'educationalSubjects':
-            searchParams.filters.educationalSubjects = searchParams.filters.educationalSubjects
-              .filter((subject: string) => subject !== removedFilter.key);
+            searchParams.filters.educationalSubjects = searchParams.filters.educationalSubjects.filter(
+              (subject: string) => subject !== removedFilter.key,
+            );
             break;
 
           case 'teach':
-            searchParams.filters.teaches = searchParams.filters.teaches
-              .filter((teach: string) => teach !== removedFilter.key);
+            searchParams.filters.teaches = searchParams.filters.teaches.filter((teach: string) => teach !== removedFilter.key);
             break;
 
           case 'learningResourceTypes':
-            searchParams.filters.learningResourceTypes = searchParams.filters.learningResourceTypes
-              .filter((type: string) => type !== removedFilter.key);
+            searchParams.filters.learningResourceTypes = searchParams.filters.learningResourceTypes.filter(
+              (type: string) => type !== removedFilter.key,
+            );
             break;
 
           case 'author':
-            searchParams.filters.authors = searchParams.filters.authors
-              .filter((author: string) => author !== removedFilter.key);
+            searchParams.filters.authors = searchParams.filters.authors.filter((author: string) => author !== removedFilter.key);
             break;
 
           case 'organization':
-            searchParams.filters.organizations = searchParams.filters.organizations
-              .filter((organization: string) => organization !== removedFilter.key);
+            searchParams.filters.organizations = searchParams.filters.organizations.filter(
+              (organization: string) => organization !== removedFilter.key,
+            );
             break;
 
           case 'role':
-            searchParams.filters.educationalRoles = searchParams.filters.educationalRoles
-              .filter((role: string) => role !== removedFilter.key);
+            searchParams.filters.educationalRoles = searchParams.filters.educationalRoles.filter(
+              (role: string) => role !== removedFilter.key,
+            );
             break;
 
           case 'keyword':
-            searchParams.filters.keywords = searchParams.filters.keywords
-              .filter((keyword: string) => keyword !== removedFilter.key);
+            searchParams.filters.keywords = searchParams.filters.keywords.filter((keyword: string) => keyword !== removedFilter.key);
             break;
 
           case 'use':
-            searchParams.filters.educationalUses = searchParams.filters.educationalUses
-              .filter((use: string) => use !== removedFilter.key);
+            searchParams.filters.educationalUses = searchParams.filters.educationalUses.filter((use: string) => use !== removedFilter.key);
             break;
 
           case 'hazard':
-            searchParams.filters.accessibilityHazards = searchParams.filters.accessibilityHazards
-              .filter((hazard: string) => hazard !== removedFilter.key);
+            searchParams.filters.accessibilityHazards = searchParams.filters.accessibilityHazards.filter(
+              (hazard: string) => hazard !== removedFilter.key,
+            );
             break;
 
           case 'feature':
-            searchParams.filters.accessibilityFeatures = searchParams.filters.accessibilityFeatures
-              .filter((feature: string) => feature !== removedFilter.key);
+            searchParams.filters.accessibilityFeatures = searchParams.filters.accessibilityFeatures.filter(
+              (feature: string) => feature !== removedFilter.key,
+            );
             break;
 
           case 'license':
-            searchParams.filters.licenses = searchParams.filters.licenses
-              .filter((license: string) => license !== removedFilter.key);
+            searchParams.filters.licenses = searchParams.filters.licenses.filter((license: string) => license !== removedFilter.key);
             break;
 
           default:

@@ -13,12 +13,7 @@ import { environment } from '../../../environments/environment';
 export class AcceptanceViewComponent implements OnInit {
   public acceptanceForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private authSvc: AuthService,
-    private titleSvc: Title,
-    private translate: TranslateService,
-  ) { }
+  constructor(private fb: FormBuilder, private authSvc: AuthService, private titleSvc: Title, private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -28,7 +23,7 @@ export class AcceptanceViewComponent implements OnInit {
     });
 
     this.acceptanceForm = this.fb.group({
-      acceptance: this.fb.control(false, [ Validators.requiredTrue ]),
+      acceptance: this.fb.control(false, [Validators.requiredTrue]),
     });
   }
 
@@ -38,7 +33,7 @@ export class AcceptanceViewComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     this.authSvc.updateAcceptance();
   }
 }

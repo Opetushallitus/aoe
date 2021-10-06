@@ -8,9 +8,8 @@ describe('RemoveMaterialComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RemoveMaterialComponent ]
-    })
-    .compileComponents();
+      declarations: [RemoveMaterialComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

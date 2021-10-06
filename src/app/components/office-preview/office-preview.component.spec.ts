@@ -6,12 +6,13 @@ describe('OfficePreviewComponent', () => {
   let component: OfficePreviewComponent;
   let fixture: ComponentFixture<OfficePreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ OfficePreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [OfficePreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OfficePreviewComponent);

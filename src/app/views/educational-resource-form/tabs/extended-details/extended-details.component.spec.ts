@@ -6,12 +6,13 @@ describe('ExtendedDetailsComponent', () => {
   let component: ExtendedDetailsComponent;
   let fixture: ComponentFixture<ExtendedDetailsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ExtendedDetailsComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ExtendedDetailsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ExtendedDetailsComponent);

@@ -6,17 +6,13 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  templateUrl: 'main-view.component.html'
+  templateUrl: 'main-view.component.html',
 })
 export class MainViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   recentMaterials: EducationalMaterialCard[];
 
-  constructor(
-    private translate: TranslateService,
-    private materialSvc: MaterialService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private materialSvc: MaterialService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -27,7 +23,7 @@ export class MainViewComponent implements OnInit {
       this.setTitle();
     });
 
-    this.materialSvc.getRecentMaterialList().subscribe(data => {
+    this.materialSvc.getRecentMaterialList().subscribe((data) => {
       this.recentMaterials = data;
     });
   }

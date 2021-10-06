@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -29,9 +29,9 @@ export class LicenseComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -42,10 +42,9 @@ export class LicenseComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateLicenses();
     });
 
-    this.licenseSubscription = this.koodistoProxySvc.licenses$
-      .subscribe((licenses: License[]) => {
-        this.licenses = licenses;
-      });
+    this.licenseSubscription = this.koodistoProxySvc.licenses$.subscribe((licenses: License[]) => {
+      this.licenses = licenses;
+    });
     this.koodistoProxySvc.updateLicenses();
 
     this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
@@ -80,7 +79,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
     return this.form.get('license') as FormControl;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -93,17 +92,13 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      this.form.value
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset submit status
     this.submitted = false;
 
@@ -117,7 +112,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 4]);
   }
 }

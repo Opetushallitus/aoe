@@ -6,12 +6,13 @@ describe('HtmlPreviewComponent', () => {
   let component: HtmlPreviewComponent;
   let fixture: ComponentFixture<HtmlPreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HtmlPreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [HtmlPreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HtmlPreviewComponent);

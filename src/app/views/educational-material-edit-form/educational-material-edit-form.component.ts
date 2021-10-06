@@ -21,7 +21,7 @@ import {
 @Component({
   selector: 'app-educational-material-edit-form',
   templateUrl: './educational-material-edit-form.component.html',
-  styleUrls: ['./educational-material-edit-form.component.scss']
+  styleUrls: ['./educational-material-edit-form.component.scss'],
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   materialId: number;
@@ -48,7 +48,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private translate: TranslateService,
     private toastr: ToastrService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.materialId = +this.route.snapshot.paramMap.get('materialId');
@@ -111,12 +111,12 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
     if (
-      this.filesTab?.form.dirty
-      || this.basicTab?.form.dirty
-      || this.educationalTab?.form.dirty
-      || this.extendedTab?.form.dirty
-      || this.licenseTab?.form.dirty
-      || this.referencesTab?.form.dirty
+      this.filesTab?.form.dirty ||
+      this.basicTab?.form.dirty ||
+      this.educationalTab?.form.dirty ||
+      this.extendedTab?.form.dirty ||
+      this.licenseTab?.form.dirty ||
+      this.referencesTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
     }
@@ -128,9 +128,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
     if (editMaterial) {
-      return editMaterial === this.material
-        ? true
-        : confirm(this.abortMessage);
+      return editMaterial === this.material ? true : confirm(this.abortMessage);
     }
 
     return true;

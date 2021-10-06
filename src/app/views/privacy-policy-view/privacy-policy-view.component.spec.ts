@@ -6,12 +6,13 @@ describe('PrivacyPolicyViewComponent', () => {
   let component: PrivacyPolicyViewComponent;
   let fixture: ComponentFixture<PrivacyPolicyViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PrivacyPolicyViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PrivacyPolicyViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrivacyPolicyViewComponent);

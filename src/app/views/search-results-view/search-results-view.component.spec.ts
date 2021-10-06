@@ -6,12 +6,13 @@ describe('SearchResultsViewComponent', () => {
   let component: SearchResultsViewComponent;
   let fixture: ComponentFixture<SearchResultsViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SearchResultsViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SearchResultsViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchResultsViewComponent);

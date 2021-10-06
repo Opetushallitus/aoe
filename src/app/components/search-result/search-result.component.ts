@@ -8,7 +8,7 @@ import { UsedFilter } from '@models/search/used-filter';
 @Component({
   selector: 'app-search-result',
   templateUrl: './search-result.component.html',
-  styleUrls: ['./search-result.component.scss']
+  styleUrls: ['./search-result.component.scss'],
 })
 export class SearchResultComponent implements OnInit {
   @Input() result: SearchResult;
@@ -21,11 +21,9 @@ export class SearchResultComponent implements OnInit {
   private from = 0;
   private resultsPerPage = 15;
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
 
@@ -44,15 +42,15 @@ export class SearchResultComponent implements OnInit {
   }
 
   changeTranslationString(): void {
-    const name = this.result.materialName.find(n => n.language === this.lang).materialname;
+    const name = this.result.materialName.find((n) => n.language === this.lang).materialname;
 
     if (name !== '') {
       this.materialName = name;
     } else {
-      this.materialName = this.result.materialName.find(n => n.materialname !== '').materialname;
+      this.materialName = this.result.materialName.find((n) => n.materialname !== '').materialname;
     }
 
-    const description = this.result.description.find(d => d.language === this.lang).description;
+    const description = this.result.description.find((d) => d.language === this.lang).description;
 
     if (description !== '') {
       this.description = description;
@@ -74,7 +72,7 @@ export class SearchResultComponent implements OnInit {
         key: key,
         value: value,
         type: 'educationalLevels',
-      }
+      },
     ];
 
     sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));

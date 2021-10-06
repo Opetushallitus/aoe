@@ -8,15 +8,11 @@
 
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
       <div class="form-group custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance">
+        <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance" />
         <label class="custom-control-label" for="acceptance">{{ 'acceptance.acceptance' | translate }}</label>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-blue"
-        [disabled]="acceptanceForm.invalid"
-      >{{ 'forms.common.save' | translate }}</button>
+      <button type="submit" class="btn btn-blue" [disabled]="acceptanceForm.invalid">{{ 'forms.common.save' | translate }}</button>
     </form>
   </div>
 </div>

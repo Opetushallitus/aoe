@@ -8,9 +8,8 @@ describe('PreviewRowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreviewRowComponent ]
-    })
-    .compileComponents();
+      declarations: [PreviewRowComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

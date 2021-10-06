@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { AlertService } from '@services/alert.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(
@@ -22,7 +22,7 @@ export class AuthService {
     private cookieSvc: CookieService,
     private router: Router,
     private alertSvc: AlertService,
-  ) { }
+  ) {}
 
   /**
    * Handles errors.
@@ -49,27 +49,29 @@ export class AuthService {
    * @returns {Observable<Userdata>}
    */
   setUserdata(): Observable<Userdata> {
-    return this.http.get<Userdata>(`${environment.backendUrl}/userdata`, {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-      }),
-    }).pipe(
-      map((res: Userdata): Userdata => {
-        const expires = new Date();
-        expires.setTime(expires.getTime() + environment.sessionMaxAge);
+    return this.http
+      .get<Userdata>(`${environment.backendUrl}/userdata`, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+      })
+      .pipe(
+        map((res: Userdata): Userdata => {
+          const expires = new Date();
+          expires.setTime(expires.getTime() + environment.sessionMaxAge);
 
-        this.cookieSvc.set(environment.userdataKey, JSON.stringify(res), expires);
+          this.cookieSvc.set(environment.userdataKey, JSON.stringify(res), expires);
 
-        return res;
-      }),
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && this.hasUserdata()) {
-          this.removeUserdata();
-        }
+          return res;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401 && this.hasUserdata()) {
+            this.removeUserdata();
+          }
 
-        return throwError('Something bad happened; please try again later.');
-      }),
-    );
+          return throwError('Something bad happened; please try again later.');
+        }),
+      );
   }
 
   /**
@@ -118,14 +120,20 @@ export class AuthService {
    * Removes user data and redirects user to front page.
    */
   logout(): void {
-    this.http.post(`${environment.backendUrl}/logout`, {}, {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-      }),
-    }).subscribe(() => {
-      this.removeUserdata();
-      this.router.navigate(['/logout']);
-    });
+    this.http
+      .post(
+        `${environment.backendUrl}/logout`,
+        {},
+        {
+          headers: new HttpHeaders({
+            Accept: 'application/json',
+          }),
+        },
+      )
+      .subscribe(() => {
+        this.removeUserdata();
+        this.router.navigate(['/logout']);
+      });
   }
 
   /**
@@ -134,13 +142,13 @@ export class AuthService {
    * @returns {Observable<UpdateUserSettingsResponse>}
    */
   updateUserSettings(userSettings: UserSettings): Observable<UpdateUserSettingsResponse> {
-    return this.http.put<UpdateUserSettingsResponse>(`${environment.backendUrl}/updateSettings`, userSettings, {
-      headers: new HttpHeaders({
-        'Accept': 'application/json',
-      }),
-    }).pipe(
-      catchError(this.handleError),
-    );
+    return this.http
+      .put<UpdateUserSettingsResponse>(`${environment.backendUrl}/updateSettings`, userSettings, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+        }),
+      })
+      .pipe(catchError(this.handleError));
   }
 
   hasEmail(): boolean {

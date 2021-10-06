@@ -8,9 +8,8 @@ describe('ChangeMaterialOwnerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChangeMaterialOwnerComponent ]
-    })
-    .compileComponents();
+      declarations: [ChangeMaterialOwnerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

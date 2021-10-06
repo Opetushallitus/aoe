@@ -72,9 +72,9 @@ export class PreviewComponent implements OnInit {
     private materialSvc: MaterialService,
     private translate: TranslateService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -98,44 +98,20 @@ export class PreviewComponent implements OnInit {
     }
 
     this.form = this.fb.group({
-      hasName: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasMaterial: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasAuthor: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasKeyword: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasLearningResourceType: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasEducationalLevel: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasName: this.fb.control(false, [Validators.requiredTrue]),
+      hasMaterial: this.fb.control(false, [Validators.requiredTrue]),
+      hasAuthor: this.fb.control(false, [Validators.requiredTrue]),
+      hasKeyword: this.fb.control(false, [Validators.requiredTrue]),
+      hasLearningResourceType: this.fb.control(false, [Validators.requiredTrue]),
+      hasEducationalLevel: this.fb.control(false, [Validators.requiredTrue]),
       shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
-      hasBasicEduObjectives: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasBasicEduContents: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasBasicEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasBasicEduContents: this.fb.control(false, [Validators.requiredTrue]),
       shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
-      hasUpperSecondaryEduObjectives: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasUpperSecondaryEduContents: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasLicense: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      confirm: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasUpperSecondaryEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasUpperSecondaryEduContents: this.fb.control(false, [Validators.requiredTrue]),
+      hasLicense: this.fb.control(false, [Validators.requiredTrue]),
+      confirm: this.fb.control(false, [Validators.requiredTrue]),
     });
 
     if (this.savedData?.name?.fi || this.savedData?.name?.sv || this.savedData?.name?.en) {
@@ -148,75 +124,95 @@ export class PreviewComponent implements OnInit {
     this.form.get('hasEducationalLevel').setValue(this.savedData?.educationalLevels?.length > 0);
     this.form.get('hasLicense').setValue(this.savedData?.license !== null);
 
-    this.earlyChildhoodEducationSubjects = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects);
+    this.earlyChildhoodEducationSubjects = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects,
+    );
 
-    this.earlyChildhoodEducationObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives);
+    this.earlyChildhoodEducationObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives,
+    );
 
     this.earlyChildhoodEducationFramework = getUniqueFrameworks(this.earlyChildhoodEducationSubjects);
 
-    this.prePrimaryEducationSubjects = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects);
+    this.prePrimaryEducationSubjects = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimarySubjects,
+    );
 
-    this.prePrimaryEducationObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives);
+    this.prePrimaryEducationObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives,
+    );
 
     this.prePrimaryEducationFramework = getUniqueFrameworks(this.prePrimaryEducationSubjects);
 
-    this.basicStudySubjects = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects);
+    this.basicStudySubjects = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudySubjects,
+    );
 
-    this.basicStudyObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives);
+    this.basicStudyObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives,
+    );
 
-    this.basicStudyContents = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents);
+    this.basicStudyContents = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents,
+    );
 
     this.basicStudyFramework = getUniqueFrameworks(this.basicStudySubjects);
 
-    this.upperSecondarySchoolSubjects = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects);
+    this.upperSecondarySchoolSubjects = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects,
+    );
 
-    this.upperSecondarySchoolObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives);
+    this.upperSecondarySchoolObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives,
+    );
 
-    this.upperSecondarySchoolSubjectsOld = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld);
+    this.upperSecondarySchoolSubjectsOld = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld,
+    );
 
-    this.upperSecondarySchoolCoursesOld = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld);
+    this.upperSecondarySchoolCoursesOld = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryCoursesOld,
+    );
 
     this.upperSecondarySchoolFramework = getUniqueFrameworks(this.upperSecondarySchoolSubjects);
 
-    this.upperSecondarySchoolSubjectsNew = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew);
+    this.upperSecondarySchoolSubjectsNew = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew,
+    );
 
-    this.upperSecondarySchoolModulesNew = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew);
+    this.upperSecondarySchoolModulesNew = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew,
+    );
 
-    this.upperSecondarySchoolObjectivesNew = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew);
+    this.upperSecondarySchoolObjectivesNew = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew,
+    );
 
-    this.upperSecondarySchoolContentsNew = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew);
+    this.upperSecondarySchoolContentsNew = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew,
+    );
 
     // this.upperSecondarySchoolFrameworkNew = getUniqueFrameworks(this.upperSecondarySchoolSubjectsNew);
 
-    this.vocationalDegrees = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees);
+    this.vocationalDegrees = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalDegrees,
+    );
 
-    this.vocationalUnits = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits);
+    this.vocationalUnits = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits,
+    );
 
-    this.vocationalRequirements = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements);
+    this.vocationalRequirements = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements,
+    );
 
-    this.furtherVocationalQualifications = this.savedData?.alignmentObjects
-      .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications);
+    this.furtherVocationalQualifications = this.savedData?.alignmentObjects.filter(
+      (aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.furtherVocationalQualifications,
+    );
 
-    this.specialistVocationalQualifications = this.savedData?.alignmentObjects
-      .filter((aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications);
+    this.specialistVocationalQualifications = this.savedData?.alignmentObjects.filter(
+      (aObject: AlignmentObjectExtended) => aObject.source === koodistoSources.specialistVocationalQualifications,
+    );
 
     this.vocationalFramework = getUniqueFrameworks([
       ...this.vocationalDegrees,
@@ -224,33 +220,41 @@ export class PreviewComponent implements OnInit {
       ...this.specialistVocationalQualifications,
     ]);
 
-    this.selfMotivatedEducationSubjects = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects);
+    this.selfMotivatedEducationSubjects = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects,
+    );
 
-    this.selfMotivatedEducationObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives);
+    this.selfMotivatedEducationObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives,
+    );
 
-    this.branchesOfScience = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches);
+    this.branchesOfScience = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranches,
+    );
 
-    this.scienceBranchObjectives = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives);
+    this.scienceBranchObjectives = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives,
+    );
 
     this.higherEducationFramework = getUniqueFrameworks(this.branchesOfScience);
 
-    this.prerequisites = this.savedData?.alignmentObjects
-      .filter((alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites);
+    this.prerequisites = this.savedData?.alignmentObjects.filter(
+      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prerequisites,
+    );
 
     if (this.savedData?.typicalAgeRange?.typicalAgeRangeMin || this.savedData?.typicalAgeRange?.typicalAgeRangeMax) {
-      this.typicalAgeRange = `${this.savedData?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.savedData?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
+      this.typicalAgeRange = `${this.savedData?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${
+        this.savedData?.typicalAgeRange?.typicalAgeRangeMax ?? ''
+      }`;
     }
 
     if (this.basicStudySubjects?.length > 0) {
       this.form.get('hasBasicEduObjectives').setValue(this.basicStudyObjectives?.length > 0);
       this.form.get('hasBasicEduContents').setValue(this.basicStudyContents?.length > 0);
 
-      const ignoredSubjectsList = this.basicStudySubjects
-        .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
+      const ignoredSubjectsList = this.basicStudySubjects.filter((subject: AlignmentObjectExtended) =>
+        ignoredSubjects.includes(subject.key.toString()),
+      );
 
       this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
     }
@@ -282,7 +286,7 @@ export class PreviewComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<UploadedFile[]>) {
+  drop(event: CdkDragDrop<UploadedFile[]>): void {
     moveItemInArray(this.uploadedFiles, event.previousIndex, event.currentIndex);
   }
 
@@ -338,7 +342,7 @@ export class PreviewComponent implements OnInit {
     return this.form.get('hasLicense').value;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
       this.canDeactivate = true;
 
@@ -362,13 +366,13 @@ export class PreviewComponent implements OnInit {
         sessionStorage.removeItem(environment.fileUploadLSKey);
 
         // redirect to new material
-        this.router.navigate([ '/materiaali', this.fileUpload.id ]);
+        this.router.navigate(['/materiaali', this.fileUpload.id]);
       });
     }
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -379,7 +383,7 @@ export class PreviewComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 6]);
   }
 }

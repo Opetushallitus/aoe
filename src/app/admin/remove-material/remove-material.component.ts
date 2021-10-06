@@ -11,7 +11,7 @@ import { MaterialInfoResponse } from '../../models/admin/material-info-response'
 @Component({
   selector: 'app-admin-remove-material',
   templateUrl: './remove-material.component.html',
-  styleUrls: ['./remove-material.component.scss']
+  styleUrls: ['./remove-material.component.scss'],
 })
 export class RemoveMaterialComponent implements OnInit, OnDestroy {
   form: FormGroup;
@@ -20,28 +20,20 @@ export class RemoveMaterialComponent implements OnInit, OnDestroy {
   materialInfoSubscription: Subscription;
   materialInfoSubject = new Subject<string>();
 
-  constructor(
-    private adminSvc: AdminService,
-    private fb: FormBuilder,
-    private toastr: ToastrService,
-  ) { }
+  constructor(private adminSvc: AdminService, private fb: FormBuilder, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      materialId: this.fb.control(null, [
-        Validators.required,
-        Validators.pattern(validatorParams.common.pattern.numeric),
-      ]),
+      materialId: this.fb.control(null, [Validators.required, Validators.pattern(validatorParams.common.pattern.numeric)]),
     });
 
     this.materialInfoSubscription = this.adminSvc.materialInfo$.subscribe((response: MaterialInfoResponse) => {
       this.materialInfo = response;
     });
 
-    this.materialInfoSubject.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-    ).subscribe((value: string) => this.adminSvc.updateMaterialInfo(value));
+    this.materialInfoSubject
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value: string) => this.adminSvc.updateMaterialInfo(value));
   }
 
   ngOnDestroy(): void {
@@ -52,7 +44,7 @@ export class RemoveMaterialComponent implements OnInit, OnDestroy {
     return this.form.get('materialId') as FormControl;
   }
 
-  getMaterialInfo($event): void {
+  getMaterialInfo($event: any): void {
     const value = $event.target.value;
 
     if (this.materialIdCtrl.valid && value) {

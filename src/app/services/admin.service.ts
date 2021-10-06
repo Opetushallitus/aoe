@@ -10,22 +10,20 @@ import { RemoveMaterialResponse } from '@models/admin/remove-material-response';
 import { MaterialInfoResponse } from '@models/admin/material-info-response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminService {
   public users$ = new Subject<AoeUser[]>();
   public materialInfo$ = new Subject<MaterialInfoResponse>();
 
-  constructor(
-    private http: HttpClient,
-  ) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Handles errors.
-   * @param {HttpErrorResponse} error
+   * @param {HttpErrorResponse} _error
    * @private
    */
-  private handleError(error: HttpErrorResponse) {
+  private handleError(_error: HttpErrorResponse): Observable<never> {
     return throwError('Something bad happened; please try again later.');
   }
 
@@ -33,16 +31,12 @@ export class AdminService {
    * Checks if user has admin privileges.
    */
   getAdminStatus(): Observable<HttpResponse<string>> {
-    return this.http.post(
-      `${environment.backendUrl}/userinfo`,
-      null,
-      {
+    return this.http
+      .post(`${environment.backendUrl}/userinfo`, null, {
         observe: 'response',
         responseType: 'text',
-      },
-    ).pipe(
-      catchError(this.handleError),
-    );
+      })
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -55,7 +49,7 @@ export class AdminService {
         .map((user: AoeUser) => {
           return {
             ...user,
-            fullName: `${user.firstname} ${user.lastname}`
+            fullName: `${user.firstname} ${user.lastname}`,
           };
         });
 
@@ -69,26 +63,17 @@ export class AdminService {
    * @returns {Observable<ChangeOwnerResponse>}
    */
   changeMaterialOwner(payload: ChangeOwnerPost): Observable<ChangeOwnerResponse> {
-    return this.http.post<ChangeOwnerResponse>(
-      `${environment.backendUrl}/changeUser`,
-      payload,
-    ).pipe(
-      catchError(this.handleError),
-    );
+    return this.http.post<ChangeOwnerResponse>(`${environment.backendUrl}/changeUser`, payload).pipe(catchError(this.handleError));
   }
 
   removeMaterial(materialId: string): Observable<RemoveMaterialResponse> {
-    return this.http.delete<RemoveMaterialResponse>(
-      `${environment.backendUrl}/removeMaterial/${materialId}`,
-    ).pipe(
-      catchError(this.handleError),
-    );
+    return this.http
+      .delete<RemoveMaterialResponse>(`${environment.backendUrl}/removeMaterial/${materialId}`)
+      .pipe(catchError(this.handleError));
   }
 
   updateMaterialInfo(materialId: string): void {
-    this.http.get<MaterialInfoResponse>(
-      `${environment.backendUrl}/names/${materialId}`,
-    ).subscribe(
+    this.http.get<MaterialInfoResponse>(`${environment.backendUrl}/names/${materialId}`).subscribe(
       (response: MaterialInfoResponse) => this.materialInfo$.next(response),
       () => this.materialInfo$.next(null),
     );
