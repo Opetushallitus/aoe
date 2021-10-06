@@ -30,7 +30,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
       externals: this.fb.array([]),
     });
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.translate.onLangChange.subscribe((_event: LangChangeEvent) => {
       this.setTitle();
     });
 
@@ -64,10 +64,10 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Patches external refenreces array.
+   * Patches external references array.
    * @param externals
    */
-  patchExternals(externals): void {
+  patchExternals(externals: any): void {
     externals.forEach((external) => this.externalsArray.push(this.createExternal(external)));
   }
 
@@ -76,7 +76,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
    * @param external
    * @returns {FormGroup}
    */
-  createExternal(external?): FormGroup {
+  createExternal(external?: any): FormGroup {
     return this.fb.group({
       author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
       url: this.fb.control(external ? external.url : null, [

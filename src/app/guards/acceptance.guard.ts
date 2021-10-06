@@ -13,13 +13,13 @@ export class AcceptanceGuard implements CanActivate {
 
   /**
    * Checks if logged in user has accepted terms of use.
-   * @param {ActivatedRouteSnapshot} next
-   * @param {RouterStateSnapshot} state
+   * @param {ActivatedRouteSnapshot} _next
+   * @param {RouterStateSnapshot} _state
    * @returns {Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree}
    */
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _next: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const user: Userdata = this.authSvc.getUserdata();
 

@@ -102,7 +102,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     private titleSvc: Title,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -685,7 +685,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('higherEducationFramework') as FormControl;
   }
 
-  educationalLevelsChange(value): void {
+  educationalLevelsChange(value: any): void {
     this.hasEarlyChildhoodEducation = value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = value.filter((e: any) => educationalLevelKeys.prePrimary.includes(e.key)).length > 0;
@@ -705,7 +705,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.hasHigherEducation = value.filter((e: any) => educationalLevelKeys.higherEducation.includes(e.key)).length > 0;
   }
 
-  basicStudySubjectsChange(value): void {
+  basicStudySubjectsChange(value: AlignmentObjectExtended[]): void {
     this.hasBasicStudySubjects = value.length > 0;
 
     if (this.hasBasicStudySubjects) {
@@ -716,7 +716,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  upperSecondarySchoolSubjectsOldChange(value): void {
+  upperSecondarySchoolSubjectsOldChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsOld) {
@@ -726,7 +726,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  upperSecondarySchoolSubjectsNewChange(value): void {
+  upperSecondarySchoolSubjectsNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsNew) {
@@ -736,7 +736,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  upperSecondarySchoolModulesNewChange(value): void {
+  upperSecondarySchoolModulesNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolModulesNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolModulesNew) {
@@ -762,7 +762,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  vocationalUnitsChange(value): void {
+  vocationalUnitsChange(value: AlignmentObjectExtended[]): void {
     this.hasVocationalUnits = value.length > 0;
 
     if (this.hasVocationalUnits) {
@@ -772,7 +772,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -998,7 +998,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset submit status
     this.submitted = false;
 
@@ -1012,7 +1012,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }

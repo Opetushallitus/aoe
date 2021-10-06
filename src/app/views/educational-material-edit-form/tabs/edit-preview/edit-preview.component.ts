@@ -128,7 +128,7 @@ export class EditPreviewComponent implements OnInit {
    * Moves item in array.
    * @param {CdkDragDrop<any>} event
    */
-  drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>): void {
     moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
   }
 

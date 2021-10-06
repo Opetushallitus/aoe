@@ -54,7 +54,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     private authSvc: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.form = this.fb.group({
@@ -166,12 +166,12 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  addSubtitle(i): void {
+  addSubtitle(i: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.push(this.createSubtitle());
   }
 
-  removeSubtitle(i, j): void {
+  removeSubtitle(i: number, j: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.removeAt(j);
   }
@@ -180,7 +180,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
-  onFileChange(event, i): void {
+  onFileChange(event: any, i: number): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -202,7 +202,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubtitleChange(event, i, j): void {
+  onSubtitleChange(event: any, i: number, j: number): void {
     if (event.target.files.length > 0) {
       const subtitle = event.target.files[0];
       const subtitles = <FormArray>this.files.at(i).get('subtitles');
@@ -224,7 +224,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateDefaultSubtitle(event, i, j): void {
+  updateDefaultSubtitle(_event: any, i: number, j: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl, x) => {
@@ -273,7 +273,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  uploadFiles() {
+  uploadFiles(): void {
     const nth = this.uploadedFiles ? this.uploadedFiles.length - 1 : 0;
 
     this.files.value.forEach((file, i) => {

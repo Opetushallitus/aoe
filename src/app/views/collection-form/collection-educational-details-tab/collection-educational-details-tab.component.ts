@@ -98,7 +98,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   ngOnInit(): void {
     this.setTitle();
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.translate.onLangChange.subscribe((_event: LangChangeEvent) => {
       this.setTitle();
 
       this.koodistoSvc.updateEducationalLevels();
@@ -437,7 +437,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
    * value. Updates upper secondary school courses based on selected subjects.
    * @param value
    */
-  upperSecondarySchoolSubjectsOldChange(value): void {
+  upperSecondarySchoolSubjectsOldChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsOld) {
@@ -498,7 +498,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
    * vocational education requirements based on selected units.
    * @param value
    */
-  vocationalUnitsChange(value): void {
+  vocationalUnitsChange(value: AlignmentObjectExtended[]): void {
     this.hasVocationalUnits = value.length > 0;
 
     if (this.hasVocationalUnits) {

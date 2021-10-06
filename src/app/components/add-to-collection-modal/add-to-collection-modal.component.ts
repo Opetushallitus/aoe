@@ -72,7 +72,7 @@ export class AddToCollectionModalComponent implements OnInit, OnDestroy {
     return this.newCollectionForm.get('name') as FormControl;
   }
 
-  onCollectionIdChange($event, collectionId: string): void {
+  onCollectionIdChange($event: any, collectionId: string): void {
     if ($event.target.checked) {
       this.selectedCollections.push(+collectionId);
     } else {

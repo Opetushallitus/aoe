@@ -61,7 +61,7 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
    * @param {string} term
    * @param {AoeUser} user
    */
-  userSearch(term: string, user: AoeUser) {
+  userSearch(term: string, user: AoeUser): boolean {
     term = term.toLowerCase();
 
     return (
@@ -72,7 +72,7 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
     );
   }
 
-  getMaterialInfo($event): void {
+  getMaterialInfo($event: any): void {
     const value = $event.target.value;
 
     if (this.materialIdCtrl.valid && value) {

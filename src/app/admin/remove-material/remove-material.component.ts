@@ -44,7 +44,7 @@ export class RemoveMaterialComponent implements OnInit, OnDestroy {
     return this.form.get('materialId') as FormControl;
   }
 
-  getMaterialInfo($event): void {
+  getMaterialInfo($event: any): void {
     const value = $event.target.value;
 
     if (this.materialIdCtrl.valid && value) {

@@ -74,7 +74,7 @@ export class PreviewComponent implements OnInit {
     private titleSvc: Title,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -286,7 +286,7 @@ export class PreviewComponent implements OnInit {
     });
   }
 
-  drop(event: CdkDragDrop<UploadedFile[]>) {
+  drop(event: CdkDragDrop<UploadedFile[]>): void {
     moveItemInArray(this.uploadedFiles, event.previousIndex, event.currentIndex);
   }
 
@@ -342,7 +342,7 @@ export class PreviewComponent implements OnInit {
     return this.form.get('hasLicense').value;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
       this.canDeactivate = true;
 
@@ -372,7 +372,7 @@ export class PreviewComponent implements OnInit {
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -383,7 +383,7 @@ export class PreviewComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 6]);
   }
 }

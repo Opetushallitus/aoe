@@ -187,7 +187,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.thumbnailModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
-  imageChange(event): void {
+  imageChange(event: any): void {
     this.imageChangedEvent = event;
   }
 
@@ -231,7 +231,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * Patches authors array.
    * @param authors
    */
-  patchAuthors(authors): void {
+  patchAuthors(authors: any): void {
     authors.forEach((author) => {
       if (author.author) {
         this.authorsArray.push(this.createAuthor(author));
@@ -254,7 +254,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * @param author
    * @returns {FormGroup}
    */
-  createAuthor(author?): FormGroup {
+  createAuthor(author?: any): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
@@ -269,7 +269,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * @param organization
    * @returns {FormGroup}
    */
-  createOrganization(organization?): FormGroup {
+  createOrganization(organization?: any): FormGroup {
     return this.fb.group({
       organization: this.fb.control(organization ? organization.organization : null),
     });

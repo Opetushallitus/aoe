@@ -13,7 +13,7 @@ export class CookieService {
    * Set cookie settings.
    * @param values
    */
-  setCookieSettings(values): void {
+  setCookieSettings(values: any): void {
     const cookieSettings: CookieSettings = {
       aoe: true,
       googleAnalytics: values.googleAnalytics,

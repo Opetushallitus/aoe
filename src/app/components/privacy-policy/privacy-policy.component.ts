@@ -10,7 +10,7 @@ export class PrivacyPolicyComponent implements OnInit {
 
   constructor(private translate: TranslateService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });

@@ -45,8 +45,8 @@
         <div class="rating" *ngFor="let rating of ratings.ratings">
           <div class="row justify-content-between mb-4">
             <div class="col-auto">
-              <time [attr.datetime]="rating.updatedAt | date:'yyyy-MM-dd HH:mm'" class="date">
-                {{ rating.updatedAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="rating.updatedAt | date: 'yyyy-MM-dd HH:mm'" class="date">
+                {{ rating.updatedAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </div>
 

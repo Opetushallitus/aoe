@@ -156,7 +156,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * Moves item in array.
    * @param {CdkDragDrop<any>} event
    */
-  drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>): void {
     moveItemInArray(this.materialsAndHeadingsArray.controls, event.previousIndex, event.currentIndex);
     moveItemInArray(this.materialsAndHeadingsArray.value, event.previousIndex, event.currentIndex);
   }

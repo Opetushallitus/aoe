@@ -186,7 +186,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.imageChangedEvent = event;
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event;
   }
 
@@ -194,7 +194,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.otherLangs = this.translate.getLangs().filter((lang) => lang !== this.lang);
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(template: TemplateRef<any>): void {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
@@ -226,7 +226,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('description') as FormGroup;
   }
 
-  createAuthor(author?): FormGroup {
+  createAuthor(author?: any): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
@@ -236,7 +236,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  createOrganization(organization?): FormGroup {
+  createOrganization(organization?: any): FormGroup {
     return this.fb.group({
       organization: this.fb.control(organization ? organization.organization : null),
     });
@@ -254,7 +254,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.authors.removeAt(i);
   }
 
-  uploadImage() {
+  uploadImage(): void {
     if (this.croppedImage.base64) {
       this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
         (res) => {
@@ -274,7 +274,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -301,7 +301,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -312,7 +312,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }

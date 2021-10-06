@@ -21,7 +21,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private translate: TranslateService, private fb: FormBuilder, private router: Router, private titleSvc: Title) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -61,11 +61,11 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*get internals() {
+  /*get internals(): FormArray {
     return this.form.get('internals') as FormArray;
   }*/
 
-  get externals() {
+  get externals(): FormArray {
     return this.form.get('externals') as FormArray;
   }
 
@@ -76,7 +76,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     });
   }*/
 
-  createExternal(external?): FormGroup {
+  createExternal(external?: any): FormGroup {
     return this.fb.group({
       author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
       url: this.fb.control(external ? external.url : null, [
@@ -120,7 +120,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     this.validateExternals();
@@ -149,7 +149,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  resetForm(): void {
     // reset submit status
     this.submitted = false;
 
@@ -163,7 +163,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }

@@ -1,5 +1,7 @@
 <article class="search-result">
-  <h1><a [routerLink]="['/kokoelma', result.id]" class="text-reset">{{ result.name }}</a></h1>
+  <h1>
+    <a [routerLink]="['/kokoelma', result.id]" class="text-reset">{{ result.name }}</a>
+  </h1>
 
   <div class="row">
     <div class="col-3 col-md-2">
@@ -23,7 +25,7 @@
     <div class="col-12 col-md-4 text-md-right">
       <ul class="nav justify-content-md-end">
         <li class="nav-item">
-          <a [routerLink]="[ '/kokoelma', result.id ]" class="nav-link">
+          <a [routerLink]="['/kokoelma', result.id]" class="nav-link">
             <i class="fa fa-fw fa-folder-o text-dark" aria-hidden="true"></i>
             {{ 'search.results.open' | translate }}
           </a>

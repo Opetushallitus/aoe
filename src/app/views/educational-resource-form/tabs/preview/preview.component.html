@@ -553,7 +553,7 @@
   <app-preview-row
     *ngIf="savedData?.expires"
     [title]="'forms.educationalResource.extendedDetails.expires.label' | translate"
-    [item]="savedData.expires | date:'d.M.yyyy'"
+    [item]="savedData.expires | date: 'd.M.yyyy'"
   ></app-preview-row>
 
   <app-preview-row
@@ -586,7 +586,9 @@
             </dd>
 
             <dt class="col-sm-3">{{ 'forms.educationalResource.basedOnDetails.externals.inputs.link.label' | translate }}</dt>
-            <dd class="col-sm-9"><a [href]="external.url" target="_blank" rel="noopener">{{ external.url }}</a></dd>
+            <dd class="col-sm-9">
+              <a [href]="external.url" target="_blank" rel="noopener">{{ external.url }}</a>
+            </dd>
           </dl>
         </dd>
       </ng-container>

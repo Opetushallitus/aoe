@@ -16,7 +16,7 @@ export class PdfPreviewComponent implements OnInit, OnChanges {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(_changes: SimpleChanges): void {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
     this.pdfViewer.pdfSrc = `${environment.backendUrl}/download/${this.material.filekey}`;
     this.pdfViewer.refresh();

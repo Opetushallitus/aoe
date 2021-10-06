@@ -3,7 +3,7 @@
 
   <p>{{ 'forms.educationalResource.basedOnDetails.addNew.tooltip' | translate }}</p>
 
-  <div formArrayName="externals" *ngFor="let external of externalsArray.controls; let i = index;">
+  <div formArrayName="externals" *ngFor="let external of externalsArray.controls; let i = index">
     <div class="form-row" [formGroupName]="i">
       <div class="form-group col-md">
         <label [for]="'authorExt-' + i"> {{ 'forms.educationalResource.basedOnDetails.externals.inputs.author.label' | translate }} </label>
@@ -42,7 +42,9 @@
           id="{{ 'url-' + i }}"
           class="form-control"
           formControlName="url"
-          [ngClass]="{ 'is-invalid': external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted) }"
+          [ngClass]="{
+            'is-invalid': external.get('url').invalid && (external.get('url').dirty || external.get('url').touched || submitted)
+          }"
         />
 
         <div
@@ -54,7 +56,7 @@
           <div *ngIf="external.get('url').errors.pattern">{{ 'forms.common.pattern.url' | translate }}</div>
 
           <div *ngIf="external.get('url').errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: external.get('url').errors.maxlength.requiredLength } }}
+            {{ 'forms.errors.common.maxLength' | translate: { maxLength: external.get('url').errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
@@ -67,7 +69,9 @@
           id="{{ 'name-' + i }}"
           class="form-control"
           formControlName="name"
-          [ngClass]="{ 'is-invalid': external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted) }"
+          [ngClass]="{
+            'is-invalid': external.get('name').invalid && (external.get('name').dirty || external.get('name').touched || submitted)
+          }"
         />
 
         <div
@@ -79,7 +83,7 @@
           <div *ngIf="external.get('name').errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
           <div *ngIf="external.get('name').errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: external.get('name').errors.maxlength.requiredLength } }}
+            {{ 'forms.errors.common.maxLength' | translate: { maxLength: external.get('name').errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
