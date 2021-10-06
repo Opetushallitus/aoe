@@ -5,7 +5,11 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
-import { UpdateCollectionPut, UpdateCollectionPutHeading, UpdateCollectionPutMaterial } from '@models/collections/update-collection-put';
+import {
+  UpdateCollectionPut,
+  UpdateCollectionPutHeading,
+  UpdateCollectionPutMaterial,
+} from '@models/collections/update-collection-put';
 import { CollectionService } from '@services/collection.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 
@@ -317,7 +321,9 @@ export class CollectionPreviewTabComponent implements OnInit {
         this.previewCollection,
       );
 
-      this.collectionSvc.updateCollectionDetails(updatedCollection).subscribe(() => this.router.navigate(['/kokoelma', this.collectionId]));
+      this.collectionSvc
+        .updateCollectionDetails(updatedCollection)
+        .subscribe(() => this.router.navigate(['/kokoelma', this.collectionId]));
     }
   }
 

@@ -30,7 +30,10 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
     this.adminSvc.updateUsers();
 
     this.form = this.fb.group({
-      materialId: this.fb.control(null, [Validators.required, Validators.pattern(validatorParams.common.pattern.numeric)]),
+      materialId: this.fb.control(null, [
+        Validators.required,
+        Validators.pattern(validatorParams.common.pattern.numeric),
+      ]),
       userId: this.fb.control(null, [Validators.required]),
     });
 

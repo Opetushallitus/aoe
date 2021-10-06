@@ -8,6 +8,7 @@ import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { License } from '@models/koodisto-proxy/license';
 import { Title } from '@angular/platform-browser';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-license',
@@ -70,7 +71,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.license} ${environment.title}`);
     });
   }

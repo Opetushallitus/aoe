@@ -27,9 +27,11 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.recentCollectionSubscription = this.collectionSvc.recentCollections$.subscribe((collections: CollectionCard[]) => {
-      this.recentCollections = collections;
-    });
+    this.recentCollectionSubscription = this.collectionSvc.recentCollections$.subscribe(
+      (collections: CollectionCard[]) => {
+        this.recentCollections = collections;
+      },
+    );
     this.collectionSvc.updateRecentCollections();
   }
 

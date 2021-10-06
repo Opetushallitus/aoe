@@ -43,18 +43,20 @@ export class AdminService {
    * Updates list of aoe users.
    */
   updateUsers(): void {
-    this.http.get<AoeUsersResponse>(`${environment.backendUrl}/aoeUsers`).subscribe((usersResponse: AoeUsersResponse) => {
-      const users = usersResponse.users
-        .sort((a: AoeUser, b: AoeUser) => +a.id - +b.id)
-        .map((user: AoeUser) => {
-          return {
-            ...user,
-            fullName: `${user.firstname} ${user.lastname}`,
-          };
-        });
+    this.http
+      .get<AoeUsersResponse>(`${environment.backendUrl}/aoeUsers`)
+      .subscribe((usersResponse: AoeUsersResponse) => {
+        const users = usersResponse.users
+          .sort((a: AoeUser, b: AoeUser) => +a.id - +b.id)
+          .map((user: AoeUser) => {
+            return {
+              ...user,
+              fullName: `${user.firstname} ${user.lastname}`,
+            };
+          });
 
-      this.users$.next(users);
-    });
+        this.users$.next(users);
+      });
   }
 
   /**
@@ -63,7 +65,9 @@ export class AdminService {
    * @returns {Observable<ChangeOwnerResponse>}
    */
   changeMaterialOwner(payload: ChangeOwnerPost): Observable<ChangeOwnerResponse> {
-    return this.http.post<ChangeOwnerResponse>(`${environment.backendUrl}/changeUser`, payload).pipe(catchError(this.handleError));
+    return this.http
+      .post<ChangeOwnerResponse>(`${environment.backendUrl}/changeUser`, payload)
+      .pipe(catchError(this.handleError));
   }
 
   removeMaterial(materialId: string): Observable<RemoveMaterialResponse> {

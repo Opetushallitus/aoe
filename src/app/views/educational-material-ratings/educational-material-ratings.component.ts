@@ -30,7 +30,9 @@ export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
 
     this.materialId = this.route.snapshot.paramMap.get('materialId');
 
-    this.ratingSubscription = this.ratingsSvc.getRatings(this.materialId).subscribe((ratings: Ratings) => (this.ratings = ratings));
+    this.ratingSubscription = this.ratingsSvc
+      .getRatings(this.materialId)
+      .subscribe((ratings: Ratings) => (this.ratings = ratings));
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;

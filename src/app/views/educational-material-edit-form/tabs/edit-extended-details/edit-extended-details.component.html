@@ -51,7 +51,9 @@
     <!--/accessibility hazards-->
 
     <div class="form-group col-sm-6 col-md-4">
-      <span class="group-label"> {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }} </span>
+      <span class="group-label">
+        {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}
+      </span>
 
       <button
         type="button"
@@ -74,12 +76,17 @@
             formControlName="typicalAgeRangeMin"
             inputmode="numeric"
             [ngClass]="{
-              'is-invalid': typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+              'is-invalid':
+                typicalAgeRangeMinCtrl.invalid &&
+                (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
             }"
           />
 
           <div
-            *ngIf="typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)"
+            *ngIf="
+              typicalAgeRangeMinCtrl.invalid &&
+              (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+            "
             class="invalid-feedback"
           >
             <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
@@ -87,7 +94,10 @@
             <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
-              {{ 'forms.errors.common.maxLength' | translate: { maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength } }}
+              {{
+                'forms.errors.common.maxLength'
+                  | translate: { maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength }
+              }}
             </div>
           </div>
         </div>
@@ -106,12 +116,17 @@
             formControlName="typicalAgeRangeMax"
             inputmode="numeric"
             [ngClass]="{
-              'is-invalid': typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+              'is-invalid':
+                typicalAgeRangeMaxCtrl.invalid &&
+                (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
             }"
           />
 
           <div
-            *ngIf="typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)"
+            *ngIf="
+              typicalAgeRangeMaxCtrl.invalid &&
+              (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+            "
             class="invalid-feedback"
           >
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
@@ -119,7 +134,10 @@
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
-              {{ 'forms.errors.common.maxLength' | translate: { maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength } }}
+              {{
+                'forms.errors.common.maxLength'
+                  | translate: { maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength }
+              }}
             </div>
           </div>
         </div>
@@ -128,9 +146,15 @@
     <!--/typical age range-->
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="timeRequired"> {{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }} </label>
+      <label for="timeRequired">
+        {{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}
+      </label>
 
-      <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.extendedDetails.timeRequired.tooltip' | translate">
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.timeRequired.tooltip' | translate"
+      >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
 
@@ -139,14 +163,23 @@
         class="form-control"
         id="timeRequired"
         formControlName="timeRequired"
-        [ngClass]="{ 'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted) }"
+        [ngClass]="{
+          'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)
+        }"
       />
 
-      <div *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)" class="invalid-feedback">
-        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+      <div
+        *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)"
+        class="invalid-feedback"
+      >
+        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
 
         <div *ngIf="timeRequiredCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength } }}
+          {{
+            'forms.errors.common.maxLength' | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength }
+          }}
         </div>
       </div>
     </div>
@@ -155,7 +188,11 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="publisher"> {{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }} </label>
 
-      <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate">
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate"
+      >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
 
@@ -170,14 +207,20 @@
         aria-describedby="publisher-help"
       ></ng-select>
 
-      <small id="publisher-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="publisher-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
     <!--/publisher-->
 
     <div class="form-group col-sm-6 col-md-4">
       <label for="expires"> {{ 'forms.educationalResource.extendedDetails.expires.label' | translate }} </label>
 
-      <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.extendedDetails.expires.tooltip' | translate">
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.expires.tooltip' | translate"
+      >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
 
@@ -193,9 +236,15 @@
     <!--/expires-->
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="prerequisites"> {{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }} </label>
+      <label for="prerequisites">
+        {{ 'forms.educationalResource.extendedDetails.prerequisites.label' | translate }}
+      </label>
 
-      <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.extendedDetails.prerequisites.tooltip' | translate">
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.prerequisites.tooltip' | translate"
+      >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
 
@@ -210,7 +259,9 @@
         aria-describedby="prerequisites-help"
       ></ng-select>
 
-      <small id="prerequisites-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="prerequisites-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
     <!--/prerequisites-->
   </div>

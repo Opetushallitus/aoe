@@ -15,7 +15,11 @@ export class AccessibilityViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   accessibilityTable: AccessibilityTable = Accessibility;
 
-  constructor(private koodistoSvc: KoodistoProxyService, private titleSvc: Title, private translate: TranslateService) {}
+  constructor(
+    private koodistoSvc: KoodistoProxyService,
+    private titleSvc: Title,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();

@@ -19,6 +19,7 @@ import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Material } from '@models/material';
 import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
+import { UploadImageBody } from '@models/material/upload-image-body';
 
 @Injectable({
   providedIn: 'root',
@@ -188,7 +189,8 @@ export class MaterialService {
 
           // early childhood
           const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = alignmentObjects.filter(
-            (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects,
+            (alignmentObject: AlignmentObjectExtended) =>
+              alignmentObject.source === koodistoSources.earlyChildhoodSubjects,
           );
 
           // pre-primary
@@ -203,12 +205,14 @@ export class MaterialService {
 
           // old upper-secondary education
           const upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[] = alignmentObjects.filter(
-            (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld,
+            (alignmentObject: AlignmentObjectExtended) =>
+              alignmentObject.source === koodistoSources.upperSecondarySubjectsOld,
           );
 
           // new upper-secondary education
           const upperSecondarySchoolSubjectsNew: AlignmentObjectExtended[] = alignmentObjects.filter(
-            (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew,
+            (alignmentObject: AlignmentObjectExtended) =>
+              alignmentObject.source === koodistoSources.upperSecondarySubjectsNew,
           );
 
           // vocational education
@@ -245,12 +249,18 @@ export class MaterialService {
             publisher: material.publisher.map((publisher) => publisher.name),
             license: material.license,
             keywords: material.keywords.map(({ keywordkey, value }) => ({ keywordkey, value })),
-            educationalLevels: material.educationalLevels.map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
+            educationalLevels: material.educationalLevels.map(({ educationallevelkey, value }) => ({
+              educationallevelkey,
+              value,
+            })),
             educationalRoles: material.educationalRoles.map(({ educationalrolekey, educationalrole }) => ({
               educationalrolekey,
               educationalrole,
             })),
-            educationalUses: material.educationalUses.map(({ educationalusekey, value }) => ({ educationalusekey, value })),
+            educationalUses: material.educationalUses.map(({ educationalusekey, value }) => ({
+              educationalusekey,
+              value,
+            })),
             accessibilityFeatures: material.accessibilityFeatures.map(({ accessibilityfeaturekey, value }) => ({
               accessibilityfeaturekey,
               value,
@@ -262,22 +272,26 @@ export class MaterialService {
             earlyChildhoodEducationSubjects: earlyChildhoodEducationSubjects,
             earlyChildhoodEducationFrameworks: getUniqueFrameworks(earlyChildhoodEducationSubjects),
             earlyChildhoodEducationObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.earlyChildhoodObjectives,
             ),
             suitsAllEarlyChildhoodSubjects: material.suitsAllEarlyChildhoodSubjects,
             prePrimaryEducationSubjects: prePrimaryEducationSubjects,
             prePrimaryEducationFrameworks: getUniqueFrameworks(prePrimaryEducationSubjects),
             prePrimaryEducationObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.prePrimaryObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.prePrimaryObjectives,
             ),
             suitsAllPrePrimarySubjects: material.suitsAllPrePrimarySubjects,
             basicStudySubjects: basicStudySubjects,
             basicStudyFrameworks: getUniqueFrameworks(basicStudySubjects),
             basicStudyObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.basicStudyObjectives,
             ),
             basicStudyContents: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.basicStudyContents,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.basicStudyContents,
             ),
             suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
             upperSecondarySchoolSubjectsOld: upperSecondarySchoolSubjectsOld,
@@ -288,19 +302,23 @@ export class MaterialService {
                 alignmentObject.source === koodistoSources.upperSecondarySubjects,
             ),
             upperSecondarySchoolObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.upperSecondaryObjectives,
             ),
             suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
             upperSecondarySchoolSubjectsNew: upperSecondarySchoolSubjectsNew,
             upperSecondarySchoolFrameworksNew: getUniqueFrameworks(upperSecondarySchoolSubjectsNew),
             upperSecondarySchoolModulesNew: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryModulesNew,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.upperSecondaryModulesNew,
             ),
             upperSecondarySchoolObjectivesNew: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew,
             ),
             upperSecondarySchoolContentsNew: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.upperSecondaryContentsNew,
             ),
             suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
             vocationalDegrees: vocationalDegrees,
@@ -309,20 +327,24 @@ export class MaterialService {
               (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits,
             ),
             vocationalRequirements: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalRequirements,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.vocationalRequirements,
             ),
             suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
             selfMotivatedEducationSubjects: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedSubjects,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.selfMotivatedSubjects,
             ),
             selfMotivatedEducationObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.selfMotivatedObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.selfMotivatedObjectives,
             ),
             suitsAllSelfMotivatedSubjects: material.suitsAllSelfMotivatedSubjects,
             branchesOfScience: scienceBranches,
             higherEducationFrameworks: getUniqueFrameworks(scienceBranches),
             scienceBranchObjectives: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.scienceBranchObjectives,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.scienceBranchObjectives,
             ),
             suitsAllBranches: material.suitsAllBranches,
             prerequisites: alignmentObjects.filter(
@@ -392,7 +414,10 @@ export class MaterialService {
                 : null,
             license: material.license,
             keywords: material.keywords.map(({ keywordkey, value }) => ({ keywordkey, value })),
-            educationalLevels: material.educationalLevels.map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
+            educationalLevels: material.educationalLevels.map(({ educationallevelkey, value }) => ({
+              educationallevelkey,
+              value,
+            })),
             publishedAt: material.publishedat,
             expires: material.expires,
             viewCounter: material.viewcounter,
@@ -454,7 +479,10 @@ export class MaterialService {
                     : null,
                 license: r.license,
                 keywords: r.keywords.map(({ keywordkey, value }) => ({ keywordkey, value })),
-                educationalLevels: r.educationalLevels.map(({ educationallevelkey, value }) => ({ educationallevelkey, value })),
+                educationalLevels: r.educationalLevels.map(({ educationallevelkey, value }) => ({
+                  educationallevelkey,
+                  value,
+                })),
               };
             });
         }),
@@ -469,26 +497,19 @@ export class MaterialService {
    * @returns {Observable<UploadMessage>} Upload message
    */
   uploadImage(base64Image: string, materialId?: number): Observable<UploadMessage> {
-    const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
+    const body: UploadImageBody = { base64image: base64Image };
+    materialId = materialId ?? JSON.parse(sessionStorage.getItem(this.localStorageKey))?.id ?? null;
 
-    if (fileUpload !== null || materialId) {
-      if (fileUpload) {
-        materialId = fileUpload.id;
-      }
-
+    if (materialId) {
       return this.http
-        .post<{ base64image: string }>(
-          `${this.backendUrl}/uploadBase64Image/${materialId}`,
-          { base64image: base64Image },
-          {
-            headers: new HttpHeaders({
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            }),
-            reportProgress: true,
-            observe: 'events',
-          },
-        )
+        .post<UploadImageBody>(`${this.backendUrl}/uploadBase64Image/${materialId}`, body, {
+          headers: new HttpHeaders({
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          }),
+          reportProgress: true,
+          observe: 'events',
+        })
         .pipe(
           map((event: HttpEvent<any>) => {
             switch (event.type) {
@@ -565,7 +586,9 @@ export class MaterialService {
               priority: file.priority,
               mimeType: file.mimetype,
               subtitles: material.attachments
-                .filter((attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles')
+                .filter(
+                  (attachment: Attachment) => attachment.materialid === file.id && attachment.kind === 'subtitles',
+                )
                 .map((subtitle: Attachment) => ({
                   id: +subtitle.id,
                   fileId: subtitle.materialid,
@@ -653,7 +676,8 @@ export class MaterialService {
             // eslint-disable-next-line max-len
             .filter(
               (alignment) =>
-                alignment.source === koodistoSources.vocationalRequirements || alignment.source === koodistoSources.vocationalObjectives,
+                alignment.source === koodistoSources.vocationalRequirements ||
+                alignment.source === koodistoSources.vocationalObjectives,
             )
             .map((alignment) => ({
               key: alignment.objectkey,
@@ -859,7 +883,9 @@ export class MaterialService {
               })),
             vocationalRequirements: vocationalRequirements,
             vocationalEducationFramework:
-              vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework ? vocationalDegrees[0].educationalFramework : null,
+              vocationalDegrees.length > 0 && vocationalDegrees[0].educationalFramework
+                ? vocationalDegrees[0].educationalFramework
+                : null,
             furtherVocationalQualifications: material.educationalAlignment
               .filter((alignment) => alignment.source === koodistoSources.furtherVocationalQualifications)
               .map((alignment) => ({
@@ -914,7 +940,9 @@ export class MaterialService {
                 targetUrl: alignment.targeturl,
               })),
             higherEducationFramework:
-              branchesOfScience.length > 0 && branchesOfScience[0].educationalFramework ? branchesOfScience[0].educationalFramework : null,
+              branchesOfScience.length > 0 && branchesOfScience[0].educationalFramework
+                ? branchesOfScience[0].educationalFramework
+                : null,
             accessibilityFeatures: material.accessibilityFeatures.map((feature) => ({
               key: feature.accessibilityfeaturekey,
               value: feature.value,
@@ -962,7 +990,9 @@ export class MaterialService {
     if (sessionStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      return this.http.delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`).pipe(catchError(MaterialService.handleError));
+      return this.http
+        .delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
+        .pipe(catchError(MaterialService.handleError));
     }
   }
 
@@ -971,7 +1001,9 @@ export class MaterialService {
    * @param {number} attachmentId
    */
   deleteAttachment(attachmentId: number): Observable<any> {
-    return this.http.delete(`${this.backendUrl}/material/attachment/${attachmentId}`).pipe(catchError(MaterialService.handleError));
+    return this.http
+      .delete(`${this.backendUrl}/material/attachment/${attachmentId}`)
+      .pipe(catchError(MaterialService.handleError));
   }
 
   uploadFile(payload: FormData, materialId: number): Observable<UploadMessage> {

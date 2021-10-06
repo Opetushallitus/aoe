@@ -1,5 +1,9 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { CollectionForm, CollectionFormMaterial, CollectionFormMaterialAndHeading } from '@models/collections/collection-form';
+import {
+  CollectionForm,
+  CollectionFormMaterial,
+  CollectionFormMaterialAndHeading,
+} from '@models/collections/collection-form';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -171,7 +175,9 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
         const headingCtrl = ctrl.get('heading');
 
         if (headingCtrl.value === '' || headingCtrl.value === null) {
-          this.materialsAndHeadingsArray.removeAt(this.materialsAndHeadingsArray.controls.findIndex((_ctrl) => _ctrl === ctrl));
+          this.materialsAndHeadingsArray.removeAt(
+            this.materialsAndHeadingsArray.controls.findIndex((_ctrl) => _ctrl === ctrl),
+          );
         }
       });
   }

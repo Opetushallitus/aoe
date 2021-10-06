@@ -41,7 +41,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -57,7 +59,9 @@
         aria-describedby="early-subjects-help"
       ></ng-select>
 
-      <small id="early-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="early-subjects-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
@@ -83,7 +87,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -99,7 +105,9 @@
         aria-describedby="early-objectives-help"
       ></ng-select>
 
-      <small id="early-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="early-objectives-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
@@ -110,7 +118,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -140,7 +150,8 @@
 
         <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
           {{
-            'forms.errors.common.maxLength' | translate: { maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength }
+            'forms.errors.common.maxLength'
+              | translate: { maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength }
           }}
         </div>
       </div>
@@ -158,7 +169,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -174,12 +187,19 @@
         aria-describedby="pre-subjects-help"
       ></ng-select>
 
-      <small id="pre-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="pre-subjects-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="suitsAllPrePrimarySubjects" formControlName="suitsAllPrePrimarySubjects" />
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="suitsAllPrePrimarySubjects"
+          formControlName="suitsAllPrePrimarySubjects"
+        />
 
         <label class="custom-control-label" for="suitsAllPrePrimarySubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -195,7 +215,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -211,7 +233,9 @@
         aria-describedby="pre-objectives-help"
       ></ng-select>
 
-      <small id="pre-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="pre-objectives-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
@@ -222,7 +246,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -246,10 +272,15 @@
         "
         class="invalid-feedback"
       >
-        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
 
         <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate: { maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+          {{
+            'forms.errors.common.maxLength'
+              | translate: { maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength }
+          }}
         </div>
       </div>
     </div> </ng-container
@@ -289,7 +320,12 @@
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="suitsAllBasicStudySubjects" formControlName="suitsAllBasicStudySubjects" />
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="suitsAllBasicStudySubjects"
+          formControlName="suitsAllBasicStudySubjects"
+        />
 
         <label class="custom-control-label" for="suitsAllBasicStudySubjects">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -316,18 +352,28 @@
           id="basicStudyFramework"
           formControlName="basicStudyFramework"
           [ngClass]="{
-            'is-invalid': basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)
+            'is-invalid':
+              basicStudyFrameworkCtrl.invalid &&
+              (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)
           }"
         />
 
         <div
-          *ngIf="basicStudyFrameworkCtrl.invalid && (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)"
+          *ngIf="
+            basicStudyFrameworkCtrl.invalid &&
+            (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)
+          "
           class="invalid-feedback"
         >
-          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
 
           <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate: { maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength } }}
+            {{
+              'forms.errors.common.maxLength'
+                | translate: { maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength }
+            }}
           </div>
         </div>
       </div>
@@ -392,7 +438,9 @@
         />
 
         <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
-          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}
+          {{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate
+          }}
         </label>
       </div>
 
@@ -411,17 +459,25 @@
     </div>
 
     <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
-      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</h4>
+      <h4>
+        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}
+      </h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsOld">
-          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
+          {{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label'
+              | translate
+          }}
         </label>
 
         <button
           type="button"
           class="btn btn-link"
-          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip' | translate"
+          [tooltip]="
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip'
+              | translate
+          "
         >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
@@ -441,10 +497,15 @@
       </div>
       <!--upperSecondarySubjectsOld-->
 
-      <ng-container *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0">
+      <ng-container
+        *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0"
+      >
         <div class="form-group">
           <label for="upperSecondarySchoolCoursesOld">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label' | translate }}
+            {{
+              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label'
+                | translate
+            }}
           </label>
 
           <ng-select
@@ -476,13 +537,19 @@
 
       <div class="form-group">
         <label for="upperSecondarySchoolObjectives">
-          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}
+          {{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label'
+              | translate
+          }}
         </label>
 
         <button
           type="button"
           class="btn btn-link"
-          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip' | translate"
+          [tooltip]="
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.tooltip'
+              | translate
+          "
         >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
@@ -501,13 +568,19 @@
 
       <div class="form-group">
         <label for="upperSecondarySchoolFramework">
-          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}
+          {{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label'
+              | translate
+          }}
         </label>
 
         <button
           type="button"
           class="btn btn-link"
-          [tooltip]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip' | translate"
+          [tooltip]="
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip'
+              | translate
+          "
         >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
@@ -537,7 +610,8 @@
 
           <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
             {{
-              'forms.errors.common.maxLength' | translate: { maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength }
+              'forms.errors.common.maxLength'
+                | translate: { maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength }
             }}
           </div>
         </div>
@@ -545,11 +619,16 @@
     ><!--/upper secondary school (current)-->
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
-      <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</h4>
+      <h4>
+        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}
+      </h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsNew">
-          {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}
+          {{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label'
+              | translate
+          }}
         </label>
 
         <ng-select
@@ -585,7 +664,10 @@
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
         <div class="form-group">
           <label for="upperSecondarySchoolModulesNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}
+            {{
+              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label'
+                | translate
+            }}
           </label>
 
           <ng-select
@@ -603,7 +685,10 @@
 
         <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
           <label for="upperSecondarySchoolObjectivesNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate }}*
+            {{
+              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label'
+                | translate
+            }}*
             <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
           </label>
 
@@ -621,7 +706,10 @@
 
         <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
           <label for="upperSecondarySchoolContentsNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate }}*
+            {{
+              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label'
+                | translate
+            }}*
             <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
           </label>
 
@@ -651,7 +739,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -670,7 +760,10 @@
 
     <div class="form-group">
       <label for="furtherVocationalQualifications">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate }}
+        {{
+          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label'
+            | translate
+        }}
       </label>
 
       <ng-select
@@ -686,7 +779,10 @@
 
     <div class="form-group">
       <label for="specialistVocationalQualifications">
-        {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate }}
+        {{
+          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label'
+            | translate
+        }}
       </label>
 
       <ng-select
@@ -702,7 +798,12 @@
 
     <div class="form-group">
       <div class="custom-control custom-checkbox">
-        <input type="checkbox" class="custom-control-input" id="suitsAllVocationalDegrees" formControlName="suitsAllVocationalDegrees" />
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          id="suitsAllVocationalDegrees"
+          formControlName="suitsAllVocationalDegrees"
+        />
 
         <label class="custom-control-label" for="suitsAllVocationalDegrees">
           {{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}
@@ -737,7 +838,9 @@
         <button
           type="button"
           class="btn btn-link"
-          [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate"
+          [tooltip]="
+            'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.tooltip' | translate
+          "
         >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
@@ -764,7 +867,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -788,10 +893,15 @@
         "
         class="invalid-feedback"
       >
-        <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+        <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
 
         <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate: { maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+          {{
+            'forms.errors.common.maxLength'
+              | translate: { maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength }
+          }}
         </div>
       </div>
     </div> </ng-container
@@ -808,7 +918,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -824,7 +936,9 @@
         aria-describedby="self-subjects-help"
       ></ng-select>
 
-      <small id="self-subjects-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="self-subjects-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
@@ -850,7 +964,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -866,7 +982,9 @@
         aria-describedby="self-objectives-help"
       ></ng-select>
 
-      <small id="self-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="self-objectives-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div> </ng-container
   ><!--/self-motivated competence development-->
 
@@ -881,7 +999,9 @@
       <button
         type="button"
         class="btn btn-link"
-        [tooltip]="'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.tooltip' | translate
+        "
       >
         <img src="assets/img/icons/ic_help.svg" alt="" />
       </button>
@@ -937,7 +1057,9 @@
         aria-describedby="higher-objectives-help"
       ></ng-select>
 
-      <small id="higher-objectives-help" class="form-text text-muted"> {{ 'forms.helpTexts.multipleItems' | translate }} </small>
+      <small id="higher-objectives-help" class="form-text text-muted">
+        {{ 'forms.helpTexts.multipleItems' | translate }}
+      </small>
     </div>
 
     <div class="form-group">
@@ -967,14 +1089,20 @@
 
       <div
         *ngIf="
-          higherEducationFrameworkCtrl.invalid && (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)
+          higherEducationFrameworkCtrl.invalid &&
+          (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)
         "
         class="invalid-feedback"
       >
-        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
+          {{ 'forms.errors.textInput.characters' | translate }}
+        </div>
 
         <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate: { maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+          {{
+            'forms.errors.common.maxLength'
+              | translate: { maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength }
+          }}
         </div>
       </div>
     </div> </ng-container

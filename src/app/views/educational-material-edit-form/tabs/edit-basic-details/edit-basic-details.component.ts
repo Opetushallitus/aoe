@@ -17,6 +17,8 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Author } from '@models/material/author';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
@@ -71,9 +73,18 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
-        sv: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
-        en: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
       }),
     });
 
@@ -107,9 +118,11 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.thumbnailSrc = this.material.thumbnail;
 
     // organizations
-    this.organizationSubscription = this.koodistoSvc.organizations$.subscribe((organizations: KeyValue<string, string>[]) => {
-      this.organizations = organizations;
-    });
+    this.organizationSubscription = this.koodistoSvc.organizations$.subscribe(
+      (organizations: KeyValue<string, string>[]) => {
+        this.organizations = organizations;
+      },
+    );
     this.koodistoSvc.updateOrganizations();
 
     // keywords
@@ -119,9 +132,11 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateKeywords();
 
     // learning resource types
-    this.learningResourceTypeSubscription = this.koodistoSvc.learningResourceTypes$.subscribe((types: LearningResourceType[]) => {
-      this.learningResourceTypes = types;
-    });
+    this.learningResourceTypeSubscription = this.koodistoSvc.learningResourceTypes$.subscribe(
+      (types: LearningResourceType[]) => {
+        this.learningResourceTypes = types;
+      },
+    );
     this.koodistoSvc.updateLearningResourceTypes();
 
     // educational roles
@@ -150,7 +165,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
     });
   }
@@ -231,8 +246,8 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * Patches authors array.
    * @param authors
    */
-  patchAuthors(authors: any): void {
-    authors.forEach((author) => {
+  patchAuthors(authors: Author[]): void {
+    authors.forEach((author: Author) => {
       if (author.author) {
         this.authorsArray.push(this.createAuthor(author));
       } else {
@@ -251,27 +266,27 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
 
   /**
    * Creates author FormGroup.
-   * @param author
+   * @param {Author} author
    * @returns {FormGroup}
    */
-  createAuthor(author?: any): FormGroup {
+  createAuthor(author?: Author): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [
+      author: this.fb.control(author?.author ?? null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
-      organization: this.fb.control(author ? author.organization : null),
+      organization: this.fb.control(author?.organization ?? null),
     });
   }
 
   /**
    * Creates organization FormGroup.
-   * @param organization
+   * @param {Author} organization
    * @returns {FormGroup}
    */
-  createOrganization(organization?: any): FormGroup {
+  createOrganization(organization?: Author): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null),
+      organization: this.fb.control(organization?.organization ?? null),
     });
   }
 
@@ -302,7 +317,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openExampleDescriptionModal(template: TemplateRef<any>): void {
-    this.exampleDescriptionModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered modal-lg' }));
+    this.exampleDescriptionModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' }),
+    );
   }
 
   /**

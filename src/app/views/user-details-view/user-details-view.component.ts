@@ -16,7 +16,12 @@ export class UserDetailsViewComponent implements OnInit {
   submitted: boolean;
   form: FormGroup;
 
-  constructor(private translate: TranslateService, private titleSvc: Title, private fb: FormBuilder, public authSvc: AuthService) {}
+  constructor(
+    private translate: TranslateService,
+    private titleSvc: Title,
+    private fb: FormBuilder,
+    public authSvc: AuthService,
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();

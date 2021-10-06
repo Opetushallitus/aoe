@@ -9,7 +9,12 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root',
 })
 export class DisableFormsGuard implements CanActivate {
-  constructor(private router: Router, private alertSvc: AlertService, private toastr: ToastrService, private translate: TranslateService) {}
+  constructor(
+    private router: Router,
+    private alertSvc: AlertService,
+    private toastr: ToastrService,
+    private translate: TranslateService,
+  ) {}
 
   canActivate(
     _route: ActivatedRouteSnapshot,

@@ -68,7 +68,9 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       this.setHeadingLevels(collection.materialsAndHeadings);
 
       this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
-        this.languages = languages.filter((lang: Language) => this.collection.languages.includes(lang.key.toLowerCase()));
+        this.languages = languages.filter((lang: Language) =>
+          this.collection.languages.includes(lang.key.toLowerCase()),
+        );
       });
       this.koodistoSvc.updateLanguages();
 
@@ -84,7 +86,9 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           this.materialsLoading.set(collectionMaterial.id, false);
 
           // set material languages
-          const materialLanguages = [...new Set(materials.map((material: Material) => material.language.toLowerCase()))];
+          const materialLanguages = [
+            ...new Set(materials.map((material: Material) => material.language.toLowerCase())),
+          ];
           this.materialLanguages.set(collectionMaterial.id, materialLanguages);
 
           // set default language (1. UI lang, 2. FI, 3. first language in array)
@@ -100,7 +104,9 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           // set preview material
           this.setPreviewMaterial(
             collectionMaterial.id,
-            materials.find((material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id)),
+            materials.find(
+              (material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id),
+            ),
           );
         });
       });

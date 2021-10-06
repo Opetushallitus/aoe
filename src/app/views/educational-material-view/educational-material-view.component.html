@@ -48,16 +48,24 @@
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" [href]="downloadUrl" download>{{ 'demo.educationalMaterial.downloadAllFiles' | translate }}</a>
+                  <a class="dropdown-item" [href]="downloadUrl" download>{{
+                    'demo.educationalMaterial.downloadAllFiles' | translate
+                  }}</a>
 
-                  <strong class="dropdown-header">{{ 'demo.educationalMaterial.downloadSingleFile' | translate }}</strong>
+                  <strong class="dropdown-header">{{
+                    'demo.educationalMaterial.downloadSingleFile' | translate
+                  }}</strong>
 
                   <ng-container *ngFor="let lang of materialLanguages">
-                    <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">{{ getLanguageValue(lang) }}</strong>
+                    <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">{{
+                      getLanguageValue(lang)
+                    }}</strong>
 
                     <ng-container *ngIf="materials | materialLanguage: lang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
-                        <a class="dropdown-item" [href]="material.downloadUrl" download>{{ material.displayName[lang] }}</a>
+                        <a class="dropdown-item" [href]="material.downloadUrl" download>{{
+                          material.displayName[lang]
+                        }}</a>
                       </ng-container>
                     </ng-container>
                   </ng-container>
@@ -95,7 +103,8 @@
                     </li>
                     <li>
                       <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-                      {{ educationalMaterial.downloadCounter }} {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                      {{ educationalMaterial.downloadCounter }}
+                      {{ 'demo.educationalMaterial.downloadCount' | translate }}
                     </li>
                   </ul>
                 </div>
@@ -105,12 +114,18 @@
                     <strong class="d-block">
                       {{ 'demo.educationalMaterial.pid.label.version' | translate }}
 
-                      <button type="button" class="btn btn-link btn-tooltip" [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate">
+                      <button
+                        type="button"
+                        class="btn btn-link btn-tooltip"
+                        [tooltip]="'demo.educationalMaterial.pid.tooltip' | translate"
+                      >
                         <img src="assets/img/icons/ic_help.svg" alt="" />
                       </button>
                     </strong>
 
-                    <a href="https://urn.fi/{{ educationalMaterial.urn }}" rel="noopener noreferrer"> {{ educationalMaterial.urn }} </a>
+                    <a href="https://urn.fi/{{ educationalMaterial.urn }}" rel="noopener noreferrer">
+                      {{ educationalMaterial.urn }}
+                    </a>
                   </p>
                 </div>
               </div>
@@ -134,7 +149,10 @@
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
                     <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-                    <time [attr.datetime]="educationalMaterial.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
+                    <time
+                      [attr.datetime]="educationalMaterial.publishedAt | date: 'yyyy-MM-dd HH:mm'"
+                      aria-labelledby="publishedAt"
+                    >
                       {{ educationalMaterial.publishedAt | date: 'd.M.yyyy HH:mm' }}
                     </time>
                   </span>
@@ -142,7 +160,10 @@
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
                     <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-                    <time [attr.datetime]="educationalMaterial.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
+                    <time
+                      [attr.datetime]="educationalMaterial.updatedAt | date: 'yyyy-MM-dd HH:mm'"
+                      aria-labelledby="updatedAt"
+                    >
                       {{ educationalMaterial.updatedAt | date: 'd.M.yyyy HH:mm' }}
                     </time>
                   </span>
@@ -156,15 +177,31 @@
                   </span>
 
                   <div class="btn-group version-history" dropdown *ngIf="educationalMaterial.versions?.length > 1">
-                    <button id="toggle-version-history" dropdownToggle type="button" class="btn btn-link" aria-controls="version-history">
+                    <button
+                      id="toggle-version-history"
+                      dropdownToggle
+                      type="button"
+                      class="btn btn-link"
+                      aria-controls="version-history"
+                    >
                       {{ 'demo.educationalMaterial.versionHistory.button' | translate }}
                     </button>
 
-                    <button type="button" class="btn btn-link" [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate">
+                    <button
+                      type="button"
+                      class="btn btn-link"
+                      [tooltip]="'demo.educationalMaterial.versionHistory.helpText' | translate"
+                    >
                       <img src="assets/img/icons/ic_help.svg" alt="" />
                     </button>
 
-                    <ul id="version-history" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="toggle-version-history">
+                    <ul
+                      id="version-history"
+                      *dropdownMenu
+                      class="dropdown-menu"
+                      role="menu"
+                      aria-labelledby="toggle-version-history"
+                    >
                       <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
                         <a
                           class="dropdown-item"
@@ -246,8 +283,14 @@
 
                       <ng-template #linkPreview>
                         <div class="link-preview">
-                          <a [href]="previewMaterial.link" class="btn btn-secondary" target="_blank" rel="noopener nofollow"
-                            >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{ previewMaterialDomain }})</a
+                          <a
+                            [href]="previewMaterial.link"
+                            class="btn btn-secondary"
+                            target="_blank"
+                            rel="noopener nofollow"
+                            >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
+                              previewMaterialDomain
+                            }})</a
                           >
                         </div>
                       </ng-template>
@@ -335,7 +378,9 @@
                         {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
                       </ng-container>
 
-                      <ng-template #more> {{ 'demo.educationalMaterial.expandMetadata.more' | translate }} </ng-template>
+                      <ng-template #more>
+                        {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
+                      </ng-template>
                     </button>
 
                     <div *ngIf="educationalMaterial.educationalLevels?.length > 0" class="metadata-group">
@@ -394,7 +439,10 @@
                       ><!--earlyChildhoodEducationSubjects-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.earlyChildhoodEducationFrameworks?.length > 0" class="metadata-group">
+                    <div
+                      *ngIf="educationalMaterial.earlyChildhoodEducationFrameworks?.length > 0"
+                      class="metadata-group"
+                    >
                       <app-taglist
                         elementId="material-earlyChildhoodEducationFrameworks"
                         [tags]="educationalMaterial.earlyChildhoodEducationFrameworks"
@@ -403,7 +451,10 @@
                       ><!--earlyChildhoodEducationFrameworks-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0" class="metadata-group">
+                    <div
+                      *ngIf="educationalMaterial.earlyChildhoodEducationObjectives?.length > 0"
+                      class="metadata-group"
+                    >
                       <app-taglist
                         elementId="material-earlyChildhoodEducationObjectives"
                         [tags]="educationalMaterial.earlyChildhoodEducationObjectives"
@@ -417,7 +468,10 @@
 
                     <!-- pre primary education -->
                     <div
-                      *ngIf="educationalMaterial.prePrimaryEducationSubjects?.length > 0 || educationalMaterial.suitsAllPrePrimarySubjects"
+                      *ngIf="
+                        educationalMaterial.prePrimaryEducationSubjects?.length > 0 ||
+                        educationalMaterial.suitsAllPrePrimarySubjects
+                      "
                       class="metadata-group"
                     >
                       <app-taglist
@@ -455,7 +509,10 @@
 
                     <!-- basic education -->
                     <div
-                      *ngIf="educationalMaterial.basicStudySubjects?.length > 0 || educationalMaterial.suitsAllBasicStudySubjects"
+                      *ngIf="
+                        educationalMaterial.basicStudySubjects?.length > 0 ||
+                        educationalMaterial.suitsAllBasicStudySubjects
+                      "
                       class="metadata-group"
                     >
                       <app-taglist
@@ -576,7 +633,10 @@
                       ><!--upperSecondarySchoolSubjectsNew-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.upperSecondarySchoolFrameworksNew?.length > 0" class="metadata-group">
+                    <div
+                      *ngIf="educationalMaterial.upperSecondarySchoolFrameworksNew?.length > 0"
+                      class="metadata-group"
+                    >
                       <app-taglist
                         elementId="material-upperSecondarySchoolFrameworksNew"
                         [tags]="educationalMaterial.upperSecondarySchoolFrameworksNew"
@@ -597,7 +657,10 @@
                       ><!--upperSecondarySchoolModulesNew-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew?.length > 0" class="metadata-group">
+                    <div
+                      *ngIf="educationalMaterial.upperSecondarySchoolObjectivesNew?.length > 0"
+                      class="metadata-group"
+                    >
                       <app-taglist
                         elementId="material-upperSecondarySchoolObjectivesNew"
                         [tags]="educationalMaterial.upperSecondarySchoolObjectivesNew"
@@ -623,7 +686,10 @@
 
                     <!-- vocational education -->
                     <div
-                      *ngIf="educationalMaterial.vocationalDegrees?.length > 0 || educationalMaterial.suitsAllVocationalDegrees"
+                      *ngIf="
+                        educationalMaterial.vocationalDegrees?.length > 0 ||
+                        educationalMaterial.suitsAllVocationalDegrees
+                      "
                       class="metadata-group"
                     >
                       <app-taglist
@@ -699,7 +765,8 @@
                     <!-- self-motivated education -->
                     <div
                       *ngIf="
-                        educationalMaterial.selfMotivatedEducationSubjects?.length > 0 || educationalMaterial.suitsAllSelfMotivatedSubjects
+                        educationalMaterial.selfMotivatedEducationSubjects?.length > 0 ||
+                        educationalMaterial.suitsAllSelfMotivatedSubjects
                       "
                       class="metadata-group"
                     >
@@ -715,7 +782,10 @@
                       ><!--selfMotivatedEducationSubjects-->
                     </div>
 
-                    <div *ngIf="educationalMaterial.selfMotivatedEducationObjectives?.length > 0" class="metadata-group">
+                    <div
+                      *ngIf="educationalMaterial.selfMotivatedEducationObjectives?.length > 0"
+                      class="metadata-group"
+                    >
                       <app-taglist
                         elementId="material-selfMotivatedEducationObjectives"
                         [tags]="educationalMaterial.selfMotivatedEducationObjectives"
@@ -804,15 +874,19 @@
                     <!-- typicalAgeRange -->
                     <div
                       *ngIf="
-                        educationalMaterial.typicalAgeRange.typicalAgeRangeMin || educationalMaterial.typicalAgeRange.typicalAgeRangeMax
+                        educationalMaterial.typicalAgeRange.typicalAgeRangeMin ||
+                        educationalMaterial.typicalAgeRange.typicalAgeRangeMax
                       "
                       class="metadata-group"
                     >
-                      <strong class="h3 d-block mb-2"> {{ 'demo.educationalMaterial.typicalAgeRange' | translate }} </strong>
+                      <strong class="h3 d-block mb-2">
+                        {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
+                      </strong>
 
                       <ng-container
                         *ngIf="
-                          educationalMaterial.typicalAgeRange.typicalAgeRangeMin && educationalMaterial.typicalAgeRange.typicalAgeRangeMax;
+                          educationalMaterial.typicalAgeRange.typicalAgeRangeMin &&
+                            educationalMaterial.typicalAgeRange.typicalAgeRangeMax;
                           else onlyMinOrMax
                         "
                       >
@@ -918,7 +992,12 @@
               <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
 
               <div class="row mb-2">
-                <ng-container *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage; else noRatings">
+                <ng-container
+                  *ngIf="
+                    educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage;
+                    else noRatings
+                  "
+                >
                   <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
                     <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
                     {{ educationalMaterial.ratingContentAverage }}
