@@ -20,7 +20,11 @@
 
       <div class="row mb-4">
         <div class="col-md-2 col-lg-3 text-center text-md-left">
-          <img [src]="collection.thumbnail" class="img-fluid mb-4" [alt]="'demo.educationalMaterial.cover.alt' | translate" />
+          <img
+            [src]="collection.thumbnail"
+            class="img-fluid mb-4"
+            [alt]="'demo.educationalMaterial.cover.alt' | translate"
+          />
         </div>
         <!--left column-->
 
@@ -214,7 +218,9 @@
                 {{ 'collections.meta.prePrimaryEducationFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-prePrimaryEducationFramework">{{ collection.prePrimaryEducationFramework }}</p> </ng-container
+              <p aria-labelledby="collection-prePrimaryEducationFramework">
+                {{ collection.prePrimaryEducationFramework }}
+              </p> </ng-container
             ><!--prePrimaryEducationFramework-->
             <!--/pre primary education-->
 
@@ -257,7 +263,9 @@
                 {{ 'collections.meta.basicStudyFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-basicStudyFramework">{{ collection.basicStudyFramework }}</p> </ng-container
+              <p aria-labelledby="collection-basicStudyFramework">
+                {{ collection.basicStudyFramework }}
+              </p> </ng-container
             ><!--basicStudyFramework-->
             <!--/basic education-->
 
@@ -391,7 +399,9 @@
                 {{ 'collections.meta.vocationalEducationFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-vocationalEducationFramework">{{ collection.vocationalEducationFramework }}</p> </ng-container
+              <p aria-labelledby="collection-vocationalEducationFramework">
+                {{ collection.vocationalEducationFramework }}
+              </p> </ng-container
             ><!--vocationalEducationFramework-->
             <!--/vocational education-->
 
@@ -447,22 +457,31 @@
                 {{ 'collections.meta.higherEducationFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-higherEducationFramework">{{ collection.higherEducationFramework }}</p> </ng-container
+              <p aria-labelledby="collection-higherEducationFramework">
+                {{ collection.higherEducationFramework }}
+              </p> </ng-container
             ><!--higherEducationFramework-->
             <!--/higher education-->
           </div>
           <!--metadata-->
 
           <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
-            <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+            <div
+              class="collection-material"
+              *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index"
+            >
               <ng-container *ngIf="materialOrHeading.id; else heading">
                 <h2 *ngIf="headingLevels.get(i) === 'h2'; else h3" class="title">
-                  <a [routerLink]="['/materiaali', materialOrHeading.id]"> {{ materialDetails.get(materialOrHeading.id).name[lang] }} </a>
+                  <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                    {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                  </a>
                 </h2>
 
                 <ng-template #h3>
                   <h3 class="title">
-                    <a [routerLink]="['/materiaali', materialOrHeading.id]"> {{ materialDetails.get(materialOrHeading.id).name[lang] }} </a>
+                    <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                      {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                    </a>
                   </h3>
                 </ng-template>
 
@@ -483,9 +502,15 @@
                     <div class="row no-gutters">
                       <div class="col-3">
                         <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
-                          <h3 [id]="'selectLanguage' + materialOrHeading.id">{{ 'materialPreview.selectLanguage' | translate }}</h3>
+                          <h3 [id]="'selectLanguage' + materialOrHeading.id">
+                            {{ 'materialPreview.selectLanguage' | translate }}
+                          </h3>
 
-                          <div class="btn-group mb-3" role="tablist" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                          <div
+                            class="btn-group mb-3"
+                            role="tablist"
+                            [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id"
+                          >
                             <button
                               type="button"
                               class="btn btn-gray"
@@ -513,11 +538,18 @@
                             'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
                           "
                         >
-                          <h3 [id]="'selectMaterial' + materialOrHeading.id" [ngClass]="materials.length === 1 ? 'sr-only' : ''">
+                          <h3
+                            [id]="'selectMaterial' + materialOrHeading.id"
+                            [ngClass]="materials.length === 1 ? 'sr-only' : ''"
+                          >
                             {{ 'materialPreview.selectMaterial' | translate }}
                           </h3>
 
-                          <div class="btn-group-vertical" role="tablist" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                          <div
+                            class="btn-group-vertical"
+                            role="tablist"
+                            [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id"
+                          >
                             <ng-container *ngFor="let material of materials">
                               <button
                                 type="button"
@@ -538,7 +570,9 @@
 
                       <div class="col-9">
                         <div
-                          [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          [id]="
+                            'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id
+                          "
                           role="tabpanel"
                           [attr.aria-labelledby]="
                             'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id

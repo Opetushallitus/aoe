@@ -64,15 +64,19 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateKeywords();
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
-      this.accessibilityFeatures = features;
-    });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+      (features: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = features;
+      },
+    );
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
-      this.accessibilityHazards = hazards;
-    });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+      (hazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = hazards;
+      },
+    );
     this.koodistoSvc.updateAccessibilityHazards();
 
     // educational levels
@@ -81,9 +85,11 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
     });
     this.koodistoSvc.updateEducationalLevels();
 
-    this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe((metadata: SocialMetadata) => {
-      this.form.patchValue(metadata);
-    });
+    this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe(
+      (metadata: SocialMetadata) => {
+        this.form.patchValue(metadata);
+      },
+    );
     this.socialMetadataSvc.updateUserSocialMetadata(this.materialId);
 
     this.translate.get('demo.educationalMaterial.socialMetadata.toasts.success').subscribe((translation: Toast) => {

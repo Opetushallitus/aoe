@@ -17,11 +17,19 @@
 
     <div class="col-9">
       <div class="file-content">
-        <app-educational-material-preview [material]="previewMaterial" *ngIf="!previewMaterial.link"></app-educational-material-preview>
+        <app-educational-material-preview
+          [material]="previewMaterial"
+          *ngIf="!previewMaterial.link"
+        ></app-educational-material-preview>
 
-        <a *ngIf="previewMaterial.link" [href]="previewMaterial.link" class="btn btn-secondary" target="_blank" rel="noopener">{{
-          'demo.educationalMaterial.preview.openInNewTab' | translate
-        }}</a>
+        <a
+          *ngIf="previewMaterial.link"
+          [href]="previewMaterial.link"
+          class="btn btn-secondary"
+          target="_blank"
+          rel="noopener"
+          >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a
+        >
       </div>
     </div>
   </div>

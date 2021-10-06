@@ -12,7 +12,10 @@
             <span class="results-count">{{ results.hits }} {{ 'search.results.results' | translate }}</span>
           </div>
 
-          <app-collection-search-result *ngFor="let result of results.results" [result]="result"></app-collection-search-result
+          <app-collection-search-result
+            *ngFor="let result of results.results"
+            [result]="result"
+          ></app-collection-search-result
           ><!--result-->
         </div>
         <!--results-->

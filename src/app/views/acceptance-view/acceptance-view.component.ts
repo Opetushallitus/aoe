@@ -13,7 +13,12 @@ import { environment } from '../../../environments/environment';
 export class AcceptanceViewComponent implements OnInit {
   public acceptanceForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authSvc: AuthService, private titleSvc: Title, private translate: TranslateService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authSvc: AuthService,
+    private titleSvc: Title,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();

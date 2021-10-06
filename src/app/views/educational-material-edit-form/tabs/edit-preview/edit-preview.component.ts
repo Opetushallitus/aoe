@@ -10,6 +10,7 @@ import { MaterialService } from '@services/material.service';
 import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 import { Title } from '@angular/platform-browser';
 import { ignoredSubjects } from '../../../../constants/ignored-subjects';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-edit-preview',
@@ -77,7 +78,10 @@ export class EditPreviewComponent implements OnInit {
     this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
     this.form.get('hasLicense').setValue(this.previewMaterial?.license !== null);
 
-    if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
+    if (
+      this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ||
+      this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax
+    ) {
       this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${
         this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''
       }`;
@@ -106,8 +110,12 @@ export class EditPreviewComponent implements OnInit {
       this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0
     ) {
       this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
-      this.form.get('hasUpperSecondaryEduObjectives').setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
-      this.form.get('hasUpperSecondaryEduContents').setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
+      this.form
+        .get('hasUpperSecondaryEduObjectives')
+        .setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
+      this.form
+        .get('hasUpperSecondaryEduContents')
+        .setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
     }
 
     if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
@@ -119,7 +127,7 @@ export class EditPreviewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
     });
   }
@@ -376,7 +384,7 @@ export class EditPreviewComponent implements OnInit {
 
       // fileDetails
       const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
-        const subtitles: number[] = [];
+        const subtitles: string[] = [];
 
         file.subtitles.forEach((subtitle) => {
           attachmentDetails.push({

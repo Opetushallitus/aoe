@@ -17,7 +17,9 @@
       >
 
       <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
-        <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">{{ 'navigation.login.userDetails' | translate }}</a>
+        <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">{{
+          'navigation.login.userDetails' | translate
+        }}</a>
 
         <button class="dropdown-item" type="button" (click)="logout()">{{ 'common.logout' | translate }}</button>
       </div>

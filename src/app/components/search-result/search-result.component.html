@@ -39,7 +39,9 @@
       </ul>
 
       <div class="tags" *ngIf="result.educationalLevels?.length > 0">
-        <span class="sr-only" [id]="'result-educationalLevels' + result.id"> {{ 'collections.meta.educationalLevels' | translate }} </span>
+        <span class="sr-only" [id]="'result-educationalLevels' + result.id">
+          {{ 'collections.meta.educationalLevels' | translate }}
+        </span>
 
         <button
           *ngFor="let level of result.educationalLevels"
@@ -59,7 +61,9 @@
     <div class="col-auto">
       <span class="mr-4">
         <img
-          src="assets/img/icons/learning-resource-types/{{ result.learningResourceTypes[0].learningresourcetypekey }}.svg"
+          src="assets/img/icons/learning-resource-types/{{
+            result.learningResourceTypes[0].learningresourcetypekey
+          }}.svg"
           class="img-icon"
           aria-hidden="true"
         />

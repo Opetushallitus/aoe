@@ -22,7 +22,12 @@
         <div class="modal-header">
           <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
 
-          <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="thumbnailModalRef.hide()">
+          <button
+            type="button"
+            class="close"
+            [attr.aria-label]="'forms.common.close' | translate"
+            (click)="thumbnailModalRef.hide()"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -76,7 +81,9 @@
             {{ 'forms.common.close' | translate }}
           </button>
 
-          <button type="button" class="btn btn-blue" (click)="uploadImage()">{{ 'forms.common.saveChanges' | translate }}</button>
+          <button type="button" class="btn btn-blue" (click)="uploadImage()">
+            {{ 'forms.common.saveChanges' | translate }}
+          </button>
         </div> </ng-template
       ><!--/modal-->
     </div>
@@ -176,7 +183,9 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="accessibilityFeatures"> {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }} </label>
+          <label for="accessibilityFeatures">
+            {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }}
+          </label>
 
           <ng-select
             [items]="accessibilityFeatures"
@@ -191,7 +200,9 @@
         <!--accessibilityFeatures-->
 
         <div class="form-group col-md-6">
-          <label for="accessibilityHazards"> {{ 'forms.collection.basic.accessibilityHazards.label' | translate }} </label>
+          <label for="accessibilityHazards">
+            {{ 'forms.collection.basic.accessibilityHazards.label' | translate }}
+          </label>
 
           <ng-select
             [items]="accessibilityHazards"
@@ -216,14 +227,22 @@
           formControlName="description"
           [placeholder]="'forms.collection.basic.description.placeholder' | translate"
           aria-required="true"
-          [ngClass]="{ 'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted) }"
+          [ngClass]="{
+            'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)
+          }"
         ></textarea>
 
-        <div *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)" class="invalid-feedback">
+        <div
+          *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)"
+          class="invalid-feedback"
+        >
           <div *ngIf="descriptionCtrl.errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
 
           <div *ngIf="descriptionCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate: { maxLength: descriptionCtrl.errors.maxlength.requiredLength } }}
+            {{
+              'forms.errors.common.maxLength'
+                | translate: { maxLength: descriptionCtrl.errors.maxlength.requiredLength }
+            }}
           </div>
         </div>
       </div>

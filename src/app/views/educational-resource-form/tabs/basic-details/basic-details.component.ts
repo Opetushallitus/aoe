@@ -17,6 +17,8 @@ import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Author } from '@models/material/author';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -49,7 +51,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
 
-  imageChangedEvent: any = '';
+  imageChangedEvent: Event;
   croppedImage: ImageCroppedEvent;
   thumbnailSrc: string;
 
@@ -80,9 +82,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       this.updateLanguages();
     });
 
-    this.organizationSubscription = this.koodistoProxySvc.organizations$.subscribe((organizations: KeyValue<string, string>[]) => {
-      this.organizations = organizations;
-    });
+    this.organizationSubscription = this.koodistoProxySvc.organizations$.subscribe(
+      (organizations: KeyValue<string, string>[]) => {
+        this.organizations = organizations;
+      },
+    );
     this.koodistoProxySvc.updateOrganizations();
 
     this.keywordSubscription = this.koodistoProxySvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
@@ -97,14 +101,18 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     );
     this.koodistoProxySvc.updateLearningResourceTypes();
 
-    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$.subscribe((educationalRoles: EducationalRole[]) => {
-      this.educationalRoles = educationalRoles;
-    });
+    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$.subscribe(
+      (educationalRoles: EducationalRole[]) => {
+        this.educationalRoles = educationalRoles;
+      },
+    );
     this.koodistoProxySvc.updateEducationalRoles();
 
-    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$.subscribe((educationalUses: EducationalUse[]) => {
-      this.educationalUses = educationalUses;
-    });
+    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$.subscribe(
+      (educationalUses: EducationalUse[]) => {
+        this.educationalUses = educationalUses;
+      },
+    );
     this.koodistoProxySvc.updateEducationalUses();
 
     this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
@@ -116,9 +124,18 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
-        sv: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
-        en: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.description.maxLength),
+          descriptionValidator(),
+        ]),
       }),
     });
 
@@ -177,12 +194,12 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
     });
   }
 
-  fileChangeEvent(event: any): void {
+  fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
   }
 
@@ -203,7 +220,10 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openExampleDescriptionModal(template: TemplateRef<any>): void {
-    this.exampleDescriptionModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered modal-lg' }));
+    this.exampleDescriptionModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' }),
+    );
   }
 
   get authors(): FormArray {
@@ -226,19 +246,19 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('description') as FormGroup;
   }
 
-  createAuthor(author?: any): FormGroup {
+  createAuthor(author?: Author): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [
+      author: this.fb.control(author?.author ?? null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
-      organization: this.fb.control(author ? author.organization : null),
+      organization: this.fb.control(author?.organization ?? null),
     });
   }
 
-  createOrganization(organization?: any): FormGroup {
+  createOrganization(organization?: Author): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null),
+      organization: this.fb.control(organization?.organization ?? null),
     });
   }
 
@@ -256,8 +276,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   uploadImage(): void {
     if (this.croppedImage.base64) {
+      // note: throws TypeError if material upload to backend hasn't been initialized
       this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
-        (res) => {
+        (res: UploadMessage) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;
 

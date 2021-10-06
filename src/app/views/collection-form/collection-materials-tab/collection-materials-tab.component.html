@@ -7,7 +7,11 @@
   </alert>
 
   <div cdkDropList (cdkDropListDropped)="drop($event)" class="mb-4">
-    <div cdkDrag *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index" class="border-bottom py-4">
+    <div
+      cdkDrag
+      *ngFor="let materialOrHeading of materialsAndHeadingsArray.controls; let i = index"
+      class="border-bottom py-4"
+    >
       <fieldset formArrayName="materialsAndHeadings">
         <ng-container [formGroupName]="i">
           <ng-container *ngIf="materialOrHeading.get('id'); else heading">
@@ -54,7 +58,9 @@
                   <li *ngFor="let author of materials.get(materialOrHeading.get('id').value).authors">
                     <ng-container *ngIf="author.author !== ''">
                       {{ author.author }}
-                      <ng-container *ngIf="author.organization.value !== ''">({{ author.organization.value }})</ng-container>
+                      <ng-container *ngIf="author.organization.value !== ''"
+                        >({{ author.organization.value }})</ng-container
+                      >
                     </ng-container>
                     <ng-container *ngIf="author.author === ''">{{ author.organization.value }}</ng-container>
                   </li>
@@ -91,7 +97,9 @@
               </div>
 
               <div class="col-auto">
-                <time [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date: 'yyyy-MM-dd'">
+                <time
+                  [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date: 'yyyy-MM-dd'"
+                >
                   {{ materials.get(materialOrHeading.get('id').value).publishedAt | date: 'd.M.yyyy' }}
                 </time>
               </div>
@@ -142,7 +150,9 @@
             <!--heading-->
 
             <div class="form-group">
-              <label for="{{ 'description-' + i }}"> {{ 'forms.collection.material.description.label' | translate }} </label>
+              <label for="{{ 'description-' + i }}">
+                {{ 'forms.collection.material.description.label' | translate }}
+              </label>
 
               <textarea
                 class="form-control"
@@ -152,14 +162,18 @@
                 [ngClass]="{
                   'is-invalid':
                     materialOrHeading.get('description').invalid &&
-                    (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)
+                    (materialOrHeading.get('description').dirty ||
+                      materialOrHeading.get('description').touched ||
+                      submitted)
                 }"
               ></textarea>
 
               <div
                 *ngIf="
                   materialOrHeading.get('description').invalid &&
-                  (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)
+                  (materialOrHeading.get('description').dirty ||
+                    materialOrHeading.get('description').touched ||
+                    submitted)
                 "
                 class="invalid-feedback"
               >

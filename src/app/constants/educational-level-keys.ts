@@ -10,7 +10,11 @@ export const educationalLevelKeys = {
     '14fe3b08-8516-4999-946b-96eb90c2d563',
   ],
   upperSecondary: ['94f79e1e-10e6-483d-b651-27521f94f7bf', 'fd362a80-9662-48b8-acd1-d8cef520530c'],
-  vocational: ['010c6689-5021-4d8e-8c02-68a27cc5a87b', '55c5d6a2-8415-47bc-9d15-7b976b0e999c', 'da5b8f43-5fc9-4681-812b-40846926f3fd'],
+  vocational: [
+    '010c6689-5021-4d8e-8c02-68a27cc5a87b',
+    '55c5d6a2-8415-47bc-9d15-7b976b0e999c',
+    'da5b8f43-5fc9-4681-812b-40846926f3fd',
+  ],
   selfMotivated: ['bc25d0e7-3c68-49a1-9329-239dae01fab7'],
   higherEducation: [
     'e5a48ada-3de0-4246-9b8f-32d4ff68e22f',

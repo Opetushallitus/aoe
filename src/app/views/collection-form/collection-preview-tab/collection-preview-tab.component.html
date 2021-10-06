@@ -17,7 +17,9 @@
         <dd class="col-sm-9">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{
+            'forms.collection.preview.addMissingDetail' | translate
+          }}</a>
         </dd> </ng-template
       ><!--missingName-->
 
@@ -37,7 +39,9 @@
         <dd class="col-sm-9">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{
+            'forms.collection.preview.addMissingDetail' | translate
+          }}</a>
         </dd> </ng-template
       ><!--missingKeywords-->
 
@@ -103,7 +107,9 @@
         <dd class="col-sm-9">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{ 'forms.collection.preview.addMissingDetail' | translate }}</a>
+          <a [routerLink]="['/kokoelma', collectionId, 'muokkaa', 1]">{{
+            'forms.collection.preview.addMissingDetail' | translate
+          }}</a>
         </dd> </ng-template
       ><!--missingDescription-->
     </dl>
@@ -136,17 +142,23 @@
       ><!--earlyChildhoodEducationSubjects-->
 
       <ng-container *ngIf="previewCollection.earlyChildhoodEducationObjectives?.length > 0">
-        <dt class="col-sm-3">{{ 'forms.collection.educational.earlyChildhoodEducationObjectives.label' | translate }}</dt>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationObjectives.label' | translate }}
+        </dt>
 
         <dd class="col-sm-9">
-          <ng-container *ngFor="let objective of previewCollection.earlyChildhoodEducationObjectives; let isLast = last">
+          <ng-container
+            *ngFor="let objective of previewCollection.earlyChildhoodEducationObjectives; let isLast = last"
+          >
             {{ objective.targetName }}{{ isLast ? '' : ', ' }}
           </ng-container>
         </dd> </ng-container
       ><!--earlyChildhoodEducationObjectives-->
 
       <ng-container *ngIf="previewCollection.earlyChildhoodEducationFramework">
-        <dt class="col-sm-3">{{ 'forms.collection.educational.earlyChildhoodEducationFramework.label' | translate }}</dt>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.earlyChildhoodEducationFramework.label' | translate }}
+        </dt>
 
         <dd class="col-sm-9">{{ previewCollection.earlyChildhoodEducationFramework }}</dd> </ng-container
       ><!--earlyChildhoodEducationFramework-->
@@ -270,10 +282,14 @@
       ><!--upperSecondarySchoolModulesNew-->
 
       <ng-container *ngIf="previewCollection.upperSecondarySchoolObjectivesNew?.length > 0">
-        <dt class="col-sm-3">{{ 'forms.collection.educational.upperSecondarySchoolObjectivesNew.label' | translate }}</dt>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.upperSecondarySchoolObjectivesNew.label' | translate }}
+        </dt>
 
         <dd class="col-sm-9">
-          <ng-container *ngFor="let objective of previewCollection.upperSecondarySchoolObjectivesNew; let isLast = last">
+          <ng-container
+            *ngFor="let objective of previewCollection.upperSecondarySchoolObjectivesNew; let isLast = last"
+          >
             {{ objective.targetName }}{{ isLast ? '' : ', ' }}
           </ng-container>
         </dd> </ng-container
@@ -336,7 +352,9 @@
       ><!--selfMotivatedEducationSubjects-->
 
       <ng-container *ngIf="previewCollection.selfMotivatedEducationObjectives?.length > 0">
-        <dt class="col-sm-3">{{ 'forms.collection.educational.selfMotivatedEducationObjectives.label' | translate }}</dt>
+        <dt class="col-sm-3">
+          {{ 'forms.collection.educational.selfMotivatedEducationObjectives.label' | translate }}
+        </dt>
 
         <dd class="col-sm-9">
           <ng-container *ngFor="let objective of previewCollection.selfMotivatedEducationObjectives; let isLast = last">
@@ -388,7 +406,9 @@
         <tr *ngFor="let materialOrHeading of previewCollection.materialsAndHeadings; let i = index">
           <th scope="row">{{ i + 1 }}</th>
           <td>
-            <ng-container *ngIf="materialOrHeading.id; else heading"> {{ materials.get(materialOrHeading.id).name[lang] }} </ng-container>
+            <ng-container *ngIf="materialOrHeading.id; else heading">
+              {{ materials.get(materialOrHeading.id).name[lang] }}
+            </ng-container>
 
             <ng-template #heading>
               <p class="font-weight-bold">{{ materialOrHeading.heading }}</p>
@@ -404,11 +424,15 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
       <div class="col">
-        <button type="button" class="btn btn-gray" (click)="previous()">{{ 'forms.common.previous' | translate }}</button>
+        <button type="button" class="btn btn-gray" (click)="previous()">
+          {{ 'forms.common.previous' | translate }}
+        </button>
       </div>
 
       <div class="col-auto">
-        <button type="reset" class="btn btn-cancel" (click)="emitAbort()">{{ 'forms.common.abort' | translate }}</button>
+        <button type="reset" class="btn btn-cancel" (click)="emitAbort()">
+          {{ 'forms.common.abort' | translate }}
+        </button>
       </div>
 
       <div class="col-auto" *ngIf="!collection.isPublished">
@@ -419,7 +443,9 @@
 
       <div class="col-auto">
         <button type="submit" class="btn btn-blue" [disabled]="form.invalid">
-          <ng-container *ngIf="collection.isPublished; else publish"> {{ 'forms.common.save' | translate }} </ng-container>
+          <ng-container *ngIf="collection.isPublished; else publish">
+            {{ 'forms.common.save' | translate }}
+          </ng-container>
 
           <ng-template #publish> {{ 'forms.collection.preview.savePublished' | translate }} </ng-template>
         </button>

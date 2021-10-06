@@ -80,7 +80,10 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       name: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
-      description: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
+      description: this.fb.control(null, [
+        Validators.maxLength(validatorParams.description.maxLength),
+        descriptionValidator(),
+      ]),
       keywords: this.fb.control(null),
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
@@ -122,15 +125,19 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateLanguages();
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
-      this.accessibilityFeatures = features;
-    });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+      (features: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = features;
+      },
+    );
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
-      this.accessibilityHazards = hazards;
-    });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+      (hazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = hazards;
+      },
+    );
     this.koodistoSvc.updateAccessibilityHazards();
   }
 

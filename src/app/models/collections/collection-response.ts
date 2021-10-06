@@ -16,7 +16,14 @@ export interface CollectionResponse {
   languages: string[];
   alignmentObjects: [
     {
-      alignmenttype: 'assesses' | 'teaches' | 'requires' | 'textComplexity' | 'readingLevel' | 'educationalSubject' | 'educationalLevel';
+      alignmenttype:
+        | 'assesses'
+        | 'teaches'
+        | 'requires'
+        | 'textComplexity'
+        | 'readingLevel'
+        | 'educationalSubject'
+        | 'educationalLevel';
       educationalframework: string;
       objectkey: string;
       source: string;

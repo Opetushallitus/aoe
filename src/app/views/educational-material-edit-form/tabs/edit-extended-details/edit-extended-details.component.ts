@@ -11,6 +11,7 @@ import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-edit-extended-details',
@@ -57,7 +58,10 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
           Validators.maxLength(validatorParams.ageRange.max.maxLength),
         ]),
       }),
-      timeRequired: this.fb.control(null, [Validators.maxLength(validatorParams.timeRequired.maxLength), textInputValidator()]),
+      timeRequired: this.fb.control(null, [
+        Validators.maxLength(validatorParams.timeRequired.maxLength),
+        textInputValidator(),
+      ]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
       prerequisites: this.fb.control(null),
@@ -81,15 +85,19 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     }
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
-      this.accessibilityFeatures = features;
-    });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+      (features: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = features;
+      },
+    );
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
-      this.accessibilityHazards = hazards;
-    });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+      (hazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = hazards;
+      },
+    );
     this.koodistoSvc.updateAccessibilityHazards();
   }
 
@@ -99,7 +107,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
     });
   }
