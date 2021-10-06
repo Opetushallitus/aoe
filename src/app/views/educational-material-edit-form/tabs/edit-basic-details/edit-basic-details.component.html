@@ -162,8 +162,10 @@
                     </div>
 
                     <div *ngIf="authorsArray.at(i).get('author').errors.maxlength">
-                      {{ 'forms.errors.common.maxLength' | translate: { maxLength:
-                      authorsArray.at(i).get('author').errors.maxlength.requiredLength } }}
+                      {{
+                        'forms.errors.common.maxLength'
+                          | translate: { maxLength: authorsArray.at(i).get('author').errors.maxlength.requiredLength }
+                      }}
                     </div>
                   </div>
                 </div>
@@ -389,8 +391,10 @@
               </div>
 
               <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
-                {{ 'forms.errors.common.maxLength' | translate: { maxLength:
-                descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+                {{
+                  'forms.errors.common.maxLength'
+                    | translate: { maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength }
+                }}
               </div>
             </div>
           </div>
@@ -480,8 +484,10 @@
                 </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate: { maxLength:
-                  descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
@@ -517,8 +523,10 @@
                 </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate: { maxLength:
-                  descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
@@ -561,8 +569,9 @@
 
             <p class="font-italic">
               {{ 'forms.educationalResource.basicDetails.description.example.details' | translate }}
-              <a href="https://aoe.fi/#/materiaali/606"
-                >{{ 'forms.educationalResource.basicDetails.description.example.detailsLink' | translate }}</a
+              <a href="https://aoe.fi/#/materiaali/606">{{
+                'forms.educationalResource.basicDetails.description.example.detailsLink' | translate
+              }}</a
               >.
             </p>
 
