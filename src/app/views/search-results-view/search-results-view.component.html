@@ -25,7 +25,11 @@
         <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
           <span id="used-filters-label" class="mr-1"> {{ 'search.filters.usedFilters' | translate }} </span>
 
-          <span class="badge badge-gray search-filter" *ngFor="let filter of usedFilters" aria-labelledby="used-filters-label">
+          <span
+            class="badge badge-gray search-filter"
+            *ngFor="let filter of usedFilters"
+            aria-labelledby="used-filters-label"
+          >
             <button type="button" class="btn btn-light" (click)="onSubmit(filter)">
               <span aria-hidden="true">&times;</span>
               <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
@@ -63,7 +67,12 @@
             </div>
           </div>
 
-          <div *ngIf="searchFilters; else loadingFilters" id="search-filters" [collapse]="isCollapsedFilters" [isAnimated]="true">
+          <div
+            *ngIf="searchFilters; else loadingFilters"
+            id="search-filters"
+            [collapse]="isCollapsedFilters"
+            [isAnimated]="true"
+          >
             <div class="filter" formArrayName="languages" *ngIf="languagesArray.controls.length > 0 && allLanguages">
               <div
                 class="header"
@@ -81,9 +90,15 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0"> {{ languagesCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="languagesCount > 0">
+                      {{ languagesCount }}
+                    </span>
 
-                    <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"></i>
+                    <i
+                      class="fa fa-fw"
+                      aria-hidden="true"
+                      [ngClass]="isCollapsedLanguages ? 'fa-plus' : 'fa-minus'"
+                    ></i>
                   </div>
                 </div>
               </div>
@@ -97,10 +112,15 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let language of languagesArray.controls | slice: 0:filtersShown.get('languages'); let i = index"
+                  *ngFor="
+                    let language of languagesArray.controls | slice: 0:filtersShown.get('languages');
+                    let i = index
+                  "
                 >
                   <input type="checkbox" class="custom-control-input" id="languages-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="languages-{{ i }}"> {{ getLanguageLabel(searchFilters.languages[i]) }} </label>
+                  <label class="custom-control-label" for="languages-{{ i }}">
+                    {{ getLanguageLabel(searchFilters.languages[i]) }}
+                  </label>
                 </div>
 
                 <button
@@ -132,7 +152,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalLevelsCount > 0"> {{ educationalLevelsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalLevelsCount > 0">
+                      {{ educationalLevelsCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLevels ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -151,8 +173,16 @@
                     <h5>{{ educationalLevels[i].value }}</h5>
 
                     <div class="children" formArrayName="levels">
-                      <div class="custom-control custom-checkbox" *ngFor="let child of level.get('levels').controls; let j = index">
-                        <input type="checkbox" class="custom-control-input" id="educationalLevels-{{ i }}-{{ j }}" [formControlName]="j" />
+                      <div
+                        class="custom-control custom-checkbox"
+                        *ngFor="let child of level.get('levels').controls; let j = index"
+                      >
+                        <input
+                          type="checkbox"
+                          class="custom-control-input"
+                          id="educationalLevels-{{ i }}-{{ j }}"
+                          [formControlName]="j"
+                        />
                         <label class="custom-control-label" for="educationalLevels-{{ i }}-{{ j }}">
                           {{ educationalLevels[i].children[j].value }}
                         </label>
@@ -181,7 +211,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="subjectsCount > 0"> {{ subjectsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="subjectsCount > 0">
+                      {{ subjectsCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedSubjects ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -200,7 +232,9 @@
                   *ngFor="let subject of subjectsArray.controls | slice: 0:filtersShown.get('subjects'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="subjects-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="subjects-{{ i }}"> {{ searchFilters.subjects[i].value }} </label>
+                  <label class="custom-control-label" for="subjects-{{ i }}">
+                    {{ searchFilters.subjects[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -310,9 +344,19 @@
                 [collapse]="isCollapsedTypes"
                 [isAnimated]="true"
               >
-                <div class="custom-control custom-checkbox" *ngFor="let type of learningResourceTypesArray.controls; let i = index">
-                  <input type="checkbox" class="custom-control-input" id="learningResourceTypes-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="learningResourceTypes-{{ i }}"> {{ learningResourceTypes[i].value }} </label>
+                <div
+                  class="custom-control custom-checkbox"
+                  *ngFor="let type of learningResourceTypesArray.controls; let i = index"
+                >
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="learningResourceTypes-{{ i }}"
+                    [formControlName]="i"
+                  />
+                  <label class="custom-control-label" for="learningResourceTypes-{{ i }}">
+                    {{ learningResourceTypes[i].value }}
+                  </label>
                 </div>
               </div>
             </div>
@@ -386,9 +430,15 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="organizationsCount > 0"> {{ organizationsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="organizationsCount > 0">
+                      {{ organizationsCount }}
+                    </span>
 
-                    <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedOrganizations ? 'fa-plus' : 'fa-minus'"></i>
+                    <i
+                      class="fa fa-fw"
+                      aria-hidden="true"
+                      [ngClass]="isCollapsedOrganizations ? 'fa-plus' : 'fa-minus'"
+                    ></i>
                   </div>
                 </div>
               </div>
@@ -402,16 +452,28 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let organization of organizationsArray.controls | slice: 0:filtersShown.get('organizations'); let i = index"
+                  *ngFor="
+                    let organization of organizationsArray.controls | slice: 0:filtersShown.get('organizations');
+                    let i = index
+                  "
                 >
-                  <input type="checkbox" class="custom-control-input" id="organizations-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="organizations-{{ i }}"> {{ searchFilters.organizations[i].value }} </label>
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="organizations-{{ i }}"
+                    [formControlName]="i"
+                  />
+                  <label class="custom-control-label" for="organizations-{{ i }}">
+                    {{ searchFilters.organizations[i].value }}
+                  </label>
                 </div>
 
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('organizations', organizationsArray.controls.length); showAllOrganizations = false"
+                  (click)="
+                    filtersShown.set('organizations', organizationsArray.controls.length); showAllOrganizations = false
+                  "
                   *ngIf="showAllOrganizations"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -437,7 +499,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalRolesCount > 0"> {{ educationalRolesCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="educationalRolesCount > 0">
+                      {{ educationalRolesCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedRoles ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -453,10 +517,20 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let role of educationalRolesArray.controls | slice: 0:filtersShown.get('roles'); let i = index"
+                  *ngFor="
+                    let role of educationalRolesArray.controls | slice: 0:filtersShown.get('roles');
+                    let i = index
+                  "
                 >
-                  <input type="checkbox" class="custom-control-input" id="educationalRoles-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="educationalRoles-{{ i }}"> {{ searchFilters.roles[i].value }} </label>
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="educationalRoles-{{ i }}"
+                    [formControlName]="i"
+                  />
+                  <label class="custom-control-label" for="educationalRoles-{{ i }}">
+                    {{ searchFilters.roles[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -488,7 +562,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="keywordsCount > 0"> {{ keywordsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="keywordsCount > 0">
+                      {{ keywordsCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedKeywords ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -507,7 +583,9 @@
                   *ngFor="let keyword of keywordsArray.controls | slice: 0:filtersShown.get('keywords'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="keywords-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="keywords-{{ i }}"> {{ searchFilters.keywords[i].value }} </label>
+                  <label class="custom-control-label" for="keywords-{{ i }}">
+                    {{ searchFilters.keywords[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -546,7 +624,13 @@
                 </div>
               </div>
 
-              <div class="content" id="filter-uses" aria-labelledby="filter-uses-header" [collapse]="isCollapsedUses" [isAnimated]="true">
+              <div
+                class="content"
+                id="filter-uses"
+                aria-labelledby="filter-uses-header"
+                [collapse]="isCollapsedUses"
+                [isAnimated]="true"
+              >
                 <div
                   class="custom-control custom-checkbox"
                   *ngFor="let use of usesArray.controls | slice: 0:filtersShown.get('uses'); let i = index"
@@ -603,7 +687,9 @@
                   *ngFor="let hazards of hazardsArray.controls | slice: 0:filtersShown.get('hazards'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="hazards-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="hazards-{{ i }}"> {{ searchFilters.hazards[i].value }} </label>
+                  <label class="custom-control-label" for="hazards-{{ i }}">
+                    {{ searchFilters.hazards[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -635,7 +721,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="featuresCount > 0"> {{ featuresCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="featuresCount > 0">
+                      {{ featuresCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFeatures ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -654,7 +742,9 @@
                   *ngFor="let feature of featuresArray.controls | slice: 0:filtersShown.get('features'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="features-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="features-{{ i }}"> {{ searchFilters.features[i].value }} </label>
+                  <label class="custom-control-label" for="features-{{ i }}">
+                    {{ searchFilters.features[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -686,7 +776,9 @@
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="licensesCount > 0"> {{ licensesCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="licensesCount > 0">
+                      {{ licensesCount }}
+                    </span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedLicenses ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -705,7 +797,9 @@
                   *ngFor="let license of licensesArray.controls | slice: 0:filtersShown.get('licenses'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="licenses-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="licenses-{{ i }}"> {{ searchFilters.licenses[i].value }} </label>
+                  <label class="custom-control-label" for="licenses-{{ i }}">
+                    {{ searchFilters.licenses[i].value }}
+                  </label>
                 </div>
 
                 <button
@@ -729,7 +823,9 @@
             </div>
           </ng-template>
 
-          <button type="submit" class="btn btn-blue btn-block" id="button-narrow-search">{{ 'search.filters.submit' | translate }}</button>
+          <button type="submit" class="btn btn-blue btn-block" id="button-narrow-search">
+            {{ 'search.filters.submit' | translate }}
+          </button>
         </div>
         <!--/filters-->
 
@@ -739,7 +835,9 @@
               <div class="row justify-content-md-between align-items-md-center mb-2">
                 <div class="col-md-4 text-center text-md-left">
                   <div class="results-count mb-2 mb-md-0">
-                    {{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} / {{ results.hits }}
+                    {{ from + 1 }} -
+                    {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} /
+                    {{ results.hits }}
                     {{ 'search.results.results' | translate }}
                   </div>
                 </div>
@@ -755,7 +853,9 @@
 
                       <option [ngValue]="sortOptions.oldest.value">{{ 'search.sort.oldest' | translate }}</option>
 
-                      <option [ngValue]="sortOptions.popularity.value">{{ 'search.sort.popularity' | translate }}</option>
+                      <option [ngValue]="sortOptions.popularity.value">
+                        {{ 'search.sort.popularity' | translate }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -783,7 +883,8 @@
 
                 <app-search-result
                   *ngFor="
-                    let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }
+                    let result of results.results
+                      | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }
                   "
                   [result]="result"
                   (executeFilteredSearch)="filterSearch()"
@@ -795,7 +896,9 @@
               <div class="row justify-content-md-between align-items-md-center mb-2">
                 <div class="col-md-4 text-center text-md-left">
                   <div class="results-count mb-2 mb-md-0">
-                    {{ from + 1 }} - {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} / {{ results.hits }}
+                    {{ from + 1 }} -
+                    {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} /
+                    {{ results.hits }}
                     {{ 'search.results.results' | translate }}
                   </div>
                 </div>
@@ -811,7 +914,9 @@
 
                       <option [ngValue]="sortOptions.oldest.value">{{ 'search.sort.oldest' | translate }}</option>
 
-                      <option [ngValue]="sortOptions.popularity.value">{{ 'search.sort.popularity' | translate }}</option>
+                      <option [ngValue]="sortOptions.popularity.value">
+                        {{ 'search.sort.popularity' | translate }}
+                      </option>
                     </select>
                   </div>
                 </div>

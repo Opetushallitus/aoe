@@ -134,7 +134,9 @@
   <div class="modal-body text-center">
     <p>{{ 'forms.editEducationalResource.abort.text' | translate }}</p>
 
-    <button type="button" class="btn btn-blue" (click)="abort()">{{ 'forms.editEducationalResource.abort.confirm' | translate }}</button>
+    <button type="button" class="btn btn-blue" (click)="abort()">
+      {{ 'forms.editEducationalResource.abort.confirm' | translate }}
+    </button>
 
     <button type="button" class="btn btn-outline-blue" (click)="confirmModalRef.hide()">
       {{ 'forms.editEducationalResource.abort.cancel' | translate }}

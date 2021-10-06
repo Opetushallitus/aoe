@@ -5,29 +5,31 @@
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
             <p>
-              Sivustomme käyttää evästeitä käyttökokemuksen parantamiseksi (ml. kolmansien osapuolten evästeet). Voit halutessasi estää
-              evästeiden käytön evästeasetuksista.
+              Sivustomme käyttää evästeitä käyttökokemuksen parantamiseksi (ml. kolmansien osapuolten evästeet). Voit
+              halutessasi estää evästeiden käytön evästeasetuksista.
             </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
             <p>
-              Our website uses cookies to improve the user experience (incl. third-party cookies). If you wish, you can prevent the use of
-              cookies from the cookie settings.
+              Our website uses cookies to improve the user experience (incl. third-party cookies). If you wish, you can
+              prevent the use of cookies from the cookie settings.
             </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
             <p>
-              Vår webbplats använder cookies för att förbättra användarupplevelsen (också tredjepartscookies). Om du vill kan du blockera
-              användningen av cookies i inställningarna för dem.
+              Vår webbplats använder cookies för att förbättra användarupplevelsen (också tredjepartscookies). Om du
+              vill kan du blockera användningen av cookies i inställningarna för dem.
             </p>
           </ng-container>
         </ng-container>
       </div>
 
       <div class="col-md-auto">
-        <button type="button" class="btn btn-outline-primary" (click)="cookie.show()">{{ 'cookies.cookieSettings' | translate }}</button>
+        <button type="button" class="btn btn-outline-primary" (click)="cookie.show()">
+          {{ 'cookies.cookieSettings' | translate }}
+        </button>
         <button type="button" class="btn btn-blue" (click)="acceptAll()">{{ 'cookies.acceptAll' | translate }}</button>
       </div>
     </div>
@@ -39,7 +41,12 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left" id="cookie-notice-title">{{ 'cookies.title' | translate }}</h4>
-        <button type="button" class="close pull-right" [attr.aria-label]="'forms.common.close' | translate" (click)="cookie.hide()">
+        <button
+          type="button"
+          class="close pull-right"
+          [attr.aria-label]="'forms.common.close' | translate"
+          (click)="cookie.hide()"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -48,15 +55,16 @@
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
             <p>
-              Kun vierailet verkkosivustollamme, tallentavat evästeet tietoa vierailustasi. Eväste (cookie) on pieni tekstitiedosto, jonka
-              selain tallentaa kävijän laitteelle. Evästeitä on kahta eri päätyyppiä, istuntoevästeitä ja pysyviä evästeitä. Istuntoevästeet
-              poistuvat laitteeltasi heti, kun suljet selaimen. Pysyvät evästeet säilyvät tallennettuina, kunnes ne erikseen poistetaan tai
-              ne vanhentuvat.
+              Kun vierailet verkkosivustollamme, tallentavat evästeet tietoa vierailustasi. Eväste (cookie) on pieni
+              tekstitiedosto, jonka selain tallentaa kävijän laitteelle. Evästeitä on kahta eri päätyyppiä,
+              istuntoevästeitä ja pysyviä evästeitä. Istuntoevästeet poistuvat laitteeltasi heti, kun suljet selaimen.
+              Pysyvät evästeet säilyvät tallennettuina, kunnes ne erikseen poistetaan tai ne vanhentuvat.
             </p>
             <p>
-              Evästeitä käytetään mittaus- ja tutkimustarkoituksiin palvelun käytön tyypin ja määrän selvittämiseksi. Näin pystymme
-              parantamaan sivustomme käytettävyyttä ja tunnistamaan sivustomme kiinnostavimmat alueet. Käytämme verkkosivustomme vierailujen
-              seurantaan Google Analyticsiä. Google Analyticsin evästetietoja säilytetään 38 kuukautta.
+              Evästeitä käytetään mittaus- ja tutkimustarkoituksiin palvelun käytön tyypin ja määrän selvittämiseksi.
+              Näin pystymme parantamaan sivustomme käytettävyyttä ja tunnistamaan sivustomme kiinnostavimmat alueet.
+              Käytämme verkkosivustomme vierailujen seurantaan Google Analyticsiä. Google Analyticsin evästetietoja
+              säilytetään 38 kuukautta.
             </p>
 
             <p><strong>Käytämme evästeitä seuraaviin tarkoituksiin:</strong></p>
@@ -74,32 +82,34 @@
             </ul>
 
             <p>
-              Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä evästetietoja käytetään siten, ettei
-              palvelun käyttäjän yksityisyydensuojaa loukata. Evästetunnistusta ei käytetä sivuston kävijän yhdistämiseksi henkilö- tai
-              yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen tietojen tarkasteluun tai kopiointiin. Evästeiden keräämät tiedot
-              lähetetään takaisin meille ilman henkilötietoja, jotta pystymme seuraamaan sivustomme käytön trendejä. Käyttäjä voi
-              halutessaan estää evästeiden käytön selaimensa asetuksissa. Tarkemmat ohjeet evästeiden poistamisesta löydät selaimesi
+              Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä evästetietoja
+              käytetään siten, ettei palvelun käyttäjän yksityisyydensuojaa loukata. Evästetunnistusta ei käytetä
+              sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen
+              tietojen tarkasteluun tai kopiointiin. Evästeiden keräämät tiedot lähetetään takaisin meille ilman
+              henkilötietoja, jotta pystymme seuraamaan sivustomme käytön trendejä. Käyttäjä voi halutessaan estää
+              evästeiden käytön selaimensa asetuksissa. Tarkemmat ohjeet evästeiden poistamisesta löydät selaimesi
               ohjeista.
             </p>
 
             <p>
-              Voit halutessasi estää näistä evästeasetuksista niiden evästeiden käytön, jotka eivät ole palvelun tarjoamiseksi
-              välttämättömiä. Myös selaimesta voi estää evästeiden käytön. Tarkemmat ohjeet evästeiden poistamisesta löydät selaimesi
-              ohjeista.
+              Voit halutessasi estää näistä evästeasetuksista niiden evästeiden käytön, jotka eivät ole palvelun
+              tarjoamiseksi välttämättömiä. Myös selaimesta voi estää evästeiden käytön. Tarkemmat ohjeet evästeiden
+              poistamisesta löydät selaimesi ohjeista.
             </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
             <p>
-              When you visit our website, cookies store data about your visit. A cookie is a small text file that the browser stores on the
-              visitor’s device. There are two main types of cookies, session cookies and permanent cookies. Session cookies are removed from
-              your device as soon as you close the browser. Permanent cookies remain stored until they are specifically removed or they
-              expire.
+              When you visit our website, cookies store data about your visit. A cookie is a small text file that the
+              browser stores on the visitor’s device. There are two main types of cookies, session cookies and permanent
+              cookies. Session cookies are removed from your device as soon as you close the browser. Permanent cookies
+              remain stored until they are specifically removed or they expire.
             </p>
             <p>
-              Cookies are used for measurement and research practices, for determining the type and volume of use of the service. This way,
-              we can improve the usability of our site and identify the most interesting sections of our site. We use Google Analytics to
-              monitor visits to our website. Cookie data provided by Google Analytics is stored for 38 months.
+              Cookies are used for measurement and research practices, for determining the type and volume of use of the
+              service. This way, we can improve the usability of our site and identify the most interesting sections of
+              our site. We use Google Analytics to monitor visits to our website. Cookie data provided by Google
+              Analytics is stored for 38 months.
             </p>
 
             <p><strong>We use cookies for the following purposes:</strong></p>
@@ -117,29 +127,32 @@
             </ul>
 
             <p>
-              In accordance with the Information Society Code (917/2014), cookie data used on this site is used in such a way that the
-              user’s protection of privacy is not violated. Cookie identification is not used to link site visitors to personal data or
-              contact details. Cookies are not used for reviewing or copying data on a visitor’s terminal device. Data collected by cookies
-              is sent back to us without personal data, so we can monitor trends in the use of our site.
+              In accordance with the Information Society Code (917/2014), cookie data used on this site is used in such
+              a way that the user’s protection of privacy is not violated. Cookie identification is not used to link
+              site visitors to personal data or contact details. Cookies are not used for reviewing or copying data on a
+              visitor’s terminal device. Data collected by cookies is sent back to us without personal data, so we can
+              monitor trends in the use of our site.
             </p>
 
             <p>
-              If you wish, you can use these cookie settings to prevent the use of cookies that are not required by the provision of the
-              service. You can also prevent the use of cookies from your browser. For detailed instructions on how to remove cookies, please
-              consult the Help section of your browser.
+              If you wish, you can use these cookie settings to prevent the use of cookies that are not required by the
+              provision of the service. You can also prevent the use of cookies from your browser. For detailed
+              instructions on how to remove cookies, please consult the Help section of your browser.
             </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
             <p>
-              När du besöker vår webbplats lagrar cookies information om ditt besök. En cookie är en liten textfil, som webbläsaren lagrar i
-              besökarens apparat. Det finns två huvudtyper av cookies, sessionscookies och beständiga cookies. Sessionscookies raderas från
-              din apparat genast när du stänger webbläsaren. Beständiga cookies lagras tills de raderas separat eller föråldras.
+              När du besöker vår webbplats lagrar cookies information om ditt besök. En cookie är en liten textfil, som
+              webbläsaren lagrar i besökarens apparat. Det finns två huvudtyper av cookies, sessionscookies och
+              beständiga cookies. Sessionscookies raderas från din apparat genast när du stänger webbläsaren. Beständiga
+              cookies lagras tills de raderas separat eller föråldras.
             </p>
             <p>
-              Cookies används för att mäta och undersöka användningens typ och mängd. På så sätt kan vi förbättra användbarheten på vår
-              webbplats och identifiera de mest intressanta delarna av webbplatsen. Vi använder Google Analytics för uppföljning av besöken
-              på vår webbplats. Cookieinformationen i Google Analytics lagras i 38 månader.
+              Cookies används för att mäta och undersöka användningens typ och mängd. På så sätt kan vi förbättra
+              användbarheten på vår webbplats och identifiera de mest intressanta delarna av webbplatsen. Vi använder
+              Google Analytics för uppföljning av besöken på vår webbplats. Cookieinformationen i Google Analytics
+              lagras i 38 månader.
             </p>
 
             <p><strong>Vi använder cookies i följande syften:</strong></p>
@@ -157,16 +170,18 @@
             </ul>
 
             <p>
-              Cookieinformationen på den här webbplatsen används i enlighet med lagen om tjänster inom elektronisk kommunikation (917/2014)
-              på så att användarens integritet inte kränks. Cookies utnyttjas inte för att sammankoppla den som besöker webbplatsen med
-              person- eller kontaktuppgifter. Cookies används inte för att granska eller kopiera information i besökarens apparat.
-              Informationen som cookies samlat in skickas tillbaka till oss utan personuppgifter för att vi ska kunna följa upp trenderna i
-              användningen av vår webbplats.
+              Cookieinformationen på den här webbplatsen används i enlighet med lagen om tjänster inom elektronisk
+              kommunikation (917/2014) på så att användarens integritet inte kränks. Cookies utnyttjas inte för att
+              sammankoppla den som besöker webbplatsen med person- eller kontaktuppgifter. Cookies används inte för att
+              granska eller kopiera information i besökarens apparat. Informationen som cookies samlat in skickas
+              tillbaka till oss utan personuppgifter för att vi ska kunna följa upp trenderna i användningen av vår
+              webbplats.
             </p>
 
             <p>
-              Om du vill kan du blockera användningen av cookies som inte är nödvändiga för tjänsten i inställningarna för cookies. Du kan
-              också blockera cookies i webbläsaren. Det finns noggrannare instruktioner om raderingen av cookies i hjälpen för webbläsaren.
+              Om du vill kan du blockera användningen av cookies som inte är nödvändiga för tjänsten i inställningarna
+              för cookies. Du kan också blockera cookies i webbläsaren. Det finns noggrannare instruktioner om
+              raderingen av cookies i hjälpen för webbläsaren.
             </p>
           </ng-container>
         </ng-container>
@@ -179,12 +194,19 @@
             </div>
 
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="google-analytics" formControlName="googleAnalytics" />
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="google-analytics"
+                formControlName="googleAnalytics"
+              />
               <label class="custom-control-label" for="google-analytics">Google Analytics</label>
             </div>
           </div>
 
-          <button type="submit" class="btn btn-blue" (click)="cookie.hide()">{{ 'forms.common.save' | translate }}</button>
+          <button type="submit" class="btn btn-blue" (click)="cookie.hide()">
+            {{ 'forms.common.save' | translate }}
+          </button>
         </form>
       </div>
     </div>

@@ -136,7 +136,8 @@ export const FAQMaterial = {
       ],
     },
     {
-      question: 'Can I create resources on the Library of Open Educational Resources platform / How can I create resources?',
+      question:
+        'Can I create resources on the Library of Open Educational Resources platform / How can I create resources?',
       answer: [
         'Resources created using other tools can be saved or linked to on the service, but is not possible to create resources on the service platform itself.',
         'There are a number of suitable tools for creating educational resources. These should be selected based on pedagogical considerations and other requirements (competences, available resources, etc.). As an example, office and video recording software and website editors offer a range of solutions. Specialized software for creating educational resources is also available, such as mathematics package GeoGebra. When selecting your tool, it is advisable to consider whether created material can be saved onto your own computer and distributed to others. This ensures that your educational resources remain usable even if the platform in question is no longer available.',

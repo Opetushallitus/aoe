@@ -14,6 +14,7 @@ import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
 import { getUniqueFrameworks } from '../../../../shared/shared.module';
 import { ignoredSubjects } from '../../../../constants/ignored-subjects';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-preview',
@@ -167,7 +168,8 @@ export class PreviewComponent implements OnInit {
     );
 
     this.upperSecondarySchoolSubjectsOld = this.savedData?.alignmentObjects.filter(
-      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsOld,
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.upperSecondarySubjectsOld,
     );
 
     this.upperSecondarySchoolCoursesOld = this.savedData?.alignmentObjects.filter(
@@ -177,7 +179,8 @@ export class PreviewComponent implements OnInit {
     this.upperSecondarySchoolFramework = getUniqueFrameworks(this.upperSecondarySchoolSubjects);
 
     this.upperSecondarySchoolSubjectsNew = this.savedData?.alignmentObjects.filter(
-      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjectsNew,
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.upperSecondarySubjectsNew,
     );
 
     this.upperSecondarySchoolModulesNew = this.savedData?.alignmentObjects.filter(
@@ -185,11 +188,13 @@ export class PreviewComponent implements OnInit {
     );
 
     this.upperSecondarySchoolObjectivesNew = this.savedData?.alignmentObjects.filter(
-      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew,
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.upperSecondaryObjectivesNew,
     );
 
     this.upperSecondarySchoolContentsNew = this.savedData?.alignmentObjects.filter(
-      (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondaryContentsNew,
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.upperSecondaryContentsNew,
     );
 
     // this.upperSecondarySchoolFrameworkNew = getUniqueFrameworks(this.upperSecondarySchoolSubjectsNew);
@@ -281,7 +286,7 @@ export class PreviewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
     });
   }

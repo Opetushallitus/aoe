@@ -1,4 +1,7 @@
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { Author } from '@models/material/author';
+import { ExternalReference } from '@models/material/external-reference';
+import { Subtitle } from '@models/material/subtitle';
 
 export interface EducationalMaterialForm {
   // files
@@ -20,17 +23,7 @@ export interface EducationalMaterialForm {
       language: string;
       priority: number;
       mimeType: string;
-      subtitles?: [
-        {
-          id: number;
-          fileId: string | number;
-          subtitle: string;
-          default: boolean;
-          kind: string;
-          label: string;
-          srclang: string;
-        },
-      ];
+      subtitles?: Subtitle[];
     },
   ];
   videoFiles?: number[];
@@ -42,15 +35,7 @@ export interface EducationalMaterialForm {
       value: string;
     },
   ];
-  authors: [
-    {
-      author?: string;
-      organization?: {
-        key: string;
-        value: string;
-      };
-    },
-  ];
+  authors: Author[];
   learningResourceTypes: [
     {
       key: string;
@@ -147,13 +132,7 @@ export interface EducationalMaterialForm {
   // license
   license: string;
   // references
-  externals?: [
-    {
-      author: string[];
-      url: string;
-      name: string;
-    },
-  ];
+  externals?: ExternalReference[];
   isVersioned?: boolean;
   versions: [
     {

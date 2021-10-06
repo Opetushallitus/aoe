@@ -6,7 +6,9 @@
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{
+          'userMaterials.createNew' | translate
+        }}</a>
       </div>
     </div>
 
@@ -69,7 +71,9 @@
         <div class="card-collection private">
           <a [routerLink]="['/kokoelma', collection.id]">
             <div class="row no-gutters">
-              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+              <div
+                class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0"
+              >
                 <img
                   [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                   class="img-fluid"
@@ -101,7 +105,9 @@
         <div class="card-collection">
           <a [routerLink]="['/kokoelma', collection.id]">
             <div class="row no-gutters">
-              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+              <div
+                class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0"
+              >
                 <img
                   [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                   class="img-fluid"

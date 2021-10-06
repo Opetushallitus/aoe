@@ -197,7 +197,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     // set preview material
     this.setPreviewMaterial(
       this.materials.find((material: Material) => {
-        if (material.language === language || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)) {
+        if (
+          material.language === language ||
+          material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
+        ) {
           return material;
         }
       }),

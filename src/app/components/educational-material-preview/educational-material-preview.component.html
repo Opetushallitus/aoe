@@ -22,14 +22,15 @@
 
       <ng-container *ngSwitchCase="'en'">
         <em
-          >The chosen file cannot be previewed. Please <a [href]="material.downloadUrl" download>download the material</a> to start using
-          it.</em
+          >The chosen file cannot be previewed. Please
+          <a [href]="material.downloadUrl" download>download the material</a> to start using it.</em
         >
       </ng-container>
 
       <ng-container *ngSwitchCase="'sv'">
         <em
-          >Filen kan inte förhandsgranskas. <a [href]="material.downloadUrl" download>Ladda ner materialen</a> om du vill använda filen.</em
+          >Filen kan inte förhandsgranskas. <a [href]="material.downloadUrl" download>Ladda ner materialen</a> om du
+          vill använda filen.</em
         >
       </ng-container>
     </ng-container>

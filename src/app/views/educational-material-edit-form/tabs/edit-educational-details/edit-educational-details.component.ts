@@ -23,6 +23,7 @@ import {
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
@@ -190,7 +191,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
     }
 
-    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 || this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0) {
+    if (
+      this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 ||
+      this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0
+    ) {
       this.currentUpperSecondarySchoolSelected.setValue(true);
     }
 
@@ -226,20 +230,26 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateEducationalLevels();
 
     // basic study subjects
-    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe((subjects: AlignmentObjectExtended[]) => {
-      this.basicStudySubjects = subjects;
-    });
+    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
+        this.basicStudySubjects = subjects;
+      },
+    );
     this.koodistoSvc.updateBasicStudySubjects();
 
     // basic study objectives
-    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe((objectives: AlignmentObjectExtended[]) => {
-      this.basicStudyObjectives = objectives;
-    });
+    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe(
+      (objectives: AlignmentObjectExtended[]) => {
+        this.basicStudyObjectives = objectives;
+      },
+    );
 
     // basic study contents
-    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe((contents: AlignmentObjectExtended[]) => {
-      this.basicStudyContents = contents;
-    });
+    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe(
+      (contents: AlignmentObjectExtended[]) => {
+        this.basicStudyContents = contents;
+      },
+    );
 
     // upper secondary school subjects (old)
     this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$.subscribe(
@@ -285,15 +295,19 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     );
 
     // vocational degrees
-    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe((degrees: AlignmentObjectExtended[]) => {
-      this.vocationalDegrees = degrees;
-    });
+    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe(
+      (degrees: AlignmentObjectExtended[]) => {
+        this.vocationalDegrees = degrees;
+      },
+    );
     this.koodistoSvc.updateVocationalDegrees();
 
     // vocational units
-    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe((units: AlignmentObjectExtended[]) => {
-      this.vocationalUnits = units;
-    });
+    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe(
+      (units: AlignmentObjectExtended[]) => {
+        this.vocationalUnits = units;
+      },
+    );
 
     // vocational requirements
     this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$.subscribe(
@@ -319,9 +333,11 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.koodistoSvc.updateSpecialistVocationalQualifications();
 
     // science branches
-    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe((branches: AlignmentObjectExtended[]) => {
-      this.scienceBranches = branches;
-    });
+    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe(
+      (branches: AlignmentObjectExtended[]) => {
+        this.scienceBranches = branches;
+      },
+    );
     this.koodistoSvc.updateScienceBranches();
   }
 
@@ -349,7 +365,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
     });
   }
@@ -435,7 +451,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * @param value
    */
   educationalLevelsChange(value: any): void {
-    this.hasEarlyChildhoodEducation = value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
+    this.hasEarlyChildhoodEducation =
+      value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = value.filter((e: any) => educationalLevelKeys.prePrimary.includes(e.key)).length > 0;
 
@@ -445,11 +462,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.hasBasicStudySubjects = false;
     }
 
-    this.hasUpperSecondarySchool = value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
+    this.hasUpperSecondarySchool =
+      value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
 
     this.hasVocationalEducation = value.filter((e: any) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
 
-    this.hasSelfMotivatedEducation = value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
+    this.hasSelfMotivatedEducation =
+      value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
 
     this.hasHigherEducation = value.filter((e: any) => educationalLevelKeys.higherEducation.includes(e.key)).length > 0;
   }

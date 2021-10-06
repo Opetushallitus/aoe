@@ -102,7 +102,7 @@ export interface EducationalMaterialPut {
 export interface Material {
   materialId: number | string;
   priority: number;
-  attachments?: number[];
+  attachments?: string[];
 }
 
 export interface FileDetail {
@@ -116,7 +116,7 @@ export interface FileDetail {
 }
 
 export interface AttachmentDetail {
-  id: number;
+  id: string;
   default: boolean;
   kind: string;
   label: string;

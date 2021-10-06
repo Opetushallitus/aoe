@@ -7,6 +7,8 @@ import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { ExternalReference } from '@models/material/external-reference';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -19,7 +21,12 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   submitted = false;
 
-  constructor(private translate: TranslateService, private fb: FormBuilder, private router: Router, private titleSvc: Title) {}
+  constructor(
+    private translate: TranslateService,
+    private fb: FormBuilder,
+    private router: Router,
+    private titleSvc: Title,
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -37,14 +44,12 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
       externals: this.fb.array([this.createExternal()]),
     });
 
-    if (this.savedData && this.savedData.isBasedOn) {
-      if (this.savedData.isBasedOn.externals.length > 0) {
-        this.removeExternal(0);
+    if (this.savedData?.isBasedOn?.externals?.length > 0) {
+      this.removeExternal(0);
 
-        this.savedData.isBasedOn.externals.forEach((external) => {
-          this.externals.push(this.createExternal(external));
-        });
-      }
+      this.savedData.isBasedOn.externals.forEach((external: ExternalReference) => {
+        this.externals.push(this.createExternal(external));
+      });
     }
   }
 
@@ -56,7 +61,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
     });
   }
@@ -76,15 +81,15 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     });
   }*/
 
-  createExternal(external?: any): FormGroup {
+  createExternal(external?: ExternalReference): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
-      url: this.fb.control(external ? external.url : null, [
+      author: this.fb.control(external?.author ?? null, [Validators.required, textInputValidator()]),
+      url: this.fb.control(external?.url ?? null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
         Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
-      name: this.fb.control(external ? external.name : null, [
+      name: this.fb.control(external?.name ?? null, [
         Validators.required,
         Validators.maxLength(validatorParams.reference.name.maxLength),
         textInputValidator(),
