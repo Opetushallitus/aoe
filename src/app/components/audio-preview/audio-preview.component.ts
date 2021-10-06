@@ -16,7 +16,7 @@ export class AudioPreviewComponent implements OnInit, OnChanges {
     this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(_changes: SimpleChanges): void {
     // refreshes audio player after source change
     this.audioPlayerRef.nativeElement.load();
 

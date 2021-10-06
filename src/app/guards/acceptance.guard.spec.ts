@@ -1,11 +1,11 @@
-import { TestBed, inject, waitForAsync } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
 import { AcceptanceGuard } from './acceptance.guard';
 
 describe('AcceptanceGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AcceptanceGuard]
+      providers: [AcceptanceGuard],
     });
   });
 

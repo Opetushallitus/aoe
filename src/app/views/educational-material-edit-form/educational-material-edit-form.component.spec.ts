@@ -6,12 +6,13 @@ describe('EducationalMaterialEditFormComponent', () => {
   let component: EducationalMaterialEditFormComponent;
   let fixture: ComponentFixture<EducationalMaterialEditFormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EducationalMaterialEditFormComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EducationalMaterialEditFormComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EducationalMaterialEditFormComponent);

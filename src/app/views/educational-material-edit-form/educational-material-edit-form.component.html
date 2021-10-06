@@ -4,76 +4,69 @@
 
     <ul class="list-inline material-form-tabs">
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.files' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.files' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.basicDetails' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.basicDetails' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.educationalDetails' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.educationalDetails' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 4]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.extendedDetails' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 4]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.extendedDetails' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.licenseDetails' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.licenseDetails' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 6]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.basedOnDetails' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 6]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.basedOnDetails' | translate
+        }}</a>
       </li>
 
       <li class="list-inline-item divider" aria-hidden="true">
-        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow">
+        <img src="assets/img/icons/ic_arrow_right_black.svg" alt="divider arrow" />
       </li>
 
       <li class="list-inline-item">
-        <a
-          [routerLink]="['/muokkaa-oppimateriaalia', materialId, 7]"
-          routerLinkActive="active"
-        >{{ 'forms.educationalResource.nav.preview' | translate }}</a>
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 7]" routerLinkActive="active">{{
+          'forms.educationalResource.nav.preview' | translate
+        }}</a>
       </li>
     </ul>
 
@@ -83,49 +76,56 @@
         [material]="material"
         [materialId]="materialId"
         [tabId]="1"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-files>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-files>
 
       <app-tabs-edit-basic-details
         *ngSwitchCase="2"
         [material]="material"
         [materialId]="materialId"
         [tabId]="2"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-basic-details>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-basic-details>
 
       <app-tabs-edit-educational-details
         *ngSwitchCase="3"
         [material]="material"
         [materialId]="materialId"
         [tabId]="3"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-educational-details>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-educational-details>
 
       <app-tabs-edit-extended-details
         *ngSwitchCase="4"
         [material]="material"
         [materialId]="materialId"
         [tabId]="4"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-extended-details>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-extended-details>
 
       <app-tabs-edit-license
         *ngSwitchCase="5"
         [material]="material"
         [materialId]="materialId"
         [tabId]="5"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-license>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-license>
 
       <app-tabs-edit-based-on-details
         *ngSwitchCase="6"
         [material]="material"
         [materialId]="materialId"
         [tabId]="6"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-based-on-details>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-based-on-details>
 
       <app-tabs-edit-preview
         *ngSwitchCase="7"
         [material]="material"
         [materialId]="materialId"
         [tabId]="7"
-        (abortEdit)="openConfirmModal(confirmAbort)"></app-tabs-edit-preview>
+        (abortEdit)="openConfirmModal(confirmAbort)"
+      ></app-tabs-edit-preview>
     </ng-container>
   </div>
 </div>
@@ -134,16 +134,10 @@
   <div class="modal-body text-center">
     <p>{{ 'forms.editEducationalResource.abort.text' | translate }}</p>
 
-    <button
-      type="button"
-      class="btn btn-blue"
-      (click)="abort()"
-    >{{ 'forms.editEducationalResource.abort.confirm' | translate }}</button>
+    <button type="button" class="btn btn-blue" (click)="abort()">{{ 'forms.editEducationalResource.abort.confirm' | translate }}</button>
 
-    <button
-      type="button"
-      class="btn btn-outline-blue"
-      (click)="confirmModalRef.hide()"
-    >{{ 'forms.editEducationalResource.abort.cancel' | translate }}</button>
+    <button type="button" class="btn btn-outline-blue" (click)="confirmModalRef.hide()">
+      {{ 'forms.editEducationalResource.abort.cancel' | translate }}
+    </button>
   </div>
 </ng-template>

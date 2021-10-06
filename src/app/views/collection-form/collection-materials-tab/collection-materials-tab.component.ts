@@ -16,7 +16,7 @@ import { Toast } from '@models/translations/toast';
 @Component({
   selector: 'app-collection-materials-tab',
   templateUrl: './collection-materials-tab.component.html',
-  styleUrls: ['./collection-materials-tab.component.scss']
+  styleUrls: ['./collection-materials-tab.component.scss'],
 })
 export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionForm;
@@ -37,7 +37,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     private titleSvc: Title,
     private collectionSvc: CollectionService,
     private toastr: ToastrService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -156,7 +156,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * Moves item in array.
    * @param {CdkDragDrop<any>} event
    */
-  drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>): void {
     moveItemInArray(this.materialsAndHeadingsArray.controls, event.previousIndex, event.currentIndex);
     moveItemInArray(this.materialsAndHeadingsArray.value, event.previousIndex, event.currentIndex);
   }
@@ -184,9 +184,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
     const materialId = this.materialsAndHeadingsArray.at(idx).get('id').value;
     const payload: RemoveFromCollectionPost = {
       collectionId: +this.collectionId,
-      emId: [
-        materialId,
-      ]
+      emId: [materialId],
     };
 
     this.collectionSvc.removeFromCollection(payload).subscribe(() => {
@@ -217,19 +215,22 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * Saves collection to session storage.
    */
   saveCollection(): void {
-    const changedCollection: CollectionForm = sessionStorage.getItem(environment.collection) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.collection))
-      : this.collection;
+    const changedCollection: CollectionForm =
+      sessionStorage.getItem(environment.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.collection))
+        : this.collection;
 
-    changedCollection.materials = changedCollection.materials
-      .filter((material: CollectionFormMaterial) => this.removedMaterials.includes(material.id) === false);
+    changedCollection.materials = changedCollection.materials.filter(
+      (material: CollectionFormMaterial) => this.removedMaterials.includes(material.id) === false,
+    );
 
-    changedCollection.materialsAndHeadings = this.materialsAndHeadingsArray.value
-      .map((materialOrHeading: CollectionFormMaterialAndHeading, idx: number) => {
+    changedCollection.materialsAndHeadings = this.materialsAndHeadingsArray.value.map(
+      (materialOrHeading: CollectionFormMaterialAndHeading, idx: number) => {
         materialOrHeading.priority = idx;
 
         return materialOrHeading;
-      });
+      },
+    );
 
     sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
   }

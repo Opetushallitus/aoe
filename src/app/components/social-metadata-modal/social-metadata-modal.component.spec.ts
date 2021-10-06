@@ -6,12 +6,13 @@ describe('SocialMetadataModalComponent', () => {
   let component: SocialMetadataModalComponent;
   let fixture: ComponentFixture<SocialMetadataModalComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SocialMetadataModalComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SocialMetadataModalComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SocialMetadataModalComponent);

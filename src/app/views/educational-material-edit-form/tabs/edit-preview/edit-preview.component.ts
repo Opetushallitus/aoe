@@ -14,7 +14,7 @@ import { ignoredSubjects } from '../../../../constants/ignored-subjects';
 @Component({
   selector: 'app-tabs-edit-preview',
   templateUrl: './edit-preview.component.html',
-  styleUrls: ['./edit-preview.component.scss']
+  styleUrls: ['./edit-preview.component.scss'],
 })
 export class EditPreviewComponent implements OnInit {
   @Input() material: EducationalMaterialForm;
@@ -34,50 +34,26 @@ export class EditPreviewComponent implements OnInit {
     private materialSvc: MaterialService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
 
     this.form = this.fb.group({
-      hasName: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasMaterial: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasAuthor: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasKeywords: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasLearningResourceTypes: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasEducationalLevels: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasName: this.fb.control(false, [Validators.requiredTrue]),
+      hasMaterial: this.fb.control(false, [Validators.requiredTrue]),
+      hasAuthor: this.fb.control(false, [Validators.requiredTrue]),
+      hasKeywords: this.fb.control(false, [Validators.requiredTrue]),
+      hasLearningResourceTypes: this.fb.control(false, [Validators.requiredTrue]),
+      hasEducationalLevels: this.fb.control(false, [Validators.requiredTrue]),
       shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
-      hasBasicEduObjectives: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasBasicEduContents: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasBasicEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasBasicEduContents: this.fb.control(false, [Validators.requiredTrue]),
       shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
-      hasUpperSecondaryEduObjectives: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasUpperSecondaryEduContents: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasLicense: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      confirm: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasUpperSecondaryEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasUpperSecondaryEduContents: this.fb.control(false, [Validators.requiredTrue]),
+      hasLicense: this.fb.control(false, [Validators.requiredTrue]),
+      confirm: this.fb.control(false, [Validators.requiredTrue]),
     });
 
     this.lang = this.translate.currentLang;
@@ -102,15 +78,18 @@ export class EditPreviewComponent implements OnInit {
     this.form.get('hasLicense').setValue(this.previewMaterial?.license !== null);
 
     if (this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin || this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax) {
-      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''}`;
+      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${
+        this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''
+      }`;
     }
 
     if (this.previewMaterial.basicStudySubjects?.length > 0) {
       this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
       this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
 
-      const ignoredSubjectsList = this.previewMaterial.basicStudySubjects
-        .filter((subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()));
+      const ignoredSubjectsList = this.previewMaterial.basicStudySubjects.filter((subject: AlignmentObjectExtended) =>
+        ignoredSubjects.includes(subject.key.toString()),
+      );
 
       this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
     }
@@ -122,7 +101,10 @@ export class EditPreviewComponent implements OnInit {
       this.form.get('hasBasicEduContents').updateValueAndValidity();
     }
 
-    if (this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 && this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0) {
+    if (
+      this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 &&
+      this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0
+    ) {
       this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
       this.form.get('hasUpperSecondaryEduObjectives').setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
       this.form.get('hasUpperSecondaryEduContents').setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
@@ -146,7 +128,7 @@ export class EditPreviewComponent implements OnInit {
    * Moves item in array.
    * @param {CdkDragDrop<any>} event
    */
-  drop(event: CdkDragDrop<any>) {
+  drop(event: CdkDragDrop<any>): void {
     moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
   }
 

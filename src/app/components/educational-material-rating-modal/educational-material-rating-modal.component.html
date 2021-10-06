@@ -1,22 +1,15 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">
-    {{ 'demo.educationalMaterial.userReviews.modal.title' | translate }}
-  </h1>
+  <h1 class="modal-title pull-left">{{ 'demo.educationalMaterial.userReviews.modal.title' | translate }}</h1>
 
-  <button
-    type="button"
-    class="close pull-right"
-    [attr.aria-label]="'forms.common.close' | translate"
-    (click)="bsModalRef.hide()"
-  ><span aria-hidden="true">&times;</span></button>
+  <button type="button" class="close pull-right" [attr.aria-label]="'forms.common.close' | translate" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="ratingContent">
-        {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }} (1-5)
-      </label>
+      <label for="ratingContent"> {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }} (1-5) </label>
 
       <input
         type="number"
@@ -27,23 +20,17 @@
         max="5"
         step="1"
         [ngClass]="{ 'is-invalid': ratingContentCtrl.errors }"
-      >
+      />
 
       <div *ngIf="ratingContentCtrl.errors" class="invalid-feedback">
-        <div *ngIf="ratingContentCtrl.errors.min">
-          {{ 'forms.common.min' | translate }} {{ ratingContentCtrl.errors.min.min }}
-        </div>
+        <div *ngIf="ratingContentCtrl.errors.min">{{ 'forms.common.min' | translate }} {{ ratingContentCtrl.errors.min.min }}</div>
 
-        <div *ngIf="ratingContentCtrl.errors.max">
-          {{ 'forms.common.max' | translate }} {{ ratingContentCtrl.errors.max.max }}
-        </div>
+        <div *ngIf="ratingContentCtrl.errors.max">{{ 'forms.common.max' | translate }} {{ ratingContentCtrl.errors.max.max }}</div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="ratingVisual">
-        {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }} (1-5)
-      </label>
+      <label for="ratingVisual"> {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }} (1-5) </label>
 
       <input
         type="number"
@@ -54,23 +41,17 @@
         max="5"
         step="1"
         [ngClass]="{ 'is-invalid': ratingVisualCtrl.errors }"
-      >
+      />
 
       <div *ngIf="ratingVisualCtrl.errors" class="invalid-feedback">
-        <div *ngIf="ratingVisualCtrl.errors.min">
-          {{ 'forms.common.min' | translate }} {{ ratingVisualCtrl.errors.min.min }}
-        </div>
+        <div *ngIf="ratingVisualCtrl.errors.min">{{ 'forms.common.min' | translate }} {{ ratingVisualCtrl.errors.min.min }}</div>
 
-        <div *ngIf="ratingVisualCtrl.errors.max">
-          {{ 'forms.common.max' | translate }} {{ ratingVisualCtrl.errors.max.max }}
-        </div>
+        <div *ngIf="ratingVisualCtrl.errors.max">{{ 'forms.common.max' | translate }} {{ ratingVisualCtrl.errors.max.max }}</div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="feedbackPositive">
-        {{ 'demo.educationalMaterial.userReviews.feedbackPositive' | translate }}
-      </label>
+      <label for="feedbackPositive"> {{ 'demo.educationalMaterial.userReviews.feedbackPositive' | translate }} </label>
 
       <textarea
         class="form-control"
@@ -81,16 +62,13 @@
 
       <div *ngIf="feedbackPositiveCtrl.errors" class="invalid-feedback">
         <div *ngIf="feedbackPositiveCtrl.errors.maxlength">
-          {{ feedbackPositiveCtrl.errors.maxlength.actualLength }}
-          / {{ feedbackPositiveCtrl.errors.maxlength.requiredLength }}
+          {{ feedbackPositiveCtrl.errors.maxlength.actualLength }} / {{ feedbackPositiveCtrl.errors.maxlength.requiredLength }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="feedbackSuggest">
-        {{ 'demo.educationalMaterial.userReviews.feedbackSuggest' | translate }}
-      </label>
+      <label for="feedbackSuggest"> {{ 'demo.educationalMaterial.userReviews.feedbackSuggest' | translate }} </label>
 
       <textarea
         class="form-control"
@@ -101,16 +79,13 @@
 
       <div *ngIf="feedbackSuggestCtrl.errors" class="invalid-feedback">
         <div *ngIf="feedbackSuggestCtrl.errors.maxlength">
-          {{ feedbackSuggestCtrl.errors.maxlength.actualLength }}
-          / {{ feedbackSuggestCtrl.errors.maxlength.requiredLength }}
+          {{ feedbackSuggestCtrl.errors.maxlength.actualLength }} / {{ feedbackSuggestCtrl.errors.maxlength.requiredLength }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="feedbackPurpose">
-        {{ 'demo.educationalMaterial.userReviews.feedbackPurpose' | translate }}
-      </label>
+      <label for="feedbackPurpose"> {{ 'demo.educationalMaterial.userReviews.feedbackPurpose' | translate }} </label>
 
       <textarea
         class="form-control"
@@ -121,22 +96,15 @@
 
       <div *ngIf="feedbackPurposeCtrl.errors" class="invalid-feedback">
         <div *ngIf="feedbackPurposeCtrl.errors.maxlength">
-          {{ feedbackPurposeCtrl.errors.maxlength.actualLength }}
-          / {{ feedbackPurposeCtrl.errors.maxlength.requiredLength }}
+          {{ feedbackPurposeCtrl.errors.maxlength.actualLength }} / {{ feedbackPurposeCtrl.errors.maxlength.requiredLength }}
         </div>
       </div>
     </div>
 
-    <button
-      type="button"
-      class="btn btn-gray"
-      [attr.aria-label]="'forms.common.cancel' | translate"
-      (click)="bsModalRef.hide()"
-    >{{ 'forms.common.cancel' | translate }}</button>
+    <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="bsModalRef.hide()">
+      {{ 'forms.common.cancel' | translate }}
+    </button>
 
-    <button
-      type="submit"
-      class="btn btn-blue"
-    >{{ 'forms.common.save' | translate }}</button>
+    <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
   </form>
 </div>

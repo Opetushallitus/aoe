@@ -19,10 +19,7 @@ export class HelpViewComponent implements OnInit, OnDestroy {
   public faqOrganisation;
   isOpen = false;
 
-  constructor(
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();

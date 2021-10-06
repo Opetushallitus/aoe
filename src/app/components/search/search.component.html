@@ -1,8 +1,6 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label class="sr-only" for="keywords">
-      {{ 'search.inputs.keywords.label' | translate }}
-    </label>
+    <label class="sr-only" for="keywords"> {{ 'search.inputs.keywords.label' | translate }} </label>
 
     <input
       type="search"
@@ -10,7 +8,7 @@
       id="keywords"
       [placeholder]="'search.inputs.keywords.placeholder' | translate"
       formControlName="keywords"
-    >
+    />
   </div>
 
   <div class="form-row" formGroupName="filters">
@@ -37,19 +35,13 @@
           </div>
         </ng-template>
 
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.value }}
-        </ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-        </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
       </ng-select>
     </div>
 
     <div class="form-group col-md-6 col-lg">
-      <label class="sr-only" for="educationalSubjects">
-        {{ 'search.filters.educationalSubjecs.title' | translate }}
-      </label>
+      <label class="sr-only" for="educationalSubjects"> {{ 'search.filters.educationalSubjecs.title' | translate }} </label>
 
       <ng-select
         [items]="educationalSubjects"
@@ -70,12 +62,10 @@
           </div>
         </ng-template>
 
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.value }}
-        </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
         <ng-template ng-option-tmp let-item="item">
           {{ item.value }}
-          <small *ngIf="item.parent"><br>{{ item.parent }}</small>
+          <small *ngIf="item.parent"><br />{{ item.parent }}</small>
         </ng-template>
       </ng-select>
     </div>
@@ -104,15 +94,9 @@
     </div>
 
     <div class="col-md-6 col-lg-auto">
-      <button
-        type="submit"
-        class="btn btn-search btn-block"
-        id="button-search"
-      >
+      <button type="submit" class="btn btn-search btn-block" id="button-search">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <span class="sr-only">
-          {{ 'search.inputs.submit.sr-text' | translate }}
-        </span>
+        <span class="sr-only"> {{ 'search.inputs.submit.sr-text' | translate }} </span>
       </button>
     </div>
   </div>

@@ -45,7 +45,7 @@ export const routes: Routes = [
     component: P404Component,
     data: {
       title: 'Page 404',
-    }
+    },
   },
   {
     path: '',
@@ -57,100 +57,100 @@ export const routes: Routes = [
       {
         path: 'etusivu',
         component: MainViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'materiaali/:materialId',
         component: EducationalMaterialViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'materiaali/:materialId/arvostelut',
         component: EducationalMaterialRatingsComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'materiaali/:materialId/:versionDate',
         component: EducationalMaterialViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'kokoelmat',
         component: CollectionsViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'kokoelmat/haku',
         component: CollectionSearchResultsViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'kokoelma/:collectionId',
         component: CollectionViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'kokoelma/:collectionId/muokkaa',
         component: CollectionFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'kokoelma/:collectionId/muokkaa/:tabId',
         component: CollectionFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard ],
-        canDeactivate: [ UnsavedChangesGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard],
+        canDeactivate: [UnsavedChangesGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisatietoa',
         component: HelpViewComponent,
-        canActivate: [ AcceptanceGuard ],
+        canActivate: [AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'omat-tiedot',
         component: UserDetailsViewComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'omat-oppimateriaalit',
         component: UserMaterialsViewComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisaa-oppimateriaali',
         component: EducationalResourceFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard, DisableFormsGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard, DisableFormsGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'lisaa-oppimateriaali/:tabId',
         component: EducationalResourceFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard, DisableFormsGuard ],
-        canDeactivate: [ UnsavedChangesGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard, DisableFormsGuard],
+        canDeactivate: [UnsavedChangesGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'muokkaa-oppimateriaalia/:materialId',
         component: EducationalMaterialEditFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard, DisableFormsGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard, DisableFormsGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'muokkaa-oppimateriaalia/:materialId/:tabId',
         component: EducationalMaterialEditFormComponent,
-        canActivate: [ AuthGuard, AcceptanceGuard, DisableFormsGuard ],
-        canDeactivate: [ UnsavedChangesGuard ],
+        canActivate: [AuthGuard, AcceptanceGuard, DisableFormsGuard],
+        canDeactivate: [UnsavedChangesGuard],
         runGuardsAndResolvers: 'always',
       },
       {
@@ -171,7 +171,7 @@ export const routes: Routes = [
       {
         path: 'hyvaksynta',
         component: AcceptanceViewComponent,
-        canActivate: [ AuthGuard ],
+        canActivate: [AuthGuard],
         runGuardsAndResolvers: 'always',
       },
       {
@@ -197,21 +197,18 @@ export const routes: Routes = [
   },
   {
     path: 'bryssel',
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-    canActivate: [
-      AuthGuard,
-      AdminGuard,
-    ],
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard, AdminGuard],
     runGuardsAndResolvers: 'always',
   },
   {
     path: '**',
     redirectTo: '/404',
-  }
+  },
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

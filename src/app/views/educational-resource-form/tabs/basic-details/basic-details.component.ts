@@ -61,7 +61,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private materialSvc: MaterialService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -80,34 +80,31 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       this.updateLanguages();
     });
 
-    this.organizationSubscription = this.koodistoProxySvc.organizations$
-      .subscribe((organizations: KeyValue<string, string>[]) => {
-        this.organizations = organizations;
-      });
+    this.organizationSubscription = this.koodistoProxySvc.organizations$.subscribe((organizations: KeyValue<string, string>[]) => {
+      this.organizations = organizations;
+    });
     this.koodistoProxySvc.updateOrganizations();
 
-    this.keywordSubscription = this.koodistoProxySvc.keywords$
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords = keywords;
-      });
+    this.keywordSubscription = this.koodistoProxySvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
     this.koodistoProxySvc.updateKeywords();
 
-    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
-      .subscribe((learningResourceTypes: LearningResourceType[]) => {
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
+      (learningResourceTypes: LearningResourceType[]) => {
         this.learningResourceTypes = learningResourceTypes;
-      });
+      },
+    );
     this.koodistoProxySvc.updateLearningResourceTypes();
 
-    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$
-      .subscribe((educationalRoles: EducationalRole[]) => {
-        this.educationalRoles = educationalRoles;
-      });
+    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$.subscribe((educationalRoles: EducationalRole[]) => {
+      this.educationalRoles = educationalRoles;
+    });
     this.koodistoProxySvc.updateEducationalRoles();
 
-    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$
-      .subscribe((educationalUses: EducationalUse[]) => {
-        this.educationalUses = educationalUses;
-      });
+    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$.subscribe((educationalUses: EducationalUse[]) => {
+      this.educationalUses = educationalUses;
+    });
     this.koodistoProxySvc.updateEducationalUses();
 
     this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
@@ -119,18 +116,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       educationalRoles: this.fb.control(null),
       educationalUses: this.fb.control(null),
       description: this.fb.group({
-        fi: this.fb.control(null, [
-          Validators.maxLength(validatorParams.description.maxLength),
-          descriptionValidator(),
-        ]),
-        sv: this.fb.control(null, [
-          Validators.maxLength(validatorParams.description.maxLength),
-          descriptionValidator(),
-        ]),
-        en: this.fb.control(null, [
-          Validators.maxLength(validatorParams.description.maxLength),
-          descriptionValidator(),
-        ]),
+        fi: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
+        sv: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
+        en: this.fb.control(null, [Validators.maxLength(validatorParams.description.maxLength), descriptionValidator()]),
       }),
     });
 
@@ -164,7 +152,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           this.removeAuthor(0);
         }
 
-        this.savedData.authors.forEach(author => {
+        this.savedData.authors.forEach((author) => {
           if (author.author) {
             this.authors.push(this.createAuthor(author));
           } else {
@@ -198,19 +186,16 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.imageChangedEvent = event;
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event;
   }
 
   updateLanguages(): void {
-    this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
+    this.otherLangs = this.translate.getLangs().filter((lang) => lang !== this.lang);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   /**
@@ -218,10 +203,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openExampleDescriptionModal(template: TemplateRef<any>): void {
-    this.exampleDescriptionModalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
-    );
+    this.exampleDescriptionModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered modal-lg' }));
   }
 
   get authors(): FormArray {
@@ -244,7 +226,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('description') as FormGroup;
   }
 
-  createAuthor(author?): FormGroup {
+  createAuthor(author?: any): FormGroup {
     return this.fb.group({
       author: this.fb.control(author ? author.author : null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
@@ -254,7 +236,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  createOrganization(organization?): FormGroup {
+  createOrganization(organization?: any): FormGroup {
     return this.fb.group({
       organization: this.fb.control(organization ? organization.organization : null),
     });
@@ -272,7 +254,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.authors.removeAt(i);
   }
 
-  uploadImage() {
+  uploadImage(): void {
     if (this.croppedImage.base64) {
       this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
         (res) => {
@@ -286,13 +268,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           sessionStorage.setItem(environment.newERLSKey, JSON.stringify(savedData));
 
           this.modalRef.hide();
-          },
-        (err) => this.uploadError = err,
+        },
+        (err) => (this.uploadError = err),
       );
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -313,17 +295,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      this.form.value
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -334,7 +312,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }

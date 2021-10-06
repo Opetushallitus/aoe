@@ -1,22 +1,15 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">
-    {{ 'demo.educationalMaterial.socialMetadata.modal.title' | translate }}
-  </h1>
+  <h1 class="modal-title pull-left">{{ 'demo.educationalMaterial.socialMetadata.modal.title' | translate }}</h1>
 
-  <button
-    type="button"
-    class="close pull-right"
-    [attr.aria-label]="'forms.common.close' | translate"
-    (click)="bsModalRef.hide()"
-  ><span aria-hidden="true">&times;</span></button>
+  <button type="button" class="close pull-right" [attr.aria-label]="'forms.common.close' | translate" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="keywords">
-        {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}
-      </label>
+      <label for="keywords"> {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }} </label>
 
       <ng-select
         [items]="keywords"
@@ -27,7 +20,8 @@
         labelForId="keywords"
         formControlName="keywords"
       ></ng-select>
-    </div><!--/keywords-->
+    </div>
+    <!--/keywords-->
 
     <div class="form-group">
       <label for="accessibilityFeatures">
@@ -42,7 +36,8 @@
         labelForId="accessibilityFeatures"
         formControlName="accessibilityFeatures"
       ></ng-select>
-    </div><!--/accessibility features-->
+    </div>
+    <!--/accessibility features-->
 
     <div class="form-group">
       <label for="accessibilityHazards">
@@ -57,12 +52,11 @@
         labelForId="accessibilityHazards"
         formControlName="accessibilityHazards"
       ></ng-select>
-    </div><!--/accessibility hazards-->
+    </div>
+    <!--/accessibility hazards-->
 
     <div class="form-group">
-      <label for="educationalLevels">
-        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
-      </label>
+      <label for="educationalLevels"> {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }} </label>
 
       <ng-select
         [items]="educationalLevels"
@@ -73,25 +67,16 @@
         labelForId="educationalLevels"
         formControlName="educationalLevels"
       >
-        <ng-template ng-optgroup-tmp let-item="item">
-          {{ item.value }}
-        </ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-        </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
       </ng-select>
-    </div><!--/educational levels-->
+    </div>
+    <!--/educational levels-->
 
-    <button
-      type="button"
-      class="btn btn-gray"
-      [attr.aria-label]="'forms.common.cancel' | translate"
-      (click)="bsModalRef.hide()"
-    >{{ 'forms.common.cancel' | translate }}</button>
+    <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="bsModalRef.hide()">
+      {{ 'forms.common.cancel' | translate }}
+    </button>
 
-    <button
-      type="submit"
-      class="btn btn-blue"
-    >{{ 'forms.common.save' | translate }}</button>
+    <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
   </form>
 </div>

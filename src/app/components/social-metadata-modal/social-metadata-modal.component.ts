@@ -17,7 +17,7 @@ import { Toast } from '@models/translations/toast';
 @Component({
   selector: 'app-social-metadata-modal',
   templateUrl: './social-metadata-modal.component.html',
-  styleUrls: ['./social-metadata-modal.component.scss']
+  styleUrls: ['./social-metadata-modal.component.scss'],
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
   materialId: number;
@@ -40,7 +40,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private socialMetadataSvc: SocialMetadataService,
     private koodistoSvc: KoodistoProxyService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -58,31 +58,27 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
     });
 
     // keywords
-    this.keywordSubscription = this.koodistoSvc.keywords$
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords = keywords;
-      });
+    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
     this.koodistoSvc.updateKeywords();
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$
-      .subscribe((features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      });
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe((features: AccessibilityFeature[]) => {
+      this.accessibilityFeatures = features;
+    });
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$
-      .subscribe((hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      });
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe((hazards: AccessibilityHazard[]) => {
+      this.accessibilityHazards = hazards;
+    });
     this.koodistoSvc.updateAccessibilityHazards();
 
     // educational levels
-    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$
-      .subscribe((levels: EducationalLevel[]) => {
-        this.educationalLevels = levels;
-      });
+    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
+      this.educationalLevels = levels;
+    });
     this.koodistoSvc.updateEducationalLevels();
 
     this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe((metadata: SocialMetadata) => {

@@ -21,28 +21,19 @@ const routes: Routes = [
       {
         path: 'etusivu',
         component: DashboardComponent,
-        canActivate: [
-          AuthGuard,
-          AdminGuard,
-        ],
+        canActivate: [AuthGuard, AdminGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'arkistoi-materiaali',
         component: RemoveMaterialComponent,
-        canActivate: [
-          AuthGuard,
-          AdminGuard,
-        ],
+        canActivate: [AuthGuard, AdminGuard],
         runGuardsAndResolvers: 'always',
       },
       {
         path: 'vaihda-omistaja',
         component: ChangeMaterialOwnerComponent,
-        canActivate: [
-          AuthGuard,
-          AdminGuard,
-        ],
+        canActivate: [AuthGuard, AdminGuard],
         runGuardsAndResolvers: 'always',
       },
     ],
@@ -50,11 +41,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [
-    RouterModule,
-  ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}

@@ -52,30 +52,18 @@ export class FilesComponent implements OnInit, OnDestroy {
     private materialSvc: MaterialService,
     private titleSvc: Title,
     private authSvc: AuthService,
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.form = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
-        sv: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
-        en: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
+        fi: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+        sv: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+        en: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
       }),
-      files: this.fb.array([
-        this.createFile(),
-        this.createFile(),
-      ]),
+      files: this.fb.array([this.createFile(), this.createFile()]),
     });
 
     this.updateLanguages();
@@ -156,18 +144,9 @@ export class FilesComponent implements OnInit, OnDestroy {
       ]),
       language: this.fb.control(this.lang),
       displayName: this.fb.group({
-        fi: this.fb.control(null, [
-          Validators.maxLength(validatorParams.file.displayName.maxLength),
-          textInputValidator(),
-        ]),
-        sv: this.fb.control(null, [
-          Validators.maxLength(validatorParams.file.displayName.maxLength),
-          textInputValidator(),
-        ]),
-        en: this.fb.control(null, [
-          Validators.maxLength(validatorParams.file.displayName.maxLength),
-          textInputValidator(),
-        ]),
+        fi: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
+        sv: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
+        en: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
       }),
       subtitles: this.fb.array([]),
     });
@@ -182,32 +161,26 @@ export class FilesComponent implements OnInit, OnDestroy {
       file: [''],
       default: this.fb.control(false),
       kind: this.fb.control('subtitles'),
-      label: this.fb.control(null, [
-        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
-        textInputValidator(),
-      ]),
+      label: this.fb.control(null, [Validators.maxLength(validatorParams.file.subtitle.label.maxLength), textInputValidator()]),
       srclang: this.fb.control(null),
     });
   }
 
-  addSubtitle(i): void {
+  addSubtitle(i: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.push(this.createSubtitle());
   }
 
-  removeSubtitle(i, j): void {
+  removeSubtitle(i: number, j: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
     subtitles.removeAt(j);
   }
 
   openModal(template: TemplateRef<any>): void {
-    this.modalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
-  onFileChange(event, i): void {
+  onFileChange(event: any, i: number): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -217,21 +190,19 @@ export class FilesComponent implements OnInit, OnDestroy {
       } else {
         const subtitles = this.files.at(i).get('subtitles') as FormArray;
         subtitles.clear();
-        this.videoFiles = this.videoFiles.filter(v => v !== i);
+        this.videoFiles = this.videoFiles.filter((v) => v !== i);
       }
 
       this.files.at(i).get('file').setValue(file);
 
       // remove extension from filename
-      const fileName = file.name
-        .replace(/\.[^/.]+$/, '')
-        .replace(textInputRe, '');
+      const fileName = file.name.replace(/\.[^/.]+$/, '').replace(textInputRe, '');
 
       this.files.at(i).get(`displayName.${this.lang}`).setValue(fileName);
     }
   }
 
-  onSubtitleChange(event, i, j): void {
+  onSubtitleChange(event: any, i: number, j: number): void {
     if (event.target.files.length > 0) {
       const subtitle = event.target.files[0];
       const subtitles = <FormArray>this.files.at(i).get('subtitles');
@@ -239,26 +210,21 @@ export class FilesComponent implements OnInit, OnDestroy {
       subtitles.at(j).get('file').setValue(subtitle);
 
       // add validators
-      subtitles.at(j).get('kind').setValidators([
-        Validators.required,
-      ]);
+      subtitles.at(j).get('kind').setValidators([Validators.required]);
       subtitles.at(j).get('kind').updateValueAndValidity();
 
-      subtitles.at(j).get('label').setValidators([
-        Validators.required,
-        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
-        textInputValidator(),
-      ]);
+      subtitles
+        .at(j)
+        .get('label')
+        .setValidators([Validators.required, Validators.maxLength(validatorParams.file.subtitle.label.maxLength), textInputValidator()]);
       subtitles.at(j).get('label').updateValueAndValidity();
 
-      subtitles.at(j).get('srclang').setValidators([
-        Validators.required,
-      ]);
+      subtitles.at(j).get('srclang').setValidators([Validators.required]);
       subtitles.at(j).get('srclang').updateValueAndValidity();
     }
   }
 
-  updateDefaultSubtitle(event, i, j): void {
+  updateDefaultSubtitle(_event: any, i: number, j: number): void {
     const subtitles = this.files.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl, x) => {
@@ -269,18 +235,17 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   validateFiles(): void {
-    this.files.controls = this.files.controls
-      .filter(ctrl => ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== ''));
+    this.files.controls = this.files.controls.filter(
+      (ctrl) => ctrl.get('file').value !== '' || (ctrl.get('link').value !== null && ctrl.get('link').value !== ''),
+    );
 
-    this.files.controls.forEach(ctrl => {
+    this.files.controls.forEach((ctrl) => {
       this.totalFileCount++;
 
       const language = ctrl.get('language');
       const displayName = ctrl.get(`displayName.${this.lang}`);
 
-      language.setValidators([
-        Validators.required,
-      ]);
+      language.setValidators([Validators.required]);
       language.updateValueAndValidity();
 
       displayName.setValidators([
@@ -293,13 +258,13 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   validateSubtitles(): void {
-    this.files.controls.forEach(fileCtrl => {
+    this.files.controls.forEach((fileCtrl) => {
       const subtitles = fileCtrl.get('subtitles') as FormArray;
 
       if (subtitles.value.length > 0) {
-        subtitles.controls.forEach(subCtrl => {
+        subtitles.controls.forEach((subCtrl) => {
           if (!subCtrl.get('file').value) {
-            subtitles.removeAt(subtitles.controls.findIndex(sub => sub === subCtrl));
+            subtitles.removeAt(subtitles.controls.findIndex((sub) => sub === subCtrl));
           }
         });
 
@@ -308,29 +273,34 @@ export class FilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  uploadFiles() {
+  uploadFiles(): void {
     const nth = this.uploadedFiles ? this.uploadedFiles.length - 1 : 0;
 
     this.files.value.forEach((file, i) => {
       if (file.link) {
-        this.materialSvc.postLinks({
-          link: file.link,
-          displayName: file.displayName,
-          language: file.language,
-          priority: nth + i,
-        }).subscribe(
-          () => {},
-          (err) => console.error(err),
-          () => this.completeUpload(),
-        );
+        this.materialSvc
+          .postLinks({
+            link: file.link,
+            displayName: file.displayName,
+            language: file.language,
+            priority: nth + i,
+          })
+          .subscribe(
+            () => {},
+            (err) => console.error(err),
+            () => this.completeUpload(),
+          );
       } else {
         const formData = new FormData();
         formData.append('file', file.file, validateFilename(file.file.name));
-        formData.append('fileDetails', JSON.stringify({
-          displayName: file.displayName,
-          language: file.language,
-          priority: nth + i,
-        }));
+        formData.append(
+          'fileDetails',
+          JSON.stringify({
+            displayName: file.displayName,
+            language: file.language,
+            priority: nth + i,
+          }),
+        );
 
         this.materialSvc.uploadFiles(formData).subscribe(
           (res) => {
@@ -338,15 +308,18 @@ export class FilesComponent implements OnInit, OnDestroy {
 
             if (res.response) {
               if (file.subtitles.length > 0) {
-                file.subtitles.forEach(subtitle => {
+                file.subtitles.forEach((subtitle) => {
                   const subFormData = new FormData();
                   subFormData.append('attachment', subtitle.file, validateFilename(subtitle.file.name));
-                  subFormData.append('attachmentDetails', JSON.stringify({
-                    default: subtitle.default,
-                    kind: subtitle.kind,
-                    label: subtitle.label,
-                    srclang: subtitle.srclang,
-                  }));
+                  subFormData.append(
+                    'attachmentDetails',
+                    JSON.stringify({
+                      default: subtitle.default,
+                      kind: subtitle.kind,
+                      label: subtitle.label,
+                      srclang: subtitle.srclang,
+                    }),
+                  );
 
                   this.materialSvc.uploadSubtitle(res.response.material[0].id, subFormData).subscribe(
                     (subRes) => console.log(subRes),
@@ -367,7 +340,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   calculateTotalFileCount(): void {
     this.totalFileCount += this.files.value.length;
 
-    this.files.value.forEach(file => {
+    this.files.value.forEach((file) => {
       this.totalFileCount += file.subtitles.length;
     });
   }
@@ -434,11 +407,7 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(this.savedDataKey)),
-      { name: this.names.value },
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(this.savedDataKey)), { name: this.names.value });
 
     // save data to session storage
     sessionStorage.setItem(this.savedDataKey, JSON.stringify(data));

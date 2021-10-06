@@ -6,12 +6,13 @@ describe('EditLicenseComponent', () => {
   let component: EditLicenseComponent;
   let fixture: ComponentFixture<EditLicenseComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditLicenseComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EditLicenseComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditLicenseComponent);
