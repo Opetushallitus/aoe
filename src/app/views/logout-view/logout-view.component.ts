@@ -12,7 +12,7 @@ export class LogoutViewComponent implements OnInit {
 
   constructor(private translate: TranslateService, private titleSvc: Title) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

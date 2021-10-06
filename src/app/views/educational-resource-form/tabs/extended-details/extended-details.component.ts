@@ -44,7 +44,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     private titleSvc: Title,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -180,7 +180,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('prerequisites') as FormControl;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -227,7 +227,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -238,7 +238,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 3]);
   }
 }

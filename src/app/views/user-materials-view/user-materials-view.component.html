@@ -39,11 +39,11 @@
         <alert *ngIf="material.expires" [type]="expireAlertType(material.expires)">
           <ng-container [ngSwitch]="expireAlertType(material.expires)">
             <ng-container *ngSwitchCase="'expired'">
-              {{ 'userMaterials.expired' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+              {{ 'userMaterials.expired' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
             </ng-container>
 
             <ng-container *ngSwitchDefault>
-              {{ 'userMaterials.expires' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+              {{ 'userMaterials.expires' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
             </ng-container>
           </ng-container>
         </alert>

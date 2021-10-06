@@ -146,8 +146,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
    * Sets material details.
    * @param materials
    */
-  setMaterialDetails(materials): void {
-    materials.forEach((material) => {
+  setMaterialDetails(materials: any): void {
+    materials.forEach((material: any) => {
       this.materialDetails.set(material.id, {
         name: material.name,
         authors: material.author,

@@ -80,7 +80,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     private deviceSvc: DeviceDetectorService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     if (this.deviceSvc.isMobile()) {

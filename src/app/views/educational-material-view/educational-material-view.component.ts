@@ -174,7 +174,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  getLanguageValue(lang): string {
+  getLanguageValue(lang: string): string {
     return this.languages?.find((language: Language) => language.key === lang)?.value;
   }
 

@@ -34,24 +34,24 @@
             <span class="datetime-item d-block d-md-inline-block">
               <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
 
-              <time [attr.datetime]="collection.createdAt | date:'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
-                {{ collection.createdAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
+                {{ collection.createdAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
 
             <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
               <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-              <time [attr.datetime]="collection.publishedAt | date:'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
-                {{ collection.publishedAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
+                {{ collection.publishedAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
 
             <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
               <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-              <time [attr.datetime]="collection.updatedAt | date:'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
-                {{ collection.updatedAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
+                {{ collection.updatedAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
           </div>
@@ -503,10 +503,15 @@
                         </ng-container>
 
                         <div
-                          *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
+                          *ngIf="
+                            collectionMaterials.get(materialOrHeading.id)
+                              | materialLanguage: selectedLanguages.get(materialOrHeading.id) as materials
+                          "
                           [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
                           role="tabpanel"
-                          [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                          [attr.aria-labelledby]="
+                            'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                          "
                         >
                           <h3 [id]="'selectMaterial' + materialOrHeading.id" [ngClass]="materials.length === 1 ? 'sr-only' : ''">
                             {{ 'materialPreview.selectMaterial' | translate }}
@@ -535,7 +540,9 @@
                         <div
                           [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
                           role="tabpanel"
-                          [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          [attr.aria-labelledby]="
+                            'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id
+                          "
                         >
                           <app-educational-material-preview
                             [material]="previewMaterials.get(materialOrHeading.id)"
@@ -551,7 +558,8 @@
                                 target="_blank"
                                 rel="noopener nofollow"
                                 >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
-                                previewMaterials.get(materialOrHeading.id).domain }})</a
+                                  previewMaterials.get(materialOrHeading.id).domain
+                                }})</a
                               >
                             </div>
                           </ng-template>

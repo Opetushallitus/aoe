@@ -73,7 +73,9 @@
             class="form-control"
             formControlName="typicalAgeRangeMin"
             inputmode="numeric"
-            [ngClass]="{ 'is-invalid': typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted) }"
+            [ngClass]="{
+              'is-invalid': typicalAgeRangeMinCtrl.invalid && (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+            }"
           />
 
           <div
@@ -85,7 +87,7 @@
             <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
-              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength } }}
+              {{ 'forms.errors.common.maxLength' | translate: { maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength } }}
             </div>
           </div>
         </div>
@@ -103,7 +105,9 @@
             class="form-control"
             formControlName="typicalAgeRangeMax"
             inputmode="numeric"
-            [ngClass]="{ 'is-invalid': typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted) }"
+            [ngClass]="{
+              'is-invalid': typicalAgeRangeMaxCtrl.invalid && (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+            }"
           />
 
           <div
@@ -115,7 +119,7 @@
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
-              {{ 'forms.errors.common.maxLength' | translate:{ maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength } }}
+              {{ 'forms.errors.common.maxLength' | translate: { maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength } }}
             </div>
           </div>
         </div>
@@ -142,7 +146,7 @@
         <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="timeRequiredCtrl.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: timeRequiredCtrl.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>

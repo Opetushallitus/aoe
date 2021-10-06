@@ -78,7 +78,9 @@
               <div class="col-auto">
                 <span class="mr-4">
                   <img
-                    src="assets/img/icons/learning-resource-types/{{ materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key }}.svg"
+                    src="assets/img/icons/learning-resource-types/{{
+                      materials.get(materialOrHeading.get('id').value).learningResourceTypes[0].key
+                    }}.svg"
                     class="img-icon"
                     aria-hidden="true"
                   />
@@ -89,8 +91,8 @@
               </div>
 
               <div class="col-auto">
-                <time [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date:'yyyy-MM-dd'">
-                  {{ materials.get(materialOrHeading.get('id').value).publishedAt | date:'d.M.yyyy' }}
+                <time [attr.datetime]="materials.get(materialOrHeading.get('id').value).publishedAt | date: 'yyyy-MM-dd'">
+                  {{ materials.get(materialOrHeading.get('id').value).publishedAt | date: 'd.M.yyyy' }}
                 </time>
               </div>
             </div> </ng-container
@@ -111,11 +113,18 @@
                 class="form-control"
                 id="{{ 'heading-' + i }}"
                 formControlName="heading"
-                [ngClass]="{ 'is-invalid': materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    materialOrHeading.get('heading').invalid &&
+                    (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted)
+                }"
               />
 
               <div
-                *ngIf="materialOrHeading.get('heading').invalid && (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted)"
+                *ngIf="
+                  materialOrHeading.get('heading').invalid &&
+                  (materialOrHeading.get('heading').dirty || materialOrHeading.get('heading').touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="materialOrHeading.get('heading').errors.invalidCharacters">
@@ -123,8 +132,10 @@
                 </div>
 
                 <div *ngIf="materialOrHeading.get('heading').errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
-                  materialOrHeading.get('heading').errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: materialOrHeading.get('heading').errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
@@ -138,11 +149,18 @@
                 id="{{ 'description-' + i }}"
                 formControlName="description"
                 rows="10"
-                [ngClass]="{ 'is-invalid': materialOrHeading.get('description').invalid && (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    materialOrHeading.get('description').invalid &&
+                    (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)
+                }"
               ></textarea>
 
               <div
-                *ngIf="materialOrHeading.get('description').invalid && (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)"
+                *ngIf="
+                  materialOrHeading.get('description').invalid &&
+                  (materialOrHeading.get('description').dirty || materialOrHeading.get('description').touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="materialOrHeading.get('description').errors.invalid">
@@ -150,8 +168,10 @@
                 </div>
 
                 <div *ngIf="materialOrHeading.get('description').errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
-                  materialOrHeading.get('description').errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: materialOrHeading.get('description').errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>

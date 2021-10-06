@@ -97,7 +97,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let language of languagesArray.controls | slice:0:filtersShown.get('languages'); let i = index"
+                  *ngFor="let language of languagesArray.controls | slice: 0:filtersShown.get('languages'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="languages-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="languages-{{ i }}"> {{ getLanguageLabel(searchFilters.languages[i]) }} </label>
@@ -106,7 +106,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('languages', languagesArray.controls.length);showAllLanguages = false"
+                  (click)="filtersShown.set('languages', languagesArray.controls.length); showAllLanguages = false"
                   *ngIf="showAllLanguages"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -197,7 +197,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let subject of subjectsArray.controls | slice:0:filtersShown.get('subjects'); let i = index"
+                  *ngFor="let subject of subjectsArray.controls | slice: 0:filtersShown.get('subjects'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="subjects-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="subjects-{{ i }}"> {{ searchFilters.subjects[i].value }} </label>
@@ -206,7 +206,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('subjects', subjectsArray.controls.length);showAllSubjects = false"
+                  (click)="filtersShown.set('subjects', subjectsArray.controls.length); showAllSubjects = false"
                   *ngIf="showAllSubjects"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -248,11 +248,11 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let teach of teachesArray.controls | slice:0:filtersShown.get('teaches'); let i = index"
+                  *ngFor="let teach of teachesArray.controls | slice: 0:filtersShown.get('teaches'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="teaches-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="teaches-{{ i }}">
-                    {{ searchFilters.teaches[i].value | truncate:[teachesTruncates.get(i)] }}
+                    {{ searchFilters.teaches[i].value | truncate: [teachesTruncates.get(i)] }}
                   </label>
 
                   <button
@@ -268,7 +268,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('teaches', teachesArray.controls.length);showAllTeaches = false"
+                  (click)="filtersShown.set('teaches', teachesArray.controls.length); showAllTeaches = false"
                   *ngIf="showAllTeaches"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -351,7 +351,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let author of authorsArray.controls | slice:0:filtersShown.get('authors'); let i = index"
+                  *ngFor="let author of authorsArray.controls | slice: 0:filtersShown.get('authors'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="authors-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="authors-{{ i }}"> {{ searchFilters.authors[i] }} </label>
@@ -360,7 +360,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('authors', authorsArray.controls.length);showAllAuthors = false"
+                  (click)="filtersShown.set('authors', authorsArray.controls.length); showAllAuthors = false"
                   *ngIf="showAllAuthors"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -402,7 +402,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let organization of organizationsArray.controls | slice:0:filtersShown.get('organizations'); let i = index"
+                  *ngFor="let organization of organizationsArray.controls | slice: 0:filtersShown.get('organizations'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="organizations-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="organizations-{{ i }}"> {{ searchFilters.organizations[i].value }} </label>
@@ -411,7 +411,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('organizations', organizationsArray.controls.length);showAllOrganizations = false"
+                  (click)="filtersShown.set('organizations', organizationsArray.controls.length); showAllOrganizations = false"
                   *ngIf="showAllOrganizations"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -453,7 +453,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let role of educationalRolesArray.controls | slice:0:filtersShown.get('roles'); let i = index"
+                  *ngFor="let role of educationalRolesArray.controls | slice: 0:filtersShown.get('roles'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="educationalRoles-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="educationalRoles-{{ i }}"> {{ searchFilters.roles[i].value }} </label>
@@ -462,7 +462,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('roles', educationalRolesArray.controls.length);showAllRoles = false"
+                  (click)="filtersShown.set('roles', educationalRolesArray.controls.length); showAllRoles = false"
                   *ngIf="showAllRoles"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -504,7 +504,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let keyword of keywordsArray.controls | slice:0:filtersShown.get('keywords'); let i = index"
+                  *ngFor="let keyword of keywordsArray.controls | slice: 0:filtersShown.get('keywords'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="keywords-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="keywords-{{ i }}"> {{ searchFilters.keywords[i].value }} </label>
@@ -513,7 +513,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('keywords', keywordsArray.controls.length);showAllKeywords = false"
+                  (click)="filtersShown.set('keywords', keywordsArray.controls.length); showAllKeywords = false"
                   *ngIf="showAllKeywords"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -549,7 +549,7 @@
               <div class="content" id="filter-uses" aria-labelledby="filter-uses-header" [collapse]="isCollapsedUses" [isAnimated]="true">
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let use of usesArray.controls | slice:0:filtersShown.get('uses'); let i = index"
+                  *ngFor="let use of usesArray.controls | slice: 0:filtersShown.get('uses'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="uses-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="uses-{{ i }}"> {{ searchFilters.uses[i].value }} </label>
@@ -558,7 +558,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('uses', usesArray.controls.length);showAllUses = false"
+                  (click)="filtersShown.set('uses', usesArray.controls.length); showAllUses = false"
                   *ngIf="showAllUses"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -600,7 +600,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let hazards of hazardsArray.controls | slice:0:filtersShown.get('hazards'); let i = index"
+                  *ngFor="let hazards of hazardsArray.controls | slice: 0:filtersShown.get('hazards'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="hazards-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="hazards-{{ i }}"> {{ searchFilters.hazards[i].value }} </label>
@@ -609,7 +609,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('hazards', hazardsArray.controls.length);showAllHazards = false"
+                  (click)="filtersShown.set('hazards', hazardsArray.controls.length); showAllHazards = false"
                   *ngIf="showAllHazards"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -651,7 +651,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let feature of featuresArray.controls | slice:0:filtersShown.get('features'); let i = index"
+                  *ngFor="let feature of featuresArray.controls | slice: 0:filtersShown.get('features'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="features-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="features-{{ i }}"> {{ searchFilters.features[i].value }} </label>
@@ -660,7 +660,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('features', featuresArray.controls.length);showAllFeatures = false"
+                  (click)="filtersShown.set('features', featuresArray.controls.length); showAllFeatures = false"
                   *ngIf="showAllFeatures"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -702,7 +702,7 @@
               >
                 <div
                   class="custom-control custom-checkbox"
-                  *ngFor="let license of licensesArray.controls | slice:0:filtersShown.get('licenses'); let i = index"
+                  *ngFor="let license of licensesArray.controls | slice: 0:filtersShown.get('licenses'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="licenses-{{ i }}" [formControlName]="i" />
                   <label class="custom-control-label" for="licenses-{{ i }}"> {{ searchFilters.licenses[i].value }} </label>
@@ -711,7 +711,7 @@
                 <button
                   type="button"
                   class="btn btn-link"
-                  (click)="filtersShown.set('licenses', licensesArray.controls.length);showAllLicenses = false"
+                  (click)="filtersShown.set('licenses', licensesArray.controls.length); showAllLicenses = false"
                   *ngIf="showAllLicenses"
                 >
                   {{ 'search.filters.showAll' | translate }}
@@ -782,7 +782,9 @@
                 <!--loading-->
 
                 <app-search-result
-                  *ngFor="let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }"
+                  *ngFor="
+                    let result of results.results | paginate: { itemsPerPage: resultsPerPage, currentPage: page, totalItems: results.hits }
+                  "
                   [result]="result"
                   (executeFilteredSearch)="filterSearch()"
                 ></app-search-result>

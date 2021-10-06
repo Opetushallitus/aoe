@@ -327,7 +327,7 @@ export class CollectionService {
    * Updates collection details.
    * @param {UpdateCollectionPut} collection
    */
-  updateCollectionDetails(collection: UpdateCollectionPut) {
+  updateCollectionDetails(collection: UpdateCollectionPut): Observable<any> {
     return this.http.put(`${environment.backendUrl}/collection/update`, collection).pipe(catchError(this.handleError));
   }
 

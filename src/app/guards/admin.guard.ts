@@ -12,8 +12,8 @@ export class AdminGuard implements CanActivate {
   constructor(private router: Router, private adminSvc: AdminService) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.adminSvc.getAdminStatus().pipe(
       map((response: HttpResponse<string>) => {

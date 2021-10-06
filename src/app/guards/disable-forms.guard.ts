@@ -12,8 +12,8 @@ export class DisableFormsGuard implements CanActivate {
   constructor(private router: Router, private alertSvc: AlertService, private toastr: ToastrService, private translate: TranslateService) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _route: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.alertSvc.disableForms()) {
       this.toastr.warning(this.translate.instant('errors.toasts.disableForms').message);

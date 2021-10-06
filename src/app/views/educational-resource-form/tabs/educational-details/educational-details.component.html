@@ -33,9 +33,9 @@
     <h3>{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationSubjects"
-        >{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate }}</label
-      >
+      <label for="earlyChildhoodEducationSubjects">{{
+        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -68,16 +68,16 @@
           formControlName="suitsAllEarlyChildhoodSubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationObjectives"
-        >{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate }}</label
-      >
+      <label for="earlyChildhoodEducationObjectives">{{
+        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -102,9 +102,9 @@
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationFramework"
-        >{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate }}</label
-      >
+      <label for="earlyChildhoodEducationFramework">{{
+        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -119,17 +119,24 @@
         class="form-control"
         id="earlyChildhoodEducationFramework"
         formControlName="earlyChildhoodEducationFramework"
-        [ngClass]="{ 'is-invalid': earlyChildhoodEducationFramework.invalid && (earlyChildhoodEducationFramework.dirty || earlyChildhoodEducationFramework.touched || submitted) }"
+        [ngClass]="{
+          'is-invalid':
+            earlyChildhoodEducationFramework.invalid &&
+            (earlyChildhoodEducationFramework.dirty || earlyChildhoodEducationFramework.touched || submitted)
+        }"
       />
 
       <div
-        *ngIf="earlyChildhoodEducationFramework.invalid && (earlyChildhoodEducationFramework.dirty || earlyChildhoodEducationFramework.touched || submitted)"
+        *ngIf="
+          earlyChildhoodEducationFramework.invalid &&
+          (earlyChildhoodEducationFramework.dirty || earlyChildhoodEducationFramework.touched || submitted)
+        "
         class="invalid-feedback"
       >
         <div *ngIf="earlyChildhoodEducationFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="earlyChildhoodEducationFramework.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: earlyChildhoodEducationFramework.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: earlyChildhoodEducationFramework.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>
@@ -139,9 +146,9 @@
     <h3>{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="prePrimaryEducationSubjects"
-        >{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate }}</label
-      >
+      <label for="prePrimaryEducationSubjects">{{
+        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -169,16 +176,16 @@
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="suitsAllPrePrimarySubjects" formControlName="suitsAllPrePrimarySubjects" />
 
-        <label class="custom-control-label" for="suitsAllPrePrimarySubjects"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllPrePrimarySubjects">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationObjectives"
-        >{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate }}</label
-      >
+      <label for="prePrimaryEducationObjectives">{{
+        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -203,9 +210,9 @@
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationFramework"
-        >{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate }}</label
-      >
+      <label for="prePrimaryEducationFramework">{{
+        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -220,17 +227,23 @@
         class="form-control"
         id="prePrimaryEducationFramework"
         formControlName="prePrimaryEducationFramework"
-        [ngClass]="{ 'is-invalid': prePrimaryEducationFramework.invalid && (prePrimaryEducationFramework.dirty || prePrimaryEducationFramework.touched || submitted) }"
+        [ngClass]="{
+          'is-invalid':
+            prePrimaryEducationFramework.invalid &&
+            (prePrimaryEducationFramework.dirty || prePrimaryEducationFramework.touched || submitted)
+        }"
       />
 
       <div
-        *ngIf="prePrimaryEducationFramework.invalid && (prePrimaryEducationFramework.dirty || prePrimaryEducationFramework.touched || submitted)"
+        *ngIf="
+          prePrimaryEducationFramework.invalid && (prePrimaryEducationFramework.dirty || prePrimaryEducationFramework.touched || submitted)
+        "
         class="invalid-feedback"
       >
         <div *ngIf="prePrimaryEducationFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="prePrimaryEducationFramework.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: prePrimaryEducationFramework.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: prePrimaryEducationFramework.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>
@@ -240,9 +253,9 @@
     <div class="form-group">
       <h3>{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</h3>
 
-      <label for="basicStudySubjects"
-        >{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate }}</label
-      >
+      <label for="basicStudySubjects">{{
+        'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -272,18 +285,18 @@
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="suitsAllBasicStudySubjects" formControlName="suitsAllBasicStudySubjects" />
 
-        <label class="custom-control-label" for="suitsAllBasicStudySubjects"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllBasicStudySubjects">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
   </ng-container>
 
   <ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
-      <label for="basicStudyFramework"
-        >{{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate }}</label
-      >
+      <label for="basicStudyFramework">{{
+        'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -307,7 +320,7 @@
         <div *ngIf="basicStudyFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="basicStudyFramework.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: basicStudyFramework.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: basicStudyFramework.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>
@@ -367,9 +380,9 @@
           formControlName="currentUpperSecondarySchoolSelected"
         />
 
-        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected"
-          >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}</label
-        >
+        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">{{
+          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate
+        }}</label>
       </div>
 
       <div class="custom-control custom-checkbox">
@@ -380,9 +393,9 @@
           formControlName="newUpperSecondarySchoolSelected"
         />
 
-        <label class="custom-control-label" for="newUpperSecondarySchoolSelected"
-          >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</label
-        >
+        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">{{
+          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate
+        }}</label>
       </div>
     </div>
 
@@ -436,16 +449,16 @@
             formControlName="suitsAllUpperSecondarySubjects"
           />
 
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects"
-            >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-          >
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">{{
+            'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+          }}</label>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolObjectives"
-          >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate }}</label
-        >
+        <label for="upperSecondarySchoolObjectives">{{
+          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label' | translate
+        }}</label>
 
         <button
           type="button"
@@ -468,9 +481,9 @@
       </div>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolFramework"
-          >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate }}</label
-        >
+        <label for="upperSecondarySchoolFramework">{{
+          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate
+        }}</label>
 
         <button
           type="button"
@@ -485,17 +498,24 @@
           class="form-control"
           id="upperSecondarySchoolFramework"
           formControlName="upperSecondarySchoolFramework"
-          [ngClass]="{ 'is-invalid': upperSecondarySchoolFramework.invalid && (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted) }"
+          [ngClass]="{
+            'is-invalid':
+              upperSecondarySchoolFramework.invalid &&
+              (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted)
+          }"
         />
 
         <div
-          *ngIf="upperSecondarySchoolFramework.invalid && (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted)"
+          *ngIf="
+            upperSecondarySchoolFramework.invalid &&
+            (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted)
+          "
           class="invalid-feedback"
         >
           <div *ngIf="upperSecondarySchoolFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
           <div *ngIf="upperSecondarySchoolFramework.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: upperSecondarySchoolFramework.errors.maxlength.requiredLength } }}
+            {{ 'forms.errors.common.maxLength' | translate: { maxLength: upperSecondarySchoolFramework.errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
@@ -505,9 +525,9 @@
       <h4>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}</h4>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolSubjectsNew"
-          >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate }}</label
-        >
+        <label for="upperSecondarySchoolSubjectsNew">{{
+          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate
+        }}</label>
 
         <ng-select
           [items]="upperSecondarySchoolSubjectsNew"
@@ -533,17 +553,17 @@
             formControlName="suitsAllUpperSecondarySubjectsNew"
           />
 
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew"
-            >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-          >
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">{{
+            'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+          }}</label>
         </div>
       </div>
 
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
         <div class="form-group">
-          <label for="upperSecondarySchoolModulesNew"
-            >{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}</label
-          >
+          <label for="upperSecondarySchoolModulesNew">{{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate
+          }}</label>
 
           <ng-select
             [items]="upperSecondarySchoolModulesNew"
@@ -601,9 +621,9 @@
     <div class="form-group">
       <h3>{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</h3>
 
-      <label for="vocationalDegrees"
-        >{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate }}</label
-      >
+      <label for="vocationalDegrees">{{
+        'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -661,17 +681,17 @@
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="suitsAllVocationalDegrees" formControlName="suitsAllVocationalDegrees" />
 
-        <label class="custom-control-label" for="suitsAllVocationalDegrees"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllVocationalDegrees">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
 
     <ng-container *ngIf="hasVocationalDegrees">
       <div class="form-group">
-        <label for="vocationalUnits"
-          >{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate }}</label
-        >
+        <label for="vocationalUnits">{{
+          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate
+        }}</label>
 
         <ng-select
           [items]="vocationalUnits"
@@ -714,9 +734,9 @@
     </ng-container>
 
     <div class="form-group">
-      <label for="vocationalEducationFramework"
-        >{{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate }}</label
-      >
+      <label for="vocationalEducationFramework">{{
+        'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -731,17 +751,23 @@
         class="form-control"
         id="vocationalEducationFramework"
         formControlName="vocationalEducationFramework"
-        [ngClass]="{ 'is-invalid': vocationalEducationFramework.invalid && (vocationalEducationFramework.dirty || vocationalEducationFramework.touched || submitted) }"
+        [ngClass]="{
+          'is-invalid':
+            vocationalEducationFramework.invalid &&
+            (vocationalEducationFramework.dirty || vocationalEducationFramework.touched || submitted)
+        }"
       />
 
       <div
-        *ngIf="vocationalEducationFramework.invalid && (vocationalEducationFramework.dirty || vocationalEducationFramework.touched || submitted)"
+        *ngIf="
+          vocationalEducationFramework.invalid && (vocationalEducationFramework.dirty || vocationalEducationFramework.touched || submitted)
+        "
         class="invalid-feedback"
       >
         <div *ngIf="vocationalEducationFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="vocationalEducationFramework.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: vocationalEducationFramework.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: vocationalEducationFramework.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>
@@ -751,9 +777,9 @@
     <div class="form-group">
       <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
 
-      <label for="selfMotivatedEducationSubjects"
-        >{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate }}</label
-      >
+      <label for="selfMotivatedEducationSubjects">{{
+        'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -786,16 +812,16 @@
           formControlName="suitsAllSelfMotivatedSubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="selfMotivatedEducationObjectives"
-        >{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate }}</label
-      >
+      <label for="selfMotivatedEducationObjectives">{{
+        'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -824,9 +850,9 @@
     <h3>{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</h3>
 
     <div class="form-group">
-      <label for="branchesOfScience"
-        >{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate }}</label
-      >
+      <label for="branchesOfScience">{{
+        'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -857,16 +883,16 @@
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="suitsAllBranches" formControlName="suitsAllBranches" />
 
-        <label class="custom-control-label" for="suitsAllBranches"
-          >{{ 'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate }}</label
-        >
+        <label class="custom-control-label" for="suitsAllBranches">{{
+          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
+        }}</label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="scienceBranchObjectives"
-        >{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate }}</label
-      >
+      <label for="scienceBranchObjectives">{{
+        'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -891,9 +917,9 @@
     </div>
 
     <div class="form-group">
-      <label for="higherEducationFramework"
-        >{{ 'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate }}</label
-      >
+      <label for="higherEducationFramework">{{
+        'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate
+      }}</label>
 
       <button
         type="button"
@@ -908,7 +934,10 @@
         class="form-control"
         id="higherEducationFramework"
         formControlName="higherEducationFramework"
-        [ngClass]="{ 'is-invalid': higherEducationFramework.invalid && (higherEducationFramework.dirty || higherEducationFramework.touched || submitted) }"
+        [ngClass]="{
+          'is-invalid':
+            higherEducationFramework.invalid && (higherEducationFramework.dirty || higherEducationFramework.touched || submitted)
+        }"
       />
 
       <div
@@ -918,7 +947,7 @@
         <div *ngIf="higherEducationFramework.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
         <div *ngIf="higherEducationFramework.errors.maxlength">
-          {{ 'forms.errors.common.maxLength' | translate:{ maxLength: higherEducationFramework.errors.maxlength.requiredLength } }}
+          {{ 'forms.errors.common.maxLength' | translate: { maxLength: higherEducationFramework.errors.maxlength.requiredLength } }}
         </div>
       </div>
     </div>

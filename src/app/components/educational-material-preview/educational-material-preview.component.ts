@@ -22,7 +22,7 @@ export class EducationalMaterialPreviewComponent implements OnInit {
     });
   }
 
-  public checkMimeType(mimeType: string) {
+  public checkMimeType(mimeType: string): string {
     if (mimeTypes.video.includes(mimeType)) {
       return 'video';
     }

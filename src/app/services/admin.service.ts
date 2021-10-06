@@ -20,10 +20,10 @@ export class AdminService {
 
   /**
    * Handles errors.
-   * @param {HttpErrorResponse} error
+   * @param {HttpErrorResponse} _error
    * @private
    */
-  private handleError(error: HttpErrorResponse) {
+  private handleError(_error: HttpErrorResponse): Observable<never> {
     return throwError('Something bad happened; please try again later.');
   }
 

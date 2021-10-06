@@ -12,13 +12,13 @@ export class AuthGuard implements CanActivate {
 
   /**
    * Checks if user is logged in.
-   * @param {ActivatedRouteSnapshot} next
-   * @param {RouterStateSnapshot} state
+   * @param {ActivatedRouteSnapshot} _next
+   * @param {RouterStateSnapshot} _state
    * @returns {Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree}
    */
   canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
+    _next: ActivatedRouteSnapshot,
+    _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (!this.authSvc.hasUserdata()) {
       return this.router.parseUrl('/etusivu');

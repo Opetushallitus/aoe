@@ -126,7 +126,7 @@ export class MaterialService {
    * @param {number} materialId
    * @param {EducationalMaterialPut} data
    */
-  postMeta(materialId: number, data: EducationalMaterialPut) {
+  postMeta(materialId: number, data: EducationalMaterialPut): Observable<any> {
     const uploadUrl = `${this.backendUrl}/material/${materialId}`;
 
     return this.http.put(uploadUrl, data).pipe(catchError(MaterialService.handleError));
@@ -137,7 +137,7 @@ export class MaterialService {
    * @param {number} materialId
    * @param {string} versionDate?
    */
-  updateMaterial(materialId: number, versionDate?: string) {
+  updateMaterial(materialId: number, versionDate?: string): void {
     let materialUrl = `${this.backendUrl}/material/${materialId}`;
 
     if (versionDate) {

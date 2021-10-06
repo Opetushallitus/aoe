@@ -434,7 +434,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Runs on educational levels change. Sets hasX-type educational level boolean values.
    * @param value
    */
-  educationalLevelsChange(value): void {
+  educationalLevelsChange(value: any): void {
     this.hasEarlyChildhoodEducation = value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = value.filter((e: any) => educationalLevelKeys.prePrimary.includes(e.key)).length > 0;
@@ -459,7 +459,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Updates basic education objectives and contents based on selected subjects.
    * @param value
    */
-  basicStudySubjectsChange(value): void {
+  basicStudySubjectsChange(value: AlignmentObjectExtended[]): void {
     this.hasBasicStudySubjects = value.length > 0;
 
     if (this.hasBasicStudySubjects) {
@@ -475,7 +475,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * value. Updates upper secondary school courses based on selected subjects.
    * @param value
    */
-  upperSecondarySchoolSubjectsOldChange(value): void {
+  upperSecondarySchoolSubjectsOldChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsOld) {
@@ -490,7 +490,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * value. Updates upper secondary school modules based on selected subjects.
    * @param value
    */
-  upperSecondarySchoolSubjectsNewChange(value): void {
+  upperSecondarySchoolSubjectsNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsNew) {
@@ -505,7 +505,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Updates upper secondary school objectives and contents based on selected modules.
    * @param value
    */
-  upperSecondarySchoolModulesNewChange(value): void {
+  upperSecondarySchoolModulesNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolModulesNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolModulesNew) {
@@ -540,7 +540,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * vocational education requirements based on selected units.
    * @param value
    */
-  vocationalUnitsChange(value): void {
+  vocationalUnitsChange(value: AlignmentObjectExtended[]): void {
     this.hasVocationalUnits = value.length > 0;
 
     if (this.hasVocationalUnits) {

@@ -33,7 +33,7 @@ export class AcceptanceViewComponent implements OnInit {
     });
   }
 
-  public onSubmit() {
+  public onSubmit(): void {
     this.authSvc.updateAcceptance();
   }
 }

@@ -15,7 +15,7 @@ export class CookieNoticeComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private cookieSvc: CookieService, private translate: TranslateService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });

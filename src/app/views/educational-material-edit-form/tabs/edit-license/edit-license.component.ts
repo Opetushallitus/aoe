@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EducationalMaterialForm } from '@models/educational-material-form';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { License } from '@models/koodisto-proxy/license';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';

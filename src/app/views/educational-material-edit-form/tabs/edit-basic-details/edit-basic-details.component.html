@@ -19,7 +19,9 @@
         {{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}
       </button>
 
-      <p class="thumbnail-help"><small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small></p>
+      <p class="thumbnail-help">
+        <small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small>
+      </p>
 
       <ng-template #thumbnail>
         <div class="modal-header">
@@ -94,7 +96,7 @@
     <div class="col-md-10">
       <h3>{{ 'forms.educationalResource.basicDetails.author.title' | translate }}*</h3>
 
-      <ng-container *ngFor="let author of authorsArray.controls; let i = index;">
+      <ng-container *ngFor="let author of authorsArray.controls; let i = index">
         <fieldset class="border-bottom mb-2">
           <div class="form-row" formArrayName="authors">
             <ng-container [formGroupName]="i">
@@ -119,7 +121,11 @@
                     id="{{ 'author' + i }}"
                     [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
                     formControlName="author"
-                    [ngClass]="{ 'is-invalid': authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted) }"
+                    [ngClass]="{
+                      'is-invalid':
+                        authorsArray.at(i).get('author').invalid &&
+                        (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)
+                    }"
                     [attr.aria-describedby]="'author-help-' + i"
                   />
 
@@ -128,7 +134,10 @@
                   </small>
 
                   <div
-                    *ngIf="authorsArray.at(i).get('author').invalid && (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)"
+                    *ngIf="
+                      authorsArray.at(i).get('author').invalid &&
+                      (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)
+                    "
                     class="invalid-feedback"
                   >
                     <div *ngIf="authorsArray.at(i).get('author').errors.invalidCharacters">
@@ -136,8 +145,10 @@
                     </div>
 
                     <div *ngIf="authorsArray.at(i).get('author').errors.maxlength">
-                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
-                      authorsArray.at(i).get('author').errors.maxlength.requiredLength } }}
+                      {{
+                        'forms.errors.common.maxLength'
+                          | translate: { maxLength: authorsArray.at(i).get('author').errors.maxlength.requiredLength }
+                      }}
                     </div>
                   </div>
                 </div>
@@ -230,7 +241,7 @@
           id="keywords"
           labelForId="keywords"
           formControlName="keywords"
-          (paste)="false"
+          (paste)="(false)"
           aria-describedby="keywords-help"
         ></ng-select>
 
@@ -328,17 +339,22 @@
               id="description"
               rows="10"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted) }"
+              [ngClass]="{
+                'is-invalid':
+                  descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+              }"
             ></textarea>
 
             <div
-              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)"
+              *ngIf="
+                descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+              "
               class="invalid-feedback"
             >
               <div *ngIf="descriptionCtrl.get(lang).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
 
               <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
-                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+                {{ 'forms.errors.common.maxLength' | translate: { maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
               </div>
             </div>
           </div>
@@ -394,18 +410,27 @@
                 id="description2"
                 rows="10"
                 [formControlName]="otherLangs[0]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    descriptionCtrl.get(otherLangs[0]).invalid &&
+                    (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
+                }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)"
+                *ngIf="
+                  descriptionCtrl.get(otherLangs[0]).invalid &&
+                  (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
-                  descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
@@ -420,18 +445,27 @@
                 id="description3"
                 rows="10"
                 [formControlName]="otherLangs[1]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    descriptionCtrl.get(otherLangs[1]).invalid &&
+                    (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
+                }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)"
+                *ngIf="
+                  descriptionCtrl.get(otherLangs[1]).invalid &&
+                  (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength:
-                  descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
@@ -472,8 +506,9 @@
 
             <p class="font-italic">
               {{ 'forms.educationalResource.basicDetails.description.example.details' | translate }}
-              <a href="https://aoe.fi/#/materiaali/606"
-                >{{ 'forms.educationalResource.basicDetails.description.example.detailsLink' | translate }}</a
+              <a href="https://aoe.fi/#/materiaali/606">{{
+                'forms.educationalResource.basicDetails.description.example.detailsLink' | translate
+              }}</a
               >.
             </p>
 

@@ -148,7 +148,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * Patches fileDetails array.
    * @param fileDetails
    */
-  patchFileDetails(fileDetails): void {
+  patchFileDetails(fileDetails: any): void {
     fileDetails.forEach((file, i: number) => {
       this.materialDetailsArray.push(this.createFileDetail(file));
 
@@ -163,7 +163,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param file
    * @returns {FormGroup}
    */
-  createFileDetail(file): FormGroup {
+  createFileDetail(file: any): FormGroup {
     const replaceSubtitleArray: boolean[] = [];
     const subtitles = file.subtitles.map((subtitle) => {
       replaceSubtitleArray.push(false);
@@ -223,7 +223,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param subtitle
    * @returns {FormGroup}
    */
-  createSubtitle(subtitle): FormGroup {
+  createSubtitle(subtitle: any): FormGroup {
     return this.fb.group({
       id: this.fb.control(subtitle.id),
       fileId: this.fb.control(subtitle.fileId),
@@ -301,7 +301,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param {number} i
    * @param {number} j
    */
-  updateDefaultSubtitle(event, i: number, j: number): void {
+  updateDefaultSubtitle(event: any, i: number, j: number): void {
     const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl: AbstractControl, subIndex: number) => {
@@ -311,7 +311,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFileChange(event, i: number): void {
+  onFileChange(event: any, i: number): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -334,7 +334,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubtitleChange(event, i: number, j: number): void {
+  onSubtitleChange(event: any, i: number, j: number): void {
     if (event.target.files.length > 0) {
       const subtitleFile = event.target.files[0];
       const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;

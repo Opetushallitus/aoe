@@ -28,9 +28,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
   </dl>
@@ -132,9 +132,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
 
@@ -151,9 +151,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
 
@@ -170,9 +170,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 2]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
 
@@ -229,9 +229,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
 
@@ -313,9 +313,9 @@
         <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduObjectives">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-            >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-          >
+          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{
+            'forms.educationalResource.preview.addMissingDetail' | translate
+          }}</a>
         </ng-container>
       </dd>
     </ng-container>
@@ -333,9 +333,9 @@
         <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduContents">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-            >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-          >
+          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{
+            'forms.educationalResource.preview.addMissingDetail' | translate
+          }}</a>
         </ng-container>
       </dd>
     </ng-container>
@@ -420,9 +420,9 @@
         <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduObjectives">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-            >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-          >
+          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{
+            'forms.educationalResource.preview.addMissingDetail' | translate
+          }}</a>
         </ng-container>
       </dd>
     </ng-container>
@@ -442,9 +442,9 @@
         <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduContents">
           <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]"
-            >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-          >
+          <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 3]">{{
+            'forms.educationalResource.preview.addMissingDetail' | translate
+          }}</a>
         </ng-container>
       </dd>
     </ng-container>
@@ -467,7 +467,9 @@
 
     <app-preview-row
       *ngIf="previewMaterial?.specialistVocationalQualifications?.length > 0"
-      [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate"
+      [title]="
+        'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate
+      "
       [items]="previewMaterial.specialistVocationalQualifications"
       property="targetName"
     ></app-preview-row>
@@ -591,7 +593,7 @@
     <app-preview-row
       *ngIf="previewMaterial?.expires"
       [title]="'forms.educationalResource.extendedDetails.expires.label' | translate"
-      [item]="previewMaterial.expires | date:'d.M.yyyy'"
+      [item]="previewMaterial.expires | date: 'd.M.yyyy'"
     ></app-preview-row>
 
     <app-preview-row
@@ -653,9 +655,9 @@
       <dd class="col-sm-9">
         <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
 
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]"
-          >{{ 'forms.educationalResource.preview.addMissingDetail' | translate }}</a
-        >
+        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]">{{
+          'forms.educationalResource.preview.addMissingDetail' | translate
+        }}</a>
       </dd>
     </ng-template>
   </dl>
