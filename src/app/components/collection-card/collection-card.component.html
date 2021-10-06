@@ -2,7 +2,11 @@
   <a [routerLink]="['/kokoelma', collection.id]" class="header">
     <div class="row no-gutters">
       <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
-        <img [src]="collection.thumbnail" class="img-fluid border" [alt]="'demo.educationalMaterial.cover.alt' | translate" />
+        <img
+          [src]="collection.thumbnail"
+          class="img-fluid border"
+          [alt]="'demo.educationalMaterial.cover.alt' | translate"
+        />
       </div>
 
       <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">

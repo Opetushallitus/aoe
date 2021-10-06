@@ -199,14 +199,16 @@ export class KoodistoProxyService {
   updateUpperSecondarySchoolCoursesOld(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-vanha-kurssit/${ids}/${lang}`, this.httpOptions).subscribe(
-      (subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolCoursesOld$.next(subjects);
-      },
-      () => {
-        this.upperSecondarySchoolCoursesOld$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-vanha-kurssit/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (subjects: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolCoursesOld$.next(subjects);
+        },
+        () => {
+          this.upperSecondarySchoolCoursesOld$.next([]);
+        },
+      );
   }
 
   /**
@@ -229,14 +231,16 @@ export class KoodistoProxyService {
   updateUpperSecondarySchoolModulesNew(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-moduulit/${ids}/${lang}`, this.httpOptions).subscribe(
-      (modules: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolModulesNew$.next(modules);
-      },
-      () => {
-        this.upperSecondarySchoolModulesNew$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-moduulit/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (modules: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolModulesNew$.next(modules);
+        },
+        () => {
+          this.upperSecondarySchoolModulesNew$.next([]);
+        },
+      );
   }
 
   /**
@@ -246,14 +250,16 @@ export class KoodistoProxyService {
   updateUpperSecondarySchoolObjectivesNew(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-tavoitteet/${ids}/${lang}`, this.httpOptions).subscribe(
-      (objectives: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolObjectivesNew$.next(objectives);
-      },
-      () => {
-        this.upperSecondarySchoolObjectivesNew$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-tavoitteet/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (objectives: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolObjectivesNew$.next(objectives);
+        },
+        () => {
+          this.upperSecondarySchoolObjectivesNew$.next([]);
+        },
+      );
   }
 
   /**
@@ -263,14 +269,16 @@ export class KoodistoProxyService {
   updateUpperSecondarySchoolContentsNew(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-sisallot/${ids}/${lang}`, this.httpOptions).subscribe(
-      (contents: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolContentsNew$.next(contents);
-      },
-      () => {
-        this.upperSecondarySchoolContentsNew$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-sisallot/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (contents: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolContentsNew$.next(contents);
+        },
+        () => {
+          this.upperSecondarySchoolContentsNew$.next([]);
+        },
+      );
   }
 
   /**
@@ -293,14 +301,16 @@ export class KoodistoProxyService {
   updateVocationalUnits(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnon-osat/${ids}/${lang}`, this.httpOptions).subscribe(
-      (vocationalUnits: AlignmentObjectExtended[]) => {
-        this.vocationalUnits$.next(vocationalUnits);
-      },
-      () => {
-        this.vocationalUnits$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnon-osat/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (vocationalUnits: AlignmentObjectExtended[]) => {
+          this.vocationalUnits$.next(vocationalUnits);
+        },
+        () => {
+          this.vocationalUnits$.next([]);
+        },
+      );
   }
 
   /**
@@ -310,14 +320,16 @@ export class KoodistoProxyService {
   updateVocationalRequirements(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-vaatimukset/${ids}/${lang}`, this.httpOptions).subscribe(
-      (requirements: AlignmentObjectExtended[]) => {
-        this.vocationalRequirements$.next(requirements);
-      },
-      () => {
-        this.vocationalRequirements$.next([]);
-      },
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-vaatimukset/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (requirements: AlignmentObjectExtended[]) => {
+          this.vocationalRequirements$.next(requirements);
+        },
+        () => {
+          this.vocationalRequirements$.next([]);
+        },
+      );
   }
 
   /**
@@ -325,7 +337,10 @@ export class KoodistoProxyService {
    */
   updateFurtherVocationalQualifications(): void {
     this.http
-      .get<AlignmentObjectExtended[]>(`${environment.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`, this.httpOptions)
+      .get<AlignmentObjectExtended[]>(
+        `${environment.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`,
+        this.httpOptions,
+      )
       .subscribe((qualifications: AlignmentObjectExtended[]) => {
         this.furtherVocationalQualifications$.next(qualifications);
       });
@@ -336,7 +351,10 @@ export class KoodistoProxyService {
    */
   updateSpecialistVocationalQualifications(): void {
     this.http
-      .get<AlignmentObjectExtended[]>(`${environment.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`, this.httpOptions)
+      .get<AlignmentObjectExtended[]>(
+        `${environment.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`,
+        this.httpOptions,
+      )
       .subscribe((qualifications: AlignmentObjectExtended[]) => {
         this.specialistVocationalQualifications$.next(qualifications);
       });

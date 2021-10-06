@@ -65,6 +65,8 @@ export class SocialMetadataService {
    * @returns {Observable<UpdateSocialMetadataResponse>}
    */
   putMaterialSocialMetadata(materialId: number, metadata: SocialMetadata): Observable<UpdateSocialMetadataResponse> {
-    return this.http.put<any>(`${environment.backendUrl}/metadata/${materialId}`, metadata).pipe(catchError(this.handleError));
+    return this.http
+      .put<any>(`${environment.backendUrl}/metadata/${materialId}`, metadata)
+      .pipe(catchError(this.handleError));
   }
 }

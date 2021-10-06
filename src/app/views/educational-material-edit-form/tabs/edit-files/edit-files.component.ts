@@ -18,6 +18,8 @@ import { Title } from '@angular/platform-browser';
 import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
 import { AuthService } from '@services/auth.service';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Subtitle, SubtitleKind } from '@models/material/subtitle';
 
 @Component({
   selector: 'app-tabs-edit-files',
@@ -110,7 +112,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
     });
   }
@@ -165,7 +167,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    */
   createFileDetail(file: any): FormGroup {
     const replaceSubtitleArray: boolean[] = [];
-    const subtitles = file.subtitles.map((subtitle) => {
+    const subtitles = file.subtitles.map((subtitle: Subtitle) => {
       replaceSubtitleArray.push(false);
       return this.createSubtitle(subtitle);
     });
@@ -183,9 +185,18 @@ export class EditFilesComponent implements OnInit, OnDestroy {
         Validators.maxLength(validatorParams.file.link.maxLength),
       ]),
       displayName: this.fb.group({
-        fi: this.fb.control(file.displayName.fi, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
-        sv: this.fb.control(file.displayName.sv, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
-        en: this.fb.control(file.displayName.en, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
+        fi: this.fb.control(file.displayName.fi, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(file.displayName.sv, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(file.displayName.en, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
       }),
       language: this.fb.control(file.language, [Validators.required]),
       priority: this.fb.control(file.priority),
@@ -208,9 +219,18 @@ export class EditFilesComponent implements OnInit, OnDestroy {
         Validators.maxLength(validatorParams.file.link.maxLength),
       ]),
       displayName: this.fb.group({
-        fi: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
-        sv: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
-        en: this.fb.control(null, [Validators.maxLength(validatorParams.file.displayName.maxLength), textInputValidator()]),
+        fi: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        sv: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
+        en: this.fb.control(null, [
+          Validators.maxLength(validatorParams.file.displayName.maxLength),
+          textInputValidator(),
+        ]),
       }),
       language: this.fb.control(null),
       priority: this.fb.control(null),
@@ -223,7 +243,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param subtitle
    * @returns {FormGroup}
    */
-  createSubtitle(subtitle: any): FormGroup {
+  createSubtitle(subtitle: Subtitle): FormGroup {
     return this.fb.group({
       id: this.fb.control(subtitle.id),
       fileId: this.fb.control(subtitle.fileId),
@@ -231,7 +251,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       newSubtitle: [''],
       default: this.fb.control(subtitle.default),
       kind: this.fb.control(subtitle.kind),
-      label: this.fb.control(subtitle.label, [Validators.maxLength(validatorParams.file.subtitle.label.maxLength), textInputValidator()]),
+      label: this.fb.control(subtitle.label, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(subtitle.srclang),
     });
   }
@@ -247,8 +270,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       subtitle: this.fb.control(null),
       newSubtitle: [''],
       default: this.fb.control(false),
-      kind: this.fb.control('subtitles'),
-      label: this.fb.control(null, [Validators.maxLength(validatorParams.file.subtitle.label.maxLength), textInputValidator()]),
+      kind: this.fb.control(SubtitleKind.subtitles),
+      label: this.fb.control(null, [
+        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+        textInputValidator(),
+      ]),
       srclang: this.fb.control(null),
     });
   }
@@ -347,7 +373,11 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       subtitlesArray
         .at(j)
         .get('label')
-        .setValidators([Validators.required, Validators.maxLength(validatorParams.file.subtitle.label.maxLength), textInputValidator()]);
+        .setValidators([
+          Validators.required,
+          Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+          textInputValidator(),
+        ]);
       subtitlesArray.at(j).get('label').updateValueAndValidity();
 
       subtitlesArray.at(j).get('srclang').setValidators([Validators.required]);

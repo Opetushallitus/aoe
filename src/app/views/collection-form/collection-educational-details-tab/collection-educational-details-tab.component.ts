@@ -177,9 +177,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // basic study subjects
-    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe((subjects: AlignmentObjectExtended[]) => {
-      this.basicStudySubjects = subjects;
-    });
+    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
+        this.basicStudySubjects = subjects;
+      },
+    );
     this.koodistoSvc.updateBasicStudySubjects();
 
     if (this.basicStudySubjectsCtrl.value.length > 0) {
@@ -187,14 +189,18 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // basic study objectives
-    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe((objectives: AlignmentObjectExtended[]) => {
-      this.basicStudyObjectives = objectives;
-    });
+    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe(
+      (objectives: AlignmentObjectExtended[]) => {
+        this.basicStudyObjectives = objectives;
+      },
+    );
 
     // basic study contents
-    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe((contents: AlignmentObjectExtended[]) => {
-      this.basicStudyContents = contents;
-    });
+    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe(
+      (contents: AlignmentObjectExtended[]) => {
+        this.basicStudyContents = contents;
+      },
+    );
 
     // upper secondary school subjects (old)
     this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$.subscribe(
@@ -204,7 +210,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     );
     this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
 
-    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 || this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0) {
+    if (
+      this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 ||
+      this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0
+    ) {
       this.currentUpperSecondarySchoolSelected.setValue(true);
     }
 
@@ -257,9 +266,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     );
 
     // vocational degrees
-    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe((degrees: AlignmentObjectExtended[]) => {
-      this.vocationalDegrees = degrees;
-    });
+    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe(
+      (degrees: AlignmentObjectExtended[]) => {
+        this.vocationalDegrees = degrees;
+      },
+    );
     this.koodistoSvc.updateVocationalDegrees();
 
     if (this.vocationalDegreesCtrl.value?.length > 0) {
@@ -267,9 +278,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // vocational units
-    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe((units: AlignmentObjectExtended[]) => {
-      this.vocationalUnits = units;
-    });
+    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe(
+      (units: AlignmentObjectExtended[]) => {
+        this.vocationalUnits = units;
+      },
+    );
 
     if (this.vocationalUnitsCtrl.value?.length > 0) {
       this.vocationalUnitsChange(this.vocationalUnitsCtrl.value);
@@ -283,9 +296,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     );
 
     // science branches
-    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe((branches: AlignmentObjectExtended[]) => {
-      this.scienceBranches = branches;
-    });
+    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe(
+      (branches: AlignmentObjectExtended[]) => {
+        this.scienceBranches = branches;
+      },
+    );
     this.koodistoSvc.updateScienceBranches();
   }
 
@@ -396,9 +411,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.hasEarlyChildhoodEducation =
       value.filter((level: EducationalLevel) => educationalLevelKeys.earlyChildhood.includes(level.key)).length > 0;
 
-    this.hasPrePrimaryEducation = value.filter((level: EducationalLevel) => educationalLevelKeys.prePrimary.includes(level.key)).length > 0;
+    this.hasPrePrimaryEducation =
+      value.filter((level: EducationalLevel) => educationalLevelKeys.prePrimary.includes(level.key)).length > 0;
 
-    this.hasBasicStudies = value.filter((level: EducationalLevel) => educationalLevelKeys.basicStudy.includes(level.key)).length > 0;
+    this.hasBasicStudies =
+      value.filter((level: EducationalLevel) => educationalLevelKeys.basicStudy.includes(level.key)).length > 0;
 
     if (this.hasBasicStudies === false) {
       this.hasBasicStudySubjects = false;
@@ -407,7 +424,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.hasUpperSecondarySchool =
       value.filter((level: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(level.key)).length > 0;
 
-    this.hasVocationalEducation = value.filter((level: EducationalLevel) => educationalLevelKeys.vocational.includes(level.key)).length > 0;
+    this.hasVocationalEducation =
+      value.filter((level: EducationalLevel) => educationalLevelKeys.vocational.includes(level.key)).length > 0;
 
     this.hasSelfMotivatedEducation =
       value.filter((level: EducationalLevel) => educationalLevelKeys.selfMotivated.includes(level.key)).length > 0;

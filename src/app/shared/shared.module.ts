@@ -91,7 +91,11 @@ export function deduplicate(array: any[], prop: string): any[] {
  * @param {string} source
  * @param {AlignmentType} alignmentType
  */
-function createExtendedAlignmentObjectFromString(value: string, source: string, alignmentType: AlignmentType): AlignmentObjectExtended {
+function createExtendedAlignmentObjectFromString(
+  value: string,
+  source: string,
+  alignmentType: AlignmentType,
+): AlignmentObjectExtended {
   return {
     key: value
       .replace(/[\W_]+/g, '')
@@ -109,7 +113,11 @@ function createExtendedAlignmentObjectFromString(value: string, source: string, 
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjectExtended => {
-  return createExtendedAlignmentObjectFromString(value, 'earlyChildhoodEducationSubjects', AlignmentType.educationalSubject);
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'earlyChildhoodEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**
@@ -127,7 +135,11 @@ export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObj
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExtended => {
-  return createExtendedAlignmentObjectFromString(value, 'prePrimaryEducationSubjects', AlignmentType.educationalSubject);
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'prePrimaryEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**
@@ -163,7 +175,11 @@ export const addVocationalEducationObjective = (value: string): AlignmentObjectE
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addSelfMotivatedEducationSubject = (value: string): AlignmentObjectExtended => {
-  return createExtendedAlignmentObjectFromString(value, 'selfMotivatedEducationSubjects', AlignmentType.educationalSubject);
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'selfMotivatedEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**

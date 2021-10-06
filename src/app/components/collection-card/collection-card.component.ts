@@ -1,5 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { CollectionCard, CollectionCardEducationalLevel, CollectionCardKeyword } from '@models/collections/collection-card';
+import {
+  CollectionCard,
+  CollectionCardEducationalLevel,
+  CollectionCardKeyword,
+} from '@models/collections/collection-card';
 import { getValuesWithinLimits } from '../../shared/shared.module';
 import { Subscription } from 'rxjs';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';

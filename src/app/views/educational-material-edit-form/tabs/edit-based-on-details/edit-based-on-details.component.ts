@@ -7,6 +7,8 @@ import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { ExternalReference } from '@models/material/external-reference';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
@@ -21,7 +23,12 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
   @Output() abortEdit = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private router: Router, private translate: TranslateService, private titleSvc: Title) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private translate: TranslateService,
+    private titleSvc: Title,
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -54,7 +61,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
     });
   }
@@ -65,26 +72,26 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
 
   /**
    * Patches external references array.
-   * @param externals
+   * @param {ExternalReference[]} externals
    */
-  patchExternals(externals: any): void {
-    externals.forEach((external) => this.externalsArray.push(this.createExternal(external)));
+  patchExternals(externals: ExternalReference[]): void {
+    externals.forEach((external: ExternalReference) => this.externalsArray.push(this.createExternal(external)));
   }
 
   /**
    * Creates external reference FormGroup.
-   * @param external
+   * @param {ExternalReference} external
    * @returns {FormGroup}
    */
-  createExternal(external?: any): FormGroup {
+  createExternal(external?: ExternalReference): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [Validators.required, textInputValidator()]),
-      url: this.fb.control(external ? external.url : null, [
+      author: this.fb.control(external?.author ?? null, [Validators.required, textInputValidator()]),
+      url: this.fb.control(external?.url ?? null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
         Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
-      name: this.fb.control(external ? external.name : null, [
+      name: this.fb.control(external?.name ?? null, [
         Validators.required,
         Validators.maxLength(validatorParams.reference.name.maxLength),
         textInputValidator(),

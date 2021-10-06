@@ -6,7 +6,8 @@
 export const FAQGeneral = {
   fi: [
     {
-      question: 'Mikä on Avointen oppimateriaalien kirjasto? Miksi ja mihin tarpeeseen Avointen oppimateriaalien kirjastoa kehitetään?',
+      question:
+        'Mikä on Avointen oppimateriaalien kirjasto? Miksi ja mihin tarpeeseen Avointen oppimateriaalien kirjastoa kehitetään?',
       answer: [
         'Avointen oppimateriaalien kirjasto on opetus- ja kulttuuriministeriön ja Opetushallituksen palvelu, joka kokoaa avoimia oppimateriaaleja yhteen kaikkien koulutusasteiden yhteiseen näkymään. Palvelussa voi jakaa ja käyttää avoimia oppimateriaaleja. Palvelua kehitetään jatkuvasti, lisätietoa kehityskohteista tällä sivulla.',
         'Avointen oppimateriaalien palvelu pyrkii edistämään avointen oppimateriaalien käyttöä mahdollistaen eri hankkeissa tuotetuille ja yksittäisten ihmisten tuottamille materiaaleille pitkäikäisyyttä sekä näkyvyyttä. Tallentamalla oppimateriaalin palveluun ei tarvitse huolehtia siitä kuka vastaa että oppimateriaalia voi käyttää vielä pitkään hankkeen päättyymisen jälkeenkin niin omassa oppilaitoksessa kuin myös muissa oppilaitoksissa ja niiden ulkopuolella. Kirjaston tarkoituksena on tehdä avoimen oppimateriaalin löytäminen mahdollisimman helpoksi niin opettajille, oppijoille kuin tavan kansalaisille.',
@@ -131,7 +132,8 @@ export const FAQGeneral = {
   ],
   sv: [
     {
-      question: 'Vad är Biblioteket för öppna lärresurser? Varför och för vilka behov utvecklas Biblioteket för öppna lärresurser?',
+      question:
+        'Vad är Biblioteket för öppna lärresurser? Varför och för vilka behov utvecklas Biblioteket för öppna lärresurser?',
       answer: [
         'Biblioteket för öppna lärresurser är en tjänst som tillhandahålls av undervisnings- och kulturministeriet och Utbildningsstyrelsen. Den sammanställer de öppna lärresurserna i en tjänst som är gemensam för alla utbildningsnivåer. Från och med höst 2019 kan man lagra sina egna öppna undervisningsmaterial och uppgifter om dem i tjänsten. Med följande utvecklingsversion av tjänsten kan man från årsskiftet söka och utnyttja öppna lärresurser.',
         'Biblioteket för öppna lärresurser syftar till att främja användningen av de öppna materialen så att material som tagits fram i olika projekt och av enskilda individer får synlighet och varaktighet. Genom att lagra resurserna i tjänsten behöver man inte bekymra sig för vem som ska ansvara för möjligheten att utnyttja materialen vid den egna eller andra läroanstalter och utanför dem ännu länge efter att projektet upphört.',

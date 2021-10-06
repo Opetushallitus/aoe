@@ -5,7 +5,10 @@
 
       <ng-template #noThumbnail>
         <div *ngIf="learningResourceTypesCtrl.value?.length > 0; else defaultThumbnail">
-          <img src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png" class="img-fluid mb-2 border" />
+          <img
+            src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png"
+            class="img-fluid mb-2 border"
+          />
         </div>
 
         <ng-template #defaultThumbnail>
@@ -27,7 +30,12 @@
         <div class="modal-header">
           <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
 
-          <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="thumbnailModalRef.hide()">
+          <button
+            type="button"
+            class="close"
+            [attr.aria-label]="'forms.common.close' | translate"
+            (click)="thumbnailModalRef.hide()"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -36,7 +44,11 @@
           <div class="form-group">
             <label for="image"> {{ 'forms.educationalResource.basicDetails.image.label' | translate }} </label>
 
-            <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.basicDetails.image.tooltip' | translate">
+            <button
+              type="button"
+              class="btn btn-link"
+              [tooltip]="'forms.educationalResource.basicDetails.image.tooltip' | translate"
+            >
               <img src="assets/img/icons/ic_help.svg" alt="" />
             </button>
 
@@ -56,7 +68,6 @@
           <div class="form-group">
             <image-cropper
               [imageChangedEvent]="imageChangedEvent"
-              outputType="both"
               [maintainAspectRatio]="true"
               [containWithinAspectRatio]="true"
               [aspectRatio]="152 / 228"
@@ -87,7 +98,9 @@
             {{ 'forms.common.close' | translate }}
           </button>
 
-          <button type="button" class="btn btn-blue" (click)="uploadImage()">{{ 'forms.common.saveChanges' | translate }}</button>
+          <button type="button" class="btn btn-blue" (click)="uploadImage()">
+            {{ 'forms.common.saveChanges' | translate }}
+          </button>
         </div> </ng-template
       ><!--/modal-->
     </div>
@@ -119,12 +132,16 @@
                     type="text"
                     class="form-control"
                     id="{{ 'author' + i }}"
-                    [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
+                    [placeholder]="
+                      'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate
+                    "
                     formControlName="author"
                     [ngClass]="{
                       'is-invalid':
                         authorsArray.at(i).get('author').invalid &&
-                        (authorsArray.at(i).get('author').dirty || authorsArray.at(i).get('author').touched || submitted)
+                        (authorsArray.at(i).get('author').dirty ||
+                          authorsArray.at(i).get('author').touched ||
+                          submitted)
                     }"
                     [attr.aria-describedby]="'author-help-' + i"
                   />
@@ -206,7 +223,9 @@
               </ng-container>
 
               <div class="form-group col-12">
-                <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">{{ 'forms.common.delete' | translate }}</button>
+                <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">
+                  {{ 'forms.common.delete' | translate }}
+                </button>
               </div>
             </ng-container>
           </div>
@@ -228,7 +247,11 @@
       <div class="form-group">
         <label for="keywords"> {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }}* </label>
 
-        <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.basicDetails.keywords.tooltip' | translate">
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.basicDetails.keywords.tooltip' | translate"
+        >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
 
@@ -278,7 +301,9 @@
         <!--/learning resource types-->
 
         <div class="form-group col-md-6 col-lg-4">
-          <label for="educationalRoles"> {{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }} </label>
+          <label for="educationalRoles">
+            {{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}
+          </label>
 
           <button
             type="button"
@@ -301,7 +326,9 @@
         <!--/educational roles-->
 
         <div class="form-group col-md-6 col-lg-4">
-          <label for="educationalUses"> {{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }} </label>
+          <label for="educationalUses">
+            {{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}
+          </label>
 
           <button
             type="button"
@@ -326,9 +353,15 @@
       <!--/row-->
 
       <div class="form-group" formGroupName="description">
-        <label for="description"> {{ 'forms.educationalResource.basicDetails.description.label.' + lang | translate }} </label>
+        <label for="description">
+          {{ 'forms.educationalResource.basicDetails.description.label.' + lang | translate }}
+        </label>
 
-        <button type="button" class="btn btn-link" [tooltip]="'forms.educationalResource.basicDetails.description.tooltip' | translate">
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="'forms.educationalResource.basicDetails.description.tooltip' | translate"
+        >
           <img src="assets/img/icons/ic_help.svg" alt="" />
         </button>
 
@@ -341,20 +374,27 @@
               [formControlName]="lang"
               [ngClass]="{
                 'is-invalid':
-                  descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+                  descriptionCtrl.get(lang).invalid &&
+                  (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
               }"
             ></textarea>
 
             <div
               *ngIf="
-                descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+                descriptionCtrl.get(lang).invalid &&
+                (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
               "
               class="invalid-feedback"
             >
-              <div *ngIf="descriptionCtrl.get(lang).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
+              <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
+                {{ 'forms.errors.description.characters' | translate }}
+              </div>
 
               <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
-                {{ 'forms.errors.common.maxLength' | translate: { maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+                {{
+                  'forms.errors.common.maxLength'
+                    | translate: { maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength }
+                }}
               </div>
             </div>
           </div>
@@ -365,7 +405,9 @@
                 type="button"
                 class="btn btn-gray"
                 (click)="openTranslationsModal(langVersions)"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid }"
+                [ngClass]="{
+                  'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid
+                }"
               >
                 {{ 'forms.common.translations.label' | translate }}
               </button>
@@ -382,7 +424,11 @@
               </div>
             </div>
 
-            <button type="button" class="btn btn-outline-gray" (click)="openExampleDescriptionModal(exampleDescription)">
+            <button
+              type="button"
+              class="btn btn-outline-gray"
+              (click)="openExampleDescriptionModal(exampleDescription)"
+            >
               {{ 'forms.educationalResource.basicDetails.description.example.button' | translate }}
             </button>
           </div>
@@ -390,9 +436,16 @@
 
         <ng-template #langVersions>
           <div class="modal-header">
-            <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.description.modal.title' | translate }}</h5>
+            <h5 class="modal-title">
+              {{ 'forms.educationalResource.basicDetails.description.modal.title' | translate }}
+            </h5>
 
-            <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="translationsModalRef.hide()">
+            <button
+              type="button"
+              class="close"
+              [attr.aria-label]="'forms.common.close' | translate"
+              (click)="translationsModalRef.hide()"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -413,7 +466,9 @@
                 [ngClass]="{
                   'is-invalid':
                     descriptionCtrl.get(otherLangs[0]).invalid &&
-                    (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
+                    (descriptionCtrl.get(otherLangs[0]).dirty ||
+                      descriptionCtrl.get(otherLangs[0]).touched ||
+                      submitted)
                 }"
               ></textarea>
 
@@ -424,7 +479,9 @@
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
+                <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
                   {{
@@ -448,7 +505,9 @@
                 [ngClass]="{
                   'is-invalid':
                     descriptionCtrl.get(otherLangs[1]).invalid &&
-                    (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
+                    (descriptionCtrl.get(otherLangs[1]).dirty ||
+                      descriptionCtrl.get(otherLangs[1]).touched ||
+                      submitted)
                 }"
               ></textarea>
 
@@ -459,7 +518,9 @@
                 "
                 class="invalid-feedback"
               >
-                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
+                <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
+                  {{ 'forms.errors.description.characters' | translate }}
+                </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
                   {{
@@ -489,7 +550,9 @@
 
         <ng-template #exampleDescription>
           <div class="modal-header">
-            <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.description.example.title' | translate }}</h5>
+            <h5 class="modal-title">
+              {{ 'forms.educationalResource.basicDetails.description.example.title' | translate }}
+            </h5>
 
             <button
               type="button"
@@ -516,7 +579,11 @@
 
             <p>{{ 'forms.educationalResource.basicDetails.description.example.detailsTrunc' | translate }}</p>
 
-            <img src="assets/img/description-example-card.png" alt="example description card" class="img-fluid border" />
+            <img
+              src="assets/img/description-example-card.png"
+              alt="example description card"
+              class="img-fluid border"
+            />
           </div>
 
           <div class="modal-footer">

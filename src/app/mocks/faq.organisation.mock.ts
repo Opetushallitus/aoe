@@ -29,7 +29,8 @@ export const FAQOrganisation = {
       ],
     },
     {
-      question: 'Onko palvelulla avoimet rajapinnat? Miten voimme näyttää palvelun oppimateriaaleja omissa palveluissamme?',
+      question:
+        'Onko palvelulla avoimet rajapinnat? Miten voimme näyttää palvelun oppimateriaaleja omissa palveluissamme?',
       answer: [
         'Avointen oppimateriaalien kirjaston oppimateriaalit ovat hyödynnettävissä Finnan avoimen rajapinnan kautta. Tämän avoimen rajapinnan kautta organisaatiot saavat käyttöönsä myös muuta avointa sisältöä, esimerkiksi avoimia kulttuuriperintöaineistoja. <a href="https://www.kiwi.fi/display/Finna/Finnan+avoin+rajapinta" target="_blank" rel="noopener nofollow">Rajapintakuvaus ja ohjeet käyttöön Finnan wikissä</a>.',
         'Lisäksi jokaisella oppimateriaalilla on oma upotuslinkkinsä. Sallimalla aoe.fi:stä tulevat upotuslinkit oppimisalustoissanne, voivat opettajat ja oppijat itse upottaa kurssisivuille Avointen oppimateriaalien kirjaston oppimateriaaleja.',

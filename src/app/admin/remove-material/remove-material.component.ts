@@ -24,7 +24,10 @@ export class RemoveMaterialComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      materialId: this.fb.control(null, [Validators.required, Validators.pattern(validatorParams.common.pattern.numeric)]),
+      materialId: this.fb.control(null, [
+        Validators.required,
+        Validators.pattern(validatorParams.common.pattern.numeric),
+      ]),
     });
 
     this.materialInfoSubscription = this.adminSvc.materialInfo$.subscribe((response: MaterialInfoResponse) => {

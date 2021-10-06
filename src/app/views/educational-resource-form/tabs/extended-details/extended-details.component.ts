@@ -13,6 +13,7 @@ import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -73,7 +74,10 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
           Validators.maxLength(validatorParams.ageRange.max.maxLength),
         ]),
       }),
-      timeRequired: this.fb.control(null, [Validators.maxLength(validatorParams.timeRequired.maxLength), textInputValidator()]),
+      timeRequired: this.fb.control(null, [
+        Validators.maxLength(validatorParams.timeRequired.maxLength),
+        textInputValidator(),
+      ]),
       publisher: this.fb.control(null),
       expires: this.fb.control(null),
       prerequisites: this.fb.control(null),
@@ -122,7 +126,9 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
         this.alignmentObjects = this.savedData.alignmentObjects;
 
         // filter prerequisites
-        const prerequisites = this.alignmentObjects.filter((alignmentObject) => alignmentObject.source === koodistoSources.prerequisites);
+        const prerequisites = this.alignmentObjects.filter(
+          (alignmentObject) => alignmentObject.source === koodistoSources.prerequisites,
+        );
 
         // set filtered prerequisites as form control value
         this.prerequisites.setValue(prerequisites);
@@ -147,7 +153,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
     });
   }

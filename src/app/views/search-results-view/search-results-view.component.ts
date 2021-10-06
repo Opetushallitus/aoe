@@ -143,48 +143,52 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
     this.koodistoProxySvc.updateLanguages();
 
-    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
-      this.educationalLevels = levels;
+    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe(
+      (levels: EducationalLevel[]) => {
+        this.educationalLevels = levels;
 
-      this.educationalLevelsArray.clear();
+        this.educationalLevelsArray.clear();
 
-      this.educationalLevels.forEach((level: EducationalLevel) => {
-        const children = this.fb.array([]);
+        this.educationalLevels.forEach((level: EducationalLevel) => {
+          const children = this.fb.array([]);
 
-        level.children.forEach((child) => {
-          let state = false;
+          level.children.forEach((child) => {
+            let state = false;
 
-          if (searchParams?.filters?.educationalLevels) {
-            state = searchParams.filters.educationalLevels.includes(child.key);
-          }
+            if (searchParams?.filters?.educationalLevels) {
+              state = searchParams.filters.educationalLevels.includes(child.key);
+            }
 
-          children.push(this.fb.control(state));
+            children.push(this.fb.control(state));
+          });
+
+          this.educationalLevelsArray.push(
+            this.fb.group({
+              levels: children,
+            }),
+          );
         });
-
-        this.educationalLevelsArray.push(
-          this.fb.group({
-            levels: children,
-          }),
-        );
-      });
-    });
+      },
+    );
     this.koodistoProxySvc.updateEducationalLevels();
 
-    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe((types: LearningResourceType[]) => {
-      this.learningResourceTypes = types;
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
+      (types: LearningResourceType[]) => {
+        this.learningResourceTypes = types;
 
-      this.learningResourceTypesArray.clear();
+        this.learningResourceTypesArray.clear();
 
-      this.learningResourceTypes.forEach((type: LearningResourceType) => {
-        let state = false;
+        this.learningResourceTypes.forEach((type: LearningResourceType) => {
+          let state = false;
 
-        if (searchParams?.filters?.learningResourceTypes) {
-          state = searchParams.filters.learningResourceTypes.includes(type.key);
-        }
+          if (searchParams?.filters?.learningResourceTypes) {
+            state = searchParams.filters.learningResourceTypes.includes(type.key);
+          }
 
-        this.learningResourceTypesArray.push(this.fb.control(state));
-      });
-    });
+          this.learningResourceTypesArray.push(this.fb.control(state));
+        });
+      },
+    );
     this.koodistoProxySvc.updateLearningResourceTypes();
 
     this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
@@ -445,7 +449,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
 
     // types
     this.learningResourceTypes?.forEach((type: LearningResourceType, index: number) => {
-      this.learningResourceTypesArray.at(index).setValue(searchParams?.filters?.learningResourceTypes?.includes(type.key));
+      this.learningResourceTypesArray
+        .at(index)
+        .setValue(searchParams?.filters?.learningResourceTypes?.includes(type.key));
     });
 
     // authors
@@ -783,7 +789,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       if (removedFilter) {
         switch (removedFilter.type) {
           case 'language':
-            searchParams.filters.languages = searchParams.filters.languages.filter((lang: string) => lang !== removedFilter.key);
+            searchParams.filters.languages = searchParams.filters.languages.filter(
+              (lang: string) => lang !== removedFilter.key,
+            );
             break;
 
           case 'educationalLevels':
@@ -799,7 +807,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
 
           case 'teach':
-            searchParams.filters.teaches = searchParams.filters.teaches.filter((teach: string) => teach !== removedFilter.key);
+            searchParams.filters.teaches = searchParams.filters.teaches.filter(
+              (teach: string) => teach !== removedFilter.key,
+            );
             break;
 
           case 'learningResourceTypes':
@@ -809,7 +819,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
 
           case 'author':
-            searchParams.filters.authors = searchParams.filters.authors.filter((author: string) => author !== removedFilter.key);
+            searchParams.filters.authors = searchParams.filters.authors.filter(
+              (author: string) => author !== removedFilter.key,
+            );
             break;
 
           case 'organization':
@@ -825,11 +837,15 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
 
           case 'keyword':
-            searchParams.filters.keywords = searchParams.filters.keywords.filter((keyword: string) => keyword !== removedFilter.key);
+            searchParams.filters.keywords = searchParams.filters.keywords.filter(
+              (keyword: string) => keyword !== removedFilter.key,
+            );
             break;
 
           case 'use':
-            searchParams.filters.educationalUses = searchParams.filters.educationalUses.filter((use: string) => use !== removedFilter.key);
+            searchParams.filters.educationalUses = searchParams.filters.educationalUses.filter(
+              (use: string) => use !== removedFilter.key,
+            );
             break;
 
           case 'hazard':
@@ -845,7 +861,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             break;
 
           case 'license':
-            searchParams.filters.licenses = searchParams.filters.licenses.filter((license: string) => license !== removedFilter.key);
+            searchParams.filters.licenses = searchParams.filters.licenses.filter(
+              (license: string) => license !== removedFilter.key,
+            );
             break;
 
           default:
