@@ -8,7 +8,7 @@
 
     <ng-template #materialLoaded>
       <ng-container *ngIf="materialIsArchived; else material">
-        <app-archived-material [materialId]="materialId"></app-archived-material>
+        <app-archived-material [materialId]="materialId.toString()"></app-archived-material>
       </ng-container>
 
       <ng-template #material>
@@ -993,9 +993,7 @@
 
               <div class="row mb-2">
                 <ng-container
-                  *ngIf="
-                    educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage
-                  "
+                  *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage"
                 >
                   <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
                     <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
