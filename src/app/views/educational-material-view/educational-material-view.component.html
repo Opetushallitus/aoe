@@ -917,19 +917,19 @@
               <div
                 class="row"
                 *ngIf="
-                  socialMetadata.keywords?.length > 0 ||
-                    socialMetadata.accessibilityFeatures?.length > 0 ||
-                    socialMetadata.accessibilityHazards?.length > 0 ||
-                    socialMetadata.educationalLevels?.length > 0;
+                  socialMetadata?.keywords?.length > 0 ||
+                    socialMetadata?.accessibilityFeatures?.length > 0 ||
+                    socialMetadata?.accessibilityHazards?.length > 0 ||
+                    socialMetadata?.educationalLevels?.length > 0;
                   else noMetadata
                 "
               >
                 <!--keywords-->
-                <div *ngIf="socialMetadata.keywords?.length > 0" class="col-auto metadata-group">
+                <div *ngIf="socialMetadata?.keywords?.length > 0" class="col-auto metadata-group">
                   <app-taglist
-                    *ngIf="socialMetadata.keywords?.length > 0"
+                    *ngIf="socialMetadata?.keywords?.length > 0"
                     elementId="socialMetadata-keywords"
-                    [tags]="socialMetadata.keywords"
+                    [tags]="socialMetadata?.keywords"
                     [title]="'demo.educationalMaterial.keywords' | translate"
                     property="value"
                     searchProperty="key"
@@ -939,10 +939,10 @@
                 <!--keywords-->
 
                 <!--accessibilityFeatures-->
-                <div *ngIf="socialMetadata.accessibilityFeatures?.length > 0" class="col-auto metadata-group">
+                <div *ngIf="socialMetadata?.accessibilityFeatures?.length > 0" class="col-auto metadata-group">
                   <app-taglist
                     elementId="socialMetadata-accessibilityFeatures"
-                    [tags]="socialMetadata.accessibilityFeatures"
+                    [tags]="socialMetadata?.accessibilityFeatures"
                     [title]="'demo.educationalMaterial.accessibilityFeatures' | translate"
                     property="value"
                     searchProperty="key"
@@ -952,10 +952,10 @@
                 <!--accessibilityFeatures-->
 
                 <!--accessibilityHazards-->
-                <div *ngIf="socialMetadata.accessibilityHazards?.length > 0" class="col-auto metadata-group">
+                <div *ngIf="socialMetadata?.accessibilityHazards?.length > 0" class="col-auto metadata-group">
                   <app-taglist
                     elementId="socialMetadata-accessibilityHazards"
-                    [tags]="socialMetadata.accessibilityHazards"
+                    [tags]="socialMetadata?.accessibilityHazards"
                     [title]="'demo.educationalMaterial.accessibilityHazard' | translate"
                     property="value"
                     searchProperty="key"
@@ -965,10 +965,10 @@
                 <!--accessibilityHazards-->
 
                 <!--educationalLevels-->
-                <div *ngIf="socialMetadata.educationalLevels?.length > 0" class="col-auto metadata-group">
+                <div *ngIf="socialMetadata?.educationalLevels?.length > 0" class="col-auto metadata-group">
                   <app-taglist
                     elementId="socialMetadata-educationalLevels"
-                    [tags]="socialMetadata.educationalLevels"
+                    [tags]="socialMetadata?.educationalLevels"
                     [title]="'demo.educationalMaterial.eduLevel' | translate"
                     property="value"
                     searchProperty="key"
@@ -994,8 +994,7 @@
               <div class="row mb-2">
                 <ng-container
                   *ngIf="
-                    educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage;
-                    else noRatings
+                    educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage
                   "
                 >
                   <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
@@ -1009,17 +1008,11 @@
                     {{ educationalMaterial.ratingVisualAverage }}
                     <span class="text-muted">/ 5</span>
                   </div>
-
-                  <div class="col-auto">
-                    <a routerLink="arvostelut"> {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }} </a>
-                  </div>
                 </ng-container>
 
-                <ng-template #noRatings>
-                  <div class="col-12">
-                    <p>{{ 'demo.educationalMaterial.reviews.noRatings' | translate }}</p>
-                  </div>
-                </ng-template>
+                <div class="col-auto">
+                  <a routerLink="arvostelut"> {{ 'demo.educationalMaterial.userReviews.allReviews' | translate }} </a>
+                </div>
 
                 <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                   <button type="button" class="btn btn-anchor" (click)="openReviewModal()">
