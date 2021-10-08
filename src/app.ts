@@ -1,11 +1,11 @@
-import api from './api';
+import { apiRouterRoot, apiRouterV1 } from './api';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
 import errorHandler from 'errorhandler';
 import express from 'express';
-import middleware from './api/middleware';
-import morganHttpLogger from './util/morgan-http-logger';
+import { postHttpProcessor } from './api/middleware';
+import { morganHttpLogger } from './util';
 
 const app = express();
 
@@ -31,8 +31,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morganHttpLogger);
 
 // Connected API versions and custom middlewares
-app.use('/', api.apiRouterRoot);
-app.use('/api/v1', middleware.postHttpProcessor, api.apiRouterV1);
+app.use('/', apiRouterRoot);
+app.use('/api/v1', postHttpProcessor, apiRouterV1);
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
 app.use(errorHandler());
 
