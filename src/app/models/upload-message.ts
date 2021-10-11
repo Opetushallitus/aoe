@@ -6,8 +6,10 @@ export interface UploadMessage {
 
 interface SuccessfulUploadResponse {
   id: string;
-  material: [{
-    id: string,
-    createFrom: string,
-  }];
+  material: [
+    {
+      id: string;
+      createFrom: string;
+    },
+  ];
 }

@@ -9,7 +9,7 @@ import { Accessibility } from '../../mocks/accessibility.mock';
 @Component({
   selector: 'app-accessibility-view',
   templateUrl: './accessibility-view.component.html',
-  styleUrls: ['./accessibility-view.component.scss']
+  styleUrls: ['./accessibility-view.component.scss'],
 })
 export class AccessibilityViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
@@ -19,7 +19,7 @@ export class AccessibilityViewComponent implements OnInit {
     private koodistoSvc: KoodistoProxyService,
     private titleSvc: Title,
     private translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();

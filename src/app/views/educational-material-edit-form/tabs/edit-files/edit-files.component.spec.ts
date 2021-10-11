@@ -6,12 +6,13 @@ describe('EditFilesComponent', () => {
   let component: EditFilesComponent;
   let fixture: ComponentFixture<EditFilesComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EditFilesComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [EditFilesComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditFilesComponent);

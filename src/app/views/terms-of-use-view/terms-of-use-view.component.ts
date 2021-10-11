@@ -8,10 +8,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './terms-of-use-view.component.html',
 })
 export class TermsOfUseViewComponent implements OnInit {
-  constructor (
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();

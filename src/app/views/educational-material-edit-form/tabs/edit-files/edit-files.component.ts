@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -18,11 +18,13 @@ import { Title } from '@angular/platform-browser';
 import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
 import { AuthService } from '@services/auth.service';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Subtitle, SubtitleKind } from '@models/material/subtitle';
 
 @Component({
   selector: 'app-tabs-edit-files',
   templateUrl: './edit-files.component.html',
-  styleUrls: ['./edit-files.component.scss']
+  styleUrls: ['./edit-files.component.scss'],
 })
 export class EditFilesComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -48,32 +50,23 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private koodistoSvc: KoodistoProxyService,
     private translate: TranslateService,
     private modalService: BsModalService,
     private router: Router,
     private titleSvc: Title,
     private authSvc: AuthService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
 
     this.form = this.fb.group({
       name: this.fb.group({
-        fi: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
-        sv: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
-        en: this.fb.control(null, [
-          Validators.maxLength(validatorParams.name.maxLength),
-          textInputValidator(),
-        ]),
+        fi: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+        sv: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+        en: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
       }),
       fileDetails: this.fb.array([]),
     });
@@ -119,7 +112,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
     });
   }
@@ -150,17 +143,14 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openTranslationsModal(template: TemplateRef<any>): void {
-    this.translationsModalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+    this.translationsModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   /**
    * Patches fileDetails array.
    * @param fileDetails
    */
-  patchFileDetails(fileDetails): void {
+  patchFileDetails(fileDetails: any): void {
     fileDetails.forEach((file, i: number) => {
       this.materialDetailsArray.push(this.createFileDetail(file));
 
@@ -175,9 +165,9 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param file
    * @returns {FormGroup}
    */
-  createFileDetail(file): FormGroup {
+  createFileDetail(file: any): FormGroup {
     const replaceSubtitleArray: boolean[] = [];
-    const subtitles = file.subtitles.map((subtitle) => {
+    const subtitles = file.subtitles.map((subtitle: Subtitle) => {
       replaceSubtitleArray.push(false);
       return this.createSubtitle(subtitle);
     });
@@ -208,9 +198,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           textInputValidator(),
         ]),
       }),
-      language: this.fb.control(file.language, [
-        Validators.required,
-      ]),
+      language: this.fb.control(file.language, [Validators.required]),
       priority: this.fb.control(file.priority),
       subtitles: this.fb.array(subtitles),
     });
@@ -255,7 +243,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param subtitle
    * @returns {FormGroup}
    */
-  createSubtitle(subtitle): FormGroup {
+  createSubtitle(subtitle: Subtitle): FormGroup {
     return this.fb.group({
       id: this.fb.control(subtitle.id),
       fileId: this.fb.control(subtitle.fileId),
@@ -282,7 +270,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       subtitle: this.fb.control(null),
       newSubtitle: [''],
       default: this.fb.control(false),
-      kind: this.fb.control('subtitles'),
+      kind: this.fb.control(SubtitleKind.subtitles),
       label: this.fb.control(null, [
         Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
         textInputValidator(),
@@ -339,7 +327,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * @param {number} i
    * @param {number} j
    */
-  updateDefaultSubtitle(event, i: number, j: number): void {
+  updateDefaultSubtitle(event: any, i: number, j: number): void {
     const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
     subtitles.controls.forEach((subCtrl: AbstractControl, subIndex: number) => {
@@ -349,7 +337,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     });
   }
 
-  onFileChange(event, i: number): void {
+  onFileChange(event: any, i: number): void {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
 
@@ -364,9 +352,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
       this.materialDetailsArray.at(i).get('newFile').setValue(file);
 
-      const fileName = file.name
-        .replace(/\.[^/.]+$/, '')
-        .replace(textInputRe, '');
+      const fileName = file.name.replace(/\.[^/.]+$/, '').replace(textInputRe, '');
 
       this.materialDetailsArray.at(i).get(`displayName.${this.lang}`).setValue(fileName);
 
@@ -374,28 +360,27 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubtitleChange(event, i: number, j: number): void {
+  onSubtitleChange(event: any, i: number, j: number): void {
     if (event.target.files.length > 0) {
       const subtitleFile = event.target.files[0];
       const subtitlesArray = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
       subtitlesArray.at(j).get('newSubtitle').setValue(subtitleFile);
 
-      subtitlesArray.at(j).get('kind').setValidators([
-        Validators.required,
-      ]);
+      subtitlesArray.at(j).get('kind').setValidators([Validators.required]);
       subtitlesArray.at(j).get('kind').updateValueAndValidity();
 
-      subtitlesArray.at(j).get('label').setValidators([
-        Validators.required,
-        Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
-        textInputValidator(),
-      ]);
+      subtitlesArray
+        .at(j)
+        .get('label')
+        .setValidators([
+          Validators.required,
+          Validators.maxLength(validatorParams.file.subtitle.label.maxLength),
+          textInputValidator(),
+        ]);
       subtitlesArray.at(j).get('label').updateValueAndValidity();
 
-      subtitlesArray.at(j).get('srclang').setValidators([
-        Validators.required,
-      ]);
+      subtitlesArray.at(j).get('srclang').setValidators([Validators.required]);
       subtitlesArray.at(j).get('srclang').updateValueAndValidity();
 
       this.form.markAsDirty();
@@ -403,25 +388,28 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   validateFiles(): void {
-    this.materialDetailsArray.controls = this.materialDetailsArray.controls
-      .filter((material) => {
-        const fileCtrl = material.get('file');
-        const newFileCtrl = material.get('newFile');
-        const linkCtrl = material.get('link');
-        const newLinkCtrl = material.get('newLink');
+    this.materialDetailsArray.controls = this.materialDetailsArray.controls.filter((material) => {
+      const fileCtrl = material.get('file');
+      const newFileCtrl = material.get('newFile');
+      const linkCtrl = material.get('link');
+      const newLinkCtrl = material.get('newLink');
 
-        return (fileCtrl.value !== '' || newFileCtrl.value !== '')
-          || ((linkCtrl.value !== null || linkCtrl.value !== '') || (newLinkCtrl.value !== null || newLinkCtrl.value !== ''));
-      });
+      return (
+        fileCtrl.value !== '' ||
+        newFileCtrl.value !== '' ||
+        linkCtrl.value !== null ||
+        linkCtrl.value !== '' ||
+        newLinkCtrl.value !== null ||
+        newLinkCtrl.value !== ''
+      );
+    });
 
     this.materialDetailsArray.controls.forEach((material, i: number) => {
       const languageCtrl = material.get('language');
       const displayNameCtrl = material.get(`displayName.${this.lang}`);
       const priorityCtrl = material.get('priority');
 
-      languageCtrl.setValidators([
-        Validators.required,
-      ]);
+      languageCtrl.setValidators([Validators.required]);
       languageCtrl.updateValueAndValidity();
 
       displayNameCtrl.setValidators([
@@ -454,15 +442,18 @@ export class EditFilesComponent implements OnInit, OnDestroy {
       if (material.newFile) {
         const payload = new FormData();
         payload.append('file', material.newFile, validateFilename(material.newFile.name));
-        payload.append('fileDetails', JSON.stringify({
-          displayName: material.displayName,
-          language: material.language,
-          priority: material.priority,
-        }));
+        payload.append(
+          'fileDetails',
+          JSON.stringify({
+            displayName: material.displayName,
+            language: material.language,
+            priority: material.priority,
+          }),
+        );
 
         let completedResponse: UploadMessage;
 
-        this.backendSvc.uploadFile(payload, this.materialId).subscribe(
+        this.materialSvc.uploadFile(payload, this.materialId).subscribe(
           (response: UploadMessage) => {
             this.uploadResponses[i] = response;
 
@@ -485,8 +476,8 @@ export class EditFilesComponent implements OnInit, OnDestroy {
 
         let postResponse: LinkPostResponse;
 
-        this.backendSvc.postLink(payload, this.materialId).subscribe(
-          (response: LinkPostResponse) => postResponse = response,
+        this.materialSvc.postLink(payload, this.materialId).subscribe(
+          (response: LinkPostResponse) => (postResponse = response),
           (error) => console.error(error),
           () => this.completeLinkPost(postResponse, i),
         );
@@ -501,17 +492,20 @@ export class EditFilesComponent implements OnInit, OnDestroy {
           if (subtitle.newSubtitle) {
             const payload = new FormData();
             payload.append('attachment', subtitle.newSubtitle, validateFilename(subtitle.newSubtitle.name));
-            payload.append('attachmentDetails', JSON.stringify({
-              default: subtitle.default,
-              kind: subtitle.kind,
-              label: subtitle.label,
-              srclang: subtitle.srclang,
-            }));
+            payload.append(
+              'attachmentDetails',
+              JSON.stringify({
+                default: subtitle.default,
+                kind: subtitle.kind,
+                label: subtitle.label,
+                srclang: subtitle.srclang,
+              }),
+            );
 
             let completedSubtitleResponse: AttachmentPostResponse;
 
-            this.backendSvc.uploadSubtitle(material.id, payload).subscribe(
-              (subtitleResponse: AttachmentPostResponse) => completedSubtitleResponse = subtitleResponse,
+            this.materialSvc.uploadSubtitle(material.id, payload).subscribe(
+              (subtitleResponse: AttachmentPostResponse) => (completedSubtitleResponse = subtitleResponse),
               (err) => console.error(err),
               () => this.completeSubtitleUpload(completedSubtitleResponse, i, j, material.id),
             );
@@ -531,7 +525,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     this.completedUploads = this.completedUploads + 1;
 
     // update material ID
-    this.materialDetailsArray.at(i).get('id').setValue(+response.response.material[0].id);
+    this.materialDetailsArray
+      .at(i)
+      .get('id')
+      .setValue(+response.response.material[0].id);
 
     // update material filename
     this.materialDetailsArray.at(i).get('file').setValue(response.response.material[0].createFrom);
@@ -557,7 +554,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     this.completedUploads = this.completedUploads + 1;
 
     // update material ID
-    this.materialDetailsArray.at(i).get('id').setValue(+response.link.id);
+    this.materialDetailsArray
+      .at(i)
+      .get('id')
+      .setValue(+response.link.id);
 
     // update material link
     this.materialDetailsArray.at(i).get('link').setValue(response.link.link);
@@ -587,7 +587,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     const subtitles = this.materialDetailsArray.at(i).get('subtitles') as FormArray;
 
     // update subtitle ID
-    subtitles.at(j).get('id').setValue(+response.id);
+    subtitles
+      .at(j)
+      .get('id')
+      .setValue(+response.id);
 
     // update material ID
     subtitles.at(j).get('fileId').setValue(materialId);
@@ -606,14 +609,12 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * Calculates the amount of new materials.
    */
   calculateNewMaterialCount(): void {
-    this.newMaterialCount = this.materialDetailsArray.controls
-      .filter((material) => {
-        const fileCtrl = material.get('newFile');
-        const linkCtrl = material.get('newLink');
+    this.newMaterialCount = this.materialDetailsArray.controls.filter((material) => {
+      const fileCtrl = material.get('newFile');
+      const linkCtrl = material.get('newLink');
 
-        return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
-      })
-      .length;
+      return fileCtrl.value !== '' || (linkCtrl.value !== null && linkCtrl.value !== '');
+    }).length;
   }
 
   /**
@@ -623,9 +624,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     this.materialDetailsArray.controls.forEach((material) => {
       const subtitles = material.get('subtitles') as FormArray;
 
-      this.newSubtitleCount += subtitles.controls
-        .filter((subtitle) => subtitle.get('newSubtitle').value !== '')
-        .length;
+      this.newSubtitleCount += subtitles.controls.filter((subtitle) => subtitle.get('newSubtitle').value !== '').length;
     });
   }
 
@@ -633,9 +632,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
    * Saves edited material details on sessionStorage.
    */
   saveMaterial(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.name = this.form.get('name').value;
     changedMaterial.fileDetails = this.materialDetailsArray.value;

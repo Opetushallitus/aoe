@@ -5,39 +5,36 @@
         [src]="thumbnailSrc"
         class="img-fluid mb-2"
         [alt]="'demo.educationalMaterial.cover.alt' | translate"
-        *ngIf="thumbnailSrc; else noThumbnail">
+        *ngIf="thumbnailSrc; else noThumbnail"
+      />
 
       <ng-template #noThumbnail>
         <div class="material-image-upload d-flex flex-column justify-content-center mb-2">
-          <img src="assets/img/icons/ic_camera.svg">
-        </div>
-      </ng-template><!--no thumbnail-->
+          <img src="assets/img/icons/ic_camera.svg" />
+        </div> </ng-template
+      ><!--no thumbnail-->
 
-      <button
-        type="button"
-        class="btn btn-gray"
-        (click)="openThumbnailModal(thumbnail)"
-      >{{ 'forms.collection.basic.cover' | translate }}</button>
+      <button type="button" class="btn btn-gray" (click)="openThumbnailModal(thumbnail)">
+        {{ 'forms.collection.basic.cover' | translate }}
+      </button>
 
       <ng-template #thumbnail>
         <div class="modal-header">
-          <h5 class="modal-title">
-            {{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}
-          </h5>
+          <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
 
           <button
             type="button"
             class="close"
             [attr.aria-label]="'forms.common.close' | translate"
             (click)="thumbnailModalRef.hide()"
-          ><span aria-hidden="true">&times;</span></button>
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
 
         <div class="modal-body">
           <div class="form-group">
-            <label for="image">
-              {{ 'forms.educationalResource.basicDetails.image.label' | translate }}
-            </label>
+            <label for="image"> {{ 'forms.educationalResource.basicDetails.image.label' | translate }} </label>
 
             <div class="custom-file">
               <input
@@ -47,7 +44,7 @@
                 accept="image/png,image/jpeg"
                 [lang]="lang"
                 (change)="imageChange($event)"
-              >
+              />
               <span class="custom-file-label"></span>
             </div>
           </div>
@@ -67,13 +64,10 @@
             ></image-cropper>
           </div>
 
-          <img *ngIf="croppedImage" [src]="croppedImage" class="border">
+          <img *ngIf="croppedImage" [src]="croppedImage" class="border" />
 
           <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-            <progressbar
-              max="100"
-              [value]="uploadResponse.message"
-            >{{ uploadResponse.message }}%</progressbar>
+            <progressbar max="100" [value]="uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
           </div>
         </div>
 
@@ -83,22 +77,21 @@
             class="btn btn-gray"
             [attr.aria-label]="'forms.common.close' | translate"
             (click)="thumbnailModalRef.hide()"
-          >{{ 'forms.common.close' | translate }}</button>
+          >
+            {{ 'forms.common.close' | translate }}
+          </button>
 
-          <button
-            type="button"
-            class="btn btn-blue"
-            (click)="uploadImage()"
-          >{{ 'forms.common.saveChanges' | translate }}</button>
-        </div>
-      </ng-template><!--/modal-->
-    </div><!--left column-->
+          <button type="button" class="btn btn-blue" (click)="uploadImage()">
+            {{ 'forms.common.saveChanges' | translate }}
+          </button>
+        </div> </ng-template
+      ><!--/modal-->
+    </div>
+    <!--left column-->
 
     <div class="col-md-10">
       <div class="form-group">
-        <label for="name">
-          {{ 'forms.collection.basic.name.label' | translate }} *
-        </label>
+        <label for="name"> {{ 'forms.collection.basic.name.label' | translate }} * </label>
 
         <input
           type="text"
@@ -108,27 +101,21 @@
           [placeholder]="'forms.collection.basic.name.placeholder' | translate"
           aria-required="true"
           [ngClass]="{ 'is-invalid': nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted) }"
-        >
+        />
 
-        <div
-          *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)"
-          class="invalid-feedback"
-        >
-          <div *ngIf="nameCtrl.errors.invalidCharacters">
-            {{ 'forms.errors.textInput.characters' | translate }}
-          </div>
+        <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)" class="invalid-feedback">
+          <div *ngIf="nameCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
 
           <div *ngIf="nameCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+            {{ 'forms.errors.common.maxLength' | translate: { maxLength: nameCtrl.errors.maxlength.requiredLength } }}
           </div>
         </div>
-      </div><!--name-->
+      </div>
+      <!--name-->
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="keywords">
-            {{ 'forms.collection.basic.keywords.label' | translate }} *
-          </label>
+          <label for="keywords"> {{ 'forms.collection.basic.keywords.label' | translate }} * </label>
 
           <ng-select
             [items]="keywords"
@@ -142,12 +129,11 @@
             [placeholder]="'forms.collection.basic.keywords.placeholder' | translate"
             aria-required="true"
           ></ng-select>
-        </div><!--keywords-->
+        </div>
+        <!--keywords-->
 
         <div class="form-group col-md-6">
-          <label for="educationalRoles">
-            {{ 'forms.collection.basic.educationalRoles.label' | translate }}
-          </label>
+          <label for="educationalRoles"> {{ 'forms.collection.basic.educationalRoles.label' | translate }} </label>
 
           <ng-select
             [items]="educationalRoles"
@@ -158,14 +144,13 @@
             formControlName="educationalRoles"
             [placeholder]="'forms.collection.basic.educationalRoles.placeholder' | translate"
           ></ng-select>
-        </div><!--educationalRoles-->
+        </div>
+        <!--educationalRoles-->
       </div>
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="educationalUses">
-            {{ 'forms.collection.basic.educationalUses.label' | translate }}
-          </label>
+          <label for="educationalUses"> {{ 'forms.collection.basic.educationalUses.label' | translate }} </label>
 
           <ng-select
             [items]="educationalUses"
@@ -176,12 +161,11 @@
             formControlName="educationalUses"
             [placeholder]="'forms.collection.basic.educationalUses.placeholder' | translate"
           ></ng-select>
-        </div><!--educationalUses-->
+        </div>
+        <!--educationalUses-->
 
         <div class="form-group col-md-6">
-          <label for="languages">
-            {{ 'forms.collection.basic.languages.label' | translate }}
-          </label>
+          <label for="languages"> {{ 'forms.collection.basic.languages.label' | translate }} </label>
 
           <ng-select
             [items]="languages"
@@ -193,7 +177,8 @@
             formControlName="languages"
             [placeholder]="'forms.collection.basic.languages.placeholder' | translate"
           ></ng-select>
-        </div><!--languages-->
+        </div>
+        <!--languages-->
       </div>
 
       <div class="form-row">
@@ -211,7 +196,8 @@
             formControlName="accessibilityFeatures"
             [placeholder]="'forms.collection.basic.accessibilityFeatures.placeholder' | translate"
           ></ng-select>
-        </div><!--accessibilityFeatures-->
+        </div>
+        <!--accessibilityFeatures-->
 
         <div class="form-group col-md-6">
           <label for="accessibilityHazards">
@@ -227,13 +213,12 @@
             formControlName="accessibilityHazards"
             [placeholder]="'forms.collection.basic.accessibilityHazards.placeholder' | translate"
           ></ng-select>
-        </div><!--accessibilityHazards-->
+        </div>
+        <!--accessibilityHazards-->
       </div>
 
       <div class="form-group">
-        <label for="description">
-          {{ 'forms.collection.basic.description.label' | translate }} *
-        </label>
+        <label for="description"> {{ 'forms.collection.basic.description.label' | translate }} * </label>
 
         <textarea
           class="form-control"
@@ -242,39 +227,37 @@
           formControlName="description"
           [placeholder]="'forms.collection.basic.description.placeholder' | translate"
           aria-required="true"
-          [ngClass]="{ 'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted) }"
+          [ngClass]="{
+            'is-invalid': descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)
+          }"
         ></textarea>
 
         <div
           *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)"
           class="invalid-feedback"
         >
-          <div *ngIf="descriptionCtrl.errors.invalid">
-            {{ 'forms.errors.description.characters' | translate }}
-          </div>
+          <div *ngIf="descriptionCtrl.errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
 
           <div *ngIf="descriptionCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.errors.maxlength.requiredLength } }}
+            {{
+              'forms.errors.common.maxLength'
+                | translate: { maxLength: descriptionCtrl.errors.maxlength.requiredLength }
+            }}
           </div>
         </div>
-      </div><!--description-->
-    </div><!--right column-->
+      </div>
+      <!--description-->
+    </div>
+    <!--right column-->
   </div>
 
   <div class="row justify-content-end">
     <div class="col-auto">
-      <button
-        type="button"
-        class="btn btn-cancel"
-        (click)="emitAbort()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="button" class="btn btn-cancel" (click)="emitAbort()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-      >{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
 </form>

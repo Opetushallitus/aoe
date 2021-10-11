@@ -18,7 +18,7 @@ import {
 @Component({
   selector: 'app-collection-form',
   templateUrl: './collection-form.component.html',
-  styleUrls: ['./collection-form.component.scss']
+  styleUrls: ['./collection-form.component.scss'],
 })
 export class CollectionFormComponent implements OnInit, OnDestroy {
   collectionId: string;
@@ -42,7 +42,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private modalSvc: BsModalService,
     private translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.collectionId = this.route.snapshot.paramMap.get('collectionId');
@@ -69,7 +69,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
 
       if (JSON.stringify(collection) === '{}') {
         // @todo: replace with translation strings
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.toastr.error(this.noPermissionMessage, this.noPermissionTitle);
 
         return this.router.navigate(['/etusivu']);
@@ -106,11 +106,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
 
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
-    if (
-      this.basicTab?.form.dirty
-      || this.educationalTab?.form.dirty
-      || this.materialsTab?.form.dirty
-    ) {
+    if (this.basicTab?.form.dirty || this.educationalTab?.form.dirty || this.materialsTab?.form.dirty) {
       return confirm(this.abortMessage);
     }
 
@@ -121,9 +117,7 @@ export class CollectionFormComponent implements OnInit, OnDestroy {
     const changedCollection: CollectionForm = JSON.parse(sessionStorage.getItem(environment.collection));
 
     if (changedCollection) {
-      return changedCollection === this.collection
-        ? true
-        : confirm(this.abortMessage);
+      return changedCollection === this.collection ? true : confirm(this.abortMessage);
     }
 
     return true;

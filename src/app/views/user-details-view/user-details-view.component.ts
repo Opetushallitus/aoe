@@ -10,7 +10,7 @@ import { Userdata } from '@models/userdata';
 @Component({
   selector: 'app-user-details-view',
   templateUrl: './user-details-view.component.html',
-  styleUrls: ['./user-details-view.component.scss']
+  styleUrls: ['./user-details-view.component.scss'],
 })
 export class UserDetailsViewComponent implements OnInit {
   submitted: boolean;
@@ -21,7 +21,7 @@ export class UserDetailsViewComponent implements OnInit {
     private titleSvc: Title,
     private fb: FormBuilder,
     public authSvc: AuthService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -32,10 +32,7 @@ export class UserDetailsViewComponent implements OnInit {
         almostExpired: this.fb.control(false),
         termsUpdated: this.fb.control(false),
       }),
-      email: this.fb.control(null, [
-        Validators.required,
-        Validators.email,
-      ]),
+      email: this.fb.control(null, [Validators.required, Validators.email]),
       allowTransfer: this.fb.control(false),
     });
 

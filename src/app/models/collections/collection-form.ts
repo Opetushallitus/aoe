@@ -11,32 +11,32 @@ export interface CollectionForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   languages: string[];
   educationalRoles: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalUses: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityFeatures: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   description: string;
   // educational
@@ -44,7 +44,7 @@ export interface CollectionForm {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];

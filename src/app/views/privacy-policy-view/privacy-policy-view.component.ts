@@ -8,10 +8,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './privacy-policy-view.component.html',
 })
 export class PrivacyPolicyViewComponent implements OnInit {
-  constructor (
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();

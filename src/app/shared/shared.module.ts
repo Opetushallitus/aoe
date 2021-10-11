@@ -6,7 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
@@ -21,29 +21,28 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
       },
     }),
   ],
-  declarations: [
-    TruncatePipe,
-    SafePipe,
-  ],
-  exports: [
-    CommonModule,
-    TranslateModule,
-    TruncatePipe,
-    SafePipe,
-  ],
+  declarations: [TruncatePipe, SafePipe],
+  exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe],
 })
+export class SharedModule {}
 
-export class SharedModule { }
+/**
+ * Regular expression for validating text inputs.
+ */
+export const textInputRe: RegExp =
+  /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
-export const textInputRe: RegExp = /[^\wåäö\u0308\u030a\s.\-!'´`@#£€$%&()=?,:\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
-
-export const descriptionRe: RegExp = /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
+/**
+ * Regular expression for validating descriptions.
+ */
+export const descriptionRe: RegExp =
+  /[^\wåäö\u0308\u030a\s.\-§!'"´`@#£€$%&(){}=?+,;:\/\[\]\u2012\u2013\u2014\u2015*\u2032\u2033\u2035\u2036\u301d\u301e\u02b9\u02ba\u2018\u2019\u201c\u201d\uff02\u00E8\u00E9\u00C8\u00C9]/i;
 
 /**
  * @ignore
  */
 // AoT requires an exported function for factories
-export function HttpLoaderFactory(httpClient: HttpClient) {
+export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(httpClient);
 }
 
@@ -83,7 +82,29 @@ export function addCustomItem(value: string): KeyValue<string, string> {
  */
 export function deduplicate(array: any[], prop: string): any[] {
   // https://gist.github.com/Vheissu/71dd683ad647e82a0d132076cf6eeef2#gistcomment-2598267
-  return Array.from(new Map(array.map((i) => [(prop in i) ? i[prop] : i, i])).values());
+  return Array.from(new Map(array.map((i) => [prop in i ? i[prop] : i, i])).values());
+}
+
+/**
+ * Returns extended alignment object.
+ * @param {string} value
+ * @param {string} source
+ * @param {AlignmentType} alignmentType
+ */
+function createExtendedAlignmentObjectFromString(
+  value: string,
+  source: string,
+  alignmentType: AlignmentType,
+): AlignmentObjectExtended {
+  return {
+    key: value
+      .replace(/[\W_]+/g, '')
+      .trim()
+      .toLowerCase(),
+    source: source,
+    alignmentType: alignmentType,
+    targetName: value.trim(),
+  };
 }
 
 /**
@@ -92,12 +113,11 @@ export function deduplicate(array: any[], prop: string): any[] {
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'earlyChildhoodEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'earlyChildhoodEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**
@@ -106,12 +126,7 @@ export const addEarlyChildhoodEducationSubject = (value: string): AlignmentObjec
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'earlyChildhoodEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'earlyChildhoodEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -120,12 +135,11 @@ export const addEarlyChildhoodEducationObjective = (value: string): AlignmentObj
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'prePrimaryEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'prePrimaryEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**
@@ -134,12 +148,7 @@ export const addPrePrimaryEducationSubject = (value: string): AlignmentObjectExt
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrePrimaryEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'prePrimaryEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'prePrimaryEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -148,12 +157,7 @@ export const addPrePrimaryEducationObjective = (value: string): AlignmentObjectE
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addUpperSecondarySchoolObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'upperSecondarySchoolObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'upperSecondarySchoolObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -162,12 +166,7 @@ export const addUpperSecondarySchoolObjective = (value: string): AlignmentObject
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addVocationalEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: koodistoSources.vocationalRequirements,
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, koodistoSources.vocationalRequirements, AlignmentType.teaches);
 };
 
 /**
@@ -176,12 +175,11 @@ export const addVocationalEducationObjective = (value: string): AlignmentObjectE
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addSelfMotivatedEducationSubject = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'selfMotivatedEducationSubjects',
-    alignmentType: 'educationalSubject',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(
+    value,
+    'selfMotivatedEducationSubjects',
+    AlignmentType.educationalSubject,
+  );
 };
 
 /**
@@ -190,12 +188,7 @@ export const addSelfMotivatedEducationSubject = (value: string): AlignmentObject
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addSelfMotivatedEducationObjective = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'selfMotivatedEducationObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'selfMotivatedEducationObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -204,12 +197,7 @@ export const addSelfMotivatedEducationObjective = (value: string): AlignmentObje
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addScienceBranchObjectives = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: 'scienceBranchObjectives',
-    alignmentType: 'teaches',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, 'scienceBranchObjectives', AlignmentType.teaches);
 };
 
 /**
@@ -218,17 +206,12 @@ export const addScienceBranchObjectives = (value: string): AlignmentObjectExtend
  * @returns {AlignmentObjectExtended} Alignment Object
  */
 export const addPrerequisites = (value: string): AlignmentObjectExtended => {
-  return {
-    key: value.replace(/[\W_]+/g, '').trim().toLowerCase(),
-    source: koodistoSources.prerequisites,
-    alignmentType: 'requires',
-    targetName: value.trim(),
-  };
+  return createExtendedAlignmentObjectFromString(value, koodistoSources.prerequisites, AlignmentType.requires);
 };
 
 /**
  * Creates valid filename.
- * @param value {string} Original filename
+ * @param {string} value Original filename
  * @returns {string} Valid filename
  */
 export function validateFilename(value: string): string {
@@ -250,10 +233,10 @@ export function validateFilename(value: string): string {
  * @returns {ValidatorFn}
  */
 export function textInputValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const invalid = textInputRe.test(control.value);
 
-    return invalid ? { 'invalidCharacters': { value: control.value } } : null;
+    return invalid ? { invalidCharacters: { value: control.value } } : null;
   };
 }
 
@@ -262,10 +245,10 @@ export function textInputValidator(): ValidatorFn {
  * @returns {ValidatorFn}
  */
 export function descriptionValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} | null => {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const invalid = descriptionRe.test(control.value);
 
-    return invalid ? { 'invalid': { value: control.value } } : null;
+    return invalid ? { invalid: { value: control.value } } : null;
   };
 }
 
@@ -293,6 +276,15 @@ export function getValuesWithinLimits(input: any[], prop: string = 'value'): any
   return values;
 }
 
+/**
+ * Returns unique educational frameworks as string array.
+ * @param {AlignmentObjectExtended[]} subjects
+ * @returns {string[]} Unique educational frameworks
+ */
 export function getUniqueFrameworks(subjects: AlignmentObjectExtended[]): string[] {
-  return [...new Set(subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework))];
+  return [
+    ...new Set(
+      subjects.map((subject: AlignmentObjectExtended) => subject.educationalFramework).filter((fw) => fw), // removes empty strings
+    ),
+  ];
 }

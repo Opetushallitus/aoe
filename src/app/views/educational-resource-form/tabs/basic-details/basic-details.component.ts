@@ -10,13 +10,15 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { environment } from '../../../../../environments/environment';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
 import { EducationalRole } from '@models/koodisto-proxy/educational-role';
 import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Author } from '@models/material/author';
 
 @Component({
   selector: 'app-tabs-basic-details',
@@ -49,7 +51,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   uploadResponse: UploadMessage = { status: '', message: 0 };
   uploadError: string;
 
-  imageChangedEvent: any = '';
+  imageChangedEvent: Event;
   croppedImage: ImageCroppedEvent;
   thumbnailSrc: string;
 
@@ -59,9 +61,9 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -80,34 +82,37 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
       this.updateLanguages();
     });
 
-    this.organizationSubscription = this.koodistoProxySvc.organizations$
-      .subscribe((organizations: KeyValue<string, string>[]) => {
+    this.organizationSubscription = this.koodistoProxySvc.organizations$.subscribe(
+      (organizations: KeyValue<string, string>[]) => {
         this.organizations = organizations;
-      });
+      },
+    );
     this.koodistoProxySvc.updateOrganizations();
 
-    this.keywordSubscription = this.koodistoProxySvc.keywords$
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords = keywords;
-      });
+    this.keywordSubscription = this.koodistoProxySvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
     this.koodistoProxySvc.updateKeywords();
 
-    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
-      .subscribe((learningResourceTypes: LearningResourceType[]) => {
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
+      (learningResourceTypes: LearningResourceType[]) => {
         this.learningResourceTypes = learningResourceTypes;
-      });
+      },
+    );
     this.koodistoProxySvc.updateLearningResourceTypes();
 
-    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$
-      .subscribe((educationalRoles: EducationalRole[]) => {
+    this.educationalRoleSubscription = this.koodistoProxySvc.educationalRoles$.subscribe(
+      (educationalRoles: EducationalRole[]) => {
         this.educationalRoles = educationalRoles;
-      });
+      },
+    );
     this.koodistoProxySvc.updateEducationalRoles();
 
-    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$
-      .subscribe((educationalUses: EducationalUse[]) => {
+    this.educationalUseSubscription = this.koodistoProxySvc.educationalUses$.subscribe(
+      (educationalUses: EducationalUse[]) => {
         this.educationalUses = educationalUses;
-      });
+      },
+    );
     this.koodistoProxySvc.updateEducationalUses();
 
     this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
@@ -164,7 +169,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           this.removeAuthor(0);
         }
 
-        this.savedData.authors.forEach(author => {
+        this.savedData.authors.forEach((author) => {
           if (author.author) {
             this.authors.push(this.createAuthor(author));
           } else {
@@ -189,28 +194,25 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
     });
   }
 
-  fileChangeEvent(event: any): void {
+  fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent): void {
     this.croppedImage = event;
   }
 
   updateLanguages(): void {
-    this.otherLangs = this.translate.getLangs().filter(lang => lang !== this.lang);
+    this.otherLangs = this.translate.getLangs().filter((lang) => lang !== this.lang);
   }
 
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   /**
@@ -220,7 +222,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   openExampleDescriptionModal(template: TemplateRef<any>): void {
     this.exampleDescriptionModalRef = this.modalService.show(
       template,
-      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' }),
     );
   }
 
@@ -244,19 +246,19 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('description') as FormGroup;
   }
 
-  createAuthor(author?): FormGroup {
+  createAuthor(author?: Author): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [
+      author: this.fb.control(author?.author ?? null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
-      organization: this.fb.control(author ? author.organization : null),
+      organization: this.fb.control(author?.organization ?? null),
     });
   }
 
-  createOrganization(organization?): FormGroup {
+  createOrganization(organization?: Author): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null),
+      organization: this.fb.control(organization?.organization ?? null),
     });
   }
 
@@ -272,10 +274,11 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.authors.removeAt(i);
   }
 
-  uploadImage() {
+  uploadImage(): void {
     if (this.croppedImage.base64) {
-      this.backendSvc.uploadImage(this.croppedImage.base64).subscribe(
-        (res) => {
+      // note: throws TypeError if material upload to backend hasn't been initialized
+      this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
+        (res: UploadMessage) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;
 
@@ -286,13 +289,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           sessionStorage.setItem(environment.newERLSKey, JSON.stringify(savedData));
 
           this.modalRef.hide();
-          },
-        (err) => this.uploadError = err,
+        },
+        (err) => (this.uploadError = err),
       );
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     if (this.form.valid) {
@@ -313,17 +316,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      this.form.value
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
-  resetForm() {
+  resetForm(): void {
     // reset form values
     this.form.reset();
 
@@ -334,7 +333,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 1]);
   }
 }

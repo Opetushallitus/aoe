@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Observable, Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -21,7 +21,7 @@ import {
 @Component({
   selector: 'app-educational-material-edit-form',
   templateUrl: './educational-material-edit-form.component.html',
-  styleUrls: ['./educational-material-edit-form.component.scss']
+  styleUrls: ['./educational-material-edit-form.component.scss'],
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   materialId: number;
@@ -44,11 +44,11 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private modalService: BsModalService,
     private translate: TranslateService,
     private toastr: ToastrService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.materialId = +this.route.snapshot.paramMap.get('materialId');
@@ -62,7 +62,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
       this.abortMessage = translation;
     });
 
-    this.materialSubscription = this.backendSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
+    this.materialSubscription = this.materialSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
       this.material = material;
 
       if (this.material === null) {
@@ -71,7 +71,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
         this.router.navigate(['/etusivu']);
       }
     });
-    this.backendSvc.updateEditMaterial(this.materialId);
+    this.materialSvc.updateEditMaterial(this.materialId);
 
     this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
       this.tabId = +params.get('tabId');
@@ -111,12 +111,12 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
     if (
-      this.filesTab?.form.dirty
-      || this.basicTab?.form.dirty
-      || this.educationalTab?.form.dirty
-      || this.extendedTab?.form.dirty
-      || this.licenseTab?.form.dirty
-      || this.referencesTab?.form.dirty
+      this.filesTab?.form.dirty ||
+      this.basicTab?.form.dirty ||
+      this.educationalTab?.form.dirty ||
+      this.extendedTab?.form.dirty ||
+      this.licenseTab?.form.dirty ||
+      this.referencesTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
     }
@@ -128,9 +128,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
 
     if (editMaterial) {
-      return editMaterial === this.material
-        ? true
-        : confirm(this.abortMessage);
+      return editMaterial === this.material ? true : confirm(this.abortMessage);
     }
 
     return true;

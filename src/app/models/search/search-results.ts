@@ -8,49 +8,67 @@ export interface SearchResult {
   createdAt: Date;
   publishedAt?: Date;
   updatedAt?: Date;
-  materialName: [{
-    materialname: string;
-    language: string;
-  }];
-  description: [{
-    description: string;
-    language: string;
-  }];
-  authors: [{
-    authorname?: string;
-    organization?: string;
-    organizationkey?: string;
-  }];
-  learningResourceTypes: [{
-    value: string;
-    learningresourcetypekey: string;
-  }];
+  materialName: [
+    {
+      materialname: string;
+      language: string;
+    },
+  ];
+  description: [
+    {
+      description: string;
+      language: string;
+    },
+  ];
+  authors: [
+    {
+      authorname?: string;
+      organization?: string;
+      organizationkey?: string;
+    },
+  ];
+  learningResourceTypes: [
+    {
+      value: string;
+      learningresourcetypekey: string;
+    },
+  ];
   license: {
     key: string;
     value: string;
   };
-  educationalLevels: [{
-    value: string;
-    educationallevelkey: string;
-  }];
-  educationalRoles?: [{
-    value: string;
-    educationalrolekey: string;
-  }];
-  keywords: [{
-    value: string;
-    keywordkey: string;
-  }];
+  educationalLevels: [
+    {
+      value: string;
+      educationallevelkey: string;
+    },
+  ];
+  educationalRoles?: [
+    {
+      value: string;
+      educationalrolekey: string;
+    },
+  ];
+  keywords: [
+    {
+      value: string;
+      keywordkey: string;
+    },
+  ];
   languages: string[];
-  educationalSubjects?: [{
-    key: number | string;
-    source: string;
-    value: string;
-  }];
-  teaches?: [{
-    key: number | string;
-    value: string;
-  }];
+  educationalSubjects?: [
+    {
+      key: number | string;
+      source: string;
+      value: string;
+    },
+  ];
+  teaches?: [
+    {
+      key: number | string;
+      value: string;
+    },
+  ];
   hasDownloadableFiles: boolean;
   thumbnail?: {
     id: number | string;
@@ -66,18 +84,18 @@ export interface SearchResult {
     {
       educationalusekey: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards?: [
     {
       accessibilityhazardkey: string;
       value: string;
-    }
+    },
   ];
   accessibilityFeatures?: [
     {
       accessibilityfeaturekey: string;
       value: string;
-    }
+    },
   ];
 }

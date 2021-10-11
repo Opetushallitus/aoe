@@ -14,14 +14,16 @@ import { EducationalUse } from '@models/koodisto-proxy/educational-use';
 import { Router } from '@angular/router';
 import { UploadMessage } from '@models/upload-message';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Author } from '@models/material/author';
 
 @Component({
   selector: 'app-tabs-edit-basic-details',
   templateUrl: './edit-basic-details.component.html',
-  styleUrls: ['./edit-basic-details.component.scss']
+  styleUrls: ['./edit-basic-details.component.scss'],
 })
 export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -57,9 +59,9 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -116,38 +118,37 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     this.thumbnailSrc = this.material.thumbnail;
 
     // organizations
-    this.organizationSubscription = this.koodistoSvc.organizations$
-      .subscribe((organizations: KeyValue<string, string>[]) => {
+    this.organizationSubscription = this.koodistoSvc.organizations$.subscribe(
+      (organizations: KeyValue<string, string>[]) => {
         this.organizations = organizations;
-      });
+      },
+    );
     this.koodistoSvc.updateOrganizations();
 
     // keywords
-    this.keywordSubscription = this.koodistoSvc.keywords$
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords = keywords;
-      });
+    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
     this.koodistoSvc.updateKeywords();
 
     // learning resource types
-    this.learningResourceTypeSubscription = this.koodistoSvc.learningResourceTypes$
-      .subscribe((types: LearningResourceType[]) => {
+    this.learningResourceTypeSubscription = this.koodistoSvc.learningResourceTypes$.subscribe(
+      (types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
-      });
+      },
+    );
     this.koodistoSvc.updateLearningResourceTypes();
 
     // educational roles
-    this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$
-      .subscribe((roles: EducationalRole[]) => {
-        this.educationalRoles = roles;
-      });
+    this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$.subscribe((roles: EducationalRole[]) => {
+      this.educationalRoles = roles;
+    });
     this.koodistoSvc.updateEducationalRoles();
 
     // educational uses
-    this.educationalUseSubscription = this.koodistoSvc.educationalUses$
-      .subscribe((uses: EducationalUse[]) => {
-        this.educationalUses = uses;
-      });
+    this.educationalUseSubscription = this.koodistoSvc.educationalUses$.subscribe((uses: EducationalUse[]) => {
+      this.educationalUses = uses;
+    });
     this.koodistoSvc.updateEducationalUses();
   }
 
@@ -164,7 +165,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
     });
   }
@@ -198,13 +199,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openThumbnailModal(template: TemplateRef<any>): void {
-    this.thumbnailModalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+    this.thumbnailModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
-  imageChange(event): void {
+  imageChange(event: any): void {
     this.imageChangedEvent = event;
   }
 
@@ -222,14 +220,15 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   uploadImage(): void {
     if (this.croppedImage.base64) {
-      this.backendSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
+      this.materialSvc.uploadImage(this.croppedImage.base64, this.materialId).subscribe(
         (res: UploadMessage) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;
 
-          const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-            ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-            : this.material;
+          const changedMaterial: EducationalMaterialForm =
+            sessionStorage.getItem(environment.editMaterial) !== null
+              ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+              : this.material;
 
           changedMaterial.thumbnail = this.croppedImage.base64;
 
@@ -247,8 +246,8 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * Patches authors array.
    * @param authors
    */
-  patchAuthors(authors): void {
-    authors.forEach((author) => {
+  patchAuthors(authors: Author[]): void {
+    authors.forEach((author: Author) => {
       if (author.author) {
         this.authorsArray.push(this.createAuthor(author));
       } else {
@@ -262,35 +261,32 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openTranslationsModal(template: TemplateRef<any>): void {
-    this.translationsModalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'modal-dialog-centered' })
-    );
+    this.translationsModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   /**
    * Creates author FormGroup.
-   * @param author
+   * @param {Author} author
    * @returns {FormGroup}
    */
-  createAuthor(author?): FormGroup {
+  createAuthor(author?: Author): FormGroup {
     return this.fb.group({
-      author: this.fb.control(author ? author.author : null, [
+      author: this.fb.control(author?.author ?? null, [
         Validators.maxLength(validatorParams.author.author.maxLength),
         textInputValidator(),
       ]),
-      organization: this.fb.control(author ? author.organization : null),
+      organization: this.fb.control(author?.organization ?? null),
     });
   }
 
   /**
    * Creates organization FormGroup.
-   * @param organization
+   * @param {Author} organization
    * @returns {FormGroup}
    */
-  createOrganization(organization?): FormGroup {
+  createOrganization(organization?: Author): FormGroup {
     return this.fb.group({
-      organization: this.fb.control(organization ? organization.organization : null),
+      organization: this.fb.control(organization?.organization ?? null),
     });
   }
 
@@ -323,7 +319,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   openExampleDescriptionModal(template: TemplateRef<any>): void {
     this.exampleDescriptionModalRef = this.modalService.show(
       template,
-      Object.assign({}, { class: 'modal-dialog-centered modal-lg' })
+      Object.assign({}, { class: 'modal-dialog-centered modal-lg' }),
     );
   }
 
@@ -344,9 +340,10 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.authors = this.authorsArray.value;
     changedMaterial.keywords = this.keywordsCtrl.value;

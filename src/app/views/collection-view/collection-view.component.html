@@ -24,52 +24,45 @@
             [src]="collection.thumbnail"
             class="img-fluid mb-4"
             [alt]="'demo.educationalMaterial.cover.alt' | translate"
-          >
-        </div><!--left column-->
+          />
+        </div>
+        <!--left column-->
 
         <div class="col-md-10 col-lg-9">
           <ul class="list-unstyled collection-authors">
-            <li *ngFor="let author of collection.authors">
-              {{ author }}
-            </li>
-          </ul><!--authors-->
+            <li *ngFor="let author of collection.authors">{{ author }}</li>
+          </ul>
+          <!--authors-->
 
           <div class="datetimes">
             <span class="datetime-item d-block d-md-inline-block">
               <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
 
-              <time
-                [attr.datetime]="collection.createdAt | date:'yyyy-MM-dd HH:mm'"
-                aria-labelledby="createdAt"
-              >
-                {{ collection.createdAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
+                {{ collection.createdAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
 
             <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
               <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
 
-              <time
-                [attr.datetime]="collection.publishedAt | date:'yyyy-MM-dd HH:mm'"
-                aria-labelledby="publishedAt"
-              >
-                {{ collection.publishedAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
+                {{ collection.publishedAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
 
             <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
               <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
 
-              <time
-                [attr.datetime]="collection.updatedAt | date:'yyyy-MM-dd HH:mm'"
-                aria-labelledby="updatedAt"
-              >
-                {{ collection.updatedAt | date:'d.M.yyyy HH:mm' }}
+              <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
+                {{ collection.updatedAt | date: 'd.M.yyyy HH:mm' }}
               </time>
             </span>
-          </div><!--datetimes-->
+          </div>
+          <!--datetimes-->
 
-          <p *ngIf="collection.description">{{ collection.description }}</p><!--description-->
+          <p *ngIf="collection.description">{{ collection.description }}</p>
+          <!--description-->
 
           <app-taglist
             *ngIf="collection.keywords?.length > 0"
@@ -79,7 +72,8 @@
             property="value"
             searchProperty="key"
             filterType="keywords"
-          ></app-taglist><!--keywords-->
+          ></app-taglist
+          ><!--keywords-->
 
           <button
             type="button"
@@ -92,10 +86,8 @@
               {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
             </ng-container>
 
-            <ng-template #more>
-              {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
-            </ng-template>
-          </button><!--toggle metadata-->
+            <ng-template #more> {{ 'demo.educationalMaterial.expandMetadata.more' | translate }} </ng-template></button
+          ><!--toggle metadata-->
 
           <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
             <app-taglist
@@ -106,7 +98,8 @@
               property="value"
               searchProperty="key"
               filterType="languages"
-            ></app-taglist><!--languages-->
+            ></app-taglist
+            ><!--languages-->
 
             <app-taglist
               *ngIf="collection.educationalUses?.length > 0"
@@ -116,7 +109,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalUses"
-            ></app-taglist><!--educationalUses-->
+            ></app-taglist
+            ><!--educationalUses-->
 
             <app-taglist
               *ngIf="collection.educationalRoles?.length > 0"
@@ -126,7 +120,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalRoles"
-            ></app-taglist><!--educationalRoles-->
+            ></app-taglist
+            ><!--educationalRoles-->
 
             <app-taglist
               *ngIf="collection.accessibilityFeatures?.length > 0"
@@ -136,7 +131,8 @@
               property="value"
               searchProperty="key"
               filterType="accessibilityFeatures"
-            ></app-taglist><!--accessibilityFeatures-->
+            ></app-taglist
+            ><!--accessibilityFeatures-->
 
             <app-taglist
               *ngIf="collection.accessibilityHazards?.length > 0"
@@ -146,7 +142,8 @@
               property="value"
               searchProperty="key"
               filterType="accessibilityHazards"
-            ></app-taglist><!--accessibilityHazards-->
+            ></app-taglist
+            ><!--accessibilityHazards-->
 
             <app-taglist
               *ngIf="collection.educationalLevels?.length > 0"
@@ -156,7 +153,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalLevels"
-            ></app-taglist><!--educationalLevels-->
+            ></app-taglist
+            ><!--educationalLevels-->
 
             <!--early childhood education-->
             <app-taglist
@@ -167,7 +165,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--earlyChildhoodEducationSubjects-->
+            ></app-taglist
+            ><!--earlyChildhoodEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
@@ -177,7 +176,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--earlyChildhoodEducationObjectives-->
+            ></app-taglist
+            ><!--earlyChildhoodEducationObjectives-->
 
             <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
@@ -186,8 +186,8 @@
 
               <p aria-labelledby="collection-earlyChildhoodEducationFramework">
                 {{ collection.earlyChildhoodEducationFramework }}
-              </p>
-            </ng-container><!--earlyChildhoodEducationFramework-->
+              </p> </ng-container
+            ><!--earlyChildhoodEducationFramework-->
             <!--/early childhood education-->
 
             <!--pre primary education-->
@@ -199,7 +199,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--prePrimaryEducationSubjects-->
+            ></app-taglist
+            ><!--prePrimaryEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
@@ -209,7 +210,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--prePrimaryEducationObjectives-->
+            ></app-taglist
+            ><!--prePrimaryEducationObjectives-->
 
             <ng-container *ngIf="collection.prePrimaryEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-prePrimaryEducationFramework">
@@ -218,8 +220,8 @@
 
               <p aria-labelledby="collection-prePrimaryEducationFramework">
                 {{ collection.prePrimaryEducationFramework }}
-              </p>
-            </ng-container><!--prePrimaryEducationFramework-->
+              </p> </ng-container
+            ><!--prePrimaryEducationFramework-->
             <!--/pre primary education-->
 
             <!--basic education-->
@@ -231,7 +233,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--basicStudySubjects-->
+            ></app-taglist
+            ><!--basicStudySubjects-->
 
             <app-taglist
               *ngIf="collection.basicStudyObjectives?.length > 0"
@@ -241,7 +244,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--basicStudyObjectives-->
+            ></app-taglist
+            ><!--basicStudyObjectives-->
 
             <app-taglist
               *ngIf="collection.basicStudyContents?.length > 0"
@@ -251,7 +255,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--basicStudyContents-->
+            ></app-taglist
+            ><!--basicStudyContents-->
 
             <ng-container *ngIf="collection.basicStudyFramework">
               <strong class="h3 d-block mb-2" id="collection-basicStudyFramework">
@@ -260,8 +265,8 @@
 
               <p aria-labelledby="collection-basicStudyFramework">
                 {{ collection.basicStudyFramework }}
-              </p>
-            </ng-container><!--basicStudyFramework-->
+              </p> </ng-container
+            ><!--basicStudyFramework-->
             <!--/basic education-->
 
             <!--upper secondary education-->
@@ -273,7 +278,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
+            ></app-taglist
+            ><!--upperSecondarySchoolSubjectsOld-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolCoursesOld?.length > 0"
@@ -283,7 +289,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolCoursesOld-->
+            ></app-taglist
+            ><!--upperSecondarySchoolCoursesOld-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
@@ -293,7 +300,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolObjectives-->
+            ></app-taglist
+            ><!--upperSecondarySchoolObjectives-->
 
             <ng-container *ngIf="collection.upperSecondarySchoolFramework">
               <strong class="h3 d-block mb-2" id="collection-upperSecondarySchoolFramework">
@@ -302,8 +310,8 @@
 
               <p aria-labelledby="collection-upperSecondarySchoolFramework">
                 {{ collection.upperSecondarySchoolFramework }}
-              </p>
-            </ng-container><!--upperSecondarySchoolFramework-->
+              </p> </ng-container
+            ><!--upperSecondarySchoolFramework-->
             <!--/upper secondary education (old)-->
 
             <!--upper secondary education (new)-->
@@ -315,7 +323,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
+            ></app-taglist
+            ><!--upperSecondarySchoolSubjectsNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
@@ -325,7 +334,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolModulesNew-->
+            ></app-taglist
+            ><!--upperSecondarySchoolModulesNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
@@ -335,7 +345,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
+            ></app-taglist
+            ><!--upperSecondarySchoolObjectivesNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
@@ -345,7 +356,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolContentsNew-->
+            ></app-taglist
+            ><!--upperSecondarySchoolContentsNew-->
             <!--/upper secondary education (new)-->
 
             <!--vocational education-->
@@ -357,7 +369,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--vocationalDegrees-->
+            ></app-taglist
+            ><!--vocationalDegrees-->
 
             <app-taglist
               *ngIf="collection.vocationalUnits?.length > 0"
@@ -367,7 +380,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--vocationalUnits-->
+            ></app-taglist
+            ><!--vocationalUnits-->
 
             <app-taglist
               *ngIf="collection.vocationalRequirements?.length > 0"
@@ -377,7 +391,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--vocationalRequirements-->
+            ></app-taglist
+            ><!--vocationalRequirements-->
 
             <ng-container *ngIf="collection.vocationalEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-vocationalEducationFramework">
@@ -386,8 +401,8 @@
 
               <p aria-labelledby="collection-vocationalEducationFramework">
                 {{ collection.vocationalEducationFramework }}
-              </p>
-            </ng-container><!--vocationalEducationFramework-->
+              </p> </ng-container
+            ><!--vocationalEducationFramework-->
             <!--/vocational education-->
 
             <!--self-motivated education-->
@@ -399,7 +414,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--selfMotivatedEducationSubjects-->
+            ></app-taglist
+            ><!--selfMotivatedEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
@@ -409,7 +425,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--selfMotivatedEducationObjectives-->
+            ></app-taglist
+            ><!--selfMotivatedEducationObjectives-->
             <!--/self-motivated education-->
 
             <!--higher education-->
@@ -421,7 +438,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--scienceBranches-->
+            ></app-taglist
+            ><!--scienceBranches-->
 
             <app-taglist
               *ngIf="collection.scienceBranchObjectives?.length > 0"
@@ -431,7 +449,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--scienceBranchObjectives-->
+            ></app-taglist
+            ><!--scienceBranchObjectives-->
 
             <ng-container *ngIf="collection.higherEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-higherEducationFramework">
@@ -440,13 +459,17 @@
 
               <p aria-labelledby="collection-higherEducationFramework">
                 {{ collection.higherEducationFramework }}
-              </p>
-            </ng-container><!--higherEducationFramework-->
+              </p> </ng-container
+            ><!--higherEducationFramework-->
             <!--/higher education-->
-          </div><!--metadata-->
+          </div>
+          <!--metadata-->
 
           <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
-            <div class="collection-material" *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+            <div
+              class="collection-material"
+              *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index"
+            >
               <ng-container *ngIf="materialOrHeading.id; else heading">
                 <h2 *ngIf="headingLevels.get(i) === 'h2'; else h3" class="title">
                   <a [routerLink]="['/materiaali', materialOrHeading.id]">
@@ -469,22 +492,25 @@
                       <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
                     </ng-container>
 
-                    <ng-template #organizationAuthor>
-                      {{ author.organization }}
-                    </ng-template>
+                    <ng-template #organizationAuthor> {{ author.organization }} </ng-template>
                   </li>
-                </ul><!--authors-->
+                </ul>
+                <!--authors-->
 
                 <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
                   <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
                     <div class="row no-gutters">
                       <div class="col-3">
                         <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
-                          <h3
-                            [id]="'selectLanguage' + materialOrHeading.id"
-                          >{{ 'materialPreview.selectLanguage' | translate }}</h3>
+                          <h3 [id]="'selectLanguage' + materialOrHeading.id">
+                            {{ 'materialPreview.selectLanguage' | translate }}
+                          </h3>
 
-                          <div class="btn-group mb-3" role="tablist" [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                          <div
+                            class="btn-group mb-3"
+                            role="tablist"
+                            [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id"
+                          >
                             <button
                               type="button"
                               class="btn btn-gray"
@@ -495,22 +521,35 @@
                               [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
                               role="tab"
                               (click)="setSelectedLanguage(materialOrHeading.id, lang)"
-                            >{{ lang }}</button>
+                            >
+                              {{ lang }}
+                            </button>
                           </div>
                         </ng-container>
 
                         <div
-                          *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage:selectedLanguages.get(materialOrHeading.id) as materials"
+                          *ngIf="
+                            collectionMaterials.get(materialOrHeading.id)
+                              | materialLanguage: selectedLanguages.get(materialOrHeading.id) as materials
+                          "
                           [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
                           role="tabpanel"
-                          [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                          [attr.aria-labelledby]="
+                            'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                          "
                         >
                           <h3
                             [id]="'selectMaterial' + materialOrHeading.id"
                             [ngClass]="materials.length === 1 ? 'sr-only' : ''"
-                          >{{ 'materialPreview.selectMaterial' | translate }}</h3>
+                          >
+                            {{ 'materialPreview.selectMaterial' | translate }}
+                          </h3>
 
-                          <div class="btn-group-vertical" role="tablist" [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                          <div
+                            class="btn-group-vertical"
+                            role="tablist"
+                            [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id"
+                          >
                             <ng-container *ngFor="let material of materials">
                               <button
                                 type="button"
@@ -521,7 +560,9 @@
                                 [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
                                 role="tab"
                                 (click)="setPreviewMaterial(materialOrHeading.id, material)"
-                              >{{ material.displayName[lang] }}</button>
+                              >
+                                {{ material.displayName[lang] }}
+                              </button>
                             </ng-container>
                           </div>
                         </div>
@@ -529,14 +570,19 @@
 
                       <div class="col-9">
                         <div
-                          [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          [id]="
+                            'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id
+                          "
                           role="tabpanel"
-                          [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                          [attr.aria-labelledby]="
+                            'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id
+                          "
                         >
                           <app-educational-material-preview
                             [material]="previewMaterials.get(materialOrHeading.id)"
                             [isCollection]="true"
-                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
+                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"
+                          ></app-educational-material-preview>
 
                           <ng-template #linkPreview>
                             <div class="link-preview">
@@ -545,7 +591,10 @@
                                 class="btn btn-secondary"
                                 target="_blank"
                                 rel="noopener nofollow"
-                              >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{ previewMaterials.get(materialOrHeading.id).domain }})</a>
+                                >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
+                                  previewMaterials.get(materialOrHeading.id).domain
+                                }})</a
+                              >
                             </div>
                           </ng-template>
                         </div>
@@ -558,21 +607,22 @@
                   <div class="spinner-border" role="status">
                     <span class="sr-only">{{ 'collections.loading' | translate }}</span>
                   </div>
-                </ng-template>
-              </ng-container><!--material-->
+                </ng-template> </ng-container
+              ><!--material-->
 
               <ng-template #heading>
                 <h2 class="title">{{ materialOrHeading.heading }}</h2>
 
-                <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
-              </ng-template><!--heading-->
-            </div>
-          </ng-container><!--materials and headings-->
+                <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p> </ng-template
+              ><!--heading-->
+            </div> </ng-container
+          ><!--materials and headings-->
 
           <ng-template #noMaterials>
-            <p>{{ 'collections.noMaterials' | translate }}</p>
-          </ng-template><!--no materials or headings-->
-        </div><!--right column-->
+            <p>{{ 'collections.noMaterials' | translate }}</p> </ng-template
+          ><!--no materials or headings-->
+        </div>
+        <!--right column-->
       </div>
     </ng-container>
   </div>

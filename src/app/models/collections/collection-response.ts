@@ -11,30 +11,37 @@ export interface CollectionResponse {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   languages: string[];
   alignmentObjects: [
     {
-      alignmenttype: 'assesses' | 'teaches' | 'requires' | 'textComplexity' | 'readingLevel' | 'educationalSubject' | 'educationalLevel';
+      alignmenttype:
+        | 'assesses'
+        | 'teaches'
+        | 'requires'
+        | 'textComplexity'
+        | 'readingLevel'
+        | 'educationalSubject'
+        | 'educationalLevel';
       educationalframework: string;
       objectkey: string;
       source: string;
       targetname: string;
       targeturl: string;
-    }
+    },
   ];
   educationalRoles: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalUses: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalmaterials: [
     {
@@ -44,7 +51,7 @@ export interface CollectionResponse {
           authorname: string;
           organization: string;
           organizationkey: string;
-        }
+        },
       ];
       license: {
         key: string;
@@ -71,35 +78,35 @@ export interface CollectionResponse {
           value: string;
           educationalmaterialid: string;
           learningresourcetypekey: string;
-        }
+        },
       ];
-    }
+    },
   ];
   accessibilityFeatures: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   headings: [
     {
       heading: string;
       description: string;
       priority: number;
-    }
+    },
   ];
   owner: boolean;
   educationalLevels: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   authors: string[];
   thumbnail: string | null;

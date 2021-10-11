@@ -1,19 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { AoeUser } from '../../models/admin/aoe-users-response';
+import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } from '../../models/admin';
 import { Subject, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatorParams } from '../../constants/validator-params';
-import { ChangeOwnerPost } from '../../models/admin/change-owner-post';
-import { ChangeOwnerResponse } from '../../models/admin/change-owner-response';
 import { ToastrService } from 'ngx-toastr';
-import { MaterialInfoResponse } from '../../models/admin/material-info-response';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-change-material-owner',
   templateUrl: './change-material-owner.component.html',
-  styleUrls: ['./change-material-owner.component.scss']
+  styleUrls: ['./change-material-owner.component.scss'],
 })
 export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   users: AoeUser[];
@@ -24,11 +21,7 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
   materialInfoSubscription: Subscription;
   materialInfoSubject = new Subject<string>();
 
-  constructor(
-    private adminSvc: AdminService,
-    private fb: FormBuilder,
-    private toastr: ToastrService,
-  ) { }
+  constructor(private adminSvc: AdminService, private fb: FormBuilder, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.userSubscription = this.adminSvc.users$.subscribe((users: AoeUser[]) => {
@@ -41,19 +34,16 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(validatorParams.common.pattern.numeric),
       ]),
-      userId: this.fb.control(null, [
-        Validators.required,
-      ]),
+      userId: this.fb.control(null, [Validators.required]),
     });
 
     this.materialInfoSubscription = this.adminSvc.materialInfo$.subscribe((response: MaterialInfoResponse) => {
       this.materialInfo = response;
     });
 
-    this.materialInfoSubject.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-    ).subscribe((value: string) => this.adminSvc.updateMaterialInfo(value));
+    this.materialInfoSubject
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((value: string) => this.adminSvc.updateMaterialInfo(value));
   }
 
   ngOnDestroy(): void {
@@ -74,16 +64,18 @@ export class ChangeMaterialOwnerComponent implements OnInit, OnDestroy {
    * @param {string} term
    * @param {AoeUser} user
    */
-  userSearch(term: string, user: AoeUser) {
+  userSearch(term: string, user: AoeUser): boolean {
     term = term.toLowerCase();
 
-    return user.id === term
-      || user.firstname.toLowerCase().indexOf(term) > -1
-      || user.lastname.toLowerCase().indexOf(term) > -1
-      || user.email?.toLowerCase().indexOf(term) > -1;
+    return (
+      user.id === term ||
+      user.firstname.toLowerCase().indexOf(term) > -1 ||
+      user.lastname.toLowerCase().indexOf(term) > -1 ||
+      user.email?.toLowerCase().indexOf(term) > -1
+    );
   }
 
-  getMaterialInfo($event): void {
+  getMaterialInfo($event: any): void {
     const value = $event.target.value;
 
     if (this.materialIdCtrl.valid && value) {

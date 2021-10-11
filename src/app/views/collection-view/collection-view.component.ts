@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
@@ -15,7 +15,7 @@ import { CollectionFormMaterialAndHeading } from '@models/collections/collection
 @Component({
   selector: 'app-collection-view',
   templateUrl: './collection-view.component.html',
-  styleUrls: ['./collection-view.component.scss']
+  styleUrls: ['./collection-view.component.scss'],
 })
 export class CollectionViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -38,10 +38,10 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private collectionSvc: CollectionService,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private titleSvc: Title,
     private koodistoSvc: KoodistoProxyService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.collectionId = this.route.snapshot.paramMap.get('collectionId');
@@ -68,7 +68,9 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       this.setHeadingLevels(collection.materialsAndHeadings);
 
       this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
-        this.languages = languages.filter((lang: Language) => this.collection.languages.includes(lang.key.toLowerCase()));
+        this.languages = languages.filter((lang: Language) =>
+          this.collection.languages.includes(lang.key.toLowerCase()),
+        );
       });
       this.koodistoSvc.updateLanguages();
 
@@ -76,7 +78,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         // set loading true
         this.materialsLoading.set(collectionMaterial.id, true);
 
-        this.backendSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
+        this.materialSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
           // set collection materials
           this.collectionMaterials.set(collectionMaterial.id, materials);
 
@@ -84,22 +86,27 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           this.materialsLoading.set(collectionMaterial.id, false);
 
           // set material languages
-          const materialLanguages = [...new Set(materials.map((material: Material) => material.language.toLowerCase()))];
+          const materialLanguages = [
+            ...new Set(materials.map((material: Material) => material.language.toLowerCase())),
+          ];
           this.materialLanguages.set(collectionMaterial.id, materialLanguages);
 
           // set default language (1. UI lang, 2. FI, 3. first language in array)
-          this.selectedLanguages.set(collectionMaterial.id, materialLanguages.find((lang: string) => lang === this.lang)
-            ? materialLanguages.find((lang: string) => lang === this.lang)
-            : materialLanguages.find((lang: string) => lang === 'fi')
+          this.selectedLanguages.set(
+            collectionMaterial.id,
+            materialLanguages.find((lang: string) => lang === this.lang)
+              ? materialLanguages.find((lang: string) => lang === this.lang)
+              : materialLanguages.find((lang: string) => lang === 'fi')
               ? materialLanguages.find((lang: string) => lang === 'fi')
-              : materialLanguages[0]
+              : materialLanguages[0],
           );
 
           // set preview material
           this.setPreviewMaterial(
             collectionMaterial.id,
-            materials
-              .find((material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id))
+            materials.find(
+              (material: Material) => material.language === this.selectedLanguages.get(collectionMaterial.id),
+            ),
           );
         });
       });
@@ -135,15 +142,18 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     this.selectedLanguages.set(materialId, language);
 
     // set preview material to first material that matches selected language
-    this.setPreviewMaterial(materialId, this.collectionMaterials.get(materialId).find((m) => m.language === language));
+    this.setPreviewMaterial(
+      materialId,
+      this.collectionMaterials.get(materialId).find((m) => m.language === language),
+    );
   }
 
   /**
    * Sets material details.
    * @param materials
    */
-  setMaterialDetails(materials): void {
-    materials.forEach((material) => {
+  setMaterialDetails(materials: any): void {
+    materials.forEach((material: any) => {
       this.materialDetails.set(material.id, {
         name: material.name,
         authors: material.author,
