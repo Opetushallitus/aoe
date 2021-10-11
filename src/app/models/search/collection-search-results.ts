@@ -14,7 +14,7 @@ export interface CollectionSearchResult {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   languages: string[];
   alignmentObjects: any[];
@@ -22,31 +22,31 @@ export interface CollectionSearchResult {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalRoles: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityFeatures: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalLevels: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   thumbnail?: string;
   authors: string[];

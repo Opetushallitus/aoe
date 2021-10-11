@@ -4,10 +4,10 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { EducationalMaterial } from '@models/educational-material';
 import { Material } from '@models/material';
-import { BackendService } from '@services/backend.service';
+import { MaterialService } from '@services/material.service';
 import { environment } from '../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
 import { AuthService } from '@services/auth.service';
 import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
@@ -23,7 +23,7 @@ import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 @Component({
   selector: 'app-demo-material-view',
   templateUrl: './educational-material-view.component.html',
-  styleUrls: ['./educational-material-view.component.scss']
+  styleUrls: ['./educational-material-view.component.scss'],
 })
 export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
@@ -56,14 +56,14 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private backendSvc: BackendService,
+    private materialSvc: MaterialService,
     private translate: TranslateService,
     private modalSvc: BsModalService,
     public authSvc: AuthService,
     private titleSvc: Title,
     private socialMetadataSvc: SocialMetadataService,
     private koodistoSvc: KoodistoProxyService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
@@ -75,7 +75,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         : `${environment.backendUrl}/material/file/${this.materialId}`;
 
       this.materialIsLoading = true;
-      this.backendSvc.updateMaterial(this.materialId, this.materialVersionDate);
+      this.materialSvc.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -96,7 +96,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
     this.koodistoSvc.updateLanguages();
 
-    this.educationalMaterialSubscription = this.backendSvc.material$.subscribe((material: EducationalMaterial) => {
+    this.educationalMaterialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
       this.educationalMaterial = material;
       this.materialIsLoading = false;
 
@@ -106,7 +106,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.materialIsArchived = false;
 
         // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
-        // tslint:disable-next-line:max-line-length
+        // eslint-disable-next-line max-len
         this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
 
         this.updateMaterialName();
@@ -132,15 +132,20 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
           ? this.materialLanguages.find((lang: string) => lang === this.lang)
           : this.materialLanguages.find((lang: string) => lang === 'fi')
-            ? this.materialLanguages.find((lang: string) => lang === 'fi')
-            : this.materialLanguages[0];
+          ? this.materialLanguages.find((lang: string) => lang === 'fi')
+          : this.materialLanguages[0];
 
         // set preview material
-        this.setPreviewMaterial(this.materials.find((m: Material) => {
-          if (m.language === this.selectedLanguage || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)) {
-            return m;
-          }
-        }));
+        this.setPreviewMaterial(
+          this.materials.find((m: Material) => {
+            if (
+              m.language === this.selectedLanguage ||
+              m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
+            ) {
+              return m;
+            }
+          }),
+        );
 
         // if material expired
         if (material.expires) {
@@ -169,7 +174,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  getLanguageValue(lang): string {
+  getLanguageValue(lang: string): string {
     return this.languages?.find((language: Language) => language.key === lang)?.value;
   }
 
@@ -190,28 +195,33 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     this.selectedLanguage = language;
 
     // set preview material
-    this.setPreviewMaterial(this.materials.find((material: Material) => {
-      if (material.language === language || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)) {
-        return material;
-      }
-    }));
+    this.setPreviewMaterial(
+      this.materials.find((material: Material) => {
+        if (
+          material.language === language ||
+          material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
+        ) {
+          return material;
+        }
+      }),
+    );
   }
 
   updateMaterialName(): void {
-    if (this.educationalMaterial.name.find(n => n.language === this.lang).materialname !== '') {
-      this.materialName = this.educationalMaterial.name.find(n => n.language === this.lang).materialname;
+    if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
     } else {
-      this.materialName = this.educationalMaterial.name.find(n => n.language === 'fi').materialname;
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === 'fi').materialname;
     }
 
     this.setTitle();
   }
 
   updateDescription(): void {
-    if (this.educationalMaterial.description.find(d => d.language === this.lang).description !== '') {
-      this.description = this.educationalMaterial.description.find(d => d.language === this.lang).description;
+    if (this.educationalMaterial.description.find((d) => d.language === this.lang).description !== '') {
+      this.description = this.educationalMaterial.description.find((d) => d.language === this.lang).description;
     } else {
-      this.description = this.educationalMaterial.description.find(d => d.language === 'fi').description;
+      this.description = this.educationalMaterial.description.find((d) => d.language === 'fi').description;
     }
   }
 

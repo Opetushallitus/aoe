@@ -15,7 +15,7 @@ import { UsedFilter } from '@models/search/used-filter';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
@@ -33,7 +33,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     private router: Router,
     private koodistoProxySvc: KoodistoProxyService,
     private translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
@@ -51,22 +51,25 @@ export class SearchComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$
-      .subscribe((levels: EducationalLevel[]) => {
+    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe(
+      (levels: EducationalLevel[]) => {
         this.educationalLevels = levels;
-      });
+      },
+    );
     this.koodistoProxySvc.updateEducationalLevels();
 
-    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$
-      .subscribe((filters: SubjectFilter[]) => {
+    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$.subscribe(
+      (filters: SubjectFilter[]) => {
         this.educationalSubjects = filters;
-      });
+      },
+    );
     this.koodistoProxySvc.updateSubjectFilters();
 
-    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$
-      .subscribe((types: LearningResourceType[]) => {
+    this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
+      (types: LearningResourceType[]) => {
         this.learningResourceTypes = types;
-      });
+      },
+    );
     this.koodistoProxySvc.updateLearningResourceTypes();
   }
 
@@ -100,8 +103,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (this.educationalLevelsCtrl.value.length > 0) {
       const educationLevelKeys = this.educationalLevelsCtrl.value?.map((level) => level.key);
 
-      this.educationalSubjects = this.educationalSubjects
-        .filter((subject: SubjectFilter) => educationLevelKeys.includes(subject.key));
+      this.educationalSubjects = this.educationalSubjects.filter((subject: SubjectFilter) =>
+        educationLevelKeys.includes(subject.key),
+      );
     } else {
       this.koodistoProxySvc.updateSubjectFilters();
     }
@@ -148,7 +152,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 
       searchParams.keywords = this.keywordsCtrl.value;
       searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key);
-      searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) => subject.key.toString());
+      searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) =>
+        subject.key.toString(),
+      );
       searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;

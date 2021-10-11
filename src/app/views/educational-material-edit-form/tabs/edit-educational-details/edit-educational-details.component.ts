@@ -18,15 +18,17 @@ import {
   addVocationalEducationObjective,
   addSelfMotivatedEducationSubject,
   addSelfMotivatedEducationObjective,
-  addScienceBranchObjectives, textInputValidator,
+  addScienceBranchObjectives,
+  textInputValidator,
 } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-edit-educational-details',
   templateUrl: './edit-educational-details.component.html',
-  styleUrls: ['./edit-educational-details.component.scss']
+  styleUrls: ['./edit-educational-details.component.scss'],
 })
 export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -96,7 +98,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -189,7 +191,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
     }
 
-    if (this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 || this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0) {
+    if (
+      this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 ||
+      this.upperSecondarySchoolCoursesOldCtrl.value?.length > 0
+    ) {
       this.currentUpperSecondarySchoolSelected.setValue(true);
     }
 
@@ -206,10 +211,12 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.upperSecondarySchoolModulesNewChange(this.upperSecondarySchoolModulesNewCtrl.value);
     }
 
-    if (this.vocationalDegreesCtrl.value?.length > 0
-      || this.furtherVocationalQualificationsCtrl.value?.length > 0
-      || this.specialistVocationalQualificationsCtrl.value?.length > 0) {
-        this.vocationalDegreesChange();
+    if (
+      this.vocationalDegreesCtrl.value?.length > 0 ||
+      this.furtherVocationalQualificationsCtrl.value?.length > 0 ||
+      this.specialistVocationalQualificationsCtrl.value?.length > 0
+    ) {
+      this.vocationalDegreesChange();
     }
 
     if (this.vocationalUnitsCtrl.value?.length > 0) {
@@ -217,106 +224,120 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     }
 
     // educational levels
-    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$
-      .subscribe((levels: EducationalLevel[]) => {
-        this.educationalLevels = levels;
-      });
+    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
+      this.educationalLevels = levels;
+    });
     this.koodistoSvc.updateEducationalLevels();
 
     // basic study subjects
-    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
+    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
         this.basicStudySubjects = subjects;
-      });
+      },
+    );
     this.koodistoSvc.updateBasicStudySubjects();
 
     // basic study objectives
-    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$
-      .subscribe((objectives: AlignmentObjectExtended[]) => {
+    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe(
+      (objectives: AlignmentObjectExtended[]) => {
         this.basicStudyObjectives = objectives;
-      });
+      },
+    );
 
     // basic study contents
-    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$
-      .subscribe((contents: AlignmentObjectExtended[]) => {
+    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe(
+      (contents: AlignmentObjectExtended[]) => {
         this.basicStudyContents = contents;
-      });
+      },
+    );
 
     // upper secondary school subjects (old)
-    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjectsOld = subjects;
-      });
+      },
+    );
     this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
 
-    this.upperSecondarySchoolCourseOldSubscription = this.koodistoSvc.upperSecondarySchoolCoursesOld$
-      .subscribe((courses: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolCourseOldSubscription = this.koodistoSvc.upperSecondarySchoolCoursesOld$.subscribe(
+      (courses: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolCoursesOld = courses;
-      });
+      },
+    );
 
     // upper secondary school subjects (new)
-    this.upperSecondarySchoolSubjectNewSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsNew$
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolSubjectNewSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsNew$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjectsNew = subjects;
-      });
+      },
+    );
     this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
 
     // upper secondary school modules (new)
-    this.upperSecondarySchoolModuleNewSubscription = this.koodistoSvc.upperSecondarySchoolModulesNew$
-      .subscribe((modules: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolModuleNewSubscription = this.koodistoSvc.upperSecondarySchoolModulesNew$.subscribe(
+      (modules: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolModulesNew = modules;
-      });
+      },
+    );
 
     // upper secondary school objectives (new)
-    this.upperSecondarySchoolObjectiveNewSubscription = this.koodistoSvc.upperSecondarySchoolObjectivesNew$
-      .subscribe((objectives: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolObjectiveNewSubscription = this.koodistoSvc.upperSecondarySchoolObjectivesNew$.subscribe(
+      (objectives: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolObjectivesNew = objectives;
-      });
+      },
+    );
 
     // upper secondary school contents (new)
-    this.upperSecondarySchoolContentNewSubscription = this.koodistoSvc.upperSecondarySchoolContentsNew$
-      .subscribe((contents: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolContentNewSubscription = this.koodistoSvc.upperSecondarySchoolContentsNew$.subscribe(
+      (contents: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolContentsNew = contents;
-      });
+      },
+    );
 
     // vocational degrees
-    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$
-      .subscribe((degrees: AlignmentObjectExtended[]) => {
+    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe(
+      (degrees: AlignmentObjectExtended[]) => {
         this.vocationalDegrees = degrees;
-      });
+      },
+    );
     this.koodistoSvc.updateVocationalDegrees();
 
     // vocational units
-    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$
-      .subscribe((units: AlignmentObjectExtended[]) => {
+    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe(
+      (units: AlignmentObjectExtended[]) => {
         this.vocationalUnits = units;
-      });
+      },
+    );
 
     // vocational requirements
-    this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$
-      .subscribe((requirements: AlignmentObjectExtended[]) => {
+    this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$.subscribe(
+      (requirements: AlignmentObjectExtended[]) => {
         this.vocationalRequirements = requirements;
-      });
+      },
+    );
 
     // further vocational qualifications
-    this.furtherVocationalQualificationSubscription = this.koodistoSvc.furtherVocationalQualifications$
-      .subscribe((qualifications: AlignmentObjectExtended[]) => {
+    this.furtherVocationalQualificationSubscription = this.koodistoSvc.furtherVocationalQualifications$.subscribe(
+      (qualifications: AlignmentObjectExtended[]) => {
         this.furtherVocationalQualifications = qualifications;
-      });
+      },
+    );
     this.koodistoSvc.updateFurtherVocationalQualifications();
 
     // specialist vocational qualifications
-    this.specialistVocationalQualificationSubscription = this.koodistoSvc.specialistVocationalQualifications$
-      .subscribe((qualifications: AlignmentObjectExtended[]) => {
+    this.specialistVocationalQualificationSubscription = this.koodistoSvc.specialistVocationalQualifications$.subscribe(
+      (qualifications: AlignmentObjectExtended[]) => {
         this.specialistVocationalQualifications = qualifications;
-      });
+      },
+    );
     this.koodistoSvc.updateSpecialistVocationalQualifications();
 
     // science branches
-    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$
-      .subscribe((branches: AlignmentObjectExtended[]) => {
+    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe(
+      (branches: AlignmentObjectExtended[]) => {
         this.scienceBranches = branches;
-      });
+      },
+    );
     this.koodistoSvc.updateScienceBranches();
   }
 
@@ -344,7 +365,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
     });
   }
@@ -429,8 +450,9 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Runs on educational levels change. Sets hasX-type educational level boolean values.
    * @param value
    */
-  educationalLevelsChange(value): void {
-    this.hasEarlyChildhoodEducation = value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
+  educationalLevelsChange(value: any): void {
+    this.hasEarlyChildhoodEducation =
+      value.filter((e: any) => educationalLevelKeys.earlyChildhood.includes(e.key)).length > 0;
 
     this.hasPrePrimaryEducation = value.filter((e: any) => educationalLevelKeys.prePrimary.includes(e.key)).length > 0;
 
@@ -440,11 +462,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.hasBasicStudySubjects = false;
     }
 
-    this.hasUpperSecondarySchool = value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
+    this.hasUpperSecondarySchool =
+      value.filter((e: any) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
 
     this.hasVocationalEducation = value.filter((e: any) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
 
-    this.hasSelfMotivatedEducation = value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
+    this.hasSelfMotivatedEducation =
+      value.filter((e: any) => educationalLevelKeys.selfMotivated.includes(e.key)).length > 0;
 
     this.hasHigherEducation = value.filter((e: any) => educationalLevelKeys.higherEducation.includes(e.key)).length > 0;
   }
@@ -454,7 +478,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Updates basic education objectives and contents based on selected subjects.
    * @param value
    */
-  basicStudySubjectsChange(value): void {
+  basicStudySubjectsChange(value: AlignmentObjectExtended[]): void {
     this.hasBasicStudySubjects = value.length > 0;
 
     if (this.hasBasicStudySubjects) {
@@ -470,7 +494,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * value. Updates upper secondary school courses based on selected subjects.
    * @param value
    */
-  upperSecondarySchoolSubjectsOldChange(value): void {
+  upperSecondarySchoolSubjectsOldChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsOld = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsOld) {
@@ -485,7 +509,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * value. Updates upper secondary school modules based on selected subjects.
    * @param value
    */
-  upperSecondarySchoolSubjectsNewChange(value): void {
+  upperSecondarySchoolSubjectsNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolSubjectsNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolSubjectsNew) {
@@ -500,7 +524,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * Updates upper secondary school objectives and contents based on selected modules.
    * @param value
    */
-  upperSecondarySchoolModulesNewChange(value): void {
+  upperSecondarySchoolModulesNewChange(value: AlignmentObjectExtended[]): void {
     this.hasUpperSecondarySchoolModulesNew = value.length > 0;
 
     if (this.hasUpperSecondarySchoolModulesNew) {
@@ -535,7 +559,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
    * vocational education requirements based on selected units.
    * @param value
    */
-  vocationalUnitsChange(value): void {
+  vocationalUnitsChange(value: AlignmentObjectExtended[]): void {
     this.hasVocationalUnits = value.length > 0;
 
     if (this.hasVocationalUnits) {
@@ -562,9 +586,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.educationalLevels = this.educationalLevelsCtrl.value;
 
@@ -604,7 +629,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
     changedMaterial.vocationalUnits = this.vocationalUnitsCtrl.value;
     changedMaterial.vocationalRequirements = this.vocationalRequirementsCtrl.value;
-    changedMaterial.vocationalEducationFramework =  this.form.get('vocationalEducationFramework').value;
+    changedMaterial.vocationalEducationFramework = this.form.get('vocationalEducationFramework').value;
     changedMaterial.furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
     changedMaterial.specialistVocationalQualifications = this.specialistVocationalQualificationsCtrl.value;
 

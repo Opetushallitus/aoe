@@ -5,14 +5,18 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
-import { UpdateCollectionPut, UpdateCollectionPutHeading, UpdateCollectionPutMaterial } from '@models/collections/update-collection-put';
+import {
+  UpdateCollectionPut,
+  UpdateCollectionPutHeading,
+  UpdateCollectionPutMaterial,
+} from '@models/collections/update-collection-put';
 import { CollectionService } from '@services/collection.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 
 @Component({
   selector: 'app-collection-preview-tab',
   templateUrl: './collection-preview-tab.component.html',
-  styleUrls: ['./collection-preview-tab.component.scss']
+  styleUrls: ['./collection-preview-tab.component.scss'],
 })
 export class CollectionPreviewTabComponent implements OnInit {
   @Input() collection: CollectionForm;
@@ -32,7 +36,7 @@ export class CollectionPreviewTabComponent implements OnInit {
     private router: Router,
     private titleSvc: Title,
     private collectionSvc: CollectionService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -44,15 +48,9 @@ export class CollectionPreviewTabComponent implements OnInit {
     });
 
     this.form = this.fb.group({
-      hasName: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasKeywords: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
-      hasDescription: this.fb.control(false, [
-        Validators.requiredTrue,
-      ]),
+      hasName: this.fb.control(false, [Validators.requiredTrue]),
+      hasKeywords: this.fb.control(false, [Validators.requiredTrue]),
+      hasDescription: this.fb.control(false, [Validators.requiredTrue]),
     });
 
     if (sessionStorage.getItem(environment.collection) === null) {
@@ -323,9 +321,9 @@ export class CollectionPreviewTabComponent implements OnInit {
         this.previewCollection,
       );
 
-      this.collectionSvc.updateCollectionDetails(updatedCollection).subscribe(
-        () => this.router.navigate(['/kokoelma', this.collectionId]),
-      );
+      this.collectionSvc
+        .updateCollectionDetails(updatedCollection)
+        .subscribe(() => this.router.navigate(['/kokoelma', this.collectionId]));
     }
   }
 

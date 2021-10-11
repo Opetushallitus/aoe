@@ -1,13 +1,13 @@
 import { AccessibilityTable } from '@models/mocks/accessibility-table';
 
-// tslint:disable:max-line-length
+/* eslint-disable max-len */
 export const Accessibility: AccessibilityTable = {
   fi: [
     {
       topic: 'Kielen selkeys ja ymmärrettävyys',
       examples: [
         'Käytä selkeää yleiskieltä, jota kaikkien oppijoiden on helppo ymmärtää.',
-        'Selosta käytetyt vieraat termit.'
+        'Selosta käytetyt vieraat termit.',
       ],
       details: [
         `<a href="https://www.kotus.fi/" rel="noopener">Kotimaisten kielten keskus</a>`,

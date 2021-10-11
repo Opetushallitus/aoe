@@ -7,17 +7,13 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 @Component({
   selector: 'app-archived-material',
   templateUrl: './archived-material.component.html',
-  styleUrls: ['./archived-material.component.scss']
+  styleUrls: ['./archived-material.component.scss'],
 })
 export class ArchivedMaterialComponent implements OnInit {
   @Input() materialId: string;
   lang: string;
 
-  constructor(
-    private translate: TranslateService,
-    private titleSvc: Title,
-    private route: ActivatedRoute,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.setTitle();

@@ -12,13 +12,19 @@
             <span class="results-count">{{ results.hits }} {{ 'search.results.results' | translate }}</span>
           </div>
 
-          <app-collection-search-result *ngFor="let result of results.results" [result]="result"></app-collection-search-result><!--result-->
-        </div><!--results-->
+          <app-collection-search-result
+            *ngFor="let result of results.results"
+            [result]="result"
+          ></app-collection-search-result
+          ><!--result-->
+        </div>
+        <!--results-->
 
         <ng-template #noResults>
           <p>{{ 'search.results.noResults' | translate }}</p>
         </ng-template>
-      </div><!--search results-->
+      </div>
+      <!--search results-->
     </div>
   </div>
 </div>

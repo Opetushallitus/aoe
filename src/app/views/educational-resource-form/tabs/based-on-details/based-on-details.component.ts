@@ -7,6 +7,8 @@ import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { ExternalReference } from '@models/material/external-reference';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -24,9 +26,9 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -39,17 +41,15 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       // internals: this.fb.array([ this.createInternal() ]),
-      externals: this.fb.array([ this.createExternal() ]),
+      externals: this.fb.array([this.createExternal()]),
     });
 
-    if (this.savedData && this.savedData.isBasedOn) {
-      if (this.savedData.isBasedOn.externals.length > 0) {
-        this.removeExternal(0);
+    if (this.savedData?.isBasedOn?.externals?.length > 0) {
+      this.removeExternal(0);
 
-        this.savedData.isBasedOn.externals.forEach(external => {
-          this.externals.push(this.createExternal(external));
-        });
-      }
+      this.savedData.isBasedOn.externals.forEach((external: ExternalReference) => {
+        this.externals.push(this.createExternal(external));
+      });
     }
   }
 
@@ -61,16 +61,16 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
     });
   }
 
-  /*get internals() {
+  /*get internals(): FormArray {
     return this.form.get('internals') as FormArray;
   }*/
 
-  get externals() {
+  get externals(): FormArray {
     return this.form.get('externals') as FormArray;
   }
 
@@ -81,18 +81,15 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     });
   }*/
 
-  createExternal(external?): FormGroup {
+  createExternal(external?: ExternalReference): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [
-        Validators.required,
-        textInputValidator(),
-      ]),
-      url: this.fb.control(external ? external.url : null, [
+      author: this.fb.control(external?.author ?? null, [Validators.required, textInputValidator()]),
+      url: this.fb.control(external?.url ?? null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
         Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
-      name: this.fb.control(external ? external.name : null, [
+      name: this.fb.control(external?.name ?? null, [
         Validators.required,
         Validators.maxLength(validatorParams.reference.name.maxLength),
         textInputValidator(),
@@ -117,18 +114,18 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   validateExternals(): void {
-    this.externals.controls.forEach(ctrl => {
+    this.externals.controls.forEach((ctrl) => {
       const author = ctrl.get('author');
       const url = ctrl.get('url');
       const name = ctrl.get('name');
 
       if (!author.value && !url.value && !name.value) {
-        this.removeExternal(this.externals.controls.findIndex(ext => ext === ctrl));
+        this.removeExternal(this.externals.controls.findIndex((ext) => ext === ctrl));
       }
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
     this.validateExternals();
@@ -150,18 +147,14 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
       },
     };
 
-    const data = Object.assign(
-      {},
-      JSON.parse(sessionStorage.getItem(environment.newERLSKey)),
-      basedOnData,
-    );
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), basedOnData);
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
   }
 
   // @todo: some kind of confirmation
-  resetForm() {
+  resetForm(): void {
     // reset submit status
     this.submitted = false;
 
@@ -175,7 +168,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/');
   }
 
-  previousTab() {
+  previousTab(): void {
     this.router.navigate(['/lisaa-oppimateriaali', 2]);
   }
 }

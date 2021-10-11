@@ -6,17 +6,21 @@ import { LearningResourceType } from './learning-resource-type';
 import { AlignmentObjectExtended } from './alignment-object-extended';
 
 export interface EducationalMaterial {
-  name: [{
-    materialname: string;
-    language: string;
-  }];
+  name: [
+    {
+      materialname: string;
+      language: string;
+    },
+  ];
   thumbnail?: string;
   learningResourceTypes: LearningResourceType[];
   authors: Author[];
-  description?: [{
-    description: string;
-    language: string;
-  }];
+  description?: [
+    {
+      description: string;
+      language: string;
+    },
+  ];
   materials?: Material[];
   createdAt: Date;
   publishedAt?: Date;
@@ -31,22 +35,30 @@ export interface EducationalMaterial {
   };
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
-  educationalRoles?: [{
-    educationalrolekey: string;
-    educationalrole: string;
-  }];
-  educationalUses?: [{
-    educationalusekey: string;
-    value: string;
-  }];
-  accessibilityFeatures?: [{
-    accessibilityfeaturekey: string;
-    value: string;
-  }];
-  accessibilityHazards?: [{
-    accessibilityhazardkey: string;
-    value: string;
-  }];
+  educationalRoles?: [
+    {
+      educationalrolekey: string;
+      educationalrole: string;
+    },
+  ];
+  educationalUses?: [
+    {
+      educationalusekey: string;
+      value: string;
+    },
+  ];
+  accessibilityFeatures?: [
+    {
+      accessibilityfeaturekey: string;
+      value: string;
+    },
+  ];
+  accessibilityHazards?: [
+    {
+      accessibilityhazardkey: string;
+      value: string;
+    },
+  ];
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationFrameworks: string[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];
@@ -84,11 +96,13 @@ export interface EducationalMaterial {
   scienceBranchObjectives: AlignmentObjectExtended[];
   suitsAllBranches: boolean;
   prerequisites: AlignmentObjectExtended[];
-  references?: [{
-    authors: string[];
-    url: string;
-    name: string;
-  }];
+  references?: [
+    {
+      authors: string[];
+      url: string;
+      name: string;
+    },
+  ];
   owner: boolean;
   ratingContentAverage: string;
   ratingVisualAverage: string;

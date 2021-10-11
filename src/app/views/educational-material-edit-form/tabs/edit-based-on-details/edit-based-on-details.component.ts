@@ -7,11 +7,13 @@ import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { ExternalReference } from '@models/material/external-reference';
 
 @Component({
   selector: 'app-tabs-edit-based-on-details',
   templateUrl: './edit-based-on-details.component.html',
-  styleUrls: ['./edit-based-on-details.component.scss']
+  styleUrls: ['./edit-based-on-details.component.scss'],
 })
 export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -26,7 +28,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -35,7 +37,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
       externals: this.fb.array([]),
     });
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.translate.onLangChange.subscribe((_event: LangChangeEvent) => {
       this.setTitle();
     });
 
@@ -59,7 +61,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
     });
   }
@@ -69,30 +71,27 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Patches external refenreces array.
-   * @param externals
+   * Patches external references array.
+   * @param {ExternalReference[]} externals
    */
-  patchExternals(externals): void {
-    externals.forEach((external) => this.externalsArray.push(this.createExternal(external)));
+  patchExternals(externals: ExternalReference[]): void {
+    externals.forEach((external: ExternalReference) => this.externalsArray.push(this.createExternal(external)));
   }
 
   /**
    * Creates external reference FormGroup.
-   * @param external
+   * @param {ExternalReference} external
    * @returns {FormGroup}
    */
-  createExternal(external?): FormGroup {
+  createExternal(external?: ExternalReference): FormGroup {
     return this.fb.group({
-      author: this.fb.control(external ? external.author : null, [
-        Validators.required,
-        textInputValidator(),
-      ]),
-      url: this.fb.control(external ? external.url : null, [
+      author: this.fb.control(external?.author ?? null, [Validators.required, textInputValidator()]),
+      url: this.fb.control(external?.url ?? null, [
         Validators.required,
         Validators.pattern(validatorParams.reference.url.pattern),
         Validators.maxLength(validatorParams.reference.url.maxLength),
       ]),
-      name: this.fb.control(external ? external.name : null, [
+      name: this.fb.control(external?.name ?? null, [
         Validators.required,
         Validators.maxLength(validatorParams.reference.name.maxLength),
         textInputValidator(),
@@ -119,13 +118,13 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
    * Removes empty objects from externals array.
    */
   removeEmptyExternals(): void {
-    this.externalsArray.controls.forEach(ctrl => {
+    this.externalsArray.controls.forEach((ctrl) => {
       const author = ctrl.get('author');
       const url = ctrl.get('url');
       const name = ctrl.get('name');
 
       if (!author.value && !url.value && !name.value) {
-        this.removeExternal(this.externalsArray.controls.findIndex(ext => ext === ctrl));
+        this.removeExternal(this.externalsArray.controls.findIndex((ext) => ext === ctrl));
       }
     });
   }
@@ -149,9 +148,10 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveData(): void {
-    const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-      ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-      : this.material;
+    const changedMaterial: EducationalMaterialForm =
+      sessionStorage.getItem(environment.editMaterial) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+        : this.material;
 
     changedMaterial.externals = this.externalsArray.value;
 

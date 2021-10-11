@@ -6,12 +6,13 @@ describe('AcceptanceViewComponent', () => {
   let component: AcceptanceViewComponent;
   let fixture: ComponentFixture<AcceptanceViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AcceptanceViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AcceptanceViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AcceptanceViewComponent);

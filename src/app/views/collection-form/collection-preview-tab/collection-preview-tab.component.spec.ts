@@ -6,12 +6,13 @@ describe('CollectionPreviewTabComponent', () => {
   let component: CollectionPreviewTabComponent;
   let fixture: ComponentFixture<CollectionPreviewTabComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionPreviewTabComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CollectionPreviewTabComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionPreviewTabComponent);

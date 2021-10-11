@@ -1,53 +1,56 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="row">
     <div class="col-md-2 text-center">
-      <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail">
+      <img [src]="thumbnailSrc" class="img-fluid mb-2 border" *ngIf="thumbnailSrc; else noThumbnail" />
 
       <ng-template #noThumbnail>
         <div *ngIf="learningResourceTypesCtrl.value?.length > 0; else defaultThumbnail">
-          <img src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png" class="img-fluid mb-2 border">
+          <img
+            src="assets/img/thumbnails/{{ learningResourceTypesCtrl.value[0].key }}.png"
+            class="img-fluid mb-2 border"
+          />
         </div>
 
         <ng-template #defaultThumbnail>
           <div class="material-image-upload d-flex justify-content-center mb-2 border mx-auto">
-            <img src="assets/img/icons/ic_camera.svg">
+            <img src="assets/img/icons/ic_camera.svg" />
           </div>
         </ng-template>
       </ng-template>
 
-      <button
-        type="button"
-        class="btn btn-blue mb-2"
-        (click)="openModal(thumbnail)"
-      >{{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}</button>
+      <button type="button" class="btn btn-blue mb-2" (click)="openModal(thumbnail)">
+        {{ 'forms.educationalResource.basicDetails.uploadImage' | translate }}
+      </button>
 
-      <p class="thumbnail-help"><small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small></p>
+      <p class="thumbnail-help">
+        <small>{{ 'forms.educationalResource.basicDetails.thumbnailHelp' | translate }}</small>
+      </p>
 
       <ng-template #thumbnail>
         <div class="modal-header">
-          <h5 class="modal-title">
-            {{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}
-          </h5>
+          <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
 
           <button
             type="button"
             class="close"
             [attr.aria-label]="'forms.common.close' | translate"
             (click)="modalRef.hide()"
-          ><span aria-hidden="true">&times;</span></button>
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
 
         <div class="modal-body">
           <div class="form-group">
-            <label for="image">
-              {{ 'forms.educationalResource.basicDetails.image.label' | translate }}
-            </label>
+            <label for="image"> {{ 'forms.educationalResource.basicDetails.image.label' | translate }} </label>
 
             <button
               type="button"
               class="btn btn-link"
               [tooltip]="'forms.educationalResource.basicDetails.image.tooltip' | translate"
-            ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+            >
+              <img src="assets/img/icons/ic_help.svg" alt="" />
+            </button>
 
             <div class="custom-file">
               <input
@@ -57,7 +60,7 @@
                 accept="image/png,image/jpeg"
                 [lang]="lang"
                 (change)="fileChangeEvent($event)"
-              >
+              />
               <span class="custom-file-label"></span>
             </div>
           </div>
@@ -65,7 +68,6 @@
           <div class="form-group">
             <image-cropper
               [imageChangedEvent]="imageChangedEvent"
-              outputType="both"
               [maintainAspectRatio]="true"
               [containWithinAspectRatio]="true"
               [aspectRatio]="152 / 228"
@@ -79,13 +81,10 @@
             ></image-cropper>
           </div>
 
-          <img *ngIf="croppedImage" [src]="croppedImage.base64" class="border">
+          <img *ngIf="croppedImage" [src]="croppedImage.base64" class="border" />
 
           <div class="form-group" *ngIf="uploadResponse.status === 'progress'">
-            <progressbar
-              max="100"
-              [value]="uploadResponse.message"
-            >{{ uploadResponse.message }}%</progressbar>
+            <progressbar max="100" [value]="uploadResponse.message">{{ uploadResponse.message }}%</progressbar>
           </div>
         </div>
 
@@ -95,51 +94,65 @@
             class="btn btn-gray"
             [attr.aria-label]="'forms.common.close' | translate"
             (click)="modalRef.hide()"
-          >{{ 'forms.common.close' | translate }}</button>
+          >
+            {{ 'forms.common.close' | translate }}
+          </button>
 
-          <button
-            type="button"
-            class="btn btn-blue"
-            (click)="uploadImage()"
-          >{{ 'forms.common.saveChanges' | translate }}</button>
-        </div>
-      </ng-template><!--/modal-->
-    </div><!--/thumbnail-->
+          <button type="button" class="btn btn-blue" (click)="uploadImage()">
+            {{ 'forms.common.saveChanges' | translate }}
+          </button>
+        </div> </ng-template
+      ><!--/modal-->
+    </div>
+    <!--/thumbnail-->
 
     <div class="col-md-10">
       <h3>{{ 'forms.educationalResource.basicDetails.author.title' | translate }}</h3>
 
-      <ng-container *ngFor="let author of authors.controls; let i = index;">
+      <ng-container *ngFor="let author of authors.controls; let i = index">
         <fieldset class="border-bottom mb-2">
           <div class="form-row" formArrayName="authors">
             <ng-container [formGroupName]="i">
               <!--if author & organization-->
               <ng-container *ngIf="author.get('author')">
                 <div class="form-group col-md">
-                  <label for="{{ 'author' + i }}">{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*</label>
+                  <label for="{{ 'author' + i }}"
+                    >{{ 'forms.educationalResource.basicDetails.author.inputs.author.label' | translate }}*</label
+                  >
 
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.author.tooltip' | translate"
-                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                  >
+                    <img src="assets/img/icons/ic_help.svg" alt="" />
+                  </button>
 
                   <input
                     type="text"
                     class="form-control"
                     id="{{ 'author' + i }}"
-                    [placeholder]="'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate"
+                    [placeholder]="
+                      'forms.educationalResource.basicDetails.author.inputs.author.placeholder' | translate
+                    "
                     formControlName="author"
-                    [ngClass]="{ 'is-invalid': authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted) }"
+                    [ngClass]="{
+                      'is-invalid':
+                        authors.at(i).get('author').invalid &&
+                        (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)
+                    }"
                     [attr.aria-describedby]="'author-help-' + i"
-                  >
+                  />
 
                   <small [id]="'author-help-' + i" class="form-text text-muted">
                     {{ 'forms.educationalResource.basicDetails.author.inputs.author.helpText' | translate }}
                   </small>
 
                   <div
-                    *ngIf="authors.at(i).get('author').invalid && (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)"
+                    *ngIf="
+                      authors.at(i).get('author').invalid &&
+                      (authors.at(i).get('author').dirty || authors.at(i).get('author').touched || submitted)
+                    "
                     class="invalid-feedback"
                   >
                     <div *ngIf="authors.at(i).get('author').errors.invalidCharacters">
@@ -147,19 +160,26 @@
                     </div>
 
                     <div *ngIf="authors.at(i).get('author').errors.maxlength">
-                      {{ 'forms.errors.common.maxLength' | translate:{ maxLength: authors.at(i).get('author').errors.maxlength.requiredLength } }}
+                      {{
+                        'forms.errors.common.maxLength'
+                          | translate: { maxLength: authors.at(i).get('author').errors.maxlength.requiredLength }
+                      }}
                     </div>
                   </div>
                 </div>
 
                 <div class="form-group col-md">
-                  <label [for]="'affiliate' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate }}</label>
+                  <label [for]="'affiliate' + i">{{
+                    'forms.educationalResource.basicDetails.author.inputs.affiliate.label' | translate
+                  }}</label>
 
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.affiliate.tooltip' | translate"
-                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                  >
+                    <img src="assets/img/icons/ic_help.svg" alt="" />
+                  </button>
 
                   <ng-select
                     [items]="organizations"
@@ -176,13 +196,17 @@
               <!--if organization-->
               <ng-container *ngIf="!author.get('author')">
                 <div class="form-group col">
-                  <label [for]="'organization' + i">{{ 'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate }}</label>
+                  <label [for]="'organization' + i">{{
+                    'forms.educationalResource.basicDetails.author.inputs.organization.label' | translate
+                  }}</label>
 
                   <button
                     type="button"
                     class="btn btn-link"
                     [tooltip]="'forms.educationalResource.basicDetails.author.inputs.organization.tooltip' | translate"
-                  ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+                  >
+                    <img src="assets/img/icons/ic_help.svg" alt="" />
+                  </button>
 
                   <ng-select
                     [items]="organizations"
@@ -197,11 +221,9 @@
               </ng-container>
 
               <div class="form-group col-12">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="removeAuthor(i)"
-                >{{ 'forms.common.delete' | translate }}</button>
+                <button type="button" class="btn btn-danger" (click)="removeAuthor(i)">
+                  {{ 'forms.common.delete' | translate }}
+                </button>
               </div>
             </ng-container>
           </div>
@@ -209,17 +231,13 @@
       </ng-container>
 
       <div class="form-group">
-        <button
-          type="button"
-          class="btn btn-gray mr-2"
-          (click)="addAuthor()"
-        >{{ 'forms.educationalResource.basicDetails.author.addAuthor' | translate }}</button>
+        <button type="button" class="btn btn-gray mr-2" (click)="addAuthor()">
+          {{ 'forms.educationalResource.basicDetails.author.addAuthor' | translate }}
+        </button>
 
-        <button
-          type="button"
-          class="btn btn-gray"
-          (click)="addOrganization()"
-        >{{ 'forms.educationalResource.basicDetails.author.addOrganization' | translate }}</button>
+        <button type="button" class="btn btn-gray" (click)="addOrganization()">
+          {{ 'forms.educationalResource.basicDetails.author.addOrganization' | translate }}
+        </button>
       </div>
 
       <h3>{{ 'forms.educationalResource.basicDetails.otherDetails.title' | translate }}</h3>
@@ -231,7 +249,9 @@
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.basicDetails.keywords.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <ng-select
           [items]="keywords"
@@ -242,7 +262,7 @@
           id="keywords"
           labelForId="keywords"
           formControlName="keywords"
-          (paste)="false"
+          (paste)="(false)"
           aria-describedby="keywords-help"
         ></ng-select>
 
@@ -253,13 +273,17 @@
 
       <div class="form-row">
         <div class="form-group col-md-6 col-lg-4">
-          <label for="learningResourceTypes">{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}*</label>
+          <label for="learningResourceTypes"
+            >{{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}*</label
+          >
 
           <button
             type="button"
             class="btn btn-link"
             [tooltip]="'forms.educationalResource.basicDetails.learningResourceTypes.tooltip' | translate"
-          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+          >
+            <img src="assets/img/icons/ic_help.svg" alt="" />
+          </button>
 
           <ng-select
             [items]="learningResourceTypes"
@@ -273,13 +297,17 @@
         </div>
 
         <div class="form-group col-md-6 col-lg-4">
-          <label for="educationalRoles">{{ 'forms.educationalResource.basicDetails.educationalRoles.label' | translate }}</label>
+          <label for="educationalRoles">{{
+            'forms.educationalResource.basicDetails.educationalRoles.label' | translate
+          }}</label>
 
           <button
             type="button"
             class="btn btn-link"
             [tooltip]="'forms.educationalResource.basicDetails.educationalRoles.tooltip' | translate"
-          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+          >
+            <img src="assets/img/icons/ic_help.svg" alt="" />
+          </button>
 
           <ng-select
             [items]="educationalRoles"
@@ -293,13 +321,17 @@
         </div>
 
         <div class="form-group col-md-6 col-lg-4">
-          <label for="educationalUses">{{ 'forms.educationalResource.basicDetails.educationalUses.label' | translate }}</label>
+          <label for="educationalUses">{{
+            'forms.educationalResource.basicDetails.educationalUses.label' | translate
+          }}</label>
 
           <button
             type="button"
             class="btn btn-link"
             [tooltip]="'forms.educationalResource.basicDetails.educationalUses.tooltip' | translate"
-          ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+          >
+            <img src="assets/img/icons/ic_help.svg" alt="" />
+          </button>
 
           <ng-select
             [items]="educationalUses"
@@ -314,13 +346,17 @@
       </div>
 
       <div class="form-group" formGroupName="description">
-        <label for="description">{{ 'forms.educationalResource.basicDetails.description.label.' + lang | translate }}</label>
+        <label for="description">{{
+          'forms.educationalResource.basicDetails.description.label.' + lang | translate
+        }}</label>
 
         <button
           type="button"
           class="btn btn-link"
           [tooltip]="'forms.educationalResource.basicDetails.description.tooltip' | translate"
-        ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+        >
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
 
         <div class="form-row">
           <div class="col-sm">
@@ -329,11 +365,18 @@
               id="description"
               rows="10"
               [formControlName]="lang"
-              [ngClass]="{ 'is-invalid': descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted) }"
+              [ngClass]="{
+                'is-invalid':
+                  descriptionCtrl.get(lang).invalid &&
+                  (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+              }"
             ></textarea>
 
             <div
-              *ngIf="descriptionCtrl.get(lang).invalid && (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)"
+              *ngIf="
+                descriptionCtrl.get(lang).invalid &&
+                (descriptionCtrl.get(lang).dirty || descriptionCtrl.get(lang).touched || submitted)
+              "
               class="invalid-feedback"
             >
               <div *ngIf="descriptionCtrl.get(lang).errors.invalid">
@@ -341,7 +384,10 @@
               </div>
 
               <div *ngIf="descriptionCtrl.get(lang).errors.maxlength">
-                {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength } }}
+                {{
+                  'forms.errors.common.maxLength'
+                    | translate: { maxLength: descriptionCtrl.get(lang).errors.maxlength.requiredLength }
+                }}
               </div>
             </div>
           </div>
@@ -352,34 +398,47 @@
                 type="button"
                 class="btn btn-gray"
                 (click)="openModal(langVersions)"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid }"
-              >{{ 'forms.common.translations.label' | translate }}</button>
+                [ngClass]="{
+                  'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid
+                }"
+              >
+                {{ 'forms.common.translations.label' | translate }}
+              </button>
 
-              <button
-                type="button"
-                class="btn btn-link"
-                [tooltip]="'forms.common.translations.tooltip' | translate"
-              ><img src="assets/img/icons/ic_help.svg" alt=""></button>
+              <button type="button" class="btn btn-link" [tooltip]="'forms.common.translations.tooltip' | translate">
+                <img src="assets/img/icons/ic_help.svg" alt="" />
+              </button>
 
               <div
                 *ngIf="descriptionCtrl.get(otherLangs[0]).invalid || descriptionCtrl.get(otherLangs[1]).invalid"
                 class="invalid-feedback"
-              >{{ 'forms.errors.common.translations' | translate }}</div>
+              >
+                {{ 'forms.errors.common.translations' | translate }}
+              </div>
             </div>
 
             <button
               type="button"
               class="btn btn-outline-gray"
               (click)="openExampleDescriptionModal(exampleDescription)"
-            >{{ 'forms.educationalResource.basicDetails.description.example.button' | translate }}</button>
+            >
+              {{ 'forms.educationalResource.basicDetails.description.example.button' | translate }}
+            </button>
           </div>
         </div>
 
         <ng-template #langVersions>
           <div class="modal-header">
-            <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.description.modal.title' | translate }}</h5>
+            <h5 class="modal-title">
+              {{ 'forms.educationalResource.basicDetails.description.modal.title' | translate }}
+            </h5>
 
-            <button type="button" class="close" [attr.aria-label]="'forms.common.close' | translate" (click)="modalRef.hide()">
+            <button
+              type="button"
+              class="close"
+              [attr.aria-label]="'forms.common.close' | translate"
+              (click)="modalRef.hide()"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -388,18 +447,29 @@
             <h4>{{ 'forms.educationalResource.basicDetails.description.modal.subtitle' | translate }}</h4>
 
             <div class="form-group">
-              <label for="descriptionEn">{{ 'forms.educationalResource.basicDetails.description.label.' + otherLangs[0] | translate }}</label>
+              <label for="descriptionEn">{{
+                'forms.educationalResource.basicDetails.description.label.' + otherLangs[0] | translate
+              }}</label>
 
               <textarea
                 class="form-control"
                 id="descriptionEn"
                 rows="10"
                 [formControlName]="otherLangs[0]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    descriptionCtrl.get(otherLangs[0]).invalid &&
+                    (descriptionCtrl.get(otherLangs[0]).dirty ||
+                      descriptionCtrl.get(otherLangs[0]).touched ||
+                      submitted)
+                }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[0]).invalid && (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)"
+                *ngIf="
+                  descriptionCtrl.get(otherLangs[0]).invalid &&
+                  (descriptionCtrl.get(otherLangs[0]).dirty || descriptionCtrl.get(otherLangs[0]).touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.invalid">
@@ -407,24 +477,38 @@
                 </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[0]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[0]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="descriptionSv">{{ 'forms.educationalResource.basicDetails.description.label.' + otherLangs[1] | translate }}</label>
+              <label for="descriptionSv">{{
+                'forms.educationalResource.basicDetails.description.label.' + otherLangs[1] | translate
+              }}</label>
 
               <textarea
                 class="form-control"
                 id="descriptionSv"
                 rows="10"
                 [formControlName]="otherLangs[1]"
-                [ngClass]="{ 'is-invalid': descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted) }"
+                [ngClass]="{
+                  'is-invalid':
+                    descriptionCtrl.get(otherLangs[1]).invalid &&
+                    (descriptionCtrl.get(otherLangs[1]).dirty ||
+                      descriptionCtrl.get(otherLangs[1]).touched ||
+                      submitted)
+                }"
               ></textarea>
 
               <div
-                *ngIf="descriptionCtrl.get(otherLangs[1]).invalid && (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)"
+                *ngIf="
+                  descriptionCtrl.get(otherLangs[1]).invalid &&
+                  (descriptionCtrl.get(otherLangs[1]).dirty || descriptionCtrl.get(otherLangs[1]).touched || submitted)
+                "
                 class="invalid-feedback"
               >
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.invalid">
@@ -432,15 +516,27 @@
                 </div>
 
                 <div *ngIf="descriptionCtrl.get(otherLangs[1]).errors.maxlength">
-                  {{ 'forms.errors.common.maxLength' | translate:{ maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength } }}
+                  {{
+                    'forms.errors.common.maxLength'
+                      | translate: { maxLength: descriptionCtrl.get(otherLangs[1]).errors.maxlength.requiredLength }
+                  }}
                 </div>
               </div>
             </div>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-gray" [attr.aria-label]="'forms.common.cancel' | translate" (click)="modalRef.hide()">{{ 'forms.common.cancel' | translate }}</button>
-            <button type="button" class="btn btn-blue" (click)="modalRef.hide()">{{ 'forms.common.saveChanges' | translate }}</button>
+            <button
+              type="button"
+              class="btn btn-gray"
+              [attr.aria-label]="'forms.common.cancel' | translate"
+              (click)="modalRef.hide()"
+            >
+              {{ 'forms.common.cancel' | translate }}
+            </button>
+            <button type="button" class="btn btn-blue" (click)="modalRef.hide()">
+              {{ 'forms.common.saveChanges' | translate }}
+            </button>
           </div>
         </ng-template>
 
@@ -455,7 +551,9 @@
               class="close"
               [attr.aria-label]="'forms.common.close' | translate"
               (click)="exampleDescriptionModalRef.hide()"
-            ><span aria-hidden="true">&times;</span></button>
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
 
           <div class="modal-body">
@@ -463,16 +561,21 @@
 
             <p class="font-italic">
               {{ 'forms.educationalResource.basicDetails.description.example.details' | translate }}
-              <a href="https://aoe.fi/#/materiaali/606">{{ 'forms.educationalResource.basicDetails.description.example.detailsLink' | translate }}</a>.
+              <a href="https://aoe.fi/#/materiaali/606">{{
+                'forms.educationalResource.basicDetails.description.example.detailsLink' | translate
+              }}</a
+              >.
             </p>
 
-            <h4>
-              {{ 'forms.educationalResource.basicDetails.description.example.subtitleTrunc' | translate }}
-            </h4>
+            <h4>{{ 'forms.educationalResource.basicDetails.description.example.subtitleTrunc' | translate }}</h4>
 
             <p>{{ 'forms.educationalResource.basicDetails.description.example.detailsTrunc' | translate }}</p>
 
-            <img src="assets/img/description-example-card.png" alt="example description card" class="img-fluid border" />
+            <img
+              src="assets/img/description-example-card.png"
+              alt="example description card"
+              class="img-fluid border"
+            />
           </div>
 
           <div class="modal-footer">
@@ -481,7 +584,9 @@
               class="btn btn-gray"
               [attr.aria-label]="'forms.common.cancel' | translate"
               (click)="exampleDescriptionModalRef.hide()"
-            >{{ 'forms.common.close' | translate }}</button>
+            >
+              {{ 'forms.common.close' | translate }}
+            </button>
           </div>
         </ng-template>
       </div>
@@ -490,26 +595,17 @@
 
   <div class="row">
     <div class="col">
-      <button
-        type="button"
-        class="btn btn-gray"
-        (click)="previousTab()"
-      >{{ 'forms.common.previous' | translate }}</button>
+      <button type="button" class="btn btn-gray" (click)="previousTab()">
+        {{ 'forms.common.previous' | translate }}
+      </button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="reset"
-        class="btn btn-cancel"
-        (click)="resetForm()"
-      >{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ 'forms.common.abort' | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button
-        type="submit"
-        class="btn btn-blue"
-      >{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
     </div>
   </div>
 </form>

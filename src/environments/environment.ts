@@ -13,7 +13,7 @@ export const environment = {
   frontendUrl: 'http://localhost:4200',
   fileUploadLSKey: 'aoe.fileUpload',
   newERLSKey: 'aoe.new-educational-resource',
-  koodistoUrl: 'http://localhost:3000/api/v1',
+  koodistoUrl: 'https://demo.aoe.fi/ref/api/v1',
   sessionCookie: 'connect.sid',
   userdataKey: 'aoe.userdata',
   cookieSettingsCookie: 'aoe.cookies',

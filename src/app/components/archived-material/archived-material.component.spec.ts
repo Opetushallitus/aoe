@@ -8,9 +8,8 @@ describe('ArchivedMaterialViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ArchivedMaterialComponent ]
-    })
-    .compileComponents();
+      declarations: [ArchivedMaterialComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
