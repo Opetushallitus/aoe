@@ -14,7 +14,7 @@ import { AlertsResponse } from '@models/alerts/alerts-response';
  */
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './default-layout.component.html'
+  templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent implements OnInit {
   languages = new Map();
@@ -97,9 +97,9 @@ export class DefaultLayoutComponent implements OnInit {
     interval(5 * 60 * 1000) // minutes x seconds x milliseconds
       .pipe(
         startWith(0),
-        switchMap(() => this.alertSvc.updateAlerts())
+        switchMap(() => this.alertSvc.updateAlerts()),
       )
-      .subscribe((response: AlertsResponse) => this.alerts = response);
+      .subscribe((response: AlertsResponse) => (this.alerts = response));
   }
 
   /**

@@ -6,12 +6,13 @@ describe('LogoutViewComponent', () => {
   let component: LogoutViewComponent;
   let fixture: ComponentFixture<LogoutViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LogoutViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [LogoutViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LogoutViewComponent);

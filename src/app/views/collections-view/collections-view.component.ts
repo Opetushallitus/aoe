@@ -9,18 +9,14 @@ import { CollectionService } from '@services/collection.service';
 @Component({
   selector: 'app-collections-view',
   templateUrl: './collections-view.component.html',
-  styleUrls: ['./collections-view.component.scss']
+  styleUrls: ['./collections-view.component.scss'],
 })
 export class CollectionsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   recentCollectionSubscription: Subscription;
   recentCollections: CollectionCard[];
 
-  constructor(
-    private translate: TranslateService,
-    private titleSvc: Title,
-    private collectionSvc: CollectionService,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title, private collectionSvc: CollectionService) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -31,9 +27,11 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.recentCollectionSubscription = this.collectionSvc.recentCollections$.subscribe((collections: CollectionCard[]) => {
-      this.recentCollections = collections;
-    });
+    this.recentCollectionSubscription = this.collectionSvc.recentCollections$.subscribe(
+      (collections: CollectionCard[]) => {
+        this.recentCollections = collections;
+      },
+    );
     this.collectionSvc.updateRecentCollections();
   }
 

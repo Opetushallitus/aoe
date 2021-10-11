@@ -11,11 +11,12 @@ import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
   selector: 'app-tabs-edit-extended-details',
   templateUrl: './edit-extended-details.component.html',
-  styleUrls: ['./edit-extended-details.component.scss']
+  styleUrls: ['./edit-extended-details.component.scss'],
 })
 export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   @Input() material: EducationalMaterialForm;
@@ -37,7 +38,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoProxyService,
     private router: Router,
     private titleSvc: Title,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -84,17 +85,19 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     }
 
     // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$
-      .subscribe((features: AccessibilityFeature[]) => {
+    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+      (features: AccessibilityFeature[]) => {
         this.accessibilityFeatures = features;
-      });
+      },
+    );
     this.koodistoSvc.updateAccessibilityFeatures();
 
     // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$
-      .subscribe((hazards: AccessibilityHazard[]) => {
+    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+      (hazards: AccessibilityHazard[]) => {
         this.accessibilityHazards = hazards;
-      });
+      },
+    );
     this.koodistoSvc.updateAccessibilityHazards();
   }
 
@@ -104,7 +107,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: any) => {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
       this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
     });
   }
@@ -134,9 +137,10 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
       if (this.form.dirty) {
-        const changedMaterial: EducationalMaterialForm = sessionStorage.getItem(environment.editMaterial) !== null
-          ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
-          : this.material;
+        const changedMaterial: EducationalMaterialForm =
+          sessionStorage.getItem(environment.editMaterial) !== null
+            ? JSON.parse(sessionStorage.getItem(environment.editMaterial))
+            : this.material;
 
         const typicalAgeRange = this.form.get('typicalAgeRange').value;
 

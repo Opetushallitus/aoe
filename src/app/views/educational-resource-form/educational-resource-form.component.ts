@@ -29,14 +29,10 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
   @ViewChild(BasedOnDetailsComponent) referencesTab: BasedOnDetailsComponent;
   @ViewChild(PreviewComponent) previewTab: PreviewComponent;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private translate: TranslateService,
-  ) { }
+  constructor(private route: ActivatedRoute, private router: Router, private translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe(params => {
+    this.routeSubscription = this.route.params.subscribe((params) => {
       this.tabId = params['tabId'] ? +params['tabId'] : 1;
 
       if (!params['tabId']) {
@@ -59,12 +55,12 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload')
   canDeactivate(): Observable<boolean> | boolean {
     if (
-      this.filesTab?.form.dirty
-      || this.basicTab?.form.dirty
-      || this.educationalTab?.form.dirty
-      || this.extendedTab?.form.dirty
-      || this.licenseTab?.form.dirty
-      || this.referencesTab?.form.dirty
+      this.filesTab?.form.dirty ||
+      this.basicTab?.form.dirty ||
+      this.educationalTab?.form.dirty ||
+      this.extendedTab?.form.dirty ||
+      this.licenseTab?.form.dirty ||
+      this.referencesTab?.form.dirty
     ) {
       return confirm(this.abortMessage);
     }
@@ -75,8 +71,6 @@ export class EducationalResourceFormComponent implements OnInit, OnDestroy {
 
     const materialId = sessionStorage.getItem(environment.fileUploadLSKey);
 
-    return materialId
-      ? confirm(this.abortMessage)
-      : true;
+    return materialId ? confirm(this.abortMessage) : true;
   }
 }

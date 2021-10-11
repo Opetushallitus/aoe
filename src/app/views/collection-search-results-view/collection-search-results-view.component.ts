@@ -9,17 +9,13 @@ import { CollectionSearchResults } from '@models/search/collection-search-result
 @Component({
   selector: 'app-collection-search-results-view',
   templateUrl: './collection-search-results-view.component.html',
-  styleUrls: ['./collection-search-results-view.component.scss']
+  styleUrls: ['./collection-search-results-view.component.scss'],
 })
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
   results: CollectionSearchResults;
 
-  constructor(
-    private searchSvc: SearchService,
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private searchSvc: SearchService, private translate: TranslateService, private titleSvc: Title) {}
 
   ngOnInit(): void {
     this.setTitle();

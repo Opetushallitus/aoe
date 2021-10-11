@@ -6,12 +6,13 @@ describe('AudioPreviewComponent', () => {
   let component: AudioPreviewComponent;
   let fixture: ComponentFixture<AudioPreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AudioPreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AudioPreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AudioPreviewComponent);

@@ -9,7 +9,7 @@ import { EducationalLevel } from '@models/educational-level';
 @Component({
   selector: 'app-educational-material-card',
   templateUrl: './educational-material-card.component.html',
-  styleUrls: ['./educational-material-card.component.scss']
+  styleUrls: ['./educational-material-card.component.scss'],
 })
 export class EducationalMaterialCardComponent implements OnInit {
   @Input() educationalMaterial: EducationalMaterialCard;
@@ -20,9 +20,7 @@ export class EducationalMaterialCardComponent implements OnInit {
   keywords: Keyword[];
   educationalLevels: EducationalLevel[];
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

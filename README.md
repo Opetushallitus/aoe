@@ -1,4 +1,4 @@
-# Avoimet oppimatariaalit frontend
+# AOE - Avointen oppimateriaalien kirjasto (aoe-web-frontend)
 
 Project is based on [CoreUI Angular 2+ Admin template.](https://github.com/coreui/coreui-free-angular-admin-template)
 
@@ -30,6 +30,27 @@ $ ng build
 
 # build documentation at ./documentation/
 $ npm run compodoc
+```
+
+## Prettier
+
+Enable [Prettier](https://prettier.io/docs/en/index.html) to format code on save.
+
+### VS Code
+
+1. Install [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extension
+2. Make Prettier your [default formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode#default-formatter)
+3. Enable [format on save](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode#format-on-save)
+
+### WebStorm
+
+Follow the [instructions](https://www.jetbrains.com/help/webstorm/prettier.html#ws_prettier_install).
+
+```
+Prettier package: /aoe-web-frontend/node_modules/prettier
+Run for files: {**/*,*}.{ts,scss,html}
+On 'Reformat Code' action: true
+On save: true
 ```
 
 ## What's included
