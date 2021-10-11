@@ -10,9 +10,7 @@ import { AppComponent } from './app.component';
 // Import containers
 import { DefaultLayoutComponent } from './containers';
 
-const APP_CONTAINERS = [
-  DefaultLayoutComponent
-];
+const APP_CONTAINERS = [DefaultLayoutComponent];
 
 // Import routing module
 import { AppRoutingModule } from './app.routing';
@@ -133,8 +131,8 @@ import { AccessibilityViewComponent } from './views';
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        deps: [HttpClient],
+      },
     }),
     AccordionModule.forRoot(),
     NgSelectModule,
@@ -224,7 +222,7 @@ import { AccessibilityViewComponent } from './views';
   providers: [
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
     CookieService,
     {
@@ -238,6 +236,6 @@ import { AccessibilityViewComponent } from './views';
     AdminGuard,
     DisableFormsGuard,
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

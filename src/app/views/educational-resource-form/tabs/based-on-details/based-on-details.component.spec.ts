@@ -6,12 +6,13 @@ describe('BasedOnDetailsComponent', () => {
   let component: BasedOnDetailsComponent;
   let fixture: ComponentFixture<BasedOnDetailsComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BasedOnDetailsComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [BasedOnDetailsComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BasedOnDetailsComponent);

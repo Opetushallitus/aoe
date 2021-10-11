@@ -12,20 +12,20 @@ export interface Collection {
     {
       key: string;
       value: string;
-    }
+    },
   ];
   languages: string[];
   educationalRoles: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalUses: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   educationalMaterials: [
     {
@@ -35,7 +35,7 @@ export interface Collection {
           authorname: string;
           organization: string;
           organizationkey: string;
-        }
+        },
       ];
       license: {
         key: string;
@@ -62,29 +62,29 @@ export interface Collection {
           value: string;
           educationalmaterialid: string;
           learningresourcetypekey: string;
-        }
+        },
       ];
-    }
+    },
   ];
   materialsAndHeadings: CollectionFormMaterialAndHeading[];
   accessibilityFeatures: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   accessibilityHazards: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   owner: boolean;
   educationalLevels: [
     {
       key: string;
       value: string;
-    }
+    },
   ];
   earlyChildhoodEducationSubjects: AlignmentObjectExtended[];
   earlyChildhoodEducationObjectives: AlignmentObjectExtended[];

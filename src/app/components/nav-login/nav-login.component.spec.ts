@@ -6,12 +6,13 @@ describe('NavLoginComponent', () => {
   let component: NavLoginComponent;
   let fixture: ComponentFixture<NavLoginComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ NavLoginComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [NavLoginComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavLoginComponent);

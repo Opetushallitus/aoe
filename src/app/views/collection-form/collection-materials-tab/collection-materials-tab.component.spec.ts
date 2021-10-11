@@ -6,12 +6,13 @@ describe('CollectionMaterialsTabComponent', () => {
   let component: CollectionMaterialsTabComponent;
   let fixture: ComponentFixture<CollectionMaterialsTabComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CollectionMaterialsTabComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CollectionMaterialsTabComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CollectionMaterialsTabComponent);

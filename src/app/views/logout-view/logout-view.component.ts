@@ -10,12 +10,9 @@ import { environment } from '../../../environments/environment';
 export class LogoutViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
 
-  constructor(
-    private translate: TranslateService,
-    private titleSvc: Title,
-  ) { }
+  constructor(private translate: TranslateService, private titleSvc: Title) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setTitle();
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {

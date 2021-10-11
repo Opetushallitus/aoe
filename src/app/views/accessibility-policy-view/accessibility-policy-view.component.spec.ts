@@ -6,12 +6,13 @@ describe('AccessibilityPolicyViewComponent', () => {
   let component: AccessibilityPolicyViewComponent;
   let fixture: ComponentFixture<AccessibilityPolicyViewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AccessibilityPolicyViewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AccessibilityPolicyViewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AccessibilityPolicyViewComponent);

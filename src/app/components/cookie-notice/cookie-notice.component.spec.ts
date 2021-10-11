@@ -6,12 +6,13 @@ describe('CookieNoticeComponent', () => {
   let component: CookieNoticeComponent;
   let fixture: ComponentFixture<CookieNoticeComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CookieNoticeComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CookieNoticeComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CookieNoticeComponent);

@@ -8,11 +8,9 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 export class TermsOfUseComponent implements OnInit {
   lang: string = this.translate.currentLang;
 
-  constructor(
-    private translate: TranslateService,
-  ) { }
+  constructor(private translate: TranslateService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
     });

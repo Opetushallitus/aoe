@@ -54,6 +54,6 @@ export const validatorParams = {
   common: {
     pattern: {
       numeric: '[0-9]*',
-    }
+    },
   },
 };

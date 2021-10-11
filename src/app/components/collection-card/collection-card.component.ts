@@ -13,7 +13,7 @@ import { Language } from '@models/koodisto-proxy/language';
 @Component({
   selector: 'app-collection-card',
   templateUrl: './collection-card.component.html',
-  styleUrls: ['./collection-card.component.scss']
+  styleUrls: ['./collection-card.component.scss'],
 })
 export class CollectionCardComponent implements OnInit, OnDestroy {
   @Input() collection: CollectionCard;
@@ -22,10 +22,7 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
   languageSubscription: Subscription;
   languages: Language[];
 
-  constructor(
-    private translate: TranslateService,
-    private koodistoSvc: KoodistoProxyService,
-  ) { }
+  constructor(private translate: TranslateService, private koodistoSvc: KoodistoProxyService) {}
 
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {

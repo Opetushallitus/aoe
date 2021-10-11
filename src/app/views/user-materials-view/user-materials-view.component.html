@@ -6,7 +6,9 @@
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{ 'userMaterials.createNew' | translate }}</a>
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{
+          'userMaterials.createNew' | translate
+        }}</a>
       </div>
     </div>
 
@@ -39,11 +41,11 @@
         <alert *ngIf="material.expires" [type]="expireAlertType(material.expires)">
           <ng-container [ngSwitch]="expireAlertType(material.expires)">
             <ng-container *ngSwitchCase="'expired'">
-              {{ 'userMaterials.expired' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+              {{ 'userMaterials.expired' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
             </ng-container>
 
             <ng-container *ngSwitchDefault>
-              {{ 'userMaterials.expires' | translate:{ date: material.expires | date:'d.M.yyyy' } }}
+              {{ 'userMaterials.expires' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
             </ng-container>
           </ng-container>
         </alert>
@@ -69,18 +71,18 @@
         <div class="card-collection private">
           <a [routerLink]="['/kokoelma', collection.id]">
             <div class="row no-gutters">
-              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+              <div
+                class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0"
+              >
                 <img
                   [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                   class="img-fluid"
                   [alt]="'demo.educationalMaterial.cover.alt' | translate"
-                >
+                />
               </div>
 
               <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
-                <h3>
-                  {{ collection.name }}
-                </h3>
+                <h3>{{ collection.name }}</h3>
               </div>
             </div>
           </a>
@@ -103,18 +105,18 @@
         <div class="card-collection">
           <a [routerLink]="['/kokoelma', collection.id]">
             <div class="row no-gutters">
-              <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+              <div
+                class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0"
+              >
                 <img
                   [src]="collection.thumbnail ? collection.thumbnail : 'assets/img/thumbnails/kokoelma.png'"
                   class="img-fluid"
                   [alt]="'demo.educationalMaterial.cover.alt' | translate"
-                >
+                />
               </div>
 
               <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
-                <h3>
-                  {{ collection.name }}
-                </h3>
+                <h3>{{ collection.name }}</h3>
               </div>
             </div>
           </a>

@@ -6,12 +6,13 @@ describe('ImagePreviewComponent', () => {
   let component: ImagePreviewComponent;
   let fixture: ComponentFixture<ImagePreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ImagePreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ImagePreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ImagePreviewComponent);

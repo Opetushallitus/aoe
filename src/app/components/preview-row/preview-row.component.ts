@@ -1,19 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-preview-row',
   templateUrl: './preview-row.component.html',
-  styleUrls: ['./preview-row.component.scss']
+  styleUrls: ['./preview-row.component.scss'],
 })
-export class PreviewRowComponent implements OnInit {
+export class PreviewRowComponent {
   @Input() title: string;
   @Input() items?: any[];
   @Input() item?: string;
   @Input() property?: string;
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  constructor() {}
 }

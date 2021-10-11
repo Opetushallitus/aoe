@@ -6,12 +6,13 @@ describe('PdfPreviewComponent', () => {
   let component: PdfPreviewComponent;
   let fixture: ComponentFixture<PdfPreviewComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PdfPreviewComponent ]
-    })
-    .compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [PdfPreviewComponent],
+      }).compileComponents();
+    }),
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PdfPreviewComponent);

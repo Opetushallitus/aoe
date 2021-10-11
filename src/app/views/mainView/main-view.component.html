@@ -4,14 +4,16 @@
       <div class="col justify-content-center">
         <h1 class="text-center">{{ 'home.search.title' | translate }}</h1>
       </div>
-    </div><!--/.row-->
+    </div>
+    <!--/.row-->
   </div>
 </div>
 
 <div class="container">
   <div class="search-box">
     <app-search></app-search>
-  </div><!--search box-->
+  </div>
+  <!--search box-->
 </div>
 
 <div class="content-wrapper">
@@ -20,25 +22,54 @@
       <div class="col-md-6">
         <ng-container [ngSwitch]="lang">
           <ng-container *ngSwitchDefault>
-            <p>Avointen oppimateriaalien kirjastossa voit löytää ja tallentaa avoimia oppimateriaaleja kaikilta koulutusasteilta. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin aivan kaikki kansalaiset. Oppimateriaalit ovat löydettävissä myös museoiden, kirjastojen ja arkistojen aineistoja kokoavasta <a href="https://finna.fi/" rel="noopener">Finna.fistä</a>. Avointen oppimateriaalien kirjastoa kehittää opetus- ja kulttuuriministeriö, Opetushallitus ja CSC &ndash; Tieteen tietotekniikan keskus. Lue lisää <a routerLink="/lisatietoa">Lisätietoa</a>-sivulta.</p>
+            <p>
+              Avointen oppimateriaalien kirjastossa voit löytää ja tallentaa avoimia oppimateriaaleja kaikilta
+              koulutusasteilta. Palvelua ja sieltä löytyviä oppimateriaaleja voivat käyttää niin opettajat, oppijat kuin
+              aivan kaikki kansalaiset. Oppimateriaalit ovat löydettävissä myös museoiden, kirjastojen ja arkistojen
+              aineistoja kokoavasta
+              <a href="https://finna.fi/" rel="noopener">Finna.fistä</a>. Avointen oppimateriaalien kirjastoa kehittää
+              opetus- ja kulttuuriministeriö, Opetushallitus ja CSC &ndash; Tieteen tietotekniikan keskus. Lue lisää
+              <a routerLink="/lisatietoa">Lisätietoa</a>-sivulta.
+            </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'en'">
-            <p>In the Library of Open Educational Resources, you can search for and share open educational resources (OER) from all levels of education. The service and its OERs are available for use by teachers, learners and everyone else. The OERs can also be found in <a href="https://finna.fi/" rel="noopener">Finna.fi</a>, which gathers materials from museums, libraries and archives under one roof. The Library of Open Educational Resources is being developed by the Ministry of Education and Culture and the Finnish National Agency for Education, and its development is coordinated by CSC &ndash; IT Center for Science. Visit the <a routerLink="/lisatietoa">Further information</a> page for more info.</p>
+            <p>
+              In the Library of Open Educational Resources, you can search for and share open educational resources
+              (OER) from all levels of education. The service and its OERs are available for use by teachers, learners
+              and everyone else. The OERs can also be found in <a href="https://finna.fi/" rel="noopener">Finna.fi</a>,
+              which gathers materials from museums, libraries and archives under one roof. The Library of Open
+              Educational Resources is being developed by the Ministry of Education and Culture and the Finnish National
+              Agency for Education, and its development is coordinated by CSC &ndash; IT Center for Science. Visit the
+              <a routerLink="/lisatietoa">Further information</a> page for more info.
+            </p>
           </ng-container>
 
           <ng-container *ngSwitchCase="'sv'">
-            <p>I Biblioteket för öppna lärresurser kan du hitta och spara öppna lärresurser från alla utbildningsstadier. Tjänsten och materialen är tillgängligt för alla lärare, lärande och andra intresserade. Du kan också hitta tjänstens lärresurser i <a href="https://finna.fi/" rel="noopener">Finna.fi</a> som har fascinerande material från arkiv, bibliotek, museer och övriga aktörer. Tjänsten utvecklas av undervisnings- och kulturministeriet och Utbildningsstyrelsen och utvecklingen koordineras av CSC &ndash; Tieteen tietotekniikan keskus. Läs mer på sidan <a routerLink="/lisatietoa">Vanliga frågor</a>.</p>
+            <p>
+              I Biblioteket för öppna lärresurser kan du hitta och spara öppna lärresurser från alla utbildningsstadier.
+              Tjänsten och materialen är tillgängligt för alla lärare, lärande och andra intresserade. Du kan också
+              hitta tjänstens lärresurser i
+              <a href="https://finna.fi/" rel="noopener">Finna.fi</a> som har fascinerande material från arkiv,
+              bibliotek, museer och övriga aktörer. Tjänsten utvecklas av undervisnings- och kulturministeriet och
+              Utbildningsstyrelsen och utvecklingen koordineras av CSC &ndash; Tieteen tietotekniikan keskus. Läs mer på
+              sidan <a routerLink="/lisatietoa">Vanliga frågor</a>.
+            </p>
           </ng-container>
         </ng-container>
       </div>
 
       <div class="col-md-6">
         <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/UF26O3zXcUU?rel=0" allowfullscreen></iframe>
+          <iframe
+            class="embed-responsive-item"
+            src="https://www.youtube.com/embed/UF26O3zXcUU?rel=0"
+            allowfullscreen
+          ></iframe>
         </div>
       </div>
-    </div><!--/.row-->
+    </div>
+    <!--/.row-->
   </div>
 </div>
 
@@ -52,6 +83,7 @@
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of recentMaterials">
         <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
       </div>
-    </div><!-- .row -->
+    </div>
+    <!-- .row -->
   </div>
 </div>
