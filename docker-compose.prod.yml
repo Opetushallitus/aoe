@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  aoe-semantic-apis:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    image: aoe-semantic-apis:latest
+    container_name: aoe-semantic-apis
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    env_file: /environment/aoe-semantic-apis/.env
+    command: sh -c "yarn serve"
+    networks:
+      - network-semantic-apis-demo
+
+networks:
+  network-semantic-apis-demo:
+    driver: bridge
