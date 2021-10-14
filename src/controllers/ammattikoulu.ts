@@ -15,8 +15,8 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
     let finnishDegrees: AlignmentObjectExtended[] = [];
     let swedishDegrees: AlignmentObjectExtended[] = [];
     let englishDegrees: AlignmentObjectExtended[] = [];
-    let pageNumber: number = 0;
-    let getResults: boolean = true;
+    let pageNumber = 0;
+    let getResults = true;
 
     while (getResults) {
       const results = await getDataFromApi(
@@ -270,8 +270,8 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
     let finnishQuals: AlignmentObjectExtended[] = [];
     let swedishQuals: AlignmentObjectExtended[] = [];
     let englishQuals: AlignmentObjectExtended[] = [];
-    let pageNumber: number = 0;
-    let getResults: boolean = true;
+    let pageNumber = 0;
+    let getResults = true;
 
     while (getResults) {
       const results = await getDataFromApi(
@@ -374,8 +374,8 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
     let finnishQuals: AlignmentObjectExtended[] = [];
     let swedishQuals: AlignmentObjectExtended[] = [];
     let englishQuals: AlignmentObjectExtended[] = [];
-    let pageNumber: number = 0;
-    let getResults: boolean = true;
+    let pageNumber = 0;
+    let getResults = true;
 
     while (getResults) {
       const results = await getDataFromApi(
