@@ -1,8 +1,11 @@
 {
-  "name": "koodisto-service",
-  "version": "2.4.1",
-  "main": "src/server.ts",
-  "repository": "https://github.com/CSCfi/koodisto-service.git",
+  "name": "aoe-semantic-apis",
+  "version": "2.4.3",
+  "main": "dist/server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.ci.csc.fi/aoe/aoe-semantic-apis.git"
+  },
   "author": "Kalle Lehtonen <kalle.lehtonen@digia.com>",
   "license": "MIT",
   "private": true,
@@ -19,6 +22,20 @@
     "test-coverage": "yarn run test --coverage"
   },
   "dependencies": {
+    "async-redis": "^1.1.7",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "node-cron": "^2.0.3",
+    "redis": "^3.0.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "striptags": "^3.1.1",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
     "@types/body-parser": "^1.19.0",
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.8",
@@ -32,26 +49,14 @@
     "@types/request-promise": "^4.1.46",
     "@types/supertest": "^2.0.10",
     "@types/xml2js": "^0.4.7",
-    "async-redis": "^1.1.7",
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
     "concurrently": "^5.3.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "express-swagger-generator": "^1.1.17",
     "jest": "^26.6.3",
-    "node-cron": "^2.0.3",
     "nodemon": "^2.0.6",
-    "redis": "^3.0.2",
-    "request": "^2.88.2",
-    "request-promise": "^4.2.6",
-    "striptags": "^3.1.1",
     "supertest": "^6.0.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.3",
-    "typescript": "^4.1.2",
-    "xml2js": "^0.4.23"
+    "typescript": "^4.1.2"
   }
 }
