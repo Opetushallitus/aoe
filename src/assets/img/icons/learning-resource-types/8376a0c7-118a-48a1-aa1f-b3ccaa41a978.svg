@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.952381,0,0,0.9375,-0.952381,-1.25)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Sanasto" serif:id="Materiaalityyppi/Sanasto">
+                <g id="ic_sanasto_black">
+                    <g id="Icon-24px">
+                        <path id="Shape" d="M0,0L24,0L24,24L0,24L0,0ZM0,0L24,0L24,24L0,24L0,0ZM0.75,0.75L23.25,0.75L23.25,23.25L0.75,23.25L0.75,0.75Z" style="fill:none;"/>
+                        <path id="Shape1" serif:id="Shape" d="M6.1,4.27L1.6,15.73L3.44,15.73L4.36,13.28L9.47,13.28L10.39,15.73L12.23,15.73L7.74,4.27L6.1,4.27ZM4.97,11.64L6.91,6.46L8.85,11.64L4.97,11.64ZM15.73,18.14L21.85,18.14L21.85,19.73L13.32,19.73L13.32,18.44L19.24,9.88L13.36,9.88L13.36,8.28L21.66,8.28L21.66,9.54L15.73,18.14Z"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

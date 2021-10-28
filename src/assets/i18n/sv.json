@@ -1,0 +1,1128 @@
+{
+  "common": {
+    "goBack": "Tillbaka",
+    "login": "Logga in",
+    "logout": "Logga ut"
+  },
+  "navigation": {
+    "home": "Framsida",
+    "info": "Info",
+    "myMaterials": "Mina lärresurser",
+    "collections": "Samlingar",
+    "toggler": {
+      "aria": {
+        "label": "Toggle navigation"
+      }
+    },
+    "login": {
+      "userDetails": "Mina uppgifter"
+    },
+    "termsOfUse": "Användarvilko",
+    "privacyPolicy": "Dataskyddsbeskrivnig",
+    "accessibilityPolicy": "Accessibility Policy",
+    "langSelector": {
+      "label": "Välj språk"
+    }
+  },
+  "titles": {
+    "home": "Framsida",
+    "faq": "Vanliga frågor",
+    "userMaterials": "Mina lärresurser",
+    "addMaterial": {
+      "main": "Publicera en ny lärresurs",
+      "files": "Filer",
+      "basic": "Grunduppgifter",
+      "education": "Utbildningsinfo",
+      "extended": "Andra uppgifter",
+      "license": "Licensuppgifter",
+      "references": "Referens",
+      "preview": "Förhandsvisning och spara"
+    },
+    "editMaterial": {
+      "main": "Redigera lärresurs",
+      "files": "Filer",
+      "basic": "Grunduppgifter",
+      "education": "Utbildningsinfo",
+      "extended": "Andra uppgifter",
+      "license": "Licensuppgifter",
+      "references": "Referens",
+      "preview": "Förhandsvisning och spara"
+    },
+    "collection": {
+      "main": "Samling",
+      "basic": "Grunduppgifter",
+      "educational": "Utbildningsinfo",
+      "materials": "Material",
+      "preview": "Förhandsvisning och spara"
+    },
+    "acceptance": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
+    "accessibility": "Accessibility Policy",
+    "logout": "Du har loggat ut",
+    "privacy": "Dataskyddsbeskrivnig",
+    "searchResults": "Sökresultaten",
+    "termsOfUse": "Användarvilko",
+    "reviews": "Recensioner",
+    "collections": "Samlingar",
+    "userDetails": "Mina uppgifter",
+    "archived": "Arkiverad lärresurs",
+    "accessibilityDescriptions": "Tillgänglighet"
+  },
+  "home": {
+    "search": {
+      "title": "Vad vill du lära dig?"
+    },
+    "recentMaterials": {
+      "title": "Senaste öppna lärresurser"
+    }
+  },
+  "demo": {
+    "materialList": {
+      "title": "Öppen digital lärresurs"
+    },
+    "educationalMaterial": {
+      "download": "Ladda ner",
+      "downloadAllFiles": "Ladda ner alla filer",
+      "downloadSingleFile": "Ladda ner en av filerna:",
+      "addToCollection": "Lägg till samlingen",
+      "edit": "Redigera",
+      "viewCount": "sidvisningar ",
+      "downloadCount": "nedladdningar",
+      "pid": {
+        "label": {
+          "latest": "Publikationens permanenta adress",
+          "version": "Versionens permanenta adress"
+        },
+        "tooltip": "URN identifierare (Uniform Resource Name) är en permanent, unik identifierare som hjälper till att upptäcka, identifiera och länka onlinematerial och undervisningmaterial. Du kan använda identifieraren som ett sätt att hänvisa till och länka till undervisningmaterial istället för webbadressen."
+      },
+      "createdAt": "Created",
+      "publishedAt": "Skapad",
+      "updatedAt": "Redigerad",
+      "expires": "Föråldras",
+      "versionHistory": {
+        "button": "Versionshistorik",
+        "helpText": "I Versionshistoriken kan du se de tidigare versionerna av lärresursen. En version skapas varje gång upphovsmannen laddar upp en ny fil och / eller tar bort eller ändrar en befintlig fil. Ändringar i beskrivningar och metadata sparas inte i Versionshistoriken."
+      },
+      "eduLevel": "Utbildningsnivå",
+      "eduSubject": "Undervisningsämne",
+      "subject": "pedagogik",
+      "inLanguage": "Språk",
+      "timeRequired": "Tiden som krävs",
+      "datePublished": "Date published",
+      "publisher": "Publisher",
+      "license": "Licens",
+      "keywords": "Keywords",
+      "expandMetadata": {
+        "more": "Visa alla detaljer",
+        "less": "Visa mindre"
+      },
+      "educationalRole": "Roll",
+      "educationalUse": "Educational use",
+      "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
+      "earlyChildhoodEducationFrameworks": "Läroplans- eller examensgrunderna för småbarnsfostran",
+      "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",
+      "prePrimaryEducationSubjects": "Ämne för förskoleundervisning",
+      "prePrimaryEducationFrameworks": "Läroplans- eller examensgrunderna för förskoleundervisning",
+      "prePrimaryEducationObjectives": "Mål för förskoleundervisning",
+      "basicStudySubjects": "Ämne för grundläggande utbildning",
+      "basicStudyFrameworks": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+      "basicStudyObjectives": "Mål för grundläggande utbildning",
+      "basicStudyContents": "Innehållsområden för grundläggande utbildning",
+      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolFrameworks": "Läroplans- eller examensgrunderna för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolSubjectsNew": "Ämne för gymnasieutbildning",
+      "upperSecondarySchoolFrameworksNew": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+      "upperSecondarySchoolModulesNew": "Modul för gymnasieutbildning",
+      "upperSecondarySchoolObjectivesNew": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
+      "vocationalDegrees": "Examensdel för yrkesutbildning",
+      "vocationalFrameworks": "Läroplans- eller examensgrunderna för yrkesutbildning",
+      "vocationalUnits": "Examensdelar för yrkesutbildning",
+      "furtherVocationalQualifications": "Yrkesexamen",
+      "specialistVocationalQualifications": "Specialyrkesexamen",
+      "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
+      "branchesOfScience": "Verenskapsgren för högskoleutbildning",
+      "higherEducationFrameworks": "Läroplans- eller examensgrunderna för högskoleutbildning",
+      "scienceBranchObjectives": "Mål för högskoleutbildning",
+      "prerequisites": "Tidigare kunnande",
+      "accessibilityFeatures": "Tillgänglighet",
+      "accessibilityHazard": "Accessibility hazards",
+      "typicalAgeRange": "Målgruppens ålder",
+      "files": "Filer",
+      "preview": {
+        "noVideoSupport": "Your browser does not support the video element.",
+        "noAudioSupport": "Your browser does not support the audio element.",
+        "fileFormatNotSupported": "Filen kan inte förhandsgranskas. Ladda ner materialen om du vill använda filen.",
+        "openInNewTab": "Öppna utbildningsmaterialet i en ny flik",
+        "or": "eller",
+        "download": "Ladda ner filen"
+      },
+      "embed": {
+        "label": "Bädda in",
+        "copy": "Kopiera",
+        "copied": "Kopierade"
+      },
+      "references": {
+        "title": "Referens",
+        "openLink": "öppna länken"
+      },
+      "userReviews": {
+        "title": "Recensioner",
+        "ratingContent": "Innehåll",
+        "ratingVisual": "Layout",
+        "feedbackPositive": "Vad var bra med lärresursen?",
+        "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+        "feedbackPurpose": "Hur använde du lärresursen?",
+        "allReviews": "Kolla alla recensioner",
+        "addReview": "Skriv en recension",
+        "reviews": "Recensioner",
+        "modal": {
+          "title": "Skriv en recension"
+        }
+      },
+      "socialMetadata": {
+        "title": "Andra tycker att denna lärresurs är lämplig även för:",
+        "addMetadata": "Fyll uppgifter",
+        "modal": {
+          "title": "Fyll uppgifter"
+        },
+        "toasts": {
+          "success": {
+            "title": "Uppgifter uppdaterades"
+          }
+        },
+        "noMetadata": "Ingen användare har ännu lagt till metadata. Du kan lägga till dina egna genom att logga in."
+      },
+      "reviews": {
+        "title": "Recensioner",
+        "review": {
+          "ratingContent": "Innehåll",
+          "ratingVisual": "Layout",
+          "reviews": "Recensioner",
+          "feedbackPositive": "Vad var bra med lärresursen?",
+          "feedbackSuggest": "Hur ska lärresursen utvecklas?",
+          "feedbackPurpose": "Hur använde du lärresursen?"
+        },
+        "noRatings": "Denna lärresurs har inga recensioner ännu.",
+        "ownerInfo": "Du kan inte ge recensioner till din egen lärresurs. Om du vill ändra metadata för din lärresurs kan du redigera lärresursen."
+      },
+      "expired": "Lärresursen är föråldrat {{date}}",
+      "cover": {
+        "alt": "Lärresursers omslaget"
+      },
+      "detailsHeading": "Detaljerad information"
+    }
+  },
+  "forms": {
+    "common": {
+      "abort": "Avbryt",
+      "cancel": "Annullera",
+      "close": "Stäng",
+      "delete": "Ta bort",
+      "next": "Nästa",
+      "previous": "Föregående",
+      "required": "Obligatorisk uppgift",
+      "pattern": {
+        "url": "Sätt prefix http:// eller https://",
+        "numeric": "Endast nummer är tillåtna"
+      },
+      "min": "Minst: ",
+      "max": "Max: ",
+      "save": "Spara",
+      "saveChanges": "Spara ändringar",
+      "add": "Tillsätt",
+      "translations": {
+        "label": "Språkversioner",
+        "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
+      },
+      "replaceFile": "Byta filen",
+      "replaceLink": "Byta länken"
+    },
+    "errors": {
+      "common": {
+        "maxLength": "{{maxLength}}",
+        "translations": "Granska Språkversioner"
+      },
+      "textInput": {
+        "characters": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
+      },
+      "description": {
+        "characters": "Tillåtna specialtecken: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ] * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
+      }
+    },
+    "helpTexts": {
+      "multipleItems": "För att lägga till information i det här fältet, skriv ditt innehåll och tryck på enter. På det här sättet kan du lägga till flera uppgifter."
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "files": "Filer",
+        "basicDetails": "Grunduppgifter",
+        "educationalDetails": "Utbildningsinfo",
+        "extendedDetails": "Andra uppgifter",
+        "licenseDetails": "Licensuppgifter",
+        "basedOnDetails": "Referens",
+        "preview": "Förhandsvisning och spara"
+      },
+      "files": {
+        "alert": "Du kan spara ditt läromaterial eller länka till det i tjänsten för öppna lärresurser med hjälp av den här blanketten. Inför sparandet av läromaterialet ska du lägga till några uppgifter om läromaterialet samt välja ut en lämplig licens för det. De här uppgifterna gör det lättare för andra användare att hitta ditt läromaterial samt redogör för vad ditt läromaterial kan användas till. Vid varje fält finns ett litet frågetecken där du vid behov kan få tilläggsuppgifter. Ladda först upp filen/filerna eller länka till ditt läromaterial och fortsätt sedan fylla i de grundläggande uppgifterna om ditt material. Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är.",
+        "materialName": {
+          "label": {
+            "fi": "Namn på finska",
+            "en": "Namn på engelska",
+            "sv": "Namn"
+          },
+          "tooltip": "Namn på läromaterialet.",
+          "modal": {
+            "title": "Språkversioner: Namn",
+            "subtitle": "Tillsätt en språversion"
+          }
+        },
+        "file": {
+          "title": ". Fil",
+          "tooltip": "Ladda här upp de filer som ditt läromaterial består av. Du kan också länka till ditt läromaterial om det ligger på en plats där det är öppet och tillgängligt på lång sikt för vem som helst. Den första filen är den som öppnas först vid en förhandsvisning.",
+          "or": "eller",
+          "inputs": {
+            "file": {
+              "label": "Fil",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Filens språk",
+              "tooltip": "Välj det språk som ditt läromaterial eller den här delen av ditt läromaterial ska studeras på. Om du har översatt ditt läromaterial till ett annat språk kan du lägga till filerna på samma ställe och uppge deras studiespråk här."
+            },
+            "displayName": {
+              "label": {
+                "fi": "Filens namn på finska",
+                "en": "Filens namn på engelska",
+                "sv": "Filens namn"
+              },
+              "tooltip": "Det namn som du vill att andra ska se för den här filen. Till exempel Bandupptagning av föreläsning om naturetik eller Diabilder om naturetik. Om ditt läromaterial består av flera filer väljs filen ut genom att användaren klickar på filnamnet. Välj gärna kärnfulla, tydliga namn.",
+              "modal": {
+                "title": "Språkversioner: Filens namn",
+                "subtitle": "Tillsätt en språversion"
+              }
+            },
+            "subtitles": {
+              "subtitle": "Undertextfil",
+              "label": "Namn",
+              "srclang": "Språk",
+              "default": "Standardundertext",
+              "addSubtitle": "Ladda upp undertexter"
+            }
+          },
+          "addFile": "Tillsätt en annan fil",
+          "error": "Tillsätt minst en fil eller link"
+        },
+        "uploadedFiles": {
+          "title": "Filer",
+          "fileOrLink": "Fil/link",
+          "displayName": "Filens namn",
+          "language": "Filens språk",
+          "subtitles": "Texting",
+          "actions": "Funktioner"
+        }
+      },
+      "basicDetails": {
+        "uploadImage": "Ladda upp omslaget",
+        "thumbnailHelp": "Ladda upp ett omslag för att göra din lärresurs mer markant.",
+        "image": {
+          "label": "Omslaget",
+          "tooltip": "Omslagsbild är den visuella informationen som visas på din lärresurs vyer. Om du inte väljer ett omslag visas en ikon som matchar typ av läromaterial.",
+          "modal": {
+            "title": "Add cover photo",
+            "preview": "Förhandsvisning"
+          }
+        },
+        "author": {
+          "title": "Upphovsperson",
+          "inputs": {
+            "author": {
+              "label": "Upphovsperson",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
+              "placeholder": "Efternamn, Förnamn",
+              "helpText": "Mata in upphovspersonens namn i formatet Efternamn, Förnamn."
+            },
+            "affiliate": {
+              "label": "Organisation",
+              "tooltip": "Här kan du fylla i vilken organisation, till exempel skola eller projekt, som du representerar. Fältet är inte obligatoriskt. Om din organisation inte finns på listan kan du lägga till din egen genom att skriva ordet och klicka på Enter."
+            },
+            "organization": {
+              "label": "Organisation",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Välja din organisation eller mata in organisationens officiel namn."
+            }
+          },
+          "addAuthor": "Tillsätt en person",
+          "addOrganization": "Tillsätt en organisation",
+          "error": "Lisää vähintään yksi tekijä"
+        },
+        "otherDetails": {
+          "title": "Andra grunduppgifter"
+        },
+        "keywords": {
+          "label": "Nyckelord",
+          "tooltip": "Lägg här mer precist till de ämnen som ingår i ditt läromaterial och/eller hur ämnet ska hanteras. Till exempel flipped learning, klimatförändring, religionssociologi. Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter.",
+          "helpText": "När du börjar skriva ditt nyckelord får du förslag baserat på det du skriver. Använd dessa när det är möjligt! Om lämpliga ord inte finns med i listan kan du lägga till dina egna genom att skriva ordet och klicka på Enter."
+        },
+        "learningResourceTypes": {
+          "label": "Typ av läromaterial",
+          "tooltip": "Välj vilken typ av material som ingår i ditt läromaterial. Du kan välja flera olika typer ifall läromaterialet består av olika delar."
+        },
+        "educationalRoles": {
+          "label": "Målgrupp",
+          "tooltip": "Välj ut vilka materialet är avsett för, vilken är den huvudsakliga målgruppen för materialet. Exempelvis om materialet är avsett för andra lärare att dra nytta av, är det avsett för elever eller studerande för självstudier eller exempelvis avsett för att hjälpa en vårdnadshavare med att ge stöd vid inlärningen."
+        },
+        "educationalUses": {
+          "label": "Användningsområde",
+          "tooltip": "Verkets användningsområde i utbildningskontext. T.ex. grupparbete, självstudier, material för vidarebearbetning."
+        },
+        "description": {
+          "label": {
+            "fi": "Beskrivning på finska",
+            "en": "Beskrivning på engelska",
+            "sv": "Beskrivning"
+          },
+          "tooltip": "Skriv en koncentrerad och fritt formulerad beskrivning av läromaterialet: vad innehåller det, vad berättar det om, till vilket ändamål är det skapat.",
+          "modal": {
+            "title": "Språkversioner: Beskrivning",
+            "subtitle": "Tillsätt en språversion"
+          },
+          "example": {
+            "title": "Exempelbeskrivning",
+            "subtitleTrunc": "Exempel på hur beskrivningen visas på förstasidan",
+            "description": "Lär dig grunderna i att publicera läromedel, väga dem och organisera intressanta lärresurser till meningsfulla listor och åsikter. Med den här guiden hittar du svar på frågor som: vad är metadata och varför man gör det, hur man lyfter fram OER gjord av andra och hur man samlar in dem för eget bruk. Denna lärresurs är avsedd för användarna av Biblioteket för öppna lärresurser, men den är också lämplig för organisationer att sporra och stödja användningen av biblioteket. Genom att använda inbäddningslänken eller ladda ner lärresursen kan du bädda in den till till exempel din organisations webbsida. Denna lärresurs består av en video som visar uppladdningsprocessen och av dokumentation som steg för steg beskriver med bilder och text hur man använder verktygen för att ladda upp, redigera, granska och samla lärresurser.",
+            "details": "Denna beskrivning kommer från läromedel Anvisning för Biblioteket för öppna lärresurser.",
+            "detailsLink": "Studiematerialet hittar du här",
+            "detailsTrunc": "Beskrivningen bryts i förhandsvisningen på förstasidan. Här kan du jämföra hur texten förkortas.",
+            "button": "Öppna exemplet"
+          }
+        }
+      },
+      "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Lärresurs stöder alla ämne, examensdel eller vetenskapsgren"
+        },
+        "educationalLevels": {
+          "label": "Utbildningsstadium",
+          "tooltip": "Välj här för vilket utbildningsstadium och för vilken nivå som ditt läromaterial i huvudsak är avsett för. Om materialet riktar sig till flera stadier, exempelvis både yrkes- och gymnasieundervisning, kan du välja flera utbildningsstadier och -nivåer."
+        },
+        "earlyChildhoodEducation": {
+          "title": "Småbarnsfostran",
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för småbarnsfostran",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för småbarnsfostran",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            }
+          }
+        },
+        "prePrimaryEducation": {
+          "title": "Förskoleundervisning",
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för förskoleundervisning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för förskoleundervisning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för förskoleundervisning",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            }
+          }
+        },
+        "basicEducation": {
+          "title": "Grundläggande utbildning",
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för grundläggande utbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för grundläggande utbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "contents": {
+              "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            }
+          }
+        },
+        "upperSecondarySchoolEducation": {
+          "title": "Gymnasieutbildning",
+          "selection": {
+            "current": "Grunderna för gymnasiets läroplan 2015",
+            "new": "Grunderna för gymnasiets läroplan 2019"
+          },
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för gymnasieutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för gymnasieutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            },
+            "new": {
+              "subjects": {
+                "label": "Ämne",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Modul",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Mål för gymnasieutbildning",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Innehållsområden för gymnasieutbildning",
+                "tooltip": ""
+              }
+            }
+          }
+        },
+        "vocationalEducation": {
+          "title": "Yrkesutbildning",
+          "inputs": {
+            "degrees": {
+              "label": "Examensdel för yrkesutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "units": {
+              "label": "Examensdelar för yrkesutbildning",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Krav på yrkesskicklighet för yrkesutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            },
+            "furtherVocationalQualifications": {
+              "label": "Yrkesexamen",
+              "tooltip": ""
+            },
+            "specialistVocationalQualifications": {
+              "label": "Specialyrkesexamen",
+              "tooltip": ""
+            }
+          }
+        },
+        "selfMotivatedEducation": {
+          "title": "Självständig utveckling av kompetens",
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för självständig utveckling av kompetens",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för självständig utveckling av kompetens",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            }
+          }
+        },
+        "higherEducation": {
+          "title": "Högskoleutbildning",
+          "inputs": {
+            "branchesOfScience": {
+              "label": "Verenskapsgren för högskoleutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för högskoleutbildning",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "framework": {
+              "label": "Läroplans- eller examensgrunderna för högskoleutbildning",
+              "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
+            }
+          }
+        }
+      },
+      "extendedDetails": {
+        "accessibility": {
+          "inputs": {
+            "features": {
+              "label": "Tillgänglighetsegenskaper",
+              "tooltip": "Här kan du välja om tillgänglighet har beaktats i utarbetandet av läromaterialet genom att du lägger till några egenskaper som stöder tillgängligheten såsom undertexter, en struktur som underlättar navigeringen eller om materialet är lättläst. Mer information om tillgänglighet hittar du i avsnittet med anvisningar."
+            },
+            "hazards": {
+              "label": "Hinder för tillgänglighet",
+              "tooltip": "Här kan du välja om det i läromaterialet finns några egenskaper som kan utgöra ett hinder för en del personer, exempelvis om materialet innehåller kraftigt flimmer. I fältet kan du också uppge om det inte finns sådana olägenheter genom att välja till exempel inga ljudolägenheter. Mer information om tillgänglighet hittar du i avsnittet med anvisningar."
+            }
+          }
+        },
+        "typicalAgeRange": {
+          "label": "Målgruppens ålder",
+          "tooltip": "Målgrupp som läromaterialet är avsedd för, t.ex. 7–9, 18–90."
+        },
+        "timeRequired": {
+          "label": "Längd",
+          "tooltip": "Uppskattning om tid som i medeltal går åt för att studera läromaterialet."
+        },
+        "publisher": {
+          "label": "Utgivare",
+          "tooltip": "Om läromaterialet har en utgivare (till exempel en organisation eller en skola) kan du fylla i utgivarens officiella namn här."
+        },
+        "expires": {
+          "label": "Läromaterialet föråldras",
+          "tooltip": "Skriv här in om det är tydligt att ditt läromaterial inte längre är aktuellt eller relevant efter en viss tidpunkt."
+        },
+        "prerequisites": {
+          "label": "Tidigare kunnande",
+          "tooltip": "Här kan du lägga till information om de kompetenser, verktyg, studier eller kunskap som behövs för att lära sig läromaterialet eller dra nytta av det."
+        }
+      },
+      "license": {
+        "title": "Licensuppgifter",
+        "subtitle": "Välj en licens",
+        "showDetails": "Läsa mer",
+        "readMore": "Läsa mer"
+      },
+      "basedOnDetails": {
+        "addNew": {
+          "button": "Tillsätt en annan resurs",
+          "tooltip": "Här kan du lägga till material som du har utgått ifrån när du har utarbetat ditt läromaterial, som du har använt i ditt material eller som fungerar som grund för ditt läromaterial."
+        },
+        "externals": {
+          "title": "Referens",
+          "inputs": {
+            "author": {
+              "label": "Upphovsperson",
+              "tooltip": "Läromaterialets upphovsperson eller -personer. Mata in upphovspersonernas namn i formatet Efternamn, Förnamn.",
+              "placeholder": "Efternamn, Förnamn"
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "name": {
+              "label": "Namn",
+              "tooltip": "Namn på läromaterialet."
+            }
+          }
+        }
+      },
+      "preview": {
+        "title": "Förhandsvisning och spara",
+        "material-help": "Här kan du ordna filerna i din lärresurs genom att dra dem i den ordning du vill visa dem.",
+        "confirm": "Jag har",
+        "required": {
+          "name": "Namn",
+          "material": "Filer och länkar",
+          "author": "Upphovsperson",
+          "keywords": "Nyckelord",
+          "learningResourceTypes": "Typ av läromaterial",
+          "educationalLevels": "Utbildningsstadium",
+          "license": "Licens"
+        },
+        "addMissingDetail": "Fyll i informationen"
+      }
+    },
+    "editEducationalResource": {
+      "title": "Redigering",
+      "abort": {
+        "text": "Är du säker på att du vill avbryta redigering av lärresursen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Det är inte tillåten att ändra materialet",
+          "message": "Du försöker att ändra materialiet som du inte har tillåtelse. Om du har publicerade lärresursen, kolla att du har loggad in med det samma inloggning du använde tidigare."
+        },
+        "ratingAdded": {
+          "title": "Recensioner tillagd/uppdaterad"
+        }
+      }
+    },
+    "collection": {
+      "title": "Samling",
+      "nav": {
+        "basic": "Grunduppgifter",
+        "educational": "Utbildningsinfo",
+        "material": "Resurser",
+        "preview": "Förhandsvisning och spara"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Det är inte tillåten att ändra samling",
+          "message": "Du försöker att ändra samlingen som du inte har tillåtelse. Om du har publicerade samlingen, kolla att du har loggad in med det samma inloggning du använde tidigare."
+        }
+      },
+      "abort": {
+        "text": "Är du säker på att du vill avbryta redigering av samlingen? Dina ändringar sparas inte.",
+        "confirm": "Ja",
+        "cancel": "Nej"
+      },
+      "basic": {
+        "cover": "Ladda upp omslaget",
+        "name": {
+          "label": "Namn",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        },
+        "keywords": {
+          "label": "Nyckelord",
+          "placeholder": ""
+        },
+        "educationalRoles": {
+          "label": "Målgrupp",
+          "placeholder": ""
+        },
+        "educationalUses": {
+          "label": "Användningsområde",
+          "placeholder": ""
+        },
+        "languages": {
+          "label": "Språk",
+          "placeholder": ""
+        },
+        "accessibilityFeatures": {
+          "label": "Tillgänglighetsegenskaper",
+          "placeholder": ""
+        },
+        "accessibilityHazards": {
+          "label": "Hinder för tillgänglighet",
+          "placeholder": ""
+        }
+      },
+      "educational": {
+        "title": "Utbildningsinfo",
+        "headings": {
+          "early": "Småbarnsfostran",
+          "prePrimary": "Förskoleundervisning",
+          "basic": "Grundläggande utbildning",
+          "upperSecondary": "Gymnasieutbildning",
+          "vocational": "Yrkesutbildning",
+          "selfMotivated": "Självständig utveckling av kompetens",
+          "higher": "Högskoleutbildning"
+        },
+        "educationalLevels": {
+          "label": "Utbildningsstadium",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "Ämne för småbarnsfostran",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "Mål för småbarnsfostran",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "Ämne för förskoleundervisning",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "Mål för förskoleundervisning",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för förskoleundervisning",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "Ämne för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "Mål för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "basicStudyFramework": {
+          "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "Grunderna för gymnasiets läroplan 2015",
+          "new": "Grunderna för gymnasiets läroplan 2019"
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "Ämne för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
+          "label": "Kurs för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "Mål för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "Ämne",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "Modul",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "Mål för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "Innehållsområden för gymnasieutbildning",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "Examensdel för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "Examensdelar för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "Krav på yrkesskicklighet för yrkesutbildning",
+          "placeholder": ""
+        },
+        "vocationalEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för yrkesutbildning",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "Ämne för självständig utveckling av kompetens",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "Mål för självständig utveckling av kompetens",
+          "placeholder": ""
+        },
+        "scienceBranches": {
+          "label": "Verenskapsgren för högskoleutbildning",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "Mål för högskoleutbildning",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Läroplans- eller examensgrunderna för högskoleutbildning",
+          "placeholder": ""
+        }
+      },
+      "material": {
+        "title": "Resurser",
+        "helpText": "Du kan ändra ordning av resurser och rubriker genom att dra dem.",
+        "addHeadingAndDescription": {
+          "button": "Tillsätt en rubrik och en beskrivning",
+          "tooltip": "Du kan tillsätt rubriker och beskrivningar till exempel för att berätta hur kan man använda samlingen, ge extra information om ämnet och klassificera samlingen."
+        },
+        "headingAndDescription": "Rubrik och beskrivning",
+        "removeFromCollection": "Ta bort från samlingen",
+        "heading": {
+          "label": "Rubrik",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Beskrivning",
+          "placeholder": ""
+        }
+      },
+      "preview": {
+        "title": "Förhandsvisning och spara",
+        "headings": {
+          "basic": "Grunduppgifter",
+          "educational": "Utbildningsinfo",
+          "material": "Resurser"
+        },
+        "required": {
+          "name": "Namn",
+          "keywords": "Nyckelord",
+          "description": "Beskrivning"
+        },
+        "materialsAndHeadings": "Resurser och rubriker",
+        "addMissingDetail": "Fyll i informationen",
+        "saveUnpublished": "Spara opublicerad",
+        "savePublished": "Publicera"
+      }
+    }
+  },
+  "faq": {
+    "title": "Vanliga frågor",
+    "general": "Vanliga frågor",
+    "material": "För skapare av undervisningsmaterial",
+    "organization": "För organisationer",
+    "closeAll": "Stäng alla",
+    "openAll": "Visa alla"
+  },
+  "acceptance": {
+    "title": "Tjänstens  dataskyddsbeskrivning och användarvillkor",
+    "termsOfUse": "Användarvilko",
+    "privacyPolicy": "Dataskyddsbeskrivnig",
+    "acceptance": "Jag har läst och jag accepterar tjänstens  dataskyddsbeskrivning och användarvillkor"
+  },
+  "userDetails": {
+    "title": "Mina uppgifter",
+    "emails": {
+      "subTitle": "Jag vill ha ett meddelande per e-post:",
+      "newRatings": "Om nya recensioner av min lärresurs",
+      "almostExpired": "När det föråldras datum som jag angett för lärresursen närmar sig",
+      "termsUpdated": "När det har gjorts ändringar i användarvillkoren"
+    },
+    "email": {
+      "label": "E-post",
+      "placeholder": "",
+      "confirm": "Vi har skickat dig ett e-post för att du kan bekräfta att du vill få meddelanden från Biblioteket för öppna lärresurser. Var så god och bekräfta ditt godkännande via e-post."
+    },
+    "allowTransfer": {
+      "helpText": "Om du har loggat in i tjänsten med Haka eller MPASSid kan du i något skede byta ditt användarnamn (t.ex. vid byte av arbetsplats). Med ett nytt användarnamn kan du inte direkt redigera den lärresurs du sparat med ditt nuvarande användarnamn. Här kan du ge oss tillstånd att överföra administrationsrätten för din lärresurs i en situation där du kontaktar oss via din e-post. För att överföra administrationsrätten för lärresurser räcker det inte med att godkänna nedanstående, utan det krävs alltid kontakt till kundservicen. Om situationen är aktuell, inled processen genom att kontakta oppimateriaalivaranto@csc.fi.",
+      "label": "Administrationsrätten för min lärresurs får överföras till den användare jag uppgett om jag tar kontakt från min e-postadress ovan."
+    }
+  },
+  "userMaterials": {
+    "title": "Mina lärresurser",
+    "createNew": "Publicera en ny lärresurs",
+    "noMaterials": "Den här är sidan för dina lärresurser. Du har inte publicerat öppnä lärresurser ännu. Välja \"Publicera en ny lärresurs\" och publicera din först lärresurs.",
+    "unpublished": {
+      "title": "Oavslutade / opublicerat lärresurser",
+      "unnamed": "Namnlös"
+    },
+    "published": {
+      "title": "Publicerat lärresurser"
+    },
+    "edit": "Redigera",
+    "expired": "Föråldrat {{date}}",
+    "expires": "Föråldras {{date}}"
+  },
+  "userCollections": {
+    "private": {
+      "title": "Privata samlingar"
+    },
+    "published": {
+      "title": "Publicerade samlingar"
+    }
+  },
+  "footer": {
+    "developer": "Utvecklare av tjänsten",
+    "feedback": "Ge respons",
+    "orEmailUs": "eller ta kontakt:",
+    "twitter": "Följ oss på Twitter",
+    "name": "Biblioteket för öppna lärresurser (aoe.fi)",
+    "blog": "Aktuell"
+  },
+  "cookies": {
+    "cookieSettings": "Inställningar för cookies",
+    "acceptAll": "Tillåta alla",
+    "title": "Inställningar för cookies"
+  },
+  "search": {
+    "title": "Sökresultaten",
+    "inputs": {
+      "keywords": {
+        "label": "Sökord",
+        "placeholder": "Sökord"
+      },
+      "submit": {
+        "sr-text": "Sök"
+      }
+    },
+    "results": {
+      "noResults": "Din sökning matchade inte något dokument. Försök med andra sökord.",
+      "addToCollection": "Lägg till samlingen",
+      "open": "Öppna",
+      "download": "Ladda ner",
+      "narrowSearch": "Begränsa sökningen",
+      "results": "resultat",
+      "loading": "Laddning..."
+    },
+    "filters": {
+      "submit": "Begränsa",
+      "showAll": "Visa alla",
+      "educationalLevels": {
+        "title": "Utbildningsstadium"
+      },
+      "educationalSubjecs": {
+        "title": "Undervisningsämne"
+      },
+      "learningResourceTypes": {
+        "title": "Typ av läromaterial"
+      },
+      "authors": {
+        "title": "Upphovsperson"
+      },
+      "organizations": {
+        "title": "Organisation"
+      },
+      "educationalRoles": {
+        "title": "Roll"
+      },
+      "keywords": {
+        "title": "Nyckelord"
+      },
+      "languages": {
+        "title": "Språk"
+      },
+      "teaches": {
+        "title": "Mål och innehållsområden",
+        "showFull": "Visa full"
+      },
+      "uses": {
+        "title": "Användningsområde"
+      },
+      "hazards": {
+        "title": "Hinder för tillgänglighet"
+      },
+      "features": {
+        "title": "Tillgänglighetsegenskaper"
+      },
+      "licenses": {
+        "title": "Licens"
+      },
+      "usedFilters": "Nuvarande begränsningar:"
+    },
+    "sort": {
+      "label": "Sortera sökresultat:",
+      "relevance": "Relevans",
+      "newest": "Nyast först",
+      "oldest": "Äldst först",
+      "popularity": "Populäraste"
+    }
+  },
+  "collections": {
+    "modal": {
+      "title": "Lägg till samlingen",
+      "createCollection": {
+        "title": "Skapa ny samling",
+        "name": {
+          "label": "Namn av samlingen",
+          "placeholder": "Skriva ett namn för samlingen"
+        }
+      },
+      "addToCollection": {
+        "title": "Välja en av dina samlingar"
+      }
+    },
+    "loading": "Lärresursen laddas...",
+    "noMaterials": "Du har inga lärresurser i din samling. När du finner en lärresurs som passar bra i din samling, klicka lägg till samlingen, och så börjar din samling växa.",
+    "toasts": {
+      "collectionCreated": {
+        "title": "Samling skapades",
+        "message": ""
+      },
+      "addedToCollection": {
+        "title": "Samlingen uppdaterades",
+        "message": "Lärresursen lades till samlingen"
+      },
+      "removedFromCollection": {
+        "title": "Samlingen uppdaterades",
+        "message": "Lärresursen var tagit ut av samlingen"
+      }
+    },
+    "meta": {
+      "keywords": "Nyckelord",
+      "languages": "Språk",
+      "educationalUses": " Användningsområde",
+      "educationalRoles": "Målgrupp",
+      "accessibilityFeatures": "Tillgänglighetsegenskaper",
+      "accessibilityHazards": "Hinder för tillgänglighet",
+      "educationalLevels": "Utbildningsstadium",
+      "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
+      "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",
+      "earlyChildhoodEducationFramework": "Läroplans- eller examensgrunderna för småbarnsfostran",
+      "prePrimaryEducationSubjects": "Ämne för förskoleundervisning",
+      "prePrimaryEducationObjectives": "Mål för förskoleundervisning",
+      "prePrimaryEducationFramework": "Läroplans- eller examensgrunderna för förskoleundervisning",
+      "basicStudySubjects": "Ämne för grundläggande utbildning",
+      "basicStudyObjectives": "Mål för grundläggande utbildning",
+      "basicStudyContents": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
+      "basicStudyFramework": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+      "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolFramework": "Läroplans- eller examensgrunderna för gymnasieutbildning",
+      "upperSecondarySchoolSubjectsNew": "Ämne",
+      "upperSecondarySchoolModulesNew": "Modul",
+      "upperSecondarySchoolObjectivesNew": "Mål för gymnasieutbildning",
+      "upperSecondarySchoolContentsNew": "Innehållsområden för gymnasieutbildning",
+      "vocationalDegrees": "Examensdel för yrkesutbildning",
+      "vocationalUnits": "Examensdelar för yrkesutbildning",
+      "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
+      "vocationalEducationFramework": "Läroplans- eller examensgrunderna för yrkesutbildning",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
+      "scienceBranches": "Verenskapsgren för högskoleutbildning",
+      "scienceBranchObjectives": "Mål för högskoleutbildning",
+      "higherEducationFramework": "Läroplans- eller examensgrunderna för högskoleutbildning"
+    },
+    "recent": {
+      "title": "Senaste samlingar",
+      "showAll": ""
+    },
+    "title": "Samlingar",
+    "search": {
+      "title": "Sökresultaten"
+    },
+    "showAll": "Alla samlingar"
+  },
+  "materialPreview": {
+    "selectLanguage": "Välj språk:",
+    "selectMaterial": "Välj del av lärresursen:"
+  },
+  "session": {
+    "toasts": {
+      "loggedOut": {
+        "title": "Du har loggats ut från tjänsten."
+      }
+    }
+  },
+  "errors": {
+    "toasts": {
+      "disableForms": {
+        "message": "Publicering av nya lärresurser har blockerats tills tjänstens problemet har lösts."
+      }
+    }
+  },
+  "accessibility": {
+    "title": "Tillgänglighet",
+    "features": "Tillgänglighetsegenskaper",
+    "hazards": "Hinder för tillgänglighet",
+    "closeAll": "Stäng alla",
+    "openAll": "Visa alla"
+  }
+}

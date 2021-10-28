@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.909091,0,0,0.894737,-0.909091,-1.18421)">
+        <g id="Symbols">
+            <g id="Materiaalityyppi-Kaavio" serif:id="Materiaalityyppi/Kaavio">
+                <g id="ic_kaavio_black">
+                    <path id="Shape" d="M0,0L24,0L24,24L0,24L0,0Z" style="fill:none;"/>
+                    <g id="Group-8" transform="matrix(1,0,0,1,1,2)">
+                        <path id="Fill-1" d="M2.024,14.765L2.024,19.765L5.025,19.765L5.025,12.765L2.024,14.765Z"/>
+                        <path id="Fill-2" d="M7.025,11.765L7.025,19.765L10.025,19.765L10.025,9.765L7.025,11.765Z"/>
+                        <path id="Fill-3" d="M12.024,11.765L12.024,19.765L15.025,19.765L15.025,9.765L12.024,11.765Z"/>
+                        <path id="Fill-4" d="M17.024,8.765L17.024,19.765L20.024,19.765L20.024,6.764L17.024,8.765Z"/>
+                        <g id="Group-7" transform="matrix(1,0,0,1,0,0.765)">
+                            <path id="Fill-5" d="M22.024,1L17.692,0.235L18.889,1.944L12.141,6.668L10.154,4.682L0.456,11.147C-0.015,11.462 -0.142,12.098 0.172,12.568C0.369,12.864 0.694,13.024 1.025,13.024C1.22,13.024 1.418,12.969 1.592,12.853L9.894,7.318L11.907,9.332L20.064,3.622L21.26,5.332L22.024,1Z"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,14 @@
+@import 'mixins';
+@import 'variables';
+
+.block-header {
+  background-color: $light;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 1.5rem 1rem;
+}
+
+.results-count {
+  @include font-size(14);
+  font-weight: 500;
+}
