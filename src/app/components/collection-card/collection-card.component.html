@@ -1,0 +1,63 @@
+<div class="card-collection" *ngIf="collection">
+  <a [routerLink]="['/kokoelma', collection.id]" class="header">
+    <div class="row no-gutters">
+      <div class="col-sm-4 col-md-12 col-lg-5 text-center text-sm-left text-md-center text-lg-left mb-3 mb-lg-0">
+        <img
+          [src]="collection.thumbnail"
+          class="img-fluid border"
+          [alt]="'demo.educationalMaterial.cover.alt' | translate"
+        />
+      </div>
+
+      <div class="col-sm-8 col-md-12 col-lg-7 px-sm-3">
+        <h3>{{ collection.name }}</h3>
+
+        <p *ngIf="collection.description">{{ collection.description | truncate: [75] }}</p>
+        <!--description-->
+
+        <ul class="list-unstyled authors">
+          <li *ngFor="let author of collection.authors">{{ author }}</li>
+        </ul>
+        <!--authors-->
+      </div>
+    </div>
+  </a>
+
+  <app-taglist
+    *ngIf="collection.educationalLevels?.length > 0"
+    [elementId]="'collection-educationalLevels' + collection.id"
+    [tags]="educationalLevels"
+    [title]="'collections.meta.educationalLevels' | translate"
+    [card]="true"
+    [hiddenTagsAmount]="collection.educationalLevels.length - educationalLevels.length"
+    property="value"
+    searchProperty="key"
+    filterType="educationalLevels"
+  ></app-taglist
+  ><!--educationalLevels-->
+
+  <app-taglist
+    *ngIf="collection.keywords?.length > 0"
+    [elementId]="'collection-keywords' + collection.id"
+    [tags]="keywords"
+    [title]="'collections.meta.keywords' | translate"
+    [card]="true"
+    [hiddenTagsAmount]="collection.keywords.length - keywords.length"
+    property="value"
+    searchProperty="key"
+    filterType="keywords"
+  ></app-taglist
+  ><!--keywords-->
+
+  <app-taglist
+    *ngIf="collection.languages?.length > 0 && languages"
+    [elementId]="'collection-languages' + collection.id"
+    [tags]="languages"
+    [title]="'collections.meta.languages' | translate"
+    [card]="true"
+    property="value"
+    searchProperty="key"
+    filterType="languages"
+  ></app-taglist
+  ><!--languages-->
+</div>

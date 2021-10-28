@@ -1,0 +1,1128 @@
+{
+  "common": {
+    "goBack": "Back",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "navigation": {
+    "home": "Home",
+    "info": "Info",
+    "myMaterials": "My open educational resources",
+    "collections": "Collections",
+    "toggler": {
+      "aria": {
+        "label": "Toggle navigation"
+      }
+    },
+    "login": {
+      "userDetails": "My Account"
+    },
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy",
+    "accessibilityPolicy": "Accessibility Policy",
+    "langSelector": {
+      "label": "Select language"
+    }
+  },
+  "titles": {
+    "home": "Home",
+    "faq": "Frequently Asked Questions",
+    "userMaterials": "My open educational resources",
+    "addMaterial": {
+      "main": "Upload a new resource",
+      "files": "Files",
+      "basic": "Basic information",
+      "education": "Educational information",
+      "extended": "Other information",
+      "license": "License",
+      "references": "References",
+      "preview": "Preview and save"
+    },
+    "editMaterial": {
+      "main": "Edit resource",
+      "files": "Files",
+      "basic": "Basic information",
+      "education": "Educational information",
+      "extended": "Other information",
+      "license": "License",
+      "references": "References",
+      "preview": "Preview and save"
+    },
+    "collection": {
+      "main": "Collection",
+      "basic": "Basic information",
+      "educational": "Educational information",
+      "materials": "Materials",
+      "preview": "Preview and save"
+    },
+    "acceptance": "Privacy Policy and the Terms of Use of the service",
+    "accessibility": "Accessibility Policy",
+    "logout": "You have logged out",
+    "privacy": "Privacy Policy",
+    "searchResults": "Search results",
+    "termsOfUse": "Terms of Use",
+    "reviews": "User reviews",
+    "collections": "Collections",
+    "userDetails": "My Account",
+    "archived": "Archived learning resource",
+    "accessibilityDescriptions": "Accessibility"
+  },
+  "home": {
+    "search": {
+      "title": "What do you want to learn?"
+    },
+    "recentMaterials": {
+      "title": "Recent open educational resources"
+    }
+  },
+  "demo": {
+    "materialList": {
+      "title": "Open Educational Resources"
+    },
+    "educationalMaterial": {
+      "download": "Download",
+      "downloadAllFiles": "Download all files",
+      "downloadSingleFile": "Download one of the files:",
+      "addToCollection": "Add to collection",
+      "edit": "Edit",
+      "viewCount": "views",
+      "downloadCount": "downloads",
+      "pid": {
+        "label": {
+          "latest": "The permanent address of the publication",
+          "version": "The permanent address of the version"
+        },
+        "tooltip": "URN identifier (Uniform Resource Name) is a permanent, unique identifier that helps to discover, identify and link online materials and educational resources. You can use the identifier instead of a web address when you refer to or link to an educational resource."
+      },
+      "createdAt": "Created",
+      "publishedAt": "Published",
+      "updatedAt": "Edited",
+      "expires": "Expires",
+      "versionHistory": {
+        "button": "Version history",
+        "helpText": "In the Version history you can see the previous versions of the learning resource. A version is created every time the author uploads a new file and/or deletes or changes an existing one. Changes in descriptions and metadata are not saved in the Version history."
+      },
+      "eduLevel": "Educational level",
+      "eduSubject": "Educational subject",
+      "subject": "educational sciences",
+      "inLanguage": "Language",
+      "timeRequired": "Time required",
+      "datePublished": "Date published",
+      "publisher": "Publisher",
+      "license": "License",
+      "keywords": "Keywords",
+      "expandMetadata": {
+        "more": "Show all details",
+        "less": "Show less"
+      },
+      "educationalRole": "Educational role",
+      "educationalUse": "Educational use",
+      "earlyChildhoodEducationSubjects": "Educational subject of early childhood education",
+      "earlyChildhoodEducationFrameworks": "Educational framework of early childhood education",
+      "earlyChildhoodEducationObjectives": "Learning object of early childhood education",
+      "prePrimaryEducationSubjects": "Educational subject of pre-primary education",
+      "prePrimaryEducationFrameworks": "Educational framework of pre-primary education",
+      "prePrimaryEducationObjectives": "Learning object of  pre-primary education",
+      "basicStudySubjects": "Educational subject of basic education",
+      "basicStudyFrameworks": "Educational framework of basic education",
+      "basicStudyObjectives": "Learning object of basic education",
+      "basicStudyContents": "Educational content of basic education",
+      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolFrameworks": "Educational framework of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Learning object of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolSubjectsNew": "Educational subjects of upper secondary school",
+      "upperSecondarySchoolFrameworksNew": "Educational framework of upper secondary school",
+      "upperSecondarySchoolModulesNew": "Educational modules of upper secondary school",
+      "upperSecondarySchoolObjectivesNew": "Learning object of upper secondary school",
+      "upperSecondarySchoolContentsNew": "Learning content of upper secondary school",
+      "vocationalDegrees": "Educational subject of vocational education",
+      "vocationalFrameworks": "Educational framework of vocational education",
+      "vocationalUnits": "Vocational units",
+      "vocationalEducationObjectives": "Learning object of vocational education",
+      "furtherVocationalQualifications": "Further vocational qualification",
+      "specialistVocationalQualifications": "Specialist vocational qualification",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
+      "branchesOfScience": "Educational subject of higher education",
+      "higherEducationFrameworks": "Educational framework of higher education",
+      "scienceBranchObjectives": "Learning object of higher education",
+      "prerequisites": "Prerequisite",
+      "accessibilityFeatures": "Accessibility features",
+      "accessibilityHazard": "Accessibility hazards",
+      "typicalAgeRange": "Typical Age Range",
+      "files": "Files",
+      "preview": {
+        "noVideoSupport": "Your browser does not support the video element.",
+        "noAudioSupport": "Your browser does not support the audio element.",
+        "fileFormatNotSupported": "The chosen file cannot be previewed. Please download the material to start using it.",
+        "openInNewTab": "Open educational material in a new tab",
+        "or": "or",
+        "download": "Download the file"
+      },
+      "embed": {
+        "label": "Embed code",
+        "copy": "Copy",
+        "copied": "Copied"
+      },
+      "references": {
+        "title": "References",
+        "openLink": "open the link"
+      },
+      "userReviews": {
+        "title": "User reviews",
+        "ratingContent": "Content",
+        "ratingVisual": "Layout",
+        "feedbackPositive": "What did you like about the material?",
+        "feedbackSuggest": "How could the material be developed?",
+        "feedbackPurpose": "How did you use the material as part of your teaching or learning?",
+        "allReviews": "See all the reviews",
+        "addReview": "Create review",
+        "reviews": "Amount of reviews",
+        "modal": {
+          "title": "Create review"
+        }
+      },
+      "socialMetadata": {
+        "title": "Users find that this learning resource is suitable also for:",
+        "addMetadata": "Add information",
+        "modal": {
+          "title": "Add information"
+        },
+        "toasts": {
+          "success": {
+            "title": "Metadata updated"
+          }
+        },
+        "noMetadata": "No user has yet added metadata. You can add your own by logging in."
+      },
+      "reviews": {
+        "title": "User reviews",
+        "review": {
+          "ratingContent": "Content",
+          "ratingVisual": "Layout",
+          "reviews": "Amount of reviews",
+          "feedbackPositive": "What did you like about the material?",
+          "feedbackSuggest": "How could the material be developed?",
+          "feedbackPurpose": "How did you use the material as part of your teaching or learning?"
+        },
+        "noRatings": "The learning resource has no reviews yet.",
+        "ownerInfo": "You cannot give reviews to your own learning resource. If you wish to change the metadata of your learning resource, you can do that with the edit-function on the top right corner of the page."
+      },
+      "expired": "Educational material has expired {{date}}",
+      "cover": {
+        "alt": "Cover of the OER"
+      },
+      "detailsHeading": "Details"
+    }
+  },
+  "forms": {
+    "common": {
+      "abort": "Abort",
+      "cancel": "Cancel",
+      "close": "Close",
+      "delete": "Delete",
+      "next": "Next",
+      "previous": "Previous",
+      "required": "Required",
+      "pattern": {
+        "url": "Please, provide http:// or https:// prefix",
+        "numeric": "Only numbers are allowed"
+      },
+      "min": "At least: ",
+      "max": "At most: ",
+      "save": "Save",
+      "saveChanges": "Save changes",
+      "add": "Add",
+      "translations": {
+        "label": "Translations",
+        "tooltip": "With the Language Versions key you can add a Finnish, Swedish or English translation for the name and description of your resource. This will help users with these languages get a better understanding of your resource."
+      },
+      "replaceFile": "Replace file",
+      "replaceLink": "Replace link"
+    },
+    "errors": {
+      "common": {
+        "maxLength": "Maximum length is {{maxLength}} characters",
+        "translations": "Please check the Translations"
+      },
+      "textInput": {
+        "characters": "Allowed special characters: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
+      },
+      "description": {
+        "characters": "Allowed special characters: . , : ; - _ ‒ – — ― § ! ' \" ´ ` @ # £ € $ % & ( ) { } = ? + / [ ] * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂"
+      }
+    },
+    "helpTexts": {
+      "multipleItems": "To add information to this field, write your content and press enter. In this way you can add several pieces of information."
+    },
+    "educationalResource": {
+      "title": "Lisää materiaaleja",
+      "nav": {
+        "files": "Files",
+        "basicDetails": "Basic information",
+        "educationalDetails": "Educational information",
+        "extendedDetails": "Other information",
+        "licenseDetails": "License",
+        "basedOnDetails": "References",
+        "preview": "Preview and save"
+      },
+      "files": {
+        "alert": "You can upload your OER or link it to the service with this form. In order to upload the OER you need to add information about it and choose a license. This information will help other users to find your OER and give them further information on how to use it. There is a small question mark(?) after each field that will give you additional information when needed. First upload or link your files and then proceed to the basic information section. You can add Finnish, Swedish or English translations for the name and description of your OER with the Language versions key. This will give users with different languages a  better understanding of your OER.",
+        "materialName": {
+          "label": {
+            "fi": "Name in Finnish",
+            "en": "Name",
+            "sv": "Name in Swedish"
+          },
+          "tooltip": "Name of the learning resource.",
+          "modal": {
+            "title": "Translations: Name",
+            "subtitle": "Add a translation"
+          }
+        },
+        "file": {
+          "title": ". file",
+          "tooltip": "Download the files that comprise your learning resource. You can also link your learning resource if it is freely available with an open license and long life span. The first file will be the first to show on the preview.",
+          "or": "or",
+          "inputs": {
+            "file": {
+              "label": "File",
+              "tooltip": ""
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "language": {
+              "label": "Language",
+              "tooltip": "Choose the language of your learning resource or part of the learning resource. If  you have versions of yourresource in different languages, you can download your files here and choose the language of study."
+            },
+            "displayName": {
+              "label": {
+                "fi": "File Name in Finnish",
+                "en": "File Name",
+                "sv": "File Name in Swedish"
+              },
+              "tooltip": "The name for the file that you want other people to see. I.e. “Nature Ethics recording” or “Nature Ethics slideshow”. If your resource is comprised of multiple files, the preferred file is chosen by clicking on the name of the file. The name should be short and sweet.",
+              "modal": {
+                "title": "Translations: File Name",
+                "subtitle": "Add a translation"
+              }
+            },
+            "subtitles": {
+              "subtitle": "Subtitle file",
+              "label": "Label",
+              "srclang": "Language",
+              "default": "Default subtitle",
+              "addSubtitle": "Add a subtitle"
+            }
+          },
+          "addFile": "Add a file",
+          "error": "Add at least one file or link"
+        },
+        "uploadedFiles": {
+          "title": "Uploaded files",
+          "fileOrLink": "File/link",
+          "displayName": "File Name",
+          "language": "Language",
+          "subtitles": "Subtitles",
+          "actions": "Actions"
+        }
+      },
+      "basicDetails": {
+        "uploadImage": "Upload cover",
+        "thumbnailHelp": "Upload a cover to boost your learning resource's appeal.",
+        "image": {
+          "label": "Cover photo",
+          "tooltip": "Cover picture is the visual info shown on your learning resources page and views. If you do not choose a cover, an icon matching the learning resource type is presented.",
+          "modal": {
+            "title": "Add cover photo",
+            "preview": "Preview"
+          }
+        },
+        "author": {
+          "title": "Author",
+          "inputs": {
+            "author": {
+              "label": "Author",
+              "tooltip": "Author(s) of the resource. Enter the name(s) in the form of Surname, First Name.",
+              "placeholder": "Surname, First Name",
+              "helpText": "Enter the name in the form of Surname, First Name."
+            },
+            "affiliate": {
+              "label": "Affiliation",
+              "tooltip": "You can supplement your organization, i.e. school or project that you represent. Not a mandatory field. If your organization is not on the list, you can add your own by writing the word and clicking enter."
+            },
+            "organization": {
+              "label": "Organization",
+              "tooltip": "Author(s) of the resource. Select your organization from the list or enter its name."
+            }
+          },
+          "addAuthor": "Add a person",
+          "addOrganization": "Add an organisation",
+          "error": "Add at least one author"
+        },
+        "otherDetails": {
+          "title": "Other basic information"
+        },
+        "keywords": {
+          "label": "About",
+          "tooltip": "Insert here the specific topics of your resource and/or the ways in which it is addressed. I.e. flipped learning, climate change, sociology of religion. If suitable words are not on the list, you can add your own by writing the word and clicking enter.",
+          "helpText": "In the about-field, you get suggestions based on what you are writing. Please use these suggestions when possible! If suitable words are not on the list, you can add your own by writing the word and clicking enter."
+        },
+        "learningResourceTypes": {
+          "label": "Learning Resource Type",
+          "tooltip": "Choose the Type of your Learning Resource. You can choose multiple types if your resource is comprised of different parts."
+        },
+        "educationalRoles": {
+          "label": "Educational Role",
+          "tooltip": "What is the main target group of your resource, for whom is it intended to. I.e. is it intended to be used by other teachers, learners or i.e. parents to give support in learning."
+        },
+        "educationalUses": {
+          "label": "Educational Use",
+          "tooltip": "Educational use of the resource in the context of learning. I.e. group work, independent study, OER sketch."
+        },
+        "description": {
+          "label": {
+            "fi": "Description in Finnish",
+            "en": "Description",
+            "sv": "Description in Swedish"
+          },
+          "tooltip": "Write a concise description of the resource: what does it contain, what is it about, for what educational purpose is it meant for. ",
+          "modal": {
+            "title": "Translations: Description",
+            "subtitle": "Add a translation"
+          },
+          "example": {
+            "title": "Example description",
+            "subtitleTrunc": "Example on how the description is displayed on the front page",
+            "description": "Learn the basics in uploading open educational resources (OER), in reviewing them and organizing interesting educational resources to meaningful lists and views in the Library of Open Educational Resources. With this guide you will find answers to questions such as what is metadata and why to do it, how to highlight OER made by others and how to collect them for your own uses. This OER is meant for the users of the Library of Open Educational Resources, but it is also suited for organizations to encourage and support the use of the library. By using the embed link or downloading the OER, you can embed it to for example your organizations web page. This OER consist of a video that shows the uploading process and of documentation that describes step-by-step with pictures and text how to use the tools for uploading, editing, reviewing and collecting OER.",
+            "details": "This description is from the learning resource Instructions for the use of Library of Open Educational Resources.",
+            "detailsLink": "You can find the learning resource here",
+            "detailsTrunc": "The description breaks in the preview seen on the front page. Here you can compare how the text is shortened.",
+            "button": "Open an example"
+          }
+        }
+      },
+      "educationalDetails": {
+        "common": {
+          "suitsAllSubjects": "Can be used in all educational subjects"
+        },
+        "educationalLevels": {
+          "label": "Educational Level",
+          "tooltip": "Choose the Educational Level of your resource. You can choose multiple levels if your resource is targeted at more than one Educational Levels, i.e. vocational education and upper secondary education."
+        },
+        "earlyChildhoodEducation": {
+          "title": "Early childhood education",
+          "inputs": {
+            "subjects": {
+              "label": "Educational subject of early childhood education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of early childhood education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of early childhood education",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            }
+          }
+        },
+        "prePrimaryEducation": {
+          "title": "Pre-primary education",
+          "inputs": {
+            "subjects": {
+              "label": "Educational subject of pre-primary education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of  pre-primary education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of pre-primary education",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            }
+          }
+        },
+        "basicEducation": {
+          "title": "Basic education",
+          "inputs": {
+            "subjects": {
+              "label": "Educational subject of basic education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of basic education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "contents": {
+              "label": "Educational content and transversal competence of basic education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of basic education",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            }
+          }
+        },
+        "upperSecondarySchoolEducation": {
+          "title": "Upper secondary school",
+          "selection": {
+            "current": "Educational framework of upper secondary school 2015",
+            "new": "Educational framework of upper secondary school 2019"
+          },
+          "inputs": {
+            "subjects": {
+              "label": "Educational subject of upper secondary school",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of upper secondary school",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of upper secondary school",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            },
+            "new": {
+              "subjects": {
+                "label": "Educational subject",
+                "tooltip": ""
+              },
+              "modules": {
+                "label": "Module",
+                "tooltip": ""
+              },
+              "objectives": {
+                "label": "Learning object of upper secondary school",
+                "tooltip": ""
+              },
+              "contents": {
+                "label": "Educational content of upper secondary school",
+                "tooltip": ""
+              }
+            }
+          }
+        },
+        "vocationalEducation": {
+          "title": "Vocational education",
+          "inputs": {
+            "degrees": {
+              "label": "Educational subject of vocational education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "units": {
+              "label": "Units of vocational education",
+              "tooltip": ""
+            },
+            "objectives": {
+              "label": "Learning object of vocational education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of vocational education",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            },
+            "furtherVocationalQualifications": {
+              "label": "Further vocational qualification",
+              "tooltip": ""
+            },
+            "specialistVocationalQualifications": {
+              "label": "Specialist vocational qualification",
+              "tooltip": ""
+            }
+          }
+        },
+        "selfMotivatedEducation": {
+          "title": "Self-motivated competence development",
+          "inputs": {
+            "subjects": {
+              "label": "Educational subject of self-motivated competence development",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of self-motivated competence development",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            }
+          }
+        },
+        "higherEducation": {
+          "title": "Higher education",
+          "inputs": {
+            "branchesOfScience": {
+              "label": "Educational subject of higher education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Learning object of higher education",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "framework": {
+              "label": "Educational framework of higher education",
+              "tooltip": "You can add information about the educational framework of the learning resource in accordance to a curriculum or diploma."
+            }
+          }
+        }
+      },
+      "extendedDetails": {
+        "accessibility": {
+          "inputs": {
+            "features": {
+              "label": "Accessibility Feature",
+              "tooltip": "Here you can choose whether accessibility features such as captions, structural navigation or plain language have been taken into account in the learning resource. You will find additional information on accessibility in the FAQ section."
+            },
+            "hazards": {
+              "label": "Accessibility Hazard",
+              "tooltip": "Here you can choose if the learning resource contains elements that could prove to be hazardous to some people, i.e. if the resource contains flashing. If there source does not contain accessibility hazards you can choose i.e. no sound hazard. You will find additional information on accessibility in the FAQ section."
+            }
+          }
+        },
+        "typicalAgeRange": {
+          "label": "Typical Age Range",
+          "tooltip": "Age range of the target group of the resource. I.e. 7-9, 18-90 yo."
+        },
+        "timeRequired": {
+          "label": "Time Required",
+          "tooltip": "An estimate of the time required to study the resource."
+        },
+        "publisher": {
+          "label": "Publisher",
+          "tooltip": "If the learning resource has a publisher, i.e. an organization or a school, you can supplement here the publishers official name."
+        },
+        "expires": {
+          "label": "Expires",
+          "tooltip": "Add an expiration date for your resource if it is clearly foreseeable that the resource will not be up to date or relevant after a certain period."
+        },
+        "prerequisites": {
+          "label": "Prerequisite",
+          "tooltip": "You can add information about possible previous competences, tools, studies or knowledge that are required for the studying or utilizing of your resource."
+        }
+      },
+      "license": {
+        "title": "License",
+        "subtitle": "Choose license",
+        "showDetails": "Show additional information",
+        "readMore": "Read more"
+      },
+      "basedOnDetails": {
+        "addNew": {
+          "button": "Add another reference",
+          "tooltip": "Here you can add materials and resources that you have utilized in the making of your own resource."
+        },
+        "externals": {
+          "title": "Is Based On",
+          "inputs": {
+            "author": {
+              "label": "Author",
+              "tooltip": "",
+              "placeholder": "Surname, First Name"
+            },
+            "link": {
+              "label": "Link",
+              "tooltip": ""
+            },
+            "name": {
+              "label": "Name",
+              "tooltip": ""
+            }
+          }
+        }
+      },
+      "preview": {
+        "title": "Preview and save",
+        "material-help": "In here you can arrange the files of your learning resource by dragging them into the order in which you wish to exhibit them.",
+        "confirm": "I confirm that",
+        "required": {
+          "name": "Name",
+          "material": "Files and links",
+          "author": "Author",
+          "keywords": "Keywords",
+          "learningResourceTypes": "Learning Resource Type",
+          "educationalLevels": "Educational Level",
+          "license": "License"
+        },
+        "addMissingDetail": "Fill in the information"
+      }
+    },
+    "editEducationalResource": {
+      "title": "Editing of educational resource",
+      "abort": {
+        "text": "Are you sure you want to cancel editing the educational material? Your changes will not be saved.",
+        "confirm": "Yes",
+        "cancel": "No"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Editing not permitted",
+          "message": "You are trying to edit a material for which you do not have the permission for. If you have uploaded this material, please check that you are using the correct login method."
+        },
+        "ratingAdded": {
+          "title": "Rating added/updated"
+        }
+      }
+    },
+    "collection": {
+      "title": "Collection",
+      "nav": {
+        "basic": "Basic information",
+        "educational": "Educational information",
+        "material": "Resources",
+        "preview": "Preview and save"
+      },
+      "toasts": {
+        "noPermission": {
+          "title": "Editing not permitted",
+          "message": "You are trying to edit a collection for which you do not have the permission for. If you have created this collection, please check that you are using the correct login method."
+        }
+      },
+      "abort": {
+        "text": "Are you sure you want to cancel editing the collection? Your changes will not be saved.",
+        "confirm": "Yes",
+        "cancel": "No"
+      },
+      "basic": {
+        "cover": "Upload cover",
+        "name": {
+          "label": "Name",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Description",
+          "placeholder": ""
+        },
+        "keywords": {
+          "label": "Keywords",
+          "placeholder": ""
+        },
+        "educationalRoles": {
+          "label": "Educational Role",
+          "placeholder": ""
+        },
+        "educationalUses": {
+          "label": "Educational Use",
+          "placeholder": ""
+        },
+        "languages": {
+          "label": "Language",
+          "placeholder": ""
+        },
+        "accessibilityFeatures": {
+          "label": "Accessibility Features",
+          "placeholder": ""
+        },
+        "accessibilityHazards": {
+          "label": "Accessibility Hazards",
+          "placeholder": ""
+        }
+      },
+      "educational": {
+        "title": "Educational information",
+        "headings": {
+          "early": "Early childhood education",
+          "prePrimary": "Pre-primary education",
+          "basic": "Basic education",
+          "upperSecondary": "Upper secondary school",
+          "vocational": "Vocational education",
+          "selfMotivated": "Self-motivated competence development",
+          "higher": "Higher education"
+        },
+        "educationalLevels": {
+          "label": "Educational Level",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationSubjects": {
+          "label": "Educational subject of early childhood education",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationObjectives": {
+          "label": "Learning object of early childhood education",
+          "placeholder": ""
+        },
+        "earlyChildhoodEducationFramework": {
+          "label": "Educational framework of early childhood education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationSubjects": {
+          "label": "Educational subject of pre-primary education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationObjectives": {
+          "label": "Learning object of pre-primary education",
+          "placeholder": ""
+        },
+        "prePrimaryEducationFramework": {
+          "label": "Educational framework of pre-primary education",
+          "placeholder": ""
+        },
+        "basicStudySubjects": {
+          "label": "Educational subject of basic education",
+          "placeholder": ""
+        },
+        "basicStudyObjectives": {
+          "label": "Learning object of basic education",
+          "placeholder": ""
+        },
+        "basicStudyContents": {
+          "label": "Educational content and transversal competence of basic education",
+          "placeholder": ""
+        },
+        "basicStudyFramework": {
+          "label": "Educational framework of basic education",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSelection": {
+          "current": "Educational framework of upper secondary school 2015",
+          "new": "Educational framework of upper secondary school 2019"
+        },
+        "upperSecondarySchoolSubjects": {
+          "label": "Educational subjects of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolCourses": {
+          "label": "Educational subject of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectives": {
+          "label": "Learning object of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolFramework": {
+          "label": "Educational framework of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolSubjectsNew": {
+          "label": "Educational subject",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolModulesNew": {
+          "label": "Module",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolObjectivesNew": {
+          "label": "Learning object of upper secondary school",
+          "placeholder": ""
+        },
+        "upperSecondarySchoolContentsNew": {
+          "label": "Educational content of upper secondary school",
+          "placeholder": ""
+        },
+        "vocationalDegrees": {
+          "label": "Educational subject of vocational education",
+          "placeholder": ""
+        },
+        "vocationalUnits": {
+          "label": "Units of vocational education",
+          "placeholder": ""
+        },
+        "vocationalEducationObjectives": {
+          "label": "Learning object of vocational education",
+          "placeholder": ""
+        },
+        "vocationalEducationFramework": {
+          "label": "Educational framework of vocational education",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationSubjects": {
+          "label": "Educational subject of self-motivated competence development",
+          "placeholder": ""
+        },
+        "selfMotivatedEducationObjectives": {
+          "label": "Learning object of self-motivated competence development",
+          "placeholder": ""
+        },
+        "scienceBranches": {
+          "label": "Educational subject of higher education",
+          "placeholder": ""
+        },
+        "scienceBranchObjectives": {
+          "label": "Learning object of higher education",
+          "placeholder": ""
+        },
+        "higherEducationFramework": {
+          "label": "Educational framework of higher education",
+          "placeholder": ""
+        }
+      },
+      "material": {
+        "title": "Resources",
+        "helpText": "You can change the order of resources and headings by dragging them with a cursor.",
+        "addHeadingAndDescription": {
+          "button": "Add a heading and a description",
+          "tooltip": "You can add headings and descriptions to the learning resource to tell how to approach the collection, to add extra information on the subject or to structure the collection."
+        },
+        "headingAndDescription": "Heading and description",
+        "removeFromCollection": "Remove from collection",
+        "heading": {
+          "label": "Heading",
+          "placeholder": ""
+        },
+        "description": {
+          "label": "Instructions or description",
+          "placeholder": ""
+        }
+      },
+      "preview": {
+        "title": "Preview and save",
+        "headings": {
+          "basic": "Basic information",
+          "educational": "Educational information",
+          "material": "Resources"
+        },
+        "required": {
+          "name": "Name",
+          "keywords": "Keywords",
+          "description": "Description"
+        },
+        "materialsAndHeadings": "Resources and headings",
+        "addMissingDetail": "Fill in the information",
+        "saveUnpublished": "Save unpublished",
+        "savePublished": "Publish"
+      }
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "general": "General questions",
+    "material": "For creators of educational resources",
+    "organization": "For Organizations",
+    "closeAll": "Close all",
+    "openAll": "Show all"
+  },
+  "acceptance": {
+    "title": "Privacy Policy and the Terms of Use of the service",
+    "termsOfUse": "Terms of Use",
+    "privacyPolicy": "Privacy Policy",
+    "acceptance": "I have read and accept the Privacy Policy and the Terms of Use of the service"
+  },
+  "userDetails": {
+    "title": "My Account",
+    "emails": {
+      "subTitle": "I would like to receive a notification when:",
+      "newRatings": "My educational resources gets new reviews",
+      "almostExpired": "The expires-date I have given to my educational resources is near",
+      "termsUpdated": "Terms of Use changes"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "",
+      "confirm": "We have sent you an email for you to verify that you want to get notifications from the Library of Open Educational Resources. Please verify your approval through the email."
+    },
+    "allowTransfer": {
+      "helpText": "If you have logged in to the service by using Haka- or MPASSid-identification, the identification you use may change at some point (f.ex. when changing your workplace). With your new identification you cannot see the educational resources you have submitted with your previous identification in the My open educational resources view. On this page you can give us the permission to change the account tied to administering your learning resources in the case you contact us through the email you have given us above. To transfer your learning resources from one account to another, you always need to contact customer service, so a simple yes to the check box below does not lead to any action. If this situation is relevant to you now, please contact us at oppimateriaalivaranto@csc.fi and approve the check box below.",
+      "label": "The right to administer my learning resources can be transferred to another user of my choice if I contact you from the emailaddress I have given above"
+    }
+  },
+  "userMaterials": {
+    "title": "My open educational resources",
+    "createNew": "Upload a new resource",
+    "noMaterials": "You will see here the open educational resources you have shared. You have yet to share any OER. Press \"Upload a new resource\" and add your first OER.",
+    "unpublished": {
+      "title": "Incompelete / unpublished educational resources",
+      "unnamed": "Unnamed"
+    },
+    "published": {
+      "title": "Published educational resources"
+    },
+    "edit": "Edit",
+    "expired": "Expired {{date}}",
+    "expires": "Expires {{date}}"
+  },
+  "userCollections": {
+    "private": {
+      "title": "Private collections"
+    },
+    "published": {
+      "title": "Published collections"
+    }
+  },
+  "footer": {
+    "developer": "Developer of the service",
+    "feedback": "Give feedback",
+    "orEmailUs": "or send us an email:",
+    "twitter": "Follow us on Twitter",
+    "name": "Library of Open Educational Resources (aoe.fi)",
+    "blog": "News"
+  },
+  "cookies": {
+    "cookieSettings": "Cookie settings",
+    "acceptAll": "Accept all",
+    "title": "Cookie settings"
+  },
+  "search": {
+    "title": "Search results",
+    "inputs": {
+      "keywords": {
+        "label": "Search criteria",
+        "placeholder": "Search criteria"
+      },
+      "submit": {
+        "sr-text": "Search"
+      }
+    },
+    "results": {
+      "noResults": "Sorry, there are no results for this search. The search string might be too specific, try a more generic search or input a new search criteria.",
+      "addToCollection": "Add to collection",
+      "open": "Open",
+      "download": "Download",
+      "narrowSearch": "Narrow search",
+      "results": "results",
+      "loading": "Loading..."
+    },
+    "filters": {
+      "submit": "Narrow",
+      "showAll": "Show all",
+      "educationalLevels": {
+        "title": "Educational Level"
+      },
+      "educationalSubjecs": {
+        "title": "Educational Subject"
+      },
+      "learningResourceTypes": {
+        "title": "Learning Resource Type"
+      },
+      "authors": {
+        "title": "Author"
+      },
+      "organizations": {
+        "title": "Organization"
+      },
+      "educationalRoles": {
+        "title": "Educational Role"
+      },
+      "keywords": {
+        "title": "Keyword"
+      },
+      "languages": {
+        "title": "Language"
+      },
+      "teaches": {
+        "title": "Objective and content",
+        "showFull": "Show full"
+      },
+      "uses": {
+        "title": "Educational Use"
+      },
+      "hazards": {
+        "title": "Accessibility Hazard"
+      },
+      "features": {
+        "title": "Accessibility Feature"
+      },
+      "licenses": {
+        "title": "License"
+      },
+      "usedFilters": "Search narrowed by:"
+    },
+    "sort": {
+      "label": "Sort search results:",
+      "relevance": "Relevance",
+      "newest": "Newest first",
+      "oldest": "Oldest first",
+      "popularity": "Most popular"
+    }
+  },
+  "collections": {
+    "modal": {
+      "title": "Add to collection",
+      "createCollection": {
+        "title": "Create a new collection",
+        "name": {
+          "label": "Name of the collection",
+          "placeholder": "Input a name for the collection"
+        }
+      },
+      "addToCollection": {
+        "title": "Choose from pre-existing collections"
+      }
+    },
+    "loading": "The learning resource is loading...",
+    "noMaterials": "You have not added any learning resources to your collection. When you find an interesting learning resource, click add to collection thus starting the growth of your collection.",
+    "toasts": {
+      "collectionCreated": {
+        "title": "Collection created",
+        "message": ""
+      },
+      "addedToCollection": {
+        "title": "Collection has been updated",
+        "message": "The learning resources was added to the collection"
+      },
+      "removedFromCollection": {
+        "title": "Collection has been updated",
+        "message": "Learning resources has been removed from the collection"
+      }
+    },
+    "meta": {
+      "keywords": "Keywords",
+      "languages": "Language",
+      "educationalUses": "Educational Use",
+      "educationalRoles": "Educational Role",
+      "accessibilityFeatures": "Accessibility Features",
+      "accessibilityHazards": "Accessibility Hazards",
+      "educationalLevels": "Educational Level",
+      "earlyChildhoodEducationSubjects": "Educational subject of early childhood education",
+      "earlyChildhoodEducationObjectives": "Learning object of early childhood education",
+      "earlyChildhoodEducationFramework": "Educational framework of early childhood education",
+      "prePrimaryEducationSubjects": "Educational subject of pre-primary education",
+      "prePrimaryEducationObjectives": "Learning object of pre-primary education",
+      "prePrimaryEducationFramework": "Educational framework of pre-primary education",
+      "basicStudySubjects": "Educational subject of basic education",
+      "basicStudyObjectives": "Learning object of basic education",
+      "basicStudyContents": "Educational content and transversal competence of basic education",
+      "basicStudyFramework": "Educational framework of basic education",
+      "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
+      "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
+      "upperSecondarySchoolFramework": "Educational framework of upper secondary school",
+      "upperSecondarySchoolSubjectsNew": "Educational subject",
+      "upperSecondarySchoolModulesNew": "Module",
+      "upperSecondarySchoolObjectivesNew": "Learning object of upper secondary school",
+      "upperSecondarySchoolContentsNew": "Educational content of upper secondary school",
+      "vocationalDegrees": "Educational subject of vocational education",
+      "vocationalUnits": "Units of vocational education",
+      "vocationalEducationObjectives": "Learning object of vocational education",
+      "vocationalEducationFramework": "Educational framework of vocational education",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
+      "scienceBranches": "Educational subject of higher education",
+      "scienceBranchObjectives": "Learning object of higher education",
+      "higherEducationFramework": "Educational framework of higher education"
+    },
+    "recent": {
+      "title": "Recent collections",
+      "showAll": ""
+    },
+    "title": "Collections",
+    "search": {
+      "title": "Search results"
+    },
+    "showAll": "All collections"
+  },
+  "materialPreview": {
+    "selectLanguage": "Choose a language:",
+    "selectMaterial": "Choose a part of the learning resource:"
+  },
+  "session": {
+    "toasts": {
+      "loggedOut": {
+        "title": "You have been logged out of the service."
+      }
+    }
+  },
+  "errors": {
+    "toasts": {
+      "disableForms": {
+        "message": "Uploading new learning resources has been blocked until the current error situation is resolved."
+      }
+    }
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "features": "Accessibility features",
+    "hazards": "Accessibility hazards",
+    "closeAll": "Close all",
+    "openAll": "Show all"
+  }
+}

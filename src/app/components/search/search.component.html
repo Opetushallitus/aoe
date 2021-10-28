@@ -1,0 +1,105 @@
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label class="sr-only" for="keywords"> {{ 'search.inputs.keywords.label' | translate }} </label>
+
+    <input
+      type="search"
+      class="form-control"
+      id="keywords"
+      [placeholder]="'search.inputs.keywords.placeholder' | translate"
+      formControlName="keywords"
+    />
+  </div>
+
+  <div class="form-row" formGroupName="filters">
+    <div class="form-group col-md-6 col-lg">
+      <label class="sr-only" for="educationalLevels">
+        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="educationalLevels"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="educationalLevels"
+        labelForId="educationalLevels"
+        formControlName="educationalLevels"
+        [placeholder]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
+        (change)="educationLevelChange()"
+      >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group col-md-6 col-lg">
+      <label class="sr-only" for="educationalSubjects">
+        {{ 'search.filters.educationalSubjecs.title' | translate }}
+      </label>
+
+      <ng-select
+        [items]="educationalSubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="educationalSubjects"
+        labelForId="educationalSubjects"
+        formControlName="educationalSubjects"
+        [placeholder]="'search.filters.educationalSubjecs.title' | translate"
+      >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent"><br />{{ item.parent }}</small>
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group col-md-6 col-lg">
+      <label class="sr-only" for="learningResourceTypes">
+        {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}
+      </label>
+
+      <ng-select
+        [items]="learningResourceTypes"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        id="learningResourceTypes"
+        labelForId="learningResourceTypes"
+        formControlName="learningResourceTypes"
+        [placeholder]="'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate"
+      >
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+      </ng-select>
+    </div>
+
+    <div class="col-md-6 col-lg-auto">
+      <button type="submit" class="btn btn-search btn-block" id="button-search">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <span class="sr-only"> {{ 'search.inputs.submit.sr-text' | translate }} </span>
+      </button>
+    </div>
+  </div>
+</form>
