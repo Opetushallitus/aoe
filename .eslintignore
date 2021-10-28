@@ -1,8 +1,0 @@
-/dist
-/docker
-/documentation
-/src/assets
-
-/src/polyfills.ts
-/src/test.ts
-/src/typings.d.ts
