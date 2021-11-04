@@ -1,13 +1,17 @@
-import { apiRouterRoot, apiRouterV1 } from './api';
+import apiRoot from './api/routes-root';
+import apiV1 from './api/routes-v1';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
 import errorHandler from 'errorhandler';
-import express from 'express';
-import { postHttpProcessor } from './api/middleware';
-import { morganHttpLogger } from './util';
+import express, { Router } from 'express';
+import { morganHttpLogger, postHttpProcessor } from './util';
 
 const app = express();
+const apiRouterRoot: Router = Router();
+const apiRouterV1: Router = Router();
+apiRoot(apiRouterRoot);
+apiV1(apiRouterV1);
 
 // CORS Configuration (cross-origin read only)
 const corsOptions: CorsOptions = {

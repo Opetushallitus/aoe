@@ -56,6 +56,7 @@
         "@types/body-parser": "^1.19.0",
         "@types/compression": "^1.7.0",
         "@types/connect-flash": "0.0.37",
+        "@types/content-disposition": "^0.5.4",
         "@types/cookie-parser": "^1.4.2",
         "@types/cors": "^2.8.12",
         "@types/dotenv": "^8.2.0",

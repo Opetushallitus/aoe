@@ -4,7 +4,7 @@ dotenv.config();
 
 import app from './app';
 import { Server } from 'net';
-import winstonLogger from './util/winston-logger';
+import { winstonLogger } from './util';
 
 // Express server starting
 if (!process.env.PORT) process.exit(1);

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import winstonLogger from '../../util/winston-logger';
+import winstonLogger from './winston-logger';
 
 /**
  * Post processor middleware to handle asynchronous events right after HTTP requests.

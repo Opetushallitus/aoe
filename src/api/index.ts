@@ -1,10 +1,14 @@
-import apiRouterRoot from './api-router-root';
-import apiRouterV1 from './api-router-v1';
+import { Router } from 'express';
+import root from './routes-root';
+import v1 from './routes-v1/status';
 
-export { default as apiRouterRoot } from './api-router-root';
-export { default as apiRouterV1 } from './api-router-v1';
-
-export default {
-    apiRouterRoot,
-    apiRouterV1
+/**
+ * API versions available in runtime environment.
+ * Modify this module to pick up and drop off API versions.
+ *
+ * @param router  express.Router
+ */
+export default (router: Router): void => {
+    root(router);
+    v1(router);
 }
