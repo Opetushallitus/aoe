@@ -15,7 +15,7 @@ export default (router: Router): void => {
             return next();
         } catch (error) {
             res.removeHeader('Content-Disposition');
-            error.message = `Download failed for ${req.params.filename as string}`;
+            error.message = `Download from the object storage failed for ${req.params.filename as string}`;
             return next(error);
         }
     });
