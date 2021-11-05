@@ -1,7 +1,6 @@
 import AWS, { S3 } from 'aws-sdk';
 import { BucketName, ClientConfiguration, GetObjectRequest, ObjectKey } from 'aws-sdk/clients/s3';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-// import contentDisposition from 'content-disposition';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
@@ -26,7 +25,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             const s3: S3 = new AWS.S3(configS3);
             const fileStream = s3.getObject(requestObject).createReadStream();
             res.attachment(fileName);
-            // res.header('Content-Disposition', contentDisposition(fileName));
             fileStream
                 .on('error', (error: Error) => {
                     reject(error);
