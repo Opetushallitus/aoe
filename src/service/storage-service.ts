@@ -1,12 +1,12 @@
 import AWS, { S3 } from 'aws-sdk';
 import { BucketName, ClientConfiguration, GetObjectRequest, ObjectKey } from 'aws-sdk/clients/s3';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-import contentDisposition from 'content-disposition';
+// import contentDisposition from 'content-disposition';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
-export const getObjectAsStream = async (req: Request, res: Response): Promise<any> => {
-    return new Promise(async (resolve, reject) => {
+export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
+    return new Promise((resolve, reject) => {
         try {
             const configAWS: ServiceConfigurationOptions = {
                 accessKeyId: process.env.STORAGE_KEY as string,
@@ -26,13 +26,13 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<an
             const s3: S3 = new AWS.S3(configS3);
             const fileStream = s3.getObject(requestObject).createReadStream();
             res.attachment(fileName);
-            res.header('Content-Disposition', contentDisposition(fileName));
+            // res.header('Content-Disposition', contentDisposition(fileName));
             fileStream
                 .on('error', (error: Error) => {
                     reject(error);
                 })
                 .once('end', () => {
-                    winstonLogger.debug('Streaming of %s from the object storage completed', fileName);
+                    winstonLogger.debug('Download from the object storage completed for %s', fileName);
                     resolve();
                 })
                 .pipe(res);

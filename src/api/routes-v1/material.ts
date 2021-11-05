@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import storageService from '../../service/storage-service';
-import { winstonLogger } from '../../util';
 
 /**
  * API version 1.0 for requesting material files stored in cloud object storage.
@@ -13,10 +12,11 @@ export default (router: Router): void => {
     router.get('/material/:filename', async (req: Request, res: Response, next: NextFunction) => {
         try {
             await storageService.getObjectAsStream(req, res);
+            return next();
         } catch (error) {
-            winstonLogger.error('Downloading [%s] from the object storage failed: %s', req.params.filename as string, error);
-            return res.sendStatus(500);
+            res.removeHeader('Content-Disposition');
+            error.message = `Download failed for ${req.params.filename as string}`;
+            return next(error);
         }
-        next();
     });
 }

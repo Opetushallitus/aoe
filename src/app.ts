@@ -3,9 +3,8 @@ import apiV1 from './api/routes-v1';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
-import errorHandler from 'errorhandler';
-import express, { Router } from 'express';
-import { morganHttpLogger, postHttpProcessor } from './util';
+import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express';
+import { morganHttpLogger, postHttpProcessor, winstonLogger } from './util';
 
 const app = express();
 const apiRouterRoot: Router = Router();
@@ -38,6 +37,19 @@ app.use(morganHttpLogger);
 app.use('/', apiRouterRoot);
 app.use('/api/v1', postHttpProcessor, apiRouterV1);
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
-app.use(errorHandler());
+
+// Default error handler
+app.use(((err: any, req: Request, res: Response, next: NextFunction) => {
+    winstonLogger.error(err.stack);
+    res.status(err.statusCode || 500);
+    res.type('json');
+    res.json({
+        errors: {
+            status: err.statusCode || 500,
+            message: err.message || 'Unexpected error occurred'
+        }
+    });
+    next();
+}) as ErrorRequestHandler);
 
 export default app;
