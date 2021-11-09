@@ -4,6 +4,15 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
+/**
+ * Stream files from the cloud object storage and forward HTTP headers to response stream.
+ * Partial HTTP Range requests supported.
+ *
+ * HTTP status: 200 OK, 206 Partial Content, 416 Range Not Satisfiable
+ *
+ * @param req express.Request
+ * @param res express.Response
+ */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
@@ -19,12 +28,21 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             const fileName: string = req.params.filename as string;
             const requestObject: GetObjectRequest = {
                 Bucket: process.env.STORAGE_BUCKET as BucketName,
-                Key: fileName as ObjectKey
+                Key: fileName as ObjectKey,
+                Range: req.headers.range as string
             };
             AWS.config.update(configAWS);
             const s3: S3 = new AWS.S3(configS3);
-            const fileStream = s3.getObject(requestObject).createReadStream();
-            res.attachment(fileName);
+            const fileStream = s3.getObject(requestObject)
+                .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
+                    res.set(headers);
+                    if (req.headers.range) {
+                        res.status(206);
+                    } else {
+                        res.attachment(fileName);
+                    }
+                })
+                .createReadStream();
             fileStream
                 .on('error', (error: Error) => {
                     reject(error);

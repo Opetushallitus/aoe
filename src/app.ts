@@ -2,7 +2,7 @@ import apiRoot from './api/routes-root';
 import apiV1 from './api/routes-v1';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import cors, { CorsOptions } from 'cors';
+// import cors, { CorsOptions } from 'cors';
 import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express';
 import { morganHttpLogger, postHttpProcessor, winstonLogger } from './util';
 
@@ -13,12 +13,13 @@ apiRoot(apiRouterRoot);
 apiV1(apiRouterV1);
 
 // CORS Configuration (cross-origin read only)
-const corsOptions: CorsOptions = {
-    origin: '*',
-    methods: 'GET',
-    optionsSuccessStatus: 204
-};
-app.use(cors(corsOptions));
+// const corsOptions: CorsOptions = {
+//     origin: '*',
+//     methods: 'GET, HEAD',
+//     optionsSuccessStatus: 204
+// };
+// app.use(cors(corsOptions));
+app.disable('x-powered-by');
 
 // Set application to operate correctly behind a proxy server (get client information from X-Forwarded-* headers)
 // app.set('trust proxy', 1);
