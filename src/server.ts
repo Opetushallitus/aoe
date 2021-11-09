@@ -5,6 +5,7 @@ dotenv.config();
 import app from './app';
 import { Server } from 'net';
 import { winstonLogger } from './util';
+import { Socket } from 'net';
 
 // Express server starting
 if (!process.env.PORT) process.exit(1);
@@ -14,15 +15,19 @@ const server: Server = app.listen(port, () => {
 });
 
 // Socket event handlers for the debugging purposes
-// server.on('connection', (socket: Socket) => {
-//     winstonLogger.debug('SOCKET OPENED: ' + JSON.stringify(socket.address()));
-//     socket.on('end', () => console.log('SOCKET END: other end of the socket sends a FIN packet'));
-//     socket.on('timeout', () => console.log('SOCKET TIMEOUT'));
-//     socket.on('error', (error: Error) => console.log('SOCKET FAILED: ' + JSON.stringify(error)));
-//     socket.on('close', (isError: boolean) => {
-//         const errorObject = {error: isError};
-//         winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify(errorObject));
-//     });
-// });
+server.on('connection', (socket: Socket) => {
+    // winstonLogger.debug('SOCKET OPENED: ' + JSON.stringify(socket.address()));
+    // socket.on('end', () => console.log('SOCKET END: other end of the socket sends a FIN packet'));
+    socket.on('timeout', () => {
+        socket.destroy();
+    });
+    socket.on('error', (error: Error) => {
+        winstonLogger.debug('CONNECTION FAILED: %s', JSON.stringify(error));
+    });
+    // socket.on('close', (isError: boolean) => {
+    //     const errorObject = {error: isError};
+    //     winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify(errorObject));
+    // });
+});
 
 export default server;

@@ -2,9 +2,9 @@ import apiRoot from './api/routes-root';
 import apiV1 from './api/routes-v1';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-// import cors, { CorsOptions } from 'cors';
+import cors, { CorsOptions } from 'cors';
 import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express';
-import { morganHttpLogger, postHttpProcessor, winstonLogger } from './util';
+import { morganHttpLogger, winstonLogger } from './util';
 
 const app = express();
 const apiRouterRoot: Router = Router();
@@ -13,12 +13,12 @@ apiRoot(apiRouterRoot);
 apiV1(apiRouterV1);
 
 // CORS Configuration (cross-origin read only)
-// const corsOptions: CorsOptions = {
-//     origin: '*',
-//     methods: 'GET, HEAD',
-//     optionsSuccessStatus: 204
-// };
-// app.use(cors(corsOptions));
+const corsOptions: CorsOptions = {
+    origin: '*',
+    methods: 'GET, HEAD',
+    optionsSuccessStatus: 204
+};
+app.use(cors(corsOptions));
 app.disable('x-powered-by');
 
 // Set application to operate correctly behind a proxy server (get client information from X-Forwarded-* headers)
@@ -36,7 +36,7 @@ app.use(morganHttpLogger);
 
 // Connected API versions and custom middlewares
 app.use('/', apiRouterRoot);
-app.use('/api/v1', postHttpProcessor, apiRouterV1);
+app.use('/api/v1', apiRouterV1); // Middleware postHttpProcessor disabled
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
 
 // Default error handler
