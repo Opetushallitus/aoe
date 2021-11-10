@@ -1,10 +1,10 @@
-import AWS, { S3 } from 'aws-sdk';
-import { BucketName, ClientConfiguration, GetObjectRequest, ObjectKey } from 'aws-sdk/clients/s3';
+import AWS, { AWSError, S3 } from 'aws-sdk';
+import { BucketName, ClientConfiguration, GetObjectRequest, HeadObjectOutput, ObjectKey } from 'aws-sdk/clients/s3';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
-// Storage configuration
+// Cloud object storage configuration
 const configAWS: ServiceConfigurationOptions = {
     accessKeyId: process.env.STORAGE_KEY as string,
     secretAccessKey: process.env.STORAGE_SECRET as string,
@@ -13,13 +13,12 @@ const configAWS: ServiceConfigurationOptions = {
 };
 const configS3: ClientConfiguration = {
     httpOptions: {
-        timeout: 2 * 60 * 1000
+        timeout: 0
     },
-    maxRetries: 3,
+    maxRetries: 3
     // signatureVersion: 'v2' // v2, v3, v4
 };
 AWS.config.update(configAWS);
-const s3: S3 = new AWS.S3(configS3);
 
 /**
  * Stream files from the cloud object storage and forward HTTP headers to response stream.
@@ -31,19 +30,38 @@ const s3: S3 = new AWS.S3(configS3);
  * @param res express.Response
  */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+
+        // HEAD request
+        req.method === 'HEAD' && await headObjectRequest(req).then((head: HeadObjectOutput) => {
+            res.status(200).set({
+                'accept-ranges': head.AcceptRanges,
+                'last-modified': head.LastModified,
+                'content-length': head.ContentLength,
+                'etag': head.ETag,
+                'content-type': head.ContentType
+            });
+            return resolve();
+        }).catch((error: Error) => {
+            return reject(error);
+        });
+
+        // GET request
         try {
+            const s3: S3 = new AWS.S3(configS3);
             const fileName: string = req.params.filename as string;
             const range: string = req.headers.range as string;
-            const requestObject: GetObjectRequest = {
+            const getRequestObject: GetObjectRequest = {
                 Bucket: process.env.STORAGE_BUCKET as BucketName,
                 Key: fileName as ObjectKey,
                 Range: range as string
             };
 
             // Request configuration and event handlers
-            const request = s3.getObject(requestObject)
+            const getRequest = s3.getObject(getRequestObject)
                 .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
+
+                    // Forward headers to the response
                     res.set(headers);
                     if (req.headers.range) {
                         winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
@@ -55,11 +73,11 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 });
 
             // Stream configuration and event handlers
-            request.createReadStream()
+            const stream = getRequest.createReadStream()
                 .on('error', (error: Error) => {
-                    if (error.name === 'TimeoutError') {
-                        resolve();
-                    }
+                    winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
+                    getRequest.abort();
+                    stream.end();
                     reject(error);
                 })
                 .on('end', () => {
@@ -71,6 +89,25 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
         } catch (error) {
             reject(error);
         }
+    });
+}
+
+const headObjectRequest = async (req: Request): Promise<HeadObjectOutput> => {
+    return new Promise((resolve, reject) => {
+        const s3: S3 = new AWS.S3(configS3);
+        const headRequestObject: GetObjectRequest = {
+            Bucket: process.env.STORAGE_BUCKET as BucketName,
+            Key: req.params.filename as ObjectKey
+        };
+        s3.headObject(headRequestObject, (error: AWSError, head: HeadObjectOutput) => {
+            if (error) {
+                winstonLogger.error('HEAD request to object storage failed:' + JSON.stringify(error));
+                reject(error);
+            }
+            if (head) {
+                resolve(head);
+            }
+        });
     });
 }
 

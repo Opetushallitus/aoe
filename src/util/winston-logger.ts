@@ -24,7 +24,7 @@ export default winston.createLogger({
     exitOnError: false,
     format: format.combine(
         format.splat(), // Use also printf format with argument specifiers %d %s %o etc.
-        format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
         format.printf((log: Logform.TransformableInfo) => `[${log.level.toUpperCase()}] ${log.timestamp} ${log.message}`)
     ),
     levels: loggingLevels.levels,

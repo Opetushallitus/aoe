@@ -5,6 +5,6 @@ import { Router, Response, Request } from 'express';
  */
 export default (router: Router): void => {
     router.get('/', (req: Request, res: Response) => {
-        res.render('index', {appTitle: 'AOE Streaming', appStatus: true});
+        res.render('index', { appTitle: 'AOE Streaming', appStatus: true });
     })
 }

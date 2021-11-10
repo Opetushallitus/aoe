@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import cors, { CorsOptions } from 'cors';
 import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express';
-import { morganHttpLogger, winstonLogger } from './util';
+import { morganHttpLogger, postHttpProcessor, winstonLogger } from './util';
 
 const app = express();
 const apiRouterRoot: Router = Router();
@@ -31,12 +31,12 @@ app.set('view engine', 'pug');
 // HTTP request handlers
 app.use(compression());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morganHttpLogger);
 
 // Connected API versions and custom middlewares
 app.use('/', apiRouterRoot);
-app.use('/api/v1', apiRouterV1); // Middleware postHttpProcessor disabled
+app.use('/api/v1', postHttpProcessor, apiRouterV1);
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
 
 // Default error handler

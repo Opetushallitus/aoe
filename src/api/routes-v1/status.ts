@@ -8,7 +8,7 @@ export default (router: Router): void => {
 
         // When HTTP header 'Accept' is present, require 'application/json' otherwise 404 Not Found
         if (req.accepts('json')) {
-            res.send({operable: true});
+            res.send({ operable: true });
             return next();
         }
         res.sendStatus(404);

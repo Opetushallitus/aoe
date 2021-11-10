@@ -1,5 +1,6 @@
 // Load environment variables
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 import app from './app';
@@ -19,14 +20,15 @@ server.on('connection', (socket: Socket) => {
     // winstonLogger.debug('SOCKET OPENED: ' + JSON.stringify(socket.address()));
     // socket.on('end', () => console.log('SOCKET END: other end of the socket sends a FIN packet'));
     socket.on('timeout', () => {
+        // winstonLogger.debug('SOCKET TIMEOUT');
         socket.destroy();
     });
-    socket.on('error', (error: Error) => {
-        winstonLogger.debug('CONNECTION FAILED: %s', JSON.stringify(error));
+    socket.on('error', () => {
+        // winstonLogger.error('SOCKET ERROR: %s', JSON.stringify(error));
+        socket.destroy();
     });
     // socket.on('close', (isError: boolean) => {
-    //     const errorObject = {error: isError};
-    //     winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify(errorObject));
+    //     winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify({ isError: isError }));
     // });
 });
 
