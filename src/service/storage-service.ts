@@ -4,16 +4,6 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
-/**
- * Stream files from the cloud object storage and forward HTTP headers to response stream.
- * Partial HTTP Range requests supported.
- *
- * HTTP status: 200 OK, 206 Partial Content, 416 Range Not Satisfiable
- *
- * @param req express.Request
- * @param res express.Response
- */
-
 // Storage configuration
 const configAWS: ServiceConfigurationOptions = {
     accessKeyId: process.env.STORAGE_KEY as string,
@@ -26,11 +16,20 @@ const configS3: ClientConfiguration = {
         timeout: 2 * 60 * 1000
     },
     maxRetries: 3,
-    signatureVersion: 'v2'
+    // signatureVersion: 'v2' // v2, v3, v4
 };
 AWS.config.update(configAWS);
 const s3: S3 = new AWS.S3(configS3);
 
+/**
+ * Stream files from the cloud object storage and forward HTTP headers to response stream.
+ * Partial HTTP Range requests supported.
+ *
+ * HTTP status: 200 OK, 206 Partial Content, 416 Range Not Satisfiable
+ *
+ * @param req express.Request
+ * @param res express.Response
+ */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
     return new Promise((resolve, reject) => {
         try {
@@ -64,8 +63,8 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                     reject(error);
                 })
                 .on('end', () => {
-                    winstonLogger.debug((range ? 'Partial' : 'Full') + ' download of %s completed ' +
-                        (range ? `[${range}]` : ''), fileName);
+                    winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
+                        (range ? 'Partial' : 'Full'), fileName);
                     resolve();
                 })
                 .pipe(res);
