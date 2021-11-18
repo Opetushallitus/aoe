@@ -200,23 +200,12 @@
 
 <dl class="row">
   <app-preview-row
-    *ngIf="hasEducationalLevel; else missingEducationalLevel"
     [title]="'forms.educationalResource.educationalDetails.educationalLevels.label' | translate"
     [items]="savedData?.educationalLevels"
     property="value"
+    [required]='!hasEducationalLevel'
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
   ></app-preview-row>
-
-  <ng-template #missingEducationalLevel>
-    <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.educationalLevels' | translate }}</dt>
-
-    <dd class="col-sm-9">
-      <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-      <a [routerLink]="['/lisaa-oppimateriaali', 3]">{{
-        'forms.educationalResource.preview.addMissingDetail' | translate
-      }}</a>
-    </dd>
-  </ng-template>
 
   <!-- early childhood education -->
 
@@ -283,49 +272,23 @@
     property="targetName"
   ></app-preview-row>
 
-  <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduObjectives">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}
-    </dt>
+  <app-preview-row
+    *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduObjectives"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate"
+    [items]="basicStudyObjectives"
+    property="targetName"
+    [required]="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduObjectives"
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
+  ></app-preview-row>
 
-    <dd class="col-sm-9">
-      <ng-container *ngIf="hasBasicEduObjectives">
-        <ng-container *ngFor="let objective of basicStudyObjectives; let isLast = last">
-          {{ objective.targetName }}<br *ngIf="!isLast" />
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduObjectives">
-        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-        <a [routerLink]="['/lisaa-oppimateriaali', 3]">{{
-          'forms.educationalResource.preview.addMissingDetail' | translate
-        }}</a>
-      </ng-container>
-    </dd>
-  </ng-container>
-
-  <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduContents">
-    <dt class="col-sm-3">
-      {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}
-    </dt>
-
-    <dd class="col-sm-9">
-      <ng-container *ngIf="hasBasicEduContents">
-        <ng-container *ngFor="let content of basicStudyContents; let isLast = last">
-          {{ content.targetName }}<br *ngIf="!isLast" />
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduContents">
-        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-        <a [routerLink]="['/lisaa-oppimateriaali', 3]">{{
-          'forms.educationalResource.preview.addMissingDetail' | translate
-        }}</a>
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="shouldHaveBasicEduObjectivesAndContents || hasBasicEduContents"
+    [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate"
+    [items]="basicStudyContents"
+    property="targetName"
+    [required]="shouldHaveBasicEduObjectivesAndContents && !hasBasicEduContents"
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
+  ></app-preview-row>
 
   <app-preview-row
     *ngIf="savedData?.suitsAllBasicStudySubjects"
@@ -388,71 +351,37 @@
 
   <app-preview-row
     *ngIf="upperSecondarySchoolSubjectsNew?.length > 0"
-    [title]="
-      'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate
-    "
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label' | translate"
     [items]="upperSecondarySchoolSubjectsNew"
     property="targetName"
   ></app-preview-row>
 
   <app-preview-row
-    *ngIf="upperSecondarySchoolModulesNew?.length > 0"
-    [title]="
-      'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate
-    "
+    *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduModules"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate"
     [items]="upperSecondarySchoolModulesNew"
     property="targetName"
+    [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduModules"
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
   ></app-preview-row>
 
-  <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduObjectives">
-    <dt class="col-sm-3">
-      {{
-        'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label'
-          | translate
-      }}
-    </dt>
+  <app-preview-row
+    *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduObjectives"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label' | translate"
+    [items]="upperSecondarySchoolObjectivesNew"
+    property="targetName"
+    [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduObjectives"
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
+  ></app-preview-row>
 
-    <dd class="col-sm-9">
-      <ng-container *ngIf="hasUpperSecondaryEduObjectives">
-        <ng-container *ngFor="let objective of upperSecondarySchoolObjectivesNew; let isLast = last">
-          {{ objective.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduObjectives">
-        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-        <a [routerLink]="['/lisaa-oppimateriaali', 3]">{{
-          'forms.educationalResource.preview.addMissingDetail' | translate
-        }}</a>
-      </ng-container>
-    </dd>
-  </ng-container>
-
-  <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduContents">
-    <dt class="col-sm-3">
-      {{
-        'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label'
-          | translate
-      }}
-    </dt>
-
-    <dd class="col-sm-9">
-      <ng-container *ngIf="hasUpperSecondaryEduContents">
-        <ng-container *ngFor="let content of upperSecondarySchoolContentsNew; let isLast = last">
-          {{ content.targetName }}{{ isLast ? '' : ', ' }}
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduContents">
-        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-        <a [routerLink]="['/lisaa-oppimateriaali', 3]">{{
-          'forms.educationalResource.preview.addMissingDetail' | translate
-        }}</a>
-      </ng-container>
-    </dd>
-  </ng-container>
+  <app-preview-row
+    *ngIf="shouldHaveUppSecondaryEduObjectivesAndContents || hasUpperSecondaryEduContents"
+    [title]="'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label' | translate"
+    [items]="upperSecondarySchoolContentsNew"
+    property="targetName"
+    [required]="shouldHaveUppSecondaryEduObjectivesAndContents && !hasUpperSecondaryEduContents"
+    [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
+  ></app-preview-row>
 
   <!-- vocational education -->
 
@@ -465,20 +394,14 @@
 
   <app-preview-row
     *ngIf="furtherVocationalQualifications?.length > 0"
-    [title]="
-      'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label'
-        | translate
-    "
+    [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label' | translate"
     [items]="furtherVocationalQualifications"
     property="targetName"
   ></app-preview-row>
 
   <app-preview-row
     *ngIf="specialistVocationalQualifications?.length > 0"
-    [title]="
-      'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label'
-        | translate
-    "
+    [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label' | translate"
     [items]="specialistVocationalQualifications"
     property="targetName"
   ></app-preview-row>
