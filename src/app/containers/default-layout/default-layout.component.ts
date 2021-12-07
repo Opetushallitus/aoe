@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-
+import { Subject, Subscription } from 'rxjs';
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from '@services/cookie.service';
@@ -8,6 +8,7 @@ import { interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { AlertService } from '@services/alert.service';
 import { AlertsResponse } from '@models/alerts/alerts-response';
+import { NotificationService, Message } from './maintenance-notification.service';
 
 /**
  * @ignore
@@ -19,6 +20,7 @@ import { AlertsResponse } from '@models/alerts/alerts-response';
 export class DefaultLayoutComponent implements OnInit {
   languages = new Map();
   alerts: AlertsResponse;
+  maintenanceMessage: string;
 
   logos = {
     okm: {
@@ -74,6 +76,7 @@ export class DefaultLayoutComponent implements OnInit {
     public authSvc: AuthService,
     private cookieSvc: CookieService,
     private alertSvc: AlertService,
+    private notificationSvc: NotificationService
   ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
 
@@ -94,12 +97,20 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.notificationSvc.getNotification().subscribe((message: Message) => {
+      this.maintenanceMessage = message.notification;
+      if(this.maintenanceMessage && this.maintenanceMessage != "null") {
+        this.showMaintenanceAlert = true;
+      }
+    });
+    
     interval(5 * 60 * 1000) // minutes x seconds x milliseconds
       .pipe(
         startWith(0),
         switchMap(() => this.alertSvc.updateAlerts()),
       )
       .subscribe((response: AlertsResponse) => (this.alerts = response));
+    
   }
 
   /**
