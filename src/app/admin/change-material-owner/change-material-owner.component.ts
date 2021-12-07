@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } from '../../models/admin';
+import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } from '../model';
 import { Subject, Subscription } from 'rxjs';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { validatorParams } from '../../constants/validator-params';
