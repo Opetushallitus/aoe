@@ -76,7 +76,7 @@ export class EditPreviewComponent implements OnInit {
     this.form.get('hasKeywords').setValue(this.previewMaterial?.keywords?.length > 0);
     this.form.get('hasLearningResourceTypes').setValue(this.previewMaterial?.learningResourceTypes?.length > 0);
     this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
-    this.form.get('hasLicense').setValue(this.previewMaterial?.license !== null);
+    this.form.get('hasLicense').setValue(this.previewMaterial?.license?.length > 0);
 
     if (
       this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ||
