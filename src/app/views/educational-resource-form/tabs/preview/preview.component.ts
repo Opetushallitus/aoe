@@ -124,7 +124,7 @@ export class PreviewComponent implements OnInit {
     this.form.get('hasKeyword').setValue(this.savedData?.keywords?.length > 0);
     this.form.get('hasLearningResourceType').setValue(this.savedData?.learningResourceTypes?.length > 0);
     this.form.get('hasEducationalLevel').setValue(this.savedData?.educationalLevels?.length > 0);
-    this.form.get('hasLicense').setValue(this.savedData?.license !== null);
+    this.form.get('hasLicense').setValue(this.savedData?.license?.length > 0);
 
     this.earlyChildhoodEducationSubjects = this.savedData?.alignmentObjects?.filter(
       (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.earlyChildhoodSubjects,
