@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { NotificationMessage } from '../model';
-//import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -26,8 +26,8 @@ export class NotificationComponent {
     //
   }
 
-  getNotification() {
-    this.http.get<NotificationMessage>('https://demo.aoe.fi/api/v2/process/notification').subscribe((message: NotificationMessage) => {
+  getNotification(): void {
+    this.http.get<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`).subscribe((message: NotificationMessage) => {
       if (message.notification != "null") {
         this.currentNotification = message.notification;
         this.notificationUpdatedTime = message.updated;
@@ -41,13 +41,12 @@ export class NotificationComponent {
 
   postNotification(payload: NotificationMessage): Observable<NotificationMessage>{
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    const url = 'https://demo.aoe.fi/api/v2/process/notification';
     return this.http
-      .post<NotificationMessage>(url, payload, {headers: headers})
+      .post<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`, payload, {headers: headers})
       .pipe(catchError(this.handleError));
   }
 
-  saveMessage() {
+  saveMessage(): void {
     this.wrongFormat = "";
     this.newNotification = this.inputField.nativeElement.value.trim();
       if (this.newNotification.match("^[A-Öa-ö0-9\.-\\s\!\?]+$") && this.newNotification.length < 250) {
@@ -63,7 +62,7 @@ export class NotificationComponent {
     this.getNotification();
   }
 
-  deleteNotification() {
+  deleteNotification(): void {
     this.currentNotification = null;
     const payload: NotificationMessage = {
       notification: "null",
