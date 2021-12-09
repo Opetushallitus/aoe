@@ -49,8 +49,8 @@ export class NotificationComponent {
 
   saveMessage() {
     this.wrongFormat = "";
-    this.newNotification = this.inputField.nativeElement.value;
-    if (this.newNotification.match("^[A-Öa-ö0-9\.()\\s-\!\?]+$") && this.newNotification.length < 250) {
+    this.newNotification = this.inputField.nativeElement.value.trim();
+      if (this.newNotification.match("^[A-Öa-ö0-9\.-\\s\!\?]+$") && this.newNotification.length < 250) {
       this.inputField.nativeElement.value = '';
       const payload: NotificationMessage = {
         notification: this.newNotification,
