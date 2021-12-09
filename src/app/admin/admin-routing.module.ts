@@ -7,6 +7,9 @@ import { AuthGuard } from '../guards';
 import { ChangeMaterialOwnerComponent } from './change-material-owner/change-material-owner.component';
 import { AdminGuard } from '../guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ManageMaterialsComponent } from './manage-materials-view/manage-materials.component';
+import { ManageServiceComponent } from './manage-service-view/manage-service.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
   {
@@ -25,6 +28,18 @@ const routes: Routes = [
         runGuardsAndResolvers: 'always',
       },
       {
+        path: 'hallinnoi-materiaaleja',
+        component: ManageMaterialsComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'hallinnoi-palvelua',
+        component: ManageServiceComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
         path: 'arkistoi-materiaali',
         component: RemoveMaterialComponent,
         canActivate: [AuthGuard, AdminGuard],
@@ -33,6 +48,12 @@ const routes: Routes = [
       {
         path: 'vaihda-omistaja',
         component: ChangeMaterialOwnerComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'huoltoilmoitus',
+        component: NotificationComponent,
         canActivate: [AuthGuard, AdminGuard],
         runGuardsAndResolvers: 'always',
       },

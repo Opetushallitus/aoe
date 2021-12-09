@@ -8,9 +8,9 @@ import { CookieService } from '@services/cookie.service';
 import { AuthService } from '@services/auth.service';
 
 @Component({
-  // eslint-disable-next-line
+  // tslint:disable-next-line
   selector: 'body',
-  template: '<router-outlet></router-outlet>',
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
   constructor(
@@ -53,15 +53,15 @@ export class AppComponent implements OnInit {
       gtag('config', 'UA-135550416-1');`;
       this.renderer.appendChild(doc.head, gtag);
 
-      this.router.events.subscribe((event) => {
+      this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
-          (<any>window).gtag('config', 'UA-135550416-1', { page_path: event.urlAfterRedirects });
+          (<any>window).gtag('config', 'UA-135550416-1', { 'page_path': event.urlAfterRedirects });
         }
       });
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.router.events.subscribe((evt) => {
       if (!(evt instanceof NavigationEnd)) {
         return;
