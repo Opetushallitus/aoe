@@ -354,7 +354,9 @@
 
                   <div class="col-auto">
                     <h3>{{ 'demo.educationalMaterial.license' | translate }}</h3>
-                    {{ educationalMaterial.license.value }}
+                    <a [href]="getLicense(educationalMaterial.license.key).link" target="_blank" rel="noopener noreferrer">
+                      {{ getLicense(educationalMaterial.license.key).value }}
+                    </a>
                   </div>
 
                   <div class="col-12">
