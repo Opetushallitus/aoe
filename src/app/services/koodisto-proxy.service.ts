@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Language } from '@models/koodisto-proxy/language';
@@ -62,15 +62,30 @@ export class KoodistoProxyService {
     this.lang = this.translate.currentLang;
   }
 
+  private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
+    switch (error.status) {
+      case 404:
+        subject$.next([]);
+        break;
+
+      default:
+        console.error(error);
+        return throwError('Something bad happened; please try again later.');
+    }
+  };
+
   /**
    * Updates languages.
    */
   updateLanguages(): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<Language[]>(`${this.apiUri}/kielet/${lang}`, this.httpOptions).subscribe((languages: Language[]) => {
-      this.languages$.next(languages);
-    });
+    this.http.get<Language[]>(`${this.apiUri}/kielet/${lang}`, this.httpOptions).subscribe(
+      (languages: Language[]) => {
+        this.languages$.next(languages);
+      },
+      (error: HttpErrorResponse) => this.handleError(error, this.languages$),
+    );
   }
 
   /**
@@ -81,9 +96,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<LearningResourceType[]>(`${this.apiUri}/oppimateriaalityypit/${lang}`, this.httpOptions)
-      .subscribe((learningResourceTypes: LearningResourceType[]) => {
-        this.learningResourceTypes$.next(learningResourceTypes);
-      });
+      .subscribe(
+        (learningResourceTypes: LearningResourceType[]) => {
+          this.learningResourceTypes$.next(learningResourceTypes);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.learningResourceTypes$),
+      );
   }
 
   /**
@@ -94,9 +112,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<EducationalRole[]>(`${this.apiUri}/kohderyhmat/${lang}`, this.httpOptions)
-      .subscribe((educationalRoles: EducationalRole[]) => {
-        this.educationalRoles$.next(educationalRoles);
-      });
+      .subscribe(
+        (educationalRoles: EducationalRole[]) => {
+          this.educationalRoles$.next(educationalRoles);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.educationalRoles$),
+      );
   }
 
   /**
@@ -107,9 +128,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<EducationalUse[]>(`${this.apiUri}/kayttokohteet/${lang}`, this.httpOptions)
-      .subscribe((educationalUses: EducationalUse[]) => {
-        this.educationalUses$.next(educationalUses);
-      });
+      .subscribe(
+        (educationalUses: EducationalUse[]) => {
+          this.educationalUses$.next(educationalUses);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.educationalUses$),
+      );
   }
 
   /**
@@ -120,9 +144,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions)
-      .subscribe((educationalLevels: EducationalLevel[]) => {
-        this.educationalLevels$.next(educationalLevels);
-      });
+      .subscribe(
+        (educationalLevels: EducationalLevel[]) => {
+          this.educationalLevels$.next(educationalLevels);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.educationalLevels$),
+      );
   }
 
   /**
@@ -133,9 +160,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/oppiaineet/${lang}`, this.httpOptions)
-      .subscribe((basicStudySubjects: AlignmentObjectExtended[]) => {
-        this.basicStudySubjects$.next(basicStudySubjects);
-      });
+      .subscribe(
+        (basicStudySubjects: AlignmentObjectExtended[]) => {
+          this.basicStudySubjects$.next(basicStudySubjects);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.basicStudySubjects$),
+      );
   }
 
   /**
@@ -147,9 +177,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/tavoitteet/${ids}/${lang}`, this.httpOptions)
-      .subscribe((basicStudyObjectives: AlignmentObjectExtended[]) => {
-        this.basicStudyObjectives$.next(basicStudyObjectives);
-      });
+      .subscribe(
+        (basicStudyObjectives: AlignmentObjectExtended[]) => {
+          this.basicStudyObjectives$.next(basicStudyObjectives);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.basicStudyObjectives$),
+      );
   }
 
   /**
@@ -161,9 +194,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/sisaltoalueet/${ids}/${lang}`, this.httpOptions)
-      .subscribe((basicStudyContents: AlignmentObjectExtended[]) => {
-        this.basicStudyContents$.next(basicStudyContents);
-      });
+      .subscribe(
+        (basicStudyContents: AlignmentObjectExtended[]) => {
+          this.basicStudyContents$.next(basicStudyContents);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.basicStudyContents$),
+      );
   }
 
   /**
@@ -174,9 +210,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukionkurssit/${lang}`, this.httpOptions)
-      .subscribe((upperSecondarySchoolSubjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjects$.next(upperSecondarySchoolSubjects);
-      });
+      .subscribe(
+        (upperSecondarySchoolSubjects: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolSubjects$.next(upperSecondarySchoolSubjects);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolSubjects$),
+      );
   }
 
   /**
@@ -187,9 +226,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-vanha-oppiaineet/${lang}`, this.httpOptions)
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjectsOld$.next(subjects);
-      });
+      .subscribe(
+        (subjects: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolSubjectsOld$.next(subjects);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolSubjectsOld$),
+      );
   }
 
   /**
@@ -205,9 +247,7 @@ export class KoodistoProxyService {
         (subjects: AlignmentObjectExtended[]) => {
           this.upperSecondarySchoolCoursesOld$.next(subjects);
         },
-        () => {
-          this.upperSecondarySchoolCoursesOld$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolCoursesOld$),
       );
   }
 
@@ -219,9 +259,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/lukio-oppiaineet/${lang}`, this.httpOptions)
-      .subscribe((subjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjectsNew$.next(subjects);
-      });
+      .subscribe(
+        (subjects: AlignmentObjectExtended[]) => {
+          this.upperSecondarySchoolSubjectsNew$.next(subjects);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolSubjectsNew$),
+      );
   }
 
   /**
@@ -237,9 +280,7 @@ export class KoodistoProxyService {
         (modules: AlignmentObjectExtended[]) => {
           this.upperSecondarySchoolModulesNew$.next(modules);
         },
-        () => {
-          this.upperSecondarySchoolModulesNew$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolModulesNew$),
       );
   }
 
@@ -256,9 +297,7 @@ export class KoodistoProxyService {
         (objectives: AlignmentObjectExtended[]) => {
           this.upperSecondarySchoolObjectivesNew$.next(objectives);
         },
-        () => {
-          this.upperSecondarySchoolObjectivesNew$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolObjectivesNew$),
       );
   }
 
@@ -275,9 +314,7 @@ export class KoodistoProxyService {
         (contents: AlignmentObjectExtended[]) => {
           this.upperSecondarySchoolContentsNew$.next(contents);
         },
-        () => {
-          this.upperSecondarySchoolContentsNew$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolContentsNew$),
       );
   }
 
@@ -289,9 +326,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-tutkinnot/${lang}`, this.httpOptions)
-      .subscribe((vocationalDegrees: AlignmentObjectExtended[]) => {
-        this.vocationalDegrees$.next(vocationalDegrees);
-      });
+      .subscribe(
+        (vocationalDegrees: AlignmentObjectExtended[]) => {
+          this.vocationalDegrees$.next(vocationalDegrees);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.vocationalDegrees$),
+      );
   }
 
   /**
@@ -307,9 +347,7 @@ export class KoodistoProxyService {
         (vocationalUnits: AlignmentObjectExtended[]) => {
           this.vocationalUnits$.next(vocationalUnits);
         },
-        () => {
-          this.vocationalUnits$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.vocationalUnits$),
       );
   }
 
@@ -326,9 +364,7 @@ export class KoodistoProxyService {
         (requirements: AlignmentObjectExtended[]) => {
           this.vocationalRequirements$.next(requirements);
         },
-        () => {
-          this.vocationalRequirements$.next([]);
-        },
+        (error: HttpErrorResponse) => this.handleError(error, this.vocationalRequirements$),
       );
   }
 
@@ -341,9 +377,12 @@ export class KoodistoProxyService {
         `${environment.koodistoUrl}/ammattikoulu-ammattitutkinnot/${this.lang}`,
         this.httpOptions,
       )
-      .subscribe((qualifications: AlignmentObjectExtended[]) => {
-        this.furtherVocationalQualifications$.next(qualifications);
-      });
+      .subscribe(
+        (qualifications: AlignmentObjectExtended[]) => {
+          this.furtherVocationalQualifications$.next(qualifications);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.furtherVocationalQualifications$),
+      );
   }
 
   /**
@@ -355,9 +394,12 @@ export class KoodistoProxyService {
         `${environment.koodistoUrl}/ammattikoulu-erikoisammattitutkinnot/${this.lang}`,
         this.httpOptions,
       )
-      .subscribe((qualifications: AlignmentObjectExtended[]) => {
-        this.specialistVocationalQualifications$.next(qualifications);
-      });
+      .subscribe(
+        (qualifications: AlignmentObjectExtended[]) => {
+          this.specialistVocationalQualifications$.next(qualifications);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.specialistVocationalQualifications$),
+      );
   }
 
   /**
@@ -368,9 +410,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AlignmentObjectExtended[]>(`${this.apiUri}/tieteenalat/${lang}`, this.httpOptions)
-      .subscribe((scienceBranches: AlignmentObjectExtended[]) => {
-        this.scienceBranches$.next(scienceBranches);
-      });
+      .subscribe(
+        (scienceBranches: AlignmentObjectExtended[]) => {
+          this.scienceBranches$.next(scienceBranches);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.scienceBranches$),
+      );
   }
 
   /**
@@ -381,9 +426,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AccessibilityFeature[]>(`${this.apiUri}/saavutettavuudentukitoiminnot/${lang}`, this.httpOptions)
-      .subscribe((accessibilityFeatures: AccessibilityFeature[]) => {
-        this.accessibilityFeatures$.next(accessibilityFeatures);
-      });
+      .subscribe(
+        (accessibilityFeatures: AccessibilityFeature[]) => {
+          this.accessibilityFeatures$.next(accessibilityFeatures);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.accessibilityFeatures$),
+      );
   }
 
   /**
@@ -394,9 +442,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<AccessibilityHazard[]>(`${this.apiUri}/saavutettavuudenesteet/${lang}`, this.httpOptions)
-      .subscribe((accessibilityHazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards$.next(accessibilityHazards);
-      });
+      .subscribe(
+        (accessibilityHazards: AccessibilityHazard[]) => {
+          this.accessibilityHazards$.next(accessibilityHazards);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.accessibilityHazards$),
+      );
   }
 
   /**
@@ -405,9 +456,14 @@ export class KoodistoProxyService {
   updateLicenses(): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions).subscribe((licenses: License[]) => {
-      this.licenses$.next(licenses.map((license) => ({ ...license, isCollapsed: true })));
-    });
+    this.http
+      .get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions)
+      .subscribe(
+        (licenses: License[]) => {
+          this.licenses$.next(licenses.map((license) => ({ ...license, isCollapsed: true })));
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.licenses$),
+      );
   }
 
   /**
@@ -418,9 +474,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<KeyValue<string, string>[]>(`${this.apiUri}/asiasanat/${lang}`, this.httpOptions)
-      .subscribe((keywords: KeyValue<string, string>[]) => {
-        this.keywords$.next(keywords);
-      });
+      .subscribe(
+        (keywords: KeyValue<string, string>[]) => {
+          this.keywords$.next(keywords);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.keywords$),
+      );
   }
 
   /**
@@ -431,9 +490,12 @@ export class KoodistoProxyService {
 
     this.http
       .get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions)
-      .subscribe((organizations: KeyValue<string, string>[]) => {
-        this.organizations$.next(organizations);
-      });
+      .subscribe(
+        (organizations: KeyValue<string, string>[]) => {
+          this.organizations$.next(organizations);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.organizations$),
+      );
   }
 
   /**
@@ -444,8 +506,11 @@ export class KoodistoProxyService {
 
     this.http
       .get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
-      .subscribe((filters: SubjectFilter[]) => {
-        this.subjectFilters$.next(filters);
-      });
+      .subscribe(
+        (filters: SubjectFilter[]) => {
+          this.subjectFilters$.next(filters);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.subjectFilters$),
+      );
   }
 }

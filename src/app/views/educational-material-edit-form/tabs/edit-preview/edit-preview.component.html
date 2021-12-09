@@ -693,22 +693,11 @@
 
   <dl class="row">
     <app-preview-row
-      *ngIf="hasLicense; else missingLicense"
       [title]="'forms.educationalResource.license.title' | translate"
       [item]="previewMaterial?.license"
+      [required]="!hasLicense"
+      [routerLinkOptions]="['/muokkaa-oppimateriaalia', 5]"
     ></app-preview-row>
-
-    <ng-template #missingLicense>
-      <dt class="col-sm-3">{{ 'forms.educationalResource.preview.required.license' | translate }}</dt>
-
-      <dd class="col-sm-9">
-        <span class="bg-danger p-1 mr-2">{{ 'forms.common.required' | translate }}</span>
-
-        <a [routerLink]="['/muokkaa-oppimateriaalia', materialId, 5]">{{
-          'forms.educationalResource.preview.addMissingDetail' | translate
-        }}</a>
-      </dd>
-    </ng-template>
   </dl>
 
   <hr />
