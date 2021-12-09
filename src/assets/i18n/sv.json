@@ -117,9 +117,9 @@
       },
       "educationalRole": "Roll",
       "educationalUse": "Educational use",
-      "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
-      "earlyChildhoodEducationFrameworks": "Läroplans- eller examensgrunderna för småbarnsfostran",
-      "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",
+      "earlyChildhoodEducationSubjects": "Ämne för småbarnspedagogik",
+      "earlyChildhoodEducationFrameworks": "Läroplans- eller examensgrunderna för småbarnspedagogik",
+      "earlyChildhoodEducationObjectives": "Mål för småbarnspedagogik",
       "prePrimaryEducationSubjects": "Ämne för förskoleundervisning",
       "prePrimaryEducationFrameworks": "Läroplans- eller examensgrunderna för förskoleundervisning",
       "prePrimaryEducationObjectives": "Mål för förskoleundervisning",
@@ -414,18 +414,18 @@
           "tooltip": "Välj här för vilket utbildningsstadium och för vilken nivå som ditt läromaterial i huvudsak är avsett för. Om materialet riktar sig till flera stadier, exempelvis både yrkes- och gymnasieundervisning, kan du välja flera utbildningsstadier och -nivåer."
         },
         "earlyChildhoodEducation": {
-          "title": "Småbarnsfostran",
+          "title": "Småbarnspedagogik",
           "inputs": {
             "subjects": {
-              "label": "Ämne för småbarnsfostran",
+              "label": "Ämne för småbarnspedagogik",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Mål för småbarnsfostran",
+              "label": "Mål för småbarnspedagogik",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "framework": {
-              "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+              "label": "Läroplans- eller examensgrunderna för småbarnspedagogik",
               "tooltip": "Här kan du lägga till information om vilket innehåll i läroplanen eller i examensstrukturen som läromaterialet är avsett att lära ut."
             }
           }
@@ -721,7 +721,7 @@
       "educational": {
         "title": "Utbildningsinfo",
         "headings": {
-          "early": "Småbarnsfostran",
+          "early": "Småbarnspedagogik",
           "prePrimary": "Förskoleundervisning",
           "basic": "Grundläggande utbildning",
           "upperSecondary": "Gymnasieutbildning",
@@ -734,15 +734,15 @@
           "placeholder": ""
         },
         "earlyChildhoodEducationSubjects": {
-          "label": "Ämne för småbarnsfostran",
+          "label": "Ämne för småbarnspedagogik",
           "placeholder": ""
         },
         "earlyChildhoodEducationObjectives": {
-          "label": "Mål för småbarnsfostran",
+          "label": "Mål för småbarnspedagogik",
           "placeholder": ""
         },
         "earlyChildhoodEducationFramework": {
-          "label": "Läroplans- eller examensgrunderna för småbarnsfostran",
+          "label": "Läroplans- eller examensgrunderna för småbarnspedagogik",
           "placeholder": ""
         },
         "prePrimaryEducationSubjects": {
@@ -1062,9 +1062,9 @@
       "accessibilityFeatures": "Tillgänglighetsegenskaper",
       "accessibilityHazards": "Hinder för tillgänglighet",
       "educationalLevels": "Utbildningsstadium",
-      "earlyChildhoodEducationSubjects": "Ämne för småbarnsfostran",
-      "earlyChildhoodEducationObjectives": "Mål för småbarnsfostran",
-      "earlyChildhoodEducationFramework": "Läroplans- eller examensgrunderna för småbarnsfostran",
+      "earlyChildhoodEducationSubjects": "Ämne för småbarnspedagogik",
+      "earlyChildhoodEducationObjectives": "Mål för småbarnspedagogik",
+      "earlyChildhoodEducationFramework": "Läroplans- eller examensgrunderna för småbarnspedagogik",
       "prePrimaryEducationSubjects": "Ämne för förskoleundervisning",
       "prePrimaryEducationObjectives": "Mål för förskoleundervisning",
       "prePrimaryEducationFramework": "Läroplans- eller examensgrunderna för förskoleundervisning",
