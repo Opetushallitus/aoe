@@ -664,10 +664,8 @@
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
         <div class="form-group">
           <label for="upperSecondarySchoolModulesNew">
-            {{
-              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label'
-                | translate
-            }}
+            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}*
+            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
           </label>
 
           <ng-select

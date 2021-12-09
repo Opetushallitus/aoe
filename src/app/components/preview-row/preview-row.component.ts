@@ -10,6 +10,8 @@ export class PreviewRowComponent {
   @Input() items?: any[];
   @Input() item?: string;
   @Input() property?: string;
+  @Input() required?: boolean;
+  @Input() routerLinkOptions?: any[];
 
   constructor() {}
 }
