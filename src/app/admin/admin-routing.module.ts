@@ -7,8 +7,8 @@ import { AuthGuard } from '../guards';
 import { ChangeMaterialOwnerComponent } from './change-material-owner/change-material-owner.component';
 import { AdminGuard } from '../guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ManageMaterialsComponent } from './manage-materials/manage-materials.component';
-import { ManageServiceComponent } from './manage-service/manage-service.component';
+import { ManageMaterialsComponent } from './manage-materials-view/manage-materials.component';
+import { ManageServiceComponent } from './manage-service-view/manage-service.component';
 import { NotificationComponent } from './notification/notification.component';
 
 const routes: Routes = [
