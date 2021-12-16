@@ -222,23 +222,48 @@
                 <div class="row no-gutters">
                   <div class="col-md-3">
                     <ng-container *ngIf="materialLanguages.length > 1">
-                      <h2 id="selectLanguage">{{ 'materialPreview.selectLanguage' | translate }}</h2>
+                      <ng-container *ngIf="materialLanguages.length <= 3; else materialLanguageDropdown">
+                        <h2 id="selectLanguageTitle">{{ 'materialPreview.selectLanguage' | translate }}</h2>
 
-                      <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguage">
-                        <button
-                          type="button"
-                          class="btn btn-gray"
-                          *ngFor="let lang of materialLanguages"
-                          [ngClass]="lang === selectedLanguage ? 'active' : ''"
-                          [attr.aria-selected]="lang === selectedLanguage"
-                          [attr.aria-controls]="'fileList-' + lang"
-                          [id]="'langSelector-' + lang"
-                          role="tab"
-                          (click)="setSelectedLanguage(lang)"
-                        >
-                          {{ lang }}
-                        </button>
-                      </div>
+                        <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
+                          <button
+                            type="button"
+                            class="btn btn-gray"
+                            *ngFor="let materialLang of materialLanguages"
+                            [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
+                            [attr.aria-selected]="materialLang === selectedLanguage"
+                            [attr.aria-controls]="'fileList-' + materialLang"
+                            [id]="'langSelector-' + materialLang"
+                            role="tab"
+                            (click)="setSelectedLanguage(materialLang)"
+                          >
+                            {{ materialLang }} <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
+                          </button>
+                        </div>
+                      </ng-container>
+
+                      <ng-template #materialLanguageDropdown>
+                        <div class="dropdown mb-3">
+                          <button class="btn btn-gray dropdown-toggle" type="button" id="selectLanguage" data-toggle="dropdown" aria-expanded="false">
+                            {{ 'materialPreview.selectLanguage' | translate }}
+                          </button>
+
+                          <div class="dropdown-menu" aria-labelledby="selectLanguage">
+                            <button
+                              type="button"
+                              class="dropdown-item btn-gray"
+                              *ngFor="let materialLang of materialLanguages"
+                              [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
+                              [attr.aria-selected]="materialLang === selectedLanguage"
+                              [attr.aria-controls]="'fileList-' + materialLang"
+                              [id]="'langSelector-' + materialLang"
+                              role="tab"
+                              (click)="setSelectedLanguage(materialLang)"
+                            >{{ getLanguageValue(materialLang) }}</button>
+                          </div>
+                        </div>
+                      </ng-template>
+
                     </ng-container>
 
                     <div
