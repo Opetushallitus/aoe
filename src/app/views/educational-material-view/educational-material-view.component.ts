@@ -132,8 +132,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
           ? this.materialLanguages.find((lang: string) => lang === this.lang)
           : this.materialLanguages.find((lang: string) => lang === 'fi')
-          ? this.materialLanguages.find((lang: string) => lang === 'fi')
-          : this.materialLanguages[0];
+            ? this.materialLanguages.find((lang: string) => lang === 'fi')
+            : this.materialLanguages[0];
 
         // set preview material
         this.setPreviewMaterial(
