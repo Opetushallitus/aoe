@@ -11,7 +11,7 @@ export async function getDataFromApi(api: string, route?: string, headers?: Http
 
     const body = await rp.get(options);
 
-    if (headers.Accept === "application/json") {
+    if (headers?.Accept === "application/json") {
       return JSON.parse(body);
     } else {
       return body;
