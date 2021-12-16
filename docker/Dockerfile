@@ -1,4 +1,4 @@
-FROM node:14.18-buster
+FROM node:14.18-bullseye
 WORKDIR '/app'
 ADD ./ /app
 
