@@ -56,12 +56,12 @@
                     'demo.educationalMaterial.downloadSingleFile' | translate
                   }}</strong>
 
-                  <ng-container *ngFor="let lang of materialLanguages">
+                  <ng-container *ngFor="let materialLang of materialLanguages">
                     <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">{{
-                      getLanguageValue(lang)
+                      getLanguageValue(materialLang)
                     }}</strong>
 
-                    <ng-container *ngIf="materials | materialLanguage: lang as filteredMaterials">
+                    <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
                         <a class="dropdown-item" [href]="material.downloadUrl" download>{{
                           material.displayName[lang]
