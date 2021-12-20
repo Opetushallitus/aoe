@@ -15,7 +15,7 @@ const params = "hae?aktiiviset=true&suunnitellut=false&lakkautetut=false";
 export async function setOrganisaatiot(): Promise<any> {
   try {
     const results = await getDataFromApi(
-      process.env.ORGANISAATIO_SERVICE_URL,
+      process.env.ORGANISAATIO_SERVICE_URL || 'not-defined',
       `/${endpoint}/`,
       {
         "Accept": "application/json",

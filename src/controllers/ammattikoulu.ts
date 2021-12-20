@@ -20,7 +20,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
 
     while (getResults) {
       const results = await getDataFromApi(
-        process.env.EPERUSTEET_SERVICE_URL,
+        process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
         `/${endpoint}/`,
         {
           "Accept": "application/json",
@@ -122,15 +122,15 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
     const finnishRequirements: AlignmentObjectExtended[] = [];
     const swedishRequirements: AlignmentObjectExtended[] = [];
 
-    let degrees: number[] = JSON.parse(await getAsync(`${rediskeyBasicDegrees}.fi`))
+    let degrees: number[] = JSON.parse(<string>await getAsync(`${rediskeyBasicDegrees}.fi`))
       .map((d: AlignmentObjectExtended) => d.key);
-    degrees = degrees.concat(JSON.parse(await getAsync(`${rediskeyFurtherVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
-    degrees = degrees.concat(JSON.parse(await getAsync(`${rediskeySpecialistVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
+    degrees = degrees.concat(JSON.parse(<string>await getAsync(`${rediskeyFurtherVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
+    degrees = degrees.concat(JSON.parse(<string>await getAsync(`${rediskeySpecialistVocQuals}.fi`)).map((d: AlignmentObjectExtended) => d.key));
 
     for (const degree of degrees) {
       try {
         const results = await getDataFromApi(
-          process.env.EPERUSTEET_SERVICE_URL,
+          process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
           `/${endpoint}/`,
           {
             "Accept": "application/json",
@@ -219,7 +219,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: any): Promise<any> => {
   try {
     const ids = req.params.ids.split(",");
-    const data = JSON.parse(await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`))
+    const data = JSON.parse(<string>await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`))
       .filter((unit: AlignmentObjectExtended) => ids.includes(unit.parent.key.toString()))
       .map((unit: AlignmentObjectExtended) => {
         unit.parent = unit.parent.value;
@@ -244,7 +244,7 @@ export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any)
   try {
     const ids = req.params.ids.split(",");
 
-    const data = JSON.parse(await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`))
+    const data = JSON.parse(<string>await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`))
       .filter((requirement: AlignmentObjectExtended) => ids.includes(requirement.parent.key.toString()))
       .map((requirement: AlignmentObjectExtended) => {
         requirement.parent = requirement.parent.value;
@@ -275,7 +275,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
 
     while (getResults) {
       const results = await getDataFromApi(
-        process.env.EPERUSTEET_SERVICE_URL,
+        process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
         `/${endpoint}/`,
         {
           "Accept": "application/json",
@@ -379,7 +379,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
 
     while (getResults) {
       const results = await getDataFromApi(
-        process.env.EPERUSTEET_SERVICE_URL,
+        process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
         `/${endpoint}/`,
         {
           "Accept": "application/json",
