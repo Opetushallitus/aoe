@@ -17,7 +17,7 @@ const params = "data";
 export async function setAsiasanat(): Promise<any> {
   try {
     const results = await getDataFromApi(
-      process.env.FINTO_URL,
+      process.env.FINTO_URL || 'not-defined',
       `/${endpoint}/`,
       { "Accept": "application/rdf+xml" },
       params
