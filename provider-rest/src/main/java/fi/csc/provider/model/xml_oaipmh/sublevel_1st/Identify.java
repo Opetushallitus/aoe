@@ -40,7 +40,7 @@ public class Identify {
 
     @XmlElementWrapper(name = "description")
     @XmlElement(name = "oai-identifier")
-    private List<OaiIdentifier> oaiIdentifiers = new ArrayList<>() {{
+    private List<OaiIdentifier> oaiIdentifiers = new ArrayList<OaiIdentifier>() {{
         add(new OaiIdentifier());
     }};
 

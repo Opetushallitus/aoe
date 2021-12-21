@@ -1,4 +1,4 @@
-version: '3'
+version: "3.8"
 services:
   provider-rest-prod:
     build:
@@ -8,9 +8,9 @@ services:
     container_name: provider-rest-prod
     restart: always
     ports:
-      - 8001:8001
+      - "8001:8001"
     environment:
-      SPRING_PROFILES_ACTIVE: 'prod'
+      SPRING_PROFILES_ACTIVE: "prod"
     networks:
       - network-provider-prod
 
