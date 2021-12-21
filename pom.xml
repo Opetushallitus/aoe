@@ -33,7 +33,7 @@
                     <configuration>
                         <rules>
                             <requireMavenVersion>
-                                <message>You are running an older version of Maven. Oiva Backend requires at least Maven 3.0</message>
+                                <message>You are running an older version of Maven. AOE Data Service requires at least Maven 3.0</message>
                                 <version>[3.0.0,)</version>
                             </requireMavenVersion>
                             <requireJavaVersion>
