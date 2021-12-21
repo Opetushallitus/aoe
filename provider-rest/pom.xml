@@ -13,7 +13,7 @@
 
     <groupId>fi.csc</groupId>
     <artifactId>provider-rest</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <name>provider-rest</name>
     <description>OAI-PMH Metadata Provider</description>
     <packaging>jar</packaging>
@@ -21,7 +21,6 @@
     <properties>
         <docker.image.prefix>aoe-metadata-provider</docker.image.prefix>
         <docker.image.name>provider-rest</docker.image.name>
-        <java.version>13</java.version>
     </properties>
 
     <dependencies>
@@ -39,11 +38,18 @@
             <artifactId>httpclient</artifactId>
             <!--<version>4.5</version>-->
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <version>1.18.22</version>
+            <scope>provided</scope>
         </dependency>
+        <!--<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>-->
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>jaxb2-maven-plugin</artifactId>
@@ -95,40 +101,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <executable>true</executable>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.31.0</version>
-                <configuration>
-                    <dockerHost>tcp://127.0.0.1:2375</dockerHost>
-                    <!--<dockerHost>unix:///var/run/docker.sock</dockerHost>-->
-                    <verbose>true</verbose>
-                    <images>
-                        <image>
-                            <name>provider-rest</name>
-                            <build>
-                                <dockerFileDir>${project.basedir}</dockerFileDir>
-                                <assembly>
-                                    <descriptorRef>artifact</descriptorRef>
-                                </assembly>
-                                <tags>
-                                    <tag>latest</tag>
-                                    <!--<tag>${project.version}</tag>-->
-                                </tags>
-                            </build>
-                            <run>
-                                <ports>
-                                    <port>8001:8001</port>
-                                </ports>
-                            </run>
-                        </image>
-                    </images>
                 </configuration>
             </plugin>
         </plugins>
