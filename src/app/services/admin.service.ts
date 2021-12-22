@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/htt
 import { Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { catchError } from 'rxjs/operators';
-import { AoeUser, AoeUsersResponse } from '@models/admin/aoe-users-response';
-import { ChangeOwnerResponse } from '@models/admin/change-owner-response';
-import { ChangeOwnerPost } from '@models/admin/change-owner-post';
-import { RemoveMaterialResponse } from '@models/admin/remove-material-response';
-import { MaterialInfoResponse } from '@models/admin/material-info-response';
+import { AoeUser, AoeUsersResponse } from '../admin/model/aoe-users-response';
+import { ChangeOwnerResponse } from '../admin/model/change-owner-response';
+import { ChangeOwnerPost } from '../admin/model/change-owner-post';
+import { RemoveMaterialResponse } from '../admin/model/remove-material-response';
+import { MaterialInfoResponse } from '../admin/model/material-info-response';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,6 @@ export class AdminService {
       })
       .pipe(catchError(this.handleError));
   }
-
   /**
    * Updates list of aoe users.
    */

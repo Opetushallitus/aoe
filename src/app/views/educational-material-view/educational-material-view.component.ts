@@ -19,6 +19,7 @@ import { SocialMetadata } from '@models/social-metadata/social-metadata';
 import { SocialMetadataService } from '@services/social-metadata.service';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { License } from "@models/koodisto-proxy/license";
 
 @Component({
   selector: 'app-demo-material-view',
@@ -53,6 +54,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   languageSubscription: Subscription;
   languages: Language[];
   previewMaterialDomain: string;
+  licenses: License[];
+  licenseSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +92,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       if (this.materialLanguages?.includes(event.lang.toLowerCase())) {
         this.setSelectedLanguage(event.lang.toLowerCase());
       }
+
+      this.koodistoSvc.updateLicenses();
     });
 
     this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
@@ -132,8 +137,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
           ? this.materialLanguages.find((lang: string) => lang === this.lang)
           : this.materialLanguages.find((lang: string) => lang === 'fi')
-          ? this.materialLanguages.find((lang: string) => lang === 'fi')
-          : this.materialLanguages[0];
+            ? this.materialLanguages.find((lang: string) => lang === 'fi')
+            : this.materialLanguages[0];
 
         // set preview material
         this.setPreviewMaterial(
@@ -158,12 +163,18 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.socialMetadata = metadata;
     });
     this.socialMetadataSvc.updateSocialMetadata(this.materialId);
+
+    this.licenseSubscription = this.koodistoSvc.licenses$.subscribe((licenses: License[]) => {
+      this.licenses = licenses;
+    });
+    this.koodistoSvc.updateLicenses();
   }
 
   ngOnDestroy(): void {
     this.educationalMaterialSubscription.unsubscribe();
     this.socialMetadataSubscription.unsubscribe();
     this.languageSubscription.unsubscribe();
+    this.licenseSubscription.unsubscribe();
   }
 
   setTitle(): void {
@@ -247,5 +258,9 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     };
 
     this.socialMetadataModalRef = this.modalSvc.show(SocialMetadataModalComponent, { initialState });
+  }
+
+  getLicense(key: string): License {
+    return this.licenses?.find((license: License) => license.key === key);
   }
 }
