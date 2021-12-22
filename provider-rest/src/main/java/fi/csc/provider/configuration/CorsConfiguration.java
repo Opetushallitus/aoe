@@ -25,7 +25,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
             .addMapping("/**")
             .allowedOrigins(origins)
             .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE", "X-XSFR-TOKEN")
-            .allowCredentials(true)
+            .allowCredentials(false)
             .maxAge(3600L)
             .allowedHeaders(
                 "Accept",

@@ -7,9 +7,11 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.4.13</version>
+        <relativePath/>
     </parent>
 
+    <name>AOE Data Services</name>
     <groupId>fi.csc</groupId>
     <artifactId>aoe-data-services</artifactId>
     <version>1.0.0</version>
@@ -21,34 +23,14 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven-enforcer-plugin.version>3.0.0</maven-enforcer-plugin.version>
     </properties>
 
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${maven-enforcer-plugin.version}</version>
-                    <configuration>
-                        <rules>
-                            <requireMavenVersion>
-                                <message>You are running an older version of Maven. AOE Data Service requires at least Maven 3.0</message>
-                                <version>[3.0.0,)</version>
-                            </requireMavenVersion>
-                            <requireJavaVersion>
-                                <message>You are running an older version of Java. AOE Data Service requires at least JDK ${java.version}</message>
-                                <version>[${java.version}.0,)</version>
-                            </requireJavaVersion>
-                            <bannedDependencies>
-                                <excludes>
-                                    <!-- DO NOT USE log4j version under 2.16.0 because of log4shell vulnerability -->
-                                    <exclude>org.apache.logging.log4j:log4j-core:(,2.16.0)</exclude>
-                                </excludes>
-                            </bannedDependencies>
-                        </rules>
-                    </configuration>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
                 </plugin>
             </plugins>
         </pluginManagement>

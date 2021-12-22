@@ -7,20 +7,24 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.4.RELEASE</version>
+        <version>2.4.13</version>
         <relativePath/>
     </parent>
 
+    <name>OAI-PMH Provider</name>
     <groupId>fi.csc</groupId>
     <artifactId>provider-rest</artifactId>
     <version>1.0.0</version>
-    <name>provider-rest</name>
-    <description>OAI-PMH Metadata Provider</description>
+    <description>OAI-PMH Provider for the Library of Open Educational Materials</description>
     <packaging>jar</packaging>
 
     <properties>
-        <docker.image.prefix>aoe-metadata-provider</docker.image.prefix>
-        <docker.image.name>provider-rest</docker.image.name>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
     </properties>
 
     <dependencies>
@@ -36,20 +40,13 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <!--<version>4.5</version>-->
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>-->
         <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>jaxb2-maven-plugin</artifactId>
@@ -74,13 +71,6 @@
             <version>2.9.2</version>
             <scope>compile</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.io-informatics.oss/jackson-jsonld
-        https://github.com/io-informatics/jackson-jsonld
-        <dependency>
-            <groupId>com.io-informatics.oss</groupId>
-            <artifactId>jackson-jsonld</artifactId>
-            <version>0.1.1</version>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -99,8 +89,38 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
                 <configuration>
                     <executable>true</executable>
+                    <!--<jvmArguments>-Dspring.profiles.active=dev</jvmArguments>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>${maven-enforcer-plugin.version}</version>
+                <configuration>
+                    <rules>
+                        <requireMavenVersion>
+                            <message>You are running an older version of Maven. AOE Data Service requires at least
+                                Maven 3.0
+                            </message>
+                            <version>[3.0.0,)</version>
+                        </requireMavenVersion>
+                        <requireJavaVersion>
+                            <message>You are running an older version of Java. AOE Data Service requires at least
+                                JDK ${java.version}
+                            </message>
+                            <version>[${java.version}.0,)</version>
+                        </requireJavaVersion>
+                        <bannedDependencies>
+                            <excludes>
+                                <!-- DO NOT USE log4j version under 2.16.0 because of log4shell vulnerability -->
+                                <exclude>org.apache.logging.log4j:log4j-core:(,2.16.0)</exclude>
+                            </excludes>
+                        </bannedDependencies>
+                    </rules>
+                    <fail>true</fail>
                 </configuration>
             </plugin>
         </plugins>
