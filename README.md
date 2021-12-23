@@ -1,42 +1,25 @@
-<h1>AOE Metadata Utilities</h1>
-<h2>Development Environment</h2>
-<h3>Services</h3>
-<ul>
-<li>PostgreSQL Database (local) running on port 5432</li>
-<li>Provider REST Service (jdk13 + maven 3.6.3) running on port 8001</li>
-</ul>
-<p>
-On your local host build project modules and docker images, download dependencies, populate database and run applications all at once.
-</p>
-<p>
-Start applications (create containers and networks):
-</p>
-<pre>
-docker-compose up [--build] -d
-</pre>
-<p>
-Stop applications (remove containers and networks):
-</p>
-<pre>
-docker-compose down
-</pre>
-<h2>Production Environment</h2>
-<h3>Services</h3>
-<ul>
-<li>Provider REST Service (jdk13 + maven 3.6.3) running on port 8001</li>
-</ul>
-<p>
-On production server build project modules and docker images, configure external PostgreSQL data source, download dependencies and run applications all at once.
-</p>
-<p>
-Start applications (create containers and networks):
-</p>
-<pre>
-docker-compose -f docker-compose.prod.yml up [--build] -d --force-recreate
-</pre>
-<p>
-Stop applications (remove containers and networks):
-</p>
-<pre>
-docker-compose -f docker-compose.prod.yml down
-</pre>
+# AOE Data Services
+
+## OAI-PMH Provider
+- Module: provider-rest
+- Running on ports: 8001 (prod), 8002 (test)
+- Java version: OpenJDK 17
+- Spring Boot version: 2.2.4.RELEASE
+- Built on Docker image: maven:3.8.4-openjdk-17-slim
+
+### Description
+Integration service for metadata harvesting from external systems.
+Service interface implements [OAI-PMH protocol](https://www.openarchives.org/OAI/2.0/openarchivesprotocol.htm).
+
+### Management
+
+#### Build and run test instance
+```
+$ sudo docker-compose -f docker-compose.demo.yml build
+$ sudo docker-compose -f docker-compose.demo.yml up
+```
+#### Build and run prod instance
+```
+$ sudo docker-compose -f docker-compose.prod.yml build
+$ sudo docker-compose -f docker-compose.prod.yml up
+```
