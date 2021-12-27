@@ -49,3 +49,35 @@ cleanup_demo:
   tags:
     - demo-stream
   when: manual
+
+build_prod:
+  stage: build
+  script:
+    - echo "PROD build"
+    - docker-compose -f docker-compose.prod.yml down
+    - docker-compose -f docker-compose.prod.yml build
+  only:
+    - main
+  tags:
+    - prod-stream
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "PROD deploy"
+    - docker-compose -f docker-compose.prod.yml up -d
+  only:
+    - main
+  tags:
+    - prod-stream
+
+cleanup_prod:
+  stage: cleanup
+  script:
+    - echo "PROD system clean up"
+    - docker system prune -a --volumes -f
+  only:
+    - main
+  tags:
+    - prod-stream
+  when: manual
