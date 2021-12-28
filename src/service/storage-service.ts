@@ -68,19 +68,30 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                         res.status(206);
                     } else {
                         res.attachment(fileName);
-                        res.status(200);
+                        // res.status(200);
+                        res.status(status);
                     }
                 });
 
             // Stream configuration and event handlers
             const stream = getRequest.createReadStream()
-                .on('error', (error: Error) => {
-                    winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
-                    getRequest.abort();
-                    stream.end();
-                    reject(error);
+                .once('error', (error: AWSError) => {
+                    if (error.name === 'NoSuchKey') {
+                        winstonLogger.debug('Requested file %s not found', fileName);
+                        res.removeHeader('content-disposition');
+                        res.status(404);
+                        resolve();
+                    } else {
+                        winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
+                        res.status(error.statusCode || 500);
+                        reject(error);
+                    }
+                    res.removeHeader('connection');
+                    res.removeHeader('keep-alive');
+                    // getRequest.abort();
+                    // stream.end();
                 })
-                .on('end', () => {
+                .once('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
                     resolve();
