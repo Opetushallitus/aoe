@@ -21,11 +21,13 @@ server.on('connection', (socket: Socket) => {
     // socket.on('end', () => console.log('SOCKET END: other end of the socket sends a FIN packet'));
     socket.on('timeout', () => {
         // winstonLogger.debug('SOCKET TIMEOUT');
-        socket.destroy();
+        // socket.destroy();
+        socket.end();
     });
     socket.on('error', () => {
         // winstonLogger.error('SOCKET ERROR: %s', JSON.stringify(error));
-        socket.destroy();
+        // socket.destroy();
+        socket.end();
     });
     // socket.on('close', (isError: boolean) => {
     //     winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify({ isError: isError }));

@@ -85,7 +85,7 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                     // getRequest.abort();
                     // stream.end();
                 })
-                .on('end', () => {
+                .once('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
                     if (req.headers.range) {
