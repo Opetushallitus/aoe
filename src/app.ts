@@ -22,7 +22,7 @@ app.use(cors(corsOptions));
 app.disable('x-powered-by');
 
 // Set application to operate correctly behind a proxy server (get client information from X-Forwarded-* headers)
-// app.set('trust proxy', 1);
+app.set('trust proxy', '127.0.0.1');
 
 // Root status page with Pug template
 app.set('views', './views');
