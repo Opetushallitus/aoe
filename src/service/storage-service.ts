@@ -63,6 +63,7 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
 
                     // Forward headers to the response
                     res.set(headers);
+                    res.header('cache-control', 'no-cache')
                     if (req.headers.range) {
                         winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
                         res.status(206);
