@@ -58,13 +58,18 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             };
 
             // Request configuration and event handlers
-            let statusCode = 200;
             const getRequest = s3.getObject(getRequestObject)
                 .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
 
                     // Forward headers to the response
                     res.set(headers);
-                    statusCode = status;
+                    if (req.headers.range) {
+                        winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
+                        res.status(206);
+                    } else {
+                        res.attachment(fileName);
+                        res.status(status);
+                    }
                 });
 
             // Stream configuration and event handlers
@@ -88,13 +93,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 .once('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
-                    if (req.headers.range) {
-                        winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
-                        statusCode = 206;
-                    } else {
-                        res.attachment(fileName);
-                    }
-                    res.status(statusCode);
                     resolve();
                 })
                 .pipe(res);
