@@ -58,31 +58,43 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             };
 
             // Request configuration and event handlers
+            let statusCode = 200;
             const getRequest = s3.getObject(getRequestObject)
                 .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
 
                     // Forward headers to the response
                     res.set(headers);
-                    if (req.headers.range) {
-                        winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
-                        res.status(206);
-                    } else {
-                        res.attachment(fileName);
-                        res.status(200);
-                    }
+                    statusCode = status;
                 });
 
             // Stream configuration and event handlers
-            const stream = getRequest.createReadStream()
-                .on('error', (error: Error) => {
-                    winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
-                    getRequest.abort();
-                    stream.end();
-                    reject(error);
+            getRequest.createReadStream()
+                .once('error', (error: AWSError) => {
+                    if (error.name === 'NoSuchKey') {
+                        winstonLogger.debug('Requested file %s not found', fileName);
+                        // res.removeHeader('content-disposition');
+                        res.status(404);
+                        resolve();
+                    } else {
+                        winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
+                        res.status(error.statusCode || 500);
+                        reject(error);
+                    }
+                    // res.removeHeader('connection');
+                    // res.removeHeader('keep-alive');
+                    // getRequest.abort();
+                    // stream.end();
                 })
                 .on('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
+                    if (req.headers.range) {
+                        winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
+                        statusCode = 206;
+                    } else {
+                        res.attachment(fileName);
+                    }
+                    res.status(statusCode);
                     resolve();
                 })
                 .pipe(res);
