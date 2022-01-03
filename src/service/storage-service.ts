@@ -74,7 +74,7 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 });
 
             // Stream configuration and event handlers
-            getRequest.createReadStream()
+            const stream = getRequest.createReadStream()
                 .once('error', (error: AWSError) => {
                     if (error.name === 'NoSuchKey') {
                         winstonLogger.debug('Requested file %s not found', fileName);
@@ -86,15 +86,15 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                         res.status(error.statusCode || 500);
                         reject(error);
                     }
-                    // res.removeHeader('connection');
-                    // res.removeHeader('keep-alive');
-                    // getRequest.abort();
-                    // stream.end();
+                    getRequest.abort();
+                    stream.end();
                 })
                 .once('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
                     resolve();
+                    getRequest.abort();
+                    stream.end();
                 })
                 .pipe(res);
         } catch (error) {
