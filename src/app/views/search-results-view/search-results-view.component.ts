@@ -116,15 +116,20 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       sort2: this.fb.control('relevance'),
     });
 
-    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
+    const defaultSearchParams: SearchParams = {
+      keywords: null,
+      filters: {},
+      sort: sortOptions.relevance.value,
+      from: 0,
+      size: this.resultsPerPage,
+    };
 
-    if (searchParams) {
-      this.keywordsCtrl.setValue(searchParams.keywords);
-    }
+    const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams)) ?? defaultSearchParams;
+
+    this.keywordsCtrl.setValue(searchParams?.keywords);
 
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
     this.searchSvc.updateSearchResults(searchParams);
-    this.searchSvc.updateSearchFilters(searchParams);
 
     this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
       this.results = results;
