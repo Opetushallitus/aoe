@@ -14,7 +14,7 @@ export default (router: Router): void => {
             await storageService.getObjectAsStream(req, res);
             return res.end();
         } catch (error) {
-            error.message = `Download from the object storage failed for ${req.params.filename as string}`;
+            error.message = error.message || `Download from the object storage failed for ${req.params.filename as string}`;
             return next(error);
         }
     });

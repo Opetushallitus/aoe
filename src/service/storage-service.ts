@@ -13,7 +13,7 @@ const configAWS: ServiceConfigurationOptions = {
 };
 const configS3: ClientConfiguration = {
     httpOptions: {
-        timeout: 0
+        // timeout: 0
     },
     maxRetries: 3
     // signatureVersion: 'v2' // v2, v3, v4
@@ -33,28 +33,37 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
     return new Promise(async (resolve, reject) => {
 
         // HEAD request
-        req.method === 'HEAD' && await headObjectRequest(req).then((head: HeadObjectOutput) => {
-            res.status(200).set({
-                'accept-ranges': head.AcceptRanges,
-                'last-modified': head.LastModified,
-                'content-length': head.ContentLength,
-                'etag': head.ETag,
-                'content-type': head.ContentType
-            });
-            return resolve();
-        }).catch((error: Error) => {
+        let headResponse: HeadObjectOutput;
+        try {
+            headResponse = await headObjectRequest(req);
+            if (req.method === 'HEAD') {
+                res.status(200).set({
+                    'Accept-Ranges': headResponse.AcceptRanges,
+                    'Last-Modified': headResponse.LastModified,
+                    'Content-Length': headResponse.ContentLength,
+                    'ETag': headResponse.ETag,
+                    'Content-Type': headResponse.ContentType
+                });
+                return resolve();
+            }
+            if (!req.headers['range']) {
+                throw new Error('Range request rejected for missing Range HTTP header');
+            }
+        } catch (error) {
             return reject(error);
-        });
+        }
 
         // GET request
         try {
             const s3: S3 = new AWS.S3(configS3);
             const fileName: string = req.params.filename as string;
-            const range: string = req.headers.range as string;
+            let range: string | undefined = req.headers.range as string || undefined
+            range = validateRangeValues(range, headResponse);
+
             const getRequestObject: GetObjectRequest = {
                 Bucket: process.env.STORAGE_BUCKET as BucketName,
                 Key: fileName as ObjectKey,
-                Range: range as string
+                Range: range as string || undefined
             };
 
             // Request configuration and event handlers
@@ -62,8 +71,18 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
 
                     // Forward headers to the response
-                    res.set(headers);
-                    res.header('cache-control', 'no-cache')
+                    winstonLogger.debug('Headers from the object storage response: %s', JSON.stringify(headers));
+                    // res.set(headers);
+                    res.set({
+                        'Content-Length': headers['content-length'],
+                        'Content-Range': headers['content-range'],
+                        'Accept-Ranges': headers['accept-ranges'],
+                        'Last-Modified': headers['last-modified'],
+                        'Content-Type': headers['content-type'],
+                        'ETag': headers['etag'],
+                        'Date': headers['date'],
+                        'Cache-Control': 'no-cache'
+                    })
                     if (req.headers.range) {
                         winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
                         res.status(206);
@@ -112,14 +131,35 @@ const headObjectRequest = async (req: Request): Promise<HeadObjectOutput> => {
         };
         s3.headObject(headRequestObject, (error: AWSError, head: HeadObjectOutput) => {
             if (error) {
-                winstonLogger.error('HEAD request to object storage failed:' + JSON.stringify(error));
+                winstonLogger.error('HEAD request to object storage failed: %s', JSON.stringify(error));
                 reject(error);
             }
             if (head) {
+                winstonLogger.debug('HEAD request response: %s', JSON.stringify(head));
                 resolve(head);
             }
+            reject();
         });
     });
+}
+
+const validateRangeValues = (range: string | undefined, headResponse: HeadObjectOutput): string | undefined => {
+    let length = 0;
+    if (headResponse.ContentLength && range) {
+        length = headResponse.ContentLength;
+    } else {
+        return undefined;
+    }
+    const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 200000;
+    const [startString, endString]: string[] = range.replace(/bytes=/, '').split('-');
+    const start: number = parseInt(startString, 10);
+    let end: number = endString ? parseInt(endString, 10) : length - 1;
+    if (end - start > maxRange) {
+        end = start + maxRange
+    }
+    const bytesResponse: string = 'bytes=' + start + '-' + end;
+    winstonLogger.debug('Bytes range return value in validateRangeValues(): %s', bytesResponse);
+    return bytesResponse;
 }
 
 export default {
