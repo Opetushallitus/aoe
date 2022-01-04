@@ -13,7 +13,7 @@ const configAWS: ServiceConfigurationOptions = {
 };
 const configS3: ClientConfiguration = {
     httpOptions: {
-        // timeout: 0
+        timeout: 1000 * 60
     },
     maxRetries: 3
     // signatureVersion: 'v2' // v2, v3, v4
@@ -93,27 +93,30 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 });
 
             // Stream configuration and event handlers
-            const stream = getRequest.createReadStream()
+            getRequest.createReadStream()
                 .once('error', (error: AWSError) => {
                     if (error.name === 'NoSuchKey') {
                         winstonLogger.debug('Requested file %s not found', fileName);
-                        // res.removeHeader('content-disposition');
                         res.status(404);
+                        resolve();
+                    } else if (error.name === 'TimeoutError') {
+                        winstonLogger.debug('Connection closed by timeout event');
+                        res.end();
                         resolve();
                     } else {
                         winstonLogger.debug('S3 connection failed: ' + JSON.stringify(error));
                         res.status(error.statusCode || 500);
                         reject(error);
                     }
-                    getRequest.abort();
-                    stream.end();
+                    // getRequest.abort();
+                    // stream.end();
                 })
                 .once('end', () => {
                     winstonLogger.debug(`%s download of %s completed ${(range ? `[${range}]` : '')}`,
                         (range ? 'Partial' : 'Full'), fileName);
                     resolve();
-                    getRequest.abort();
-                    stream.end();
+                    // getRequest.abort();
+                    // stream.end();
                 })
                 .pipe(res);
         } catch (error) {
@@ -150,7 +153,7 @@ const validateRangeValues = (range: string | undefined, headResponse: HeadObject
     } else {
         return undefined;
     }
-    const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 200000;
+    const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 10000000; // 10 Mb
     const [startString, endString]: string[] = range.replace(/bytes=/, '').split('-');
     const start: number = parseInt(startString, 10);
     let end: number = endString ? parseInt(endString, 10) : length - 1;
