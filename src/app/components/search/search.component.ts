@@ -11,6 +11,7 @@ import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { UsedFilter } from '@models/search/used-filter';
+import { sortOptions } from "../../constants/sort-options";
 
 @Component({
   selector: 'app-search',
@@ -156,6 +157,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         subject.key.toString(),
       );
       searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
+      searchParams.sort = sortOptions.relevance.value;
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;
 
