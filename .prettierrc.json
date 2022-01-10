@@ -9,13 +9,15 @@
     {
       "files": "*.component.html",
       "options": {
-        "parser": "angular"
+        "parser": "angular",
+        "singleQuote": false
       }
     },
     {
       "files": "*.html",
       "options": {
-        "parser": "html"
+        "parser": "html",
+        "singleQuote": false
       }
     }
   ]
