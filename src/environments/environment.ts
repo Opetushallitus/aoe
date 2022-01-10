@@ -9,6 +9,7 @@
 export const environment = {
   production: false,
   backendUrl: 'https://demo.aoe.fi/api', // demo
+  backendUrlV2: 'https://demo.aoe.fi/api/v2',
   // backendUrl: 'https://aoe.fi/api', // prod
   frontendUrl: 'http://localhost:4200',
   fileUploadLSKey: 'aoe.fileUpload',
