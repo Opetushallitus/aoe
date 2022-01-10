@@ -501,7 +501,7 @@ export class MaterialService {
 
     if (materialId) {
       return this.http
-        .post<UploadImageBody>(`${this.backendUrl}/uploadBase64Image/${materialId}`, body, {
+        .post<UploadImageBody>(`${environment.backendUrlV2}/material/${materialId}/thumbnail`, body, {
           headers: new HttpHeaders({
             Accept: 'application/json',
             'Content-Type': 'application/json',
