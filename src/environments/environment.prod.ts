@@ -4,6 +4,7 @@
 export const environment = {
   production: true,
   backendUrl: 'https://aoe.fi/api',
+  backendUrlV2: 'https://aoe.fi/api/v2',
   frontendUrl: 'https://aoe.fi',
   fileUploadLSKey: 'aoe.fileUpload',
   newERLSKey: 'aoe.new-educational-resource',
