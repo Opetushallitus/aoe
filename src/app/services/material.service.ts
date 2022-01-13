@@ -1066,7 +1066,7 @@ export class MaterialService {
       })
       .pipe(
         map((material): Material[] => {
-          return material.materials.map((m) => ({
+          return material.materials?.map((m) => ({
             id: m.id,
             language: m.language,
             priority: m.priority,
