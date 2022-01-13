@@ -72,7 +72,8 @@
             property="value"
             searchProperty="key"
             filterType="keywords"
-          ></app-taglist><!--keywords-->
+          ></app-taglist>
+          <!--keywords-->
 
           <button
             type="button"
@@ -85,10 +86,9 @@
               {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
             </ng-container>
 
-            <ng-template #more>
-              {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
-            </ng-template>
-          </button><!--toggle metadata-->
+            <ng-template #more>{{ 'demo.educationalMaterial.expandMetadata.more' | translate }}</ng-template>
+          </button>
+          <!--toggle metadata-->
 
           <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
             <app-taglist
@@ -99,7 +99,8 @@
               property="value"
               searchProperty="key"
               filterType="languages"
-            ></app-taglist><!--languages-->
+            ></app-taglist>
+            <!--languages-->
 
             <app-taglist
               *ngIf="collection.educationalUses?.length > 0"
@@ -109,7 +110,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalUses"
-            ></app-taglist><!--educationalUses-->
+            ></app-taglist>
+            <!--educationalUses-->
 
             <app-taglist
               *ngIf="collection.educationalRoles?.length > 0"
@@ -119,7 +121,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalRoles"
-            ></app-taglist><!--educationalRoles-->
+            ></app-taglist>
+            <!--educationalRoles-->
 
             <app-taglist
               *ngIf="collection.accessibilityFeatures?.length > 0"
@@ -129,7 +132,8 @@
               property="value"
               searchProperty="key"
               filterType="accessibilityFeatures"
-            ></app-taglist><!--accessibilityFeatures-->
+            ></app-taglist>
+            <!--accessibilityFeatures-->
 
             <app-taglist
               *ngIf="collection.accessibilityHazards?.length > 0"
@@ -139,7 +143,8 @@
               property="value"
               searchProperty="key"
               filterType="accessibilityHazards"
-            ></app-taglist><!--accessibilityHazards-->
+            ></app-taglist>
+            <!--accessibilityHazards-->
 
             <app-taglist
               *ngIf="collection.educationalLevels?.length > 0"
@@ -149,7 +154,8 @@
               property="value"
               searchProperty="key"
               filterType="educationalLevels"
-            ></app-taglist><!--educationalLevels-->
+            ></app-taglist>
+            <!--educationalLevels-->
 
             <!--early childhood education-->
             <app-taglist
@@ -160,7 +166,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--earlyChildhoodEducationSubjects-->
+            ></app-taglist>
+            <!--earlyChildhoodEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
@@ -170,7 +177,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--earlyChildhoodEducationObjectives-->
+            ></app-taglist>
+            <!--earlyChildhoodEducationObjectives-->
 
             <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
@@ -180,7 +188,8 @@
               <p aria-labelledby="collection-earlyChildhoodEducationFramework">
                 {{ collection.earlyChildhoodEducationFramework }}
               </p>
-            </ng-container><!--earlyChildhoodEducationFramework-->
+            </ng-container>
+            <!--earlyChildhoodEducationFramework-->
             <!--/early childhood education-->
 
             <!--pre primary education-->
@@ -192,7 +201,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--prePrimaryEducationSubjects-->
+            ></app-taglist>
+            <!--prePrimaryEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
@@ -202,7 +212,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--prePrimaryEducationObjectives-->
+            ></app-taglist>
+            <!--prePrimaryEducationObjectives-->
 
             <ng-container *ngIf="collection.prePrimaryEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-prePrimaryEducationFramework">
@@ -212,7 +223,8 @@
               <p aria-labelledby="collection-prePrimaryEducationFramework">
                 {{ collection.prePrimaryEducationFramework }}
               </p>
-            </ng-container><!--prePrimaryEducationFramework-->
+            </ng-container>
+            <!--prePrimaryEducationFramework-->
             <!--/pre primary education-->
 
             <!--basic education-->
@@ -224,7 +236,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--basicStudySubjects-->
+            ></app-taglist>
+            <!--basicStudySubjects-->
 
             <app-taglist
               *ngIf="collection.basicStudyObjectives?.length > 0"
@@ -234,7 +247,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--basicStudyObjectives-->
+            ></app-taglist>
+            <!--basicStudyObjectives-->
 
             <app-taglist
               *ngIf="collection.basicStudyContents?.length > 0"
@@ -244,17 +258,17 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--basicStudyContents-->
+            ></app-taglist>
+            <!--basicStudyContents-->
 
             <ng-container *ngIf="collection.basicStudyFramework">
               <strong class="h3 d-block mb-2" id="collection-basicStudyFramework">
                 {{ 'collections.meta.basicStudyFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-basicStudyFramework">
-                {{ collection.basicStudyFramework }}
-              </p>
-            </ng-container><!--basicStudyFramework-->
+              <p aria-labelledby="collection-basicStudyFramework">{{ collection.basicStudyFramework }}</p>
+            </ng-container>
+            <!--basicStudyFramework-->
             <!--/basic education-->
 
             <!--upper secondary education-->
@@ -266,7 +280,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolSubjectsOld-->
+            ></app-taglist>
+            <!--upperSecondarySchoolSubjectsOld-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolCoursesOld?.length > 0"
@@ -276,7 +291,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolCoursesOld-->
+            ></app-taglist>
+            <!--upperSecondarySchoolCoursesOld-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
@@ -286,7 +302,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolObjectives-->
+            ></app-taglist>
+            <!--upperSecondarySchoolObjectives-->
 
             <ng-container *ngIf="collection.upperSecondarySchoolFramework">
               <strong class="h3 d-block mb-2" id="collection-upperSecondarySchoolFramework">
@@ -296,7 +313,8 @@
               <p aria-labelledby="collection-upperSecondarySchoolFramework">
                 {{ collection.upperSecondarySchoolFramework }}
               </p>
-            </ng-container><!--upperSecondarySchoolFramework-->
+            </ng-container>
+            <!--upperSecondarySchoolFramework-->
             <!--/upper secondary education (old)-->
 
             <!--upper secondary education (new)-->
@@ -308,7 +326,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolSubjectsNew-->
+            ></app-taglist>
+            <!--upperSecondarySchoolSubjectsNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
@@ -318,7 +337,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--upperSecondarySchoolModulesNew-->
+            ></app-taglist>
+            <!--upperSecondarySchoolModulesNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
@@ -328,7 +348,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolObjectivesNew-->
+            ></app-taglist>
+            <!--upperSecondarySchoolObjectivesNew-->
 
             <app-taglist
               *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
@@ -338,7 +359,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--upperSecondarySchoolContentsNew-->
+            ></app-taglist>
+            <!--upperSecondarySchoolContentsNew-->
             <!--/upper secondary education (new)-->
 
             <!--vocational education-->
@@ -350,7 +372,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--vocationalDegrees-->
+            ></app-taglist>
+            <!--vocationalDegrees-->
 
             <app-taglist
               *ngIf="collection.vocationalUnits?.length > 0"
@@ -360,7 +383,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--vocationalUnits-->
+            ></app-taglist>
+            <!--vocationalUnits-->
 
             <app-taglist
               *ngIf="collection.vocationalRequirements?.length > 0"
@@ -370,7 +394,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--vocationalRequirements-->
+            ></app-taglist>
+            <!--vocationalRequirements-->
 
             <ng-container *ngIf="collection.vocationalEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-vocationalEducationFramework">
@@ -380,7 +405,8 @@
               <p aria-labelledby="collection-vocationalEducationFramework">
                 {{ collection.vocationalEducationFramework }}
               </p>
-            </ng-container><!--vocationalEducationFramework-->
+            </ng-container>
+            <!--vocationalEducationFramework-->
             <!--/vocational education-->
 
             <!--self-motivated education-->
@@ -392,7 +418,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--selfMotivatedEducationSubjects-->
+            ></app-taglist>
+            <!--selfMotivatedEducationSubjects-->
 
             <app-taglist
               *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
@@ -402,7 +429,8 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--selfMotivatedEducationObjectives-->
+            ></app-taglist>
+            <!--selfMotivatedEducationObjectives-->
             <!--/self-motivated education-->
 
             <!--higher education-->
@@ -414,7 +442,8 @@
               property="targetName"
               searchProperty="key"
               filterType="educationalSubjects"
-            ></app-taglist><!--scienceBranches-->
+            ></app-taglist>
+            <!--scienceBranches-->
 
             <app-taglist
               *ngIf="collection.scienceBranchObjectives?.length > 0"
@@ -424,17 +453,17 @@
               property="targetName"
               searchProperty="key"
               filterType="teaches"
-            ></app-taglist><!--scienceBranchObjectives-->
+            ></app-taglist>
+            <!--scienceBranchObjectives-->
 
             <ng-container *ngIf="collection.higherEducationFramework">
               <strong class="h3 d-block mb-2" id="collection-higherEducationFramework">
                 {{ 'collections.meta.higherEducationFramework' | translate }}
               </strong>
 
-              <p aria-labelledby="collection-higherEducationFramework">
-                {{ collection.higherEducationFramework }}
-              </p>
-            </ng-container><!--higherEducationFramework-->
+              <p aria-labelledby="collection-higherEducationFramework">{{ collection.higherEducationFramework }}</p>
+            </ng-container>
+            <!--higherEducationFramework-->
             <!--/higher education-->
           </div>
           <!--/metadata-->
@@ -466,7 +495,7 @@
                       <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
                     </ng-container>
 
-                    <ng-template #organizationAuthor> {{ author.organization }} </ng-template>
+                    <ng-template #organizationAuthor>{{ author.organization }}</ng-template>
                   </li>
                 </ul>
                 <!--authors-->
@@ -556,8 +585,10 @@
                                 class="btn btn-secondary"
                                 target="_blank"
                                 rel="noopener nofollow"
-                              >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}
-                                ({{ previewMaterials.get(materialOrHeading.id).domain}})</a>
+                              >
+                                {{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
+                                previewMaterials.get(materialOrHeading.id).domain }})
+                              </a>
                             </div>
                           </ng-template>
                         </div>
@@ -571,20 +602,23 @@
                     <span class="sr-only">{{ 'collections.loading' | translate }}</span>
                   </div>
                 </ng-template>
-              </ng-container><!--material-->
+              </ng-container>
+              <!--material-->
 
               <ng-template #heading>
                 <h2 class="title">{{ materialOrHeading.heading }}</h2>
 
                 <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
-              </ng-template><!--heading-->
+              </ng-template>
+              <!--heading-->
             </div>
           </ng-container>
-          <!--/materials and headings-->
+          <!--/materials and headings a-->
 
           <ng-template #noMaterials>
             <p>{{ 'collections.noMaterials' | translate }}</p>
-          </ng-template><!--no materials or headings-->
+          </ng-template>
+          <!--no materials or headings-->
         </div>
         <!--/right column-->
       </div>
