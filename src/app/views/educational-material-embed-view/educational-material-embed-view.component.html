@@ -17,6 +17,28 @@
 
     <div class="col-9">
       <div class="file-content">
+        <ng-container *ngFor="let material of materials" >
+          <div *ngIf="material === previewMaterial">
+            <h2 style="color: #23282c;">{{ material.displayName[lang] }}</h2>
+          </div>
+        </ng-container>
+        <!--<h2>{{ 'demo.educationalResource.author.title' | translate }} </h2>-->
+        <div class="material-content">
+          <div class="material-description">
+            <ul class="list-unstyled authors">
+              <li style="color: #23282c;" *ngFor="let author of educationalMaterial.authors">
+                <ng-container *ngIf="author.authorname !== ''">
+                  {{ author.authorname }}
+                  <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+                </ng-container>
+                <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+              </li>
+            </ul>
+            <div class="metadata">
+              {{ educationalMaterial.license.value }}
+            </div>
+          </div>
+        </div>
         <app-educational-material-preview
           [material]="previewMaterial"
           *ngIf="!previewMaterial.link"
