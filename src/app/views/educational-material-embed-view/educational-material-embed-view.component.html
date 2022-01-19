@@ -4,7 +4,6 @@
       <h1 class="materials-title">{{ materialName }}</h1>
     </div>
   </ng-container>
-
   <ul class="list-unstyled authors materials-authors">
     <li *ngFor="let author of educationalMaterial.authors">
       <ng-container *ngIf="author.authorname !== ''">
@@ -42,8 +41,6 @@
 
     <div class="col-9">
       <div class="file-content">
-        
-
         <app-educational-material-preview
           [material]="previewMaterial"
           *ngIf="!previewMaterial.link"
@@ -55,8 +52,9 @@
           class="btn btn-secondary"
           target="_blank"
           rel="noopener"
-          >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}</a
         >
+          {{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}
+        </a>
       </div>
     </div>
   </div>
