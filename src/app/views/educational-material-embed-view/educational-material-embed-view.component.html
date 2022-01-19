@@ -22,29 +22,24 @@
             <p class="materials-title">{{ material.displayName[lang] }}</p>
           </div>
         </ng-container>
-        <!--<h2>{{ 'demo.educationalResource.author.title' | translate }} </h2>-->
-        <div class="material-content">
-          <div class="material-description">
-            <ul class="list-unstyled authors">
-              <li class="materials-authors" *ngFor="let author of educationalMaterial.authors">
-                <ng-container *ngIf="author.authorname !== ''">
-                  {{ author.authorname }}
-                  <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-                </ng-container>
-                <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-              </li>
-            </ul>
-            <div class="metadata">
-              <a
-                [href]="getLicense(educationalMaterial.license?.key)?.link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {{ getLicense(educationalMaterial.license?.key)?.value }}
-              </a>
-            </div>
-          </div>
-        </div>
+
+        <ul class="list-unstyled authors materials-authors">
+          <li *ngFor="let author of educationalMaterial.authors">
+            <ng-container *ngIf="author.authorname !== ''">
+              {{ author.authorname }}
+              <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+            </ng-container>
+            <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+          </li>
+        </ul>
+        <a
+          [href]="getLicense(educationalMaterial.license?.key)?.link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {{ getLicense(educationalMaterial.license?.key)?.value }}
+        </a>
+
         <app-educational-material-preview
           [material]="previewMaterial"
           *ngIf="!previewMaterial.link"
