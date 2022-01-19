@@ -20,6 +20,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
   educationalMaterial: EducationalMaterial;
   previewMaterial: Material;
   materials: Material[];
+  materialName: string;
   licenses: License[];
   licenseSubscription: Subscription;
 
@@ -50,7 +51,17 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
       if (this.materials.length > 0) {
         this.previewMaterial = this.materials[0];
       }
+
+      this.updateMaterialName();
     });
+  }
+
+  updateMaterialName(): void {
+    if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
+    } else {
+      this.materialName = this.educationalMaterial.name.find((n) => n.language === 'fi').materialname;
+    }
   }
 
   getLicense(key: string): License {
