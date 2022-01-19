@@ -1,3 +1,28 @@
+<div class="material-info">
+  <ng-container *ngFor="let material of materials" >
+    <div *ngIf="material === previewMaterial">
+      <h1 class="materials-title">{{ materialName }}</h1>
+    </div>
+  </ng-container>
+
+  <ul class="list-unstyled authors materials-authors">
+    <li *ngFor="let author of educationalMaterial.authors">
+      <ng-container *ngIf="author.authorname !== ''">
+        {{ author.authorname }}
+        <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
+      </ng-container>
+      <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
+    </li>
+  </ul>
+  <a
+    [href]="getLicense(educationalMaterial.license?.key)?.link"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    {{ getLicense(educationalMaterial.license?.key)?.value }}
+  </a>
+</div>
+
 <div class="file-list" *ngIf="materials?.length > 0; else notFound">
   <div class="row no-gutters">
     <div class="col-3">
@@ -17,28 +42,7 @@
 
     <div class="col-9">
       <div class="file-content">
-        <ng-container *ngFor="let material of materials" >
-          <div *ngIf="material === previewMaterial">
-            <p class="materials-title">{{ material.displayName[lang] }}</p>
-          </div>
-        </ng-container>
-
-        <ul class="list-unstyled authors materials-authors">
-          <li *ngFor="let author of educationalMaterial.authors">
-            <ng-container *ngIf="author.authorname !== ''">
-              {{ author.authorname }}
-              <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-            </ng-container>
-            <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
-          </li>
-        </ul>
-        <a
-          [href]="getLicense(educationalMaterial.license?.key)?.link"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {{ getLicense(educationalMaterial.license?.key)?.value }}
-        </a>
+        
 
         <app-educational-material-preview
           [material]="previewMaterial"
