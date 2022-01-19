@@ -1,9 +1,5 @@
 <div class="material-info">
-  <ng-container *ngFor="let material of materials" >
-    <div *ngIf="material === previewMaterial">
-      <h1 class="materials-title">{{ materialName }}</h1>
-    </div>
-  </ng-container>
+  <h1 class="materials-title">{{ materialName }}</h1>
   <ul class="list-unstyled authors materials-authors">
     <li *ngFor="let author of educationalMaterial.authors">
       <ng-container *ngIf="author.authorname !== ''">
