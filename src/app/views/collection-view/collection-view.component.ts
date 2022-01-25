@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CollectionService } from '@services/collection.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -22,6 +22,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   collectionId: string;
   collectionSubscription: Subscription;
   collection: Collection;
+  collectionIsLoading = true;
   languageSubscription: Subscription;
   languages: Language[];
   materialsLoading = new Map();
@@ -44,7 +45,11 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.collectionId = this.route.snapshot.paramMap.get('collectionId');
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.collectionId = params.get('collectionId');
+      this.collectionIsLoading = true;
+      this.collectionSvc.updateCollection(this.collectionId);
+    });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.lang = event.lang;
@@ -110,6 +115,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
           );
         });
       });
+
+      this.collectionIsLoading = false;
     });
     this.collectionSvc.updateCollection(this.collectionId);
   }
