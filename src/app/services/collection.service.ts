@@ -340,7 +340,7 @@ export class CollectionService {
   uploadImage(base64Image: string, collectionId: string): Observable<UploadMessage> {
     return this.http
       .post<{ base64image: string }>(
-        `${environment.backendUrl}/collection/uploadBase64Image/${collectionId}`,
+        `${environment.backendUrlV2}/collection/${collectionId}/thumbnail`,
         {
           base64image: base64Image,
         },

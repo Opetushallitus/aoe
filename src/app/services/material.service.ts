@@ -27,7 +27,6 @@ import { UploadImageBody } from '@models/material/upload-image-body';
 export class MaterialService {
   constructor(private http: HttpClient, private translate: TranslateService) {}
 
-  backendUrl = environment.backendUrl;
   private localStorageKey = environment.fileUploadLSKey;
   lang: string = this.translate.currentLang;
 
@@ -53,9 +52,9 @@ export class MaterialService {
     if (sessionStorage.getItem(this.localStorageKey) !== null) {
       const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
-      uploadUrl = `${this.backendUrl}/material/file/${fileUpload.id}`;
+      uploadUrl = `${environment.backendUrl}/material/file/${fileUpload.id}`;
     } else {
-      uploadUrl = `${this.backendUrl}/material/file`;
+      uploadUrl = `${environment.backendUrl}/material/file`;
     }
 
     return this.http
@@ -98,7 +97,7 @@ export class MaterialService {
 
   uploadSubtitle(fileId: string, data: FormData): Observable<AttachmentPostResponse> {
     return this.http
-      .post<AttachmentPostResponse>(`${this.backendUrl}/material/attachment/${fileId}`, data, {
+      .post<AttachmentPostResponse>(`${environment.backendUrl}/material/attachment/${fileId}`, data, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -114,7 +113,7 @@ export class MaterialService {
     const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
     return this.http
-      .post<any>(`${this.backendUrl}/material/link/${fileUpload.id}`, data, {
+      .post<any>(`${environment.backendUrl}/material/link/${fileUpload.id}`, data, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -128,7 +127,7 @@ export class MaterialService {
    * @param {EducationalMaterialPut} data
    */
   postMeta(materialId: number, data: EducationalMaterialPut): Observable<any> {
-    const uploadUrl = `${this.backendUrl}/material/${materialId}`;
+    const uploadUrl = `${environment.backendUrl}/material/${materialId}`;
 
     return this.http.put(uploadUrl, data).pipe(catchError(MaterialService.handleError));
   }
@@ -139,7 +138,7 @@ export class MaterialService {
    * @param {string} versionDate?
    */
   updateMaterial(materialId: number, versionDate?: string): void {
-    let materialUrl = `${this.backendUrl}/material/${materialId}`;
+    let materialUrl = `${environment.backendUrl}/material/${materialId}`;
 
     if (versionDate) {
       materialUrl = `${materialUrl}/${versionDate}`;
@@ -374,7 +373,7 @@ export class MaterialService {
    */
   updateUserMaterialList(): void {
     this.http
-      .get<any>(`${this.backendUrl}/usermaterial`, {
+      .get<any>(`${environment.backendUrl}/usermaterial`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -441,7 +440,7 @@ export class MaterialService {
 
   getRecentMaterialList(): Observable<EducationalMaterialCard[]> {
     return this.http
-      .get<any>(`${this.backendUrl}/recentmaterial`, {
+      .get<any>(`${environment.backendUrl}/recentmaterial`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -502,7 +501,7 @@ export class MaterialService {
 
     if (materialId) {
       return this.http
-        .post<UploadImageBody>(`${this.backendUrl}/uploadBase64Image/${materialId}`, body, {
+        .post<UploadImageBody>(`${environment.backendUrlV2}/material/${materialId}/thumbnail`, body, {
           headers: new HttpHeaders({
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -535,7 +534,7 @@ export class MaterialService {
    */
   updateUploadedFiles(materialId: number): void {
     this.http
-      .get<any>(`${this.backendUrl}/material/${materialId}`, {
+      .get<any>(`${environment.backendUrl}/material/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -569,7 +568,7 @@ export class MaterialService {
    */
   updateEditMaterial(materialId: number): void {
     this.http
-      .get<any>(`${this.backendUrl}/material/${materialId}`, {
+      .get<any>(`${environment.backendUrl}/material/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -991,7 +990,7 @@ export class MaterialService {
       const fileUpload = JSON.parse(sessionStorage.getItem(this.localStorageKey));
 
       return this.http
-        .delete(`${this.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
+        .delete(`${environment.backendUrl}/material/file/${fileUpload.id}/${fileId}`)
         .pipe(catchError(MaterialService.handleError));
     }
   }
@@ -1002,13 +1001,13 @@ export class MaterialService {
    */
   deleteAttachment(attachmentId: number): Observable<any> {
     return this.http
-      .delete(`${this.backendUrl}/material/attachment/${attachmentId}`)
+      .delete(`${environment.backendUrl}/material/attachment/${attachmentId}`)
       .pipe(catchError(MaterialService.handleError));
   }
 
   uploadFile(payload: FormData, materialId: number): Observable<UploadMessage> {
     return this.http
-      .post(`${this.backendUrl}/material/file/${materialId}`, payload, {
+      .post(`${environment.backendUrl}/material/file/${materialId}`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -1045,7 +1044,7 @@ export class MaterialService {
 
   postLink(payload: LinkPost, materialId: number): Observable<LinkPostResponse> {
     return this.http
-      .post<LinkPostResponse>(`${this.backendUrl}/material/link/${materialId}`, payload, {
+      .post<LinkPostResponse>(`${environment.backendUrl}/material/link/${materialId}`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -1060,14 +1059,14 @@ export class MaterialService {
    */
   getCollectionMaterials(materialId: string): Observable<Material[]> {
     return this.http
-      .get<any>(`${this.backendUrl}/material/${materialId}`, {
+      .get<any>(`${environment.backendUrl}/material/${materialId}`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
       })
       .pipe(
         map((material): Material[] => {
-          return material.materials.map((m) => ({
+          return material.materials?.map((m) => ({
             id: m.id,
             language: m.language,
             priority: m.priority,
