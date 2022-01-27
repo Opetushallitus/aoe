@@ -148,7 +148,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         textInputValidator(),
       ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
-      newUpperSecondarySchoolSelected: this.fb.control(false),
+      newUpperSecondarySchoolSelected: this.fb.control(true),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null, [
