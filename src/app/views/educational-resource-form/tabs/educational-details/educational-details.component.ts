@@ -148,7 +148,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         textInputValidator(),
       ]),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
-      newUpperSecondarySchoolSelected: this.fb.control(true),
+      newUpperSecondarySchoolSelected: this.fb.control(false),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
       upperSecondarySchoolFramework: this.fb.control(null, [
@@ -727,6 +727,9 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
     this.hasUpperSecondarySchool =
       value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
+
+    this.newUpperSecondarySchoolSelected.setValue(
+      value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0);
 
     this.hasVocationalEducation =
       value.filter((e: EducationalLevel) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
