@@ -49,17 +49,28 @@ export class NotificationComponent {
   saveMessage(): void {
     this.wrongFormat = "";
     this.newNotification = this.inputField.nativeElement.value.trim();
-      if (this.newNotification.match("^[A-Öa-ö0-9\.-\\s\!\?]+$") && this.newNotification.length < 250) {
+    if (this.newNotification !== this.currentNotification && this.newNotification.match("^[A-Öa-ö0-9\.-\\s\!\?]+$") && this.newNotification.length < 250) {
       this.inputField.nativeElement.value = '';
+
       const payload: NotificationMessage = {
         notification: this.newNotification,
         updated: null,
       };
-      this.postNotification(payload).subscribe();
+
+      this.postNotification(payload).subscribe(
+        (response) => {
+          if (response) {
+            this.getNotification();
+          } else {
+            console.log('Ilmoitusta ei vaihdettu');
+          }
+        }
+      );
+
     } else {
       this.wrongFormat = "Only letters and numbers allowed.";
     }
-    this.getNotification();
+
   }
 
   deleteNotification(): void {
