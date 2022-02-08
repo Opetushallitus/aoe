@@ -7,8 +7,14 @@
         <artifactId>aoe-data-analytics</artifactId>
         <version>0.0.1</version>
     </parent>
+    <!--<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+        <relativePath/>
+    </parent>-->
 
-    <!--<groupId>fi.csc</groupId>-->
+    <groupId>fi.csc</groupId>
     <artifactId>service-etl-processor</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
@@ -76,6 +82,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <!--<fork>false</fork>-->
                     <mainClass>fi.csc.processor.ServiceEtlProcessorApplication</mainClass>
                     <skip>false</skip>
                 </configuration>

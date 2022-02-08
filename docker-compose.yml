@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  aoe-etl-processor:
+    build:
+      context: .
+      dockerfile: ./service-etl-processor/Dockerfile
+    image: aoe-etl-processor:latest
+    container_name: aoe-etl-processor
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./service-etl-processor/.env
+    networks:
+      - network-etl-processor
+
+networks:
+  network-etl-processor:
+    driver: bridge
