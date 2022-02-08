@@ -1,0 +1,14 @@
+### Build Directory
+target/
+
+### Markup files
+HELP.md
+
+### IDE: IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### IDE: VS Code
+.vscode/
