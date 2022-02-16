@@ -411,7 +411,7 @@
       "
       [item]="previewMaterial.upperSecondarySchoolFramework"
     ></app-preview-row>
-
+    
     <!-- upper secondary education (LOPS2019) -->
 
     <app-preview-row
@@ -483,6 +483,14 @@
         </ng-container>
       </dd>
     </ng-container>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.newUpperSecondarySchoolFramework"
+      [title]="
+        'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate
+      "
+      [item]="previewMaterial.newUpperSecondarySchoolFramework"
+    ></app-preview-row>
 
     <!-- vocational education -->
 
