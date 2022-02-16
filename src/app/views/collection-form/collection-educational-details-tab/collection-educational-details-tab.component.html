@@ -498,6 +498,42 @@
         </div>
         <!--upperSecondarySchoolContentsNew-->
       </ng-container>
+      <div class="form-group">
+        <label for="upperSecondarySchoolFramework">
+          {{ 'forms.collection.educational.upperSecondarySchoolFramework.label' | translate }}
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="newUpperSecondarySchoolFramework"
+          formControlName="newUpperSecondarySchoolFramework"
+          [ngClass]="{
+            'is-invalid':
+              newUpperSecondarySchoolFrameworkCtrl.invalid &&
+              (newUpperSecondarySchoolFrameworkCtrl.dirty || newUpperSecondarySchoolFrameworkCtrl.touched || submitted)
+          }"
+        />
+
+        <div
+          *ngIf="
+            newUpperSecondarySchoolFrameworkCtrl.invalid &&
+            (newUpperSecondarySchoolFrameworkCtrl.dirty || newUpperSecondarySchoolFrameworkCtrl.touched || submitted)
+          "
+          class="invalid-feedback"
+        >
+          <div *ngIf="newUpperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
+            {{ 'forms.errors.textInput.characters' | translate }}
+          </div>
+
+          <div *ngIf="newUpperSecondarySchoolFrameworkCtrl.errors.maxlength">
+            {{
+              'forms.errors.common.maxLength'
+                | translate: { maxLength: newUpperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength }
+            }}
+          </div>
+        </div>
+      </div>
     </ng-container> </ng-container
   ><!--upperSecondarySchool-->
 

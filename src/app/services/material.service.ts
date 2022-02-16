@@ -306,7 +306,7 @@ export class MaterialService {
             ),
             suitsAllUpperSecondarySubjects: material.suitsAllUpperSecondarySubjects,
             upperSecondarySchoolSubjectsNew: upperSecondarySchoolSubjectsNew,
-            upperSecondarySchoolFrameworksNew: getUniqueFrameworks(upperSecondarySchoolSubjectsNew),
+            newUpperSecondarySchoolFrameworks: getUniqueFrameworks(upperSecondarySchoolSubjectsNew),
             upperSecondarySchoolModulesNew: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) =>
                 alignmentObject.source === koodistoSources.upperSecondaryModulesNew,
@@ -660,6 +660,17 @@ export class MaterialService {
               targetUrl: alignment.targeturl,
             }));
 
+          const upperSecondarySubjectsNew = material.educationalAlignment
+          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
+          .map((alignment) => ({
+            key: alignment.objectkey,
+            source: alignment.source,
+            alignmentType: alignment.alignmenttype,
+            educationalFramework: alignment.educationalframework,
+            targetName: alignment.targetname,
+            targetUrl: alignment.targeturl,
+          }));
+
           const vocationalDegrees = material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.vocationalDegrees)
             .map((alignment) => ({
@@ -868,6 +879,10 @@ export class MaterialService {
                 targetName: alignment.targetname,
                 targetUrl: alignment.targeturl,
               })),
+            newUpperSecondarySchoolFramework:
+            upperSecondarySubjectsNew.length > 0 && upperSecondarySubjectsNew[0].educationalFramework
+              ? upperSecondarySubjectsNew[0].educationalFramework
+              : null,
             vocationalDegrees: vocationalDegrees,
             suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
             vocationalUnits: material.educationalAlignment

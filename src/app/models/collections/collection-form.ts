@@ -66,6 +66,7 @@ export interface CollectionForm {
   upperSecondarySchoolModulesNew: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[];
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
+  newUpperSecondarySchoolFramework: string;
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];

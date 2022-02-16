@@ -262,6 +262,31 @@ export class EditPreviewComponent implements OnInit {
       delete this.previewMaterial.basicStudyFramework;
 
       // upper secondary school
+      this.previewMaterial.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
+
+      this.previewMaterial.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
+        course.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+        delete course.parent;
+
+        alignmentObjects.push(course);
+      });
+      delete this.previewMaterial.upperSecondarySchoolCoursesOld;
+
+      this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.upperSecondarySchoolObjectives;
+      delete this.previewMaterial.upperSecondarySchoolFramework;
+
+      //old code -->
+      /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsOld);
       delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
 
@@ -279,7 +304,42 @@ export class EditPreviewComponent implements OnInit {
       });
       delete this.previewMaterial.upperSecondarySchoolObjectives;
       delete this.previewMaterial.upperSecondarySchoolFramework;
+      */
 
+      //copy of basic -->
+      this.previewMaterial.upperSecondarySchoolSubjectsNew.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
+
+      this.previewMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
+        delete module.parent;
+
+        alignmentObjects.push(module);
+      });
+      delete this.previewMaterial.upperSecondarySchoolModulesNew;
+
+      this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+        delete objective.parent;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.upperSecondarySchoolObjectivesNew;
+
+      this.previewMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+        delete content.parent;
+
+        alignmentObjects.push(content);
+      });
+      delete this.previewMaterial.upperSecondarySchoolContentsNew;
+      delete this.previewMaterial.newUpperSecondarySchoolFramework;
+
+      //new framework old code
+      /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsNew);
       delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
 
@@ -303,6 +363,7 @@ export class EditPreviewComponent implements OnInit {
         alignmentObjects.push(content);
       });
       delete this.previewMaterial.upperSecondarySchoolContentsNew;
+      */
 
       // vocational education
       this.previewMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
