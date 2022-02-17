@@ -56,6 +56,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   previewMaterialDomain: string;
   licenses: License[];
   licenseSubscription: Subscription;
+  isDownloadable: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,6 +70,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isDownloadable = "download/null";
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.materialId = +params.get('materialId');
       this.materialVersionDate = params.get('versionDate');
