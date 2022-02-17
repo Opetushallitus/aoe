@@ -289,24 +289,8 @@ export class EditPreviewComponent implements OnInit {
       /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsOld);
       delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
-
-      this.previewMaterial.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
-        delete course.parent;
-
-        alignmentObjects.push(course);
-      });
-      delete this.previewMaterial.upperSecondarySchoolCoursesOld;
-
-      this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
-        objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
-
-        alignmentObjects.push(objective);
-      });
-      delete this.previewMaterial.upperSecondarySchoolObjectives;
-      delete this.previewMaterial.upperSecondarySchoolFramework;
       */
 
-      //copy of basic -->
       this.previewMaterial.upperSecondarySchoolSubjectsNew.forEach((subject: AlignmentObjectExtended) => {
         subject.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
 
@@ -342,27 +326,6 @@ export class EditPreviewComponent implements OnInit {
       /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsNew);
       delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
-
-      this.previewMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
-        delete module.parent;
-
-        alignmentObjects.push(module);
-      });
-      delete this.previewMaterial.upperSecondarySchoolModulesNew;
-
-      this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
-        delete objective.parent;
-
-        alignmentObjects.push(objective);
-      });
-      delete this.previewMaterial.upperSecondarySchoolObjectivesNew;
-
-      this.previewMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
-        delete content.parent;
-
-        alignmentObjects.push(content);
-      });
-      delete this.previewMaterial.upperSecondarySchoolContentsNew;
       */
 
       // vocational education
