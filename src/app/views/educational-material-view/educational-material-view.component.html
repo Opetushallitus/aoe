@@ -63,7 +63,7 @@
 
                     <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
-                        <a *ngIf="!material.downloadUrl.endsWith(isDownloadable)" class="dropdown-item" [href]="material.downloadUrl" download>{{
+                        <a *ngIf="!material.downloadUrl.endsWith(nullDownloadUrl)" class="dropdown-item" [href]="material.downloadUrl" download>{{
                           material.displayName[lang]
                         }}</a>
                       </ng-container>
