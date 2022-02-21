@@ -210,7 +210,6 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     if (this.upperSecondarySchoolSubjectsNewCtrl.value && this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
       this.newUpperSecondarySchoolSelected.setValue(true);
       this.upperSecondarySchoolSubjectsNewChange(this.upperSecondarySchoolSubjectsNewCtrl.value);
-      console.log("miksi " + this.upperSecondarySchoolSubjectsNewCtrl.value);
     }
 
     if (this.upperSecondarySchoolModulesNewCtrl.value && this.upperSecondarySchoolModulesNewCtrl.value.length > 0) {
@@ -345,11 +344,6 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       },
     );
     this.koodistoSvc.updateScienceBranches();
-
-    
-    console.log("hmm4544 " + this.upperSecondarySchoolFrameworkCtrl.value);
-    console.log("uusi " + this.newUpperSecondarySchoolFrameworkCtrl.value);
-    console.log("hksdfuh " + this.basicStudyFrameworkCtrl.value);
   }
 
   ngOnDestroy(): void {
