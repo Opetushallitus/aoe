@@ -1,14 +1,12 @@
 <h1>Tee huoltokatkoilmoitus</h1>
 
-<div>
+<div class="form-group">
+    <label>Uusi huoltokatkoilmoitus</label>
     <input class="form-control" type="text" #input />
     <p *ngIf="wrongFormat" style="color: red;"> {{ wrongFormat }} </p>
-    <div>
-        <button class="btn btn-blue" (click)="saveMessage()">Tallenna uusi ilmoitus</button>
-    </div>
 </div>
 
-<br>
+<button class="btn btn-blue" (click)="saveMessage()" style="margin-bottom: 1rem;">Tallenna uusi ilmoitus</button>
 
 <h4>Nykyinen ilmoitus:</h4>
 <div *ngIf="currentNotification; else elseBlock">
