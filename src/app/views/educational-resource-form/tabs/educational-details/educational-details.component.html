@@ -548,6 +548,7 @@
         </ng-select>
       </div>
 
+      <!--
       <div class="form-group">
         <label for="upperSecondarySchoolFramework">{{
           'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label'
@@ -595,7 +596,7 @@
             }}
           </div>
         </div>
-      </div>
+      </div> -->
     </ng-container>
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
@@ -656,7 +657,9 @@
         </div>
       </div>
 
+      <!--framework-->
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
+
         <div class="form-group">
           <label for="upperSecondarySchoolModulesNew">
             {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}*
@@ -716,6 +719,55 @@
             labelForId="upperSecondarySchoolContentsNew"
             formControlName="upperSecondarySchoolContentsNew"
           ></ng-select>
+        </div>
+
+        <div class="form-group">
+          <label for="newUpperSecondarySchoolFramework">{{
+            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label'
+              | translate
+          }}</label>
+  
+          <button
+            type="button"
+            class="btn btn-link"
+            [tooltip]="
+              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip'
+                | translate
+            "
+          >
+            <img src="assets/img/icons/ic_help.svg" alt="" />
+          </button>
+  
+          <input
+            type="text"
+            class="form-control"
+            id="newUpperSecondarySchoolFramework"
+            formControlName="newUpperSecondarySchoolFramework"
+            [ngClass]="{
+              'is-invalid':
+                newUpperSecondarySchoolFramework.invalid &&
+                (newUpperSecondarySchoolFramework.dirty || newUpperSecondarySchoolFramework.touched || submitted)
+            }"
+          />
+  
+          <div
+            *ngIf="
+              newUpperSecondarySchoolFramework.invalid &&
+              (newUpperSecondarySchoolFramework.dirty || newUpperSecondarySchoolFramework.touched || submitted)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="newUpperSecondarySchoolFramework.errors.invalidCharacters">
+              {{ 'forms.errors.textInput.characters' | translate }}
+            </div>
+  
+            <div *ngIf="newUpperSecondarySchoolFramework.errors.maxlength">
+              {{
+                'forms.errors.common.maxLength'
+                  | translate: { maxLength: newUpperSecondarySchoolFramework.errors.maxlength.requiredLength }
+              }}
+            </div>
+          </div>
         </div>
       </ng-container>
     </ng-container>
