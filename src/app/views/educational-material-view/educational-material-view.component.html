@@ -63,12 +63,14 @@
 
                     <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
-                        <a class="dropdown-item" [href]="material.downloadUrl" download>{{
+                        <a *ngIf="!material.downloadUrl.endsWith(nullDownloadUrl)" class="dropdown-item" [href]="material.downloadUrl" download>{{
                           material.displayName[lang]
                         }}</a>
                       </ng-container>
                     </ng-container>
                   </ng-container>
+                
+                  <!---->
                 </div>
               </div>
             </div>
@@ -664,18 +666,6 @@
                       ><!--upperSecondarySchoolSubjectsNew-->
                     </div>
 
-                    <div
-                      *ngIf="educationalMaterial.upperSecondarySchoolFrameworksNew?.length > 0"
-                      class="metadata-group"
-                    >
-                      <app-taglist
-                        elementId="material-upperSecondarySchoolFrameworksNew"
-                        [tags]="educationalMaterial.upperSecondarySchoolFrameworksNew"
-                        [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworksNew' | translate"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolFrameworksNew-->
-                    </div>
-
                     <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
                       <app-taglist
                         elementId="material-upperSecondarySchoolModulesNew"
@@ -713,6 +703,18 @@
                         filterType="teaches"
                       ></app-taglist
                       ><!--upperSecondarySchoolContentsNew-->
+                    </div>
+
+                    <div
+                      *ngIf="educationalMaterial.newUpperSecondarySchoolFrameworks?.length > 0"
+                      class="metadata-group"
+                    >
+                      <app-taglist
+                        elementId="material-newUpperSecondarySchoolFrameworks"
+                        [tags]="educationalMaterial.newUpperSecondarySchoolFrameworks"
+                        [title]="'demo.educationalMaterial.newUpperSecondarySchoolFrameworks' | translate"
+                      ></app-taglist
+                      ><!--newUpperSecondarySchoolFrameworks-->
                     </div>
 
                     <!-- vocational education -->
