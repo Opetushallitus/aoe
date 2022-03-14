@@ -383,6 +383,14 @@
     [routerLinkOptions]="['/lisaa-oppimateriaali', 3]"
   ></app-preview-row>
 
+  <app-preview-row
+    *ngIf="newUpperSecondarySchoolFramework?.length > 0"
+    [title]="
+      'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label' | translate
+    "
+    [items]="newUpperSecondarySchoolFramework"
+  ></app-preview-row>
+
   <!-- vocational education -->
 
   <app-preview-row

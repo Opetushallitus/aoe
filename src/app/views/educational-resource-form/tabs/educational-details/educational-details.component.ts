@@ -162,6 +162,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
       upperSecondarySchoolContentsNew: this.fb.control(null),
       suitsAllUpperSecondarySubjectsNew: this.fb.control(false),
+      newUpperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       vocationalDegrees: this.fb.control([]),
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
@@ -355,6 +359,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         if (basicStudySubjects.length > 0 && 'educationalFramework' in basicStudySubjects[0]) {
           // eslint-disable-next-line max-len
           this.basicStudyFramework.setValue(basicStudySubjects[0].educationalFramework);
+          console.log("joo o");
         }
 
         // upper secondary school (old)
@@ -397,8 +402,17 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.upperSecondarySchoolSubjectsNewCtrl.setValue(upperSecondarySchoolSubjectsNew);
         this.upperSecondarySchoolSubjectsNewChange(upperSecondarySchoolSubjectsNew);
 
+        console.log("hu " + this.newUpperSecondarySchoolSelected);
+        console.log("hdu " + upperSecondarySchoolSubjectsNew.length + " ja " + upperSecondarySchoolSubjectsNew[0]);
         if (upperSecondarySchoolSubjectsNew.length > 0) {
           this.newUpperSecondarySchoolSelected.setValue(true);
+          console.log("hm " + upperSecondarySchoolSubjectsNew[0].educationalFramework);
+        }
+
+        if (upperSecondarySchoolSubjectsNew.length > 0 &&
+          'educationalFramework' in upperSecondarySchoolSubjectsNew[0]) {
+          this.newUpperSecondarySchoolSelected.setValue(true);
+          this.newUpperSecondarySchoolFramework.setValue(upperSecondarySchoolSubjectsNew[0].educationalFramework);
         }
 
         const upperSecondarySchoolModulesNew = this.savedData.alignmentObjects.filter(
@@ -655,6 +669,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('upperSecondarySchoolContentsNew') as FormControl;
   }
 
+  get newUpperSecondarySchoolFramework(): FormControl {
+    return this.form.get('newUpperSecondarySchoolFramework') as FormControl;
+  }
+
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
   }
@@ -727,6 +745,9 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
     this.hasUpperSecondarySchool =
       value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
+
+    this.newUpperSecondarySchoolSelected.setValue(
+      value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0);
 
     this.hasVocationalEducation =
       value.filter((e: EducationalLevel) => educationalLevelKeys.vocational.includes(e.key)).length > 0;
@@ -913,7 +934,16 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     }
 
     if (this.upperSecondarySchoolSubjectsNewCtrl.value) {
-      this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolSubjectsNewCtrl.value);
+
+      this.upperSecondarySchoolSubjectsNewCtrl.value.forEach((subject: AlignmentObjectExtended) => {
+        const newUpperSecondarySchoolFramework = this.newUpperSecondarySchoolFramework.value;
+
+        if (newUpperSecondarySchoolFramework) {
+          subject.educationalFramework = newUpperSecondarySchoolFramework;
+        }
+        this.alignmentObjects.push(subject);
+      });
+      //this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolSubjectsNewCtrl.value);
 
       if (this.upperSecondarySchoolModulesNewCtrl.value) {
         this.alignmentObjects = this.alignmentObjects.concat(this.upperSecondarySchoolModulesNewCtrl.value);
