@@ -1123,6 +1123,15 @@
     "features": "Accessibility features",
     "hazards": "Accessibility hazards",
     "closeAll": "Close all",
-    "openAll": "Show all"
+    "openAll": "Show all",
+    "linkToMoreInformation": "More information on accessibility",
+    "explanation": "Accessibility of learning resources means that it is easy for people with different needs to use the learning resource. In the Library of Open Educational Resources you can add information on how accessible the learning resource is. This page gives you more information on how to add accessibility information and how to take accessibility into consideration.",
+    "tableHeaders": {
+      "issue": "Issue",
+      "examples": "Examples on how to take into account",
+      "moreInformation": "More information",
+      "howTo": "How to make note of the issue in AOE"
+    },
+    "tableLicense": "This table is made by The National Open Science Coordination and it is licensed with the CC BY 4.0 -license. The table is part of the guide How to Account for Accessibility of OER?. The team of aoe.fi have modified the original work by adding the column How to make note of the issue in AOE."
   }
 }
