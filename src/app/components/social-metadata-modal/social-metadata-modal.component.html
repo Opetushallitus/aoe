@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">{{ 'demo.educationalMaterial.socialMetadata.modal.title' | translate }}</h1>
+  <h1 class="modal-title pull-left">{{ "demo.educationalMaterial.socialMetadata.modal.title" | translate }}</h1>
 
   <button
     type="button"
@@ -14,7 +14,7 @@
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="keywords"> {{ 'forms.educationalResource.basicDetails.keywords.label' | translate }} </label>
+      <label for="keywords">{{ "forms.educationalResource.basicDetails.keywords.label" | translate }}</label>
 
       <ng-select
         [items]="keywords"
@@ -30,7 +30,7 @@
 
     <div class="form-group">
       <label for="accessibilityFeatures">
-        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate }}
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
       </label>
 
       <ng-select
@@ -46,7 +46,7 @@
 
     <div class="form-group">
       <label for="accessibilityHazards">
-        {{ 'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate }}
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label" | translate }}
       </label>
 
       <ng-select
@@ -62,7 +62,7 @@
 
     <div class="form-group">
       <label for="educationalLevels">
-        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
+        {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}
       </label>
 
       <ng-select
@@ -74,8 +74,8 @@
         labelForId="educationalLevels"
         formControlName="educationalLevels"
       >
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
       </ng-select>
     </div>
     <!--/educational levels-->
@@ -86,9 +86,9 @@
       [attr.aria-label]="'forms.common.cancel' | translate"
       (click)="bsModalRef.hide()"
     >
-      {{ 'forms.common.cancel' | translate }}
+      {{ "forms.common.cancel" | translate }}
     </button>
 
-    <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
+    <button type="submit" class="btn btn-blue">{{ "forms.common.save" | translate }}</button>
   </form>
 </div>

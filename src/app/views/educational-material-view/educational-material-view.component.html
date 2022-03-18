@@ -13,7 +13,7 @@
 
       <ng-template #material>
         <alert type="warning" *ngIf="expired">
-          {{ 'demo.educationalMaterial.expired' | translate: { date: educationalMaterial.expires | date: 'd.M.yyyy' } }}
+          {{ "demo.educationalMaterial.expired" | translate: { date: educationalMaterial.expires | date: "d.M.yyyy" } }}
         </alert>
 
         <div class="row mb-4">
@@ -25,14 +25,14 @@
             <div class="material-actions">
               <ng-container *ngIf="authSvc.hasUserdata()">
                 <button type="button" class="btn btn-link" (click)="openCollectionModal()">
-                  {{ 'demo.educationalMaterial.addToCollection' | translate }}
+                  {{ "demo.educationalMaterial.addToCollection" | translate }}
                 </button>
               </ng-container>
 
               <ng-container *ngIf="educationalMaterial.owner">
                 <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId]">
                   <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
-                  {{ 'demo.educationalMaterial.edit' | translate }}
+                  {{ "demo.educationalMaterial.edit" | translate }}
                 </a>
               </ng-container>
 
@@ -44,28 +44,28 @@
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  {{ 'demo.educationalMaterial.download' | translate }}
+                  {{ "demo.educationalMaterial.download" | translate }}
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" [href]="downloadUrl" download>{{
-                    'demo.educationalMaterial.downloadAllFiles' | translate
-                  }}</a>
+                  <a class="dropdown-item" [href]="downloadUrl" download>
+                    {{ "demo.educationalMaterial.downloadAllFiles" | translate }}
+                  </a>
 
-                  <strong class="dropdown-header">{{
-                    'demo.educationalMaterial.downloadSingleFile' | translate
-                  }}</strong>
+                  <strong class="dropdown-header">
+                    {{ "demo.educationalMaterial.downloadSingleFile" | translate }}
+                  </strong>
 
                   <ng-container *ngFor="let materialLang of materialLanguages">
-                    <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">{{
-                      getLanguageValue(materialLang)
-                    }}</strong>
+                    <strong class="dropdown-header" *ngIf="materialLanguages.length > 1">
+                      {{ getLanguageValue(materialLang) }}
+                    </strong>
 
                     <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
-                        <a class="dropdown-item" [href]="material.downloadUrl" download>{{
-                          material.displayName[lang]
-                        }}</a>
+                        <a class="dropdown-item" [href]="material.downloadUrl" download>
+                          {{ material.displayName[lang] }}
+                        </a>
                       </ng-container>
                     </ng-container>
                   </ng-container>
@@ -99,12 +99,12 @@
                     </li>
                     <li>
                       <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-                      {{ educationalMaterial.viewCounter }} {{ 'demo.educationalMaterial.viewCount' | translate }}
+                      {{ educationalMaterial.viewCounter }} {{ "demo.educationalMaterial.viewCount" | translate }}
                     </li>
                     <li>
                       <i class="fa fa-fw fa-download" aria-hidden="true"></i>
                       {{ educationalMaterial.downloadCounter }}
-                      {{ 'demo.educationalMaterial.downloadCount' | translate }}
+                      {{ "demo.educationalMaterial.downloadCount" | translate }}
                     </li>
                   </ul>
                 </div>
@@ -112,7 +112,7 @@
                 <div class="col col-lg-12" *ngIf="educationalMaterial.urn">
                   <p>
                     <strong class="d-block">
-                      {{ 'demo.educationalMaterial.pid.label.version' | translate }}
+                      {{ "demo.educationalMaterial.pid.label.version" | translate }}
 
                       <button
                         type="button"
@@ -147,32 +147,32 @@
 
                 <div class="datetimes">
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.publishedAt">
-                    <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
+                    <strong id="publishedAt">{{ "demo.educationalMaterial.publishedAt" | translate }}:</strong>
 
                     <time
                       [attr.datetime]="educationalMaterial.publishedAt | date: 'yyyy-MM-dd HH:mm'"
                       aria-labelledby="publishedAt"
                     >
-                      {{ educationalMaterial.publishedAt | date: 'd.M.yyyy HH:mm' }}
+                      {{ educationalMaterial.publishedAt | date: "d.M.yyyy HH:mm" }}
                     </time>
                   </span>
 
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.updatedAt">
-                    <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                    <strong id="updatedAt">{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
 
                     <time
                       [attr.datetime]="educationalMaterial.updatedAt | date: 'yyyy-MM-dd HH:mm'"
                       aria-labelledby="updatedAt"
                     >
-                      {{ educationalMaterial.updatedAt | date: 'd.M.yyyy HH:mm' }}
+                      {{ educationalMaterial.updatedAt | date: "d.M.yyyy HH:mm" }}
                     </time>
                   </span>
 
                   <span class="datetime-item d-block d-md-inline-block" *ngIf="educationalMaterial.expires">
-                    <strong id="expires">{{ 'demo.educationalMaterial.expires' | translate }}:</strong>
+                    <strong id="expires">{{ "demo.educationalMaterial.expires" | translate }}:</strong>
 
                     <time [attr.datetime]="educationalMaterial.expires | date: 'yyyy-MM-dd'" aria-labelledby="expires">
-                      {{ educationalMaterial.expires | date: 'd.M.yyyy' }}
+                      {{ educationalMaterial.expires | date: "d.M.yyyy" }}
                     </time>
                   </span>
 
@@ -184,7 +184,7 @@
                       class="btn btn-link"
                       aria-controls="version-history"
                     >
-                      {{ 'demo.educationalMaterial.versionHistory.button' | translate }}
+                      {{ "demo.educationalMaterial.versionHistory.button" | translate }}
                     </button>
 
                     <button
@@ -208,8 +208,9 @@
                           [routerLink]="['/materiaali', materialId, version]"
                           routerLinkActive="active"
                           [ngClass]="{ active: !materialVersionDate && isFirst }"
-                          >{{ version | date: 'dd.MM.yyyy HH:mm:ss' }}</a
                         >
+                          {{ version | date: "dd.MM.yyyy HH:mm:ss" }}
+                        </a>
                       </li>
                     </ul>
                   </div>
@@ -223,7 +224,7 @@
                   <div class="col-md-3">
                     <ng-container *ngIf="materialLanguages.length > 1">
                       <ng-container *ngIf="materialLanguages.length <= 3; else materialLanguageDropdown">
-                        <h2 id="selectLanguageTitle">{{ 'materialPreview.selectLanguage' | translate }}</h2>
+                        <h2 id="selectLanguageTitle">{{ "materialPreview.selectLanguage" | translate }}</h2>
 
                         <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
                           <button
@@ -237,15 +238,22 @@
                             role="tab"
                             (click)="setSelectedLanguage(materialLang)"
                           >
-                            {{ materialLang }} <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
+                            {{ materialLang }}
+                            <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
                           </button>
                         </div>
                       </ng-container>
 
                       <ng-template #materialLanguageDropdown>
                         <div class="dropdown mb-3">
-                          <button class="btn btn-gray dropdown-toggle" type="button" id="selectLanguage" data-toggle="dropdown" aria-expanded="false">
-                            {{ 'materialPreview.selectLanguage' | translate }}
+                          <button
+                            class="btn btn-gray dropdown-toggle"
+                            type="button"
+                            id="selectLanguage"
+                            data-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            {{ "materialPreview.selectLanguage" | translate }}
                           </button>
 
                           <div class="dropdown-menu" aria-labelledby="selectLanguage">
@@ -259,11 +267,12 @@
                               [id]="'langSelector-' + materialLang"
                               role="tab"
                               (click)="setSelectedLanguage(materialLang)"
-                            >{{ getLanguageValue(materialLang) }}</button>
+                            >
+                              {{ getLanguageValue(materialLang) }}
+                            </button>
                           </div>
                         </div>
                       </ng-template>
-
                     </ng-container>
 
                     <div
@@ -273,7 +282,7 @@
                       [attr.aria-labelledby]="'langSelector-' + selectedLanguage"
                     >
                       <h2 id="selectMaterial" [ngClass]="filteredMaterials.length === 1 ? 'sr-only' : ''">
-                        {{ 'materialPreview.selectMaterial' | translate }}
+                        {{ "materialPreview.selectMaterial" | translate }}
                       </h2>
 
                       <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
@@ -313,10 +322,11 @@
                             class="btn btn-secondary"
                             target="_blank"
                             rel="noopener nofollow"
-                            >{{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
-                              previewMaterialDomain
-                            }})</a
                           >
+                            {{ "demo.educationalMaterial.preview.openInNewTab" | translate }} ({{
+                              previewMaterialDomain
+                            }})
+                          </a>
                         </div>
                       </ng-template>
                     </div>
@@ -324,10 +334,10 @@
                 </div>
               </div>
 
-              <h2 class="sr-only">{{ 'demo.educationalMaterial.detailsHeading' | translate }}</h2>
+              <h2 class="sr-only">{{ "demo.educationalMaterial.detailsHeading" | translate }}</h2>
 
               <div class="embed-code">
-                <h3>{{ 'demo.educationalMaterial.embed.label' | translate }}</h3>
+                <h3>{{ "demo.educationalMaterial.embed.label" | translate }}</h3>
 
                 <div class="input-group mb-4">
                   <input
@@ -353,10 +363,10 @@
                       }"
                     >
                       <ng-container *ngIf="!embedCodeCopied; else copied">
-                        {{ 'demo.educationalMaterial.embed.copy' | translate }}
+                        {{ "demo.educationalMaterial.embed.copy" | translate }}
                       </ng-container>
 
-                      <ng-template #copied> {{ 'demo.educationalMaterial.embed.copied' | translate }} </ng-template>
+                      <ng-template #copied>{{ "demo.educationalMaterial.embed.copied" | translate }}</ng-template>
                     </button>
                   </div>
                 </div>
@@ -365,20 +375,21 @@
               <div class="metadata">
                 <div class="row">
                   <div *ngIf="educationalMaterial.timeRequired" class="col-auto">
-                    <h3>{{ 'demo.educationalMaterial.timeRequired' | translate }}</h3>
+                    <h3>{{ "demo.educationalMaterial.timeRequired" | translate }}</h3>
                     {{ educationalMaterial.timeRequired }}
                   </div>
 
                   <div *ngIf="educationalMaterial.publisher?.length > 0" class="col-auto">
-                    <h3>{{ 'demo.educationalMaterial.publisher' | translate }}</h3>
+                    <h3>{{ "demo.educationalMaterial.publisher" | translate }}</h3>
 
                     <ng-container *ngFor="let publisher of educationalMaterial.publisher; let isLast = last">
-                      {{ publisher }}<span *ngIf="!isLast">, </span>
+                      {{ publisher }}
+                      <span *ngIf="!isLast">,</span>
                     </ng-container>
                   </div>
 
                   <div class="col-auto">
-                    <h3>{{ 'demo.educationalMaterial.license' | translate }}</h3>
+                    <h3>{{ "demo.educationalMaterial.license" | translate }}</h3>
                     <a
                       [href]="getLicense(educationalMaterial.license?.key)?.link"
                       target="_blank"
@@ -397,8 +408,8 @@
                       property="value"
                       searchProperty="keywordkey"
                       filterType="keywords"
-                    ></app-taglist
-                    ><!--keywords-->
+                    ></app-taglist>
+                    <!--keywords-->
                   </div>
                 </div>
 
@@ -406,11 +417,11 @@
                   <accordion-group (isOpenChange)="detailsExpanded = !detailsExpanded">
                     <button type="button" class="btn btn-link" accordion-heading>
                       <ng-container *ngIf="detailsExpanded; else more">
-                        {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
+                        {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
                       </ng-container>
 
                       <ng-template #more>
-                        {{ 'demo.educationalMaterial.expandMetadata.more' | translate }}
+                        {{ "demo.educationalMaterial.expandMetadata.more" | translate }}
                       </ng-template>
                     </button>
 
@@ -422,8 +433,8 @@
                         property="value"
                         searchProperty="educationallevelkey"
                         filterType="educationalLevels"
-                      ></app-taglist
-                      ><!--educationalLevels-->
+                      ></app-taglist>
+                      <!--educationalLevels-->
                     </div>
 
                     <div *ngIf="educationalMaterial.educationalRoles?.length > 0" class="metadata-group">
@@ -434,8 +445,8 @@
                         property="educationalrole"
                         searchProperty="educationalrolekey"
                         filterType="educationalRoles"
-                      ></app-taglist
-                      ><!--educationalRoles-->
+                      ></app-taglist>
+                      <!--educationalRoles-->
                     </div>
 
                     <div *ngIf="educationalMaterial.educationalUses?.length > 0" class="metadata-group">
@@ -446,8 +457,8 @@
                         property="value"
                         searchProperty="educationalusekey"
                         filterType="educationalUses"
-                      ></app-taglist
-                      ><!--educationalUses-->
+                      ></app-taglist>
+                      <!--educationalUses-->
                     </div>
 
                     <!-- early childhood education -->
@@ -466,8 +477,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllEarlyChildhoodSubjects"
-                      ></app-taglist
-                      ><!--earlyChildhoodEducationSubjects-->
+                      ></app-taglist>
+                      <!--earlyChildhoodEducationSubjects-->
                     </div>
 
                     <div
@@ -478,8 +489,8 @@
                         elementId="material-earlyChildhoodEducationFrameworks"
                         [tags]="educationalMaterial.earlyChildhoodEducationFrameworks"
                         [title]="'demo.educationalMaterial.earlyChildhoodEducationFrameworks' | translate"
-                      ></app-taglist
-                      ><!--earlyChildhoodEducationFrameworks-->
+                      ></app-taglist>
+                      <!--earlyChildhoodEducationFrameworks-->
                     </div>
 
                     <div
@@ -493,8 +504,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--earlyChildhoodEducationObjectives-->
+                      ></app-taglist>
+                      <!--earlyChildhoodEducationObjectives-->
                     </div>
 
                     <!-- pre primary education -->
@@ -513,8 +524,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllPrePrimarySubjects"
-                      ></app-taglist
-                      ><!--prePrimaryEducationSubjects-->
+                      ></app-taglist>
+                      <!--prePrimaryEducationSubjects-->
                     </div>
 
                     <div *ngIf="educationalMaterial.prePrimaryEducationFrameworks?.length > 0" class="metadata-group">
@@ -522,8 +533,8 @@
                         elementId="material-prePrimaryEducationFrameworks"
                         [tags]="educationalMaterial.prePrimaryEducationFrameworks"
                         [title]="'demo.educationalMaterial.prePrimaryEducationFrameworks' | translate"
-                      ></app-taglist
-                      ><!--prePrimaryEducationFrameworks-->
+                      ></app-taglist>
+                      <!--prePrimaryEducationFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.prePrimaryEducationObjectives?.length > 0" class="metadata-group">
@@ -534,8 +545,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--prePrimaryEducationObjectives-->
+                      ></app-taglist>
+                      <!--prePrimaryEducationObjectives-->
                     </div>
 
                     <!-- basic education -->
@@ -554,8 +565,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllBasicStudySubjects"
-                      ></app-taglist
-                      ><!--basicStudySubjects-->
+                      ></app-taglist>
+                      <!--basicStudySubjects-->
                     </div>
 
                     <div *ngIf="educationalMaterial.basicStudyFrameworks?.length > 0" class="metadata-group">
@@ -563,8 +574,8 @@
                         elementId="material-basicStudyFrameworks"
                         [tags]="educationalMaterial.basicStudyFrameworks"
                         [title]="'demo.educationalMaterial.basicStudyFrameworks' | translate"
-                      ></app-taglist
-                      ><!--basicStudyFrameworks-->
+                      ></app-taglist>
+                      <!--basicStudyFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.basicStudyObjectives?.length > 0" class="metadata-group">
@@ -575,8 +586,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--basicStudyObjectives-->
+                      ></app-taglist>
+                      <!--basicStudyObjectives-->
                     </div>
 
                     <div *ngIf="educationalMaterial.basicStudyContents?.length > 0" class="metadata-group">
@@ -587,8 +598,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--basicStudyContents-->
+                      ></app-taglist>
+                      <!--basicStudyContents-->
                     </div>
 
                     <!-- upper secondary education -->
@@ -607,8 +618,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjects"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolSubjectsOld-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolSubjectsOld-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolFrameworks?.length > 0" class="metadata-group">
@@ -616,8 +627,8 @@
                         elementId="material-upperSecondarySchoolFrameworks"
                         [tags]="educationalMaterial.upperSecondarySchoolFrameworks"
                         [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworks' | translate"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolFrameworks-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolCoursesOld?.length > 0" class="metadata-group">
@@ -628,8 +639,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="educationalSubjects"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolCoursesOld-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolCoursesOld-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolObjectives?.length > 0" class="metadata-group">
@@ -640,8 +651,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolObjectives-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolObjectives-->
                     </div>
 
                     <!-- upper secondary education (new) -->
@@ -660,8 +671,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllUpperSecondarySubjectsNew"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolSubjectsNew-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolSubjectsNew-->
                     </div>
 
                     <div
@@ -672,8 +683,8 @@
                         elementId="material-upperSecondarySchoolFrameworksNew"
                         [tags]="educationalMaterial.upperSecondarySchoolFrameworksNew"
                         [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworksNew' | translate"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolFrameworksNew-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolFrameworksNew-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
@@ -684,8 +695,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="educationalSubjects"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolModulesNew-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolModulesNew-->
                     </div>
 
                     <div
@@ -699,8 +710,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolObjectivesNew-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolObjectivesNew-->
                     </div>
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolContentsNew?.length > 0" class="metadata-group">
@@ -711,8 +722,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--upperSecondarySchoolContentsNew-->
+                      ></app-taglist>
+                      <!--upperSecondarySchoolContentsNew-->
                     </div>
 
                     <!-- vocational education -->
@@ -731,8 +742,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllVocationalDegrees"
-                      ></app-taglist
-                      ><!--vocationalDegrees-->
+                      ></app-taglist>
+                      <!--vocationalDegrees-->
                     </div>
 
                     <div *ngIf="educationalMaterial.vocationalFrameworks?.length > 0" class="metadata-group">
@@ -740,8 +751,8 @@
                         elementId="material-vocationalFrameworks"
                         [tags]="educationalMaterial.vocationalFrameworks"
                         [title]="'demo.educationalMaterial.vocationalFrameworks' | translate"
-                      ></app-taglist
-                      ><!--vocationalFrameworks-->
+                      ></app-taglist>
+                      <!--vocationalFrameworks-->
                     </div>
 
                     <!-- @todo: whats up with this? 6.8.2021-->
@@ -777,8 +788,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="educationalSubjects"
-                      ></app-taglist
-                      ><!--vocationalUnits-->
+                      ></app-taglist>
+                      <!--vocationalUnits-->
                     </div>
 
                     <div *ngIf="educationalMaterial.vocationalRequirements?.length > 0" class="metadata-group">
@@ -789,8 +800,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--vocationalRequirements-->
+                      ></app-taglist>
+                      <!--vocationalRequirements-->
                     </div>
 
                     <!-- self-motivated education -->
@@ -809,8 +820,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllSelfMotivatedSubjects"
-                      ></app-taglist
-                      ><!--selfMotivatedEducationSubjects-->
+                      ></app-taglist>
+                      <!--selfMotivatedEducationSubjects-->
                     </div>
 
                     <div
@@ -824,8 +835,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--selfMotivatedEducationObjectives-->
+                      ></app-taglist>
+                      <!--selfMotivatedEducationObjectives-->
                     </div>
 
                     <!-- higher education -->
@@ -841,8 +852,8 @@
                         searchProperty="key"
                         filterType="educationalSubjects"
                         [suitsAll]="educationalMaterial.suitsAllBranches"
-                      ></app-taglist
-                      ><!--scienceBranches-->
+                      ></app-taglist>
+                      <!--scienceBranches-->
                     </div>
 
                     <div *ngIf="educationalMaterial.higherEducationFrameworks?.length > 0" class="metadata-group">
@@ -850,8 +861,8 @@
                         elementId="material-higherEducationFrameworks"
                         [tags]="educationalMaterial.higherEducationFrameworks"
                         [title]="'demo.educationalMaterial.higherEducationFrameworks' | translate"
-                      ></app-taglist
-                      ><!--higherEducationFrameworks-->
+                      ></app-taglist>
+                      <!--higherEducationFrameworks-->
                     </div>
 
                     <div *ngIf="educationalMaterial.scienceBranchObjectives?.length > 0" class="metadata-group">
@@ -862,8 +873,8 @@
                         property="targetName"
                         searchProperty="key"
                         filterType="teaches"
-                      ></app-taglist
-                      ><!--scienceBranchObjectives-->
+                      ></app-taglist>
+                      <!--scienceBranchObjectives-->
                     </div>
 
                     <!-- prerequisites -->
@@ -873,8 +884,8 @@
                         [tags]="educationalMaterial.prerequisites"
                         [title]="'demo.educationalMaterial.prerequisites' | translate"
                         property="targetName"
-                      ></app-taglist
-                      ><!--prerequisites-->
+                      ></app-taglist>
+                      <!--prerequisites-->
                     </div>
 
                     <!-- accessibility -->
@@ -886,8 +897,8 @@
                         property="value"
                         searchProperty="accessibilityfeaturekey"
                         filterType="accessibilityFeatures"
-                      ></app-taglist
-                      ><!--accessibilityFeatures-->
+                      ></app-taglist>
+                      <!--accessibilityFeatures-->
                     </div>
 
                     <div *ngIf="educationalMaterial.accessibilityHazards?.length > 0" class="metadata-group">
@@ -898,8 +909,8 @@
                         property="value"
                         searchProperty="accessibilityhazardkey"
                         filterType="accessibilityHazards"
-                      ></app-taglist
-                      ><!--accessibilityHazards-->
+                      ></app-taglist>
+                      <!--accessibilityHazards-->
                     </div>
 
                     <!-- typicalAgeRange -->
@@ -911,7 +922,7 @@
                       class="metadata-group"
                     >
                       <strong class="h3 d-block mb-2">
-                        {{ 'demo.educationalMaterial.typicalAgeRange' | translate }}
+                        {{ "demo.educationalMaterial.typicalAgeRange" | translate }}
                       </strong>
 
                       <ng-container
@@ -941,9 +952,9 @@
             </div>
 
             <div class="ratings">
-              <h2>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h2>
+              <h2>{{ "demo.educationalMaterial.userReviews.title" | translate }}</h2>
 
-              <h3>{{ 'demo.educationalMaterial.socialMetadata.title' | translate }}</h3>
+              <h3>{{ "demo.educationalMaterial.socialMetadata.title" | translate }}</h3>
 
               <div
                 class="row"
@@ -1011,52 +1022,52 @@
               <!--social metadata-->
 
               <ng-template #noMetadata>
-                <p>{{ 'demo.educationalMaterial.socialMetadata.noMetadata' | translate }}</p>
+                <p>{{ "demo.educationalMaterial.socialMetadata.noMetadata" | translate }}</p>
               </ng-template>
 
               <ng-container *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                 <button type="button" class="btn btn-anchor mb-4" (click)="openSocialMetadataModal()">
-                  {{ 'demo.educationalMaterial.socialMetadata.addMetadata' | translate }}
+                  {{ "demo.educationalMaterial.socialMetadata.addMetadata" | translate }}
                 </button>
               </ng-container>
 
-              <h3>{{ 'demo.educationalMaterial.userReviews.title' | translate }}</h3>
+              <h3>{{ "demo.educationalMaterial.userReviews.title" | translate }}</h3>
 
               <div class="row mb-2">
                 <ng-container
                   *ngIf="educationalMaterial.ratingContentAverage || educationalMaterial.ratingVisualAverage"
                 >
                   <div *ngIf="educationalMaterial.ratingContentAverage" class="col-auto">
-                    <strong>{{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }}:</strong>
+                    <strong>{{ "demo.educationalMaterial.userReviews.ratingContent" | translate }}:</strong>
                     {{ educationalMaterial.ratingContentAverage }}
                     <span class="text-muted">/ 5</span>
                   </div>
 
                   <div *ngIf="educationalMaterial.ratingVisualAverage" class="col-auto">
-                    <strong>{{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }}:</strong>
+                    <strong>{{ "demo.educationalMaterial.userReviews.ratingVisual" | translate }}:</strong>
                     {{ educationalMaterial.ratingVisualAverage }}
                     <span class="text-muted">/ 5</span>
                   </div>
                 </ng-container>
 
                 <div class="col-auto">
-                  <a routerLink="arvostelut">{{ 'demo.educationalMaterial.userReviews.allReviews' | translate }}</a>
+                  <a routerLink="arvostelut">{{ "demo.educationalMaterial.userReviews.allReviews" | translate }}</a>
                 </div>
 
                 <div class="col-auto" *ngIf="authSvc.hasUserdata() && !educationalMaterial.owner">
                   <button type="button" class="btn btn-anchor" (click)="openReviewModal()">
-                    {{ 'demo.educationalMaterial.userReviews.addReview' | translate }}
+                    {{ "demo.educationalMaterial.userReviews.addReview" | translate }}
                   </button>
                 </div>
               </div>
 
               <p *ngIf="authSvc.hasUserdata() && educationalMaterial.owner">
-                {{ 'demo.educationalMaterial.reviews.ownerInfo' | translate }}
+                {{ "demo.educationalMaterial.reviews.ownerInfo" | translate }}
               </p>
             </div>
 
             <div class="references" *ngIf="educationalMaterial.references?.length > 0">
-              <h2>{{ 'demo.educationalMaterial.references.title' | translate }}</h2>
+              <h2>{{ "demo.educationalMaterial.references.title" | translate }}</h2>
 
               <div class="reference" *ngFor="let reference of educationalMaterial.references">
                 <div class="row">
@@ -1070,9 +1081,9 @@
 
                   <div class="col-auto">
                     <i class="fa fa-external-link mr-2" aria-hidden="true"></i>
-                    <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">{{
-                      'demo.educationalMaterial.references.openLink' | translate
-                    }}</a>
+                    <a [href]="reference.url" target="_blank" rel="noopener" class="text-blue">
+                      {{ "demo.educationalMaterial.references.openLink" | translate }}
+                    </a>
                   </div>
                 </div>
               </div>

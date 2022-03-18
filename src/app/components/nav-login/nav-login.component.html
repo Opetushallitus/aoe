@@ -1,5 +1,5 @@
 <button *ngIf="!authSvc.hasUserdata(); else loggedIn" class="btn nav-link" type="button" (click)="login()">
-  {{ 'common.login' | translate }}
+  {{ "common.login" | translate }}
 </button>
 
 <ng-template #loggedIn>
@@ -13,15 +13,16 @@
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
-        >{{ authSvc.getUserdata()?.userdata.name }}</a
       >
+        {{ authSvc.getUserdata()?.userdata.name }}
+      </a>
 
       <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
-        <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">{{
-          'navigation.login.userDetails' | translate
-        }}</a>
+        <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">
+          {{ "navigation.login.userDetails" | translate }}
+        </a>
 
-        <button class="dropdown-item" type="button" (click)="logout()">{{ 'common.logout' | translate }}</button>
+        <button class="dropdown-item" type="button" (click)="logout()">{{ "common.logout" | translate }}</button>
       </div>
     </li>
   </ul>

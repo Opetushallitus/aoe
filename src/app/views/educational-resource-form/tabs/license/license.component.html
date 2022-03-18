@@ -1,5 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-  <h3>{{ 'forms.educationalResource.license.title' | translate }}</h3>
+  <h3>{{ "forms.educationalResource.license.title" | translate }}</h3>
 
   <ng-container [ngSwitch]="lang">
     <ng-container *ngSwitchDefault>
@@ -50,7 +50,7 @@
     </ng-container>
   </ng-container>
 
-  <h3>{{ 'forms.educationalResource.license.subtitle' | translate }}</h3>
+  <h3>{{ "forms.educationalResource.license.subtitle" | translate }}</h3>
 
   <div class="form-group" *ngFor="let license of licenses; let i = index">
     <div class="custom-control custom-radio">
@@ -70,32 +70,32 @@
         [attr.aria-expanded]="!license.isCollapsed"
         [attr.aria-controls]="'collapseBasic' + i"
       >
-        {{ 'forms.educationalResource.license.showDetails' | translate }}
+        {{ "forms.educationalResource.license.showDetails" | translate }}
       </button>
     </div>
 
     <div [id]="'collapseBasic' + i" [collapse]="license.isCollapsed" [isAnimated]="true">
       <p>{{ license.description }}</p>
 
-      <a [href]="license.link" target="_blank" rel="noopener">{{
-        'forms.educationalResource.license.readMore' | translate
-      }}</a>
+      <a [href]="license.link" target="_blank" rel="noopener">
+        {{ "forms.educationalResource.license.readMore" | translate }}
+      </a>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
       <button type="button" class="btn btn-gray" (click)="previousTab()">
-        {{ 'forms.common.previous' | translate }}
+        {{ "forms.common.previous" | translate }}
       </button>
     </div>
 
     <div class="col-auto">
-      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ "forms.common.abort" | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ "forms.common.next" | translate }}</button>
     </div>
   </div>
 </form>

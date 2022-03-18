@@ -221,9 +221,9 @@ export class PreviewComponent implements OnInit {
     );
 
     this.vocationalFramework = getUniqueFrameworks([
-      ...this.vocationalDegrees || [],
-      ...this.furtherVocationalQualifications || [],
-      ...this.specialistVocationalQualifications || [],
+      ...(this.vocationalDegrees || []),
+      ...(this.furtherVocationalQualifications || []),
+      ...(this.specialistVocationalQualifications || []),
     ]);
 
     this.selfMotivatedEducationSubjects = this.savedData?.alignmentObjects?.filter(

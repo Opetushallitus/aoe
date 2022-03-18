@@ -30,8 +30,8 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://www.eoppiva.fi/koulutukset/saavutettavat-asiakirjat-verkossa/" rel="noopener">eOppivan kurssi: Saavutettavat asiakirjat verkossa</a>`,
       ],
       howTo: [
-        `Saavutettavuuden ominaisuudet -kenttään valitse <strong>Navigointi rakenteen avulla</strong>. Jos olet tehnyt rakenteita ja hallinnanominaisuuksia multimediaa`
-        +` sisältäviin oppimateriaaleihin, esimerkiksi videoita ja ääntä hyödyntäviin materiaaleihin, voit valita <strong>Multimedia ja ajastettu sisältö hallittavissa.</strong>`,
+        `Saavutettavuuden ominaisuudet -kenttään valitse <strong>Navigointi rakenteen avulla</strong>. Jos olet tehnyt rakenteita ja hallinnanominaisuuksia multimediaa` +
+          ` sisältäviin oppimateriaaleihin, esimerkiksi videoita ja ääntä hyödyntäviin materiaaleihin, voit valita <strong>Multimedia ja ajastettu sisältö hallittavissa.</strong>`,
       ],
     },
     {
@@ -45,13 +45,13 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Kuva ja ääni</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=fi" rel="noopener">Videoiden tekstityksestä</a>`,
         `<a href="https://selkokeskus.fi/selkokieli/" rel="noopener">Selkokieliset videot</a>`,
-        `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Videoiden tekstittäminen edistää saavutettavuutta</a>`
-        + ' -ohjeessa havainnollistuu hyvin eri tekstitystapojen (open tai closed captions) erot',
+        `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Videoiden tekstittäminen edistää saavutettavuutta</a>` +
+          ' -ohjeessa havainnollistuu hyvin eri tekstitystapojen (open tai closed captions) erot',
       ],
       howTo: [
-        `Saavutettavuuden ominaisuudet -kenttään valitse <strong>tekstivastine</strong> kun olet kuvaillut visuaalisen sisällön. Samasta kentästä valitse <strong>tekstitys</strong>, mikäli videoissasi on synkronoitu tekstuaalinen vastine puheelle.`
-        +` Lisäksi voit valita <strong>käsikirjoitus</strong>, mikäli äänitiedostoille on kirjoitettu erillinen tekstivastine. Mikäli äänisisällölle on viittomakielinen tulkkaus, voit valita <strong>viittomakieli.</strong>`
-        +` Mikäli olet käyttänyt kaavioiden tai muun sisällön esittämiseen niiden luettavuuden mahdollistavia <strong>MathML-, ChemML-</strong> tai <strong>latex</strong> -merkkauskieltä, voit merkitä myös tämän.`,
+        `Saavutettavuuden ominaisuudet -kenttään valitse <strong>tekstivastine</strong> kun olet kuvaillut visuaalisen sisällön. Samasta kentästä valitse <strong>tekstitys</strong>, mikäli videoissasi on synkronoitu tekstuaalinen vastine puheelle.` +
+          ` Lisäksi voit valita <strong>käsikirjoitus</strong>, mikäli äänitiedostoille on kirjoitettu erillinen tekstivastine. Mikäli äänisisällölle on viittomakielinen tulkkaus, voit valita <strong>viittomakieli.</strong>` +
+          ` Mikäli olet käyttänyt kaavioiden tai muun sisällön esittämiseen niiden luettavuuden mahdollistavia <strong>MathML-, ChemML-</strong> tai <strong>latex</strong> -merkkauskieltä, voit merkitä myös tämän.`,
       ],
     },
     {
@@ -64,8 +64,8 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://aoe.fi/#/materiaali/606/" rel="noopener">Ohjeet metatietojen lisäämiseen</a>`,
       ],
       howTo: [
-        `Huolellinen kuvailu on myös saavutettavuutta.   Saavutettavuutta varten on käytössä saavutettavuuden ominaisuudet ja saavutettavuuden esteet -kentät, mutta myös muiden kohtien täyttäminen lisää toisten ymmärrystä materiaalistasi,`
-        +` sen soveltuvuudesta ja sen käyttötarkoituksista.`,
+        `Huolellinen kuvailu on myös saavutettavuutta.   Saavutettavuutta varten on käytössä saavutettavuuden ominaisuudet ja saavutettavuuden esteet -kentät, mutta myös muiden kohtien täyttäminen lisää toisten ymmärrystä materiaalistasi,` +
+          ` sen soveltuvuudesta ja sen käyttötarkoituksista.`,
       ],
     },
     {
@@ -76,19 +76,17 @@ export const Accessibility: AccessibilityTable = {
       details: [
         `<a href="https://daisy.org/info-help/time-to-use-the-modern-digital-publishing-format/" rel="noopener">Epub ja PDF -formaattien vertailu (engl.)</a>`,
       ],
-      howTo: [
-      ],
+      howTo: [],
     },
     {
       topic: 'Hyödynnä saavutettavia materiaaleja',
       examples: [
         'Kun hyödynnät opetuksessa muiden tuottamia aineistoja, tarkista niiden saavutettavuus, esim. tekstitykset.',
       ],
-      details: [
-      ],
+      details: [],
       howTo: [
-        `Kun teet omia oppimateriaaleja hyödyntäen toisten oppimateriaaleja, voit merkata nämä materiaalit Hyödynnetyt materiaalit -sivulle. Mikäli lisenssi sallii, voit myös tehdä toisten oppimateriaalista saavutettavampia `
-        +`– esim. tehdä tekstityksen niille!`,
+        `Kun teet omia oppimateriaaleja hyödyntäen toisten oppimateriaaleja, voit merkata nämä materiaalit Hyödynnetyt materiaalit -sivulle. Mikäli lisenssi sallii, voit myös tehdä toisten oppimateriaalista saavutettavampia ` +
+          `– esim. tehdä tekstityksen niille!`,
       ],
     },
   ],
@@ -135,8 +133,9 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Image and sound (in Finnish)</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=en" rel="noopener">About captioning videos</a>`,
         `<a href="https://selkokeskus.fi/in-english/guidelines-and-instructions/" rel="noopener">Plain language videos</a>`,
-        'The guideline ' + `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Captioning of videos promotes accessibility</a>`
-        + ' shows the differences between different modes of captioning (open or closed captions) (in Finnish)',
+        'The guideline ' +
+          `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Captioning of videos promotes accessibility</a>` +
+          ' shows the differences between different modes of captioning (open or closed captions) (in Finnish)',
       ],
       howTo: [
         `Choose <strong>alternative text</strong> in the Accessibility Feature field if you have created descriptions for visual content.`,
@@ -167,16 +166,12 @@ export const Accessibility: AccessibilityTable = {
       details: [
         `<a href="https://daisy.org/info-help/time-to-use-the-modern-digital-publishing-format/" rel="noopener">Comparison of Epub and PDF formats</a>`,
       ],
-      howTo: [
-      ],
+      howTo: [],
     },
     {
       topic: 'Make use of accessible materials',
-      examples: [
-        'When you use resources produced by others in teaching, check their accessibility, e.g., captioning.',
-      ],
-      details: [
-      ],
+      examples: ['When you use resources produced by others in teaching, check their accessibility, e.g., captioning.'],
+      details: [],
       howTo: [
         'When you use resources produced by others you can credit the resources in the References page. You can also make resources made by others more accessible for example by making captions for them if the license of the learning resources permits such use!',
       ],
@@ -224,13 +219,14 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://www.saavutettavasti.fi/kuva-ja-aani/" rel="noopener">Bild och ljud (på finska)</a>`,
         `<a href="https://support.google.com/youtube/answer/2734796?hl=sv" rel="noopener">Lägga till undertexter</a>`,
         `<a href="https://selkokeskus.fi/pa-svenska/om-lattlast/" rel="noopener">Lättlästa videor</a>`,
-        'I anvisningen ' + `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Textning av videor främjar tillgängligheten</a>`
-        + ' tydliggörs skillnaderna mellan olika textningssätt (open eller closed captions) (på finska)',
+        'I anvisningen ' +
+          `<a href="https://digipedaohjeet.hamk.fi/ohje/nain-tuotat-saavutettavan-videon/" rel="noopener">Textning av videor främjar tillgängligheten</a>` +
+          ' tydliggörs skillnaderna mellan olika textningssätt (open eller closed captions) (på finska)',
       ],
       howTo: [
-        `Välj <strong>text-alternative till icke-textbaserad information</strong> om du har alternativtexter för visuell information. Välj <strong>textning</strong> om din video har synkroniserad text-alternativ till röst.`
-        + ` Välj <strong>manuskript</strong> om du har en separat textfil med text-alternativ till röst. Välj <strong>teckenspråk</strong> om du har en teckenspråkig tolkning på din video.`
-        + ` Välj <strong>MathML, ChemML</strong> eller <strong>latex</strong> om du har använt en av de.`,
+        `Välj <strong>text-alternative till icke-textbaserad information</strong> om du har alternativtexter för visuell information. Välj <strong>textning</strong> om din video har synkroniserad text-alternativ till röst.` +
+          ` Välj <strong>manuskript</strong> om du har en separat textfil med text-alternativ till röst. Välj <strong>teckenspråk</strong> om du har en teckenspråkig tolkning på din video.` +
+          ` Välj <strong>MathML, ChemML</strong> eller <strong>latex</strong> om du har använt en av de.`,
       ],
     },
     {
@@ -243,7 +239,7 @@ export const Accessibility: AccessibilityTable = {
         `<a href="https://aoe.fi/#/materiaali/606/" rel="noopener">Lägga till Anvisningar för att lägga till metadata</a>`,
       ],
       howTo: [
-        `Metadata är också en del av tillgänglighet. Vi har fälten Tillgänglighetsegenskaper och Hinder för tillgänglighet för information om tillgänglighet. Men andra fält också gör det enklare för andra människor att förstå din lärresurs och dess ändamål.`
+        `Metadata är också en del av tillgänglighet. Vi har fälten Tillgänglighetsegenskaper och Hinder för tillgänglighet för information om tillgänglighet. Men andra fält också gör det enklare för andra människor att förstå din lärresurs och dess ändamål.`,
       ],
     },
     {
@@ -254,19 +250,15 @@ export const Accessibility: AccessibilityTable = {
       details: [
         `<a href="https://daisy.org/info-help/time-to-use-the-modern-digital-publishing-format/" rel="noopener">Jämförelse av Epub och PDF-format (på engelska)</a>`,
       ],
-      howTo: [
-      ],
+      howTo: [],
     },
     {
       topic: 'Utnyttja tillgängliga material',
       examples: [
         'När du utnyttjar material som andra producerat i undervisningen ska du kontrollera att materialet är tillgängligt, t.ex. att det har textning.',
       ],
-      details: [
-      ],
-      howTo: [
-        'När du utnyttjar material som andra producerat, kan du beteckna deras information på Referens-sidan.',
-      ],
+      details: [],
+      howTo: ['När du utnyttjar material som andra producerat, kan du beteckna deras information på Referens-sidan.'],
     },
   ],
 };

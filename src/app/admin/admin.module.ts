@@ -20,8 +20,15 @@ import { AdminGuard } from '../guards';
 import { AuthGuard } from '../guards';
 
 @NgModule({
-  declarations: [AdminComponent, RemoveMaterialComponent, ChangeMaterialOwnerComponent, DashboardComponent, 
-    ManageMaterialsComponent, NotificationComponent, ManageServiceComponent],
+  declarations: [
+    AdminComponent,
+    RemoveMaterialComponent,
+    ChangeMaterialOwnerComponent,
+    DashboardComponent,
+    ManageMaterialsComponent,
+    NotificationComponent,
+    ManageServiceComponent,
+  ],
   imports: [CommonModule, AdminRoutingModule, ReactiveFormsModule, NgSelectModule],
   providers: [AuthGuard, AdminGuard],
 })
