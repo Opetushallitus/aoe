@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">{{ 'collections.modal.title' | translate }}</h1>
+  <h1 class="modal-title pull-left">{{ "collections.modal.title" | translate }}</h1>
 
   <button
     type="button"
@@ -13,10 +13,10 @@
 
 <div class="modal-body">
   <form [formGroup]="newCollectionForm" (ngSubmit)="onCreateCollectionSubmit()">
-    <h2>{{ 'collections.modal.createCollection.title' | translate }}</h2>
+    <h2>{{ "collections.modal.createCollection.title" | translate }}</h2>
 
     <div class="form-group">
-      <label for="name"> {{ 'collections.modal.createCollection.name.label' | translate }} </label>
+      <label for="name">{{ "collections.modal.createCollection.name.label" | translate }}</label>
 
       <div class="input-group">
         <input
@@ -29,18 +29,18 @@
         />
 
         <div class="input-group-append">
-          <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
+          <button type="submit" class="btn btn-blue">{{ "forms.common.save" | translate }}</button>
         </div>
 
         <div *ngIf="nameCtrl.errors" class="invalid-feedback">
-          <div *ngIf="nameCtrl.errors.required">{{ 'forms.common.required' | translate }}</div>
+          <div *ngIf="nameCtrl.errors.required">{{ "forms.common.required" | translate }}</div>
         </div>
       </div>
     </div>
   </form>
 
   <form (ngSubmit)="onAddToCollectionSubmit()" *ngIf="userCollections?.length > 0">
-    <h2>{{ 'collections.modal.addToCollection.title' | translate }}</h2>
+    <h2>{{ "collections.modal.addToCollection.title" | translate }}</h2>
 
     <div class="form-group">
       <div class="custom-control custom-checkbox" *ngFor="let collection of userCollections">
@@ -56,6 +56,6 @@
       </div>
     </div>
 
-    <button type="submit" class="btn btn-blue">{{ 'forms.common.add' | translate }}</button>
+    <button type="submit" class="btn btn-blue">{{ "forms.common.add" | translate }}</button>
   </form>
 </div>

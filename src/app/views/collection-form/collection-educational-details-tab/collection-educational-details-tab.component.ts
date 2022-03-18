@@ -33,7 +33,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   @Input() collection: CollectionForm;
   @Input() collectionId: string;
   @Input() tabId: number;
-  @Output() abort = new EventEmitter();
+  @Output() abortForm = new EventEmitter();
   form: FormGroup;
   submitted = false;
   educationalLevelSubscription: Subscription;
@@ -651,7 +651,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
    * Emits EventEmitter indicating user wants to abort.
    */
   emitAbort(): void {
-    this.abort.emit();
+    this.abortForm.emit();
   }
 
   /**

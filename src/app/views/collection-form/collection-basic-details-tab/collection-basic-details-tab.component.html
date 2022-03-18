@@ -11,16 +11,17 @@
       <ng-template #noThumbnail>
         <div class="material-image-upload d-flex flex-column justify-content-center mb-2">
           <img src="assets/img/icons/ic_camera.svg" />
-        </div> </ng-template
-      ><!--no thumbnail-->
+        </div>
+      </ng-template>
+      <!--no thumbnail-->
 
       <button type="button" class="btn btn-gray" (click)="openThumbnailModal(thumbnail)">
-        {{ 'forms.collection.basic.cover' | translate }}
+        {{ "forms.collection.basic.cover" | translate }}
       </button>
 
       <ng-template #thumbnail>
         <div class="modal-header">
-          <h5 class="modal-title">{{ 'forms.educationalResource.basicDetails.image.modal.title' | translate }}</h5>
+          <h5 class="modal-title">{{ "forms.educationalResource.basicDetails.image.modal.title" | translate }}</h5>
 
           <button
             type="button"
@@ -34,7 +35,7 @@
 
         <div class="modal-body">
           <div class="form-group">
-            <label for="image"> {{ 'forms.educationalResource.basicDetails.image.label' | translate }} </label>
+            <label for="image">{{ "forms.educationalResource.basicDetails.image.label" | translate }}</label>
 
             <div class="custom-file">
               <input
@@ -78,20 +79,21 @@
             [attr.aria-label]="'forms.common.close' | translate"
             (click)="thumbnailModalRef.hide()"
           >
-            {{ 'forms.common.close' | translate }}
+            {{ "forms.common.close" | translate }}
           </button>
 
           <button type="button" class="btn btn-blue" (click)="uploadImage()">
-            {{ 'forms.common.saveChanges' | translate }}
+            {{ "forms.common.saveChanges" | translate }}
           </button>
-        </div> </ng-template
-      ><!--/modal-->
+        </div>
+      </ng-template>
+      <!--/modal-->
     </div>
     <!--left column-->
 
     <div class="col-md-10">
       <div class="form-group">
-        <label for="name"> {{ 'forms.collection.basic.name.label' | translate }} * </label>
+        <label for="name">{{ "forms.collection.basic.name.label" | translate }} *</label>
 
         <input
           type="text"
@@ -104,10 +106,10 @@
         />
 
         <div *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched || submitted)" class="invalid-feedback">
-          <div *ngIf="nameCtrl.errors.invalidCharacters">{{ 'forms.errors.textInput.characters' | translate }}</div>
+          <div *ngIf="nameCtrl.errors.invalidCharacters">{{ "forms.errors.textInput.characters" | translate }}</div>
 
           <div *ngIf="nameCtrl.errors.maxlength">
-            {{ 'forms.errors.common.maxLength' | translate: { maxLength: nameCtrl.errors.maxlength.requiredLength } }}
+            {{ "forms.errors.common.maxLength" | translate: { maxLength: nameCtrl.errors.maxlength.requiredLength } }}
           </div>
         </div>
       </div>
@@ -115,7 +117,7 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="keywords"> {{ 'forms.collection.basic.keywords.label' | translate }} * </label>
+          <label for="keywords">{{ "forms.collection.basic.keywords.label" | translate }} *</label>
 
           <ng-select
             [items]="keywords"
@@ -133,7 +135,7 @@
         <!--keywords-->
 
         <div class="form-group col-md-6">
-          <label for="educationalRoles"> {{ 'forms.collection.basic.educationalRoles.label' | translate }} </label>
+          <label for="educationalRoles">{{ "forms.collection.basic.educationalRoles.label" | translate }}</label>
 
           <ng-select
             [items]="educationalRoles"
@@ -150,7 +152,7 @@
 
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="educationalUses"> {{ 'forms.collection.basic.educationalUses.label' | translate }} </label>
+          <label for="educationalUses">{{ "forms.collection.basic.educationalUses.label" | translate }}</label>
 
           <ng-select
             [items]="educationalUses"
@@ -165,7 +167,7 @@
         <!--educationalUses-->
 
         <div class="form-group col-md-6">
-          <label for="languages"> {{ 'forms.collection.basic.languages.label' | translate }} </label>
+          <label for="languages">{{ "forms.collection.basic.languages.label" | translate }}</label>
 
           <ng-select
             [items]="languages"
@@ -184,7 +186,7 @@
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="accessibilityFeatures">
-            {{ 'forms.collection.basic.accessibilityFeatures.label' | translate }}
+            {{ "forms.collection.basic.accessibilityFeatures.label" | translate }}
           </label>
 
           <ng-select
@@ -201,7 +203,7 @@
 
         <div class="form-group col-md-6">
           <label for="accessibilityHazards">
-            {{ 'forms.collection.basic.accessibilityHazards.label' | translate }}
+            {{ "forms.collection.basic.accessibilityHazards.label" | translate }}
           </label>
 
           <ng-select
@@ -218,7 +220,7 @@
       </div>
 
       <div class="form-group">
-        <label for="description"> {{ 'forms.collection.basic.description.label' | translate }} * </label>
+        <label for="description">{{ "forms.collection.basic.description.label" | translate }} *</label>
 
         <textarea
           class="form-control"
@@ -236,11 +238,11 @@
           *ngIf="descriptionCtrl.invalid && (descriptionCtrl.dirty || descriptionCtrl.touched || submitted)"
           class="invalid-feedback"
         >
-          <div *ngIf="descriptionCtrl.errors.invalid">{{ 'forms.errors.description.characters' | translate }}</div>
+          <div *ngIf="descriptionCtrl.errors.invalid">{{ "forms.errors.description.characters" | translate }}</div>
 
           <div *ngIf="descriptionCtrl.errors.maxlength">
             {{
-              'forms.errors.common.maxLength'
+              "forms.errors.common.maxLength"
                 | translate: { maxLength: descriptionCtrl.errors.maxlength.requiredLength }
             }}
           </div>
@@ -253,11 +255,11 @@
 
   <div class="row justify-content-end">
     <div class="col-auto">
-      <button type="button" class="btn btn-cancel" (click)="emitAbort()">{{ 'forms.common.abort' | translate }}</button>
+      <button type="button" class="btn btn-cancel" (click)="emitAbort()">{{ "forms.common.abort" | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ "forms.common.next" | translate }}</button>
     </div>
   </div>
 </form>

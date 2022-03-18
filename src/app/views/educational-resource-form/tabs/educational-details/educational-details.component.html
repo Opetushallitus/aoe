@@ -1,8 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group">
     <label for="educationalLevels">
-      {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}*
-      <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+      {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}*
+      <span class="sr-only">({{ "forms.common.required" | translate }})</span>
     </label>
 
     <button
@@ -24,18 +24,18 @@
       formControlName="educationalLevels"
       (change)="educationalLevelsChange($event)"
     >
-      <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
-      <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
+      <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+      <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
     </ng-select>
   </div>
 
   <ng-container *ngIf="hasEarlyChildhoodEducation">
-    <h3>{{ 'forms.educationalResource.educationalDetails.earlyChildhoodEducation.title' | translate }}</h3>
+    <h3>{{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.title" | translate }}</h3>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationSubjects">{{
-        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label' | translate
-      }}</label>
+      <label for="earlyChildhoodEducationSubjects">
+        {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.subjects.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -59,7 +59,7 @@
       ></ng-select>
 
       <small id="early-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
@@ -72,16 +72,16 @@
           formControlName="suitsAllEarlyChildhoodSubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllEarlyChildhoodSubjects">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationObjectives">{{
-        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label' | translate
-      }}</label>
+      <label for="earlyChildhoodEducationObjectives">
+        {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.objectives.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -105,14 +105,14 @@
       ></ng-select>
 
       <small id="early-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationFramework">{{
-        'forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label' | translate
-      }}</label>
+      <label for="earlyChildhoodEducationFramework">
+        {{ "forms.educationalResource.educationalDetails.earlyChildhoodEducation.inputs.framework.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -144,12 +144,12 @@
         class="invalid-feedback"
       >
         <div *ngIf="earlyChildhoodEducationFramework.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="earlyChildhoodEducationFramework.errors.maxlength">
           {{
-            'forms.errors.common.maxLength'
+            "forms.errors.common.maxLength"
               | translate: { maxLength: earlyChildhoodEducationFramework.errors.maxlength.requiredLength }
           }}
         </div>
@@ -158,12 +158,12 @@
   </ng-container>
 
   <ng-container *ngIf="hasPrePrimaryEducation">
-    <h3>{{ 'forms.educationalResource.educationalDetails.prePrimaryEducation.title' | translate }}</h3>
+    <h3>{{ "forms.educationalResource.educationalDetails.prePrimaryEducation.title" | translate }}</h3>
 
     <div class="form-group">
-      <label for="prePrimaryEducationSubjects">{{
-        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label' | translate
-      }}</label>
+      <label for="prePrimaryEducationSubjects">
+        {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.subjects.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -187,7 +187,7 @@
       ></ng-select>
 
       <small id="pre-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
@@ -200,16 +200,16 @@
           formControlName="suitsAllPrePrimarySubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllPrePrimarySubjects">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllPrePrimarySubjects">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationObjectives">{{
-        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label' | translate
-      }}</label>
+      <label for="prePrimaryEducationObjectives">
+        {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.objectives.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -233,14 +233,14 @@
       ></ng-select>
 
       <small id="pre-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
     <div class="form-group">
-      <label for="prePrimaryEducationFramework">{{
-        'forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label' | translate
-      }}</label>
+      <label for="prePrimaryEducationFramework">
+        {{ "forms.educationalResource.educationalDetails.prePrimaryEducation.inputs.framework.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -272,12 +272,12 @@
         class="invalid-feedback"
       >
         <div *ngIf="prePrimaryEducationFramework.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="prePrimaryEducationFramework.errors.maxlength">
           {{
-            'forms.errors.common.maxLength'
+            "forms.errors.common.maxLength"
               | translate: { maxLength: prePrimaryEducationFramework.errors.maxlength.requiredLength }
           }}
         </div>
@@ -287,11 +287,11 @@
 
   <ng-container *ngIf="hasBasicStudies">
     <div class="form-group">
-      <h3>{{ 'forms.educationalResource.educationalDetails.basicEducation.title' | translate }}</h3>
+      <h3>{{ "forms.educationalResource.educationalDetails.basicEducation.title" | translate }}</h3>
 
-      <label for="basicStudySubjects">{{
-        'forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label' | translate
-      }}</label>
+      <label for="basicStudySubjects">
+        {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.subjects.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -312,8 +312,8 @@
         formControlName="basicStudySubjects"
         (change)="basicStudySubjectsChange($event)"
       >
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.targetName }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
       </ng-select>
     </div>
 
@@ -326,18 +326,18 @@
           formControlName="suitsAllBasicStudySubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllBasicStudySubjects">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllBasicStudySubjects">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
   </ng-container>
 
   <ng-container *ngIf="hasBasicStudySubjects">
     <div class="form-group">
-      <label for="basicStudyFramework">{{
-        'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate
-      }}</label>
+      <label for="basicStudyFramework">
+        {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -362,12 +362,12 @@
         class="invalid-feedback"
       >
         <div *ngIf="basicStudyFramework.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="basicStudyFramework.errors.maxlength">
           {{
-            'forms.errors.common.maxLength'
+            "forms.errors.common.maxLength"
               | translate: { maxLength: basicStudyFramework.errors.maxlength.requiredLength }
           }}
         </div>
@@ -376,8 +376,8 @@
 
     <div class="form-group">
       <label for="basicStudyObjectives">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label' | translate }}*
-        <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+        {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.objectives.label" | translate }}*
+        <span class="sr-only">({{ "forms.common.required" | translate }})</span>
       </label>
 
       <ng-select
@@ -390,15 +390,15 @@
         labelForId="basicStudyObjectives"
         formControlName="basicStudyObjectives"
       >
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
       </ng-select>
     </div>
 
     <div class="form-group">
       <label for="basicStudyContents">
-        {{ 'forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label' | translate }}*
-        <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+        {{ "forms.educationalResource.educationalDetails.basicEducation.inputs.contents.label" | translate }}*
+        <span class="sr-only">({{ "forms.common.required" | translate }})</span>
       </label>
 
       <ng-select
@@ -411,16 +411,16 @@
         labelForId="basicStudyContents"
         formControlName="basicStudyContents"
       >
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
       </ng-select>
     </div>
   </ng-container>
 
   <ng-container *ngIf="hasUpperSecondarySchool">
-    <h3>{{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title' | translate }}</h3>
+    <h3>{{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title" | translate }}</h3>
 
-  <!--
+    <!--
     <div class="form-group">
       
       <div class="custom-control custom-checkbox">
@@ -457,13 +457,13 @@
     <!--new framework always selected so this is useless-->
     <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
       <h4>
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate }}
+        {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current" | translate }}
       </h4>
 
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsOld">
           {{
-            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label'
+            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label"
               | translate
           }}
         </label>
@@ -478,7 +478,7 @@
           formControlName="upperSecondarySchoolSubjectsOld"
           (change)="upperSecondarySchoolSubjectsOldChange($event)"
         >
-          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
         </ng-select>
       </div>
       <!--upperSecondarySubjectsOld-->
@@ -487,7 +487,7 @@
         <div class="form-group">
           <label for="upperSecondarySchoolCoursesOld">
             {{
-              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label'
+              "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label"
                 | translate
             }}
           </label>
@@ -501,8 +501,9 @@
             labelForId="upperSecondarySchoolCoursesOld"
             formControlName="upperSecondarySchoolCoursesOld"
           ></ng-select>
-        </div> </ng-container
-      ><!--upperSecondaryCoursesOld-->
+        </div>
+      </ng-container>
+      <!--upperSecondaryCoursesOld-->
 
       <div class="form-group">
         <div class="custom-control custom-checkbox">
@@ -513,17 +514,19 @@
             formControlName="suitsAllUpperSecondarySubjects"
           />
 
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">{{
-            'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-          }}</label>
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjects">
+            {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+          </label>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolObjectives">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label'
-            | translate
-        }}</label>
+        <label for="upperSecondarySchoolObjectives">
+          {{
+            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.objectives.label"
+              | translate
+          }}
+        </label>
 
         <button
           type="button"
@@ -544,15 +547,16 @@
           id="upperSecondarySchoolObjectives"
           labelForId="upperSecondarySchoolObjectives"
           formControlName="upperSecondarySchoolObjectives"
-        >
-        </ng-select>
+        ></ng-select>
       </div>
 
       <div class="form-group">
-        <label for="upperSecondarySchoolFramework">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label'
-            | translate
-        }}</label>
+        <label for="upperSecondarySchoolFramework">
+          {{
+            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label"
+              | translate
+          }}
+        </label>
 
         <button
           type="button"
@@ -585,12 +589,12 @@
           class="invalid-feedback"
         >
           <div *ngIf="upperSecondarySchoolFramework.errors.invalidCharacters">
-            {{ 'forms.errors.textInput.characters' | translate }}
+            {{ "forms.errors.textInput.characters" | translate }}
           </div>
 
           <div *ngIf="upperSecondarySchoolFramework.errors.maxlength">
             {{
-              'forms.errors.common.maxLength'
+              "forms.errors.common.maxLength"
                 | translate: { maxLength: upperSecondarySchoolFramework.errors.maxlength.requiredLength }
             }}
           </div>
@@ -619,12 +623,13 @@
       </div>
       -->
 
-
       <div class="form-group">
-        <label for="upperSecondarySchoolSubjectsNew">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label'
-            | translate
-        }}</label>
+        <label for="upperSecondarySchoolSubjectsNew">
+          {{
+            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label"
+              | translate
+          }}
+        </label>
 
         <ng-select
           [items]="upperSecondarySchoolSubjectsNew"
@@ -637,7 +642,7 @@
           formControlName="upperSecondarySchoolSubjectsNew"
           (change)="upperSecondarySchoolSubjectsNewChange($event)"
         >
-          <ng-template ng-optgroup-tmp let-item="item"> {{ item.parent }} </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
         </ng-select>
       </div>
 
@@ -650,17 +655,20 @@
             formControlName="suitsAllUpperSecondarySubjectsNew"
           />
 
-          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">{{
-            'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-          }}</label>
+          <label class="custom-control-label" for="suitsAllUpperSecondarySubjectsNew">
+            {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+          </label>
         </div>
       </div>
 
       <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
         <div class="form-group">
           <label for="upperSecondarySchoolModulesNew">
-            {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label' | translate }}*
-            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+            {{
+              "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.modules.label"
+                | translate
+            }}*
+            <span class="sr-only">({{ "forms.common.required" | translate }})</span>
           </label>
 
           <ng-select
@@ -679,10 +687,10 @@
         <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
           <label for="upperSecondarySchoolObjectivesNew">
             {{
-              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label'
+              "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.objectives.label"
                 | translate
             }}*
-            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+            <span class="sr-only">({{ "forms.common.required" | translate }})</span>
           </label>
 
           <ng-select
@@ -700,10 +708,10 @@
         <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
           <label for="upperSecondarySchoolContentsNew">
             {{
-              'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label'
+              "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.contents.label"
                 | translate
             }}*
-            <span class="sr-only">({{ 'forms.common.required' | translate }})</span>
+            <span class="sr-only">({{ "forms.common.required" | translate }})</span>
           </label>
 
           <ng-select
@@ -723,11 +731,11 @@
 
   <ng-container *ngIf="hasVocationalEducation">
     <div class="form-group">
-      <h3>{{ 'forms.educationalResource.educationalDetails.vocationalEducation.title' | translate }}</h3>
+      <h3>{{ "forms.educationalResource.educationalDetails.vocationalEducation.title" | translate }}</h3>
 
-      <label for="vocationalDegrees">{{
-        'forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label' | translate
-      }}</label>
+      <label for="vocationalDegrees">
+        {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.degrees.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -754,7 +762,7 @@
     <div class="form-group">
       <label for="furtherVocationalQualifications">
         {{
-          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label'
+          "forms.educationalResource.educationalDetails.vocationalEducation.inputs.furtherVocationalQualifications.label"
             | translate
         }}
       </label>
@@ -773,7 +781,7 @@
     <div class="form-group">
       <label for="specialistVocationalQualifications">
         {{
-          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label'
+          "forms.educationalResource.educationalDetails.vocationalEducation.inputs.specialistVocationalQualifications.label"
             | translate
         }}
       </label>
@@ -798,17 +806,17 @@
           formControlName="suitsAllVocationalDegrees"
         />
 
-        <label class="custom-control-label" for="suitsAllVocationalDegrees">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllVocationalDegrees">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
 
     <ng-container *ngIf="hasVocationalDegrees">
       <div class="form-group">
-        <label for="vocationalUnits">{{
-          'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate
-        }}</label>
+        <label for="vocationalUnits">
+          {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label" | translate }}
+        </label>
 
         <ng-select
           [items]="vocationalUnits"
@@ -825,7 +833,7 @@
 
       <div class="form-group">
         <label for="vocationalRequirements">
-          {{ 'forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label' | translate }}
+          {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.objectives.label" | translate }}
         </label>
 
         <button
@@ -853,9 +861,9 @@
     </ng-container>
 
     <div class="form-group">
-      <label for="vocationalEducationFramework">{{
-        'forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label' | translate
-      }}</label>
+      <label for="vocationalEducationFramework">
+        {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.framework.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -887,12 +895,12 @@
         class="invalid-feedback"
       >
         <div *ngIf="vocationalEducationFramework.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="vocationalEducationFramework.errors.maxlength">
           {{
-            'forms.errors.common.maxLength'
+            "forms.errors.common.maxLength"
               | translate: { maxLength: vocationalEducationFramework.errors.maxlength.requiredLength }
           }}
         </div>
@@ -902,11 +910,11 @@
 
   <ng-container *ngIf="hasSelfMotivatedEducation">
     <div class="form-group">
-      <h3>{{ 'forms.educationalResource.educationalDetails.selfMotivatedEducation.title' | translate }}</h3>
+      <h3>{{ "forms.educationalResource.educationalDetails.selfMotivatedEducation.title" | translate }}</h3>
 
-      <label for="selfMotivatedEducationSubjects">{{
-        'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label' | translate
-      }}</label>
+      <label for="selfMotivatedEducationSubjects">
+        {{ "forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.subjects.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -930,7 +938,7 @@
       ></ng-select>
 
       <small id="self-subjects-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
@@ -943,16 +951,16 @@
           formControlName="suitsAllSelfMotivatedSubjects"
         />
 
-        <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllSelfMotivatedSubjects">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="selfMotivatedEducationObjectives">{{
-        'forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label' | translate
-      }}</label>
+      <label for="selfMotivatedEducationObjectives">
+        {{ "forms.educationalResource.educationalDetails.selfMotivatedEducation.inputs.objectives.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -976,18 +984,18 @@
       ></ng-select>
 
       <small id="self-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
   </ng-container>
 
   <ng-container *ngIf="hasHigherEducation">
-    <h3>{{ 'forms.educationalResource.educationalDetails.higherEducation.title' | translate }}</h3>
+    <h3>{{ "forms.educationalResource.educationalDetails.higherEducation.title" | translate }}</h3>
 
     <div class="form-group">
-      <label for="branchesOfScience">{{
-        'forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label' | translate
-      }}</label>
+      <label for="branchesOfScience">
+        {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.branchesOfScience.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -1011,8 +1019,8 @@
         labelForId="branchesOfScience"
         formControlName="branchesOfScience"
       >
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.targetName }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.targetName }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
       </ng-select>
     </div>
 
@@ -1020,16 +1028,16 @@
       <div class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="suitsAllBranches" formControlName="suitsAllBranches" />
 
-        <label class="custom-control-label" for="suitsAllBranches">{{
-          'forms.educationalResource.educationalDetails.common.suitsAllSubjects' | translate
-        }}</label>
+        <label class="custom-control-label" for="suitsAllBranches">
+          {{ "forms.educationalResource.educationalDetails.common.suitsAllSubjects" | translate }}
+        </label>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="scienceBranchObjectives">{{
-        'forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label' | translate
-      }}</label>
+      <label for="scienceBranchObjectives">
+        {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.objectives.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -1051,14 +1059,14 @@
       ></ng-select>
 
       <small id="higher-objectives-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
     <div class="form-group">
-      <label for="higherEducationFramework">{{
-        'forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label' | translate
-      }}</label>
+      <label for="higherEducationFramework">
+        {{ "forms.educationalResource.educationalDetails.higherEducation.inputs.framework.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -1088,12 +1096,12 @@
         class="invalid-feedback"
       >
         <div *ngIf="higherEducationFramework.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="higherEducationFramework.errors.maxlength">
           {{
-            'forms.errors.common.maxLength'
+            "forms.errors.common.maxLength"
               | translate: { maxLength: higherEducationFramework.errors.maxlength.requiredLength }
           }}
         </div>
@@ -1104,16 +1112,16 @@
   <div class="row">
     <div class="col">
       <button type="button" class="btn btn-gray" (click)="previousTab()">
-        {{ 'forms.common.previous' | translate }}
+        {{ "forms.common.previous" | translate }}
       </button>
     </div>
 
     <div class="col-auto">
-      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ "forms.common.abort" | translate }}</button>
     </div>
 
     <div class="col-auto">
-      <button type="submit" class="btn btn-blue">{{ 'forms.common.next' | translate }}</button>
+      <button type="submit" class="btn btn-blue">{{ "forms.common.next" | translate }}</button>
     </div>
   </div>
 </form>

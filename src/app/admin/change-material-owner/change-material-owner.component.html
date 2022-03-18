@@ -50,14 +50,15 @@
       [searchFn]="userSearch"
     >
       <ng-template ng-option-tmp let-item="item">
-        {{ item.fullName }} (#{{ item.id }})<br />
+        {{ item.fullName }} (#{{ item.id }})
+        <br />
         {{ item.email }}
       </ng-template>
     </ng-select>
 
     <ng-container *ngIf="userIdCtrl.invalid && submitted">
       <div *ngIf="userIdCtrl.errors.required">
-        <small class="text-danger"> Pakollinen tieto </small>
+        <small class="text-danger">Pakollinen tieto</small>
       </div>
     </ng-container>
   </div>

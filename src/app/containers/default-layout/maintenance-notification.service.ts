@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface Message {
-    notification: string;
-    updated: string;
+  notification: string;
+  updated: string;
 }
 @Injectable({
   providedIn: 'root',
