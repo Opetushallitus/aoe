@@ -76,7 +76,7 @@ export class DefaultLayoutComponent implements OnInit {
     public authSvc: AuthService,
     private cookieSvc: CookieService,
     private alertSvc: AlertService,
-    private notificationSvc: NotificationService
+    private notificationSvc: NotificationService,
   ) {
     this.showNotice = !this.cookieSvc.isCookieSettingsSet();
 
@@ -99,18 +99,17 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.notificationSvc.getNotification().subscribe((message: Message) => {
       this.maintenanceMessage = message.notification;
-      if(this.maintenanceMessage && this.maintenanceMessage != "null") {
+      if (this.maintenanceMessage && this.maintenanceMessage != 'null') {
         this.showMaintenanceAlert = true;
       }
     });
-    
+
     interval(5 * 60 * 1000) // minutes x seconds x milliseconds
       .pipe(
         startWith(0),
         switchMap(() => this.alertSvc.updateAlerts()),
       )
       .subscribe((response: AlertsResponse) => (this.alerts = response));
-    
   }
 
   /**

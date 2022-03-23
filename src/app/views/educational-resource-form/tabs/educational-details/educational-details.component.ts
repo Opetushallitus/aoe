@@ -747,7 +747,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0;
 
     this.newUpperSecondarySchoolSelected.setValue(
-      value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0);
+      value.filter((e: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(e.key)).length > 0,
+    );
 
     this.hasVocationalEducation =
       value.filter((e: EducationalLevel) => educationalLevelKeys.vocational.includes(e.key)).length > 0;

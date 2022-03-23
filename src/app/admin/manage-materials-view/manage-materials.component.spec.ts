@@ -8,9 +8,8 @@ describe('ManageMaterialsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageMaterialsComponent ]
-    })
-    .compileComponents();
+      declarations: [ManageMaterialsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

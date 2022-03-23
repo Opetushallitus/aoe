@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h1 class="modal-title pull-left">{{ 'demo.educationalMaterial.userReviews.modal.title' | translate }}</h1>
+  <h1 class="modal-title pull-left">{{ "demo.educationalMaterial.userReviews.modal.title" | translate }}</h1>
 
   <button
     type="button"
@@ -14,7 +14,7 @@
 <div class="modal-body">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="ratingContent"> {{ 'demo.educationalMaterial.userReviews.ratingContent' | translate }} (1-5) </label>
+      <label for="ratingContent">{{ "demo.educationalMaterial.userReviews.ratingContent" | translate }} (1-5)</label>
 
       <input
         type="number"
@@ -29,17 +29,17 @@
 
       <div *ngIf="ratingContentCtrl.errors" class="invalid-feedback">
         <div *ngIf="ratingContentCtrl.errors.min">
-          {{ 'forms.common.min' | translate }} {{ ratingContentCtrl.errors.min.min }}
+          {{ "forms.common.min" | translate }} {{ ratingContentCtrl.errors.min.min }}
         </div>
 
         <div *ngIf="ratingContentCtrl.errors.max">
-          {{ 'forms.common.max' | translate }} {{ ratingContentCtrl.errors.max.max }}
+          {{ "forms.common.max" | translate }} {{ ratingContentCtrl.errors.max.max }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="ratingVisual"> {{ 'demo.educationalMaterial.userReviews.ratingVisual' | translate }} (1-5) </label>
+      <label for="ratingVisual">{{ "demo.educationalMaterial.userReviews.ratingVisual" | translate }} (1-5)</label>
 
       <input
         type="number"
@@ -54,17 +54,17 @@
 
       <div *ngIf="ratingVisualCtrl.errors" class="invalid-feedback">
         <div *ngIf="ratingVisualCtrl.errors.min">
-          {{ 'forms.common.min' | translate }} {{ ratingVisualCtrl.errors.min.min }}
+          {{ "forms.common.min" | translate }} {{ ratingVisualCtrl.errors.min.min }}
         </div>
 
         <div *ngIf="ratingVisualCtrl.errors.max">
-          {{ 'forms.common.max' | translate }} {{ ratingVisualCtrl.errors.max.max }}
+          {{ "forms.common.max" | translate }} {{ ratingVisualCtrl.errors.max.max }}
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <label for="feedbackPositive"> {{ 'demo.educationalMaterial.userReviews.feedbackPositive' | translate }} </label>
+      <label for="feedbackPositive">{{ "demo.educationalMaterial.userReviews.feedbackPositive" | translate }}</label>
 
       <textarea
         class="form-control"
@@ -82,7 +82,7 @@
     </div>
 
     <div class="form-group">
-      <label for="feedbackSuggest"> {{ 'demo.educationalMaterial.userReviews.feedbackSuggest' | translate }} </label>
+      <label for="feedbackSuggest">{{ "demo.educationalMaterial.userReviews.feedbackSuggest" | translate }}</label>
 
       <textarea
         class="form-control"
@@ -100,7 +100,7 @@
     </div>
 
     <div class="form-group">
-      <label for="feedbackPurpose"> {{ 'demo.educationalMaterial.userReviews.feedbackPurpose' | translate }} </label>
+      <label for="feedbackPurpose">{{ "demo.educationalMaterial.userReviews.feedbackPurpose" | translate }}</label>
 
       <textarea
         class="form-control"
@@ -123,9 +123,9 @@
       [attr.aria-label]="'forms.common.cancel' | translate"
       (click)="bsModalRef.hide()"
     >
-      {{ 'forms.common.cancel' | translate }}
+      {{ "forms.common.cancel" | translate }}
     </button>
 
-    <button type="submit" class="btn btn-blue">{{ 'forms.common.save' | translate }}</button>
+    <button type="submit" class="btn btn-blue">{{ "forms.common.save" | translate }}</button>
   </form>
 </div>

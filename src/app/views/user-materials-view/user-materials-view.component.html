@@ -2,19 +2,19 @@
   <div class="container">
     <div class="row">
       <div class="col">
-        <h1>{{ 'userMaterials.title' | translate }}</h1>
+        <h1>{{ "userMaterials.title" | translate }}</h1>
       </div>
 
       <div class="col-auto">
-        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">{{
-          'userMaterials.createNew' | translate
-        }}</a>
+        <a class="btn btn-link text-blue" [routerLink]="['/lisaa-oppimateriaali', 1]">
+          {{ "userMaterials.createNew" | translate }}
+        </a>
       </div>
     </div>
 
     <div class="row mb-3" *ngIf="unpublishedMaterials?.length > 0">
       <div class="col-12">
-        <h2>{{ 'userMaterials.unpublished.title' | translate }}</h2>
+        <h2>{{ "userMaterials.unpublished.title" | translate }}</h2>
       </div>
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of unpublishedMaterials">
@@ -22,30 +22,30 @@
           <h3 *ngIf="material.name; else noName">{{ material.name[lang] }}</h3>
 
           <ng-template #noName>
-            <h3>{{ 'userMaterials.unpublished.unnamed' | translate }} #{{ material.id }}</h3>
+            <h3>{{ "userMaterials.unpublished.unnamed" | translate }} #{{ material.id }}</h3>
           </ng-template>
         </div>
 
         <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">
-          {{ 'userMaterials.edit' | translate }}
+          {{ "userMaterials.edit" | translate }}
         </a>
       </div>
     </div>
 
     <div class="row mb-3" *ngIf="publishedMaterials?.length > 0; else noPublishedMaterials">
       <div class="col-12">
-        <h2>{{ 'userMaterials.published.title' | translate }}</h2>
+        <h2>{{ "userMaterials.published.title" | translate }}</h2>
       </div>
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let material of publishedMaterials">
         <alert *ngIf="material.expires" [type]="expireAlertType(material.expires)">
           <ng-container [ngSwitch]="expireAlertType(material.expires)">
             <ng-container *ngSwitchCase="'expired'">
-              {{ 'userMaterials.expired' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
+              {{ "userMaterials.expired" | translate: { date: material.expires | date: "d.M.yyyy" } }}
             </ng-container>
 
             <ng-container *ngSwitchDefault>
-              {{ 'userMaterials.expires' | translate: { date: material.expires | date: 'd.M.yyyy' } }}
+              {{ "userMaterials.expires" | translate: { date: material.expires | date: "d.M.yyyy" } }}
             </ng-container>
           </ng-container>
         </alert>
@@ -53,18 +53,18 @@
         <app-educational-material-card [educationalMaterial]="material"></app-educational-material-card>
 
         <a [routerLink]="['/muokkaa-oppimateriaalia', material.id]" class="btn btn-blue btn-block">
-          {{ 'userMaterials.edit' | translate }}
+          {{ "userMaterials.edit" | translate }}
         </a>
       </div>
     </div>
 
     <ng-template #noPublishedMaterials>
-      <p>{{ 'userMaterials.noMaterials' | translate }}</p>
+      <p>{{ "userMaterials.noMaterials" | translate }}</p>
     </ng-template>
 
     <div class="row mb-3" *ngIf="privateCollections && privateCollections.length > 0">
       <div class="col-12">
-        <h2>{{ 'userCollections.private.title' | translate }}</h2>
+        <h2>{{ "userCollections.private.title" | translate }}</h2>
       </div>
 
       <div class="col-md-6 col-lg-4 mb-3" *ngFor="let collection of privateCollections">
@@ -89,14 +89,14 @@
         </div>
 
         <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
-          {{ 'userMaterials.edit' | translate }}
+          {{ "userMaterials.edit" | translate }}
         </a>
       </div>
     </div>
 
     <div class="row mb-3" *ngIf="publicCollections && publicCollections.length > 0">
       <div class="col-12">
-        <h2>{{ 'userCollections.published.title' | translate }}</h2>
+        <h2>{{ "userCollections.published.title" | translate }}</h2>
       </div>
 
       <!--<a [routerLink]="['/kokoelma', collection.id]"></a>-->
@@ -123,7 +123,7 @@
         </div>
 
         <a [routerLink]="['/kokoelma', collection.id, 'muokkaa']" class="btn btn-blue btn-block">
-          {{ 'userMaterials.edit' | translate }}
+          {{ "userMaterials.edit" | translate }}
         </a>
       </div>
     </div>

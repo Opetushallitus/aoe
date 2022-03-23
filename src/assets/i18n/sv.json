@@ -1123,6 +1123,15 @@
     "features": "Tillgänglighetsegenskaper",
     "hazards": "Hinder för tillgänglighet",
     "closeAll": "Stäng alla",
-    "openAll": "Visa alla"
+    "openAll": "Visa alla",
+    "linkToMoreInformation": "Mer information om tillgänglighet",
+    "explanation": "Tillgänglighet innebär att så många som möjligt kan använda läromedel så enkelt som möjligt. På Biblioteket för öppna lärresurser du kan lägga till information om hur din lärresurs är tillgänglig. Du får mer information om tillgänglighet på den här sidan.",
+    "tableHeaders": {
+      "issue": "Ämne",
+      "examples": "Exempel på beaktande",
+      "moreInformation": "Mer information",
+      "howTo": "Hur kan du beteckna det på AOE"
+    },
+    "tableLicense": "Den nationella samordningen av öppen vetenskap har tillverkad den här tabellen. Den är licensierat under en Creative Commons Erkännande 4.0 Internationell Licens. Tabellen är en del av Handbok i tillgänglighet till öppna lärresurser. AOE-team har tillsatt sektionen Hur kan du beteckna det på AOE."
   }
 }
