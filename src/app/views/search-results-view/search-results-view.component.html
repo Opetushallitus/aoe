@@ -1,11 +1,11 @@
 <div class="py-4 px-0">
   <div class="container">
-    <h1>{{ 'search.title' | translate }}</h1>
+    <h1>{{ "search.title" | translate }}</h1>
 
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="form-search">
       <div class="mb-4">
         <div class="input-group mb-2">
-          <label class="sr-only" for="keywords">{{ 'search.inputs.keywords.label' | translate }}</label>
+          <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
           <input
             type="search"
             class="form-control"
@@ -17,13 +17,13 @@
           <div class="input-group-append">
             <button type="submit" class="btn btn-blue" id="button-search">
               <i class="fa fa-search" aria-hidden="true"></i>
-              <span class="sr-only"> {{ 'search.inputs.submit.sr-text' | translate }} </span>
+              <span class="sr-only">{{ "search.inputs.submit.sr-text" | translate }}</span>
             </button>
           </div>
         </div>
 
         <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
-          <span id="used-filters-label" class="mr-1"> {{ 'search.filters.usedFilters' | translate }} </span>
+          <span id="used-filters-label" class="mr-1">{{ "search.filters.usedFilters" | translate }}</span>
 
           <span
             class="badge badge-gray search-filter"
@@ -32,7 +32,7 @@
           >
             <button type="button" class="btn btn-light" (click)="onSubmit(filter)">
               <span aria-hidden="true">&times;</span>
-              <span class="sr-only">{{ 'forms.common.delete' | translate }}</span>
+              <span class="sr-only">{{ "forms.common.delete" | translate }}</span>
             </button>
 
             {{ filter.value }}
@@ -55,11 +55,11 @@
             >
               <div class="row align-items-center">
                 <div class="col">
-                  <h2>{{ 'search.results.narrowSearch' | translate }}</h2>
+                  <h2>{{ "search.results.narrowSearch" | translate }}</h2>
                 </div>
 
                 <div class="col-auto">
-                  <span class="badge badge-pill badge-blue mr-2" *ngIf="filtersCount > 0"> {{ filtersCount }} </span>
+                  <span class="badge badge-pill badge-blue mr-2" *ngIf="filtersCount > 0">{{ filtersCount }}</span>
 
                   <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedFilters ? 'fa-plus' : 'fa-minus'"></i>
                 </div>
@@ -86,7 +86,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-languages-header">{{ 'search.filters.languages.title' | translate }}</h3>
+                    <h3 id="filter-languages-header">{{ "search.filters.languages.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -129,7 +129,7 @@
                   (click)="filtersShown.set('languages', languagesArray.controls.length); showAllLanguages = false"
                   *ngIf="showAllLanguages"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -148,7 +148,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-levels-header">{{ 'search.filters.educationalLevels.title' | translate }}</h3>
+                    <h3 id="filter-levels-header">{{ "search.filters.educationalLevels.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -207,7 +207,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-subjects-header">{{ 'search.filters.educationalSubjecs.title' | translate }}</h3>
+                    <h3 id="filter-subjects-header">{{ "search.filters.educationalSubjecs.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -243,7 +243,7 @@
                   (click)="filtersShown.set('subjects', subjectsArray.controls.length); showAllSubjects = false"
                   *ngIf="showAllSubjects"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -262,11 +262,11 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-teaches-header">{{ 'search.filters.teaches.title' | translate }}</h3>
+                    <h3 id="filter-teaches-header">{{ "search.filters.teaches.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="teachesCount > 0"> {{ teachesCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="teachesCount > 0">{{ teachesCount }}</span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedTeaches ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -295,7 +295,7 @@
                     class="btn btn-link btn-sm"
                     (click)="teachesTruncates.set(i, searchFilters.teaches[i].value.length)"
                   >
-                    {{ 'search.filters.teaches.showFull' | translate }}
+                    {{ "search.filters.teaches.showFull" | translate }}
                   </button>
                 </div>
 
@@ -305,7 +305,7 @@
                   (click)="filtersShown.set('teaches', teachesArray.controls.length); showAllTeaches = false"
                   *ngIf="showAllTeaches"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -324,7 +324,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-types-header">{{ 'search.filters.learningResourceTypes.title' | translate }}</h3>
+                    <h3 id="filter-types-header">{{ "search.filters.learningResourceTypes.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -375,11 +375,11 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-authors-header">{{ 'search.filters.authors.title' | translate }}</h3>
+                    <h3 id="filter-authors-header">{{ "search.filters.authors.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="authorsCount > 0"> {{ authorsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="authorsCount > 0">{{ authorsCount }}</span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedAuthors ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -398,7 +398,7 @@
                   *ngFor="let author of authorsArray.controls | slice: 0:filtersShown.get('authors'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="authors-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="authors-{{ i }}"> {{ searchFilters.authors[i] }} </label>
+                  <label class="custom-control-label" for="authors-{{ i }}">{{ searchFilters.authors[i] }}</label>
                 </div>
 
                 <button
@@ -407,7 +407,7 @@
                   (click)="filtersShown.set('authors', authorsArray.controls.length); showAllAuthors = false"
                   *ngIf="showAllAuthors"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -426,7 +426,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-organizations-header">{{ 'search.filters.organizations.title' | translate }}</h3>
+                    <h3 id="filter-organizations-header">{{ "search.filters.organizations.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -476,7 +476,7 @@
                   "
                   *ngIf="showAllOrganizations"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -495,7 +495,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-roles-header">{{ 'search.filters.educationalRoles.title' | translate }}</h3>
+                    <h3 id="filter-roles-header">{{ "search.filters.educationalRoles.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -539,7 +539,7 @@
                   (click)="filtersShown.set('roles', educationalRolesArray.controls.length); showAllRoles = false"
                   *ngIf="showAllRoles"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -558,7 +558,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-keywords-header">{{ 'search.filters.keywords.title' | translate }}</h3>
+                    <h3 id="filter-keywords-header">{{ "search.filters.keywords.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -594,7 +594,7 @@
                   (click)="filtersShown.set('keywords', keywordsArray.controls.length); showAllKeywords = false"
                   *ngIf="showAllKeywords"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -613,11 +613,11 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-uses-header">{{ 'search.filters.uses.title' | translate }}</h3>
+                    <h3 id="filter-uses-header">{{ "search.filters.uses.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="usesCount > 0"> {{ usesCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="usesCount > 0">{{ usesCount }}</span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedUses ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -636,7 +636,7 @@
                   *ngFor="let use of usesArray.controls | slice: 0:filtersShown.get('uses'); let i = index"
                 >
                   <input type="checkbox" class="custom-control-input" id="uses-{{ i }}" [formControlName]="i" />
-                  <label class="custom-control-label" for="uses-{{ i }}"> {{ searchFilters.uses[i].value }} </label>
+                  <label class="custom-control-label" for="uses-{{ i }}">{{ searchFilters.uses[i].value }}</label>
                 </div>
 
                 <button
@@ -645,7 +645,7 @@
                   (click)="filtersShown.set('uses', usesArray.controls.length); showAllUses = false"
                   *ngIf="showAllUses"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -664,11 +664,11 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-hazards-header">{{ 'search.filters.hazards.title' | translate }}</h3>
+                    <h3 id="filter-hazards-header">{{ "search.filters.hazards.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
-                    <span class="badge badge-pill badge-blue mr-2" *ngIf="hazardsCount > 0"> {{ hazardsCount }} </span>
+                    <span class="badge badge-pill badge-blue mr-2" *ngIf="hazardsCount > 0">{{ hazardsCount }}</span>
 
                     <i class="fa fa-fw" aria-hidden="true" [ngClass]="isCollapsedHazards ? 'fa-plus' : 'fa-minus'"></i>
                   </div>
@@ -698,7 +698,7 @@
                   (click)="filtersShown.set('hazards', hazardsArray.controls.length); showAllHazards = false"
                   *ngIf="showAllHazards"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -717,7 +717,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-features-header">{{ 'search.filters.features.title' | translate }}</h3>
+                    <h3 id="filter-features-header">{{ "search.filters.features.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -753,7 +753,7 @@
                   (click)="filtersShown.set('features', featuresArray.controls.length); showAllFeatures = false"
                   *ngIf="showAllFeatures"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -772,7 +772,7 @@
               >
                 <div class="row align-items-center">
                   <div class="col">
-                    <h3 id="filter-licenses-header">{{ 'search.filters.licenses.title' | translate }}</h3>
+                    <h3 id="filter-licenses-header">{{ "search.filters.licenses.title" | translate }}</h3>
                   </div>
 
                   <div class="col-auto">
@@ -808,7 +808,7 @@
                   (click)="filtersShown.set('licenses', licensesArray.controls.length); showAllLicenses = false"
                   *ngIf="showAllLicenses"
                 >
-                  {{ 'search.filters.showAll' | translate }}
+                  {{ "search.filters.showAll" | translate }}
                 </button>
               </div>
             </div>
@@ -818,13 +818,13 @@
           <ng-template #loadingFilters>
             <div class="filter">
               <div class="spinner-border" role="status">
-                <span class="sr-only">{{ 'search.results.loading' | translate }}</span>
+                <span class="sr-only">{{ "search.results.loading" | translate }}</span>
               </div>
             </div>
           </ng-template>
 
           <button type="submit" class="btn btn-blue btn-block" id="button-narrow-search">
-            {{ 'search.filters.submit' | translate }}
+            {{ "search.filters.submit" | translate }}
           </button>
         </div>
         <!--/filters-->
@@ -838,23 +838,23 @@
                     {{ from + 1 }} -
                     {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} /
                     {{ results.hits }}
-                    {{ 'search.results.results' | translate }}
+                    {{ "search.results.results" | translate }}
                   </div>
                 </div>
 
                 <div class="col-md-auto">
                   <div class="form-group mb-0">
-                    <label for="sort" class="sr-only">{{ 'search.sort.label' | translate }}</label>
+                    <label for="sort" class="sr-only">{{ "search.sort.label" | translate }}</label>
 
                     <select class="form-control" id="sort" formControlName="sort" (change)="onSubmit()">
-                      <option [ngValue]="sortOptions.relevance.value">{{ 'search.sort.relevance' | translate }}</option>
+                      <option [ngValue]="sortOptions.relevance.value">{{ "search.sort.relevance" | translate }}</option>
 
-                      <option [ngValue]="sortOptions.newest.value">{{ 'search.sort.newest' | translate }}</option>
+                      <option [ngValue]="sortOptions.newest.value">{{ "search.sort.newest" | translate }}</option>
 
-                      <option [ngValue]="sortOptions.oldest.value">{{ 'search.sort.oldest' | translate }}</option>
+                      <option [ngValue]="sortOptions.oldest.value">{{ "search.sort.oldest" | translate }}</option>
 
                       <option [ngValue]="sortOptions.popularity.value">
-                        {{ 'search.sort.popularity' | translate }}
+                        {{ "search.sort.popularity" | translate }}
                       </option>
                     </select>
                   </div>
@@ -876,7 +876,7 @@
             <div class="row">
               <div class="col">
                 <div class="d-flex align-items-center" *ngIf="loading">
-                  <strong>{{ 'search.results.loading' | translate }}</strong>
+                  <strong>{{ "search.results.loading" | translate }}</strong>
                   <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
                 </div>
                 <!--loading-->
@@ -899,23 +899,23 @@
                     {{ from + 1 }} -
                     {{ page * resultsPerPage <= results.hits ? page * resultsPerPage : results.hits }} /
                     {{ results.hits }}
-                    {{ 'search.results.results' | translate }}
+                    {{ "search.results.results" | translate }}
                   </div>
                 </div>
 
                 <div class="col-md-auto">
                   <div class="form-group mb-0">
-                    <label for="sort2" class="sr-only">{{ 'search.sort.label' | translate }}</label>
+                    <label for="sort2" class="sr-only">{{ "search.sort.label" | translate }}</label>
 
                     <select class="form-control" id="sort2" formControlName="sort2" (change)="onSubmit()">
-                      <option [ngValue]="sortOptions.relevance.value">{{ 'search.sort.relevance' | translate }}</option>
+                      <option [ngValue]="sortOptions.relevance.value">{{ "search.sort.relevance" | translate }}</option>
 
-                      <option [ngValue]="sortOptions.newest.value">{{ 'search.sort.newest' | translate }}</option>
+                      <option [ngValue]="sortOptions.newest.value">{{ "search.sort.newest" | translate }}</option>
 
-                      <option [ngValue]="sortOptions.oldest.value">{{ 'search.sort.oldest' | translate }}</option>
+                      <option [ngValue]="sortOptions.oldest.value">{{ "search.sort.oldest" | translate }}</option>
 
                       <option [ngValue]="sortOptions.popularity.value">
-                        {{ 'search.sort.popularity' | translate }}
+                        {{ "search.sort.popularity" | translate }}
                       </option>
                     </select>
                   </div>
@@ -936,7 +936,7 @@
           </div>
 
           <ng-template #noResults>
-            <p>{{ 'search.results.noResults' | translate }}</p>
+            <p>{{ "search.results.noResults" | translate }}</p>
           </ng-template>
         </div>
       </div>

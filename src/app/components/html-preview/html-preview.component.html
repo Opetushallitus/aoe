@@ -1,6 +1,6 @@
-<a [href]="material.filepath" target="_blank" rel="noopener nofollow" class="btn btn-outline-secondary">{{
-  'demo.educationalMaterial.preview.openInNewTab' | translate
-}}</a>
+<a [href]="material.filepath" target="_blank" rel="noopener nofollow" class="btn btn-outline-secondary">
+  {{ "demo.educationalMaterial.preview.openInNewTab" | translate }}
+</a>
 
 <div class="embed-responsive embed-responsive-1by1">
   <iframe class="embed-responsive-item" [src]="material.filepath | safe"></iframe>

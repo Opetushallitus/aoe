@@ -23,6 +23,7 @@ import { TitlesMaterialFormTabs } from '@models/translations/titles';
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   savedData: any;
+  accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`;
 
   accessibilityFeatureSubscription: Subscription;
   accessibilityFeatures: AccessibilityFeature[];

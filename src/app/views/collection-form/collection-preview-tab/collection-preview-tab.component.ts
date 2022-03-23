@@ -22,7 +22,7 @@ export class CollectionPreviewTabComponent implements OnInit {
   @Input() collection: CollectionForm;
   @Input() collectionId: string;
   @Input() tabId: number;
-  @Output() abort = new EventEmitter();
+  @Output() abortForm = new EventEmitter();
   form: FormGroup;
   lang = this.translate.currentLang;
   submitted = false;
@@ -331,7 +331,7 @@ export class CollectionPreviewTabComponent implements OnInit {
    * Emits EventEmitter indicating user wants to abort.
    */
   emitAbort(): void {
-    this.abort.emit();
+    this.abortForm.emit();
   }
 
   /**
