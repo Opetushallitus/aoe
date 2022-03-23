@@ -89,6 +89,7 @@ export interface EducationalMaterialForm {
   upperSecondarySchoolModulesNew?: AlignmentObjectExtended[];
   upperSecondarySchoolObjectivesNew?: AlignmentObjectExtended[];
   upperSecondarySchoolContentsNew?: AlignmentObjectExtended[];
+  newUpperSecondarySchoolFramework?: string;
   vocationalDegrees?: AlignmentObjectExtended[];
   suitsAllVocationalDegrees?: boolean;
   vocationalUnits?: AlignmentObjectExtended[];

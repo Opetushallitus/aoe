@@ -133,15 +133,19 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       upperSecondarySchoolCoursesOld: this.fb.control(null),
       suitsAllUpperSecondarySubjects: this.fb.control(false),
       upperSecondarySchoolObjectives: this.fb.control(null),
-      upperSecondarySchoolFramework: this.fb.control(null, [
-        Validators.maxLength(validatorParams.educationalFramework.maxLength),
-        textInputValidator(),
-      ]),
       upperSecondarySchoolSubjectsNew: this.fb.control(null),
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
       upperSecondarySchoolContentsNew: this.fb.control(null),
       suitsAllUpperSecondarySubjectsNew: this.fb.control(false),
+      upperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
+      newUpperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       vocationalDegrees: this.fb.control(null),
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
@@ -189,6 +193,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.basicStudySubjectsCtrl.value && this.basicStudySubjectsCtrl.value.length > 0) {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
+      console.log("jaa a " + this.basicStudySubjectsCtrl.value);
     }
 
     if (
@@ -418,6 +423,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('upperSecondarySchoolModulesNew') as FormControl;
   }
 
+  get newUpperSecondarySchoolFrameworkCtrl(): FormControl {
+    return this.form.get('newUpperSecondarySchoolFramework') as FormControl;
+  }
+
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
   }
@@ -623,6 +632,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     changedMaterial.upperSecondarySchoolModulesNew = this.upperSecondarySchoolModulesNewCtrl.value;
     changedMaterial.upperSecondarySchoolObjectivesNew = this.form.get('upperSecondarySchoolObjectivesNew').value;
     changedMaterial.upperSecondarySchoolContentsNew = this.form.get('upperSecondarySchoolContentsNew').value;
+    changedMaterial.newUpperSecondarySchoolFramework = this.form.get('newUpperSecondarySchoolFramework').value;
 
     // vocational education
     changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
