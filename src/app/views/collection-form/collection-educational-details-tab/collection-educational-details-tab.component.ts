@@ -143,6 +143,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       upperSecondarySchoolModulesNew: this.fb.control(null),
       upperSecondarySchoolObjectivesNew: this.fb.control(null),
       upperSecondarySchoolContentsNew: this.fb.control(null),
+      newUpperSecondarySchoolFramework: this.fb.control(null, [
+        Validators.maxLength(validatorParams.educationalFramework.maxLength),
+        textInputValidator(),
+      ]),
       vocationalDegrees: this.fb.control(null),
       vocationalUnits: this.fb.control(null),
       vocationalRequirements: this.fb.control(null),
@@ -383,6 +387,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     return this.form.get('upperSecondarySchoolModulesNew') as FormControl;
   }
 
+  get newUpperSecondarySchoolFrameworkCtrl(): FormControl {
+    return this.form.get('newUpperSecondarySchoolFramework') as FormControl;
+  }
+
   get vocationalDegreesCtrl(): FormControl {
     return this.form.get('vocationalDegrees') as FormControl;
   }
@@ -581,6 +589,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.upperSecondarySchoolModulesNewCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectivesNew').setValue([]);
       this.form.get('upperSecondarySchoolContentsNew').setValue([]);
+      this.newUpperSecondarySchoolFrameworkCtrl.setValue(null);
     }
 
     if (!this.currentUpperSecondarySchoolSelected.value) {
@@ -599,6 +608,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.upperSecondarySchoolModulesNewCtrl.setValue([]);
       this.form.get('upperSecondarySchoolObjectivesNew').setValue([]);
       this.form.get('upperSecondarySchoolContentsNew').setValue([]);
+      this.newUpperSecondarySchoolFrameworkCtrl.setValue(null);
     }
 
     if (!this.hasUpperSecondarySchoolSubjectsNew) {

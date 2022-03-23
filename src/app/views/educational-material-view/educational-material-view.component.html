@@ -69,6 +69,8 @@
                       </ng-container>
                     </ng-container>
                   </ng-container>
+                
+                  <!---->
                 </div>
               </div>
             </div>
@@ -724,6 +726,18 @@
                         filterType="teaches"
                       ></app-taglist>
                       <!--upperSecondarySchoolContentsNew-->
+                    </div>
+
+                    <div
+                      *ngIf="educationalMaterial.newUpperSecondarySchoolFrameworks?.length > 0"
+                      class="metadata-group"
+                    >
+                      <app-taglist
+                        elementId="material-newUpperSecondarySchoolFrameworks"
+                        [tags]="educationalMaterial.newUpperSecondarySchoolFrameworks"
+                        [title]="'demo.educationalMaterial.newUpperSecondarySchoolFrameworks' | translate"
+                      ></app-taglist
+                      ><!--newUpperSecondarySchoolFrameworks-->
                     </div>
 
                     <!-- vocational education -->
