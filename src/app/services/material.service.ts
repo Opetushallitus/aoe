@@ -661,15 +661,15 @@ export class MaterialService {
             }));
 
           const upperSecondarySubjectsNew = material.educationalAlignment
-          .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
-          .map((alignment) => ({
-            key: alignment.objectkey,
-            source: alignment.source,
-            alignmentType: alignment.alignmenttype,
-            educationalFramework: alignment.educationalframework,
-            targetName: alignment.targetname,
-            targetUrl: alignment.targeturl,
-          }));
+            .filter((alignment) => alignment.source === koodistoSources.upperSecondarySubjectsNew)
+            .map((alignment) => ({
+              key: alignment.objectkey,
+              source: alignment.source,
+              alignmentType: alignment.alignmenttype,
+              educationalFramework: alignment.educationalframework,
+              targetName: alignment.targetname,
+              targetUrl: alignment.targeturl,
+            }));
 
           const vocationalDegrees = material.educationalAlignment
             .filter((alignment) => alignment.source === koodistoSources.vocationalDegrees)
@@ -880,9 +880,9 @@ export class MaterialService {
                 targetUrl: alignment.targeturl,
               })),
             newUpperSecondarySchoolFramework:
-            upperSecondarySubjectsNew.length > 0 && upperSecondarySubjectsNew[0].educationalFramework
-              ? upperSecondarySubjectsNew[0].educationalFramework
-              : null,
+              upperSecondarySubjectsNew.length > 0 && upperSecondarySubjectsNew[0].educationalFramework
+                ? upperSecondarySubjectsNew[0].educationalFramework
+                : null,
             vocationalDegrees: vocationalDegrees,
             suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
             vocationalUnits: material.educationalAlignment
