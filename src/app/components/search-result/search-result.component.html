@@ -27,20 +27,20 @@
         <li class="nav-item">
           <a [routerLink]="['/materiaali', result.id]" class="nav-link">
             <i class="fa fa-fw fa-folder-o text-dark" aria-hidden="true"></i>
-            {{ 'search.results.open' | translate }}
+            {{ "search.results.open" | translate }}
           </a>
         </li>
         <li class="nav-item" *ngIf="result.hasDownloadableFiles">
           <a [href]="downloadUrl" download class="nav-link">
             <i class="fa fa-fw fa-download text-dark" aria-hidden="true"></i>
-            {{ 'search.results.download' | translate }}
+            {{ "search.results.download" | translate }}
           </a>
         </li>
       </ul>
 
       <div class="tags" *ngIf="result.educationalLevels?.length > 0">
         <span class="sr-only" [id]="'result-educationalLevels' + result.id">
-          {{ 'collections.meta.educationalLevels' | translate }}
+          {{ "collections.meta.educationalLevels" | translate }}
         </span>
 
         <button
@@ -70,11 +70,11 @@
         {{ result.learningResourceTypes[0].value }}
       </span>
 
-      <strong> {{ result.license.value }} </strong>
+      <strong>{{ result.license.value }}</strong>
     </div>
 
     <div class="col-auto">
-      <time [attr.datetime]="result.createdAt | date: 'yyyy-MM-dd'"> {{ result.createdAt | date: 'd.M.yyyy' }} </time>
+      <time [attr.datetime]="result.createdAt | date: 'yyyy-MM-dd'">{{ result.createdAt | date: "d.M.yyyy" }}</time>
     </div>
   </div>
 </article>

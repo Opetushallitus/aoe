@@ -9,11 +9,7 @@
       <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
     </li>
   </ul>
-  <a
-    [href]="getLicense(educationalMaterial.license?.key)?.link"
-    target="_blank"
-    rel="noopener noreferrer"
-  >
+  <a [href]="getLicense(educationalMaterial.license?.key)?.link" target="_blank" rel="noopener noreferrer">
     {{ getLicense(educationalMaterial.license?.key)?.value }}
   </a>
 </div>
@@ -49,7 +45,7 @@
           target="_blank"
           rel="noopener"
         >
-          {{ 'demo.educationalMaterial.preview.openInNewTab' | translate }}
+          {{ "demo.educationalMaterial.preview.openInNewTab" | translate }}
         </a>
       </div>
     </div>

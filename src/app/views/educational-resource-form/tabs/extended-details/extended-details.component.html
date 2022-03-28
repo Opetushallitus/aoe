@@ -1,9 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityFeatures">{{
-        'forms.educationalResource.extendedDetails.accessibility.inputs.features.label' | translate
-      }}</label>
+      <label for="accessibilityFeatures">
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -22,12 +22,17 @@
         labelForId="accessibilityFeatures"
         formControlName="accessibilityFeatures"
       ></ng-select>
+      <label>
+        <a href="{{ accessibilityLink }}" rel="noopener" target="_blank">
+          {{ "accessibility.linkToMoreInformation" | translate }}
+        </a>
+      </label>
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="accessibilityHazards">{{
-        'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label' | translate
-      }}</label>
+      <label for="accessibilityHazards">
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -50,7 +55,7 @@
 
     <div class="form-group col-sm-6 col-md-4">
       <span class="group-label">
-        {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }}
+        {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }}
       </span>
 
       <button
@@ -64,7 +69,7 @@
       <div class="form-row" formGroupName="typicalAgeRange">
         <div class="col">
           <label for="typicalAgeRangeMin" class="sr-only">
-            {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }} (min)
+            {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (min)
           </label>
 
           <input
@@ -87,13 +92,13 @@
             "
             class="invalid-feedback"
           >
-            <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
 
-            <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
               {{
-                'forms.errors.common.maxLength'
+                "forms.errors.common.maxLength"
                   | translate: { maxLength: typicalAgeRangeMinCtrl.errors.maxlength.requiredLength }
               }}
             </div>
@@ -104,7 +109,7 @@
 
         <div class="col">
           <label for="typicalAgeRangeMax" class="sr-only">
-            {{ 'forms.educationalResource.extendedDetails.typicalAgeRange.label' | translate }} (max)
+            {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (max)
           </label>
 
           <input
@@ -127,13 +132,13 @@
             "
             class="invalid-feedback"
           >
-            <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ 'forms.common.min' | translate }} 0</div>
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
 
-            <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ 'forms.common.pattern.numeric' | translate }}</div>
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
 
             <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
               {{
-                'forms.errors.common.maxLength'
+                "forms.errors.common.maxLength"
                   | translate: { maxLength: typicalAgeRangeMaxCtrl.errors.maxlength.requiredLength }
               }}
             </div>
@@ -144,7 +149,7 @@
     <!--/typical age range-->
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="timeRequired">{{ 'forms.educationalResource.extendedDetails.timeRequired.label' | translate }}</label>
+      <label for="timeRequired">{{ "forms.educationalResource.extendedDetails.timeRequired.label" | translate }}</label>
 
       <button
         type="button"
@@ -169,19 +174,19 @@
         class="invalid-feedback"
       >
         <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
-          {{ 'forms.errors.textInput.characters' | translate }}
+          {{ "forms.errors.textInput.characters" | translate }}
         </div>
 
         <div *ngIf="timeRequiredCtrl.errors.maxlength">
           {{
-            'forms.errors.common.maxLength' | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength }
+            "forms.errors.common.maxLength" | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength }
           }}
         </div>
       </div>
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="publisher">{{ 'forms.educationalResource.extendedDetails.publisher.label' | translate }}</label>
+      <label for="publisher">{{ "forms.educationalResource.extendedDetails.publisher.label" | translate }}</label>
 
       <button
         type="button"
@@ -203,12 +208,12 @@
       ></ng-select>
 
       <small id="publisher-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="expires">{{ 'forms.educationalResource.extendedDetails.expires.label' | translate }}</label>
+      <label for="expires">{{ "forms.educationalResource.extendedDetails.expires.label" | translate }}</label>
 
       <button
         type="button"
@@ -229,9 +234,9 @@
     </div>
 
     <div class="form-group col-sm-6 col-md-4">
-      <label for="prerequisites">{{
-        'forms.educationalResource.extendedDetails.prerequisites.label' | translate
-      }}</label>
+      <label for="prerequisites">
+        {{ "forms.educationalResource.extendedDetails.prerequisites.label" | translate }}
+      </label>
 
       <button
         type="button"
@@ -253,7 +258,7 @@
       ></ng-select>
 
       <small id="prerequisites-help" class="form-text text-muted">
-        {{ 'forms.helpTexts.multipleItems' | translate }}
+        {{ "forms.helpTexts.multipleItems" | translate }}
       </small>
     </div>
   </div>
@@ -261,17 +266,17 @@
   <div class="row">
     <div class="col">
       <button type="button" class="btn btn-gray" (click)="previousTab()">
-        {{ 'forms.common.previous' | translate }}
+        {{ "forms.common.previous" | translate }}
       </button>
     </div>
 
     <div class="col-auto">
-      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ 'forms.common.abort' | translate }}</button>
+      <button type="reset" class="btn btn-cancel" (click)="resetForm()">{{ "forms.common.abort" | translate }}</button>
     </div>
 
     <div class="col-auto">
       <button type="submit" class="btn btn-blue" [disabled]="form.invalid">
-        {{ 'forms.common.next' | translate }}
+        {{ "forms.common.next" | translate }}
       </button>
     </div>
   </div>

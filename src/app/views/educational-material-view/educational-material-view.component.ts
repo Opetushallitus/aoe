@@ -19,7 +19,7 @@ import { SocialMetadata } from '@models/social-metadata/social-metadata';
 import { SocialMetadataService } from '@services/social-metadata.service';
 import { Language } from '@models/koodisto-proxy/language';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { License } from "@models/koodisto-proxy/license";
+import { License } from '@models/koodisto-proxy/license';
 
 @Component({
   selector: 'app-demo-material-view',
@@ -139,8 +139,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
           ? this.materialLanguages.find((lang: string) => lang === this.lang)
           : this.materialLanguages.find((lang: string) => lang === 'fi')
-            ? this.materialLanguages.find((lang: string) => lang === 'fi')
-            : this.materialLanguages[0];
+          ? this.materialLanguages.find((lang: string) => lang === 'fi')
+          : this.materialLanguages[0];
 
         // set preview material
         this.setPreviewMaterial(

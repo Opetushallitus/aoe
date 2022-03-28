@@ -15,10 +15,12 @@
       ],
       "plugins": ["prettier"],
       "rules": {
-        "@angular-eslint/component-selector": ["error", { "prefix": "app", "style": "kebab-case", "type": "element" }],
+        "@angular-eslint/component-selector": ["off", { "prefix": "app", "style": "kebab-case", "type": "element" }],
         "@angular-eslint/directive-selector": ["error", { "prefix": "app", "style": "camelCase", "type": "attribute" }],
         "@typescript-eslint/no-inferrable-types": "off",
-        "@typescript-eslint/no-empty-function": "off"
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off"
       }
     },
     {

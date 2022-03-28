@@ -1,6 +1,6 @@
 <div class="py-4 px-0">
   <div class="container">
-    <h1>{{ 'acceptance.title' | translate }}</h1>
+    <h1>{{ "acceptance.title" | translate }}</h1>
 
     <app-terms-of-use></app-terms-of-use>
 
@@ -9,11 +9,11 @@
     <form [formGroup]="acceptanceForm" (ngSubmit)="onSubmit()">
       <div class="form-group custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" id="acceptance" formControlName="acceptance" />
-        <label class="custom-control-label" for="acceptance">{{ 'acceptance.acceptance' | translate }}</label>
+        <label class="custom-control-label" for="acceptance">{{ "acceptance.acceptance" | translate }}</label>
       </div>
 
       <button type="submit" class="btn btn-blue" [disabled]="acceptanceForm.invalid">
-        {{ 'forms.common.save' | translate }}
+        {{ "forms.common.save" | translate }}
       </button>
     </form>
   </div>

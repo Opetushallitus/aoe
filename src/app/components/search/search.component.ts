@@ -11,7 +11,7 @@ import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { UsedFilter } from '@models/search/used-filter';
-import { sortOptions } from "../../constants/sort-options";
+import { sortOptions } from '../../constants/sort-options';
 
 @Component({
   selector: 'app-search',
