@@ -1,6 +1,6 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label class="sr-only" for="keywords"> {{ 'search.inputs.keywords.label' | translate }} </label>
+    <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
 
     <input
       type="search"
@@ -14,7 +14,7 @@
   <div class="form-row" formGroupName="filters">
     <div class="form-group col-md-6 col-lg">
       <label class="sr-only" for="educationalLevels">
-        {{ 'forms.educationalResource.educationalDetails.educationalLevels.label' | translate }}
+        {{ "forms.educationalResource.educationalDetails.educationalLevels.label" | translate }}
       </label>
 
       <ng-select
@@ -35,14 +35,14 @@
           </div>
         </ng-template>
 
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
-        <ng-template ng-option-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
       </ng-select>
     </div>
 
     <div class="form-group col-md-6 col-lg">
       <label class="sr-only" for="educationalSubjects">
-        {{ 'search.filters.educationalSubjecs.title' | translate }}
+        {{ "search.filters.educationalSubjecs.title" | translate }}
       </label>
 
       <ng-select
@@ -64,17 +64,20 @@
           </div>
         </ng-template>
 
-        <ng-template ng-optgroup-tmp let-item="item"> {{ item.value }} </ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
         <ng-template ng-option-tmp let-item="item">
           {{ item.value }}
-          <small *ngIf="item.parent"><br />{{ item.parent }}</small>
+          <small *ngIf="item.parent">
+            <br />
+            {{ item.parent }}
+          </small>
         </ng-template>
       </ng-select>
     </div>
 
     <div class="form-group col-md-6 col-lg">
       <label class="sr-only" for="learningResourceTypes">
-        {{ 'forms.educationalResource.basicDetails.learningResourceTypes.label' | translate }}
+        {{ "forms.educationalResource.basicDetails.learningResourceTypes.label" | translate }}
       </label>
 
       <ng-select
@@ -98,7 +101,7 @@
     <div class="col-md-6 col-lg-auto">
       <button type="submit" class="btn btn-search btn-block" id="button-search">
         <i class="fa fa-search" aria-hidden="true"></i>
-        <span class="sr-only"> {{ 'search.inputs.submit.sr-text' | translate }} </span>
+        <span class="sr-only">{{ "search.inputs.submit.sr-text" | translate }}</span>
       </button>
     </div>
   </div>

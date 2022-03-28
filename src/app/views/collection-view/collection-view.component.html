@@ -18,7 +18,7 @@
               <ng-container *ngIf="collection.owner">
                 <a class="btn btn-link" [routerLink]="['/kokoelma', collectionId, 'muokkaa']">
                   <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
-                  {{ 'demo.educationalMaterial.edit' | translate }}
+                  {{ "demo.educationalMaterial.edit" | translate }}
                 </a>
               </ng-container>
             </div>
@@ -43,26 +43,26 @@
 
             <div class="datetimes">
               <span class="datetime-item d-block d-md-inline-block">
-                <strong id="createdAt">{{ 'demo.educationalMaterial.createdAt' | translate }}:</strong>
+                <strong id="createdAt">{{ "demo.educationalMaterial.createdAt" | translate }}:</strong>
 
                 <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
-                  {{ collection.createdAt | date: 'd.M.yyyy HH:mm' }}
+                  {{ collection.createdAt | date: "d.M.yyyy HH:mm" }}
                 </time>
               </span>
 
               <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
-                <strong id="publishedAt">{{ 'demo.educationalMaterial.publishedAt' | translate }}:</strong>
+                <strong id="publishedAt">{{ "demo.educationalMaterial.publishedAt" | translate }}:</strong>
 
                 <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
-                  {{ collection.publishedAt | date: 'd.M.yyyy HH:mm' }}
+                  {{ collection.publishedAt | date: "d.M.yyyy HH:mm" }}
                 </time>
               </span>
 
               <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
-                <strong id="updatedAt">{{ 'demo.educationalMaterial.updatedAt' | translate }}:</strong>
+                <strong id="updatedAt">{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
 
                 <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
-                  {{ collection.updatedAt | date: 'd.M.yyyy HH:mm' }}
+                  {{ collection.updatedAt | date: "d.M.yyyy HH:mm" }}
                 </time>
               </span>
             </div>
@@ -90,10 +90,10 @@
               aria-controls="metadata"
             >
               <ng-container *ngIf="detailsExpanded; else more">
-                {{ 'demo.educationalMaterial.expandMetadata.less' | translate }}
+                {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
               </ng-container>
 
-              <ng-template #more>{{ 'demo.educationalMaterial.expandMetadata.more' | translate }}</ng-template>
+              <ng-template #more>{{ "demo.educationalMaterial.expandMetadata.more" | translate }}</ng-template>
             </button>
             <!--toggle metadata-->
 
@@ -189,7 +189,7 @@
 
               <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
                 <strong class="h3 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
-                  {{ 'collections.meta.earlyChildhoodEducationFramework' | translate }}
+                  {{ "collections.meta.earlyChildhoodEducationFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-earlyChildhoodEducationFramework">
@@ -224,7 +224,7 @@
 
               <ng-container *ngIf="collection.prePrimaryEducationFramework">
                 <strong class="h3 d-block mb-2" id="collection-prePrimaryEducationFramework">
-                  {{ 'collections.meta.prePrimaryEducationFramework' | translate }}
+                  {{ "collections.meta.prePrimaryEducationFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-prePrimaryEducationFramework">
@@ -270,7 +270,7 @@
 
               <ng-container *ngIf="collection.basicStudyFramework">
                 <strong class="h3 d-block mb-2" id="collection-basicStudyFramework">
-                  {{ 'collections.meta.basicStudyFramework' | translate }}
+                  {{ "collections.meta.basicStudyFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-basicStudyFramework">{{ collection.basicStudyFramework }}</p>
@@ -314,7 +314,7 @@
 
               <ng-container *ngIf="collection.upperSecondarySchoolFramework">
                 <strong class="h3 d-block mb-2" id="collection-upperSecondarySchoolFramework">
-                  {{ 'collections.meta.upperSecondarySchoolFramework' | translate }}
+                  {{ "collections.meta.upperSecondarySchoolFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-upperSecondarySchoolFramework">
@@ -406,7 +406,7 @@
 
               <ng-container *ngIf="collection.vocationalEducationFramework">
                 <strong class="h3 d-block mb-2" id="collection-vocationalEducationFramework">
-                  {{ 'collections.meta.vocationalEducationFramework' | translate }}
+                  {{ "collections.meta.vocationalEducationFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-vocationalEducationFramework">
@@ -465,7 +465,7 @@
 
               <ng-container *ngIf="collection.higherEducationFramework">
                 <strong class="h3 d-block mb-2" id="collection-higherEducationFramework">
-                  {{ 'collections.meta.higherEducationFramework' | translate }}
+                  {{ "collections.meta.higherEducationFramework" | translate }}
                 </strong>
 
                 <p aria-labelledby="collection-higherEducationFramework">{{ collection.higherEducationFramework }}</p>
@@ -513,7 +513,7 @@
                         <div class="col-3">
                           <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
                             <h3 [id]="'selectLanguage' + materialOrHeading.id">
-                              {{ 'materialPreview.selectLanguage' | translate }}
+                              {{ "materialPreview.selectLanguage" | translate }}
                             </h3>
 
                             <div
@@ -538,16 +538,23 @@
                           </ng-container>
 
                           <div
-                            *ngIf="collectionMaterials.get(materialOrHeading.id) | materialLanguage: selectedLanguages.get(materialOrHeading.id) as materials"
-                            [id]="'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                            *ngIf="
+                              collectionMaterials.get(materialOrHeading.id)
+                                | materialLanguage: selectedLanguages.get(materialOrHeading.id) as materials
+                            "
+                            [id]="
+                              'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                            "
                             role="tabpanel"
-                            [attr.aria-labelledby]="'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)"
+                            [attr.aria-labelledby]="
+                              'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
+                            "
                           >
                             <h3
                               [id]="'selectMaterial' + materialOrHeading.id"
                               [ngClass]="materials.length === 1 ? 'sr-only' : ''"
                             >
-                              {{ 'materialPreview.selectMaterial' | translate }}
+                              {{ "materialPreview.selectMaterial" | translate }}
                             </h3>
 
                             <div
@@ -575,9 +582,19 @@
 
                         <div class="col-9">
                           <div
-                            [id]="'filePreview-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                            [id]="
+                              'filePreview-' +
+                              materialOrHeading.id +
+                              '-' +
+                              previewMaterials.get(materialOrHeading.id).id
+                            "
                             role="tabpanel"
-                            [attr.aria-labelledby]="'fileSelector-' + materialOrHeading.id + '-' + previewMaterials.get(materialOrHeading.id).id"
+                            [attr.aria-labelledby]="
+                              'fileSelector-' +
+                              materialOrHeading.id +
+                              '-' +
+                              previewMaterials.get(materialOrHeading.id).id
+                            "
                           >
                             <app-educational-material-preview
                               [material]="previewMaterials.get(materialOrHeading.id)"
@@ -593,8 +610,9 @@
                                   target="_blank"
                                   rel="noopener nofollow"
                                 >
-                                  {{ 'demo.educationalMaterial.preview.openInNewTab' | translate }} ({{
-                                  previewMaterials.get(materialOrHeading.id).domain }})
+                                  {{ "demo.educationalMaterial.preview.openInNewTab" | translate }} ({{
+                                    previewMaterials.get(materialOrHeading.id).domain
+                                  }})
                                 </a>
                               </div>
                             </ng-template>
@@ -606,7 +624,7 @@
 
                   <ng-template #loading>
                     <div class="spinner-border" role="status">
-                      <span class="sr-only">{{ 'collections.loading' | translate }}</span>
+                      <span class="sr-only">{{ "collections.loading" | translate }}</span>
                     </div>
                   </ng-template>
                 </ng-container>
@@ -623,7 +641,7 @@
             <!--/materials and headings a-->
 
             <ng-template #noMaterials>
-              <p>{{ 'collections.noMaterials' | translate }}</p>
+              <p>{{ "collections.noMaterials" | translate }}</p>
             </ng-template>
             <!--no materials or headings-->
           </div>

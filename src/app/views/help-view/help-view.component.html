@@ -2,14 +2,14 @@
   <div class="container">
     <div class="row justify-content-between">
       <div class="col">
-        <h1>{{ 'faq.title' | translate }}</h1>
+        <h1>{{ "faq.title" | translate }}</h1>
       </div>
 
       <div class="col-auto">
         <button type="button" class="btn btn-blue" (click)="isOpen = !isOpen">
-          <ng-container *ngIf="isOpen; else openAll"> {{ 'faq.closeAll' | translate }} </ng-container>
+          <ng-container *ngIf="isOpen; else openAll">{{ "faq.closeAll" | translate }}</ng-container>
 
-          <ng-template #openAll> {{ 'faq.openAll' | translate }} </ng-template>
+          <ng-template #openAll>{{ "faq.openAll" | translate }}</ng-template>
         </button>
       </div>
     </div>
@@ -17,7 +17,7 @@
 
     <div class="row">
       <div class="col">
-        <h2>{{ 'faq.general' | translate }}</h2>
+        <h2>{{ "faq.general" | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqGeneral" [isOpen]="isOpen" #group1>
@@ -32,7 +32,7 @@
           </accordion-group>
         </accordion>
 
-        <h2>{{ 'faq.material' | translate }}</h2>
+        <h2>{{ "faq.material" | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqMaterial" [isOpen]="isOpen" #group2>
@@ -47,7 +47,7 @@
           </accordion-group>
         </accordion>
 
-        <h2>{{ 'faq.organization' | translate }}</h2>
+        <h2>{{ "faq.organization" | translate }}</h2>
 
         <accordion>
           <accordion-group *ngFor="let item of faqOrganisation" [isOpen]="isOpen" #group3>

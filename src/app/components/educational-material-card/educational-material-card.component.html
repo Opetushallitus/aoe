@@ -31,8 +31,8 @@
     property="value"
     searchProperty="keywordkey"
     filterType="keywords"
-  ></app-taglist
-  ><!--keywords-->
+  ></app-taglist>
+  <!--keywords-->
 
   <app-taglist
     *ngIf="educationalMaterial.educationalLevels?.length > 0"
@@ -44,8 +44,8 @@
     property="value"
     searchProperty="educationallevelkey"
     filterType="educationalLevels"
-  ></app-taglist
-  ><!--educationalLevels-->
+  ></app-taglist>
+  <!--educationalLevels-->
 
   <div class="details d-flex flex-row">
     <div class="license text-dark">{{ educationalMaterial.license.value }}</div>
@@ -64,13 +64,13 @@
   <div class="counters" *ngIf="educationalMaterial.viewCounter && educationalMaterial.downloadCounter">
     <div class="counter">
       <i class="fa fa-fw fa-eye" aria-hidden="true"></i>
-      <span class="sr-only">{{ 'demo.educationalMaterial.viewCount' | translate }}: </span>
+      <span class="sr-only">{{ "demo.educationalMaterial.viewCount" | translate }}:</span>
       {{ educationalMaterial.viewCounter }}
     </div>
 
     <div class="counter">
       <i class="fa fa-fw fa-download" aria-hidden="true"></i>
-      <span class="sr-only">{{ 'demo.educationalMaterial.downloadCount' | translate }}: </span>
+      <span class="sr-only">{{ "demo.educationalMaterial.downloadCount" | translate }}:</span>
       {{ educationalMaterial.downloadCounter }}
     </div>
   </div>

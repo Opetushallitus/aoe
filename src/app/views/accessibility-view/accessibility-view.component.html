@@ -1,14 +1,17 @@
 <div class="py-4 px-0">
   <div class="container">
-    <h1>{{ 'accessibility.title' | translate }}</h1>
+    <h1>{{ "accessibility.title" | translate }}</h1>
+    <p>
+      {{ "accessibility.explanation" | translate }}
+    </p>
 
     <table class="table table-striped">
       <thead class="thead-dark">
         <tr>
-          <th scope="col" class="w-25">Asia</th>
-          <th scope="col" class="w-25">Esimerkkejä, miten huomioida</th>
-          <th scope="col" class="w-25">Lisätietoa</th>
-          <th scope="col" class="w-25">Miten merkitä AOEssa</th>
+          <th scope="col" class="w-25 tableHeader">{{ "accessibility.tableHeaders.issue" | translate }}</th>
+          <th scope="col" class="w-25 tableHeader">{{ "accessibility.tableHeaders.examples" | translate }}</th>
+          <th scope="col" class="w-25 tableHeader">{{ "accessibility.tableHeaders.moreInformation" | translate }}</th>
+          <th scope="col" class="w-25 tableHeader">{{ "accessibility.tableHeaders.howTo" | translate }}</th>
         </tr>
       </thead>
 
@@ -30,5 +33,8 @@
         </tr>
       </tbody>
     </table>
+    <p>
+      {{ "accessibility.tableLicense" | translate }}
+    </p>
   </div>
 </div>

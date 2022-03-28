@@ -27,29 +27,35 @@ export class NotificationComponent {
   }
 
   getNotification(): void {
-    this.http.get<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`).subscribe((message: NotificationMessage) => {
-      if (message.notification != "null") {
-        this.currentNotification = message.notification;
-        this.notificationUpdatedTime = message.updated;
-      }
-    })
+    this.http
+      .get<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`)
+      .subscribe((message: NotificationMessage) => {
+        if (message.notification != 'null') {
+          this.currentNotification = message.notification;
+          this.notificationUpdatedTime = message.updated;
+        }
+      });
   }
 
   private handleError(_error: HttpErrorResponse): Observable<never> {
     return throwError('Something bad happened; please try again later.');
   }
 
-  postNotification(payload: NotificationMessage): Observable<NotificationMessage>{
+  postNotification(payload: NotificationMessage): Observable<NotificationMessage> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http
-      .post<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`, payload, {headers: headers})
+      .post<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`, payload, { headers: headers })
       .pipe(catchError(this.handleError));
   }
 
   saveMessage(): void {
-    this.wrongFormat = "";
+    this.wrongFormat = '';
     this.newNotification = this.inputField.nativeElement.value.trim();
-    if (this.newNotification !== this.currentNotification && this.newNotification.match("^[A-Öa-ö0-9\.-\\s\!\?]+$") && this.newNotification.length < 250) {
+    if (
+      this.newNotification !== this.currentNotification &&
+      this.newNotification.match('^[A-Öa-ö0-9.-\\s!?/:()]+$') &&
+      this.newNotification.length < 250
+    ) {
       this.inputField.nativeElement.value = '';
 
       const payload: NotificationMessage = {
@@ -57,29 +63,24 @@ export class NotificationComponent {
         updated: null,
       };
 
-      this.postNotification(payload).subscribe(
-        (response) => {
-          if (response) {
-            this.getNotification();
-          } else {
-            console.log('Ilmoitusta ei vaihdettu');
-          }
+      this.postNotification(payload).subscribe((response) => {
+        if (response) {
+          this.getNotification();
+        } else {
+          console.log('Ilmoitusta ei vaihdettu');
         }
-      );
-
+      });
     } else {
-      this.wrongFormat = "Only letters and numbers allowed.";
+      this.wrongFormat = 'Only letters and numbers allowed.';
     }
-
   }
 
   deleteNotification(): void {
     this.currentNotification = null;
     const payload: NotificationMessage = {
-      notification: "null",
+      notification: 'null',
       updated: null,
     };
     this.postNotification(payload).subscribe();
   }
-
 }
