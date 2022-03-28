@@ -33,8 +33,59 @@
         </tr>
       </tbody>
     </table>
-    <p>
-      {{ "accessibility.tableLicense" | translate }}
-    </p>
+    <ng-container [ngSwitch]="lang">
+      <ng-container *ngSwitchDefault>
+        <p>
+          Saavutettavuuteen opastava taulukko on
+          <a href="https://avointiede.fi/" rel="noopener">Avoimen tieteen koordinaation</a>
+          tekemä ja se on lisensoitu
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.fi" rel="noopener">CC BY 4.0</a>
+          -lisenssillä. Löydät taulukon osana
+          <a
+            href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-saavutettavuuden-avoimissa-oppimateriaaleissa"
+            rel="noopener"
+          >
+            Miten huomioin saavutettavuuden avoimissa oppimateriaaleissa?
+          </a>
+          -opasta. AOE-tiimi on poiminut oppaasta oheisen sisällön ja lisännyt taulukkoon ”Miten merkitä AOE:ssa”
+          -kolumnin sisältöineen.
+        </p>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'en'">
+        <p>
+          This table is made by
+          <a href="https://avointiede.fi/en/" rel="noopener">The National Open Science Coordination</a>
+          and it is licensed with the
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.en" rel="noopener">CC BY 4.0</a>
+          -license. The table is part of the guide
+          <a
+            href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer"
+            rel="noopener"
+          >
+            How to Account for Accessibility of OER?
+          </a>
+          The team of aoe.fi have modified the original work by adding the column How to make note of the issue in AOE.
+        </p>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'sv'">
+        <p>
+          <a href="https://avointiede.fi/sv/" rel="noopener">Den nationella samordningen av öppen vetenskap</a>
+          har tillverkad den här tabellen. Den är licensierat under en
+          <a href="https://creativecommons.org/licenses/by/4.0/deed.sv" rel="noopener">
+            Creative Commons Erkännande 4.0 Internationell Licens.
+          </a>
+          Tabellen är en del av
+          <a
+            href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/handbok-i-tillganglighet-till-oppna-larresurser"
+            rel="noopener"
+          >
+            Handbok i tillgänglighet till öppna lärresurser.
+          </a>
+          AOE-team har tillsatt sektionen Hur kan du beteckna det på AOE.
+        </p>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
