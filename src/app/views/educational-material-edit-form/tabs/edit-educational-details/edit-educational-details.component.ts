@@ -193,7 +193,6 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
 
     if (this.basicStudySubjectsCtrl.value && this.basicStudySubjectsCtrl.value.length > 0) {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
-      console.log("jaa a " + this.basicStudySubjectsCtrl.value);
     }
 
     if (
