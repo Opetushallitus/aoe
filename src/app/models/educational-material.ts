@@ -85,6 +85,7 @@ export interface EducationalMaterial {
   suitsAllUpperSecondarySubjectsNew: boolean;
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalFrameworks: string[];
+  vocationalCommonUnits: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
   suitsAllVocationalDegrees: boolean;

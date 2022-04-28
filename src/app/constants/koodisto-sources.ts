@@ -15,6 +15,7 @@ export const koodistoSources = {
   upperSecondaryObjectivesNew: 'upperSecondarySchoolObjectivesNew',
   upperSecondaryContentsNew: 'upperSecondarySchoolContentsNew',
   vocationalDegrees: 'vocationalDegrees',
+  vocationalCommonUnits: 'vocationalCommonUnits',
   vocationalUnits: 'vocationalUnits',
   vocationalRequirements: 'vocationalRequirements',
   vocationalObjectives: 'vocationalEducationObjectives',
