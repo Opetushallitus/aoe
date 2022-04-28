@@ -106,6 +106,7 @@ export interface Collection {
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
   newUpperSecondarySchoolFramework: string;
   vocationalDegrees: AlignmentObjectExtended[];
+  vocationalCommonUnits: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
   vocationalEducationFramework: string;
