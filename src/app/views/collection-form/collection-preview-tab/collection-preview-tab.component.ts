@@ -255,6 +255,13 @@ export class CollectionPreviewTabComponent implements OnInit {
         });
       });
 
+      this.previewCollection.subjectOfCommonUnit.forEach((unit: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...unit,
+          educationalFramework: this.previewCollection.vocationalEducationFramework,
+        });
+      });
+
       this.previewCollection.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
         alignmentObjects.push({
           ...requirement,
@@ -264,6 +271,7 @@ export class CollectionPreviewTabComponent implements OnInit {
 
       delete this.previewCollection.vocationalDegrees;
       delete this.previewCollection.vocationalUnits;
+      delete this.previewCollection.subjectOfCommonUnit;
       delete this.previewCollection.vocationalRequirements;
       delete this.previewCollection.vocationalEducationFramework;
 

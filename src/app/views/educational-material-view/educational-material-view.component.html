@@ -794,6 +794,18 @@
                       ></app-taglist>&lt;!&ndash;specialistVocationalQualifications&ndash;&gt;
                     </div>-->
 
+                    <div *ngIf="educationalMaterial.vocationalCommonUnits?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-vocationalCommonUnits"
+                        [tags]="educationalMaterial.vocationalCommonUnits"
+                        [title]="'demo.educationalMaterial.vocationalCommonUnits' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="educationalSubjects"
+                      ></app-taglist>
+                      <!--vocationalCommonUnits-->
+                    </div>
+
                     <div *ngIf="educationalMaterial.vocationalUnits?.length > 0" class="metadata-group">
                       <app-taglist
                         elementId="material-vocationalUnits"

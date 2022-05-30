@@ -17,6 +17,7 @@ export interface AlignmentObjects {
   upperSecondarySchoolContentsNew: AlignmentObjectExtended[];
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnits: AlignmentObjectExtended[];
+  subjectOfCommonUnit: AlignmentObjectExtended[];
   vocationalRequirements: AlignmentObjectExtended[];
   selfMotivatedEducationSubjects: AlignmentObjectExtended[];
   selfMotivatedEducationObjectives: AlignmentObjectExtended[];
