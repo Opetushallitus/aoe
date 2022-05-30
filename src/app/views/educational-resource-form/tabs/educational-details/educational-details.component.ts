@@ -47,6 +47,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   hasVocationalEducation = false;
   hasVocationalDegrees = false;
   hasVocationalUnits = false;
+  hasVocationalCommonUnits = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
 
@@ -74,6 +75,8 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  vocationalCommonUnitSubscription: Subscription;
+  vocationalCommonUnits: AlignmentObjectExtended[];
   vocationalRequirementSubscription: Subscription;
   vocationalRequirements: AlignmentObjectExtended[];
   furtherVocationalQualificationSubscription: Subscription;
@@ -118,6 +121,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoProxySvc.updateVocationalDegrees();
       this.koodistoProxySvc.updateFurtherVocationalQualifications();
       this.koodistoProxySvc.updateSpecialistVocationalQualifications();
+      this.koodistoProxySvc.updateVocationalCommonUnits();
       this.koodistoProxySvc.updateScienceBranches();
     });
 
@@ -170,6 +174,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
       vocationalRequirements: this.fb.control(null),
+      vocationalCommonUnits: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
@@ -269,6 +274,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.vocationalRequirements = requirements;
       },
     );
+
+    this.vocationalCommonUnitSubscription = this.koodistoProxySvc.vocationalCommonUnits$.subscribe(
+      (vocationalCommonUnits: AlignmentObjectExtended[]) => {
+        this.vocationalCommonUnits = vocationalCommonUnits;
+      },
+    );
+    this.koodistoProxySvc.updateVocationalCommonUnits();
 
     // further vocational qualifications
     this.furtherVocationalQualificationSubscription = this.koodistoProxySvc.furtherVocationalQualifications$.subscribe(
@@ -445,6 +457,11 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
         this.vocationalUnitsCtrl.setValue(vocationalUnits);
         this.vocationalUnitsChange(vocationalUnits);
 
+        const vocationalCommonUnits = this.savedData.alignmentObjects.filter(
+          (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.subjectOfCommonUnit,
+        );
+        this.vocationalCommonUnitsCtrl.setValue(vocationalCommonUnits);
+
         const vocationalRequirements = this.savedData.alignmentObjects.filter(
           (alignmentObject: AlignmentObjectExtended) =>
             alignmentObject.source === koodistoSources.vocationalRequirements,
@@ -550,6 +567,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     this.upperSecondarySchoolObjectiveNewSubscription.unsubscribe();
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
+    this.vocationalCommonUnitSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
     this.vocationalRequirementSubscription.unsubscribe();
     this.furtherVocationalQualificationSubscription.unsubscribe();
@@ -677,6 +695,10 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
   get suitsAllVocationalDegrees(): FormControl {
     return this.form.get('suitsAllVocationalDegrees') as FormControl;
+  }
+
+  get vocationalCommonUnitsCtrl(): FormControl {
+    return this.form.get('vocationalCommonUnits') as FormControl;
   }
 
   get vocationalUnitsCtrl(): FormControl {
@@ -985,6 +1007,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
             this.alignmentObjects.push(requirement);
           });
         }
+      }
+      
+      if (this.vocationalCommonUnitsCtrl.value) {
+        this.vocationalCommonUnitsCtrl.value.forEach((commonUnit: AlignmentObjectExtended) => {
+          delete commonUnit.parent;
+          this.alignmentObjects.push(commonUnit);
+        });
       }
     }
 

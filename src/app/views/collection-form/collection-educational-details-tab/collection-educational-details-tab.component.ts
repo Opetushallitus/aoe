@@ -60,6 +60,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  subjectOfCommonUnitSubscription: Subscription;
+  subjectOfCommonUnit: AlignmentObjectExtended[];
   vocationalRequirementSubscription: Subscription;
   vocationalRequirements: AlignmentObjectExtended[];
   scienceBranchSubscription: Subscription;
@@ -149,6 +151,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       ]),
       vocationalDegrees: this.fb.control(null),
       vocationalUnits: this.fb.control(null),
+      subjectOfCommonUnit: this.fb.control(null),
       vocationalRequirements: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
@@ -292,6 +295,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.vocationalUnitsChange(this.vocationalUnitsCtrl.value);
     }
 
+    // vocational common units
+    this.subjectOfCommonUnitSubscription = this.koodistoSvc.vocationalCommonUnits$.subscribe(
+      (units: AlignmentObjectExtended[]) => {
+        this.subjectOfCommonUnit = units;
+      },
+    );
+    this.koodistoSvc.updateVocationalCommonUnits();
+
     // vocational requirements
     this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$.subscribe(
       (requirements: AlignmentObjectExtended[]) => {
@@ -325,6 +336,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
+    this.subjectOfCommonUnitSubscription.unsubscribe();
     this.vocationalRequirementSubscription.unsubscribe();
     this.scienceBranchSubscription.unsubscribe();
   }
@@ -397,6 +409,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
   get vocationalUnitsCtrl(): FormControl {
     return this.form.get('vocationalUnits') as FormControl;
+  }
+
+  get subjectOfCommonUnitCtrl(): FormControl {
+    return this.form.get('subjectOfCommonUnit') as FormControl;
   }
 
   get vocationalRequirementsCtrl(): FormControl {
@@ -626,6 +642,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.vocationalDegreesCtrl.setValue([]);
       this.vocationalUnitsCtrl.setValue([]);
       this.vocationalRequirementsCtrl.setValue([]);
+      this.subjectOfCommonUnitCtrl.setValue([]);
       this.vocationalEducationFrameworkCtrl.setValue(null);
     }
 

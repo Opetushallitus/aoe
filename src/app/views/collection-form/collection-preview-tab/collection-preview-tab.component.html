@@ -358,6 +358,17 @@
       </ng-container>
       <!--vocationalUnits-->
 
+      <ng-container *ngIf="previewCollection.subjectOfCommonUnit?.length > 0">
+        <dt class="col-sm-3">{{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}</dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let unit of previewCollection.subjectOfCommonUnit; let isLast = last">
+            {{ unit.targetName }}{{ isLast ? "" : ", " }}
+          </ng-container>
+        </dd>
+      </ng-container>
+      <!--vocationalCommonUnits-->
+
       <ng-container *ngIf="previewCollection.vocationalRequirements?.length > 0">
         <dt class="col-sm-3">{{ "forms.collection.educational.vocationalEducationObjectives.label" | translate }}</dt>
 
