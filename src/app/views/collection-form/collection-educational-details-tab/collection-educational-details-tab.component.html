@@ -525,24 +525,24 @@
     </div>
     <!--vocationalDegrees-->
 
-    <ng-container *ngIf="hasVocationalDegrees">
-      
-      <div class="form-group">
-        <label for="vocationalCommonUnits">{{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}</label>
+    <div class="form-group">
+      <label for="vocationalCommonUnits">{{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}</label>
 
-        <ng-select
-          [items]="subjectOfCommonUnit"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="children"
-          labelForId="vocationalCommonUnits"
-          formControlName="subjectOfCommonUnit"
-        >
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-        </ng-select>
-      </div>
+      <ng-select
+        [items]="subjectOfCommonUnit"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        groupBy="children"
+        labelForId="vocationalCommonUnits"
+        formControlName="subjectOfCommonUnit"
+      >
+      <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+      <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+      </ng-select>
+    </div>
+
+    <ng-container *ngIf="hasVocationalDegrees">
       
       <div class="form-group">
         <label for="vocationalUnits">{{ "forms.collection.educational.vocationalUnits.label" | translate }}</label>
