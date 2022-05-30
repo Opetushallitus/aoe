@@ -519,6 +519,10 @@
               "label": "Ammatillisen koulutuksen tutkinnon osat",
               "tooltip": ""
             },
+            "commonUnits": {
+              "label": "Ammatillisen koulutuksen yhteiset tutkinnon osat",
+              "tooltip": ""
+            },
             "objectives": {
               "label": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
@@ -818,6 +822,10 @@
           "label": "Ammatillisen koulutuksen tutkinnon osat",
           "placeholder": ""
         },
+        "vocationalCommonUnits": {
+          "label": "Ammatillisen koulutuksen yhteiset tutkinnon osat",
+          "placeholder": ""
+        },
         "vocationalEducationObjectives": {
           "label": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
           "placeholder": ""
@@ -1083,6 +1091,7 @@
       "upperSecondarySchoolContentsNew": "Sisältö",
       "vocationalDegrees": "Ammatillisen koulutuksen perustutkinnot",
       "vocationalUnits": "Ammatillisen koulutuksen tutkinnon osat",
+      "vocationalCommonUnits": "Ammatillisen koulutuksen yhteiset tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
       "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",

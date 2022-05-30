@@ -322,11 +322,11 @@ export class MaterialService {
             suitsAllUpperSecondarySubjectsNew: material.suitsAllUpperSecondarySubjectsNew,
             vocationalDegrees: vocationalDegrees,
             vocationalFrameworks: getUniqueFrameworks(vocationalDegrees),
-            vocationalCommonUnits: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalCommonUnits,
-            ),
             vocationalUnits: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits,
+            ),
+            vocationalCommonUnits: alignmentObjects.filter(
+              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.subjectOfCommonUnit,
             ),
             vocationalRequirements: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) =>
@@ -888,14 +888,6 @@ export class MaterialService {
                 : null,
             vocationalDegrees: vocationalDegrees,
             suitsAllVocationalDegrees: material.suitsAllVocationalDegrees,
-            vocationalCommonUnits: material.educationalAlignment
-              .filter((alignment) => alignment.source === koodistoSources.vocationalCommonUnits)
-              .map((alignment) => ({
-                key: alignment.objectkey,
-                source: alignment.source,
-                alignmentType: alignment.alignmenttype,
-                targetName: alignment.targetname,
-              })),
             vocationalUnits: material.educationalAlignment
               .filter((alignment) => alignment.source === koodistoSources.vocationalUnits)
               .map((alignment) => ({
@@ -903,6 +895,15 @@ export class MaterialService {
                 source: alignment.source,
                 alignmentType: alignment.alignmenttype,
                 educationalFramework: alignment.educationalframework,
+                targetName: alignment.targetname,
+                targetUrl: alignment.targeturl,
+              })),
+            vocationalCommonUnits: material.educationalAlignment
+              .filter((alignment) => alignment.source === koodistoSources.subjectOfCommonUnit)
+              .map((alignment) => ({
+                key: alignment.objectkey,
+                source: alignment.source,
+                alignmentType: alignment.alignmenttype,
                 targetName: alignment.targetname,
                 targetUrl: alignment.targeturl,
               })),

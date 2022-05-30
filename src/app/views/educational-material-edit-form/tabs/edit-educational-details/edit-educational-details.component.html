@@ -818,6 +818,26 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="vocationalCommonUnits">
+        {{ "forms.educationalResource.educationalDetails.vocationalEducation.inputs.commonUnits.label" | translate }}
+      </label>
+
+      <ng-select
+        [items]="vocationalCommonUnits"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        groupBy="children"
+        id="vocationalCommonUnits"
+        labelForId="vocationalCommonUnits"
+        formControlName="vocationalCommonUnits"
+      >
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+      </ng-select>
+    </div>
+
     <ng-container *ngIf="hasVocationalDegrees">
       <div class="form-group">
         <label for="vocationalUnits">
