@@ -198,8 +198,8 @@ export class CollectionService {
           upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
           newUpperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
           vocationalDegrees: alignmentObjects.vocationalDegrees,
-          vocationalCommonUnits: alignmentObjects.vocationalCommonUnits,
           vocationalUnits: alignmentObjects.vocationalUnits,
+          subjectOfCommonUnit: alignmentObjects.subjectOfCommonUnit,
           vocationalRequirements: alignmentObjects.vocationalRequirements,
           vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
           selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
@@ -312,8 +312,8 @@ export class CollectionService {
           upperSecondarySchoolContentsNew: alignmentObjects.upperSecondarySchoolContentsNew,
           newUpperSecondarySchoolFramework: alignmentObjects.upperSecondarySchoolSubjectsNew[0]?.educationalFramework,
           vocationalDegrees: alignmentObjects.vocationalDegrees,
-          vocationalCommonUnits: alignmentObjects.vocationalCommonUnits,
           vocationalUnits: alignmentObjects.vocationalUnits,
+          subjectOfCommonUnit: alignmentObjects.subjectOfCommonUnit,
           vocationalRequirements: alignmentObjects.vocationalRequirements,
           vocationalEducationFramework: alignmentObjects.vocationalDegrees[0]?.educationalFramework,
           selfMotivatedEducationSubjects: alignmentObjects.selfMotivatedEducationSubjects,
@@ -425,8 +425,8 @@ export class CollectionService {
     const upperSecondarySchoolObjectivesNew: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolContentsNew: AlignmentObjectExtended[] = [];
     const vocationalDegrees: AlignmentObjectExtended[] = [];
-    const vocationalCommonUnits: AlignmentObjectExtended[] = [];
     const vocationalUnits: AlignmentObjectExtended[] = [];
+    const subjectOfCommonUnit: AlignmentObjectExtended[] = [];
     const vocationalRequirements: AlignmentObjectExtended[] = [];
     const selfMotivatedEducationSubjects: AlignmentObjectExtended[] = [];
     const selfMotivatedEducationObjectives: AlignmentObjectExtended[] = [];
@@ -510,13 +510,13 @@ export class CollectionService {
             vocationalDegrees.push(aObject);
             break;
 
-          case koodistoSources.vocationalCommonUnits:
-            vocationalCommonUnits.push(aObject);
-            break;
-
           case koodistoSources.vocationalUnits:
             vocationalUnits.push(aObject);
             break;
+          
+          case koodistoSources.subjectOfCommonUnit:
+            subjectOfCommonUnit.push(aObject);
+            break;  
 
           case koodistoSources.vocationalObjectives:
             vocationalRequirements.push(aObject);
@@ -560,8 +560,8 @@ export class CollectionService {
       upperSecondarySchoolObjectivesNew,
       upperSecondarySchoolContentsNew,
       vocationalDegrees,
-      vocationalCommonUnits,
       vocationalUnits,
+      subjectOfCommonUnit,
       vocationalRequirements,
       selfMotivatedEducationSubjects,
       selfMotivatedEducationObjectives,

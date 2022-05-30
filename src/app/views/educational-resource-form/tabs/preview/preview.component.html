@@ -441,6 +441,13 @@
   ></app-preview-row>
 
   <app-preview-row
+    *ngIf="vocationalCommonUnits?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.commonUnits.label' | translate"
+    [items]="vocationalCommonUnits"
+    property="targetName"
+  ></app-preview-row>
+
+  <app-preview-row
     *ngIf="vocationalUnits?.length > 0"
     [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate"
     [items]="vocationalUnits"
