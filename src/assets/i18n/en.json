@@ -138,6 +138,7 @@
       "upperSecondarySchoolContentsNew": "Learning content of upper secondary school",
       "vocationalDegrees": "Educational subject of vocational education",
       "vocationalFrameworks": "Educational framework of vocational education",
+      "vocationalCommonUnits": "Vocational common units",
       "vocationalUnits": "Vocational units",
       "vocationalEducationObjectives": "Learning object of vocational education",
       "furtherVocationalQualifications": "Further vocational qualification",
@@ -518,6 +519,10 @@
               "label": "Units of vocational education",
               "tooltip": ""
             },
+            "commonUnits": {
+              "label": "Common units of vocational education",
+              "tooltip": ""
+            },
             "objectives": {
               "label": "Learning object of vocational education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
@@ -817,6 +822,10 @@
           "label": "Units of vocational education",
           "placeholder": ""
         },
+        "vocationalCommonUnits": {
+          "label": "Common units of vocational education",
+          "placeholder": ""
+        },
         "vocationalEducationObjectives": {
           "label": "Learning object of vocational education",
           "placeholder": ""
@@ -1082,6 +1091,7 @@
       "upperSecondarySchoolContentsNew": "Educational content of upper secondary school",
       "vocationalDegrees": "Educational subject of vocational education",
       "vocationalUnits": "Units of vocational education",
+      "vocationalCommonUnits": "Common units of vocational education",
       "vocationalEducationObjectives": "Learning object of vocational education",
       "vocationalEducationFramework": "Educational framework of vocational education",
       "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",

@@ -394,6 +394,17 @@
               <!--vocationalUnits-->
 
               <app-taglist
+                *ngIf="collection.subjectOfCommonUnit?.length > 0"
+                elementId="collection-subjectOfCommonUnit"
+                [tags]="collection.subjectOfCommonUnit"
+                [title]="'collections.meta.vocationalCommonUnits' | translate"
+                property="targetName"
+                searchProperty="key"
+                filterType="educationalSubjects"
+              ></app-taglist>
+              <!--vocationalUnits-->
+
+              <app-taglist
                 *ngIf="collection.vocationalRequirements?.length > 0"
                 elementId="collection-vocationalRequirements"
                 [tags]="collection.vocationalRequirements"
