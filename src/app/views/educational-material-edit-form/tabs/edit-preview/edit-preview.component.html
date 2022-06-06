@@ -534,6 +534,13 @@
     ></app-preview-row>
 
     <app-preview-row
+    *ngIf="previewMaterial.vocationalCommonUnits?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.commonUnits.label' | translate"
+    [items]="previewMaterial.vocationalCommonUnits"
+    property="targetName"
+  ></app-preview-row>
+
+    <app-preview-row
       *ngIf="previewMaterial?.vocationalUnits?.length > 0"
       [title]="'forms.educationalResource.educationalDetails.vocationalEducation.inputs.units.label' | translate"
       [items]="previewMaterial.vocationalUnits"

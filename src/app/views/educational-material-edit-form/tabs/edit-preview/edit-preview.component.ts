@@ -344,6 +344,14 @@ export class EditPreviewComponent implements OnInit {
       });
       delete this.previewMaterial.vocationalUnits;
 
+      this.previewMaterial.vocationalCommonUnits.forEach((commonUnit: AlignmentObjectExtended) => {
+        commonUnit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+        delete commonUnit.parent;
+
+        alignmentObjects.push(commonUnit);
+      });
+      delete this.previewMaterial.vocationalCommonUnits;
+
       this.previewMaterial.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
         requirement.educationalFramework = this.previewMaterial.vocationalEducationFramework;
 
