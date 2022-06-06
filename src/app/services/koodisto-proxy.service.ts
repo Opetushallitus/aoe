@@ -47,6 +47,7 @@ export class KoodistoProxyService {
   public upperSecondarySchoolContentsNew$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalDegrees$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalUnits$ = new Subject<AlignmentObjectExtended[]>();
+  public vocationalCommonUnits$ = new Subject<AlignmentObjectExtended[]>();
   public vocationalRequirements$ = new Subject<AlignmentObjectExtended[]>();
   public furtherVocationalQualifications$ = new Subject<AlignmentObjectExtended[]>();
   public specialistVocationalQualifications$ = new Subject<AlignmentObjectExtended[]>();
@@ -331,6 +332,22 @@ export class KoodistoProxyService {
         },
         (error: HttpErrorResponse) => this.handleError(error, this.vocationalUnits$),
       );
+  }
+  
+  /**
+   * Updates Vocational Common Units.
+   */
+   updateVocationalCommonUnits(): void {
+    const lang = this.translate.currentLang;
+
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/ammattikoulu-yto-aineet/${lang}`, this.httpOptions)
+      .subscribe(
+        (vocationalCommonUnits: AlignmentObjectExtended[]) => {
+          this.vocationalCommonUnits$.next(vocationalCommonUnits);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.vocationalCommonUnits$),
+    );
   }
 
   /**

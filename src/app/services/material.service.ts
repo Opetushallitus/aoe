@@ -325,6 +325,9 @@ export class MaterialService {
             vocationalUnits: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits,
             ),
+            vocationalCommonUnits: alignmentObjects.filter(
+              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.subjectOfCommonUnit,
+            ),
             vocationalRequirements: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) =>
                 alignmentObject.source === koodistoSources.vocationalRequirements,
@@ -892,6 +895,15 @@ export class MaterialService {
                 source: alignment.source,
                 alignmentType: alignment.alignmenttype,
                 educationalFramework: alignment.educationalframework,
+                targetName: alignment.targetname,
+                targetUrl: alignment.targeturl,
+              })),
+            vocationalCommonUnits: material.educationalAlignment
+              .filter((alignment) => alignment.source === koodistoSources.subjectOfCommonUnit)
+              .map((alignment) => ({
+                key: alignment.objectkey,
+                source: alignment.source,
+                alignmentType: alignment.alignmenttype,
                 targetName: alignment.targetname,
                 targetUrl: alignment.targeturl,
               })),

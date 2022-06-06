@@ -60,6 +60,8 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   vocationalDegrees: AlignmentObjectExtended[];
   vocationalUnitSubscription: Subscription;
   vocationalUnits: AlignmentObjectExtended[];
+  vocationalCommonUnitSubscription: Subscription;
+  vocationalCommonUnits: AlignmentObjectExtended[];
   vocationalRequirementSubscription: Subscription;
   vocationalRequirements: AlignmentObjectExtended[];
   furtherVocationalQualificationSubscription: Subscription;
@@ -79,6 +81,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   hasVocationalEducation = false;
   hasVocationalDegrees = false;
   hasVocationalUnits = false;
+  hasVocationalCommonUnits = false;
   hasSelfMotivatedEducation = false;
   hasHigherEducation = false;
   addEarlyChildhoodEducationSubject = addEarlyChildhoodEducationSubject;
@@ -150,6 +153,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       suitsAllVocationalDegrees: this.fb.control(false),
       vocationalUnits: this.fb.control(null),
       vocationalRequirements: this.fb.control(null),
+      vocationalCommonUnits: this.fb.control(null),
       vocationalEducationFramework: this.fb.control(null, [
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
@@ -178,6 +182,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       this.koodistoSvc.updateVocationalDegrees();
       this.koodistoSvc.updateFurtherVocationalQualifications();
       this.koodistoSvc.updateSpecialistVocationalQualifications();
+      this.koodistoSvc.updateVocationalCommonUnits();
       this.koodistoSvc.updateScienceBranches();
     });
 
@@ -313,6 +318,14 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
       },
     );
 
+    //common units
+    this.vocationalCommonUnitSubscription = this.koodistoSvc.vocationalCommonUnits$.subscribe(
+      (vocationalCommonUnits: AlignmentObjectExtended[]) => {
+        this.vocationalCommonUnits = vocationalCommonUnits;
+      },
+    );
+    this.koodistoSvc.updateVocationalCommonUnits();
+
     // vocational requirements
     this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$.subscribe(
       (requirements: AlignmentObjectExtended[]) => {
@@ -362,6 +375,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     this.upperSecondarySchoolContentNewSubscription.unsubscribe();
     this.vocationalDegreeSubscription.unsubscribe();
     this.vocationalUnitSubscription.unsubscribe();
+    this.vocationalCommonUnitSubscription.unsubscribe();
     this.vocationalRequirementSubscription.unsubscribe();
     this.furtherVocationalQualificationSubscription.unsubscribe();
     this.specialistVocationalQualificationSubscription.unsubscribe();
@@ -434,6 +448,10 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     return this.form.get('vocationalUnits') as FormControl;
   }
 
+  get vocationalCommonUnitsCtrl(): FormControl {
+    return this.form.get('vocationalCommonUnits') as FormControl;
+  }
+  
   get vocationalRequirementsCtrl(): FormControl {
     return this.form.get('vocationalRequirements') as FormControl;
   }
@@ -637,6 +655,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     changedMaterial.vocationalDegrees = this.vocationalDegreesCtrl.value;
     changedMaterial.suitsAllVocationalDegrees = this.form.get('suitsAllVocationalDegrees').value;
     changedMaterial.vocationalUnits = this.vocationalUnitsCtrl.value;
+    changedMaterial.vocationalCommonUnits = this.vocationalCommonUnitsCtrl.value;
     changedMaterial.vocationalRequirements = this.vocationalRequirementsCtrl.value;
     changedMaterial.vocationalEducationFramework = this.form.get('vocationalEducationFramework').value;
     changedMaterial.furtherVocationalQualifications = this.furtherVocationalQualificationsCtrl.value;
