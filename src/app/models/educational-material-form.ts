@@ -93,6 +93,7 @@ export interface EducationalMaterialForm {
   vocationalDegrees?: AlignmentObjectExtended[];
   suitsAllVocationalDegrees?: boolean;
   vocationalUnits?: AlignmentObjectExtended[];
+  vocationalCommonUnits?: AlignmentObjectExtended[];
   vocationalRequirements?: AlignmentObjectExtended[];
   vocationalEducationFramework?: string;
   furtherVocationalQualifications: AlignmentObjectExtended[];
