@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaConsumer implements ConsumerSeekAware {
 
-    private final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class);
+    private final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class.getSimpleName());
 
     @KafkaListener(
             topics = "notes",

@@ -5,16 +5,16 @@ logging:
 server:
   port: 8001
   servlet:
-    context-path: /rest
+    context-path: /api
 spring:
   kafka:
     consumer:
       # multiple servers comma separated "host:9092, host:9093"
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: "localhost:9092,localhost:9094,localhost:9096"
       group-id: aoe-analytics
       auto-offset-reset: latest
       enable-auto-commit: true
     producer:
       batch-size: 10
       client-id: "aoe-kafka-client"
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: "localhost:9092,localhost:9094,localhost:9096"

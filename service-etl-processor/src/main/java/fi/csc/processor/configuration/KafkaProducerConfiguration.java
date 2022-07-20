@@ -1,6 +1,6 @@
 package fi.csc.processor.configuration;
 
-import com.micronome.kafka.model.Person;
+import fi.csc.processor.model.Person;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfiguration {
 
-    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
+    @Value(value = "127.0.0.1:9092,127.0.0.1:9094,127.0.0.1:9096")
     private String bootstrapServers;
 
     @Bean

@@ -1,6 +1,6 @@
 package fi.csc.processor.configuration;
 
-import com.micronome.kafka.model.Person;
+import fi.csc.processor.model.Person;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -23,7 +23,7 @@ public class KafkaConsumerConfiguration {
     @Bean
     public ConsumerFactory<String, Person> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092,127.0.0.1:9094,127.0.0.1:9096");
         config.put(ConsumerConfig.GROUP_ID_CONFIG, "aoe-analytics");
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);

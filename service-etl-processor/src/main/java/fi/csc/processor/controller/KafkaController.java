@@ -26,7 +26,7 @@ public class KafkaController {
         this.kafkaProducer = kafkaProducer;
     }
 
-    @PostMapping(path = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopic(@RequestBody Person person) {
         this.kafkaProducer.sendMessage(person);
         return async(() -> new ResponseEntity<>(HttpStatus.CREATED));
