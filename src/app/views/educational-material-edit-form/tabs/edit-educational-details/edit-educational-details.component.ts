@@ -451,7 +451,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   get vocationalCommonUnitsCtrl(): FormControl {
     return this.form.get('vocationalCommonUnits') as FormControl;
   }
-  
+
   get vocationalRequirementsCtrl(): FormControl {
     return this.form.get('vocationalRequirements') as FormControl;
   }

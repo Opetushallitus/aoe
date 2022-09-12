@@ -526,7 +526,9 @@
     <!--vocationalDegrees-->
 
     <div class="form-group">
-      <label for="vocationalCommonUnits">{{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}</label>
+      <label for="vocationalCommonUnits">
+        {{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}
+      </label>
 
       <ng-select
         [items]="subjectOfCommonUnit"
@@ -537,13 +539,12 @@
         labelForId="vocationalCommonUnits"
         formControlName="subjectOfCommonUnit"
       >
-      <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
-      <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
       </ng-select>
     </div>
 
     <ng-container *ngIf="hasVocationalDegrees">
-      
       <div class="form-group">
         <label for="vocationalUnits">{{ "forms.collection.educational.vocationalUnits.label" | translate }}</label>
 

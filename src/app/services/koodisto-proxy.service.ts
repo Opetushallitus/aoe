@@ -333,11 +333,11 @@ export class KoodistoProxyService {
         (error: HttpErrorResponse) => this.handleError(error, this.vocationalUnits$),
       );
   }
-  
+
   /**
    * Updates Vocational Common Units.
    */
-   updateVocationalCommonUnits(): void {
+  updateVocationalCommonUnits(): void {
     const lang = this.translate.currentLang;
 
     this.http
@@ -347,7 +347,7 @@ export class KoodistoProxyService {
           this.vocationalCommonUnits$.next(vocationalCommonUnits);
         },
         (error: HttpErrorResponse) => this.handleError(error, this.vocationalCommonUnits$),
-    );
+      );
   }
 
   /**
