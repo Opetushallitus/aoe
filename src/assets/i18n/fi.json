@@ -2,7 +2,8 @@
   "common": {
     "goBack": "Takaisin",
     "login": "Kirjaudu sisään",
-    "logout": "Kirjaudu ulos"
+    "logout": "Kirjaudu ulos",
+    "welcome": "Tervetuloa"
   },
   "navigation": {
     "home": "Etusivu",
