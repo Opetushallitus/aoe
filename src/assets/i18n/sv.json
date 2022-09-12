@@ -255,7 +255,8 @@
       }
     },
     "helpTexts": {
-      "multipleItems": "För att lägga till information i det här fältet, skriv ditt innehåll och tryck på enter. På det här sättet kan du lägga till flera uppgifter."
+      "multipleItems": "För att lägga till information i det här fältet, skriv ditt innehåll och tryck på enter. På det här sättet kan du lägga till flera uppgifter.",
+      "timeRequired": "Skriva uppskattningen om den genomsnittliga tiden det tar att studera lärresursen med tidsenheter som d, h, min och s. Till exempel 1 h 30 min."
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
