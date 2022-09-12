@@ -2,7 +2,8 @@
   "common": {
     "goBack": "Tillbaka",
     "login": "Logga in",
-    "logout": "Logga ut"
+    "logout": "Logga ut",
+    "welcome": "Välkommen"
   },
   "navigation": {
     "home": "Framsida",
