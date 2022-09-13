@@ -2,7 +2,8 @@
   "common": {
     "goBack": "Back",
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "welcome": "Welcome"
   },
   "navigation": {
     "home": "Home",
@@ -255,7 +256,8 @@
       }
     },
     "helpTexts": {
-      "multipleItems": "To add information to this field, write your content and press enter. In this way you can add several pieces of information."
+      "multipleItems": "To add information to this field, write your content and press enter. In this way you can add several pieces of information.",
+      "timeRequired": "Please provide the information on the average time it takes to study the material with units of time such as d, h, min and s. For example 1 h 30 min."
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
