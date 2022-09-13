@@ -326,7 +326,8 @@ export class MaterialService {
               (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.vocationalUnits,
             ),
             vocationalCommonUnits: alignmentObjects.filter(
-              (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.subjectOfCommonUnit,
+              (alignmentObject: AlignmentObjectExtended) =>
+                alignmentObject.source === koodistoSources.subjectOfCommonUnit,
             ),
             vocationalRequirements: alignmentObjects.filter(
               (alignmentObject: AlignmentObjectExtended) =>

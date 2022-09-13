@@ -1008,7 +1008,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
           });
         }
       }
-      
+
       if (this.vocationalCommonUnitsCtrl.value) {
         this.vocationalCommonUnitsCtrl.value.forEach((commonUnit: AlignmentObjectExtended) => {
           delete commonUnit.parent;

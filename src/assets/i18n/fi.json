@@ -2,7 +2,8 @@
   "common": {
     "goBack": "Takaisin",
     "login": "Kirjaudu sisään",
-    "logout": "Kirjaudu ulos"
+    "logout": "Kirjaudu ulos",
+    "welcome": "Tervetuloa"
   },
   "navigation": {
     "home": "Etusivu",
@@ -255,7 +256,8 @@
       }
     },
     "helpTexts": {
-      "multipleItems": "Lisätäksesi tähän kenttään tietoja, kirjoita sisältösi ja paina enter. Voit lisätä tällä tavalla useita tietoja."
+      "multipleItems": "Lisätäksesi tähän kenttään tietoja, kirjoita sisältösi ja paina enter. Voit lisätä tällä tavalla useita tietoja.",
+      "timeRequired": "Ilmoita arvio keskimääräisestä opiskeluun kuluvasta ajasta ajanyksikköinä (d, h, min, s), esimerkiksi 1 h 30 min"
     },
     "educationalResource": {
       "title": "Lisää materiaaleja",
