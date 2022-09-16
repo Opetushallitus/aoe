@@ -746,6 +746,23 @@ h2 {
   padding: 1rem;
 }
 
+.dropdown-header {
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 8px 20px 8px 10px;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.54) !important;
+  text-overflow: ellipsis;
+}
+
+.dropdown-header:hover {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+.dropdown-item-version-history {
+  padding-left: 8px;
+}
+
 // Educational resource form
 .material-image-upload {
   background-color: $comment-odd-bg-color;

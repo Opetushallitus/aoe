@@ -31,6 +31,9 @@
       </a>
 
       <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
+        <a class="dropdown-header">
+          {{ authSvc.getUserdata()?.userdata.name }}
+        </a>
         <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">
           {{ "navigation.login.userDetails" | translate }}
         </a>
