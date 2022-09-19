@@ -206,7 +206,7 @@
                     >
                       <li role="menuitem" *ngFor="let version of educationalMaterial.versions; let isFirst = first">
                         <a
-                          class="dropdown-item"
+                          class="dropdown-item dropdown-item-version-history"
                           [routerLink]="['/materiaali', materialId, version]"
                           routerLinkActive="active"
                           [ngClass]="{ active: !materialVersionDate && isFirst }"
