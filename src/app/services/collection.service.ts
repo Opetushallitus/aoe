@@ -513,10 +513,14 @@ export class CollectionService {
           case koodistoSources.vocationalUnits:
             vocationalUnits.push(aObject);
             break;
-          
+
           case koodistoSources.subjectOfCommonUnit:
             subjectOfCommonUnit.push(aObject);
-            break;  
+            break;
+
+          case koodistoSources.subjectOfCommonUnit:
+            subjectOfCommonUnit.push(aObject);
+            break;
 
           case koodistoSources.vocationalObjectives:
             vocationalRequirements.push(aObject);

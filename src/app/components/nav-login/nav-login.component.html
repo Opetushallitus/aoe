@@ -5,6 +5,7 @@
 <ng-template #loggedIn>
   <ul class="navbar-nav">
     <li class="nav-item dropdown">
+      <!--
       <a
         class="nav-link dropdown-toggle"
         href="#"
@@ -16,8 +17,23 @@
       >
         {{ authSvc.getUserdata()?.userdata.name }}
       </a>
+      -->
+      <a
+        class="nav-link dropdown-toggle login-icon"
+        href="#"
+        id="user-details-dropdown"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fa fa-user-circle-o fa-5" style="font-size: x-large" aria-hidden="true"></i>
+      </a>
 
       <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
+        <a class="dropdown-header">
+          {{ authSvc.getUserdata()?.userdata.name }}
+        </a>
         <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">
           {{ "navigation.login.userDetails" | translate }}
         </a>
