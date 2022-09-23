@@ -63,7 +63,7 @@
 
                     <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                       <ng-container *ngFor="let material of filteredMaterials">
-                        <a class="dropdown-item" [href]="material.downloadUrl" download>
+                        <a *ngIf="!material.downloadUrl.endsWith(nullDownloadUrl)" class="dropdown-item" [href]="material.downloadUrl" download>
                           {{ material.displayName[lang] }}
                         </a>
                       </ng-container>
@@ -111,7 +111,7 @@
                   </ul>
                 </div>
 
-                <div class="col col-lg-12" *ngIf="educationalMaterial.urn">
+                <div class="col col-lg-12" *ngIf="false">
                   <p>
                     <strong class="d-block">
                       {{ "demo.educationalMaterial.pid.label.version" | translate }}
