@@ -67,10 +67,12 @@ export class AppComponent implements OnInit {
         return;
       }
       window.scrollTo(0, 0);
-    });
+      let url: string = '';
+      url = this.router.url;
 
-    if (!this.authSvc.hasUserdata()) {
-      this.authSvc.setUserdata().subscribe();
-    }
+      if (!this.authSvc.hasUserdata() && !url.includes('/embed/')) {
+        this.authSvc.setUserdata().subscribe();
+      }
+    });
   }
 }
