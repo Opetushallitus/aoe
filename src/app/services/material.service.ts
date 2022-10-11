@@ -183,7 +183,7 @@ export class MaterialService {
                 label: a.label,
                 srclang: a.srclang,
               })),
-            downloadUrl: `${environment.backendUrl}/download/${m.filekey}`,
+            downloadUrl: `${environment.backendUrl}/download/file/${m.filekey}`,
           }));
 
           // early childhood
@@ -1113,7 +1113,7 @@ export class MaterialService {
                 label: a.label,
                 srclang: a.srclang,
               })),
-            downloadUrl: `${environment.backendUrl}/download/${m.filekey}`,
+            downloadUrl: `${environment.backendUrl}/download/file/${m.filekey}`,
             domain: m.link ? new URL(m.link).hostname.replace('www.', '') : null,
           }));
         }),
