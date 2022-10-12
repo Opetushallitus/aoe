@@ -1,0 +1,43 @@
+.file-list {
+  background-color: #eee;
+  padding: 0.5rem;
+  min-height: 100vh;
+
+  .btn-group-vertical {
+    width: 100%;
+  }
+
+  .btn-file {
+    color: #373737;
+    font-weight: 400;
+    text-align: left;
+    word-break: break-all;
+
+    &.active {
+      background-color: #fff;
+    }
+  }
+}
+
+.material-info {
+  background-color: #eee;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.materials-title {
+  color: #23282c;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.materials-authors {
+  color: #23282c;
+  font-size: 24;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+
+.file-content {
+  background-color: #fff;
+  padding: 0.5rem;
+}
