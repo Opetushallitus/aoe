@@ -191,9 +191,13 @@ export const routes: Routes = [
       },
     ],
   },
+  // {
+  //   path: 'embed/:materialId/:lang',
+  //   component: EducationalMaterialEmbedViewComponent,
+  // },
   {
     path: 'embed/:materialId/:lang',
-    component: EducationalMaterialEmbedViewComponent,
+    loadChildren: () => import('./embed-view/embed-view.module').then((m) => m.EmbedViewModule),
   },
   {
     path: 'bryssel',
