@@ -8,7 +8,7 @@
  */
 export const environment = {
   production: false,
-  backendUrl: 'https://demo.aoe.fi/api', // demo
+  backendUrl: 'https://demo.aoe.fi/api/v1', // demo
   backendUrlV2: 'https://demo.aoe.fi/api/v2',
   // backendUrl: 'https://aoe.fi/api', // prod
   frontendUrl: 'http://localhost:4200',
