@@ -40,7 +40,7 @@ export class MaterialService {
    * @param {string} versionDate?
    */
   updateMaterial(materialId: number, versionDate?: string): void {
-    let materialUrl = `${environment.backendUrl}/material/${materialId}`;
+    let materialUrl = `${environment.embedBackendUrl}/material/${materialId}`;
 
     if (versionDate) {
       materialUrl = `${materialUrl}/${versionDate}`;
@@ -79,13 +79,13 @@ export class MaterialService {
             subtitles: material.attachments
               .filter((a: Attachment) => a.materialid === m.id)
               .map((a: Attachment) => ({
-                src: `${environment.backendUrl}/download/${a.filekey}`,
+                src: `${environment.embedBackendUrl}/download/${a.filekey}`,
                 default: a.defaultfile,
                 kind: a.kind,
                 label: a.label,
                 srclang: a.srclang,
               })),
-            downloadUrl: `${environment.backendUrl}/download/file/${m.filekey}`,
+            downloadUrl: `${environment.embedBackendUrl}/download/${m.filekey}`,
           }));
 
           // early childhood
