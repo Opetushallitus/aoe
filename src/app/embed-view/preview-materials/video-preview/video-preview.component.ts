@@ -13,13 +13,13 @@ export class VideoPreviewComponent implements OnInit, OnChanges {
   materialUrl: string;
 
   ngOnInit(): void {
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     // refreshes video player after source change
     this.player.nativeElement.load();
 
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
   }
 }
