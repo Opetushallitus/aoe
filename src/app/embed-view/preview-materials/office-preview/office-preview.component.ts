@@ -22,12 +22,12 @@ export class OfficePreviewComponent implements OnInit, OnChanges {
     });
 
     this.materialUrl = this.material.filepath;
-    this.downloadUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
     this.materialUrl = this.material.filepath;
-    this.downloadUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
     this.pdfViewer.pdfSrc = this.material.filepath;
     this.pdfViewer.refresh();
   }

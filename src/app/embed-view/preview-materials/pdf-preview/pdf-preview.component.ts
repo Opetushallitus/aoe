@@ -13,12 +13,12 @@ export class PdfPreviewComponent implements OnInit, OnChanges {
   @ViewChild('pdfViewer', { static: true }) public pdfViewer;
 
   ngOnInit(): void {
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
   }
 
   ngOnChanges(_changes: SimpleChanges): void {
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
-    this.pdfViewer.pdfSrc = `${environment.backendUrl}/download/${this.material.filekey}`;
+    this.materialUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
+    this.pdfViewer.pdfSrc = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
     this.pdfViewer.refresh();
   }
 }
