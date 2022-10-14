@@ -3,6 +3,7 @@
  */
 export const environment = {
   production: true,
+  loginUrl: 'https://demo.aoe.fi/api/',
   backendUrl: 'https://demo.aoe.fi/api/v1',
   backendUrlV2: 'https://demo.aoe.fi/api/v2',
   frontendUrl: 'https://demo.aoe.fi',
