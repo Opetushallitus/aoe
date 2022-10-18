@@ -67,8 +67,7 @@ export class AppComponent implements OnInit {
         return;
       }
       window.scrollTo(0, 0);
-      let url: string = '';
-      url = this.router.url;
+      const url: string = this.router.url;
 
       if (!this.authSvc.hasUserdata() && !url.includes('/embed/')) {
         this.authSvc.setUserdata().subscribe();
