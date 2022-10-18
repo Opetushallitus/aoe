@@ -33,7 +33,7 @@ export class SearchService {
     }
 
     this.http
-      .post<SearchResults>(`${environment.backendUrl}/elasticSearch/search`, searchParams, {
+      .post<SearchResults>(`${environment.backendUrlV2}/search`, searchParams, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -51,7 +51,7 @@ export class SearchService {
     sessionStorage.setItem(environment.collectionSearchParams, JSON.stringify(searchParams));
 
     this.http
-      .post<CollectionSearchResults>(`${environment.backendUrl}/elasticSearch/collection/search`, searchParams, {
+      .post<CollectionSearchResults>(`${environment.backendUrlV2}/search/collection`, searchParams, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
@@ -68,7 +68,7 @@ export class SearchService {
     delete searchParams.size;
 
     this.http
-      .post(`${environment.backendUrl}/elasticSearch/search`, searchParams, {
+      .post(`${environment.backendUrlV2}/search`, searchParams, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
