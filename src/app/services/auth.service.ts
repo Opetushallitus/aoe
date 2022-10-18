@@ -40,7 +40,7 @@ export class AuthService {
    */
   login(): void {
     if (!this.alertSvc.disableLogin()) {
-      this.document.location.href = `${environment.backendUrl}/login`;
+      this.document.location.href = `${environment.loginUrl}/login`;
     }
   }
 
@@ -122,7 +122,7 @@ export class AuthService {
   logout(): void {
     this.http
       .post(
-        `${environment.backendUrl}/logout`,
+        `${environment.loginUrl}/logout`,
         {},
         {
           headers: new HttpHeaders({
