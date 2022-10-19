@@ -30,6 +30,8 @@ AWS.config.update(configAWS);
  * @param res express.Response
  */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
+    winstonLogger.debug('Request headers present in getObjectAsStream(): %o', req.headers);
+
     return new Promise(async (resolve, reject) => {
 
         // HEAD request
@@ -57,7 +59,8 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
         try {
             const s3: S3 = new AWS.S3(configS3);
             const fileName: string = req.params.filename as string;
-            let range: string | undefined = req.headers.range as string || undefined
+            if (!req.headers.range) req.headers.range = 'bytes=0-';
+            let range: string | undefined = req.headers.range as string;
             range = validateRangeValues(range, headResponse);
 
             const getRequestObject: GetObjectRequest = {

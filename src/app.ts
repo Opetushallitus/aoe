@@ -16,6 +16,9 @@ apiV1(apiRouterV1);
 const corsOptions: CorsOptions = {
     origin: '*',
     methods: 'GET, HEAD',
+    allowedHeaders: [
+        'Range'
+    ],
     optionsSuccessStatus: 204
 };
 app.use(cors(corsOptions));
