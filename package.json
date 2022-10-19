@@ -13,7 +13,7 @@
         "start": "npm run serve",
         "build": "npm run build-ts && npm run lint",
         "build-ts": "npx tsc",
-        "lint": "eslint src/**/*.ts",
+        "lint": "npx eslint src/**/*.ts",
         "serve": "node dist/server.js",
         "test": "jest --forceExit --coverage",
         "watch-ts": "npx tsc -w",
