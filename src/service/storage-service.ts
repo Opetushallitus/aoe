@@ -37,9 +37,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
         try {
             headResponse = await headObjectRequest(req);
             if (req.method === 'HEAD') {
-                if (!req.headers['range']) {
-                    throw new Error('Range request rejected for missing Range HTTP header');
-                }
                 res.status(200).set({
                     'Accept-Ranges': headResponse.AcceptRanges,
                     'Last-Modified': headResponse.LastModified,
@@ -48,6 +45,9 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                     'Content-Type': headResponse.ContentType
                 });
                 return resolve();
+            }
+            if (!req.headers['range']) {
+                throw new Error('Range request rejected for missing Range HTTP header');
             }
         } catch (error) {
             return reject(error);
