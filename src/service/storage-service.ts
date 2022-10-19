@@ -30,6 +30,8 @@ AWS.config.update(configAWS);
  * @param res express.Response
  */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
+    winstonLogger.debug('Request headers present in getObjectAsStream(): %o', req.headers);
+
     return new Promise(async (resolve, reject) => {
 
         // HEAD request
