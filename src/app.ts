@@ -17,8 +17,6 @@ const corsOptions: CorsOptions = {
     origin: '*',
     methods: 'GET, HEAD',
     allowedHeaders: [
-        'Accept',
-        'Origin',
         'Range'
     ],
     optionsSuccessStatus: 204
