@@ -10,6 +10,8 @@ import { winstonLogger } from './index';
  * @param next NextFunction
  */
 export default (req: Request, res: Response, next: NextFunction): void => {
+    if (req.url === '/status') return next();
+
     const postProcess = () => {
 
         // Remove the event listeners to call postProcess() only once

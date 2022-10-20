@@ -30,8 +30,6 @@ AWS.config.update(configAWS);
  * @param res express.Response
  */
 export const getObjectAsStream = async (req: Request, res: Response): Promise<void> => {
-    winstonLogger.debug('Request headers present in getObjectAsStream(): %o', req.headers);
-
     return new Promise(async (resolve, reject) => {
 
         // HEAD request
@@ -49,7 +47,7 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 return resolve();
             }
             if (!req.headers['range']) {
-                throw new Error('Range request rejected for missing Range HTTP header');
+                return reject(new Error('Range request rejected for missing Range HTTP header'));
             }
         } catch (error) {
             return reject(error);
@@ -74,7 +72,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
                 .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
 
                     // Forward headers to the response
-                    winstonLogger.debug('Headers from the object storage response: %s', JSON.stringify(headers));
                     // res.set(headers);
                     res.set({
                         'Content-Length': headers['content-length'],
@@ -152,11 +149,11 @@ const headObjectRequest = async (req: Request): Promise<HeadObjectOutput> => {
 const validateRangeValues = (range: string | undefined, headResponse: HeadObjectOutput): string | undefined => {
     let length = 0;
     if (headResponse.ContentLength && range) {
-        length = headResponse.ContentLength;
+        length = headResponse.ContentLength as number;
     } else {
         return undefined;
     }
-    const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 10000000; // 10 Mb
+    const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 5000000; // 5 MB
     const [startString, endString]: string[] = range.replace(/bytes=/, '').split('-');
     const start: number = parseInt(startString, 10);
     let end: number = endString ? parseInt(endString, 10) : length - 1;
