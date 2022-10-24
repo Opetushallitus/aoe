@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
+<nav *ngIf="!embedded" class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navigation">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/etusivu">
       <img [src]="brand[translate.currentLang].img" [alt]="brand[translate.currentLang].alt" class="img-fluid" />
@@ -60,7 +60,7 @@
   </div>
 </nav>
 
-<div *ngIf="alerts" class="alerts">
+<div *ngIf="alerts && !embedded" class="alerts">
   <alert *ngIf="alerts.allas" [type]="alerts.allas.alertType">
     <div class="container">{{ alerts.allas.message[translate.currentLang] }}</div>
   </alert>
@@ -70,7 +70,7 @@
   </alert>
 </div>
 
-<div *ngIf="showMaintenanceAlert" class="alert alert-warning mb-0" role="alert">
+<div *ngIf="showMaintenanceAlert && !embedded" class="alert alert-warning mb-0" role="alert">
   <div class="container">
     {{ maintenanceMessage }}
   </div>
@@ -82,14 +82,14 @@
   </div>
 </div>-->
 
-<div class="app-body">
+<div *ngIf="!embedded" class="app-body">
   <!-- Main content -->
   <main class="main">
     <router-outlet></router-outlet>
   </main>
 </div>
 
-<footer class="app-footer">
+<footer *ngIf="!embedded" class="app-footer">
   <div class="container">
     <h2 class="text-center">{{ "footer.name" | translate }}</h2>
 
@@ -143,7 +143,7 @@
   </div>
 </footer>
 
-<div class="logos">
+<div *ngIf="!embedded" class="logos">
   <div class="container">
     <div class="row justify-content-center align-items-center">
       <div class="col-auto">
@@ -170,4 +170,11 @@
   </div>
 </div>
 
-<app-cookie-notice *ngIf="showNotice" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+<app-cookie-notice *ngIf="showNotice && !embedded" (hideCookieNotice)="hideCookieNotice()"></app-cookie-notice>
+
+<div *ngIf="embedded">
+  The website has been embedded and blocked due to suspicious activity.
+  <br />
+  <br />
+  Check that you are visiting the original site https://aoe.fi.
+</div>
