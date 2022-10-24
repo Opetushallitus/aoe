@@ -14,6 +14,6 @@ export class NotificationService {
   constructor(private http: HttpClient) {}
 
   getNotification(): Observable<Message> {
-    return this.http.get<Message>(`${environment.backendUrl}/v2/process/notification`);
+    return this.http.get<Message>(`${environment.backendUrlV2}/process/notification`);
   }
 }
