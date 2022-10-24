@@ -98,7 +98,7 @@ export class AuthService {
     this.cookieSvc.delete(environment.userdataKey);
 
     // remove session id
-    this.cookieSvc.delete('connect.sid');
+    // this.cookieSvc.delete('connect.sid');
   }
 
   /**
@@ -111,7 +111,7 @@ export class AuthService {
       (err) => console.error(err),
       () => {
         this.setUserdata().subscribe();
-        this.router.navigate(['/etusivu']);
+        this.router.navigate(['/etusivu']).then();
       },
     );
   }
@@ -132,7 +132,7 @@ export class AuthService {
       )
       .subscribe(() => {
         this.removeUserdata();
-        this.router.navigate(['/logout']).then();
+        // this.router.navigate(['/logout']).then();
       });
   }
 
