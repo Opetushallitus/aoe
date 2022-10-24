@@ -28,7 +28,7 @@ export class NotificationComponent {
 
   getNotification(): void {
     this.http
-      .get<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`)
+      .get<NotificationMessage>(`${environment.backendUrlV2}/process/notification`)
       .subscribe((message: NotificationMessage) => {
         if (message.notification != 'null') {
           this.currentNotification = message.notification;
@@ -44,7 +44,7 @@ export class NotificationComponent {
   postNotification(payload: NotificationMessage): Observable<NotificationMessage> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http
-      .post<NotificationMessage>(`${environment.backendUrl}/v2/process/notification`, payload, { headers: headers })
+      .post<NotificationMessage>(`${environment.backendUrlV2}/process/notification`, payload, { headers: headers })
       .pipe(catchError(this.handleError));
   }
 
