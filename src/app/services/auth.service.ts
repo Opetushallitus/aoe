@@ -96,10 +96,9 @@ export class AuthService {
   removeUserdata(): void {
     // remove user data
     this.cookieSvc.delete(environment.userdataKey);
-    console.log('Logout: userdata deleted');
 
     // remove session id
-    // this.cookieSvc.delete('connect.sid', '/');
+    this.cookieSvc.delete('connect.sid', '/api');
   }
 
   /**
@@ -133,10 +132,10 @@ export class AuthService {
         },
       )
       .subscribe((response: HttpResponse<any>) => {
-        if (response.status === 302) {
+        if (response.status === 204) {
           this.removeUserdata();
         }
-        // this.router.navigate(['/logout']);
+        this.router.navigate(['/logout']).then();
       });
   }
 
