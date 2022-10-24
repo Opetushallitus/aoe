@@ -127,14 +127,11 @@ export class AuthService {
           headers: new HttpHeaders({
             Accept: 'application/json',
           }),
-          observe: 'response',
         },
       )
-      .subscribe(async (response: HttpResponse<any>) => {
+      .subscribe(async () => {
         await this.removeUserdata();
-        if (response.status === 302) {
-          this.router.navigate(['/logout']).then();
-        }
+        this.router.navigate(['/logout']).then();
       });
   }
 
