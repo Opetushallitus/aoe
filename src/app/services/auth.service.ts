@@ -93,10 +93,9 @@ export class AuthService {
   /**
    * Removes user data and session id cookie.
    */
-  removeUserdata(): void {
+  async removeUserdata(): Promise<void> {
     // remove user data
-    this.cookieSvc.delete(environment.userdataKey);
-
+    return this.cookieSvc.delete(environment.userdataKey);
     // remove session id
     // this.cookieSvc.delete('connect.sid');
   }
@@ -131,12 +130,11 @@ export class AuthService {
           observe: 'response',
         },
       )
-      .subscribe((response: HttpResponse<any>) => {
-        this.removeUserdata();
+      .subscribe(async (response: HttpResponse<any>) => {
+        await this.removeUserdata();
         if (response.status === 302) {
-          this.document.location.href = response.headers.get('Location');
+          this.router.navigate(['/logout']).then();
         }
-        // this.router.navigate(['/logout']).then();
       });
   }
 
