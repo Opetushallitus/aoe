@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, Subscription } from 'rxjs';
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from '@services/cookie.service';
@@ -21,6 +20,10 @@ export class DefaultLayoutComponent implements OnInit {
   languages = new Map();
   alerts: AlertsResponse;
   maintenanceMessage: string;
+
+  // Check if the site has been embedded and needs to be blocked due to suspicious activity.
+  // window !== window.top : true => The site is in a frame.
+  embedded: boolean = window !== window.top;
 
   logos = {
     okm: {
