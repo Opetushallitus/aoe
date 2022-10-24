@@ -128,10 +128,14 @@ export class AuthService {
           headers: new HttpHeaders({
             Accept: 'application/json',
           }),
+          observe: 'response',
         },
       )
-      .subscribe(() => {
+      .subscribe((response: HttpResponse<any>) => {
         this.removeUserdata();
+        if (response.status === 302) {
+          this.document.location.href = response.headers.get('Location');
+        }
         // this.router.navigate(['/logout']).then();
       });
   }
