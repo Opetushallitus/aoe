@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -96,9 +96,10 @@ export class AuthService {
   removeUserdata(): void {
     // remove user data
     this.cookieSvc.delete(environment.userdataKey);
+    console.log('Logout: userdata deleted');
 
     // remove session id
-    this.cookieSvc.delete('connect.sid', '/');
+    // this.cookieSvc.delete('connect.sid', '/');
   }
 
   /**
@@ -128,11 +129,14 @@ export class AuthService {
           headers: new HttpHeaders({
             Accept: 'application/json',
           }),
+          observe: 'response',
         },
       )
-      .subscribe(() => {
-        this.removeUserdata();
-        this.router.navigate(['/logout']);
+      .subscribe((response: HttpResponse<any>) => {
+        if (response.status === 302) {
+          this.removeUserdata();
+        }
+        // this.router.navigate(['/logout']);
       });
   }
 
