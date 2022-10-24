@@ -98,7 +98,7 @@ export class AuthService {
     this.cookieSvc.delete(environment.userdataKey);
 
     // remove session id
-    this.cookieSvc.delete('connect.sid', '/api');
+    this.cookieSvc.delete('connect.sid');
   }
 
   /**
