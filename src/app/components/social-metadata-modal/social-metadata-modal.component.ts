@@ -15,110 +15,112 @@ import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
 import { Toast } from '@models/translations/toast';
 
 @Component({
-  selector: 'app-social-metadata-modal',
-  templateUrl: './social-metadata-modal.component.html',
-  styleUrls: ['./social-metadata-modal.component.scss'],
+    selector: 'app-social-metadata-modal',
+    templateUrl: './social-metadata-modal.component.html',
+    styleUrls: ['./social-metadata-modal.component.scss'],
 })
 export class SocialMetadataModalComponent implements OnInit, OnDestroy {
-  materialId: number;
-  form: FormGroup;
-  keywordSubscription: Subscription;
-  keywords: KeyValue<string, string>[];
-  accessibilityFeatureSubscription: Subscription;
-  accessibilityFeatures: AccessibilityFeature[];
-  accessibilityHazardSubscription: Subscription;
-  accessibilityHazards: AccessibilityHazard[];
-  educationalLevelSubscription: Subscription;
-  educationalLevels: EducationalLevel[];
-  userSocialMetadataSubscription: Subscription;
-  successfulToast: Toast;
+    materialId: number;
+    form: FormGroup;
+    keywordSubscription: Subscription;
+    keywords: KeyValue<string, string>[];
+    accessibilityFeatureSubscription: Subscription;
+    accessibilityFeatures: AccessibilityFeature[];
+    accessibilityHazardSubscription: Subscription;
+    accessibilityHazards: AccessibilityHazard[];
+    educationalLevelSubscription: Subscription;
+    educationalLevels: EducationalLevel[];
+    userSocialMetadataSubscription: Subscription;
+    successfulToast: Toast;
 
-  constructor(
-    public bsModalRef: BsModalRef,
-    private fb: FormBuilder,
-    private toastr: ToastrService,
-    private translate: TranslateService,
-    private socialMetadataSvc: SocialMetadataService,
-    private koodistoSvc: KoodistoProxyService,
-  ) {}
+    constructor(
+        public bsModalRef: BsModalRef,
+        private fb: FormBuilder,
+        private toastr: ToastrService,
+        private translate: TranslateService,
+        private socialMetadataSvc: SocialMetadataService,
+        private koodistoSvc: KoodistoProxyService,
+    ) {}
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      keywords: this.fb.control(null),
-      accessibilityFeatures: this.fb.control(null),
-      accessibilityHazards: this.fb.control(null),
-      educationalLevels: this.fb.control(null),
-    });
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            keywords: this.fb.control(null),
+            accessibilityFeatures: this.fb.control(null),
+            accessibilityHazards: this.fb.control(null),
+            educationalLevels: this.fb.control(null),
+        });
 
-    this.translate.onLangChange.subscribe(() => {
-      this.koodistoSvc.updateKeywords();
-      this.koodistoSvc.updateAccessibilityFeatures();
-      this.koodistoSvc.updateAccessibilityHazards();
-      this.koodistoSvc.updateEducationalLevels();
-    });
+        this.translate.onLangChange.subscribe(() => {
+            this.koodistoSvc.updateKeywords();
+            this.koodistoSvc.updateAccessibilityFeatures();
+            this.koodistoSvc.updateAccessibilityHazards();
+            this.koodistoSvc.updateEducationalLevels();
+        });
 
-    // keywords
-    this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
-      this.keywords = keywords;
-    });
-    this.koodistoSvc.updateKeywords();
+        // keywords
+        this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+            this.keywords = keywords;
+        });
+        this.koodistoSvc.updateKeywords();
 
-    // accessibility features
-    this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
-      (features: AccessibilityFeature[]) => {
-        this.accessibilityFeatures = features;
-      },
-    );
-    this.koodistoSvc.updateAccessibilityFeatures();
-
-    // accessibility hazards
-    this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
-      (hazards: AccessibilityHazard[]) => {
-        this.accessibilityHazards = hazards;
-      },
-    );
-    this.koodistoSvc.updateAccessibilityHazards();
-
-    // educational levels
-    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
-      this.educationalLevels = levels;
-    });
-    this.koodistoSvc.updateEducationalLevels();
-
-    this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe(
-      (metadata: SocialMetadata) => {
-        this.form.patchValue(metadata);
-      },
-    );
-    this.socialMetadataSvc.updateUserSocialMetadata(this.materialId);
-
-    this.translate.get('demo.educationalMaterial.socialMetadata.toasts.success').subscribe((translation: Toast) => {
-      this.successfulToast = translation;
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.keywordSubscription.unsubscribe();
-    this.accessibilityFeatureSubscription.unsubscribe();
-    this.accessibilityHazardSubscription.unsubscribe();
-    this.educationalLevelSubscription.unsubscribe();
-    this.userSocialMetadataSubscription.unsubscribe();
-  }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      if (this.form.dirty) {
-        this.socialMetadataSvc.putMaterialSocialMetadata(this.materialId, this.form.value).subscribe(
-          () => {
-            this.bsModalRef.hide();
-            this.socialMetadataSvc.updateSocialMetadata(this.materialId);
-            this.toastr.success(null, this.successfulToast.title);
-          },
-          (err: HttpErrorResponse) => this.toastr.error(null, err.error),
+        // accessibility features
+        this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+            (features: AccessibilityFeature[]) => {
+                this.accessibilityFeatures = features;
+            },
         );
-      }
+        this.koodistoSvc.updateAccessibilityFeatures();
 
-      this.bsModalRef.hide();
+        // accessibility hazards
+        this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+            (hazards: AccessibilityHazard[]) => {
+                this.accessibilityHazards = hazards;
+            },
+        );
+        this.koodistoSvc.updateAccessibilityHazards();
+
+        // educational levels
+        this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe(
+            (levels: EducationalLevel[]) => {
+                this.educationalLevels = levels;
+            },
+        );
+        this.koodistoSvc.updateEducationalLevels();
+
+        this.userSocialMetadataSubscription = this.socialMetadataSvc.userSocialMetadata$.subscribe(
+            (metadata: SocialMetadata) => {
+                this.form.patchValue(metadata);
+            },
+        );
+        this.socialMetadataSvc.updateUserSocialMetadata(this.materialId);
+
+        this.translate.get('demo.educationalMaterial.socialMetadata.toasts.success').subscribe((translation: Toast) => {
+            this.successfulToast = translation;
+        });
     }
-  }
+
+    ngOnDestroy(): void {
+        this.keywordSubscription.unsubscribe();
+        this.accessibilityFeatureSubscription.unsubscribe();
+        this.accessibilityHazardSubscription.unsubscribe();
+        this.educationalLevelSubscription.unsubscribe();
+        this.userSocialMetadataSubscription.unsubscribe();
+    }
+
+    onSubmit(): void {
+        if (this.form.valid) {
+            if (this.form.dirty) {
+                this.socialMetadataSvc.putMaterialSocialMetadata(this.materialId, this.form.value).subscribe(
+                    () => {
+                        this.bsModalRef.hide();
+                        this.socialMetadataSvc.updateSocialMetadata(this.materialId);
+                        this.toastr.success(null, this.successfulToast.title);
+                    },
+                    (err: HttpErrorResponse) => this.toastr.error(null, err.error),
+                );
+            }
+
+            this.bsModalRef.hide();
+        }
+    }
 }

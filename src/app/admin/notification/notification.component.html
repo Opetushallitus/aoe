@@ -1,21 +1,21 @@
 <h1>Tee huoltokatkoilmoitus</h1>
 
 <div>
-  <input class="form-control" type="text" #input />
-  <p *ngIf="wrongFormat" style="color: red">{{ wrongFormat }}</p>
-  <div>
-    <button class="btn btn-blue" (click)="saveMessage()">Tallenna uusi ilmoitus</button>
-  </div>
+    <input class="form-control" type="text" #input />
+    <p *ngIf="wrongFormat" style="color: red">{{ wrongFormat }}</p>
+    <div>
+        <button class="btn btn-blue" (click)="saveMessage()">Tallenna uusi ilmoitus</button>
+    </div>
 </div>
 
 <br />
 
 <h4>Nykyinen ilmoitus:</h4>
 <div *ngIf="currentNotification; else elseBlock">
-  <p>{{ currentNotification }}</p>
-  <p>Lisätty: {{ notificationUpdatedTime | date: "d.M.yyyy HH:mm" }}</p>
-  <button class="btn btn-danger" (click)="deleteNotification()">Poista ilmoitus</button>
+    <p>{{ currentNotification }}</p>
+    <p>Lisätty: {{ notificationUpdatedTime | date: "d.M.yyyy HH:mm" }}</p>
+    <button class="btn btn-danger" (click)="deleteNotification()">Poista ilmoitus</button>
 </div>
 <ng-template #elseBlock>
-  <p>[Ei ilmoitusta]</p>
+    <p>[Ei ilmoitusta]</p>
 </ng-template>

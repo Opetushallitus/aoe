@@ -1,4 +1,4 @@
 export interface EducationalLevel {
-  educationallevelkey: string;
-  value: string;
+    educationallevelkey: string;
+    value: string;
 }

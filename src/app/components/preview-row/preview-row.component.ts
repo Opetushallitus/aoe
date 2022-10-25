@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-preview-row',
-  templateUrl: './preview-row.component.html',
-  styleUrls: ['./preview-row.component.scss'],
+    selector: 'app-preview-row',
+    templateUrl: './preview-row.component.html',
+    styleUrls: ['./preview-row.component.scss'],
 })
 export class PreviewRowComponent {
-  @Input() title: string;
-  @Input() items?: any[];
-  @Input() item?: string;
-  @Input() property?: string;
-  @Input() required?: boolean;
-  @Input() routerLinkOptions?: any[];
+    @Input() title: string;
+    @Input() items?: any[];
+    @Input() item?: string;
+    @Input() property?: string;
+    @Input() required?: boolean;
+    @Input() routerLinkOptions?: any[];
 
-  constructor() {}
+    constructor() {}
 }

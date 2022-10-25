@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface Message {
-  notification: string;
-  updated: string;
+    notification: string;
+    updated: string;
 }
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class NotificationService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getNotification(): Observable<Message> {
-    return this.http.get<Message>(`${environment.backendUrlV2}/process/notification`);
-  }
+    getNotification(): Observable<Message> {
+        return this.http.get<Message>(`${environment.backendUrlV2}/process/notification`);
+    }
 }
