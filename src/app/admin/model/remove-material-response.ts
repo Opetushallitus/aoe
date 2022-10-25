@@ -1,4 +1,4 @@
 export interface RemoveMaterialResponse {
-  status: string;
-  statusCode: number;
+    status: string;
+    statusCode: number;
 }

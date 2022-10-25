@@ -1,3 +1,3 @@
 export interface RemoveFromCollectionResponse {
-  status: string;
+    status: string;
 }

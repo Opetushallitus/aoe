@@ -6,31 +6,31 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  templateUrl: 'main-view.component.html',
+    templateUrl: 'main-view.component.html',
 })
 export class MainViewComponent implements OnInit {
-  lang: string = this.translate.currentLang;
-  recentMaterials: EducationalMaterialCard[];
+    lang: string = this.translate.currentLang;
+    recentMaterials: EducationalMaterialCard[];
 
-  constructor(private translate: TranslateService, private materialSvc: MaterialService, private titleSvc: Title) {}
+    constructor(private translate: TranslateService, private materialSvc: MaterialService, private titleSvc: Title) {}
 
-  ngOnInit(): void {
-    this.setTitle();
+    ngOnInit(): void {
+        this.setTitle();
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.lang = event.lang;
 
-      this.setTitle();
-    });
+            this.setTitle();
+        });
 
-    this.materialSvc.getRecentMaterialList().subscribe((data) => {
-      this.recentMaterials = data;
-    });
-  }
+        this.materialSvc.getRecentMaterialList().subscribe((data) => {
+            this.recentMaterials = data;
+        });
+    }
 
-  setTitle(): void {
-    this.translate.get('titles.home').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
-  }
+    setTitle(): void {
+        this.translate.get('titles.home').subscribe((title: string) => {
+            this.titleSvc.setTitle(`${title} ${environment.title}`);
+        });
+    }
 }

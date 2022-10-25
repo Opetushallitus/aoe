@@ -1,3 +1,3 @@
 export interface CollectionSearchParams {
-  keywords: string | null;
+    keywords: string | null;
 }

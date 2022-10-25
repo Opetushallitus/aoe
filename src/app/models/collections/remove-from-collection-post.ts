@@ -1,4 +1,4 @@
 export interface RemoveFromCollectionPost {
-  collectionId: number;
-  emId: number[];
+    collectionId: number;
+    emId: number[];
 }

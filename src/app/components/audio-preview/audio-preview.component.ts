@@ -4,22 +4,22 @@ import { Material } from '@models/material';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-audio-preview',
-  templateUrl: './audio-preview.component.html',
+    selector: 'app-audio-preview',
+    templateUrl: './audio-preview.component.html',
 })
 export class AudioPreviewComponent implements OnInit, OnChanges {
-  @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef;
-  @Input() material: Material;
-  materialUrl: string;
+    @ViewChild('audioElement', { static: true }) audioPlayerRef: ElementRef;
+    @Input() material: Material;
+    materialUrl: string;
 
-  ngOnInit(): void {
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
-  }
+    ngOnInit(): void {
+        this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    }
 
-  ngOnChanges(_changes: SimpleChanges): void {
-    // refreshes audio player after source change
-    this.audioPlayerRef.nativeElement.load();
+    ngOnChanges(_changes: SimpleChanges): void {
+        // refreshes audio player after source change
+        this.audioPlayerRef.nativeElement.load();
 
-    this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
-  }
+        this.materialUrl = `${environment.backendUrl}/download/${this.material.filekey}`;
+    }
 }

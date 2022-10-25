@@ -23,16 +23,23 @@ import { PdfPreviewComponent } from './preview-materials/pdf-preview/pdf-preview
 import { VideoPreviewComponent } from './preview-materials/video-preview/video-preview.component';
 
 @NgModule({
-  declarations: [
-    EducationalMaterialEmbedViewComponent,
-    EducationalMaterialPreviewComponent,
-    ImagePreviewComponent,
-    AudioPreviewComponent,
-    HtmlPreviewComponent,
-    OfficePreviewComponent,
-    PdfPreviewComponent,
-    VideoPreviewComponent,
-  ],
-  imports: [CommonModule, EmbedViewRoutingModule, ReactiveFormsModule, NgSelectModule, SharedModule, PdfJsViewerModule ],
+    declarations: [
+        EducationalMaterialEmbedViewComponent,
+        EducationalMaterialPreviewComponent,
+        ImagePreviewComponent,
+        AudioPreviewComponent,
+        HtmlPreviewComponent,
+        OfficePreviewComponent,
+        PdfPreviewComponent,
+        VideoPreviewComponent,
+    ],
+    imports: [
+        CommonModule,
+        EmbedViewRoutingModule,
+        ReactiveFormsModule,
+        NgSelectModule,
+        SharedModule,
+        PdfJsViewerModule,
+    ],
 })
 export class EmbedViewModule {}
