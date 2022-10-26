@@ -16,13 +16,12 @@ import { map } from 'rxjs/operators';
     templateUrl: './collection-card.component.html',
     styleUrls: ['./collection-card.component.scss'],
 })
-export class CollectionCardComponent implements OnInit, OnDestroy {
+export class CollectionCardComponent implements OnInit {
     @Input() collection: CollectionCard;
     @Input() lang: string;
 
     educationalLevels: CollectionCardEducationalLevel[];
     keywords: CollectionCardKeyword[];
-    languageSubscription: Subscription;
     languages$: Observable<Language[]>;
 
     constructor(private translate: TranslateService, private koodistoSvc: KoodistoProxyService) {}
@@ -39,9 +38,5 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
             );
         this.educationalLevels = getValuesWithinLimits(this.collection.educationalLevels, 'value');
         this.keywords = getValuesWithinLimits(this.collection.keywords, 'value');
-    }
-
-    ngOnDestroy(): void {
-        this.languageSubscription.unsubscribe();
     }
 }
