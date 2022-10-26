@@ -1,17 +1,20 @@
 {
-    "name": "@coreui/coreui-free-angular-admin-template",
-    "version": "2.0.0",
-    "description": "CoreUI Free Angular 2+ Admin Template",
-    "author": {
-        "name": "Łukasz Holeczek",
-        "url": "http://holeczek.pl",
-        "github": "https://github.com/mrholek",
-        "twitter": "https://twitter.com/lukaszholeczek"
-    },
+    "name": "aoe-web-frontend",
+    "version": "5.2.5",
+    "description": "Client Application for the Library of Open Educational Resources",
+    "author": "CSC - IT Center for Science Ltd.",
     "contributors": [
         {
-            "name": "Andrzej Kopański",
-            "url": "https://github.com/xidedix"
+            "name": "Mikael Saipori",
+            "email": "mikael.saipori@csc.fi"
+        },
+        {
+            "name": "Aino Tani",
+            "email": "aino.tani@csc.fi"
+        },
+        {
+            "name": "Kalle Lehtonen",
+            "email": "kalle.lehtonen@digia.com"
         }
     ],
     "homepage": "https://coreui.io/angular",

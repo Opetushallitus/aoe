@@ -27,7 +27,6 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
-
             this.setTitle();
         });
 

@@ -17,6 +17,7 @@ import { UserData } from '@models/userdata';
 export class AppComponent implements OnDestroy, OnInit {
     userData: UserData;
     userDataSubscription: Subscription;
+
     constructor(
         private router: Router,
         private translate: TranslateService,
