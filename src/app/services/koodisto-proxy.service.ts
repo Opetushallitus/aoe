@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, throwError } from "rxjs";
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Language } from '@models/koodisto-proxy/language';
