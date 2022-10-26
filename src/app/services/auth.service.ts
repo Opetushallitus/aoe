@@ -59,7 +59,6 @@ export class AuthService {
             })
             .subscribe(
                 (userData: UserData) => {
-                    console.log('Update userdata: ', this.userData$.getValue());
                     this.userData$.next(userData);
                     // const expires = new Date();
                     // expires.setTime(expires.getTime() + environment.sessionMaxAge);
