@@ -17,6 +17,7 @@ import { Language } from '@models/koodisto-proxy/language';
 })
 export class CollectionCardComponent implements OnInit, OnDestroy {
     @Input() collection: CollectionCard;
+    @Input() lang: string;
     educationalLevels: CollectionCardEducationalLevel[];
     keywords: CollectionCardKeyword[];
     languageSubscription: Subscription;
@@ -25,17 +26,15 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
     constructor(private translate: TranslateService, private koodistoSvc: KoodistoProxyService) {}
 
     ngOnInit(): void {
-        this.translate.onLangChange.subscribe(() => {
-            this.koodistoSvc.updateLanguages();
-        });
-
+        // this.translate.onLangChange.subscribe(() => {
+        //     this.koodistoSvc.updateLanguages();
+        // });
         this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
             this.languages = languages.filter((lang: Language) =>
                 this.collection.languages.includes(lang.key.toLowerCase()),
             );
         });
-        this.koodistoSvc.updateLanguages();
-
+        // this.koodistoSvc.updateLanguages();
         this.educationalLevels = getValuesWithinLimits(this.collection.educationalLevels, 'value');
         this.keywords = getValuesWithinLimits(this.collection.keywords, 'value');
     }

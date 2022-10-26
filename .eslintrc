@@ -61,6 +61,7 @@
                 "no-extra-semi": "off",
                 "no-irregular-whitespace": "off",
                 "no-trailing-spaces": "off",
+                "no-lone-blocks": "off",
                 "space-in-parens": [
                     "off",
                     "never"
