@@ -47,7 +47,7 @@
     <!--keywords-->
 
     <app-taglist
-        *ngIf="collection.languages?.length > 0 && languages"
+        *ngIf="collection.languages?.length > 0 && languages$ | async as languages"
         [elementId]="'collection-languages' + collection.id"
         [tags]="languages"
         [title]="'collections.meta.languages' | translate"
