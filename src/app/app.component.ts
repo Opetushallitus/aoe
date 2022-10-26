@@ -79,7 +79,6 @@ export class AppComponent implements OnDestroy, OnInit {
 
             if (!this.userData && !url.includes('/embed/')) {
                 this.authSvc.updateUserData();
-                console.log('User data updated');
             }
         });
     }
