@@ -19,6 +19,7 @@ import { map } from 'rxjs/operators';
 export class CollectionCardComponent implements OnInit, OnDestroy {
     @Input() collection: CollectionCard;
     @Input() lang: string;
+
     educationalLevels: CollectionCardEducationalLevel[];
     keywords: CollectionCardKeyword[];
     languageSubscription: Subscription;

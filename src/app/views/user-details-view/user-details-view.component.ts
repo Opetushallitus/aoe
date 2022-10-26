@@ -43,18 +43,15 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
         });
 
         if (this.userData) {
-            // TODO: Getting userdata from the cookie is unnecessary - to be removed.
-            const userData: UserData = this.authSvc.getUserData();
             const userSettings: UserSettings = {
                 notifications: {
-                    newRatings: userData.newRatings,
-                    almostExpired: userData.almostExpired,
-                    termsUpdated: userData.termsUpdated,
+                    newRatings: this.userData.newRatings,
+                    almostExpired: this.userData.almostExpired,
+                    termsUpdated: this.userData.termsUpdated,
                 },
-                email: userData.email,
-                allowTransfer: userData.allowTransfer,
+                email: this.userData.email,
+                allowTransfer: this.userData.allowTransfer,
             };
-
             this.form.patchValue(userSettings);
         }
     }
