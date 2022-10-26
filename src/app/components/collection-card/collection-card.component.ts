@@ -1,11 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
     CollectionCard,
     CollectionCardEducationalLevel,
     CollectionCardKeyword,
 } from '@models/collections/collection-card';
 import { getValuesWithinLimits } from '../../shared/shared.module';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { KoodistoProxyService } from '@services/koodisto-proxy.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Language } from '@models/koodisto-proxy/language';
