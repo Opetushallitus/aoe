@@ -21,13 +21,14 @@ export class AcceptanceGuard implements CanActivate {
         _next: ActivatedRouteSnapshot,
         _state: RouterStateSnapshot,
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const user: UserData = this.authSvc.getUserData();
+        console.debug('Acceptance guard activated');
+        const userData: UserData = this.authSvc.userData$.getValue();
 
-        if (!user || user?.termsofusage === true) {
+        if (!userData || userData?.termsofusage === true) {
             return true;
         }
 
-        // redirect to acceptance route.
+        // Redirect to the acceptance of Terms of Use.
         return this.router.parseUrl('/hyvaksynta');
     }
 }
