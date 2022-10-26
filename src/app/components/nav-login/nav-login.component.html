@@ -1,4 +1,4 @@
-<button *ngIf="!authSvc.hasUserData(); else loggedIn" class="btn nav-link" type="button" (click)="login()">
+<button *ngIf="(userData$ | async) === null; else loggedIn" class="btn nav-link" type="button" (click)="login()">
     {{ "common.login" | translate }}
 </button>
 
@@ -30,7 +30,7 @@
             </a>
 
             <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
-                <a class="dropdown-header">{{ (userData$ | async)?.name }}</a>
+                <a class="dropdown-header">{{ (userData$ | async).userdata.name }}</a>
                 <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">
                     {{ "navigation.login.userDetails" | translate }}
                 </a>
