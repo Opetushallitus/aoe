@@ -65,10 +65,9 @@ export class AuthService {
                     // this.cookieSvc.set(environment.userdataKey, JSON.stringify(userData), expires);
                 },
                 (error) => {
+                    // Remove user's information if the session is not valid anymore.
                     if (error.status === 401 && this.userData$.getValue()) {
                         this.removeUserData().then();
-                    } else {
-                        console.error('Error in updateUserData(): ', error);
                     }
                 },
             );
