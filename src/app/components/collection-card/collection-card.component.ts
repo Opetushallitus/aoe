@@ -28,10 +28,11 @@ export class CollectionCardComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.languages$ = this.koodistoSvc.languages$.asObservable().pipe(
-            map((languages: Language[]) =>
-                languages.filter((language: Language) =>
-                    this.collection.languages.includes(language.key.toLowerCase()),
-                ),
+            map((languages: Language[]) => {
+                    return languages.filter((language: Language) =>
+                        this.collection.languages.includes(language.key.toLowerCase()),
+                    );
+                }
             ),
             map((languages: Language[]) => languages.map((language: Language) => language.value)),
         );

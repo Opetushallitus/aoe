@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from "rxjs";
 import { TranslateService } from '@ngx-translate/core';
 
 import { Language } from '@models/koodisto-proxy/language';
@@ -30,7 +30,7 @@ export class KoodistoProxyService {
         }),
     };
 
-    public languages$ = new Subject<Language[]>();
+    public languages$ = new BehaviorSubject<Language[]>([]);
     public learningResourceTypes$ = new Subject<LearningResourceType[]>();
     public educationalRoles$ = new Subject<EducationalRole[]>();
     public educationalUses$ = new Subject<EducationalUse[]>();
