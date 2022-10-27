@@ -163,7 +163,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
             sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
 
-            this.router.navigate(['/haku']);
+            this.router.navigate(['/haku']).then();
         }
     }
 }

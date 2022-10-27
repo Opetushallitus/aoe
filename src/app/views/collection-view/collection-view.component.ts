@@ -54,6 +54,8 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
 
+            this.koodistoSvc.updateLanguages();
+
             for (const [key, value] of this.materialLanguages.entries()) {
                 if (value.includes(event.lang.toLowerCase())) {
                     this.setSelectedLanguage(key, event.lang.toLowerCase());
@@ -77,7 +79,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
                     this.collection.languages.includes(lang.key.toLowerCase()),
                 );
             });
-            this.koodistoSvc.updateLanguages();
+            // this.koodistoSvc.updateLanguages();
 
             collection.educationalMaterials.forEach((collectionMaterial) => {
                 // set loading true

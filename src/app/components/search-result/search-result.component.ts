@@ -13,6 +13,7 @@ import { UsedFilter } from '@models/search/used-filter';
 export class SearchResultComponent implements OnInit {
     @Input() result: SearchResult;
     @Output() executeFilteredSearch = new EventEmitter();
+
     lang: string = this.translate.currentLang;
     materialName: string;
     description: string;
@@ -26,12 +27,9 @@ export class SearchResultComponent implements OnInit {
     ngOnInit(): void {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
-
             this.changeTranslationString();
         });
-
         this.changeTranslationString();
-
         this.downloadUrl = `${environment.backendUrl}/material/file/${this.result.id}`;
 
         if (this.result.thumbnail) {
@@ -49,7 +47,6 @@ export class SearchResultComponent implements OnInit {
         } else {
             this.materialName = this.result.materialName.find((n) => n.materialname !== '').materialname;
         }
-
         const description = this.result.description.find((d) => d.language === this.lang).description;
 
         if (description !== '') {
@@ -66,7 +63,6 @@ export class SearchResultComponent implements OnInit {
             from: this.from,
             size: this.resultsPerPage,
         };
-
         const usedFilters: UsedFilter[] = [
             {
                 key: key,
@@ -74,10 +70,8 @@ export class SearchResultComponent implements OnInit {
                 type: 'educationalLevels',
             },
         ];
-
         sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
         sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
-
         this.executeFilteredSearch.emit();
     }
 }
