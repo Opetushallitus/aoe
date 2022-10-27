@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import {
     CollectionCard,
     CollectionCardEducationalLevel,
@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-collection-card',
+    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './collection-card.component.html',
     styleUrls: ['./collection-card.component.scss'],
 })
