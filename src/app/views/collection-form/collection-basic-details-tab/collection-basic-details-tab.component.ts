@@ -7,13 +7,13 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { KeyValue } from '@angular/common';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../shared/shared.module';
-import { EducationalRole } from '@models/koodisto-proxy/educational-role';
-import { EducationalUse } from '@models/koodisto-proxy/educational-use';
-import { Language } from '@models/koodisto-proxy/language';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { EducationalRole } from '@models/koodisto/educational-role';
+import { EducationalUse } from '@models/koodisto/educational-use';
+import { Language } from '@models/koodisto/language';
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { validatorParams } from '../../../constants/validator-params';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -57,7 +57,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private router: Router,
         private titleSvc: Title,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
         private modalSvc: BsModalService,
         private collectionSvc: CollectionService,
     ) {}
@@ -70,12 +70,12 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
 
             this.setTitle();
 
-            this.koodistoSvc.updateKeywords();
-            this.koodistoSvc.updateEducationalRoles();
-            this.koodistoSvc.updateEducationalUses();
-            this.koodistoSvc.updateLanguages();
-            this.koodistoSvc.updateAccessibilityFeatures();
-            this.koodistoSvc.updateAccessibilityHazards();
+            this.koodistoService.updateKeywords();
+            this.koodistoService.updateEducationalRoles();
+            this.koodistoService.updateEducationalUses();
+            this.koodistoService.updateLanguages();
+            this.koodistoService.updateAccessibilityFeatures();
+            this.koodistoService.updateAccessibilityHazards();
         });
 
         this.form = this.fb.group({
@@ -101,44 +101,46 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
         this.thumbnailSrc = this.collection.thumbnail;
 
         // keywords
-        this.keywordSubscription = this.koodistoSvc.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+        this.keywordSubscription = this.koodistoService.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
             this.keywords = keywords;
         });
-        this.koodistoSvc.updateKeywords();
+        this.koodistoService.updateKeywords();
 
         // educational roles
-        this.educationalRoleSubscription = this.koodistoSvc.educationalRoles$.subscribe((roles: EducationalRole[]) => {
-            this.educationalRoles = roles;
-        });
-        this.koodistoSvc.updateEducationalRoles();
+        this.educationalRoleSubscription = this.koodistoService.educationalRoles$.subscribe(
+            (roles: EducationalRole[]) => {
+                this.educationalRoles = roles;
+            },
+        );
+        this.koodistoService.updateEducationalRoles();
 
         // educational uses
-        this.educationalUseSubscription = this.koodistoSvc.educationalUses$.subscribe((uses: EducationalUse[]) => {
+        this.educationalUseSubscription = this.koodistoService.educationalUses$.subscribe((uses: EducationalUse[]) => {
             this.educationalUses = uses;
         });
-        this.koodistoSvc.updateEducationalUses();
+        this.koodistoService.updateEducationalUses();
 
         // languages
-        this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
             this.languages = languages;
         });
-        this.koodistoSvc.updateLanguages();
+        this.koodistoService.updateLanguages();
 
         // accessibility features
-        this.accessibilityFeatureSubscription = this.koodistoSvc.accessibilityFeatures$.subscribe(
+        this.accessibilityFeatureSubscription = this.koodistoService.accessibilityFeatures$.subscribe(
             (features: AccessibilityFeature[]) => {
                 this.accessibilityFeatures = features;
             },
         );
-        this.koodistoSvc.updateAccessibilityFeatures();
+        this.koodistoService.updateAccessibilityFeatures();
 
         // accessibility hazards
-        this.accessibilityHazardSubscription = this.koodistoSvc.accessibilityHazards$.subscribe(
+        this.accessibilityHazardSubscription = this.koodistoService.accessibilityHazards$.subscribe(
             (hazards: AccessibilityHazard[]) => {
                 this.accessibilityHazards = hazards;
             },
         );
-        this.koodistoSvc.updateAccessibilityHazards();
+        this.koodistoService.updateAccessibilityHazards();
     }
 
     ngOnDestroy(): void {

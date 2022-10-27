@@ -17,9 +17,9 @@ import { Subscription } from 'rxjs';
 import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
 import { SocialMetadata } from '@models/social-metadata/social-metadata';
 import { SocialMetadataService } from '@services/social-metadata.service';
-import { Language } from '@models/koodisto-proxy/language';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { License } from '@models/koodisto-proxy/license';
+import { Language } from '@models/koodisto/language';
+import { KoodistoService } from '@services/koodisto.service';
+import { License } from '@models/koodisto/license';
 
 @Component({
     selector: 'app-demo-material-view',
@@ -66,7 +66,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         public authSvc: AuthService,
         private titleSvc: Title,
         private socialMetadataSvc: SocialMetadataService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
     ) {}
 
     ngOnInit(): void {
@@ -95,13 +95,13 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
                 this.setSelectedLanguage(event.lang.toLowerCase());
             }
 
-            this.koodistoSvc.updateLicenses();
+            this.koodistoService.updateLicenses();
         });
 
-        this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
             this.languages = languages;
         });
-        this.koodistoSvc.updateLanguages();
+        this.koodistoService.updateLanguages();
 
         this.educationalMaterialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
             this.educationalMaterial = material;
@@ -168,10 +168,10 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         );
         this.socialMetadataSvc.updateSocialMetadata(this.materialId);
 
-        this.licenseSubscription = this.koodistoSvc.licenses$.subscribe((licenses: License[]) => {
+        this.licenseSubscription = this.koodistoService.licenses$.subscribe((licenses: License[]) => {
             this.licenses = licenses;
         });
-        this.koodistoSvc.updateLicenses();
+        this.koodistoService.updateLicenses();
     }
 
     ngOnDestroy(): void {

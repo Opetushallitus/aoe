@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs';
 import { MaterialService } from '@services/material.service';
 import { Material } from '@models/material';
 import { EducationalMaterial } from '@models/educational-material';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { License } from '@models/koodisto-proxy/license';
+import { KoodistoService } from '@services/koodisto.service';
+import { License } from '@models/koodisto/license';
 
 @Component({
     selector: 'app-educational-material-embed-view',
@@ -27,7 +27,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     constructor(
         private route: ActivatedRoute,
         private materialSvc: MaterialService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
     ) {}
 
     ngOnInit(): void {

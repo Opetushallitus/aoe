@@ -6,10 +6,10 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
-import { Language } from '@models/koodisto-proxy/language';
+import { Language } from '@models/koodisto/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
 import { UploadedFile } from '@models/uploaded-file';
 import { Title } from '@angular/platform-browser';
@@ -49,7 +49,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private router: Router,
         private modalService: BsModalService,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
         private translate: TranslateService,
         private materialSvc: MaterialService,
         private titleSvc: Title,
@@ -73,16 +73,16 @@ export class FilesComponent implements OnInit, OnDestroy {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
 
-            this.koodistoProxySvc.updateLanguages();
+            this.koodistoService.updateLanguages();
 
             this.setTitle();
             this.updateLanguages();
         });
 
-        this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
+        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
             this.languages = languages;
         });
-        this.koodistoProxySvc.updateLanguages();
+        this.koodistoService.updateLanguages();
 
         this.savedData = JSON.parse(sessionStorage.getItem(this.savedDataKey));
 

@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { EducationalLevel } from '@models/koodisto/educational-level';
+import { KoodistoService } from '@services/koodisto.service';
 import {
     addEarlyChildhoodEducationSubject,
     addEarlyChildhoodEducationObjective,
@@ -94,7 +94,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
         private translate: TranslateService,
         private router: Router,
         private titleSvc: Title,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
     ) {}
 
     ngOnInit(): void {

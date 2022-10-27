@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { UsedFilter } from '@models/search/used-filter';
     styleUrls: ['./taglist.component.scss'],
 })
 export class TaglistComponent {
+    @Input() tags: any[];
     @Input() elementId: string;
     @Input() title: string;
     @Input() card?: boolean;
@@ -21,19 +22,8 @@ export class TaglistComponent {
 
     private from = 0;
     private resultsPerPage = 15;
-    private _tags: any[];
 
-    @Input() set tags(value: any[]) {
-        console.debug('tags: ', value);
-        this._tags = value;
-        this.changeDetectorRef.detectChanges();
-    }
-
-    get tags(): any {
-        return this._tags;
-    }
-
-    constructor(private changeDetectorRef: ChangeDetectorRef, private router: Router) {}
+    constructor(private router: Router) {}
 
     search(key: string, value: string): void {
         const searchParams: SearchParams = {
@@ -44,7 +34,6 @@ export class TaglistComponent {
             from: this.from,
             size: this.resultsPerPage,
         };
-
         const usedFilters: UsedFilter[] = [
             {
                 key: key,
@@ -52,7 +41,6 @@ export class TaglistComponent {
                 type: this.filterType,
             },
         ];
-
         sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
         sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
 

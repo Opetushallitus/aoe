@@ -8,8 +8,8 @@ import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
-import { Language } from '@models/koodisto-proxy/language';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { Language } from '@models/koodisto/language';
+import { KoodistoService } from '@services/koodisto.service';
 import { CollectionFormMaterialAndHeading } from '@models/collections/collection-form';
 
 @Component({
@@ -41,7 +41,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         private collectionSvc: CollectionService,
         private materialSvc: MaterialService,
         private titleSvc: Title,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
     ) {}
 
     ngOnInit(): void {
@@ -54,7 +54,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
 
-            this.koodistoSvc.updateLanguages();
+            this.koodistoService.updateLanguages();
 
             for (const [key, value] of this.materialLanguages.entries()) {
                 if (value.includes(event.lang.toLowerCase())) {
@@ -74,7 +74,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
             this.setMaterialDetails(collection.educationalMaterials);
             this.setHeadingLevels(collection.materialsAndHeadings);
 
-            this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+            this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
                 this.languages = languages.filter((lang: Language) =>
                     this.collection.languages.includes(lang.key.toLowerCase()),
                 );

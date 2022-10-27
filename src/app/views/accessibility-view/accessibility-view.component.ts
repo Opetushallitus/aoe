@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../environments/environment';
@@ -15,11 +15,7 @@ export class AccessibilityViewComponent implements OnInit {
     lang: string = this.translate.currentLang;
     accessibilityTable: AccessibilityTable = Accessibility;
 
-    constructor(
-        private koodistoSvc: KoodistoProxyService,
-        private titleSvc: Title,
-        private translate: TranslateService,
-    ) {}
+    constructor(private koodistoSvc: KoodistoService, private titleSvc: Title, private translate: TranslateService) {}
 
     ngOnInit(): void {
         this.setTitle();

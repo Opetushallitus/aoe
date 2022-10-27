@@ -4,33 +4,30 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Language } from '@models/koodisto-proxy/language';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { EducationalRole } from '@models/koodisto-proxy/educational-role';
-import { EducationalUse } from '@models/koodisto-proxy/educational-use';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { Language } from '@models/koodisto/language';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
+import { EducationalRole } from '@models/koodisto/educational-role';
+import { EducationalUse } from '@models/koodisto/educational-use';
+import { EducationalLevel } from '@models/koodisto/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
-import { License } from '@models/koodisto-proxy/license';
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
+import { License } from '@models/koodisto/license';
 import { environment } from '../../environments/environment';
-import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
+import { SubjectFilter } from '@models/koodisto/subject-filter';
 
 @Injectable({
     providedIn: 'root',
 })
-export class KoodistoProxyService {
+export class KoodistoService {
     apiUri = environment.koodistoUrl;
     lang: string;
-
     httpOptions = {
         headers: new HttpHeaders({
             Accept: 'application/json',
             'Content-Type': 'application/json',
         }),
     };
-
-    public languages$ = new BehaviorSubject<Language[]>([]);
     public learningResourceTypes$ = new Subject<LearningResourceType[]>();
     public educationalRoles$ = new Subject<EducationalRole[]>();
     public educationalUses$ = new Subject<EducationalUse[]>();
@@ -59,6 +56,10 @@ export class KoodistoProxyService {
     public organizations$ = new Subject<KeyValue<string, string>[]>();
     public subjectFilters$ = new Subject<SubjectFilter[]>();
 
+    private languagesBehaviorSubject = new BehaviorSubject<Language[]>([]);
+
+    public languages$ = this.languagesBehaviorSubject.asObservable();
+
     constructor(private http: HttpClient, private translate: TranslateService) {
         this.lang = this.translate.currentLang;
     }
@@ -83,9 +84,9 @@ export class KoodistoProxyService {
 
         this.http.get<Language[]>(`${this.apiUri}/kielet/${lang}`, this.httpOptions).subscribe(
             (languages: Language[]) => {
-                this.languages$.next(languages);
+                this.languagesBehaviorSubject.next(languages);
             },
-            (error: HttpErrorResponse) => this.handleError(error, this.languages$),
+            (error: HttpErrorResponse) => this.handleError(error, this.languagesBehaviorSubject),
         );
     }
 

@@ -3,11 +3,11 @@ import { SearchService } from '@services/search.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { EducationalLevel } from '@models/koodisto/educational-level';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
+import { KoodistoService } from '@services/koodisto.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SubjectFilter } from '@models/koodisto-proxy/subject-filter';
+import { SubjectFilter } from '@models/koodisto/subject-filter';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { UsedFilter } from '@models/search/used-filter';
@@ -32,7 +32,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         private searchSvc: SearchService,
         private fb: FormBuilder,
         private router: Router,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
     ) {}
 

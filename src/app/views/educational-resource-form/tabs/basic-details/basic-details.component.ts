@@ -8,13 +8,13 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
 import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { EducationalRole } from '@models/koodisto-proxy/educational-role';
-import { EducationalUse } from '@models/koodisto-proxy/educational-use';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
+import { EducationalRole } from '@models/koodisto/educational-role';
+import { EducationalUse } from '@models/koodisto/educational-use';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
@@ -56,7 +56,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     thumbnailSrc: string;
 
     constructor(
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
         private modalService: BsModalService,
         private fb: FormBuilder,

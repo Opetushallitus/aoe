@@ -8,10 +8,10 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { SocialMetadataService } from '@services/social-metadata.service';
 import { SocialMetadata } from '@models/social-metadata/social-metadata';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { KoodistoService } from '@services/koodisto.service';
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
+import { EducationalLevel } from '@models/koodisto/educational-level';
 import { Toast } from '@models/translations/toast';
 
 @Component({
@@ -39,7 +39,7 @@ export class SocialMetadataModalComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         private translate: TranslateService,
         private socialMetadataSvc: SocialMetadataService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
     ) {}
 
     ngOnInit(): void {
