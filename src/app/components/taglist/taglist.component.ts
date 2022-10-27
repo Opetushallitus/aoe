@@ -23,7 +23,9 @@ export class TaglistComponent {
     private _tags: any[];
     @Input() set tags(value: any[]) {
         this._tags = value;
-        this.ref.detectChanges();
+
+        // Update the view and tags after language changes.
+        this.ref.markForCheck();
     }
     get tags(): any[] {
         return this._tags;
