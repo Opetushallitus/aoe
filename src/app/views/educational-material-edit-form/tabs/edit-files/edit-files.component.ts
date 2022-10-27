@@ -7,8 +7,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Language } from '@models/koodisto-proxy/language';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { Language } from '@models/koodisto/language';
+import { KoodistoService } from '@services/koodisto.service';
 import { UploadMessage } from '@models/upload-message';
 import { LinkPost } from '@models/link-post';
 import { LinkPostResponse } from '@models/link-post-response';
@@ -51,7 +51,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private materialSvc: MaterialService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
         private translate: TranslateService,
         private modalService: BsModalService,
         private router: Router,
@@ -97,10 +97,10 @@ export class EditFilesComponent implements OnInit, OnDestroy {
         }
 
         // languages
-        this.languageSubscription = this.koodistoSvc.languages$.subscribe((languages: Language[]) => {
+        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
             this.languages = languages;
         });
-        this.koodistoSvc.updateLanguages();
+        this.koodistoService.updateLanguages();
     }
 
     ngOnDestroy(): void {

@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { License } from '@models/koodisto-proxy/license';
+import { KoodistoService } from '@services/koodisto.service';
+import { License } from '@models/koodisto/license';
 import { Title } from '@angular/platform-browser';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
@@ -26,7 +26,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
         private router: Router,
         private titleSvc: Title,

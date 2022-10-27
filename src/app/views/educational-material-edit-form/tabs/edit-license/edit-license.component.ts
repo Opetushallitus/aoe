@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { License } from '@models/koodisto-proxy/license';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { License } from '@models/koodisto/license';
+import { KoodistoService } from '@services/koodisto.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
@@ -29,7 +29,7 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private translate: TranslateService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
         private router: Router,
         private titleSvc: Title,
     ) {}

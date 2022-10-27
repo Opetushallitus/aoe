@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { CollectionCard } from '@models/collections/collection-card';
 import { CollectionService } from '@services/collection.service';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 
 @Component({
     selector: 'app-collections-view',
@@ -18,7 +18,7 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
     recentCollections: CollectionCard[];
 
     constructor(
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
         private translate: TranslateService,
         private titleSvc: Title,
         private collectionSvc: CollectionService,
@@ -27,10 +27,10 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setTitle();
 
-        // Update available service languages and save them to the state management (languages$).
-        this.koodistoSvc.updateLanguages();
-
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            // Update available service languages and save them to the state management (languages$).
+            // For the direct URL navigation, update available languages once for each routed parent component.
+            this.koodistoSvc.updateLanguages();
             this.lang = event.lang;
             this.setTitle();
         });

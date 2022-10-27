@@ -1,5 +1,5 @@
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 
 export interface CollectionForm {
     id: string;

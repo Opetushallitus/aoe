@@ -5,11 +5,11 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
@@ -41,7 +41,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
         private titleSvc: Title,
     ) {}

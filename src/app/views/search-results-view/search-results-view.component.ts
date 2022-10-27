@@ -4,11 +4,11 @@ import { SearchService } from '@services/search.service';
 import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { Language } from '@models/koodisto-proxy/language';
+import { EducationalLevel } from '@models/koodisto/educational-level';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
+import { Language } from '@models/koodisto/language';
 import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
@@ -74,7 +74,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     constructor(
         private searchSvc: SearchService,
         private fb: FormBuilder,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoService: KoodistoService,
         private translate: TranslateService,
         private titleSvc: Title,
         private deviceSvc: DeviceDetectorService,
@@ -86,15 +86,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         if (this.deviceSvc.isMobile()) {
             this.isCollapsedFilters = true;
         }
-
         this.translate.onLangChange.subscribe(() => {
             this.setTitle();
-
-            this.koodistoProxySvc.updateLanguages();
-            this.koodistoProxySvc.updateEducationalLevels();
-            this.koodistoProxySvc.updateLearningResourceTypes();
+            this.koodistoService.updateLanguages();
+            this.koodistoService.updateEducationalLevels();
+            this.koodistoService.updateLearningResourceTypes();
         });
-
         this.searchForm = this.fb.group({
             keywords: this.fb.control(null),
             filters: this.fb.group({
@@ -115,7 +112,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             sort: this.fb.control('relevance'),
             sort2: this.fb.control('relevance'),
         });
-
         const defaultSearchParams: SearchParams = {
             keywords: null,
             filters: {},
@@ -123,7 +119,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             from: 0,
             size: this.resultsPerPage,
         };
-
         const searchParams: SearchParams =
             JSON.parse(sessionStorage.getItem(environment.searchParams)) ?? defaultSearchParams;
 
@@ -144,12 +139,12 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.languageSubscription = this.koodistoProxySvc.languages$.subscribe((languages: Language[]) => {
+        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
             this.allLanguages = languages;
         });
-        this.koodistoProxySvc.updateLanguages();
+        this.koodistoService.updateLanguages();
 
-        this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe(
+        this.educationalLevelSubscription = this.koodistoService.educationalLevels$.subscribe(
             (levels: EducationalLevel[]) => {
                 this.educationalLevels = levels;
 
@@ -176,9 +171,9 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
                 });
             },
         );
-        this.koodistoProxySvc.updateEducationalLevels();
+        this.koodistoService.updateEducationalLevels();
 
-        this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
+        this.learningResourceTypeSubscription = this.koodistoService.learningResourceTypes$.subscribe(
             (types: LearningResourceType[]) => {
                 this.learningResourceTypes = types;
 
@@ -195,7 +190,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
                 });
             },
         );
-        this.koodistoProxySvc.updateLearningResourceTypes();
+        this.koodistoService.updateLearningResourceTypes();
 
         this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
             this.searchFilters = filters;

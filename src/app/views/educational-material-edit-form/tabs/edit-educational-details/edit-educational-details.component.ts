@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { EducationalLevel } from '@models/koodisto/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
 import {
@@ -98,7 +98,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private translate: TranslateService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
         private router: Router,
         private titleSvc: Title,
     ) {}

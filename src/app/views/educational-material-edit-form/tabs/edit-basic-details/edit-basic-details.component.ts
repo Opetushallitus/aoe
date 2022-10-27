@@ -6,11 +6,11 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
 import { KeyValue } from '@angular/common';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
-import { LearningResourceType } from '@models/koodisto-proxy/learning-resource-type';
-import { EducationalRole } from '@models/koodisto-proxy/educational-role';
-import { EducationalUse } from '@models/koodisto-proxy/educational-use';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
+import { EducationalRole } from '@models/koodisto/educational-role';
+import { EducationalUse } from '@models/koodisto/educational-use';
 import { Router } from '@angular/router';
 import { UploadMessage } from '@models/upload-message';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
@@ -57,7 +57,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private translate: TranslateService,
         private modalService: BsModalService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
         private router: Router,
         private materialSvc: MaterialService,
         private titleSvc: Title,

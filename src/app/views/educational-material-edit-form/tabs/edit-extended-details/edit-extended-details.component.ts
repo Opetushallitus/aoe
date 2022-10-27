@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
-import { AccessibilityFeature } from '@models/koodisto-proxy/accessibility-feature';
-import { AccessibilityHazard } from '@models/koodisto-proxy/accessibility-hazard';
+import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
+import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
 import { Title } from '@angular/platform-browser';
 import { validatorParams } from '../../../../constants/validator-params';
@@ -35,7 +35,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private translate: TranslateService,
-        private koodistoSvc: KoodistoProxyService,
+        private koodistoSvc: KoodistoService,
         private router: Router,
         private titleSvc: Title,
     ) {}

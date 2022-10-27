@@ -5,9 +5,9 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
+import { KoodistoService } from '@services/koodisto.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { EducationalLevel } from '@models/koodisto-proxy/educational-level';
+import { EducationalLevel } from '@models/koodisto/educational-level';
 import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
 import { koodistoSources } from '../../../../constants/koodisto-sources';
 import {
@@ -100,7 +100,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
-        private koodistoProxySvc: KoodistoProxyService,
+        private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
         private router: Router,
         private titleSvc: Title,

@@ -4,12 +4,12 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 import { MaterialService } from './material.service';
-import { Material } from '@models/material';
-import { EducationalMaterial } from '@models/educational-material';
-import { KoodistoProxyService } from '@services/koodisto-proxy.service';
-import { License } from '@models/koodisto-proxy/license';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
+import { EducationalMaterial } from '../models/educational-material';
+import { Material } from '../models/material';
+import { KoodistoService } from '../services/koodisto.service';
+import { License } from '../models/koodisto/license';
 
 @Component({
     selector: 'app-educational-material-embed-view',
@@ -30,8 +30,8 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     constructor(
         private route: ActivatedRoute,
         private materialSvc: MaterialService,
-        private koodistoSvc: KoodistoProxyService,
-        @Inject(DOCUMENT) doc: Document,
+        private koodistoSvc: KoodistoService,
+        @Inject(DOCUMENT) document: Document,
         private translate: TranslateService,
         private renderer: Renderer2,
     ) {
@@ -50,7 +50,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         }
 
         translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            renderer.setAttribute(doc.documentElement, 'lang', event.lang);
+            renderer.setAttribute(document.documentElement, 'lang', event.lang);
         });
     }
 
@@ -69,10 +69,10 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         this.materialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
             this.educationalMaterial = material;
 
-            if (this.educationalMaterial.materials.filter((m) => m.language === this.lang).length > 0) {
-                this.materials = this.educationalMaterial.materials.filter((m) => m.language === this.lang);
+            if (this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang).length > 0) {
+                this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang);
             } else {
-                this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'fi');
+                this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === 'fi');
             }
 
             if (this.materials.length > 0) {
@@ -84,10 +84,18 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     }
 
     updateMaterialName(): void {
-        if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
-            this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
+        if (
+            this.educationalMaterial.name.find(
+                (n: { language: string; materialname: string }) => n.language === this.lang,
+            ).materialname !== ''
+        ) {
+            this.materialName = this.educationalMaterial.name.find(
+                (n: { language: string; materialname: string }) => n.language === this.lang,
+            ).materialname;
         } else {
-            this.materialName = this.educationalMaterial.name.find((n) => n.language === 'fi').materialname;
+            this.materialName = this.educationalMaterial.name.find(
+                (n: { language: string; materialname: string }) => n.language === 'fi',
+            ).materialname;
         }
     }
 
