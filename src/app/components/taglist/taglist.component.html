@@ -2,7 +2,7 @@
 
 <div class="tags" [ngClass]="{ 'is-card': card }">
     <button
-        *ngFor="let tag of tags"
+        *ngFor="let tag of (tags | async)"
         type="button"
         class="btn btn-light"
         [ngClass]="{ disabled: !filterType }"

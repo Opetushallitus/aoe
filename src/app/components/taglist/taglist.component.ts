@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { UsedFilter } from '@models/search/used-filter';
+import { isObservable, Observable, of } from 'rxjs';
 
 @Component({
     selector: 'app-taglist',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './taglist.component.html',
     styleUrls: ['./taglist.component.scss'],
 })
@@ -20,21 +20,22 @@ export class TaglistComponent {
     @Input() filterType?: string;
     @Input() suitsAll?: boolean;
 
-    private _tags: any[];
-    @Input() set tags(value: any[]) {
-        this._tags = value;
-
-        // Update the view and tags after language changes.
-        this.ref.markForCheck();
-    }
-    get tags(): any[] {
-        return this._tags;
-    }
-
     private from = 0;
     private resultsPerPage = 15;
+    private _tags$: Observable<any>;
 
-    constructor(private ref: ChangeDetectorRef, private router: Router) {}
+    @Input() set tags(value: Record<string, unknown>[] | Observable<any>) {
+        if (!isObservable(value)) {
+            this._tags$ = of(value);
+        }
+        this._tags$ = value as Observable<any>;
+    }
+
+    get tags(): any {
+        return this._tags$;
+    }
+
+    constructor(private router: Router) {}
 
     search(key: string, value: string): void {
         const searchParams: SearchParams = {
