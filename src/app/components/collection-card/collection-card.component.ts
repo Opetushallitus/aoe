@@ -19,7 +19,6 @@ import { map } from 'rxjs/operators';
 })
 export class CollectionCardComponent implements OnInit {
     @Input() collection: CollectionCard;
-    // @Input() lang: string;
 
     educationalLevels: CollectionCardEducationalLevel[];
     keywords: CollectionCardKeyword[];
