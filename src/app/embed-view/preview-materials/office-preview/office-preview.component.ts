@@ -10,6 +10,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 export class OfficePreviewComponent implements OnInit, OnChanges {
     @Input() material: Material;
     lang: string = this.translate.currentLang;
+    filepath: string;
     materialUrl: string;
     downloadUrl: string;
     @ViewChild('officeViewer', { static: true }) public pdfViewer;
@@ -21,14 +22,17 @@ export class OfficePreviewComponent implements OnInit, OnChanges {
             this.lang = event.lang;
         });
 
-        this.materialUrl = this.material.filepath;
+        this.filepath = this.material.filepath.slice(environment.backendUrl.length - 2);
+        this.materialUrl = `${environment.embedBackendUrl}/` + this.filepath;
         this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
+        this.pdfViewer.refresh();
     }
 
     ngOnChanges(_changes: SimpleChanges): void {
-        this.materialUrl = this.material.filepath;
+        this.filepath = this.material.filepath.slice(environment.backendUrl.length - 2);
+        this.materialUrl = `${environment.embedBackendUrl}/` + this.filepath;
         this.downloadUrl = `${environment.embedBackendUrl}/download/${this.material.filekey}`;
-        this.pdfViewer.pdfSrc = this.material.filepath;
+        this.pdfViewer.pdfSrc = `${environment.embedBackendUrl}/` + this.filepath;
         this.pdfViewer.refresh();
     }
 }
