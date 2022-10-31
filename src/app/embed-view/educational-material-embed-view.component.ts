@@ -73,6 +73,9 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
                 this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang);
             } else {
                 this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === 'fi');
+                if (this.materials.length == 0) {
+                  this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'en');
+                }        
             }
 
             if (this.materials.length > 0) {
