@@ -76,7 +76,7 @@ export class DefaultLayoutComponent implements OnInit {
 
     constructor(
         public translate: TranslateService,
-        public authSvc: AuthService,
+        public authService: AuthService,
         private cookieSvc: CookieService,
         private alertSvc: AlertService,
         private notificationSvc: NotificationService,

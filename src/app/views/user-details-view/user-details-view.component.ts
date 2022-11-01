@@ -22,13 +22,13 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
         private translate: TranslateService,
         private titleSvc: Title,
         private fb: FormBuilder,
-        public authSvc: AuthService,
+        public authService: AuthService,
     ) {}
 
     ngOnInit(): void {
         this.setTitle();
 
-        this.userDataSubscription = this.authSvc.userData$.subscribe((userData: UserData) => {
+        this.userDataSubscription = this.authService.userData$.subscribe((userData: UserData) => {
             this.userData = userData;
         });
 
@@ -72,15 +72,15 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
         if (this.form.valid) {
             const userSettings: UserSettings = this.form.value;
 
-            if (this.authSvc.getUserData()?.email === userSettings.email) {
+            if (this.authService.getUserData()?.email === userSettings.email) {
                 delete userSettings.email;
             }
 
-            this.authSvc.updateUserSettings(userSettings).subscribe(
+            this.authService.updateUserSettings(userSettings).subscribe(
                 () => {
                     this.form.markAsPristine();
-                    this.authSvc.removeUserData().then();
-                    this.authSvc.updateUserData();
+                    this.authService.removeUserData().then();
+                    this.authService.updateUserData();
                 },
                 (err) => console.error(err),
             );

@@ -63,7 +63,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         private materialSvc: MaterialService,
         private translate: TranslateService,
         private modalSvc: BsModalService,
-        public authSvc: AuthService,
+        public authService: AuthService,
         private titleSvc: Title,
         private socialMetadataSvc: SocialMetadataService,
         private koodistoService: KoodistoService,

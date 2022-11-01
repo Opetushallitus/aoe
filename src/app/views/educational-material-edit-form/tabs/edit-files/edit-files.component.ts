@@ -56,7 +56,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
         private modalService: BsModalService,
         private router: Router,
         private titleSvc: Title,
-        private authSvc: AuthService,
+        private authService: AuthService,
     ) {}
 
     ngOnInit(): void {
@@ -669,7 +669,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     onSubmit(): void {
         this.submitted = true;
 
-        if (this.authSvc.hasUserData()) {
+        if (this.authService.hasUserData()) {
             this.validateFiles();
             this.validateSubtitles();
 

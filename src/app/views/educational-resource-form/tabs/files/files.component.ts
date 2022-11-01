@@ -53,7 +53,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private materialSvc: MaterialService,
         private titleSvc: Title,
-        private authSvc: AuthService,
+        private authService: AuthService,
     ) {}
 
     ngOnInit(): void {
@@ -399,7 +399,7 @@ export class FilesComponent implements OnInit, OnDestroy {
     onSubmit(): void {
         this.submitted = true;
 
-        if (this.authSvc.hasUserData()) {
+        if (this.authService.hasUserData()) {
             this.validateFiles();
             this.validateSubtitles();
 
