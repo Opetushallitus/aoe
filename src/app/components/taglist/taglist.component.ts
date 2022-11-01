@@ -1,50 +1,49 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { UsedFilter } from '@models/search/used-filter';
 
 @Component({
-  selector: 'app-taglist',
-  templateUrl: './taglist.component.html',
-  styleUrls: ['./taglist.component.scss'],
+    selector: 'app-taglist',
+    templateUrl: './taglist.component.html',
+    styleUrls: ['./taglist.component.scss'],
 })
 export class TaglistComponent {
-  @Input() elementId: string;
-  @Input() tags: any[];
-  @Input() title: string;
-  @Input() card?: boolean;
-  @Input() hiddenTagsAmount?: number;
-  @Input() property?: string;
-  @Input() searchProperty?: string;
-  @Input() filterType?: string;
-  @Input() suitsAll?: boolean;
-  private from = 0;
-  private resultsPerPage = 15;
+    @Input() tags: any[];
+    @Input() elementId: string;
+    @Input() title: string;
+    @Input() card?: boolean;
+    @Input() hiddenTagsAmount?: number;
+    @Input() property?: string;
+    @Input() searchProperty?: string;
+    @Input() filterType?: string;
+    @Input() suitsAll?: boolean;
 
-  constructor(private router: Router) {}
+    private from = 0;
+    private resultsPerPage = 15;
 
-  search(key: string, value: string): void {
-    const searchParams: SearchParams = {
-      keywords: null,
-      filters: {
-        [this.filterType]: [key],
-      },
-      from: this.from,
-      size: this.resultsPerPage,
-    };
+    constructor(private router: Router) {}
 
-    const usedFilters: UsedFilter[] = [
-      {
-        key: key,
-        value: value,
-        type: this.filterType,
-      },
-    ];
+    search(key: string, value: string): void {
+        const searchParams: SearchParams = {
+            keywords: null,
+            filters: {
+                [this.filterType]: [key],
+            },
+            from: this.from,
+            size: this.resultsPerPage,
+        };
+        const usedFilters: UsedFilter[] = [
+            {
+                key: key,
+                value: value,
+                type: this.filterType,
+            },
+        ];
+        sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+        sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
 
-    sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
-    sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
-
-    this.router.navigate(['/haku']);
-  }
+        this.router.navigate(['/haku']).then();
+    }
 }

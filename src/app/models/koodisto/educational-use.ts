@@ -1,4 +1,4 @@
 export interface EducationalUse {
-  key: string;
-  value: string;
+    key: string;
+    value: string;
 }

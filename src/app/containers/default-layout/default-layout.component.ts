@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, Subscription } from 'rxjs';
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from '@services/cookie.service';
@@ -14,113 +13,117 @@ import { NotificationService, Message } from './maintenance-notification.service
  * @ignore
  */
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './default-layout.component.html',
+    selector: 'app-dashboard',
+    templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent implements OnInit {
-  languages = new Map();
-  alerts: AlertsResponse;
-  maintenanceMessage: string;
+    languages = new Map();
+    alerts: AlertsResponse;
+    maintenanceMessage: string;
 
-  logos = {
-    okm: {
-      fi: {
-        src: 'assets/img/logos/okm-fi.jpg',
-        alt: 'Opetus- ja kulttuuriministeriö',
-      },
-      en: {
-        src: 'assets/img/logos/okm-en.jpg',
-        alt: 'Ministry of Education and Culture',
-      },
-      sv: {
-        src: 'assets/img/logos/okm-sv.jpg',
-        alt: 'Undervisnings- och kulturministeriet',
-      },
-    },
-    oph: {
-      fi: {
-        src: 'assets/img/logos/oph-fisv.png',
-        alt: 'Opetushallitus',
-      },
-      en: {
-        src: 'assets/img/logos/oph-en.png',
-        alt: 'Finnish National Agency for Education',
-      },
-      sv: {
-        src: 'assets/img/logos/oph-fisv.png',
-        alt: 'Utbildningsstyrelsen',
-      },
-    },
-  };
+    // Check if the site has been embedded and needs to be blocked due to suspicious activity.
+    // window !== window.top : true => The site is in a frame.
+    embedded: boolean = window !== window.top;
 
-  brand = {
-    fi: {
-      img: 'assets/img/aoe_logo_fi.png',
-      alt: 'Avointen oppimateriaalien kirjasto',
-    },
-    en: {
-      img: 'assets/img/aoe_logo_en.png',
-      alt: 'Library of Open Educational Resources',
-    },
-    sv: {
-      img: 'assets/img/aoe_logo_sv.png',
-      alt: 'Biblioteket för öppna lärresurser',
-    },
-  };
+    logos = {
+        okm: {
+            fi: {
+                src: 'assets/img/logos/okm-fi.jpg',
+                alt: 'Opetus- ja kulttuuriministeriö',
+            },
+            en: {
+                src: 'assets/img/logos/okm-en.jpg',
+                alt: 'Ministry of Education and Culture',
+            },
+            sv: {
+                src: 'assets/img/logos/okm-sv.jpg',
+                alt: 'Undervisnings- och kulturministeriet',
+            },
+        },
+        oph: {
+            fi: {
+                src: 'assets/img/logos/oph-fisv.png',
+                alt: 'Opetushallitus',
+            },
+            en: {
+                src: 'assets/img/logos/oph-en.png',
+                alt: 'Finnish National Agency for Education',
+            },
+            sv: {
+                src: 'assets/img/logos/oph-fisv.png',
+                alt: 'Utbildningsstyrelsen',
+            },
+        },
+    };
 
-  showNotice = true;
-  showMaintenanceAlert = false;
+    brand = {
+        fi: {
+            img: 'assets/img/aoe_logo_fi.png',
+            alt: 'Avointen oppimateriaalien kirjasto',
+        },
+        en: {
+            img: 'assets/img/aoe_logo_en.png',
+            alt: 'Library of Open Educational Resources',
+        },
+        sv: {
+            img: 'assets/img/aoe_logo_sv.png',
+            alt: 'Biblioteket för öppna lärresurser',
+        },
+    };
 
-  constructor(
-    public translate: TranslateService,
-    public authSvc: AuthService,
-    private cookieSvc: CookieService,
-    private alertSvc: AlertService,
-    private notificationSvc: NotificationService,
-  ) {
-    this.showNotice = !this.cookieSvc.isCookieSettingsSet();
+    showNotice = true;
+    showMaintenanceAlert = false;
 
-    this.languages.set('fi', {
-      label: 'FI',
-      srText: 'Suomi: Vaihda kieli suomeksi',
-    });
+    constructor(
+        public translate: TranslateService,
+        public authService: AuthService,
+        private cookieSvc: CookieService,
+        private alertSvc: AlertService,
+        private notificationSvc: NotificationService,
+    ) {
+        this.showNotice = !this.cookieSvc.isCookieSettingsSet();
 
-    this.languages.set('en', {
-      label: 'EN',
-      srText: 'English: Change language to English',
-    });
+        this.languages.set('fi', {
+            label: 'FI',
+            srText: 'Suomi: Vaihda kieli suomeksi',
+        });
 
-    this.languages.set('sv', {
-      label: 'SV',
-      srText: 'Svenska: Byt språk till svenska',
-    });
-  }
+        this.languages.set('en', {
+            label: 'EN',
+            srText: 'English: Change language to English',
+        });
 
-  ngOnInit(): void {
-    this.notificationSvc.getNotification().subscribe((message: Message) => {
-      this.maintenanceMessage = message.notification;
-      if (this.maintenanceMessage && this.maintenanceMessage != 'null') {
-        this.showMaintenanceAlert = true;
-      }
-    });
+        this.languages.set('sv', {
+            label: 'SV',
+            srText: 'Svenska: Byt språk till svenska',
+        });
+    }
 
-    interval(5 * 60 * 1000) // minutes x seconds x milliseconds
-      .pipe(
-        startWith(0),
-        switchMap(() => this.alertSvc.updateAlerts()),
-      )
-      .subscribe((response: AlertsResponse) => (this.alerts = response));
-  }
+    ngOnInit(): void {
+        this.notificationSvc.getNotification().subscribe((message: Message) => {
+            this.maintenanceMessage = message.notification;
+            if (this.maintenanceMessage && this.maintenanceMessage != 'null') {
+                this.showMaintenanceAlert = true;
+            }
+        });
 
-  /**
-   * Set language
-   */
-  changeLanguage(lang: string): void {
-    setLanguage(lang);
-    this.translate.use(lang);
-  }
+        interval(5 * 60 * 1000) // minutes x seconds x milliseconds
+            .pipe(
+                startWith(0),
+                switchMap(() => this.alertSvc.updateAlerts()),
+            )
+            .subscribe((response: AlertsResponse) => (this.alerts = response));
+    }
 
-  hideCookieNotice(): void {
-    this.showNotice = false;
-  }
+    /**
+     * Set language
+     */
+    changeLanguage(lang: string): void {
+        setLanguage(lang);
+        this.translate.use(lang);
+    }
+
+    hideCookieNotice(): void {
+        this.showNotice = false;
+    }
 }

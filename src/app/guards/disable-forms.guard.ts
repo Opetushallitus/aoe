@@ -6,26 +6,26 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class DisableFormsGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private alertSvc: AlertService,
-    private toastr: ToastrService,
-    private translate: TranslateService,
-  ) {}
+    constructor(
+        private router: Router,
+        private alertSvc: AlertService,
+        private toastr: ToastrService,
+        private translate: TranslateService,
+    ) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot,
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.alertSvc.disableForms()) {
-      this.toastr.warning(this.translate.instant('errors.toasts.disableForms').message);
+    canActivate(
+        _route: ActivatedRouteSnapshot,
+        _state: RouterStateSnapshot,
+    ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        if (this.alertSvc.disableForms()) {
+            this.toastr.warning(this.translate.instant('errors.toasts.disableForms').message);
 
-      return this.router.parseUrl('/etusivu');
+            return this.router.parseUrl('/etusivu');
+        }
+
+        return true;
     }
-
-    return true;
-  }
 }
