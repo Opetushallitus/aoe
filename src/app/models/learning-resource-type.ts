@@ -1,4 +1,4 @@
 export interface LearningResourceType {
-  learningresourcetypekey: string;
-  value: string;
+    learningresourcetypekey: string;
+    value: string;
 }

@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-
 import { AuthService } from '@services/auth.service';
 
 @Component({
-  selector: 'app-nav-login',
-  templateUrl: './nav-login.component.html',
+    selector: 'app-nav-login',
+    templateUrl: './nav-login.component.html',
 })
 export class NavLoginComponent {
-  constructor(public authSvc: AuthService) {}
+    constructor(public authService: AuthService) {}
 
-  login(): void {
-    this.authSvc.login();
-  }
+    login(): void {
+        this.authService.login();
+    }
 
-  logout(): void {
-    this.authSvc.logout();
-  }
+    logout(): void {
+        this.authService.logout();
+    }
 }
