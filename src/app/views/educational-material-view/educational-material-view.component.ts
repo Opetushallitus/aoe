@@ -70,7 +70,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.nullDownloadUrl = 'download/null';
+        this.nullDownloadUrl = 'download/file/null';
         this.route.paramMap.subscribe((params: ParamMap) => {
             this.materialId = +params.get('materialId');
             this.materialVersionDate = params.get('versionDate');
