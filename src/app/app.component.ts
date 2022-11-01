@@ -24,7 +24,7 @@ export class AppComponent implements OnDestroy, OnInit {
         @Inject(DOCUMENT) doc: Document,
         private renderer: Renderer2,
         private cookieSvc: CookieService,
-        private authSvc: AuthService,
+        private authService: AuthService,
     ) {
         translate.addLangs(['fi', 'en', 'sv']);
         translate.setDefaultLang('fi');
@@ -67,7 +67,7 @@ export class AppComponent implements OnDestroy, OnInit {
     }
 
     ngOnInit(): void {
-        this.userDataSubscription = this.authSvc.userData$.subscribe((userData: UserData) => {
+        this.userDataSubscription = this.authService.userData$.subscribe((userData: UserData) => {
             this.userData = userData;
         });
         this.router.events.subscribe((evt) => {
@@ -78,7 +78,7 @@ export class AppComponent implements OnDestroy, OnInit {
             const url: string = this.router.url;
 
             if (!this.userData && !url.includes('/embed/')) {
-                this.authSvc.updateUserData();
+                this.authService.updateUserData();
             }
         });
     }

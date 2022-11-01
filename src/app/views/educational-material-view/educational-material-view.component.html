@@ -24,7 +24,7 @@
 
                     <div class="col-lg-6 text-lg-right">
                         <div class="material-actions">
-                            <ng-container *ngIf="authSvc.hasUserData()">
+                            <ng-container *ngIf="authService.hasUserData()">
                                 <button type="button" class="btn btn-link" (click)="openCollectionModal()">
                                     {{ "demo.educationalMaterial.addToCollection" | translate }}
                                 </button>
@@ -1070,7 +1070,7 @@
                                 <p>{{ "demo.educationalMaterial.socialMetadata.noMetadata" | translate }}</p>
                             </ng-template>
 
-                            <ng-container *ngIf="authSvc.hasUserData() && !educationalMaterial.owner">
+                            <ng-container *ngIf="authService.hasUserData() && !educationalMaterial.owner">
                                 <button type="button" class="btn btn-anchor mb-4" (click)="openSocialMetadataModal()">
                                     {{ "demo.educationalMaterial.socialMetadata.addMetadata" | translate }}
                                 </button>
@@ -1104,14 +1104,14 @@
                                     </a>
                                 </div>
 
-                                <div class="col-auto" *ngIf="authSvc.hasUserData() && !educationalMaterial.owner">
+                                <div class="col-auto" *ngIf="authService.hasUserData() && !educationalMaterial.owner">
                                     <button type="button" class="btn btn-anchor" (click)="openReviewModal()">
                                         {{ "demo.educationalMaterial.userReviews.addReview" | translate }}
                                     </button>
                                 </div>
                             </div>
 
-                            <p *ngIf="authSvc.hasUserData() && educationalMaterial.owner">
+                            <p *ngIf="authService.hasUserData() && educationalMaterial.owner">
                                 {{ "demo.educationalMaterial.reviews.ownerInfo" | translate }}
                             </p>
                         </div>

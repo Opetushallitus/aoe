@@ -8,7 +8,7 @@ import { AuthService } from '@services/auth.service';
     providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-    constructor(private authSvc: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {}
 
     /**
      * Checks if user is logged in.
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
         _next: ActivatedRouteSnapshot,
         _state: RouterStateSnapshot,
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        if (!this.authSvc.hasUserData()) {
+        if (!this.authService.hasUserData()) {
             return this.router.parseUrl('/etusivu');
         } else {
             return true;

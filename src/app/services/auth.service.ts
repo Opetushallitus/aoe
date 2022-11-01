@@ -16,6 +16,10 @@ import { AlertService } from '@services/alert.service';
     providedIn: 'root',
 })
 export class AuthService {
+    private userDataBehaviorSubject = new BehaviorSubject<UserData>(null);
+
+    public userData$ = this.userDataBehaviorSubject.asObservable();
+
     constructor(
         @Inject(DOCUMENT) private document: Document,
         private http: HttpClient,
@@ -23,8 +27,6 @@ export class AuthService {
         private router: Router,
         private alertSvc: AlertService,
     ) {}
-
-    public userData$ = new BehaviorSubject<UserData>(null);
 
     /**
      * Handles errors.
@@ -59,14 +61,14 @@ export class AuthService {
             })
             .subscribe(
                 (userData: UserData) => {
-                    this.userData$.next(userData);
+                    this.userDataBehaviorSubject.next(userData);
                     // const expires = new Date();
                     // expires.setTime(expires.getTime() + environment.sessionMaxAge);
                     // this.cookieSvc.set(environment.userdataKey, JSON.stringify(userData), expires);
                 },
                 (error) => {
                     // Remove user's information if the session is not valid anymore.
-                    if (error.status === 401 && this.userData$.getValue()) {
+                    if (error.status === 401 && this.userDataBehaviorSubject.getValue()) {
                         this.removeUserData().then();
                     }
                 },
@@ -78,8 +80,7 @@ export class AuthService {
      * @returns {UserData}
      */
     getUserData(): UserData {
-        console.log('Get userdata: ', this.userData$.getValue());
-        return this.userData$.getValue();
+        return this.userDataBehaviorSubject.getValue();
         // return this.hasUserdata() ? JSON.parse(this.cookieSvc.get(environment.userdataKey)) : null;
     }
 
@@ -88,7 +89,7 @@ export class AuthService {
      * @returns {boolean}
      */
     hasUserData(): boolean {
-        return !!this.userData$.getValue();
+        return !!this.userDataBehaviorSubject.getValue();
         // return this.cookieSvc.check(environment.userdataKey);
     }
 
@@ -96,7 +97,7 @@ export class AuthService {
      * Removes user data and session id cookie.
      */
     async removeUserData(): Promise<void> {
-        this.userData$.next(null);
+        this.userDataBehaviorSubject.next(null);
         // this.cookieSvc.delete(environment.userdataKey);
         return;
         // remove session id
@@ -156,11 +157,11 @@ export class AuthService {
     }
 
     hasEmail(): boolean {
-        return !!this.userData$.getValue()?.email;
+        return !!this.userDataBehaviorSubject.getValue()?.email;
         // return !!this.userData$?.email;
     }
 
     hasVerifiedEmail(): boolean {
-        return this.userData$.getValue()?.verifiedEmail;
+        return this.userDataBehaviorSubject.getValue()?.verifiedEmail;
     }
 }
