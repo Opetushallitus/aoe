@@ -80,7 +80,6 @@ export class AuthService {
      * @returns {UserData}
      */
     getUserData(): UserData {
-        console.log('Get userdata: ', this.userDataBehaviorSubject.getValue());
         return this.userDataBehaviorSubject.getValue();
         // return this.hasUserdata() ? JSON.parse(this.cookieSvc.get(environment.userdataKey)) : null;
     }
