@@ -5,41 +5,41 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { CookieService } from '@services/cookie.service';
 
 @Component({
-  selector: 'app-cookie-notice',
-  templateUrl: './cookie-notice.component.html',
+    selector: 'app-cookie-notice',
+    templateUrl: './cookie-notice.component.html',
 })
 export class CookieNoticeComponent implements OnInit {
-  cookies: FormGroup;
-  @Output() hideCookieNotice = new EventEmitter();
-  lang: string = this.translate.currentLang;
+    cookies: FormGroup;
+    @Output() hideCookieNotice = new EventEmitter();
+    lang: string = this.translate.currentLang;
 
-  constructor(private fb: FormBuilder, private cookieSvc: CookieService, private translate: TranslateService) {}
+    constructor(private fb: FormBuilder, private cookieSvc: CookieService, private translate: TranslateService) {}
 
-  ngOnInit(): void {
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.lang = event.lang;
-    });
+    ngOnInit(): void {
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.lang = event.lang;
+        });
 
-    this.cookies = this.fb.group({
-      aoe: this.fb.control({ value: true, disabled: true }, [Validators.requiredTrue]),
-      googleAnalytics: this.fb.control(true),
-    });
-  }
+        this.cookies = this.fb.group({
+            aoe: this.fb.control({ value: true, disabled: true }, [Validators.requiredTrue]),
+            googleAnalytics: this.fb.control(true),
+        });
+    }
 
-  acceptAll(): void {
-    this.cookies.setValue({
-      aoe: true,
-      googleAnalytics: true,
-    });
+    acceptAll(): void {
+        this.cookies.setValue({
+            aoe: true,
+            googleAnalytics: true,
+        });
 
-    this.onSubmit();
-  }
+        this.onSubmit();
+    }
 
-  onSubmit(): void {
-    // set cookie settings
-    this.cookieSvc.setCookieSettings(this.cookies.value);
+    onSubmit(): void {
+        // set cookie settings
+        this.cookieSvc.setCookieSettings(this.cookies.value);
 
-    // hide cookie notice
-    this.hideCookieNotice.emit();
-  }
+        // hide cookie notice
+        this.hideCookieNotice.emit();
+    }
 }

@@ -1,3 +1,3 @@
 export interface AttachmentPostResponse {
-  id: string;
+    id: string;
 }

@@ -1,752 +1,707 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="collection">
-  <h2 class="sr-only">{{ "forms.collection.educational.title" | translate }}</h2>
-
-  <div class="form-group">
-    <label for="educationalLevels">{{ "forms.collection.educational.educationalLevels.label" | translate }}</label>
-
-    <ng-select
-      [items]="educationalLevels"
-      [multiple]="true"
-      [closeOnSelect]="false"
-      bindLabel="value"
-      groupBy="children"
-      labelForId="educationalLevels"
-      formControlName="educationalLevels"
-      (change)="educationalLevelsChange($event)"
-    >
-      <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-      <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-    </ng-select>
-  </div>
-  <!--educationalLevels-->
-
-  <ng-container *ngIf="hasEarlyChildhoodEducation">
-    <h3>{{ "forms.collection.educational.headings.early" | translate }}</h3>
+    <h2 class="sr-only">{{ "forms.collection.educational.title" | translate }}</h2>
 
     <div class="form-group">
-      <label for="earlyChildhoodEducationSubjects">
-        {{ "forms.collection.educational.earlyChildhoodEducationSubjects.label" | translate }}
-      </label>
+        <label for="educationalLevels">{{ "forms.collection.educational.educationalLevels.label" | translate }}</label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addEarlyChildhoodEducationSubject"
-        bindLabel="targetName"
-        labelForId="earlyChildhoodEducationSubjects"
-        formControlName="earlyChildhoodEducationSubjects"
-      ></ng-select>
+        <ng-select
+            [items]="educationalLevels"
+            [multiple]="true"
+            [closeOnSelect]="false"
+            bindLabel="value"
+            groupBy="children"
+            labelForId="educationalLevels"
+            formControlName="educationalLevels"
+            (change)="educationalLevelsChange($event)">
+            <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+            <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+        </ng-select>
     </div>
-    <!--earlyChildhoodEducationSubjects-->
+    <!--educationalLevels-->
 
-    <div class="form-group">
-      <label for="earlyChildhoodEducationObjectives">
-        {{ "forms.collection.educational.earlyChildhoodEducationObjectives.label" | translate }}
-      </label>
+    <ng-container *ngIf="hasEarlyChildhoodEducation">
+        <h3>{{ "forms.collection.educational.headings.early" | translate }}</h3>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addEarlyChildhoodEducationObjective"
-        bindLabel="targetName"
-        labelForId="earlyChildhoodEducationObjectives"
-        formControlName="earlyChildhoodEducationObjectives"
-      ></ng-select>
-    </div>
-    <!--earlyChildhoodEducationObjectives-->
+        <div class="form-group">
+            <label for="earlyChildhoodEducationSubjects">
+                {{ "forms.collection.educational.earlyChildhoodEducationSubjects.label" | translate }}
+            </label>
 
-    <div class="form-group">
-      <label for="earlyChildhoodEducationFramework">
-        {{ "forms.collection.educational.earlyChildhoodEducationFramework.label" | translate }}
-      </label>
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addEarlyChildhoodEducationSubject"
+                bindLabel="targetName"
+                labelForId="earlyChildhoodEducationSubjects"
+                formControlName="earlyChildhoodEducationSubjects"></ng-select>
+        </div>
+        <!--earlyChildhoodEducationSubjects-->
 
-      <input
-        type="text"
-        class="form-control"
-        id="earlyChildhoodEducationFramework"
-        formControlName="earlyChildhoodEducationFramework"
-        [ngClass]="{
+        <div class="form-group">
+            <label for="earlyChildhoodEducationObjectives">
+                {{ "forms.collection.educational.earlyChildhoodEducationObjectives.label" | translate }}
+            </label>
+
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addEarlyChildhoodEducationObjective"
+                bindLabel="targetName"
+                labelForId="earlyChildhoodEducationObjectives"
+                formControlName="earlyChildhoodEducationObjectives"></ng-select>
+        </div>
+        <!--earlyChildhoodEducationObjectives-->
+
+        <div class="form-group">
+            <label for="earlyChildhoodEducationFramework">
+                {{ "forms.collection.educational.earlyChildhoodEducationFramework.label" | translate }}
+            </label>
+
+            <input
+                type="text"
+                class="form-control"
+                id="earlyChildhoodEducationFramework"
+                formControlName="earlyChildhoodEducationFramework"
+                [ngClass]="{
           'is-invalid':
             earlyChildhoodEducationFrameworkCtrl.invalid &&
             (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted)
-        }"
-      />
+        }" />
 
-      <div
-        *ngIf="
+            <div
+                *ngIf="
           earlyChildhoodEducationFrameworkCtrl.invalid &&
           (earlyChildhoodEducationFrameworkCtrl.dirty || earlyChildhoodEducationFrameworkCtrl.touched || submitted)
         "
-        class="invalid-feedback"
-      >
-        <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ "forms.errors.textInput.characters" | translate }}
+                class="invalid-feedback">
+                <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.invalidCharacters">
+                    {{ "forms.errors.textInput.characters" | translate }}
+                </div>
+
+                <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
+                    {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                    earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+                </div>
+            </div>
         </div>
+        <!--earlyChildhoodEducationFramework-->
+    </ng-container>
+    <!--earlyChildhoodEducation-->
 
-        <div *ngIf="earlyChildhoodEducationFrameworkCtrl.errors.maxlength">
-          {{
-            "forms.errors.common.maxLength"
-              | translate: { maxLength: earlyChildhoodEducationFrameworkCtrl.errors.maxlength.requiredLength }
-          }}
+    <ng-container *ngIf="hasPrePrimaryEducation">
+        <h3>{{ "forms.collection.educational.headings.prePrimary" | translate }}</h3>
+
+        <div class="form-group">
+            <label for="prePrimaryEducationSubjects">
+                {{ "forms.collection.educational.prePrimaryEducationSubjects.label" | translate }}
+            </label>
+
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addPrePrimaryEducationSubject"
+                bindLabel="targetName"
+                labelForId="prePrimaryEducationSubjects"
+                formControlName="prePrimaryEducationSubjects"></ng-select>
         </div>
-      </div>
-    </div>
-    <!--earlyChildhoodEducationFramework-->
-  </ng-container>
-  <!--earlyChildhoodEducation-->
+        <!--prePrimaryEducationSubjects-->
 
-  <ng-container *ngIf="hasPrePrimaryEducation">
-    <h3>{{ "forms.collection.educational.headings.prePrimary" | translate }}</h3>
+        <div class="form-group">
+            <label for="prePrimaryEducationObjectives">
+                {{ "forms.collection.educational.prePrimaryEducationObjectives.label" | translate }}
+            </label>
 
-    <div class="form-group">
-      <label for="prePrimaryEducationSubjects">
-        {{ "forms.collection.educational.prePrimaryEducationSubjects.label" | translate }}
-      </label>
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addPrePrimaryEducationObjective"
+                bindLabel="targetName"
+                labelForId="prePrimaryEducationObjectives"
+                formControlName="prePrimaryEducationObjectives"></ng-select>
+        </div>
+        <!--prePrimaryEducationObjectives-->
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addPrePrimaryEducationSubject"
-        bindLabel="targetName"
-        labelForId="prePrimaryEducationSubjects"
-        formControlName="prePrimaryEducationSubjects"
-      ></ng-select>
-    </div>
-    <!--prePrimaryEducationSubjects-->
+        <div class="form-group">
+            <label for="prePrimaryEducationFramework">
+                {{ "forms.collection.educational.prePrimaryEducationFramework.label" | translate }}
+            </label>
 
-    <div class="form-group">
-      <label for="prePrimaryEducationObjectives">
-        {{ "forms.collection.educational.prePrimaryEducationObjectives.label" | translate }}
-      </label>
-
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addPrePrimaryEducationObjective"
-        bindLabel="targetName"
-        labelForId="prePrimaryEducationObjectives"
-        formControlName="prePrimaryEducationObjectives"
-      ></ng-select>
-    </div>
-    <!--prePrimaryEducationObjectives-->
-
-    <div class="form-group">
-      <label for="prePrimaryEducationFramework">
-        {{ "forms.collection.educational.prePrimaryEducationFramework.label" | translate }}
-      </label>
-
-      <input
-        type="text"
-        class="form-control"
-        id="prePrimaryEducationFramework"
-        formControlName="prePrimaryEducationFramework"
-        [ngClass]="{
+            <input
+                type="text"
+                class="form-control"
+                id="prePrimaryEducationFramework"
+                formControlName="prePrimaryEducationFramework"
+                [ngClass]="{
           'is-invalid':
             prePrimaryEducationFrameworkCtrl.invalid &&
             (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted)
-        }"
-      />
+        }" />
 
-      <div
-        *ngIf="
+            <div
+                *ngIf="
           prePrimaryEducationFrameworkCtrl.invalid &&
           (prePrimaryEducationFrameworkCtrl.dirty || prePrimaryEducationFrameworkCtrl.touched || submitted)
         "
-        class="invalid-feedback"
-      >
-        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ "forms.errors.textInput.characters" | translate }}
+                class="invalid-feedback">
+                <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.invalidCharacters">
+                    {{ "forms.errors.textInput.characters" | translate }}
+                </div>
+
+                <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
+                    {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                    prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+                </div>
+            </div>
         </div>
+        <!--prePrimaryEducationFramework-->
+    </ng-container>
+    <!--prePrimaryEducation-->
 
-        <div *ngIf="prePrimaryEducationFrameworkCtrl.errors.maxlength">
-          {{
-            "forms.errors.common.maxLength"
-              | translate: { maxLength: prePrimaryEducationFrameworkCtrl.errors.maxlength.requiredLength }
-          }}
+    <ng-container *ngIf="hasBasicStudies">
+        <h3>{{ "forms.collection.educational.headings.basic" | translate }}</h3>
+
+        <div class="form-group">
+            <label for="basicStudySubjects">
+                {{ "forms.collection.educational.basicStudySubjects.label" | translate }}
+            </label>
+
+            <ng-select
+                [items]="basicStudySubjects"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                bindLabel="targetName"
+                groupBy="children"
+                labelForId="basicStudySubjects"
+                formControlName="basicStudySubjects"
+                (change)="basicStudySubjectsChange($event)">
+                <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+                <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+            </ng-select>
         </div>
-      </div>
-    </div>
-    <!--prePrimaryEducationFramework-->
-  </ng-container>
-  <!--prePrimaryEducation-->
+        <!--basicStudySubjects-->
 
-  <ng-container *ngIf="hasBasicStudies">
-    <h3>{{ "forms.collection.educational.headings.basic" | translate }}</h3>
+        <ng-container *ngIf="hasBasicStudySubjects">
+            <div class="form-group">
+                <label for="basicStudyObjectives">
+                    {{ "forms.collection.educational.basicStudyObjectives.label" | translate }}
+                </label>
 
-    <div class="form-group">
-      <label for="basicStudySubjects">
-        {{ "forms.collection.educational.basicStudySubjects.label" | translate }}
-      </label>
+                <ng-select
+                    [items]="basicStudyObjectives"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="basicStudyObjectives"
+                    formControlName="basicStudyObjectives">
+                    <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+                    <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+                </ng-select>
+            </div>
+            <!--basicStudyObjectives-->
 
-      <ng-select
-        [items]="basicStudySubjects"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="targetName"
-        groupBy="children"
-        labelForId="basicStudySubjects"
-        formControlName="basicStudySubjects"
-        (change)="basicStudySubjectsChange($event)"
-      >
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-      </ng-select>
-    </div>
-    <!--basicStudySubjects-->
+            <div class="form-group">
+                <label for="basicStudyContents">
+                    {{ "forms.collection.educational.basicStudyContents.label" | translate }}
+                </label>
 
-    <ng-container *ngIf="hasBasicStudySubjects">
-      <div class="form-group">
-        <label for="basicStudyObjectives">
-          {{ "forms.collection.educational.basicStudyObjectives.label" | translate }}
-        </label>
+                <ng-select
+                    [items]="basicStudyContents"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="basicStudyContents"
+                    formControlName="basicStudyContents">
+                    <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+                    <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+                </ng-select>
+            </div>
+            <!--basicStudyContents-->
 
-        <ng-select
-          [items]="basicStudyObjectives"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="basicStudyObjectives"
-          formControlName="basicStudyObjectives"
-        >
-          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
-          <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-        </ng-select>
-      </div>
-      <!--basicStudyObjectives-->
+            <div class="form-group">
+                <label for="basicStudyFramework">
+                    {{ "forms.collection.educational.basicStudyFramework.label" | translate }}
+                </label>
 
-      <div class="form-group">
-        <label for="basicStudyContents">
-          {{ "forms.collection.educational.basicStudyContents.label" | translate }}
-        </label>
-
-        <ng-select
-          [items]="basicStudyContents"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="basicStudyContents"
-          formControlName="basicStudyContents"
-        >
-          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
-          <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-        </ng-select>
-      </div>
-      <!--basicStudyContents-->
-
-      <div class="form-group">
-        <label for="basicStudyFramework">
-          {{ "forms.collection.educational.basicStudyFramework.label" | translate }}
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="basicStudyFramework"
-          formControlName="basicStudyFramework"
-          [ngClass]="{
+                <input
+                    type="text"
+                    class="form-control"
+                    id="basicStudyFramework"
+                    formControlName="basicStudyFramework"
+                    [ngClass]="{
             'is-invalid':
               basicStudyFrameworkCtrl.invalid &&
               (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)
-          }"
-        />
+          }" />
 
-        <div
-          *ngIf="
+                <div
+                    *ngIf="
             basicStudyFrameworkCtrl.invalid &&
             (basicStudyFrameworkCtrl.dirty || basicStudyFrameworkCtrl.touched || submitted)
           "
-          class="invalid-feedback"
-        >
-          <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
-            {{ "forms.errors.textInput.characters" | translate }}
-          </div>
+                    class="invalid-feedback">
+                    <div *ngIf="basicStudyFrameworkCtrl.errors.invalidCharacters">
+                        {{ "forms.errors.textInput.characters" | translate }}
+                    </div>
 
-          <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
-            {{
-              "forms.errors.common.maxLength"
-                | translate: { maxLength: basicStudyFrameworkCtrl.errors.maxlength.requiredLength }
-            }}
-          </div>
-        </div>
-      </div>
-      <!--basicStudyFramework-->
+                    <div *ngIf="basicStudyFrameworkCtrl.errors.maxlength">
+                        {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                        basicStudyFrameworkCtrl.errors.maxlength.requiredLength } }}
+                    </div>
+                </div>
+            </div>
+            <!--basicStudyFramework-->
+        </ng-container>
     </ng-container>
-  </ng-container>
-  <!--basicStudies-->
+    <!--basicStudies-->
 
-  <ng-container *ngIf="hasUpperSecondarySchool">
-    <h3>{{ "forms.collection.educational.headings.upperSecondary" | translate }}</h3>
+    <ng-container *ngIf="hasUpperSecondarySchool">
+        <h3>{{ "forms.collection.educational.headings.upperSecondary" | translate }}</h3>
 
-    <div class="form-group">
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="currentUpperSecondarySchoolSelected"
-          formControlName="currentUpperSecondarySchoolSelected"
-        />
+        <div class="form-group">
+            <div class="custom-control custom-checkbox">
+                <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="currentUpperSecondarySchoolSelected"
+                    formControlName="currentUpperSecondarySchoolSelected" />
 
-        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
-          {{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}
-        </label>
-      </div>
-      <!--current-->
+                <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">
+                    {{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}
+                </label>
+            </div>
+            <!--current-->
 
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="newUpperSecondarySchoolSelected"
-          formControlName="newUpperSecondarySchoolSelected"
-        />
+            <div class="custom-control custom-checkbox">
+                <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="newUpperSecondarySchoolSelected"
+                    formControlName="newUpperSecondarySchoolSelected" />
 
-        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">
-          {{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}
-        </label>
-      </div>
-      <!--new-->
-    </div>
-    <!--frameworkSelection-->
+                <label class="custom-control-label" for="newUpperSecondarySchoolSelected">
+                    {{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}
+                </label>
+            </div>
+            <!--new-->
+        </div>
+        <!--frameworkSelection-->
 
-    <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
-      <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}</h4>
+        <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
+            <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.current" | translate }}</h4>
 
-      <div class="form-group">
-        <label for="upperSecondarySchoolSubjectsOld">
-          {{
-            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label"
-              | translate
-          }}
-        </label>
+            <div class="form-group">
+                <label for="upperSecondarySchoolSubjectsOld">
+                    {{
+                    "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label"
+                    | translate }}
+                </label>
 
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="
+                <button
+                    type="button"
+                    class="btn btn-link"
+                    [tooltip]="
             'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.tooltip'
               | translate
-          "
-        >
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
+          ">
+                    <img src="assets/img/icons/ic_help.svg" alt="" />
+                </button>
 
-        <ng-select
-          [items]="upperSecondarySchoolSubjectsOld"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="upperSecondarySchoolSubjectsOld"
-          formControlName="upperSecondarySchoolSubjectsOld"
-          (change)="upperSecondarySchoolSubjectsOldChange($event)"
-        >
-          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
-        </ng-select>
-      </div>
-      <!--upperSecondarySubjectsOld-->
+                <ng-select
+                    [items]="upperSecondarySchoolSubjectsOld"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="upperSecondarySchoolSubjectsOld"
+                    formControlName="upperSecondarySchoolSubjectsOld"
+                    (change)="upperSecondarySchoolSubjectsOldChange($event)">
+                    <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+                </ng-select>
+            </div>
+            <!--upperSecondarySubjectsOld-->
 
-      <ng-container
-        *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0"
-      >
-        <div class="form-group">
-          <label for="upperSecondarySchoolCoursesOld">
-            {{
-              "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label"
-                | translate
-            }}
-          </label>
+            <ng-container
+                *ngIf="upperSecondarySchoolCoursesOld?.length > 0 || upperSecondarySchoolCoursesOldCtrl.value?.length > 0">
+                <div class="form-group">
+                    <label for="upperSecondarySchoolCoursesOld">
+                        {{
+                        "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.subjects.label"
+                        | translate }}
+                    </label>
 
-          <ng-select
-            [items]="upperSecondarySchoolCoursesOld"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            bindLabel="targetName"
-            groupBy="parent"
-            labelForId="upperSecondarySchoolCoursesOld"
-            formControlName="upperSecondarySchoolCoursesOld"
-          ></ng-select>
-        </div>
-      </ng-container>
-      <!--upperSecondaryCoursesOld-->
+                    <ng-select
+                        [items]="upperSecondarySchoolCoursesOld"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="targetName"
+                        groupBy="parent"
+                        labelForId="upperSecondarySchoolCoursesOld"
+                        formControlName="upperSecondarySchoolCoursesOld"></ng-select>
+                </div>
+            </ng-container>
+            <!--upperSecondaryCoursesOld-->
 
-      <div class="form-group">
-        <label for="upperSecondarySchoolObjectives">
-          {{ "forms.collection.educational.upperSecondarySchoolObjectives.label" | translate }}
-        </label>
+            <div class="form-group">
+                <label for="upperSecondarySchoolObjectives">
+                    {{ "forms.collection.educational.upperSecondarySchoolObjectives.label" | translate }}
+                </label>
 
-        <ng-select
-          [items]="[]"
-          [multiple]="true"
-          [addTag]="addUpperSecondarySchoolObjective"
-          bindLabel="targetName"
-          labelForId="upperSecondarySchoolObjectives"
-          formControlName="upperSecondarySchoolObjectives"
-        ></ng-select>
-      </div>
-      <!--upperSecondarySchoolObjectives-->
+                <ng-select
+                    [items]="[]"
+                    [multiple]="true"
+                    [addTag]="addUpperSecondarySchoolObjective"
+                    bindLabel="targetName"
+                    labelForId="upperSecondarySchoolObjectives"
+                    formControlName="upperSecondarySchoolObjectives"></ng-select>
+            </div>
+            <!--upperSecondarySchoolObjectives-->
 
-      <div class="form-group">
-        <label for="upperSecondarySchoolFramework">
-          {{ "forms.collection.educational.upperSecondarySchoolFramework.label" | translate }}
-        </label>
+            <div class="form-group">
+                <label for="upperSecondarySchoolFramework">
+                    {{ "forms.collection.educational.upperSecondarySchoolFramework.label" | translate }}
+                </label>
 
-        <input
-          type="text"
-          class="form-control"
-          id="upperSecondarySchoolFramework"
-          formControlName="upperSecondarySchoolFramework"
-          [ngClass]="{
+                <input
+                    type="text"
+                    class="form-control"
+                    id="upperSecondarySchoolFramework"
+                    formControlName="upperSecondarySchoolFramework"
+                    [ngClass]="{
             'is-invalid':
               upperSecondarySchoolFrameworkCtrl.invalid &&
               (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted)
-          }"
-        />
+          }" />
 
-        <div
-          *ngIf="
+                <div
+                    *ngIf="
             upperSecondarySchoolFrameworkCtrl.invalid &&
             (upperSecondarySchoolFrameworkCtrl.dirty || upperSecondarySchoolFrameworkCtrl.touched || submitted)
           "
-          class="invalid-feedback"
-        >
-          <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
-            {{ "forms.errors.textInput.characters" | translate }}
-          </div>
+                    class="invalid-feedback">
+                    <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.invalidCharacters">
+                        {{ "forms.errors.textInput.characters" | translate }}
+                    </div>
 
-          <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
-            {{
-              "forms.errors.common.maxLength"
-                | translate: { maxLength: upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength }
-            }}
-          </div>
-        </div>
-      </div>
-      <!--upperSecondarySchoolFramework-->
+                    <div *ngIf="upperSecondarySchoolFrameworkCtrl.errors.maxlength">
+                        {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                        upperSecondarySchoolFrameworkCtrl.errors.maxlength.requiredLength } }}
+                    </div>
+                </div>
+            </div>
+            <!--upperSecondarySchoolFramework-->
+        </ng-container>
+        <!--current-->
+
+        <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
+            <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}</h4>
+
+            <div class="form-group">
+                <label for="upperSecondarySchoolSubjectsNew">
+                    {{ "forms.collection.educational.upperSecondarySchoolSubjectsNew.label" | translate }}
+                </label>
+
+                <ng-select
+                    [items]="upperSecondarySchoolSubjectsNew"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="upperSecondarySchoolSubjectsNew"
+                    formControlName="upperSecondarySchoolSubjectsNew"
+                    (change)="upperSecondarySchoolSubjectsNewChange($event)">
+                    <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
+                </ng-select>
+            </div>
+            <!--upperSecondarySchoolSubjectsNew-->
+
+            <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
+                <div class="form-group">
+                    <label for="upperSecondarySchoolModulesNew">
+                        {{ "forms.collection.educational.upperSecondarySchoolModulesNew.label" | translate }}
+                    </label>
+
+                    <ng-select
+                        [items]="upperSecondarySchoolModulesNew"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="targetName"
+                        groupBy="parent"
+                        labelForId="upperSecondarySchoolModulesNew"
+                        formControlName="upperSecondarySchoolModulesNew"
+                        (change)="upperSecondarySchoolModulesNewChange($event)"></ng-select>
+                </div>
+                <!--upperSecondarySchoolModulesNew-->
+
+                <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
+                    <label for="upperSecondarySchoolObjectivesNew">
+                        {{ "forms.collection.educational.upperSecondarySchoolObjectivesNew.label" | translate }}
+                    </label>
+
+                    <ng-select
+                        [items]="upperSecondarySchoolObjectivesNew"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="targetName"
+                        groupBy="parent"
+                        labelForId="upperSecondarySchoolObjectivesNew"
+                        formControlName="upperSecondarySchoolObjectivesNew"></ng-select>
+                </div>
+                <!--upperSecondarySchoolObjectivesNew-->
+
+                <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
+                    <label for="upperSecondarySchoolContentsNew">
+                        {{ "forms.collection.educational.upperSecondarySchoolContentsNew.label" | translate }}
+                    </label>
+
+                    <ng-select
+                        [items]="upperSecondarySchoolContentsNew"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="targetName"
+                        groupBy="parent"
+                        labelForId="upperSecondarySchoolContentsNew"
+                        formControlName="upperSecondarySchoolContentsNew"></ng-select>
+                </div>
+                <!--upperSecondarySchoolContentsNew-->
+            </ng-container>
+        </ng-container>
     </ng-container>
-    <!--current-->
+    <!--upperSecondarySchool-->
 
-    <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
-      <h4>{{ "forms.collection.educational.upperSecondarySchoolSelection.new" | translate }}</h4>
+    <ng-container *ngIf="hasVocationalEducation">
+        <h3>{{ "forms.collection.educational.headings.vocational" | translate }}</h3>
 
-      <div class="form-group">
-        <label for="upperSecondarySchoolSubjectsNew">
-          {{ "forms.collection.educational.upperSecondarySchoolSubjectsNew.label" | translate }}
-        </label>
-
-        <ng-select
-          [items]="upperSecondarySchoolSubjectsNew"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="upperSecondarySchoolSubjectsNew"
-          formControlName="upperSecondarySchoolSubjectsNew"
-          (change)="upperSecondarySchoolSubjectsNewChange($event)"
-        >
-          <ng-template ng-optgroup-tmp let-item="item">{{ item.parent }}</ng-template>
-        </ng-select>
-      </div>
-      <!--upperSecondarySchoolSubjectsNew-->
-
-      <ng-container *ngIf="upperSecondarySchoolModulesNew?.length > 0">
         <div class="form-group">
-          <label for="upperSecondarySchoolModulesNew">
-            {{ "forms.collection.educational.upperSecondarySchoolModulesNew.label" | translate }}
-          </label>
+            <label for="vocationalDegrees">
+                {{ "forms.collection.educational.vocationalDegrees.label" | translate }}
+            </label>
 
-          <ng-select
-            [items]="upperSecondarySchoolModulesNew"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            bindLabel="targetName"
-            groupBy="parent"
-            labelForId="upperSecondarySchoolModulesNew"
-            formControlName="upperSecondarySchoolModulesNew"
-            (change)="upperSecondarySchoolModulesNewChange($event)"
-          ></ng-select>
+            <ng-select
+                [items]="vocationalDegrees"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                bindLabel="targetName"
+                labelForId="vocationalDegrees"
+                formControlName="vocationalDegrees"
+                (change)="vocationalDegreesChange($event)"></ng-select>
         </div>
-        <!--upperSecondarySchoolModulesNew-->
+        <!--vocationalDegrees-->
 
-        <div class="form-group" *ngIf="upperSecondarySchoolObjectivesNew?.length > 0">
-          <label for="upperSecondarySchoolObjectivesNew">
-            {{ "forms.collection.educational.upperSecondarySchoolObjectivesNew.label" | translate }}
-          </label>
+        <div class="form-group">
+            <label for="vocationalCommonUnits">
+                {{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}
+            </label>
 
-          <ng-select
-            [items]="upperSecondarySchoolObjectivesNew"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            bindLabel="targetName"
-            groupBy="parent"
-            labelForId="upperSecondarySchoolObjectivesNew"
-            formControlName="upperSecondarySchoolObjectivesNew"
-          ></ng-select>
+            <ng-select
+                [items]="subjectOfCommonUnit"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                bindLabel="targetName"
+                groupBy="children"
+                labelForId="vocationalCommonUnits"
+                formControlName="subjectOfCommonUnit">
+                <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+                <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+            </ng-select>
         </div>
-        <!--upperSecondarySchoolObjectivesNew-->
 
-        <div class="form-group" *ngIf="upperSecondarySchoolContentsNew?.length > 0">
-          <label for="upperSecondarySchoolContentsNew">
-            {{ "forms.collection.educational.upperSecondarySchoolContentsNew.label" | translate }}
-          </label>
+        <ng-container *ngIf="hasVocationalDegrees">
+            <div class="form-group">
+                <label for="vocationalUnits">
+                    {{ "forms.collection.educational.vocationalUnits.label" | translate }}
+                </label>
 
-          <ng-select
-            [items]="upperSecondarySchoolContentsNew"
-            [multiple]="true"
-            [closeOnSelect]="false"
-            bindLabel="targetName"
-            groupBy="parent"
-            labelForId="upperSecondarySchoolContentsNew"
-            formControlName="upperSecondarySchoolContentsNew"
-          ></ng-select>
-        </div>
-        <!--upperSecondarySchoolContentsNew-->
-      </ng-container>
-    </ng-container>
-  </ng-container>
-  <!--upperSecondarySchool-->
+                <ng-select
+                    [items]="vocationalUnits"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="vocationalUnits"
+                    formControlName="vocationalUnits"
+                    (change)="vocationalUnitsChange($event)"></ng-select>
+            </div>
+            <!--vocationalUnits-->
 
-  <ng-container *ngIf="hasVocationalEducation">
-    <h3>{{ "forms.collection.educational.headings.vocational" | translate }}</h3>
+            <div class="form-group">
+                <label for="vocationalRequirements">
+                    {{ "forms.collection.educational.vocationalEducationObjectives.label" | translate }}
+                </label>
 
-    <div class="form-group">
-      <label for="vocationalDegrees">{{ "forms.collection.educational.vocationalDegrees.label" | translate }}</label>
+                <ng-select
+                    [items]="vocationalRequirements"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [addTag]="addVocationalEducationObjective"
+                    bindLabel="targetName"
+                    groupBy="parent"
+                    labelForId="vocationalRequirements"
+                    formControlName="vocationalRequirements"></ng-select>
+            </div>
+            <!--vocationalEducationObjectives-->
 
-      <ng-select
-        [items]="vocationalDegrees"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="targetName"
-        labelForId="vocationalDegrees"
-        formControlName="vocationalDegrees"
-        (change)="vocationalDegreesChange($event)"
-      ></ng-select>
-    </div>
-    <!--vocationalDegrees-->
+            <div class="form-group">
+                <label for="vocationalEducationFramework">
+                    {{ "forms.collection.educational.vocationalEducationFramework.label" | translate }}
+                </label>
 
-    <div class="form-group">
-      <label for="vocationalCommonUnits">
-        {{ "forms.collection.educational.vocationalCommonUnits.label" | translate }}
-      </label>
-
-      <ng-select
-        [items]="subjectOfCommonUnit"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="targetName"
-        groupBy="children"
-        labelForId="vocationalCommonUnits"
-        formControlName="subjectOfCommonUnit"
-      >
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-      </ng-select>
-    </div>
-
-    <ng-container *ngIf="hasVocationalDegrees">
-      <div class="form-group">
-        <label for="vocationalUnits">{{ "forms.collection.educational.vocationalUnits.label" | translate }}</label>
-
-        <ng-select
-          [items]="vocationalUnits"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="vocationalUnits"
-          formControlName="vocationalUnits"
-          (change)="vocationalUnitsChange($event)"
-        ></ng-select>
-      </div>
-      <!--vocationalUnits-->
-
-      <div class="form-group">
-        <label for="vocationalRequirements">
-          {{ "forms.collection.educational.vocationalEducationObjectives.label" | translate }}
-        </label>
-
-        <ng-select
-          [items]="vocationalRequirements"
-          [multiple]="true"
-          [closeOnSelect]="false"
-          [addTag]="addVocationalEducationObjective"
-          bindLabel="targetName"
-          groupBy="parent"
-          labelForId="vocationalRequirements"
-          formControlName="vocationalRequirements"
-        ></ng-select>
-      </div>
-      <!--vocationalEducationObjectives-->
-
-      <div class="form-group">
-        <label for="vocationalEducationFramework">
-          {{ "forms.collection.educational.vocationalEducationFramework.label" | translate }}
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="vocationalEducationFramework"
-          formControlName="vocationalEducationFramework"
-          [ngClass]="{
+                <input
+                    type="text"
+                    class="form-control"
+                    id="vocationalEducationFramework"
+                    formControlName="vocationalEducationFramework"
+                    [ngClass]="{
             'is-invalid':
               vocationalEducationFrameworkCtrl.invalid &&
               (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted)
-          }"
-        />
+          }" />
 
-        <div
-          *ngIf="
+                <div
+                    *ngIf="
             vocationalEducationFrameworkCtrl.invalid &&
             (vocationalEducationFrameworkCtrl.dirty || vocationalEducationFrameworkCtrl.touched || submitted)
           "
-          class="invalid-feedback"
-        >
-          <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
-            {{ "forms.errors.textInput.characters" | translate }}
-          </div>
+                    class="invalid-feedback">
+                    <div *ngIf="vocationalEducationFrameworkCtrl.errors.invalidCharacters">
+                        {{ "forms.errors.textInput.characters" | translate }}
+                    </div>
 
-          <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
-            {{
-              "forms.errors.common.maxLength"
-                | translate: { maxLength: vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength }
-            }}
-          </div>
-        </div>
-      </div>
-      <!--vocationalEducationFramework-->
+                    <div *ngIf="vocationalEducationFrameworkCtrl.errors.maxlength">
+                        {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                        vocationalEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+                    </div>
+                </div>
+            </div>
+            <!--vocationalEducationFramework-->
+        </ng-container>
     </ng-container>
-  </ng-container>
-  <!--vocationalEducation-->
+    <!--vocationalEducation-->
 
-  <ng-container *ngIf="hasSelfMotivatedEducation">
-    <h3>{{ "forms.collection.educational.headings.selfMotivated" | translate }}</h3>
+    <ng-container *ngIf="hasSelfMotivatedEducation">
+        <h3>{{ "forms.collection.educational.headings.selfMotivated" | translate }}</h3>
 
-    <div class="form-group">
-      <label for="selfMotivatedEducationSubjects">
-        {{ "forms.collection.educational.selfMotivatedEducationSubjects.label" | translate }}
-      </label>
+        <div class="form-group">
+            <label for="selfMotivatedEducationSubjects">
+                {{ "forms.collection.educational.selfMotivatedEducationSubjects.label" | translate }}
+            </label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addSelfMotivatedEducationSubject"
-        bindLabel="targetName"
-        labelForId="selfMotivatedEducationSubjects"
-        formControlName="selfMotivatedEducationSubjects"
-      ></ng-select>
-    </div>
-    <!--selfMotivatedEducationSubjects-->
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addSelfMotivatedEducationSubject"
+                bindLabel="targetName"
+                labelForId="selfMotivatedEducationSubjects"
+                formControlName="selfMotivatedEducationSubjects"></ng-select>
+        </div>
+        <!--selfMotivatedEducationSubjects-->
 
-    <div class="form-group">
-      <label for="selfMotivatedEducationObjectives">
-        {{ "forms.collection.educational.selfMotivatedEducationObjectives.label" | translate }}
-      </label>
+        <div class="form-group">
+            <label for="selfMotivatedEducationObjectives">
+                {{ "forms.collection.educational.selfMotivatedEducationObjectives.label" | translate }}
+            </label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addSelfMotivatedEducationObjective"
-        bindLabel="targetName"
-        labelForId="selfMotivatedEducationObjectives"
-        formControlName="selfMotivatedEducationObjectives"
-      ></ng-select>
-    </div>
-    <!--selfMotivatedEducationObjectives-->
-  </ng-container>
-  <!--selfMotivatedEducation-->
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addSelfMotivatedEducationObjective"
+                bindLabel="targetName"
+                labelForId="selfMotivatedEducationObjectives"
+                formControlName="selfMotivatedEducationObjectives"></ng-select>
+        </div>
+        <!--selfMotivatedEducationObjectives-->
+    </ng-container>
+    <!--selfMotivatedEducation-->
 
-  <ng-container *ngIf="hasHigherEducation">
-    <h3>{{ "forms.collection.educational.headings.higher" | translate }}</h3>
+    <ng-container *ngIf="hasHigherEducation">
+        <h3>{{ "forms.collection.educational.headings.higher" | translate }}</h3>
 
-    <div class="form-group">
-      <label for="scienceBranches">{{ "forms.collection.educational.scienceBranches.label" | translate }}</label>
+        <div class="form-group">
+            <label for="scienceBranches">{{ "forms.collection.educational.scienceBranches.label" | translate }}</label>
 
-      <ng-select
-        [items]="scienceBranches"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        [selectableGroup]="true"
-        [selectableGroupAsModel]="false"
-        bindLabel="targetName"
-        groupBy="children"
-        labelForId="scienceBranches"
-        formControlName="scienceBranches"
-      >
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
-      </ng-select>
-    </div>
-    <!--scienceBranches-->
+            <ng-select
+                [items]="scienceBranches"
+                [multiple]="true"
+                [closeOnSelect]="false"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
+                bindLabel="targetName"
+                groupBy="children"
+                labelForId="scienceBranches"
+                formControlName="scienceBranches">
+                <ng-template ng-optgroup-tmp let-item="item">{{ item.targetName }}</ng-template>
+                <ng-template ng-option-tmp let-item="item">{{ item.targetName }}</ng-template>
+            </ng-select>
+        </div>
+        <!--scienceBranches-->
 
-    <div class="form-group">
-      <label for="scienceBranchObjectives">
-        {{ "forms.collection.educational.scienceBranchObjectives.label" | translate }}
-      </label>
+        <div class="form-group">
+            <label for="scienceBranchObjectives">
+                {{ "forms.collection.educational.scienceBranchObjectives.label" | translate }}
+            </label>
 
-      <ng-select
-        [items]="[]"
-        [multiple]="true"
-        [addTag]="addScienceBranchObjectives"
-        bindLabel="targetName"
-        labelForId="scienceBranchObjectives"
-        formControlName="scienceBranchObjectives"
-      ></ng-select>
-    </div>
-    <!--scienceBranchObjectives-->
+            <ng-select
+                [items]="[]"
+                [multiple]="true"
+                [addTag]="addScienceBranchObjectives"
+                bindLabel="targetName"
+                labelForId="scienceBranchObjectives"
+                formControlName="scienceBranchObjectives"></ng-select>
+        </div>
+        <!--scienceBranchObjectives-->
 
-    <div class="form-group">
-      <label for="higherEducationFramework">
-        {{ "forms.collection.educational.higherEducationFramework.label" | translate }}
-      </label>
+        <div class="form-group">
+            <label for="higherEducationFramework">
+                {{ "forms.collection.educational.higherEducationFramework.label" | translate }}
+            </label>
 
-      <input
-        type="text"
-        class="form-control"
-        id="higherEducationFramework"
-        formControlName="higherEducationFramework"
-        [ngClass]="{
+            <input
+                type="text"
+                class="form-control"
+                id="higherEducationFramework"
+                formControlName="higherEducationFramework"
+                [ngClass]="{
           'is-invalid':
             higherEducationFrameworkCtrl.invalid &&
             (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)
-        }"
-      />
+        }" />
 
-      <div
-        *ngIf="
+            <div
+                *ngIf="
           higherEducationFrameworkCtrl.invalid &&
           (higherEducationFrameworkCtrl.dirty || higherEducationFrameworkCtrl.touched || submitted)
         "
-        class="invalid-feedback"
-      >
-        <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
-          {{ "forms.errors.textInput.characters" | translate }}
+                class="invalid-feedback">
+                <div *ngIf="higherEducationFrameworkCtrl.errors.invalidCharacters">
+                    {{ "forms.errors.textInput.characters" | translate }}
+                </div>
+
+                <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
+                    {{ "forms.errors.common.maxLength" | translate: { maxLength:
+                    higherEducationFrameworkCtrl.errors.maxlength.requiredLength } }}
+                </div>
+            </div>
+        </div>
+        <!--higherEducationFramework-->
+    </ng-container>
+    <!--higherEducation-->
+
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-gray" (click)="previous()">
+                {{ "forms.common.previous" | translate }}
+            </button>
         </div>
 
-        <div *ngIf="higherEducationFrameworkCtrl.errors.maxlength">
-          {{
-            "forms.errors.common.maxLength"
-              | translate: { maxLength: higherEducationFrameworkCtrl.errors.maxlength.requiredLength }
-          }}
+        <div class="col-auto">
+            <button type="reset" class="btn btn-cancel" (click)="emitAbort()">
+                {{ "forms.common.abort" | translate }}
+            </button>
         </div>
-      </div>
-    </div>
-    <!--higherEducationFramework-->
-  </ng-container>
-  <!--higherEducation-->
 
-  <div class="row">
-    <div class="col">
-      <button type="button" class="btn btn-gray" (click)="previous()">{{ "forms.common.previous" | translate }}</button>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-blue">{{ "forms.common.next" | translate }}</button>
+        </div>
     </div>
-
-    <div class="col-auto">
-      <button type="reset" class="btn btn-cancel" (click)="emitAbort()">{{ "forms.common.abort" | translate }}</button>
-    </div>
-
-    <div class="col-auto">
-      <button type="submit" class="btn btn-blue">{{ "forms.common.next" | translate }}</button>
-    </div>
-  </div>
 </form>
