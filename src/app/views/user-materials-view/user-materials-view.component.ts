@@ -27,7 +27,7 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
     publicCollections: UserCollection[];
 
     constructor(
-        private authSvc: AuthService,
+        private authService: AuthService,
         private materialSvc: MaterialService,
         private translate: TranslateService,
         private collectionSvc: CollectionService,

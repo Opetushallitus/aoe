@@ -1,4 +1,8 @@
-<button *ngIf="(userData$ | async) === null; else loggedIn" class="btn nav-link" type="button" (click)="login()">
+<button
+    *ngIf="(authService.userData$ | async) === null; else loggedIn"
+    class="btn nav-link"
+    type="button"
+    (click)="login()">
     {{ "common.login" | translate }}
 </button>
 
@@ -15,7 +19,7 @@
                 aria-haspopup="true"
                 aria-expanded="false"
               >
-                {{ authSvc.getUserdata()?.userdata.name }}
+                {{ authService.getUserdata()?.userdata.name }}
               </a>
               -->
             <a
@@ -29,7 +33,7 @@
                 <i class="fa fa-user-circle-o fa-5" style="font-size: x-large" aria-hidden="true"></i>
             </a>
             <div class="dropdown-menu" aria-labelledby="user-details-dropdown">
-                <a class="dropdown-header">{{ (userData$ | async).userdata.name }}</a>
+                <a class="dropdown-header">{{ (authService.userData$ | async).userdata.name }}</a>
                 <a class="dropdown-item" routerLink="/omat-tiedot" routerLinkActive="active">
                     {{ "navigation.login.userDetails" | translate }}
                 </a>

@@ -9,7 +9,7 @@ import { UserData } from '@models/userdata';
     providedIn: 'root',
 })
 export class AcceptanceGuard implements CanActivate {
-    constructor(private router: Router, private authSvc: AuthService) {}
+    constructor(private router: Router, private authService: AuthService) {}
 
     /**
      * Checks if logged in user has accepted terms of use.
@@ -21,7 +21,7 @@ export class AcceptanceGuard implements CanActivate {
         _next: ActivatedRouteSnapshot,
         _state: RouterStateSnapshot,
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const userData: UserData = this.authSvc.userData$.getValue();
+        const userData: UserData = this.authService.userData$.getValue();
 
         if (!userData || userData?.termsofusage === true) {
             return true;
