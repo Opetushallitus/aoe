@@ -27,7 +27,7 @@
                         {{ "navigation.collections" | translate }}
                     </a>
                 </li>
-                <li class="nav-item" *ngIf="authSvc.hasUserData()">
+                <li class="nav-item" *ngIf="authService.hasUserData()">
                     <a class="nav-link" routerLink="/omat-oppimateriaalit" routerLinkActive="active">
                         {{ "navigation.myMaterials" | translate }}
                     </a>

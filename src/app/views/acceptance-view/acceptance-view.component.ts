@@ -15,7 +15,7 @@ export class AcceptanceViewComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private authSvc: AuthService,
+        private authService: AuthService,
         private titleSvc: Title,
         private translate: TranslateService,
     ) {}
@@ -39,6 +39,6 @@ export class AcceptanceViewComponent implements OnInit {
     }
 
     public onSubmit(): void {
-        this.authSvc.updateAcceptance();
+        this.authService.updateAcceptance();
     }
 }
