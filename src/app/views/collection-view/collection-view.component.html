@@ -1,664 +1,643 @@
 <div class="py-4 px-0 material-view">
-  <div class="container">
-    <ng-container *ngIf="collectionIsLoading; else collectionLoaded">
-      <div class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </ng-container>
-
-    <ng-template #collectionLoaded>
-      <ng-container *ngIf="collection">
-        <div class="row mb-4">
-          <div class="col-lg-6">
-            <h1>{{ collection.name }}</h1>
-          </div>
-
-          <div class="col-lg-6 text-lg-right">
-            <div class="material-actions">
-              <ng-container *ngIf="collection.owner">
-                <a class="btn btn-link" [routerLink]="['/kokoelma', collectionId, 'muokkaa']">
-                  <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
-                  {{ "demo.educationalMaterial.edit" | translate }}
-                </a>
-              </ng-container>
+    <div class="container">
+        <ng-container *ngIf="collectionIsLoading; else collectionLoaded">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
-          </div>
-        </div>
+        </ng-container>
 
-        <div class="row mb-4">
-          <div class="col-md-2 col-lg-3 text-center text-md-left">
-            <img
-              [src]="collection.thumbnail"
-              class="img-fluid mb-4"
-              [alt]="'demo.educationalMaterial.cover.alt' | translate"
-            />
-          </div>
-          <!--left column-->
+        <ng-template #collectionLoaded>
+            <ng-container *ngIf="collection">
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <h1>{{ collection.name }}</h1>
+                    </div>
 
-          <div class="col-md-10 col-lg-9">
-            <ul class="list-unstyled collection-authors">
-              <li *ngFor="let author of collection.authors">{{ author }}</li>
-            </ul>
-            <!--authors-->
+                    <div class="col-lg-6 text-lg-right">
+                        <div class="material-actions">
+                            <ng-container *ngIf="collection.owner">
+                                <a class="btn btn-link" [routerLink]="['/kokoelma', collectionId, 'muokkaa']">
+                                    <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
+                                    {{ "demo.educationalMaterial.edit" | translate }}
+                                </a>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="datetimes">
-              <span class="datetime-item d-block d-md-inline-block">
-                <strong id="createdAt">{{ "demo.educationalMaterial.createdAt" | translate }}:</strong>
+                <div class="row mb-4">
+                    <div class="col-md-2 col-lg-3 text-center text-md-left">
+                        <img
+                            [src]="collection.thumbnail"
+                            class="img-fluid mb-4"
+                            [alt]="'demo.educationalMaterial.cover.alt' | translate" />
+                    </div>
+                    <!--left column-->
 
-                <time [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="createdAt">
-                  {{ collection.createdAt | date: "d.M.yyyy HH:mm" }}
-                </time>
-              </span>
+                    <div class="col-md-10 col-lg-9">
+                        <ul class="list-unstyled collection-authors">
+                            <li *ngFor="let author of collection.authors">{{ author }}</li>
+                        </ul>
+                        <!--authors-->
 
-              <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
-                <strong id="publishedAt">{{ "demo.educationalMaterial.publishedAt" | translate }}:</strong>
+                        <div class="datetimes">
+                            <span class="datetime-item d-block d-md-inline-block">
+                                <strong id="createdAt">{{ "demo.educationalMaterial.createdAt" | translate }}:</strong>
 
-                <time [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="publishedAt">
-                  {{ collection.publishedAt | date: "d.M.yyyy HH:mm" }}
-                </time>
-              </span>
+                                <time
+                                    [attr.datetime]="collection.createdAt | date: 'yyyy-MM-dd HH:mm'"
+                                    aria-labelledby="createdAt">
+                                    {{ collection.createdAt | date: "d.M.yyyy HH:mm" }}
+                                </time>
+                            </span>
 
-              <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
-                <strong id="updatedAt">{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
+                            <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.publishedAt">
+                                <strong id="publishedAt">
+                                    {{ "demo.educationalMaterial.publishedAt" | translate }}:
+                                </strong>
 
-                <time [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'" aria-labelledby="updatedAt">
-                  {{ collection.updatedAt | date: "d.M.yyyy HH:mm" }}
-                </time>
-              </span>
-            </div>
-            <!--/datetimes-->
+                                <time
+                                    [attr.datetime]="collection.publishedAt | date: 'yyyy-MM-dd HH:mm'"
+                                    aria-labelledby="publishedAt">
+                                    {{ collection.publishedAt | date: "d.M.yyyy HH:mm" }}
+                                </time>
+                            </span>
 
-            <p *ngIf="collection.description">{{ collection.description }}</p>
-            <!--/description-->
+                            <span class="datetime-item d-block d-md-inline-block" *ngIf="collection.updatedAt">
+                                <strong id="updatedAt">{{ "demo.educationalMaterial.updatedAt" | translate }}:</strong>
 
-            <app-taglist
-              *ngIf="collection.keywords?.length > 0"
-              elementId="collection-keywords"
-              [tags]="collection.keywords"
-              [title]="'collections.meta.keywords' | translate"
-              property="value"
-              searchProperty="key"
-              filterType="keywords"
-            ></app-taglist>
-            <!--keywords-->
+                                <time
+                                    [attr.datetime]="collection.updatedAt | date: 'yyyy-MM-dd HH:mm'"
+                                    aria-labelledby="updatedAt">
+                                    {{ collection.updatedAt | date: "d.M.yyyy HH:mm" }}
+                                </time>
+                            </span>
+                        </div>
+                        <!--/datetimes-->
 
-            <button
-              type="button"
-              class="btn btn-link px-0"
-              (click)="detailsExpanded = !detailsExpanded"
-              [attr.aria-expanded]="detailsExpanded"
-              aria-controls="metadata"
-            >
-              <ng-container *ngIf="detailsExpanded; else more">
-                {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
-              </ng-container>
+                        <p *ngIf="collection.description">{{ collection.description }}</p>
+                        <!--/description-->
 
-              <ng-template #more>{{ "demo.educationalMaterial.expandMetadata.more" | translate }}</ng-template>
-            </button>
-            <!--toggle metadata-->
+                        <app-taglist
+                            *ngIf="collection.keywords?.length > 0"
+                            elementId="collection-keywords"
+                            [tags]="collection.keywords"
+                            [title]="'collections.meta.keywords' | translate"
+                            property="value"
+                            searchProperty="key"
+                            filterType="keywords"></app-taglist>
+                        <!--keywords-->
 
-            <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
-              <app-taglist
-                *ngIf="collection.languages?.length > 0 && languages"
-                elementId="collection-languages"
-                [tags]="languages"
-                [title]="'collections.meta.languages' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="languages"
-              ></app-taglist>
-              <!--languages-->
+                        <button
+                            type="button"
+                            class="btn btn-link px-0"
+                            (click)="detailsExpanded = !detailsExpanded"
+                            [attr.aria-expanded]="detailsExpanded"
+                            aria-controls="metadata">
+                            <ng-container *ngIf="detailsExpanded; else more">
+                                {{ "demo.educationalMaterial.expandMetadata.less" | translate }}
+                            </ng-container>
 
-              <app-taglist
-                *ngIf="collection.educationalUses?.length > 0"
-                elementId="collection-educationalUses"
-                [tags]="collection.educationalUses"
-                [title]="'collections.meta.educationalUses' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="educationalUses"
-              ></app-taglist>
-              <!--educationalUses-->
+                            <ng-template #more>
+                                {{ "demo.educationalMaterial.expandMetadata.more" | translate }}
+                            </ng-template>
+                        </button>
+                        <!--toggle metadata-->
 
-              <app-taglist
-                *ngIf="collection.educationalRoles?.length > 0"
-                elementId="collection-educationalRoles"
-                [tags]="collection.educationalRoles"
-                [title]="'collections.meta.educationalRoles' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="educationalRoles"
-              ></app-taglist>
-              <!--educationalRoles-->
+                        <div id="metadata" [collapse]="!detailsExpanded" [isAnimated]="true">
+                            <app-taglist
+                                *ngIf="collection.languages?.length > 0 && languages"
+                                elementId="collection-languages"
+                                [tags]="languages"
+                                [title]="'collections.meta.languages' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="languages"></app-taglist>
+                            <!--languages-->
 
-              <app-taglist
-                *ngIf="collection.accessibilityFeatures?.length > 0"
-                elementId="collection-accessibilityFeatures"
-                [tags]="collection.accessibilityFeatures"
-                [title]="'collections.meta.accessibilityFeatures' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="accessibilityFeatures"
-              ></app-taglist>
-              <!--accessibilityFeatures-->
+                            <app-taglist
+                                *ngIf="collection.educationalUses?.length > 0"
+                                elementId="collection-educationalUses"
+                                [tags]="collection.educationalUses"
+                                [title]="'collections.meta.educationalUses' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="educationalUses"></app-taglist>
+                            <!--educationalUses-->
 
-              <app-taglist
-                *ngIf="collection.accessibilityHazards?.length > 0"
-                elementId="collection-accessibilityHazards"
-                [tags]="collection.accessibilityHazards"
-                [title]="'collections.meta.accessibilityHazards' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="accessibilityHazards"
-              ></app-taglist>
-              <!--accessibilityHazards-->
+                            <app-taglist
+                                *ngIf="collection.educationalRoles?.length > 0"
+                                elementId="collection-educationalRoles"
+                                [tags]="collection.educationalRoles"
+                                [title]="'collections.meta.educationalRoles' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="educationalRoles"></app-taglist>
+                            <!--educationalRoles-->
 
-              <app-taglist
-                *ngIf="collection.educationalLevels?.length > 0"
-                elementId="collection-educationalLevels"
-                [tags]="collection.educationalLevels"
-                [title]="'collections.meta.educationalLevels' | translate"
-                property="value"
-                searchProperty="key"
-                filterType="educationalLevels"
-              ></app-taglist>
-              <!--educationalLevels-->
+                            <app-taglist
+                                *ngIf="collection.accessibilityFeatures?.length > 0"
+                                elementId="collection-accessibilityFeatures"
+                                [tags]="collection.accessibilityFeatures"
+                                [title]="'collections.meta.accessibilityFeatures' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="accessibilityFeatures"></app-taglist>
+                            <!--accessibilityFeatures-->
 
-              <!--early childhood education-->
-              <app-taglist
-                *ngIf="collection.earlyChildhoodEducationSubjects?.length > 0"
-                elementId="collection-earlyChildhoodEducationSubjects"
-                [tags]="collection.earlyChildhoodEducationSubjects"
-                [title]="'collections.meta.earlyChildhoodEducationSubjects' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--earlyChildhoodEducationSubjects-->
+                            <app-taglist
+                                *ngIf="collection.accessibilityHazards?.length > 0"
+                                elementId="collection-accessibilityHazards"
+                                [tags]="collection.accessibilityHazards"
+                                [title]="'collections.meta.accessibilityHazards' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="accessibilityHazards"></app-taglist>
+                            <!--accessibilityHazards-->
 
-              <app-taglist
-                *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
-                elementId="collection-earlyChildhoodEducationObjectives"
-                [tags]="collection.earlyChildhoodEducationObjectives"
-                [title]="'collections.meta.earlyChildhoodEducationObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--earlyChildhoodEducationObjectives-->
+                            <app-taglist
+                                *ngIf="collection.educationalLevels?.length > 0"
+                                elementId="collection-educationalLevels"
+                                [tags]="collection.educationalLevels"
+                                [title]="'collections.meta.educationalLevels' | translate"
+                                property="value"
+                                searchProperty="key"
+                                filterType="educationalLevels"></app-taglist>
+                            <!--educationalLevels-->
 
-              <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
-                <strong class="h3 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
-                  {{ "collections.meta.earlyChildhoodEducationFramework" | translate }}
-                </strong>
+                            <!--early childhood education-->
+                            <app-taglist
+                                *ngIf="collection.earlyChildhoodEducationSubjects?.length > 0"
+                                elementId="collection-earlyChildhoodEducationSubjects"
+                                [tags]="collection.earlyChildhoodEducationSubjects"
+                                [title]="'collections.meta.earlyChildhoodEducationSubjects' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--earlyChildhoodEducationSubjects-->
 
-                <p aria-labelledby="collection-earlyChildhoodEducationFramework">
-                  {{ collection.earlyChildhoodEducationFramework }}
-                </p>
-              </ng-container>
-              <!--earlyChildhoodEducationFramework-->
-              <!--/early childhood education-->
+                            <app-taglist
+                                *ngIf="collection.earlyChildhoodEducationObjectives?.length > 0"
+                                elementId="collection-earlyChildhoodEducationObjectives"
+                                [tags]="collection.earlyChildhoodEducationObjectives"
+                                [title]="'collections.meta.earlyChildhoodEducationObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--earlyChildhoodEducationObjectives-->
 
-              <!--pre primary education-->
-              <app-taglist
-                *ngIf="collection.prePrimaryEducationSubjects?.length > 0"
-                elementId="collection-prePrimaryEducationSubjects"
-                [tags]="collection.prePrimaryEducationSubjects"
-                [title]="'collections.meta.prePrimaryEducationSubjects' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--prePrimaryEducationSubjects-->
+                            <ng-container *ngIf="collection.earlyChildhoodEducationFramework">
+                                <strong class="h3 d-block mb-2" id="collection-earlyChildhoodEducationFramework">
+                                    {{ "collections.meta.earlyChildhoodEducationFramework" | translate }}
+                                </strong>
 
-              <app-taglist
-                *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
-                elementId="collection-prePrimaryEducationObjectives"
-                [tags]="collection.prePrimaryEducationObjectives"
-                [title]="'collections.meta.prePrimaryEducationObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--prePrimaryEducationObjectives-->
+                                <p aria-labelledby="collection-earlyChildhoodEducationFramework">
+                                    {{ collection.earlyChildhoodEducationFramework }}
+                                </p>
+                            </ng-container>
+                            <!--earlyChildhoodEducationFramework-->
+                            <!--/early childhood education-->
 
-              <ng-container *ngIf="collection.prePrimaryEducationFramework">
-                <strong class="h3 d-block mb-2" id="collection-prePrimaryEducationFramework">
-                  {{ "collections.meta.prePrimaryEducationFramework" | translate }}
-                </strong>
+                            <!--pre primary education-->
+                            <app-taglist
+                                *ngIf="collection.prePrimaryEducationSubjects?.length > 0"
+                                elementId="collection-prePrimaryEducationSubjects"
+                                [tags]="collection.prePrimaryEducationSubjects"
+                                [title]="'collections.meta.prePrimaryEducationSubjects' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--prePrimaryEducationSubjects-->
 
-                <p aria-labelledby="collection-prePrimaryEducationFramework">
-                  {{ collection.prePrimaryEducationFramework }}
-                </p>
-              </ng-container>
-              <!--prePrimaryEducationFramework-->
-              <!--/pre primary education-->
+                            <app-taglist
+                                *ngIf="collection.prePrimaryEducationObjectives?.length > 0"
+                                elementId="collection-prePrimaryEducationObjectives"
+                                [tags]="collection.prePrimaryEducationObjectives"
+                                [title]="'collections.meta.prePrimaryEducationObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--prePrimaryEducationObjectives-->
 
-              <!--basic education-->
-              <app-taglist
-                *ngIf="collection.basicStudySubjects?.length > 0"
-                elementId="collection-basicStudySubjects"
-                [tags]="collection.basicStudySubjects"
-                [title]="'collections.meta.basicStudySubjects' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--basicStudySubjects-->
+                            <ng-container *ngIf="collection.prePrimaryEducationFramework">
+                                <strong class="h3 d-block mb-2" id="collection-prePrimaryEducationFramework">
+                                    {{ "collections.meta.prePrimaryEducationFramework" | translate }}
+                                </strong>
 
-              <app-taglist
-                *ngIf="collection.basicStudyObjectives?.length > 0"
-                elementId="collection-basicStudyObjectives"
-                [tags]="collection.basicStudyObjectives"
-                [title]="'collections.meta.basicStudyObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--basicStudyObjectives-->
+                                <p aria-labelledby="collection-prePrimaryEducationFramework">
+                                    {{ collection.prePrimaryEducationFramework }}
+                                </p>
+                            </ng-container>
+                            <!--prePrimaryEducationFramework-->
+                            <!--/pre primary education-->
 
-              <app-taglist
-                *ngIf="collection.basicStudyContents?.length > 0"
-                elementId="collection-basicStudyContents"
-                [tags]="collection.basicStudyContents"
-                [title]="'collections.meta.basicStudyContents' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--basicStudyContents-->
+                            <!--basic education-->
+                            <app-taglist
+                                *ngIf="collection.basicStudySubjects?.length > 0"
+                                elementId="collection-basicStudySubjects"
+                                [tags]="collection.basicStudySubjects"
+                                [title]="'collections.meta.basicStudySubjects' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--basicStudySubjects-->
 
-              <ng-container *ngIf="collection.basicStudyFramework">
-                <strong class="h3 d-block mb-2" id="collection-basicStudyFramework">
-                  {{ "collections.meta.basicStudyFramework" | translate }}
-                </strong>
+                            <app-taglist
+                                *ngIf="collection.basicStudyObjectives?.length > 0"
+                                elementId="collection-basicStudyObjectives"
+                                [tags]="collection.basicStudyObjectives"
+                                [title]="'collections.meta.basicStudyObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--basicStudyObjectives-->
 
-                <p aria-labelledby="collection-basicStudyFramework">{{ collection.basicStudyFramework }}</p>
-              </ng-container>
-              <!--basicStudyFramework-->
-              <!--/basic education-->
+                            <app-taglist
+                                *ngIf="collection.basicStudyContents?.length > 0"
+                                elementId="collection-basicStudyContents"
+                                [tags]="collection.basicStudyContents"
+                                [title]="'collections.meta.basicStudyContents' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--basicStudyContents-->
 
-              <!--upper secondary education-->
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolSubjectsOld?.length > 0"
-                elementId="collection-upperSecondarySchoolSubjectsOld"
-                [tags]="collection.upperSecondarySchoolSubjectsOld"
-                [title]="'collections.meta.upperSecondarySchoolSubjects' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--upperSecondarySchoolSubjectsOld-->
+                            <ng-container *ngIf="collection.basicStudyFramework">
+                                <strong class="h3 d-block mb-2" id="collection-basicStudyFramework">
+                                    {{ "collections.meta.basicStudyFramework" | translate }}
+                                </strong>
 
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolCoursesOld?.length > 0"
-                elementId="collection-upperSecondarySchoolCoursesOld"
-                [tags]="collection.upperSecondarySchoolCoursesOld"
-                [title]="'collections.meta.upperSecondarySchoolCourses' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--upperSecondarySchoolCoursesOld-->
+                                <p aria-labelledby="collection-basicStudyFramework">
+                                    {{ collection.basicStudyFramework }}
+                                </p>
+                            </ng-container>
+                            <!--basicStudyFramework-->
+                            <!--/basic education-->
 
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
-                elementId="collection-upperSecondarySchoolObjectives"
-                [tags]="collection.upperSecondarySchoolObjectives"
-                [title]="'collections.meta.upperSecondarySchoolObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--upperSecondarySchoolObjectives-->
+                            <!--upper secondary education-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolSubjectsOld?.length > 0"
+                                elementId="collection-upperSecondarySchoolSubjectsOld"
+                                [tags]="collection.upperSecondarySchoolSubjectsOld"
+                                [title]="'collections.meta.upperSecondarySchoolSubjects' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--upperSecondarySchoolSubjectsOld-->
 
-              <ng-container *ngIf="collection.upperSecondarySchoolFramework">
-                <strong class="h3 d-block mb-2" id="collection-upperSecondarySchoolFramework">
-                  {{ "collections.meta.upperSecondarySchoolFramework" | translate }}
-                </strong>
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolCoursesOld?.length > 0"
+                                elementId="collection-upperSecondarySchoolCoursesOld"
+                                [tags]="collection.upperSecondarySchoolCoursesOld"
+                                [title]="'collections.meta.upperSecondarySchoolCourses' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--upperSecondarySchoolCoursesOld-->
 
-                <p aria-labelledby="collection-upperSecondarySchoolFramework">
-                  {{ collection.upperSecondarySchoolFramework }}
-                </p>
-              </ng-container>
-              <!--upperSecondarySchoolFramework-->
-              <!--/upper secondary education (old)-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolObjectives?.length > 0"
+                                elementId="collection-upperSecondarySchoolObjectives"
+                                [tags]="collection.upperSecondarySchoolObjectives"
+                                [title]="'collections.meta.upperSecondarySchoolObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--upperSecondarySchoolObjectives-->
 
-              <!--upper secondary education (new)-->
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolSubjectsNew?.length > 0"
-                elementId="collection-upperSecondarySchoolSubjectsNew"
-                [tags]="collection.upperSecondarySchoolSubjectsNew"
-                [title]="'collections.meta.upperSecondarySchoolSubjectsNew' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--upperSecondarySchoolSubjectsNew-->
+                            <ng-container *ngIf="collection.upperSecondarySchoolFramework">
+                                <strong class="h3 d-block mb-2" id="collection-upperSecondarySchoolFramework">
+                                    {{ "collections.meta.upperSecondarySchoolFramework" | translate }}
+                                </strong>
 
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
-                elementId="collection-upperSecondarySchoolModulesNew"
-                [tags]="collection.upperSecondarySchoolModulesNew"
-                [title]="'collections.meta.upperSecondarySchoolModulesNew' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--upperSecondarySchoolModulesNew-->
+                                <p aria-labelledby="collection-upperSecondarySchoolFramework">
+                                    {{ collection.upperSecondarySchoolFramework }}
+                                </p>
+                            </ng-container>
+                            <!--upperSecondarySchoolFramework-->
+                            <!--/upper secondary education (old)-->
 
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
-                elementId="collection-upperSecondarySchoolObjectivesNew"
-                [tags]="collection.upperSecondarySchoolObjectivesNew"
-                [title]="'collections.meta.upperSecondarySchoolObjectivesNew' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--upperSecondarySchoolObjectivesNew-->
+                            <!--upper secondary education (new)-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolSubjectsNew?.length > 0"
+                                elementId="collection-upperSecondarySchoolSubjectsNew"
+                                [tags]="collection.upperSecondarySchoolSubjectsNew"
+                                [title]="'collections.meta.upperSecondarySchoolSubjectsNew' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--upperSecondarySchoolSubjectsNew-->
 
-              <app-taglist
-                *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
-                elementId="collection-upperSecondarySchoolContentsNew"
-                [tags]="collection.upperSecondarySchoolContentsNew"
-                [title]="'collections.meta.upperSecondarySchoolContentsNew' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--upperSecondarySchoolContentsNew-->
-              <!--/upper secondary education (new)-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolModulesNew?.length > 0"
+                                elementId="collection-upperSecondarySchoolModulesNew"
+                                [tags]="collection.upperSecondarySchoolModulesNew"
+                                [title]="'collections.meta.upperSecondarySchoolModulesNew' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--upperSecondarySchoolModulesNew-->
 
-              <!--vocational education-->
-              <app-taglist
-                *ngIf="collection.vocationalDegrees?.length > 0"
-                elementId="collection-vocationalDegrees"
-                [tags]="collection.vocationalDegrees"
-                [title]="'collections.meta.vocationalDegrees' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--vocationalDegrees-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolObjectivesNew?.length > 0"
+                                elementId="collection-upperSecondarySchoolObjectivesNew"
+                                [tags]="collection.upperSecondarySchoolObjectivesNew"
+                                [title]="'collections.meta.upperSecondarySchoolObjectivesNew' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--upperSecondarySchoolObjectivesNew-->
 
-              <app-taglist
-                *ngIf="collection.vocationalUnits?.length > 0"
-                elementId="collection-vocationalUnits"
-                [tags]="collection.vocationalUnits"
-                [title]="'collections.meta.vocationalUnits' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--vocationalUnits-->
+                            <app-taglist
+                                *ngIf="collection.upperSecondarySchoolContentsNew?.length > 0"
+                                elementId="collection-upperSecondarySchoolContentsNew"
+                                [tags]="collection.upperSecondarySchoolContentsNew"
+                                [title]="'collections.meta.upperSecondarySchoolContentsNew' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--upperSecondarySchoolContentsNew-->
+                            <!--/upper secondary education (new)-->
 
-              <app-taglist
-                *ngIf="collection.subjectOfCommonUnit?.length > 0"
-                elementId="collection-subjectOfCommonUnit"
-                [tags]="collection.subjectOfCommonUnit"
-                [title]="'collections.meta.vocationalCommonUnits' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--vocationalUnits-->
+                            <!--vocational education-->
+                            <app-taglist
+                                *ngIf="collection.vocationalDegrees?.length > 0"
+                                elementId="collection-vocationalDegrees"
+                                [tags]="collection.vocationalDegrees"
+                                [title]="'collections.meta.vocationalDegrees' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--vocationalDegrees-->
 
-              <app-taglist
-                *ngIf="collection.vocationalRequirements?.length > 0"
-                elementId="collection-vocationalRequirements"
-                [tags]="collection.vocationalRequirements"
-                [title]="'collections.meta.vocationalEducationObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--vocationalRequirements-->
+                            <app-taglist
+                                *ngIf="collection.vocationalUnits?.length > 0"
+                                elementId="collection-vocationalUnits"
+                                [tags]="collection.vocationalUnits"
+                                [title]="'collections.meta.vocationalUnits' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--vocationalUnits-->
 
-              <ng-container *ngIf="collection.vocationalEducationFramework">
-                <strong class="h3 d-block mb-2" id="collection-vocationalEducationFramework">
-                  {{ "collections.meta.vocationalEducationFramework" | translate }}
-                </strong>
+                            <app-taglist
+                                *ngIf="collection.subjectOfCommonUnit?.length > 0"
+                                elementId="collection-subjectOfCommonUnit"
+                                [tags]="collection.subjectOfCommonUnit"
+                                [title]="'collections.meta.vocationalCommonUnits' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--vocationalUnits-->
 
-                <p aria-labelledby="collection-vocationalEducationFramework">
-                  {{ collection.vocationalEducationFramework }}
-                </p>
-              </ng-container>
-              <!--vocationalEducationFramework-->
-              <!--/vocational education-->
+                            <app-taglist
+                                *ngIf="collection.vocationalRequirements?.length > 0"
+                                elementId="collection-vocationalRequirements"
+                                [tags]="collection.vocationalRequirements"
+                                [title]="'collections.meta.vocationalEducationObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--vocationalRequirements-->
 
-              <!--self-motivated education-->
-              <app-taglist
-                *ngIf="collection.selfMotivatedEducationSubjects?.length > 0"
-                elementId="collection-selfMotivatedEducationSubjects"
-                [tags]="collection.selfMotivatedEducationSubjects"
-                [title]="'collections.meta.selfMotivatedEducationSubjects' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--selfMotivatedEducationSubjects-->
+                            <ng-container *ngIf="collection.vocationalEducationFramework">
+                                <strong class="h3 d-block mb-2" id="collection-vocationalEducationFramework">
+                                    {{ "collections.meta.vocationalEducationFramework" | translate }}
+                                </strong>
 
-              <app-taglist
-                *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
-                elementId="collection-selfMotivatedEducationObjectives"
-                [tags]="collection.selfMotivatedEducationObjectives"
-                [title]="'collections.meta.selfMotivatedEducationObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--selfMotivatedEducationObjectives-->
-              <!--/self-motivated education-->
+                                <p aria-labelledby="collection-vocationalEducationFramework">
+                                    {{ collection.vocationalEducationFramework }}
+                                </p>
+                            </ng-container>
+                            <!--vocationalEducationFramework-->
+                            <!--/vocational education-->
 
-              <!--higher education-->
-              <app-taglist
-                *ngIf="collection.scienceBranches?.length > 0"
-                elementId="collection-scienceBranches"
-                [tags]="collection.scienceBranches"
-                [title]="'collections.meta.scienceBranches' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="educationalSubjects"
-              ></app-taglist>
-              <!--scienceBranches-->
+                            <!--self-motivated education-->
+                            <app-taglist
+                                *ngIf="collection.selfMotivatedEducationSubjects?.length > 0"
+                                elementId="collection-selfMotivatedEducationSubjects"
+                                [tags]="collection.selfMotivatedEducationSubjects"
+                                [title]="'collections.meta.selfMotivatedEducationSubjects' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--selfMotivatedEducationSubjects-->
 
-              <app-taglist
-                *ngIf="collection.scienceBranchObjectives?.length > 0"
-                elementId="collection-scienceBranchObjectives"
-                [tags]="collection.scienceBranchObjectives"
-                [title]="'collections.meta.scienceBranchObjectives' | translate"
-                property="targetName"
-                searchProperty="key"
-                filterType="teaches"
-              ></app-taglist>
-              <!--scienceBranchObjectives-->
+                            <app-taglist
+                                *ngIf="collection.selfMotivatedEducationObjectives?.length > 0"
+                                elementId="collection-selfMotivatedEducationObjectives"
+                                [tags]="collection.selfMotivatedEducationObjectives"
+                                [title]="'collections.meta.selfMotivatedEducationObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--selfMotivatedEducationObjectives-->
+                            <!--/self-motivated education-->
 
-              <ng-container *ngIf="collection.higherEducationFramework">
-                <strong class="h3 d-block mb-2" id="collection-higherEducationFramework">
-                  {{ "collections.meta.higherEducationFramework" | translate }}
-                </strong>
+                            <!--higher education-->
+                            <app-taglist
+                                *ngIf="collection.scienceBranches?.length > 0"
+                                elementId="collection-scienceBranches"
+                                [tags]="collection.scienceBranches"
+                                [title]="'collections.meta.scienceBranches' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="educationalSubjects"></app-taglist>
+                            <!--scienceBranches-->
 
-                <p aria-labelledby="collection-higherEducationFramework">{{ collection.higherEducationFramework }}</p>
-              </ng-container>
-              <!--higherEducationFramework-->
-              <!--/higher education-->
-            </div>
-            <!--/metadata-->
+                            <app-taglist
+                                *ngIf="collection.scienceBranchObjectives?.length > 0"
+                                elementId="collection-scienceBranchObjectives"
+                                [tags]="collection.scienceBranchObjectives"
+                                [title]="'collections.meta.scienceBranchObjectives' | translate"
+                                property="targetName"
+                                searchProperty="key"
+                                filterType="teaches"></app-taglist>
+                            <!--scienceBranchObjectives-->
 
-            <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
-              <div
-                class="collection-material"
-                *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index"
-              >
-                <ng-container *ngIf="materialOrHeading.id; else heading">
-                  <h2 *ngIf="headingLevels.get(i) === 'h2'; else h3" class="title">
-                    <a [routerLink]="['/materiaali', materialOrHeading.id]">
-                      {{ materialDetails.get(materialOrHeading.id).name[lang] }}
-                    </a>
-                  </h2>
+                            <ng-container *ngIf="collection.higherEducationFramework">
+                                <strong class="h3 d-block mb-2" id="collection-higherEducationFramework">
+                                    {{ "collections.meta.higherEducationFramework" | translate }}
+                                </strong>
 
-                  <ng-template #h3>
-                    <h3 class="title">
-                      <a [routerLink]="['/materiaali', materialOrHeading.id]">
-                        {{ materialDetails.get(materialOrHeading.id).name[lang] }}
-                      </a>
-                    </h3>
-                  </ng-template>
+                                <p aria-labelledby="collection-higherEducationFramework">
+                                    {{ collection.higherEducationFramework }}
+                                </p>
+                            </ng-container>
+                            <!--higherEducationFramework-->
+                            <!--/higher education-->
+                        </div>
+                        <!--/metadata-->
 
-                  <ul class="list-unstyled authors">
-                    <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
-                      <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
-                        {{ author.authorname }}
-                        <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
-                      </ng-container>
-
-                      <ng-template #organizationAuthor>{{ author.organization }}</ng-template>
-                    </li>
-                  </ul>
-                  <!--authors-->
-
-                  <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
-                    <div class="list-files mb-4" *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
-                      <div class="row no-gutters">
-                        <div class="col-3">
-                          <ng-container *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
-                            <h3 [id]="'selectLanguage' + materialOrHeading.id">
-                              {{ "materialPreview.selectLanguage" | translate }}
-                            </h3>
-
+                        <ng-container *ngIf="collection.materialsAndHeadings?.length > 0; else noMaterials">
                             <div
-                              class="btn-group mb-3"
-                              role="tablist"
-                              [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id"
-                            >
-                              <button
-                                type="button"
-                                class="btn btn-gray"
-                                *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
-                                [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
-                                [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
-                                [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
-                                [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
-                                role="tab"
-                                (click)="setSelectedLanguage(materialOrHeading.id, lang)"
-                              >
-                                {{ lang }}
-                              </button>
-                            </div>
-                          </ng-container>
+                                class="collection-material"
+                                *ngFor="let materialOrHeading of collection.materialsAndHeadings; let i = index">
+                                <ng-container *ngIf="materialOrHeading.id; else heading">
+                                    <h2 *ngIf="headingLevels.get(i) === 'h2'; else h3" class="title">
+                                        <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                                            {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                                        </a>
+                                    </h2>
 
-                          <div
-                            *ngIf="
+                                    <ng-template #h3>
+                                        <h3 class="title">
+                                            <a [routerLink]="['/materiaali', materialOrHeading.id]">
+                                                {{ materialDetails.get(materialOrHeading.id).name[lang] }}
+                                            </a>
+                                        </h3>
+                                    </ng-template>
+
+                                    <ul class="list-unstyled authors">
+                                        <li *ngFor="let author of materialDetails.get(materialOrHeading.id).authors">
+                                            <ng-container *ngIf="author.authorname !== ''; else organizationAuthor">
+                                                {{ author.authorname }}
+                                                <ng-container *ngIf="author.organization">
+                                                    ({{ author.organization }})
+                                                </ng-container>
+                                            </ng-container>
+
+                                            <ng-template #organizationAuthor>{{ author.organization }}</ng-template>
+                                        </li>
+                                    </ul>
+                                    <!--authors-->
+
+                                    <div *ngIf="materialsLoading.get(materialOrHeading.id) === false; else loading">
+                                        <div
+                                            class="list-files mb-4"
+                                            *ngIf="collectionMaterials.get(materialOrHeading.id).length > 0">
+                                            <div class="row no-gutters">
+                                                <div class="col-3">
+                                                    <ng-container
+                                                        *ngIf="materialLanguages.get(materialOrHeading.id).length > 1">
+                                                        <h3 [id]="'selectLanguage' + materialOrHeading.id">
+                                                            {{ "materialPreview.selectLanguage" | translate }}
+                                                        </h3>
+
+                                                        <div
+                                                            class="btn-group mb-3"
+                                                            role="tablist"
+                                                            [attr.aria-labelledby]="'selectLanguage' + materialOrHeading.id">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-gray"
+                                                                *ngFor="let lang of materialLanguages.get(materialOrHeading.id)"
+                                                                [ngClass]="lang === selectedLanguages.get(materialOrHeading.id) ? 'active' : ''"
+                                                                [attr.aria-selected]="lang === selectedLanguages.get(materialOrHeading.id)"
+                                                                [attr.aria-controls]="'fileList-' + materialOrHeading.id + '-' + lang"
+                                                                [id]="'langSelector-' + materialOrHeading.id + '-' + lang"
+                                                                role="tab"
+                                                                (click)="setSelectedLanguage(materialOrHeading.id, lang)">
+                                                                {{ lang }}
+                                                            </button>
+                                                        </div>
+                                                    </ng-container>
+
+                                                    <div
+                                                        *ngIf="
                               collectionMaterials.get(materialOrHeading.id)
                                 | materialLanguage: selectedLanguages.get(materialOrHeading.id) as materials
                             "
-                            [id]="
+                                                        [id]="
                               'fileList-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
                             "
-                            role="tabpanel"
-                            [attr.aria-labelledby]="
+                                                        role="tabpanel"
+                                                        [attr.aria-labelledby]="
                               'langSelector-' + materialOrHeading.id + '-' + selectedLanguages.get(materialOrHeading.id)
-                            "
-                          >
-                            <h3
-                              [id]="'selectMaterial' + materialOrHeading.id"
-                              [ngClass]="materials.length === 1 ? 'sr-only' : ''"
-                            >
-                              {{ "materialPreview.selectMaterial" | translate }}
-                            </h3>
+                            ">
+                                                        <h3
+                                                            [id]="'selectMaterial' + materialOrHeading.id"
+                                                            [ngClass]="materials.length === 1 ? 'sr-only' : ''">
+                                                            {{ "materialPreview.selectMaterial" | translate }}
+                                                        </h3>
 
-                            <div
-                              class="btn-group-vertical"
-                              role="tablist"
-                              [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id"
-                            >
-                              <ng-container *ngFor="let material of materials">
-                                <button
-                                  type="button"
-                                  class="btn btn-file text-dark"
-                                  [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
-                                  [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
-                                  [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
-                                  [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
-                                  role="tab"
-                                  (click)="setPreviewMaterial(materialOrHeading.id, material)"
-                                >
-                                  {{ material.displayName[lang] }}
-                                </button>
-                              </ng-container>
-                            </div>
-                          </div>
-                        </div>
+                                                        <div
+                                                            class="btn-group-vertical"
+                                                            role="tablist"
+                                                            [attr.aria-labelledby]="'selectMaterial' + materialOrHeading.id">
+                                                            <ng-container *ngFor="let material of materials">
+                                                                <button
+                                                                    type="button"
+                                                                    class="btn btn-file text-dark"
+                                                                    [ngClass]="material === previewMaterials.get(materialOrHeading.id) ? 'active' : ''"
+                                                                    [attr.aria-selected]="material === previewMaterials.get(materialOrHeading.id)"
+                                                                    [attr.aria-controls]="'filePreview-' + materialOrHeading.id + '-' + material.id"
+                                                                    [id]="'fileSelector-' + materialOrHeading.id + '-' + material.id"
+                                                                    role="tab"
+                                                                    (click)="setPreviewMaterial(materialOrHeading.id, material)">
+                                                                    {{ material.displayName[lang] }}
+                                                                </button>
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                        <div class="col-9">
-                          <div
-                            [id]="
+                                                <div class="col-9">
+                                                    <div
+                                                        [id]="
                               'filePreview-' +
                               materialOrHeading.id +
                               '-' +
                               previewMaterials.get(materialOrHeading.id).id
                             "
-                            role="tabpanel"
-                            [attr.aria-labelledby]="
+                                                        role="tabpanel"
+                                                        [attr.aria-labelledby]="
                               'fileSelector-' +
                               materialOrHeading.id +
                               '-' +
                               previewMaterials.get(materialOrHeading.id).id
-                            "
-                          >
-                            <app-educational-material-preview
-                              [material]="previewMaterials.get(materialOrHeading.id)"
-                              [isCollection]="true"
-                              *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"
-                            ></app-educational-material-preview>
+                            ">
+                                                        <app-educational-material-preview
+                                                            [material]="previewMaterials.get(materialOrHeading.id)"
+                                                            [isCollection]="true"
+                                                            *ngIf="!previewMaterials.get(materialOrHeading.id).link; else linkPreview"></app-educational-material-preview>
 
-                            <ng-template #linkPreview>
-                              <div class="link-preview">
-                                <a
-                                  [href]="previewMaterials.get(materialOrHeading.id).link"
-                                  class="btn btn-secondary"
-                                  target="_blank"
-                                  rel="noopener nofollow"
-                                >
-                                  {{ "demo.educationalMaterial.preview.openInNewTab" | translate }} ({{
-                                    previewMaterials.get(materialOrHeading.id).domain
-                                  }})
-                                </a>
-                              </div>
-                            </ng-template>
-                          </div>
-                        </div>
-                      </div>
+                                                        <ng-template #linkPreview>
+                                                            <div class="link-preview">
+                                                                <a
+                                                                    [href]="previewMaterials.get(materialOrHeading.id).link"
+                                                                    class="btn btn-secondary"
+                                                                    target="_blank"
+                                                                    rel="noopener nofollow">
+                                                                    {{ "demo.educationalMaterial.preview.openInNewTab" |
+                                                                    translate }} ({{
+                                                                    previewMaterials.get(materialOrHeading.id).domain
+                                                                    }})
+                                                                </a>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <ng-template #loading>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">{{ "collections.loading" | translate }}</span>
+                                        </div>
+                                    </ng-template>
+                                </ng-container>
+                                <!--material-->
+
+                                <ng-template #heading>
+                                    <h2 class="title">{{ materialOrHeading.heading }}</h2>
+
+                                    <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
+                                </ng-template>
+                                <!--heading-->
+                            </div>
+                        </ng-container>
+                        <!--/materials and headings a-->
+
+                        <ng-template #noMaterials>
+                            <p>{{ "collections.noMaterials" | translate }}</p>
+                        </ng-template>
+                        <!--no materials or headings-->
                     </div>
-                  </div>
-
-                  <ng-template #loading>
-                    <div class="spinner-border" role="status">
-                      <span class="sr-only">{{ "collections.loading" | translate }}</span>
-                    </div>
-                  </ng-template>
-                </ng-container>
-                <!--material-->
-
-                <ng-template #heading>
-                  <h2 class="title">{{ materialOrHeading.heading }}</h2>
-
-                  <p *ngIf="materialOrHeading.description">{{ materialOrHeading.description }}</p>
-                </ng-template>
-                <!--heading-->
-              </div>
+                    <!--/right column-->
+                </div>
             </ng-container>
-            <!--/materials and headings a-->
-
-            <ng-template #noMaterials>
-              <p>{{ "collections.noMaterials" | translate }}</p>
-            </ng-template>
-            <!--no materials or headings-->
-          </div>
-          <!--/right column-->
-        </div>
-      </ng-container>
-    </ng-template>
-  </div>
+        </ng-template>
+    </div>
 </div>

@@ -1,4 +1,4 @@
 export interface AddToCollectionPost {
-  collectionId: number;
-  emId: number[];
+    collectionId: number;
+    emId: number[];
 }

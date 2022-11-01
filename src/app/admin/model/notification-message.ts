@@ -1,4 +1,4 @@
 export interface NotificationMessage {
-  notification: string;
-  updated: string;
+    notification: string;
+    updated: string;
 }
