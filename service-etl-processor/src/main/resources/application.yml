@@ -1,6 +1,6 @@
 logging:
   level:
-    org.apache.kafka: ERROR
+    org.apache.kafka: INFO
     org.springframework: ERROR
 server:
   port: 8001

@@ -21,12 +21,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .anyRequest().denyAll();
     }
 
-    /*@Bean
-    public SecurityWebFilterChain securityWebFilterChain(
-            ServerHttpSecurity http) {
-        return http.authorizeExchange()
-                .pathMatchers("/actuator/**").permitAll()
-                .anyExchange().authenticated()
-                .and().build();
-    }*/
+//    @Bean
+//    public SecurityWebFilterChain securityWebFilterChain(
+//            ServerHttpSecurity http) {
+//        return http.authorizeExchange()
+//                .pathMatchers("/actuator/**").permitAll()
+//                .anyExchange().authenticated()
+//                .and().build();
+//    }
 }

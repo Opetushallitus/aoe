@@ -6,7 +6,7 @@ Logical application components are separated in the modular structure of the pro
 
 ## Status Check
 Status check endpoint provided by Actuator at
-<pre>[root]/actuator/health</pre>
+<pre>[api]/actuator/health</pre>
 
 ## Compile Project
 Compile the project with all its modules at root

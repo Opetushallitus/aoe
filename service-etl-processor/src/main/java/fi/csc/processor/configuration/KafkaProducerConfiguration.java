@@ -1,6 +1,6 @@
 package fi.csc.processor.configuration;
 
-import fi.csc.processor.model.Person;
+import fi.csc.processor.model.SearchRequest;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -20,11 +20,11 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfiguration {
 
-    @Value(value = "127.0.0.1:9092,127.0.0.1:9094,127.0.0.1:9096")
+    @Value(value = "${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, Person> producerFactory() {
+    public ProducerFactory<String, SearchRequest> producerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -34,7 +34,7 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, Person> kafkaTemplate() {
+    public KafkaTemplate<String, SearchRequest> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
@@ -47,6 +47,6 @@ public class KafkaProducerConfiguration {
 
     @Bean
     public NewTopic topicNotes() {
-        return new NewTopic("notes", 3, (short) 1);
+        return new NewTopic("search_requests", 2, (short) 2);
     }
 }
