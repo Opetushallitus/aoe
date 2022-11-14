@@ -1,6 +1,6 @@
 package fi.csc.processor.controller;
 
-import fi.csc.processor.model.Person;
+import fi.csc.processor.model.SearchRequest;
 import fi.csc.processor.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ public class KafkaController {
     }
 
     @PostMapping(path = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopic(@RequestBody Person person) {
-        this.kafkaProducer.sendMessage(person);
+    public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopic(@RequestBody SearchRequest searchRequest) {
+        this.kafkaProducer.sendMessage(searchRequest);
         return async(() -> new ResponseEntity<>(HttpStatus.CREATED));
     }
 }

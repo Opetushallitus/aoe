@@ -1,6 +1,6 @@
 package fi.csc.processor.producer;
 
-import fi.csc.processor.model.Person;
+import fi.csc.processor.model.SearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +15,22 @@ public class KafkaProducer {
 
     private static final Logger LOG = LoggerFactory.getLogger(KafkaProducer.class.getSimpleName());
     private static final String TOPIC = "search_requests";
-    private KafkaTemplate<String, Person> kafkaTemplate;
+    private KafkaTemplate<String, SearchRequest> kafkaTemplate;
 
     @Autowired
-    private KafkaProducer(KafkaTemplate<String, Person> kafkaTemplate) {
+    private KafkaProducer(KafkaTemplate<String, SearchRequest> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(Person person) {
-        LOG.info(String.format("Producing message -> %s", person));
+    public void sendMessage(SearchRequest searchRequest) {
+        LOG.info(String.format("Producing message -> %s", searchRequest));
 
-        ListenableFuture<SendResult<String, Person>> future = this.kafkaTemplate.send(TOPIC, person);
+        ListenableFuture<SendResult<String, SearchRequest>> future = this.kafkaTemplate.send(TOPIC, searchRequest);
 
         future.addCallback(new ListenableFutureCallback<>() {
 
             @Override
-            public void onSuccess(SendResult<String, Person> result) {
+            public void onSuccess(SendResult<String, SearchRequest> result) {
                 LOG.info(String.format("Sent message with offset=%s", result.getRecordMetadata().offset()));
             }
 
