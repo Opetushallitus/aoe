@@ -1,0 +1,51 @@
+variables:
+  DOCKER_HOST: unix:///var/run/docker.sock
+  DOCKER_DRIVER: overlay2
+
+image:
+  name: docker/compose:1.29.2
+
+services:
+  - name: docker:dind
+    alias: docker
+
+stages:
+  - build
+  - deploy
+  - cleanup
+
+before_script:
+  - docker version
+  - docker-compose version
+
+build_dev:
+  stage: build
+  script:
+    - echo "DEMO build"
+    - docker-compose down
+    - docker-compose build
+  only:
+    - dev
+  tags:
+    - oaipmh
+
+deploy_dev:
+  stage: deploy
+  script:
+    - echo "DEMO deploy"
+    - docker-compose up -d
+  only:
+    - dev
+  tags:
+    - oaipmh
+
+cleanup_dev:
+  stage: cleanup
+  script:
+    - echo "Cleaning up the system"
+    - docker system prune -a --volumes -f
+  only:
+    - dev
+  tags:
+    - oaipmh
+  when: manual

@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.9'
 services:
   aoe-etl-processor:
     build:
@@ -8,9 +8,13 @@ services:
     container_name: aoe-etl-processor
     restart: unless-stopped
     ports:
-      - "8001:8001"
+      - '8001:8001'
     env_file:
-      - ./service-etl-processor/.env
+      - /environment/aoe-data-analytics/.env
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
     networks:
       - network-etl-processor
 
