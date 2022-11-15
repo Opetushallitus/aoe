@@ -3,7 +3,7 @@ logging:
     org.apache.kafka: INFO
     org.springframework: ERROR
 server:
-  port:
+  port: 8080
   servlet:
     context-path: /api
 spring:

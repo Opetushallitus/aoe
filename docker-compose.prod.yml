@@ -12,7 +12,7 @@ services:
     ports:
       - '8080:8080'
     env_file:
-      - ./service-etl-processor/.env
+      - /environment/aoe-data-analytics/.env
     logging:
       options:
         max-size: '10m'

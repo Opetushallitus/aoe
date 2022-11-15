@@ -22,8 +22,8 @@ build_dev:
   stage: build
   script:
     - echo "DEMO build"
-    - docker-compose down
-    - docker-compose build
+    - docker-compose -f docker-compose.prod.yml down
+    - docker-compose -f docker-compose.prod.yml build
   only:
     - dev
   tags:
@@ -33,7 +33,7 @@ deploy_dev:
   stage: deploy
   script:
     - echo "DEMO deploy"
-    - docker-compose up -d
+    - docker-compose -f docker-compose.prod.yml up -d
   only:
     - dev
   tags:
