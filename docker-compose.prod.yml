@@ -18,7 +18,8 @@ services:
         max-size: '10m'
         max-file: '3'
     networks:
-      - network-etl-processor
+      - apache-kafka_network-kafka
 
 networks:
-  network-etl-processor:
+  apache-kafka_network-kafka:
+    external: true
