@@ -1,5 +1,6 @@
 package fi.csc.processor.configuration;
 
+import fi.csc.processor.model.MaterialActivity;
 import fi.csc.processor.model.SearchRequest;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -8,6 +9,7 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -23,8 +25,14 @@ public class KafkaProducerConfiguration {
     @Value(value = "${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
+    @Value(value = "${kafka.topic.material-activity}")
+    private String topicMaterialActivity;
+
+    @Value(value = "${kafka.topic.search-requests}")
+    private String topicSearchRequests;
+
     @Bean
-    public ProducerFactory<String, SearchRequest> producerFactory() {
+    public ProducerFactory<String, SearchRequest> producerFactorySearchRequest() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -34,8 +42,23 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, SearchRequest> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, SearchRequest> kafkaTemplateSearchRequest() {
+        return new KafkaTemplate<>(producerFactorySearchRequest());
+    }
+
+    @Bean
+    public ProducerFactory<String, MaterialActivity> producerFactoryMaterialActivity() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        // configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, MaterialActivity> kafkaTemplateMaterialActivity() {
+        return new KafkaTemplate<>(producerFactoryMaterialActivity());
     }
 
     @Bean
@@ -46,7 +69,20 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public NewTopic topicNotes() {
-        return new NewTopic("search_requests", 2, (short) 2);
+    public NewTopic topicMaterialActivity() {
+        return TopicBuilder.name(topicMaterialActivity)
+            .partitions(2)
+            .replicas(2)
+            .build();
+//        return new NewTopic("material_activity", 2, (short) 2);
+    }
+
+    @Bean
+    public NewTopic topicSearchRequests() {
+        return TopicBuilder.name(topicSearchRequests)
+            .partitions(2)
+            .replicas(2)
+            .build();
+//        return new NewTopic("search_requests", 2, (short) 2);
     }
 }

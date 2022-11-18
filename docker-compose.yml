@@ -18,7 +18,9 @@ services:
         max-size: '10m'
         max-file: '3'
     networks:
-      - network-etl-processor
+      - network-analytics
 
 networks:
-  network-etl-processor:
+  network-analytics:
+    external: true
+    name: network-analytics

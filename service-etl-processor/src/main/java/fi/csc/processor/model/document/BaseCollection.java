@@ -18,5 +18,6 @@ public class BaseCollection implements Serializable {
 
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     protected LocalDateTime timestamp;
+    protected String sessionId;
 
 }

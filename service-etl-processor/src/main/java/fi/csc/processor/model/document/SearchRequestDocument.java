@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @Document(collection = "search_requests")
 public class SearchRequestDocument extends BaseCollection {
-    private String sessionId;
     private String keywords;
     private SearchFilter filters;
 }

@@ -15,7 +15,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/kafka/publish").permitAll()
+            .antMatchers(HttpMethod.POST, "/produce/*").permitAll()
             .antMatchers(HttpMethod.GET, "/status").permitAll()
             .antMatchers("/actuator/**").permitAll()
             .anyRequest().denyAll();

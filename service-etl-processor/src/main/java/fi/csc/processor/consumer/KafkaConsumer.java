@@ -1,7 +1,10 @@
 package fi.csc.processor.consumer;
 
+import fi.csc.processor.model.MaterialActivity;
 import fi.csc.processor.model.SearchRequest;
+import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
+import fi.csc.processor.repository.MaterialActivityRepository;
 import fi.csc.processor.repository.SearchRequestRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,17 +25,38 @@ public class KafkaConsumer implements ConsumerSeekAware {
     private final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class.getSimpleName());
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .withZone(ZoneId.of("UTC"));
+    private final MaterialActivityRepository materialActivityRepository;
     private final SearchRequestRepository searchRequestRepository;
 
     @Autowired
-    public KafkaConsumer(SearchRequestRepository searchRequestRepository) {
+    public KafkaConsumer(
+        MaterialActivityRepository materialActivityRepository,
+        SearchRequestRepository searchRequestRepository) {
+        this.materialActivityRepository = materialActivityRepository;
         this.searchRequestRepository = searchRequestRepository;
     }
 
     @KafkaListener(
-        topics = "search_requests",
-        groupId = "aoe-analytics",
-        containerFactory = "kafkaListener",
+        topics = "${kafka.topic.material-activity}",
+        groupId = "${kafka.group-id.material-activity}",
+        containerFactory = "kafkaListenerMaterialActivity",
+        properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
+    public void consume(
+        @Payload MaterialActivity materialActivity, // byte[] payload
+        @Header(KafkaHeaders.OFFSET) int offset) {
+        MaterialActivityDocument materialActivityDocument = new MaterialActivityDocument();
+        materialActivityDocument.setTimestamp(LocalDateTime.parse(materialActivity.getTimestamp(), formatter));
+        materialActivityDocument.setSessionId(materialActivity.getSessionId());
+        materialActivityDocument.setEduMaterialId(materialActivity.getEduMaterialId());
+        materialActivityDocument.setInteraction(materialActivity.getInteraction());
+        materialActivityRepository.save(materialActivityDocument);
+        LOG.info(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
+    }
+
+    @KafkaListener(
+        topics = "${kafka.topic.search-requests}",
+        groupId = "${kafka.group-id.search-requests}",
+        containerFactory = "kafkaListenerSearchRequests",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consume(
         @Payload SearchRequest searchRequest, // byte[] payload

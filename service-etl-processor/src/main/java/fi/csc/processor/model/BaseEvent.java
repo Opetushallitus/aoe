@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchRequest extends BaseEvent {
-    private String keywords;
-    private SearchFilter filters;
+public class BaseEvent {
+    private String sessionId;
+    private String timestamp;
 }

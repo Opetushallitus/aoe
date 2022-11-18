@@ -1,5 +1,6 @@
 package fi.csc.processor.controller;
 
+import fi.csc.processor.model.MaterialActivity;
 import fi.csc.processor.model.SearchRequest;
 import fi.csc.processor.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ import java.util.concurrent.CompletableFuture;
 import static fi.csc.processor.utils.AsyncUtil.async;
 
 @RestController
-@RequestMapping(value = "/kafka")
+@RequestMapping(value = "/produce")
 public class KafkaController {
-
     private final KafkaProducer kafkaProducer;
 
     @Autowired
@@ -26,9 +26,19 @@ public class KafkaController {
         this.kafkaProducer = kafkaProducer;
     }
 
-    @PostMapping(path = "/publish", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/materialactivity", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopic(@RequestBody MaterialActivity materialActivity) {
+        return async(() -> {
+            this.kafkaProducer.sendMaterialActivity(materialActivity);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        });
+    }
+
+    @PostMapping(path = "/searchrequests", consumes = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopic(@RequestBody SearchRequest searchRequest) {
-        this.kafkaProducer.sendMessage(searchRequest);
-        return async(() -> new ResponseEntity<>(HttpStatus.CREATED));
+        return async(() -> {
+            this.kafkaProducer.sendSearchRequests(searchRequest);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        });
     }
 }
