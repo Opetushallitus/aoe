@@ -40,7 +40,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.material-activity}",
         groupId = "${kafka.group-id.material-activity}",
         containerFactory = "kafkaListenerMaterialActivity",
-        autoStartup = "false",
+        autoStartup = "true",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consume(
         @Payload MaterialActivity materialActivity, // byte[] payload
@@ -58,7 +58,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.search-requests}",
         groupId = "${kafka.group-id.search-requests}",
         containerFactory = "kafkaListenerSearchRequests",
-        autoStartup = "false",
+        autoStartup = "true",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consume(
         @Payload SearchRequest searchRequest, // byte[] payload
