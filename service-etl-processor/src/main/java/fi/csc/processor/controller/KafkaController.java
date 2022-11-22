@@ -1,7 +1,7 @@
 package fi.csc.processor.controller;
 
 import fi.csc.processor.model.MaterialActivity;
-import fi.csc.processor.model.SearchRequest;
+import fi.csc.processor.model.request.SearchRequest;
 import fi.csc.processor.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

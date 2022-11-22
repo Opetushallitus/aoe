@@ -1,6 +1,5 @@
 package fi.csc.processor.model;
 
-import fi.csc.processor.enumeration.Interaction;
 import lombok.*;
 
 @Getter
@@ -10,9 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 public class MaterialActivity extends BaseEvent {
     private String eduMaterialId;
-    private Interaction interaction;
+    private String interaction;
 
     public void setInteraction(String interaction) {
-        this.interaction = Interaction.fromString(interaction);
+        this.interaction = interaction;
     }
 }

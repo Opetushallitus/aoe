@@ -1,7 +1,7 @@
 package fi.csc.processor.producer;
 
 import fi.csc.processor.model.MaterialActivity;
-import fi.csc.processor.model.SearchRequest;
+import fi.csc.processor.model.request.SearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,22 +5,27 @@ public enum Interaction {
     LOAD("load"),
     SAVE("save");
 
-    private final String value;
+    private String name;
 
-    Interaction(String value) {
-        this.value = value;
+    Interaction(String name) {
+        this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getName() {
+        return name;
     }
 
     public static Interaction fromString(String string) {
         for (Interaction interaction : Interaction.values()) {
-            if (interaction.value.equalsIgnoreCase(string)) {
+            if (interaction.name.equalsIgnoreCase(string)) {
                 return interaction;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

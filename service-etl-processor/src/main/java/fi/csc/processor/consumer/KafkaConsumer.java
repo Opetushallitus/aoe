@@ -1,7 +1,7 @@
 package fi.csc.processor.consumer;
 
 import fi.csc.processor.model.MaterialActivity;
-import fi.csc.processor.model.SearchRequest;
+import fi.csc.processor.model.request.SearchRequest;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
 import fi.csc.processor.repository.MaterialActivityRepository;
@@ -40,6 +40,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.material-activity}",
         groupId = "${kafka.group-id.material-activity}",
         containerFactory = "kafkaListenerMaterialActivity",
+        autoStartup = "false",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consume(
         @Payload MaterialActivity materialActivity, // byte[] payload
@@ -57,6 +58,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.search-requests}",
         groupId = "${kafka.group-id.search-requests}",
         containerFactory = "kafkaListenerSearchRequests",
+        autoStartup = "false",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consume(
         @Payload SearchRequest searchRequest, // byte[] payload
