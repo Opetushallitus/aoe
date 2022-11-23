@@ -1,7 +1,6 @@
 package fi.csc.processor.service;
 
 import fi.csc.processor.enumeration.Interval;
-import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.request.IntervalTotalRequest;
 import fi.csc.processor.model.statistics.IntervalTotal;
 import fi.csc.processor.model.statistics.StatisticsMeta;
@@ -33,7 +32,10 @@ public class StatisticsService {
         this.mongoTemplate = mongoTemplate;
     }
 
-    public StatisticsMeta<IntervalTotal> getTotalByInterval(Interval interval, IntervalTotalRequest intervalTotalRequest) {
+    public StatisticsMeta<IntervalTotal> getTotalByInterval(
+        Interval interval,
+        IntervalTotalRequest intervalTotalRequest,
+        Class<?> targetCollection) {
         Aggregation aggregation = Aggregation.newAggregation(
             Aggregation.match(Criteria.where("timestamp")
                 .gte(intervalTotalRequest.getSince())
@@ -45,7 +47,7 @@ public class StatisticsService {
         );
         AggregationResults<IntervalTotal> result = mongoTemplate.aggregate(
             aggregation,
-            MaterialActivityDocument.class,
+            targetCollection,
             IntervalTotal.class);
         return new StatisticsMeta<>() {{
              setInterval(interval);

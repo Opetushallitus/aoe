@@ -1,6 +1,8 @@
 package fi.csc.processor.controller;
 
 import fi.csc.processor.enumeration.Interval;
+import fi.csc.processor.model.document.MaterialActivityDocument;
+import fi.csc.processor.model.document.SearchRequestDocument;
 import fi.csc.processor.model.request.IntervalTotalRequest;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import fi.csc.processor.service.StatisticsService;
@@ -27,14 +29,32 @@ public class StatisticsController {
         this.statisticsService = statisticsService;
     }
 
-    @PostMapping(path = "/{interval}/total", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getTotalByInterval(
+    @PostMapping(path = "/materialactivity/{interval}/total",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getMaterialActivityTotalByInterval(
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
         return async(() -> {
             StatisticsMeta<?> statistics = this.statisticsService.getTotalByInterval(
                 interval,
-                intervalTotalRequest);
+                intervalTotalRequest,
+                MaterialActivityDocument.class);
+            return new ResponseEntity<>(statistics, HttpStatus.OK);
+        });
+    }
+
+    @PostMapping(path = "/searchrequests/{interval}/total",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getSearchRequestsTotalByInterval(
+        @PathVariable(value = "interval") Interval interval,
+        @RequestBody IntervalTotalRequest intervalTotalRequest) {
+        return async(() -> {
+            StatisticsMeta<?> statistics = this.statisticsService.getTotalByInterval(
+                interval,
+                intervalTotalRequest,
+                SearchRequestDocument.class);
             return new ResponseEntity<>(statistics, HttpStatus.OK);
         });
     }
