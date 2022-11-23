@@ -19,7 +19,7 @@ public enum Interval {
     @JsonCreator
     public static Interval decode(final String value) {
         return Stream.of(Interval.values())
-            .filter(targetEnum -> targetEnum.value.equals(value))
+            .filter(targetEnum -> targetEnum.value.equalsIgnoreCase(value))
             .findFirst()
             .orElse(null);
     }
