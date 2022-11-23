@@ -29,11 +29,11 @@ public class StatisticsController {
 
     @PostMapping(path = "/{interval}/total", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getTotalByInterval(
-        @PathVariable(value = "interval") String interval,
+        @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
         return async(() -> {
             StatisticsMeta<?> statistics = this.statisticsService.getTotalByInterval(
-                Interval.fromValue(interval),
+                interval,
                 intervalTotalRequest);
             return new ResponseEntity<>(statistics, HttpStatus.OK);
         });

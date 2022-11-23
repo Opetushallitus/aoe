@@ -1,5 +1,10 @@
 package fi.csc.processor.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.stream.Stream;
+
 public enum Interval {
     DAY("day"),
     WEEK("week"),
@@ -11,16 +16,16 @@ public enum Interval {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
+    @JsonCreator
+    public static Interval decode(final String value) {
+        return Stream.of(Interval.values())
+            .filter(targetEnum -> targetEnum.value.equals(value))
+            .findFirst()
+            .orElse(null);
     }
 
-    public static Interval fromValue(String string) {
-        for (Interval interval : Interval.values()) {
-            if (interval.value.equalsIgnoreCase(string)) {
-                return interval;
-            }
-        }
-        return null;
+    @JsonValue
+    public String getValue() {
+        return value;
     }
 }
