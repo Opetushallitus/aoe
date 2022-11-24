@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Metadata {
     private LocalDateTime created;
     private LocalDateTime updated;
