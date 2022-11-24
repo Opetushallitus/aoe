@@ -1,6 +1,7 @@
 package fi.csc.processor.consumer;
 
 import fi.csc.processor.model.MaterialActivity;
+import fi.csc.processor.model.Metadata;
 import fi.csc.processor.model.request.SearchRequest;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
@@ -50,6 +51,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         materialActivityDocument.setSessionId(materialActivity.getSessionId());
         materialActivityDocument.setEduMaterialId(materialActivity.getEduMaterialId());
         materialActivityDocument.setInteraction(materialActivity.getInteraction());
+        materialActivityDocument.setMetadata(materialActivity.getMetadata());
         materialActivityRepository.save(materialActivityDocument);
         LOG.info(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
     }

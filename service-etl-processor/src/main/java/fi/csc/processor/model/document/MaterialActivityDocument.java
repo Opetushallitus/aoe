@@ -1,6 +1,7 @@
 package fi.csc.processor.model.document;
 
 import fi.csc.processor.enumeration.Interaction;
+import fi.csc.processor.model.Metadata;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MaterialActivityDocument extends BaseCollection {
     private String eduMaterialId;
     private Interaction interaction;
+    private Metadata metadata;
 
     public Interaction getInteraction() {
         return interaction;

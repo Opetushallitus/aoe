@@ -23,8 +23,8 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addFormatters(FormatterRegistry registry) {
         Map<String, Object> components = beanFactory.getBeansWithAnnotation(RequestParameterConverter.class);
         components.values().parallelStream().forEach(c -> {
-            if(c instanceof Converter) {
-                registry.addConverter((Converter)c);
+            if (c instanceof Converter) {
+                registry.addConverter((Converter) c);
             }
         });
     }
