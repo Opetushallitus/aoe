@@ -1,12 +1,11 @@
-package fi.csc.processor.model;
+package fi.csc.processor.model.request;
 
+import fi.csc.processor.model.BaseEvent;
+import fi.csc.processor.model.Metadata;
 import lombok.*;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class MaterialActivity extends BaseEvent {
     private String eduMaterialId;
     private String interaction;

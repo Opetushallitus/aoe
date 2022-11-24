@@ -1,6 +1,6 @@
 package fi.csc.processor.configuration;
 
-import fi.csc.processor.model.MaterialActivity;
+import fi.csc.processor.model.request.MaterialActivity;
 import fi.csc.processor.model.request.SearchRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor;

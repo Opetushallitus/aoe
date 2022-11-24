@@ -1,7 +1,6 @@
 package fi.csc.processor.consumer;
 
-import fi.csc.processor.model.MaterialActivity;
-import fi.csc.processor.model.Metadata;
+import fi.csc.processor.model.request.MaterialActivity;
 import fi.csc.processor.model.request.SearchRequest;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
