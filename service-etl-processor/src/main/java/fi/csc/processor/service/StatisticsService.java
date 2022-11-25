@@ -42,16 +42,13 @@ public class StatisticsService {
         Class<?> targetCollection) {
 
         List<Criteria> cumulativeCriteria = new ArrayList<>();
-        Criteria optionalCriteria;
+        cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
+        cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));
         try {
-            optionalCriteria = AggregationBuilder.buildCriteriaByRequestConditions(intervalTotalRequest);
+            AggregationBuilder.buildCriteriaByRequestConditions(cumulativeCriteria, intervalTotalRequest);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
-        cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));
-        if (!AggregationBuilder.isEmptyCriteria(optionalCriteria)) cumulativeCriteria.add(optionalCriteria);
-
         Criteria criteria = new Criteria().andOperator(cumulativeCriteria.toArray(Criteria[]::new));
 
         Aggregation aggregation = Aggregation.newAggregation(

@@ -12,36 +12,6 @@ import java.util.List;
 
 public class AggregationBuilder {
 
-    public static Criteria buildCriteriaByRequestConditions(Object conditions) throws NoSuchFieldException, IllegalAccessException {
-        List<Criteria> criteria = new ArrayList<>();
-        Class<?> cls = conditions.getClass();
-        if (isFieldPresent(conditions, "organizations")) {
-            Field field = cls.getDeclaredField("organization");
-            String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
-            Arrays.stream(organizations).forEach(s -> criteria.add(Criteria.where("organization").is(s)));
-        }
-        if (isFieldPresent(conditions, "educationalLevels")) {
-            Field field = cls.getDeclaredField("educationalLevels");
-            String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
-            Arrays.stream(organizations).forEach(s -> criteria.add(Criteria.where("educationalLevels").is(s)));
-        }
-        if (isFieldPresent(conditions, "educationalSubjects")) {
-            Field field = cls.getDeclaredField("educationalSubjects");
-            String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
-            Arrays.stream(organizations).forEach(s -> criteria.add(Criteria.where("educationalSubjects").is(s)));
-        }
-        return new Criteria().orOperator(criteria);
-    }
-
-    private static boolean isFieldPresent(Object object, String field) {
-        return Arrays.stream(object.getClass().getFields())
-            .anyMatch(f -> f.getName().equalsIgnoreCase(field));
-    }
-
-    public static boolean isEmptyCriteria(Criteria criteria){
-        return criteria.equals(new Criteria());
-    }
-
     public static ProjectionOperation buildProjectionByInterval(Interval interval) {
         return switch (interval) {
             case DAY -> Aggregation.project()
@@ -82,4 +52,43 @@ public class AggregationBuilder {
             case MONTH -> Aggregation.sort(Sort.Direction.ASC, "year", "month");
         };
     }
+
+    public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object conditions) throws NoSuchFieldException, IllegalAccessException {
+        List<Criteria> orConditions = new ArrayList<>();
+        Class<?> cls = conditions.getClass();
+        if (isFieldPresent(conditions, "organizations")) {
+            Field field = cls.getDeclaredField("organization");
+            String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
+            if (organizations.length > 0) {
+                Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria.where("organization").is(s)));
+            }
+        }
+        if (isFieldPresent(conditions, "educationalLevels")) {
+            Field field = cls.getDeclaredField("educationalLevels");
+            String[] educationalLevels = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
+            if (educationalLevels.length > 0) {
+                Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria.where("educationalLevels").is(s)));
+            }
+        }
+        if (isFieldPresent(conditions, "educationalSubjects")) {
+            Field field = cls.getDeclaredField("educationalSubjects");
+            String[] educationalSubjects = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
+            if (educationalSubjects.length > 0) {
+                Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria.where("educationalSubjects").is(s)));
+            }
+
+        }
+        if (!orConditions.isEmpty()) {
+            cumulative.add(new Criteria().orOperator(orConditions));
+        }
+    }
+
+    private static boolean isFieldPresent(Object object, String field) {
+        return Arrays.stream(object.getClass().getFields())
+            .anyMatch(f -> f.getName().equalsIgnoreCase(field));
+    }
+
+//    public static boolean isEmptyCriteria(Criteria criteria){
+//        return criteria.equals(new Criteria());
+//    }
 }
