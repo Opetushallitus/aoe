@@ -85,7 +85,7 @@ public class AggregationBuilder {
         }
         if (!orCriteria.isEmpty()) {
             LOG.debug("Amount orCriteria: " + orCriteria.size());
-            cumulative.add(new Criteria().orOperator(orCriteria));
+            cumulative.add(new Criteria().orOperator(orCriteria.toArray(Criteria[]::new)));
         }
     }
 
