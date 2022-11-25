@@ -61,8 +61,7 @@ public class AggregationBuilder {
             String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (organizations.length > 0) {
                 Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria
-                    .where("metadata.organization")
-                    .elemMatch(new Criteria().is(s))));
+                    .where("metadata.organization").is(s)));
             }
         }
         if (isFieldPresent(conditions, "educationalLevels")) {
@@ -70,8 +69,7 @@ public class AggregationBuilder {
             String[] educationalLevels = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalLevels.length > 0) {
                 Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria
-                    .where("metadata.educationalLevels")
-                    .elemMatch(new Criteria().is(s))));
+                    .where("metadata.educationalLevels").is(s)));
             }
         }
         if (isFieldPresent(conditions, "educationalSubjects")) {
@@ -79,8 +77,7 @@ public class AggregationBuilder {
             String[] educationalSubjects = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalSubjects.length > 0) {
                 Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria
-                    .where("metadata.educationalSubjects")
-                    .elemMatch(new Criteria().is(s))));
+                    .where("metadata.educationalSubjects").is(s)));
             }
         }
         if (!orConditions.isEmpty()) {
