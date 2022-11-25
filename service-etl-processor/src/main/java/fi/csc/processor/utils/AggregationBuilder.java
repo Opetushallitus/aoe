@@ -62,7 +62,7 @@ public class AggregationBuilder {
             if (organizations.length > 0) {
                 Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria
                     .where("metadata.organization")
-                    .elemMatch(Criteria.where(s))));
+                    .elemMatch(new Criteria().is(s))));
             }
         }
         if (isFieldPresent(conditions, "educationalLevels")) {
@@ -71,7 +71,7 @@ public class AggregationBuilder {
             if (educationalLevels.length > 0) {
                 Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria
                     .where("metadata.educationalLevels")
-                    .elemMatch(Criteria.where(s))));
+                    .elemMatch(new Criteria().is(s))));
             }
         }
         if (isFieldPresent(conditions, "educationalSubjects")) {
@@ -80,9 +80,8 @@ public class AggregationBuilder {
             if (educationalSubjects.length > 0) {
                 Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria
                     .where("metadata.educationalSubjects")
-                    .elemMatch(Criteria.where(s))));
+                    .elemMatch(new Criteria().is(s))));
             }
-
         }
         if (!orConditions.isEmpty()) {
             cumulative.add(new Criteria().orOperator(orConditions));
