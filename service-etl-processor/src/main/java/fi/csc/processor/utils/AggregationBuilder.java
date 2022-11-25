@@ -60,21 +60,21 @@ public class AggregationBuilder {
             Field field = cls.getDeclaredField("organization");
             String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (organizations.length > 0) {
-                Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria.where("organization").is(s)));
+                Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria.where("metadata.organization").is(s)));
             }
         }
         if (isFieldPresent(conditions, "educationalLevels")) {
             Field field = cls.getDeclaredField("educationalLevels");
             String[] educationalLevels = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalLevels.length > 0) {
-                Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria.where("educationalLevels").is(s)));
+                Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria.where("metadata.educationalLevels").is(s)));
             }
         }
         if (isFieldPresent(conditions, "educationalSubjects")) {
             Field field = cls.getDeclaredField("educationalSubjects");
             String[] educationalSubjects = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalSubjects.length > 0) {
-                Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria.where("educationalSubjects").is(s)));
+                Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria.where("metadata.educationalSubjects").is(s)));
             }
 
         }
