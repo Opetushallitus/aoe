@@ -1,6 +1,7 @@
 package fi.csc.processor.utils;
 
 import fi.csc.processor.enumeration.Interval;
+import fi.csc.processor.model.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
@@ -56,28 +57,32 @@ public class AggregationBuilder {
         };
     }
 
-    public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object conditions) throws NoSuchFieldException, IllegalAccessException {
+    public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object object) throws NoSuchFieldException, IllegalAccessException {
         List<Criteria> orCriteria = new ArrayList<>();
-        Class<?> cls = conditions.getClass();
-        if (isFieldPresent(conditions, "organizations")) {
-            Field field = cls.getDeclaredField("organization");
-            String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
-            if (organizations.length > 0) {
-                Arrays.stream(organizations).forEach(s -> orCriteria.add(Criteria
+        Class<?> cls = object.getClass();
+        // organization
+        if (isFieldPresent(object, "metadata")) {
+            Field field = cls.getDeclaredField("metadata");
+            Metadata metadata = (Metadata) field.get(object);
+            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
+                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.organization").is(s)));
             }
         }
-        if (isFieldPresent(conditions, "educationalLevels")) {
-            Field field = cls.getDeclaredField("educationalLevels");
-            String[] educationalLevels = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
+        // educationalLevels
+        if (isFieldPresent(object, "metadata")) {
+            Field field = cls.getDeclaredField("metadata");
+            String[] educationalLevels = Arrays.stream((String[]) field.get(object)).toArray(String[]::new);
             if (educationalLevels.length > 0) {
                 Arrays.stream(educationalLevels).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.educationalLevels").is(s)));
             }
         }
-        if (isFieldPresent(conditions, "educationalSubjects")) {
-            Field field = cls.getDeclaredField("educationalSubjects");
-            String[] educationalSubjects = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
+        // educationalSubjects
+        if (isFieldPresent(object, "metadata")) {
+            Field field = cls.getDeclaredField("metadata");
+
+            String[] educationalSubjects = Arrays.stream((String[]) field.get(object)).toArray(String[]::new);
             if (educationalSubjects.length > 0) {
                 Arrays.stream(educationalSubjects).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.educationalSubjects").is(s)));
@@ -93,8 +98,4 @@ public class AggregationBuilder {
         return Arrays.stream(object.getClass().getFields())
             .anyMatch(f -> f.getName().equalsIgnoreCase(field));
     }
-
-//    public static boolean isEmptyCriteria(Criteria criteria){
-//        return criteria.equals(new Criteria());
-//    }
 }
