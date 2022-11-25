@@ -58,28 +58,33 @@ public class AggregationBuilder {
     }
 
     public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object object) throws NoSuchFieldException, IllegalAccessException {
-        List<Criteria> orCriteria = new ArrayList<>();
-        Class<?> cls = object.getClass();
+        Metadata metadata = null;
 
+        // Check if metadata field is present in a generic object and get the content if exists.
         if (isFieldPresent(object, "metadata")) {
-            Field field = cls.getDeclaredField("metadata");
+            Field field = object.getClass().getDeclaredField("metadata");
             field.setAccessible(true);
-            Metadata metadata = (Metadata) field.get(object);
+            metadata = (Metadata) field.get(object);
+        }
+
+        // If the metadata content in not empty proceed to criteria building using the metadata provided.
+        if (metadata != null) {
+            List<Criteria> orCriteria = new ArrayList<>();
 
             // Conditional (OR) criteria for organizations.
-            if (metadata != null && metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
+            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
                 Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.organizations").is(s)));
             }
 
             // Conditional (OR) criteria for educational levels.
-            if (metadata != null && metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
+            if (metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
                 Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalLevels").is(s)));
             }
 
             // Conditional (OR) criteria for educational subjects.
-            if (metadata != null && metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
+            if (metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
                 Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalSubjects").is(s)));
             }
