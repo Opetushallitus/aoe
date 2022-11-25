@@ -69,21 +69,21 @@ public class AggregationBuilder {
             Metadata metadata = (Metadata) field.get(object);
 
             // Conditional (OR) criteria for organizations.
-            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
+            if (metadata != null && metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
                 LOG.info("Array organization found");
                 Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.organizations").is(s)));
             }
 
             // Conditional (OR) criteria for educational levels.
-            if (metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
+            if (metadata != null && metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
                 LOG.info("Array educationalLevels found");
                 Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalLevels").is(s)));
             }
 
             // Conditional (OR) criteria for educational subjects.
-            if (metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
+            if (metadata != null && metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
                 LOG.info("Array educationalSubjects found");
                 Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalSubjects").is(s)));
