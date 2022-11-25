@@ -58,39 +58,34 @@ public class AggregationBuilder {
     }
 
     public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object object) throws NoSuchFieldException, IllegalAccessException {
-        LOG.info("Build criteria by request conditions started!");
         List<Criteria> orCriteria = new ArrayList<>();
         Class<?> cls = object.getClass();
 
         if (isFieldPresent(object, "metadata")) {
-            LOG.info("Field metadata found");
             Field field = cls.getDeclaredField("metadata");
             field.setAccessible(true);
             Metadata metadata = (Metadata) field.get(object);
 
             // Conditional (OR) criteria for organizations.
             if (metadata != null && metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
-                LOG.info("Array organization found");
                 Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.organizations").is(s)));
             }
 
             // Conditional (OR) criteria for educational levels.
             if (metadata != null && metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
-                LOG.info("Array educationalLevels found");
                 Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalLevels").is(s)));
             }
 
             // Conditional (OR) criteria for educational subjects.
             if (metadata != null && metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
-                LOG.info("Array educationalSubjects found");
                 Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteria.add(
                     Criteria.where("metadata.educationalSubjects").is(s)));
             }
 
+            // Add criteria to the cumulative collection to be attached to the query aggregations.
             if (!orCriteria.isEmpty()) {
-                LOG.info("Amount orCriteria: " + orCriteria.size());
                 cumulative.add(new Criteria().orOperator(orCriteria.toArray(Criteria[]::new)));
             }
         }
