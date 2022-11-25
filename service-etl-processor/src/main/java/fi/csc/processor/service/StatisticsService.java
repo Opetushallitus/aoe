@@ -11,9 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.*;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StatisticsService {
@@ -36,11 +40,22 @@ public class StatisticsService {
         Interval interval,
         IntervalTotalRequest intervalTotalRequest,
         Class<?> targetCollection) {
+
+        List<Criteria> cumulativeCriteria = new ArrayList<>();
+        Criteria optionalCriteria;
+        try {
+            optionalCriteria = AggregationBuilder.buildCriteriaByRequestConditions(intervalTotalRequest);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
+        cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));
+        if (!AggregationBuilder.isEmptyCriteria(optionalCriteria)) cumulativeCriteria.add(optionalCriteria);
+
+        Criteria criteria = new Criteria().andOperator(cumulativeCriteria.toArray(Criteria[]::new));
+
         Aggregation aggregation = Aggregation.newAggregation(
-            Aggregation.match(Criteria.where("timestamp")
-                .gte(intervalTotalRequest.getSince())
-                .lt(intervalTotalRequest.getUntil())
-            ),
+            Aggregation.match(criteria),
             AggregationBuilder.buildProjectionByInterval(interval),
             AggregationBuilder.buildGroupByInterval(interval),
             AggregationBuilder.buildSortByInterval(interval)
