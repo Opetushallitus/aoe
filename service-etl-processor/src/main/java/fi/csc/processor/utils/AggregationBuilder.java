@@ -62,7 +62,7 @@ public class AggregationBuilder {
         Class<?> cls = object.getClass();
         // organization
         if (isFieldPresent(object, "metadata")) {
-            LOG.debug("Organization metadata found");
+            LOG.info("Organization metadata found");
             Field field = cls.getDeclaredField("metadata");
             Metadata metadata = (Metadata) field.get(object);
             if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
@@ -72,7 +72,7 @@ public class AggregationBuilder {
         }
         // educationalLevels
         if (isFieldPresent(object, "metadata")) {
-            LOG.debug("EducationalLevels metadata found");
+            LOG.info("EducationalLevels metadata found");
             Field field = cls.getDeclaredField("metadata");
             String[] educationalLevels = Arrays.stream((String[]) field.get(object)).toArray(String[]::new);
             if (educationalLevels.length > 0) {
