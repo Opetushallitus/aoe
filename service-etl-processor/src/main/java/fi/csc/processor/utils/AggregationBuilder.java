@@ -1,6 +1,8 @@
 package fi.csc.processor.utils;
 
 import fi.csc.processor.enumeration.Interval;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -11,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AggregationBuilder {
+    private static final Logger LOG = LoggerFactory.getLogger(AggregationBuilder.class.getSimpleName());
 
     public static ProjectionOperation buildProjectionByInterval(Interval interval) {
         return switch (interval) {
@@ -54,13 +57,13 @@ public class AggregationBuilder {
     }
 
     public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object conditions) throws NoSuchFieldException, IllegalAccessException {
-        List<Criteria> orConditions = new ArrayList<>();
+        List<Criteria> orCriteria = new ArrayList<>();
         Class<?> cls = conditions.getClass();
         if (isFieldPresent(conditions, "organizations")) {
             Field field = cls.getDeclaredField("organization");
             String[] organizations = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (organizations.length > 0) {
-                Arrays.stream(organizations).forEach(s -> orConditions.add(Criteria
+                Arrays.stream(organizations).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.organization").is(s)));
             }
         }
@@ -68,7 +71,7 @@ public class AggregationBuilder {
             Field field = cls.getDeclaredField("educationalLevels");
             String[] educationalLevels = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalLevels.length > 0) {
-                Arrays.stream(educationalLevels).forEach(s -> orConditions.add(Criteria
+                Arrays.stream(educationalLevels).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.educationalLevels").is(s)));
             }
         }
@@ -76,12 +79,13 @@ public class AggregationBuilder {
             Field field = cls.getDeclaredField("educationalSubjects");
             String[] educationalSubjects = Arrays.stream((String[]) field.get(conditions)).toArray(String[]::new);
             if (educationalSubjects.length > 0) {
-                Arrays.stream(educationalSubjects).forEach(s -> orConditions.add(Criteria
+                Arrays.stream(educationalSubjects).forEach(s -> orCriteria.add(Criteria
                     .where("metadata.educationalSubjects").is(s)));
             }
         }
-        if (!orConditions.isEmpty()) {
-            cumulative.add(new Criteria().orOperator(orConditions));
+        if (!orCriteria.isEmpty()) {
+            LOG.debug("Amount orCriteria: " + orCriteria.size());
+            cumulative.add(new Criteria().orOperator(orCriteria));
         }
     }
 
