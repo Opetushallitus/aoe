@@ -40,7 +40,7 @@ public class StatisticsService {
         Interval interval,
         IntervalTotalRequest intervalTotalRequest,
         Class<?> targetCollection) {
-
+        LOG.info("Request body: " + intervalTotalRequest.toString());
         List<Criteria> cumulativeCriteria = new ArrayList<>();
         cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
         cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));

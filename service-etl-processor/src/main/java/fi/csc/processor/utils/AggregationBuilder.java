@@ -58,47 +58,45 @@ public class AggregationBuilder {
     }
 
     public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object object) throws NoSuchFieldException, IllegalAccessException {
+        LOG.info("Build criteria by request conditions started!");
         List<Criteria> orCriteria = new ArrayList<>();
         Class<?> cls = object.getClass();
-        // organization
-        if (isFieldPresent(object, "metadata")) {
-            LOG.info("Organization metadata found");
-            Field field = cls.getDeclaredField("metadata");
-            Metadata metadata = (Metadata) field.get(object);
-            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
-                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(Criteria
-                    .where("metadata.organization").is(s)));
-            }
-        }
-        // educationalLevels
-        if (isFieldPresent(object, "metadata")) {
-            LOG.info("EducationalLevels metadata found");
-            Field field = cls.getDeclaredField("metadata");
-            String[] educationalLevels = Arrays.stream((String[]) field.get(object)).toArray(String[]::new);
-            if (educationalLevels.length > 0) {
-                Arrays.stream(educationalLevels).forEach(s -> orCriteria.add(Criteria
-                    .where("metadata.educationalLevels").is(s)));
-            }
-        }
-        // educationalSubjects
-        if (isFieldPresent(object, "metadata")) {
-            LOG.debug("EducationalSubjects metadata found");
-            Field field = cls.getDeclaredField("metadata");
 
-            String[] educationalSubjects = Arrays.stream((String[]) field.get(object)).toArray(String[]::new);
-            if (educationalSubjects.length > 0) {
-                Arrays.stream(educationalSubjects).forEach(s -> orCriteria.add(Criteria
-                    .where("metadata.educationalSubjects").is(s)));
+        if (isFieldPresent(object, "metadata")) {
+            LOG.info("Field metadata found");
+            Field field = cls.getDeclaredField("metadata");
+            field.setAccessible(true);
+            Metadata metadata = (Metadata) field.get(object);
+
+            // Conditional (OR) criteria for organizations.
+            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
+                LOG.info("Array organization found");
+                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(
+                    Criteria.where("metadata.organizations").is(s)));
             }
-        }
-        if (!orCriteria.isEmpty()) {
-            LOG.debug("Amount orCriteria: " + orCriteria.size());
-            cumulative.add(new Criteria().orOperator(orCriteria.toArray(Criteria[]::new)));
+
+            // Conditional (OR) criteria for educational levels.
+            if (metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
+                LOG.info("Array educationalLevels found");
+                Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteria.add(
+                    Criteria.where("metadata.educationalLevels").is(s)));
+            }
+
+            // Conditional (OR) criteria for educational subjects.
+            if (metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
+                LOG.info("Array educationalSubjects found");
+                Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteria.add(
+                    Criteria.where("metadata.educationalSubjects").is(s)));
+            }
+
+            if (!orCriteria.isEmpty()) {
+                LOG.info("Amount orCriteria: " + orCriteria.size());
+                cumulative.add(new Criteria().orOperator(orCriteria.toArray(Criteria[]::new)));
+            }
         }
     }
 
-    private static boolean isFieldPresent(Object object, String field) {
-        return Arrays.stream(object.getClass().getFields())
-            .anyMatch(f -> f.getName().equalsIgnoreCase(field));
+    private static boolean isFieldPresent(Object object, String field) throws NoSuchFieldException {
+        return object.getClass().getDeclaredField(field) != null;
     }
 }
