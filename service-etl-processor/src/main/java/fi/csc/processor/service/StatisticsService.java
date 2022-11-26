@@ -37,22 +37,22 @@ public class StatisticsService {
     }
 
     /**
-     * Request Classification Criteria Logic:
+     * Statistics Classification Query Criteria Logic:
      *
      * time1 (inclusive greater than)
      * AND
      * time2 (exclusive less than)
      * AND
-     * key1 OR key2 OR key3 OR ... (organizations)
+     * keyA1 OR keyA2 OR keyA3 OR ... (organizations)
      * AND
-     * key1 OR key2 OR key3 OR ... (educationalLevels)
+     * keyB1 OR keyB2 OR keyB3 OR ... (educationalLevels)
      * AND
-     * key1 OR key2 OR key3 OR ... (educationalSubjects)
+     * keyC1 OR keyC2 OR keyC3 OR ... (educationalSubjects)
      *
-     * @param interval enum Interval: DAY | WEEK | MONTH.
-     * @param intervalTotalRequest metadata for request criteria.
-     * @param targetCollection class for target database document collection.
-     * @return xxx
+     * @param interval - enum Interval: DAY | WEEK | MONTH.
+     * @param intervalTotalRequest - metadata for request criteria.
+     * @param targetCollection - class for target database document collection.
+     * @return statistics query results wrapped by statistics metadata.
      */
     public StatisticsMeta<IntervalTotal> getTotalByInterval(
         Interval interval,
