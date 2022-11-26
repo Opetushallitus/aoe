@@ -57,7 +57,9 @@ public class AggregationBuilder {
         };
     }
 
-    public static void buildCriteriaByRequestConditions(List<Criteria> cumulative, Object object) throws NoSuchFieldException, IllegalAccessException {
+    public static void buildCriteriaByRequestConditions(
+        List<Criteria> cumulativeCriteria,
+        Object object) throws NoSuchFieldException, IllegalAccessException {
         Metadata metadata = null;
 
         // Check if metadata field is present in a generic object and get the content if exists.
@@ -69,29 +71,35 @@ public class AggregationBuilder {
 
         // If the metadata content in not empty proceed to criteria building using the metadata provided.
         if (metadata != null) {
-            List<Criteria> orCriteria = new ArrayList<>();
+            List<Criteria> andCriteriaCumulative = new ArrayList<>();
 
-            // Conditional (OR) criteria for organizations.
+            // Conditional (OR) criteria inside the classification of organizations - one match (or more) required.
             if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
-                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteria.add(
+                List<Criteria> orCriteriaOrganizations = new ArrayList<>();
+                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteriaOrganizations.add(
                     Criteria.where("metadata.organizations").is(s)));
+                andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaOrganizations.toArray(Criteria[]::new)));
             }
 
-            // Conditional (OR) criteria for educational levels.
+            // Conditional (OR) criteria inside the classification of educational levels - one match (or more) required.
             if (metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
-                Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteria.add(
+                List<Criteria> orCriteriaEducationalLevels = new ArrayList<>();
+                Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteriaEducationalLevels.add(
                     Criteria.where("metadata.educationalLevels").is(s)));
+                andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaEducationalLevels.toArray(Criteria[]::new)));
             }
 
-            // Conditional (OR) criteria for educational subjects.
+            // Conditional (OR) criteria inside the classification of educational subjects - one match (or more) required.
             if (metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
-                Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteria.add(
+                List<Criteria> orCriteriaEducationalSubjects = new ArrayList<>();
+                Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteriaEducationalSubjects.add(
                     Criteria.where("metadata.educationalSubjects").is(s)));
+                andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaEducationalSubjects.toArray(Criteria[]::new)));
             }
 
-            // Add criteria to the cumulative collection to be attached to the query aggregations.
-            if (!orCriteria.isEmpty()) {
-                cumulative.add(new Criteria().orOperator(orCriteria.toArray(Criteria[]::new)));
+            // Unconditional (AND) criteria between the classifications - one match (or more) required in each given classification.
+            if (!andCriteriaCumulative.isEmpty()) {
+                cumulativeCriteria.addAll(andCriteriaCumulative);
             }
         }
     }

@@ -36,6 +36,24 @@ public class StatisticsService {
         this.mongoTemplate = mongoTemplate;
     }
 
+    /**
+     * Request Classification Criteria Logic:
+     *
+     * time1 (inclusive greater than)
+     * AND
+     * time2 (exclusive less than)
+     * AND
+     * key1 OR key2 OR key3 OR ... (organizations)
+     * AND
+     * key1 OR key2 OR key3 OR ... (educationalLevels)
+     * AND
+     * key1 OR key2 OR key3 OR ... (educationalSubjects)
+     *
+     * @param interval enum Interval: DAY | WEEK | MONTH.
+     * @param intervalTotalRequest metadata for request criteria.
+     * @param targetCollection class for target database document collection.
+     * @return xxx
+     */
     public StatisticsMeta<IntervalTotal> getTotalByInterval(
         Interval interval,
         IntervalTotalRequest intervalTotalRequest,
