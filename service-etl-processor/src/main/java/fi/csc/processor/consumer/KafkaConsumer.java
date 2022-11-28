@@ -4,8 +4,8 @@ import fi.csc.processor.model.request.MaterialActivity;
 import fi.csc.processor.model.request.SearchRequest;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
-import fi.csc.processor.repository.MaterialActivityRepository;
-import fi.csc.processor.repository.SearchRequestRepository;
+import fi.csc.processor.repository.primary.MaterialActivityPrimaryRepository;
+import fi.csc.processor.repository.primary.SearchRequestPrimaryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +25,15 @@ public class KafkaConsumer implements ConsumerSeekAware {
     private final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class.getSimpleName());
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         .withZone(ZoneId.of("UTC"));
-    private final MaterialActivityRepository materialActivityRepository;
-    private final SearchRequestRepository searchRequestRepository;
+    private final MaterialActivityPrimaryRepository materialActivityPrimaryRepository;
+    private final SearchRequestPrimaryRepository searchRequestPrimaryRepository;
 
     @Autowired
     public KafkaConsumer(
-        MaterialActivityRepository materialActivityRepository,
-        SearchRequestRepository searchRequestRepository) {
-        this.materialActivityRepository = materialActivityRepository;
-        this.searchRequestRepository = searchRequestRepository;
+        MaterialActivityPrimaryRepository materialActivityPrimaryRepository,
+        SearchRequestPrimaryRepository searchRequestPrimaryRepository) {
+        this.materialActivityPrimaryRepository = materialActivityPrimaryRepository;
+        this.searchRequestPrimaryRepository = searchRequestPrimaryRepository;
     }
 
     @KafkaListener(
@@ -51,7 +51,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         materialActivityDocument.setEduMaterialId(materialActivity.getEduMaterialId());
         materialActivityDocument.setInteraction(materialActivity.getInteraction());
         materialActivityDocument.setMetadata(materialActivity.getMetadata());
-        materialActivityRepository.save(materialActivityDocument);
+        materialActivityPrimaryRepository.save(materialActivityDocument);
         LOG.info(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
     }
 
@@ -69,7 +69,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         searchRequestDocument.setSessionId(searchRequest.getSessionId());
         searchRequestDocument.setKeywords(searchRequest.getKeywords());
         searchRequestDocument.setFilters(searchRequest.getFilters());
-        searchRequestRepository.save(searchRequestDocument);
+        searchRequestPrimaryRepository.save(searchRequestDocument);
         LOG.info(String.format("Consumed message -> %s [offset=%d]", searchRequest, offset));
     }
 }

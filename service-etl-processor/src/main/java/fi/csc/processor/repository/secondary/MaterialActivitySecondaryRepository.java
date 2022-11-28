@@ -1,4 +1,4 @@
-package fi.csc.processor.repository;
+package fi.csc.processor.repository.secondary;
 
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import org.bson.types.ObjectId;
@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MaterialActivityRepository extends MongoRepository<MaterialActivityDocument, ObjectId> {
+public interface MaterialActivitySecondaryRepository extends MongoRepository<MaterialActivityDocument, ObjectId> {
 //    "{'$project':  {'timestamp': 1, day: {$day: '$timestamp'}}}",
 //    "{'$group': {'_id': {day: '$day'}, dayTotal: {'$sum':  1}}}"
 //    @Aggregation(pipeline = {

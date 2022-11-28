@@ -1,6 +1,7 @@
 package fi.csc.processor.controller;
 
 import fi.csc.processor.enumeration.Interval;
+import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
 import fi.csc.processor.model.request.IntervalTotalRequest;
@@ -29,33 +30,31 @@ public class StatisticsController {
         this.statisticsService = statisticsService;
     }
 
-    @PostMapping(path = "/materialactivity/{interval}/total",
+    @PostMapping(path = "/{target}/materialactivity/{interval}/total",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getMaterialActivityTotalByInterval(
+        @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
-        return async(() -> {
-            StatisticsMeta<?> statistics = this.statisticsService.getTotalByInterval(
-                interval,
-                intervalTotalRequest,
-                MaterialActivityDocument.class);
-            return new ResponseEntity<>(statistics, HttpStatus.OK);
-        });
+        return async(() -> new ResponseEntity<>(this.statisticsService.getTotalByInterval(
+            interval,
+            intervalTotalRequest,
+            MaterialActivityDocument.class,
+            targetEnv), HttpStatus.OK));
     }
 
-    @PostMapping(path = "/searchrequests/{interval}/total",
+    @PostMapping(path = "/{target}/searchrequests/{interval}/total",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
     public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getSearchRequestsTotalByInterval(
+        @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
-        return async(() -> {
-            StatisticsMeta<?> statistics = this.statisticsService.getTotalByInterval(
-                interval,
-                intervalTotalRequest,
-                SearchRequestDocument.class);
-            return new ResponseEntity<>(statistics, HttpStatus.OK);
-        });
+        return async(() -> new ResponseEntity<>(this.statisticsService.getTotalByInterval(
+            interval,
+            intervalTotalRequest,
+            SearchRequestDocument.class,
+            targetEnv), HttpStatus.OK));
     }
 }
