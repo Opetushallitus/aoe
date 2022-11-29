@@ -27,18 +27,15 @@ public class StatisticsService {
     private MaterialActivityPrimaryRepository materialActivityPrimaryRepository;
     private SearchRequestPrimaryRepository searchRequestPrimaryRepository;
 
-    @Qualifier("primaryMongoTemplate")
     private final MongoTemplate mongoPrimaryTemplate;
-
-    @Qualifier("secondaryMongoTemplate")
     private final MongoTemplate mongoSecondaryTemplate;
 
     @Autowired
     StatisticsService(
         MaterialActivityPrimaryRepository materialActivityPrimaryRepository,
         SearchRequestPrimaryRepository searchRequestPrimaryRepository,
-        MongoTemplate mongoPrimaryTemplate,
-        MongoTemplate mongoSecondaryTemplate) {
+        @Qualifier("primaryMongoTemplate") MongoTemplate mongoPrimaryTemplate,
+        @Qualifier("secondaryMongoTemplate") MongoTemplate mongoSecondaryTemplate) {
         this.materialActivityPrimaryRepository = materialActivityPrimaryRepository;
         this.searchRequestPrimaryRepository = searchRequestPrimaryRepository;
         this.mongoPrimaryTemplate = mongoPrimaryTemplate;
