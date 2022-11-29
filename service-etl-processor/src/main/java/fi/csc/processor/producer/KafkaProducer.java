@@ -18,11 +18,17 @@ public class KafkaProducer {
     private final KafkaTemplate<String, MaterialActivity> kafkaTemplateMaterialActivity;
     private final KafkaTemplate<String, SearchRequest> kafkaTemplateSearchRequests;
 
+    @Value(value = "${kafka.topic.prod-material-activity}")
+    private String topicMaterialActivityPrimary;
+
+    @Value(value = "${kafka.topic.prod-search-requests}")
+    private String topicSearchRequestsPrimary;
+
     @Value(value = "${kafka.topic.material-activity}")
-    private String topicMaterialActivity;
+    private String topicMaterialActivitySecondary;
 
     @Value(value = "${kafka.topic.search-requests}")
-    private String topicSearchRequests;
+    private String topicSearchRequestsSecondary;
 
     @Autowired
     private KafkaProducer(
@@ -32,10 +38,10 @@ public class KafkaProducer {
         this.kafkaTemplateSearchRequests = kafkaTemplateSearchRequests;
     }
 
-    public void sendMaterialActivity(MaterialActivity materialActivity) {
+    public void sendMaterialActivityPrimary(MaterialActivity materialActivity) {
         LOG.info(String.format("Producing message -> %s", materialActivity));
 
-        ListenableFuture<SendResult<String, MaterialActivity>> future = this.kafkaTemplateMaterialActivity.send(topicMaterialActivity, materialActivity);
+        ListenableFuture<SendResult<String, MaterialActivity>> future = this.kafkaTemplateMaterialActivity.send(topicMaterialActivityPrimary, materialActivity);
 
         future.addCallback(new ListenableFutureCallback<>() {
 
@@ -51,10 +57,48 @@ public class KafkaProducer {
         });
     }
 
-    public void sendSearchRequests(SearchRequest searchRequest) {
+    public void sendSearchRequestsPrimary(SearchRequest searchRequest) {
         LOG.info(String.format("Producing message -> %s", searchRequest));
 
-        ListenableFuture<SendResult<String, SearchRequest>> future = this.kafkaTemplateSearchRequests.send(topicSearchRequests, searchRequest);
+        ListenableFuture<SendResult<String, SearchRequest>> future = this.kafkaTemplateSearchRequests.send(topicSearchRequestsPrimary, searchRequest);
+
+        future.addCallback(new ListenableFutureCallback<>() {
+
+            @Override
+            public void onSuccess(SendResult<String, SearchRequest> result) {
+                LOG.info(String.format("Sent message with offset=%s", result.getRecordMetadata().offset()));
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                LOG.error(String.format("Unable to send message \"%s\" due to : ", ex.getMessage()));
+            }
+        });
+    }
+
+    public void sendMaterialActivitySecondary(MaterialActivity materialActivity) {
+        LOG.info(String.format("Producing message -> %s", materialActivity));
+
+        ListenableFuture<SendResult<String, MaterialActivity>> future = this.kafkaTemplateMaterialActivity.send(topicMaterialActivitySecondary, materialActivity);
+
+        future.addCallback(new ListenableFutureCallback<>() {
+
+            @Override
+            public void onSuccess(SendResult<String, MaterialActivity> result) {
+                LOG.info(String.format("Sent message with offset=%s", result.getRecordMetadata().offset()));
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                LOG.error(String.format("Unable to send message \"%s\" due to : ", ex.getMessage()));
+            }
+        });
+    }
+
+    public void sendSearchRequestsSecondary(SearchRequest searchRequest) {
+        LOG.info(String.format("Producing message -> %s", searchRequest));
+
+        ListenableFuture<SendResult<String, SearchRequest>> future = this.kafkaTemplateSearchRequests.send(topicSearchRequestsSecondary, searchRequest);
 
         future.addCallback(new ListenableFutureCallback<>() {
 

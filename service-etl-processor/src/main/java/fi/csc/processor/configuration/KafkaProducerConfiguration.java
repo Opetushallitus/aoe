@@ -26,26 +26,17 @@ public class KafkaProducerConfiguration {
     @Value(value = "${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
+    @Value(value = "${kafka.topic.prod-material-activity}")
+    private String topicMaterialActivityPrimary;
+
+    @Value(value = "${kafka.topic.prod-search-requests}")
+    private String topicSearchRequestsPrimary;
+
     @Value(value = "${kafka.topic.material-activity}")
-    private String topicMaterialActivity;
+    private String topicMaterialActivitySecondary;
 
     @Value(value = "${kafka.topic.search-requests}")
-    private String topicSearchRequests;
-
-    @Bean
-    public ProducerFactory<String, SearchRequest> producerFactorySearchRequest() {
-        Map<String, Object> config = new HashMap<>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        // configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(config);
-    }
-
-    @Bean
-    public KafkaTemplate<String, SearchRequest> kafkaTemplateSearchRequest() {
-        return new KafkaTemplate<>(producerFactorySearchRequest());
-    }
+    private String topicSearchRequestsSecondary;
 
     @Bean
     public ProducerFactory<String, MaterialActivity> producerFactoryMaterialActivity() {
@@ -63,6 +54,21 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
+    public ProducerFactory<String, SearchRequest> producerFactorySearchRequest() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        // configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(config);
+    }
+
+    @Bean
+    public KafkaTemplate<String, SearchRequest> kafkaTemplateSearchRequest() {
+        return new KafkaTemplate<>(producerFactorySearchRequest());
+    }
+
+    @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -70,20 +76,34 @@ public class KafkaProducerConfiguration {
     }
 
     @Bean
-    public NewTopic topicMaterialActivity() {
-        return TopicBuilder.name(topicMaterialActivity)
+    public NewTopic topicMaterialActivityPrimary() {
+        return TopicBuilder.name(topicMaterialActivityPrimary)
             .partitions(2)
             .replicas(2)
             .build();
-//        return new NewTopic("material_activity", 2, (short) 2);
     }
 
     @Bean
-    public NewTopic topicSearchRequests() {
-        return TopicBuilder.name(topicSearchRequests)
+    public NewTopic topicSearchRequestsPrimary() {
+        return TopicBuilder.name(topicSearchRequestsPrimary)
             .partitions(2)
             .replicas(2)
             .build();
-//        return new NewTopic("search_requests", 2, (short) 2);
+    }
+
+    @Bean
+    public NewTopic topicMaterialActivitySecondary() {
+        return TopicBuilder.name(topicMaterialActivitySecondary)
+            .partitions(2)
+            .replicas(2)
+            .build();
+    }
+
+    @Bean
+    public NewTopic topicSearchRequestsSecondary() {
+        return TopicBuilder.name(topicSearchRequestsSecondary)
+            .partitions(2)
+            .replicas(2)
+            .build();
     }
 }

@@ -18,7 +18,7 @@ before_script:
   - docker version
   - docker-compose version
 
-build_dev:
+build_analytics:
   stage: build
   script:
     - echo "DEMO build"
@@ -26,26 +26,29 @@ build_dev:
     - docker-compose -f docker-compose.prod.yml build
   only:
     - dev
+    - main
   tags:
     - oaipmh
 
-deploy_dev:
+deploy_analytics:
   stage: deploy
   script:
     - echo "DEMO deploy"
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - dev
+    - main
   tags:
     - oaipmh
 
-cleanup_dev:
+cleanup_analytics:
   stage: cleanup
   script:
     - echo "Cleaning up the system"
     - docker system prune -a --volumes -f
   only:
     - dev
+    - main
   tags:
     - oaipmh
   when: manual

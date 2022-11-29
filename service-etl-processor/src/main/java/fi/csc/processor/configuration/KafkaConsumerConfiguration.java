@@ -27,17 +27,23 @@ public class KafkaConsumerConfiguration {
     @Value(value = "${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
 
+    @Value(value = "${kafka.group-id.prod-material-activity}")
+    private String groupMaterialActivityPrimary;
+
+    @Value(value = "${kafka.group-id.prod-search-requests}")
+    private String groupSearchRequestsPrimary;
+
     @Value(value = "${kafka.group-id.material-activity}")
-    private String groupMaterialActivity;
+    private String groupMaterialActivitySecondary;
 
     @Value(value = "${kafka.group-id.search-requests}")
-    private String groupSearchRequests;
+    private String groupSearchRequestsSecondary;
 
     @Bean
-    public ConsumerFactory<String, MaterialActivity> consumerFactoryMaterialActivity() {
+    public ConsumerFactory<String, MaterialActivity> consumerFactoryMaterialActivityPrimary() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupMaterialActivity);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupMaterialActivityPrimary);
         config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
@@ -46,17 +52,17 @@ public class KafkaConsumerConfiguration {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> kafkaListenerMaterialActivity() {
+    public ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> kafkaListenerMaterialActivityPrimary() {
         ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactoryMaterialActivity());
+        factory.setConsumerFactory(consumerFactoryMaterialActivityPrimary());
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, SearchRequest> consumerFactorySearchRequests() {
+    public ConsumerFactory<String, SearchRequest> consumerFactorySearchRequestsPrimary() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupSearchRequests);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupSearchRequestsPrimary);
         config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
@@ -65,9 +71,47 @@ public class KafkaConsumerConfiguration {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, SearchRequest> kafkaListenerSearchRequests() {
+    public ConcurrentKafkaListenerContainerFactory<String, SearchRequest> kafkaListenerSearchRequestsPrimary() {
         ConcurrentKafkaListenerContainerFactory<String, SearchRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactorySearchRequests());
+        factory.setConsumerFactory(consumerFactorySearchRequestsPrimary());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, MaterialActivity> consumerFactoryMaterialActivitySecondary() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupMaterialActivitySecondary);
+        config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        // config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(MaterialActivity.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> kafkaListenerMaterialActivitySecondary() {
+        ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactoryMaterialActivitySecondary());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, SearchRequest> consumerFactorySearchRequestsSecondary() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupSearchRequestsSecondary);
+        config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        // config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(SearchRequest.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, SearchRequest> kafkaListenerSearchRequestsSecondary() {
+        ConcurrentKafkaListenerContainerFactory<String, SearchRequest> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactorySearchRequestsSecondary());
         return factory;
     }
 }
