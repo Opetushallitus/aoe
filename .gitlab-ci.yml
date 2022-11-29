@@ -25,7 +25,6 @@ build_analytics:
     - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
-    - dev
     - main
   tags:
     - oaipmh
@@ -36,7 +35,6 @@ deploy_analytics:
     - echo "DEMO deploy"
     - docker-compose -f docker-compose.prod.yml up -d
   only:
-    - dev
     - main
   tags:
     - oaipmh
@@ -47,7 +45,6 @@ cleanup_analytics:
     - echo "Cleaning up the system"
     - docker system prune -a --volumes -f
   only:
-    - dev
     - main
   tags:
     - oaipmh
