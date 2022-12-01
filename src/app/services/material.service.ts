@@ -140,7 +140,9 @@ export class MaterialService {
         let materialUrl = `${environment.backendUrl}/material/${materialId}`;
 
         if (versionDate) {
-            materialUrl = `${materialUrl}/${versionDate}`;
+            materialUrl = `${materialUrl}/${versionDate}?interaction=view`;
+        } else {
+            materialUrl = `${materialUrl}?interaction=view`;
         }
 
         this.http
