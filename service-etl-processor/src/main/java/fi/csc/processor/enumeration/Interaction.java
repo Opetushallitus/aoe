@@ -2,10 +2,11 @@ package fi.csc.processor.enumeration;
 
 public enum Interaction {
     VIEW("view"),
+    SAVE("save"),
     LOAD("load"),
-    SAVE("save");
+    EDIT("edit");
 
-    private String name;
+    private final String name;
 
     Interaction(String name) {
         this.name = name;
