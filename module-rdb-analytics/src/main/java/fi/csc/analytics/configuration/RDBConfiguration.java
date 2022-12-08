@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -26,6 +27,7 @@ public class RDBConfiguration {
         return new DataSourceProperties();
     }
 
+    @Primary
     @Bean(name = "dataSourcePrimary")
     public DataSource dataSourcePrimary() {
         return dataSourcePropertiesPrimary()
@@ -40,6 +42,7 @@ public class RDBConfiguration {
             .build();
     }
 
+    @Primary
     @Bean(name = "jdbcTemplatePrimary")
     public JdbcTemplate jdbcTemplatePrimary(@Qualifier("dataSourcePrimary") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
