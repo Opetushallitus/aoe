@@ -4,9 +4,11 @@ import fi.csc.processor.enumeration.Interval;
 import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.document.MaterialActivityDocument;
 import fi.csc.processor.model.document.SearchRequestDocument;
+import fi.csc.processor.model.request.EducationalLevelTotalRequest;
 import fi.csc.processor.model.request.IntervalTotalRequest;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import fi.csc.processor.service.StatisticsService;
+import fi.csc.processor.service.TimeSeriesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +26,24 @@ import static fi.csc.processor.utils.AsyncUtil.async;
 public class StatisticsController {
     private static final Logger LOG = LoggerFactory.getLogger(StatisticsController.class.getSimpleName());
     private final StatisticsService statisticsService;
+    private final TimeSeriesService timeSeriesService;
 
     @Autowired
-    StatisticsController(StatisticsService statisticsService) {
+    StatisticsController(
+        StatisticsService statisticsService,
+        TimeSeriesService timeSeriesService) {
         this.statisticsService = statisticsService;
+        this.timeSeriesService = timeSeriesService;
+    }
+
+    @PostMapping(path = "/{target}/educationallevel/all",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getEducationalLevelDistribution(
+        @PathVariable(value = "target") TargetEnv targetEnv,
+        @RequestBody EducationalLevelTotalRequest educationalLevelTotalRequest) {
+        return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalLevelDistribution(
+            educationalLevelTotalRequest, targetEnv), HttpStatus.OK));
     }
 
     @PostMapping(path = "/{target}/materialactivity/{interval}/total",
@@ -37,7 +53,7 @@ public class StatisticsController {
         @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
-        return async(() -> new ResponseEntity<>(this.statisticsService.getTotalByInterval(
+        return async(() -> new ResponseEntity<>(this.timeSeriesService.getTotalByInterval(
             interval,
             intervalTotalRequest,
             MaterialActivityDocument.class,
@@ -51,7 +67,7 @@ public class StatisticsController {
         @PathVariable(value = "target") TargetEnv targetEnv,
         @PathVariable(value = "interval") Interval interval,
         @RequestBody IntervalTotalRequest intervalTotalRequest) {
-        return async(() -> new ResponseEntity<>(this.statisticsService.getTotalByInterval(
+        return async(() -> new ResponseEntity<>(this.timeSeriesService.getTotalByInterval(
             interval,
             intervalTotalRequest,
             SearchRequestDocument.class,

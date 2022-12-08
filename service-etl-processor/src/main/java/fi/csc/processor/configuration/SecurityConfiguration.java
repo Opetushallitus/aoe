@@ -16,6 +16,7 @@ public class SecurityConfiguration {
         http.csrf().disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, "/produce/**").permitAll()
+            .antMatchers(HttpMethod.GET, "/statistics/**").permitAll()
             .antMatchers(HttpMethod.POST, "/statistics/**").permitAll()
             .antMatchers(HttpMethod.GET, "/status").permitAll()
             .antMatchers("/actuator/**").permitAll()

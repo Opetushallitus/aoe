@@ -60,7 +60,7 @@ public abstract class TimeFormatConverter {
     }
 
     /**
-     * COnvert Date To LocalDate.
+     * Convert Date To LocalDate.
      * Keep LocalDate in UTC, instead of local time zone.
      */
     public enum DateToLocalDateConverter implements Converter<Date, LocalDate> {
