@@ -31,7 +31,7 @@ public class JPAConfigurationSecondary {
             .build();
     }
 
-    @Bean(name = "transactionManagerPrimary")
+    @Bean(name = "transactionManagerSecondary")
     public PlatformTransactionManager transactionManagerSecondary(
         @Qualifier("entityManagerFactorySecondary") LocalContainerEntityManagerFactoryBean todosEntityManagerFactory) {
         return new JpaTransactionManager(Objects.requireNonNull(todosEntityManagerFactory.getObject()));
