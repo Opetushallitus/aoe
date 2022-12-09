@@ -67,7 +67,7 @@ public class StatisticsService {
         List<RecordKeyValue> values;
 
         if (educationalSubjectTotalRequest.getSince() != null && educationalSubjectTotalRequest.getUntil() != null) {
-            values = Arrays.stream(educationalSubjectTotalRequest.getEducationalLevels())
+            values = Arrays.stream(educationalSubjectTotalRequest.getEducationalSubjects())
                 .map(e -> {
                     Long total = switch (targetEnv) {
                         case PROD -> this.educationalMaterialRepositoryPrimary.countByEducationalSubjectBetweenPublishDates(
@@ -79,7 +79,7 @@ public class StatisticsService {
                 })
                 .toList();
         } else {
-            values = Arrays.stream(educationalSubjectTotalRequest.getEducationalLevels())
+            values = Arrays.stream(educationalSubjectTotalRequest.getEducationalSubjects())
                 .map(e -> {
                     Long total = switch (targetEnv) {
                         case PROD -> this.educationalMaterialRepositoryPrimary.countByEducationalSubjectKey(e);
