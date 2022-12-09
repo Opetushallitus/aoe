@@ -48,6 +48,20 @@ public class StatisticsController {
             educationalLevelTotalRequest, targetEnv), HttpStatus.OK));
     }
 
+    @PostMapping(path = "/{target}/educationallevel/expired",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getEducationalLevelExpired(
+        @PathVariable(value = "target") TargetEnv targetEnv,
+        @RequestBody EducationalLevelTotalRequest educationalLevelTotalRequest) {
+        if (educationalLevelTotalRequest.getExpiredBefore() != null) {
+            return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalLevelExpired(
+                educationalLevelTotalRequest, targetEnv), HttpStatus.OK));
+        } else {
+            return async(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        }
+    }
+
     @PostMapping(path = "/{target}/educationalsubject/all",
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)

@@ -62,6 +62,27 @@ public class StatisticsService {
         }};
     }
 
+    public StatisticsMeta<RecordKeyValue> getEducationalLevelExpired(
+        EducationalLevelTotalRequest educationalLevelTotalRequest,
+        TargetEnv targetEnv) {
+        List<RecordKeyValue> values = Arrays.stream(educationalLevelTotalRequest.getEducationalLevels())
+            .map(e -> {
+                Long total = switch (targetEnv) {
+                    case PROD -> this.educationalMaterialRepositoryPrimary.countByEducationalLevelExpiresBefore(
+                        e, educationalLevelTotalRequest.getExpiredBefore());
+                    case TEST -> this.educationalMaterialRepositorySecondary.countByEducationalLevelExpiresBefore(
+                        e, educationalLevelTotalRequest.getExpiredBefore());
+                };
+                return new RecordKeyValue(e, total);
+            })
+            .toList();
+        return new StatisticsMeta<>() {{
+            setSince(educationalLevelTotalRequest.getSince() != null ? educationalLevelTotalRequest.getSince().toLocalDate() : null);
+            setUntil(educationalLevelTotalRequest.getUntil() != null ? educationalLevelTotalRequest.getUntil().toLocalDate() : null);
+            setValues(values);
+        }};
+    }
+
     public StatisticsMeta<RecordKeyValue> getEducationalSubjectDistribution(
         EducationalSubjectTotalRequest educationalSubjectTotalRequest,
         TargetEnv targetEnv) {

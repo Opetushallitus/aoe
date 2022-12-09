@@ -27,6 +27,14 @@ public interface EducationalMaterialRepositorySecondary extends JpaRepository<Ed
         @Param("endDate") OffsetDateTime endDate);
 
     @Query("select count(em) from EducationalMaterial em " +
+        "join em.educationalLevels el " +
+        "where el.educationalLevelKey = :educationalLevelKey " +
+        "and em.expires < :expiresDate")
+    Long countByEducationalLevelExpiresBefore(
+        @Param("educationalLevelKey") String educationalLevelKey,
+        @Param("expiresDate") OffsetDateTime expiresDate);
+
+    @Query("select count(em) from EducationalMaterial em " +
         "join em.alignmentObjects ao " +
         "where ao.objectKey = :objectKey")
     Long countByEducationalSubjectKey(String objectKey);
