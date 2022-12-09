@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EducationalLevelTotalRequest extends BaseTotalRequest {
+public class EducationalSubjectTotalRequest extends BaseTotalRequest {
     private String[] educationalLevels;
 }

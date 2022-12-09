@@ -26,4 +26,19 @@ public interface EducationalMaterialRepositoryPrimary extends JpaRepository<Educ
         @Param("startDate") OffsetDateTime startDate,
         @Param("endDate") OffsetDateTime endDate);
 
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.alignmentObjects ao " +
+        "where ao.objectKey = :objectKey")
+    Long countByEducationalSubjectKey(String objectKey);
+
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.alignmentObjects ao " +
+        "where ao.objectKey = :objectKey " +
+        "and em.publishedAt >= :startDate " +
+        "and em.publishedAt < :endDate")
+    Long countByEducationalSubjectBetweenPublishDates(
+        @Param("objectKey") String objectKey,
+        @Param("startDate") OffsetDateTime startDate,
+        @Param("endDate") OffsetDateTime endDate);
+
 }
