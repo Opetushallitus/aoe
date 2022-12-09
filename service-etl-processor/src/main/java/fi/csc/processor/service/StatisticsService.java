@@ -5,6 +5,7 @@ import fi.csc.analytics.repository.secondary.EducationalMaterialRepositorySecond
 import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.request.EducationalLevelTotalRequest;
 import fi.csc.processor.model.request.EducationalSubjectTotalRequest;
+import fi.csc.processor.model.request.OrganizationTotalRequest;
 import fi.csc.processor.model.statistics.RecordKeyValue;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,41 @@ public class StatisticsService {
         return new StatisticsMeta<>() {{
             setSince(educationalSubjectTotalRequest.getSince() != null ? educationalSubjectTotalRequest.getSince().toLocalDate() : null);
             setUntil(educationalSubjectTotalRequest.getUntil() != null ? educationalSubjectTotalRequest.getUntil().toLocalDate() : null);
+            setValues(values);
+        }};
+    }
+
+    public StatisticsMeta<RecordKeyValue> getOrganizationDistribution(
+        OrganizationTotalRequest organizationTotalRequest,
+        TargetEnv targetEnv) {
+        List<RecordKeyValue> values;
+
+        if (organizationTotalRequest.getSince() != null && organizationTotalRequest.getUntil() != null) {
+            values = Arrays.stream(organizationTotalRequest.getOrganizations())
+                .map(e -> {
+                    Long total = switch (targetEnv) {
+                        case PROD -> this.educationalMaterialRepositoryPrimary.countByOrganizationBetweenPublishDates(
+                            e, organizationTotalRequest.getSince(), organizationTotalRequest.getUntil());
+                        case TEST -> this.educationalMaterialRepositorySecondary.countByOrganizationBetweenPublishDates(
+                            e, organizationTotalRequest.getSince(), organizationTotalRequest.getUntil());
+                    };
+                    return new RecordKeyValue(e, total);
+                })
+                .toList();
+        } else {
+            values = Arrays.stream(organizationTotalRequest.getOrganizations())
+                .map(e -> {
+                    Long total = switch (targetEnv) {
+                        case PROD -> this.educationalMaterialRepositoryPrimary.countByOrganizationKey(e);
+                        case TEST -> this.educationalMaterialRepositorySecondary.countByOrganizationKey(e);
+                    };
+                    return new RecordKeyValue(e, total);
+                })
+                .toList();
+        }
+        return new StatisticsMeta<>() {{
+            setSince(organizationTotalRequest.getSince() != null ? organizationTotalRequest.getSince().toLocalDate() : null);
+            setUntil(organizationTotalRequest.getUntil() != null ? organizationTotalRequest.getUntil().toLocalDate() : null);
             setValues(values);
         }};
     }

@@ -7,6 +7,7 @@ import fi.csc.processor.model.document.SearchRequestDocument;
 import fi.csc.processor.model.request.EducationalLevelTotalRequest;
 import fi.csc.processor.model.request.EducationalSubjectTotalRequest;
 import fi.csc.processor.model.request.IntervalTotalRequest;
+import fi.csc.processor.model.request.OrganizationTotalRequest;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import fi.csc.processor.service.StatisticsService;
 import fi.csc.processor.service.TimeSeriesService;
@@ -55,6 +56,16 @@ public class StatisticsController {
         @RequestBody EducationalSubjectTotalRequest educationalSubjectTotalRequest) {
         return async(() -> new ResponseEntity<>(this.statisticsService.getEducationalSubjectDistribution(
             educationalSubjectTotalRequest, targetEnv), HttpStatus.OK));
+    }
+
+    @PostMapping(path = "/{target}/organization/all",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    public CompletableFuture<ResponseEntity<StatisticsMeta<?>>> getOrganizationDistribution(
+        @PathVariable(value = "target") TargetEnv targetEnv,
+        @RequestBody OrganizationTotalRequest organizationTotalRequest) {
+        return async(() -> new ResponseEntity<>(this.statisticsService.getOrganizationDistribution(
+            organizationTotalRequest, targetEnv), HttpStatus.OK));
     }
 
     @PostMapping(path = "/{target}/materialactivity/{interval}/total",

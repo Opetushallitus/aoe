@@ -32,6 +32,10 @@ public class EducationalMaterial {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "educationalMaterial")
     private List<AlignmentObject> alignmentObjects;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "educationalMaterial")
+    private List<Author> authors;
+
     @Column(name = "CreatedAt", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime createdAt;
 

@@ -14,7 +14,7 @@ public interface EducationalMaterialRepositoryPrimary extends JpaRepository<Educ
     @Query("select count(em) from EducationalMaterial em " +
         "join em.educationalLevels el " +
         "where el.educationalLevelKey = :educationalLevelKey")
-    Long countByEducationalLevelKey(String educationalLevelKey);
+    Long countByEducationalLevelKey(@Param("educationalLevelKey") String educationalLevelKey);
 
     @Query("select count(em) from EducationalMaterial em " +
         "join em.educationalLevels el " +
@@ -29,7 +29,7 @@ public interface EducationalMaterialRepositoryPrimary extends JpaRepository<Educ
     @Query("select count(em) from EducationalMaterial em " +
         "join em.alignmentObjects ao " +
         "where ao.objectKey = :objectKey")
-    Long countByEducationalSubjectKey(String objectKey);
+    Long countByEducationalSubjectKey(@Param("objectKey") String objectKey);
 
     @Query("select count(em) from EducationalMaterial em " +
         "join em.alignmentObjects ao " +
@@ -38,6 +38,21 @@ public interface EducationalMaterialRepositoryPrimary extends JpaRepository<Educ
         "and em.publishedAt < :endDate")
     Long countByEducationalSubjectBetweenPublishDates(
         @Param("objectKey") String objectKey,
+        @Param("startDate") OffsetDateTime startDate,
+        @Param("endDate") OffsetDateTime endDate);
+
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.authors a " +
+        "where a.organizationKey = :organizationKey")
+    Long countByOrganizationKey(@Param("organizationKey") String organizationKey);
+
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.authors a " +
+        "where a.organizationKey = :organizationKey " +
+        "and em.publishedAt >= :startDate " +
+        "and em.publishedAt < :endDate")
+    Long countByOrganizationBetweenPublishDates(
+        @Param("organizationKey") String organizationKey,
         @Param("startDate") OffsetDateTime startDate,
         @Param("endDate") OffsetDateTime endDate);
 

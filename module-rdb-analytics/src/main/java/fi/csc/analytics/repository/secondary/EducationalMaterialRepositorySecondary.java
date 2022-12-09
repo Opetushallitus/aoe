@@ -41,4 +41,19 @@ public interface EducationalMaterialRepositorySecondary extends JpaRepository<Ed
         @Param("startDate") OffsetDateTime startDate,
         @Param("endDate") OffsetDateTime endDate);
 
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.authors a " +
+        "where a.organizationKey = :organizationKey")
+    Long countByOrganizationKey(@Param("organizationKey") String organizationKey);
+
+    @Query("select count(em) from EducationalMaterial em " +
+        "join em.authors a " +
+        "where a.organizationKey = :organizationKey " +
+        "and em.publishedAt >= :startDate " +
+        "and em.publishedAt < :endDate")
+    Long countByOrganizationBetweenPublishDates(
+        @Param("organizationKey") String organizationKey,
+        @Param("startDate") OffsetDateTime startDate,
+        @Param("endDate") OffsetDateTime endDate);
+
 }
