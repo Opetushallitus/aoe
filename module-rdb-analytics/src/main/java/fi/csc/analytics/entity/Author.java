@@ -30,10 +30,10 @@ public class Author {
     private String authorName;
 
     @Column(name = "Organization")
-    private Integer organization;
+    private String organization;
 
     @Column(name = "OrganizationKey")
-    private Integer organizationKey;
+    private String organizationKey;
 
 }
 
