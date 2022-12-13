@@ -77,8 +77,7 @@ public class StatisticsService {
             })
             .toList();
         return new StatisticsMeta<>() {{
-            setSince(educationalLevelTotalRequest.getSince() != null ? educationalLevelTotalRequest.getSince().toLocalDate() : null);
-            setUntil(educationalLevelTotalRequest.getUntil() != null ? educationalLevelTotalRequest.getUntil().toLocalDate() : null);
+            setUntil(educationalLevelTotalRequest.getExpiredBefore() != null ? educationalLevelTotalRequest.getExpiredBefore().toLocalDate() : null);
             setValues(values);
         }};
     }
