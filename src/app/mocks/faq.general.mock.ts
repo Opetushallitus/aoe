@@ -230,7 +230,7 @@ export const FAQGeneral = {
         {
             question: 'Vad kan jag göra om jag finner en lärresurs som är felaktig?',
             answer: [
-                'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: oppimateriaalivaranto@csc.fi. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
+                'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
             ],
         },
         {
