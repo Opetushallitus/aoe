@@ -13,6 +13,7 @@ export const FAQMaterial = {
             answer: [
                 'Avointen oppimateriaalien kirjaston näkökulmasta huomioitavaa on vain se, että osaat ladata/tallentaa valitsemastasi työkalusta teoksesi tiedostona koneellesi ja että sinulla on oikeus lisensoida oppimateriaalisi avoimesti. Hyväksytyistä tiedostomuodoista saat lisätietoa seuraavasta kysymyksestä. Avoimesta lisenssistä lisätietoa tällä sivulla kohdassa Mitä ovat Creative Commons -lisenssit.',
                 'Myös linkittäminen on mahdollista mikäli tallentaminen ei tule kyseeseen: varmista tällöin, että materiaali on avoimesti ilman sisäänkirjautumista ja muita rajoitteita saatavilla nyt ja myös oppimateriaalin tekemisen jälkeen sillä alustalla jonne se on tehty.',
+                'Avoimen tieteen koordinaatio on laatinut <a href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-laadun-avoimissa-oppimateriaaleissa" target="_blank" rel="noopener nofollow">avointen oppimateriaalien laatukriteerit (linkki kriteereihin avointiede.fi-sivulle)</a>, jotka toimivat laadunarvioinnin apuna.',
                 `Kannattaa tutustua myös <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Opetushallituksen e-oppimateriaalien laatukiriteereihin (linkki kriteereihin)</a> ja miettiä mitä digitaaliselta oppimateriaalilta itse kaipaa. Myös <a href="${environment.frontendUrl}/#/materiaali/120">eAmk-hankkeen laatukriteerejä (linkki kriteereihin aoe.fissä)</a> on hyödyllistä käyttää soveltuvilta osin. Saavutettavuuden huomiointiin on vinkkejä tällä sivulla omassa kysymyksessään.`,
             ],
         },
@@ -64,35 +65,35 @@ export const FAQMaterial = {
         {
             question: 'Miten voin huomioida oppimateriaalin saavutettavuuden?',
             answer: [
-                'Saavutettavuuden huomiomalla pyritään tekemään oppimateriaalista mahdollisimman käytettävä kaikille. Ladatessasi oppimateriaalisi Avointen oppimateriaalien kirjastoon, vastaat itse oppimateriaalisi saavutettavuuden toteutuksesta. Oppimateriaalin saavutettavuutta voi lisätä huomioimalla erilaiset käyttäjät oppimateriaalia tehdessä. Esimerkiksi tehdessäsi videomateriaalia, on hyvä tehdä materiaalille myös tekstitys, jotta nekin oppijat tai opettajat jotka eivät kuule, ymmärtävät videon sisällön. Avointen oppimateriaalien kirjasto tukee tekstitysten lisäämistä myös omana txt-tiedostona, jolloin voit lisätä useamman erikielisen tekstityksen tai jättää tämän mahdollisuuden materiaalin käyttäjille.  Eri ohjelmilla ja eri muotoisille materiaaleille on olemassa omia apuohjelmia saavutettavuuden varmistamiseen, <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">lisätietoa saavutettavuuden apuohjelmista esimerkiksi Esteetöntä opiskelua -sivulta</a>.',
+                'Saavutettavuuden huomiomalla pyritään tekemään oppimateriaalista mahdollisimman käytettävä kaikille. Ladatessasi oppimateriaalisi Avointen oppimateriaalien kirjastoon, vastaat itse oppimateriaalisi saavutettavuuden toteutuksesta. Oppimateriaalin saavutettavuutta voi lisätä huomioimalla erilaiset käyttäjät oppimateriaalia tehdessä. Esimerkiksi tehdessäsi videomateriaalia, on hyvä tehdä materiaalille myös tekstitys, jotta nekin oppijat tai opettajat jotka eivät kuule, ymmärtävät videon sisällön. Avointen oppimateriaalien kirjasto tukee tekstitysten lisäämistä myös omana vtt-tiedostona, jolloin voit lisätä useamman erikielisen tekstityksen tai jättää tämän mahdollisuuden materiaalin käyttäjille. Eri ohjelmilla ja eri muotoisille materiaaleille on olemassa omia apuohjelmia saavutettavuuden varmistamiseen, <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">lisätietoa saavutettavuuden apuohjelmista esimerkiksi Esteetöntä opiskelua -sivulta</a>.',
                 'Tehdessäsi oppimateriaalia, on hyvä huomioida nämä seikat:',
                 `<ul>
           <li>Jäsennä teksti mm. käyttämällä otsikoita otsikkotyylein, sijoittamalla tärkeän asian alkuun ja tekemällä lyhyitä kappaleita sekä listoja</li>
           <li>Tee video-, kaavio- ja kuvasisällölle tekstivastineet</li>
           <li>Tarjoa sisältöä eri muodoissa: tekstin lisäksi esimerkiksi infograafein</li>
          </ul>`,
-                'Lisätietoa esimerkiksi Kehitysvammaliiton <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">Papunet-palvelun pikaoppaasta sisällöntuottajille</a>.',
-                'Avointen oppimateriaalien kirjastossa voit myös lisätä kuvailuun tiedon siitä, miten oppimateriaalissa on huomioitu saavutettavuus. Tämä auttaa oppimateriaalien käyttäjiä löytämään itselle sopivia materiaaleja helpommin. <a href="https://wiki.eduuni.fi/display/CscOppimateriaalivaranto/Oppimateriaalien+metatietomalli#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">Saavutettavuuteen liittyvistä kuvailutiedoista lisätietoa palvelun avoimesta wikialueesta</a>.',
-            ],
-        },
-        {
-            question: 'Mitä teen jos löydän virheellistä tai muuten sopimatonta sisältöä?',
-            answer: [
-                'Avointen oppimateriaalien kirjasto on avoin paikka oppimateriaalien jakamiseen. Kaikki kirjastoon oppimateriaalinsa jakavat sitoutuvat palvelun käyttöehtoihin, mutta silti joskus saattaa palveluun päätyä sopimatonta sisältöä. Voit ottaa tällöin meihin yhteyttä osoitteeseen oppimateriaalivaranto@csc.fi. Viestissäsi kerro mistä oppimateriaalista on kyse ja mikä materiaalissa on mielestäsi vikana. Tarkastamme kaikki meille ilmoitetut oppimateriaalit ja arkistoimme ne mikäli ne eivät vastaa palvelun käyttöehtoja.',
+                'Voit tutustua avointen oppimateriaalien saavutettavuuteen ytimekkäästi <a href="https://avointiede.fi/fi/asiantuntijaryhmat/oppimisen-avoimuus/miten-huomioit-saavutettavuuden-avoimissa-oppimateriaaleissa" target="_blank" rel="noopener nofollow">Avoimen tieteen koordinaation saavutettavuusoppaasta (linkki avointiede.fi-sivustolle)</a>. Lisätietoa esimerkiksi Kehitysvammaliiton <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">Papunet-palvelun pikaoppaasta sisällöntuottajille</a>.',
+                'Avointen oppimateriaalien kirjastossa voit myös lisätä kuvailuun tiedon siitä, miten oppimateriaalissa on huomioitu saavutettavuus. Tämä auttaa oppimateriaalien käyttäjiä löytämään itselle sopivia materiaaleja helpommin.',
             ],
         },
         {
             question: 'Mitä voin tehdä jos materiaalini ei toimikaan?',
             answer: [
-                'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota asiakastukeemme yhteys laittamalla sähköpostia osoitteeseen oppimateriaalivaranto@csc.fi. Viestissäsi kerro, mikä on vikana, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
-                'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome, tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.',
+                'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota käyttäjätukeemme yhteys laittamalla sähköpostia osoitteeseen <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. Viestissäsi kerro, mikä on vikana, mikä materiaali on kyseessä, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
+                'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.',
             ],
         },
         {
-            question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaali poistaa?',
+            question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaalin poistaa?',
             answer: [
                 `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a href="${environment.frontendUrl}/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
-                'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme oppimateriaalivaranto@csc.fi ja ylläpitäjä voi poistaa materiaalin.',
+                'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> ja ylläpitäjä voi poistaa materiaalin.',
+            ],
+        },
+        {
+            question: 'Haluaisin siirtää materiaalini muokkausoikeuden toiselle käyttäjälle.',
+            answer: [
+                'Saamme materiaalin hallintaoikeuden helposti siirrettyä toiselle käyttäjälle kun laitat sähköpostitse viestiä ylläpitoomme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a> Tarvitsemme vain tiedot oppimateriaaleista, jotka haluat siirtää, sekä materiaalin uuden hallinnoijan tiedot. Mikäli uusi käyttäjä ei vielä ole kirjautunut <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a>:hin, hänen tulisi aluksi luoda tunnukset kirjautumalla palveluun Haka-, MPASSid- tai <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-tunnuksilla. Oppimateriaalin hallinta- ja muokkausoikeus voi olla vain yhdellä käyttäjällä kerrallaan. Oppimateriaalin hallintaoikeuden voi siirtää toiselle käyttäjälle ottamalla yhteyttä ylläpitoomme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a>',
             ],
         },
     ],
@@ -103,6 +104,7 @@ export const FAQMaterial = {
             answer: [
                 'The Library of Open Educational Resources only requires that you are able to download/save your work onto your computer in a file format, and that you have permission to openly license your work. For more information on open licenses, see “What are Creative Commons licenses?” on this page.',
                 'Linking to resources is also possible if they cannot be saved. Please ensure that the material is available openly, with no login or other restrictions, and that it can be accessed now and after its creation on the platform on which it was created.',
+                'Open Science Coordination in Finland has produced <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-quality-oer" target="_blank" rel="noopener nofollow">quality criteria for OERs (link to the criteria at avointiede.fi)</a> that will help you evaluate the quality of your OERs.',
                 'It is also advisable to read through <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">the Finnish National Agency for Education quality criteria for digital learning resources</a>, and consider what digital resources should accomplish (link in Finnish).',
                 `Relevant sections of the <a href="${environment.frontendUrl}/#/materiaali/120">quality criteria for online implementations created</a> as part of the eAMK project can also be useful.`,
                 'This page has a dedicated section for questions regarding accessibility.',
@@ -156,35 +158,36 @@ export const FAQMaterial = {
         {
             question: 'How do I make my educational resources accessible?',
             answer: [
-                'Taking accessibility factors into account allows us to maximize usability for all users. When uploading your materials to the Library of Open Educational Resources, it is up to you to ensure that its features are accessible. Increased accessibility can be achieved by endeavoring to take into account the full range of users in the process of creating your educational resource. When creating a video, for example, it is advisable to include subtitles for those learners and teachers who are hard of hearing. The service supports adding subtitles using a separate txt file, which allows you to add subtitles in multiple languages or give the option to do so to the users of your resource. There are utility programs for various software programs and file formats that help ensure that material is accessible. For more information, see the <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">“Esteetöntä opiskelua” (“Accessible Learning”) page</a> (in Finnish).',
+                'Taking accessibility factors into account allows us to maximize usability for all users. When uploading your materials to the Library of Open Educational Resources, it is up to you to ensure that its features are accessible. Increased accessibility can be achieved by endeavoring to take into account the full range of users in the process of creating your educational resource. When creating a video, for example, it is advisable to include subtitles for those learners and teachers who are hard of hearing. The service supports adding subtitles using a separate vtt file, which allows you to add subtitles in multiple languages or give the option to do so to the users of your resource. There are utility programs for various software programs and file formats that help ensure that material is accessible. For more information, see the <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">“Esteetöntä opiskelua” (“Accessible Learning”) page</a> (in Finnish).',
                 'When creating educational resources, it is advisable to consider the following:',
                 `<ul>
-            <li>Organize text in a readable manner by e.g. applying the appropriate formatting to headings, placing core content at the beginning, and keeping paragraphs and lists concise,</li>
-            <li>Provide text versions of content in video, chart and image format, and</li>
-            <li>make content available in multiple forms, such as infographics instead of text alone.</li>
-        </ul>`,
+                    <li>Organize text in a readable manner by e.g. applying the appropriate formatting to headings, placing core content at the beginning, and keeping paragraphs and lists concise,</li>
+                    <li>Provide text versions of content in video, chart and image format, and</li>
+                    <li>make content available in multiple forms, such as infographics instead of text alone.</li>
+                </ul>`,
+                'You can take a look at accessibility from the <a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow">accessibility guide by the Open Science Coordination in Finland</a><a href="https://avointiede.fi/en/open-science-expert-panels/open-education/how-account-accessibility-oer" target="_blank" rel="noopener nofollow"> (a link to avointiede.fi)</a>.',
                 'For more information, see the <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">quick guide for content creators</a> on the Finnish Association on Intellectual and Developmental Disabilities’ Papunet service (in Finnish).',
                 'The Library of Open Educational Resources also allows you to add information on how accessibility factors have been taken into account in the description of your resource. This makes it easier for users to find resources that meet their needs. For more information on material descriptions, see the service’s <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">open wiki</a>.',
             ],
         },
         {
-            question: 'What to do if I find improper or incorrect resources or comments?',
-            answer: [
-                "The Library of Open Educational Resources is an open space for sharing OER. Everyone that shares their resources in the services has agreed to follow the Terms of Use of the service, but some content not meant for the service can still sometimes find it's way here. If you find such content, please contact us at oppimateriaalivaranto@csc.fi. In your mail, please report to us the learning resource in question and what appears to be wrong with it. We inspect every reported resource and archive them if they do not follow our Terms of Use.",
-            ],
-        },
-        {
             question: 'What can I do, if my learning resource is not functioning correctly?',
             answer: [
-                'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email oppimateriaalivaranto@csc.fi. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
-                'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?.',
+                'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
+                'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?',
             ],
         },
         {
             question: 'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
             answer: [
                 'You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a href="https://aoe.fi/#/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.',
-                'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at oppimateriaalivaranto@csc.fi so that an admin can delete the resource.',
+                'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> so that an admin can delete the resource.',
+            ],
+        },
+        {
+            question: 'I would like to give the right to edit my OER to an other person.',
+            answer: [
+                'We can transfer the administrative rights to another user. First you need to contact us at <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a> We need information of the OERs that you wish to transfer and the name and email adress of the user who will be the new administrator. The new administrator needs to log in at aoe.fi using Haka, MPASSid or suomi.fi. Please note that the right to edit and administrate an OER can only be with one user at a time.',
             ],
         },
     ],
@@ -195,6 +198,7 @@ export const FAQMaterial = {
             answer: [
                 'Det enda att tänka på när det gäller Biblioteket för öppna lärresurser är att du i det verktyg du använder ska kunna ladda upp/spara en fil av ditt verk på din dator, och att du har rätt att licensera ditt undervisningsmaterial öppet. Du hittar mer information om öppna licenser på den här sidan under rubriken Vad är Creative Commons-licenser?',
                 'Om fillagring inte är aktuell kan man också länka materialet. Försäkra dig i så fall om att materialet är öppet tillgängligt utan inloggning eller andra begränsningar såväl nu som senare på den plattform där det skapats.',
+                'Samordningen av öppen vetenskap har sammanställt <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/kvalitetskriterier-oppna-larresurser" target="_blank" rel="noopener nofollow">Kvalitetskriterier för öppna lärresurser</a> (länk till <a href="http://avointiede.fi" target="_blank" rel="noopener nofollow">avointiede.fi</a>), som är avsedda som hjälp för dem som utarbetar och använder öppna lärresurser.',
                 'Det lönar sig att gå igenom <a href="https://www.oph.fi/fi/julkaisut/e-oppimateriaalin-laatukriteerit" target="_blank" rel="noopener nofollow">Utbildningsstyrelsens kvalitetskriterier</a> för digitala läromaterial och fundera på vad man själv vill ha ut av dem.',
                 `Också projektet <a href="${environment.frontendUrl}/#/materiaali/120">eAMK:s kvalitetskriterier</a> är användbara till tillämpliga delar.`,
                 'I ett eget avsnitt på den här sidan finns det tips om hur man beaktar tillgängligheten.',
@@ -247,27 +251,22 @@ export const FAQMaterial = {
         {
             question: 'Hur kan jag beakta tillgängligheten i undervisningsmaterialet?',
             answer: [
-                'Att beakta tillgängligheten betyder att undervisningsmaterialet blir så användarvänligt som möjligt för alla. När du lagrar undervisningsmaterial i Biblioteket för öppna lärresurser ansvarar du själv för att tillgängligheten beaktats. Tillgängligheten kan förbättras genom att olika användargrupper beaktas när materialet utarbetas. Exempelvis är det bra att lägga till undertexter till videor så att också studenter och lärare som inte hör kan ta del av innehållet. Biblioteket för öppna lärresurser stöder infogande av undertexterna som txt-fil. På så sätt kan du lägga till textning på flera språk eller ge användarna möjlighet till detta. Det finns särskilda hjälpprogram för att säkerställa tillgängligheten i olika program och format. Mer information om det här finns exempelvis på <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">webbplatsen Esteetöntä opiskelua (tillgängliga studier)</a> (på finska).',
+                'Att beakta tillgängligheten betyder att undervisningsmaterialet blir så användarvänligt som möjligt för alla. När du lagrar undervisningsmaterial i Biblioteket för öppna lärresurser ansvarar du själv för att tillgängligheten beaktats. Tillgängligheten kan förbättras genom att olika användargrupper beaktas när materialet utarbetas. Exempelvis är det bra att lägga till undertexter till videor så att också studenter och lärare som inte hör kan ta del av innehållet. Biblioteket för öppna lärresurser stöder infogande av undertexterna som vtt-fil. På så sätt kan du lägga till textning på flera språk eller ge användarna möjlighet till detta. Det finns särskilda hjälpprogram för att säkerställa tillgängligheten i olika program och format. Mer information om det här finns exempelvis på <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">webbplatsen Esteetöntä opiskelua (tillgängliga studier)</a> (på finska).',
                 'När du utarbetar undervisningsmaterial är det bra att beakta följande:',
                 `<ul>
             <li>att du strukturerar texten bland annat genom att formatera rubriker med rubrikformat, placera det viktigaste först och skriva korta stycken och listor,</li>
             <li>att du skapar textversioner av videor, diagram och bilder</li>
             <li>att du erbjuder innehållet i olika format, exempelvis såväl text som infografer.</li>
         </ul>`,
-                'Mer information finns till exempel i <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">snabbguiden för innehållsproducenter i Förbundet Utvecklingshämnings tjänst Papunet</a> (på finska).',
+                'Du kan läsa mer på <a href="https://avointiede.fi/sv/expertgrupper/oppen-utbildning/handbok-i-tillganglighet-till-oppna-larresurser" target="_blank rel="noopener nofollow">Handbok i tillgänglighet till öppna lärresurser</a> (länk till <a href="http://avointiede.fi" target="_blank rel="noopener nofollow">avointiede.fi</a>), som är en tydlig guide om tillgänglighet från Samordningen av öppna vetenskap.',
+                'Mer information finns också till exempel i <a href="http://papunet.net/saavutettavuus/pikaopas-sisallontuottajille" target="_blank" rel="noopener nofollow">snabbguiden för innehållsproducenter i Förbundet Utvecklingshämnings tjänst Papunet</a> (på finska).',
                 'I Biblioteket för öppna lärresurser kan du i beskrivningen också lägga till information om hur tillgängligheten har beaktats i materialet. Det underlättar för användarna att hitta material som passar dem. Det finns mera information <a href="http://www.saavutettavasti.fi/#Oppimateriaalienmetatietomalli-saavutettavuus" target="_blank" rel="noopener nofollow">om metadata i tjänstens öppna wiki</a> (på finska).',
-            ],
-        },
-        {
-            question: 'Vad kan jag göra om jag finner en lärresurs som är felaktig?',
-            answer: [
-                'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: oppimateriaalivaranto@csc.fi. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
             ],
         },
         {
             question: 'Vad kan jag göra om min lärresurs inte fungerar?',
             answer: [
-                'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support oppimateriaalivaranto@csc.fi. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
+                'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
                 'Tjänsten fungerar bäst med en uppdaterad webbläsare. Du har den bästa upplevelsen, när du använder Chrome eller Firefox -webbläsare och uppdaterar dem regelbundet. Du kan också kolla vilka format kan användas direkt i tjänsten på den här sidan i frågan Vilka material kan lagras i tjänsten?.',
             ],
         },
@@ -275,7 +274,13 @@ export const FAQMaterial = {
             question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
             answer: [
                 `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a href="${environment.frontendUrl}/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
-                'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på oppimateriaalivaranto@csc.fi så att en administratör kan ta bort resursen.',
+                'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> så att en administratör kan ta bort resursen.',
+            ],
+        },
+        {
+            question: 'Kan jag ge en annan person rätt att redigera mina lärresurserna?',
+            answer: [
+                'Om du vill ge en annan person redigeringsrätter till en, alla eller några av dina lärresurser, kan du kontakta oss vid e-post <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> Vi behöver informationen om vilka lärresurser betyder du och vilken person vill du ge redigeringsrätter. Bara en person kan redigera lärresurs, så om du vill ge redigeringsrätter till en annan person, det menar att du kan inte redigera lärresursen dig själv. Ny redigerare måste först logga in till <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a> och godkänna användningsvillkor.',
             ],
         },
     ],
