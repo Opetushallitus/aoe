@@ -891,7 +891,7 @@
                     </div>
 
                     <ng-template #loadingFilters>
-                        <div class="filter">
+                        <div *ngIf="results?.hits > 0" class="filter">
                             <div class="spinner-border" role="status">
                                 <span class="sr-only">{{ "search.results.loading" | translate }}</span>
                             </div>

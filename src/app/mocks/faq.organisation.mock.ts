@@ -6,17 +6,6 @@
 export const FAQOrganisation = {
     fi: [
         {
-            question:
-                'Minulla tai organisaatiollani on useita kymmeniä avoimia oppimateriaaleja, miten saamme ne näkyviin Avointen oppimateriaalien kirjastoon?',
-            answer: [
-                'Oppimateriaalien metatietoja voi tuoda isoina massoina Avointen oppimateriaalien kirjastoon kahdella eri tavalla. Ensimmäinen tapa on harvestointi. Harvestointia varten organisaatiollanne pitää olla käytössä tai sitä varten on tehtävä oai pmh -provideri/rajapinta, jonka lisäksi palvelun metatietomallin on oltava yhteensopiva Avointen oppimateriaalien kirjastoon metatietomallin kanssa. Autamme organsiaatioita metatietomallien yhteensovittamisessa, mutta pääsäntöisesti palvelusta on löydyttävä metatietomallissamme määritellyt pakolliset tiedot jossain muodossa. Metatietomallista lisätietoa <a href="https://wiki.eduuni.fi/x/_RxLBg" target="_blank" rel="noopener nofollow">tästä wikisivustollemme johtavasta linkistä</a>.',
-                'Mikäli harvestointi ei ole mahdollista, on vaihtoehtona oppimateriaalien metatietojen tuonti excel-pohjalla. Exceliin täytetään tai kopioidaan oppimateriaalien tiedot niin että yhdellä rivillä on yhden oppimateriaalin tiedot. Jokaisesta oppimateriaalista on täydennettävä vähintään pakolliset metatiedot. Excel säästää aikaa erityisesti tilanteissa joissa oppimateriaaleille on joitain yhteisiä nimittäjiä esimerkiksi suurin osa on kohdennettu samalle kohderyhmälle ja koulutusasteelle. Tällöin päällekkäiset tiedot voi kopioida jokaiselle riville eikä tietojen syöttämiseen kulu merkittävästi aikaa.',
-                'Oppimateriaalit on mahdollista syöttää myös syöttökäyttöliittymän kautta. Tämä toimii erityisesti mikäli materiaaleja ei ole useaa kymmentä.',
-                'Kaikkien Avointen oppimateriaalien kirjastossa näytettävien oppimateriaalien tulee olla avoimesti Creative Commons -lisenssillä lisensoituja.',
-                'Mikäli sinä tai organisaatiosi olette kiinnostuneita näistä vaihtoehdoista, otattehan yhteyttä <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> niin voimme sopia yhteistyön toteuttamisesta.',
-            ],
-        },
-        {
             question: 'Millaisia oppimateriaaleja voi tuoda Avointen oppimateriaalien kirjastoon?',
             answer: [
                 'Avointen oppimateriaalien kirjasto on tarkoitettu julkisin varoin tuotetuille avoimille oppimateriaaleille. Jotta oppimateriaalin tiedot voi tuoda palveluun on a) materiaalin oltava Creative Commons -lisenssillä lisensoitu, b) on sen oltava julkisin varoin tuotettu tai sen oltava saanut julkista rahoitusta, c) on tuojalla oltava oikeus siirtää materiaali, sen tiedot ja niihin liittyvät henkilötiedot Avointen oppimateriaalien kirjastoon sekä d) organisaation on sitouduttava palvelun tietosuojaselosteeseen ja käyttöehtoihin. Mikäli sinä tai organisaatiosi olette kiinnostuneita, otattehan yhteyttä <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> niin voimme sopia yhteistyön toteuttamisesta.',
@@ -25,7 +14,7 @@ export const FAQOrganisation = {
         {
             question: 'Millainen metatietomalli Avointen oppimateriaalien kirjastossa on?',
             answer: [
-                'Avointen oppimateriaalien kirjasto käyttää kansainvälisesti yhteensopivaa LRMI-pohjaista metatietomallia, joka on tarkoitettu oppimateriaalien laadukkaan löytämisen edistämiseen. Hankkeen aikana metatietomalli profiloitiin Suomen koulutuskentän tarpeisiin yhdessä sidosryhmien kanssa. Metatietomallia kehitetään edelleen ja <a href="https://wiki.eduuni.fi/x/_RxLBg" target="_blank" rel="noopener nofollow">metatietomallin viimeisin dokumentaatio löytyy täältä</a>. Metatitietomalli ja sen hyödyntämät sanastot ovat avoimesti käytettäviä.',
+                'Avointen oppimateriaalien kirjasto käyttää kansainvälisesti yhteensopivaa LRMI-pohjaista metatietomallia, joka on tarkoitettu oppimateriaalien laadukkaan löytämisen edistämiseen. Hankkeen aikana metatietomalli profiloitiin Suomen koulutuskentän tarpeisiin yhdessä sidosryhmien kanssa. Metatietomallia kehitetään edelleen ja <a href="https://wiki.eduuni.fi/x/tQBEDQ" target="_blank" rel="noopener nofollow">metatietomallin viimeisin dokumentaatio löytyy täältä</a>. Metatietomalli ja sen hyödyntämät sanastot ovat avoimesti käytettäviä.',
             ],
         },
         {
@@ -43,19 +32,15 @@ export const FAQOrganisation = {
                 'Organisaatiot voivat hyödyntää tiedotuksessaan Avointen oppimateriaalien kirjaston markkinointimaterialeja ja ohjeita. Olemme koonneet hyödyllisiä materiaaleja sekä syventäviä kysymyksiä <a href="https://wiki.eduuni.fi/x/jS6pCQ" target="_blank" rel="noopener nofollow">omalle wikisivulleen</a>.',
             ],
         },
-    ],
-    en: [
         {
             question:
-                'My organization or I myself have dozens of open educational resources: How can we make them visible on the Library of Open Educational Resources?',
+                'Haluaisin tallentaa organisaationi tekemiä materiaaleja, miten saan organisaatiotunnuksen käyttöön?',
             answer: [
-                'There are two ways to bring educational resources’ metadata into the Library of Open Educational Resources in large amounts. The first method is harvesting. It requires that your organization has established or establishes for this purpose an “oai pmh” provider/interface. In addition, the metadata model of the service in question must be compatible with that of the Library of Open Educational Resources. We can help your organization with making the models compatible, but the service in question must, as a rule, contain in some form the necessary information defined in our <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">metadata model</a>.',
-                'If harvesting is not possible, the metadata can alternatively be imported in an Excel file. The educational resources’ data is entered or copied into the Excel table so that each row contains the data for one resource. At a minimum, the necessary metadata must be entered for each resource. Using Excel saves time particularly when a significant share of the resources are targeted towards the same target group and level of education, for example. In such cases, overlapping data can be copied into each row and data entry does not require a substantial amount of time.',
-                'The data can also be entered using an input interface. This is a suitable option especially when there aren’t dozens of resources.',
-                'All resources available on the Library of Open Educational Resources must be openly licensed under a Creative Commons license.',
-                'If you or your organization are interested in the options described above, please contact <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> to discuss how we can best work together.',
+                'AOE:ssa tunnistautuminen on aina henkilökohtainen ja se tapahtuu <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-, Haka- tai MPASSid-tunnistautumisen avulla. Organisaatiotunnusta meillä ei valitettavasti ole käytössä, mutta voimme tarvittaessa helposti siirtää materiaalin hallintaoikeuden toiselle käyttäjälle. Teidän tulee vain ilmoittaa meille sähköpostitse osoitteeseen oppimateriaalivaranto@csc.fi, kenelle haluatte hallinta- ja muokkausoikeuden siirrettävän, niin saamme siirron tehtyä täällä ylläpitopäässä.',
             ],
         },
+    ],
+    en: [
         {
             question:
                 'What kinds of educational resources can be brought into the Library of Open Educational Resources?',
@@ -76,19 +61,14 @@ export const FAQOrganisation = {
                 'In addition to the API every OER has its own embed link. By allowing embed links from aoe.fi in your learning environments, teachers and learners themselves can embed OER from the Library of Open Educational Resources to your learning environments.',
             ],
         },
-    ],
-    sv: [
         {
-            question:
-                'Jag eller min organisation har flera tiotals öppna lärresurser. Hur kan vi föra in dem i Biblioteket för öppna lärresurser?',
+            question: 'I would like to upload OERs made by my organization. Can I use an organizational account?',
             answer: [
-                'Undervisningsmaterials metadata kan föras in i Biblioteket för öppna lärresurser i större mängder på två olika sätt. Det första är höstning (harvesting). För höstning behöver din organisation ha eller skaffa en ”oai phm”-proviantör/protokoll. Dessutom måste tjänstens metadatamodell vara kompatibel med den modell som Biblioteket för öppna lärresurser använder. Vi hjälper gärna din organisation att göra metadatamodellerna kompatibla, men som regel måste vissa uppgifter som markerats som obligatoriska i vår metadatamodell finnas i någon form i tjänsten. Mer <a href="http://www.esok.fi/stivisuositus/suosituksen-sisalto" target="_blank" rel="noopener nofollow">information om metadatamodellen finns här</a>.',
-                'Om höstning inte är en möjlighet är alternativet att föra in undervisningsmaterialens metadata i en excel-mall. Uppgifterna fylls i eller kopieras till Excel så att varje rad innehåller uppgifterna för ett material. Åtminstone de obligatoriska metadata ska fyllas i för varje undervisningsmaterial. Särskilt om undervisningsmaterialen har gemensamma nämnare sparar Excel-metoden tid, exempelvis om en stor del av materialen riktar sig till samma målgrupp och utbildningsstadium. I så fall kan den överlappande informationen kopieras in på varje rad och inmatningen tar inte så lång tid.',
-                'Lärresurserna kan också matas in via inmatningsgränssnittet. Detta är särskilt praktiskt om det inte handlar om flera tiotals resurser.',
-                'Alla undervisningsmaterial som visas i tjänsten för öppna lärresurser ska ha en öppen Creative Commons-licens.',
-                'Om du eller din organisation är intresserade av dessa alternativ, kontakta <a href="mailto:oppimateriaalivaranto@csc.fi">oppimateriaalivaranto@csc.fi</a> så vi kan avtala om samarbete.',
+                'Logging in to AOE.fi is always personal and can be done using Haka, MPASSid or suomi.fi identification. Unfortunately we do not have an organizational account. It is possible to give administrative rights, including the right to modify and edit an OER, to another user. In this case you just need to inform us via email <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> about the OER you would wish to give access to and who is the new owner of the OER.',
             ],
         },
+    ],
+    sv: [
         {
             question: 'Hurdana undervisningsmaterial kan föras in Biblioteket för öppna lärresurser?',
             answer: [
