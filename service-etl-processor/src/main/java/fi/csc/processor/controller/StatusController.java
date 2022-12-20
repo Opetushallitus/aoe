@@ -13,7 +13,7 @@ import static fi.csc.processor.utils.AsyncUtil.async;
 @RestController
 public class StatusController {
 
-    @GetMapping(path = "/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
     public CompletableFuture<ResponseEntity<String>> getStatus() {
         return async(() -> new ResponseEntity<>("Service operable: true", HttpStatus.OK));
     }
