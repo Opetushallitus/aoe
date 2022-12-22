@@ -96,7 +96,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                    <executable>true</executable>
+                    <!--<executable>true</executable>-->
                     <!--<fork>false</fork>-->
                     <mainClass>fi.csc.processor.ServiceEtlProcessorApplication</mainClass>
                     <skip>false</skip>
