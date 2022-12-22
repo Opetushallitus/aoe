@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MaterialActivitySecondaryRepository extends MongoRepository<MaterialActivityDocument, ObjectId> {
+
+    // No custom methods
+
+}
+
 //    "{'$project':  {'timestamp': 1, day: {$day: '$timestamp'}}}",
 //    "{'$group': {'_id': {day: '$day'}, dayTotal: {'$sum':  1}}}"
 //    @Aggregation(pipeline = {
@@ -17,4 +22,3 @@ public interface MaterialActivitySecondaryRepository extends MongoRepository<Mat
 //    List<SumInterface> getDailySums(LocalDateTime since, LocalDateTime until);
 //    List<MaterialActivityDocument> getDailySums(LocalDateTime since, LocalDateTime until);
 //    List<SumInterface> findByTimestampBetweenOrderByTimestampAsc(LocalDateTime since, LocalDateTime until);
-}

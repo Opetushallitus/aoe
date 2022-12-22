@@ -1,32 +1,32 @@
 package fi.csc.processor.enumeration;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.stream.Stream;
+
 public enum Interaction {
     VIEW("view"),
     SAVE("save"),
     LOAD("load"),
     EDIT("edit");
 
-    private final String name;
+    private final String value;
 
-    Interaction(String name) {
-        this.name = name;
+    Interaction(String value) {
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    @JsonCreator
+    public static Interaction decode(final String value) {
+        return Stream.of(Interaction.values())
+            .filter(targetEnum -> targetEnum.value.equalsIgnoreCase(value))
+            .findFirst()
+            .orElse(null);
     }
 
-    public static Interaction fromString(String string) {
-        for (Interaction interaction : Interaction.values()) {
-            if (interaction.name.equalsIgnoreCase(string)) {
-                return interaction;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    @JsonValue
+    public String getValue() {
+        return value;
     }
 }

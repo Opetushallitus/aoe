@@ -35,7 +35,7 @@ public class TimeSeriesService {
 
     /**
      * Statistics Classification Query Criteria Logic (production):
-     *
+     * <p>
      * time1 (inclusive greater than)
      * AND
      * time2 (exclusive less than)
@@ -46,9 +46,9 @@ public class TimeSeriesService {
      * AND
      * keyC1 OR keyC2 OR keyC3 OR ... (educationalSubjects)
      *
-     * @param interval - enum Interval: DAY | WEEK | MONTH.
+     * @param interval             - enum Interval: DAY | WEEK | MONTH.
      * @param intervalTotalRequest - metadata for request criteria.
-     * @param targetCollection - class for target database document collection.
+     * @param targetCollection     - class for target database document collection.
      * @return statistics query results wrapped by statistics metadata.
      */
     public StatisticsMeta<IntervalTotal> getTotalByInterval(
@@ -65,10 +65,10 @@ public class TimeSeriesService {
             targetCollection,
             IntervalTotal.class);
         return new StatisticsMeta<>() {{
-             setInterval(interval);
-             setSince(intervalTotalRequest.getSince());
-             setUntil(intervalTotalRequest.getUntil());
-             setValues(result.getMappedResults());
+            setInterval(interval);
+            setSince(intervalTotalRequest.getSince());
+            setUntil(intervalTotalRequest.getUntil());
+            setValues(result.getMappedResults());
         }};
     }
 
@@ -76,6 +76,9 @@ public class TimeSeriesService {
         List<Criteria> cumulativeCriteria = new ArrayList<>();
         cumulativeCriteria.add(Criteria.where("timestamp").gte(intervalTotalRequest.getSince()));
         cumulativeCriteria.add(Criteria.where("timestamp").lt(intervalTotalRequest.getUntil()));
+        if (intervalTotalRequest.getInteraction() != null) {
+            cumulativeCriteria.add(Criteria.where("interaction").is(intervalTotalRequest.getInteraction()));
+        }
         try {
             AggregationBuilder.buildCriteriaByRequestConditions(cumulativeCriteria, intervalTotalRequest);
         } catch (NoSuchFieldException | IllegalAccessException e) {

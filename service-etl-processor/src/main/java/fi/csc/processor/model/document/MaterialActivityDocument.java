@@ -19,7 +19,7 @@ public class MaterialActivityDocument extends BaseCollection {
     }
 
     public void setInteraction(String interaction) {
-        this.interaction = Interaction.fromString(interaction);
+        this.interaction = Interaction.decode(interaction);
     }
 
     public void setInteraction(Interaction interaction) {
