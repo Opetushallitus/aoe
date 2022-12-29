@@ -31,7 +31,7 @@
                             </ng-container>
 
                             <ng-container *ngIf="educationalMaterial.owner">
-                                <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId]">
+                                <a class="btn btn-link" [routerLink]="['/muokkaa-oppimateriaalia', materialId, 1]">
                                     <i class="fa fa-fw fa-edit text-dark" aria-hidden="true"></i>
                                     {{ "demo.educationalMaterial.edit" | translate }}
                                 </a>

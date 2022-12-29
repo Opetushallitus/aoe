@@ -586,7 +586,7 @@ export class MaterialService {
      */
     updateEditMaterial(materialId: number): void {
         this.http
-            .get<any>(`${environment.backendUrl}/material/${materialId}`, {
+            .get<any>(`${environment.backendUrl}/material/${materialId}?interaction=edit`, {
                 headers: new HttpHeaders({
                     Accept: 'application/json',
                 }),
