@@ -1,11 +1,5 @@
 export const mimeTypes = {
-    video: [
-        'application/x-troff-msvideo',
-        'video/avi',
-        'video/msvideo',
-        'video/x-msvideo',
-        'video/mp4',
-    ],
+    video: ['application/x-troff-msvideo', 'video/avi', 'video/msvideo', 'video/x-msvideo', 'video/mp4'],
     audio: ['audio/mp3', 'audio/mpeg', 'audio/x-m4a', 'audio/mp4'],
     pdf: ['application/pdf'],
     html: ['text/html'],

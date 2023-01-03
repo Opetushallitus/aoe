@@ -12,6 +12,7 @@ export const environment = {
     backendUrl: 'https://demo.aoe.fi/api/v1', // demo
     backendUrlV2: 'https://demo.aoe.fi/api/v2',
     embedBackendUrl: 'https://lessons.demo.aoe.fi/embed', // demo
+    statisticsBackendUrl: 'https://demo.aoe.fi/stat/api/v2/statistics/prod',
     // backendUrl: 'https://aoe.fi/api', // prod
     frontendUrl: 'http://localhost:4200',
     fileUploadLSKey: 'aoe.fileUpload',
