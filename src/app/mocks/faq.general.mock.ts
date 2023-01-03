@@ -65,7 +65,8 @@ export const FAQGeneral = {
             ],
         },
         {
-            question: 'Löysin mbz-tiedoston sisältävän oppimateriaalin, mutta minulla ei ole moodlea käytössä. Voinko käyttää materiaalia jotenkin muuten?',
+            question:
+                'Löysin mbz-tiedoston sisältävän oppimateriaalin, mutta minulla ei ole moodlea käytössä. Voinko käyttää materiaalia jotenkin muuten?',
             answer: [
                 'Valitettavasti mbz-tiedostot vaativat Moodlen, jotta sitä voi katsoa. Periaatteessa tiedosto voi avautua myös johonkin toiseen oppimisen hallintajärjestelmään, mutta tällöin oppimateriaalin virheettömästä toimivuudesta ei ole takeita. Löydät lisätietoja moodle-oppimateriaaleista blogikirjoituksestamme: <a target="_blank" rel="noopener nofollow" href="https://wiki.eduuni.fi/x/q4iqDQ">https://wiki.eduuni.fi/x/q4iqDQ</a>',
             ],
@@ -164,8 +165,7 @@ export const FAQGeneral = {
             ],
         },
         {
-            question:
-                'How do I mark a Creative Commons license for a work I use in my own learning material?',
+            question: 'How do I mark a Creative Commons license for a work I use in my own learning material?',
             answer: [
                 'When you use a Creative Commons-licensed work in your own material and want to tag information about the material you are using, tag the following information:',
                 'Author, material name and link. License and link.',
@@ -239,15 +239,16 @@ export const FAQGeneral = {
                 'För att hänvisa till material som finns i Biblioteket för öppna lärresurser, markera det enligt följande:',
                 'Författare, <em>undervisningsmaterialets namn</em>. (Utgivare, om det anges.) Utgivningsår. Permanent URN identifierare.',
                 'T.ex: Toikkanen Tarmo, <em>Upphovsrätten i undervisningen</em>. 2019. URN identifierar',
-            ]
+            ],
         },
         {
-            question: 'Hur markerar jag en Creative Commons -licens för ett läromedel som jag använder i mitt eget läromedel?',
+            question:
+                'Hur markerar jag en Creative Commons -licens för ett läromedel som jag använder i mitt eget läromedel?',
             answer: [
                 'När du använder ett Creative Commons-licensierat verk i ditt eget material och vill märka information om materialet du använder, märk följande information:',
                 'Författare, materialnamn och länk. Licens och länk.',
                 'T.ex: Toikkanen Tarmo, <a href="https://aoe.fi/#/materiaali/58" target="_blank" rel="noopener nofollow"> Upphovsrätten i undervisningen. </a><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener nofollow">CC BY 4.0 -licens.</a>',
-            ]
+            ],
         },
     ],
 };

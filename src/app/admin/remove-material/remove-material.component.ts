@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../../services/admin.service';
+import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
 import { validatorParams } from '../../constants/validator-params';
 import { RemoveMaterialResponse } from '../model/remove-material-response';
