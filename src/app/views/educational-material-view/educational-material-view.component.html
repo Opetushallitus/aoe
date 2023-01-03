@@ -61,7 +61,8 @@
                                             {{ getLanguageValue(materialLang) }}
                                         </strong>
 
-                                        <ng-container *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
+                                        <ng-container
+                                            *ngIf="materials | materialLanguage: materialLang as filteredMaterials">
                                             <ng-container *ngFor="let material of filteredMaterials">
                                                 <a
                                                     *ngIf="!material.downloadUrl.endsWith(nullDownloadUrl)"

@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ManageMaterialsComponent } from './manage-materials-view/manage-materials.component';
 import { ManageServiceComponent } from './manage-service-view/manage-service.component';
 import { NotificationComponent } from './notification/notification.component';
+import { AnalyticsViewComponent } from './analytics-view/analytics-view.component';
 
 const routes: Routes = [
     {
@@ -36,6 +37,12 @@ const routes: Routes = [
             {
                 path: 'hallinnoi-palvelua',
                 component: ManageServiceComponent,
+                canActivate: [AuthGuard, AdminGuard],
+                runGuardsAndResolvers: 'always',
+            },
+            {
+                path: 'analytiikka',
+                component: AnalyticsViewComponent,
                 canActivate: [AuthGuard, AdminGuard],
                 runGuardsAndResolvers: 'always',
             },
