@@ -69,9 +69,6 @@ export class AnalyticsViewComponent implements OnInit {
             educationalLevels: this.formBuilder.control(null),
             educationalSubjects: this.formBuilder.control(null),
         });
-        this.koodistoService.updateOrganizations();
-        this.koodistoService.updateEducationalLevels();
-        this.koodistoService.updateSubjectFilters();
     }
 
     get intervalCtrl(): FormControl {
