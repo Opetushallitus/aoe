@@ -10,7 +10,7 @@ import { KoodistoService } from './services/koodisto.service';
     encapsulation: ViewEncapsulation.None,
 })
 export class AdminComponent implements OnInit {
-    constructor(private titleSvc: Title,  public koodistoService: KoodistoService,) {}
+    constructor(private titleSvc: Title, public koodistoService: KoodistoService) {}
 
     ngOnInit(): void {
         this.titleSvc.setTitle(`Bryssel ${environment.title}`);

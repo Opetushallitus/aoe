@@ -20,23 +20,32 @@ import { KoodistoService } from '../services/koodisto.service';
     styleUrls: ['./analytics-view.component.scss'],
 })
 export class AnalyticsViewComponent implements OnInit {
-    searchesAndViewsForm: FormGroup;
+    userActivityForm: FormGroup;
     expiredMaterialsForm: FormGroup;
-    materialTotalsForm: FormGroup;
+    publishedMaterialsForm: FormGroup;
     submitted: boolean;
-    // startDate: Date;
-    // endDate: Date;
     selectedInterval: string;
+    startDateString: string;
+    endDateString: string;
     datesArray: string[] = [];
     sortedSearchTotal: number[] = [];
     sortedViewingTotal: number[] = [];
+    sortedEditTotal: number[] = [];
+    sortedLoadTotal: number[] = [];
     requestDates: string[];
     requestPortionNames: string[];
     requestsTotal: number[];
     echart: EChartsOption;
-    searchesAndViewingChart: EChartsOption;
+    userActivityChart: EChartsOption;
     expiredMaterialsChart: EChartsOption;
+    materialTotalsChart: EChartsOption;
+    activityOptions = [{ name: 'Viewed' }, { name: 'Edited' }, { name: 'Downloaded' }, { name: 'Searched' }];
     intervals = [{ name: 'day' }, { name: 'week' }, { name: 'month' }];
+    categories = [{ name: 'educational levels' }, { name: 'educational subjects' }, { name: 'organizations' }];
+    category: 'educational levels' | 'educational subjects' | 'organizations' = 'educational levels';
+    publishedcategory: string = 'educationallevel';
+    chartData: { name: string; value: number[] }[] = [];
+    categoryNames: { key: string; value: string }[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -46,7 +55,8 @@ export class AnalyticsViewComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.searchesAndViewsForm = this.formBuilder.group({
+        this.userActivityForm = this.formBuilder.group({
+            activity: this.formBuilder.control(null, [Validators.required]),
             interval: this.formBuilder.control('day', [Validators.required]),
             startDate: this.formBuilder.control(new Date(new Date().setFullYear(new Date().getFullYear() - 1)), [
                 Validators.required,
@@ -62,32 +72,37 @@ export class AnalyticsViewComponent implements OnInit {
             educationalLevels: this.formBuilder.control(null, [Validators.required]),
             educationalSubjects: this.formBuilder.control(null),
         });
-        this.materialTotalsForm = this.formBuilder.group({
-            startDate: this.formBuilder.control(null),
-            endDate: this.formBuilder.control(null),
-            organizations: this.formBuilder.control(null),
-            educationalLevels: this.formBuilder.control(null),
-            educationalSubjects: this.formBuilder.control(null),
+        this.publishedMaterialsForm = this.formBuilder.group({
+            category: this.formBuilder.control('educational levels', [Validators.required]),
+            publishedStartDate: this.formBuilder.control(
+                new Date(new Date().setFullYear(new Date().getFullYear() - 1)),
+            ),
+            publishedEndDate: this.formBuilder.control(new Date()),
+            publishedOrganizations: this.formBuilder.control(null),
+            publishedEducationalLevels: this.formBuilder.control(null),
+            publishedEducationalSubjects: this.formBuilder.control(null),
         });
     }
-
+    get activityCtrl(): FormControl {
+        return this.userActivityForm.get('activity') as FormControl;
+    }
     get intervalCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('interval') as FormControl;
+        return this.userActivityForm.get('interval') as FormControl;
     }
     get startDateCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('startDate') as FormControl;
+        return this.userActivityForm.get('startDate') as FormControl;
     }
     get endDateCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('endDate') as FormControl;
+        return this.userActivityForm.get('endDate') as FormControl;
     }
     get organizationsCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('organizations') as FormControl;
+        return this.userActivityForm.get('organizations') as FormControl;
     }
     get educationalLevelsCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('educationalLevels') as FormControl;
+        return this.userActivityForm.get('educationalLevels') as FormControl;
     }
     get educationalSubjectsCtrl(): FormControl {
-        return this.searchesAndViewsForm.get('educationalSubjects') as FormControl;
+        return this.userActivityForm.get('educationalSubjects') as FormControl;
     }
     get expiredEducationalLevelsCtrl(): FormControl {
         return this.expiredMaterialsForm.get('educationalLevels') as FormControl;
@@ -95,21 +110,277 @@ export class AnalyticsViewComponent implements OnInit {
     get expiredBeforeCtrl(): FormControl {
         return this.expiredMaterialsForm.get('expiredBefore') as FormControl;
     }
-    // get totalsStartDateCtrl(): FormControl {
-    //     return this.materialTotalsForm.get('startDate') as FormControl;
-    // }
-    // get totalsEndDateCtrl(): FormControl {
-    //     return this.materialTotalsForm.get('endDate') as FormControl;
-    // }
-    // get totalsOrganizationsCtrl(): FormControl {
-    //     return this.materialTotalsForm.get('organizations') as FormControl;
-    // }
-    // get totalsEducationalLevelsCtrl(): FormControl {
-    //     return this.materialTotalsForm.get('educationalLevels') as FormControl;
-    // }
-    // get totalsEducationalSubjectsCtrl(): FormControl {
-    //     return this.materialTotalsForm.get('educationalSubjects') as FormControl;
-    // }
+    get publishedCategoryCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('category') as FormControl;
+    }
+    get publishedStartDateCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('publishedStartDate') as FormControl;
+    }
+    get publishedEndDateCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('publishedEndDate') as FormControl;
+    }
+    get publishedOrganizationsCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('publishedOrganizations') as FormControl;
+    }
+    get publishedEducationalLevelsCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('publishedEducationalLevels') as FormControl;
+    }
+    get publishedEducationalSubjectsCtrl(): FormControl {
+        return this.publishedMaterialsForm.get('publishedEducationalSubjects') as FormControl;
+    }
+
+    categoryChange(selectedCategory: { name: 'educational levels' | 'educational subjects' | 'organizations' }): void {
+        if (selectedCategory) {
+            this.category = selectedCategory.name;
+            this.publishedcategory =
+                selectedCategory.name === 'educational levels' ? 'educationallevel' : this.publishedcategory;
+            this.publishedcategory =
+                selectedCategory.name === 'educational subjects' ? 'educationalsubject' : this.publishedcategory;
+            this.publishedcategory =
+                selectedCategory.name === 'organizations' ? 'organization' : this.publishedcategory;
+        }
+    }
+
+    onSubmitPublishedMaterials(): void {
+        this.submitted = true;
+        const startDateString: string = this.publishedStartDateCtrl.value
+            ? this.statisticsService.dateToString(new Date(this.publishedStartDateCtrl.value), 'day')
+            : null;
+        const endDateString: string = this.publishedEndDateCtrl.value
+            ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), 'day')
+            : null;
+
+        if (this.publishedMaterialsForm.valid) {
+            const payload: StatisticsPortionsPost = {
+                since: startDateString as string, //YYYY-MM-DD | null
+                until: endDateString as string, //YYYY-MM-DD | null
+                organizations: this.publishedOrganizationsCtrl.value?.map(
+                    (organization: KeyValue<string, string>) => organization.key,
+                ) as string[],
+                educationalLevels: this.publishedEducationalLevelsCtrl.value?.map(
+                    (educationalLevel: EducationalLevel) => educationalLevel.key,
+                ) as string[],
+                educationalSubjects: this.publishedEducationalSubjectsCtrl.value?.map(
+                    (subject: SubjectFilter) => subject.key,
+                ) as string[],
+            };
+
+            this.getCategoryNames().then(() => {
+                this.getPublishedMaterials(payload, this.publishedcategory).then(() => {
+                    this.materialTotalsChart = this.setOptions(
+                        [{ name: 'Julkaisujen kokonaismäärä', value: this.requestsTotal }],
+                        this.requestPortionNames,
+                        'bar',
+                    );
+                });
+            });
+        } else {
+            this.toastr.error('Form not valid');
+        }
+    }
+
+    getCategoryNames(): Promise<void> {
+        return new Promise((resolve) => {
+            switch (this.category) {
+                case 'educational levels':
+                    this.categoryNames = this.publishedEducationalLevelsCtrl.value?.map(
+                        (educationalLevel: { key: string; value: string }) => ({
+                            key: educationalLevel.key,
+                            value: educationalLevel.value,
+                        }),
+                    );
+                    return resolve();
+                case 'educational subjects':
+                    this.categoryNames = this.publishedEducationalSubjectsCtrl.value?.map(
+                        (subjects: { key: string; value: string }) => ({ key: subjects.key, value: subjects.value }),
+                    );
+                    return resolve();
+                case 'organizations':
+                    this.categoryNames = this.publishedOrganizationsCtrl.value?.map(
+                        (organization: { key: string; value: string }) => ({
+                            key: organization.key,
+                            value: organization.value,
+                        }),
+                    );
+                    return resolve();
+            }
+        });
+    }
+
+    getPublishedMaterials(payload: StatisticsPortionsPost, subject: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.statisticsService.getPublishedMaterials(payload, subject).subscribe(
+                (response: StatisticsPortionsResponse) => {
+                    this.requestPortionNames = response.values.map((value) => {
+                        for (let i = 0; i < this.categoryNames.length; i++) {
+                            if (value.key == this.categoryNames[i].key) {
+                                return this.categoryNames[i].value;
+                            }
+                        }
+                        return value.key;
+                    }) as string[];
+                    this.requestsTotal = response.values.map((value) => value.value) as number[];
+                    resolve();
+                },
+                (err) => {
+                    this.toastr.error(err);
+                    reject(err);
+                },
+                () => {
+                    this.submitted = false;
+                },
+            );
+        });
+    }
+
+    createPayload(
+        startDateString: string,
+        endDateString: string,
+        interaction: string,
+        filter: string,
+    ): StatisticsTimespanPost {
+        return {
+            since: startDateString, //'YYYY-MM-DD'
+            until: endDateString, //'YYYY-MM-DD'
+            interaction: interaction,
+            [filter]: {
+                organizations: this.organizationsCtrl.value?.map(
+                    (organization: KeyValue<string, string>) => organization.key,
+                ) as string[],
+                educationalLevels: this.educationalLevelsCtrl.value?.map(
+                    (educationalLevel: EducationalLevel) => educationalLevel.key,
+                ) as string[],
+                educationalSubjects: this.educationalSubjectsCtrl.value?.map(
+                    (subject: SubjectFilter) => subject.key,
+                ) as string[],
+            },
+        } as StatisticsTimespanPost;
+    }
+
+    getViewingData(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.activityCtrl.value.includes('Viewed')) {
+                try {
+                    const payload: StatisticsTimespanPost = this.createPayload(
+                        this.startDateString,
+                        this.endDateString,
+                        'view',
+                        'metadata',
+                    );
+                    this.getUserActivity(payload, 'materialactivity')
+                        .then(() => this.sortValueArrays(this.sortedViewingTotal))
+                        .then(() => this.chartData.push({ name: 'Katselumäärät', value: this.sortedViewingTotal }))
+                        .then(() => resolve());
+                } catch {
+                    reject('Error in getViewingData()');
+                }
+            } else {
+                resolve();
+            }
+        });
+    }
+
+    getDownloadData(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.activityCtrl.value.includes('Downloaded')) {
+                try {
+                    const payload: StatisticsTimespanPost = this.createPayload(
+                        this.startDateString,
+                        this.endDateString,
+                        'load',
+                        'metadata',
+                    );
+                    this.getUserActivity(payload, 'materialactivity')
+                        .then(() => {
+                            this.sortValueArrays(this.sortedLoadTotal);
+                        })
+                        .then(() => this.chartData.push({ name: 'Latausmäärät', value: this.sortedLoadTotal }))
+                        .then(() => resolve());
+                } catch {
+                    reject('Error in getDownloadData()');
+                }
+            } else {
+                resolve();
+            }
+        });
+    }
+    getEditData(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.activityCtrl.value.includes('Edited')) {
+                try {
+                    const payload: StatisticsTimespanPost = this.createPayload(
+                        this.startDateString,
+                        this.endDateString,
+                        'edit',
+                        'metadata',
+                    );
+                    this.getUserActivity(payload, 'materialactivity')
+                        .then(() => {
+                            this.sortValueArrays(this.sortedEditTotal);
+                        })
+                        .then(() => this.chartData.push({ name: 'Muokkausmäärät', value: this.sortedEditTotal }))
+                        .then(() => resolve());
+                } catch {
+                    reject('Error in getEditData()');
+                }
+            } else {
+                resolve();
+            }
+        });
+    }
+
+    getSearchData(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (this.activityCtrl.value.includes('Searched')) {
+                try {
+                    const payload: StatisticsTimespanPost = this.createPayload(
+                        this.startDateString,
+                        this.endDateString,
+                        null,
+                        'filter',
+                    );
+                    this.getUserActivity(payload, 'searchrequests')
+                        .then(() => this.sortValueArrays(this.sortedSearchTotal))
+                        .then(() => this.chartData.push({ name: 'Hakumäärät', value: this.sortedSearchTotal }))
+                        .then(() => resolve());
+                } catch {
+                    reject('Error in getSearchData()');
+                }
+            } else {
+                resolve();
+            }
+        });
+    }
+
+    onSubmitUserActivity(): void {
+        this.submitted = true;
+        this.sortedSearchTotal = [] as number[];
+        this.sortedViewingTotal = [] as number[];
+        this.sortedEditTotal = [] as number[];
+        this.sortedLoadTotal = [] as number[];
+        this.selectedInterval = this.intervalCtrl.value as string;
+        this.startDateString = this.statisticsService.dateToString(this.startDateCtrl.value, 'day');
+        this.endDateString = this.statisticsService.dateToString(this.endDateCtrl.value, 'day');
+
+        if (this.userActivityForm.valid) {
+            this.chartData = [];
+            const startDate = new Date(this.startDateCtrl.value.getTime());
+            this.datesArray = [] as string[];
+            this.datesArray = this.statisticsService.createArrayOfDates(
+                startDate as Date,
+                this.endDateCtrl.value as Date,
+                this.selectedInterval,
+            ) as string[];
+
+            Promise.all([this.getViewingData(), this.getSearchData(), this.getDownloadData(), this.getEditData()]).then(
+                () => {
+                    this.userActivityChart = this.setOptions(this.chartData, this.datesArray, 'line') as EChartsOption;
+                },
+            );
+        } else {
+            this.toastr.error('Form not valid');
+        }
+    }
 
     onSubmitExpiredMaterials(): void {
         this.submitted = true;
@@ -132,85 +403,13 @@ export class AnalyticsViewComponent implements OnInit {
                     value: educationalLevel.value,
                 }));
 
-            this.getExpiredMaterials(payload, educationalLevelNames).then((res) => {
+            this.getExpiredMaterials(payload, educationalLevelNames).then(() => {
                 this.expiredMaterialsChart = this.setOptions(
                     [{ name: 'Vanhentuneet', value: this.requestsTotal }],
                     this.requestPortionNames,
                     'bar',
                 ) as EChartsOption;
             });
-        } else {
-            this.toastr.error('Form not valid');
-        }
-    }
-
-    onSubmitSearchesAndViews(): void {
-        this.submitted = true;
-        this.datesArray = [] as string[];
-        this.sortedSearchTotal = [] as number[];
-        this.sortedViewingTotal = [] as number[];
-        this.selectedInterval = this.intervalCtrl.value as string;
-        const startDate = this.startDateCtrl.value as Date;
-        const endDate = this.endDateCtrl.value as Date;
-        const startDateString: string = this.statisticsService.dateToString(startDate, 'day');
-        const endDateString: string = this.statisticsService.dateToString(endDate, 'day');
-
-        if (this.searchesAndViewsForm.valid) {
-            const startDateCopy = new Date(startDate.getTime());
-            this.datesArray = this.statisticsService.createArrayOfDates(
-                startDateCopy,
-                endDate,
-                this.selectedInterval,
-            ) as string[];
-
-            const searchPayload: StatisticsTimespanPost = {
-                since: startDateString as string, //'YYYY-MM-DD'
-                until: endDateString as string, //'YYYY-MM-DD'
-                filters: {
-                    organizations: this.organizationsCtrl.value?.map(
-                        (organization: KeyValue<string, string>) => organization.key,
-                    ) as string[],
-                    educationalLevels: this.educationalLevelsCtrl.value?.map(
-                        (educationalLevel: EducationalLevel) => educationalLevel.key,
-                    ) as string[],
-                    educationalSubjects: this.educationalSubjectsCtrl.value?.map(
-                        (subject: SubjectFilter) => subject.key,
-                    ) as string[],
-                },
-            };
-
-            const viewsPayload: StatisticsTimespanPost = {
-                since: startDateString as string, //'YYYY-MM-DD'
-                until: endDateString as string, //'YYYY-MM-DD'
-                metadata: {
-                    organizations: this.organizationsCtrl.value?.map(
-                        (organization: KeyValue<string, string>) => organization.key,
-                    ) as string[],
-                    educationalLevels: this.educationalLevelsCtrl.value?.map(
-                        (educationalLevel: EducationalLevel) => educationalLevel.key,
-                    ) as string[],
-                    educationalSubjects: this.educationalSubjectsCtrl.value?.map(
-                        (subject: SubjectFilter) => subject.key,
-                    ) as string[],
-                },
-            };
-
-            this.getSearchesAndViews(searchPayload, 'searchrequests')
-                .then(() => this.sortValueArrays(this.sortedSearchTotal))
-                .then(() => {
-                    this.getSearchesAndViews(viewsPayload, 'materialactivity')
-                        .then(() => this.sortValueArrays(this.sortedViewingTotal))
-                        .then(() => {
-                            this.searchesAndViewingChart = this.setOptions(
-                                [
-                                    { name: 'Katselumäärät', value: this.sortedViewingTotal },
-                                    { name: 'Hakumäärät', value: this.sortedSearchTotal },
-                                ],
-                                this.datesArray,
-                                'line',
-                            ) as EChartsOption;
-                        });
-                });
         } else {
             this.toastr.error('Form not valid');
         }
@@ -245,8 +444,7 @@ export class AnalyticsViewComponent implements OnInit {
         });
     }
 
-    //does post request with given body and url parameter
-    getSearchesAndViews(payload: StatisticsTimespanPost, activity: string): Promise<void> {
+    getUserActivity(payload: StatisticsTimespanPost, activity: string): Promise<void> {
         return new Promise((resolve, reject) => {
             this.statisticsService.getIntervalTotals(payload, this.selectedInterval, activity).subscribe(
                 (response: StatisticsIntervalResponse) => {
