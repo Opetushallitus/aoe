@@ -70,9 +70,10 @@ export class StatisticsService {
     /**
      * Gets all materials.
      * @param {StatisticsPortionsPost} payload
+     * @param {string} subject
      * @returns {Observable<StatisticsPortionsResponse>}
      */
-    getMaterialTotals(payload: StatisticsPortionsPost, subject: string): Observable<StatisticsPortionsResponse> {
+    getPublishedMaterials(payload: StatisticsPortionsPost, subject: string): Observable<StatisticsPortionsResponse> {
         return this.http
             .post<StatisticsPortionsResponse>(`${environment.statisticsBackendUrl}/` + subject + `/all`, payload, {
                 headers: new HttpHeaders({
