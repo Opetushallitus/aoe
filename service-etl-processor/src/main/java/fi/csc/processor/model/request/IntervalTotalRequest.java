@@ -1,6 +1,7 @@
 package fi.csc.processor.model.request;
 
 import fi.csc.processor.enumeration.Interaction;
+import fi.csc.processor.model.Filters;
 import fi.csc.processor.model.Metadata;
 import lombok.Getter;
 import lombok.Setter;
