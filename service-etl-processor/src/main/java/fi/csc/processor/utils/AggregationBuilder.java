@@ -60,40 +60,52 @@ public class AggregationBuilder {
     public static void buildCriteriaByRequestConditions(
         List<Criteria> cumulativeCriteria,
         Object object) throws NoSuchFieldException, IllegalAccessException {
-        Metadata metadata = null;
+        Metadata finalMetadata = null;
+        String metadataPrefix = "";
 
-        // Check if metadata field is present in a generic object and get the content if exists.
+        // Check if metadata field (metadata or filters) is present in a generic object and get the content if exists.
         if (isFieldPresent(object, "metadata")) {
             Field field = object.getClass().getDeclaredField("metadata");
             field.setAccessible(true);
-            metadata = (Metadata) field.get(object);
+            finalMetadata = (Metadata) field.get(object);
+            metadataPrefix = finalMetadata != null ? "metadata.": "";
+        }
+
+        if (isFieldPresent(object, "filters") && finalMetadata == null) {
+            Field field = object.getClass().getDeclaredField("filters");
+            field.setAccessible(true);
+            finalMetadata = (Metadata) field.get(object);
+            metadataPrefix = finalMetadata != null ? "filters.": "";
         }
 
         // If the metadata content in not empty proceed to criteria building using the metadata provided.
-        if (metadata != null) {
+        if (finalMetadata != null) {
             List<Criteria> andCriteriaCumulative = new ArrayList<>();
 
             // Conditional (OR) criteria inside the classification of organizations - one match (or more) required.
-            if (metadata.getOrganizations() != null && metadata.getOrganizations().length > 0) {
+            if (finalMetadata.getOrganizations() != null && finalMetadata.getOrganizations().length > 0) {
                 List<Criteria> orCriteriaOrganizations = new ArrayList<>();
-                Arrays.stream(metadata.getOrganizations()).forEach(s -> orCriteriaOrganizations.add(
-                    Criteria.where("metadata.organizations").is(s)));
+                String finalMetadataPrefix = metadataPrefix;
+                Arrays.stream(finalMetadata.getOrganizations()).forEach(s -> orCriteriaOrganizations.add(
+                    Criteria.where(finalMetadataPrefix + "organizations").is(s)));
                 andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaOrganizations.toArray(Criteria[]::new)));
             }
 
             // Conditional (OR) criteria inside the classification of educational levels - one match (or more) required.
-            if (metadata.getEducationalLevels() != null && metadata.getEducationalLevels().length > 0) {
+            if (finalMetadata.getEducationalLevels() != null && finalMetadata.getEducationalLevels().length > 0) {
                 List<Criteria> orCriteriaEducationalLevels = new ArrayList<>();
-                Arrays.stream(metadata.getEducationalLevels()).forEach(s -> orCriteriaEducationalLevels.add(
-                    Criteria.where("metadata.educationalLevels").is(s)));
+                String finalMetadataPrefix = metadataPrefix;
+                Arrays.stream(finalMetadata.getEducationalLevels()).forEach(s -> orCriteriaEducationalLevels.add(
+                    Criteria.where(finalMetadataPrefix + "educationalLevels").is(s)));
                 andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaEducationalLevels.toArray(Criteria[]::new)));
             }
 
             // Conditional (OR) criteria inside the classification of educational subjects - one match (or more) required.
-            if (metadata.getEducationalSubjects() != null && metadata.getEducationalSubjects().length > 0) {
+            if (finalMetadata.getEducationalSubjects() != null && finalMetadata.getEducationalSubjects().length > 0) {
                 List<Criteria> orCriteriaEducationalSubjects = new ArrayList<>();
-                Arrays.stream(metadata.getEducationalSubjects()).forEach(s -> orCriteriaEducationalSubjects.add(
-                    Criteria.where("metadata.educationalSubjects").is(s)));
+                String finalMetadataPrefix = metadataPrefix;
+                Arrays.stream(finalMetadata.getEducationalSubjects()).forEach(s -> orCriteriaEducationalSubjects.add(
+                    Criteria.where(finalMetadataPrefix + "educationalSubjects").is(s)));
                 andCriteriaCumulative.add(new Criteria().orOperator(orCriteriaEducationalSubjects.toArray(Criteria[]::new)));
             }
 
