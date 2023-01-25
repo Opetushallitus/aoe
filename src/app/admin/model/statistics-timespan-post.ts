@@ -7,7 +7,7 @@ export interface StatisticsTimespanPost {
         educationalLevels?: string[];
         educationalSubjects?: string[];
     };
-    filter?: {
+    filters?: {
         organizations?: string[];
         educationalLevels?: string[];
         educationalSubjects?: string[];
