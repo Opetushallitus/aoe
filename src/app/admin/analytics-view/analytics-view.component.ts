@@ -337,7 +337,7 @@ export class AnalyticsViewComponent implements OnInit {
                         this.startDateString,
                         this.endDateString,
                         null,
-                        'filter',
+                        'filters',
                     );
                     this.getUserActivity(payload, 'searchrequests')
                         .then(() => this.sortValueArrays(this.sortedSearchTotal))
