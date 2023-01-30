@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class CookieService {
     constructor(private cookieSvc: CookieSvc) {}
+    cookiePolicyAccepted: boolean = false;
 
     /**
      * Set cookie settings.
@@ -42,5 +43,44 @@ export class CookieService {
      */
     isCookieSettingsSet(): boolean {
         return this.cookieSvc.check(environment.cookieSettingsCookie);
+    }
+
+    /**
+     * Checks if cookie policy has been accepted.
+     * @returns {boolean}
+     */
+    isCookiePolicyAccepted(): boolean {
+        try {
+            return sessionStorage.getItem('acceptedCookies') === 'true' || this.cookiePolicyAccepted === true;
+        } catch( e ) {
+            return this.cookiePolicyAccepted;
+        }
+        
+    }
+    
+    /**
+     * Checks if browser has sessionStorage and saves cookie policy acceptance.
+     * 
+     */
+    acceptCookiePolicy(): void {
+        let support = false;
+        try {
+            sessionStorage.setItem('test','true');
+            if (typeof window.sessionStorage !== "undefined" && sessionStorage.getItem('test') === 'true') {
+                support = true;
+            }
+            sessionStorage.removeItem('test');
+          }
+          catch( e ) {
+            support = false;
+            console.log( e );
+        }
+
+        if (support) {
+            sessionStorage.setItem('acceptedCookies','true');
+            this.cookiePolicyAccepted = true;
+        } else {
+            this.cookiePolicyAccepted = true;
+        }
     }
 }
