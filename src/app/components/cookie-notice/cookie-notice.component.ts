@@ -22,8 +22,7 @@ export class CookieNoticeComponent implements OnInit {
     }
 
     onSubmit(): void {
-        // set cookie settings
-        // this.cookieSvc.setCookieSettings(this.cookies.value);
+        // accept cookie policy
         this.cookieSvc.acceptCookiePolicy();
 
         // hide cookie notice
