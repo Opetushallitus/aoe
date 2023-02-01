@@ -204,27 +204,9 @@
                     </ng-container>
                 </ng-container>
 
-                <form [formGroup]="cookies" (ngSubmit)="onSubmit()">
-                    <div class="form-group">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="aoe" formControlName="aoe" />
-                            <label class="custom-control-label" for="aoe">Aoe</label>
-                        </div>
-
-                        <div class="custom-control custom-switch">
-                            <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="google-analytics"
-                                formControlName="googleAnalytics" />
-                            <label class="custom-control-label" for="google-analytics">Google Analytics</label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-blue" (click)="cookie.hide()">
-                        {{ "forms.common.save" | translate }}
-                    </button>
-                </form>
+                <button type="submit" class="btn btn-blue" (click)="cookie.hide()">
+                    OK
+                </button>
             </div>
         </div>
     </div>
