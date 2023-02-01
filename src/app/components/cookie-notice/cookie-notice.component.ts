@@ -19,20 +19,6 @@ export class CookieNoticeComponent implements OnInit {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
             this.lang = event.lang;
         });
-
-        this.cookies = this.fb.group({
-            aoe: this.fb.control({ value: true, disabled: true }, [Validators.requiredTrue]),
-            googleAnalytics: this.fb.control(true),
-        });
-    }
-
-    acceptAll(): void {
-        this.cookies.setValue({
-            aoe: true,
-            googleAnalytics: true,
-        });
-
-        this.onSubmit();
     }
 
     onSubmit(): void {
