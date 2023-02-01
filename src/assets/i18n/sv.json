@@ -958,9 +958,9 @@
     "blog": "Aktuell"
   },
   "cookies": {
-    "cookieSettings": "Inställningar för cookies",
-    "acceptAll": "Tillåta alla",
-    "title": "Inställningar för cookies"
+    "cookieSettings": "Mer information",
+    "title": "Kakpolicy",
+    "close": "Stäng"
   },
   "search": {
     "title": "Sökresultaten",
