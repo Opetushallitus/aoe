@@ -81,7 +81,7 @@ export class DefaultLayoutComponent implements OnInit {
         private alertSvc: AlertService,
         private notificationSvc: NotificationService,
     ) {
-        this.showNotice = !this.cookieSvc.isCookieSettingsSet();
+        this.showNotice = !this.cookieSvc.isCookiePolicyAccepted();
 
         this.languages.set('fi', {
             label: 'FI',
