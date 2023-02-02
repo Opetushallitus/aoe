@@ -75,7 +75,7 @@
             </div>
 
             <div class="col-md-6">
-                <video class="embed-responsive-item" controls #videoElement width="100%" height="100%">
+                <!-- <video class="embed-responsive-item" controls #videoElement width="100%" height="100%">
                     <source src="https://aoe.fi/api/v1/download/aoepreview-1675337784058.mp4" type="video/mp4" />
                     <track
                         label="Teksitys"
@@ -94,6 +94,28 @@
                         kind="subtitles"
                         srclang="sv"
                         src="https://aoe.fi/api/v1/download/aoevideovoiceoversve-1675337792388.vtt"
+                        default="false" />
+                    {{ "demo.educationalMaterial.preview.noVideoSupport" | translate }}
+                </video> -->
+                <video class="embed-responsive-item" controls #videoElement width="100%" height="100%">
+                    <source src="https://demo.aoe.fi/api/v1/download/aoepreview-1675337302990.mp4" type="video/mp4" />
+                    <track
+                        label="Teksitys"
+                        kind="subtitles"
+                        srclang="fi"
+                        src="https://demo.aoe.fi/api/v1/download/avointenoppimateriaalienkirjasto-1675337369712.vtt"
+                        default="false" />
+                    <track
+                        label="Subtitles"
+                        kind="subtitles"
+                        srclang="en"
+                        src="https://demo.aoe.fi/api/v1/download/aoevideovoiceovereng-1675337369707.vtt"
+                        default="false" />
+                    <track
+                        label="Textning"
+                        kind="subtitles"
+                        srclang="sv"
+                        src="https://demo.aoe.fi/api/v1/download/aoevideovoiceoversve-1675337660965.vtt"
                         default="false" />
                     {{ "demo.educationalMaterial.preview.noVideoSupport" | translate }}
                 </video>
