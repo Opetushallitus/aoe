@@ -958,9 +958,9 @@
     "blog": "News"
   },
   "cookies": {
-    "cookieSettings": "Cookie settings",
-    "acceptAll": "Accept all",
-    "title": "Cookie settings"
+    "cookieSettings": "More information",
+    "title": "Cookie policy",
+    "close": "Close"
   },
   "search": {
     "title": "Search results",

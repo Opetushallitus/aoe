@@ -958,9 +958,9 @@
     "blog": "Ajankohtaista"
   },
   "cookies": {
-    "cookieSettings": "Evästeasetukset",
-    "acceptAll": "Hyväksy kaikki",
-    "title": "Evästeasetukset"
+    "cookieSettings": "Lisätietoa",
+    "title": "Evästekäytännöt",
+    "close": "Sulje"
   },
   "search": {
     "title": "Hakutulokset",
