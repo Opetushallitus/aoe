@@ -1,5 +1,4 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { CookieService } from '@services/cookie.service';
@@ -9,11 +8,10 @@ import { CookieService } from '@services/cookie.service';
     templateUrl: './cookie-notice.component.html',
 })
 export class CookieNoticeComponent implements OnInit {
-    cookies: FormGroup;
     @Output() hideCookieNotice = new EventEmitter();
     lang: string = this.translate.currentLang;
 
-    constructor(private fb: FormBuilder, private cookieSvc: CookieService, private translate: TranslateService) {}
+    constructor(private cookieService: CookieService, private translate: TranslateService) {}
 
     ngOnInit(): void {
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -23,7 +21,7 @@ export class CookieNoticeComponent implements OnInit {
 
     onSubmit(): void {
         // accept cookie policy
-        this.cookieSvc.acceptCookiePolicy();
+        this.cookieService.acceptCookiePolicy();
 
         // hide cookie notice
         this.hideCookieNotice.emit();
