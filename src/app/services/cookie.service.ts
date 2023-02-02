@@ -8,39 +8,42 @@ import { environment } from '../../environments/environment';
 })
 export class CookieService {
     constructor(private cookieSvc: CookieSvc) {}
+    cookiePolicyAccepted: boolean = false;
 
     /**
-     * Set cookie settings.
-     * @param values
+     * Checks if cookie policy has been accepted.
+     * @returns {boolean}
      */
-    setCookieSettings(values: { aoe: boolean; googleAnalytics: boolean }): void {
-        const cookieSettings: CookieSettings = {
-            aoe: true,
-            googleAnalytics: values.googleAnalytics,
-        };
-        this.cookieSvc.set(environment.cookieSettingsCookie, JSON.stringify(cookieSettings), 30);
-
-        // Delete Google Analytics cookies
-        if (values.googleAnalytics === false && this.cookieSvc.check('_ga')) {
-            this.cookieSvc.delete('_ga');
+    isCookiePolicyAccepted(): boolean {
+        try {
+            return sessionStorage.getItem('cookiePolicy') === 'accepted' || this.cookiePolicyAccepted === true;
+        } catch (e) {
+            return this.cookiePolicyAccepted;
         }
     }
 
     /**
-     * Get cookie setting.
-     * @param {string} cookie
-     * @returns {boolean}
+     * Checks if browser has sessionStorage and saves cookie policy acceptance.
+     *
      */
-    getCookieSetting(cookie: string): boolean {
-        const cookieSettings: CookieSettings = JSON.parse(this.cookieSvc.get(environment.cookieSettingsCookie));
-        return cookieSettings[cookie];
-    }
+    acceptCookiePolicy(): void {
+        let support = false;
+        try {
+            sessionStorage.setItem('test', 'true');
+            if (typeof window.sessionStorage !== 'undefined' && sessionStorage.getItem('test') === 'true') {
+                support = true;
+            }
+            sessionStorage.removeItem('test');
+        } catch (e) {
+            support = false;
+            console.log(e);
+        }
 
-    /**
-     * Checks if cookie settings are set.
-     * @returns {boolean}
-     */
-    isCookieSettingsSet(): boolean {
-        return this.cookieSvc.check(environment.cookieSettingsCookie);
+        if (support) {
+            sessionStorage.setItem('cookiePolicy', 'accepted');
+            this.cookiePolicyAccepted = true;
+        } else {
+            this.cookiePolicyAccepted = true;
+        }
     }
 }
