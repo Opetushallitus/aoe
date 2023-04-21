@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,7 +32,7 @@ public class StatisticsService {
     public StatisticsMeta<RecordKeyValue> getEducationalLevelDistribution(
         EducationalLevelTotalRequest educationalLevelTotalRequest,
         TargetEnv targetEnv) {
-        List<RecordKeyValue> values;
+        List<RecordKeyValue> values = null;
 
         if (educationalLevelTotalRequest.getSince() != null &&
             educationalLevelTotalRequest.getUntil() != null &&
@@ -59,14 +60,12 @@ public class StatisticsService {
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
-        } else {
-            // Return empty list when educational levels missing in the request.
-            values = new ArrayList<>();
         }
+        List<RecordKeyValue> finalValues = values;
         return new StatisticsMeta<>() {{
             setSince(educationalLevelTotalRequest.getSince() != null ? educationalLevelTotalRequest.getSince().toLocalDate() : null);
             setUntil(educationalLevelTotalRequest.getUntil() != null ? educationalLevelTotalRequest.getUntil().toLocalDate() : null);
-            setValues(values);
+            setValues(finalValues != null ? finalValues : Collections.emptyList());
         }};
     }
 
