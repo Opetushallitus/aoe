@@ -2,6 +2,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByTargetName } from '../util/data.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { winstonLogger } from '../util';
 
 const endpoint = 'external/peruste';
 const rediskeySubjects = 'lukio-uusi-oppiaineet';
@@ -146,12 +147,18 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
                                 });
                             }
                         } catch (err) {
-                            console.error(err);
+                            winstonLogger.error(
+                                'Setting courses and modules failed in setLukionOppiaineetModuulit(): %o',
+                                err,
+                            );
                         }
                     }
                 }
             } catch (err) {
-                console.error(err);
+                winstonLogger.error(
+                    'Setting educational subjects and modules failed in setLukionOppiaineetModuulit(): %o',
+                    err,
+                );
             }
         }
 
@@ -165,7 +172,10 @@ export async function setLukionOppiaineetModuulit(): Promise<any> {
         await setAsync(`${rediskeyModules}.sv`, JSON.stringify(swedishModules));
         await setAsync(`${rediskeyModules}.en`, JSON.stringify(finnishModules));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting educational subjects from virkailija.opintopolku.fi failed in setLukionOppiaineetModuulit(): %o',
+            err,
+        );
     }
 }
 
@@ -189,7 +199,7 @@ export const getLukionOppiaineet = async (req: any, res: any, next: any): Promis
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational subjects failed in getLukionOppiaineet(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -214,7 +224,7 @@ export const getLukionModuulit = async (req: any, res: any, next: any): Promise<
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational modules failed in getLukionModuulit(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -236,8 +246,11 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
         for (const module of modules) {
             try {
                 let results;
-                const conditions = [6832790,6834385,6832794,6832792,6832796,6832793,6834389,6834387,6835372,6832791,6834388,6835370,6832795,6834386,6832797];
-                if (conditions.some(el => module.subjectId === el)){
+                const conditions = [
+                    6832790, 6834385, 6832794, 6832792, 6832796, 6832793, 6834389, 6834387, 6835372, 6832791, 6834388,
+                    6835370, 6832795, 6834386, 6832797,
+                ];
+                if (conditions.some((el) => module.subjectId === el)) {
                     results = await getDataFromApi(
                         process.env.EPERUSTEET_SERVICE_URL,
                         `/${endpoint}/`,
@@ -247,7 +260,6 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
                         },
                         `${params}/${module.subjectId}/moduulit/${module.id}`,
                     );
-
                 } else {
                     results = await getDataFromApi(
                         process.env.EPERUSTEET_SERVICE_URL,
@@ -257,7 +269,7 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
                             'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
                         },
                         `${params}/oppimaarat/${module.subjectId}/moduulit/${module.id}`,
-                );
+                    );
                 }
 
                 results.tavoitteet.tavoitteet?.forEach((objective: any) => {
@@ -310,7 +322,7 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
                     });
                 });
             } catch (err) {
-                console.error(err);
+                winstonLogger.error('Setting objectives and contents failed in setLukionTavoitteetSisallot(): %o', err);
             }
         }
 
@@ -321,7 +333,7 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
         await setAsync(`${rediskeyContents}.sv`, JSON.stringify(swedishContents));
         await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational modules failed in setLukionTavoitteetSisallot(): %o', err);
     }
 }
 
@@ -345,7 +357,7 @@ export const getLukionTavoitteet = async (req: any, res: any, next: any): Promis
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting objectives failed in getLukionTavoitteet(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -370,7 +382,7 @@ export const getLukionSisallot = async (req: any, res: any, next: any): Promise<
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational contents failed in getLukionSisallot(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
