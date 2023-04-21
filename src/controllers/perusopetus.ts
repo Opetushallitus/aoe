@@ -5,7 +5,7 @@ import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { sortByTargetName } from '../util/data.utils';
 
-const endpoint = 'perusteet';
+const endpoint = 'external/peruste';
 const rediskeySubjects = 'oppiaineet';
 const rediskeyObjectives = 'tavoitteet';
 const rediskeyContents = 'sisaltoalueet';
@@ -72,6 +72,13 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
         for (const row of subjectIds) {
             try {
+                const conditions = [
+                    478970, 502088, 466346, 466345, 530524, 466347, 502086, 466342, 530525, 478971, 466344, 466343,
+                    605632, 478973, 478972, 428820, 600170, 466340, 605630, 502087,
+                ];
+                const urlParam: string = conditions.some((el) => row.key === el)
+                    ? `${params}/${row.key}`
+                    : `${params}/oppimaarat/${row.key}`;
                 const result = await getDataFromApi(
                     process.env.EPERUSTEET_SERVICE_URL,
                     `/${endpoint}/`,
@@ -79,7 +86,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                         Accept: 'application/json',
                         'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
                     },
-                    `${params}/${row.key}`,
+                    urlParam,
                 );
 
                 subjects.push({
@@ -110,7 +117,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                                 source: 'basicStudyObjectives',
                                 alignmentType: 'teaches',
                                 targetName: objectiveValue.fi ? objectiveValue.fi : objectiveValue.sv,
-                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
+                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}`,
                             });
 
                             swedishObjectives.push({
@@ -123,7 +130,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                                 source: 'basicStudyObjectives',
                                 alignmentType: 'teaches',
                                 targetName: objectiveValue.sv ? objectiveValue.sv : objectiveValue.fi,
-                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
+                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}`,
                             });
                         });
                     }
@@ -148,7 +155,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                                 source: 'basicStudyContents',
                                 alignmentType: 'teaches',
                                 targetName: content.nimi.fi ? content.nimi.fi : content.nimi.sv,
-                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
+                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}`,
                             });
 
                             swedishContents.push({
@@ -161,7 +168,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                                 source: 'basicStudyContents',
                                 alignmentType: 'teaches',
                                 targetName: content.nimi.sv ? content.nimi.sv : content.nimi.fi,
-                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${result.id}`,
+                                targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}`,
                             });
                         });
                     }
@@ -225,6 +232,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
         await Promise.all(subjects).then((data) => {
             data.forEach((subject) => {
+                const urlParam: string = subject.key === 999 ? `${params}` : `${params}/oppimaarat`;
                 const childrenFi = data
                     .filter((e) => e.parent === subject.key)
                     .map<AlignmentObjectExtended>((child) => {
@@ -233,7 +241,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             source: 'basicStudySubjects',
                             alignmentType: 'educationalSubject',
                             targetName: child.name.fi ? child.name.fi : child.name.sv,
-                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${child.key}`,
+                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${child.key}`,
                         };
                     })
                     .sort(sortByTargetName);
@@ -246,7 +254,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             source: 'basicStudySubjects',
                             alignmentType: 'educationalSubject',
                             targetName: child.name.sv ? child.name.sv : child.name.fi,
-                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${params}/${child.key}`,
+                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${child.key}`,
                         };
                     })
                     .sort(sortByTargetName);

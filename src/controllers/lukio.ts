@@ -245,32 +245,22 @@ export async function setLukionTavoitteetSisallot(): Promise<any> {
 
         for (const module of modules) {
             try {
-                let results;
                 const conditions = [
                     6832790, 6834385, 6832794, 6832792, 6832796, 6832793, 6834389, 6834387, 6835372, 6832791, 6834388,
                     6835370, 6832795, 6834386, 6832797,
                 ];
-                if (conditions.some((el) => module.subjectId === el)) {
-                    results = await getDataFromApi(
-                        process.env.EPERUSTEET_SERVICE_URL,
-                        `/${endpoint}/`,
-                        {
-                            Accept: 'application/json',
-                            'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
-                        },
-                        `${params}/${module.subjectId}/moduulit/${module.id}`,
-                    );
-                } else {
-                    results = await getDataFromApi(
-                        process.env.EPERUSTEET_SERVICE_URL,
-                        `/${endpoint}/`,
-                        {
-                            Accept: 'application/json',
-                            'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
-                        },
-                        `${params}/oppimaarat/${module.subjectId}/moduulit/${module.id}`,
-                    );
-                }
+                const urlParam: string = conditions.some((el) => module.subjectId === el)
+                    ? `${params}`
+                    : `${params}/oppimaarat`;
+                const results = await getDataFromApi(
+                    process.env.EPERUSTEET_SERVICE_URL,
+                    `/${endpoint}/`,
+                    {
+                        Accept: 'application/json',
+                        'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                    },
+                    `${urlParam}/${module.subjectId}/moduulit/${module.id}`,
+                );
 
                 results.tavoitteet.tavoitteet?.forEach((objective: any) => {
                     finnishObjectives.push({
