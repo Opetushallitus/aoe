@@ -11,6 +11,7 @@ import fi.csc.processor.model.statistics.StatisticsMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,10 @@ public class StatisticsService {
         TargetEnv targetEnv) {
         List<RecordKeyValue> values;
 
-        if (educationalLevelTotalRequest.getSince() != null && educationalLevelTotalRequest.getUntil() != null) {
+        if (educationalLevelTotalRequest.getSince() != null &&
+            educationalLevelTotalRequest.getUntil() != null &&
+            educationalLevelTotalRequest.getEducationalLevels() != null &&
+            educationalLevelTotalRequest.getEducationalLevels().length > 0) {
             values = Arrays.stream(educationalLevelTotalRequest.getEducationalLevels())
                 .map(e -> {
                     Long total = switch (targetEnv) {
@@ -44,7 +48,8 @@ public class StatisticsService {
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
-        } else {
+        } else if (educationalLevelTotalRequest.getEducationalLevels() != null &&
+            educationalLevelTotalRequest.getEducationalLevels().length > 0) {
             values = Arrays.stream(educationalLevelTotalRequest.getEducationalLevels())
                 .map(e -> {
                     Long total = switch (targetEnv) {
@@ -54,6 +59,9 @@ public class StatisticsService {
                     return new RecordKeyValue(e, total);
                 })
                 .toList();
+        } else {
+            // Return empty list when educational levels missing in the request.
+            values = new ArrayList<>();
         }
         return new StatisticsMeta<>() {{
             setSince(educationalLevelTotalRequest.getSince() != null ? educationalLevelTotalRequest.getSince().toLocalDate() : null);
