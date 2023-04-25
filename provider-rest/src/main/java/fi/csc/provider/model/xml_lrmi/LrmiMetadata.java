@@ -45,6 +45,9 @@ public class LrmiMetadata {
     @XmlElement(name = "dc:id")
     private String identifier;
 
+    @XmlElement(name = "dc:identifier")
+    private String identifierURN;
+
     @XmlElement(name = "dc:title")
     private List<LangValue> title;
 
@@ -163,6 +166,14 @@ public class LrmiMetadata {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getIdentifierURN() {
+        return identifierURN;
+    }
+
+    public void setIdentifierURN(String identifierURN) {
+        this.identifierURN = identifierURN;
     }
 
     public List<LangValue> getTitle() {
