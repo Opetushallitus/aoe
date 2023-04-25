@@ -67,6 +67,10 @@ public class MigrationServiceImpl implements MigrationService {
         // lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
         lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
+        // dc:identifier
+        // URN identifier provided if already registered.
+        lrmi.setIdentifierURN(amd.getUrn());
+
         // dc:title
         // Titles (headers) of the educational material.
         lrmi.setTitle(amd.getMaterialname() != null ? amd.getMaterialname().stream()
