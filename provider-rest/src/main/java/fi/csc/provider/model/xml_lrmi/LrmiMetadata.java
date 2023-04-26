@@ -42,7 +42,6 @@ public class LrmiMetadata {
 
     // DC - Dublin Core
 
-    @XmlElement(name = "dc:id")
     private String identifier;
 
     @XmlElement(name = "dc:identifier")
