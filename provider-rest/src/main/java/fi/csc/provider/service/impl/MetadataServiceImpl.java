@@ -115,7 +115,7 @@ public class MetadataServiceImpl implements MetadataService {
 
             List<LrmiMetadata> migratedMetadata = aoeMetaContent.stream()
                 .map(aoe -> this.migrationService.migrateAoeToLrmi(aoe))
-                .collect(Collectors.toList());
+                .toList();
             List<Record> records = new ArrayList<>();
 
             migratedMetadata.forEach(meta -> {
