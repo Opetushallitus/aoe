@@ -62,8 +62,7 @@ public class MigrationServiceImpl implements MigrationService {
      */
     private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
 
-        // dc:id
-        // Globally unique technical identifier for the educational material.
+        // ID set temporarily to be moved to the header block after the metadata migration.
         // lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
         lrmi.setIdentifier("oai:" + env.getProperty("aoe.oai-identifier.repository-identifier") + ":" + amd.getId());
 
