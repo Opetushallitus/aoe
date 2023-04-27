@@ -2,8 +2,11 @@ import { getDataFromApi } from '../util/api.utils';
 import { getUnique, sortByTargetName } from '../util/data.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { winstonLogger } from '../util';
 
 const endpoint = 'perusteet';
+const newEndpoint = 'external/perusteet';
+const degreeEndpoint = 'external/peruste';
 const rediskeyBasicDegrees = 'ammattikoulu-perustutkinnot';
 const rediskeyFurtherVocQuals = 'ammattikoulu-ammattitutkinnot';
 const rediskeySpecialistVocQuals = 'ammattikoulu-erikoisammattitutkinnot';
@@ -22,7 +25,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
         while (getResults) {
             const results = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -55,7 +58,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishDegrees.push({
@@ -63,7 +66,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishDegrees.push({
@@ -71,7 +74,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
@@ -94,7 +97,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
         await setAsync(`${rediskeyBasicDegrees}.sv`, JSON.stringify(swedishDegrees));
         await setAsync(`${rediskeyBasicDegrees}.en`, JSON.stringify(englishDegrees));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Setting educational subjects failed in setAmmattikoulunPerustutkinnot(): %o', err);
     }
 }
 
@@ -110,7 +113,7 @@ export const getAmmattikoulunPerustutkinnot = async (req: any, res: any, next: a
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational subjects failed in getAmmattikoulunPerustutkinnot(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -141,12 +144,12 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
             try {
                 const results = await getDataFromApi(
                     process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                    `/${endpoint}/`,
+                    `/${degreeEndpoint}/`,
                     {
                         Accept: 'application/json',
                         'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
                     },
-                    `${degree}/kaikki`,
+                    `${degree}`,
                 );
 
                 results.tutkinnonOsat?.forEach((unit: any) => {
@@ -215,7 +218,10 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     });
                 });
             } catch (err) {
-                console.error(err);
+                winstonLogger.error(
+                    'Setting units of vocational education and competence requirements failed in setAmmattikoulunTutkinnonOsat(): %o',
+                    err,
+                );
             }
 
             await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits));
@@ -226,7 +232,10 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
             await setAsync(`${rediskeyRequirements}.en`, JSON.stringify(finnishRequirements));
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting educational subjects and qualifications failed in setAmmattikoulunTutkinnonOsat(): %o',
+            err,
+        );
     }
 }
 
@@ -249,7 +258,7 @@ export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: an
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting units of vocational education failed in getAmmattikoulunTutkinnonOsat(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -274,7 +283,10 @@ export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any)
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting learning objects of vocational education failed in getAmmattikoulunVaatimukset(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -290,7 +302,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
         while (getResults) {
             const results = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -323,7 +335,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -331,7 +343,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -339,7 +351,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
@@ -362,7 +374,10 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
         await setAsync(`${rediskeyFurtherVocQuals}.sv`, JSON.stringify(swedishQuals));
         await setAsync(`${rediskeyFurtherVocQuals}.en`, JSON.stringify(englishQuals));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): %o',
+            err,
+        );
     }
 }
 
@@ -378,7 +393,10 @@ export const getAmmattikoulunAmmattitutkinnot = async (req: any, res: any, next:
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting further vocational qualifications failed in getAmmattikoulunAmmattitutkinnot(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -394,7 +412,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
         while (getResults) {
             const results = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -427,7 +445,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -435,7 +453,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -443,7 +461,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
@@ -466,7 +484,10 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
         await setAsync(`${rediskeySpecialistVocQuals}.sv`, JSON.stringify(swedishQuals));
         await setAsync(`${rediskeySpecialistVocQuals}.en`, JSON.stringify(englishQuals));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): %o',
+            err,
+        );
     }
 }
 
@@ -482,7 +503,10 @@ export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting specialist vocational qualifications failed in getAmmattikoulunErikoisammattitutkinnot(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -575,7 +599,10 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
         await setAsync(`${rediskeyYTO}.sv`, JSON.stringify(swedishDegrees));
         await setAsync(`${rediskeyYTO}.en`, JSON.stringify(englishDegrees));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting common units of vocational education failed in setAmmattikoulunYTOaineet(): %o',
+            err,
+        );
     }
 }
 
@@ -591,7 +618,10 @@ export const getAmmattikoulunYTOaineet = async (req: any, res: any, next: any): 
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting common units of vocational education failed in getAmmattikoulunYTOaineet(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };

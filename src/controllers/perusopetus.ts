@@ -179,7 +179,6 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                     'Setting educational contents and learning objects failed in setPerusopetuksenOppiaineet(): %o',
                     err,
                 );
-
             }
         }
 
@@ -307,7 +306,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
         await setAsync(`${rediskeyContents}.sv`, JSON.stringify(swedishContents));
         await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents));
     } catch (err) {
-        winstonLogger.error('Setting subjects, objectives and contents failed in setPerusopetuksenOppiaineet(): %o', err);
+        winstonLogger.error(
+            'Setting subjects, objectives and contents failed in setPerusopetuksenOppiaineet(): %o',
+            err,
+        );
     }
 }
 
