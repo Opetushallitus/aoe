@@ -4,6 +4,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { sortByTargetName } from '../util/data.utils';
+import { winstonLogger } from '../util';
 
 const endpoint = 'external/peruste';
 const rediskeySubjects = 'oppiaineet';
@@ -174,7 +175,11 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                     }
                 });
             } catch (err) {
-                console.error(err);
+                winstonLogger.error(
+                    'Setting educational contents and learning objects failed in setPerusopetuksenOppiaineet(): %o',
+                    err,
+                );
+
             }
         }
 
@@ -227,7 +232,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
             await setAsync(`${rediskeyTransversalCompetences}.sv`, JSON.stringify(swedishCompetences));
             await setAsync(`${rediskeyTransversalCompetences}.en`, JSON.stringify(finnishCompetences)); // use fi as there's no en version yet
         } catch (err) {
-            console.error(err);
+            winstonLogger.error('Setting transversal competences failed in setPerusopetuksenOppiaineet(): %o', err);
         }
 
         await Promise.all(subjects).then((data) => {
@@ -302,7 +307,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
         await setAsync(`${rediskeyContents}.sv`, JSON.stringify(swedishContents));
         await setAsync(`${rediskeyContents}.en`, JSON.stringify(finnishContents));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Setting subjects, objectives and contents failed in setPerusopetuksenOppiaineet(): %o', err);
     }
 }
 
@@ -327,7 +332,7 @@ export const getPerusopetuksenOppiaineet = async (req: any, res: any, next: any)
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational subjects failed in getPerusopetuksenOppiaineet(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -362,7 +367,7 @@ export const getPerusopetuksenTavoitteet = async (req: any, res: any, next: any)
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational objects failed in getPerusopetuksenTavoitteet(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -404,7 +409,7 @@ export const getPerusopetuksenSisaltoalueet = async (req: any, res: any, next: a
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational contents failed in getPerusopetuksenSisaltoalueet(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
