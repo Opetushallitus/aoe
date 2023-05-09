@@ -20,7 +20,7 @@ const params = '419550/perusopetus/oppiaineet';
  */
 export async function setPerusopetuksenOppiaineet(): Promise<any> {
     try {
-        const results = await getDataFromApi(
+        const results: Record<string, unknown>[] = await getDataFromApi(
             process.env.EPERUSTEET_SERVICE_URL,
             `/${endpoint}/`,
             {
@@ -77,10 +77,11 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                     478970, 502088, 466346, 466345, 530524, 466347, 502086, 466342, 530525, 478971, 466344, 466343,
                     605632, 478973, 478972, 428820, 600170, 466340, 605630, 502087,
                 ];
-                const urlParam: string = conditions.some((el) => row.key === el)
+                const urlParam: string = conditions.some((el: number) => row.key === el)
                     ? `${params}/${row.key}`
                     : `${params}/oppimaarat/${row.key}`;
-                const result = await getDataFromApi(
+
+                const result: Record<string, unknown>[] = await getDataFromApi(
                     process.env.EPERUSTEET_SERVICE_URL,
                     `/${endpoint}/`,
                     {
@@ -92,10 +93,10 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
                 subjects.push({
                     ...row,
-                    name: result.nimi,
+                    name: (result as any).nimi,
                 });
 
-                result.vuosiluokkakokonaisuudet.forEach((gradeEntity: any) => {
+                (result as any).vuosiluokkakokonaisuudet.forEach((gradeEntity: any) => {
                     if (gradeEntity.tavoitteet.length > 0) {
                         gradeEntity.tavoitteet.forEach((objective: any) => {
                             const objectiveValue = objective.tavoite;
@@ -111,8 +112,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             finnishObjectives.push({
                                 key: objective.id,
                                 parent: {
-                                    key: result.id,
-                                    value: result.nimi.fi ? result.nimi.fi : result.nimi.sv,
+                                    key: (result as any).id,
+                                    value: (result as any).nimi.fi ? (result as any).nimi.fi : (result as any).nimi.sv,
                                 },
                                 gradeEntity: gradeEntity.id,
                                 source: 'basicStudyObjectives',
@@ -124,8 +125,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             swedishObjectives.push({
                                 key: objective.id,
                                 parent: {
-                                    key: result.id,
-                                    value: result.nimi.sv ? result.nimi.sv : result.nimi.fi,
+                                    key: (result as any).id,
+                                    value: (result as any).nimi.sv ? (result as any).nimi.sv : (result as any).nimi.fi,
                                 },
                                 gradeEntity: gradeEntity.id,
                                 source: 'basicStudyObjectives',
@@ -149,8 +150,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             finnishContents.push({
                                 key: content.id,
                                 parent: {
-                                    key: result.id,
-                                    value: result.nimi.fi ? result.nimi.fi : result.nimi.sv,
+                                    key: (result as any).id,
+                                    value: (result as any).nimi.fi ? (result as any).nimi.fi : (result as any).nimi.sv,
                                 },
                                 gradeEntity: gradeEntity.id,
                                 source: 'basicStudyContents',
@@ -162,8 +163,8 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
                             swedishContents.push({
                                 key: content.id,
                                 parent: {
-                                    key: result.id,
-                                    value: result.nimi.sv ? result.nimi.sv : result.nimi.fi,
+                                    key: (result as any).id,
+                                    value: (result as any).nimi.sv ? (result as any).nimi.sv : (result as any).nimi.fi,
                                 },
                                 gradeEntity: gradeEntity.id,
                                 source: 'basicStudyContents',
@@ -184,7 +185,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
 
         try {
             const competenceParams = '419550/perusopetus/laajaalaisetosaamiset';
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL,
                 `/${endpoint}/`,
                 {
@@ -234,49 +235,53 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
             winstonLogger.error('Setting transversal competences failed in setPerusopetuksenOppiaineet(): %o', err);
         }
 
-        await Promise.all(subjects).then((data) => {
-            data.forEach((subject) => {
-                const urlParam: string = subject.key === 999 ? `${params}` : `${params}/oppimaarat`;
-                const childrenFi = data
-                    .filter((e) => e.parent === subject.key)
-                    .map<AlignmentObjectExtended>((child) => {
+        await Promise.all(subjects).then((data: Awaited<unknown>[]) => {
+            data.forEach((subject: Awaited<unknown>[]) => {
+                const urlParam: string = (subject as any).key === 999 ? `${params}` : `${params}/oppimaarat`;
+                const childrenFi: AlignmentObjectExtended[] = data
+                    .filter((e: Awaited<unknown>[]) => (e as any).parent === (subject as any).key)
+                    .map<AlignmentObjectExtended>((child: Awaited<unknown>[]) => {
                         return {
-                            key: child.key,
+                            key: (child as any).key,
                             source: 'basicStudySubjects',
                             alignmentType: 'educationalSubject',
-                            targetName: child.name.fi ? child.name.fi : child.name.sv,
-                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${child.key}`,
+                            targetName: (child as any).name.fi ? (child as any).name.fi : (child as any).name.sv,
+                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${
+                                (child as any).key
+                            }`,
                         };
                     })
                     .sort(sortByTargetName);
 
-                const childrenSv = data
-                    .filter((e) => e.parent === subject.key)
-                    .map<AlignmentObjectExtended>((child) => {
+                const childrenSv: AlignmentObjectExtended[] = data
+                    .filter((e: Awaited<unknown>[]) => (e as any).parent === (subject as any).key)
+                    .map<AlignmentObjectExtended>((child: Awaited<unknown>[]) => {
                         return {
-                            key: child.key,
+                            key: (child as any).key,
                             source: 'basicStudySubjects',
                             alignmentType: 'educationalSubject',
-                            targetName: child.name.sv ? child.name.sv : child.name.fi,
-                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${child.key}`,
+                            targetName: (child as any).name.sv ? (child as any).name.sv : (child as any).name.fi,
+                            targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${urlParam}/${
+                                (child as any).key
+                            }`,
                         };
                     })
                     .sort(sortByTargetName);
 
-                if (!subject.parent) {
+                if (!(subject as any).parent) {
                     finnishSubjects.push({
-                        key: subject.key,
+                        key: (subject as any).key,
                         source: 'basicStudySubjects',
                         alignmentType: 'educationalSubject',
-                        targetName: subject.name.fi ? subject.name.fi : subject.name.sv,
+                        targetName: (subject as any).name.fi ? (subject as any).name.fi : (subject as any).name.sv,
                         children: childrenFi,
                     });
 
                     swedishSubjects.push({
-                        key: subject.key,
+                        key: (subject as any).key,
                         source: 'basicStudySubjects',
                         alignmentType: 'educationalSubject',
-                        targetName: subject.name.sv ? subject.name.sv : subject.name.fi,
+                        targetName: (subject as any).name.sv ? (subject as any).name.sv : (subject as any).name.fi,
                         children: childrenSv,
                     });
                 }
@@ -324,7 +329,7 @@ export async function setPerusopetuksenOppiaineet(): Promise<any> {
  */
 export const getPerusopetuksenOppiaineet = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const redisData = await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`);
+        const redisData: string = await getAsync(`${rediskeySubjects}.${req.params.lang.toLowerCase()}`);
 
         if (redisData) {
             res.status(200).json(JSON.parse(redisData));
@@ -350,10 +355,12 @@ export const getPerusopetuksenOppiaineet = async (req: any, res: any, next: any)
  */
 export const getPerusopetuksenTavoitteet = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const redisData = JSON.parse(await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`));
-        const ids = req.params.ids.split(',');
+        const redisData: AlignmentObjectExtended[] = JSON.parse(
+            await getAsync(`${rediskeyObjectives}.${req.params.lang.toLowerCase()}`),
+        );
+        const ids: string[] = req.params.ids.split(',');
 
-        const data = redisData
+        const data: AlignmentObjectExtended[] = redisData
             .filter((objective: AlignmentObjectExtended) => ids.includes(objective.parent.key.toString()))
             .map((objective: AlignmentObjectExtended) => {
                 objective.parent = objective.parent.value;
@@ -386,8 +393,8 @@ export const getPerusopetuksenTavoitteet = async (req: any, res: any, next: any)
 export const getPerusopetuksenSisaltoalueet = async (req: any, res: any, next: any): Promise<any> => {
     try {
         let data: AlignmentObjectExtended[] = [];
-        const ids = req.params.ids.split(',');
-        const competences = JSON.parse(
+        const ids: string[] = req.params.ids.split(',');
+        const competences: AlignmentObjectExtended[] = JSON.parse(
             await getAsync(`${rediskeyTransversalCompetences}.${req.params.lang.toLowerCase()}`),
         );
 
