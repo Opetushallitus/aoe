@@ -23,7 +23,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
                 `/${newEndpoint}/`,
                 {
@@ -33,7 +33,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_1`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -78,9 +78,9 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -103,7 +103,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
 
 export const getAmmattikoulunPerustutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -142,7 +142,7 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 
         for (const degree of degrees) {
             try {
-                const results = await getDataFromApi(
+                const results: Record<string, unknown>[] = await getDataFromApi(
                     process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
                     `/${degreeEndpoint}/`,
                     {
@@ -152,12 +152,12 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     `${degree}`,
                 );
 
-                results.tutkinnonOsat?.forEach((unit: any) => {
+                (results as any).tutkinnonOsat?.forEach((unit: any) => {
                     finnishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
+                            key: (results as any).id,
+                            value: (results as any).nimi.fi ? (results as any).nimi.fi : (results as any).nimi.sv,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -167,8 +167,8 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     swedishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
+                            key: (results as any).id,
+                            value: (results as any).nimi.sv ? (results as any).nimi.sv : (results as any).nimi.fi,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -178,12 +178,12 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     englishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.en
-                                ? results.nimi.en
-                                : results.nimi.fi
-                                ? results.nimi.fi
-                                : results.nimi.sv,
+                            key: (results as any).id,
+                            value: (results as any).nimi.en
+                                ? (results as any).nimi.en
+                                : (results as any).nimi.fi
+                                ? (results as any).nimi.fi
+                                : (results as any).nimi.sv,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -241,8 +241,10 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 
 export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const ids = req.params.ids.split(',');
-        const data = JSON.parse(<string>await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`))
+        const ids: string[] = req.params.ids.split(',');
+        const data: AlignmentObjectExtended[] = JSON.parse(
+            <string>await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`),
+        )
             .filter((unit: AlignmentObjectExtended) => ids.includes(unit.parent.key.toString()))
             .map((unit: AlignmentObjectExtended) => {
                 unit.parent = unit.parent.value;
@@ -265,9 +267,11 @@ export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: an
 
 export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const ids = req.params.ids.split(',');
+        const ids: string[] = req.params.ids.split(',');
 
-        const data = JSON.parse(<string>await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`))
+        const data: AlignmentObjectExtended[] = JSON.parse(
+            <string>await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`),
+        )
             .filter((requirement: AlignmentObjectExtended) => ids.includes(requirement.parent.key.toString()))
             .map((requirement: AlignmentObjectExtended) => {
                 requirement.parent = requirement.parent.value;
@@ -300,7 +304,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
                 `/${newEndpoint}/`,
                 {
@@ -310,7 +314,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_11`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -355,9 +359,9 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -383,7 +387,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
 
 export const getAmmattikoulunAmmattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -410,7 +414,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
                 `/${newEndpoint}/`,
                 {
@@ -420,7 +424,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_12`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -465,9 +469,9 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -493,7 +497,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
 
 export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -517,7 +521,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
         let swedishDegrees: AlignmentObjectExtended[] = [];
         let englishDegrees: AlignmentObjectExtended[] = [];
 
-        const results = await getDataFromApi(
+        const results: Record<string, unknown>[] = await getDataFromApi(
             process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
             `/${endpoint}/`,
             {
@@ -527,7 +531,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
             `7599350/kaikki`,
         );
 
-        results.tutkinnonOsat.forEach((degree: any) => {
+        (results as any).tutkinnonOsat.forEach((degree: any) => {
             const targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
             const targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
             const targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -608,7 +612,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
 
 export const getAmmattikoulunYTOaineet = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyYTO}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyYTO}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
