@@ -2,8 +2,11 @@ import { getDataFromApi } from '../util/api.utils';
 import { getUnique, sortByTargetName } from '../util/data.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { winstonLogger } from '../util';
 
 const endpoint = 'perusteet';
+const newEndpoint = 'external/perusteet';
+const degreeEndpoint = 'external/peruste';
 const rediskeyBasicDegrees = 'ammattikoulu-perustutkinnot';
 const rediskeyFurtherVocQuals = 'ammattikoulu-ammattitutkinnot';
 const rediskeySpecialistVocQuals = 'ammattikoulu-erikoisammattitutkinnot';
@@ -20,9 +23,9 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -30,7 +33,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_1`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -55,7 +58,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishDegrees.push({
@@ -63,7 +66,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishDegrees.push({
@@ -71,13 +74,13 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -94,13 +97,13 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
         await setAsync(`${rediskeyBasicDegrees}.sv`, JSON.stringify(swedishDegrees));
         await setAsync(`${rediskeyBasicDegrees}.en`, JSON.stringify(englishDegrees));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Setting educational subjects failed in setAmmattikoulunPerustutkinnot(): %o', err);
     }
 }
 
 export const getAmmattikoulunPerustutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyBasicDegrees}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -110,7 +113,7 @@ export const getAmmattikoulunPerustutkinnot = async (req: any, res: any, next: a
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting educational subjects failed in getAmmattikoulunPerustutkinnot(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -139,22 +142,22 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
 
         for (const degree of degrees) {
             try {
-                const results = await getDataFromApi(
+                const results: Record<string, unknown>[] = await getDataFromApi(
                     process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                    `/${endpoint}/`,
+                    `/${degreeEndpoint}/`,
                     {
                         Accept: 'application/json',
                         'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
                     },
-                    `${degree}/kaikki`,
+                    `${degree}`,
                 );
 
-                results.tutkinnonOsat?.forEach((unit: any) => {
+                (results as any).tutkinnonOsat?.forEach((unit: any) => {
                     finnishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.fi ? results.nimi.fi : results.nimi.sv,
+                            key: (results as any).id,
+                            value: (results as any).nimi.fi ? (results as any).nimi.fi : (results as any).nimi.sv,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -164,8 +167,8 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     swedishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.sv ? results.nimi.sv : results.nimi.fi,
+                            key: (results as any).id,
+                            value: (results as any).nimi.sv ? (results as any).nimi.sv : (results as any).nimi.fi,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -175,12 +178,12 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     englishUnits.push({
                         key: unit.id,
                         parent: {
-                            key: results.id,
-                            value: results.nimi.en
-                                ? results.nimi.en
-                                : results.nimi.fi
-                                ? results.nimi.fi
-                                : results.nimi.sv,
+                            key: (results as any).id,
+                            value: (results as any).nimi.en
+                                ? (results as any).nimi.en
+                                : (results as any).nimi.fi
+                                ? (results as any).nimi.fi
+                                : (results as any).nimi.sv,
                         },
                         source: 'vocationalUnits',
                         alignmentType: 'educationalSubject',
@@ -215,7 +218,10 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
                     });
                 });
             } catch (err) {
-                console.error(err);
+                winstonLogger.error(
+                    'Setting units of vocational education and competence requirements failed in setAmmattikoulunTutkinnonOsat(): %o',
+                    err,
+                );
             }
 
             await setAsync(`${rediskeyUnits}.fi`, JSON.stringify(finnishUnits));
@@ -226,14 +232,19 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
             await setAsync(`${rediskeyRequirements}.en`, JSON.stringify(finnishRequirements));
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting educational subjects and qualifications failed in setAmmattikoulunTutkinnonOsat(): %o',
+            err,
+        );
     }
 }
 
 export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const ids = req.params.ids.split(',');
-        const data = JSON.parse(<string>await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`))
+        const ids: string[] = req.params.ids.split(',');
+        const data: AlignmentObjectExtended[] = JSON.parse(
+            <string>await getAsync(`${rediskeyUnits}.${req.params.lang.toLowerCase()}`),
+        )
             .filter((unit: AlignmentObjectExtended) => ids.includes(unit.parent.key.toString()))
             .map((unit: AlignmentObjectExtended) => {
                 unit.parent = unit.parent.value;
@@ -249,16 +260,18 @@ export const getAmmattikoulunTutkinnonOsat = async (req: any, res: any, next: an
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error('Getting units of vocational education failed in getAmmattikoulunTutkinnonOsat(): %o', err);
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
 
 export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const ids = req.params.ids.split(',');
+        const ids: string[] = req.params.ids.split(',');
 
-        const data = JSON.parse(<string>await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`))
+        const data: AlignmentObjectExtended[] = JSON.parse(
+            <string>await getAsync(`${rediskeyRequirements}.${req.params.lang.toLowerCase()}`),
+        )
             .filter((requirement: AlignmentObjectExtended) => ids.includes(requirement.parent.key.toString()))
             .map((requirement: AlignmentObjectExtended) => {
                 requirement.parent = requirement.parent.value;
@@ -274,7 +287,10 @@ export const getAmmattikoulunVaatimukset = async (req: any, res: any, next: any)
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting learning objects of vocational education failed in getAmmattikoulunVaatimukset(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -288,9 +304,9 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -298,7 +314,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_11`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -323,7 +339,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -331,7 +347,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -339,13 +355,13 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -362,13 +378,16 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
         await setAsync(`${rediskeyFurtherVocQuals}.sv`, JSON.stringify(swedishQuals));
         await setAsync(`${rediskeyFurtherVocQuals}.en`, JSON.stringify(englishQuals));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting further vocational qualifications failed in setAmmattikoulunAmmattitutkinnot(): %o',
+            err,
+        );
     }
 }
 
 export const getAmmattikoulunAmmattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyFurtherVocQuals}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -378,7 +397,10 @@ export const getAmmattikoulunAmmattitutkinnot = async (req: any, res: any, next:
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting further vocational qualifications failed in getAmmattikoulunAmmattitutkinnot(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -392,9 +414,9 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
         let getResults = true;
 
         while (getResults) {
-            const results = await getDataFromApi(
+            const results: Record<string, unknown>[] = await getDataFromApi(
                 process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-                `/${endpoint}/`,
+                `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
                     'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
@@ -402,7 +424,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_12`,
             );
 
-            results.data.forEach((degree: any) => {
+            (results as any).data.forEach((degree: any) => {
                 let targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
                 let targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
                 let targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -427,7 +449,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -435,7 +457,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -443,13 +465,13 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${endpoint}/${degree.id}`,
+                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
-            pageNumber = results.sivu + 1;
+            pageNumber = (results as any).sivu + 1;
 
-            if (pageNumber >= results.sivuja) {
+            if (pageNumber >= (results as any).sivuja) {
                 getResults = false;
             }
         }
@@ -466,13 +488,16 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
         await setAsync(`${rediskeySpecialistVocQuals}.sv`, JSON.stringify(swedishQuals));
         await setAsync(`${rediskeySpecialistVocQuals}.en`, JSON.stringify(englishQuals));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting specialist vocational qualifications failed in setAmmattikoulunErikoisammattitutkinnot(): %o',
+            err,
+        );
     }
 }
 
 export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeySpecialistVocQuals}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -482,7 +507,10 @@ export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting specialist vocational qualifications failed in getAmmattikoulunErikoisammattitutkinnot(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
@@ -493,7 +521,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
         let swedishDegrees: AlignmentObjectExtended[] = [];
         let englishDegrees: AlignmentObjectExtended[] = [];
 
-        const results = await getDataFromApi(
+        const results: Record<string, unknown>[] = await getDataFromApi(
             process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
             `/${endpoint}/`,
             {
@@ -503,7 +531,7 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
             `7599350/kaikki`,
         );
 
-        results.tutkinnonOsat.forEach((degree: any) => {
+        (results as any).tutkinnonOsat.forEach((degree: any) => {
             const targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
             const targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
             const targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
@@ -575,13 +603,16 @@ export async function setAmmattikoulunYTOaineet(): Promise<any> {
         await setAsync(`${rediskeyYTO}.sv`, JSON.stringify(swedishDegrees));
         await setAsync(`${rediskeyYTO}.en`, JSON.stringify(englishDegrees));
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Setting common units of vocational education failed in setAmmattikoulunYTOaineet(): %o',
+            err,
+        );
     }
 }
 
 export const getAmmattikoulunYTOaineet = async (req: any, res: any, next: any): Promise<any> => {
     try {
-        const data = await getAsync(`${rediskeyYTO}.${req.params.lang.toLowerCase()}`);
+        const data: string = await getAsync(`${rediskeyYTO}.${req.params.lang.toLowerCase()}`);
 
         if (data) {
             res.status(200).json(JSON.parse(data));
@@ -591,7 +622,10 @@ export const getAmmattikoulunYTOaineet = async (req: any, res: any, next: any): 
             return next();
         }
     } catch (err) {
-        console.error(err);
+        winstonLogger.error(
+            'Getting common units of vocational education failed in getAmmattikoulunYTOaineet(): %o',
+            err,
+        );
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
