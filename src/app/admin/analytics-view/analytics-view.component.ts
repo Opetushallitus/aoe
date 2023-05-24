@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KeyValue } from '@angular/common';
@@ -24,6 +24,8 @@ export class AnalyticsViewComponent implements OnInit {
     expiredMaterialsForm: FormGroup;
     publishedMaterialsForm: FormGroup;
     submitted: boolean;
+    publishedSubmitted: boolean;
+    expiredSubmitted: boolean;
     selectedInterval: string;
     startDateString: string;
     endDateString: string;
@@ -142,7 +144,9 @@ export class AnalyticsViewComponent implements OnInit {
     }
 
     onSubmitPublishedMaterials(): void {
-        this.submitted = true;
+        this.publishedSubmitted = true;
+        let field: string;
+        let fieldValue: string[] = [];
         const startDateString: string = this.publishedStartDateCtrl.value
             ? this.statisticsService.dateToString(new Date(this.publishedStartDateCtrl.value), 'day')
             : null;
@@ -150,19 +154,40 @@ export class AnalyticsViewComponent implements OnInit {
             ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), 'day')
             : null;
 
-        if (this.publishedMaterialsForm.valid) {
+        switch (this.category) {
+            case 'educational levels':
+                field = 'educationalLevels';
+                fieldValue = this.publishedEducationalLevelsCtrl.value?.map(
+                    (educationalLevel: EducationalLevel) => educationalLevel.key,
+                );
+                this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
+                this.publishedMaterialsForm.get('publishedOrganizations').reset();
+                break;
+            case 'educational subjects':
+                field = 'educationalSubjects';
+                fieldValue = this.publishedEducationalSubjectsCtrl.value?.map((subject: SubjectFilter) => subject.key);
+                this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
+                this.publishedMaterialsForm.get('publishedOrganizations').reset();
+                break;
+            case 'organizations':
+                field = 'organizations';
+                fieldValue = this.publishedOrganizationsCtrl.value?.map(
+                    (organization: KeyValue<string, string>) => organization.key,
+                );
+                this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
+                this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
+                break;
+        }
+        if (
+            this.publishedMaterialsForm.valid &&
+            ((this.publishedEducationalLevelsCtrl.value && this.publishedEducationalLevelsCtrl.value.length) ||
+                (this.publishedEducationalSubjectsCtrl.value && this.publishedEducationalSubjectsCtrl.value.length) ||
+                (this.publishedOrganizationsCtrl.value && this.publishedOrganizationsCtrl.value.length))
+        ) {
             const payload: StatisticsPortionsPost = {
                 since: startDateString as string, //YYYY-MM-DD | null
                 until: endDateString as string, //YYYY-MM-DD | null
-                organizations: this.publishedOrganizationsCtrl.value?.map(
-                    (organization: KeyValue<string, string>) => organization.key,
-                ) as string[],
-                educationalLevels: this.publishedEducationalLevelsCtrl.value?.map(
-                    (educationalLevel: EducationalLevel) => educationalLevel.key,
-                ) as string[],
-                educationalSubjects: this.publishedEducationalSubjectsCtrl.value?.map(
-                    (subject: SubjectFilter) => subject.key,
-                ) as string[],
+                [field]: fieldValue as string[],
             };
 
             this.getCategoryNames().then(() => {
@@ -227,7 +252,7 @@ export class AnalyticsViewComponent implements OnInit {
                     reject(err);
                 },
                 () => {
-                    this.submitted = false;
+                    this.publishedSubmitted = false;
                 },
             );
         });
@@ -383,7 +408,7 @@ export class AnalyticsViewComponent implements OnInit {
     }
 
     onSubmitExpiredMaterials(): void {
-        this.submitted = true;
+        this.expiredSubmitted = true;
         const expiredBeforeDate: Date = new Date(this.expiredBeforeCtrl.value);
         const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, 'day');
 
@@ -438,7 +463,7 @@ export class AnalyticsViewComponent implements OnInit {
                     reject(err);
                 },
                 () => {
-                    this.submitted = false;
+                    this.expiredSubmitted = false;
                 },
             );
         });
