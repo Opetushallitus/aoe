@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KeyValue } from '@angular/common';
