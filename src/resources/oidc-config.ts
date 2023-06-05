@@ -1,8 +1,8 @@
 import ah from '../services/authService';
 import connectRedis from 'connect-redis';
 import config from '../configuration';
-import { Express, NextFunction, Request, Response } from 'express';
-import session from 'express-session';
+import { CookieOptions, Express, NextFunction, Request, Response } from 'express';
+import session, { Cookie } from 'express-session';
 import openidClient, { custom, HttpOptions } from 'openid-client';
 import passport from 'passport';
 import redisClient from './redis-client';
@@ -74,9 +74,22 @@ export const authInit = (app: Express): void => {
     );
 
     app.post('/api/logout', (req: Request, res: Response) => {
-        const deleteCookie = req.session.cookie;
-        deleteCookie['maxAge'] = -1;
-        req.logout();
+        const cookieRef: Cookie = req.session.cookie;
+        const deleteCookie: CookieOptions = {
+            maxAge: cookieRef.maxAge,
+            signed: cookieRef.signed,
+            expires: cookieRef.expires,
+            httpOnly: cookieRef.httpOnly,
+            path: cookieRef.path,
+            domain: cookieRef.domain,
+            secure: !!cookieRef.secure, // Type conflict boolean | 'auto' | undefined => boolean | undefined
+            sameSite: cookieRef.sameSite,
+        };
+        req.session.cookie['maxAge'] = -1;
+        // deleteCookie['maxAge'] = -1;
+        req.logout(() => {
+            // done
+        });
         req.session.destroy((error) => {
             winstonLogger.debug('Logout request /logout | session termination errors: %o', error);
             // res.setHeader('Cache-Control', 'no-store');

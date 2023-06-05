@@ -824,7 +824,7 @@ export const downloadFileFromStorage = async (req: Request, res: Response, next:
                 if (req.headers['range'] && await requestRedirected(fileDetails, fileName)) {
                     res.setHeader('Location', config.STREAM_REDIRECT_CRITERIA.redirectUri + fileName)
                     res.status(302);
-                    return resolve();
+                    return resolve(null);
                 }
                 const params = {
                     Bucket: process.env.BUCKET_NAME as string,
@@ -947,7 +947,7 @@ export const downloadFromStorage = async (req: Request,
                     })
                     .once('end', () => {
                         winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
-                        resolve();
+                        resolve(null);
                     })
                     .pipe(res);
             }

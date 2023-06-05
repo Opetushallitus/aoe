@@ -25,11 +25,11 @@ if (process.env.NODE_ENV === 'localhost') {
         key: fs.readFileSync('./cert/cert.key') as Buffer,
         cert: fs.readFileSync('./cert/cert.crt') as Buffer,
     };
-    server = https.createServer(options, app).listen(process.env.PORT || 3000, () => {
+    server = https.createServer(options, app).listen(parseInt(process.env.PORT as string, 10) || 3000, '127.0.0.1', () => {
         winstonLogger.info('App is running at https://localhost:%d in %s mode', app.get('port'), app.get('env'));
     });
 } else {
-    server = app.listen(process.env.PORT || 3000, () => {
+    server = app.listen(parseInt(process.env.PORT as string, 10) || 3000, '0.0.0.0', () => {
         winstonLogger.info('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
     });
 }

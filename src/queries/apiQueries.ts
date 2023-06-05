@@ -436,7 +436,7 @@ export const getEducationalMaterialMetadata = async (
     });
 }
 
-export async function getUserMaterial(req: Request, res: Response, next: NextFunction) {
+export async function getUserMaterial(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
         db.task(async (t: any) => {
             const params: any = [];
