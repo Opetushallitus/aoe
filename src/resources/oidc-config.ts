@@ -76,7 +76,7 @@ export const authInit = (app: Express): void => {
     app.post('/api/logout', (req: Request, res: Response) => {
         const cookieRef: Cookie = req.session.cookie;
         const deleteCookie: CookieOptions = {
-            maxAge: cookieRef.maxAge,
+            maxAge: -1,
             signed: cookieRef.signed,
             expires: cookieRef.expires,
             httpOnly: cookieRef.httpOnly,
@@ -85,10 +85,8 @@ export const authInit = (app: Express): void => {
             secure: !!cookieRef.secure, // Type conflict boolean | 'auto' | undefined => boolean | undefined
             sameSite: cookieRef.sameSite,
         };
-        req.session.cookie['maxAge'] = -1;
-        // deleteCookie['maxAge'] = -1;
-        req.logout(() => {
-            // done
+        req.logout((done) => {
+            done();
         });
         req.session.destroy((error) => {
             winstonLogger.debug('Logout request /logout | session termination errors: %o', error);
