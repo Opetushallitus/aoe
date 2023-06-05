@@ -37,20 +37,20 @@ if (process.env.NODE_ENV === 'localhost') {
 // Socket event handlers for the debugging purposes.
 server.on('connection', (socket: Socket) => {
     socket.setTimeout(600 * 60 * 1000);
-    // winstonLogger.debug('SOCKET OPENED: ' + JSON.stringify(socket.address()));
-    // socket.on('end', () => console.log('SOCKET END: other end of the socket sends a FIN packet'));
+    // winstonLogger.debug('SOCKET OPENED: %s', socket.address());
+    // socket.on('end', () => winstonLogger.debug('SOCKET END: other end of the socket sends a FIN packet'));
     socket.on('timeout', () => {
         // winstonLogger.debug("SOCKET TIMEOUT");
         // socket.destroy();
         socket.end();
     });
     socket.on('error', () => {
-        // winstonLogger.error('SOCKET ERROR: %s', JSON.stringify(error));
+        // winstonLogger.error('SOCKET ERROR: %o', error);
         // socket.destroy();
         socket.end();
     });
     // socket.on('close', (isError: boolean) => {
-    //     winstonLogger.debug('SOCKET CLOSED: ' + JSON.stringify({ isError: isError }));
+    //     winstonLogger.debug('SOCKET CLOSED FOR ERROR: %s', isError));
     // });
 });
 

@@ -6,7 +6,7 @@ import { downloadEmThumbnail, uploadbase64Image } from '../../queries/thumbnailH
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational material.
- * This module is a collection of endpoints starting with /edumaterial/.
+ * This module is a collection of endpoints starting with /material/.
  * Endpoints ordered by the request URL (1) and the request method (2).
  *
  * @param router express.Router
