@@ -194,7 +194,7 @@
                 labelForId="category"
                 id="category"
                 appendTo="body"
-                (change)="categoryChange($event)"
+                (change)="categoryChange($event?.value)"
                 formControlName="category"></ng-select>
             <ng-container *ngIf="publishedCategoryCtrl.invalid && publishedSubmitted">
                 <div *ngIf="publishedCategoryCtrl.errors.required">
@@ -203,7 +203,7 @@
             </ng-container>
         </div>
 
-        <div *ngIf="category === 'educational levels'" class="form-group col-sm-6 col-md-4">
+        <div *ngIf="category === 'educationalLevels'" class="form-group col-sm-6 col-md-4">
             <label for="publishedEducationalLevels">Educational Levels</label>
             <ng-select
                 [items]="(koodistoService.educationalLevels$ | async)"
@@ -231,7 +231,7 @@
             </ng-container>
         </div>
 
-        <div *ngIf="category === 'educational subjects'" class="form-group col-sm-6 col-md-4">
+        <div *ngIf="category === 'educationalSubjects'" class="form-group col-sm-6 col-md-4">
             <label for="publishedEducationalSubjects">Educational Subjects</label>
             <ng-select
                 [items]="(koodistoService.subjectFilters$ | async)"
