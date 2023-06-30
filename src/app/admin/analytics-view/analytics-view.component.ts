@@ -5,6 +5,8 @@ import {
     ToolboxComponentOption,
     DataZoomComponentOption,
     YAXisComponentOption,
+    LegendComponentOption,
+    GridComponentOption,
 } from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KeyValue } from '@angular/common';
@@ -628,10 +630,10 @@ export class AnalyticsViewComponent implements OnInit {
      * Creates an echart with given categories, values and type.
      * @param {EChartData[]} data Category name and y-axis data.
      * @param {string[]} xAxisValues Values for x-axis.
-     * @param {any} chartType Chart's type e.g. line or bar.
+     * @param {'line' | 'bar'} chartType Chart's type e.g. line or bar.
      * @returns {EChartsOption} Echart.
      */
-    setOptions(data: EChartData[], xAxisValues: string[], chartType: any): EChartsOption {
+    setOptions(data: EChartData[], xAxisValues: string[], chartType: 'line' | 'bar'): EChartsOption {
         const seriesData: EChartsOption['series'] = [];
         data.forEach((data: { name: string; value: number[] }) => {
             seriesData.push({
@@ -661,10 +663,10 @@ export class AnalyticsViewComponent implements OnInit {
             } as ToolboxComponentOption | ToolboxComponentOption[],
             legend: {
                 data: data,
-            },
+            } as LegendComponentOption | LegendComponentOption[],
             grid: {
                 bottom: 100,
-            },
+            } as GridComponentOption | GridComponentOption[],
             xAxis: {
                 type: 'category',
                 data: xAxisValues,
