@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EChartsOption } from 'echarts';
+import {
+    EChartsOption,
+    TooltipComponentOption,
+    ToolboxComponentOption,
+    DataZoomComponentOption,
+    YAXisComponentOption,
+} from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KeyValue } from '@angular/common';
 import {
@@ -11,6 +17,8 @@ import {
     SubjectFilter,
     PortionResponse,
     IntervalResponse,
+    EChartData,
+    ActivityData,
 } from '../model';
 import { ToastrService } from 'ngx-toastr';
 import { StatisticsService } from '../services/statistics.service';
@@ -49,9 +57,8 @@ export class AnalyticsViewComponent implements OnInit {
         { name: 'Educational Subjects', value: Categories.EDUCATIONAL_SUBJECT },
         { name: 'Organizations', value: Categories.ORGANIZATION },
     ];
-    category: Categories.EDUCATIONAL_LEVEL | Categories.EDUCATIONAL_SUBJECT | Categories.ORGANIZATION =
-        Categories.EDUCATIONAL_LEVEL;
-    publishedcategory: string = 'educationallevel';
+    category: Categories = Categories.EDUCATIONAL_LEVEL;
+    publishedcategory: 'educationallevel' | 'educationalsubject' | 'organization' = 'educationallevel';
     chartData: { name: string; value: number[] }[] = [];
 
     constructor(
@@ -136,15 +143,17 @@ export class AnalyticsViewComponent implements OnInit {
         return this.publishedMaterialsForm.get('publishedEducationalSubjects') as FormControl;
     }
 
-    //Functions for published material requests -->
-    //called when user changes selected category (educationalLevels | educationalSubjects | organizations)
-    categoryChange(
-        selectedCategory: Categories.EDUCATIONAL_LEVEL | Categories.EDUCATIONAL_SUBJECT | Categories.ORGANIZATION,
-    ): void {
+    /**
+     * Changes selected category in Published materials form.
+     * @param {Categories} selectedCategory User selected category from dropdown
+     */
+    categoryChange(selectedCategory: Categories): void {
         this.category = selectedCategory ? selectedCategory : this.category;
     }
 
-    //on submit get values from form elements and check validity
+    /**
+     * Submits published material form, gets values from form elements and checks validity.
+     */
     onSubmitPublishedMaterials(): void {
         this.publishedSubmitted = true;
         let fieldValue: string[] = [];
@@ -155,7 +164,6 @@ export class AnalyticsViewComponent implements OnInit {
             ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), Intervals.DAY)
             : null;
 
-        //get selected items of selected category and reset other category elements
         switch (this.category) {
             case Categories.EDUCATIONAL_LEVEL:
                 fieldValue = this.publishedEducationalLevelsCtrl.value?.map(
@@ -175,6 +183,11 @@ export class AnalyticsViewComponent implements OnInit {
                 );
                 this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
                 this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
+                break;
+            default:
+                this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
+                this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
+                this.publishedMaterialsForm.get('publishedOrganizations').reset();
                 break;
         }
 
@@ -199,21 +212,28 @@ export class AnalyticsViewComponent implements OnInit {
                     ? 'organization'
                     : this.publishedcategory;
 
-            this.getCategoryNames().then((categoryItems) => {
-                this.getPublishedMaterials(payload, this.publishedcategory, categoryItems).then((response) => {
-                    this.materialTotalsChart = this.setOptions(
-                        [{ name: 'Julkaisujen kokonaismäärä', value: response.total }],
-                        response.portionNames,
-                        'bar',
+            this.getCategoryNames()
+                .then((categoryItems: { key: string; value: string }[]) => {
+                    this.getPublishedMaterials(payload, this.publishedcategory, categoryItems).then(
+                        (response: { portionNames: string[]; total: number[] }) => {
+                            this.materialTotalsChart = this.setOptions(
+                                [{ name: 'Julkaisujen kokonaismäärä', value: response.total }],
+                                response.portionNames,
+                                'bar',
+                            );
+                        },
                     );
-                });
-            });
+                })
+                .catch((error) => console.error(error));
         } else {
             this.toastr.error('Form not valid');
         }
     }
 
-    //mapping category items selected in form, return keys and values
+    /**
+     * Maps category items selected in form.
+     * @returns {{ key: string; value: string }[]} An array of selected categories with keys and values.
+     */
     getCategoryNames(): Promise<{ key: string; value: string }[]> {
         let categoryItems: { key: string; value: string }[] = [];
         return new Promise((resolve, reject) => {
@@ -240,17 +260,21 @@ export class AnalyticsViewComponent implements OnInit {
                     );
                     return resolve(categoryItems);
                 default:
-                    reject();
+                    reject(new Error('Unknown category'));
             }
         });
     }
 
-    //make a request of published materials with given payload and category
-    //get names (values) of educational levels, subjects or organizations from categoryItems with response item keys
-    //return an object with names and total values of published materials
+    /**
+     * Make a request of published materials with given payload and category.
+     * @param {StatisticsPortionsPost} payload Request body.
+     * @param { 'educationallevel' | 'educationalsubject' | 'organization' } category Category for request URL.
+     * @param {{ key: string; value: string }[]} categoryItems An array of selected categories with keys and values.
+     * @returns { portionNames: string[]; total: number[] } Names of categories and their values as arrays.
+     */
     getPublishedMaterials(
         payload: StatisticsPortionsPost,
-        category: string, //educationallevel | educationalsubject | organization
+        category: 'educationallevel' | 'educationalsubject' | 'organization',
         categoryItems: { key: string; value: string }[],
     ): Promise<{ portionNames: string[]; total: number[] }> {
         const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] };
@@ -279,8 +303,9 @@ export class AnalyticsViewComponent implements OnInit {
         });
     }
 
-    //Functions for getting expired materials -->
-    //gets form element values, checks validity, creates payload
+    /**
+     * Gets form elements' values, checks validity, creates a payload for request.
+     */
     onSubmitExpiredMaterials(): void {
         this.expiredSubmitted = true;
         const expiredBeforeDate: Date = new Date(this.expiredBeforeCtrl.value);
@@ -302,21 +327,26 @@ export class AnalyticsViewComponent implements OnInit {
                     value: educationalLevel.value,
                 }));
 
-            this.getExpiredMaterials(payload, educationalLevelNames).then((response) => {
-                this.expiredMaterialsChart = this.setOptions(
-                    [{ name: 'Vanhentuneet', value: response.total }],
-                    response.portionNames,
-                    'bar',
-                ) as EChartsOption;
-            });
+            this.getExpiredMaterials(payload, educationalLevelNames).then(
+                (response: { portionNames: string[]; total: number[] }) => {
+                    this.expiredMaterialsChart = this.setOptions(
+                        [{ name: 'Vanhentuneet', value: response.total }],
+                        response.portionNames,
+                        'bar',
+                    ) as EChartsOption;
+                },
+            );
         } else {
             this.toastr.error('Form not valid');
         }
     }
 
-    //make a request for expired materials with given payload
-    //get educational level names with response keys
-    //return an object with educational level names and total values of expired materials
+    /**
+     * Make a request for expired materials with given payload.
+     * @param {StatisticsPortionsPost} payload Request body.
+     * @param {{ key: string; value: string }[]} educationalLevelNames Selected educational levels.
+     * @returns { portionNames: string[]; total: number[] } An object with educational level names and total values.
+     */
     getExpiredMaterials(
         payload: StatisticsPortionsPost,
         educationalLevelNames: { key: string; value: string }[],
@@ -347,9 +377,9 @@ export class AnalyticsViewComponent implements OnInit {
         });
     }
 
-    //Functions for getting user activity -->
-    //creates an array of dates (datesArray) for chart's x-axis
-    //goes through activity functions and creates the chart in setOptions() with chartData and datesArray
+    /**
+     * Checks form validity, creates an array of dates and calls activity functions to get chart data.
+     */
     onSubmitUserActivity(): void {
         this.submitted = true;
         this.selectedInterval = this.intervalCtrl.value as Intervals;
@@ -367,7 +397,8 @@ export class AnalyticsViewComponent implements OnInit {
             ) as string[];
 
             Promise.all([this.getViewingData(), this.getSearchData(), this.getDownloadData(), this.getEditData()]).then(
-                () => {
+                (response: EChartData[]) => {
+                    this.chartData = response;
                     this.userActivityChart = this.setOptions(this.chartData, this.datesArray, 'line') as EChartsOption;
                 },
             );
@@ -376,109 +407,126 @@ export class AnalyticsViewComponent implements OnInit {
         }
     }
 
-    //Activity functions check if activity is selected (Viewed | Downloaded | Edited | Searched)
-    //creates a payload in createPayload()
-    //makes reguest in getUserActivity()
-    //sorts response values in sortValueArrays()
-    //pushes data to chartData array
-    getViewingData(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if (this.activityCtrl.value.includes(Activities.VIEW)) {
-                try {
-                    const payload: StatisticsTimespanPost = this.createPayload(
-                        this.startDateString,
-                        this.endDateString,
-                        'view',
-                        'metadata',
-                    );
-                    this.getUserActivity(payload, this.selectedInterval, 'materialactivity')
-                        .then((res) => this.sortValueArrays(res.dates, res.total))
-                        .then((response) => this.chartData.push({ name: 'Katselumäärät', value: response }))
-                        .then(() => resolve());
-                } catch {
-                    reject('Error in getViewingData()');
-                }
-            } else {
-                resolve();
+    /**
+     * Calls functions to create a payload, make a request and sort the response.
+     * @returns { EChartData } Total of viewed materials.
+     */
+    async getViewingData(): Promise<EChartData> {
+        if (this.activityCtrl.value.includes(Activities.VIEW)) {
+            try {
+                const payload: StatisticsTimespanPost = this.createPayload(
+                    this.startDateString,
+                    this.endDateString,
+                    'view',
+                    'metadata',
+                );
+                const viewingData: ActivityData = await this.getUserActivity(
+                    payload,
+                    this.selectedInterval,
+                    'materialactivity',
+                );
+                const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
+                return { name: 'Katselumäärät', value: sortedData };
+            } catch (error) {
+                throw Error(error);
             }
-        });
+        }
     }
 
-    getDownloadData(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if (this.activityCtrl.value.includes(Activities.DOWNLOAD)) {
-                try {
-                    const payload: StatisticsTimespanPost = this.createPayload(
-                        this.startDateString,
-                        this.endDateString,
-                        'load',
-                        'metadata',
-                    );
-                    this.getUserActivity(payload, this.selectedInterval, 'materialactivity')
-                        .then((res) => this.sortValueArrays(res.dates, res.total))
-                        .then((response) => this.chartData.push({ name: 'Latausmäärät', value: response }))
-                        .then(() => resolve());
-                } catch {
-                    reject('Error in getDownloadData()');
-                }
-            } else {
-                resolve();
+    /**
+     * Calls functions to create a payload, make a request and sort the response.
+     * @returns { EChartData } Total of downloaded materials.
+     */
+    async getDownloadData(): Promise<EChartData> {
+        if (this.activityCtrl.value.includes(Activities.DOWNLOAD)) {
+            try {
+                const payload: StatisticsTimespanPost = this.createPayload(
+                    this.startDateString,
+                    this.endDateString,
+                    'load',
+                    'metadata',
+                );
+
+                const downloadData: ActivityData = await this.getUserActivity(
+                    payload,
+                    this.selectedInterval,
+                    'materialactivity',
+                );
+                const sortedData: number[] = this.sortValueArrays(downloadData.dates, downloadData.total);
+                return { name: 'Latausmäärät', value: sortedData };
+            } catch (error) {
+                throw Error(error);
             }
-        });
+        }
     }
 
-    getEditData(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if (this.activityCtrl.value.includes(Activities.EDIT)) {
-                try {
-                    const payload: StatisticsTimespanPost = this.createPayload(
-                        this.startDateString,
-                        this.endDateString,
-                        'edit',
-                        'metadata',
-                    );
-                    this.getUserActivity(payload, this.selectedInterval, 'materialactivity')
-                        .then((res) => this.sortValueArrays(res.dates, res.total))
-                        .then((response) => this.chartData.push({ name: 'Muokkausmäärät', value: response }))
-                        .then(() => resolve());
-                } catch {
-                    reject('Error in getEditData()');
-                }
-            } else {
-                resolve();
+    /**
+     * Calls functions to create a payload, make a request and sort the response.
+     * @returns { EChartData } Total of edited materials.
+     */
+    async getEditData(): Promise<EChartData> {
+        if (this.activityCtrl.value.includes(Activities.EDIT)) {
+            try {
+                const payload: StatisticsTimespanPost = this.createPayload(
+                    this.startDateString,
+                    this.endDateString,
+                    'edit',
+                    'metadata',
+                );
+
+                const editData: ActivityData = await this.getUserActivity(
+                    payload,
+                    this.selectedInterval,
+                    'materialactivity',
+                );
+                const sortedData: number[] = this.sortValueArrays(editData.dates, editData.total);
+                return { name: 'Muokkausmäärät', value: sortedData };
+            } catch (error) {
+                throw Error(error);
             }
-        });
+        }
     }
 
-    getSearchData(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if (this.activityCtrl.value.includes(Activities.SEARCH)) {
-                try {
-                    const payload: StatisticsTimespanPost = this.createPayload(
-                        this.startDateString,
-                        this.endDateString,
-                        null,
-                        'filters',
-                    );
-                    this.getUserActivity(payload, this.selectedInterval, 'searchrequests')
-                        .then((res) => this.sortValueArrays(res.dates, res.total))
-                        .then((response) => this.chartData.push({ name: 'Hakumäärät', value: response }))
-                        .then(() => resolve());
-                } catch {
-                    reject('Error in getSearchData()');
-                }
-            } else {
-                resolve();
+    /**
+     * Calls functions to create a payload, make a request and sort the response.
+     * @returns { EChartData } Total of search requests.
+     */
+    async getSearchData(): Promise<EChartData> {
+        if (this.activityCtrl.value.includes(Activities.SEARCH)) {
+            try {
+                const payload: StatisticsTimespanPost = this.createPayload(
+                    this.startDateString,
+                    this.endDateString,
+                    null,
+                    'filters',
+                );
+
+                const searchData: ActivityData = await this.getUserActivity(
+                    payload,
+                    this.selectedInterval,
+                    'searchrequests',
+                );
+                const sortedData: number[] = this.sortValueArrays(searchData.dates, searchData.total);
+                return { name: 'Hakumäärät', value: sortedData };
+            } catch (error) {
+                throw Error(error);
             }
-        });
+        }
     }
 
-    //creates a payload for activity requests
+    /**
+     * Creates a payload for activity requests.
+     * @param {string} startDateString Start date for statistics 'YYYY-MM-DD'.
+     * @param {string} endDateString End date for statistics 'YYYY-MM-DD'.
+     * @param {'view' | 'load' | 'edit' | null} interaction Which activity statistics are requested, null for search requests.
+     * @param {'metadata' | 'filters'} filter Extra classifications for request.
+     * @returns {StatisticsTimespanPost} A body for requests.
+     */
     createPayload(
-        startDateString: string, //'YYYY-MM-DD'
-        endDateString: string, //'YYYY-MM-DD'
-        interaction: string, //view | load | edit | null
-        filter: string, //metadata | filters
+        startDateString: string,
+        endDateString: string,
+        interaction: 'view' | 'load' | 'edit' | null,
+        filter: 'metadata' | 'filters',
     ): StatisticsTimespanPost {
         return {
             since: startDateString, //'YYYY-MM-DD'
@@ -498,14 +546,16 @@ export class AnalyticsViewComponent implements OnInit {
         } as StatisticsTimespanPost;
     }
 
-    //calls getIntervalTotals() and maps response depending on selected interval (day | week | month)
-    getUserActivity(
-        payload: StatisticsTimespanPost,
-        interval: Intervals, //Intervals (day | week | month)
-        activity: string, //materialactivity | searchrequests
-    ): Promise<{ dates: string[]; total: number[] } | undefined> {
+    /**
+     * Makes a request with given params and maps response depending on selected interval.
+     * @param {StatisticsTimespanPost} payload Request body.
+     * @param {Intervals} interval For request url: day | week | month.
+     * @param {string} activity For request url: materialactivity | searchrequests.
+     * @returns { ActivityData } An array of dates and an array with total activity for each date.
+     */
+    getUserActivity(payload: StatisticsTimespanPost, interval: Intervals, activity: string): Promise<ActivityData> {
+        const values: ActivityData = { dates: [], total: [] };
         return new Promise((resolve, reject) => {
-            const values: { dates: string[]; total: number[] } = { dates: [], total: [] };
             this.statisticsService.getIntervalTotals(payload, interval, activity).subscribe(
                 (response: StatisticsIntervalResponse) => {
                     switch (interval) {
@@ -539,6 +589,8 @@ export class AnalyticsViewComponent implements OnInit {
                             ) as number[];
                             resolve(values);
                             break;
+                        default:
+                            reject();
                     }
                 },
                 (err) => {
@@ -552,7 +604,12 @@ export class AnalyticsViewComponent implements OnInit {
         });
     }
 
-    //sets values from total to right indexes in valueField based on datesArray
+    /**
+     * Sets values from total to correct indexes in valueField based on datesArray.
+     * @param {string[]} dates An array of dates.
+     * @param {number[]} total An array of total values for each date.
+     * @returns {number[]} An array of user activity totals.
+     */
     sortValueArrays(dates: string[], total: number[]): number[] {
         const valueField: number[] = [];
         for (let i = 0; i < this.datesArray.length; i++) {
@@ -560,16 +617,21 @@ export class AnalyticsViewComponent implements OnInit {
                 if (this.datesArray[i] == dates[n]) {
                     valueField.splice(i, 1, total[n]);
                     break;
-                } else {
-                    valueField.splice(i, 0, null);
                 }
+                valueField.splice(i, 0, null);
             }
         }
         return valueField;
     }
 
-    //Echarts
-    setOptions(data: { name: string; value: number[] }[], xAxisValues: string[], chartType: any): EChartsOption {
+    /**
+     * Creates an echart with given categories, values and type.
+     * @param {EChartData[]} data Category name and y-axis data.
+     * @param {string[]} xAxisValues Values for x-axis.
+     * @param {any} chartType Chart's type e.g. line or bar.
+     * @returns {EChartsOption} Echart.
+     */
+    setOptions(data: EChartData[], xAxisValues: string[], chartType: any): EChartsOption {
         const seriesData: EChartsOption['series'] = [];
         data.forEach((data: { name: string; value: number[] }) => {
             seriesData.push({
@@ -586,7 +648,7 @@ export class AnalyticsViewComponent implements OnInit {
                 axisPointer: {
                     type: 'cross',
                 },
-            },
+            } as TooltipComponentOption | TooltipComponentOption[],
             toolbox: {
                 show: true,
                 feature: {
@@ -596,7 +658,7 @@ export class AnalyticsViewComponent implements OnInit {
                     restore: { show: true },
                     saveAsImage: { show: true },
                 },
-            },
+            } as ToolboxComponentOption | ToolboxComponentOption[],
             legend: {
                 data: data,
             },
@@ -613,7 +675,7 @@ export class AnalyticsViewComponent implements OnInit {
             },
             yAxis: {
                 type: 'value',
-            },
+            } as YAXisComponentOption | YAXisComponentOption[],
             dataZoom: [
                 {
                     show: true,
@@ -625,7 +687,7 @@ export class AnalyticsViewComponent implements OnInit {
                     start: 0,
                     end: 100,
                 },
-            ],
+            ] as DataZoomComponentOption | DataZoomComponentOption[],
             series: seriesData,
         });
     }
