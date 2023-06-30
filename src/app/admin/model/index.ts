@@ -8,3 +8,4 @@ export * from './subject-filter';
 export * from './notification-message';
 export * from './statistics-timespan-post';
 export * from './statistics-response';
+export * from './echart-data-model';
