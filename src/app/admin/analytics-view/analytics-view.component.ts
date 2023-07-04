@@ -400,7 +400,7 @@ export class AnalyticsViewComponent implements OnInit {
 
             Promise.all([this.getViewingData(), this.getSearchData(), this.getDownloadData(), this.getEditData()]).then(
                 (response: EChartData[]) => {
-                    this.chartData = response;
+                    this.chartData = response.filter((n) => n);
                     this.userActivityChart = this.setOptions(this.chartData, this.datesArray, 'line') as EChartsOption;
                 },
             );
