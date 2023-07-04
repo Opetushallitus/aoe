@@ -2,13 +2,13 @@
 @import 'variables';
 
 // Import styles
-@import '~@coreui/coreui/scss/coreui';
+@import '@coreui/coreui/scss/coreui';
 @import 'ng-select';
 
 // Import mixins
 @import 'mixins';
 
-@import '~ngx-toastr/toastr-bs4-alert';
+@import 'ngx-toastr/toastr-bs4-alert';
 
 // If you want to add something do it here
 @import 'custom';
