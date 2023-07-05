@@ -57,7 +57,7 @@
     "loader-utils": "^3.2.1",
     "mutationobserver-shim": "^0.3.7",
     "ng2-pdfjs-viewer": "^14.0.0",
-    "ngx-bootstrap": "^8.0.0",
+    "ngx-bootstrap": "^9.0.0",
     "ngx-clipboard": "^15.1.0",
     "ngx-cookie-service": "^14.0.1",
     "ngx-device-detector": "^4.0.1",
