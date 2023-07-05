@@ -1,4 +1,4 @@
-FROM node:14.18-bullseye as front-builder
+FROM node:14.21-bullseye as front-builder
 WORKDIR /app
 ADD ./ /app/
 RUN npm ci && \
