@@ -2,6 +2,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 export default {
 
+    // File transfer configurations.
+    MATERIAL_FILE_UPLOAD: {
+        localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
+    },
+
     // Configuration for the client of Kafka message queue system.
     MESSAGE_QUEUE_OPTIONS: {
         kafkaProducerEnabled: (process.env.KAFKA_ENABLED === '1') as boolean,

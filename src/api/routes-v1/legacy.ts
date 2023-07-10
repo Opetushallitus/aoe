@@ -54,7 +54,7 @@ export default (router: Router): void => {
     router.get('/pdf/content/:key', downloadPdfFromAllas);
     router.get('/recentmaterial', db.getRecentMaterial);
 
-// TODO: Duplicate functionality with DELETE /material/:edumaterialid - endpoint used by administrator archiving functionality
+    // TODO: Duplicate functionality with DELETE /material/:edumaterialid - endpoint used by administrator archiving functionality
     router.delete('/removeMaterial/:id', hasAccessToAoe, removeEducationalMaterial);
 
     router.get('/thumbnail/:id', downloadEmThumbnail);
@@ -68,7 +68,7 @@ export default (router: Router): void => {
     router.put('/termsOfUsage', ah.checkAuthenticated, db.updateTermsOfUsage);
     router.get('/verify', verifyEmailToken);
 
-// Collection request endpoints
+    // Collection request endpoints
     router.post('/collection/addMaterial', ah.checkAuthenticated, ah.hasAccessToCollection, addCollectionValidationRules(), rulesValidate, collection.addEducationalMaterialToCollection);
     router.post('/collection/create', ah.checkAuthenticated, createCollectionValidationRules(), rulesValidate, collection.createCollection);
     router.get('/collection/getCollection/:collectionId', collection.getCollection);
@@ -78,7 +78,7 @@ export default (router: Router): void => {
     router.get('/collection/userCollection', ah.checkAuthenticated, collection.getUserCollections);
     router.get('/collection/thumbnail/:id', downloadCollectionThumbnail);
 
-// Rating request endpoints
+    // Rating request endpoints
     router.post('/rating', ah.checkAuthenticated, ratingValidationRules(), rulesValidate, validateRatingUser, rating.addRating);
     router.get('/rating/:materialId', ah.checkAuthenticated, rating.getUserRating);
     router.get('/ratings/:materialId', rating.getRating);

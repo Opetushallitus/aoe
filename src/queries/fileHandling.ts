@@ -631,8 +631,10 @@ export const uploadFileToStorage = async (filePath: string, filename: string, bu
     return new Promise(async (resolve, reject) => {
         try {
             const config: ServiceConfigurationOptions = {
-                accessKeyId: process.env.USER_KEY,
-                secretAccessKey: process.env.USER_SECRET,
+                credentials: {
+                    accessKeyId: process.env.USER_KEY,
+                    secretAccessKey: process.env.USER_SECRET,
+                },
                 endpoint: process.env.POUTA_END_POINT,
                 region: process.env.REGION
             };
