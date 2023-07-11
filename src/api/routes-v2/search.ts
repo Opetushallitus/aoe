@@ -13,26 +13,24 @@ import { checkAuthenticated } from '../../services/authService';
  * @param router express.Router
  */
 export default (router: Router): void => {
+  const moduleRoot = '/search';
 
-    const moduleRoot = '/search';
+  // Search for educational materials with search criteria.
+  // Search options are published in the messaging system for further analytical processing.
+  router.post(
+    `${moduleRoot}`,
+    (req: Request, res: Response, next: NextFunction) => {
+      // Bypass search requests with paging parameters included.
+      if (!req.body.size) {
+        runMessageQueueThread(req).then((result) => {
+          if (result) winstonLogger.debug('THREAD: Message queue publishing completed for %o', result);
+        });
+      }
+      next();
+    },
+    elasticSearchQuery,
+  );
 
-    // Search for educational materials with search criteria.
-    // Search options are published in the messaging system for further analytical processing.
-    router.post(`${moduleRoot}`,
-        (req: Request, res: Response, next: NextFunction) => {
-
-            // Bypass search requests with paging parameters included.
-            if (!req.body.size) {
-                runMessageQueueThread(req).then((result) => {
-                    if (result) winstonLogger.debug('THREAD: Message queue publishing completed for %o', result);
-                });
-            }
-            next();
-        },
-        elasticSearchQuery,
-    );
-
-    // Update search index with collection changes.
-    router.post(`${moduleRoot}/collection`, getCollectionEsData);
-
-}
+  // Update search index with collection changes.
+  router.post(`${moduleRoot}/collection`, getCollectionEsData);
+};
