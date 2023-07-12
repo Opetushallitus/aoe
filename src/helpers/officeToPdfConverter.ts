@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import libre from 'libreoffice-convert';
-import { downloadFromStorage, readStreamFromStorage, uploadFileToCloudStorage } from '../queries/fileHandling';
+import { downloadFromStorage, readStreamFromStorage, uploadLocalFileToCloudStorage } from '../queries/fileHandling';
 import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
@@ -168,23 +168,19 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
 export const convertOfficeFileToPDF = async (filepath: string, filename: string): Promise<string> => {
   const extension = 'pdf';
   const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
-
-  return new Promise<string>((resolve, reject) => {
-    try {
-      const file = fs.readFileSync(filepath);
-      libre.convert(file, extension, undefined, (err: Error, done: Buffer) => {
-        if (err) {
-          reject(err);
-          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
-          return;
-        }
-        fs.writeFileSync(outputPath, done);
-        resolve(outputPath);
-      });
-    } catch (err) {
-      reject(err);
-    }
-  });
+  try {
+    const file = fs.readFileSync(filepath);
+    libre.convert(file, extension, undefined, (err: Error, done: Buffer) => {
+      if (err) {
+        winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
+        return Promise.reject(err);
+      }
+      fs.writeFileSync(outputPath, done);
+      return outputPath;
+    });
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };
 
 export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
@@ -195,9 +191,9 @@ export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<voi
       const element = files[index];
 
       if (isOfficeMimeType(element.mimetype) && !element.pdfkey) {
-        const path = await downstreamAndConvertOfficeFileToPDF(element.filekey);
-        const pdfKey = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
-        const obj: any = await uploadFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME);
+        const path: string = await downstreamAndConvertOfficeFileToPDF(element.filekey);
+        const pdfKey: string = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
+        const obj: any = await uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME);
         await updatePdfKey(obj.Key, element.id);
       }
     }

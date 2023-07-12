@@ -1,5 +1,6 @@
 import ADMzip from 'adm-zip';
 import AWS, { S3 } from 'aws-sdk';
+import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
@@ -7,6 +8,7 @@ import multer from 'multer';
 import { Buffer } from 'node:buffer';
 import path from 'path';
 import s3Zip from 's3-zip';
+import stream from 'stream';
 import config from '../configuration';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
@@ -16,6 +18,19 @@ import { requestRedirected } from '../services/streamingService';
 import { winstonLogger } from '../util/winstonLogger';
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
+import SendData = ManagedUpload.SendData;
+
+// AWS S3 Configuration
+const configS3: ServiceConfigurationOptions = {
+  credentials: {
+    accessKeyId: process.env.USER_KEY,
+    secretAccessKey: process.env.USER_SECRET,
+  },
+  endpoint: process.env.POUTA_END_POINT,
+  region: process.env.REGION,
+};
+AWS.config.update(configS3);
+const s3: S3 = new AWS.S3();
 
 // Multer Storage
 const storage = multer.diskStorage({
@@ -87,7 +102,7 @@ export const checkTemporaryRecordQueue = async (): Promise<any> => {
       const obj = await fileToStorage(file, element.materialid);
       const path = await downstreamAndConvertOfficeFileToPDF(obj.key);
       const pdfkey = obj.key.substring(0, obj.key.lastIndexOf('.')) + '.pdf';
-      const pdfobj: any = await uploadFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+      const pdfobj: any = await uploadLocalFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
       await updatePdfKey(pdfobj.Key, obj.recordid);
     }
   } catch (error) {
@@ -106,7 +121,7 @@ export const fileToStorage = async (
   file: { filename: string; path: string },
   materialid: string,
 ): Promise<{ key: string; recordid: string }> => {
-  const obj: any = await uploadFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadLocalFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
   fs.unlink('./' + file.path, (err: any) => {
@@ -132,7 +147,7 @@ export const attachmentFileToStorage = async (
   materialid: string,
   attachmentId: string,
 ): Promise<any> => {
-  const obj: any = await uploadFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadLocalFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
   // await insertDataToAttachmentTable(file, materialid, obj.Key, obj.Bucket, obj.Location, metadata);
   await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
   await deleteDataToTempAttachmentTable(file.filename, materialid);
@@ -177,7 +192,8 @@ export const insertDataToAttachmentTable = async (
     .tx(async (t: any) => {
       query = `
         UPDATE educationalmaterial SET updatedat = NOW()
-        WHERE id = (SELECT educationalmaterialid FROM material WHERE id = $1)`;
+        WHERE id = (SELECT educationalmaterialid FROM material WHERE id = $1)
+      `;
       queries.push(await db.none(query, [materialID]));
       query = `
         INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket,
@@ -237,8 +253,8 @@ export const insertDataToTempAttachmentTable = async (
     INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, format, defaultfile,
       kind, label, srclang, attachmentid)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-    RETURNING id`;
-
+    RETURNING id
+  `;
   return await db.any(query, [
     files.filename,
     files.path,
@@ -271,13 +287,14 @@ export const insertDataToRecordTable = async (
           SELECT educationalmaterialid
           FROM material
           WHERE id = $1
-        )`;
+        )
+      `;
       await t.none(query, [materialID]);
       query = `
         INSERT INTO record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        RETURNING id`;
-
+        RETURNING id
+      `;
       const record = await t.oneOrNone(query, [
         location,
         files.originalname,
@@ -300,8 +317,8 @@ export const insertDataToTempRecordTable = async (t: any, files: any, materialId
   const query = `
     INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, materialid)
     VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING id`;
-
+    RETURNING id
+  `;
   return await t.any(query, [
     files.filename,
     files.path,
@@ -341,18 +358,6 @@ export const downloadAndZipFromStorage = async (
 ): Promise<void> => {
   return new Promise(async (resolve) => {
     try {
-      // ServiceConfigurationOptions (fields: endpoint, lib: aws-sdk/lib/service) extends
-      // ConfigurationOptions (fields: all others, lib: aws-sdk)
-      const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
-        },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
-      };
-      AWS.config.update(config);
-      const s3 = new AWS.S3();
       const bucketName = process.env.BUCKET_NAME;
       try {
         s3Zip
@@ -494,16 +499,6 @@ export const downloadFromStorage = async (
   origFilename: string,
   isZip?: boolean,
 ): Promise<any> => {
-  const configAWS: ServiceConfigurationOptions = {
-    credentials: {
-      accessKeyId: process.env.USER_KEY,
-      secretAccessKey: process.env.USER_SECRET,
-    },
-    endpoint: process.env.POUTA_END_POINT,
-    region: process.env.REGION,
-  };
-  AWS.config.update(configAWS);
-  const s3: S3 = new AWS.S3();
   const key = s3params.Key;
 
   return new Promise(async (resolve, reject) => {
@@ -552,8 +547,11 @@ export const downloadFromStorage = async (
  * @param next NextFunction
  */
 export const downloadMaterialFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const queryLatestPublished =
-    'SELECT MAX(publishedat) AS max FROM versioncomposition WHERE educationalmaterialid = $1';
+  const queryLatestPublished = `
+    SELECT MAX(publishedat) AS max
+    FROM versioncomposition
+    WHERE educationalmaterialid = $1
+  `;
   const queryVersionFilesIds = `
     SELECT record.filekey, record.originalfilename
     FROM versioncomposition
@@ -603,12 +601,12 @@ export const downloadMaterialFile = async (req: Request, res: Response, next: Ne
       if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
         try {
           await updateDownloadCounter(educationalMaterialId.toString());
-        } catch (error) {
-          winstonLogger.error('Updating download counter failed: ' + error);
+        } catch (err) {
+          winstonLogger.error('Updating download counter failed: %o', err);
         }
       }
     }
-  } catch (error) {
+  } catch (err) {
     next(
       new ErrorHandler(
         400,
@@ -703,8 +701,8 @@ export const insertDataToDisplayName = async (
         SELECT id
         FROM material
         WHERE educationalmaterialid = $4)
-    ) ON CONFLICT (language, materialid) DO UPDATE SET displayname = $1`;
-
+    ) ON CONFLICT (language, materialid) DO UPDATE SET displayname = $1
+  `;
   if (fileDetails.displayName && materialid) {
     if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
       if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
@@ -758,16 +756,6 @@ export const insertDataToDisplayName = async (
  */
 export const readStreamFromStorage = async (params: { Bucket: string; Key: string }): Promise<any> => {
   try {
-    const configAWS: ServiceConfigurationOptions = {
-      credentials: {
-        accessKeyId: process.env.USER_KEY,
-        secretAccessKey: process.env.USER_SECRET,
-      },
-      endpoint: process.env.POUTA_END_POINT,
-      region: process.env.REGION,
-    };
-    AWS.config.update(configAWS);
-    const s3: S3 = new AWS.S3();
     return s3.getObject(params).createReadStream();
   } catch (err) {
     throw new Error(err);
@@ -866,7 +854,11 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
           res.status(200).json({ id: attachmentId });
           try {
             if (typeof file !== 'undefined') {
-              const obj: any = await uploadFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+              const obj: any = await uploadLocalFileToCloudStorage(
+                './' + file.path,
+                file.filename,
+                process.env.BUCKET_NAME,
+              );
               await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
               await deleteDataToTempAttachmentTable(file.filename, result[0].id);
               fs.unlink('./' + file.path, (err: any) => {
@@ -903,23 +895,9 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
  * @param {string} bucketName Target bucket in object storage system
  * @return {Promise<any>}
  */
-export const uploadBase64FileToStorage = async (
-  base64data: Buffer,
-  filename: string,
-  bucketName: string,
-): Promise<any> => {
+export const uploadBase64FileToStorage = (base64data: Buffer, filename: string, bucketName: string): Promise<any> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
-        },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
-      };
-      AWS.config.update(config);
-      const s3 = new AWS.S3();
       try {
         const params = {
           Bucket: bucketName,
@@ -929,7 +907,8 @@ export const uploadBase64FileToStorage = async (
         s3.upload(params, (err: any, data: any) => {
           if (err) {
             winstonLogger.error(
-              'Reading file from the local file system failed in uploadBase64FileToStorage(): ' + err,
+              'Reading file from the local file system failed in uploadBase64FileToStorage(): %o',
+              err,
             );
             reject(new Error(err));
             return;
@@ -1018,7 +997,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                 res.status(200).json(resp);
                 try {
                   if (typeof file !== 'undefined') {
-                    const obj: any = await uploadFileToCloudStorage(
+                    const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
                       process.env.BUCKET_NAME,
@@ -1030,7 +1009,11 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                       if (isOfficeMimeType(file.mimetype)) {
                         const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+                        const pdfobj: any = await uploadLocalFileToCloudStorage(
+                          path,
+                          pdfkey,
+                          process.env.PDF_BUCKET_NAME,
+                        );
                         await updatePdfKey(pdfobj.Key, recordid);
                       }
                     } catch (err) {
@@ -1125,7 +1108,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 res.status(200).json(resp);
                 try {
                   if (typeof file !== 'undefined') {
-                    const obj: any = await uploadFileToCloudStorage(
+                    const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
                       process.env.BUCKET_NAME,
@@ -1135,7 +1118,11 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                       if (isOfficeMimeType(file.mimetype)) {
                         const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+                        const pdfobj: any = await uploadLocalFileToCloudStorage(
+                          path,
+                          pdfkey,
+                          process.env.PDF_BUCKET_NAME,
+                        );
                         await updatePdfKey(pdfobj.Key, recordid);
                       }
                     } catch (e) {
@@ -1183,62 +1170,36 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 
 /**
  * Upload a file from the local file system to the cloud object storage.
- * @param filePath   string Path and file name in local file system
- * @param filename   string Target file name in object storage system
- * @param bucketName string Target bucket in object storage system
+ * @param {string} filePath - Path and file name in local file system.
+ * @param {string} filename - File name used in the cloud storage.
+ * @param {string} bucketName - Target bucket in the cloud storage.
+ * @return {Promise<ManagedUpload.SendData>}
  */
-export const uploadFileToCloudStorage = async (
+export const uploadLocalFileToCloudStorage = async (
   filePath: string,
   filename: string,
   bucketName: string,
-): Promise<any> => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
-        },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
-      };
-      AWS.config.update(config);
-      const s3: S3 = new AWS.S3();
-      fs.readFile(filePath, async (err: any, data: any) => {
-        if (err) {
-          winstonLogger.error('Reading file from the local file system failed in uploadFileToCloudStorage(): ' + err);
-          return reject(new Error(err));
-        }
-        try {
-          const params = {
-            Bucket: bucketName,
-            Key: filename,
-            Body: data,
-          };
-          s3.upload(params, (err: any, data: any) => {
-            if (err) {
-              winstonLogger.error(
-                'Uploading file to the cloud object storage failed in uploadFileToCloudStorage(): ' + err,
-              );
-              reject(new Error(err));
-            }
-            if (data) {
-              resolve(data);
-            }
-          });
-        } catch (err) {
-          winstonLogger.error(
-            'Error in uploading file to the cloud object storage in uploadFileToCloudStorage(): %o',
-            err,
-          );
-          reject(new Error(err));
-        }
-      });
-    } catch (err) {
-      winstonLogger.error('Error in processing file in uploadFileToCloudStorage(): %o', err);
-      reject(new Error(err));
-    }
-  });
+): Promise<SendData> => {
+  const passThrough = new stream.PassThrough();
+
+  // Reading stream for a locally stored file.
+  fs.createReadStream(filePath)
+    .once('error', (err: Error) => {
+      winstonLogger.error('Reading stream for a local file failed.');
+      return Promise.reject(err);
+    })
+    .once('close', () => {
+      winstonLogger.debug('Reading stream for a local file closed.');
+    })
+    .pipe(passThrough);
+
+  // Upstream file to the cloud storage and resolve Promise with the upstream results.
+  return await s3
+    .upload({ Bucket: bucketName, Key: filename, Body: passThrough })
+    .promise()
+    .catch((err) => {
+      return Promise.reject(err);
+    });
 };
 
 export default {
@@ -1258,5 +1219,5 @@ export default {
   uploadBase64FileToStorage,
   uploadMaterial,
   uploadFileToMaterial,
-  uploadFileToStorage: uploadFileToCloudStorage,
+  uploadLocalFileToCloudStorage,
 };
