@@ -88,9 +88,7 @@ export const authInit = (app: Express): void => {
       secure: !!cookieRef.secure, // Type conflict boolean | 'auto' | undefined => boolean | undefined
       sameSite: cookieRef.sameSite,
     };
-    req.logout((done) => {
-      done();
-    });
+    req.logout((done) => done());
     req.session.destroy((error) => {
       winstonLogger.debug('Logout request /logout | session termination errors: %o', error);
       // res.setHeader('Cache-Control', 'no-store');

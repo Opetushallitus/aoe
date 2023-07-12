@@ -4,17 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import app from './app';
-import consoleStamp from 'console-stamp';
 import errorHandler from 'errorhandler';
 import fs from 'fs';
 import https from 'https';
 import { Server, Socket } from 'net';
 import { winstonLogger } from './util/winstonLogger';
-
-// Add timestamp to console logging.
-consoleStamp(console, {
-  format: ':date(yyyy-mm-dd HH:MM:ss)',
-});
 
 app.use(errorHandler());
 

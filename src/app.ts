@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import session from 'express-session';
 import apiRoot from './api/routes-root';
 import apiV1 from './api/routes-v1';
 import apiV2 from './api/routes-v2';
@@ -62,6 +63,7 @@ if (process.env.NODE_ENV === 'localhost') {
 }
 
 // Initialize session management and OIDC authorization
+app.use(session({ secret: process.env.SESSION_SECRET as string }));
 oidc.sessionInit(app);
 oidc.authInit(app);
 
