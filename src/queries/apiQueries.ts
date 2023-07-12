@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ErrorHandler } from './../helpers/errorHandler';
 import { aoeThumbnailDownloadUrl, getEduMaterialVersionURL } from './../services/urlService';
 import { hasDownloadableFiles } from './../elasticSearch/esQueries';
-import { isOfficeMimeType, officeToPdf } from './../helpers/officeToPdfConverter';
+import { isOfficeMimeType, convertOfficeFileToPDF } from './../helpers/officeToPdfConverter';
 import { hasAccesstoPublication } from './../services/authService';
 import { updateViewCounter, getPopularity, getPopularityQuery } from './analyticsQueries';
 import { EducationalMaterialMetadata } from './../controllers/educationalMaterial';

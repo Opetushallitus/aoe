@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import libre from 'libreoffice-convert';
-import { downloadFromStorage, readStreamFromStorage, uploadFileToStorage } from '../queries/fileHandling';
+import { downloadFromStorage, readStreamFromStorage, uploadFileToCloudStorage } from '../queries/fileHandling';
 import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
@@ -132,10 +132,10 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
 //         stream.pipe(fs.createWriteStream(folderpath));
 //         stream.on("end", async function() {
 //             try {
-//             winstonLogger.debug("starting officeToPdf");
+//             winstonLogger.debug("starting convertOfficeFileToPDF");
 //             winstonLogger.debug(folderpath);
 //             winstonLogger.debug(filename);
-//             const path = await officeToPdf(folderpath, filename);
+//             const path = await convertOfficeFileToPDF(folderpath, filename);
 //             winstonLogger.debug("starting createReadStream: " + path);
 //             const readstream = fs.createReadStream(path);
 //             readstream.on("error", function(e) {
@@ -160,39 +160,34 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
 // }
 
 /**
- * Convert a file to PDF format.
- *
- * @param {string} filepath
- * @param {string} filename
- * @return {Promise<string>}
+ * Convert an office format file to PDF format.
+ * @param {string} filepath File path of the original office format file.
+ * @param {string} filename File name of the original office file.
+ * @return {Promise<string>} File path of the converted PDF.
  */
-export const officeToPdf = async (filepath: string, filename: string): Promise<string> => {
-  try {
-    const extend = 'pdf';
-    const file = fs.readFileSync(filepath);
-    winstonLogger.debug(filepath);
-    winstonLogger.debug(filename);
-    // const outputPath = path.join(process.env.HTMLFOLDER + filename);
-    const outputPath = process.env.HTMLFOLDER + '/' + filename;
-    return new Promise<string>((resolve, reject) => {
-      libre.convert(file, extend, undefined, (err, done) => {
+export const convertOfficeFileToPDF = async (filepath: string, filename: string): Promise<string> => {
+  const extension = 'pdf';
+  const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
+
+  return new Promise<string>((resolve, reject) => {
+    try {
+      const file = fs.readFileSync(filepath);
+      libre.convert(file, extension, undefined, (err: Error, done: Buffer) => {
         if (err) {
-          winstonLogger.error('Error converting file:' + err);
-          return reject(err);
+          reject(err);
+          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
+          return;
         }
-        winstonLogger.debug('officeToPdf write to file: ' + outputPath);
         fs.writeFileSync(outputPath, done);
-        winstonLogger.debug('officeToPdf writing to file done');
-        return resolve(outputPath);
+        resolve(outputPath);
       });
-    });
-  } catch (error) {
-    winstonLogger.debug('officeToPdf error');
-    throw new Error(error);
-  }
+    } catch (err) {
+      reject(err);
+    }
+  });
 };
 
-export const officeFilesToAllasAsPdf = async (): Promise<void> => {
+export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
   try {
     const files = await getOfficeFiles();
 
@@ -200,21 +195,14 @@ export const officeFilesToAllasAsPdf = async (): Promise<void> => {
       const element = files[index];
 
       if (isOfficeMimeType(element.mimetype) && !element.pdfkey) {
-        winstonLogger.debug('Sending PDF to the cloud storage: %s', element.id);
-        try {
-          const path = await allasFileToPdf(element.filekey);
-          winstonLogger.debug('PDF filepath: %s', path);
-
-          const pdfKey = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
-          const obj: any = await uploadFileToStorage(path, pdfKey, process.env.PDF_BUCKET_NAME);
-          await updatePdfKey(obj.Key, element.id);
-        } catch (e) {
-          winstonLogger.error(e);
-        }
+        const path = await downstreamAndConvertOfficeFileToPDF(element.filekey);
+        const pdfKey = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
+        const obj: any = await uploadFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME);
+        await updatePdfKey(obj.Key, element.id);
       }
     }
-  } catch (error) {
-    winstonLogger.error(error);
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
@@ -222,59 +210,46 @@ export const getOfficeFiles = async (): Promise<any> => {
   try {
     return await db.task(async (t: any) => {
       const query = 'SELECT id, filepath, mimetype, filekey, filebucket, pdfkey FROM record ORDER BY id';
-      winstonLogger.debug(query, []);
-
       return await t.any(query);
     });
-  } catch (error) {
+  } catch (err) {
     winstonLogger.error('Error in getOfficeFiles()');
-    throw new Error(error);
+    throw new Error(err);
   }
 };
 
 /**
- * @param {string} key
- * @return {Promise<string>}
+ * Downstream a stored office file from the cloud storage and convert it to PDF format.
+ * @param {string} key - File name in the cloud storage.
+ * @return {Promise<string>} File path of the converted PDF.
  */
-export const allasFileToPdf = async (key: string): Promise<string> => {
-  try {
-    return new Promise<string>(async (resolve, reject) => {
-      const params = {
-        Bucket: process.env.BUCKET_NAME,
-        Key: key,
-      };
-      const folderpath = process.env.HTMLFOLDER + '/' + key;
-      const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
-      winstonLogger.debug('filename: ' + filename);
-      const stream = await readStreamFromStorage(params);
-      stream.on('error', function (e) {
-        winstonLogger.error('Error in allasFileToPdf readstream: ' + e);
-        reject(e);
-      });
-
-      const ws = fs.createWriteStream(folderpath);
-      stream.pipe(ws);
-      ws.on('error', function (e) {
-        winstonLogger.error('Error in allasFileToPdf writestream: ' + e);
-        reject(e);
-      });
-      ws.on('finish', async function () {
+export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+  return new Promise<string>(async (resolve, reject) => {
+    const params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: key,
+    };
+    const folderpath = process.env.HTMLFOLDER + '/' + key;
+    const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
+    const stream = await readStreamFromStorage(params);
+    stream.on('error', (err) => {
+      reject(err);
+    });
+    const ws = fs
+      .createWriteStream(folderpath)
+      .on('error', (err: Error) => {
+        reject(err);
+      })
+      .on('finish', async () => {
         try {
-          winstonLogger.debug(folderpath);
-          winstonLogger.debug(filename);
-          const path = await officeToPdf(folderpath, filename);
-          winstonLogger.debug('PATH IS: ' + path);
+          const path = await convertOfficeFileToPDF(folderpath, filename);
           resolve(path);
         } catch (error) {
-          winstonLogger.error('allasFileToPdf error: ' + error);
           reject(error);
         }
       });
-    });
-  } catch (error) {
-    winstonLogger.error('allasFileToPdf error');
-    throw new Error(error);
-  }
+    stream.pipe(ws);
+  });
 };
 
 /**

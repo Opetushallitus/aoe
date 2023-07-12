@@ -5,9 +5,9 @@ import { winstonLogger } from '../util/winstonLogger';
 /**
  * Criteria check for Streaming service redirect.
  * Expect minimum file size, allowed mime types and the streaming service to be operable.
- *
- * @param fileDetails '{ originalfilename: string, filesize: number, mimetype: string }'
- * @param fileStorageId File name in cloud object storage
+ * @param {{originalfilename: string, filesize: number, mimetype: string}} fileDetails
+ * @param {string} fileStorageId
+ * @return {Promise<boolean>}
  */
 export const requestRedirected = async (
   fileDetails: { originalfilename: string; filesize: number; mimetype: string },
@@ -23,8 +23,8 @@ export const requestRedirected = async (
 /**
  * Streaming service status check request to redirect downloads only to an operable service.
  * Expect fast success response in 1 second or reject the redirect.
- *
- * @return Promise<boolean> Streaming service operable: true | false
+ * @param {string} fileStorageId
+ * @return {Promise<boolean>} Streaming service operable: true | false
  */
 export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> => {
   return httpsClient({

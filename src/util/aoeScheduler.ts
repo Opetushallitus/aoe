@@ -3,7 +3,7 @@ import { scheduleJob } from 'node-schedule';
 import { rmDir } from '../helpers/fileRemover';
 import { updateEsDocument } from '../elasticSearch/es';
 import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '../services/mailService';
-import { officeFilesToAllasAsPdf } from '../helpers/officeToPdfConverter';
+import { convertAndUpstreamOfficeFilesToCloudStorage } from '../helpers/officeToPdfConverter';
 import { pidResolutionService } from '../services';
 import { winstonLogger } from './winstonLogger';
 
@@ -82,8 +82,8 @@ if (officeToPdf === 1) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
   sleep(10000).then(() => {
-    // winstonLogger.debug('Start officeFilesToAllasAsPdf');
-    officeFilesToAllasAsPdf().then();
+    // winstonLogger.debug('Start convertAndUpstreamOfficeFilesToCloudStorage');
+    convertAndUpstreamOfficeFilesToCloudStorage().then();
   });
 }
 
