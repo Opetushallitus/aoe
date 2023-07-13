@@ -68,6 +68,7 @@ export default (router: Router): void => {
   router.delete('/material/file/:materialId/:fileid', ah.checkAuthenticated, ah.hasAccessToMaterial, db.deleteRecord);
 
   router.get('/messages/info', aoeRoutes);
+
   router.get('/metadata/:id', getMetadataExtension);
   router.put(
     '/metadata/:id',

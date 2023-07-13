@@ -112,7 +112,6 @@ export const checkTemporaryRecordQueue = async (): Promise<any> => {
 
 /**
  * Load file to allas storage.
- *
  * @param {{filename: string, path: string}} file
  * @param {string} materialid
  * @return {Promise<{key: string, recordid: string}>}
@@ -134,7 +133,6 @@ export const fileToStorage = async (
 
 /**
  * Load attachment to allas storage.
- *
  * @param {{filename: string, path: string}} file
  * @param metadata
  * @param {string} materialid
@@ -342,7 +340,6 @@ export const deleteDataToTempAttachmentTable = async (filename: any, materialId:
 
 /**
  * Stream and combine files from the object storage to a compressed zip file.
- *
  * @param req   Request<any>
  * @param res   Response<any>
  * @param next  NextFunction
@@ -426,7 +423,6 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
 /**
  * Get file details from the database before proceeding to the file download from the cloud object storage.
  * In case of video streaming request can be redirected to the streaming service when all criteria are fulfilled.
- *
  * @param {e.Request} req
  * @param {e.Response} res
  * @param {e.NextFunction} next
@@ -482,7 +478,6 @@ export const downloadFileFromStorage = async (
 /**
  * Download an original or compressed (zip) file from the cloud object storage.
  * In case of a download error try to download from the local backup directory.
- *
  * @param {e.Request} req
  * @param {e.Response} res
  * @param {e.NextFunction} next
@@ -541,7 +536,6 @@ export const downloadFromStorage = async (
 
 /**
  * Download all files related to an educational material as a bundled zip file.
- *
  * @param req  Request<any>
  * @param res  Response<any>
  * @param next NextFunction
@@ -1169,7 +1163,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 };
 
 /**
- * Upload a file from the local file system to the cloud object storage.
+ * Upstream a file from the local file system to the cloud storage with a streaming passthrough functionality.
  * @param {string} filePath - Path and file name in local file system.
  * @param {string} filename - File name used in the cloud storage.
  * @param {string} bucketName - Target bucket in the cloud storage.
@@ -1182,22 +1176,20 @@ export const uploadLocalFileToCloudStorage = async (
 ): Promise<SendData> => {
   const passThrough = new stream.PassThrough();
 
-  // Reading stream for a locally stored file.
+  // Read a locally stored file to the streaming passthrough.
   fs.createReadStream(filePath)
     .once('error', (err: Error) => {
-      winstonLogger.error('Reading stream for a local file failed.');
+      winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', filename);
       return Promise.reject(err);
-    })
-    .once('close', () => {
-      winstonLogger.debug('Reading stream for a local file closed.');
     })
     .pipe(passThrough);
 
-  // Upstream file to the cloud storage and resolve Promise with the upstream results.
+  // Upstream a locally stored file to the cloud storage from the streaming passthrough.
   return await s3
     .upload({ Bucket: bucketName, Key: filename, Body: passThrough })
     .promise()
     .catch((err) => {
+      winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', filename);
       return Promise.reject(err);
     });
 };

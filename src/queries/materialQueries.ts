@@ -32,7 +32,6 @@ export async function changeEducationalMaterialUser(emid: string, id: string) {
     return await db.tx(async (t: any) => {
       query = 'Select username from users where id = $1;';
       const username = await t.oneOrNone(query, [id]);
-      winstonLogger.debug(username);
       if (!username || !username.username) {
         return false;
       } else {

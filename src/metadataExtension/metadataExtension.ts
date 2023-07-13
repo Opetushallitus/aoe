@@ -23,7 +23,6 @@ export class MetadataExtension {
 export async function addMetadataExtension(req: Request, res: Response, next: NextFunction) {
   try {
     const metadata = new MetadataExtension(req.body);
-    winstonLogger.debug(metadata);
     if (!req.params.id) {
       return res.status(404);
     }

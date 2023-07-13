@@ -1,6 +1,10 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 export default {
+  APPLICATION_CONFIG: {
+    isCloudStorageEnabled: (process.env.CLOUD_STORAGE_ENABLED === '1') as boolean,
+  },
+
   // File transfer configurations.
   MATERIAL_FILE_UPLOAD: {
     localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
@@ -26,6 +30,7 @@ export default {
     resave: (process.env.SESSION_OPTION_RESAVE.toLowerCase() === 'true') as boolean,
     rolling: (process.env.SESSION_OPTION_ROLLING.toLowerCase() === 'true') as boolean,
     saveUninitialized: (process.env.SESSION_OPTION_SAVE_UNINITIALIZED.toLowerCase() === 'true') as boolean,
+    secret: process.env.SESSION_SECRET as string,
   },
 
   // Session cookie options to initialize and terminate sessions for a user.

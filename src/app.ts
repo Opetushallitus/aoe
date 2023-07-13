@@ -45,7 +45,13 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 204,
-  origin: ['https://demo.aoe.fi', 'https://aoe.fi', 'https://86.50.27.30:80', 'http://localhost:4200'],
+  origin: [
+    'https://demo.aoe.fi',
+    'https://aoe.fi',
+    'https://86.50.27.30:80',
+    'http://localhost:4200',
+    'https://localhost:4200',
+  ],
 };
 app.use(cors(corsOptions));
 
@@ -63,7 +69,13 @@ if (process.env.NODE_ENV === 'localhost') {
 }
 
 // Initialize session management and OIDC authorization
-app.use(session({ secret: process.env.SESSION_SECRET as string }));
+app.use(
+  session({
+    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
+    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
+    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
+  }),
+);
 oidc.sessionInit(app);
 oidc.authInit(app);
 

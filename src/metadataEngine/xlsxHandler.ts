@@ -218,12 +218,10 @@ async function uploadXlsx(req: Request, res: Response) {
             if (data.length === 0) {
               return res.status(400).send('Cannot find data in metadata sheet');
             }
-            winstonLogger.debug(data);
             // validate data
             const obj: any = await validate(data);
             const key = 'error';
             if (Object.keys(obj[key]).length > 0) {
-              winstonLogger.debug(obj);
               fs.unlinkSync((<any>req).file.path);
               return res.status(400).json(obj);
             }
@@ -251,13 +249,13 @@ async function uploadXlsx(req: Request, res: Response) {
             fs.unlinkSync((<any>req).file.path);
             res.status(200).json(o);
           } catch (err) {
-            winstonLogger.debug(err);
+            winstonLogger.error('Error in uploadXlsx(): %o', err);
             fs.unlinkSync((<any>req).file.path);
             res.status(500).send('Error in file handling. Xlsx file expected');
           }
         });
       } catch (err) {
-        winstonLogger.debug(err);
+        winstonLogger.debug('Error in uploadXlsx(): %o', err);
         fs.unlinkSync((<any>req).file.path);
         res.status(500).send('error');
       }
@@ -265,7 +263,7 @@ async function uploadXlsx(req: Request, res: Response) {
       res.status(400).send('Not file found');
     }
   } catch (error) {
-    winstonLogger.debug(error);
+    winstonLogger.debug('Error in uploadXlsx(): ', error);
     res.status(500).send('error');
   }
 }

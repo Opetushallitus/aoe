@@ -423,7 +423,6 @@ export async function insertCollectionMetadata(collection: Collection) {
 export async function recentCollectionQuery() {
   try {
     const data = await db.task(async (t: any) => {
-      winstonLogger.debug('recentCollectionQuery:');
       let query =
         'select collection.id, publishedat, updatedat, createdat, collectionname as name, description from collection WHERE publishedat IS NOT NULL ORDER BY updatedAt DESC LIMIT 6;';
       winstonLogger.debug(query);

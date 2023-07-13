@@ -179,7 +179,6 @@ export const getEducationalMaterialMetadata = async (
         'LEFT JOIN record AS r ON m.id = r.materialid ' +
         'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0';
       response = await t.any(query, [eduMaterialId]);
-      winstonLogger.debug(query, [eduMaterialId]);
     } else {
       if (req.params.publishedat) {
         query =
@@ -191,7 +190,6 @@ export const getEducationalMaterialMetadata = async (
           'LEFT JOIN record AS r ON m.id = r.materialid ' +
           'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 ' +
           'ORDER BY priority';
-        winstonLogger.debug(query, [eduMaterialId, req.params.publishedat]);
         response = await t.any(query, [eduMaterialId, req.params.publishedat]);
       } else {
         query =
@@ -230,7 +228,6 @@ export const getEducationalMaterialMetadata = async (
         'INNER JOIN attachment ON material.id = attachment.materialid ' +
         'WHERE material.educationalmaterialid = $1 AND material.obsoleted = 0 AND attachment.obsoleted = 0';
       response = await t.any(query, [eduMaterialId]);
-      winstonLogger.debug(query, [eduMaterialId]);
     } else {
       if (req.params.publishedat) {
         // query = "select attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey,
@@ -243,7 +240,6 @@ export const getEducationalMaterialMetadata = async (
           'INNER JOIN attachment ON v.attachmentid = attachment.id ' +
           'WHERE versioneducationalmaterialid = $1 AND attachment.obsoleted = 0 AND versionpublishedat = $2';
         response = await t.any(query, [eduMaterialId, req.params.publishedat]);
-        winstonLogger.debug(query, [eduMaterialId, req.params.publishedat]);
       } else {
         query =
           'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey, ' +
@@ -252,7 +248,6 @@ export const getEducationalMaterialMetadata = async (
           'WHERE versioneducationalmaterialid = $1 AND attachment.obsoleted = 0 AND versionpublishedat = ' +
           '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)';
         response = await t.any(query, [eduMaterialId, req.params.publishedat]);
-        winstonLogger.debug(query, [eduMaterialId]);
       }
     }
     queries.push(response);
@@ -341,7 +336,7 @@ export const getEducationalMaterialMetadata = async (
         } else if (
           jsonObj.materials[i] &&
           jsonObj.materials[i]['pdfkey'] &&
-          (await isOfficeMimeType(jsonObj.materials[i]['mimetype']))
+          isOfficeMimeType(jsonObj.materials[i]['mimetype'])
         ) {
           jsonObj.materials[i]['filepath'] = process.env.OFFICE_TO_PDF_URL + jsonObj.materials[i]['pdfkey'];
         } else if (
@@ -1269,8 +1264,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
-
-      winstonLogger.debug('update attachmentDetails');
       const attachmentDetailArr = metadata.attachmentDetails;
       if (attachmentDetailArr) {
         for (const element of attachmentDetailArr) {
@@ -1285,7 +1278,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       }
       let publishedat;
       if (metadata.isVersioned) {
-        winstonLogger.debug('versioned true');
         const arr = metadata.materials;
         if (metadata.materials) {
           query = 'UPDATE educationalmaterial SET publishedat = now() WHERE id = $1 AND publishedat IS NULL;';
@@ -1663,11 +1655,8 @@ function createSlug(str: string) {
 export async function isOwner(educationalmaterialid: string, username: string) {
   if (educationalmaterialid && username) {
     const query = 'SELECT UsersUserName from EducationalMaterial WHERE id = $1';
-    winstonLogger.debug(query);
     const result = await db.oneOrNone(query, educationalmaterialid);
-    winstonLogger.debug(result);
     if (!result) {
-      winstonLogger.debug('isOwner: No result found for id ' + educationalmaterialid);
       return false;
     } else if (username === result.usersusername) {
       return true;

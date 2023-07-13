@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from './../helpers/errorHandler';
-import { winstonLogger } from '../util/winstonLogger';
+import { NextFunction, Request, Response } from 'express';
+import config from '../configuration';
+import { ErrorHandler } from '../helpers/errorHandler';
+
 export interface AoeRouteMessage {
   enabled: string;
   message: {
@@ -10,6 +11,7 @@ export interface AoeRouteMessage {
   };
   alertType: string;
 }
+
 export const alertTypeDanger = 'danger';
 export const allasErrorMessage =
   'Palvelussamme on tällä hetkellä vikatilanne. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian. Ajankohtaisimmat tiedot Twitter-kanavallamme @aoe_suomi.';
@@ -23,29 +25,21 @@ export const loginErrorMessageEn =
   'There is currently an error in signing in to the service. We will fix the problem as soon as possible. Find the latest information on our Twitter channel @aoe_suomi.';
 export const loginErrorMessageSv =
   'Det finns för närvarande ett fel vid inloggning på tjänsten. Vi löser problemet så snart som möjligt. Hitta den senaste informationen på vår Twitter-kanal @aoe_suomi.';
-export async function isAllasEnabled(req: Request, res: Response, next: NextFunction) {
-  try {
-    const allas = Number(process.env.ALLAS_ENABLED);
-    winstonLogger.debug(allas);
-    if (!allas) {
-      winstonLogger.debug('allas disabled');
-      const statusCode = 503;
-      const message = allasErrorMessage;
-      res.status(statusCode).json({
-        status: 'error',
-        statusCode,
-        message,
-      });
-    } else {
-      winstonLogger.debug('allas enabled');
-      next();
-    }
-  } catch (e) {
-    next(new ErrorHandler(e, 'Issue in file sending'));
-  }
-}
 
-export async function isLoginEnabled(req: Request, res: Response, next: NextFunction) {
+export const isAllasEnabled = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  if (!config.APPLICATION_CONFIG.isCloudStorageEnabled) {
+    const statusCode = 503;
+    res.status(statusCode).json({
+      status: 'error',
+      statusCode,
+      message: allasErrorMessage,
+    });
+    throw new Error('File upload interrupted as the cloud storage is currently disabled in the environment variables.');
+  }
+  next();
+};
+
+export const isLoginEnabled = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const login = Number(process.env.LOGIN_ENABLED);
     if (!login) {
@@ -59,12 +53,12 @@ export async function isLoginEnabled(req: Request, res: Response, next: NextFunc
     } else {
       next();
     }
-  } catch (e) {
-    next(new ErrorHandler(e, 'Issue in login'));
+  } catch (err) {
+    next(new ErrorHandler(err, 'Issue in login'));
   }
-}
+};
 
-export async function aoeRoutes(req: Request, res: Response, next: NextFunction) {
+export const aoeRoutes = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const allasMessageObject = {
       fi: allasErrorMessage,
@@ -77,7 +71,7 @@ export async function aoeRoutes(req: Request, res: Response, next: NextFunction)
       sv: loginErrorMessageSv,
     };
     let allasMessageEnabled = '1';
-    if (process.env.ALLAS_ENABLED === '1') {
+    if (config.APPLICATION_CONFIG.isCloudStorageEnabled) {
       allasMessageEnabled = '0';
     }
     let loginMessageEnabled = '1';
@@ -101,4 +95,4 @@ export async function aoeRoutes(req: Request, res: Response, next: NextFunction)
   } catch (e) {
     next(new ErrorHandler(e, 'Issue in messages info'));
   }
-}
+};

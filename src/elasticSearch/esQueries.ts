@@ -124,7 +124,7 @@ export function hasDownloadableFiles(materials: Array<{ filekey: string }>) {
     }
     return false;
   } catch (err) {
-    winstonLogger.error(err);
+    winstonLogger.error('Error in hasDownloadableFiles(): %o', err);
     throw new Error(err);
   }
 }
@@ -354,9 +354,7 @@ export function createMustMatchObject(key: string, type: string) {
 export async function deleteDocument(index: string, id: string) {
   try {
     const query = { "index": index, "id": id };
-    const resp = await client.delete(query);
-    winstonLogger.debug(resp);
-
+    await client.delete(query);
   } catch (error) {
     winstonLogger.error(error);
   }

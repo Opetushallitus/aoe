@@ -36,9 +36,6 @@ export async function getMaterialMetaData(req: Request, res: Response): Promise<
         req.body.materialPerPage !== undefined &&
         req.body.pageNumber !== undefined
       ) {
-        winstonLogger.debug(req.body.dateMin);
-        winstonLogger.debug(req.body.dateMax);
-        winstonLogger.debug(req.body.materialPerPage);
         params.push(req.body.dateMin);
         params.push(req.body.dateMax);
         params.push(req.body.pageNumber * req.body.materialPerPage);
@@ -152,8 +149,8 @@ export async function getMaterialMetaData(req: Request, res: Response): Promise<
           // Temporary query to attach URN for the OAI-PMH metadata response.
           // TODO: Remove after the function is refactored.
           query = `
-                    SELECT urn FROM educationalmaterialversion 
-                    WHERE educationalmaterialid = $1 AND publishedat = 
+                    SELECT urn FROM educationalmaterialversion
+                    WHERE educationalmaterialid = $1 AND publishedat =
                         (SELECT MAX(publishedat) FROM educationalmaterialversion WHERE educationalmaterialid = $1)
                     `;
           response = await db.oneOrNone(query, [q.id]);

@@ -119,67 +119,53 @@ interface AuthorsOrganization {
   key: string;
   value: string;
 }
+
 /**
- *
- * @param req
- * @param res
- * @param next
- * update educational material metadata
+ * Update educational material metadata.
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<void>}
  */
-export async function updateEducationalMaterialMetadata(
+export const updateEducationalMaterialMetadata = async (
   req: Request,
   res: Response,
   next: NextFunction,
-): Promise<void> {
-  winstonLogger.debug(
-    'updateEducationalMaterialMetadata(): edumaterialid=' + req.params.edumaterialid + ', metadata=' + req.body,
-  );
-
+): Promise<void> => {
   try {
     const metadata: EducationalMaterialMetadata = req.body;
     const emid: string = req.params.edumaterialid;
+
     if (!metadata || !emid) {
       return next(
         new ErrorHandler(
           400,
-          'Metadata update for the educational material ' + 'failed: edumaterialid=' + emid + ', metadata=' + metadata,
+          'Metadata update for the educational material failed: edumaterialid=' + emid + ', metadata=' + metadata,
         ),
       );
     }
     const eduMaterial = await updateMaterial(metadata, emid);
-
-    // 200 OK response to the client and continue to search index and PID update
-    // eduMaterial[1]: { publishedat: string }
     res.status(200).json(eduMaterial[1]);
 
-    // TODO: Refactoring break point
+    // Update the search index after educational material changes.
+    await updateEsDocument();
 
-    try {
-      await updateEsDocument();
-    } catch (error) {
-      winstonLogger.error(error);
+    if (Number(process.env.PID_SERVICE_ENABLED) === 1 && eduMaterial[1] && eduMaterial[1].publishedat) {
+      const aoeurl = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat);
+      const pidurn = await pidResolutionService.registerPID(aoeurl);
+      await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn);
+    } else {
+      winstonLogger.error(
+        'URN update skipped for the educational material #%s in updateEducationalMaterialMetadata().',
+        emid,
+      );
     }
-    try {
-      if (Number(process.env.PID_SERVICE_ENABLED) === 1 && eduMaterial[1] && eduMaterial[1].publishedat) {
-        // try to get pid if new version
-        try {
-          const aoeurl = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat);
-          const pidurn = await pidResolutionService.registerPID(aoeurl);
-          await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn);
-        } catch (error) {
-          winstonLogger.debug('Cannot get Pid from ' + emid, eduMaterial[1].publishedat);
-          winstonLogger.error(error);
-        }
-      } else {
-        winstonLogger.debug('PID SERVICE DISABLED OR NO DATA');
-        winstonLogger.debug(process.env.PID_SERVICE_ENABLED);
-        winstonLogger.debug(eduMaterial[1]);
-      }
-    } catch (error) {
-      winstonLogger.error(error);
-    }
-  } catch (error) {
-    winstonLogger.error(error);
-    next(new ErrorHandler(400, 'Issue updating material'));
+  } catch (err) {
+    next(
+      new ErrorHandler(
+        400,
+        'One of the metadata updates for the educational material failed in updateEducationalMaterialMetadata().',
+      ),
+    );
   }
-}
+};

@@ -165,7 +165,7 @@ export async function collectionDataToEs(index: string, data: any) {
             });
           }
         });
-        winstonLogger.debug(erroredDocuments);
+        winstonLogger.error('Document errors: %o', erroredDocuments);
       }
     }
   } catch (err) {

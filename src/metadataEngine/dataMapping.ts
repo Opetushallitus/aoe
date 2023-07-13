@@ -57,11 +57,8 @@ async function createEducationalMaterialObject(indata: any) {
   const key = 'educationalmaterial';
   obj[key] = [];
   const date = new Date(Date.now());
-  winstonLogger.debug(date);
-  winstonLogger.debug(indata.julkaisuajankohta.replace(/\./g, '/'));
   const cleanJulkaisuAjankohta = parseDate(indata.julkaisuajankohta);
   const cleanOppimateriaaliVanhenee = parseDate(indata.oppimateriaali_vanhenee);
-  winstonLogger.debug(cleanJulkaisuAjankohta);
   const materialData = {
     technicalname: indata.nimi,
     createdat: date,

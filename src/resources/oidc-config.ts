@@ -101,10 +101,6 @@ export const authInit = (app: Express): void => {
   // Redirect endpoint and handlers after successful or failed authorization.
   app.get(
     '/api/secure/redirect',
-    (req: Request, res: Response, next: NextFunction) => {
-      winstonLogger.debug('Login redirect /secure/redirect | URI: %s', process.env.SUCCESS_REDIRECT_URI);
-      next();
-    },
     passport.authenticate('oidc', {
       failureRedirect: process.env.FAILURE_REDIRECT_URI,
       failureFlash: true,
