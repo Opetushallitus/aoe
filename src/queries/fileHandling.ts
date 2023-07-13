@@ -23,6 +23,8 @@ import { insertEducationalMaterialName } from './apiQueries';
 import File = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 
+// TODO: Ongoing iterative refactoring for all the file handling module functions.
+
 /**
  * AWS S3 cloud storage configuration.
  * @type {{endpoint: string, credentials: {accessKeyId: string, secretAccessKey: string}, region: string}}
@@ -61,7 +63,7 @@ const diskStore = multer({
 });
 
 /**
- * Check if files in temporaryattachment table and try to load to allas storage
+ * Check if files in temporaryattachment table and try to load to allas storage.
  */
 export const checkTemporaryAttachmentQueue = async (): Promise<any> => {
   try {
@@ -91,7 +93,7 @@ export const checkTemporaryAttachmentQueue = async (): Promise<any> => {
 };
 
 /**
- * check if files in temporaryrecord table and try to load to allas storage
+ * check if files in temporaryrecord table and try to load to allas storage.
  */
 export const checkTemporaryRecordQueue = async (): Promise<any> => {
   try {
