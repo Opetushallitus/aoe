@@ -4,7 +4,7 @@ import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
-import multer from 'multer';
+import multer, { DestinationCallback, FileNameCallback } from 'multer';
 import { Buffer } from 'node:buffer';
 import path from 'path';
 import s3Zip from 's3-zip';
@@ -18,35 +18,38 @@ import { requestRedirected } from '../services/streamingService';
 import { winstonLogger } from '../util/winstonLogger';
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
+
+// Interface Express.Multer.File declared globally in multer type definitions.
+import File = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 
-// AWS S3 Configuration
+// AWS S3 Configuration.
 const configS3: ServiceConfigurationOptions = {
   credentials: {
-    accessKeyId: process.env.USER_KEY,
-    secretAccessKey: process.env.USER_SECRET,
+    accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKey,
+    secretAccessKey: config.CLOUD_STORAGE_CONFIG.accessSecret,
   },
-  endpoint: process.env.POUTA_END_POINT,
-  region: process.env.REGION,
+  endpoint: config.CLOUD_STORAGE_CONFIG.apiURL,
+  region: config.CLOUD_STORAGE_CONFIG.region,
 };
 AWS.config.update(configS3);
 const s3: S3 = new AWS.S3();
 
-// Multer Storage
-const storage = multer.diskStorage({
-  // notice you are calling the multer.diskStorage() method here, not multer()
-  destination: (req: Request, file: any, cb: any) => {
-    cb(undefined, 'uploads/');
-  },
-  filename: (req: Request, file: any, cb: any) => {
-    const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
-    let str = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
-    str = str.replace(/[^a-zA-Z0-9]/g, '');
-    cb(undefined, str + '-' + Date.now() + ext);
-  },
-});
-const upload = multer({
-  storage: storage,
+// Multer disk storage configuration.
+const diskStore = multer({
+  storage: multer.diskStorage({
+    destination: (req: Request, file: File, callback: DestinationCallback) => {
+      callback(undefined, 'uploads/');
+    },
+    filename: (req: Request, file: File, callback: FileNameCallback) => {
+      let extension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+      let filename = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
+
+      // Regex: match a single character that is not alphanumeric [^a-zA-Z0-9] - all occurences (/g).
+      filename = filename.replace(/[^a-zA-Z0-9]/g, '');
+      callback(undefined, `${filename}-${Date.now()}${extension}`);
+    },
+  }),
   limits: { fileSize: Number(process.env.FILE_SIZE_LIMIT) },
   preservePath: true,
 });
@@ -816,7 +819,7 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
   try {
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
-      upload.single('attachment')(req, res, async (err) => {
+      diskStore.single('attachment')(req, res, async (err) => {
         try {
           if (err) {
             winstonLogger.error(err);
@@ -935,7 +938,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
   try {
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
-      upload.single('file')(req, res, async (err) => {
+      diskStore.single('file')(req, res, async (err) => {
         try {
           if (err) {
             if (err.code === 'LIMIT_FILE_SIZE') {
@@ -1060,7 +1063,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   try {
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
-      upload.single('file')(req, res, async (err) => {
+      diskStore.single('file')(req, res, async (err) => {
         try {
           if (err) {
             winstonLogger.error(err);
@@ -1165,13 +1168,13 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 /**
  * Upstream a file from the local file system to the cloud storage with a streaming passthrough functionality.
  * @param {string} filePath - Path and file name in local file system.
- * @param {string} filename - File name used in the cloud storage.
+ * @param {string} fileName - File name used in the cloud storage.
  * @param {string} bucketName - Target bucket in the cloud storage.
  * @return {Promise<ManagedUpload.SendData>}
  */
 export const uploadLocalFileToCloudStorage = async (
   filePath: string,
-  filename: string,
+  fileName: string,
   bucketName: string,
 ): Promise<SendData> => {
   const passThrough = new stream.PassThrough();
@@ -1179,17 +1182,17 @@ export const uploadLocalFileToCloudStorage = async (
   // Read a locally stored file to the streaming passthrough.
   fs.createReadStream(filePath)
     .once('error', (err: Error) => {
-      winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', filename);
+      winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
       return Promise.reject(err);
     })
     .pipe(passThrough);
 
   // Upstream a locally stored file to the cloud storage from the streaming passthrough.
   return await s3
-    .upload({ Bucket: bucketName, Key: filename, Body: passThrough })
+    .upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
     .promise()
-    .catch((err) => {
-      winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', filename);
+    .catch((err: Error) => {
+      winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
       return Promise.reject(err);
     });
 };

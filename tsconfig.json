@@ -7,9 +7,7 @@
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
     "module": "commonjs",
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
-    "lib": [
-      "es6"
-    ],
+    "lib": ["es6"],
     /* Specify library files to be included in the compilation. */
     "allowJs": true,
     /* Allow javascript files to be compiled. */
@@ -58,10 +56,7 @@
     /* Base directory to resolve non-absolute module names. */
     // "paths": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
-    "typeRoots": [
-      "./types",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./types", "./node_modules/@types"],
     /* List of folders to include type definitions from. */
     // "types": [],                           /* Type declaration files to be included in compilation. */
     // "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
@@ -88,12 +83,6 @@
     "forceConsistentCasingInFileNames": true
     /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src/**/*.json",
-    "src/**/*.js",
-    "src/**/*.ts"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["src/**/*.json", "src/**/*.js", "src/**/*.ts"]
 }
