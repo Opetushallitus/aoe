@@ -23,7 +23,10 @@ import { insertEducationalMaterialName } from './apiQueries';
 import File = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 
-// AWS S3 Configuration.
+/**
+ * AWS S3 cloud storage configuration.
+ * @type {{endpoint: string, credentials: {accessKeyId: string, secretAccessKey: string}, region: string}}
+ */
 const configS3: ServiceConfigurationOptions = {
   credentials: {
     accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKey,
@@ -35,7 +38,10 @@ const configS3: ServiceConfigurationOptions = {
 AWS.config.update(configS3);
 const s3: S3 = new AWS.S3();
 
-// Multer disk storage configuration.
+/**
+ * Multer disk storage configuration.
+ * @type {multer.Multer}
+ */
 const diskStore = multer({
   storage: multer.diskStorage({
     destination: (req: Request, file: File, callback: DestinationCallback) => {
@@ -45,7 +51,7 @@ const diskStore = multer({
       let extension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
       let filename = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
 
-      // Regex: match a single character that is not alphanumeric [^a-zA-Z0-9] - all occurences (/g).
+      // Regex: match a single character that is not alphanumeric [^a-zA-Z0-9] - all occurences /g.
       filename = filename.replace(/[^a-zA-Z0-9]/g, '');
       callback(undefined, `${filename}-${Date.now()}${extension}`);
     },
