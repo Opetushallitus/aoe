@@ -7,7 +7,7 @@ export { default as postHttpProcessor } from './post-http-processor';
 export { default as winstonLogger } from './winston-logger';
 
 export default {
-    morganHttpLogger,
-    postHttpProcessor,
-    winstonLogger
-}
+  morganHttpLogger,
+  postHttpProcessor,
+  winstonLogger,
+};

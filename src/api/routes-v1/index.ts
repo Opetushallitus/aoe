@@ -12,6 +12,6 @@ export { default as status } from './status';
  * @param router express.Router
  */
 export default (router: Router): void => {
-    material(router);
-    status(router);
-}
+  material(router);
+  status(router);
+};

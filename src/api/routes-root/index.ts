@@ -9,5 +9,5 @@ export { default as status } from './status';
  * @param router express.Router
  */
 export default (router: Router): void => {
-    status(router);
-}
+  status(router);
+};

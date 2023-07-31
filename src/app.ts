@@ -14,12 +14,10 @@ apiV1(apiRouterV1);
 
 // CORS Configuration (cross-origin read only)
 const corsOptions: CorsOptions = {
-    origin: '*',
-    methods: 'GET, HEAD',
-    allowedHeaders: [
-        'Range'
-    ],
-    optionsSuccessStatus: 204
+  origin: '*',
+  methods: 'GET, HEAD',
+  allowedHeaders: ['Range'],
+  optionsSuccessStatus: 204,
 };
 app.use(cors(corsOptions));
 app.disable('x-powered-by');
@@ -44,16 +42,16 @@ app.use('/favicon.ico', express.static('./views/favicon.ico'));
 
 // Default error handler
 app.use(((err: any, req: Request, res: Response, next: NextFunction) => {
-    winstonLogger.error(err.stack);
-    res.status(err.statusCode || 500);
-    res.type('json');
-    res.json({
-        errors: {
-            status: err.statusCode || 500,
-            message: err.message || 'Unexpected error occurred'
-        }
-    });
-    next();
+  winstonLogger.error(err.stack);
+  res.status(err.statusCode || 500);
+  res.type('json');
+  res.json({
+    errors: {
+      status: err.statusCode || 500,
+      message: err.message || 'Unexpected error occurred',
+    },
+  });
+  next();
 }) as ErrorRequestHandler);
 
 export default app;

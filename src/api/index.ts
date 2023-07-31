@@ -9,6 +9,6 @@ import v1 from './routes-v1/status';
  * @param router  express.Router
  */
 export default (router: Router): void => {
-    root(router);
-    v1(router);
-}
+  root(router);
+  v1(router);
+};

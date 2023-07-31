@@ -9,13 +9,13 @@ import storageService from '../../service/storage-service';
  * @param router express.Router
  */
 export default (router: Router): void => {
-    router.get('/material/:filename', async (req: Request, res: Response, next: NextFunction) => {
-        try {
-            await storageService.getObjectAsStream(req, res);
-            return res.end();
-        } catch (error) {
-            error.message = error.message || `Download from the object storage failed for ${req.params.filename as string}`;
-            return next(error);
-        }
-    });
-}
+  router.get('/material/:filename', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      await storageService.getObjectAsStream(req, res);
+      return res.end();
+    } catch (err: any) {
+      err.message = err.message || `Download from the object storage failed for ${req.params.filename as string}`;
+      return next(err);
+    }
+  });
+};
