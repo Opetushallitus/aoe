@@ -1061,7 +1061,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
 };
 
 /**
- * Upload single file to educational material.
+ * Upload a single file to an educational material.
  * @param {e.Request} req
  * @param {e.Response} res
  * @param {e.NextFunction} next
@@ -1069,8 +1069,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    const contentType = req.headers['content-type'];
-    if (contentType.startsWith('multipart/form-data')) {
+    if (req.headers['content-type'].startsWith('multipart/form-data')) {
       diskStore.single('file')(req, res, async (err) => {
         try {
           if (err) {
@@ -1199,6 +1198,10 @@ export const uploadLocalFileToCloudStorage = async (
   return await s3
     .upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
     .promise()
+    .then((resp: SendData) => {
+      winstonLogger.debug('Upstream to the cloud storage completed: %o', resp);
+      return resp;
+    })
     .catch((err: Error) => {
       winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
       return Promise.reject(err);

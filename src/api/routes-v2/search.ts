@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { getCollectionEsData } from '../../elasticSearch/es';
+import { elasticSearchQuery } from '../../elasticSearch/esQueries';
 import { runMessageQueueThread } from '../../services/threadService';
 import { winstonLogger } from '../../util/winstonLogger';
-import { elasticSearchQuery } from '../../elasticSearch/esQueries';
-import { checkAuthenticated } from '../../services/authService';
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational material.
