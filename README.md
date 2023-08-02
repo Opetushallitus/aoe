@@ -8,4 +8,4 @@
 
 # AOE Streaming Service
 
-Streaming Service for the Library of Open Educational Materials
+Media Streaming Service for the Library of Open Educational Resources

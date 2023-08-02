@@ -85,7 +85,7 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             'Content-Type': headers['content-type'],
             ETag: headers['etag'],
             Date: headers['date'],
-            'Cache-Control': 'max-age=0, private',
+            'Cache-Control': 'no-store',
           });
           if (req.headers.range) {
             winstonLogger.debug('Partial streaming request for %s [%s] ', fileName, range);
