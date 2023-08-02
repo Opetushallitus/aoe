@@ -160,7 +160,7 @@ const validateRangeValues = (range: string | undefined, headResponse: HeadObject
   } else {
     return undefined;
   }
-  const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) || 5000000; // 5 MB
+  const maxRange = parseInt(process.env.STORAGE_MAX_RANGE as string, 10) - 1 || 5000000 - 1; // 5 MB
   const [startString, endString]: string[] = range.replace(/bytes=/, '').split('-');
   const start: number = parseInt(startString, 10);
   let end: number = endString ? parseInt(endString, 10) : length - 1;
