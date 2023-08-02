@@ -260,7 +260,6 @@ export const getEducationalMaterialMetadata = async (
       'FROM versioncomposition ' +
       'WHERE educationalmaterialid = $1 ' +
       'ORDER BY publishedat DESC';
-    // winstonLogger.debug(query, [eduMaterialId]);
     response = await t.any(query, [eduMaterialId]);
     queries.push(response);
     // pgp.pg.types.setTypeParser(TYPE_TIMESTAMP, parseDate);
@@ -891,13 +890,11 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         winstonLogger.debug(response);
         for (const element of response) {
           query = 'DELETE FROM educationaluse where id = ' + element.id + ';';
-          winstonLogger.debug(query);
           queries.push(await t.any(query));
         }
         for (const element of educationalUseArr) {
           query =
-            'INSERT INTO educationaluse (value, educationalmaterialid, educationalusekey) VALUES ($1,$2,$3) ON CONFLICT (educationalusekey,educationalmaterialid) DO UPDATE SET value = $1;';
-          winstonLogger.debug(query);
+            'INSERT INTO educationaluse (value, educationalmaterialid, educationalusekey) VALUES ($1,$2,$3) ON CONFLICT (educationalusekey,educationalmaterialid) DO UPDATE SET value = $1';
           queries.push(await t.any(query, [element.value, emid, element.key]));
         }
       }
@@ -922,13 +919,11 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         winstonLogger.debug(response);
         for (const element of response) {
           query = 'DELETE FROM learningresourcetype where id = ' + element.id + ';';
-          winstonLogger.debug(query);
           queries.push(await t.any(query));
         }
         for (const element of learningResourceTypeArr) {
           query =
-            'INSERT INTO learningresourcetype (value, educationalmaterialid, learningresourcetypekey) VALUES ($1,$2,$3) ON CONFLICT (learningresourcetypekey,educationalmaterialid) DO UPDATE SET value = $1;';
-          winstonLogger.debug(query);
+            'INSERT INTO learningresourcetype (value, educationalmaterialid, learningresourcetypekey) VALUES ($1,$2,$3) ON CONFLICT (learningresourcetypekey,educationalmaterialid) DO UPDATE SET value = $1';
           queries.push(await t.any(query, [element.value, emid, element.key]));
         }
       }
@@ -953,13 +948,11 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         queries.push(response);
         for (const element of response) {
           query = 'DELETE FROM keyword where id = ' + element.id + ';';
-          winstonLogger.debug(query);
           queries.push(await t.any(query));
         }
         for (const element of arr) {
           query =
-            'INSERT INTO keyword (value, educationalmaterialid, keywordkey) VALUES ($1,$2,$3) ON CONFLICT (keywordkey, educationalmaterialid) DO UPDATE SET value = $1;';
-          winstonLogger.debug(query, [element.value, emid, element.key]);
+            'INSERT INTO keyword (value, educationalmaterialid, keywordkey) VALUES ($1,$2,$3) ON CONFLICT (keywordkey, educationalmaterialid) DO UPDATE SET value = $1';
           queries.push(await t.any(query, [element.value, emid, element.key]));
         }
       }
@@ -968,8 +961,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       arr = metadata.publisher;
       winstonLogger.debug(arr);
       if (arr == undefined || arr.length < 1) {
-        query = 'DELETE FROM publisher where educationalmaterialid = $1;';
-        winstonLogger.debug(query, [emid]);
+        query = 'DELETE FROM publisher where educationalmaterialid = $1';
         response = await t.any(query, [emid]);
         queries.push(response);
       } else {
@@ -980,19 +972,16 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           'select id from (select * from publisher where educationalmaterialid = $1) as i left join' +
           '(select t.publisherkey from ( values ' +
           params.join(',') +
-          ' ) as t(publisherkey)) as a on i.publisherkey = a.publisherkey where a.publisherkey is null;';
-        winstonLogger.debug(query);
+          ' ) as t(publisherkey)) as a on i.publisherkey = a.publisherkey where a.publisherkey is null';
         response = await t.any(query, [emid]);
         queries.push(response);
         for (const element of response) {
           query = 'DELETE FROM publisher where id = ' + element.id + ';';
-          winstonLogger.debug(query);
           queries.push(await t.any(query));
         }
         for (const element of arr) {
           query =
             'INSERT INTO publisher (name, educationalmaterialid, publisherkey) VALUES ($1,$2,$3) ON CONFLICT (publisherkey, educationalmaterialid) DO UPDATE SET name = $1';
-          winstonLogger.debug(query);
           queries.push(await t.any(query, [element.value, emid, element.key]));
         }
       }
@@ -1025,19 +1014,16 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           }
           if (toBeDeleted) {
             query = 'DELETE FROM isbasedon where id = ' + element.id + ';';
-            winstonLogger.debug(query);
             queries.push(await t.any(query));
           }
         }
         for (const element of isBasedonArr) {
           query =
-            'INSERT INTO isbasedon (materialname, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (materialname, educationalmaterialid) DO UPDATE SET url = $2 returning id;';
-          winstonLogger.debug(query, [element.name, element.url, emid]);
+            'INSERT INTO isbasedon (materialname, url, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (materialname, educationalmaterialid) DO UPDATE SET url = $2 returning id';
           const resp = await t.one(query, [element.name, element.url, emid]);
           queries.push(resp);
           for (const author of element.author) {
-            query = 'INSERT INTO isbasedonauthor (authorname, isbasedonid) VALUES ($1,$2);';
-            winstonLogger.debug(query, [author, resp.id]);
+            query = 'INSERT INTO isbasedonauthor (authorname, isbasedonid) VALUES ($1,$2)';
             queries.push(t.none(query, [author, resp.id]));
           }
         }
@@ -1070,7 +1056,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           }
           if (toBeDeleted) {
             query = 'DELETE FROM alignmentobject where id = ' + element.id + ';';
-            winstonLogger.debug(query);
             queries.push(await t.any(query));
           }
         }
@@ -1111,7 +1096,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         query =
           pgp.helpers.insert(values, cs) +
           ' ON CONFLICT ON CONSTRAINT constraint_alignmentobject DO UPDATE Set educationalframework = excluded.educationalframework';
-        winstonLogger.debug(query);
         queries.push(await t.any(query));
       }
       // Author
@@ -1123,8 +1107,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
 
       for (const element of authorArr) {
         query =
-          'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1,$2,$3,$4);';
-        winstonLogger.debug(query, [element.author, element.organization, emid]);
+          'INSERT INTO author (authorname, organization, educationalmaterialid, organizationkey) VALUES ($1, $2, $3, $4)';
         queries.push(
           await t.any(query, [
             element.author == undefined ? '' : element.author,
@@ -1140,7 +1123,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       const fileDetailArr = metadata.fileDetails;
       if (fileDetailArr == undefined) {
         // query = "DELETE FROM materialdisplayname where materialid = $1;";
-        // winstonLogger.debug(query, [emid]);
         // response  = await t.any(query, [emid]);
         // queries.push(response);
       } else {
@@ -1172,23 +1154,20 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           'select id from (select * from accessibilityfeature where educationalmaterialid = $1) as i left join' +
           '(select t.accessibilityfeaturekey from ( values ' +
           params.join(',') +
-          ' ) as t(accessibilityfeaturekey)) as a on i.accessibilityfeaturekey = a.accessibilityfeaturekey where a.accessibilityfeaturekey is null;';
-        winstonLogger.debug(query);
+          ' ) as t(accessibilityfeaturekey)) as a on i.accessibilityfeaturekey = a.accessibilityfeaturekey where a.accessibilityfeaturekey is null';
         response = await t.any(query, [emid]);
         winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
             query = 'DELETE FROM accessibilityfeature where id = ' + element.id + ';';
-            winstonLogger.debug(query);
             queries.push(await t.any(query));
           }
         }
         for (const element of arr) {
           query =
             'INSERT INTO accessibilityfeature (accessibilityfeaturekey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityfeaturekey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
-          winstonLogger.debug(query, [element.key, element.value, emid]);
+          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1208,23 +1187,20 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           'select id from (select * from accessibilityhazard where educationalmaterialid = $1) as i left join' +
           '(select t.accessibilityhazardkey from ( values ' +
           params.join(',') +
-          ' ) as t(accessibilityhazardkey)) as a on i.accessibilityhazardkey = a.accessibilityhazardkey where a.accessibilityhazardkey is null;';
-        winstonLogger.debug(query);
+          ' ) as t(accessibilityhazardkey)) as a on i.accessibilityhazardkey = a.accessibilityhazardkey where a.accessibilityhazardkey is null';
         response = await t.any(query, [emid]);
         winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
             query = 'DELETE FROM accessibilityhazard where id = ' + element.id + ';';
-            winstonLogger.debug(query);
             queries.push(await t.any(query));
           }
         }
         for (const element of arr) {
           query =
             'INSERT INTO accessibilityhazard (accessibilityhazardkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (accessibilityhazardkey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
-          winstonLogger.debug(query, [element.key, element.value, emid]);
+          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1244,23 +1220,20 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           'select id from (select * from educationallevel where educationalmaterialid = $1) as i left join' +
           '(select t.educationallevelkey from ( values ' +
           params.join(',') +
-          ' ) as t(educationallevelkey)) as a on i.educationallevelkey = a.educationallevelkey where a.educationallevelkey is null;';
-        winstonLogger.debug(query);
+          ' ) as t(educationallevelkey)) as a on i.educationallevelkey = a.educationallevelkey where a.educationallevelkey is null';
         response = await t.any(query, [emid]);
         winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
             query = 'DELETE FROM educationallevel where id = ' + element.id + ';';
-            winstonLogger.debug(query);
             queries.push(await t.any(query));
           }
         }
         for (const element of arr) {
           query =
             'INSERT INTO educationallevel (educationallevelkey, value, educationalmaterialid) VALUES ($1,$2,$3) ON CONFLICT (educationallevelkey, educationalmaterialid) DO NOTHING;';
-          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4;";
-          winstonLogger.debug(query, [element.key, element.value, emid]);
+          // query = "INSERT INTO materialdisplayname (displayname, language, materialid, slug) VALUES ($1,$2,$3,$4) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1, slug = $4";
           queries.push(await t.any(query, [element.key, element.value, emid]));
         }
       }
@@ -1269,8 +1242,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         for (const element of attachmentDetailArr) {
           query =
             'update attachment set kind = $1, defaultfile = $2, label = $3, srclang = $4 where (id = $5 ' +
-            'and (select educationalmaterialid from material where id = (select materialid from attachment where id = $5)) = $6);';
-          winstonLogger.debug(query, [element.kind, element.default, element.label, element.lang, element.id, emid]);
+            'and (select educationalmaterialid from material where id = (select materialid from attachment where id = $5)) = $6)';
           queries.push(
             await t.none(query, [element.kind, element.default, element.label, element.lang, element.id, emid]),
           );
@@ -1291,15 +1263,13 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           for (const element of arr) {
             // query = "INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) VALUES ($1,$2,now(),$3);";
             query =
-              'INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) select $1,$2,now()::timestamp(3),$3 where exists (select * from material where id = $2 and educationalmaterialid = $1);';
-            winstonLogger.debug(query, [emid, element.materialId, element.priority]);
+              'INSERT INTO versioncomposition (educationalmaterialid, materialid, publishedat, priority) select $1,$2,now()::timestamp(3),$3 where exists (select * from material where id = $2 and educationalmaterialid = $1)';
             queries.push(await t.none(query, [emid, element.materialId, element.priority]));
             // add attachments
             if (element.attachments) {
               for (const att of element.attachments) {
                 query =
-                  'INSERT INTO attachmentversioncomposition (versioneducationalmaterialid, versionmaterialid, versionpublishedat, attachmentid) select $1,$2,now()::timestamp(3),$3 where exists (select * from attachment where id = $3 and materialid = $2);';
-                winstonLogger.debug(query, [emid, element.materialId, att]);
+                  'INSERT INTO attachmentversioncomposition (versioneducationalmaterialid, versionmaterialid, versionpublishedat, attachmentid) select $1,$2,now()::timestamp(3),$3 where exists (select * from attachment where id = $3 and materialid = $2)';
                 queries.push(await t.none(query, [emid, element.materialId, att]));
               }
             }
@@ -1310,8 +1280,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         if (materialArr) {
           for (const element of materialArr) {
             query =
-              'UPDATE versioncomposition SET priority = $3 WHERE educationalmaterialid = $1 and materialid = $2 and publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1);';
-            winstonLogger.debug(query, [emid, element.materialId, element.priority]);
+              'UPDATE versioncomposition SET priority = $3 WHERE educationalmaterialid = $1 and materialid = $2 and publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)';
             queries.push(await t.none(query, [emid, element.materialId, element.priority]));
           }
         }
@@ -1362,7 +1331,6 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
       'UPDATE users SET (firstname, lastname, preferredlanguage, preferredtargetname, ' +
       'preferredalignmenttype) = ($1, $2, $3, $4, $5) ' +
       'WHERE username = $6';
-    winstonLogger.debug(query);
     const data = await db.any(query, [
       req.body.firstname,
       req.body.lastname,
@@ -1381,7 +1349,6 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
 export async function updateTermsOfUsage(req: Request, res: Response, next: NextFunction) {
   try {
     const query = "UPDATE users SET termsofusage = '1' WHERE username = $1";
-    winstonLogger.debug(query);
     const data = await db.any(query, [req.session.passport.user.uid]);
     res.status(200).json('terms of usage updated');
   } catch (err) {
@@ -1393,7 +1360,6 @@ export async function updateTermsOfUsage(req: Request, res: Response, next: Next
 export async function getUser(req: Request, res: Response, next: NextFunction) {
   try {
     const query = 'SELECT * FROM users WHERE username = $1';
-    winstonLogger.debug(query);
     const data = await db.any(query, [req.session.passport.user.uid]);
     res.status(200).json(data);
   } catch (err) {
@@ -1490,7 +1456,6 @@ export async function insertIntoEducationalMaterial(obj: any) {
     originalpublishedat: obj.originalpublishedat,
   };
   const query = pgp.helpers.insert(materialData, undefined, 'educationalmaterial') + 'RETURNING id';
-  winstonLogger.debug(query);
   const data = await db.any(query);
   return data;
 }
@@ -1503,7 +1468,6 @@ export async function insertIntoMaterialName(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'materialname') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1514,7 +1478,6 @@ export async function insertIntoMaterialDescription(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'materialdescription') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1524,7 +1487,6 @@ export async function insertIntoEducationalAudience(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'educationalaudience') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1534,7 +1496,6 @@ export async function insertIntoLearningResourceType(obj: any, materialid: any) 
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'learningresourcetype') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1554,7 +1515,6 @@ export async function insertIntoAccessibilityFeature(obj: any, materialid: any) 
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'accessibilityfeature') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1564,7 +1524,6 @@ export async function insertIntoAccessibilityHazard(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'accessibilityhazard') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1575,7 +1534,6 @@ export async function insertIntoKeyWord(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'keyword') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1585,7 +1543,6 @@ export async function insertIntoEducationalLevel(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'educationallevel') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1595,7 +1552,6 @@ export async function insertIntoEducationalUse(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'educationaluse') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1605,7 +1561,6 @@ export async function insertIntoPublisher(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'publisher') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1616,7 +1571,6 @@ export async function insertIntoInLanguage(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'inlanguage') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1628,7 +1582,6 @@ export async function insertIntoAlignmentObject(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'alignmentobject') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 
@@ -1640,7 +1593,6 @@ export async function insertIntoMaterial(obj: any, materialid: any) {
     educationalmaterialid: materialid,
   };
   const query = pgp.helpers.insert(data, undefined, 'material') + 'RETURNING id';
-  winstonLogger.debug(query);
   await db.any(query);
 }
 

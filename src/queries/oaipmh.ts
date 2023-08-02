@@ -44,7 +44,6 @@ export async function getMaterialMetaData(req: Request, res: Response): Promise<
           'select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches' +
           ' from educationalmaterial as em where em.updatedat >= timestamp $1 and em.updatedat < timestamp $2 and em.publishedat is not null order by em.id asc OFFSET $3 LIMIT $4;'; // removed: "where ... and obsoleted = 0"
       }
-      winstonLogger.debug(query, params);
       return t
         .map(query, params, async (q: any) => {
           const m: any = [];

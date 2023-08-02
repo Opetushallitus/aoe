@@ -143,8 +143,7 @@ export async function getUserRatings(username: string, materialId: string) {
   try {
     const data = await db.task(async (t: any) => {
       const query =
-        'SELECT educationalmaterialid, ratingcontent, ratingvisual, feedbackpositive, feedbacksuggest, feedbackpurpose, updatedat from rating where usersusername = $1 and educationalmaterialid = $2;';
-      winstonLogger.debug(query, [username, materialId]);
+        'SELECT educationalmaterialid, ratingcontent, ratingvisual, feedbackpositive, feedbacksuggest, feedbackpurpose, updatedat from rating where usersusername = $1 and educationalmaterialid = $2';
       const ratings = await t.oneOrNone(query, [username, materialId]);
       return { ratings };
     });

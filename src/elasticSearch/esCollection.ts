@@ -96,7 +96,6 @@ export async function getCollectionDataToEs(offset: number, limit: number) {
       const params: any = [];
       params.push(offset * limit);
       params.push(limit);
-      winstonLogger.debug(query, params);
       const collections = await Promise.all(
         await t.map(query, params, async (q: any) => {
             query = "SELECT value, keywordkey as key FROM collectionkeyword WHERE collectionid = $1;";
@@ -179,7 +178,6 @@ export async function getCollectionDataToUpdate(time: Date) {
       let query = "select collection.id, publishedat, updatedat, createdat, collectionname as name, description from collection WHERE updatedat > $1 and publishedat IS NOT NULL;";
       const params: any = [];
       params.push(time);
-      winstonLogger.debug(query, params);
       const collections = await Promise.all(
         await t.map(query, params, async (q: any) => {
             query = "SELECT value, keywordkey as key FROM collectionkeyword WHERE collectionid = $1;";
