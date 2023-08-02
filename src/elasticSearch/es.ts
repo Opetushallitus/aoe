@@ -53,7 +53,6 @@ export const createEsIndex = async (): Promise<any> => {
           await addMapping(index, process.env.ES_MAPPING_FILE);
           let i = 0;
           let n;
-          winstonLogger.debug(Es.ESupdated + ' - ' + new Date().toUTCString());
           Es.ESupdated.value = new Date();
           do {
             n = await metadataToEs(i, 1000);

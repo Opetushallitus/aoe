@@ -60,8 +60,7 @@ export async function deleteEducationalMaterialFromCollection(collection: Collec
     const values: any[] = [];
     // collection.emId.map(id => values.push({collectionid : collection.collectionId, educationalmaterialid: id}));
     const query =
-      'DELETE FROM collectioneducationalmaterial WHERE collectionid = $1 AND educationalmaterialid IN ($2:list);';
-    winstonLogger.debug(pgp.as.format(query), [collection.collectionId, collection.emId]);
+      'DELETE FROM collectioneducationalmaterial WHERE collectionid = $1 AND educationalmaterialid IN ($2:list)';
     await db.none(query, [collection.collectionId, collection.emId]);
   } catch (err) {
     throw new Error(err);
@@ -380,7 +379,7 @@ export async function insertCollectionMetadata(collection: Collection) {
     });
     return data;
   } catch (err) {
-    winstonLogger.debug(err);
+    winstonLogger.error('Error in insertCollectionMetadata(): %o', err);
     throw new Error(err);
   }
 }

@@ -914,7 +914,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           ' ) as t(learningresourcetypekey)) as a on i.learningresourcetypekey = a.learningresourcetypekey where a.learningresourcetypekey is null;';
         response = await t.any(query, [emid]);
         queries.push(response);
-        winstonLogger.debug(response);
         for (const element of response) {
           query = 'DELETE FROM learningresourcetype where id = ' + element.id + ';';
           queries.push(await t.any(query));
@@ -1088,7 +1087,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           values.push(obj);
           // updateValues.push({educationalframework : ((element.educationalFramework == undefined) ? "" : element.educationalFramework)});
         });
-        winstonLogger.debug(values);
         query =
           pgp.helpers.insert(values, cs) +
           ' ON CONFLICT ON CONSTRAINT constraint_alignmentobject DO UPDATE Set educationalframework = excluded.educationalframework';
@@ -1184,7 +1182,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           params.join(',') +
           ' ) as t(accessibilityhazardkey)) as a on i.accessibilityhazardkey = a.accessibilityhazardkey where a.accessibilityhazardkey is null';
         response = await t.any(query, [emid]);
-        winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
@@ -1307,7 +1304,6 @@ export async function createUser(req: Request, res: Response, next: NextFunction
     const query =
       'INSERT INTO users (firstname, lastname, username, preferredlanguage, preferredtargetname,' +
       "preferredalignmenttype) VALUES ($1, $2, $3, 'fi', '', '') RETURNING username";
-    winstonLogger.debug(req.body);
     if (req.body.username === undefined) {
       next(new ErrorHandler(500, 'Username cannot be undefined'));
     }

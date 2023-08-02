@@ -58,7 +58,6 @@ export async function sendExpirationMail() {
     const materials = await getExpiredMaterials();
     const emailArray = materials.filter((m) => m.email != undefined).map((m) => m.email);
     mailOptions.to = emailArray;
-    winstonLogger.debug(emailArray);
     if (!(process.env.SEND_EMAIL === '1')) {
       winstonLogger.debug('Email sending disabled');
     } else {
@@ -70,8 +69,8 @@ export async function sendExpirationMail() {
         // winstonLogger.debug("Message sent: %s", info.response);
       }
     }
-  } catch (error) {
-    winstonLogger.debug(error);
+  } catch (err) {
+    winstonLogger.error('Error in sendExpirationMail(): %o', err);
   }
 }
 
@@ -88,7 +87,6 @@ export async function sendRatingNotificationMail() {
         holder[d.email] = d.materialname;
       }
     });
-    winstonLogger.debug(holder);
     if (!(process.env.SEND_EMAIL === '1')) {
       winstonLogger.debug('Email sending disabled');
     } else {
