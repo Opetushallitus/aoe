@@ -4,6 +4,7 @@ import fh, { downloadFromStorage } from './fileHandling';
 import mime from 'mime';
 import { winstonLogger } from '../util/winstonLogger';
 import { db } from '../resources/pg-connect';
+import config from '../configuration';
 
 /**
  * @param req
@@ -92,7 +93,7 @@ async function downloadThumbnail(req: Request, res: Response, next: NextFunction
       return res.status(200).json({});
     }
     const params = {
-      Bucket: process.env.THUMBNAIL_BUCKET_NAME,
+      Bucket: config.CLOUD_STORAGE_CONFIG.bucketThumbnail,
       Key: key,
     };
     await downloadFromStorage(req, res, next, params, key);
