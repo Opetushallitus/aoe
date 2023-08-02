@@ -222,7 +222,7 @@ export const getOfficeFiles = async (): Promise<any> => {
 export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     const params = {
-      Bucket: process.env.BUCKET_NAME,
+      Bucket: process.env.CLOUD_STORAGE_BUCKET,
       Key: key,
     };
     const folderpath = process.env.HTMLFOLDER + '/' + key;

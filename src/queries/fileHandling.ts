@@ -131,7 +131,11 @@ export const fileToStorage = async (
   file: { filename: string; path: string },
   materialid: string,
 ): Promise<{ key: string; recordid: string }> => {
-  const obj: any = await uploadLocalFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadLocalFileToCloudStorage(
+    './' + file.path,
+    file.filename,
+    process.env.CLOUD_STORAGE_BUCKET,
+  );
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
   fs.unlink('./' + file.path, (err: any) => {
@@ -156,7 +160,11 @@ export const attachmentFileToStorage = async (
   materialid: string,
   attachmentId: string,
 ): Promise<any> => {
-  const obj: any = await uploadLocalFileToCloudStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadLocalFileToCloudStorage(
+    './' + file.path,
+    file.filename,
+    process.env.CLOUD_STORAGE_BUCKET,
+  );
   // await insertDataToAttachmentTable(file, materialid, obj.Key, obj.Bucket, obj.Location, metadata);
   await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
   await deleteDataToTempAttachmentTable(file.filename, materialid);
@@ -366,7 +374,7 @@ export const downloadAndZipFromStorage = async (
 ): Promise<void> => {
   return new Promise(async (resolve) => {
     try {
-      const bucketName = process.env.BUCKET_NAME;
+      const bucketName = process.env.CLOUD_STORAGE_BUCKET;
       try {
         s3Zip
           .archive({ s3: s3, bucket: bucketName }, '', keys, files)
@@ -474,7 +482,7 @@ export const downloadFileFromStorage = async (
           return resolve(null);
         }
         const params = {
-          Bucket: process.env.BUCKET_NAME as string,
+          Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
           Key: (req.params.filename as string) || (req.params.key as string),
         };
         const resp = await downloadFromStorage(req, res, next, params, fileDetails.originalfilename, isZip);
@@ -862,7 +870,7 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
               const obj: any = await uploadLocalFileToCloudStorage(
                 './' + file.path,
                 file.filename,
-                process.env.BUCKET_NAME,
+                process.env.CLOUD_STORAGE_BUCKET,
               );
               await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
               await deleteDataToTempAttachmentTable(file.filename, result[0].id);
@@ -1005,7 +1013,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
-                      process.env.BUCKET_NAME,
+                      process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
 
@@ -1115,7 +1123,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                     const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
-                      process.env.BUCKET_NAME,
+                      process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     try {

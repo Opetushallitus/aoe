@@ -98,7 +98,7 @@ export const startH5Pplayer = async (contentid: string): Promise<any> => {
       //     type: "local"
       // };
       const params: { Bucket: string; Key: string } = {
-        "Bucket": process.env.BUCKET_NAME as string,
+        "Bucket": process.env.CLOUD_STORAGE_BUCKET as string,
         "Key": contentid as string
       };
       const stream = await readStreamFromStorage(params);
