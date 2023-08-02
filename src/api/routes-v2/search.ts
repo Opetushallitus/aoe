@@ -20,7 +20,7 @@ export default (router: Router): void => {
     `${moduleRoot}`,
     (req: Request, res: Response, next: NextFunction) => {
       // Bypass search requests with paging parameters included.
-      if (!req.body.size) {
+      if (req.body.size) {
         runMessageQueueThread(req).then((result) => {
           if (result) winstonLogger.debug('THREAD: Message queue publishing completed for %o', result);
         });

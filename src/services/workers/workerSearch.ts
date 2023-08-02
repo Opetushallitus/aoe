@@ -8,7 +8,7 @@ import moment from 'moment';
 
 const message: TypeSearchRequest = {
   // sessionId: createHash('md5').update(workerData.headers['cookie']).digest('hex') as string,
-  timestamp: moment.utc().toISOString() as string,
+  timestamp: workerData.body.timestamp ? workerData.body.timestamp : (moment.utc().toISOString() as string),
   keywords: workerData.body.keywords,
   filters: workerData.body.filters,
 };
