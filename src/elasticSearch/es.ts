@@ -279,7 +279,7 @@ export async function metadataToEs(offset: number, limit: number) {
                 });
               }
             });
-            winstonLogger.debug(erroredDocuments);
+            winstonLogger.debug('Error documents in metadataToEs(): %o', erroredDocuments);
           }
           resolve(data.length);
         } else {
@@ -518,7 +518,7 @@ export const updateEsCollectionIndex = async (): Promise<void> => {
 
     Es.CollectionEsUpdated.value = newDate;
   } catch (error) {
-    winstonLogger.debug(error);
+    winstonLogger.error('Error in updateEsCollectionIndex(): %o', error);
     throw new Error(error);
   }
 };

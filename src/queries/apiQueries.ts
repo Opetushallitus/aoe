@@ -287,7 +287,6 @@ export const getEducationalMaterialMetadata = async (
         return res.status(200).json(jsonObj);
       }
       let owner = false;
-      // winstonLogger.debug(owner);
       if (req.session?.passport && req.session?.passport.user && req.session?.passport.user.uid) {
         owner = await isOwner(eduMaterialId.toString(), req.session?.passport.user.uid);
       }
@@ -887,7 +886,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           ' ) as t(educationalusekey)) as a on i.educationalusekey = a.educationalusekey where a.educationalusekey is null;';
         response = await t.any(query, [emid]);
         queries.push(response);
-        winstonLogger.debug(response);
         for (const element of response) {
           query = 'DELETE FROM educationaluse where id = ' + element.id + ';';
           queries.push(await t.any(query));
@@ -959,7 +957,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       // publisher
       params = [];
       arr = metadata.publisher;
-      winstonLogger.debug(arr);
       if (arr == undefined || arr.length < 1) {
         query = 'DELETE FROM publisher where educationalmaterialid = $1';
         response = await t.any(query, [emid]);
@@ -1079,7 +1076,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         //     alignmentObjectArr[i].educationalmaterialid = emid;
         // }
         alignmentObjectArr.forEach(async (element: any) => {
-          winstonLogger.debug(element.educationalFramework);
           const obj = {
             alignmenttype: element.alignmentType,
             targetname: element.targetName,
@@ -1156,7 +1152,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           params.join(',') +
           ' ) as t(accessibilityfeaturekey)) as a on i.accessibilityfeaturekey = a.accessibilityfeaturekey where a.accessibilityfeaturekey is null';
         response = await t.any(query, [emid]);
-        winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
@@ -1222,7 +1217,6 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
           params.join(',') +
           ' ) as t(educationallevelkey)) as a on i.educationallevelkey = a.educationallevelkey where a.educationallevelkey is null';
         response = await t.any(query, [emid]);
-        winstonLogger.debug(response);
         queries.push(response);
         for (const element of response) {
           if (element.dnid !== null) {
@@ -1433,7 +1427,7 @@ export async function insertEducationalMaterial(obj: any, func: any) {
     func(undefined, 'Success');
   } catch (err) {
     await db.any('ROLLBACK');
-    winstonLogger.debug(err);
+    winstonLogger.error('Error in insertEducationalMaterial(): %o', err);
     func(err);
   }
 }

@@ -86,8 +86,7 @@ export async function hasAccessToMaterial(req: Request, res: Response, next: Nex
   const query =
     'Select usersusername from material inner join educationalmaterial on educationalmaterialid = educationalmaterial.id where material.id = $1';
   const result = await db.oneOrNone(query, [id]);
-  winstonLogger.debug(req.session.passport.user.uid);
-  winstonLogger.debug(result);
+  winstonLogger.debug('User UID: %s', req.session.passport.user.uid);
   if (!result) {
     winstonLogger.debug('No result found for id ' + id);
     return res.sendStatus(401);
@@ -105,8 +104,7 @@ export async function hasAccessToAttachmentFile(req: Request, res: Response, nex
     'Select usersusername from material inner join educationalmaterial on educationalmaterialid = educationalmaterial.id where material.id = ' +
     '(select materialid from attachment where attachment.id =$1);';
   const result = await db.oneOrNone(query, [id]);
-  winstonLogger.debug(req.session.passport.user.uid);
-  winstonLogger.debug(result);
+  winstonLogger.debug('User UID: %s', req.session.passport.user.uid);
   if (!result) {
     winstonLogger.debug('No result found for id ' + id);
     return res.sendStatus(401);

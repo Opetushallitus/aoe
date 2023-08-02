@@ -241,7 +241,6 @@ export async function insertCollectionMetadata(collection: Collection) {
     const data = await db.tx(async (t: any) => {
       const queries = [];
       const description = collection.description ? collection.description : '';
-      winstonLogger.debug(description);
       let query = 'UPDATE collection SET description = $1, collectionname = $2, updatedat = now() where id = $3';
       let response = await t.none(query, [description, collection.name, collectionId]);
 
@@ -433,7 +432,7 @@ export async function recentCollectionQuery() {
     });
     return data;
   } catch (err) {
-    winstonLogger.debug(err);
+    winstonLogger.error('Error in recentCollectionQuery(): %o', err);
     throw new Error(err);
   }
 }

@@ -56,7 +56,6 @@ export async function sendExpirationMail() {
   };
   try {
     const materials = await getExpiredMaterials();
-    winstonLogger.debug(materials);
     const emailArray = materials.filter((m) => m.email != undefined).map((m) => m.email);
     mailOptions.to = emailArray;
     winstonLogger.debug(emailArray);
@@ -64,7 +63,6 @@ export async function sendExpirationMail() {
       winstonLogger.debug('Email sending disabled');
     } else {
       const materials = await getExpiredMaterials();
-      winstonLogger.debug(materials);
       for (const element of emailArray) {
         mailOptions.to = element;
         const info = await transporter.sendMail(mailOptions);
@@ -80,7 +78,6 @@ export async function sendExpirationMail() {
 export async function sendRatingNotificationMail() {
   try {
     const emails = await getNewRatings();
-    winstonLogger.debug(emails);
     const emailArray = emails.filter((m) => m.email != undefined).map((m) => m.email);
     winstonLogger.debug('emailArray: ' + emailArray);
     const holder = {};
@@ -113,7 +110,7 @@ export async function sendRatingNotificationMail() {
       }
     }
   } catch (error) {
-    winstonLogger.debug(error);
+    winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error);
   }
 }
 export async function getExpiredMaterials() {
@@ -149,7 +146,6 @@ export async function sendVerificationEmail(user: string, email: string) {
   const token_mail_verification = sign(mail, jwtSecret, { expiresIn: '1d' });
 
   const url = process.env.BASE_URL + 'verify?id=' + token_mail_verification;
-  winstonLogger.debug(url);
   winstonLogger.debug(await verificationEmailText(url));
   const mailOptions = {
     from: process.env.EMAIL_FROM,
@@ -176,7 +172,7 @@ export async function verifyEmailToken(req: Request, res: Response, next: NextFu
       updateVerifiedEmail(id);
       return res.redirect(process.env.VERIFY_EMAIL_REDIRECT_URL || '/');
     } catch (err) {
-      winstonLogger.debug(err);
+      winstonLogger.error('Error in verifyEmailToken(): %o', err);
       return res.sendStatus(403);
     }
   } else {

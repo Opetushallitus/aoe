@@ -83,7 +83,6 @@ export class CollectionHeading {
 export async function createCollection(req: Request, res: Response, next: NextFunction): Promise<any> {
   try {
     const collection = new Collection(req.body);
-    winstonLogger.debug(collection);
     const id = await insertCollection(req.session.passport.user.uid, collection);
     res.status(200).json(id);
   } catch (error) {
