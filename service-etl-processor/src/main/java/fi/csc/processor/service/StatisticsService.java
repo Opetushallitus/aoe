@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class StatisticsService {
     private final EducationalMaterialRepositoryPrimary educationalMaterialRepositoryPrimary;
     private final EducationalMaterialRepositorySecondary educationalMaterialRepositorySecondary;
