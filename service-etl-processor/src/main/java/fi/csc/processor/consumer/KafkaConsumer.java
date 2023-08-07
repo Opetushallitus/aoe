@@ -60,7 +60,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         materialActivityDocument.setInteraction(materialActivity.getInteraction());
         materialActivityDocument.setMetadata(materialActivity.getMetadata());
         materialActivityPrimaryRepository.save(materialActivityDocument);
-        LOG.info(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
+        LOG.debug(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
     }
 
     @KafkaListener(
@@ -78,7 +78,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         searchRequestDocument.setKeywords(searchRequest.getKeywords());
         searchRequestDocument.setFilters(searchRequest.getFilters());
         searchRequestPrimaryRepository.save(searchRequestDocument);
-        LOG.info(String.format("Consumed message -> %s [offset=%d]", searchRequest, offset));
+        LOG.debug(String.format("Consumed message -> %s [offset=%d]", searchRequest, offset));
     }
 
     @KafkaListener(
@@ -97,7 +97,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         materialActivityDocument.setInteraction(materialActivity.getInteraction());
         materialActivityDocument.setMetadata(materialActivity.getMetadata());
         materialActivitySecondaryRepository.save(materialActivityDocument);
-        LOG.info(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
+        LOG.debug(String.format("Consumed message -> %s [offset=%d]", materialActivity, offset));
     }
 
     @KafkaListener(
@@ -115,6 +115,6 @@ public class KafkaConsumer implements ConsumerSeekAware {
         searchRequestDocument.setKeywords(searchRequest.getKeywords());
         searchRequestDocument.setFilters(searchRequest.getFilters());
         searchRequestSecondaryRepository.save(searchRequestDocument);
-        LOG.info(String.format("Consumed message -> %s [offset=%d]", searchRequest, offset));
+        LOG.debug(String.format("Consumed message -> %s [offset=%d]", searchRequest, offset));
     }
 }
