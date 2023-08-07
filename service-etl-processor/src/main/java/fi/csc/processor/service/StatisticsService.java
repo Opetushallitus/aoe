@@ -10,13 +10,14 @@ import fi.csc.processor.model.statistics.RecordKeyValue;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class StatisticsService {
     private final EducationalMaterialRepositoryPrimary educationalMaterialRepositoryPrimary;
     private final EducationalMaterialRepositorySecondary educationalMaterialRepositorySecondary;
