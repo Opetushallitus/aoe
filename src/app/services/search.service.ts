@@ -10,6 +10,7 @@ import { deduplicate } from '../shared/shared.module';
 import { KeyValue } from '@angular/common';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
 import { sortOptions } from '../constants/sort-options';
+import { browserRefresh } from '../app.component';
 
 @Injectable({
     providedIn: 'root',
@@ -18,22 +19,46 @@ export class SearchService {
     public searchResults$ = new Subject<SearchResults>();
     public collectionSearchResults$ = new Subject<CollectionSearchResults>();
     public searchFilters$ = new Subject<SearchFilters>();
+    browserRefresh: typeof browserRefresh;
 
     constructor(private http: HttpClient) {}
 
     /**
      * Updates search results based on search params.
+     * Adds a timestamp to search params if filters or keywords change from previous search
      * @param {SearchParams} searchParams
      */
     updateSearchResults(searchParams: SearchParams): void {
-        sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
+        const oldParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
-        if (searchParams.sort) {
-            searchParams.sort = sortOptions[searchParams.sort].sort;
+        this.browserRefresh = browserRefresh;
+        if (this.browserRefresh) {
+            delete searchParams.timestamp;
+        }
+        let params: SearchParams;
+        if (
+            oldParams &&
+            (JSON.stringify(Object.entries(oldParams.filters).sort()) !==
+                JSON.stringify(Object.entries(searchParams.filters).sort()) ||
+                oldParams.keywords !== searchParams.keywords)
+        ) {
+            const time = new Date();
+            params = {
+                timestamp: time.toISOString(),
+                ...searchParams,
+            };
+        } else {
+            params = searchParams;
+        }
+
+        sessionStorage.setItem(environment.searchParams, JSON.stringify(params));
+
+        if (params.sort) {
+            params.sort = sortOptions[searchParams.sort].sort;
         }
 
         this.http
-            .post<SearchResults>(`${environment.backendUrlV2}/search`, searchParams, {
+            .post<SearchResults>(`${environment.backendUrlV2}/search`, params, {
                 headers: new HttpHeaders({
                     Accept: 'application/json',
                 }),

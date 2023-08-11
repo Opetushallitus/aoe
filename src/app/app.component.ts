@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -7,6 +7,7 @@ import { getLanguage, setLanguage } from './shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { Subscription } from 'rxjs';
 import { UserData } from '@models/userdata';
+export let browserRefresh = false;
 
 @Component({
     // tslint:disable-next-line
@@ -16,6 +17,7 @@ import { UserData } from '@models/userdata';
 export class AppComponent implements OnDestroy, OnInit {
     userData: UserData;
     userDataSubscription: Subscription;
+    subscription: Subscription;
 
     constructor(
         private router: Router,
@@ -40,6 +42,12 @@ export class AppComponent implements OnDestroy, OnInit {
 
         translate.onLangChange.subscribe((event: LangChangeEvent) => {
             renderer.setAttribute(doc.documentElement, 'lang', event.lang);
+        });
+
+        this.subscription = router.events.subscribe((event) => {
+            if (event instanceof NavigationStart) {
+                browserRefresh = !router.navigated;
+            }
         });
     }
 
