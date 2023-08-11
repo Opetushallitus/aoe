@@ -22,6 +22,7 @@ import { sortOptions } from '../../constants/sort-options';
     styleUrls: ['./search-results-view.component.scss'],
 })
 export class SearchResultsViewComponent implements OnInit, OnDestroy {
+    time = new Date();
     searchForm: FormGroup;
     resultSubscription: Subscription;
     results: SearchResults;
@@ -122,6 +123,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         const searchParams: SearchParams =
             JSON.parse(sessionStorage.getItem(environment.searchParams)) ?? defaultSearchParams;
 
+        searchParams.timestamp = this.time.toISOString();
         this.keywordsCtrl.setValue(searchParams?.keywords);
 
         this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
@@ -553,6 +555,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
             searchParams.from = this.from;
             searchParams.size = this.resultsPerPage;
+            delete searchParams.timestamp;
 
             this.searchSvc.updateSearchResults(searchParams);
 

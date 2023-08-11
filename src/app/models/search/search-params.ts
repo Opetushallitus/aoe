@@ -19,4 +19,5 @@ export interface SearchParams {
     size?: number;
     sort?: any;
     sort2?: any;
+    timestamp?: string;
 }
