@@ -20,7 +20,6 @@ export class SearchService {
     public collectionSearchResults$ = new Subject<CollectionSearchResults>();
     public searchFilters$ = new Subject<SearchFilters>();
     browserRefresh: typeof browserRefresh;
-    time = new Date();
 
     constructor(private http: HttpClient) {}
 
@@ -31,19 +30,17 @@ export class SearchService {
      */
     updateSearchResults(searchParams: SearchParams): void {
         const oldParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
-        
-        // this.browserRefresh = browserRefresh;
-        // if (!this.browserRefresh) {
-        //     searchParams.timestamp = this.time.toISOString();
-        // } else {
-        //     delete searchParams.timestamp;
-        // }
-        
+
+        this.browserRefresh = browserRefresh;
+        if (this.browserRefresh) {
+            delete searchParams.timestamp;
+        }
         let params: SearchParams;
         if (
-            !oldParams ||
-            Object.entries(oldParams.filters).sort() != Object.entries(searchParams.filters).sort() ||
-            oldParams.keywords !== searchParams.keywords
+            oldParams &&
+            (JSON.stringify(Object.entries(oldParams.filters).sort()) !==
+                JSON.stringify(Object.entries(searchParams.filters).sort()) ||
+                oldParams.keywords !== searchParams.keywords)
         ) {
             const time = new Date();
             params = {
