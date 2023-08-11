@@ -15,7 +15,6 @@ import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/se
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UsedFilter } from '@models/search/used-filter';
 import { sortOptions } from '../../constants/sort-options';
-import { browserRefresh } from '../../app.component';
 
 @Component({
     selector: 'app-search-results-view',
@@ -23,7 +22,6 @@ import { browserRefresh } from '../../app.component';
     styleUrls: ['./search-results-view.component.scss'],
 })
 export class SearchResultsViewComponent implements OnInit, OnDestroy {
-    browserRefresh: typeof browserRefresh;
     time = new Date();
     searchForm: FormGroup;
     resultSubscription: Subscription;
@@ -125,8 +123,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         const searchParams: SearchParams =
             JSON.parse(sessionStorage.getItem(environment.searchParams)) ?? defaultSearchParams;
 
+        searchParams.timestamp = this.time.toISOString();
         this.keywordsCtrl.setValue(searchParams?.keywords);
-
 
         this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
         this.searchSvc.updateSearchResults(searchParams);
@@ -584,7 +582,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             searchParams.size = this.resultsPerPage;
 
             delete searchParams.sort2;
-            delete searchParams.timestamp;
 
             searchParams.filters.languages = this.filters.value.languages
                 .map((checked: boolean, index: number) => {
@@ -892,7 +889,6 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     filterSearch(): void {
         const searchParams: SearchParams = JSON.parse(sessionStorage.getItem(environment.searchParams));
 
-        delete searchParams.timestamp;
         this.educationalLevels.forEach((level: EducationalLevel, index: number) => {
             level.children.forEach((child: EducationalLevel, childIndex: number) => {
                 if (searchParams.filters.educationalLevels.includes(child.key)) {
