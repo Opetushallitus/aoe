@@ -148,15 +148,29 @@ export class SearchComponent implements OnInit, OnDestroy {
 
             const searchParams: SearchParams = {
                 keywords: null,
-                filters: {},
+                filters: {
+                    languages: [],
+                    teaches: [],
+                    learningResourceTypes: [],
+                    accessibilityFeatures: [],
+                    accessibilityHazards: [],
+                    authors: [],
+                    educationalLevels: [],
+                    educationalRoles: [],
+                    educationalSubjects: [],
+                    educationalUses: [],
+                    keywords: [],
+                    licenses: [],
+                    organizations: [],
+                },
             };
 
             searchParams.keywords = this.keywordsCtrl.value;
-            searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key);
-            searchParams.filters.educationalSubjects = this.educationalSubjectsCtrl.value?.map((subject) =>
-                subject.key.toString(),
-            );
-            searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key);
+            searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key) ?? [];
+            searchParams.filters.educationalSubjects =
+                this.educationalSubjectsCtrl.value?.map((subject) => subject.key.toString()) ?? [];
+            searchParams.filters.learningResourceTypes =
+                this.learningResourceTypesCtrl.value?.map((type) => type.key) ?? [];
             searchParams.sort = sortOptions.relevance.value;
             searchParams.from = 0;
             searchParams.size = this.resultsPerPage;
