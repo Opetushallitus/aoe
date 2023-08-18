@@ -22,7 +22,6 @@ import {
     setAmmattikoulunPerustutkinnot,
     setAmmattikoulunAmmattitutkinnot,
     setAmmattikoulunErikoisammattitutkinnot,
-    setAmmattikoulunYTOaineet,
 } from '../controllers/ammattikoulu';
 import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
 
@@ -51,7 +50,6 @@ export async function updateRedis(): Promise<any> {
     await setLukionOppiaineetModuulit();
     await setLukionTavoitteetSisallot();
     await setAmmattikoulunPerustutkinnot();
-    await setAmmattikoulunYTOaineet();
     await setAmmattikoulunAmmattitutkinnot();
     await setAmmattikoulunErikoisammattitutkinnot();
     await setAmmattikoulunTutkinnonOsat();
