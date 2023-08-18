@@ -4,7 +4,6 @@ import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { winstonLogger } from '../util';
 
-const endpoint = 'perusteet';
 const newEndpoint = 'external/perusteet';
 const degreeEndpoint = 'external/peruste';
 const rediskeyBasicDegrees = 'ammattikoulu-perustutkinnot';
@@ -514,101 +513,6 @@ export const getAmmattikoulunErikoisammattitutkinnot = async (req: any, res: any
         res.status(500).json({ error: 'Something went wrong' });
     }
 };
-
-export async function setAmmattikoulunYTOaineet(): Promise<any> {
-    try {
-        let finnishDegrees: AlignmentObjectExtended[] = [];
-        let swedishDegrees: AlignmentObjectExtended[] = [];
-        let englishDegrees: AlignmentObjectExtended[] = [];
-
-        const results: Record<string, unknown>[] = await getDataFromApi(
-            process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
-            `/${endpoint}/`,
-            {
-                Accept: 'application/json',
-                'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
-            },
-            `7599350/kaikki`,
-        );
-
-        (results as any).tutkinnonOsat.forEach((degree: any) => {
-            const targetNameFi = degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
-            const targetNameSv = degree.nimi.sv ? degree.nimi.sv : degree.nimi.fi;
-            const targetNameEn = degree.nimi.en ? degree.nimi.en : degree.nimi.fi ? degree.nimi.fi : degree.nimi.sv;
-
-            const osaAlueetFi: AlignmentObjectExtended[] = [];
-            const osaAlueetSv: AlignmentObjectExtended[] = [];
-            const osaAlueetEn: AlignmentObjectExtended[] = [];
-            degree.osaAlueet.forEach((unit: any) => {
-                const unitTargetNameFi = unit.nimi.fi ? unit.nimi.fi : unit.nimi.sv;
-                const unitTargetNameSv = unit.nimi.sv ? unit.nimi.sv : unit.nimi.fi;
-                const unitTargetNameEn = unit.nimi.en ? unit.nimi.en : unit.nimi.fi ? unit.nimi.fi : unit.nimi.sv;
-
-                osaAlueetFi.push({
-                    key: unit.id,
-                    source: 'subjectOfCommonUnit',
-                    alignmentType: 'educationalSubject',
-                    targetName: unitTargetNameFi,
-                });
-
-                osaAlueetSv.push({
-                    key: unit.id,
-                    source: 'subjectOfCommonUnit',
-                    alignmentType: 'educationalSubject',
-                    targetName: unitTargetNameSv,
-                });
-
-                osaAlueetEn.push({
-                    key: unit.id,
-                    source: 'subjectOfCommonUnit',
-                    alignmentType: 'educationalSubject',
-                    targetName: unitTargetNameEn,
-                });
-            });
-
-            finnishDegrees.push({
-                key: degree.id,
-                source: 'commonUnit',
-                alignmentType: 'educationalSubject',
-                targetName: targetNameFi,
-                children: osaAlueetFi,
-            });
-
-            swedishDegrees.push({
-                key: degree.id,
-                source: 'commonUnit',
-                alignmentType: 'educationalSubject',
-                targetName: targetNameSv,
-                children: osaAlueetSv,
-            });
-
-            englishDegrees.push({
-                key: degree.id,
-                source: 'commonUnit',
-                alignmentType: 'educationalSubject',
-                targetName: targetNameEn,
-                children: osaAlueetEn,
-            });
-        });
-
-        finnishDegrees.sort(sortByTargetName);
-        swedishDegrees.sort(sortByTargetName);
-        englishDegrees.sort(sortByTargetName);
-
-        finnishDegrees = getUnique(finnishDegrees, 'targetName');
-        swedishDegrees = getUnique(swedishDegrees, 'targetName');
-        englishDegrees = getUnique(englishDegrees, 'targetName');
-
-        await setAsync(`${rediskeyYTO}.fi`, JSON.stringify(finnishDegrees));
-        await setAsync(`${rediskeyYTO}.sv`, JSON.stringify(swedishDegrees));
-        await setAsync(`${rediskeyYTO}.en`, JSON.stringify(englishDegrees));
-    } catch (err) {
-        winstonLogger.error(
-            'Setting common units of vocational education failed in setAmmattikoulunYTOaineet(): %o',
-            err,
-        );
-    }
-}
 
 export const getAmmattikoulunYTOaineet = async (req: any, res: any, next: any): Promise<any> => {
     try {
