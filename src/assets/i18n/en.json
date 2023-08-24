@@ -144,8 +144,8 @@
       "vocationalEducationObjectives": "Learning object of vocational education",
       "furtherVocationalQualifications": "Further vocational qualification",
       "specialistVocationalQualifications": "Specialist vocational qualification",
-      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
-      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training and liberal adult education",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training and liberal adult education",
       "branchesOfScience": "Educational subject of higher education",
       "higherEducationFrameworks": "Educational framework of higher education",
       "scienceBranchObjectives": "Learning object of higher education",
@@ -544,14 +544,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Self-motivated competence development",
+          "title": "Self-motivated competence development, integration training and liberal adult education",
           "inputs": {
             "subjects": {
-              "label": "Educational subject of self-motivated competence development",
+              "label": "Educational subject of self-motivated competence development, integration training and liberal adult education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "objectives": {
-              "label": "Learning object of self-motivated competence development",
+              "label": "Learning object of self-motivated competence development, integration training and liberal adult education",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             }
           }
@@ -733,7 +733,7 @@
           "basic": "Basic education",
           "upperSecondary": "Upper secondary school",
           "vocational": "Vocational education",
-          "selfMotivated": "Self-motivated competence development",
+          "selfMotivated": "Self-motivated competence development, integration training and liberal adult education",
           "higher": "Higher education"
         },
         "educationalLevels": {
@@ -837,11 +837,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Educational subject of self-motivated competence development",
+          "label": "Educational subject of self-motivated competence development, integration training and liberal adult education",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Learning object of self-motivated competence development",
+          "label": "Learning object of self-motivated competence development, integration training and liberal adult education",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1096,8 +1096,8 @@
       "vocationalCommonUnits": "Common units of vocational education",
       "vocationalEducationObjectives": "Learning object of vocational education",
       "vocationalEducationFramework": "Educational framework of vocational education",
-      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development",
-      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training and liberal adult education",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training and liberal adult education",
       "scienceBranches": "Educational subject of higher education",
       "scienceBranchObjectives": "Learning object of higher education",
       "higherEducationFramework": "Educational framework of higher education"
