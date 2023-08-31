@@ -144,8 +144,8 @@
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "furtherVocationalQualifications": "Ammattitutkinnot",
       "specialistVocationalQualifications": "Erikoisammattitutkinnot",
-      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
-      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
       "branchesOfScience": "Korkeakoulutuksen tieteenalat",
       "higherEducationFrameworks": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
       "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
@@ -544,14 +544,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Omaehtoisen osaamisen kehittäminen",
+          "title": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus ja vapaa sivistystyö",
           "inputs": {
             "subjects": {
-              "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
-              "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             }
           }
@@ -733,7 +733,7 @@
           "basic": "Perusopetus",
           "upperSecondary": "Lukiokoulutus",
           "vocational": "Ammatillinen koulutus",
-          "selfMotivated": "Omaehtoisen osaamisen kehittäminen",
+          "selfMotivated": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus ja vapaa sivistystyö",
           "higher": "Korkeakoulutus"
         },
         "educationalLevels": {
@@ -837,11 +837,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Omaehtoisen osaamisen kehittämisen oppiaineet",
+          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1096,8 +1096,8 @@
       "vocationalCommonUnits": "Ammatillisen koulutuksen yhteiset tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
-      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen oppiaineet",
-      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen oppiaineiden tavoitteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
       "scienceBranches": "Korkeakoulutuksen tieteenalat",
       "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
       "higherEducationFramework": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet"

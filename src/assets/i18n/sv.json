@@ -144,8 +144,8 @@
       "furtherVocationalQualifications": "Yrkesexamen",
       "specialistVocationalQualifications": "Specialyrkesexamen",
       "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
-      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
-      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
       "branchesOfScience": "Verenskapsgren för högskoleutbildning",
       "higherEducationFrameworks": "Läroplans- eller examensgrunderna för högskoleutbildning",
       "scienceBranchObjectives": "Mål för högskoleutbildning",
@@ -544,14 +544,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Självständig utveckling av kompetens",
+          "title": "Självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
           "inputs": {
             "subjects": {
-              "label": "Ämne för självständig utveckling av kompetens",
+              "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Mål för självständig utveckling av kompetens",
+              "label": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             }
           }
@@ -733,7 +733,7 @@
           "basic": "Grundläggande utbildning",
           "upperSecondary": "Gymnasieutbildning",
           "vocational": "Yrkesutbildning",
-          "selfMotivated": "Självständig utveckling av kompetens",
+          "selfMotivated": "Självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
           "higher": "Högskoleutbildning"
         },
         "educationalLevels": {
@@ -837,11 +837,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Ämne för självständig utveckling av kompetens",
+          "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Mål för självständig utveckling av kompetens",
+          "label": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1096,8 +1096,8 @@
       "vocationalCommonUnits": "Gemensam examensdelar för yrkesutbildning",
       "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
       "vocationalEducationFramework": "Läroplans- eller examensgrunderna för yrkesutbildning",
-      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens",
-      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
       "scienceBranches": "Verenskapsgren för högskoleutbildning",
       "scienceBranchObjectives": "Mål för högskoleutbildning",
       "higherEducationFramework": "Läroplans- eller examensgrunderna för högskoleutbildning"
