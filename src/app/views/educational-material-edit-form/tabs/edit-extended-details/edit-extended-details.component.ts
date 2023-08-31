@@ -31,6 +31,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     addCustomItem = addCustomItem;
     addPrerequisites = addPrerequisites;
     @Output() abortEdit = new EventEmitter();
+    accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`;
 
     constructor(
         private fb: FormBuilder,
