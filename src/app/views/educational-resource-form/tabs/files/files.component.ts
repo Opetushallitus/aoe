@@ -425,6 +425,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                     this.router.navigate(['/lisaa-oppimateriaali', 2]);
                 }
             }
+            this.totalFileCount = 0;
         } else {
             this.form.markAsPristine();
             this.router.navigateByUrl('/etusivu');
