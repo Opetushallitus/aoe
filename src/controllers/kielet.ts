@@ -2,6 +2,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByValue } from '../util/data.utils';
 import { KeyValue } from '../models/data';
+import config from '../config';
 
 const endpoint = 'kielikoodistoopetushallinto';
 const rediskey = 'kielet';
@@ -15,11 +16,11 @@ const params = 'koodi';
 export async function setKielet(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.KOODISTO_SERVICE_URL,
+            config.EXTERNAL_API.opintopolkuKoodistot,
             `/${endpoint}/`,
             {
                 Accept: 'application/json',
-                'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
             },
             params,
         );

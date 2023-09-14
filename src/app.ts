@@ -1,14 +1,11 @@
 import express from 'express';
 import compression from 'compression'; // compress requests
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv';
 import cron from 'node-cron';
 import cors from 'cors';
 
 import router from './routes';
 import { client, updateRedis } from './util/redis.utils';
-
-dotenv.config();
 
 const app = express();
 const expressSwagger = require('express-swagger-generator')(app);

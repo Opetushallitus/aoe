@@ -1,34 +1,41 @@
-# Koodisto microservice
+# [AOE - Library of Open Educational Resources](https://github.com/CSCfi/aoe)
 
-Caches koodisto data to redis.
+## Service Component links in GitHub (mirrored)
 
-## Installation
+-   [aoe-data-analytics](https://github.com/CSCfi/aoe-data-analytics)
+-   [aoe-data-services](https://github.com/CSCfi/aoe-data-services)
+-   [aoe-streaming-app](https://github.com/CSCfi/aoe-streaming-app)
+-   [aoe-web-backend](https://github.com/CSCfi/aoe-web-backend)
+-   [aoe-web-frontend](https://github.com/CSCfi/aoe-web-frontend)
+-   aoe-semantic-apis
 
-### Clone repo
+# AOE Semantic APIs
 
-``` bash
-# clone the repo
-$ git clone https://github.com/CSCfi/koodisto-service.git
+AOE service component to fetch and store semantic metadata from the external APIs.
+
+## Internal instructions for the original repositories in CSC GitLab
+
+### Clone and build the source code
+
+```bash
+# clone the repository
+$ git clone https://gitlab.ci.csc.fi/aoe/aoe-semantic-apis.git
 
 # go into app's directory
-$ cd koodisto-service
+$ cd aoe-semantic-apis
 
 # install app's dependencies
-$ yarn install
+$ npm install
 ```
-
-### Run redis docker container
-
-https://github.com/CSCfi/aoe-server-config
 
 ## Usage
 
-``` bash
+```bash
 # serve with hot reload at localhost:3000.
-$ yarn run watch
+$ npm run watch
 
 # build for production
-$ yarn run build
+$ npm run build
 ```
 
 ## Endpoints

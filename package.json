@@ -6,12 +6,22 @@
         "type": "git",
         "url": "https://gitlab.ci.csc.fi/aoe/aoe-semantic-apis.git"
     },
+    "author": "CSC - IT Center for Science Ltd.",
     "contributors": [
-        "Kalle Lehtonen <kalle.lehtonen@digia.com>",
-        "Mika Ropponen <mika.ropponen@csc.fi>",
-        "Aino Tani <aino.tani@csc.fi>"
+        {
+            "name": "Aino Tani",
+            "email": "aino.tani@csc.fi"
+        },
+        {
+            "name": "Mikael Saipori",
+            "email": "mikael.saipori@csc.fi"
+        },
+        {
+            "name": "Kalle Lehtonen",
+            "email": "kalle.lehtonen@digia.com"
+        }
     ],
-    "license": "MIT",
+    "license": "GNU v3",
     "private": true,
     "scripts": {
         "start": "npm run serve",

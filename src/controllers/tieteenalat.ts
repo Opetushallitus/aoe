@@ -1,6 +1,7 @@
 import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import config from '../config';
 
 const endpoint = 'tieteenala';
 const rediskey = 'tieteenalat';
@@ -14,11 +15,11 @@ const params = 'koodi';
 export async function setTieteenalat(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.KOODISTO_SERVICE_URL,
+            config.EXTERNAL_API.opintopolkuKoodistot,
             `/${endpoint}/`,
             {
                 Accept: 'application/json',
-                'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
             },
             params,
         );

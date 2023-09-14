@@ -1,7 +1,8 @@
 import * as redis from 'redis';
 import { promisify } from 'util';
-import dotenv from 'dotenv';
-dotenv.config();
+// import dotenv from 'dotenv';
+// dotenv.config();
+import config from '../config';
 
 import { setAsiasanat } from '../controllers/asiasanat';
 import { setKoulutusasteet } from '../controllers/koulutusasteet';
@@ -26,9 +27,9 @@ import {
 import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
 
 export const client = redis.createClient({
-    host: process.env.REDIS_HOST || 'not-defined',
-    port: +(process.env.REDIS_PORT || 6379),
-    password: process.env.REDIS_PASS || 'not-defined',
+    host: config.REDIS_OPTIONS.host || 'not-defined',
+    port: +(config.REDIS_OPTIONS.port || 6379),
+    password: config.REDIS_OPTIONS.pass || 'not-defined',
 });
 export const getAsync = promisify(client.get).bind(client);
 export const setAsync = promisify(client.set).bind(client);

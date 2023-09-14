@@ -3,6 +3,7 @@ import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByTargetName } from '../util/data.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { Kurssi, Oppiaine, Oppiainerakenne } from '../models/oppiainerakenne';
+import config from '../config';
 
 const endpoint = 'perusteet';
 const rediskeySubjects = 'lukio-vanha-oppiaineet';
@@ -17,11 +18,11 @@ export async function setLukionVanhatOppiaineetKurssit(): Promise<any> {
         const swedishCourses: AlignmentObjectExtended[] = [];
 
         const results: Oppiainerakenne = await getDataFromApi(
-            process.env.EPERUSTEET_SERVICE_URL,
+            config.EXTERNAL_API.ePerusteet,
             `/${endpoint}/`,
             {
                 Accept: 'application/json',
-                'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
             },
             params,
         );
