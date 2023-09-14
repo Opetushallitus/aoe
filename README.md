@@ -3,10 +3,10 @@
 ## Service Components
 - **aoe-data-analytics**
 - [aoe-data-services](https://github.com/CSCfi/aoe-data-services)
-- *aoe-semantic-apis (soon to be published)*
+- [aoe-semantic-apis](https://github.com/CSCfi/aoe-semantic-apis)
 - [aoe-streaming-app](https://github.com/CSCfi/aoe-streaming-app)
 - [aoe-web-backend](https://github.com/CSCfi/aoe-web-backend)
-- *aoe-web-frontend (soon to be published)*
+- [aoe-web-frontend](https://github.com/CSCfi/aoe-web-frontend)
 
 # AOE Data Analytics
 
