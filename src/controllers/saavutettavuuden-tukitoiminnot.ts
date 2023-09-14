@@ -2,6 +2,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByOrder } from '../util/data.utils';
 import { Accessibility } from '../models/data';
+import config from '../config';
 
 const endpoint = 'edtech/codeschemes/AccessibilityFeatures';
 const rediskey = 'saavutettavuudentukitoiminnot';
@@ -15,7 +16,7 @@ const params = 'codes/?format=json';
 export async function setSaavutettavuudenTukitoiminnot(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.KOODISTOT_SUOMI_URL,
+            config.EXTERNAL_API.suomiKoodistot,
             `/${endpoint}/`,
             { Accept: 'application/json' },
             params,

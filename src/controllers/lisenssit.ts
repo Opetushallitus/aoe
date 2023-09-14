@@ -1,6 +1,7 @@
 import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { License } from '../models/data';
+import config from '../config';
 
 const endpoint = 'edtech/codeschemes/Licence';
 const rediskey = 'lisenssit';
@@ -14,7 +15,7 @@ const params = 'codes/?format=json&expand=externalReference';
 export async function setLisenssit(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.KOODISTOT_SUOMI_URL,
+            config.EXTERNAL_API.suomiKoodistot,
             `/${endpoint}/`,
             { Accept: 'application/json' },
             params,

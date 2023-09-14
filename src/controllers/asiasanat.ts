@@ -4,6 +4,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByValue } from '../util/data.utils';
 import { KeyValue } from '../models/data';
+import config from '../config';
 
 const endpoint = 'yso';
 const rediskey = 'asiasanat';
@@ -17,7 +18,7 @@ const params = 'data';
 export async function setAsiasanat(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.FINTO_URL || 'not-defined',
+            config.EXTERNAL_API.asiasanat || 'not-defined',
             `/${endpoint}/`,
             { Accept: 'application/rdf+xml' },
             params,

@@ -3,6 +3,7 @@ import { getUnique, sortByTargetName } from '../util/data.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { AlignmentObjectExtended } from '../models/alignment-object-extended';
 import { winstonLogger } from '../util';
+import config from '../config';
 
 const newEndpoint = 'external/perusteet';
 const degreeEndpoint = 'external/peruste';
@@ -23,11 +24,11 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
 
         while (getResults) {
             const results: Record<string, unknown>[] = await getDataFromApi(
-                process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
+                config.EXTERNAL_API.ePerusteet || 'not-defined',
                 `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
-                    'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                    'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
                 },
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_1`,
             );
@@ -57,7 +58,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishDegrees.push({
@@ -65,7 +66,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishDegrees.push({
@@ -73,7 +74,7 @@ export async function setAmmattikoulunPerustutkinnot(): Promise<any> {
                     source: 'vocationalDegrees',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
@@ -142,11 +143,11 @@ export async function setAmmattikoulunTutkinnonOsat(): Promise<any> {
         for (const degree of degrees) {
             try {
                 const results: Record<string, unknown>[] = await getDataFromApi(
-                    process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
+                    config.EXTERNAL_API.ePerusteet || 'not-defined',
                     `/${degreeEndpoint}/`,
                     {
                         Accept: 'application/json',
-                        'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                        'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
                     },
                     `${degree}`,
                 );
@@ -304,11 +305,11 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
 
         while (getResults) {
             const results: Record<string, unknown>[] = await getDataFromApi(
-                process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
+                config.EXTERNAL_API.ePerusteet || 'not-defined',
                 `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
-                    'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                    'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
                 },
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_11`,
             );
@@ -338,7 +339,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -346,7 +347,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -354,7 +355,7 @@ export async function setAmmattikoulunAmmattitutkinnot(): Promise<any> {
                     source: 'furtherVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 
@@ -414,11 +415,11 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
 
         while (getResults) {
             const results: Record<string, unknown>[] = await getDataFromApi(
-                process.env.EPERUSTEET_SERVICE_URL || 'not-defined',
+                config.EXTERNAL_API.ePerusteet || 'not-defined',
                 `/${newEndpoint}/`,
                 {
                     Accept: 'application/json',
-                    'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                    'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
                 },
                 `?sivu=${pageNumber}&tuleva=true&siirtyma=true&voimassaolo=true&poistunut=false&koulutustyyppi=koulutustyyppi_12`,
             );
@@ -448,7 +449,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameFi,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 swedishQuals.push({
@@ -456,7 +457,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameSv,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
 
                 englishQuals.push({
@@ -464,7 +465,7 @@ export async function setAmmattikoulunErikoisammattitutkinnot(): Promise<any> {
                     source: 'specialistVocationalQualifications',
                     alignmentType: 'educationalSubject',
                     targetName: targetNameEn,
-                    targetUrl: `${process.env.EPERUSTEET_SERVICE_URL}/${degreeEndpoint}/${degree.id}`,
+                    targetUrl: `${config.EXTERNAL_API.ePerusteet}/${degreeEndpoint}/${degree.id}`,
                 });
             });
 

@@ -2,6 +2,7 @@ import { getDataFromApi } from '../util/api.utils';
 import { getAsync, setAsync } from '../util/redis.utils';
 import { getUnique, sortByValue } from '../util/data.utils';
 import { KeyValue } from '../models/data';
+import config from '../config';
 
 const endpoint = 'organisaatio/v4';
 const rediskey = 'organisaatiot';
@@ -15,11 +16,11 @@ const params = 'hae?aktiiviset=true&suunnitellut=false&lakkautetut=false';
 export async function setOrganisaatiot(): Promise<any> {
     try {
         const results = await getDataFromApi(
-            process.env.ORGANISAATIO_SERVICE_URL || 'not-defined',
+            config.EXTERNAL_API.organisaatiot || 'not-defined',
             `/${endpoint}/`,
             {
                 Accept: 'application/json',
-                'Caller-Id': `${process.env.CALLERID_OID}.${process.env.CALLERID_SERVICE}`,
+                'Caller-Id': `${config.EXTERNAL_API.oid}.${config.EXTERNAL_API.service}`,
             },
             params,
         );
