@@ -2,14 +2,12 @@
 
 ## Service Component links in GitHub (mirrored)
 
--   [aoe-data-analytics](https://github.com/CSCfi/aoe-data-analytics)
--   [aoe-data-services](https://github.com/CSCfi/aoe-data-services)
--   [aoe-streaming-app](https://github.com/CSCfi/aoe-streaming-app)
--   [aoe-web-backend](https://github.com/CSCfi/aoe-web-backend)
--   [aoe-web-frontend](https://github.com/CSCfi/aoe-web-frontend)
--   aoe-semantic-apis
-
-# AOE Semantic APIs
+- [aoe-data-analytics](https://github.com/CSCfi/aoe-data-analytics)
+- [aoe-data-services](https://github.com/CSCfi/aoe-data-services)
+- aoe-semantic-apis
+- [aoe-streaming-app](https://github.com/CSCfi/aoe-streaming-app)
+- [aoe-web-backend](https://github.com/CSCfi/aoe-web-backend)
+- [aoe-web-frontend](https://github.com/CSCfi/aoe-web-frontend)
 
 AOE service component to fetch and store semantic metadata from the external APIs.
 
