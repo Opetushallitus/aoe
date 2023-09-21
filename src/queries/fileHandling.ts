@@ -1115,39 +1115,49 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
               queries.push(result);
               return t.batch(queries);
             })
-              .then(async () => {
+              .then(() => {
                 resp.id = req.params.edumaterialid;
                 resp.material = material;
                 res.status(200).json(resp);
                 let objKey: string;
                 let pdfKey: string;
-                let recordId: string;
                 if (typeof file !== 'undefined') {
                   uploadLocalFileToCloudStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket).then(
                     (obj: SendData) => {
                       objKey = obj.Key;
                       pdfKey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
                       insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location).then(
-                        (recordid: string) => recordid,
-                      );
-                    },
-                  );
-                  // Convert office file types to PDF.
-                  if (isOfficeMimeType(file.mimetype)) {
-                    downstreamAndConvertOfficeFileToPDF(objKey).then((path: string) => {
-                      uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then(
-                        (pdfObj: SendData) => {
-                          updatePdfKey(pdfObj.Key, recordId).then(() => {
+                        (recordId: string) => {
+                          // Convert office file types to PDF.
+                          if (isOfficeMimeType(file.mimetype)) {
+                            downstreamAndConvertOfficeFileToPDF(objKey).then((path: string) => {
+                              uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then(
+                                (pdfObj: SendData) => {
+                                  updatePdfKey(pdfObj.Key, recordId).then(() => {
+                                    deleteDataFromTempRecordTable(file.filename, materialid).then(() => {
+                                      fs.unlink(file.path, (err: any) => {
+                                        if (err)
+                                          winstonLogger.error(
+                                            'Removing uploaded local file failed after PDF conversion: %o',
+                                            err,
+                                          );
+                                      });
+                                    });
+                                  });
+                                },
+                              );
+                            });
+                          } else {
                             deleteDataFromTempRecordTable(file.filename, materialid).then(() => {
                               fs.unlink(file.path, (err: any) => {
                                 if (err) winstonLogger.error('Removing uploaded local file failed: %o', err);
                               });
                             });
-                          });
+                          }
                         },
                       );
-                    });
-                  }
+                    },
+                  );
                 }
               })
               .catch((err: Error) => {
