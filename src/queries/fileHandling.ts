@@ -1119,40 +1119,35 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 resp.id = req.params.edumaterialid;
                 resp.material = material;
                 res.status(200).json(resp);
-                try {
-                  if (typeof file !== 'undefined') {
-                    const obj: SendData = await uploadLocalFileToCloudStorage(
-                      './' + file.path,
-                      file.filename,
-                      config.CLOUD_STORAGE_CONFIG.bucket,
-                    );
-                    const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
-                    try {
-                      // Convert office file types to PDF.
-                      if (isOfficeMimeType(file.mimetype)) {
-                        const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        downstreamAndConvertOfficeFileToPDF(obj.Key).then((path: string) => {
-                          uploadLocalFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
-                            (pdfObj: SendData) => {
-                              updatePdfKey(pdfObj.Key, recordid);
-                            },
-                          );
-                        });
-                      }
-                    } catch (err) {
-                      winstonLogger.error('Converting office file to PDF failed in uploadFileToMaterial(): %o', err);
-                    }
-                    await deleteDataFromTempRecordTable(file.filename, materialid);
-                    fs.unlink('./' + file.path, (err: any) => {
-                      if (err) {
-                        winstonLogger.error(err);
-                      }
+                let objKey: string;
+                let pdfKey: string;
+                let recordId: string;
+                if (typeof file !== 'undefined') {
+                  uploadLocalFileToCloudStorage(file.path, file.filename, config.CLOUD_STORAGE_CONFIG.bucket).then(
+                    (obj: SendData) => {
+                      objKey = obj.Key;
+                      pdfKey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
+                      insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location).then(
+                        (recordid: string) => recordid,
+                      );
+                    },
+                  );
+                  // Convert office file types to PDF.
+                  if (isOfficeMimeType(file.mimetype)) {
+                    downstreamAndConvertOfficeFileToPDF(objKey).then((path: string) => {
+                      uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then(
+                        (pdfObj: SendData) => {
+                          updatePdfKey(pdfObj.Key, recordId).then(() => {
+                            deleteDataFromTempRecordTable(file.filename, materialid).then(() => {
+                              fs.unlink(file.path, (err: any) => {
+                                if (err) winstonLogger.error('Removing uploaded local file failed: %o', err);
+                              });
+                            });
+                          });
+                        },
+                      );
                     });
                   }
-                } catch (ex) {
-                  winstonLogger.error(
-                    'error while sending file to pouta: ' + ex + ' - ' + JSON.stringify((<any>req).file),
-                  );
                 }
               })
               .catch((err: Error) => {
@@ -1160,7 +1155,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 if (!res.headersSent) {
                   next(new ErrorHandler(500, 'Error in upload'));
                 }
-                fs.unlink('./' + file.path, (err: any) => {
+                fs.unlink(file.path, (err: any) => {
                   if (err) {
                     winstonLogger.error('Error in uploadFileToMaterial(): %o', err);
                   }
