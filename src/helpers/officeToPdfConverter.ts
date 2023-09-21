@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
 import libre from 'libreoffice-convert';
-import { downloadFromStorage, readStreamFromStorage, uploadLocalFileToCloudStorage } from '../queries/fileHandling';
+import stream from 'stream';
+import config from '../config';
+import { downloadFromStorage, uploadLocalFileToCloudStorage } from '../queries/fileHandling';
+import { s3 } from '../resources/aws-sdk-clients';
 import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
-import config from '../config';
-import stream from 'stream';
 
 const officeMimeTypes = [
   // .doc
@@ -226,14 +227,15 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @return {Promise<string>} File path of the converted PDF.
  */
 export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
-  return new Promise<string>(async (resolve, reject) => {
-    const params = {
-      Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
-      Key: key,
-    };
+  return new Promise<string>((resolve, reject) => {
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
-    const stream: stream = await readStreamFromStorage(params);
+    const stream: stream = s3
+      .getObject({
+        Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
+        Key: key,
+      })
+      .createReadStream();
     const ws = fs
       .createWriteStream(folderpath)
       .on('close', async () => {
