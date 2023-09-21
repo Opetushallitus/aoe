@@ -20,9 +20,12 @@ RUN groupadd --gid 5606 webapp && \
     mkdir -p /app/thumbnail && \
     mkdir -p /webdata/ && \
     chown -R node:node /app && \
-    (curl -sL https://rpm.nodesource.com/setup_16.x | bash -) && \
-#   (curl -sL https://rpm.nodesource.com/setup_14.x | bash -) && \
-    yum install -y nodejs && \
+#   Deprecated: (curl -sL https://rpm.nodesource.com/setup_14.x | bash -) && \
+#   Deprecated: (curl -sL https://rpm.nodesource.com/setup_16.x | bash -) && \
+#   Node.js download sources | see: https://github.com/nodesource/distributions#installation-instructions-1
+    yum install https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y && \
+    yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1 && \
+#   yum install -y nodejs && \
     npm install -g pm2@2.5.0 && \
     yum install -y libreoffice && \
     usermod -aG 5606 node && \
