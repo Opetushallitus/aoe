@@ -19,7 +19,7 @@ RUN groupadd --gid 5606 webapp && \
     mkdir -p /app/uploads && \
     mkdir -p /app/thumbnail && \
     mkdir -p /webdata/ && \
-    chown -R node:node /app && \
+#   chown -R node:node /app && \
 #   Deprecated: (curl -sL https://rpm.nodesource.com/setup_14.x | bash -) && \
 #   Deprecated: (curl -sL https://rpm.nodesource.com/setup_16.x | bash -) && \
 #   Node.js download sources | see: https://github.com/nodesource/distributions#installation-instructions-1
