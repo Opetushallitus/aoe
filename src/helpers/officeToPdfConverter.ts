@@ -168,7 +168,6 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
  * @return {Promise<string>} File path of the converted PDF.
  */
 export const convertOfficeFileToPDF = async (filepath: string, filename: string): Promise<string> => {
-  winstonLogger.debug('Function convertOfficeFileToPDF(): filepath=%s, filename=%s', filepath, filename);
   const extension = 'pdf';
   const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
   try {
@@ -179,13 +178,12 @@ export const convertOfficeFileToPDF = async (filepath: string, filename: string)
         return Promise.reject(err);
       }
       fs.writeFileSync(outputPath, data);
-      winstonLogger.debug('Function convertOfficeFileToPDF(): outputPath=%s', outputPath);
-      return Promise.resolve(outputPath);
     });
   } catch (err) {
     winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
     return Promise.reject(err);
   }
+  return Promise.resolve(outputPath);
 };
 
 export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
@@ -242,7 +240,7 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
       .on('error', (err: Error) => {
         reject(err);
       })
-      .on('finish', async () => {
+      .on('close', async () => {
         try {
           const path = await convertOfficeFileToPDF(folderpath, filename);
           winstonLogger.debug('Function downstreamAndConvertOfficeFileToPDF(): path=%s', path);
