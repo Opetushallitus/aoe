@@ -1020,14 +1020,14 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                     // Convert file to PDF if an office document.
                     try {
                       if (isOfficeMimeType(file.mimetype)) {
-                        const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadLocalFileToCloudStorage(
-                          path,
-                          pdfkey,
-                          process.env.PDF_BUCKET_NAME,
-                        );
-                        await updatePdfKey(pdfobj.Key, recordid);
+                        downstreamAndConvertOfficeFileToPDF(obj.Key).then((path: string) => {
+                          uploadLocalFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
+                            (pdfobj: SendData) => {
+                              updatePdfKey(pdfobj.Key, recordid);
+                            },
+                          );
+                        });
                       }
                     } catch (err) {
                       winstonLogger.error(err);
@@ -1121,7 +1121,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 res.status(200).json(resp);
                 try {
                   if (typeof file !== 'undefined') {
-                    const obj: any = await uploadLocalFileToCloudStorage(
+                    const obj: SendData = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
                       config.CLOUD_STORAGE_CONFIG.bucket,
@@ -1133,8 +1133,8 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
                         downstreamAndConvertOfficeFileToPDF(obj.Key).then((path: string) => {
                           uploadLocalFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
-                            (obj: SendData) => {
-                              updatePdfKey(obj.Key, recordid);
+                            (pdfObj: SendData) => {
+                              updatePdfKey(pdfObj.Key, recordid);
                             },
                           );
                         });
