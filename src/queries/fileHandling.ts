@@ -1121,45 +1121,26 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 res.status(200).json(resp);
                 try {
                   if (typeof file !== 'undefined') {
-                    winstonLogger.debug(
-                      'Function uploadFileToMaterial() before uploadLocalFileToCloudStorage(): file.path=%s, file.filename=%s, config.CLOUD_STORAGE_CONFIG.bucket=%s',
-                      file.path,
-                      file.filename,
-                      config.CLOUD_STORAGE_CONFIG.bucket,
-                    );
                     const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
                       config.CLOUD_STORAGE_CONFIG.bucket,
                     );
-                    winstonLogger.debug(
-                      'Function uploadFileToMaterial() before insertDataToRecordTable(): file=%o, materialid=%s, obj.Key=%s, obj.Bucket=%s, obj.Location=%s',
-                      file,
-                      materialid,
-                      obj.Key,
-                      obj.Bucket,
-                      obj.Location,
-                    );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     try {
                       // Convert office file types to PDF.
                       if (isOfficeMimeType(file.mimetype)) {
-                        const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        winstonLogger.debug(
-                          'Function uploadFileToMaterial() before uploadLocalFileToCloudStorage(): path=%s, pdfkey=%s',
-                          path,
-                          pdfkey,
-                        );
-                        const pdfobj: any = await uploadLocalFileToCloudStorage(
-                          path,
-                          pdfkey,
-                          process.env.PDF_BUCKET_NAME,
-                        );
-                        await updatePdfKey(pdfobj.Key, recordid);
+                        downstreamAndConvertOfficeFileToPDF(obj.Key).then((path: string) => {
+                          uploadLocalFileToCloudStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
+                            (obj: SendData) => {
+                              updatePdfKey(obj.Key, recordid);
+                            },
+                          );
+                        });
                       }
-                    } catch (e) {
-                      winstonLogger.error('ERROR converting office file to pdf: ' + e);
+                    } catch (err) {
+                      winstonLogger.error('Converting office file to PDF failed in uploadFileToMaterial(): %o', err);
                     }
                     await deleteDataFromTempRecordTable(file.filename, materialid);
                     fs.unlink('./' + file.path, (err: any) => {
@@ -1208,33 +1189,34 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
  * @param {string} bucketName - Target bucket in the cloud storage.
  * @return {Promise<ManagedUpload.SendData>}
  */
-export const uploadLocalFileToCloudStorage = async (
+export const uploadLocalFileToCloudStorage = (
   filePath: string,
   fileName: string,
   bucketName: string,
 ): Promise<SendData> => {
   const passThrough = new stream.PassThrough();
 
-  // Read a locally stored file to the streaming passthrough.
-  fs.createReadStream(filePath)
-    .once('error', (err: Error) => {
-      winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
-      return Promise.reject(err);
-    })
-    .pipe(passThrough);
+  return new Promise((resolve, reject) => {
+    // Read a locally stored file to the streaming passthrough.
+    fs.createReadStream(filePath)
+      .once('error', (err: Error) => {
+        winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        reject(err);
+      })
+      .pipe(passThrough);
 
-  // Upstream a locally stored file to the cloud storage from the streaming passthrough.
-  return await s3
-    .upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
-    .promise()
-    .then((resp: SendData) => {
-      winstonLogger.debug('Upstream to the cloud storage completed: %o', resp);
-      return resp;
-    })
-    .catch((err: Error) => {
-      winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
-      return Promise.reject(err);
-    });
+    // Upstream a locally stored file to the cloud storage from the streaming passthrough.
+    s3.upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
+      .promise()
+      .then((resp: SendData) => {
+        winstonLogger.debug('Upstream to the cloud storage completed: %o', resp);
+        resolve(resp);
+      })
+      .catch((err: Error) => {
+        winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        reject(err);
+      });
+  });
 };
 
 export default {
