@@ -195,11 +195,12 @@ export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<voi
       const element = files[index];
 
       if (isOfficeMimeType(element.mimetype) && !element.pdfkey) {
-        const path: string = await downstreamAndConvertOfficeFileToPDF(element.filekey);
         const pdfKey: string = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
-        winstonLogger.debug('Function convertAndUpstreamOfficeFilesToCloudStorage(): path=%s', path);
-        const obj: any = await uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME);
-        await updatePdfKey(obj.Key, element.id);
+        downstreamAndConvertOfficeFileToPDF(element.filekey).then((path: string) => {
+          uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then((obj: any) => {
+            updatePdfKey(obj.Key, element.id);
+          });
+        });
       }
     }
   } catch (err) {
@@ -224,7 +225,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     const params = {
       Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
@@ -233,16 +234,17 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
     const stream: stream = await readStreamFromStorage(params);
-    const ws = fs.createWriteStream(folderpath).on('error', (err: Error) => {
-      reject(err);
-    });
-
-    stream
-      .on('end', async () => {
+    const ws = fs
+      .createWriteStream(folderpath)
+      .on('close', async () => {
         const path = await convertOfficeFileToPDF(folderpath, filename);
         resolve(path);
-        winstonLogger.debug('Function downstreamAndConvertOfficeFileToPDF() end event on stream: path=%s', path);
       })
+      .on('error', (err: Error) => {
+        reject(err);
+      });
+
+    stream
       .on('error', (err) => {
         reject(err);
         winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err);
