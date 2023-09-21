@@ -173,16 +173,17 @@ export const convertOfficeFileToPDF = async (filepath: string, filename: string)
   const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
   try {
     const file = fs.readFileSync(filepath);
-    libre.convert(file, extension, undefined, (err: Error, done: Buffer) => {
+    libre.convert(file, extension, undefined, (err: Error, data: Buffer) => {
       if (err) {
         winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
         return Promise.reject(err);
       }
-      fs.writeFileSync(outputPath, done);
+      fs.writeFileSync(outputPath, data);
       winstonLogger.debug('Function convertOfficeFileToPDF(): outputPath=%s', outputPath);
-      return outputPath;
+      return Promise.resolve(outputPath);
     });
   } catch (err) {
+    winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
     return Promise.reject(err);
   }
 };
