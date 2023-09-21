@@ -233,20 +233,9 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
     const stream: stream = await readStreamFromStorage(params);
-    const ws = fs
-      .createWriteStream(folderpath)
-      .on('error', (err: Error) => {
-        reject(err);
-      })
-      .on('close', async () => {
-        try {
-          const path = await convertOfficeFileToPDF(folderpath, filename);
-          winstonLogger.debug('Function downstreamAndConvertOfficeFileToPDF(): path=%s', path);
-          resolve(path);
-        } catch (error) {
-          reject(error);
-        }
-      });
+    const ws = fs.createWriteStream(folderpath).on('error', (err: Error) => {
+      reject(err);
+    });
 
     stream
       .on('end', async () => {
