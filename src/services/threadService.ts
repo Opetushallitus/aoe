@@ -1,7 +1,7 @@
 import { Worker, WorkerOptions } from 'worker_threads';
 import path from 'path';
 import { Request, Response } from 'express';
-import config from '../configuration';
+import config from '../config';
 
 const selectWorkerFile = (req: Request): string => {
   // Compile the worker file with .import.js in localhost environment for Nodemon project execution.

@@ -16,7 +16,7 @@ import { oidc } from './resources';
 import { aoeScheduler, morganLogger } from './util';
 import { winstonLogger } from './util/winstonLogger';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import config from './configuration';
+import config from './config';
 import { checkAuthenticated } from './services/authService';
 
 const app = express();

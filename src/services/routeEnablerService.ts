@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import config from '../configuration';
+import config from '../config';
 import { ErrorHandler } from '../helpers/errorHandler';
 
 export interface AoeRouteMessage {

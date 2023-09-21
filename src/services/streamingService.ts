@@ -1,4 +1,4 @@
-import config from '../configuration';
+import config from '../config';
 import { httpsClient } from '../resources';
 import { winstonLogger } from '../util/winstonLogger';
 

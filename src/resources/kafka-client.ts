@@ -1,4 +1,4 @@
-import config from '../configuration';
+import config from '../config';
 import { Kafka, Partitioners } from 'kafkajs';
 
 const kafka = new Kafka({

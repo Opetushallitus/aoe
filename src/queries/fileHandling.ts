@@ -9,7 +9,7 @@ import { Buffer } from 'node:buffer';
 import path from 'path';
 import s3Zip from 's3-zip';
 import stream from 'stream';
-import config from '../configuration';
+import config from '../config';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
 import { db } from '../resources/pg-connect';
@@ -1070,6 +1070,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
 
 /**
  * Upload a single file to an educational material.
+ * Office file types are also converted and stored as a PDF file.
  * @param {e.Request} req
  * @param {e.Response} res
  * @param {e.NextFunction} next
@@ -1120,18 +1121,38 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                 res.status(200).json(resp);
                 try {
                   if (typeof file !== 'undefined') {
+                    winstonLogger.debug(
+                      'Function uploadFileToMaterial() before uploadLocalFileToCloudStorage(): file.path=%s, file.filename=%s, config.CLOUD_STORAGE_CONFIG.bucket=%s',
+                      file.path,
+                      file.filename,
+                      config.CLOUD_STORAGE_CONFIG.bucket,
+                    );
                     const obj: any = await uploadLocalFileToCloudStorage(
                       './' + file.path,
                       file.filename,
-                      process.env.CLOUD_STORAGE_BUCKET,
+                      config.CLOUD_STORAGE_CONFIG.bucket,
+                    );
+                    winstonLogger.debug(
+                      'Function uploadFileToMaterial() before insertDataToRecordTable(): file=%o, materialid=%s, obj.Key=%s, obj.Bucket=%s, obj.Location=%s',
+                      file,
+                      materialid,
+                      obj.Key,
+                      obj.Bucket,
+                      obj.Location,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     try {
+                      // Convert office file types to PDF.
                       if (isOfficeMimeType(file.mimetype)) {
                         const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadLocalFileToCloudStorage(
+                        winstonLogger.debug(
+                          'Function uploadFileToMaterial() before uploadLocalFileToCloudStorage(): path=%s, pdfkey=%s',
                           path,
+                          pdfkey,
+                        );
+                        const pdfobj: any = await uploadLocalFileToCloudStorage(
+                          `${process.env.HTMLFOLDER}/${pdfkey}`, // path,
                           pdfkey,
                           process.env.PDF_BUCKET_NAME,
                         );

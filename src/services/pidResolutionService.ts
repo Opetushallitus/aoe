@@ -38,8 +38,10 @@ export const registerPID = async (url: string): Promise<any> => {
 export const processEntriesWithoutPID = async (): Promise<void> => {
   try {
     const limit = 5000;
-    const eduMaterialVersions: { educationalmaterialid: string; publishedat: string }[] =
-      await getEdumaterialVersionsWithoutURN(limit);
+    const eduMaterialVersions: {
+      educationalmaterialid: string;
+      publishedat: string;
+    }[] = await getEdumaterialVersionsWithoutURN(limit);
 
     let eduMaterialVersionURL: string;
     let registeredURN: string;

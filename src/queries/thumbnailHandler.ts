@@ -4,7 +4,7 @@ import fh, { downloadFromStorage } from './fileHandling';
 import mime from 'mime';
 import { winstonLogger } from '../util/winstonLogger';
 import { db } from '../resources/pg-connect';
-import config from '../configuration';
+import config from '../config';
 
 /**
  * @param req

@@ -1,6 +1,6 @@
 import ah from '../services/authService';
 import connectRedis from 'connect-redis';
-import config from '../configuration';
+import config from '../config';
 import { CookieOptions, Express, NextFunction, Request, Response } from 'express';
 import session, { Cookie } from 'express-session';
 import openidClient, { custom, HttpOptions } from 'openid-client';

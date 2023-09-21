@@ -5,6 +5,7 @@ import { downloadFromStorage, readStreamFromStorage, uploadLocalFileToCloudStora
 import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
+import config from '../config';
 
 const officeMimeTypes = [
   // .doc
@@ -82,6 +83,7 @@ const officeMimeTypes = [
 ];
 
 /**
+ * Check if a file mimetype is an office format.
  * @param {string} s
  * @return {boolean}
  */
@@ -219,10 +221,10 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     const params = {
-      Bucket: process.env.CLOUD_STORAGE_BUCKET,
+      Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
       Key: key,
     };
     const folderpath = process.env.HTMLFOLDER + '/' + key;
