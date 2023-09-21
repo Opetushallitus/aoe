@@ -47,7 +47,7 @@ const s3: S3 = new AWS.S3();
 const diskStore = multer({
   storage: multer.diskStorage({
     destination: (req: Request, file: File, callback: DestinationCallback) => {
-      callback(undefined, 'uploads/');
+      callback(undefined, '/webdata/htmlfolder'); // 'uploads/'
     },
     filename: (req: Request, file: File, callback: FileNameCallback) => {
       let extension = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
@@ -1008,6 +1008,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                 resp.id = data[0].id;
                 resp.material = material;
                 res.status(200).json(resp);
+                winstonLogger.debug('File details: file.path=%s, file.filename=%s', file.path, file.filename);
                 try {
                   if (typeof file !== 'undefined') {
                     const obj: any = await uploadLocalFileToCloudStorage(
