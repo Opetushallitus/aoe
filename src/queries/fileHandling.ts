@@ -1152,7 +1152,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
                           pdfkey,
                         );
                         const pdfobj: any = await uploadLocalFileToCloudStorage(
-                          `${process.env.HTMLFOLDER}/${pdfkey}`, // path,
+                          `webdata/htmlfolder/${pdfkey}`, // path,
                           pdfkey,
                           process.env.PDF_BUCKET_NAME,
                         );
