@@ -4,12 +4,12 @@ import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 // Custom logging levels
 const loggingLevels = {
   levels: {
-    digi: 0,
-    info: 1,
-    http: 2,
-    error: 3,
-    warn: 4,
-    debug: 5,
+    // digi: 0,
+    info: 0,
+    http: 1,
+    error: 2,
+    warn: 3,
+    debug: 4,
   },
 };
 
@@ -33,11 +33,11 @@ export const winstonLogger = winston.createLogger({
   ),
   levels: loggingLevels.levels,
   transports: [
-    new winston.transports.File({
-      filename: 'digivisio/digivisio.log',
-      handleExceptions: true,
-      level: 'digi',
-    }),
+    // new winston.transports.File({
+    //   filename: 'digivisio/digivisio.log',
+    //   handleExceptions: true,
+    //   level: 'digi',
+    // }),
     new winston.transports.Console(consoleOptions),
   ],
 });

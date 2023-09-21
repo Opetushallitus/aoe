@@ -221,7 +221,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
   return new Promise<string>(async (resolve, reject) => {
     const params = {
       Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
