@@ -767,7 +767,7 @@ export const insertDataToDisplayName = async (
  * @param {{Bucket: string, Key: string}} params - Bucket name and the object key in the cloud storage.
  * @return {Promise<any>}
  */
-export const readStreamFromStorage = async (params: { Bucket: string; Key: string }): Promise<any> => {
+export const readStreamFromStorage = async (params: { Bucket: string; Key: string }): Promise<stream> => {
   try {
     return s3.getObject(params).createReadStream();
   } catch (err) {

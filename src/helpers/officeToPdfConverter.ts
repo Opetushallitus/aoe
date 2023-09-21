@@ -6,6 +6,7 @@ import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
 import config from '../config';
+import stream from 'stream';
 
 const officeMimeTypes = [
   // .doc
@@ -231,10 +232,7 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
     };
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
-    const stream = await readStreamFromStorage(params);
-    stream.on('error', (err) => {
-      reject(err);
-    });
+    const stream: stream = await readStreamFromStorage(params);
     const ws = fs
       .createWriteStream(folderpath)
       .on('error', (err: Error) => {
@@ -249,7 +247,18 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
           reject(error);
         }
       });
-    stream.pipe(ws);
+
+    stream
+      .on('end', async () => {
+        const path = await convertOfficeFileToPDF(folderpath, filename);
+        resolve(path);
+        winstonLogger.debug('Function downstreamAndConvertOfficeFileToPDF() end event on stream: path=%s', path);
+      })
+      .on('error', (err) => {
+        reject(err);
+        winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err);
+      })
+      .pipe(ws);
   });
 };
 
