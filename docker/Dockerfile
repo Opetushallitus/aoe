@@ -18,15 +18,15 @@ RUN groupadd --gid 5606 webapp && \
     mkdir -p /app/uploads && \
     mkdir -p /app/thumbnail && \
     mkdir -p /webdata/ && \
-#   chown -R node:node /app && \
+    chown -R node:node /app && \
 #   Deprecated: (curl -sL https://rpm.nodesource.com/setup_14.x | bash -) && \
 #   Deprecated: (curl -sL https://rpm.nodesource.com/setup_16.x | bash -) && \
 #   Node.js download sources | see: https://github.com/nodesource/distributions#installation-instructions-1 \
     yum update -y && \
     yum install -y epel-release && \
     yum install -y curl && \
-    yum install https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm -y && \
-    yum install nodejs -y --setopt=nodesource-nodejs.module_hotfixes=1 && \
+    yum install -y https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm && \
+    yum install -y nodejs --setopt=nodesource-nodejs.module_hotfixes=1 && \
 #   yum install -y nodejs && \
     npm install -g pm2@2.5.0 && \
     yum install -y libreoffice && \
