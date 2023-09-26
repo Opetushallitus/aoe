@@ -34,7 +34,7 @@ import { insertEducationalMaterialName } from './apiQueries';
 const storage = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
   destination: function (req: Request, file: any, cb: any) {
-    cb(undefined, 'uploads/');
+    cb(undefined, './uploads/');
   },
   filename: function (req: Request, file: any, cb: any) {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
@@ -726,6 +726,8 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
  * @param bucketName string Target bucket in object storage system
  */
 export const uploadFileToStorage = async (filePath: string, filename: string, bucketName: string): Promise<any> => {
+  winstonLogger.debug('uploadFileToStorage(): filePath=%s, filename=%s, bucketName=%s', filePath, filename, bucketName);
+
   return new Promise(async (resolve, reject) => {
     try {
       const config: ServiceConfigurationOptions = {

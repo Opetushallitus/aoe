@@ -229,7 +229,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
@@ -239,12 +239,17 @@ export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<
         Key: key,
       })
       .createReadStream();
+
     const ws = fs
       .createWriteStream(folderpath)
-      .on('close', () => {
-        convertOfficeFileToPDF(folderpath, filename).then((path: string) => {
+      .on('finish', async () => {
+        try {
+          const path = await convertOfficeFileToPDF(folderpath, filename);
           resolve(path);
-        });
+        } catch (e) {
+          winstonLogger.error('Error catch when trying to convertOfficeFileToPDF()');
+          reject(e);
+        }
       })
       .on('error', (err: Error) => {
         reject(err);
