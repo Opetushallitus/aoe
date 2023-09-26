@@ -185,15 +185,12 @@ export const convertOfficeFileToPDF = (filepath: string, filename: string): Prom
         await fsPromise.writeFile(outputPath, data);
 
         // Check if written PDF file actually exists
-        fs.stat(outputPath, (err: any, stats: any) => {
-          if (err == null) {
-            winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
-          } else if (err.code === 'ENOENT') {
-            winstonLogger.debug('File does not exist: %s', outputPath);
-          } else {
-            winstonLogger.debug('File had Some other error: ', err.code);
-          }
-        });
+        const stats = await fsPromise.stat(outputPath);
+        if (stats) {
+          winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
+        } else {
+          winstonLogger.debug('File does not exist');
+        }
       });
     } catch (err) {
       winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);

@@ -1,12 +1,14 @@
 import ADMzip from 'adm-zip';
 import AWS, { S3 } from 'aws-sdk';
+import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
-
+import fsPromise from 'fs/promises';
 import multer from 'multer';
 import path from 'path';
 import s3Zip from 's3-zip';
+import stream from 'stream';
 import config from '../config';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
@@ -17,6 +19,7 @@ import { winstonLogger } from '../util/winstonLogger';
 
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
+import SendData = ManagedUpload.SendData;
 
 // TODO: Remove legacy dependencies
 // import { ReadStream } from "fs";
@@ -332,8 +335,11 @@ export async function uploadFileToMaterial(req: Request, res: Response, next: Ne
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
                         downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
                           winstonLogger.debug('Resolved path=%s', path);
-                          const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
-                          await updatePdfKey(pdfobj.Key, recordid);
+                          uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
+                            async (pdfObj: SendData) => {
+                              await updatePdfKey(pdfObj.Key, recordid);
+                            },
+                          );
                         });
                       }
                     } catch (e) {
@@ -724,58 +730,60 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
  * Upload a file from the local file system to the cloud object storage.
  *
  * @param filePath   string Path and file name in local file system
- * @param filename   string Target file name in object storage system
+ * @param fileName
  * @param bucketName string Target bucket in object storage system
  */
-export const uploadFileToStorage = async (filePath: string, filename: string, bucketName: string): Promise<any> => {
-  winstonLogger.debug('uploadFileToStorage(): filePath=%s, filename=%s, bucketName=%s', filePath, filename, bucketName);
+export const uploadFileToStorage = (filePath: string, fileName: string, bucketName: string): Promise<SendData> => {
+  winstonLogger.debug('uploadFileToStorage(): filePath=%s, filename=%s, bucketName=%s', filePath, fileName, bucketName);
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-        },
-        endpoint: process.env.CLOUD_STORAGE_API,
-        region: process.env.CLOUD_STORAGE_REGION,
-      };
-      AWS.config.update(config);
-      const s3: S3 = new AWS.S3();
-      fs.readFile(filePath, async (err: any, data: any) => {
-        if (err) {
-          winstonLogger.error('Reading file from the local file system failed in uploadFileToStorage(): ' + err);
-          return reject(new Error(err));
-        }
-        try {
-          const params = {
-            Bucket: bucketName,
-            Key: filename,
-            Body: data,
-          };
-          const startTime: number = Date.now();
-          s3.upload(params, (err: any, data: any) => {
-            if (err) {
-              winstonLogger.error('Uploading file to the cloud object storage failed in uploadFileToStorage(): ' + err);
-              reject(new Error(err));
-            }
-            if (data) {
-              winstonLogger.debug(
-                'Uploading file to the cloud object storage completed in ' + (Date.now() - startTime) / 1000 + 's',
-              );
-              resolve(data);
-            }
-          });
-        } catch (err) {
-          winstonLogger.error('Error in uploading file to the cloud object storage in uploadFileToStorage(): ' + err);
-          reject(new Error(err));
-        }
+  const config: ServiceConfigurationOptions = {
+    credentials: {
+      accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+      secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+    },
+    endpoint: process.env.CLOUD_STORAGE_API,
+    region: process.env.CLOUD_STORAGE_REGION,
+  };
+  AWS.config.update(config);
+  const s3: S3 = new AWS.S3();
+  const passThrough = new stream.PassThrough();
+
+  return new Promise((resolve, reject) => {
+    // Read a locally stored file to the streaming passthrough.
+    fs.createReadStream(filePath)
+      .once('error', (err: Error) => {
+        winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        reject(err);
+      })
+      .pipe(passThrough);
+
+    // Upstream a locally stored file to the cloud storage from the streaming passthrough.
+    s3.upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
+      .promise()
+      .then((resp: SendData) => {
+        winstonLogger.debug('Upstream to the cloud storage completed: %o', resp);
+        resolve(resp);
+      })
+      .catch((err: Error) => {
+        winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
+        reject(err);
       });
-    } catch (err) {
-      winstonLogger.error('Error in processing file in uploadFileToStorage(): ' + err);
-      reject(new Error(err));
-    }
   });
+  // const data: Buffer = await fsPromise.readFile(filePath);
+  //
+  // s3.upload(
+  //   {
+  //     Bucket: bucketName,
+  //     Key: filename,
+  //     Body: data,
+  //   },
+  //   (err: any) => {
+  //     if (err) {
+  //       winstonLogger.error('Uploading file to the cloud object storage failed in uploadFileToStorage(): %o', err);
+  //       throw new Error(err);
+  //     }
+  //   },
+  // );
 };
 
 /**
