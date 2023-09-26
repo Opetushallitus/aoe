@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import fs from 'fs';
+import fsPromise from 'fs/promises';
 import libre from 'libreoffice-convert';
 import stream from 'stream';
 import config from '../config';
@@ -176,26 +177,29 @@ export const convertOfficeFileToPDF = (filepath: string, filename: string): Prom
   return new Promise((resolve, reject) => {
     try {
       const file = fs.readFileSync(filepath);
-      libre.convert(file, extension, undefined, (err: Error, data: Buffer) => {
+      libre.convert(file, extension, undefined, async (err: Error, data: Buffer) => {
         if (err) {
           winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
           return reject(err);
         }
-        fs.writeFileSync(outputPath, data);
+        await fsPromise.writeFile(outputPath, data);
+
+        // Check if written PDF file actually exists
+        fs.stat(outputPath, (err: any, stats: any) => {
+          if (err == null) {
+            winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
+          } else if (err.code === 'ENOENT') {
+            winstonLogger.debug('File does not exist: %s', outputPath);
+          } else {
+            winstonLogger.debug('File had Some other error: ', err.code);
+          }
+        });
       });
     } catch (err) {
       winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
       return reject(err);
     }
-    fs.stat(outputPath, (err: any, stats: any) => {
-      if (err == null) {
-        winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
-      } else if (err.code === 'ENOENT') {
-        winstonLogger.debug('File does not exist: %s', outputPath);
-      } else {
-        winstonLogger.debug('File had Some other error: ', err.code);
-      }
-    });
+
     resolve(outputPath);
   });
 };
