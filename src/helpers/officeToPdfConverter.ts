@@ -169,23 +169,26 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
  * @param {string} filename File name of the original office file.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const convertOfficeFileToPDF = async (filepath: string, filename: string): Promise<string> => {
+export const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
   const extension = 'pdf';
   const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
-  try {
-    const file = fs.readFileSync(filepath);
-    libre.convert(file, extension, undefined, (err: Error, data: Buffer) => {
-      if (err) {
-        winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
-        return Promise.reject(err);
-      }
-      fs.writeFileSync(outputPath, data);
-    });
-  } catch (err) {
-    winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
-    return Promise.reject(err);
-  }
-  return Promise.resolve(outputPath);
+
+  return new Promise((resolve, reject) => {
+    try {
+      const file = fs.readFileSync(filepath);
+      libre.convert(file, extension, undefined, (err: Error, data: Buffer) => {
+        if (err) {
+          winstonLogger.error('Converting an office file to PDF failed in convertOfficeFileToPDF()');
+          return reject(err);
+        }
+        fs.writeFileSync(outputPath, data);
+      });
+    } catch (err) {
+      winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
+      return reject(err);
+    }
+    resolve(outputPath);
+  });
 };
 
 export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<void> => {
@@ -226,7 +229,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  * @param {string} key - File name in the cloud storage.
  * @return {Promise<string>} File path of the converted PDF.
  */
-export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
+export const downstreamAndConvertOfficeFileToPDF = async (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     const folderpath = process.env.HTMLFOLDER + '/' + key;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
@@ -238,9 +241,10 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
       .createReadStream();
     const ws = fs
       .createWriteStream(folderpath)
-      .on('close', async () => {
-        const path = await convertOfficeFileToPDF(folderpath, filename);
-        resolve(path);
+      .on('close', () => {
+        convertOfficeFileToPDF(folderpath, filename).then((path: string) => {
+          resolve(path);
+        });
       })
       .on('error', (err: Error) => {
         reject(err);

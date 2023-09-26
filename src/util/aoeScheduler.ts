@@ -1,10 +1,9 @@
-import fh from '../queries/fileHandling';
 import { scheduleJob } from 'node-schedule';
-import { rmDir } from '../helpers/fileRemover';
 import { updateEsDocument } from '../elasticSearch/es';
-import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '../services/mailService';
+import { rmDir } from '../helpers/fileRemover';
 import { convertAndUpstreamOfficeFilesToCloudStorage } from '../helpers/officeToPdfConverter';
 import { pidResolutionService } from '../services';
+import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '../services/mailService';
 import { winstonLogger } from './winstonLogger';
 
 // 1:00 AM (UTC): scheduled directory cleaning tasks.
@@ -73,8 +72,8 @@ scheduleJob('0 0 10 * * *', async () => {
     winstonLogger.error(error);
   }
 });
-setInterval(() => fh.checkTemporaryRecordQueue(), 3600000);
-setInterval(() => fh.checkTemporaryAttachmentQueue(), 3600000);
+// setInterval(() => fh.checkTemporaryRecordQueue(), 3600000);
+// setInterval(() => fh.checkTemporaryAttachmentQueue(), 3600000);
 const officeToPdf = Number(process.env.RUN_OFFICE_TO_PDF);
 if (officeToPdf === 1) {
   // wait 10 seconds before start
