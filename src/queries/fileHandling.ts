@@ -330,32 +330,26 @@ export async function uploadFileToMaterial(req: Request, res: Response, next: Ne
                       process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
-                    try {
-                      if (isOfficeMimeType(file.mimetype)) {
-                        const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
-                          winstonLogger.debug('Resolved path=%s', path);
-                          uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
-                            async (pdfObj: SendData) => {
-                              await updatePdfKey(pdfObj.Key, recordid);
-                            },
-                          );
-                        });
-                      }
-                    } catch (e) {
-                      winstonLogger.error('ERROR converting office file to pdf: ' + e);
+                    if (isOfficeMimeType(file.mimetype)) {
+                      const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
+                      await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
+                        winstonLogger.debug('Resolved path=%s', path);
+                        await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
+                          async (pdfObj: SendData) => {
+                            await updatePdfKey(pdfObj.Key, recordid);
+                            await deleteDataFromTempRecordTable(file.filename, materialid);
+                            fs.unlink('./' + file.path, (err: any) => {
+                              if (err) {
+                                winstonLogger.error('Unlink removal of file failed: %o', err);
+                              }
+                            });
+                          },
+                        );
+                      });
                     }
-                    await deleteDataFromTempRecordTable(file.filename, materialid);
-                    fs.unlink('./' + file.path, (err: any) => {
-                      if (err) {
-                        winstonLogger.error(err);
-                      }
-                    });
                   }
-                } catch (ex) {
-                  winstonLogger.error(
-                    'error while sending file to pouta: ' + ex + ' - ' + JSON.stringify((<any>req).file),
-                  );
+                } catch (err) {
+                  winstonLogger.error('PDF converting or upstreaming to the cloud storage failed: %o', err);
                 }
               })
               .catch((err: Error) => {
