@@ -187,6 +187,15 @@ export const convertOfficeFileToPDF = (filepath: string, filename: string): Prom
       winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
       return reject(err);
     }
+    fs.stat(outputPath, (err: any, stats: any) => {
+      if (err == null) {
+        winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
+      } else if (err.code === 'ENOENT') {
+        winstonLogger.debug('File does not exist: %s', outputPath);
+      } else {
+        winstonLogger.debug('File had Some other error: ', err.code);
+      }
+    });
     resolve(outputPath);
   });
 };

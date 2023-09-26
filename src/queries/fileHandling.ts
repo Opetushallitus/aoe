@@ -329,10 +329,12 @@ export async function uploadFileToMaterial(req: Request, res: Response, next: Ne
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     try {
                       if (isOfficeMimeType(file.mimetype)) {
-                        const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
-                        await updatePdfKey(pdfobj.Key, recordid);
+                        downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
+                          winstonLogger.debug('Resolved path=%s', path);
+                          const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+                          await updatePdfKey(pdfobj.Key, recordid);
+                        });
                       }
                     } catch (e) {
                       winstonLogger.error('ERROR converting office file to pdf: ' + e);
