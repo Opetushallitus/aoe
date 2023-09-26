@@ -100,7 +100,11 @@ export async function uploadAttachmentToMaterial(req: Request, res: Response, ne
           res.status(200).json({ id: attachmentId });
           try {
             if (typeof file !== 'undefined') {
-              const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+              const obj: any = await uploadFileToStorage(
+                './' + file.path,
+                file.filename,
+                process.env.CLOUD_STORAGE_BUCKET,
+              );
               // await insertDataToAttachmentTable(file, req.params.materialId, obj.Key, obj.Bucket, obj.Location, metadata);
               await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
               await deleteDataToTempAttachmentTable(file.filename, result[0].id);
@@ -204,7 +208,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
                     const obj: any = await uploadFileToStorage(
                       './' + file.path,
                       file.filename,
-                      process.env.BUCKET_NAME,
+                      process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     // convert file to pdf if office document
@@ -320,7 +324,7 @@ export async function uploadFileToMaterial(req: Request, res: Response, next: Ne
                     const obj: any = await uploadFileToStorage(
                       './' + file.path,
                       file.filename,
-                      process.env.BUCKET_NAME,
+                      process.env.CLOUD_STORAGE_BUCKET,
                     );
                     const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
                     try {
@@ -382,7 +386,7 @@ export async function uploadFileToMaterial(req: Request, res: Response, next: Ne
  * load file to allas storage
  */
 export async function fileToStorage(file: any, materialid: string): Promise<{ key: string; recordid: string }> {
-  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
   fs.unlink('./' + file.path, (err: any) => {
@@ -407,7 +411,7 @@ export async function attachmentFileToStorage(
   materialid: string,
   attachmentId: string,
 ): Promise<any> {
-  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.BUCKET_NAME);
+  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   // await insertDataToAttachmentTable(file, materialid, obj.Key, obj.Bucket, obj.Location, metadata);
   await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
   await deleteDataToTempAttachmentTable(file.filename, materialid);
@@ -726,11 +730,11 @@ export const uploadFileToStorage = async (filePath: string, filename: string, bu
     try {
       const config: ServiceConfigurationOptions = {
         credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
+          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
         },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
+        endpoint: process.env.CLOUD_STORAGE_API,
+        region: process.env.CLOUD_STORAGE_REGION,
       };
       AWS.config.update(config);
       const s3: S3 = new AWS.S3();
@@ -786,11 +790,11 @@ export async function uploadBase64FileToStorage(
     try {
       const config: ServiceConfigurationOptions = {
         credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
+          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
         },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
+        endpoint: process.env.CLOUD_STORAGE_API,
+        region: process.env.CLOUD_STORAGE_REGION,
       };
       AWS.config.update(config);
       const s3 = new AWS.S3();
@@ -946,7 +950,7 @@ export const downloadFileFromStorage = async (
           return resolve(undefined);
         }
         const params = {
-          Bucket: process.env.BUCKET_NAME as string,
+          Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
           Key: (req.params.filename as string) || (req.params.key as string),
         };
         const resp = await downloadFromStorage(req, res, next, params, fileDetails.originalfilename, isZip);
@@ -966,10 +970,10 @@ export const downloadFileFromStorage = async (
 export async function readStreamFromStorage(params: { Bucket: string; Key: string }): Promise<any> {
   try {
     const config = {
-      accessKeyId: process.env.USER_KEY,
-      secretAccessKey: process.env.USER_SECRET,
-      endpoint: process.env.POUTA_END_POINT,
-      region: process.env.REGION,
+      accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+      secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+      endpoint: process.env.CLOUD_STORAGE_API,
+      region: process.env.CLOUD_STORAGE_REGION,
     };
     AWS.config.update(config);
     const s3 = new AWS.S3();
@@ -1015,11 +1019,11 @@ export const downloadFromStorage = async (
   // TODO: Move to global variables
   const configAWS: ServiceConfigurationOptions = {
     credentials: {
-      accessKeyId: process.env.USER_KEY,
-      secretAccessKey: process.env.USER_SECRET,
+      accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+      secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
     },
-    endpoint: process.env.POUTA_END_POINT,
-    region: process.env.REGION,
+    endpoint: process.env.CLOUD_STORAGE_API,
+    region: process.env.CLOUD_STORAGE_REGION,
   };
   AWS.config.update(configAWS);
   const s3: S3 = new AWS.S3();
@@ -1193,15 +1197,15 @@ export async function downloadAndZipFromStorage(
       // ConfigurationOptions (fields: all others, lib: aws-sdk)
       const config: ServiceConfigurationOptions = {
         credentials: {
-          accessKeyId: process.env.USER_KEY,
-          secretAccessKey: process.env.USER_SECRET,
+          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
         },
-        endpoint: process.env.POUTA_END_POINT,
-        region: process.env.REGION,
+        endpoint: process.env.CLOUD_STORAGE_API,
+        region: process.env.CLOUD_STORAGE_REGION,
       };
       AWS.config.update(config);
       const s3 = new AWS.S3();
-      const bucketName = process.env.BUCKET_NAME;
+      const bucketName = process.env.CLOUD_STORAGE_BUCKET;
       winstonLogger.debug('Starting s3Zip stream');
       try {
         s3Zip
