@@ -17,10 +17,10 @@ const fileFilter = (req: any, file: any, cb: any) => {
 };
 
 const storage = multer.diskStorage({
-  destination: function(req: any, file: any, cb: any) {
+  destination: function (req: any, file: any, cb: any) {
     cb(undefined, 'uploads/');
   },
-  filename: function(req: any, file: any, cb: any) {
+  filename: function (req: any, file: any, cb: any) {
     const datetimestamp = Date.now();
     cb(
       undefined,
@@ -44,7 +44,7 @@ const fs = require('fs');
 
 async function createPropertyNameList(obj: any, str: string) {
   const list: any = [];
-  Object.getOwnPropertyNames(obj).forEach(function(val: any, idx, array) {
+  Object.getOwnPropertyNames(obj).forEach(function (val: any, idx, array) {
     if (val.includes(str)) {
       list.push(val);
     }
@@ -206,7 +206,7 @@ async function uploadXlsx(req: Request, res: Response) {
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
       try {
-        upload.single('xlsxfile')(req, res, async function() {
+        upload.single('xlsxfile')(req, res, async function () {
           try {
             if ((<any>req).file === undefined) {
               return res.status(400).send('Xlsx file expected. Max file size: ' + maxFileSize / 1024 / 1024 + 'MB');
@@ -232,7 +232,7 @@ async function uploadXlsx(req: Request, res: Response) {
             for (const d in data) {
               winstonLogger.debug('inserting row ' + (Number(d) + 2));
               const materialobj = await mapper.createMaterialObject(data[d]);
-              await apiQ.insertEducationalMaterial(materialobj, function(err: any, result: any) {
+              await apiQ.insertEducationalMaterial(materialobj, function (err: any, result: any) {
                 if (err) {
                   o[rowkey].push({
                     row: Number(d) + 2,

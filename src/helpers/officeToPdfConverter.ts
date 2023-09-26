@@ -3,7 +3,7 @@ import fs from 'fs';
 import libre from 'libreoffice-convert';
 import stream from 'stream';
 import config from '../config';
-import { downloadFromStorage, uploadLocalFileToCloudStorage } from '../queries/fileHandling';
+import { downloadFromStorage, uploadFileToStorage } from '../queries/fileHandling';
 import { s3 } from '../resources/aws-sdk-clients';
 import { db } from '../resources/pg-connect';
 import { winstonLogger } from '../util/winstonLogger';
@@ -201,7 +201,7 @@ export const convertAndUpstreamOfficeFilesToCloudStorage = async (): Promise<voi
       if (isOfficeMimeType(element.mimetype) && !element.pdfkey) {
         const pdfKey: string = element.filekey.substring(0, element.filekey.lastIndexOf('.')) + '.pdf';
         downstreamAndConvertOfficeFileToPDF(element.filekey).then((path: string) => {
-          uploadLocalFileToCloudStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then((obj: any) => {
+          uploadFileToStorage(path, pdfKey, process.env.PDF_BUCKET_NAME).then((obj: any) => {
             updatePdfKey(obj.Key, element.id);
           });
         });

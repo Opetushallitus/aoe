@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { downloadFile, downloadPreviewFile, fileUpstreamProcess, fileUpstreamStatus } from '../../queries/fileHandling';
+import { downloadFile, downloadPreviewFile } from '../../queries/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '../../queries/thumbnailHandler';
 import { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
 import { isAllasEnabled } from '../../services/routeEnablerService';
@@ -30,12 +30,6 @@ export default (router: Router): void => {
   // THUMBNAIL FETCH FOR THE WEB VIEW
   // Fetch a thumbnail picture by file name (:filename) for the educational material web view.
   router.get(`${moduleRoot}/file/:filename([A-Za-z0-9._-]+[.][A-Za-z0-9]{2,4})/thumbnail`, downloadEmThumbnail);
-
-  // MATERIAL FILE UPSTREAM STATUS
-  router.get(`${moduleRoot}/file/status`, fileUpstreamStatus);
-
-  // MATERIAL FILE UPSTREAM PROCESS START OR RESUME
-  router.post(`${moduleRoot}/file`, fileUpstreamProcess);
 
   // THUMBNAIL UPLOAD TO CLOUD STORAGE
   // Store a new thumbnail picture of an educational material (:edumaterialid) to the cloud storage.
