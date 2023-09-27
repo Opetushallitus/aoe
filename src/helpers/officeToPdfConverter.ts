@@ -183,16 +183,6 @@ export const convertOfficeFileToPDF = (filepath: string, filename: string): Prom
           return reject(err);
         }
         await fsPromise.writeFile(outputPath, data);
-
-        // Check if written PDF file actually exists
-        const stats = await fsPromise.stat(outputPath);
-        if (stats) {
-          winstonLogger.debug('File exists: %s\n%o', outputPath, stats);
-          return resolve(outputPath);
-        } else {
-          winstonLogger.debug('File does not exist');
-          return reject(null);
-        }
       });
     } catch (err) {
       winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
@@ -283,9 +273,7 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
 export const updatePdfKey = async (key: string, id: string): Promise<any> => {
   try {
     return await db.tx(async (t: any) => {
-      const query = 'UPDATE record SET pdfkey = $1 where id = $2';
-      winstonLogger.debug('Query in updatePdfKey(): %s %o', query, [key, id]);
-
+      const query = 'UPDATE record SET pdfkey = $1 WHERE id = $2';
       return await t.any(query, [key, id]);
     });
   } catch (error) {

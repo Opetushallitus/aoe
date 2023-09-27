@@ -325,7 +325,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     });
 
   // 202 Accepted response to indicate the incomplete upload process.
-  res.status(202).json({
+  res.status(200).json({
     id: req.params.edumaterialid,
   });
 
@@ -710,13 +710,11 @@ export const insertDataToTempRecordTable = async (t: any, file: MulterFile, mate
 
 export async function deleteDataFromTempRecordTable(filename: any, materialId: any): Promise<any> {
   const query = 'DELETE FROM temporaryrecord WHERE filename = $1 AND materialid = $2';
-  winstonLogger.debug(query);
   return await db.any(query, [filename, materialId]);
 }
 
 export async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
   const query = 'DELETE FROM temporaryattachment WHERE filename = $1 AND id = $2';
-  winstonLogger.debug(query, [filename, materialId]);
   return await db.any(query, [filename, materialId]);
 }
 
