@@ -282,11 +282,13 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       } else {
         next(new ErrorHandler(500, `File upload to the server failed: ${err}`));
       }
+      return Promise.reject();
     }
-    return;
   });
   const file: MulterFile = req.file;
   let materialID: string;
+
+  winstonLogger.debug('Uploaded file details JSON: %s', req.body.fileDetails);
   const fileDetails = JSON.parse(req.body.fileDetails);
 
   // Persist all details of a new file in a single transaction - rollback in case of issues.
