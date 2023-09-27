@@ -60,12 +60,9 @@ export default (router: Router): void => {
     isAllasEnabled,
     requestValidator.fileUploadRules(),
     requestErrorHandler,
-    (req: Request, res: Response) => {
-      return res.status(200).end();
-    },
-    // ah.checkAuthenticated,
-    // ah.hasAccessToPublicatication,
-    // fh.uploadFileToMaterial,
+    ah.checkAuthenticated,
+    ah.hasAccessToPublicatication,
+    fh.uploadFileToMaterial,
   );
   router.post('/material/file', isAllasEnabled, ah.checkAuthenticated, fh.uploadMaterial);
 
