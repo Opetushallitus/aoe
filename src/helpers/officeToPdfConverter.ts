@@ -185,7 +185,7 @@ export const convertOfficeFileToPDF = (filepath: string, filename: string): Prom
           return reject(err);
         }
         await fsPromise.writeFile(outputPath, data);
-        return outputPath;
+        return resolve(outputPath);
       });
     } catch (err) {
       winstonLogger.error('Error in convertOfficeFileToPDF(): %o', err);
@@ -245,13 +245,13 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
 
     const ws = fs
       .createWriteStream(folderpath)
-      .on('finish', async () => {
+      .on('close', async () => {
         try {
           const path: string = await convertOfficeFileToPDF(folderpath, filename);
-          resolve(path);
+          return resolve(path);
         } catch (e) {
           winstonLogger.error('Error catch when trying to convertOfficeFileToPDF()');
-          reject(e);
+          return reject(e);
         }
       })
       .on('error', (err: Error) => {
