@@ -339,6 +339,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
         winstonLogger.debug('Resolved path=%s', path);
         await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(async (pdfObj: SendData) => {
+          winstonLogger.debug('Resolved pdfObj=%o', pdfObj);
           await updatePdfKey(pdfObj.Key, recordID);
           await deleteDataFromTempRecordTable(file.filename, materialID);
           fs.unlink(`./${file.path}`, (err: any) => {

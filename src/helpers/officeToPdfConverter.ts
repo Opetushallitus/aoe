@@ -271,13 +271,12 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
  * @return {Promise<any>}
  */
 export const updatePdfKey = async (key: string, id: string): Promise<any> => {
-  try {
-    return await db.tx(async (t: any) => {
-      const query = 'UPDATE record SET pdfkey = $1 WHERE id = $2';
-      return await t.any(query, [key, id]);
-    });
-  } catch (error) {
-    winstonLogger.error('Error in updatePdfKey(): %o', error);
-    throw new Error(error);
-  }
+  await db.tx(async (t: any) => {
+    const query = `
+      UPDATE record SET pdfkey = $1
+      WHERE id = $2
+    `;
+    const t1 = await t.none(query, [key, id]);
+    return { t1 };
+  });
 };
