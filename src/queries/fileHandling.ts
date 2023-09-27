@@ -275,7 +275,11 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  let file: MulterFile;
   let fileDetails;
+  let materialID: string;
+
+  // Upload a file to the server file system with Multer.
   upload.single('file')(req, res, (err: any) => {
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
@@ -285,10 +289,9 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       }
       return Promise.reject();
     }
+    file = req.file;
     fileDetails = JSON.parse(req.body.fileDetails);
   });
-  const file: MulterFile = req.file;
-  let materialID: string;
 
   // Persist all details of a new file in a single transaction - rollback in case of issues.
   await db
@@ -688,21 +691,22 @@ export const insertDataToRecordTable = async (
   }
 };
 
-export async function insertDataToTempRecordTable(t: any, files: any, materialId: any): Promise<any> {
-  const query =
-    'INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, ' +
-    'materialid) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id';
-  winstonLogger.debug(query);
+export const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
+  const query = `
+    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, materialid)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING id
+  `;
   return await t.any(query, [
-    files.filename,
-    files.path,
-    files.originalname,
-    files.size,
-    files.mimetype,
-    files.encoding,
+    file.filename,
+    file.path,
+    file.originalname,
+    file.size,
+    file.mimetype,
+    file.encoding,
     materialId,
   ]);
-}
+};
 
 export async function deleteDataFromTempRecordTable(filename: any, materialId: any): Promise<any> {
   const query = 'DELETE FROM temporaryrecord WHERE filename = $1 AND materialid = $2';
