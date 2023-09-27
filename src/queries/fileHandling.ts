@@ -275,6 +275,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  let fileDetails;
   upload.single('file')(req, res, (err: any) => {
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
@@ -284,12 +285,10 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       }
       return Promise.reject();
     }
+    fileDetails = JSON.parse(req.body.fileDetails);
   });
   const file: MulterFile = req.file;
   let materialID: string;
-
-  winstonLogger.debug('Uploaded file details JSON: %s', req.body.fileDetails);
-  const fileDetails = JSON.parse(req.body.fileDetails);
 
   // Persist all details of a new file in a single transaction - rollback in case of issues.
   await db
