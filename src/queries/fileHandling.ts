@@ -333,6 +333,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   try {
     const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
     const recordID = await insertDataToRecordTable(file, materialID, obj.Key, obj.Bucket, obj.Location);
+    winstonLogger.debug('Resolved mimetype=%s', file.mimetype);
     if (isOfficeMimeType(file.mimetype)) {
       const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
       await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
@@ -1044,7 +1045,7 @@ export const downloadFromStorage = async (
             // });
           })
           .once('end', () => {
-            winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
+            // winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
           })
           .pipe(fs.createWriteStream(folderpath));
         zipStream.once('finish', async () => {
@@ -1071,7 +1072,7 @@ export const downloadFromStorage = async (
             //     .pipe(res);
           })
           .once('end', () => {
-            winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
+            // winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
             resolve(null);
           })
           .pipe(res);
