@@ -327,6 +327,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   // 202 Accepted response to indicate the incomplete upload process.
   res.status(200).json({
     id: req.params.edumaterialid,
+    material: [{ id: materialID, createFrom: file.originalname }],
   });
 
   try {
@@ -1007,17 +1008,6 @@ export const downloadFromStorage = async (
   origFilename: string,
   isZip?: boolean,
 ): Promise<any> => {
-  winstonLogger.debug(
-    's3params.Bucket=' +
-      s3params.Bucket +
-      ', s3params.Key=' +
-      s3params.Key +
-      ', origFilename=' +
-      origFilename +
-      ', isZip=' +
-      isZip,
-  );
-
   // TODO: Move to global variables
   const configAWS: ServiceConfigurationOptions = {
     credentials: {
