@@ -1,38 +1,36 @@
-import { Router } from 'express';
-import ah, { hasAccessToAoe } from '../../services/authService';
+import { Request, Response, Router } from 'express';
+import collection from '../../collection/collection';
 import {
   changeMaterialUser,
   getAoeUsers,
   getMaterialNames,
   removeEducationalMaterial,
 } from '../../controllers/material';
-import esCollection from '../../elasticSearch/es';
-import es from '../../elasticSearch/esQueries';
-import db from '../../queries/apiQueries';
-import { aoeRoutes, isAllasEnabled } from '../../services/routeEnablerService';
-import fh from '../../queries/fileHandling';
+import { downloadPdfFromAllas } from '../../helpers/officeToPdfConverter';
 import {
   addMetadataExtension,
   getMetadataExtension,
   getUsersMetadataExtension,
 } from '../../metadataExtension/metadataExtension';
+import db from '../../queries/apiQueries';
+import fh from '../../queries/fileHandling';
+import { getMaterialMetaData } from '../../queries/oaipmh';
+import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
+import rating from '../../rating/rating';
+import ah, { hasAccessToAoe } from '../../services/authService';
+import { verifyEmailToken } from '../../services/mailService';
+import { aoeRoutes, isAllasEnabled } from '../../services/routeEnablerService';
+import { updateUserSettings } from '../../users/userSettings';
+import { requestErrorHandler, requestValidator } from '../../util';
 import {
   addCollectionValidationRules,
   createCollectionValidationRules,
   metadataExtensionValidationRules,
   ratingValidationRules,
   removeCollectionValidationRules,
-  rulesValidate,
   updateCollectionValidationRules,
   validateRatingUser,
-} from '../../validators/validator';
-import { getMaterialMetaData } from '../../queries/oaipmh';
-import { downloadPdfFromAllas } from '../../helpers/officeToPdfConverter';
-import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
-import { updateUserSettings } from '../../users/userSettings';
-import { verifyEmailToken } from '../../services/mailService';
-import collection from '../../collection/collection';
-import rating from '../../rating/rating';
+} from '../../util/requestValidator';
 
 export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAoe, getAoeUsers);
@@ -56,12 +54,18 @@ export default (router: Router): void => {
   );
 
   // Keep the order
+  // Single file upload
   router.post(
     '/material/file/:edumaterialid',
     isAllasEnabled,
-    ah.checkAuthenticated,
-    ah.hasAccessToPublicatication,
-    fh.uploadFileToMaterial,
+    requestValidator.fileUploadRules(),
+    requestErrorHandler,
+    (req: Request, res: Response) => {
+      return res.status(200).end();
+    },
+    // ah.checkAuthenticated,
+    // ah.hasAccessToPublicatication,
+    // fh.uploadFileToMaterial,
   );
   router.post('/material/file', isAllasEnabled, ah.checkAuthenticated, fh.uploadMaterial);
 
@@ -73,7 +77,7 @@ export default (router: Router): void => {
   router.put(
     '/metadata/:id',
     metadataExtensionValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     ah.checkAuthenticated,
     addMetadataExtension,
   );
@@ -102,14 +106,14 @@ export default (router: Router): void => {
     ah.checkAuthenticated,
     ah.hasAccessToCollection,
     addCollectionValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     collection.addEducationalMaterialToCollection,
   );
   router.post(
     '/collection/create',
     ah.checkAuthenticated,
     createCollectionValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     collection.createCollection,
   );
   router.get('/collection/getCollection/:collectionId', collection.getCollection);
@@ -118,7 +122,7 @@ export default (router: Router): void => {
     ah.checkAuthenticated,
     ah.hasAccessToCollection,
     removeCollectionValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     collection.removeEducationalMaterialFromCollection,
   );
   router.get('/collection/recentCollection', collection.getRecentCollection);
@@ -127,7 +131,7 @@ export default (router: Router): void => {
     ah.checkAuthenticated,
     ah.hasAccessToCollection,
     updateCollectionValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     collection.updateCollection,
   );
   router.get('/collection/userCollection', ah.checkAuthenticated, collection.getUserCollections);
@@ -138,7 +142,7 @@ export default (router: Router): void => {
     '/rating',
     ah.checkAuthenticated,
     ratingValidationRules(),
-    rulesValidate,
+    requestErrorHandler,
     validateRatingUser,
     rating.addRating,
   );

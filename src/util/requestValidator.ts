@@ -1,7 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { body, validationResult } from 'express-validator';
-import { winstonLogger } from '../util/winstonLogger';
+import { body, header, validationResult } from 'express-validator';
+import { winstonLogger } from './winstonLogger';
 import { db } from '../resources/pg-connect';
+
+export const fileUploadRules = (): any[] => {
+  return [
+    header('content-type')
+      .exists({ checkFalsy: true })
+      .withMessage('Content-Type header missing')
+      .bail()
+      .contains('multipart/form-data')
+      .withMessage('Upload is not a multipart form'),
+  ];
+};
 
 export function ratingValidationRules(): any[] {
   return [
@@ -144,6 +155,7 @@ export async function rulesValidate(req: Request, res: Response, next: NextFunct
 }
 
 export default {
+  fileUploadRules,
   ratingValidationRules,
   createCollectionValidationRules,
   addCollectionValidationRules,

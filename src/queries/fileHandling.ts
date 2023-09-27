@@ -4,7 +4,6 @@ import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
-import fsPromise from 'fs/promises';
 import multer from 'multer';
 import path from 'path';
 import s3Zip from 's3-zip';
@@ -19,6 +18,8 @@ import { winstonLogger } from '../util/winstonLogger';
 
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
+
+import MulterFile = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 
 // TODO: Remove legacy dependencies
@@ -161,7 +162,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
               next(new ErrorHandler(500, 'Error in upload'));
             }
           }
-          const file = (<any>req).file;
+          const file: MulterFile = req.file;
           const resp: any = {};
 
           // Send educationalmaterialid if no file send for link material creation.
@@ -267,137 +268,109 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
 }
 
 /**
- *
- * @param req
- * @param res
- * @param next
- * upload single file to educational material req.params.materialId
+ * Upload a single file to the educational material with a multipart form upload.
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<void>}
  */
-export async function uploadFileToMaterial(req: Request, res: Response, next: NextFunction): Promise<any> {
+export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  upload.single('file')(req, res, (err: any) => {
+    if (err) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        next(new ErrorHandler(413, err.message));
+      } else {
+        next(new ErrorHandler(500, `File upload to the server failed: ${err}`));
+      }
+    }
+    return;
+  });
+  const file: MulterFile = req.file;
+  let materialID: string;
+  const fileDetails = JSON.parse(req.body.fileDetails);
+
+  // Persist all details of a new file in a single transaction - rollback in case of issues.
+  await db
+    .tx(async (t: any) => {
+      const transactions = [];
+
+      // Partial transaction 1: save general information of a new material entry.
+      const t1 = await insertDataToMaterialTable(
+        t,
+        req.params.edumaterialid,
+        '',
+        fileDetails.language,
+        fileDetails.priority,
+      );
+      transactions.push(t1);
+      materialID = t1.id;
+
+      // Partial transaction 2: save display name of a new material with language versions.
+      const t2 = await insertDataToDisplayName(t, req.params.edumaterialid, materialID, fileDetails);
+      transactions.push(t2);
+
+      // Partial transaction 3: save file details to a temporary record until uploading completed.
+      const t3 = await insertDataToTempRecordTable(t, file, materialID);
+      transactions.push(t3);
+
+      return t.batch(transactions);
+    })
+    .catch((err) => {
+      next(new ErrorHandler(500, `Database transactions failed: ${err}`));
+      return;
+    });
+
+  // 202 Accepted response to indicate the incomplete upload process.
+  res.status(202).json({
+    id: req.params.edumaterialid,
+  });
+
   try {
-    const contentType = req.headers['content-type'];
-    if (contentType.startsWith('multipart/form-data')) {
-      upload.single('file')(req, res, async function (err: any) {
-        try {
-          if (err) {
-            winstonLogger.error(err);
-            if (err.code === 'LIMIT_FILE_SIZE') {
-              next(new ErrorHandler(413, err.message));
-            } else {
-              winstonLogger.error(err);
-              next(new ErrorHandler(500, 'Error in upload'));
+    const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
+    const recordID = await insertDataToRecordTable(file, materialID, obj.Key, obj.Bucket, obj.Location);
+    if (isOfficeMimeType(file.mimetype)) {
+      const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
+      await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
+        winstonLogger.debug('Resolved path=%s', path);
+        await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(async (pdfObj: SendData) => {
+          await updatePdfKey(pdfObj.Key, recordID);
+          await deleteDataFromTempRecordTable(file.filename, materialID);
+          fs.unlink(`./${file.path}`, (err: any) => {
+            if (err) {
+              winstonLogger.error('Unlink removal of a file failed: %o', err);
             }
-          }
-          const file = (<any>req).file;
-          const resp: any = {};
-          if (!file) {
-            next(new ErrorHandler(400, 'No file sent'));
-          } else {
-            winstonLogger.debug('uploadFileToMaterial details to database for: ' + file.originalname);
-            let materialid: string;
-            const fileDetails = JSON.parse(req.body.fileDetails);
-            const material: any = [];
-            db.tx(async (t: any) => {
-              const queries = [];
-              const id = await insertDataToMaterialTable(
-                t,
-                req.params.edumaterialid,
-                '',
-                fileDetails.language,
-                fileDetails.priority,
-              );
-              queries.push(id);
-              material.push({ id: id.id, createFrom: file.originalname });
-              materialid = id.id;
-              let result = await insertDataToDisplayName(t, req.params.edumaterialid, id.id, fileDetails);
-              queries.push(result);
-              result = await insertDataToTempRecordTable(t, file, id.id);
-              queries.push(result);
-              return t.batch(queries);
-            })
-              .then(async () => {
-                // return 200 if success and continue sending files to pouta
-                winstonLogger.debug('uploadFileToMaterial sending to Pouta: ' + file.filename);
-                resp.id = req.params.edumaterialid;
-                resp.material = material;
-                res.status(200).json(resp);
-                try {
-                  if (typeof file !== 'undefined') {
-                    winstonLogger.debug(materialid);
-                    const obj: any = await uploadFileToStorage(
-                      './' + file.path,
-                      file.filename,
-                      process.env.CLOUD_STORAGE_BUCKET,
-                    );
-                    const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
-                    if (isOfficeMimeType(file.mimetype)) {
-                      const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                      await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
-                        winstonLogger.debug('Resolved path=%s', path);
-                        await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(
-                          async (pdfObj: SendData) => {
-                            await updatePdfKey(pdfObj.Key, recordid);
-                            await deleteDataFromTempRecordTable(file.filename, materialid);
-                            fs.unlink('./' + file.path, (err: any) => {
-                              if (err) {
-                                winstonLogger.error('Unlink removal of file failed: %o', err);
-                              }
-                            });
-                          },
-                        );
-                      });
-                    }
-                  }
-                } catch (err) {
-                  winstonLogger.error('PDF converting or upstreaming to the cloud storage failed: %o', err);
-                }
-              })
-              .catch((err: Error) => {
-                winstonLogger.error(err);
-                if (!res.headersSent) {
-                  next(new ErrorHandler(500, 'Error in upload'));
-                }
-                fs.unlink('./' + file.path, (err: any) => {
-                  if (err) {
-                    winstonLogger.error('Error in uploadFileToMaterial(): ' + err);
-                  } else {
-                    winstonLogger.debug('file removed');
-                  }
-                });
-              });
-          }
-        } catch (e) {
-          if (!res.headersSent) {
-            next(new ErrorHandler(500, 'Error in upload: ' + e));
-          }
-        }
+          });
+        });
       });
-    } else {
-      next(new ErrorHandler(400, 'Not found'));
     }
   } catch (err) {
-    winstonLogger.error(err);
-    next(new ErrorHandler(500, 'Error in upload'));
+    if (!res.headersSent) {
+      next(new ErrorHandler(500, 'File upload failed in uploadFileToMaterial(): ' + err));
+    }
+    fs.unlink(`./${file.path}`, (err: any) => {
+      if (err) winstonLogger.error('Unlink removal for an uploaded file failed: %o', err);
+    });
   }
-}
+};
 
 /**
- *
+ * Load a file to the cloud storage.
+ * TODO: Possible duplicate function
  * @param file
  * @param materialid
- * load file to allas storage
  */
-export async function fileToStorage(file: any, materialid: string): Promise<{ key: string; recordid: string }> {
-  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
+export const fileToStorage = async (
+  file: MulterFile,
+  materialid: string,
+): Promise<{ key: string; recordid: string }> => {
+  const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
-  fs.unlink('./' + file.path, (err: any) => {
-    if (err) {
-      winstonLogger.error(err);
-    }
+  fs.unlink(`./${file.path}`, (err: any) => {
+    if (err) winstonLogger.error(err);
   });
   return { key: obj.Key, recordid: recordid };
-}
+};
 
 /**
  *
@@ -427,23 +400,31 @@ export async function attachmentFileToStorage(
 /**
  * check if files in temporaryrecord table and try to load to allas storage
  */
-export async function checkTemporaryRecordQueue(): Promise<any> {
+export const checkTemporaryRecordQueue = async (): Promise<void> => {
   try {
-    // take hour of
+    // Take the last hour off from the current time.
     const ts = Date.now() - 1000 * 60 * 60;
-    const query = 'Select * From temporaryrecord where extract(epoch from createdat)*1000 < $1 limit 1000;';
-    const data = await db.any(query, [ts]);
-    for (const element of data) {
-      const file = {
-        originalname: element.originalfilename,
-        path: element.filepath,
-        size: element.filesize,
-        mimetype: element.mimetype,
-        encoding: element.format,
-        filename: element.filename,
+    const query = `
+      SELECT * FROM temporaryrecord
+      WHERE extract(epoch from createdat) * 1000 < $1
+      LIMIT 1000
+    `;
+    const records = await db.any(query, [ts]);
+    for (const record of records) {
+      const file: MulterFile = {
+        fieldname: null,
+        originalname: record.originalfilename,
+        encoding: record.format,
+        mimetype: record.mimet,
+        size: record.filesize,
+        stream: null,
+        destination: null,
+        filename: record.filename,
+        path: record.filepath,
+        buffer: null,
       };
       try {
-        const obj = await fileToStorage(file, element.materialid);
+        const obj = await fileToStorage(file, record.materialid);
         const path = await downstreamAndConvertOfficeFileToPDF(obj.key);
         const pdfkey = obj.key.substring(0, obj.key.lastIndexOf('.')) + '.pdf';
         const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
@@ -455,7 +436,7 @@ export async function checkTemporaryRecordQueue(): Promise<any> {
   } catch (error) {
     winstonLogger.error(error);
   }
-}
+};
 
 /**
  * check if files in temporaryattachment table and try to load to allas storage
@@ -554,20 +535,20 @@ export async function insertDataToDisplayName(
   return queries;
 }
 
-export async function insertDataToMaterialTable(
+export const insertDataToMaterialTable = async (
   t: any,
   eduMaterialId: string,
   location: any,
   languages,
   priority: number,
-): Promise<any> {
-  const query =
-    'INSERT INTO material (link, educationalmaterialid, materiallanguagekey, priority) VALUES ($1, $2, $3, $4) RETURNING id';
-  // const str = Object.keys(files).map(function(k) {return "('" + files[k].originalname + "','" + location + "','" + materialID + "')"; }).join(",");
-  // const str = "('" + files.originalname + "','" + location + "','" + materialID + "')";
-  winstonLogger.debug('insertDataToMaterialTable(): query=' + query);
+): Promise<any> => {
+  const query = `
+    INSERT INTO material (link, educationalmaterialid, materiallanguagekey, priority)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id
+  `;
   return await t.one(query, [location, eduMaterialId, languages, priority]);
-}
+};
 
 export async function insertDataToAttachmentTable(
   files: any,
@@ -655,42 +636,56 @@ export async function insertDataToTempAttachmentTable(files: any, metadata: any,
   ]);
 }
 
-export async function insertDataToRecordTable(
-  files: any,
-  materialID: any,
-  fileKey: any,
-  fileBucket: any,
+/**
+ * Transaction to persist the metadata of a new file and update the corresponding educational material.
+ * @param file
+ * @param materialID
+ * @param fileKey
+ * @param fileBucket
+ * @param {string} location
+ * @return {Promise<string | null>}
+ */
+export const insertDataToRecordTable = async (
+  file: MulterFile,
+  materialID: string,
+  fileKey: string,
+  fileBucket: string,
   location: string,
-): Promise<any> {
+): Promise<string | null> => {
   let query;
   try {
-    const data = await db.tx(async (t: any) => {
-      query =
-        'UPDATE educationalmaterial SET updatedat = NOW() ' +
-        'WHERE id = (SELECT educationalmaterialid FROM material WHERE id = $1)';
-      // queries.push(await db.none(query, [materialID]));
+    const { id } = await db.tx(async (t: any) => {
+      query = `
+        UPDATE educationalmaterial SET updatedat = NOW()
+        WHERE id = (
+          SELECT educationalmaterialid
+          FROM material
+          WHERE id = $1
+        )
+      `;
       await t.none(query, [materialID]);
-      query =
-        'INSERT INTO record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, ' +
-        'materialid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id';
-      winstonLogger.debug(query);
-      const record = await t.oneOrNone(query, [
+
+      query = `
+        INSERT INTO record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING id
+      `;
+      return await t.oneOrNone(query, [
         location,
-        files.originalname,
-        files.size,
-        files.mimetype,
-        files.encoding,
+        file.originalname,
+        file.size,
+        file.mimetype,
+        file.encoding, // Deprecated header Content-Transfer-Encoding - See: RFC 7578, Section 4.7
         fileKey,
         fileBucket,
         materialID,
       ]);
-      return { record };
     });
-    return data.record.id;
+    return id;
   } catch (err) {
     throw new Error(err);
   }
-}
+};
 
 export async function insertDataToTempRecordTable(t: any, files: any, materialId: any): Promise<any> {
   const query =
@@ -728,8 +723,6 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
  * @param bucketName string Target bucket in object storage system
  */
 export const uploadFileToStorage = (filePath: string, fileName: string, bucketName: string): Promise<SendData> => {
-  winstonLogger.debug('uploadFileToStorage(): filePath=%s, filename=%s, bucketName=%s', filePath, fileName, bucketName);
-
   const config: ServiceConfigurationOptions = {
     credentials: {
       accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
