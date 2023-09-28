@@ -284,11 +284,10 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     upload.single('file')(req, res, (err: any) => {
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE') {
-          next(new ErrorHandler(413, err.message));
+          throw new ErrorHandler(413, err.message);
         } else {
-          next(new ErrorHandler(500, `File upload to the server failed: ${err}`));
+          throw new ErrorHandler(500, `File upload to the server failed: ${err}`);
         }
-        throw new Error(err);
       }
       file = req.file;
       winstonLogger.debug('FILE: %o', file);
@@ -296,7 +295,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       winstonLogger.debug('FILE DETAILS: %o', fileDetails);
     });
   } catch (err) {
-    next(new ErrorHandler(500, `Database transactions failed: ${err}`));
+    next(err);
     return;
   }
 
