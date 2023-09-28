@@ -285,7 +285,6 @@ export const uploadFileToLocalDisk = (
           file: req.file as MulterFile,
           fileDetails: JSON.parse(req.body.fileDetails) as Record<string, unknown>,
         });
-        winstonLogger.info('FILE UPLOAD RESOLVED');
         return;
       });
     } catch (err) {
@@ -304,9 +303,7 @@ export const uploadFileToLocalDisk = (
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   let materialID: string;
-
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
-  winstonLogger.info('FILE UPLOAD COMPLETED');
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db
