@@ -290,12 +290,15 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         }
       }
       file = req.file;
+      winstonLogger.info('FILE: %o', file);
       fileDetails = JSON.parse(req.body.fileDetails);
+      winstonLogger.info('FILE DETAILS: %o', fileDetails);
     });
   } catch (err) {
     next(err);
     return;
   }
+  winstonLogger.info('FILE UPLOAD COMPLETED');
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db
