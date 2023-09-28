@@ -48,22 +48,36 @@ export async function hasAccesstoPublication(id: number, req: Request): Promise<
   }
 }
 
-export const InsertUserToDatabase = async (userinfo: Record<string, unknown>): Promise<any> => {
-  winstonLogger.debug('Userinfo at InsertUserToDatabase(): %s', JSON.stringify(userinfo));
+/**
+ * Save a new authenticated user to service users.
+ * TODO: Add a return value to verify the user registration.
+ * @param {Record<string, unknown>} userinfo
+ * @return {Promise<void>}
+ */
+export const insertUserToDatabase = async (userinfo: Record<string, unknown>): Promise<void> => {
   try {
     const uid: string = userinfo['uid'] as string;
-    const query = 'SELECT exists (SELECT 1 FROM users WHERE username = $1 LIMIT 1)';
-    const data = await db.oneOrNone(query, [uid]);
-    if (!data.exists) {
-      const query =
-        'INSERT INTO users ' +
-        '(firstname, lastname, username, preferredlanguage, preferredtargetname, preferredalignmenttype) ' +
-        "VALUES ($1, $2, $3, 'fi', '', '')";
+    const query = `
+      SELECT exists (
+        SELECT 1
+        FROM users
+        WHERE username = $1
+        LIMIT 1
+      )
+    `;
+    const { exists } = await db.oneOrNone(query, [uid]);
+    if (!exists) {
+      const query = `
+        INSERT INTO users
+          (firstname, lastname, username, preferredlanguage, preferredtargetname, preferredalignmenttype)
+        VALUES ($1, $2, $3, 'fi', '', '')
+      `;
       await db.none(query, [userinfo['given_name'], userinfo['family_name'], uid]);
     }
-  } catch (e) {
-    winstonLogger.error('Error in InsertUserToDatabase(): ' + e);
-    return Promise.reject(e);
+  } catch (err) {
+    winstonLogger.error('Saving a new user failed: %o', err);
+    winstonLogger.debug('USER: %o', userinfo);
+    throw new Error(err);
   }
 };
 
@@ -200,7 +214,7 @@ export default {
   getUserData,
   // hasAccesstoPublication,
   checkAuthenticated,
-  InsertUserToDatabase,
+  InsertUserToDatabase: insertUserToDatabase,
   hasAccessToPublicatication,
   // logout,
   hasAccessToMaterial,
