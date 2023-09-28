@@ -281,7 +281,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 
   // Upload a file to the server file system with Multer.
   try {
-    upload.single('file')(req, res, (err: any) => {
+    await upload.single('file')(req, res, async (err: any) => {
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE') {
           throw new ErrorHandler(413, err.message);
