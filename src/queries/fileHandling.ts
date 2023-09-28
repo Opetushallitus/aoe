@@ -221,7 +221,11 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
                         winstonLogger.debug('Convert file and send to allas');
                         const path = await downstreamAndConvertOfficeFileToPDF(obj.Key);
                         const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-                        const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+                        const pdfobj: any = await uploadFileToStorage(
+                          path,
+                          pdfkey,
+                          config.CLOUD_STORAGE_CONFIG.bucketPDF,
+                        );
                         await updatePdfKey(pdfobj.Key, recordid);
                       }
                     } catch (e) {
@@ -363,16 +367,18 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       // Downstream an office file and convert to PDF in the local file system (linked disk storage).
       await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string) => {
         // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
-        await uploadFileToStorage(pathPDF, keyPDF, process.env.PDF_BUCKET_NAME).then(async (pdfS3: SendData) => {
-          // Save the material's PDF key to indicate the availability of a PDF version.
-          await updatePdfKey(pdfS3.Key, recordID);
-          // Remove information from incomplete file tasks.
-          await deleteDataFromTempRecordTable(file.filename, materialID);
-          // Remove the uploaded file from the local file system (linked upload directory).
-          fs.unlink(`./${file.path}`, (err: any) => {
-            if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
-          });
-        });
+        await uploadFileToStorage(pathPDF, keyPDF, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
+          async (pdfS3: SendData) => {
+            // Save the material's PDF key to indicate the availability of a PDF version.
+            await updatePdfKey(pdfS3.Key, recordID);
+            // Remove information from incomplete file tasks.
+            await deleteDataFromTempRecordTable(file.filename, materialID);
+            // Remove the uploaded file from the local file system (linked upload directory).
+            fs.unlink(`./${file.path}`, (err: any) => {
+              if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
+            });
+          },
+        );
       });
     }
   } catch (err) {
@@ -459,7 +465,7 @@ export const checkTemporaryRecordQueue = async (): Promise<void> => {
         const obj = await fileToStorage(file, record.materialid);
         const path = await downstreamAndConvertOfficeFileToPDF(obj.key);
         const pdfkey = obj.key.substring(0, obj.key.lastIndexOf('.')) + '.pdf';
-        const pdfobj: any = await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME);
+        const pdfobj: any = await uploadFileToStorage(path, pdfkey, config.CLOUD_STORAGE_CONFIG.bucketPDF);
         await updatePdfKey(pdfobj.Key, obj.recordid);
       } catch (error) {
         winstonLogger.error(error);
