@@ -280,7 +280,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   let materialID: string;
 
   // Upload a file to the server file system with Multer.
-  upload.single('file')(req, res, (err: any) => {
+  upload.single('file')(req, res, async (err: any) => {
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {
         next(new ErrorHandler(413, err.message));
@@ -290,7 +290,9 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       return Promise.reject();
     }
     file = req.file;
+    winstonLogger.debug('FILE: %o', file);
     fileDetails = JSON.parse(req.body.fileDetails);
+    winstonLogger.debug('FILE DETAILS: %o', fileDetails);
   });
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
