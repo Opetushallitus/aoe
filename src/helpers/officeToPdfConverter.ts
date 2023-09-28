@@ -91,9 +91,7 @@ const officeMimeTypes = [
  * @return {boolean}
  */
 export const isOfficeMimeType = (s: string) => {
-  const exists: boolean = officeMimeTypes.indexOf(s) >= 0;
-  winstonLogger.debug('Mimetype found in office types: %s', exists);
-  return exists;
+  return officeMimeTypes.indexOf(s) >= 0;
 };
 
 /**

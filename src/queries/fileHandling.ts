@@ -290,9 +290,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         }
       }
       file = req.file;
-      winstonLogger.debug('FILE: %o', file);
       fileDetails = JSON.parse(req.body.fileDetails);
-      winstonLogger.debug('FILE DETAILS: %o', fileDetails);
     });
   } catch (err) {
     next(err);
@@ -502,7 +500,6 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
 export async function insertDataToEducationalMaterialTable(req: Request, t: any): Promise<any> {
   const query = 'insert into educationalmaterial (Usersusername)' + ' values ($1) returning id;';
   const data = await t.one(query, [req.session.passport.user.uid]);
-  winstonLogger.debug(data.id);
   return data;
 }
 
@@ -730,10 +727,10 @@ export const insertDataToTempRecordTable = async (t: any, file: MulterFile, mate
   ]);
 };
 
-export async function deleteDataFromTempRecordTable(filename: any, materialId: any): Promise<any> {
+export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<any> => {
   const query = 'DELETE FROM temporaryrecord WHERE filename = $1 AND materialid = $2';
   return await db.any(query, [filename, materialId]);
-}
+};
 
 export async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
   const query = 'DELETE FROM temporaryattachment WHERE filename = $1 AND id = $2';
@@ -773,7 +770,6 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
     s3.upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
       .promise()
       .then((resp: SendData) => {
-        winstonLogger.debug('Upstream to the cloud storage completed: %o', resp);
         resolve(resp);
       })
       .catch((err: Error) => {
