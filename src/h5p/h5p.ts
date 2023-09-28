@@ -102,7 +102,7 @@ export const startH5Pplayer = async (contentid: string): Promise<any> => {
         "Key": contentid as string
       };
       const stream = await readStreamFromStorage(params);
-      const filepath = process.env.HTMLFOLDER + "/" + contentid;
+      const filepath = process.env.HTML_FOLDER + "/" + contentid;
       let page;
 
       // Error event handler for streaming

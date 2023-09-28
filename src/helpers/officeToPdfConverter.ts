@@ -128,7 +128,7 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
 //             "Bucket" : process.env.BUCKET_NAME,
 //             "Key" : req.params.key
 //         };
-//         const folderpath = process.env.HTMLFOLDER + "/" + req.params.key;
+//         const folderpath = process.env.HTML_FOLDER + "/" + req.params.key;
 //         const filename = req.params.key.substring(0, req.params.key.lastIndexOf(".")) + ".pdf";
 //         winstonLogger.debug("filename: " + filename);
 //         const stream = await readStreamFromStorage(params);
@@ -174,7 +174,7 @@ export const downloadPdfFromAllas = async (req: Request, res: Response, next: Ne
  */
 export const convertOfficeFileToPDF = (filepath: string, filename: string): Promise<string> => {
   const extension = 'pdf';
-  const outputPath = `${process.env.HTMLFOLDER}/${filename}`;
+  const outputPath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${filename}`;
 
   return new Promise((resolve, reject) => {
     try {
@@ -234,7 +234,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  */
 export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    const folderpath = process.env.HTMLFOLDER + '/' + key;
+    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
     const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
     const stream: stream = s3
       .getObject({

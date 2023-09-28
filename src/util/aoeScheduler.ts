@@ -11,7 +11,7 @@ export const startScheduledCleaning = (): void => {
   const dirCleaningScheduler = scheduleJob('0 0 1 * * *', async () => {
     // Remove temporary content from the resource directories (H5P, HTML).
     try {
-      rmDir(process.env.HTMLFOLDER, false);
+      rmDir(process.env.HTML_FOLDER, false);
       rmDir(process.env.H5PFOLDER + '/content', false);
       rmDir(process.env.H5PFOLDER + '/libraries', false);
       rmDir(process.env.H5PFOLDER + '/temporary-storage', false);

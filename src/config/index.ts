@@ -16,8 +16,9 @@ export default {
     bucketThumbnail: process.env.CLOUD_STORAGE_BUCKET_THUMBNAIL as string,
   },
 
-  // File transfer configurations.
-  MATERIAL_FILE_UPLOAD: {
+  // Media file processing configurations.
+  MEDIA_FILE_PROCESS: {
+    htmlFolder: process.env.HTML_FOLDER as string,
     localFolder: process.env.MATERIAL_FILE_UPLOAD_FOLDER as string,
   },
 

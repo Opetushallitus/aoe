@@ -293,12 +293,12 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     fileDetails = JSON.parse(req.body.fileDetails);
   });
 
-  // Persist all details of a new file in a single transaction - rollback in case of issues.
+  // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db
     .tx(async (t: any) => {
       const transactions = [];
 
-      // Partial transaction 1: save general information of a new material entry.
+      // Partial transaction 1: Save general information of a new material entry.
       const t1 = await insertDataToMaterialTable(
         t,
         req.params.edumaterialid,
@@ -309,11 +309,11 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       transactions.push(t1);
       materialID = t1.id;
 
-      // Partial transaction 2: save display name of a new material with language versions.
+      // Partial transaction 2: Save display name of a new material with language versions.
       const t2 = await insertDataToDisplayName(t, req.params.edumaterialid, materialID, fileDetails);
       transactions.push(t2);
 
-      // Partial transaction 3: save file details to a temporary record until uploading completed.
+      // Partial transaction 3: Save file details to a temporary record until uploading completed.
       const t3 = await insertDataToTempRecordTable(t, file, materialID);
       transactions.push(t3);
 
@@ -331,21 +331,34 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   });
 
   try {
-    const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
-    const recordID = await insertDataToRecordTable(file, materialID, obj.Key, obj.Bucket, obj.Location);
-    winstonLogger.debug('Resolved mimetype=%s', file.mimetype);
+    const fileS3: SendData = await uploadFileToStorage(
+      `./${file.path}`,
+      file.filename,
+      config.CLOUD_STORAGE_CONFIG.bucket,
+    );
+    const recordID: string = await insertDataToRecordTable(
+      file,
+      materialID,
+      fileS3.Key,
+      fileS3.Bucket,
+      fileS3.Location,
+    );
+
+    // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
-      const pdfkey = obj.Key.substring(0, obj.Key.lastIndexOf('.')) + '.pdf';
-      await downstreamAndConvertOfficeFileToPDF(obj.Key).then(async (path: string) => {
-        winstonLogger.debug('Resolved path=%s', path);
-        await uploadFileToStorage(path, pdfkey, process.env.PDF_BUCKET_NAME).then(async (pdfObj: SendData) => {
-          winstonLogger.debug('Resolved pdfObj=%o', pdfObj);
-          await updatePdfKey(pdfObj.Key, recordID);
+      const keyPDF: string = fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.')) + '.pdf';
+
+      // Downstream an office file and convert to PDF in the local file system (linked disk storage).
+      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string) => {
+        // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
+        await uploadFileToStorage(pathPDF, keyPDF, process.env.PDF_BUCKET_NAME).then(async (pdfS3: SendData) => {
+          // Save the material's PDF key to indicate the availability of a PDF version.
+          await updatePdfKey(pdfS3.Key, recordID);
+          // Remove information from incomplete file tasks.
           await deleteDataFromTempRecordTable(file.filename, materialID);
+          // Remove the uploaded file from the local file system (linked upload directory).
           fs.unlink(`./${file.path}`, (err: any) => {
-            if (err) {
-              winstonLogger.error('Unlink removal of a file failed: %o', err);
-            }
+            if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
           });
         });
       });
@@ -1028,7 +1041,7 @@ export const downloadFromStorage = async (
       const fileStream = s3.getObject(s3params).createReadStream();
       if (isZip) {
         // replaced: isZip === true
-        const folderpath: string = process.env.HTMLFOLDER + '/' + origFilename;
+        const folderpath: string = process.env.HTML_FOLDER + '/' + origFilename;
         const zipStream: WriteStream = fileStream
           .on('error', (error: Error) => {
             winstonLogger.error('Error in zip file download in downloadFromStorage(): ' + error);
@@ -1258,7 +1271,7 @@ export async function unZipAndExtract(zipFolder: any): Promise<any> {
     winstonLogger.debug('Does the file exist? : ' + fs.existsSync(zipFolder));
     const zip = new ADMzip(zipFolder);
     // Here we remove the ext from the file, eg. python.zip --> python, so that we can name the folder correctly
-    // const folderPath = process.env.HTMLFOLDER + "/" + filename;
+    // const folderPath = process.env.HTML_FOLDER + "/" + filename;
     // Here we finally extract the zipped file to the folder we just specified.
     // const zipEntries = zip.getEntries();
     // zipEntries.forEach(function (zipEntry) {
