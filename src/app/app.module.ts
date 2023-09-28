@@ -71,7 +71,6 @@ import { AdminGuard } from './guards';
 import { DisableFormsGuard } from './guards';
 
 // pipes
-import { MaterialLanguagePipe } from './pipes';
 import { CleanFilenamePipe } from './pipes';
 
 // providers
@@ -200,7 +199,6 @@ import { AccessibilityViewComponent } from './views';
         EducationalMaterialRatingModalComponent,
         AddToCollectionModalComponent,
         CollectionViewComponent,
-        MaterialLanguagePipe,
         CleanFilenamePipe,
         CollectionFormComponent,
         CollectionBasicDetailsTabComponent,

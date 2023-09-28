@@ -17,7 +17,51 @@
 <div class="file-list" *ngIf="materials?.length > 0; else notFound">
     <div class="row no-gutters">
         <div class="col-3">
-            <div class="btn-group-vertical" role="group">
+            <!--uudet painikkeet-->
+            <ng-container *ngIf="materialLanguages.length > 1">
+                <ng-container *ngIf="materialLanguages.length <= 3; else notFound">
+                    <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
+                        <button
+                            type="button"
+                            class="btn btn-gray"
+                            *ngFor="let materialLang of materialLanguages"
+                            [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
+                            [attr.aria-selected]="materialLang === selectedLanguage"
+                            [attr.aria-controls]="'fileList-' + materialLang"
+                            [id]="'langSelector-' + materialLang"
+                            role="tab"
+                            (click)="setSelectedLanguage(materialLang)">
+                            {{ materialLang }}
+                            <span class="sr-only">({{ getLanguageValue(materialLang) }})</span>
+                        </button>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <!--uudet painikkeet loppuu-->
+
+            <div
+                class="btn-group-vertical"
+                role="group"
+                *ngIf="materials | materialLanguage: selectedLanguage as filteredMaterials"
+                [id]="'fileList-' + selectedLanguage"
+                role="tabpanel"
+                [attr.aria-labelledby]="'langSelector-' + selectedLanguage">
+                <div class="btn-group-vertical" role="tablist" aria-labelledby="selectMaterial">
+                    <ng-container *ngFor="let material of filteredMaterials">
+                        <button
+                            type="button"
+                            class="btn btn-file text-dark"
+                            [ngClass]="material === previewMaterial ? 'active' : ''"
+                            [attr.aria-selected]="material === previewMaterial"
+                            [attr.aria-controls]="'filePreview-' + material.id"
+                            [id]="'fileSelector-' + material.id"
+                            role="tab"
+                            (click)="setPreviewMaterial(material)">
+                            {{ material.displayName[lang] }}
+                        </button>
+                    </ng-container>
+                </div>
+                <!--
                 <ng-container *ngFor="let material of materials">
                     <button
                         type="button"
@@ -26,7 +70,7 @@
                         (click)="setPreviewMaterial(material)">
                         {{ material.displayName[lang] }}
                     </button>
-                </ng-container>
+                </ng-container>-->
             </div>
         </div>
 

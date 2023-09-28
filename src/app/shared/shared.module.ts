@@ -9,6 +9,7 @@ import { SafePipe } from '../pipes/safe.pipe';
 import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended';
 import { koodistoSources } from '../constants/koodisto-sources';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { MaterialLanguagePipe } from '../pipes/material-language.pipe';
 
 @NgModule({
     imports: [
@@ -21,8 +22,8 @@ import { AbstractControl, ValidatorFn } from '@angular/forms';
             },
         }),
     ],
-    declarations: [TruncatePipe, SafePipe],
-    exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe],
+    declarations: [TruncatePipe, SafePipe, MaterialLanguagePipe],
+    exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe, MaterialLanguagePipe],
 })
 export class SharedModule {}
 
