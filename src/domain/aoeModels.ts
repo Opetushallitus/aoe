@@ -186,7 +186,7 @@ const Material = <MaterialType>sequelize.define(
     educationalmaterialid: {
       field: 'educationalmaterialid',
       type: DataTypes.BIGINT,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: EducationalMaterial, // Can be the table name 'educationalmaterial' or the Sequelize model Language
         key: 'id',
@@ -250,7 +250,9 @@ EducationalMaterial.hasMany(Material, {
   foreignKey: 'educationalmaterialid',
   as: 'materials',
 });
-Material.belongsTo(EducationalMaterial);
+Material.belongsTo(EducationalMaterial, {
+  foreignKey: 'educationalmaterialid',
+});
 
 Material.hasMany(MaterialDisplayName, {
   foreignKey: 'materialid',

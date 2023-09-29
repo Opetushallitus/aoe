@@ -310,7 +310,6 @@ export const uploadFileToLocalDisk = (
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
   let material: Material;
-  winstonLogger.debug('ID: %s', req.params.edumaterialid);
 
   // Sequelize transaction: Save general information of a new material entry.
   const t1 = await sequelize.transaction({
@@ -326,7 +325,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         materiallanguagekey: (fileDetails as any).language,
       },
       {
-        returning: ['id', 'link', 'educationalmaterialid', 'obsoleted', 'priority', 'materiallanguagekey'],
+        // returning: ['id'],
         transaction: t1,
       },
     );
@@ -335,7 +334,6 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     await t1.rollback();
     throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
   }
-  winstonLogger.debug('MATERIAL: %o', material);
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db
