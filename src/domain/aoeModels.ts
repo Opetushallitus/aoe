@@ -253,15 +253,9 @@ EducationalMaterial.hasMany(Material, {
 Material.belongsTo(EducationalMaterial);
 
 Material.hasMany(MaterialDisplayName, {
-  foreignKey: 'educationalmaterialid',
+  foreignKey: 'materialid',
   as: 'materialdisplaynames',
 });
 MaterialDisplayName.belongsTo(Material);
-
-// Material => Language
-MaterialDisplayName.belongsTo(Material, {
-  foreignKey: 'materialid',
-  targetKey: 'id',
-});
 
 export { EducationalMaterial, Material, MaterialDisplayName };
