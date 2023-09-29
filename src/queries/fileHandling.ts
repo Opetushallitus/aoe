@@ -309,12 +309,13 @@ export const uploadFileToLocalDisk = (
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
+  let material: Material;
+  winstonLogger.debug('ID: %s', req.params.edumaterialid);
 
   // Sequelize transaction: Save general information of a new material entry.
   const t1 = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
   });
-  let material: Material;
   try {
     material = await Material.create(
       {
