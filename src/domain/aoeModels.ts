@@ -183,7 +183,7 @@ const Material = <MaterialType>sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    educationalmaterialid: {
+    educationalMaterialId: {
       field: 'educationalmaterialid',
       type: DataTypes.BIGINT,
       allowNull: false,
@@ -204,7 +204,7 @@ const Material = <MaterialType>sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
-    materiallanguagekey: {
+    materialLanguageKey: {
       field: 'materiallanguagekey',
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -247,17 +247,19 @@ const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
 
 // EducationalMaterial <=> Material
 EducationalMaterial.hasMany(Material, {
-  foreignKey: 'educationalmaterialid',
+  foreignKey: 'educationalMaterialId',
   as: 'materials',
 });
 Material.belongsTo(EducationalMaterial, {
-  foreignKey: 'educationalmaterialid',
+  foreignKey: 'educationalMaterialId',
 });
 
 Material.hasMany(MaterialDisplayName, {
   foreignKey: 'materialid',
-  as: 'materialdisplaynames',
+  as: 'materialDisplayNames',
 });
-MaterialDisplayName.belongsTo(Material);
+MaterialDisplayName.belongsTo(Material, {
+  foreignKey: 'materialid',
+});
 
 export { EducationalMaterial, Material, MaterialDisplayName };

@@ -319,10 +319,10 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     material = await Material.create(
       {
         link: '',
-        educationalmaterialid: req.params.edumaterialid,
+        educationalMaterialId: req.params.edumaterialid,
         obsoleted: 0,
         priority: (fileDetails as any).priority,
-        materiallanguagekey: (fileDetails as any).language,
+        materialLanguageKey: (fileDetails as any).language,
       },
       {
         // returning: ['id'],

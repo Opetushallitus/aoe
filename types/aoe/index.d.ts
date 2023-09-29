@@ -50,13 +50,13 @@ declare global {
   interface Material extends Model {
     id: string;
     link: string;
-    educationalmaterialid: string;
+    educationalMaterialId: string;
     obsoleted: number;
     priority: number;
-    materiallanguagekey: string;
+    materialLanguageKey: string;
 
     // Reference Information
-    materialdisplaynames: MaterialDisplayName[];
+    materialDisplayNames: MaterialDisplayName[];
     // records: Record[];
 
     // Temporary Information
