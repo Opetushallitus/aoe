@@ -186,7 +186,7 @@ const Material = <MaterialType>sequelize.define(
     educationalmaterialid: {
       field: 'educationalmaterialid',
       type: DataTypes.BIGINT,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: EducationalMaterial, // Can be the table name 'educationalmaterial' or the Sequelize model Language
         key: 'id',

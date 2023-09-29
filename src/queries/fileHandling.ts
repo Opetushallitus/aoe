@@ -326,6 +326,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         materiallanguagekey: (fileDetails as any).language,
       },
       {
+        returning: ['id', 'link', 'educationalmaterialid', 'obsoleted', 'priority', 'materiallanguagekey'],
         transaction: t1,
       },
     );
