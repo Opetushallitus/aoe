@@ -319,10 +319,10 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     material = await Material.create(
       {
         link: '',
-        educationalMaterialId: req.params.edumaterialid,
+        educationalmaterialid: req.params.edumaterialid,
         obsoleted: 0,
         priority: (fileDetails as any).priority,
-        materialLanguageKey: (fileDetails as any).language,
+        materiallanguagekey: (fileDetails as any).language,
       },
       {
         transaction: t1,
@@ -333,6 +333,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     await t1.rollback();
     throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
   }
+  winstonLogger.debug('MATERIAL: %o', material);
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db

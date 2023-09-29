@@ -13,7 +13,6 @@ export const sequelize = new Sequelize(rdbms.pgURL, {
 const commonSettings = {
   freezeTableName: true,
   timestamps: false,
-  underscored: true,
 };
 
 const EducationalMaterial = <EducationalMaterialType>sequelize.define(
