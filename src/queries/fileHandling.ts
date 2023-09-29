@@ -7,8 +7,10 @@ import fs, { WriteStream } from 'fs';
 import multer from 'multer';
 import path from 'path';
 import s3Zip from 's3-zip';
+import { Transaction } from 'sequelize';
 import stream from 'stream';
 import config from '../config';
+import { Material, sequelize } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
 import { db } from '../resources/pg-connect';
@@ -306,44 +308,55 @@ export const uploadFileToLocalDisk = (
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  let materialID: string;
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
+
+  // Sequelize transaction: Save general information of a new material entry.
+  const t1 = await sequelize.transaction({
+    isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+  });
+  let material: Material;
+  try {
+    material = await Material.create(
+      {
+        link: '',
+        educationalMaterialId: req.params.edumaterialid,
+        obsoleted: 0,
+        priority: (fileDetails as any).priority,
+        materialLanguageKey: (fileDetails as any).language,
+      },
+      {
+        transaction: t1,
+      },
+    );
+    await t1.commit();
+  } catch (err: any) {
+    await t1.rollback();
+    throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
+  }
 
   // Persist all details of a new file in a single transaction - rollback in case of any issues.
   await db
     .tx(async (t: any) => {
-      const transactions = [];
-
-      // Partial transaction 1: Save general information of a new material entry.
-      const t1 = await insertDataToMaterialTable(
-        t,
-        req.params.edumaterialid,
-        '',
-        (fileDetails as any).language,
-        (fileDetails as any).priority,
-      );
-      transactions.push(t1);
-      materialID = t1.id;
+      const transacions = [];
 
       // Partial transaction 2: Save display name of a new material with language versions.
-      const t2 = await insertDataToDisplayName(t, req.params.edumaterialid, materialID, fileDetails);
-      transactions.push(t2);
+      const t2 = await insertDataToDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+      transacions.push(t2);
 
       // Partial transaction 3: Save file details to a temporary record until uploading completed.
-      const t3 = await insertDataToTempRecordTable(t, file, materialID);
-      transactions.push(t3);
+      const t3 = await insertDataToTempRecordTable(t, file, material.id);
+      transacions.push(t3);
 
-      return t.batch(transactions);
+      return t.batch(transacions);
     })
     .catch((err) => {
-      next(new ErrorHandler(500, `Database transactions failed: ${err}`));
-      return;
+      throw new ErrorHandler(500, `Database transactions failed: ${err}`);
     });
 
   // 202 Accepted response to indicate the incomplete upload process.
   res.status(200).json({
     id: req.params.edumaterialid,
-    material: [{ id: materialID, createFrom: file.originalname }],
+    material: [{ id: material.id, createFrom: file.originalname }],
   });
 
   try {
@@ -354,7 +367,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     );
     const recordID: string = await insertDataToRecordTable(
       file,
-      materialID,
+      material.id,
       fileS3.Key,
       fileS3.Bucket,
       fileS3.Location,
@@ -372,7 +385,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
             // Save the material's PDF key to indicate the availability of a PDF version.
             await updatePdfKey(pdfS3.Key, recordID);
             // Remove information from incomplete file tasks.
-            await deleteDataFromTempRecordTable(file.filename, materialID);
+            await deleteDataFromTempRecordTable(file.filename, material.id);
             // Remove the uploaded file from the local file system (linked upload directory).
             fs.unlink(`./${file.path}`, (err: any) => {
               if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
