@@ -13,6 +13,7 @@ export const sequelize = new Sequelize(rdbms.pgURL, {
 const commonSettings = {
   freezeTableName: true,
   timestamps: false,
+  underscored: true,
 };
 
 const EducationalMaterial = <EducationalMaterialType>sequelize.define(
@@ -251,6 +252,12 @@ EducationalMaterial.hasMany(Material, {
   as: 'materials',
 });
 Material.belongsTo(EducationalMaterial);
+
+Material.hasMany(MaterialDisplayName, {
+  foreignKey: 'educationalmaterialid',
+  as: 'materialDisplayNames',
+});
+MaterialDisplayName.belongsTo(Material);
 
 // Material => Language
 MaterialDisplayName.belongsTo(Material, {
