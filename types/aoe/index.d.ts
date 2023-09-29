@@ -8,35 +8,35 @@ declare global {
   // EducationalMaterial
   interface EducationalMaterial extends Model, IEducationalMaterial {
     id: string;
-    createdat: Date;
-    publishedat?: Date;
-    updatedat: Date;
-    archivedat?: Date;
-    timerequired: string;
-    agerangemin?: number;
-    agerangemax?: number;
-    licensecode: string;
+    createdAt: Date;
+    publishedAt?: Date;
+    updatedAt: Date;
+    archivedAt?: Date;
+    timeRequired: string;
+    ageRangeMin?: number;
+    ageRangeMax?: number;
+    licenseCode: string;
     obsoleted: number;
-    originalpublishedat: Date;
-    usersusername: string;
+    originalPublishedAt: Date;
+    usersUserName: string;
     expires?: Date;
 
     // Educational Suitability
-    suitsallearlychildhoodsubjects: boolean;
-    suitsallpreprimarysubjects: boolean;
-    suitsallbasicstudysubjects: boolean;
-    suitsalluppersecondarysubjects: boolean;
-    suitsallvocationaldegrees: boolean;
-    suitsallselfmotivatedsubjects: boolean;
-    suitsallbranches: boolean;
-    suitsalluppersecondarysubjectsnew: boolean;
+    suitsAllEarlyChildhoodSubjects: boolean;
+    suitsAllPreprimarySubjects: boolean;
+    suitsAllBasicStudySubjects: boolean;
+    suitsAllUpperSecondarySubjects: boolean;
+    suitsAllVocationalDegrees: boolean;
+    suitsAllSelfmotivatedSubjects: boolean;
+    suitsAllBranches: boolean;
+    suitsAllUpperSecondarySubjectsNew: boolean;
 
     // Counters
-    ratingcontentaverage: number;
-    ratingvisualaverage: number;
-    viewcounter: string;
-    downloadcounter: string;
-    counterupdatedat: Date;
+    ratingContentAverage: number;
+    ratingVisualAverage: number;
+    viewCounter: string;
+    downloadCounter: string;
+    counterUpdatedAt: Date;
 
     // Reference Information
     materials?: Material[];
@@ -56,7 +56,7 @@ declare global {
     materialLanguageKey: string;
 
     // Reference Information
-    materialDisplayNames: MaterialDisplayName[];
+    materialDisplayNames?: MaterialDisplayName[];
     // records: Record[];
 
     // Temporary Information
@@ -70,9 +70,9 @@ declare global {
   // MaterialDisplayName
   interface MaterialDisplayName extends Model {
     id: string;
-    displayname: string;
+    displayName: string;
     language: string;
-    materialid: number;
+    materialId: number;
   }
 
   type MaterialDisplayNameType = typeof Model & {
