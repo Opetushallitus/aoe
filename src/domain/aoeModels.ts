@@ -24,45 +24,45 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    createdAt: {
+    createdat: {
       field: 'createdat',
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    publishedAt: {
+    publishedat: {
       field: 'publishedat',
       type: DataTypes.DATE,
       allowNull: true,
     },
-    updatedAt: {
+    updatedat: {
       field: 'updatedat',
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    archivedAt: {
+    archivedat: {
       field: 'archivedat',
       type: DataTypes.DATE,
       allowNull: true,
     },
-    timeRequired: {
+    timerequired: {
       field: 'timerequired',
       type: DataTypes.TEXT,
       allowNull: false,
       defaultValue: '',
     },
-    ageRangeMin: {
+    agerangemin: {
       field: 'agerangemin',
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    ageRangeMax: {
+    agerangemax: {
       field: 'agerangemax',
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    licenseCode: {
+    licensecode: {
       field: 'licensecode',
       type: DataTypes.TEXT,
       allowNull: false,
@@ -74,13 +74,13 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
-    originalPublishedAt: {
+    originalpublishedat: {
       field: 'originalpublishedat',
       type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    usersUserName: {
+    usersusername: {
       field: 'usersusername',
       type: DataTypes.TEXT,
       allowNull: false,
@@ -90,77 +90,77 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    suitsAllEarlyChildhoodSubjects: {
+    suitsallearlychildhoodsubjects: {
       field: 'suitsallearlychildhoodsubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllPreprimarySubjects: {
+    suitsallpreprimarysubjects: {
       field: 'suitsallpreprimarysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllBasicStudySubjects: {
+    suitsallbasicstudysubjects: {
       field: 'suitsallbasicstudysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllUpperSecondarySubjects: {
+    suitsalluppersecondarysubjects: {
       field: 'suitsalluppersecondarysubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllVocationalDegrees: {
+    suitsallvocationaldegrees: {
       field: 'suitsallvocationaldegrees',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllSelfMotivatedSubjects: {
+    suitsallselfmotivatedsubjects: {
       field: 'suitsallselfmotivatedsubjects',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllBranches: {
+    suitsallbranches: {
       field: 'suitsallbranches',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    suitsAllUpperSecondarySubjectsNew: {
+    suitsalluppersecondarysubjectsnew: {
       field: 'suitsalluppersecondarysubjectsnew',
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
     },
-    ratingContentAverage: {
+    ratingcontentaverage: {
       field: 'ratingcontentaverage',
       type: DataTypes.DECIMAL,
       allowNull: true,
     },
-    ratingVisualAverage: {
+    ratingvisualaverage: {
       field: 'ratingvisualaverage',
       type: DataTypes.DECIMAL,
       allowNull: true,
     },
-    viewCounter: {
+    viewcounter: {
       field: 'viewcounter',
       type: DataTypes.BIGINT,
       allowNull: true,
       defaultValue: 0,
     },
-    downloadCounter: {
+    downloadcounter: {
       field: 'downloadcounter',
       type: DataTypes.BIGINT,
       allowNull: true,
       defaultValue: 0,
     },
-    counterUpdatedAt: {
+    counterupdatedat: {
       field: 'counterupdatedat',
       type: DataTypes.DATE,
       allowNull: true,
@@ -183,7 +183,7 @@ const Material = <MaterialType>sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    educationalMaterialId: {
+    educationalmaterialid: {
       field: 'educationalmaterialid',
       type: DataTypes.BIGINT,
       allowNull: false,
@@ -204,7 +204,7 @@ const Material = <MaterialType>sequelize.define(
       allowNull: false,
       defaultValue: 0,
     },
-    materialLanguageKey: {
+    materiallanguagekey: {
       field: 'materiallanguagekey',
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -222,7 +222,7 @@ const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    displayName: {
+    displayname: {
       field: 'displayname',
       type: DataTypes.TEXT,
       allowNull: false,
@@ -232,7 +232,7 @@ const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    materialId: {
+    materialid: {
       field: 'materialid',
       type: DataTypes.BIGINT,
       allowNull: false,
