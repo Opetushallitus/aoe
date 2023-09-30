@@ -20,7 +20,6 @@ import { winstonLogger } from '../util/winstonLogger';
 
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
-
 import MulterFile = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 
@@ -197,7 +196,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
               queries.push(id);
               material.push({ id: id.id, createFrom: file.originalname });
               materialid = id.id;
-              let result = await upsertMaterialDisplayName(t, emresp.id, id.id, fileDetails);
+              let result = await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
               queries.push(result);
               result = await insertDataToTempRecordTable(t, file, id.id);
               queries.push(result);
@@ -531,6 +530,7 @@ export async function insertDataToEducationalMaterialTable(req: Request, t: any)
 
 /**
  * Update or insert a material display name with the language versions (if available).
+ * A new implementation of the function insertDataToDisplayName() below.
  * @param {Transaction} t
  * @param {string} educationalMaterialId
  * @param {string} materialId
@@ -585,6 +585,61 @@ export const upsertMaterialDisplayName = async (
     },
   );
 };
+
+export async function insertDataToDisplayName(
+  t: any,
+  educationalmaterialid,
+  materialid: string,
+  fileDetails: any,
+): Promise<any> {
+  const queries = [];
+  const query =
+    'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;';
+  if (fileDetails.displayName && materialid) {
+    if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
+      if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
+        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
+          queries.push(await t.none(query, ['', 'fi', materialid, educationalmaterialid]));
+        } else {
+          queries.push(await t.none(query, [fileDetails.displayName.en, 'fi', materialid, educationalmaterialid]));
+        }
+      } else {
+        queries.push(await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]));
+      }
+    } else {
+      queries.push(await t.none(query, [fileDetails.displayName.fi, 'fi', materialid, educationalmaterialid]));
+    }
+
+    if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
+      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
+        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
+          queries.push(await t.none(query, ['', 'sv', materialid, educationalmaterialid]));
+        } else {
+          queries.push(await t.none(query, [fileDetails.displayName.en, 'sv', materialid, educationalmaterialid]));
+        }
+      } else {
+        queries.push(await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]));
+      }
+    } else {
+      queries.push(await t.none(query, [fileDetails.displayName.sv, 'sv', materialid, educationalmaterialid]));
+    }
+
+    if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
+      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
+        if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
+          queries.push(await t.none(query, ['', 'en', materialid, educationalmaterialid]));
+        } else {
+          queries.push(await t.none(query, [fileDetails.displayName.sv, 'en', materialid, educationalmaterialid]));
+        }
+      } else {
+        queries.push(await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]));
+      }
+    } else {
+      queries.push(await t.none(query, [fileDetails.displayName.en, 'en', materialid, educationalmaterialid]));
+    }
+  }
+  return queries;
+}
 
 export const insertDataToMaterialTable = async (
   t: any,
@@ -1344,6 +1399,7 @@ export default {
   uploadBase64FileToStorage,
   uploadAttachmentToMaterial,
   checkTemporaryAttachmentQueue,
+  insertDataToDisplayName,
   upsertMaterialDisplayName,
   downloadFromStorage,
   readStreamFromStorage,

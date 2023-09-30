@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from './../helpers/errorHandler';
-import { aoeThumbnailDownloadUrl, getEduMaterialVersionURL } from './../services/urlService';
-import { hasDownloadableFiles } from './../elasticSearch/esQueries';
-import { isOfficeMimeType, convertOfficeFileToPDF } from './../helpers/officeToPdfConverter';
-import { hasAccesstoPublication } from './../services/authService';
-import { updateViewCounter, getPopularity, getPopularityQuery } from './analyticsQueries';
-import { EducationalMaterialMetadata } from './../controllers/educationalMaterial';
-import { winstonLogger } from '../util/winstonLogger';
-import { db, pgp } from '../resources/pg-connect';
+import { NextFunction, Request, Response } from 'express';
 import * as pgLib from 'pg-promise';
+import { db, pgp } from '../resources/pg-connect';
 import { removeInvalidXMLCharacters } from '../util/invalidXMLCharValidator';
+import { winstonLogger } from '../util/winstonLogger';
+import { EducationalMaterialMetadata } from '../controllers/educationalMaterial';
+import { hasDownloadableFiles } from '../elasticSearch/esQueries';
+import { ErrorHandler } from '../helpers/errorHandler';
+import { isOfficeMimeType } from '../helpers/officeToPdfConverter';
+import { hasAccesstoPublication } from '../services/authService';
+import { aoeThumbnailDownloadUrl } from '../services/urlService';
+import { updateViewCounter } from './analyticsQueries';
 
 const fh = require('./fileHandling');
 const elasticSearch = require('./../elasticSearch/es');
@@ -1109,7 +1109,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         // queries.push(response);
       } else {
         for (const element of fileDetailArr) {
-          const dnresult = await fh.upsertMaterialDisplayName(t, emid, element.id, element);
+          const dnresult = await fh.insertDataToDisplayName(t, emid, element.id, element);
           queries.push(dnresult);
           query = 'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
           queries.push(await t.any(query, [element.language, element.id, emid]));
