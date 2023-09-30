@@ -72,7 +72,7 @@ declare global {
     id: string;
     displayName: string;
     language: string;
-    materialId: number;
+    materialId: string;
   }
 
   type MaterialDisplayNameType = typeof Model & {

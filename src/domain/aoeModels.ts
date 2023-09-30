@@ -254,6 +254,7 @@ Material.belongsTo(EducationalMaterial, {
   foreignKey: 'educationalMaterialId',
 });
 
+// Material <=> MaterialDisplayName
 Material.hasMany(MaterialDisplayName, {
   foreignKey: 'materialId',
   as: 'materialDisplayNames',

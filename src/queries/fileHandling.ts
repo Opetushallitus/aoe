@@ -10,7 +10,7 @@ import s3Zip from 's3-zip';
 import { Transaction } from 'sequelize';
 import stream from 'stream';
 import config from '../config';
-import { Material, sequelize } from '../domain/aoeModels';
+import { Material, MaterialDisplayName, sequelize } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
 import { db } from '../resources/pg-connect';
@@ -197,7 +197,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
               queries.push(id);
               material.push({ id: id.id, createFrom: file.originalname });
               materialid = id.id;
-              let result = await insertDataToDisplayName(t, emresp.id, id.id, fileDetails);
+              let result = await upsertMaterialDisplayName(t, emresp.id, id.id, fileDetails);
               queries.push(result);
               result = await insertDataToTempRecordTable(t, file, id.id);
               queries.push(result);
@@ -311,11 +311,12 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
   let material: Material;
 
-  // Sequelize transaction: Save general information of a new material entry.
-  const t1 = await sequelize.transaction({
+  // Sequelize Transaction
+  const t = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
   });
   try {
+    // Save the general information of a new material entry.
     material = await Material.create(
       {
         link: '',
@@ -325,13 +326,14 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         materialLanguageKey: (fileDetails as any).language,
       },
       {
-        // returning: ['id'],
-        transaction: t1,
+        transaction: t,
       },
     );
-    await t1.commit();
+    // Save the material display name with language versions.
+    await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+    await t.commit();
   } catch (err: any) {
-    await t1.rollback();
+    await t.rollback();
     throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
   }
 
@@ -339,10 +341,6 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   await db
     .tx(async (t: any) => {
       const transacions = [];
-
-      // Partial transaction 2: Save display name of a new material with language versions.
-      const t2 = await insertDataToDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
-      transacions.push(t2);
 
       // Partial transaction 3: Save file details to a temporary record until uploading completed.
       const t3 = await insertDataToTempRecordTable(t, file, material.id);
@@ -531,60 +529,62 @@ export async function insertDataToEducationalMaterialTable(req: Request, t: any)
   return data;
 }
 
-export async function insertDataToDisplayName(
-  t: any,
-  educationalmaterialid,
-  materialid: string,
+/**
+ * Update or insert a material display name with the language versions (if available).
+ * @param {Transaction} t
+ * @param {string} educationalMaterialId
+ * @param {string} materialId
+ * @param fileDetails
+ * @return {Promise<any>}
+ */
+export const upsertMaterialDisplayName = async (
+  t: Transaction,
+  educationalMaterialId: string,
+  materialId: string,
   fileDetails: any,
-): Promise<any> {
-  const queries = [];
-  const query =
-    'INSERT INTO materialdisplayname (displayname, language, materialid) (SELECT $1,$2,$3 where $3 in (select id from material where educationalmaterialid = $4)) ON CONFLICT (language, materialid) DO UPDATE Set displayname = $1;';
-  if (fileDetails.displayName && materialid) {
-    if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-      if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          queries.push(await t.none(query, ['', 'fi', materialid, educationalmaterialid]));
-        } else {
-          queries.push(await t.none(query, [fileDetails.displayName.en, 'fi', materialid, educationalmaterialid]));
-        }
-      } else {
-        queries.push(await t.none(query, [fileDetails.displayName.sv, 'fi', materialid, educationalmaterialid]));
-      }
-    } else {
-      queries.push(await t.none(query, [fileDetails.displayName.fi, 'fi', materialid, educationalmaterialid]));
-    }
+): Promise<void> => {
+  const materialDisplayNameEN = await MaterialDisplayName.findOne({ where: { language: 'en', materialId } });
+  const materialDisplayNameFI = await MaterialDisplayName.findOne({ where: { language: 'fi', materialId } });
+  const materialDisplayNameSV = await MaterialDisplayName.findOne({ where: { language: 'sv', materialId } });
 
-    if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-        if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-          queries.push(await t.none(query, ['', 'sv', materialid, educationalmaterialid]));
-        } else {
-          queries.push(await t.none(query, [fileDetails.displayName.en, 'sv', materialid, educationalmaterialid]));
-        }
-      } else {
-        queries.push(await t.none(query, [fileDetails.displayName.fi, 'sv', materialid, educationalmaterialid]));
-      }
-    } else {
-      queries.push(await t.none(query, [fileDetails.displayName.sv, 'sv', materialid, educationalmaterialid]));
-    }
+  const missingLang: string = fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
 
-    if (!fileDetails.displayName.en || fileDetails.displayName.en === '') {
-      if (!fileDetails.displayName.fi || fileDetails.displayName.fi === '') {
-        if (!fileDetails.displayName.sv || fileDetails.displayName.sv === '') {
-          queries.push(await t.none(query, ['', 'en', materialid, educationalmaterialid]));
-        } else {
-          queries.push(await t.none(query, [fileDetails.displayName.sv, 'en', materialid, educationalmaterialid]));
-        }
-      } else {
-        queries.push(await t.none(query, [fileDetails.displayName.fi, 'en', materialid, educationalmaterialid]));
-      }
-    } else {
-      queries.push(await t.none(query, [fileDetails.displayName.en, 'en', materialid, educationalmaterialid]));
-    }
-  }
-  return queries;
-}
+  await MaterialDisplayName.upsert(
+    {
+      id: materialDisplayNameEN && materialDisplayNameEN.id,
+      displayName: fileDetails.displayName.en || missingLang || materialDisplayNameEN.displayName,
+      language: 'en',
+      materialId: materialId || materialDisplayNameEN.materialId,
+    },
+    {
+      transaction: t,
+    },
+  );
+
+  await MaterialDisplayName.upsert(
+    {
+      id: materialDisplayNameFI && materialDisplayNameFI.id,
+      displayName: fileDetails.displayName.fi || missingLang || materialDisplayNameFI.displayName,
+      language: 'fi',
+      materialId: materialId || materialDisplayNameFI.materialId,
+    },
+    {
+      transaction: t,
+    },
+  );
+
+  await MaterialDisplayName.upsert(
+    {
+      id: materialDisplayNameSV && materialDisplayNameSV.id,
+      displayName: fileDetails.displayName.sv || missingLang || materialDisplayNameSV.displayName,
+      language: 'sv',
+      materialId: materialId || materialDisplayNameSV.materialId,
+    },
+    {
+      transaction: t,
+    },
+  );
+};
 
 export const insertDataToMaterialTable = async (
   t: any,
@@ -1344,7 +1344,7 @@ export default {
   uploadBase64FileToStorage,
   uploadAttachmentToMaterial,
   checkTemporaryAttachmentQueue,
-  insertDataToDisplayName,
+  upsertMaterialDisplayName,
   downloadFromStorage,
   readStreamFromStorage,
 };

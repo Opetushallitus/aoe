@@ -1109,7 +1109,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         // queries.push(response);
       } else {
         for (const element of fileDetailArr) {
-          const dnresult = await fh.insertDataToDisplayName(t, emid, element.id, element);
+          const dnresult = await fh.upsertMaterialDisplayName(t, emid, element.id, element);
           queries.push(dnresult);
           query = 'UPDATE material SET materiallanguagekey = $1 WHERE id = $2 AND educationalmaterialid = $3';
           queries.push(await t.any(query, [element.language, element.id, emid]));
