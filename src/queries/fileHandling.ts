@@ -530,7 +530,7 @@ export const upsertMaterialFileToTempRecords = async (
 ): Promise<any> => {
   const temporaryRecord = await TemporaryRecord.findOne({
     where: {
-      originalName: file.originalname,
+      originalFileName: file.originalname,
       materialId,
     },
     transaction: t,
