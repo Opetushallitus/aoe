@@ -546,7 +546,6 @@ export const upsertMaterialFileToTempRecords = async (
       format: file.encoding || temporaryRecord.format,
       fileName: file.filename || temporaryRecord.fileName,
       materialId: materialId || temporaryRecord.materialId,
-      createdAt: temporaryRecord && temporaryRecord.createdAt, // NULL for the new entries.
     },
     {
       transaction: t,

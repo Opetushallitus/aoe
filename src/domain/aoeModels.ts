@@ -27,7 +27,7 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
     createdAt: {
       field: 'createdat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
     publishedAt: {
@@ -38,7 +38,7 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
     updatedAt: {
       field: 'updatedat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
     archivedAt: {
@@ -77,7 +77,7 @@ const EducationalMaterial = <EducationalMaterialType>sequelize.define(
     originalPublishedAt: {
       field: 'originalpublishedat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
     usersUserName: {
@@ -296,7 +296,7 @@ const TemporaryRecord = <TemporaryRecordType>sequelize.define(
     createdAt: {
       field: 'createdat',
       type: DataTypes.DATE,
-      allowNull: true,
+      allowNull: false,
       defaultValue: DataTypes.NOW,
     },
   } as ModelAttributes<TemporaryRecord, unknown>,
