@@ -41,7 +41,6 @@ declare global {
     // Reference Information
     materials?: Material[];
   }
-
   type EducationalMaterialType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): EducationalMaterial;
   };
@@ -57,12 +56,9 @@ declare global {
 
     // Reference Information
     materialDisplayNames?: MaterialDisplayName[];
+    temporaryRecords?: TemporaryRecord[];
     // records: Record[];
-
-    // Temporary Information
-    // temporaryRecords: TemporaryRecord[];
   }
-
   type MaterialType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): Material;
   };
@@ -74,8 +70,23 @@ declare global {
     language: string;
     materialId: string;
   }
-
   type MaterialDisplayNameType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): MaterialDisplayName;
+  };
+
+  // TemporaryRecord
+  interface TemporaryRecord extends Model {
+    id: string;
+    filePath: string;
+    originalFileName: string;
+    fileSize: number;
+    mimeType: string;
+    format: string;
+    fileName: string;
+    materialId: string;
+    createdAt: Date;
+  }
+  type TemporaryRecordType = typeof Model & {
+    new (values?: Record<string, unknown>, options?: BuildOptions): TemporaryRecord;
   };
 }

@@ -10,7 +10,7 @@ import s3Zip from 's3-zip';
 import { Transaction } from 'sequelize';
 import stream from 'stream';
 import config from '../config';
-import { Material, MaterialDisplayName, sequelize } from '../domain/aoeModels';
+import { Material, MaterialDisplayName, sequelize, TemporaryRecord } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
 import { db } from '../resources/pg-connect';
@@ -310,7 +310,6 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
   let material: Material;
 
-  // Sequelize Transaction
   const t = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
   });
@@ -330,26 +329,14 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     );
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+    // Save the file information to the temporary records until the related file processing is completed.
+    await upsertMaterialFileToTempRecords(t, file, material.id);
+    // Start the transaction.
     await t.commit();
   } catch (err: any) {
     await t.rollback();
     throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
   }
-
-  // Persist all details of a new file in a single transaction - rollback in case of any issues.
-  await db
-    .tx(async (t: any) => {
-      const transacions = [];
-
-      // Partial transaction 3: Save file details to a temporary record until uploading completed.
-      const t3 = await insertDataToTempRecordTable(t, file, material.id);
-      transacions.push(t3);
-
-      return t.batch(transacions);
-    })
-    .catch((err) => {
-      throw new ErrorHandler(500, `Database transactions failed: ${err}`);
-    });
 
   // 202 Accepted response to indicate the incomplete upload process.
   res.status(200).json({
@@ -529,7 +516,71 @@ export async function insertDataToEducationalMaterialTable(req: Request, t: any)
 }
 
 /**
- * Update or insert a material display name with the language versions (if available).
+ * Update or insert the file information to the temporary records when the related file processing is still in progress.
+ * Attach queries to a transaction provided.
+ * @param {Transaction} t
+ * @param {Express.Multer.File} file
+ * @param {string} materialId
+ * @return {Promise<any>}
+ */
+export const upsertMaterialFileToTempRecords = async (
+  t: Transaction,
+  file: MulterFile,
+  materialId: string,
+): Promise<any> => {
+  const temporaryRecord = await TemporaryRecord.findOne({
+    where: {
+      originalName: file.originalname,
+      materialId,
+    },
+    transaction: t,
+  });
+
+  await TemporaryRecord.upsert(
+    {
+      id: temporaryRecord && temporaryRecord.id, // NULL for the new entries.
+      filePath: file.path || temporaryRecord.filePath,
+      originalFileName: file.originalname || temporaryRecord.originalFileName,
+      fileSize: file.size || temporaryRecord.fileSize,
+      mimeType: file.mimetype || temporaryRecord.mimeType,
+      format: file.encoding || temporaryRecord.format,
+      fileName: file.filename || temporaryRecord.fileName,
+      materialId: materialId || temporaryRecord.materialId,
+      createdAt: temporaryRecord && temporaryRecord.createdAt, // NULL for the new entries.
+    },
+    {
+      transaction: t,
+    },
+  );
+};
+
+/**
+ * LEGACY IMPLEMENTATION.
+ * TODO: TO BE REMOVED
+ * @param t
+ * @param {Express.Multer.File} file
+ * @param materialId
+ * @return {Promise<any>}
+ */
+export const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
+  const query = `
+    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, materialid)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING id
+  `;
+  return await t.any(query, [
+    file.filename,
+    file.path,
+    file.originalname,
+    file.size,
+    file.mimetype,
+    file.encoding,
+    materialId,
+  ]);
+};
+
+/**
+ * Update or insert a material display name with the language versions (if available) and attach to a transaction.
  * A new implementation of the function insertDataToDisplayName() below.
  * @param {Transaction} t
  * @param {string} educationalMaterialId
@@ -543,16 +594,25 @@ export const upsertMaterialDisplayName = async (
   materialId: string,
   fileDetails: any,
 ): Promise<void> => {
-  const materialDisplayNameEN = await MaterialDisplayName.findOne({ where: { language: 'en', materialId } });
-  const materialDisplayNameFI = await MaterialDisplayName.findOne({ where: { language: 'fi', materialId } });
-  const materialDisplayNameSV = await MaterialDisplayName.findOne({ where: { language: 'sv', materialId } });
+  const materialDisplayNameEN = await MaterialDisplayName.findOne({
+    where: { language: 'en', materialId },
+    transaction: t,
+  });
+  const materialDisplayNameFI = await MaterialDisplayName.findOne({
+    where: { language: 'fi', materialId },
+    transaction: t,
+  });
+  const materialDisplayNameSV = await MaterialDisplayName.findOne({
+    where: { language: 'sv', materialId },
+    transaction: t,
+  });
 
   const missingLang: string = fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
 
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameEN && materialDisplayNameEN.id,
-      displayName: fileDetails.displayName.en || missingLang || materialDisplayNameEN.displayName,
+      displayName: fileDetails.displayName.en || materialDisplayNameEN.displayName || missingLang,
       language: 'en',
       materialId: materialId || materialDisplayNameEN.materialId,
     },
@@ -564,7 +624,7 @@ export const upsertMaterialDisplayName = async (
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameFI && materialDisplayNameFI.id,
-      displayName: fileDetails.displayName.fi || missingLang || materialDisplayNameFI.displayName,
+      displayName: fileDetails.displayName.fi || materialDisplayNameFI.displayName || missingLang,
       language: 'fi',
       materialId: materialId || materialDisplayNameFI.materialId,
     },
@@ -576,7 +636,7 @@ export const upsertMaterialDisplayName = async (
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameSV && materialDisplayNameSV.id,
-      displayName: fileDetails.displayName.sv || missingLang || materialDisplayNameSV.displayName,
+      displayName: fileDetails.displayName.sv || materialDisplayNameSV.displayName || missingLang,
       language: 'sv',
       materialId: materialId || materialDisplayNameSV.materialId,
     },
@@ -586,6 +646,15 @@ export const upsertMaterialDisplayName = async (
   );
 };
 
+/**
+ * LEGACY IMPLEMENTATION.
+ * TODO: TO BE REMOVED
+ * @param t
+ * @param educationalmaterialid
+ * @param {string} materialid
+ * @param fileDetails
+ * @return {Promise<any>}
+ */
 export async function insertDataToDisplayName(
   t: any,
   educationalmaterialid,
@@ -791,23 +860,6 @@ export const insertDataToRecordTable = async (
   } catch (err) {
     throw new Error(err);
   }
-};
-
-export const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
-  const query = `
-    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, materialid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING id
-  `;
-  return await t.any(query, [
-    file.filename,
-    file.path,
-    file.originalname,
-    file.size,
-    file.mimetype,
-    file.encoding,
-    materialId,
-  ]);
 };
 
 export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<any> => {
@@ -1401,6 +1453,7 @@ export default {
   checkTemporaryAttachmentQueue,
   insertDataToDisplayName,
   upsertMaterialDisplayName,
+  upsertMaterialFileToTempRecords,
   downloadFromStorage,
   readStreamFromStorage,
 };
