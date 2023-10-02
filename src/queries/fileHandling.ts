@@ -329,13 +329,15 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     );
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+
     // Save the file information to the temporary records until the related file processing is completed.
     await upsertMaterialFileToTempRecords(t, file, material.id);
+
     // Start the transaction.
     await t.commit();
   } catch (err: any) {
     await t.rollback();
-    throw new ErrorHandler(500, `Sequelize transaction failed: ${err}`);
+    throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }
 
   // 202 Accepted response to indicate the incomplete upload process.
