@@ -612,7 +612,8 @@ export const upsertMaterialDisplayName = async (
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameEN && materialDisplayNameEN.id,
-      displayName: fileDetails.displayName.en || materialDisplayNameEN.displayName || missingLang,
+      displayName:
+        fileDetails.displayName.en || (materialDisplayNameEN && materialDisplayNameEN.displayName) || missingLang,
       language: 'en',
       materialId: materialId || materialDisplayNameEN.materialId,
     },
@@ -624,7 +625,8 @@ export const upsertMaterialDisplayName = async (
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameFI && materialDisplayNameFI.id,
-      displayName: fileDetails.displayName.fi || materialDisplayNameFI.displayName || missingLang,
+      displayName:
+        fileDetails.displayName.fi || (materialDisplayNameFI && materialDisplayNameFI.displayName) || missingLang,
       language: 'fi',
       materialId: materialId || materialDisplayNameFI.materialId,
     },
@@ -636,7 +638,8 @@ export const upsertMaterialDisplayName = async (
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameSV && materialDisplayNameSV.id,
-      displayName: fileDetails.displayName.sv || materialDisplayNameSV.displayName || missingLang,
+      displayName:
+        fileDetails.displayName.sv || (materialDisplayNameSV && materialDisplayNameSV.displayName) || missingLang,
       language: 'sv',
       materialId: materialId || materialDisplayNameSV.materialId,
     },
