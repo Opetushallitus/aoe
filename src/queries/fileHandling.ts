@@ -39,7 +39,7 @@ import SendData = ManagedUpload.SendData;
 const storage = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
   destination: function (req: Request, file: any, cb: any) {
-    cb(undefined, './uploads/');
+    cb(undefined, `./${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
   filename: function (req: Request, file: any, cb: any) {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
