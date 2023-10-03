@@ -1033,6 +1033,9 @@
       "newest": "Uusin ensin",
       "oldest": "Vanhin ensin",
       "popularity": "Suosituin"
+    },
+    "errors": {
+      "keywords": "Sallitut erikoismerkit: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂ (max 255 merkkiä)"
     }
   },
   "collections": {

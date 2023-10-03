@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchService } from '@services/search.service';
 import { SearchResults } from '@models/search/search-results';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,9 @@ import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/se
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UsedFilter } from '@models/search/used-filter';
 import { sortOptions } from '../../constants/sort-options';
+import { textInputValidator } from './../../shared/shared.module';
+import { validatorParams } from './../../constants/validator-params';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-search-results-view',
@@ -79,6 +82,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private titleSvc: Title,
         private deviceSvc: DeviceDetectorService,
+        private toastr: ToastrService,
     ) {}
 
     ngOnInit(): void {
@@ -94,7 +98,10 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             this.koodistoService.updateLearningResourceTypes();
         });
         this.searchForm = this.fb.group({
-            keywords: this.fb.control(null),
+            keywords: this.fb.control(null, [
+                Validators.maxLength(validatorParams.educationalFramework.maxLength),
+                textInputValidator(),
+            ]),
             filters: this.fb.group({
                 languages: this.fb.array([]),
                 educationalLevels: this.fb.array([]),
@@ -883,6 +890,8 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
             this.searchSvc.updateSearchResults(searchParams);
 
             this.page = 1;
+        } else {
+            this.toastr.error('Form not valid');
         }
     }
 
