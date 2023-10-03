@@ -1035,7 +1035,8 @@
       "popularity": "Populäraste"
     },
     "errors": {
-      "keywords": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂ (max 255)"
+      "keywords": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂ (max 255 tecken)",
+      "filters": "Välj maximalt 50 filter"
     }
   },
   "collections": {

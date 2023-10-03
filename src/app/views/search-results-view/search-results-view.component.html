@@ -892,6 +892,9 @@
                             </div>
                         </div>
                         <!--/licenses-->
+                        <ng-container *ngIf="filtersCount > 50">
+                            <small class="text-danger">{{ "search.errors.filters" | translate }}</small>
+                        </ng-container>
                     </div>
 
                     <ng-template #loadingFilters>
