@@ -99,7 +99,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
         });
         this.searchForm = this.fb.group({
             keywords: this.fb.control(null, [
-                Validators.maxLength(validatorParams.educationalFramework.maxLength),
+                Validators.maxLength(validatorParams.keywords.maxLength),
                 textInputValidator(),
             ]),
             filters: this.fb.group({
@@ -580,7 +580,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     }
 
     onSubmit(removedFilter?: UsedFilter): void {
-        if (this.searchForm.valid) {
+        if (this.searchForm.valid && this.filtersCount < 51) {
             const searchParams: SearchParams = this.searchForm.value;
             const selectedEducationalLevels: string[] = [];
             let usedFilters: UsedFilter[] = [];
