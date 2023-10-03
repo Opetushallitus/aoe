@@ -1033,6 +1033,10 @@
       "newest": "Newest first",
       "oldest": "Oldest first",
       "popularity": "Most popular"
+    },
+    "errors": {
+      "keywords": "Allowed special characters: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂ (max 255 characters)",
+      "filters": "Pick maximum 50 filters"
     }
   },
   "collections": {
