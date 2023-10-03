@@ -1033,6 +1033,9 @@
       "newest": "Nyast först",
       "oldest": "Äldst först",
       "popularity": "Populäraste"
+    },
+    "errors": {
+      "keywords": "Tillåtna specialtecken: . , : - _ ‒ – — ― ! ' ´ ` @ # £ € $ % & ( ) = ? * ′ ″ ‵ ‶ 〝 〞 ʹ ʺ ‘ ’ “ ” ＂ (max 255)"
     }
   },
   "collections": {

@@ -21,6 +21,10 @@
                     </div>
                 </div>
 
+                <ng-container *ngIf="keywordsCtrl.invalid">
+                    <small class="text-danger">{{ "search.errors.keywords" | translate }}</small>
+                </ng-container>
+
                 <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
                     <span id="used-filters-label" class="mr-1">{{ "search.filters.usedFilters" | translate }}</span>
 
