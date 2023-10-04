@@ -56,4 +56,7 @@ export const validatorParams = {
             numeric: '[0-9]*',
         },
     },
+    keywords: {
+        maxLength: 255,
+    },
 };
