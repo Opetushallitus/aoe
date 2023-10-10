@@ -15,7 +15,6 @@ services:
       - /webdata/:/webdata:rw
       - /databackup/aoe/:/databackup/aoe/
       - /databackup/aoethumbnail/:/databackup/aoethumbnail
-      # - /data/digivisio:/app/digivisio:rw
     env_file:
       - /environment/aoe-web-backend/.env
     user: 'root:5606'

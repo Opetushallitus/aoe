@@ -22,7 +22,7 @@ build_demo:
   stage: build
   script:
     - echo "DEMO build"
-    #    - docker-compose -f docker-compose.prod.yml down
+    - docker login -u $AOE_DOCKER_USER -p $AOE_DOCKER_PASS $AOE_DOCKER_REGISTRY
     - docker-compose -f docker-compose.prod.yml build
   only:
     - dev
@@ -55,7 +55,7 @@ build_prod:
   stage: build
   script:
     - echo "PROD build"
-    - docker-compose -f docker-compose.prod.yml down
+    # - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
     - main
@@ -66,6 +66,7 @@ deploy_prod:
   stage: deploy
   script:
     - echo "PROD deploy"
+    - docker-compose -f docker-compose.prod.yml stop
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - main
