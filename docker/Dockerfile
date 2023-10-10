@@ -1,4 +1,5 @@
-FROM node:16.20.2-alpine3.18 as node_builder
+FROM node:18.18.0-alpine3.18 as node_builder
+# FROM node:16.20.2-alpine3.18 as node_builder
 # FROM node:14-alpine as node_builder
 WORKDIR /app
 COPY ./ /app
@@ -25,7 +26,7 @@ RUN groupadd --gid 5606 webapp && \
     yum update -y && \
     yum install -y epel-release && \
     yum install -y curl && \
-    yum install -y https://rpm.nodesource.com/pub_16.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm && \
+    yum install -y https://rpm.nodesource.com/pub_18.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm && \
     yum install -y nodejs --setopt=nodesource-nodejs.module_hotfixes=1 && \
 #   yum install -y nodejs && \
     npm install -g pm2@2.5.0 && \
