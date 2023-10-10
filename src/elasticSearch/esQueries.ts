@@ -1,27 +1,23 @@
 // <reference path="es.ts" />
+import { ApiResponse, Client } from '@elastic/elasticsearch';
+import { NextFunction, Request, Response } from 'express';
+import { ErrorHandler } from '../helpers/errorHandler';
+import { winstonLogger } from '../util/winstonLogger';
 import {
-  Client,
-  ApiResponse
-} from "@elastic/elasticsearch";
+  AoeBody,
+  AoeRequestFilter,
+  AoeResult,
+  expiresFilterObject,
+  FilterTerm,
+  MatchObject,
+  MultiMatchSeachBody,
+  SearchResponse,
+  Source
+} from './esTypes';
 
 const index = process.env.ES_INDEX;
 
 const client = new Client({ node: process.env.ES_NODE });
-
-import { Request, Response, NextFunction } from "express";
-import { ErrorHandler } from "./../helpers/errorHandler";
-import {
-  SearchResponse,
-  Source,
-  AoeBody,
-  AoeResult,
-  AoeRequestFilter,
-  MultiMatchSeachBody,
-  MatchObject,
-  FilterTerm,
-  expiresFilterObject
-} from "./esTypes";
-import { winstonLogger } from '../util/winstonLogger';
 
 export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Source>>) {
   try {
