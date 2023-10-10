@@ -22,7 +22,7 @@ build_demo:
   stage: build
   script:
     - echo "DEMO build"
-    - docker-compose -f docker-compose.prod.yml down
+    #    - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
     - dev
@@ -33,6 +33,7 @@ deploy_demo:
   stage: deploy
   script:
     - echo "DEMO deploy"
+    - docker-compose -f docker-compose.prod.yml stop
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - dev
