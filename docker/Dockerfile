@@ -6,7 +6,7 @@ COPY ./ /app
 ARG env=prod
 
 # Install only locked dependencies from package-lock.json (faster)
-RUN npm ci && \
+RUN npm ci --production && \
     npm run build -- --prod
 
 FROM oraclelinux:8.8
@@ -43,7 +43,7 @@ COPY ./src/elasticSearch/aoemapping.json /app
 COPY ./src/elasticSearch/aoecollectionmapping.json /app
 COPY ./h5p/core /app/webdata/h5p/core
 
-RUN (cd /app && npm install --only=production) && \
+RUN (cd /app && npm ci --production) && \
     npm uninstall -g npm
 
 EXPOSE 3000
