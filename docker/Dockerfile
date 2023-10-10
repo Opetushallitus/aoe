@@ -6,7 +6,7 @@ COPY ./ /app
 ARG env=prod
 
 # Install only locked dependencies from package-lock.json (faster)
-RUN npm ci --production && \
+RUN npm ci && \
     npm run build -- --prod
 
 FROM oraclelinux:8.8
