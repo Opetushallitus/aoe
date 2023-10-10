@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+      args:
+        AOE_DOCKER_REGISTRY: ${AOE_DOCKER_REGISTRY}
     image: aoe-web-backend:latest
     container_name: aoe-web-backend
     restart: unless-stopped

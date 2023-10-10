@@ -1,15 +1,15 @@
+ARG AOE_DOCKER_REGISTRY
 FROM node:18.18.0-alpine3.18 as node_builder
 # FROM node:16.20.2-alpine3.18 as node_builder
 # FROM node:14-alpine as node_builder
 WORKDIR /app
 COPY ./ /app
-ARG env=prod
 
 # Install only locked dependencies from package-lock.json (faster)
 RUN npm ci && \
     npm run build -- --omit=dev
 
-FROM aoe-docker-demo-local.artifactory.ci.csc.fi/aoe-oracle-base:latest
+FROM $AOE_DOCKER_REGISTRY/aoe-oracle-base:latest
 
 # Copy source code and configuration files to the app directory
 COPY --from=node_builder /app/dist/ /app/dist/
