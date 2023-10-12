@@ -95,7 +95,6 @@ import { UserMaterialsViewComponent } from './views';
 import { MainViewComponent } from './views';
 import { PreviewComponent } from './views/educational-resource-form/tabs';
 import { LogoutViewComponent } from './views';
-import { EducationalMaterialEmbedViewComponent } from './views';
 import { SearchResultsViewComponent } from './views';
 import { EducationalMaterialEditFormComponent } from './views';
 import { EditFilesComponent } from './views/educational-material-edit-form/tabs';
@@ -183,7 +182,6 @@ import { AccessibilityViewComponent } from './views';
         PreviewComponent,
         CookieNoticeComponent,
         LogoutViewComponent,
-        EducationalMaterialEmbedViewComponent,
         SearchComponent,
         SearchResultsViewComponent,
         SearchResultComponent,
