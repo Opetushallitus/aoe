@@ -49,13 +49,12 @@ cleanup_demo:
     - dev
   tags:
     - demo
-  when: manual
 
 build_prod:
   stage: build
   script:
     - echo "PROD build"
-    # - docker-compose -f docker-compose.prod.yml down
+    - docker login -u $AOE_DOCKER_USER -p $AOE_DOCKER_PASS $AOE_DOCKER_REGISTRY
     - docker-compose -f docker-compose.prod.yml build
   only:
     - main
