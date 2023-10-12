@@ -22,7 +22,6 @@ import { PrivacyPolicyViewComponent } from './views';
 import { AcceptanceViewComponent } from './views';
 import { UserMaterialsViewComponent } from './views';
 import { LogoutViewComponent } from './views';
-import { EducationalMaterialEmbedViewComponent } from './views';
 import { AccessibilityPolicyViewComponent } from './views';
 import { SearchResultsViewComponent } from './views';
 import { EducationalMaterialEditFormComponent } from './views';
@@ -191,10 +190,6 @@ export const routes: Routes = [
             },
         ],
     },
-    // {
-    //   path: 'embed/:materialId/:lang',
-    //   component: EducationalMaterialEmbedViewComponent,
-    // },
     {
         path: 'embed/:materialId/:lang',
         loadChildren: () => import('./embed-view/embed-view.module').then((m) => m.EmbedViewModule),

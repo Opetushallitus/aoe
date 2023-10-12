@@ -93,9 +93,9 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
             this.materials.forEach((m: Material) => {
                 materialLanguages.push(m.language.toLowerCase());
 
-                // m.subtitles.forEach((subtitle: Subtitle) => {
-                //     materialLanguages.push(subtitle.srclang.toLowerCase());
-                // });
+                m.subtitles.forEach((subtitle: Subtitle) => {
+                    materialLanguages.push(subtitle.srclang.toLowerCase());
+                });
             });
             this.materialLanguages = [...new Set(materialLanguages)];
 
@@ -110,25 +110,13 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
             this.setPreviewMaterial(
                 this.materials.find((m: Material) => {
                     if (
-                        m.language === this.selectedLanguage
-                        //  || m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
+                        m.language === this.selectedLanguage ||
+                        m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
                     ) {
                         return m;
                     }
                 }),
             );
-
-            // if (this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang).length > 0) {
-            //     this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang);
-            // } else {
-            //     this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === 'fi');
-            //     if (this.materials.length == 0) {
-            //         this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'en');
-            //         if (this.materials.length == 0) {
-            //             this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'sv');
-            //         }
-            //     }
-            // }
 
             if (this.materials.length > 0) {
                 this.previewMaterial = this.materials[0];
@@ -150,30 +138,14 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         this.setPreviewMaterial(
             this.materials.find((material: Material) => {
                 if (
-                    material.language === language
-                    // || material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
+                    material.language === language ||
+                    material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
                 ) {
                     return material;
                 }
             }),
         );
     }
-
-    // updateMaterialName(): void {
-    //     if (
-    //         this.educationalMaterial.name.find(
-    //             (n: { language: string; materialname: string }) => n.language === this.lang,
-    //         ).materialname !== ''
-    //     ) {
-    //         this.materialName = this.educationalMaterial.name.find(
-    //             (n: { language: string; materialname: string }) => n.language === this.lang,
-    //         ).materialname;
-    //     } else {
-    //         this.materialName = this.educationalMaterial.name.find(
-    //             (n: { language: string; materialname: string }) => n.language === 'fi',
-    //         ).materialname;
-    //     }
-    // }
 
     updateMaterialName(): void {
         if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
