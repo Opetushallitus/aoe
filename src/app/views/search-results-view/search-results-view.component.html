@@ -8,6 +8,7 @@
                     <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
                     <input
                         type="search"
+                        [maxLength]="255"
                         class="form-control"
                         id="keywords"
                         [placeholder]="'search.inputs.keywords.placeholder' | translate"
@@ -20,6 +21,10 @@
                         </button>
                     </div>
                 </div>
+
+                <ng-container *ngIf="keywordsCtrl.invalid">
+                    <small class="text-danger">{{ "search.errors.keywords" | translate }}</small>
+                </ng-container>
 
                 <div class="selected-search-filters" *ngIf="usedFilters.length > 0">
                     <span id="used-filters-label" class="mr-1">{{ "search.filters.usedFilters" | translate }}</span>
@@ -888,6 +893,9 @@
                             </div>
                         </div>
                         <!--/licenses-->
+                        <ng-container *ngIf="filtersCount > 50">
+                            <small class="text-danger">{{ "search.errors.filters" | translate }}</small>
+                        </ng-container>
                     </div>
 
                     <ng-template #loadingFilters>
