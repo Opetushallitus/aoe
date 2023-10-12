@@ -1,9 +1,13 @@
 <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <ng-container *ngIf="keywordsCtrl.invalid">
+        <small class="text-danger">{{ "search.errors.keywords" | translate }}</small>
+    </ng-container>
     <div class="form-group">
         <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
 
         <input
             type="search"
+            [maxLength]="255"
             class="form-control"
             id="keywords"
             [placeholder]="'search.inputs.keywords.placeholder' | translate"
