@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from '@services/search.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { EducationalLevel } from '@models/koodisto/educational-level';
@@ -12,6 +12,9 @@ import { SearchParams } from '@models/search/search-params';
 import { environment } from '../../../environments/environment';
 import { UsedFilter } from '@models/search/used-filter';
 import { sortOptions } from '../../constants/sort-options';
+import { textInputValidator } from './../../shared/shared.module';
+import { validatorParams } from './../../constants/validator-params';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-search',
@@ -34,6 +37,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         private router: Router,
         private koodistoProxySvc: KoodistoService,
         private translate: TranslateService,
+        private toastr: ToastrService,
     ) {}
 
     ngOnInit(): void {
@@ -44,11 +48,14 @@ export class SearchComponent implements OnInit, OnDestroy {
         });
 
         this.searchForm = this.fb.group({
-            keywords: this.fb.control(null),
+            keywords: this.fb.control(null, [
+                Validators.maxLength(validatorParams.keywords.maxLength),
+                textInputValidator(),
+            ]),
             filters: this.fb.group({
-                educationalLevels: this.fb.control(null),
-                educationalSubjects: this.fb.control(null),
-                learningResourceTypes: this.fb.control(null),
+                educationalLevels: this.fb.control(null, Validators.maxLength(10)),
+                educationalSubjects: this.fb.control(null, Validators.maxLength(10)),
+                learningResourceTypes: this.fb.control(null, Validators.maxLength(10)),
             }),
         });
 
@@ -178,6 +185,8 @@ export class SearchComponent implements OnInit, OnDestroy {
             sessionStorage.setItem(environment.searchParams, JSON.stringify(searchParams));
 
             this.router.navigate(['/haku']).then();
+        } else {
+            this.toastr.error('Form not valid');
         }
     }
 }

@@ -6,7 +6,6 @@ export * from './collection-search-results-view/collection-search-results-view.c
 export * from './collection-view/collection-view.component';
 export * from './collections-view/collections-view.component';
 export * from './educational-material-edit-form/educational-material-edit-form.component';
-export * from './educational-material-embed-view/educational-material-embed-view.component';
 export * from './educational-material-ratings/educational-material-ratings.component';
 export * from './educational-material-view/educational-material-view.component';
 export * from './educational-resource-form/educational-resource-form.component';

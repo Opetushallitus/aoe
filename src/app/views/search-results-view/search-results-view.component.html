@@ -8,6 +8,7 @@
                     <label class="sr-only" for="keywords">{{ "search.inputs.keywords.label" | translate }}</label>
                     <input
                         type="search"
+                        [maxLength]="255"
                         class="form-control"
                         id="keywords"
                         [placeholder]="'search.inputs.keywords.placeholder' | translate"
