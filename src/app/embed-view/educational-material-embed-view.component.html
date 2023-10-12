@@ -1,7 +1,7 @@
 <div class="material-info">
     <h1 class="materials-title">{{ materialName }}</h1>
-    <ul class="list-unstyled authors materials-authors">
-        <li *ngFor="let author of educationalMaterial.authors">
+    <ul class="list-unstyled materials-authors">
+        <li *ngFor="let author of educationalMaterial?.authors">
             <ng-container *ngIf="author.authorname !== ''">
                 {{ author.authorname }}
                 <ng-container *ngIf="author.organization">({{ author.organization }})</ng-container>
@@ -9,15 +9,14 @@
             <ng-container *ngIf="author.authorname === ''">{{ author.organization }}</ng-container>
         </li>
     </ul>
-    <a [href]="getLicense(educationalMaterial.license?.key)?.link" target="_blank" rel="noopener noreferrer">
-        {{ getLicense(educationalMaterial.license?.key)?.value }}
+    <a [href]="getLicense(educationalMaterial?.license?.key)?.link" target="_blank" rel="noopener noreferrer">
+        {{ getLicense(educationalMaterial?.license?.key)?.value }}
     </a>
 </div>
 
 <div class="file-list" *ngIf="materials?.length > 0; else notFound">
     <div class="row no-gutters">
         <div class="col-3">
-            <!--uudet painikkeet-->
             <ng-container *ngIf="materialLanguages.length > 1">
                 <ng-container *ngIf="materialLanguages.length <= 3; else notFound">
                     <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
@@ -37,7 +36,6 @@
                     </div>
                 </ng-container>
             </ng-container>
-            <!--uudet painikkeet loppuu-->
 
             <div
                 class="btn-group-vertical"

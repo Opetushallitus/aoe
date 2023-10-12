@@ -3,12 +3,11 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
-import { MaterialService } from './material.service';
+import { EmbedService } from './embed.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { Material } from '../models/material';
-import { KoodistoService } from '../services/koodisto.service';
 import { License } from '../models/koodisto/license';
 import { Subtitle } from '../models/subtitle';
 import { Language } from '../models/koodisto/language';
@@ -35,8 +34,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
 
     constructor(
         private route: ActivatedRoute,
-        private materialService: MaterialService,
-        private koodistoService: KoodistoService,
+        private materialService: EmbedService,
         @Inject(DOCUMENT) document: Document,
         private translate: TranslateService,
         private renderer: Renderer2,
@@ -66,10 +64,10 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
             this.lang = params.get('lang').toLowerCase();
 
             this.materialService.updateMaterial(this.materialId);
-            this.licenseSubscription = this.koodistoService.licenses$.subscribe((licenses: License[]) => {
+            this.licenseSubscription = this.materialService.licenses$.subscribe((licenses: License[]) => {
                 this.licenses = licenses;
             });
-            this.koodistoService.updateLicenses();
+            this.materialService.updateLicenses();
         });
 
         this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -83,6 +81,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
                 this.setSelectedLanguage(event.lang.toLowerCase());
             }
         });
+
         this.materialSubscription = this.materialService.material$.subscribe((material: EducationalMaterial) => {
             this.educationalMaterial = material;
 
