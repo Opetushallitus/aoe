@@ -93,7 +93,7 @@ export class EmbedService {
                         subtitles: material.attachments
                             .filter((a: Attachment) => a.materialid === m.id)
                             .map((a: Attachment) => ({
-                                src: `${environment.embedBackendUrl}/download/${a.filekey}`,
+                                src: `${environment.backendUrl}/download/${a.filekey}`,
                                 default: a.defaultfile,
                                 kind: a.kind,
                                 label: a.label,
