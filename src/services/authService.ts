@@ -95,11 +95,11 @@ export const hasAccessToMaterial = async (req: Request, res: Response, next: Nex
     res.status(400).end();
     return;
   }
-  const query = `
+  const query: string = `
     SELECT em.usersusername
     FROM educationalmaterial em
-    INNER JOIN material m ON m.educationalmaterialid = em.id
-    WHERE material.id = $1
+    JOIN material m ON m.educationalmaterialid = em.id
+    WHERE m.id = $1
   `;
   const result = await db.oneOrNone(query, [id]);
   if (!result.usersusername) {

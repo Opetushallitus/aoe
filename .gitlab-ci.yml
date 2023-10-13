@@ -81,4 +81,3 @@ cleanup_prod:
     - main
   tags:
     - prod
-  when: manual

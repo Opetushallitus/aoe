@@ -55,39 +55,34 @@ const upload = multer({
 }); // provide the return value from
 
 /**
- *
- * @param req
- * @param res
- * @param next
- * attachment upload to educational material req.params.materialId
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<any>}
  */
-export async function uploadAttachmentToMaterial(req: Request, res: Response, next: NextFunction): Promise<any> {
+export const uploadAttachmentToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
-    winstonLogger.debug(req.body);
-    const contentType = req.headers['content-type'];
+    const contentType: string = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
-      upload.single('attachment')(req, res, async function (err: any) {
+      upload.single('attachment')(req, res, async (err: any): Promise<any> => {
         try {
           if (err) {
-            winstonLogger.error(err);
+            winstonLogger.error('Multer error in uploadAttachmentToMaterial(): %o', err);
             if (err.code === 'LIMIT_FILE_SIZE') {
               next(new ErrorHandler(413, err.message));
             } else {
-              winstonLogger.error(err);
               next(new ErrorHandler(500, 'Failure in file upload'));
             }
           }
           const file = (<any>req).file;
-          winstonLogger.debug('fil: ' + file);
           if (!file) {
             next(new ErrorHandler(400, 'No file sent'));
           }
-          winstonLogger.debug('req.params.id: ' + req.params.materialId);
           // const emresp = await insertDataToEducationalMaterialTable(req);
           const metadata = JSON.parse(req.body.attachmentDetails);
           winstonLogger.debug(metadata);
           let attachmentId;
-          let result = [];
+          let result: any[] = [];
           if (typeof file !== 'undefined') {
             attachmentId = await insertDataToAttachmentTable(
               file,
@@ -97,9 +92,7 @@ export async function uploadAttachmentToMaterial(req: Request, res: Response, ne
               undefined,
               metadata,
             );
-            winstonLogger.debug(JSON.stringify(attachmentId));
             result = await insertDataToTempAttachmentTable(file, metadata, attachmentId);
-            winstonLogger.debug('result: ' + JSON.stringify(result[0]));
           }
           // return 200 if success and continue sending files to pouta
           res.status(200).json({ id: attachmentId });
@@ -138,7 +131,7 @@ export async function uploadAttachmentToMaterial(req: Request, res: Response, ne
     winstonLogger.error(err);
     next(new ErrorHandler(500, 'Not found'));
   }
-}
+};
 
 /**
  *
@@ -729,50 +722,68 @@ export const insertDataToMaterialTable = async (
   return await t.one(query, [location, eduMaterialId, languages, priority]);
 };
 
-export async function insertDataToAttachmentTable(
+/**
+ * @param files
+ * @param materialID
+ * @param fileKey
+ * @param fileBucket
+ * @param {string} location
+ * @param metadata
+ * @return {Promise<any>}
+ */
+export const insertDataToAttachmentTable = async (
   files: any,
   materialID: any,
   fileKey: any,
   fileBucket: any,
   location: string,
   metadata: any,
-): Promise<any> {
-  const queries = [];
-  let query;
+): Promise<any> => {
+  const queries: any[] = [];
   const data = await db
-    .tx(async (t: any) => {
-      query =
-        'UPDATE educationalmaterial SET updatedat = NOW() ' +
-        'WHERE id = (SELECT educationalmaterialid FROM material WHERE id = $1)';
-      queries.push(await db.none(query, [materialID]));
-      query =
-        'INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, format, fileKey, ' +
-        'fileBucket, materialid, defaultfile, kind, label, srclang) ' +
-        'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id';
-      winstonLogger.debug(query);
+    .tx(async (t: any): Promise<any> => {
       queries.push(
-        await db.one(query, [
-          location,
-          files.originalname,
-          files.size,
-          files.mimetype,
-          files.encoding,
-          fileKey,
-          fileBucket,
-          materialID,
-          metadata.default,
-          metadata.kind,
-          metadata.label,
-          metadata.srclang,
-        ]),
+        await db.none(
+          `
+          UPDATE educationalmaterial
+          SET updatedat = NOW()
+          WHERE id = (
+            SELECT m.educationalmaterialid FROM material m WHERE m.id = $1
+          )
+        `,
+          [materialID],
+        ),
+      );
+      queries.push(
+        await db.one(
+          `
+          INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+          RETURNING id
+        `,
+          [
+            location,
+            files.originalname,
+            files.size,
+            files.mimetype,
+            files.encoding,
+            fileKey,
+            fileBucket,
+            materialID,
+            metadata.default,
+            metadata.kind,
+            metadata.label,
+            metadata.srclang,
+          ],
+        ),
       );
       return t.batch(queries);
     })
-    .catch((err: Error) => {
+    .catch((err: Error): void => {
       throw err;
     });
   return data[1].id;
-}
+};
 
 export async function updateAttachment(
   fileKey: any,

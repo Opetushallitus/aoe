@@ -36,6 +36,14 @@ export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAOE, getAoeUsers);
   router.post('/changeUser', hasAccessToAOE, changeMaterialUser);
 
+  router.post(
+    '/material/attachment/:materialId',
+    isAllasEnabled,
+    ah.checkAuthenticated,
+    ah.hasAccessToMaterial,
+    fh.uploadAttachmentToMaterial,
+  );
+
   // TODO: Unused endpoint?
   router.get('/material', db.getMaterial);
 
@@ -44,13 +52,6 @@ export default (router: Router): void => {
     ah.checkAuthenticated,
     ah.hasAccessToAttachmentFile,
     db.deleteAttachment,
-  );
-  router.post(
-    '/material/attachment/:materialId',
-    isAllasEnabled,
-    ah.checkAuthenticated,
-    ah.hasAccessToMaterial,
-    fh.uploadAttachmentToMaterial,
   );
 
   // Keep the order
