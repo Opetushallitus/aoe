@@ -10,7 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 //pipes
-import { SharedModule, HttpLoaderFactory } from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 // components
 import { EducationalMaterialEmbedViewComponent } from './educational-material-embed-view.component';
