@@ -1,26 +1,32 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
-import { EducationalMaterial } from '@models/educational-material';
-import { EducationalMaterialCard } from '@models/educational-material-card';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { UploadedFile } from '@models/uploaded-file';
+import { EducationalMaterial } from '../models/educational-material';
+import { EducationalMaterialCard } from '../models/educational-material-card';
+import { AlignmentObjectExtended } from '../models/alignment-object-extended';
+import { UploadedFile } from '../models/uploaded-file';
 import { koodistoSources } from '../constants/koodisto-sources';
-import { Attachment } from '@models/backend/attachment';
-import { EducationalMaterialForm } from '@models/educational-material-form';
+import { Attachment } from '../models/backend/attachment';
+import { EducationalMaterialForm } from '../models/educational-material-form';
+import { License } from '../models/koodisto/license';
 import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
 
 @Injectable({
     providedIn: 'root',
 })
-export class MaterialService {
+export class EmbedService {
     constructor(private http: HttpClient, private translate: TranslateService) {}
+    apiUri = environment.koodistoUrl;
+    httpOptions = {
+        headers: new HttpHeaders({
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }),
+    };
 
-    private localStorageKey = environment.fileUploadLSKey;
     lang: string = this.translate.currentLang;
 
     public material$ = new Subject<EducationalMaterial>();
@@ -28,11 +34,19 @@ export class MaterialService {
     public editMaterial$ = new Subject<EducationalMaterialForm | null>();
     public publishedUserMaterials$ = new Subject<EducationalMaterialCard[]>();
     public unpublishedUserMaterials$ = new Subject<EducationalMaterialCard[]>();
+    public licenses$ = new Subject<License[]>();
 
-    private static handleError(error: HttpErrorResponse) {
-        console.error(error);
-        return throwError('Something bad happened; please try again later.');
-    }
+    private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
+        switch (error.status) {
+            case 404:
+                subject$.next([]);
+                break;
+
+            default:
+                console.error(error);
+                return throwError('Something bad happened; please try again later.');
+        }
+    };
 
     /**
      * Updates material.
@@ -79,7 +93,7 @@ export class MaterialService {
                         subtitles: material.attachments
                             .filter((a: Attachment) => a.materialid === m.id)
                             .map((a: Attachment) => ({
-                                src: `${environment.embedBackendUrl}/download/${a.filekey}`,
+                                src: `${environment.backendUrl}/download/${a.filekey}`,
                                 default: a.defaultfile,
                                 kind: a.kind,
                                 label: a.label,
@@ -283,5 +297,19 @@ export class MaterialService {
                     });
                 }
             });
+    }
+
+    /**
+     * Updates licenses.
+     */
+    updateLicenses(): void {
+        const lang = this.translate.currentLang;
+
+        this.http.get<License[]>(`${this.apiUri}/lisenssit/${lang}`, this.httpOptions).subscribe(
+            (licenses: License[]) => {
+                this.licenses$.next(licenses.map((license) => ({ ...license, isCollapsed: true })));
+            },
+            (error: HttpErrorResponse) => this.handleError(error, this.licenses$),
+        );
     }
 }

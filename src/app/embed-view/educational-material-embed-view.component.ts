@@ -3,13 +3,14 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
-import { MaterialService } from './material.service';
+import { EmbedService } from './embed.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
 import { Material } from '../models/material';
-import { KoodistoService } from '../services/koodisto.service';
 import { License } from '../models/koodisto/license';
+import { Subtitle } from '../models/subtitle';
+import { Language } from '../models/koodisto/language';
 
 @Component({
     selector: 'app-educational-material-embed-view',
@@ -26,11 +27,14 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     materialName: string;
     licenses: License[];
     licenseSubscription: Subscription;
+    materialLanguages: string[];
+    selectedLanguage: string;
+    languageSubscription: Subscription;
+    languages: Language[];
 
     constructor(
         private route: ActivatedRoute,
-        private materialSvc: MaterialService,
-        private koodistoSvc: KoodistoService,
+        private materialService: EmbedService,
         @Inject(DOCUMENT) document: Document,
         private translate: TranslateService,
         private renderer: Renderer2,
@@ -59,27 +63,59 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
             this.materialId = +params.get('materialId');
             this.lang = params.get('lang').toLowerCase();
 
-            this.materialSvc.updateMaterial(this.materialId);
-            this.licenseSubscription = this.koodistoSvc.licenses$.subscribe((licenses: License[]) => {
+            this.materialService.updateMaterial(this.materialId);
+            this.licenseSubscription = this.materialService.licenses$.subscribe((licenses: License[]) => {
                 this.licenses = licenses;
             });
-            this.koodistoSvc.updateLicenses();
+            this.materialService.updateLicenses();
         });
 
-        this.materialSubscription = this.materialSvc.material$.subscribe((material: EducationalMaterial) => {
+        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+            this.lang = event.lang;
+
+            if (this.educationalMaterial) {
+                this.updateMaterialName();
+            }
+
+            if (this.materialLanguages?.includes(event.lang.toLowerCase())) {
+                this.setSelectedLanguage(event.lang.toLowerCase());
+            }
+        });
+
+        this.materialSubscription = this.materialService.material$.subscribe((material: EducationalMaterial) => {
             this.educationalMaterial = material;
 
-            if (this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang).length > 0) {
-                this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === this.lang);
-            } else {
-                this.materials = this.educationalMaterial.materials.filter((m: Material) => m.language === 'fi');
-                if (this.materials.length == 0) {
-                    this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'en');
-                    if (this.materials.length == 0) {
-                        this.materials = this.educationalMaterial.materials.filter((m) => m.language === 'sv');
+            // set materials
+            this.materials = material.materials;
+            // set material languages
+            const materialLanguages: string[] = [];
+            this.materials.forEach((m: Material) => {
+                materialLanguages.push(m.language.toLowerCase());
+
+                m.subtitles.forEach((subtitle: Subtitle) => {
+                    materialLanguages.push(subtitle.srclang.toLowerCase());
+                });
+            });
+            this.materialLanguages = [...new Set(materialLanguages)];
+
+            // set default language (1. UI lang, 2. FI, 3. first language in array)
+            this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
+                ? this.materialLanguages.find((lang: string) => lang === this.lang)
+                : this.materialLanguages.find((lang: string) => lang === 'fi')
+                ? this.materialLanguages.find((lang: string) => lang === 'fi')
+                : this.materialLanguages[0];
+
+            // set preview material
+            this.setPreviewMaterial(
+                this.materials.find((m: Material) => {
+                    if (
+                        m.language === this.selectedLanguage ||
+                        m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
+                    ) {
+                        return m;
                     }
-                }
-            }
+                }),
+            );
 
             if (this.materials.length > 0) {
                 this.previewMaterial = this.materials[0];
@@ -89,19 +125,32 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         });
     }
 
+    /**
+     * Sets selected language to preview language. Updates preview material to match selected language.
+     * @param language {string}
+     */
+    setSelectedLanguage(language: string): void {
+        // set language
+        this.selectedLanguage = language;
+
+        // set preview material
+        this.setPreviewMaterial(
+            this.materials.find((material: Material) => {
+                if (
+                    material.language === language ||
+                    material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
+                ) {
+                    return material;
+                }
+            }),
+        );
+    }
+
     updateMaterialName(): void {
-        if (
-            this.educationalMaterial.name.find(
-                (n: { language: string; materialname: string }) => n.language === this.lang,
-            ).materialname !== ''
-        ) {
-            this.materialName = this.educationalMaterial.name.find(
-                (n: { language: string; materialname: string }) => n.language === this.lang,
-            ).materialname;
+        if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
+            this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
         } else {
-            this.materialName = this.educationalMaterial.name.find(
-                (n: { language: string; materialname: string }) => n.language === 'fi',
-            ).materialname;
+            this.materialName = this.educationalMaterial.name.find((n) => n.language === 'fi').materialname;
         }
     }
 
@@ -111,6 +160,10 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
 
     ngOnDestroy(): void {
         this.materialSubscription.unsubscribe();
+    }
+
+    getLanguageValue(lang: string): string {
+        return this.languages?.find((language: Language) => language.key === lang)?.value;
     }
 
     setPreviewMaterial(material: Material): void {
