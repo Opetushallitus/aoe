@@ -114,7 +114,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
 
                 // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
                 // eslint-disable-next-line max-len
-                this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" width="720" height="360"></iframe>`;
+                this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" allow="fullscreen" width="720" height="360"></iframe>`;
 
                 this.updateMaterialName();
                 this.updateDescription();
