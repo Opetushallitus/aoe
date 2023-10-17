@@ -6,18 +6,18 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoService } from '@services/koodisto.service';
-import { MaterialService } from '@services/material.service';
-import { UploadMessage } from '@models/upload-message';
-import { Language } from '@models/koodisto/language';
+import { KoodistoService } from '../../../../services/koodisto.service';
+import { MaterialService } from '../../../../services/material.service';
+import { UploadMessage } from '../../../../models/upload-message';
+import { Language } from '../../../../models/koodisto/language';
 import { mimeTypes } from '../../../../constants/mimetypes';
-import { UploadedFile } from '@models/uploaded-file';
+import { UploadedFile } from '../../../../models/uploaded-file';
 import { Title } from '@angular/platform-browser';
 import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
-import { AuthService } from '@services/auth.service';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
-import { SubtitleKind } from '@models/material/subtitle';
+import { AuthService } from '../../../../services/auth.service';
+import { TitlesMaterialFormTabs } from '../../../../models/translations/titles';
+import { SubtitleKind } from '../../../../models/material/subtitle';
 
 @Component({
     selector: 'app-tabs-files',
@@ -425,6 +425,7 @@ export class FilesComponent implements OnInit, OnDestroy {
                     this.router.navigate(['/lisaa-oppimateriaali', 2]);
                 }
             }
+            this.totalFileCount = 0;
         } else {
             this.form.markAsPristine();
             this.router.navigateByUrl('/etusivu');
