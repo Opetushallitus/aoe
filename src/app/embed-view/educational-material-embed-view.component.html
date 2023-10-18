@@ -1,5 +1,7 @@
 <div class="material-info">
-    <h1 class="materials-title">{{ materialName }}</h1>
+    <h1 class="materials-title">
+        <a [href]="materialUrl" target="_blank" rel="noopener noreferrer">{{ materialName }}</a>
+    </h1>
     <ul class="list-unstyled materials-authors">
         <li *ngFor="let author of educationalMaterial?.authors">
             <ng-container *ngIf="author.authorname !== ''">
