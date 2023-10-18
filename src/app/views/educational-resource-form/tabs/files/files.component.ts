@@ -378,7 +378,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         }
 
         if (this.completedUploads === this.totalFileCount) {
-            this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            this.router.navigate(['/lisaa-oppimateriaali', 2]).then();
         }
     }
 
@@ -422,13 +422,13 @@ export class FilesComponent implements OnInit, OnDestroy {
                         this.uploadFiles();
                     }
                 } else {
-                    this.router.navigate(['/lisaa-oppimateriaali', 2]);
+                    this.router.navigate(['/lisaa-oppimateriaali', 2]).then();
                 }
             }
             this.totalFileCount = 0;
         } else {
             this.form.markAsPristine();
-            this.router.navigateByUrl('/etusivu');
+            this.router.navigateByUrl('/etusivu').then();
         }
     }
 
@@ -452,6 +452,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem(this.savedDataKey);
         sessionStorage.removeItem(this.fileUploadLSKey);
 
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/').then();
     }
 }
