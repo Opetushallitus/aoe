@@ -1,25 +1,25 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MaterialService } from '../../../../services/material.service';
-import { EducationalMaterialForm } from '../../../../models/educational-material-form';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../../../environments/environment';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Language } from '../../../../models/koodisto/language';
-import { KoodistoService } from '../../../../services/koodisto.service';
-import { UploadMessage } from '../../../../models/upload-message';
-import { LinkPost } from '../../../../models/link-post';
-import { LinkPostResponse } from '../../../../models/link-post-response';
+import { MaterialService } from '@services/material.service';
+import { KoodistoService } from '@services/koodisto.service';
+import { AuthService } from '@services/auth.service';
+import { EducationalMaterialForm } from '@models/educational-material-form';
+import { Language } from '@models/koodisto/language';
+import { UploadMessage } from '@models/upload-message';
+import { LinkPost } from '@models/link-post';
+import { LinkPostResponse } from '@models/link-post-response';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { Subtitle, SubtitleKind } from '@models/material/subtitle';
+import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { mimeTypes } from '../../../../constants/mimetypes';
-import { AttachmentPostResponse } from '../../../../models/attachment-post-response';
-import { Title } from '@angular/platform-browser';
-import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { validatorParams } from '../../../../constants/validator-params';
-import { AuthService } from '../../../../services/auth.service';
-import { TitlesMaterialFormTabs } from '../../../../models/translations/titles';
-import { Subtitle, SubtitleKind } from '../../../../models/material/subtitle';
+import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 
 @Component({
     selector: 'app-tabs-edit-files',
