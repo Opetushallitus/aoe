@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 import { EmbedService } from './embed.service';
+import { environment } from './../../environments/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
 import { EducationalMaterial } from '../models/educational-material';
@@ -31,6 +32,7 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     selectedLanguage: string;
     languageSubscription: Subscription;
     languages: Language[];
+    materialUrl: string;
 
     constructor(
         private route: ActivatedRoute,
@@ -123,6 +125,28 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
 
             this.updateMaterialName();
         });
+        this.materialUrl = `${environment.frontendUrl}/#/materiaali/${this.materialId}`;
+    }
+
+    /**
+     * Sets selected language to preview language. Updates preview material to match selected language.
+     * @param language {string}
+     */
+    setSelectedLanguage(language: string): void {
+        // set language
+        this.selectedLanguage = language;
+
+        // set preview material
+        this.setPreviewMaterial(
+            this.materials.find((material: Material) => {
+                if (
+                    material.language === language ||
+                    material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
+                ) {
+                    return material;
+                }
+            }),
+        );
     }
 
     /**
