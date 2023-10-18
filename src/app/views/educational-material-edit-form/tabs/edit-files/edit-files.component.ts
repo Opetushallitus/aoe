@@ -659,7 +659,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
      * Redirects user to the next tab.
      */
     redirectToNextTab(): void {
-        this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]);
+        this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId + 1]).then();
     }
 
     /**
@@ -692,7 +692,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
             }
         } else {
             this.form.markAsPristine();
-            this.router.navigateByUrl('/etusivu');
+            this.router.navigateByUrl('/etusivu').then();
         }
     }
 
