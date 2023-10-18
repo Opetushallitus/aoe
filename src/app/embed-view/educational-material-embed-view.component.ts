@@ -149,27 +149,6 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
         );
     }
 
-    /**
-     * Sets selected language to preview language. Updates preview material to match selected language.
-     * @param language {string}
-     */
-    setSelectedLanguage(language: string): void {
-        // set language
-        this.selectedLanguage = language;
-
-        // set preview material
-        this.setPreviewMaterial(
-            this.materials.find((material: Material) => {
-                if (
-                    material.language === language ||
-                    material.subtitles.find((subtitle: Subtitle) => subtitle.srclang === language)
-                ) {
-                    return material;
-                }
-            }),
-        );
-    }
-
     updateMaterialName(): void {
         if (this.educationalMaterial.name.find((n) => n.language === this.lang).materialname !== '') {
             this.materialName = this.educationalMaterial.name.find((n) => n.language === this.lang).materialname;
