@@ -1,23 +1,23 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
-import { CollectionForm } from '@models/collections/collection-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { KeyValue } from '@angular/common';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../../environments/environment';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Subscription } from 'rxjs';
-import { KeyValue } from '@angular/common';
-import { KoodistoService } from '@services/koodisto.service';
+import { environment } from '../../../../environments/environment';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../shared/shared.module';
+import { KoodistoService } from '@services/koodisto.service';
+import { CollectionService } from '@services/collection.service';
+import { validatorParams } from '@constants/validator-params';
+import { CollectionForm } from '@models/collections/collection-form';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
 import { Language } from '@models/koodisto/language';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { validatorParams } from '../../../constants/validator-params';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { CollectionService } from '@services/collection.service';
 import { UploadMessage } from '@models/upload-message';
 
 @Component({

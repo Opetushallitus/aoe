@@ -1,13 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { CollectionForm } from '@models/collections/collection-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../../environments/environment';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { EducationalLevel } from '@models/koodisto/educational-level';
-import { KoodistoService } from '@services/koodisto.service';
+import { environment } from '../../../../environments/environment';
 import {
     addEarlyChildhoodEducationSubject,
     addEarlyChildhoodEducationObjective,
@@ -20,9 +17,12 @@ import {
     addScienceBranchObjectives,
     textInputValidator,
 } from '../../../shared/shared.module';
-import { educationalLevelKeys } from '../../../constants/educational-level-keys';
+import { KoodistoService } from '@services/koodisto.service';
+import { educationalLevelKeys } from '@constants/educational-level-keys';
+import { validatorParams } from '@constants/validator-params';
+import { EducationalLevel } from '@models/koodisto/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { validatorParams } from '../../../constants/validator-params';
+import { CollectionForm } from '@models/collections/collection-form';
 
 @Component({
     selector: 'app-collection-educational-details-tab',

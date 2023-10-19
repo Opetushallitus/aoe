@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { environment } from '../../../../../environments/environment';
+import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { MaterialService } from '@services/material.service';
 import { KoodistoService } from '@services/koodisto.service';
 import { AuthService } from '@services/auth.service';
@@ -17,9 +18,8 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Subtitle, SubtitleKind } from '@models/material/subtitle';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
-import { mimeTypes } from '../../../../constants/mimetypes';
-import { validatorParams } from '../../../../constants/validator-params';
-import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { mimeTypes } from '@constants/mimetypes';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-edit-files',

@@ -17,7 +17,6 @@ import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { AlertModule } from 'ngx-bootstrap/alert';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -39,28 +38,28 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
 
 // components
-import { EducationalMaterialPreviewComponent } from './components/educational-material-preview/educational-material-preview.component';
-import { VideoPreviewComponent } from './components/video-preview/video-preview.component';
-import { AudioPreviewComponent } from './components/audio-preview/audio-preview.component';
-import { PdfPreviewComponent } from './components/pdf-preview/pdf-preview.component';
-import { HtmlPreviewComponent } from './components/html-preview/html-preview.component';
-import { OfficePreviewComponent } from './components/office-preview/office-preview.component';
-import { ImagePreviewComponent } from './components/image-preview/image-preview.component';
-import { NavLoginComponent } from './components/nav-login/nav-login.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
-import { TermsOfUseComponent } from './components/terms-of-use/terms-of-use.component';
-import { EducationalMaterialCardComponent } from './components/educational-material-card/educational-material-card.component';
-import { CookieNoticeComponent } from './components/cookie-notice/cookie-notice.component';
-import { SearchComponent } from './components/search/search.component';
-import { SearchResultComponent } from './components/search-result/search-result.component';
-import { EducationalMaterialRatingModalComponent } from './components/educational-material-rating-modal/educational-material-rating-modal.component';
-import { AddToCollectionModalComponent } from './components/add-to-collection-modal/add-to-collection-modal.component';
-import { TaglistComponent } from './components/taglist/taglist.component';
-import { CollectionCardComponent } from './components/collection-card/collection-card.component';
-import { CollectionSearchResultComponent } from './components/collection-search-result/collection-search-result.component';
-import { SocialMetadataModalComponent } from './components/social-metadata-modal/social-metadata-modal.component';
-import { ArchivedMaterialComponent } from './components/archived-material/archived-material.component';
-import { PreviewRowComponent } from './components/preview-row/preview-row.component';
+import { EducationalMaterialPreviewComponent } from '@components/educational-material-preview/educational-material-preview.component';
+import { VideoPreviewComponent } from '@components/video-preview/video-preview.component';
+import { AudioPreviewComponent } from '@components/audio-preview/audio-preview.component';
+import { PdfPreviewComponent } from '@components/pdf-preview/pdf-preview.component';
+import { HtmlPreviewComponent } from '@components/html-preview/html-preview.component';
+import { OfficePreviewComponent } from '@components/office-preview/office-preview.component';
+import { ImagePreviewComponent } from '@components/image-preview/image-preview.component';
+import { NavLoginComponent } from '@components/nav-login/nav-login.component';
+import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
+import { TermsOfUseComponent } from '@components/terms-of-use/terms-of-use.component';
+import { EducationalMaterialCardComponent } from '@components/educational-material-card/educational-material-card.component';
+import { CookieNoticeComponent } from '@components/cookie-notice/cookie-notice.component';
+import { SearchComponent } from '@components/search/search.component';
+import { SearchResultComponent } from '@components/search-result/search-result.component';
+import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
+import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
+import { TaglistComponent } from '@components/taglist/taglist.component';
+import { CollectionCardComponent } from '@components/collection-card/collection-card.component';
+import { CollectionSearchResultComponent } from '@components/collection-search-result/collection-search-result.component';
+import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
+import { ArchivedMaterialComponent } from '@components/archived-material/archived-material.component';
+import { PreviewRowComponent } from '@components/preview-row/preview-row.component';
 
 // directives
 import { FocusRemoverDirective } from './directives';
@@ -136,7 +135,6 @@ import { AccessibilityViewComponent } from './views';
         NgSelectModule,
         FormsModule,
         ReactiveFormsModule,
-        AlertModule.forRoot(),
         TooltipModule.forRoot(),
         CollapseModule.forRoot(),
         BsDatepickerModule.forRoot(),

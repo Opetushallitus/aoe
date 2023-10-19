@@ -30,6 +30,9 @@
             "@admin/*": [
                 "admin/*"
             ],
+            "@constants/*": [
+              "constants/*"
+            ],
         },
         "sourceMap": true,
         "target": "es2018",

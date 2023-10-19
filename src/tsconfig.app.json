@@ -1,24 +1,27 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "baseUrl": "./",
+    "outDir": "../../out-tsc/app",
+    "baseUrl": "./app",
     "types": [],
     "paths": {
       "@angular/*": [
-        "../node_modules/@angular/*"
+        "../../node_modules/@angular/*"
       ],
       "@components/*": [
-        "app/components/*"
+        "components/*"
       ],
       "@models/*": [
-        "app/models/*"
+        "models/*"
       ],
       "@services/*": [
-        "app/services/*"
+        "services/*"
       ],
       "@admin/*": [
-        "app/admin/*"
+        "admin/*"
+      ],
+      "@constants/*": [
+        "constants/*"
       ],
     }
   },

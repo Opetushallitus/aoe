@@ -7,6 +7,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
+import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
 import { AuthService } from '@services/auth.service';
@@ -15,9 +16,8 @@ import { Language } from '@models/koodisto/language';
 import { UploadedFile } from '@models/uploaded-file';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { SubtitleKind } from '@models/material/subtitle';
-import { mimeTypes } from '../../../../constants/mimetypes';
-import { validatorParams } from '../../../../constants/validator-params';
-import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
+import { mimeTypes } from '@constants/mimetypes';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-files',
