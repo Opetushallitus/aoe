@@ -5,12 +5,12 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
+import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
 import { EducationalMaterial } from '@models/educational-material';
 import { UploadMessage } from '@models/upload-message';
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
-import { koodistoSources } from '../constants/koodisto-sources';
 import { Attachment } from '@models/backend/attachment';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { EducationalMaterialPut } from '@models/educational-material-put';
@@ -18,8 +18,8 @@ import { LinkPostResponse } from '@models/link-post-response';
 import { LinkPost } from '@models/link-post';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { Material } from '@models/material';
-import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
 import { UploadImageBody } from '@models/material/upload-image-body';
+import { koodistoSources } from '@constants/koodisto-sources';
 
 @Injectable({
     providedIn: 'root',

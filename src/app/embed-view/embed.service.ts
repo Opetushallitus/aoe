@@ -4,15 +4,15 @@ import { Observable, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../environments/environment';
-import { EducationalMaterial } from '../models/educational-material';
-import { EducationalMaterialCard } from '../models/educational-material-card';
-import { AlignmentObjectExtended } from '../models/alignment-object-extended';
-import { UploadedFile } from '../models/uploaded-file';
-import { koodistoSources } from '../constants/koodisto-sources';
-import { Attachment } from '../models/backend/attachment';
-import { EducationalMaterialForm } from '../models/educational-material-form';
-import { License } from '../models/koodisto/license';
 import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
+import { koodistoSources } from '@constants/koodisto-sources';
+import { EducationalMaterial } from '@models/educational-material';
+import { EducationalMaterialCard } from '@models/educational-material-card';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { UploadedFile } from '@models/uploaded-file';
+import { Attachment } from '@models/backend/attachment';
+import { EducationalMaterialForm } from '@models/educational-material-form';
+import { License } from '@models/koodisto/license';
 
 @Injectable({
     providedIn: 'root',

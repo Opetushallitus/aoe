@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AdminService } from '../services/admin.service';
 import { AoeUser, ChangeOwnerPost, ChangeOwnerResponse, MaterialInfoResponse } from '../model';
-import { Subject, Subscription } from 'rxjs';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { validatorParams } from '../../constants/validator-params';
-import { ToastrService } from 'ngx-toastr';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-admin-change-material-owner',

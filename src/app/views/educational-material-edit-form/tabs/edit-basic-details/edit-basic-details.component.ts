@@ -1,24 +1,24 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef } from '@angular/core';
+import { KeyValue } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { EducationalMaterialForm } from '@models/educational-material-form';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../../../environments/environment';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Subscription } from 'rxjs';
-import { KeyValue } from '@angular/common';
-import { KoodistoService } from '@services/koodisto.service';
+import { environment } from '../../../../../environments/environment';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
+import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
-import { Router } from '@angular/router';
 import { UploadMessage } from '@models/upload-message';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { MaterialService } from '@services/material.service';
-import { Title } from '@angular/platform-browser';
-import { validatorParams } from '../../../../constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Author } from '@models/material/author';
+import { KoodistoService } from '@services/koodisto.service';
+import { MaterialService } from '@services/material.service';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-edit-basic-details',

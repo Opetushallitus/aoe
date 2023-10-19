@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { KoodistoService } from '@services/koodisto.service';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+import { environment } from '../../../../../environments/environment';
+import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
+import { validatorParams } from '@constants/validator-params';
+import { KoodistoService } from '@services/koodisto.service';
+import { EducationalMaterialForm } from '@models/educational-material-form';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
-import { Title } from '@angular/platform-browser';
-import { validatorParams } from '../../../../constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({
