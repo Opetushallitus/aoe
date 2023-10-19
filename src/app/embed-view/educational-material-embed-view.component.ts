@@ -30,7 +30,6 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     licenseSubscription: Subscription;
     materialLanguages: string[];
     selectedLanguage: string;
-    languageSubscription: Subscription;
     languages: Language[];
     materialUrl: string;
 

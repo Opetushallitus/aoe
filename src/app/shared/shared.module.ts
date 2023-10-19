@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, KeyValue } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 import { TruncatePipe } from '../pipes/truncate.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
-import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended';
-import { koodistoSources } from '../constants/koodisto-sources';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { MaterialLanguagePipe } from '../pipes/material-language.pipe';
+import { AlignmentObjectExtended, AlignmentType } from '@models/alignment-object-extended';
+import { koodistoSources } from '@constants/koodisto-sources';
 
 @NgModule({
     imports: [
+        AlertModule.forRoot(),
         CommonModule,
         TranslateModule.forChild({
             loader: {
@@ -23,7 +25,7 @@ import { MaterialLanguagePipe } from '../pipes/material-language.pipe';
         }),
     ],
     declarations: [TruncatePipe, SafePipe, MaterialLanguagePipe],
-    exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe, MaterialLanguagePipe],
+    exports: [CommonModule, TranslateModule, TruncatePipe, SafePipe, MaterialLanguagePipe, AlertModule],
 })
 export class SharedModule {}
 
