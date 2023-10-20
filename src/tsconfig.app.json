@@ -1,6 +1,8 @@
 {
     "extends": "../tsconfig.json",
-    "typeRoots": [
-        "../node_modules/@types"
+    "include": [
+        "main.ts",
+        "polyfills.ts",
+        "typings.d.ts"
     ]
 }
