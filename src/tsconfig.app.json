@@ -1,35 +1,6 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../out-tsc/app",
-    "baseUrl": "./app",
-    "types": [],
-    "paths": {
-      "@angular/*": [
-        "../../node_modules/@angular/*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@models/*": [
-        "models/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@admin/*": [
-        "admin/*"
-      ],
-      "@constants/*": [
-        "constants/*"
-      ],
-    }
-  },
-  "files": [
-    "main.ts",
-    "polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts"
-  ]
+    "extends": "../tsconfig.json",
+    "typeRoots": [
+        "../node_modules/@types"
+    ]
 }
