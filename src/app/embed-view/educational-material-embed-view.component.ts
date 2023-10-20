@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 import { EmbedService } from './embed.service';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
 import { EducationalMaterial } from '@models/educational-material';
