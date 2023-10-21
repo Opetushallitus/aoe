@@ -38,7 +38,7 @@ deploy_demo:
   stage: deploy
   script:
     - echo "DEMO deploy"
-    - docker-compose -f docker-compose.prod.yml stop
+    # - docker-compose -f docker-compose.prod.yml stop
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - dev
