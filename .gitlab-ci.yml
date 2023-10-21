@@ -1,5 +1,5 @@
 variables:
-  DOCKER_HOST: unix:///var/run/docker.sock # tcp://docker:2375
+  DOCKER_HOST: tcp://docker:2375 # unix:///var/run/docker.sock
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: '/certs'
   DOCKER_CERT_PATH: '$DOCKER_TLS_CERTDIR/client'
