@@ -11,6 +11,7 @@ image:
 services:
   - name: docker:dind
     alias: docker
+    command: ['addgroup -g 1000 docker']
     # command: ['--tls=false']
 
 stages:
