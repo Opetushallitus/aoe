@@ -19,6 +19,27 @@
         "target": "es2018",
         "typeRoots": [
             "node_modules/@types"
-        ]
+        ],
+        "baseUrl": "src/app/",
+        "paths": {
+            "@angular/*": [
+                "../../node_modules/@angular/*"
+            ],
+            "@components/*": [
+                "components/*"
+            ],
+            "@models/*": [
+                "models/*"
+            ],
+            "@services/*": [
+                "services/*"
+            ],
+            "@admin/*": [
+                "admin/*"
+            ],
+            "@constants/*": [
+                "constants/*"
+            ]
+        }
     }
 }
