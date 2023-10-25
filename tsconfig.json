@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "src/",
+        "baseUrl": ".",
         "declaration": false,
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
@@ -20,19 +20,19 @@
                 "node_modules/@angular/*"
             ],
             "@components/*": [
-                "app/components/*"
+                "src/app/components/*"
             ],
             "@models/*": [
-                "app/models/*"
+                "src/app/models/*"
             ],
             "@services/*": [
-                "app/services/*"
+                "src/app/services/*"
             ],
             "@admin/*": [
-                "app/admin/*"
+                "src/app/admin/*"
             ],
             "@constants/*": [
-                "app/constants/*"
+                "src/app/constants/*"
             ]
         },
         "skipLibCheck": true,
