@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { environment } from '../../../../../environments/environment';
+import { getUniqueFrameworks } from '../../../../shared/shared.module';
 import { MaterialService } from '@services/material.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
-import { koodistoSources } from '../../../../constants/koodisto-sources';
-import { Title } from '@angular/platform-browser';
 import { Subtitle } from '@models/subtitle';
-import { getUniqueFrameworks } from '../../../../shared/shared.module';
-import { ignored2019Subjects, ignoredSubjects } from '../../../../constants/ignored-subjects';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { koodistoSources } from '@constants/koodisto-sources';
+import { ignored2019Subjects, ignoredSubjects } from '@constants/ignored-subjects';
 
 @Component({
     selector: 'app-preview',

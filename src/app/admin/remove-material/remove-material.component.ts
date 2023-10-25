@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AdminService } from '../services/admin.service';
 import { ToastrService } from 'ngx-toastr';
-import { validatorParams } from '../../constants/validator-params';
-import { RemoveMaterialResponse } from '../model/remove-material-response';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { validatorParams } from '@constants/validator-params';
+import { RemoveMaterialResponse } from '../model/remove-material-response';
 import { MaterialInfoResponse } from '../model/material-info-response';
+import { AdminService } from '../services/admin.service';
 
 @Component({
     selector: 'app-admin-remove-material',

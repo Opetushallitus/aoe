@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SearchService } from '@services/search.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { EducationalLevel } from '@models/koodisto/educational-level';
-import { LearningResourceType } from '@models/koodisto/learning-resource-type';
-import { KoodistoService } from '@services/koodisto.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { textInputValidator } from './../../shared/shared.module';
+import { KoodistoService } from '@services/koodisto.service';
+import { SearchService } from '@services/search.service';
 import { SubjectFilter } from '@models/koodisto/subject-filter';
 import { SearchParams } from '@models/search/search-params';
-import { environment } from '../../../environments/environment';
+import { EducationalLevel } from '@models/koodisto/educational-level';
+import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { UsedFilter } from '@models/search/used-filter';
-import { sortOptions } from '../../constants/sort-options';
-import { textInputValidator } from './../../shared/shared.module';
-import { validatorParams } from './../../constants/validator-params';
-import { ToastrService } from 'ngx-toastr';
+import { sortOptions } from '@constants/sort-options';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-search',

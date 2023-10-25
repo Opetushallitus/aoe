@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { Material } from '@models/material';
-import { mimeTypes } from '../../constants/mimetypes';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { mimeTypes } from '@constants/mimetypes';
 
 @Component({
     selector: 'app-educational-material-preview',

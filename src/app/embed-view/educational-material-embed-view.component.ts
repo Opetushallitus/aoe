@@ -4,14 +4,14 @@ import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 
 import { EmbedService } from './embed.service';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { getLanguage, setLanguage } from '../shared/shared.module';
-import { EducationalMaterial } from '../models/educational-material';
-import { Material } from '../models/material';
-import { License } from '../models/koodisto/license';
-import { Subtitle } from '../models/subtitle';
-import { Language } from '../models/koodisto/language';
+import { EducationalMaterial } from '@models/educational-material';
+import { Material } from '@models/material';
+import { License } from '@models/koodisto/license';
+import { Subtitle } from '@models/subtitle';
+import { Language } from '@models/koodisto/language';
 
 @Component({
     selector: 'app-educational-material-embed-view',
@@ -30,7 +30,6 @@ export class EducationalMaterialEmbedViewComponent implements OnInit, OnDestroy 
     licenseSubscription: Subscription;
     materialLanguages: string[];
     selectedLanguage: string;
-    languageSubscription: Subscription;
     languages: Language[];
     materialUrl: string;
 

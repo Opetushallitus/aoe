@@ -2,24 +2,24 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { EducationalMaterial } from '../../models/educational-material';
-import { Material } from '../../models/material';
-import { MaterialService } from '../../services/material.service';
+import { EducationalMaterial } from '@models/educational-material';
+import { Material } from '@models/material';
+import { MaterialService } from '@services/material.service';
 import { environment } from '../../../environments/environment';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 // eslint-disable-next-line max-len
-import { EducationalMaterialRatingModalComponent } from '../../components/educational-material-rating-modal/educational-material-rating-modal.component';
-import { AuthService } from '../../services/auth.service';
-import { AddToCollectionModalComponent } from '../../components/add-to-collection-modal/add-to-collection-modal.component';
+import { EducationalMaterialRatingModalComponent } from '@components/educational-material-rating-modal/educational-material-rating-modal.component';
+import { AuthService } from '@services/auth.service';
+import { AddToCollectionModalComponent } from '@components/add-to-collection-modal/add-to-collection-modal.component';
 import { Title } from '@angular/platform-browser';
-import { Subtitle } from '../../models/subtitle';
+import { Subtitle } from '@models/subtitle';
 import { Subscription } from 'rxjs';
-import { SocialMetadataModalComponent } from '../../components/social-metadata-modal/social-metadata-modal.component';
-import { SocialMetadata } from '../../models/social-metadata/social-metadata';
-import { SocialMetadataService } from '../../services/social-metadata.service';
-import { Language } from '../../models/koodisto/language';
-import { KoodistoService } from '../../services/koodisto.service';
-import { License } from '../../models/koodisto/license';
+import { SocialMetadataModalComponent } from '@components/social-metadata-modal/social-metadata-modal.component';
+import { SocialMetadata } from '@models/social-metadata/social-metadata';
+import { SocialMetadataService } from '@services/social-metadata.service';
+import { Language } from '@models/koodisto/language';
+import { KoodistoService } from '@services/koodisto.service';
+import { License } from '@models/koodisto/license';
 
 @Component({
     selector: 'app-demo-material-view',

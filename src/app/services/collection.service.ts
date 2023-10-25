@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { koodistoSources } from '@constants/koodisto-sources';
 import { CreateCollectionPost } from '@models/collections/create-collection-post';
 import { CreateCollectionResponse } from '@models/collections/create-collection-response';
-import { catchError, map } from 'rxjs/operators';
 import { AddToCollectionResponse } from '@models/collections/add-to-collection-response';
 import { AddToCollectionPost } from '@models/collections/add-to-collection-post';
 import { UserCollection } from '@models/collections/user-collection';
@@ -20,7 +21,6 @@ import {
 } from '@models/collections/collection-form';
 import { UpdateCollectionPut } from '@models/collections/update-collection-put';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { koodistoSources } from '../constants/koodisto-sources';
 import { Collection } from '@models/collections/collection';
 import { AlignmentObjects } from '@models/alignment-objects';
 import { UploadMessage } from '@models/upload-message';

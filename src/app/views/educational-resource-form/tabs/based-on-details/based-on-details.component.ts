@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { Title } from '@angular/platform-browser';
 import { textInputValidator } from '../../../../shared/shared.module';
-import { validatorParams } from '../../../../constants/validator-params';
+import { validatorParams } from '@constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { ExternalReference } from '@models/material/external-reference';
 

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
+import { KeyValue } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { browserRefresh } from '../app.component';
+import { deduplicate } from '../shared/shared.module';
 import { SearchResult, SearchResults } from '@models/search/search-results';
 import { CollectionSearchResults } from '@models/search/collection-search-results';
 import { CollectionSearchParams } from '@models/search/collection-search-params';
 import { SearchParams } from '@models/search/search-params';
-import { deduplicate } from '../shared/shared.module';
-import { KeyValue } from '@angular/common';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
-import { sortOptions } from '../constants/sort-options';
-import { browserRefresh } from '../app.component';
+import { sortOptions } from '@constants/sort-options';
 
 @Injectable({
     providedIn: 'root',

@@ -2,23 +2,23 @@ import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
+import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
-import { Title } from '@angular/platform-browser';
-import { validatorParams } from '../../../../constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Author } from '@models/material/author';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-basic-details',
