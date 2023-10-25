@@ -2,7 +2,6 @@
     "compileOnSave": false,
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "baseUrl": ".",
         "declaration": false,
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
@@ -14,27 +13,7 @@
         ],
         "module": "es2020",
         "moduleResolution": "node",
-        "outDir": "dist/",
-        "paths": {
-            "@angular/*": [
-                "node_modules/@angular/*"
-            ],
-            "@components/*": [
-                "src/app/components/*"
-            ],
-            "@models/*": [
-                "src/app/models/*"
-            ],
-            "@services/*": [
-                "src/app/services/*"
-            ],
-            "@admin/*": [
-                "src/app/admin/*"
-            ],
-            "@constants/*": [
-                "src/app/constants/*"
-            ]
-        },
+        "outDir": "./dist/out-tsc",
         "skipLibCheck": true,
         "sourceMap": true,
         "target": "es2018",
