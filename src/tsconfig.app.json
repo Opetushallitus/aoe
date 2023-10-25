@@ -1,5 +1,4 @@
 {
-    "baseUrl": "./",
     "extends": "../tsconfig.json",
     "files": [
         "main.ts",
@@ -8,25 +7,5 @@
     "include": [
         "src/**/*.d.ts"
     ],
-    "outDir": "../out-tsc/app",
-    "paths": {
-        "@angular/*": [
-            "../node_modules/@angular/*"
-        ],
-        "@components/*": [
-            "app/components/*"
-        ],
-        "@models/*": [
-            "app/models/*"
-        ],
-        "@services/*": [
-            "app/services/*"
-        ],
-        "@admin/*": [
-            "app/admin/*"
-        ],
-        "@constants/*": [
-            "app/constants/*"
-        ]
-    }
+    "outDir": "../out-tsc/app"
 }
