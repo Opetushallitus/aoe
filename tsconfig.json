@@ -17,7 +17,7 @@
         "outDir": "dist/",
         "paths": {
             "@angular/*": [
-                "../node_modules/@angular/*"
+                "node_modules/@angular/*"
             ],
             "@components/*": [
                 "app/components/*"
