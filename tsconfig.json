@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "compilerOptions": {
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "src/app/",
+        "baseUrl": "src/",
         "declaration": false,
         "downlevelIteration": true,
         "emitDecoratorMetadata": true,
@@ -17,22 +17,22 @@
         "outDir": "dist/",
         "paths": {
             "@angular/*": [
-                "../../node_modules/@angular/*"
+                "../node_modules/@angular/*"
             ],
             "@components/*": [
-                "components/*"
+                "app/components/*"
             ],
             "@models/*": [
-                "models/*"
+                "app/models/*"
             ],
             "@services/*": [
-                "services/*"
+                "app/services/*"
             ],
             "@admin/*": [
-                "admin/*"
+                "app/admin/*"
             ],
             "@constants/*": [
-                "constants/*"
+                "app/constants/*"
             ]
         },
         "skipLibCheck": true,
