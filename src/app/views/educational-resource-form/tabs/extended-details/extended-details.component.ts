@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoService } from '@services/koodisto.service';
 import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
+import { KoodistoService } from '@services/koodisto.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { koodistoSources } from '../../../../constants/koodisto-sources';
-import { Title } from '@angular/platform-browser';
-import { validatorParams } from '../../../../constants/validator-params';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { koodistoSources } from '@constants/koodisto-sources';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-extended-details',

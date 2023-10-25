@@ -1,14 +1,10 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { KoodistoService } from '@services/koodisto.service';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs';
-import { EducationalLevel } from '@models/koodisto/educational-level';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { educationalLevelKeys } from '../../../../constants/educational-level-keys';
+import { environment } from '../../../../../environments/environment';
 import {
     addEarlyChildhoodEducationSubject,
     addEarlyChildhoodEducationObjective,
@@ -21,8 +17,12 @@ import {
     addScienceBranchObjectives,
     textInputValidator,
 } from '../../../../shared/shared.module';
-import { Title } from '@angular/platform-browser';
-import { validatorParams } from '../../../../constants/validator-params';
+import { KoodistoService } from '@services/koodisto.service';
+import { educationalLevelKeys } from '@constants/educational-level-keys';
+import { validatorParams } from '@constants/validator-params';
+import { EducationalMaterialForm } from '@models/educational-material-form';
+import { EducationalLevel } from '@models/koodisto/educational-level';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 
 @Component({

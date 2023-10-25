@@ -1,23 +1,23 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SearchService } from '@services/search.service';
-import { SearchResults } from '@models/search/search-results';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { textInputValidator } from './../../shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
-import { TranslateService } from '@ngx-translate/core';
+import { SearchService } from '@services/search.service';
+import { SearchResults } from '@models/search/search-results';
 import { EducationalLevel } from '@models/koodisto/educational-level';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { Language } from '@models/koodisto/language';
-import { Title } from '@angular/platform-browser';
 import { SearchParams } from '@models/search/search-params';
 import { SearchFilterEducationalSubject, SearchFilters } from '@models/search/search-filters';
-import { DeviceDetectorService } from 'ngx-device-detector';
 import { UsedFilter } from '@models/search/used-filter';
-import { sortOptions } from '../../constants/sort-options';
-import { textInputValidator } from './../../shared/shared.module';
-import { validatorParams } from './../../constants/validator-params';
-import { ToastrService } from 'ngx-toastr';
+import { sortOptions } from '@constants/sort-options';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-search-results-view',

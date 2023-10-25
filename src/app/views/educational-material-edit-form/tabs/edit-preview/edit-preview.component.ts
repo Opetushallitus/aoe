@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { environment } from '../../../../../environments/environment';
-import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { MaterialService } from '@services/material.service';
-import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 import { Title } from '@angular/platform-browser';
-import { ignoredSubjects } from '../../../../constants/ignored-subjects';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../../../environments/environment';
+import { EducationalMaterialForm } from '@models/educational-material-form';
+import { AlignmentObjectExtended } from '@models/alignment-object-extended';
+import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { ignoredSubjects } from '@constants/ignored-subjects';
+import { MaterialService } from '@services/material.service';
 
 @Component({
     selector: 'app-tabs-edit-preview',

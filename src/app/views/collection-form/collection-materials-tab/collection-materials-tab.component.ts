@@ -1,21 +1,21 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../../environments/environment';
+import { descriptionValidator, textInputValidator } from '../../../shared/shared.module';
+import { validatorParams } from '@constants/validator-params';
 import {
     CollectionForm,
     CollectionFormMaterial,
     CollectionFormMaterialAndHeading,
 } from '@models/collections/collection-form';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { environment } from '../../../../environments/environment';
-import { validatorParams } from '../../../constants/validator-params';
-import { descriptionValidator, textInputValidator } from '../../../shared/shared.module';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { RemoveFromCollectionPost } from '@models/collections/remove-from-collection-post';
-import { CollectionService } from '@services/collection.service';
-import { ToastrService } from 'ngx-toastr';
 import { Toast } from '@models/translations/toast';
+import { CollectionService } from '@services/collection.service';
 
 @Component({
     selector: 'app-collection-materials-tab',

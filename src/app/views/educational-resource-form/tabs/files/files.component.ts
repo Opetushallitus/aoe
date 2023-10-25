@@ -1,23 +1,23 @@
 import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
-import { KoodistoService } from '../../../../services/koodisto.service';
-import { MaterialService } from '../../../../services/material.service';
-import { UploadMessage } from '../../../../models/upload-message';
-import { Language } from '../../../../models/koodisto/language';
-import { mimeTypes } from '../../../../constants/mimetypes';
-import { UploadedFile } from '../../../../models/uploaded-file';
-import { Title } from '@angular/platform-browser';
 import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
-import { validatorParams } from '../../../../constants/validator-params';
-import { AuthService } from '../../../../services/auth.service';
-import { TitlesMaterialFormTabs } from '../../../../models/translations/titles';
-import { SubtitleKind } from '../../../../models/material/subtitle';
+import { KoodistoService } from '@services/koodisto.service';
+import { MaterialService } from '@services/material.service';
+import { AuthService } from '@services/auth.service';
+import { UploadMessage } from '@models/upload-message';
+import { Language } from '@models/koodisto/language';
+import { UploadedFile } from '@models/uploaded-file';
+import { TitlesMaterialFormTabs } from '@models/translations/titles';
+import { SubtitleKind } from '@models/material/subtitle';
+import { mimeTypes } from '@constants/mimetypes';
+import { validatorParams } from '@constants/validator-params';
 
 @Component({
     selector: 'app-tabs-files',
@@ -378,7 +378,7 @@ export class FilesComponent implements OnInit, OnDestroy {
         }
 
         if (this.completedUploads === this.totalFileCount) {
-            this.router.navigate(['/lisaa-oppimateriaali', 2]);
+            this.router.navigate(['/lisaa-oppimateriaali', 2]).then();
         }
     }
 
@@ -422,13 +422,13 @@ export class FilesComponent implements OnInit, OnDestroy {
                         this.uploadFiles();
                     }
                 } else {
-                    this.router.navigate(['/lisaa-oppimateriaali', 2]);
+                    this.router.navigate(['/lisaa-oppimateriaali', 2]).then();
                 }
             }
             this.totalFileCount = 0;
         } else {
             this.form.markAsPristine();
-            this.router.navigateByUrl('/etusivu');
+            this.router.navigateByUrl('/etusivu').then();
         }
     }
 
@@ -452,6 +452,6 @@ export class FilesComponent implements OnInit, OnDestroy {
         sessionStorage.removeItem(this.savedDataKey);
         sessionStorage.removeItem(this.fileUploadLSKey);
 
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/').then();
     }
 }
