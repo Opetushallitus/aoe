@@ -1,5 +1,5 @@
 ARG AOE_DOCKER_REGISTRY
-FROM node:18.18.0-alpine3.18 as node_builder
+FROM node:18.18.2-alpine3.18 as node_builder
 # FROM node:16.20.2-alpine3.18 as node_builder
 # FROM node:14-alpine as node_builder
 WORKDIR /app
