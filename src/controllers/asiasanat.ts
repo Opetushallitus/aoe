@@ -5,6 +5,8 @@ import { getAsync, setAsync } from '../util/redis.utils';
 import { sortByValue } from '../util/data.utils';
 import { KeyValue } from '../models/data';
 import config from '../config';
+import { winstonLogger } from '../util';
+import { NextFunction, Request, Response } from 'express';
 
 const endpoint = 'yso';
 const rediskey = 'asiasanat';
@@ -13,128 +15,151 @@ const params = 'data';
 /**
  * Set data into redis database
  *
- * @returns {Promise<any>}
+ * @returns {Promise<void>}
  */
-export async function setAsiasanat(): Promise<any> {
-    try {
-        const results = await getDataFromApi(
-            config.EXTERNAL_API.asiasanat || 'not-defined',
-            `/${endpoint}/`,
-            { Accept: 'application/rdf+xml' },
-            params,
-        );
+export async function setAsiasanat(): Promise<void> {
+  const results: Record<string, unknown>[] = await getDataFromApi(
+    config.EXTERNAL_API.asiasanat || 'not-defined',
+    `/${endpoint}/`,
+    { Accept: 'application/rdf+xml' },
+    params,
+  );
 
-        const finnish: KeyValue<string, string>[] = [];
-        const english: KeyValue<string, string>[] = [];
-        const swedish: KeyValue<string, string>[] = [];
+  if (!results || results?.length < 500) {
+    winstonLogger.error('No data from api.finto.fi');
+    return;
+  }
 
-        const parseOptions = {
-            tagNameProcessors: [processors.stripPrefix],
-            attrNameProcessors: [processors.stripPrefix],
-            valueProcessors: [processors.stripPrefix],
-            attrValueProcessors: [processors.stripPrefix],
-        };
+  const finnish: KeyValue<string, string>[] = [];
+  const english: KeyValue<string, string>[] = [];
+  const swedish: KeyValue<string, string>[] = [];
 
-        parseString(results, parseOptions, async (err, result) => {
-            if (err) {
-                console.error(err);
-            }
-
-            try {
-                result.RDF.Concept.forEach((concept: any) => {
-                    // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
-                    const key = concept.$.about;
-                    const labelFi = concept.prefLabel.find((e: any) => e.$.lang === 'fi');
-                    const labelEn = concept.prefLabel.find((e: any) => e.$.lang === 'en');
-                    const labelSv = concept.prefLabel.find((e: any) => e.$.lang === 'sv');
-
-                    finnish.push({
-                        key: key,
-                        value: labelFi !== undefined ? labelFi._ : labelSv !== undefined ? labelSv._ : labelEn._,
-                    });
-
-                    english.push({
-                        key: key,
-                        value: labelEn !== undefined ? labelEn._ : labelFi !== undefined ? labelFi._ : labelSv._,
-                    });
-
-                    swedish.push({
-                        key: key,
-                        value: labelSv !== undefined ? labelSv._ : labelFi !== undefined ? labelFi._ : labelEn._,
-                    });
-                });
-            } catch (error) {
-                console.error(error);
-            }
-        });
-
-        finnish.sort(sortByValue);
-        english.sort(sortByValue);
-        swedish.sort(sortByValue);
-
-        await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
-        await setAsync(`${rediskey}.en`, JSON.stringify(english));
-        await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
-    } catch (err) {
-        console.error(err);
+  const parseOptions = {
+    tagNameProcessors: [processors.stripPrefix],
+    attrNameProcessors: [processors.stripPrefix],
+    valueProcessors: [processors.stripPrefix],
+    attrValueProcessors: [processors.stripPrefix],
+  };
+  parseString(results, parseOptions, (err, result) => {
+    if (err) {
+      winstonLogger.error('Error parsing results in setAsiasanat(): %o', err);
+      return;
     }
+
+    result.RDF?.Concept?.forEach((concept: any) => {
+      // const key = concept.$.about.substring(concept.$.about.lastIndexOf("/") + 1, concept.$.about.length);
+      const key: string = concept.$?.about;
+      const labelFi = concept.prefLabel?.find((e: any) => e.$?.lang === 'fi');
+      const labelEn = concept.prefLabel?.find((e: any) => e.$?.lang === 'en');
+      const labelSv = concept.prefLabel?.find((e: any) => e.$?.lang === 'sv');
+
+      if (!key || (!labelFi && !labelEn && !labelSv)) {
+        throw Error('Missing required data in setAsiasanat()');
+      }
+
+      finnish.push({
+        key: key,
+        value: labelFi?._ || labelSv?._ || labelEn?._,
+      });
+
+      english.push({
+        key: key,
+        value: labelEn?._ || labelFi?._ || labelSv?._,
+      });
+
+      swedish.push({
+        key: key,
+        value: labelSv?._ || labelFi?._ || labelEn?._,
+      });
+    });
+  });
+
+  try {
+    finnish.sort(sortByValue);
+    english.sort(sortByValue);
+    swedish.sort(sortByValue);
+
+    if (
+      finnish.length < JSON.parse(await getAsync(`${rediskey}.fi`))?.length ||
+      english.length < JSON.parse(await getAsync(`${rediskey}.en`))?.length ||
+      swedish.length < JSON.parse(await getAsync(`${rediskey}.sv`))?.length
+    ) {
+      winstonLogger.error('Creating new sets of YSO asiasanat failed in setAsiasanat()');
+      return;
+    } else {
+      await setAsync(`${rediskey}.fi`, JSON.stringify(finnish));
+      await setAsync(`${rediskey}.en`, JSON.stringify(english));
+      await setAsync(`${rediskey}.sv`, JSON.stringify(swedish));
+    }
+  } catch (err) {
+    throw Error(err);
+  }
 }
 
 /**
  * Get data from redis database
  *
- * @param {any} req
- * @param {any} res
- * @param {any} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
  *
- * @returns {Promise<any>}
+ * @returns {Promise<KeyValue<string, string>[]>}
  */
-export const getAsiasanat = async (req: any, res: any, next: any): Promise<any> => {
-    try {
-        const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
+export const getAsiasanat = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<KeyValue<string, string>[]> => {
+  try {
+    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-        if (redisData) {
-            res.status(200).json(JSON.parse(redisData));
-        } else {
-            res.status(404).json({ error: 'Not Found' });
-
-            return next();
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Something went wrong' });
+    if (redisData) {
+      res.status(200).json(JSON.parse(redisData)).end();
+      return;
     }
+
+    res.status(404).json({ error: 'Not Found' }).end();
+    return;
+  } catch (err) {
+    next(err);
+    winstonLogger.error('Failed to get asiasanat in getAsiasanat()');
+  }
 };
 
 /**
  * Get single row from redis database key-value
  *
- * @param {any} req
- * @param {any} res
- * @param {any} next
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
  *
- * @returns {Promise<any>}
+ * @returns {Promise<KeyValue<string, string>>}
  */
-export const getAsiasana = async (req: any, res: any, next: any): Promise<any> => {
-    try {
-        const redisData = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
+export const getAsiasana = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<KeyValue<string, string>> => {
+  try {
+    const redisData: string = await getAsync(`${rediskey}.${req.params.lang.toLowerCase()}`);
 
-        if (redisData) {
-            const input = JSON.parse(redisData);
-            const row = input.find((e: any) => e.key === req.params.key);
+    if (redisData) {
+      const input: KeyValue<string, string>[] = JSON.parse(redisData);
+      const row: KeyValue<string, string> = input.find((e: any) => e.key === req.params.key);
 
-            if (row !== undefined) {
-                res.status(200).json(row);
-            } else {
-                res.status(404).json({ error: 'Not Found' });
-            }
-        } else {
-            res.status(404).json({ error: 'Not Found' });
-
-            return next();
-        }
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Something went wrong' });
+      if (row !== undefined) {
+        res.status(200).json(row).end();
+        return;
+      } else {
+        res.status(404).json({ error: 'Not Found' }).end();
+        return;
+      }
+    } else {
+      res.status(404).json({ error: 'Not Found' }).end();
+      return;
     }
+  } catch (err) {
+    next(err);
+    winstonLogger.error('Failed to get asiasana in getAsiasana()');
+  }
 };
