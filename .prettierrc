@@ -1,7 +1,33 @@
 {
-    "printWidth": 120,
-    "trailingComma": "all",
-    "tabWidth": 4,
-    "semi": true,
-    "singleQuote": true
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "editor.formatOnSave": true,
+  "printWidth": 120,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": [
+        "**/*.html",
+        "**/*.scss",
+        "**/*.css"
+      ],
+      "options": {
+        "singleQuote": false,
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": [
+        "**/*.ts",
+        "**/*.js"
+      ],
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
 }

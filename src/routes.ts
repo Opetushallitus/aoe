@@ -5,8 +5,8 @@ import { getKoulutusaste, getKoulutusasteet } from './controllers/koulutusasteet
 import { getKohderyhma, getKohderyhmat } from './controllers/kohderyhmat';
 import { getKayttokohde, getKayttokohteet } from './controllers/kayttokohteet';
 import {
-    getSaavutettavuudenTukitoiminnot,
-    getSaavutettavuudenTukitoiminto,
+  getSaavutettavuudenTukitoiminnot,
+  getSaavutettavuudenTukitoiminto,
 } from './controllers/saavutettavuuden-tukitoiminnot';
 import { getSaavutettavuudenEste, getSaavutettavuudenEsteet } from './controllers/saavutettavuuden-esteet';
 import { getKielet, getKieli } from './controllers/kielet';
@@ -14,20 +14,20 @@ import { getAsiasana, getAsiasanat } from './controllers/asiasanat';
 import { getTieteenalat } from './controllers/tieteenalat';
 import { getOppimateriaalityypit, getOppimateriaalityyppi } from './controllers/oppimateriaalityypit';
 import {
-    getPerusopetuksenOppiaineet,
-    getPerusopetuksenSisaltoalueet,
-    getPerusopetuksenTavoitteet,
+  getPerusopetuksenOppiaineet,
+  getPerusopetuksenSisaltoalueet,
+  getPerusopetuksenTavoitteet,
 } from './controllers/perusopetus';
 import { getLisenssi, getLisenssit } from './controllers/lisenssit';
 import { getLukionkurssi, getLukionkurssit } from './controllers/lukionkurssit';
 import { getLukionModuulit, getLukionOppiaineet, getLukionSisallot, getLukionTavoitteet } from './controllers/lukio';
 import {
-    getAmmattikoulunTutkinnonOsat,
-    getAmmattikoulunPerustutkinnot,
-    getAmmattikoulunVaatimukset,
-    getAmmattikoulunAmmattitutkinnot,
-    getAmmattikoulunErikoisammattitutkinnot,
-    getAmmattikoulunYTOaineet,
+  getAmmattikoulunTutkinnonOsat,
+  getAmmattikoulunPerustutkinnot,
+  getAmmattikoulunVaatimukset,
+  getAmmattikoulunAmmattitutkinnot,
+  getAmmattikoulunErikoisammattitutkinnot,
+  getAmmattikoulunYTOaineet,
 } from './controllers/ammattikoulu';
 import { getOppiaineetTieteenalatTutkinnot } from './controllers/filters';
 import { getLukionVanhatKurssit, getLukionVanhatOppiaineet } from './controllers/vanha-lukio';

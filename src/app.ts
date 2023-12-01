@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import compression from 'compression'; // compress requests
 import bodyParser from 'body-parser';
 import cron from 'node-cron';
@@ -6,6 +6,7 @@ import cors from 'cors';
 
 import router from './routes';
 import { client, updateRedis } from './util/redis.utils';
+import { winstonLogger } from './util';
 
 const app = express();
 const expressSwagger = require('express-swagger-generator')(app);
@@ -17,41 +18,55 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('port', 3000);
 
 if (app.get('env') === 'development') {
-    app.use(cors());
+  app.use(cors());
 }
 
 client.on('error', (error: any) => {
-    console.error(error);
+  winstonLogger.error(error);
 });
 
 client.on('connect', async () => {
-    await updateRedis();
+  await updateRedis();
 });
 
-// set cron jobs to run daily/weekly
-cron.schedule('0 0 0 * * *', async () => {
-    console.log('Running cron job');
-    await updateRedis();
+// set cron jobs to run every sunday 03:00
+cron.schedule('0 0 3 * * 0', async () => {
+  await updateRedis();
+  winstonLogger.info('Cron job successfully completed');
 });
 
 // Prefixed routes
 app.use('/api/v1', router);
 
+// Default error handler.
+app.use(((err, req: Request, res: Response, next: NextFunction) => {
+  winstonLogger.error(err.stack);
+  res.status(err.statusCode || 500);
+  res.type('json');
+  res.json({
+    errors: {
+      status: err.statusCode || 500,
+      message: 'Unexpected error occurred',
+    },
+  });
+  next();
+}) as ErrorRequestHandler);
+
 // Swagger
 const options = {
-    swaggerDefinition: {
-        info: {
-            description: 'Koodisto microservice',
-            title: 'koodisto-service',
-            version: '2.3.2',
-        },
-        host: 'aoe.fi',
-        basePath: '/ref/api/v1',
-        produces: ['application/json'],
-        schemes: ['https'],
+  swaggerDefinition: {
+    info: {
+      description: 'Koodisto microservice',
+      title: 'koodisto-service',
+      version: '2.3.2',
     },
-    basedir: __dirname, // app absolute path
-    files: ['./routes.js'], // Path to the API handle folder
+    host: 'aoe.fi',
+    basePath: '/ref/api/v1',
+    produces: ['application/json'],
+    schemes: ['https'],
+  },
+  basedir: __dirname, // app absolute path
+  files: ['./routes.js'], // Path to the API handle folder
 };
 expressSwagger(options);
 
