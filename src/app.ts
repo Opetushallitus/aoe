@@ -32,7 +32,7 @@ client.on('connect', async () => {
 // set cron jobs to run every sunday 03:00
 cron.schedule('0 0 3 * * 0', async () => {
   await updateRedis();
-  winstonLogger.info('Cron job successfully completed');
+  winstonLogger.info('Scheduled update completed for all semantic datasets.');
 });
 
 // Prefixed routes
