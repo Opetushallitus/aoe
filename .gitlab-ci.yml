@@ -22,7 +22,7 @@ build_dev:
   stage: build
   script:
     - echo "DEMO build"
-    - docker-compose -f docker-compose.demo.yml down
+    # - docker-compose -f docker-compose.demo.yml down
     - docker-compose -f docker-compose.demo.yml build
   only:
     - dev
@@ -43,7 +43,7 @@ build_prod:
   stage: build
   script:
     - echo "PROD build"
-    - docker-compose -f docker-compose.prod.yml down
+    # - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
     - main
@@ -64,10 +64,9 @@ cleanup:
   stage: cleanup
   script:
     - echo "Cleaning up the system"
-    - docker system prune -a -f
+    - docker system prune -a -f --volumes
   only:
     - dev
     - main
   tags:
     - oaipmh
-  when: manual
