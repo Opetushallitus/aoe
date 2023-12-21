@@ -5,8 +5,8 @@ variables:
   # DOCKER_CERT_PATH: '$DOCKER_TLS_CERTDIR/client'
   # DOCKER_TLS_VERIFY: 1
 
-# image:
-#   name: docker/compose:1.29.2
+image:
+  name: docker/compose:1.29.2
 #
 # services:
 #   - name: docker:dind
