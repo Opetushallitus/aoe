@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+      args:
+        AOE_DOCKER_REGISTRY: 'aoe-docker-local.artifactory.ci.csc.fi'
     image: aoe-web-backend:latest
     container_name: aoe-web-backend
     restart: unless-stopped
@@ -20,7 +22,7 @@ services:
       - /databackup/aoethumbnail:/databackup/aoethumbnail
       - /data/digivisio:/app/digivisio:rw
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=localhost
     env_file:
       - ./.env
     networks:

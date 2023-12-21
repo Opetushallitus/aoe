@@ -8,7 +8,7 @@ import multer from 'multer';
 import path from 'path';
 import s3Zip from 's3-zip';
 import { Transaction } from 'sequelize';
-import stream from 'stream';
+import stream, { PassThrough } from 'stream';
 import config from '../config';
 import { Material, MaterialDisplayName, sequelize, TemporaryRecord } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
@@ -373,18 +373,16 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
             await updatePdfKey(pdfS3.Key, recordID);
             // Remove information from incomplete file tasks.
             await deleteDataFromTempRecordTable(file.filename, material.id);
-            // Remove the uploaded file from the local file system (linked upload directory).
-            fs.unlink(`./${file.path}`, (err: any) => {
-              if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
-            });
           },
         );
       });
     }
+    // Remove the uploaded file from the local file system (linked upload directory).
+    fs.unlink(`./${file.path}`, (err: any) => {
+      if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
+    });
   } catch (err) {
-    if (!res.headersSent) {
-      next(new ErrorHandler(500, 'File upload failed in uploadFileToMaterial(): ' + err));
-    }
+    if (!res.headersSent) next(new ErrorHandler(500, 'File upload failed in uploadFileToMaterial(): ' + err));
     fs.unlink(`./${file.path}`, (err: any) => {
       if (err) winstonLogger.error('Unlink removal for an uploaded file failed: %o', err);
     });
@@ -513,8 +511,7 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
 
 export async function insertDataToEducationalMaterialTable(req: Request, t: any): Promise<any> {
   const query = 'insert into educationalmaterial (Usersusername)' + ' values ($1) returning id;';
-  const data = await t.one(query, [req.session.passport.user.uid]);
-  return data;
+  return await t.one(query, [req.session.passport.user.uid]);
 }
 
 /**
@@ -884,6 +881,7 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
  * @param bucketName string Target bucket in object storage system
  */
 export const uploadFileToStorage = (filePath: string, fileName: string, bucketName: string): Promise<SendData> => {
+  winstonLogger.debug('UPSTREAM STARTED for %s', filePath);
   const config: ServiceConfigurationOptions = {
     credentials: {
       accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
@@ -894,7 +892,7 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
   };
   AWS.config.update(config);
   const s3: S3 = new AWS.S3();
-  const passThrough = new stream.PassThrough();
+  const passThrough: PassThrough = new stream.PassThrough();
 
   return new Promise((resolve, reject) => {
     // Read a locally stored file to the streaming passthrough.

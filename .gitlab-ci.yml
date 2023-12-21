@@ -1,18 +1,16 @@
 variables:
   DOCKER_HOST: unix:///var/run/docker.sock # tcp://docker:2375
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: '/certs'
+  # DOCKER_TLS_CERTDIR: '/certs'
   # DOCKER_CERT_PATH: '$DOCKER_TLS_CERTDIR/client'
   # DOCKER_TLS_VERIFY: 1
 
-image:
-  name: docker/compose:1.29.2
-
-services:
-  - name: docker:dind
-    alias: docker
-    command: ['--group=1000']
-    # command: ['--tls=false']
+# image:
+#   name: docker/compose:1.29.2
+#
+# services:
+#   - name: docker:dind
+#      alias: docker
 
 stages:
   - build
@@ -38,7 +36,6 @@ deploy_demo:
   stage: deploy
   script:
     - echo "DEMO deploy"
-    # - docker-compose -f docker-compose.prod.yml stop
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - dev

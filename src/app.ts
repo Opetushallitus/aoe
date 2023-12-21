@@ -38,6 +38,11 @@ apiV2(apiRouterV2);
 // Process X-Forwarded-* headers behind a proxy server at localhost (127.0.0.1)
 app.set('trust proxy', '127.0.0.1');
 
+app.all('/*', function (req, res, next) {
+  res.header('Referrer-Policy', 'no-referrer');
+  next();
+});
+
 /**
  * CORS Configuration
  */
@@ -46,13 +51,7 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 204,
-  origin: [
-    'https://demo.aoe.fi',
-    'https://aoe.fi',
-    'https://86.50.27.30:80',
-    'http://localhost:4200',
-    'https://localhost:4200',
-  ],
+  origin: true,
 };
 app.use(cors(corsOptions));
 
