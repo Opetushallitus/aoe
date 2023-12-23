@@ -22,7 +22,7 @@ COPY ./src/elasticSearch/aoemapping.json /app
 COPY ./src/elasticSearch/aoecollectionmapping.json /app
 COPY ./h5p/core /app/webdata/h5p/core
 
-RUN (cd /app && npm ci --omit=dev) && \
+RUN (cd /app && npm ci) && \
     npm uninstall -g npm
 
 EXPOSE 3000
