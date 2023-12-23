@@ -576,29 +576,58 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
   }
 }
 
-export async function deleteRecord(req: Request, res: Response, next: NextFunction) {
+export const deleteRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    let query;
-    let data;
-    await db.tx({ mode }, async (t: any) => {
+    await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
-      query = "update material SET obsoleted = '1' WHERE id = $1 returning educationalmaterialid;";
-      data = await db.one(query, [req.params.fileid]);
-      queries.push(data);
-      query = "update attachment SET obsoleted = '1' WHERE materialid = $1;";
-      queries.push(await db.none(query, [req.params.fileid]));
-      query = 'update educationalmaterial set updatedat = now() where id = $1';
-      queries.push(await db.none(query, [data.educationalmaterialid]));
+
+      const educationalMaterialID = queries.push(
+        await db.one(
+          `
+        UPDATE material
+        SET obsoleted = '1'
+        WHERE id = $1
+        RETURNING educationalmaterialid
+      `,
+          [req.params.materialId],
+        ),
+      );
+
+      winstonLogger.debug('Obsoleted EMID: %s', educationalMaterialID);
+
+      queries.push(
+        await db.none(
+          `
+        UPDATE attachment
+        SET obsoleted = '1'
+        WHERE materialid = $1
+      `,
+          [req.params.materialId],
+        ),
+      );
+
+      queries.push(
+        await db.none(
+          `
+        UPDATE educationalmaterial
+        SET updatedat = NOW()
+        WHERE id = $1
+      `,
+          [req.params.edumaterialid],
+        ),
+      );
+
       return t.batch(queries);
     });
-    res.status(200).json({ status: 'deleted' });
-    elasticSearch.updateEsDocument().catch((err: Error) => {
-      winstonLogger.error(err);
+    res.status(200).json({ obsoleted: req.params.materialId });
+
+    elasticSearch.updateEsDocument().catch((err: Error): void => {
+      winstonLogger.error('Search index update failed after the file deletion: %o', err);
     });
   } catch (err) {
-    next(new ErrorHandler(500, 'Issue deleting record: ' + err));
+    next(new ErrorHandler(500, 'Deleting the file failed: ' + err));
   }
-}
+};
 
 export async function deleteAttachment(req: Request, res: Response, next: NextFunction) {
   try {

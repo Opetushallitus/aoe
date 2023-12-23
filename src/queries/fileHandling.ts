@@ -509,10 +509,15 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
   }
 }
 
-export async function insertDataToEducationalMaterialTable(req: Request, t: any): Promise<any> {
-  const query = 'insert into educationalmaterial (Usersusername)' + ' values ($1) returning id;';
+export const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
+  winstonLogger.debug('CURRENT USER: %s', req.session.passport.user.uid);
+  const query: string = `
+    INSERT INTO educationalmaterial (usersusername)
+    VALUES ($1)
+    RETURNING id
+  `;
   return await t.one(query, [req.session.passport.user.uid]);
-}
+};
 
 /**
  * Update or insert the file information to the temporary records when the related file processing is still in progress.

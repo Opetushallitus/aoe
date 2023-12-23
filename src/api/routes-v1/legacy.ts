@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import collection from '../../collection/collection';
 import {
   changeMaterialUser,
@@ -21,7 +21,7 @@ import ah, { hasAccessToAOE } from '../../services/authService';
 import { verifyEmailToken } from '../../services/mailService';
 import { aoeRoutes, isAllasEnabled } from '../../services/routeEnablerService';
 import { updateUserSettings } from '../../users/userSettings';
-import { requestErrorHandler, requestValidator } from '../../util';
+import { requestErrorHandler, requestValidator, winstonLogger } from '../../util';
 import {
   addCollectionValidationRules,
   createCollectionValidationRules,
@@ -64,9 +64,23 @@ export default (router: Router): void => {
     ah.hasAccessToPublicatication,
     fh.uploadFileToMaterial,
   );
-  router.post('/material/file', isAllasEnabled, ah.checkAuthenticated, fh.uploadMaterial);
+  router.post(
+    '/material/file',
+    (req: Request, res: Response, next: NextFunction) => {
+      winstonLogger.debug('EMPTY FRAMEWORK');
+      next();
+    },
+    isAllasEnabled,
+    ah.checkAuthenticated,
+    fh.uploadMaterial,
+  );
 
-  router.delete('/material/file/:materialId/:fileid', ah.checkAuthenticated, ah.hasAccessToMaterial, db.deleteRecord);
+  router.delete(
+    '/material/file/:edumaterialId/:materialId',
+    ah.checkAuthenticated,
+    ah.hasAccessToMaterial,
+    db.deleteRecord,
+  );
 
   router.get('/messages/info', aoeRoutes);
 
