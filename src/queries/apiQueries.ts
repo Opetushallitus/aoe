@@ -576,51 +576,39 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
   }
 }
 
+/**
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<void>}
+ */
 export const deleteRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
-
-      const educationalMaterialID = queries.push(
-        await db.one(
-          `
+      let query: string;
+      query = `
         UPDATE material
         SET obsoleted = '1'
         WHERE id = $1
         RETURNING educationalmaterialid
-      `,
-          [req.params.materialId],
-        ),
-      );
-
-      winstonLogger.debug('Obsoleted EMID: %s', educationalMaterialID);
-
-      queries.push(
-        await db.none(
-          `
+      `;
+      queries.push(await db.one(query, [req.params.materialId]));
+      query = `
         UPDATE attachment
         SET obsoleted = '1'
         WHERE materialid = $1
-      `,
-          [req.params.materialId],
-        ),
-      );
-
-      queries.push(
-        await db.none(
-          `
+      `;
+      queries.push(await db.none(query, [req.params.materialId]));
+      query = `
         UPDATE educationalmaterial
         SET updatedat = NOW()
         WHERE id = $1
-      `,
-          [req.params.edumaterialid],
-        ),
-      );
-
+      `;
+      queries.push(await db.none(query, [req.params.edumaterialid]));
       return t.batch(queries);
     });
     res.status(200).json({ obsoleted: req.params.materialId });
-
     elasticSearch.updateEsDocument().catch((err: Error): void => {
       winstonLogger.error('Search index update failed after the file deletion: %o', err);
     });
