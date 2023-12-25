@@ -64,16 +64,7 @@ export default (router: Router): void => {
     ah.hasAccessToPublicatication,
     fh.uploadFileToMaterial,
   );
-  router.post(
-    '/material/file',
-    (req: Request, res: Response, next: NextFunction) => {
-      winstonLogger.debug('EMPTY FRAMEWORK');
-      next();
-    },
-    isAllasEnabled,
-    ah.checkAuthenticated,
-    fh.uploadMaterial,
-  );
+  router.post('/material/file', isAllasEnabled, ah.checkAuthenticated, fh.uploadMaterial);
 
   router.delete(
     '/material/file/:edumaterialId/:materialId',

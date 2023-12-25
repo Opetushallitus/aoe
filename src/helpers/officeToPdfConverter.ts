@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import fs from 'fs';
+import fs, { WriteStream } from 'fs';
 import fsPromise from 'fs/promises';
 import libre from 'libreoffice-convert';
 import stream from 'stream';
@@ -90,7 +90,7 @@ const officeMimeTypes = [
  * @param {string} s
  * @return {boolean}
  */
-export const isOfficeMimeType = (s: string) => {
+export const isOfficeMimeType = (s: string): boolean => {
   return officeMimeTypes.indexOf(s) >= 0;
 };
 
@@ -210,7 +210,7 @@ export const scheduledConvertAndUpstreamOfficeFilesToCloudStorage = async (): Pr
         const pdfKey: string = file.filekey.substring(0, file.filekey.lastIndexOf('.')) + '.pdf';
         downstreamAndConvertOfficeFileToPDF(file.filekey).then((path: string) => {
           uploadFileToStorage(path, pdfKey, config.CLOUD_STORAGE_CONFIG.bucketPDF).then((obj: any) => {
-            updatePdfKey(obj.Key, file.id);
+            void updatePdfKey(obj.Key, file.id);
           });
         });
       }
@@ -243,18 +243,17 @@ export const getOfficeFiles = async (): Promise<any> => {
  */
 export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
-    const filename = key.substring(0, key.lastIndexOf('.')) + '.pdf';
+    const folderpath: string = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
+    const filename: string = key.substring(0, key.lastIndexOf('.')) + '.pdf';
     const stream: stream = s3
       .getObject({
         Bucket: config.CLOUD_STORAGE_CONFIG.bucket,
         Key: key,
       })
       .createReadStream();
-
-    const ws = fs
+    const ws: WriteStream = fs
       .createWriteStream(folderpath)
-      .on('close', async () => {
+      .on('close', async (): Promise<void> => {
         try {
           const path: string = await convertOfficeFileToPDF(folderpath, filename);
           return resolve(path);
@@ -263,12 +262,11 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
           return reject(e);
         }
       })
-      .on('error', (err: Error) => {
+      .on('error', (err: Error): void => {
         reject(err);
       });
-
     stream
-      .on('error', (err) => {
+      .on('error', (err): void => {
         reject(err);
         winstonLogger.error('Error in downstreamAndConvertOfficeFileToPDF(): %o', err);
       })
@@ -281,13 +279,12 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
  * @param {string} id
  * @return {Promise<any>}
  */
-export const updatePdfKey = async (key: string, id: string): Promise<any> => {
-  await db.tx(async (t: any) => {
-    const query = `
+export const updatePdfKey = async (key: string, id: string): Promise<void> => {
+  await db.tx(async (t: any): Promise<void> => {
+    const query: string = `
       UPDATE record SET pdfkey = $1
       WHERE id = $2
     `;
-    const t1 = await t.none(query, [key, id]);
-    return { t1 };
+    await t.none(query, [key, id]);
   });
 };

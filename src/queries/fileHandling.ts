@@ -309,11 +309,9 @@ export const uploadFileToLocalDisk = (
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { file, fileDetails }: { file: MulterFile; fileDetails: any } = await uploadFileToLocalDisk(req, res);
-  winstonLogger.debug('Original file name: %s', file.originalname);
   let material: Material;
   let recordID: string;
   let t: Transaction;
-
   t = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
   });
@@ -334,10 +332,8 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
     await t.commit();
-
     // Save the material information without the cloud related identifiers - executed with pg-promise.
     recordID = await insertDataToRecordTable(file, material.id);
-
     t = await sequelize.transaction({
       isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
     });
@@ -348,30 +344,26 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     await t.rollback();
     throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }
-
   // TODO: 202 Accepted response to indicate the incomplete upstreaming.
   res.status(200).json({
     id: req.params.edumaterialid,
     material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: req.params.edumaterialid }],
   });
-
   try {
     const fileS3: SendData = await uploadFileToStorage(
       `./${file.path}`,
       file.filename,
       config.CLOUD_STORAGE_CONFIG.bucket,
     );
-
     await insertDataToRecordTable(file, material.id, fileS3.Key, fileS3.Bucket, fileS3.Location, recordID);
-
     // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
       const keyPDF: string = fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.')) + '.pdf';
       // Downstream an office file and convert to PDF in the local file system (linked disk storage).
-      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string) => {
+      await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string): Promise<void> => {
         // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
         await uploadFileToStorage(pathPDF, keyPDF, config.CLOUD_STORAGE_CONFIG.bucketPDF).then(
-          async (pdfS3: SendData) => {
+          async (pdfS3: SendData): Promise<void> => {
             // Save the material's PDF key to indicate the availability of a PDF version.
             await updatePdfKey(pdfS3.Key, recordID);
             // Remove information from incomplete file tasks.
@@ -539,7 +531,6 @@ export const upsertMaterialFileToTempRecords = async (
     },
     transaction: t,
   });
-
   await TemporaryRecord.upsert(
     {
       id: temporaryRecord && temporaryRecord.id, // NULL for the new entries.
@@ -609,9 +600,7 @@ export const upsertMaterialDisplayName = async (
     where: { language: 'sv', materialId },
     transaction: t,
   });
-
   const missingLang: string = fileDetails.displayName.en || fileDetails.displayName.fi || fileDetails.displayName.sv;
-
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameEN && materialDisplayNameEN.id,
@@ -624,7 +613,6 @@ export const upsertMaterialDisplayName = async (
       transaction: t,
     },
   );
-
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameFI && materialDisplayNameFI.id,
@@ -637,7 +625,6 @@ export const upsertMaterialDisplayName = async (
       transaction: t,
     },
   );
-
   await MaterialDisplayName.upsert(
     {
       id: materialDisplayNameSV && materialDisplayNameSV.id,
@@ -848,18 +835,8 @@ export const insertDataToRecordTable = async (
         )
       `;
       await t.none(query, [materialID]);
-
-      const columnSet: ColumnSet = new pgp.helpers.ColumnSet(
-        [
-          { name: 'filepath', prop: 'filepath' },
-          { name: 'originalfilename', prop: 'originalfilename' },
-          { name: 'filesize', prop: 'filesize' },
-          { name: 'mimetype', prop: 'mimetype' },
-          { name: 'format', prop: 'format' },
-          { name: 'materialid', prop: 'materialid' },
-          { name: 'filekey', prop: 'filekey' },
-          { name: 'filebucket', prop: 'filebucket' },
-        ],
+      let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
+        ['filepath', 'originalfilename', 'filesize', 'mimetype', 'format', 'materialid', 'filekey', 'filebucket'],
         { table: 'record' },
       );
       const values = {
@@ -873,7 +850,7 @@ export const insertDataToRecordTable = async (
         filebucket: cloudBucket,
       };
       if (recordID) {
-        columnSet.extend(['id']);
+        columnSet = columnSet.extend(['id']);
         values['id'] = recordID;
       }
       query = `
@@ -890,9 +867,17 @@ export const insertDataToRecordTable = async (
   }
 };
 
-export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<any> => {
-  const query = 'DELETE FROM temporaryrecord WHERE filename = $1 AND materialid = $2';
-  return await db.any(query, [filename, materialId]);
+/**
+ * @param filename
+ * @param materialId
+ * @return {Promise<void>}
+ */
+export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
+  const query: string = `
+    DELETE FROM temporaryrecord
+    WHERE filename = $1 AND materialid = $2
+  `;
+  await db.any(query, [filename, materialId]);
 };
 
 export async function deleteDataToTempAttachmentTable(filename: any, materialId: any): Promise<any> {
@@ -908,7 +893,6 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
  * @param bucketName string Target bucket in object storage system
  */
 export const uploadFileToStorage = (filePath: string, fileName: string, bucketName: string): Promise<SendData> => {
-  winstonLogger.debug('UPSTREAM STARTED for %s', filePath);
   const config: ServiceConfigurationOptions = {
     credentials: {
       accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
@@ -920,7 +904,6 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
   AWS.config.update(config);
   const s3: S3 = new AWS.S3();
   const passThrough: PassThrough = new stream.PassThrough();
-
   return new Promise((resolve, reject): void => {
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
@@ -929,12 +912,10 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
         reject(err);
       })
       .pipe(passThrough);
-
     // Upstream a locally stored file to the cloud storage from the streaming passthrough.
     s3.upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
       .promise()
       .then((resp: SendData): void => {
-        winstonLogger.debug('Response from the cloud storage: %o', resp);
         resolve(resp);
       })
       .catch((err: Error): void => {
