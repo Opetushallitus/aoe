@@ -273,29 +273,36 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
   }
 }
 
+/**
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @return {Promise<{file: Express.Multer.File, fileDetails: Record<string, unknown>}>}
+ */
 export const uploadFileToLocalDisk = (
   req: Request,
   res: Response,
 ): Promise<{ file: MulterFile; fileDetails: Record<string, unknown> }> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject): void => {
     try {
-      upload.single('file')(req, res, (err: any) => {
+      upload.single('file')(req, res, (err: any): void => {
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
             throw new ErrorHandler(413, err.message);
           } else {
-            throw new ErrorHandler(500, `File upload to the server failed: ${err}`);
+            throw new ErrorHandler(500, err);
           }
         }
         resolve({
           file: req.file as MulterFile,
           fileDetails: JSON.parse(req.body.fileDetails) as Record<string, unknown>,
         });
-        return;
       });
     } catch (err) {
+      fs.unlink(`./${req.file.path}`, (err) => {
+        if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
+      });
       reject(err);
-      return;
+      winstonLogger.error('File upload failed: %o', err);
     }
   });
 };
@@ -308,7 +315,12 @@ export const uploadFileToLocalDisk = (
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { file, fileDetails }: { file: MulterFile; fileDetails: any } = await uploadFileToLocalDisk(req, res);
+  // Upload the file to the linked disk volume (uploads)
+  const { file, fileDetails }: { file: MulterFile; fileDetails: any } = await uploadFileToLocalDisk(req, res).catch(
+    (err) => {
+      throw err;
+    },
+  );
   let material: Material;
   let recordID: string;
   let t: Transaction;
@@ -317,6 +329,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   });
   try {
     // Save the general information of a new material entry.
+    // Create a material in a separate transaction before using the returning material ID to avoid concurrency issues.
     material = await Material.create(
       {
         link: '',
@@ -332,6 +345,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
     await t.commit();
+
     // Save the material information without the cloud related identifiers - executed with pg-promise.
     recordID = await insertDataToRecordTable(file, material.id);
     t = await sequelize.transaction({
@@ -372,12 +386,11 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         );
       });
     }
-  } catch (err) {
-    if (!res.headersSent) next(new ErrorHandler(500, 'File upload failed in uploadFileToMaterial(): ' + err));
-  } finally {
-    fs.unlink(`./${file.path}`, (err: any) => {
-      if (err) winstonLogger.error('Unlink removal for an uploaded file failed: %o', err);
+    fs.unlink(`./${file.path}`, (err: any): void => {
+      if (err) winstonLogger.error('Unlink removal for the upstreamed file failed: %o', err);
     });
+  } catch (err) {
+    if (!res.headersSent) next(new ErrorHandler(500, `File upstreaming failed: ${err}`));
   }
 };
 
