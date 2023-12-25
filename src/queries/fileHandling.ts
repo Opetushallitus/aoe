@@ -142,18 +142,17 @@ export async function uploadAttachmentToMaterial(req: Request, res: Response, ne
 }
 
 /**
- *
- * @param req
- * @param res
- * @param next
- * upload single file and create educational material if empty only educational material is created
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<any>}
  */
-export async function uploadMaterial(req: Request, res: Response, next: NextFunction): Promise<any> {
+export const uploadMaterial = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
   try {
     winstonLogger.debug(req.body);
     const contentType = req.headers['content-type'];
     if (contentType.startsWith('multipart/form-data')) {
-      upload.single('file')(req, res, async function (err: any) {
+      upload.single('file')(req, res, async (err: any) => {
         try {
           if (err) {
             winstonLogger.debug(err);
@@ -241,9 +240,9 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
                       }
                     });
                   }
-                } catch (ex) {
-                  winstonLogger.debug(ex);
+                } catch (err) {
                   winstonLogger.debug('error while sending file to pouta: ' + JSON.stringify((<any>req).file));
+                  winstonLogger.error(err);
                 }
               })
               .catch((err: Error) => {
@@ -271,7 +270,7 @@ export async function uploadMaterial(req: Request, res: Response, next: NextFunc
   } catch (err) {
     next(new ErrorHandler(500, 'Error in upload: ' + err));
   }
-}
+};
 
 /**
  * @param {e.Request} req

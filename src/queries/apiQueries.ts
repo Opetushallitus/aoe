@@ -582,7 +582,7 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
  * @param {e.NextFunction} next
  * @return {Promise<void>}
  */
-export const deleteRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const setMaterialAsObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
@@ -593,13 +593,13 @@ export const deleteRecord = async (req: Request, res: Response, next: NextFuncti
         WHERE id = $1
         RETURNING educationalmaterialid
       `;
-      queries.push(await db.one(query, [req.params.materialId]));
+      queries.push(await db.one(query, [req.params.materialid]));
       query = `
         UPDATE attachment
         SET obsoleted = '1'
         WHERE materialid = $1
       `;
-      queries.push(await db.none(query, [req.params.materialId]));
+      queries.push(await db.none(query, [req.params.materialid]));
       query = `
         UPDATE educationalmaterial
         SET updatedat = NOW()
@@ -608,12 +608,12 @@ export const deleteRecord = async (req: Request, res: Response, next: NextFuncti
       queries.push(await db.none(query, [req.params.edumaterialid]));
       return t.batch(queries);
     });
-    res.status(200).json({ obsoleted: req.params.materialId });
+    res.status(200).json({ obsoleted: req.params.materialid });
     elasticSearch.updateEsDocument().catch((err: Error): void => {
-      winstonLogger.error('Search index update failed after the file deletion: %o', err);
+      winstonLogger.error('Search index update failed: %o', err);
     });
   } catch (err) {
-    next(new ErrorHandler(500, 'Deleting the file failed: ' + err));
+    next(new ErrorHandler(500, `Setting the material as obsoleted failed: ${err}`));
   }
 };
 
@@ -1625,7 +1625,7 @@ export default {
   getUserMaterial,
   getRecentMaterial,
   setEducationalMaterialObsoleted,
-  deleteRecord,
+  setMaterialAsObsoleted,
   deleteAttachment,
   setLanguage,
   insertDataToDescription,
