@@ -11,22 +11,23 @@ services:
     restart: unless-stopped
     ports:
       - '3000:3000'
-    # depends_on:
-    # - aoe-postgres
-    # - aoe-redis-session
+    depends_on:
+      - aoe-postgres
+      - aoe-redis-session
     volumes:
-      - /data/thumbnail:/app/thumbnail
-      - /data/uploads:/app/uploads
-      - /webdata:/webdata
-      - /databackup/aoe/:/databackup/aoe/
-      - /databackup/aoethumbnail:/databackup/aoethumbnail
-      - /data/digivisio:/app/digivisio:rw
+      - uploads:/app/uploads
+      - webdata:/webdata
+    #      - data/thumbnail:/app/thumbnail
+    #      - data/uploads:/app/uploads
+    #      - data/webdata:/webdata
+    #      - data/databackup/aoe/:/databackup/aoe/
+    #      - data/databackup/aoethumbnail:/databackup/aoethumbnail
     environment:
       - NODE_ENV=localhost
     env_file:
       - ./.env
     networks:
-      - network-analytics
+      - network-development
 
   aoe-postgres:
     build:
@@ -45,7 +46,7 @@ services:
       - ./docker/aoe-postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
       - ./docker/aoe-postgres/aoe-db-dump.sql:/docker-entrypoint-initdb.d/aoe-db-dump.sql
     networks:
-      - network-analytics
+      - network-development
 
   aoe-redis-session:
     build:
@@ -61,9 +62,12 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
     networks:
-      - network-analytics
+      - network-development
+
+volumes:
+  uploads:
+  webdata:
 
 networks:
-  network-analytics:
-    # external: true
-    name: network-analytics
+  network-development:
+    name: network-development

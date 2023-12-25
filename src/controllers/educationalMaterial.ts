@@ -151,7 +151,7 @@ export const updateEducationalMaterialMetadata = async (
     await updateEsDocument();
 
     if (Number(process.env.PID_SERVICE_ENABLED) === 1 && eduMaterial[1] && eduMaterial[1].publishedat) {
-      const aoeurl = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat);
+      const aoeurl: string = await getEduMaterialVersionURL(emid, eduMaterial[1].publishedat);
       const pidurn = await pidResolutionService.registerPID(aoeurl);
       await updateEduMaterialVersionURN(emid, eduMaterial[1].publishedat, pidurn);
     } else {

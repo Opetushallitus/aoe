@@ -299,7 +299,6 @@ export async function metadataToEs(offset: number, limit: number) {
  */
 export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
   return new Promise(async (resolve, reject) => {
-
     db.tx({ mode }, async (t: any) => { // #1 async start
       const params: any = [];
       let query = '';

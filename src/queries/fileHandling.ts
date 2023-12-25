@@ -6,6 +6,7 @@ import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
 import multer from 'multer';
 import path from 'path';
+import { ColumnSet } from 'pg-promise';
 import s3Zip from 's3-zip';
 import { Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
@@ -13,7 +14,7 @@ import config from '../config';
 import { Material, MaterialDisplayName, sequelize, TemporaryRecord } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
-import { db } from '../resources/pg-connect';
+import { db, pgp } from '../resources/pg-connect';
 import { hasAccesstoPublication } from '../services/authService';
 import { requestRedirected } from '../services/streamingService';
 import { winstonLogger } from '../util/winstonLogger';
@@ -307,10 +308,13 @@ export const uploadFileToLocalDisk = (
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { file, fileDetails } = await uploadFileToLocalDisk(req, res);
+  const { file, fileDetails }: { file: MulterFile; fileDetails: any } = await uploadFileToLocalDisk(req, res);
+  winstonLogger.debug('Original file name: %s', file.originalname);
   let material: Material;
+  let recordID: string;
+  let t: Transaction;
 
-  const t = await sequelize.transaction({
+  t = await sequelize.transaction({
     isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
   });
   try {
@@ -329,21 +333,26 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     );
     // Save the material display name with language versions.
     await upsertMaterialDisplayName(t, req.params.edumaterialid, material.id, fileDetails);
+    await t.commit();
 
-    // Save the file information to the temporary records until the related file processing is completed.
+    // Save the material information without the cloud related identifiers - executed with pg-promise.
+    recordID = await insertDataToRecordTable(file, material.id);
+
+    t = await sequelize.transaction({
+      isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+    });
+    // Save the file information to the temporary records until the upstreaming is completed.
     await upsertMaterialFileToTempRecords(t, file, material.id);
-
-    // Start the transaction.
     await t.commit();
   } catch (err: any) {
     await t.rollback();
     throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }
 
-  // 202 Accepted response to indicate the incomplete upload process.
+  // TODO: 202 Accepted response to indicate the incomplete upstreaming.
   res.status(200).json({
     id: req.params.edumaterialid,
-    material: [{ id: material.id, createFrom: file.originalname }],
+    material: [{ id: material.id, createFrom: file.originalname, educationalmaterialid: req.params.edumaterialid }],
   });
 
   try {
@@ -352,18 +361,12 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       file.filename,
       config.CLOUD_STORAGE_CONFIG.bucket,
     );
-    const recordID: string = await insertDataToRecordTable(
-      file,
-      material.id,
-      fileS3.Key,
-      fileS3.Bucket,
-      fileS3.Location,
-    );
+
+    await insertDataToRecordTable(file, material.id, fileS3.Key, fileS3.Bucket, fileS3.Location, recordID);
 
     // Create and save a PDF version from the office file formats, such as Excel, Word and PowerPoint.
     if (isOfficeMimeType(file.mimetype)) {
       const keyPDF: string = fileS3.Key.substring(0, fileS3.Key.lastIndexOf('.')) + '.pdf';
-
       // Downstream an office file and convert to PDF in the local file system (linked disk storage).
       await downstreamAndConvertOfficeFileToPDF(fileS3.Key).then(async (pathPDF: string) => {
         // Upstream the converted PDF file to the cloud storage (dedicated PDF bucket).
@@ -377,12 +380,9 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
         );
       });
     }
-    // Remove the uploaded file from the local file system (linked upload directory).
-    fs.unlink(`./${file.path}`, (err: any) => {
-      if (err) winstonLogger.error('Unlink removal of a file failed: %o', err);
-    });
   } catch (err) {
     if (!res.headersSent) next(new ErrorHandler(500, 'File upload failed in uploadFileToMaterial(): ' + err));
+  } finally {
     fs.unlink(`./${file.path}`, (err: any) => {
       if (err) winstonLogger.error('Unlink removal for an uploaded file failed: %o', err);
     });
@@ -819,19 +819,22 @@ export async function insertDataToTempAttachmentTable(files: any, metadata: any,
 
 /**
  * Transaction to persist the metadata of a new file and update the corresponding educational material.
+ * Set the cloud related columns nullable: ALTER TABLE <table> ALTER COLUMN <column> DROP NOT NULL.
  * @param file
  * @param materialID
- * @param fileKey
- * @param fileBucket
- * @param {string} location
+ * @param cloudKey
+ * @param cloudBucket
+ * @param {string} cloudURI
+ * @param recordID
  * @return {Promise<string | null>}
  */
 export const insertDataToRecordTable = async (
   file: MulterFile,
   materialID: string,
-  fileKey: string,
-  fileBucket: string,
-  location: string,
+  cloudKey?: string,
+  cloudBucket?: string,
+  cloudURI?: string,
+  recordID?: string,
 ): Promise<string | null> => {
   let query;
   try {
@@ -846,21 +849,40 @@ export const insertDataToRecordTable = async (
       `;
       await t.none(query, [materialID]);
 
+      const columnSet: ColumnSet = new pgp.helpers.ColumnSet(
+        [
+          { name: 'filepath', prop: 'filepath' },
+          { name: 'originalfilename', prop: 'originalfilename' },
+          { name: 'filesize', prop: 'filesize' },
+          { name: 'mimetype', prop: 'mimetype' },
+          { name: 'format', prop: 'format' },
+          { name: 'materialid', prop: 'materialid' },
+          { name: 'filekey', prop: 'filekey' },
+          { name: 'filebucket', prop: 'filebucket' },
+        ],
+        { table: 'record' },
+      );
+      const values = {
+        filepath: cloudURI,
+        originalfilename: file.originalname,
+        filesize: file.size,
+        mimetype: file.mimetype,
+        format: file.encoding, // Deprecated header Content-Transfer-Encoding - See: RFC 7578, Section 4.7
+        materialid: materialID,
+        filekey: cloudKey,
+        filebucket: cloudBucket,
+      };
+      if (recordID) {
+        columnSet.extend(['id']);
+        values['id'] = recordID;
+      }
       query = `
-        INSERT INTO record (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        ${pgp.helpers.insert([values], columnSet)}
+        ON CONFLICT (id) DO UPDATE SET
+        filepath = EXCLUDED.filepath, filekey = EXCLUDED.filekey, filebucket = EXCLUDED.filebucket
         RETURNING id
       `;
-      return await t.oneOrNone(query, [
-        location,
-        file.originalname,
-        file.size,
-        file.mimetype,
-        file.encoding, // Deprecated header Content-Transfer-Encoding - See: RFC 7578, Section 4.7
-        fileKey,
-        fileBucket,
-        materialID,
-      ]);
+      return await t.oneOrNone(query);
     });
     return id;
   } catch (err) {
@@ -899,10 +921,10 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
   const s3: S3 = new AWS.S3();
   const passThrough: PassThrough = new stream.PassThrough();
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject): void => {
     // Read a locally stored file to the streaming passthrough.
     fs.createReadStream(filePath)
-      .once('error', (err: Error) => {
+      .once('error', (err: Error): void => {
         winstonLogger.error('Readstream for a local file failed in uploadLocalFileToCloudStorage(): %s', fileName);
         reject(err);
       })
@@ -911,29 +933,15 @@ export const uploadFileToStorage = (filePath: string, fileName: string, bucketNa
     // Upstream a locally stored file to the cloud storage from the streaming passthrough.
     s3.upload({ Bucket: bucketName, Key: fileName, Body: passThrough })
       .promise()
-      .then((resp: SendData) => {
+      .then((resp: SendData): void => {
+        winstonLogger.debug('Response from the cloud storage: %o', resp);
         resolve(resp);
       })
-      .catch((err: Error) => {
+      .catch((err: Error): void => {
         winstonLogger.error('Upstream to the cloud storage failed in uploadLocalFileToCloudStorage(): %s', fileName);
         reject(err);
       });
   });
-  // const data: Buffer = await fsPromise.readFile(filePath);
-  //
-  // s3.upload(
-  //   {
-  //     Bucket: bucketName,
-  //     Key: filename,
-  //     Body: data,
-  //   },
-  //   (err: any) => {
-  //     if (err) {
-  //       winstonLogger.error('Uploading file to the cloud object storage failed in uploadFileToStorage(): %o', err);
-  //       throw new Error(err);
-  //     }
-  //   },
-  // );
 };
 
 /**
