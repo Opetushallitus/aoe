@@ -86,16 +86,14 @@ export async function hasAccessToPublicatication(req: Request, res: Response, ne
 }
 
 export const hasAccessToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  winstonLogger.debug('Trying access to %s', req.params.materialId);
-  const resp = await db.oneOrNone(
-    `
+  const materialid = req.params.materialid || req.params.materialId;
+  const query = `
     SELECT em.usersusername
     FROM educationalmaterial em
     JOIN material m ON m.educationalmaterialid = em.id
     WHERE m.id = $1
-  `,
-    [req.params.materialId],
-  );
+  `;
+  const resp = await db.oneOrNone(query, [materialid]);
   winstonLogger.debug('Material owner: %s', resp.usersusername);
   if (req.session.passport.user.uid === resp.usersusername) {
     next();

@@ -4,11 +4,11 @@ import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
-import multer from 'multer';
+import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer';
 import path from 'path';
 import { ColumnSet } from 'pg-promise';
 import s3Zip from 's3-zip';
-import { Transaction } from 'sequelize';
+import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
 import config from '../config';
 import { Material, MaterialDisplayName, sequelize, TemporaryRecord } from '../domain/aoeModels';
@@ -37,19 +37,20 @@ import SendData = ManagedUpload.SendData;
 // const multer = require("multer");
 
 // define multer storage
-const storage = multer.diskStorage({
+const storage: StorageEngine = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
-  destination: function (req: Request, file: any, cb: any) {
+  destination: (req: Request, file: any, cb: any) => {
     cb(undefined, `./${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
-  filename: function (req: Request, file: any, cb: any) {
+  filename: (req: Request, file: any, cb: any) => {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
     let str = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
     str = str.replace(/[^a-zA-Z0-9]/g, '');
     cb(undefined, str + '-' + Date.now() + ext);
   },
-});
-const upload = multer({
+} as DiskStorageOptions);
+
+const upload: Multer = multer({
   storage: storage,
   limits: { fileSize: Number(process.env.FILE_SIZE_LIMIT) },
   preservePath: true,
@@ -284,11 +285,14 @@ export const uploadFileToLocalDisk = (
   return new Promise((resolve, reject): void => {
     try {
       upload.single('file')(req, res, (err: any): void => {
+        req.on('close', () => {
+          throw new ErrorHandler(500, 'MULTER: ' + err);
+        });
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
-            throw new ErrorHandler(413, err.message);
+            throw new ErrorHandler(413, 'MULTER: ' + err.message);
           } else {
-            throw new ErrorHandler(500, err);
+            throw new ErrorHandler(500, 'MULTER: ' + err);
           }
         }
         resolve({
@@ -314,12 +318,20 @@ export const uploadFileToLocalDisk = (
  * @return {Promise<void>}
  */
 export const uploadFileToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  // Upload the file to the linked disk volume (uploads)
-  const { file, fileDetails }: { file: MulterFile; fileDetails: any } = await uploadFileToLocalDisk(req, res).catch(
-    (err) => {
+  const { file, fileDetails }: any = await uploadFileToLocalDisk(req, res)
+    .then((result: { file: MulterFile; fileDetails: Record<string, unknown> }) => {
+      winstonLogger.debug('FILE UPLOAD COMPLETED');
+      return result;
+    })
+    .catch((err) => {
+      winstonLogger.error('Multer upload failed: %o', err);
       throw err;
-    },
-  );
+    });
+  winstonLogger.debug('FILEPATH: %s', file.filename);
+  if (!fs.existsSync(`uploads/${file.filename}`)) {
+    res.status(500).json({ message: 'aborted' });
+    return;
+  }
   let material: Material;
   let recordID: string;
   let t: Transaction;
@@ -379,17 +391,19 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
           async (pdfS3: SendData): Promise<void> => {
             // Save the material's PDF key to indicate the availability of a PDF version.
             await updatePdfKey(pdfS3.Key, recordID);
-            // Remove information from incomplete file tasks.
-            await deleteDataFromTempRecordTable(file.filename, material.id);
           },
         );
       });
     }
+  } catch (err) {
+    if (!res.headersSent) next(new ErrorHandler(500, `File upstreaming failed: ${err}`));
+  } finally {
+    // Remove information from incomplete file tasks.
+    await deleteDataFromTempRecordTable(file.filename, material.id);
+
     fs.unlink(`./${file.path}`, (err: any): void => {
       if (err) winstonLogger.error('Unlink removal for the upstreamed file failed: %o', err);
     });
-  } catch (err) {
-    if (!res.headersSent) next(new ErrorHandler(500, `File upstreaming failed: ${err}`));
   }
 };
 
@@ -514,7 +528,6 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
 }
 
 export const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
-  winstonLogger.debug('CURRENT USER: %s', req.session.passport.user.uid);
   const query: string = `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
@@ -875,7 +888,7 @@ export const insertDataToRecordTable = async (
     });
     return id;
   } catch (err) {
-    throw new Error(err);
+    throw err;
   }
 };
 
@@ -973,7 +986,7 @@ export async function uploadBase64FileToStorage(
             winstonLogger.error(
               'Reading file from the local file system failed in uploadBase64FileToStorage(): ' + err,
             );
-            reject(new Error(err));
+            reject(err);
           }
           if (data) {
             winstonLogger.debug(
@@ -986,11 +999,11 @@ export async function uploadBase64FileToStorage(
         winstonLogger.error(
           'Error in uploading file to the cloud object storage in uploadBase64FileToStorage(): ' + err,
         );
-        reject(new Error(err));
+        reject(err);
       }
     } catch (err) {
       winstonLogger.error('Error in processing file in uploadBase64FileToStorage(): ' + err);
-      reject(new Error(err));
+      reject(err);
     }
   });
 }
@@ -1142,9 +1155,9 @@ export async function readStreamFromStorage(params: { Bucket: string; Key: strin
     const s3 = new AWS.S3();
     winstonLogger.debug('Returning stream');
     return s3.getObject(params).createReadStream();
-  } catch (error) {
+  } catch (err) {
     winstonLogger.debug('throw readStreamFromStorage error');
-    throw new Error(error);
+    throw err;
   }
 }
 
