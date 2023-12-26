@@ -94,7 +94,6 @@ export const hasAccessToMaterial = async (req: Request, res: Response, next: Nex
     WHERE m.id = $1
   `;
   const resp = await db.oneOrNone(query, [materialid]);
-  winstonLogger.debug('Material owner: %s', resp.usersusername);
   if (req.session.passport.user.uid === resp.usersusername) {
     next();
     return;
