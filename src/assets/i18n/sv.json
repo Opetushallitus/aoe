@@ -922,7 +922,7 @@
       "confirm": "Vi har skickat dig ett e-post för att du kan bekräfta att du vill få meddelanden från Biblioteket för öppna lärresurser. Var så god och bekräfta ditt godkännande via e-post."
     },
     "allowTransfer": {
-      "helpText": "Om du har loggat in i tjänsten med Haka eller MPASSid kan du i något skede byta ditt användarnamn (t.ex. vid byte av arbetsplats). Med ett nytt användarnamn kan du inte direkt redigera den lärresurs du sparat med ditt nuvarande användarnamn. Här kan du ge oss tillstånd att överföra administrationsrätten för din lärresurs i en situation där du kontaktar oss via din e-post. För att överföra administrationsrätten för lärresurser räcker det inte med att godkänna nedanstående, utan det krävs alltid kontakt till kundservicen. Om situationen är aktuell, inled processen genom att kontakta oppimateriaalivaranto@csc.fi.",
+      "helpText": "Om du har loggat in i tjänsten med Haka eller MPASSid kan du i något skede byta ditt användarnamn (t.ex. vid byte av arbetsplats). Med ett nytt användarnamn kan du inte direkt redigera den lärresurs du sparat med ditt nuvarande användarnamn. Här kan du ge oss tillstånd att överföra administrationsrätten för din lärresurs i en situation där du kontaktar oss via din e-post. För att överföra administrationsrätten för lärresurser räcker det inte med att godkänna nedanstående, utan det krävs alltid kontakt till kundservicen. Om situationen är aktuell, inled processen genom att kontakta aoe@oph.fi.",
       "label": "Administrationsrätten för min lärresurs får överföras till den användare jag uppgett om jag tar kontakt från min e-postadress ovan."
     }
   },
@@ -953,7 +953,7 @@
     "developer": "Utvecklare av tjänsten",
     "feedback": "Ge respons",
     "orEmailUs": "eller ta kontakt:",
-    "twitter": "Följ oss på Twitter",
+    "twitter": "Följ oss på X",
     "name": "Biblioteket för öppna lärresurser (aoe.fi)",
     "blog": "Aktuell"
   },
