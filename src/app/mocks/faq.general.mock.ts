@@ -9,7 +9,7 @@ export const FAQGeneral = {
             question:
                 'Mikä on Avointen oppimateriaalien kirjasto? Miksi ja mihin tarpeeseen Avointen oppimateriaalien kirjastoa kehitetään?',
             answer: [
-                'Avointen oppimateriaalien kirjasto on opetus- ja kulttuuriministeriön ja Opetushallituksen palvelu, joka kokoaa avoimia oppimateriaaleja yhteen kaikkien koulutusasteiden yhteiseen näkymään. Palvelussa voi jakaa ja käyttää avoimia oppimateriaaleja.',
+                'Avointen oppimateriaalien kirjasto on Opetushallituksen palvelu, joka kokoaa avoimia oppimateriaaleja yhteen kaikkien koulutusasteiden yhteiseen näkymään. Palvelussa voi jakaa ja käyttää avoimia oppimateriaaleja.',
                 'Avointen oppimateriaalien kirjasto edistää avointen oppimateriaalien käyttöä. Palvelu mahdollistaa opettajien ja asiantuntijoiden tekemien sekä eri hankkeissa tuotettujen materiaalien pitkäikäisyyden sekä näkyvyyden. Tallentamalla oppimateriaalin palveluun materiaali on käytettävissä niin omassa oppilaitoksessa kuin myös muissa oppilaitoksissa ja niiden ulkopuolella. Kirjaston tarkoituksena on tehdä avoimen oppimateriaalin löytäminen mahdollisimman helpoksi niin opettajille, oppijoille kuin aivan kaikille oppimisesta kiinnostuneille.',
             ],
         },
@@ -61,7 +61,7 @@ export const FAQGeneral = {
         {
             question: 'Mitä teen jos löydän virheellistä tai muuten sopimatonta sisältöä?',
             answer: [
-                'Avointen oppimateriaalien kirjasto on avoin paikka oppimateriaalien jakamiseen. Kaikki kirjastoon oppimateriaalinsa jakavat sitoutuvat palvelun käyttöehtoihin, mutta silti joskus saattaa palveluun päätyä sopimatonta sisältöä. Voit ottaa tällöin meihin yhteyttä osoitteeseen <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. Viestissäsi kerro mistä oppimateriaalista on kyse ja mikä materiaalissa on mielestäsi vikana. Tarkastamme kaikki meille ilmoitetut oppimateriaalit ja arkistoimme ne mikäli ne eivät vastaa palvelun käyttöehtoja.',
+                'Avointen oppimateriaalien kirjasto on avoin paikka oppimateriaalien jakamiseen. Kaikki kirjastoon oppimateriaalinsa jakavat sitoutuvat palvelun käyttöehtoihin, mutta silti joskus saattaa palveluun päätyä sopimatonta sisältöä. Voit ottaa tällöin meihin yhteyttä osoitteeseen <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Viestissäsi kerro mistä oppimateriaalista on kyse ja mikä materiaalissa on mielestäsi vikana. Tarkastamme kaikki meille ilmoitetut oppimateriaalit ja arkistoimme ne mikäli ne eivät vastaa palvelun käyttöehtoja.',
             ],
         },
         {
@@ -93,7 +93,7 @@ export const FAQGeneral = {
             question:
                 'What is the Library of Open Educational Resources? Why is the Library of Open Educational Resources being developed, and which needs is it intended to fulfill?',
             answer: [
-                'The Library of Open Educational Resources is a joint service of the Ministry of Education and Culture and the Finnish National Agency for Education that compiles open educational resources (OER) into a single view shared by all levels of education.',
+                'The Library of Open Educational Resources is a service of the Finnish National Agency for Education that compiles open educational resources (OER) into a single view shared by all levels of education.',
                 'The Library of Open Educational Resources seeks to promote the use of such resources by providing a platform on which materials produced by individuals or in the context of various projects can gain visibility and longevity. By saving educational resources in the service users can ensure that the materials will remain available for use long after the project that produced them has concluded. They can then be utilized by users both in educational institutions and outside them.',
             ],
         },
@@ -145,7 +145,7 @@ export const FAQGeneral = {
         {
             question: 'What to do if I find improper or incorrect resources or comments?',
             answer: [
-                `The Library of Open Educational Resources is an open space for sharing OER. Everyone that shares their resources in the services has agreed to follow the Terms of Use of the service, but some content not meant for the service can still sometimes find it's way here. If you find such content, please contact us at <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. In your mail, please report to us the learning resource in question and what appears to be wrong with it. We inspect every reported resource and archive them if they do not follow our Terms of Use.`,
+                `The Library of Open Educational Resources is an open space for sharing OER. Everyone that shares their resources in the services has agreed to follow the Terms of Use of the service, but some content not meant for the service can still sometimes find it's way here. If you find such content, please contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. In your mail, please report to us the learning resource in question and what appears to be wrong with it. We inspect every reported resource and archive them if they do not follow our Terms of Use.`,
             ],
         },
         {
@@ -178,7 +178,7 @@ export const FAQGeneral = {
             question:
                 'Vad är Biblioteket för öppna lärresurser? Varför och för vilka behov utvecklas Biblioteket för öppna lärresurser?',
             answer: [
-                'Biblioteket för öppna lärresurser är en tjänst som tillhandahålls av undervisnings- och kulturministeriet och Utbildningsstyrelsen. Den sammanställer de öppna lärresurserna i en tjänst som är gemensam för alla utbildningsnivåer.',
+                'Biblioteket för öppna lärresurser är en tjänst som tillhandahålls av Utbildningsstyrelsen. Den sammanställer de öppna lärresurserna i en tjänst som är gemensam för alla utbildningsnivåer',
                 'Biblioteket för öppna lärresurser syftar till att främja användningen av de öppna materialen så att lärresurserfår synlighet och det är lätt att använda de för lärarna, elever och all andra människor.',
             ],
         },
@@ -230,7 +230,7 @@ export const FAQGeneral = {
         {
             question: 'Vad kan jag göra om jag finner en lärresurs som är felaktig?',
             answer: [
-                'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
+                'Biblioteket för öppna lärresurser är en öppen plats för publicering av öppna lärresurser. Alla människor som publicerar lärresurser i tjänsten accepterar tjänstens användningsvillkor, men ändå kan någon felaktiga lärresurser finnas sig på tjänsten. Om du ser någonting som är opassande eller emot tjänstens användningsvillkor, var god och kontakta oss: <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. I din e-post, specificera vilken lärresurs rapporterar du och vad är fel med resursen. Vi inspekterar alla lärresurser som är rapporteras och arkiverar dom om de är emot tjänstens anvädningsvillkor.',
             ],
         },
         {

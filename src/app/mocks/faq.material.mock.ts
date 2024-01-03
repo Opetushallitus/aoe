@@ -79,7 +79,7 @@ export const FAQMaterial = {
         {
             question: 'Mitä voin tehdä jos materiaalini ei toimikaan?',
             answer: [
-                'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota käyttäjätukeemme yhteys laittamalla sähköpostia osoitteeseen <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. Viestissäsi kerro, mikä on vikana, mikä materiaali on kyseessä, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
+                'Joskus voi käydä niin, että ladattuasi materiaalin et saakaan materiaalia auki. Näissä tilanteissa, ota käyttäjätukeemme yhteys laittamalla sähköpostia osoitteeseen <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Viestissäsi kerro, mikä on vikana, mikä materiaali on kyseessä, mitä selainta ja selaimen versiota käytät ja mitä teit kun vikatilanne syntyi. Voimme yhdessä ratkaista ongelmatilanteen.',
                 'Palvelu toimii parhaiten päivitetyillä selaimilla. Taataksesi sivuston parhaan toiminnan suosittelemme, että käytät Chrome tai Firefox -selaimia ja päivität näitä säännöllisesti. Myös muut selaimet toimivat yleisesti. Tämän sivun kysymyksestä Mitä materiaaleja voin tallentaa palveluun voit tarkistaa onko materiaalisi tiedostotyyppi tuettu.',
             ],
         },
@@ -87,13 +87,13 @@ export const FAQMaterial = {
             question: 'Miten materiaalia voi muokata tallentamisen jälkeen? Voiko tallennetun materiaalin poistaa?',
             answer: [
                 `Voit omat oppimateriaalit -näkymästä klikata oppimateriaalin kohdalta muokkaa ja tämän jälkeen lisätä, poistaa tai vaihtaa oppimateriaalin kuvailutietoja sekä lisätä tai vaihtaa tiedostoja tai linkkejä, joista oppimateriaali koostuu. <a href="${environment.frontendUrl}/#/materiaali/606">Tarkemmat ohjeet oppimateriaalien päivittämiseen löydät ohjeistamme</a>. Aiemmat versiot säilyvät palvelussa ja ovat jatkossa nähtävissä versiohistoriasta.`,
-                'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> ja ylläpitäjä voi poistaa materiaalin.',
+                'Käyttäjä ei voi poistaa Avointen oppimateriaalien kirjastoon tallennettuja oppimateriaaleja. Tämä on tärkeää jotta oppimateriaaleihin voi luotettavasti viitata. Oppimateriaalin voi merkitä vanhentuneeksi Oppimateriaali vanhenee -tiedon avulla, jolloin oppimateriaalia ei tule enää esille haussa. Virhetilanteissa tai mikäli löydät materiaalin, joka on käyttöehtojen vastainen, voi olla yhteydessä asiakastukeemme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> ja ylläpitäjä voi poistaa materiaalin.',
             ],
         },
         {
             question: 'Haluaisin siirtää materiaalini muokkausoikeuden toiselle käyttäjälle.',
             answer: [
-                'Saamme materiaalin hallintaoikeuden helposti siirrettyä toiselle käyttäjälle kun laitat sähköpostitse viestiä ylläpitoomme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a> Tarvitsemme vain tiedot oppimateriaaleista, jotka haluat siirtää, sekä materiaalin uuden hallinnoijan tiedot. Mikäli uusi käyttäjä ei vielä ole kirjautunut <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a>:hin, hänen tulisi aluksi luoda tunnukset kirjautumalla palveluun Haka-, MPASSid- tai <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-tunnuksilla. Oppimateriaalin hallinta- ja muokkausoikeus voi olla vain yhdellä käyttäjällä kerrallaan. Oppimateriaalin hallintaoikeuden voi siirtää toiselle käyttäjälle ottamalla yhteyttä ylläpitoomme <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a>',
+                'Saamme materiaalin hallintaoikeuden helposti siirrettyä toiselle käyttäjälle kun laitat sähköpostitse viestiä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. Tarvitsemme vain tiedot oppimateriaaleista, jotka haluat siirtää, sekä materiaalin uuden hallinnoijan tiedot. Mikäli uusi käyttäjä ei vielä ole kirjautunut <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a>:hin, hänen tulisi aluksi luoda tunnukset kirjautumalla palveluun Haka-, MPASSid- tai <a href="http://suomi.fi" target="_blank" rel="noopener nofollow">suomi.fi</a>-tunnuksilla. Oppimateriaalin hallinta- ja muokkausoikeus voi olla vain yhdellä käyttäjällä kerrallaan. Oppimateriaalin hallintaoikeuden voi siirtää toiselle käyttäjälle ottamalla yhteyttä ylläpitoomme <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>.',
             ],
         },
     ],
@@ -173,7 +173,7 @@ export const FAQMaterial = {
         {
             question: 'What can I do, if my learning resource is not functioning correctly?',
             answer: [
-                'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
+                'At times it can happen that the learning resource you uploaded does not open correctly. If this happens, please contact our support by sending us an email <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. In your message it is important that you explain what is wrong, what browser you used and what were you doing in the service when the error happened. Together we can solve the situation.',
                 'The service works best with up to date browsers. To make sure that you have the optimal experience, please use Chrome, or Firefox -browsers and update them regularly. You can also check which file formats are supported on this page in the question Which kinds of resources can be uploaded to the service?',
             ],
         },
@@ -181,13 +181,13 @@ export const FAQMaterial = {
             question: 'How can I update my learning resource after I have uploaded it? Can I delete the resource?',
             answer: [
                 'You can edit your learning resources in the My open educational resources -view by clicking Edit underneath the resource you wish to edit. By doing this you can add, delete and change the metadata as well as the files and links that constitute the resource. <a href="https://aoe.fi/#/materiaali/606">You can find a more detailed instruction here</a>. Previous versions of the learning resource are saved in the service and you can access them in the future through the learning resources version history.',
-                'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> so that an admin can delete the resource.',
+                'A user cannot delete learning resources that have been uploaded in the Library of Open Educational Resources. This is important so that users can reliably reference the learning resources. You can however note that the learning resource expires after a specific date; when that date has passed, it no longer is possible to discover it through the search function. In case of an error or if you find a resource that violates our terms of use, please contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> so that an admin can delete the resource.',
             ],
         },
         {
             question: 'I would like to give the right to edit my OER to an other person.',
             answer: [
-                'We can transfer the administrative rights to another user. First you need to contact us at <a href="mailto:oppimateriaalivaranto@csc.fi." target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi.</a> We need information of the OERs that you wish to transfer and the name and email adress of the user who will be the new administrator. The new administrator needs to log in at aoe.fi using Haka, MPASSid or suomi.fi. Please note that the right to edit and administrate an OER can only be with one user at a time.',
+                'We can transfer the administrative rights to another user. First you need to contact us at <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. We need information of the OERs that you wish to transfer and the name and email adress of the user who will be the new administrator. The new administrator needs to log in at aoe.fi using Haka, MPASSid or suomi.fi. Please note that the right to edit and administrate an OER can only be with one user at a time.',
             ],
         },
     ],
@@ -266,7 +266,7 @@ export const FAQMaterial = {
         {
             question: 'Vad kan jag göra om min lärresurs inte fungerar?',
             answer: [
-                'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a>. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
+                'Ibland kan det hända att lärresurs du laddade upp inte öppnas korrekt. Om detta händer, vänligen kontakta vår support <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a>. I ditt meddelande är det viktigt att du förklarar vad som är fel, vilken webbläsare du använde och vad gjorde du i tjänsten när felet inträffade.',
                 'Tjänsten fungerar bäst med en uppdaterad webbläsare. Du har den bästa upplevelsen, när du använder Chrome eller Firefox -webbläsare och uppdaterar dem regelbundet. Du kan också kolla vilka format kan användas direkt i tjänsten på den här sidan i frågan Vilka material kan lagras i tjänsten?.',
             ],
         },
@@ -274,13 +274,13 @@ export const FAQMaterial = {
             question: 'Hur kan jag uppdatera min lärresurs efter att jag har laddat upp den? Kan jag ta bort resursen?',
             answer: [
                 `Du kan redigera dina lärresurser i Mina lärresurser -sidan. Klick Redigera under lärresursen och då kan du lägga till, ta bort och ändra metadata samt de filer och länkar som utgör resursen. <a href="${environment.frontendUrl}/#/materiaali/606">Anvisning för redigering av lärresurser finns här</a>. Tidigare versioner av lärresursen sparas i tjänsten och du kan komma åt dem i framtiden genom lärresursens versionshistorik.`,
-                'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> så att en administratör kan ta bort resursen.',
+                'En användare kan inte ta bort lärresurser som har laddats upp i biblioteket. Detta är viktigt så att användare på ett tillförlitligt sätt kan referera till lärresurserna. Du kan ändå tillsätta ett datum då lärresursen föråldras; när detta datum har gått är det inte längre möjligt att upptäcka det genom sökfunktionen. Om någonting går fel eller om du hittar en resurs som bryter mot våra användarvillkor, vänligen kontakta oss på <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> så att en administratör kan ta bort resursen.',
             ],
         },
         {
             question: 'Kan jag ge en annan person rätt att redigera mina lärresurserna?',
             answer: [
-                'Om du vill ge en annan person redigeringsrätter till en, alla eller några av dina lärresurser, kan du kontakta oss vid e-post <a href="mailto:oppimateriaalivaranto@csc.fi" target="_blank" rel="noopener nofollow">oppimateriaalivaranto@csc.fi</a> Vi behöver informationen om vilka lärresurser betyder du och vilken person vill du ge redigeringsrätter. Bara en person kan redigera lärresurs, så om du vill ge redigeringsrätter till en annan person, det menar att du kan inte redigera lärresursen dig själv. Ny redigerare måste först logga in till <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a> och godkänna användningsvillkor.',
+                'Om du vill ge en annan person redigeringsrätter till en, alla eller några av dina lärresurser, kan du kontakta oss vid e-post <a href="mailto:aoe@oph.fi" target="_blank" rel="noopener nofollow">aoe@oph.fi</a> Vi behöver informationen om vilka lärresurser betyder du och vilken person vill du ge redigeringsrätter. Bara en person kan redigera lärresurs, så om du vill ge redigeringsrätter till en annan person, det menar att du kan inte redigera lärresursen dig själv. Ny redigerare måste först logga in till <a href="http://aoe.fi" target="_blank" rel="noopener nofollow">aoe.fi</a> och godkänna användningsvillkor.',
             ],
         },
     ],
