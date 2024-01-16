@@ -1,14 +1,10 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import fs from 'fs';
-
-import path from 'path';
-import { ErrorHandler } from '../../helpers/errorHandler';
-import { setMaterialAsObsoleted } from '../../queries/apiQueries';
+import { Router } from 'express';
+import { setAttachmentObsoleted, setMaterialObsoleted } from '../../queries/apiQueries';
 import fileHandling, { downloadFile, downloadPreviewFile } from '../../queries/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '../../queries/thumbnailHandler';
 import authService, { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
 import { isAllasEnabled } from '../../services/routeEnablerService';
-import { requestErrorHandler, requestValidator, winstonLogger } from '../../util';
+import { requestErrorHandler, requestValidator } from '../../util';
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational materials.
@@ -32,34 +28,28 @@ export default (router: Router): void => {
   // Fetch a thumbnail picture by file name (:filename) for the educational material web view.
   router.get(`${moduleRoot}/file/:filename([A-Za-z0-9._-]+[.][A-Za-z0-9]{2,4})/thumbnail`, downloadEmThumbnail);
 
-  // SET MATERIAL AS OBSOLETED
+  // SET MATERIAL OBSOLETED
   // Materials set obsoleted are not available for the users.
   router.delete(
     '/material/:edumaterialid([0-9]{1,6})/obsolete/:materialid([0-9]{1,6})',
     authService.checkAuthenticated,
     authService.hasAccessToMaterial,
-    setMaterialAsObsoleted,
+    setMaterialObsoleted,
+  );
+
+  // SET ATTACHMENT OBSOLETED
+  // Attachments set obsoleted are not available for the users.
+  router.delete(
+    '/material/:edumaterialid([0-9]{1,6})/obsolete/:attachmentid([0-9]{1,6})/attachment',
+    authService.checkAuthenticated,
+    authService.hasAccessToAttachmentFile,
+    setAttachmentObsoleted,
   );
 
   // SINGLE FILE UPLOAD TO THE EDUCATIONAL MATERIAL
   // Upload a single file (material) to an existing educational material and stream to the cloud storage.
   router.post(
     '/material/file/:edumaterialid([0-9]{1,6})/upload',
-    // (req: Request, res: Response, next: NextFunction) => {
-    //   req.on('close', () => {
-    //     const directory = 'uploads';
-    //     fs.readdir(directory, (err, files) => {
-    //       if (err) throw err;
-    //       for (const file of files) {
-    //         fs.unlink(path.join(directory, file), (err) => {
-    //           if (err) throw err;
-    //         });
-    //       }
-    //     });
-    //     throw new ErrorHandler(500, 'Aborted');
-    //   });
-    //   next();
-    // },
     isAllasEnabled,
     requestValidator.fileUploadRules(),
     requestErrorHandler,

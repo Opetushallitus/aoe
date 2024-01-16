@@ -10,6 +10,7 @@ import { ColumnSet } from 'pg-promise';
 import s3Zip from 's3-zip';
 import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
+import winston from 'winston';
 import config from '../config';
 import { Material, MaterialDisplayName, sequelize, TemporaryRecord } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
@@ -366,6 +367,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     await upsertMaterialFileToTempRecords(t, file, material.id);
     await t.commit();
   } catch (err: any) {
+    winstonLogger.error('Transaction failed: %o', err);
     await t.rollback();
     throw new ErrorHandler(500, `Transaction for the single file upload failed: ${err}`);
   }

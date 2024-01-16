@@ -582,7 +582,7 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
  * @param {e.NextFunction} next
  * @return {Promise<void>}
  */
-export const setMaterialAsObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const setMaterialObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
@@ -617,31 +617,35 @@ export const setMaterialAsObsoleted = async (req: Request, res: Response, next: 
   }
 };
 
-export async function deleteAttachment(req: Request, res: Response, next: NextFunction) {
+export const setAttachmentObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     let query;
     let data;
-    await db.tx({ mode }, async (t: any) => {
+    await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
-      query = "update attachment SET obsoleted = '1' WHERE id = $1;";
+      query = `
+        UPDATE attachment
+        SET obsoleted = '1'
+        WHERE id = $1
+      `;
       data = await db.any(query, [req.params.attachmentid]);
       queries.push(data);
-      query =
-        'update educationalmaterial set updatedat = now() where id = ' +
-        '(select educationalmaterialid from material where id = (select materialid from attachment where id = $1));';
-      winstonLogger.debug('Query in deleteAttachment(): ' + query);
-      queries.push(await db.none(query, [req.params.attachmentid]));
+      query = `
+        UPDATE educationalmaterial
+        SET updatedat = now()
+        WHERE id = $1
+      `;
+      queries.push(await db.none(query, [req.params.edumaterialid]));
       return t.batch(queries);
     });
     res.status(200).json({ status: 'deleted' });
     elasticSearch.updateEsDocument().catch((err: Error) => {
-      winstonLogger.error('Es update error: ' + err);
+      winstonLogger.error('Search index update failed after setting an attachment file obsoleted: %o', err);
     });
   } catch (err) {
-    next(new ErrorHandler(500, 'Issue deleting attachment' + err));
-    // res.sendStatus(500);
+    next(new ErrorHandler(500, `Setting an attachment file obsoleted failed: ${err}`));
   }
-}
+};
 
 export async function setLanguage(obj: any) {
   try {
@@ -1625,8 +1629,8 @@ export default {
   getUserMaterial,
   getRecentMaterial,
   setEducationalMaterialObsoleted,
-  setMaterialAsObsoleted,
-  deleteAttachment,
+  setMaterialObsoleted,
+  setAttachmentObsoleted,
   setLanguage,
   insertDataToDescription,
   insertEducationalMaterialName,

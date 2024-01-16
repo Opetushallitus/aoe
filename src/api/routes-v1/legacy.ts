@@ -12,7 +12,7 @@ import {
   getMetadataExtension,
   getUsersMetadataExtension,
 } from '../../metadataExtension/metadataExtension';
-import db, { setMaterialAsObsoleted } from '../../queries/apiQueries';
+import db, { setMaterialObsoleted } from '../../queries/apiQueries';
 import fileHandling from '../../queries/fileHandling';
 import { getMaterialMetaData } from '../../queries/oaipmh';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
@@ -39,12 +39,12 @@ export default (router: Router): void => {
   // TODO: Unused endpoint?
   router.get('/material', db.getMaterial);
 
-  router.delete(
-    '/material/attachment/:attachmentid',
-    authService.checkAuthenticated,
-    authService.hasAccessToAttachmentFile,
-    db.deleteAttachment,
-  );
+  // router.delete(
+  //   '/material/attachment/:attachmentid',
+  //   authService.checkAuthenticated,
+  //   authService.hasAccessToAttachmentFile,
+  //   db.setAttachmentObsoleted,
+  // );
   router.post(
     '/material/attachment/:materialId',
     isAllasEnabled,

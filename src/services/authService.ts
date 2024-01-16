@@ -107,7 +107,7 @@ export const hasAccessToAttachmentFile = async (req: Request, res: Response, nex
     SELECT em.usersusername
     FROM educationalmaterial em
     INNER JOIN material m ON m.educationalmaterialid = em.id
-    WHERE material.id = (
+    WHERE m.id = (
       SELECT a.materialid
       FROM attachment a
       WHERE a.id = $1
