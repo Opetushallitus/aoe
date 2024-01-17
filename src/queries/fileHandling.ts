@@ -6,11 +6,11 @@ import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';
 import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer';
 import path from 'path';
+import pdfParser from 'pdf-parse';
 import { ColumnSet } from 'pg-promise';
 import s3Zip from 's3-zip';
 import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
-import { put } from 'superagent';
 import config from '../config';
 import {
   EducationalMaterial,
@@ -318,6 +318,37 @@ export const uploadFileToLocalDisk = (
   });
 };
 
+export const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, (err, data: Buffer) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      pdfParser(data)
+        .then((info) => {
+          const isEncrypted: boolean = info.info.Encrypt !== undefined;
+          resolve(isEncrypted);
+        })
+        .catch((err) => {
+          if (err.name === 'PasswordException') {
+            resolve(true);
+            return;
+          } else {
+            reject(err);
+            return;
+          }
+        });
+    });
+  });
+};
+
+export const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
+  fs.unlink(`./${file.path}`, (err: any): void => {
+    if (err) winstonLogger.error('Unlink removal for the uploaded file failed: %o', err);
+  });
+};
+
 /**
  * Upload a single file to the educational material with a multipart form upload.
  * @param {e.Request} req
@@ -340,11 +371,20 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     res.status(500).json({ message: 'aborted' });
     return;
   }
+  // Detect and reject encrypted PDFs.
+  if (file.mimetype === 'application/pdf') {
+    const isEncrypted: boolean = await detectEncyptedPDF(`uploads/${file.filename}`);
+    if (isEncrypted) {
+      res.status(415).json({ rejected: 'Encrypted PDF files not allowed' }).end();
+      deleteFileFromLocalDiskStorage(file);
+      return;
+    }
+  }
   let material: Material;
   let recordID: string;
   let t: Transaction;
   t = await sequelize.transaction({
-    isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+    isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED, // SERIALIZABLE,
   });
   try {
     // Save the general information of a new material entry.
@@ -388,7 +428,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
     );
     await sequelize.transaction(
       {
-        isolationLevel: Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+        isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED, // SERIALIZABLE,
       },
       async (t: Transaction): Promise<void> => {
         await upsertRecord(t, file, material.id, fileS3.Key, fileS3.Bucket, fileS3.Location, recordID);
@@ -422,9 +462,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
   } finally {
     // Remove information from incomplete file tasks.
     // await deleteDataFromTempRecordTable(file.filename, material.id);
-    fs.unlink(`./${file.path}`, (err: any): void => {
-      if (err) winstonLogger.error('Unlink removal for the upstreamed file failed: %o', err);
-    });
+    deleteFileFromLocalDiskStorage(file);
   }
 };
 
