@@ -4,6 +4,7 @@ export default {
   // General application start up configurations.
   APPLICATION_CONFIG: {
     isCloudStorageEnabled: (process.env.CLOUD_STORAGE_ENABLED === '1') as boolean,
+    logLevel: process.env.LOG_LEVEL as string,
   },
 
   // Cloud storage configurations.

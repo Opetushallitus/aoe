@@ -38,13 +38,6 @@ export default (router: Router): void => {
 
   // TODO: Unused endpoint?
   router.get('/material', db.getMaterial);
-
-  // router.delete(
-  //   '/material/attachment/:attachmentid',
-  //   authService.checkAuthenticated,
-  //   authService.hasAccessToAttachmentFile,
-  //   db.setAttachmentObsoleted,
-  // );
   router.post(
     '/material/attachment/:materialId',
     isAllasEnabled,
