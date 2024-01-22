@@ -1,20 +1,21 @@
 import { db } from '../resources/pg-connect';
 
-export async function updateViewCounter(id: string): Promise<void> {
+export const updateViewCounter = async (id: string): Promise<void> => {
   // View counter disabled in development mode.
-  if (['development', 'localhost'].includes(process.env.NODE_ENV)) return await Promise.resolve();
+  if (['development', 'localhost'].includes(process.env.NODE_ENV)) return;
   try {
     await db.tx(async (t: any) => {
       const query = `
-                update educationalmaterial 
-                set viewcounter = viewcounter + 1, counterupdatedat = now() 
-                where id = $1`;
+        UPDATE educationalmaterial
+        SET viewcounter = viewcounter + 1, counterupdatedat = NOW()
+        WHERE id = $1
+      `;
       await t.none(query, [id]);
     });
   } catch (error) {
     throw new Error(error);
   }
-}
+};
 
 export async function updateDownloadCounter(id: string): Promise<void> {
   try {
