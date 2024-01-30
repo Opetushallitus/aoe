@@ -1416,7 +1416,7 @@ export const downloadMaterialFile = async (req: Request, res: Response, next: Ne
     UNION
     SELECT a.filekey, a.originalfilename
     FROM attachmentversioncomposition avc
-    INNER JOIN attachment a ON v.attachmentid = a.id
+    INNER JOIN attachment a ON a.id = avc.attachmentid
     WHERE avc.versioneducationalmaterialid = $1 AND avc.versionpublishedat = $2 AND a.obsoleted = 0
   `;
   const versionFiles: {
