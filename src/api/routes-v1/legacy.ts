@@ -12,7 +12,7 @@ import {
   getMetadataExtension,
   getUsersMetadataExtension,
 } from '../../metadataExtension/metadataExtension';
-import db, { setMaterialObsoleted } from '../../queries/apiQueries';
+import db from '../../queries/apiQueries';
 import fileHandling from '../../queries/fileHandling';
 import { getMaterialMetaData } from '../../queries/oaipmh';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
