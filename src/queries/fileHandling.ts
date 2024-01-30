@@ -1408,7 +1408,7 @@ export const downloadMaterialFile = async (req: Request, res: Response, next: Ne
     WHERE educationalmaterialid = $1
   `;
   const queryVersionFilesIds: string = `
-    SELECT record.filekey, record.originalfilename
+    SELECT r.filekey, r.originalfilename
     FROM versioncomposition vc
     RIGHT JOIN material m ON m.id = vc.materialid
     RIGHT JOIN record r ON r.materialid = m.id
