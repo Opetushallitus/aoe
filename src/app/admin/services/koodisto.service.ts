@@ -8,82 +8,82 @@ import { EducationalLevel, SubjectFilter } from '../model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class KoodistoService {
-    apiUri = environment.koodistoUrl;
-    lang: string;
-    httpOptions = {
-        headers: new HttpHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }),
-    };
-    private educationalLevelsBehaviorSubject = new BehaviorSubject<EducationalLevel[]>(null);
-    private organizationsBehaviorSubject = new BehaviorSubject<KeyValue<string, string>[]>(null);
-    private subjectFiltersBehaviorSubject = new BehaviorSubject<SubjectFilter[]>(null);
+  apiUri = environment.koodistoUrl;
+  lang: string;
+  httpOptions = {
+    headers: new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }),
+  };
+  private educationalLevelsBehaviorSubject = new BehaviorSubject<EducationalLevel[]>(null);
+  private organizationsBehaviorSubject = new BehaviorSubject<KeyValue<string, string>[]>(null);
+  private subjectFiltersBehaviorSubject = new BehaviorSubject<SubjectFilter[]>(null);
 
-    public educationalLevels$ = this.educationalLevelsBehaviorSubject.asObservable();
-    public organizations$ = this.organizationsBehaviorSubject.asObservable();
-    public subjectFilters$ = this.subjectFiltersBehaviorSubject.asObservable();
+  public educationalLevels$ = this.educationalLevelsBehaviorSubject.asObservable();
+  public organizations$ = this.organizationsBehaviorSubject.asObservable();
+  public subjectFilters$ = this.subjectFiltersBehaviorSubject.asObservable();
 
-    constructor(private http: HttpClient, private translate: TranslateService) {
-        this.lang = this.translate.currentLang;
+  constructor(private http: HttpClient, private translate: TranslateService) {
+    this.lang = this.translate.currentLang;
+  }
+
+  private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
+    switch (error.status) {
+      case 404:
+        subject$.next([]);
+        break;
+
+      default:
+        console.error(error);
+        return throwError('Something bad happened; please try again later.');
     }
+  };
 
-    private handleError = (error: HttpErrorResponse, subject$: Subject<any>): Observable<never> => {
-        switch (error.status) {
-            case 404:
-                subject$.next([]);
-                break;
+  /**
+   * Updates educational levels.
+   */
+  updateEducationalLevels(): void {
+    const lang = this.translate.currentLang;
 
-            default:
-                console.error(error);
-                return throwError('Something bad happened; please try again later.');
-        }
-    };
+    this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).subscribe(
+      (educationalLevels: EducationalLevel[]) => {
+        this.educationalLevelsBehaviorSubject.next(educationalLevels);
+      },
+      (error: HttpErrorResponse) => this.handleError(error, this.educationalLevelsBehaviorSubject),
+    );
+  }
 
-    /**
-     * Updates educational levels.
-     */
-    updateEducationalLevels(): void {
-        const lang = this.translate.currentLang;
+  /**
+   * Updates organizations.
+   */
+  updateOrganizations(): void {
+    const lang = this.translate.currentLang;
 
-        this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).subscribe(
-            (educationalLevels: EducationalLevel[]) => {
-                this.educationalLevelsBehaviorSubject.next(educationalLevels);
-            },
-            (error: HttpErrorResponse) => this.handleError(error, this.educationalLevelsBehaviorSubject),
-        );
-    }
+    this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions).subscribe(
+      (organizations: KeyValue<string, string>[]) => {
+        this.organizationsBehaviorSubject.next(organizations);
+      },
+      (error: HttpErrorResponse) => this.handleError(error, this.organizationsBehaviorSubject),
+    );
+  }
 
-    /**
-     * Updates organizations.
-     */
-    updateOrganizations(): void {
-        const lang = this.translate.currentLang;
+  /**
+   * Updates educational subject filters.
+   */
+  updateSubjectFilters(): void {
+    const lang = this.translate.currentLang;
 
-        this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions).subscribe(
-            (organizations: KeyValue<string, string>[]) => {
-                this.organizationsBehaviorSubject.next(organizations);
-            },
-            (error: HttpErrorResponse) => this.handleError(error, this.organizationsBehaviorSubject),
-        );
-    }
-
-    /**
-     * Updates educational subject filters.
-     */
-    updateSubjectFilters(): void {
-        const lang = this.translate.currentLang;
-
-        this.http
-            .get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
-            .subscribe(
-                (filters: SubjectFilter[]) => {
-                    this.subjectFiltersBehaviorSubject.next(filters);
-                },
-                (error: HttpErrorResponse) => this.handleError(error, this.subjectFiltersBehaviorSubject),
-            );
-    }
+    this.http
+      .get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
+      .subscribe(
+        (filters: SubjectFilter[]) => {
+          this.subjectFiltersBehaviorSubject.next(filters);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.subjectFiltersBehaviorSubject),
+      );
+  }
 }

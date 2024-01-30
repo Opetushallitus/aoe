@@ -2,6 +2,6 @@
 
 .modal-title {
   color: #fff;
-  @include font-size(18);
+  @include resize(18);
   font-weight: 400;
 }

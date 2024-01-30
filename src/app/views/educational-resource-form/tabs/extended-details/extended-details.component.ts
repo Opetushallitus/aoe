@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -14,238 +14,242 @@ import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { validatorParams } from '@constants/validator-params';
+import { MaterialService } from '@services/material.service';
 
 @Component({
-    selector: 'app-tabs-extended-details',
-    templateUrl: './extended-details.component.html',
-    styleUrls: ['./extended-details.component.scss'],
+  selector: 'app-tabs-extended-details',
+  templateUrl: './extended-details.component.html',
+  styleUrls: ['./extended-details.component.scss'],
 })
 export class ExtendedDetailsComponent implements OnInit, OnDestroy {
-    lang: string = this.translate.currentLang;
-    savedData: any;
-    accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`;
+  @Output() abortEdit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-    accessibilityFeatureSubscription: Subscription;
-    accessibilityFeatures: AccessibilityFeature[];
-    accessibilityHazardSubscription: Subscription;
-    accessibilityHazards: AccessibilityHazard[];
+  lang: string = this.translate.currentLang;
+  savedData: any;
+  accessibilityLink: string = `${environment.frontendUrl}/#/saavutettavuus/`;
 
-    form: FormGroup;
-    submitted = false;
+  accessibilityFeatureSubscription: Subscription;
+  accessibilityFeatures: AccessibilityFeature[];
+  accessibilityHazardSubscription: Subscription;
+  accessibilityHazards: AccessibilityHazard[];
 
-    private alignmentObjects: AlignmentObjectExtended[] = [];
+  form: FormGroup;
+  submitted = false;
 
-    addCustomItem = addCustomItem;
-    addPrerequisites = addPrerequisites;
+  private alignmentObjects: AlignmentObjectExtended[] = [];
 
-    constructor(
-        private fb: FormBuilder,
-        private router: Router,
-        private koodistoProxySvc: KoodistoService,
-        private translate: TranslateService,
-        private titleSvc: Title,
-    ) {}
+  addCustomItem = addCustomItem;
+  addPrerequisites = addPrerequisites;
 
-    ngOnInit(): void {
-        this.setTitle();
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private koodistoProxySvc: KoodistoService,
+    private materialService: MaterialService,
+    private translate: TranslateService,
+    private titleSvc: Title,
+  ) {}
 
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.lang = event.lang;
+  ngOnInit(): void {
+    this.setTitle();
 
-            this.setTitle();
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
 
-            this.koodistoProxySvc.updateAccessibilityFeatures();
-            this.koodistoProxySvc.updateAccessibilityHazards();
-        });
+      this.setTitle();
 
-        this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
+      this.koodistoProxySvc.updateAccessibilityFeatures();
+      this.koodistoProxySvc.updateAccessibilityHazards();
+    });
 
-        this.form = this.fb.group({
-            accessibilityFeatures: this.fb.control(null),
-            accessibilityHazards: this.fb.control(null),
-            typicalAgeRange: this.fb.group({
-                typicalAgeRangeMin: this.fb.control(null, [
-                    Validators.min(validatorParams.ageRange.min.min),
-                    Validators.pattern(validatorParams.ageRange.min.pattern),
-                    Validators.maxLength(validatorParams.ageRange.min.maxLength),
-                ]),
-                typicalAgeRangeMax: this.fb.control(null, [
-                    Validators.min(validatorParams.ageRange.max.min),
-                    Validators.pattern(validatorParams.ageRange.max.pattern),
-                    Validators.maxLength(validatorParams.ageRange.max.maxLength),
-                ]),
-            }),
-            timeRequired: this.fb.control(null, [
-                Validators.maxLength(validatorParams.timeRequired.maxLength),
-                textInputValidator(),
-            ]),
-            publisher: this.fb.control(null),
-            expires: this.fb.control(null),
-            prerequisites: this.fb.control(null),
-        });
+    this.savedData = JSON.parse(sessionStorage.getItem(environment.newERLSKey));
 
-        this.accessibilityFeatureSubscription = this.koodistoProxySvc.accessibilityFeatures$.subscribe(
-            (accessibilityFeatures: AccessibilityFeature[]) => {
-                this.accessibilityFeatures = accessibilityFeatures;
-            },
+    this.form = this.fb.group({
+      accessibilityFeatures: this.fb.control(null),
+      accessibilityHazards: this.fb.control(null),
+      typicalAgeRange: this.fb.group({
+        typicalAgeRangeMin: this.fb.control(null, [
+          Validators.min(validatorParams.ageRange.min.min),
+          Validators.pattern(validatorParams.ageRange.min.pattern),
+          Validators.maxLength(validatorParams.ageRange.min.maxLength),
+        ]),
+        typicalAgeRangeMax: this.fb.control(null, [
+          Validators.min(validatorParams.ageRange.max.min),
+          Validators.pattern(validatorParams.ageRange.max.pattern),
+          Validators.maxLength(validatorParams.ageRange.max.maxLength),
+        ]),
+      }),
+      timeRequired: this.fb.control(null, [
+        Validators.maxLength(validatorParams.timeRequired.maxLength),
+        textInputValidator(),
+      ]),
+      publisher: this.fb.control(null),
+      expires: this.fb.control(null),
+      prerequisites: this.fb.control(null),
+    });
+
+    this.accessibilityFeatureSubscription = this.koodistoProxySvc.accessibilityFeatures$.subscribe(
+      (accessibilityFeatures: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = accessibilityFeatures;
+      },
+    );
+    this.koodistoProxySvc.updateAccessibilityFeatures();
+
+    this.accessibilityHazardSubscription = this.koodistoProxySvc.accessibilityHazards$.subscribe(
+      (accessibilityHazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = accessibilityHazards;
+      },
+    );
+    this.koodistoProxySvc.updateAccessibilityHazards();
+
+    if (this.savedData) {
+      if (this.savedData.accessibilityFeatures) {
+        this.accessibilityFeaturesCtrl.setValue(this.savedData.accessibilityFeatures);
+      }
+
+      if (this.savedData.accessibilityHazards) {
+        this.accessibilityHazardsCtrl.setValue(this.savedData.accessibilityHazards);
+      }
+
+      if (this.savedData.typicalAgeRange) {
+        this.form.get('typicalAgeRange').setValue(this.savedData.typicalAgeRange);
+      }
+
+      if (this.savedData.timeRequired) {
+        this.form.get('timeRequired').setValue(this.savedData.timeRequired);
+      }
+
+      if (this.savedData.publisher) {
+        this.publisherCtrl.setValue(this.savedData.publisher);
+      }
+
+      if (this.savedData.expires) {
+        this.form.get('expires').setValue(new Date(this.savedData.expires));
+      }
+
+      if (this.savedData.alignmentObjects) {
+        this.alignmentObjects = this.savedData.alignmentObjects;
+
+        // filter prerequisites
+        const prerequisites = this.alignmentObjects.filter(
+          (alignmentObject) => alignmentObject.source === koodistoSources.prerequisites,
         );
-        this.koodistoProxySvc.updateAccessibilityFeatures();
 
-        this.accessibilityHazardSubscription = this.koodistoProxySvc.accessibilityHazards$.subscribe(
-            (accessibilityHazards: AccessibilityHazard[]) => {
-                this.accessibilityHazards = accessibilityHazards;
-            },
-        );
-        this.koodistoProxySvc.updateAccessibilityHazards();
+        // set filtered prerequisites as form control value
+        this.prerequisites.setValue(prerequisites);
 
-        if (this.savedData) {
-            if (this.savedData.accessibilityFeatures) {
-                this.accessibilityFeaturesCtrl.setValue(this.savedData.accessibilityFeatures);
-            }
-
-            if (this.savedData.accessibilityHazards) {
-                this.accessibilityHazardsCtrl.setValue(this.savedData.accessibilityHazards);
-            }
-
-            if (this.savedData.typicalAgeRange) {
-                this.form.get('typicalAgeRange').setValue(this.savedData.typicalAgeRange);
-            }
-
-            if (this.savedData.timeRequired) {
-                this.form.get('timeRequired').setValue(this.savedData.timeRequired);
-            }
-
-            if (this.savedData.publisher) {
-                this.publisherCtrl.setValue(this.savedData.publisher);
-            }
-
-            if (this.savedData.expires) {
-                this.form.get('expires').setValue(new Date(this.savedData.expires));
-            }
-
-            if (this.savedData.alignmentObjects) {
-                this.alignmentObjects = this.savedData.alignmentObjects;
-
-                // filter prerequisites
-                const prerequisites = this.alignmentObjects.filter(
-                    (alignmentObject) => alignmentObject.source === koodistoSources.prerequisites,
-                );
-
-                // set filtered prerequisites as form control value
-                this.prerequisites.setValue(prerequisites);
-
-                // remove prerequisites from alignmentObjects
-                prerequisites.forEach((prerequisite: AlignmentObjectExtended) => {
-                    const index = this.alignmentObjects.indexOf(prerequisite);
-                    this.alignmentObjects.splice(index, 1);
-                });
-            }
-        }
-    }
-
-    ngOnDestroy(): void {
-        // save data if its valid, dirty and not submitted
-        if (this.submitted === false && this.form.dirty && this.form.valid) {
-            this.saveData();
-        }
-
-        this.accessibilityFeatureSubscription.unsubscribe();
-        this.accessibilityHazardSubscription.unsubscribe();
-    }
-
-    setTitle(): void {
-        this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-            this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
+        // remove prerequisites from alignmentObjects
+        prerequisites.forEach((prerequisite: AlignmentObjectExtended) => {
+          const index = this.alignmentObjects.indexOf(prerequisite);
+          this.alignmentObjects.splice(index, 1);
         });
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    // save data if its valid, dirty and not submitted
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveData();
     }
 
-    get accessibilityFeaturesCtrl(): FormControl {
-        return this.form.get('accessibilityFeatures') as FormControl;
+    this.accessibilityFeatureSubscription.unsubscribe();
+    this.accessibilityHazardSubscription.unsubscribe();
+  }
+
+  setTitle(): void {
+    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
+    });
+  }
+
+  get accessibilityFeaturesCtrl(): FormControl {
+    return this.form.get('accessibilityFeatures') as FormControl;
+  }
+
+  get accessibilityHazardsCtrl(): FormControl {
+    return this.form.get('accessibilityHazards') as FormControl;
+  }
+
+  get typicalAgeRangeMinCtrl(): FormControl {
+    return this.form.get('typicalAgeRange.typicalAgeRangeMin') as FormControl;
+  }
+
+  get typicalAgeRangeMaxCtrl(): FormControl {
+    return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+  }
+
+  get timeRequiredCtrl(): FormControl {
+    return this.form.get('timeRequired') as FormControl;
+  }
+
+  get publisherCtrl(): FormControl {
+    return this.form.get('publisher') as FormControl;
+  }
+
+  get prerequisites(): FormControl {
+    return this.form.get('prerequisites') as FormControl;
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        this.saveData();
+      }
+      void this.router.navigate(['/lisaa-oppimateriaali', 5]);
+    }
+  }
+
+  saveData(): void {
+    if (this.prerequisites.value) {
+      this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
+        this.alignmentObjects.push(prerequisite);
+      });
     }
 
-    get accessibilityHazardsCtrl(): FormControl {
-        return this.form.get('accessibilityHazards') as FormControl;
+    if (this.accessibilityFeaturesCtrl.value && this.accessibilityFeaturesCtrl.value.length === 0) {
+      this.accessibilityFeaturesCtrl.setValue(null);
     }
 
-    get typicalAgeRangeMinCtrl(): FormControl {
-        return this.form.get('typicalAgeRange.typicalAgeRangeMin') as FormControl;
+    if (this.accessibilityHazardsCtrl.value && this.accessibilityHazardsCtrl.value.length === 0) {
+      this.accessibilityHazardsCtrl.setValue(null);
     }
 
-    get typicalAgeRangeMaxCtrl(): FormControl {
-        return this.form.get('typicalAgeRange.typicalAgeRangeMax') as FormControl;
+    if (this.typicalAgeRangeMinCtrl.value === '') {
+      this.typicalAgeRangeMinCtrl.setValue(null);
     }
 
-    get timeRequiredCtrl(): FormControl {
-        return this.form.get('timeRequired') as FormControl;
+    if (this.typicalAgeRangeMaxCtrl.value === '') {
+      this.typicalAgeRangeMaxCtrl.setValue(null);
     }
 
-    get publisherCtrl(): FormControl {
-        return this.form.get('publisher') as FormControl;
+    if (this.publisherCtrl.value && this.publisherCtrl.value.length === 0) {
+      this.publisherCtrl.setValue(null);
     }
 
-    get prerequisites(): FormControl {
-        return this.form.get('prerequisites') as FormControl;
-    }
+    const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value, {
+      alignmentObjects: this.alignmentObjects,
+    });
 
-    onSubmit(): void {
-        this.submitted = true;
+    // save data to session storage
+    sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
+  }
 
-        if (this.form.valid) {
-            if (this.form.dirty) {
-                this.saveData();
-            }
+  resetForm(): void {
+    // reset form values
+    this.form.reset();
+    // clear data from session storage
+    sessionStorage.removeItem(environment.newERLSKey);
+    this.materialService.clearEducationalMaterialID();
+    void this.router.navigateByUrl('/');
+  }
 
-            this.router.navigate(['/lisaa-oppimateriaali', 5]);
-        }
-    }
+  previousTab(): void {
+    void this.router.navigate(['/lisaa-oppimateriaali', 3]);
+  }
 
-    saveData(): void {
-        if (this.prerequisites.value) {
-            this.prerequisites.value.forEach((prerequisite: AlignmentObjectExtended) => {
-                this.alignmentObjects.push(prerequisite);
-            });
-        }
-
-        if (this.accessibilityFeaturesCtrl.value && this.accessibilityFeaturesCtrl.value.length === 0) {
-            this.accessibilityFeaturesCtrl.setValue(null);
-        }
-
-        if (this.accessibilityHazardsCtrl.value && this.accessibilityHazardsCtrl.value.length === 0) {
-            this.accessibilityHazardsCtrl.setValue(null);
-        }
-
-        if (this.typicalAgeRangeMinCtrl.value === '') {
-            this.typicalAgeRangeMinCtrl.setValue(null);
-        }
-
-        if (this.typicalAgeRangeMaxCtrl.value === '') {
-            this.typicalAgeRangeMaxCtrl.setValue(null);
-        }
-
-        if (this.publisherCtrl.value && this.publisherCtrl.value.length === 0) {
-            this.publisherCtrl.setValue(null);
-        }
-
-        const data = Object.assign({}, JSON.parse(sessionStorage.getItem(environment.newERLSKey)), this.form.value, {
-            alignmentObjects: this.alignmentObjects,
-        });
-
-        // save data to session storage
-        sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
-    }
-
-    resetForm(): void {
-        // reset form values
-        this.form.reset();
-
-        // clear data from session storage
-        sessionStorage.removeItem(environment.newERLSKey);
-        sessionStorage.removeItem(environment.fileUploadLSKey);
-
-        this.router.navigateByUrl('/');
-    }
-
-    previousTab(): void {
-        this.router.navigate(['/lisaa-oppimateriaali', 3]);
-    }
+  abort(): void {
+    this.abortEdit.emit(true);
+  }
 }

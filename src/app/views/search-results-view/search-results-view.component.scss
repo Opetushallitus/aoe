@@ -3,7 +3,8 @@
 
 .block-header {
   background-color: $light;
-  border-radius: 0.25rem;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  // border-radius: 0.25rem;
   margin-bottom: 1rem;
   padding: 1.5rem 1rem;
 }
@@ -11,24 +12,24 @@
 #filters {
   h2 {
     color: $dark;
-    @include font-size(18);
+    @include resize(18px);
     margin-bottom: 0;
   }
 
   .badge {
-    @include font-size(16);
+    @include resize(16px);
     font-weight: 400;
   }
 }
 
 .filter {
   border-bottom: 1px solid #ccc;
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem;
 
   .header {
     h3 {
-      @include font-size(18);
-      font-weight: 400;
+      @include resize(13px);
+      font-weight: 300;
       margin-bottom: 0;
     }
   }
@@ -38,12 +39,12 @@
     padding-top: 0.5rem;
 
     .custom-control-label {
-      @include font-size(12);
+      @include resize(12px);
       padding-top: 0.125rem;
     }
 
     h5 {
-      @include font-size(14);
+      @include resize(14px);
     }
 
     .children {
@@ -53,12 +54,12 @@
 }
 
 .results-count {
-  @include font-size(14);
+  @include resize(14px);
   font-weight: 500;
 }
 
 .search-pagination::ng-deep .ngx-pagination {
-  @include font-size(14);
+  @include resize(14px);
   margin-bottom: 0;
 
   .current {
@@ -67,13 +68,13 @@
 }
 
 .search-filter {
-  @include font-size(14);
+  @include resize(14px);
   font-weight: 500;
   margin-right: 0.25rem;
 
   button {
     border-radius: 0.125rem;
-    @include font-size(12);
+    @include resize(12px);
     line-height: 1;
     padding: 0.05rem 0.2rem;
     vertical-align: baseline;
@@ -82,4 +83,9 @@
 
 #search-filters {
   background-color: $light;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+}
+
+#button-narrow-search {
+  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
 }

@@ -3,24 +3,24 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HelpViewComponent } from './help-view.component';
 
 describe('HelpViewComponent', () => {
-    let component: HelpViewComponent;
-    let fixture: ComponentFixture<HelpViewComponent>;
+  let component: HelpViewComponent;
+  let fixture: ComponentFixture<HelpViewComponent>;
 
-    beforeEach(
-        waitForAsync(() => {
-            TestBed.configureTestingModule({
-                declarations: [HelpViewComponent],
-            }).compileComponents();
-        }),
-    );
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [HelpViewComponent],
+      }).compileComponents();
+    }),
+  );
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(HelpViewComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HelpViewComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

@@ -4,133 +4,145 @@ import { MaterialService } from '@services/material.service';
 import { Observable, Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from '@models/translations/toast';
 import {
-    EditBasedOnDetailsComponent,
-    EditBasicDetailsComponent,
-    EditEducationalDetailsComponent,
-    EditExtendedDetailsComponent,
-    EditFilesComponent,
-    EditLicenseComponent,
-    EditPreviewComponent,
+  EditBasedOnDetailsComponent,
+  EditBasicDetailsComponent,
+  EditEducationalDetailsComponent,
+  EditExtendedDetailsComponent,
+  EditFilesComponent,
+  EditLicenseComponent,
+  EditPreviewComponent,
 } from './tabs';
 
 @Component({
-    selector: 'app-educational-material-edit-form',
-    templateUrl: './educational-material-edit-form.component.html',
-    styleUrls: ['./educational-material-edit-form.component.scss'],
+  selector: 'app-educational-material-edit-form',
+  templateUrl: './educational-material-edit-form.component.html',
+  styleUrls: ['./educational-material-edit-form.component.scss'],
 })
 export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
-    materialId: number;
-    materialSubscription: Subscription;
-    material: EducationalMaterialForm;
-    tabId: number;
-    routeSubscription: Subscription;
-    confirmModalRef: BsModalRef;
-    noPermissionTitle: string;
-    noPermissionMessage: string;
-    abortMessage: string;
-    @ViewChild(EditFilesComponent) filesTab: EditFilesComponent;
-    @ViewChild(EditBasicDetailsComponent) basicTab: EditBasicDetailsComponent;
-    @ViewChild(EditEducationalDetailsComponent) educationalTab: EditEducationalDetailsComponent;
-    @ViewChild(EditExtendedDetailsComponent) extendedTab: EditExtendedDetailsComponent;
-    @ViewChild(EditLicenseComponent) licenseTab: EditLicenseComponent;
-    @ViewChild(EditBasedOnDetailsComponent) referencesTab: EditBasedOnDetailsComponent;
-    @ViewChild(EditPreviewComponent) previewTab: EditPreviewComponent;
+  educationalMaterialEditForm: EducationalMaterialForm;
+  educationalMaterialID: number;
+  tabId: number;
+  confirmModalRef: BsModalRef;
+  noPermissionTitle: string;
+  noPermissionMessage: string;
+  abortMessage: string;
 
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private materialSvc: MaterialService,
-        private modalService: BsModalService,
-        private translate: TranslateService,
-        private toastr: ToastrService,
-    ) {}
+  educationalMaterialEditForm$: Observable<EducationalMaterialForm> = this.materialService.educationalMaterialEditForm$;
 
-    ngOnInit(): void {
-        this.materialId = +this.route.snapshot.paramMap.get('materialId');
+  subscriptionEducationalMaterialEditForm: Subscription;
+  subscriptionRoute: Subscription;
+  subscriptionTranslateAbort: Subscription;
+  subscriptionTranslatePermission: Subscription;
+  subscriptionUpdateUploadedFiles: Subscription;
 
-        this.translate.get('forms.editEducationalResource.toasts.noPermission').subscribe((translation: Toast) => {
-            this.noPermissionTitle = translation.title;
-            this.noPermissionMessage = translation.message;
-        });
+  @ViewChild(EditFilesComponent) filesTab: EditFilesComponent;
+  @ViewChild(EditBasicDetailsComponent) basicTab: EditBasicDetailsComponent;
+  @ViewChild(EditEducationalDetailsComponent) educationalTab: EditEducationalDetailsComponent;
+  @ViewChild(EditExtendedDetailsComponent) extendedTab: EditExtendedDetailsComponent;
+  @ViewChild(EditLicenseComponent) licenseTab: EditLicenseComponent;
+  @ViewChild(EditBasedOnDetailsComponent) referencesTab: EditBasedOnDetailsComponent;
+  @ViewChild(EditPreviewComponent) previewTab: EditPreviewComponent;
 
-        this.translate.get('forms.editEducationalResource.abort.text').subscribe((translation: string) => {
-            this.abortMessage = translation;
-        });
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private materialService: MaterialService,
+    private modalService: BsModalService,
+    private translate: TranslateService,
+    private toastr: ToastrService,
+  ) {}
 
-        this.materialSubscription = this.materialSvc.editMaterial$.subscribe((material: EducationalMaterialForm) => {
-            this.material = material;
+  ngOnInit(): void {
+    const educationalMaterialID: string = this.route.snapshot.paramMap.get('materialId');
+    this.educationalMaterialID = +educationalMaterialID;
+    this.materialService.setEducationalMaterialID(educationalMaterialID);
+    this.subscriptionUpdateUploadedFiles = this.materialService
+      .updateUploadedFiles(this.educationalMaterialID)
+      .subscribe({
+        error: (err) =>
+          console.error(`Updating the file information of EMID=${this.educationalMaterialID} failed:`, err),
+      });
+    this.subscriptionEducationalMaterialEditForm = this.materialService
+      .updateEducationalMaterialEditForm(this.educationalMaterialID)
+      .subscribe(
+        (educationalMaterialForm: EducationalMaterialForm): void => {
+          this.materialService.setEducationalMaterialEditForm(educationalMaterialForm);
+          this.educationalMaterialEditForm = educationalMaterialForm;
+        },
+        (err): void => {
+          this.toastr.error(this.noPermissionMessage, this.noPermissionTitle);
+          console.error(err);
+          void this.router.navigate(['/etusivu']);
+        },
+      );
+    this.subscriptionTranslatePermission = this.translate
+      .get('forms.editEducationalResource.toasts.noPermission')
+      .subscribe((translation: Toast): void => {
+        this.noPermissionTitle = translation.title;
+        this.noPermissionMessage = translation.message;
+      });
+    this.subscriptionTranslateAbort = this.translate
+      .get('forms.editEducationalResource.abort.text')
+      .subscribe((translation: string): void => {
+        this.abortMessage = translation;
+      });
+    this.subscriptionRoute = this.route.paramMap.subscribe((params: Params): void => {
+      this.tabId = +params.get('tabId');
+      if (!this.tabId) {
+        void this.router.navigate(['/muokkaa-oppimateriaalia', educationalMaterialID, 1]);
+      }
+    });
+  }
 
-            if (this.material === null) {
-                this.toastr.error(this.noPermissionMessage, this.noPermissionTitle);
+  ngOnDestroy(): void {
+    this.materialService.clearEducationalMaterialEditForm();
+    this.subscriptionEducationalMaterialEditForm.unsubscribe();
+    this.subscriptionRoute.unsubscribe();
+    this.subscriptionTranslateAbort.unsubscribe();
+    this.subscriptionTranslatePermission.unsubscribe();
+    this.subscriptionUpdateUploadedFiles.unsubscribe();
+  }
 
-                this.router.navigate(['/etusivu']);
-            }
-        });
-        this.materialSvc.updateEditMaterial(this.materialId);
+  /**
+   * Shows confirm modal for abort.
+   * @param {TemplateRef<any>} template
+   */
+  openConfirmModal(template: TemplateRef<any>): void {
+    this.confirmModalRef = this.modalService.show(template);
+  }
 
-        this.routeSubscription = this.route.paramMap.subscribe((params: Params) => {
-            this.tabId = +params.get('tabId');
+  /**
+   * Removes edit material from session storage. Redirects user to user materials view.
+   */
+  abort(): void {
+    this.materialService.clearEducationalMaterialEditForm();
+    void this.router.navigate(['/omat-oppimateriaalit']);
+    this.confirmModalRef.hide();
+  }
 
-            if (!this.tabId) {
-                this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, 1]);
-            }
-        });
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    if (
+      this.filesTab?.form.dirty ||
+      this.basicTab?.form.dirty ||
+      this.educationalTab?.form.dirty ||
+      this.extendedTab?.form.dirty ||
+      this.licenseTab?.form.dirty ||
+      this.referencesTab?.form.dirty
+    ) {
+      return confirm(this.abortMessage);
     }
-
-    ngOnDestroy(): void {
-        this.materialSubscription.unsubscribe();
-        this.routeSubscription.unsubscribe();
-
-        sessionStorage.removeItem(environment.editMaterial);
+    if (this.previewTab?.canDeactivate) {
+      return true;
     }
-
-    /**
-     * Shows confirm modal for abort.
-     * @param {TemplateRef<any>} template
-     */
-    openConfirmModal(template: TemplateRef<any>): void {
-        this.confirmModalRef = this.modalService.show(template);
+    const editMaterial: EducationalMaterialForm = this.materialService.getEducationalMaterialEditForm();
+    if (editMaterial) {
+      return editMaterial === this.educationalMaterialEditForm ? true : confirm(this.abortMessage);
     }
-
-    /**
-     * Removes edit material from session storage. Redirects user to user materials view.
-     */
-    abort(): void {
-        sessionStorage.removeItem(environment.editMaterial);
-
-        this.router.navigate(['/omat-oppimateriaalit']);
-
-        this.confirmModalRef.hide();
-    }
-
-    @HostListener('window:beforeunload')
-    canDeactivate(): Observable<boolean> | boolean {
-        if (
-            this.filesTab?.form.dirty ||
-            this.basicTab?.form.dirty ||
-            this.educationalTab?.form.dirty ||
-            this.extendedTab?.form.dirty ||
-            this.licenseTab?.form.dirty ||
-            this.referencesTab?.form.dirty
-        ) {
-            return confirm(this.abortMessage);
-        }
-
-        if (this.previewTab?.canDeactivate) {
-            return true;
-        }
-
-        const editMaterial: EducationalMaterialForm = JSON.parse(sessionStorage.getItem(environment.editMaterial));
-
-        if (editMaterial) {
-            return editMaterial === this.material ? true : confirm(this.abortMessage);
-        }
-
-        return true;
-    }
+    return true;
+  }
 }

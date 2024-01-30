@@ -224,9 +224,11 @@
       "cancel": "Peruuta",
       "close": "Sulje",
       "delete": "Poista",
+      "discard": "Hylkää virheelliset tiedostot",
       "next": "Seuraava",
       "previous": "Edellinen",
       "required": "Pakollinen",
+      "retry": "Yritä uudelleen",
       "pattern": {
         "url": "Aseta etuliite http:// tai https://",
         "numeric": "Vain numerot ovat sallittuja"
@@ -241,7 +243,10 @@
         "tooltip": "Kieliversiot-painikkeesta voit halutessasi lisätä nimille ja kuvaukselle ruotsin tai englanninkielisen käännöksen, jotta näillä kielillä palvelua käyttävät saavat kokonaisen kuvan millainen materiaalisi on."
       },
       "replaceFile": "Korvaa tiedosto",
-      "replaceLink": "Korvaa linkki"
+      "replaceLink": "Korvaa linkki",
+      "uploadActive": "Materiaalin lataus käynnissä",
+      "uploadError": "Osa latauksista keskeytyi tai epäonnistui",
+      "uploadEncrypted": "Salasanalla suojatut tai salatut tiedostot eivät ole sallittuja"
     },
     "errors": {
       "common": {
@@ -285,7 +290,7 @@
           }
         },
         "file": {
-          "title": ". tiedosto",
+          "title": ". materiaali",
           "tooltip": "Lataa tässä ne tiedostot joista oppimateriaalisi koostuu. Voit myös linkittää oppimateriaalisi, jos se sijaitsee jossain avoimesti ja pitkäikäisesti kenen tahansa saatavilla. Ensimmäinen tiedosto on myös esikatselussa ensimmäisenä auki.",
           "or": "tai",
           "inputs": {

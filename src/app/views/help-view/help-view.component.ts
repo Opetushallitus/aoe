@@ -9,41 +9,41 @@ import { Title } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 @Component({
-    selector: 'app-help-view',
-    templateUrl: './help-view.component.html',
+  selector: 'app-help-view',
+  templateUrl: './help-view.component.html',
 })
 export class HelpViewComponent implements OnInit, OnDestroy {
-    private langChangeSubscription: Subscription;
-    public faqGeneral;
-    public faqMaterial;
-    public faqOrganisation;
-    isOpen = false;
+  private langChangeSubscription: Subscription;
+  public faqGeneral;
+  public faqMaterial;
+  public faqOrganisation;
+  isOpen = false;
 
-    constructor(private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private translate: TranslateService, private titleSvc: Title) {}
 
-    ngOnInit(): void {
-        this.setTitle();
+  ngOnInit(): void {
+    this.setTitle();
 
-        this.faqGeneral = FAQGeneral[this.translate.currentLang];
-        this.faqMaterial = FAQMaterial[this.translate.currentLang];
-        this.faqOrganisation = FAQOrganisation[this.translate.currentLang];
+    this.faqGeneral = FAQGeneral[this.translate.currentLang];
+    this.faqMaterial = FAQMaterial[this.translate.currentLang];
+    this.faqOrganisation = FAQOrganisation[this.translate.currentLang];
 
-        this.langChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.faqGeneral = FAQGeneral[event.lang];
-            this.faqMaterial = FAQMaterial[event.lang];
-            this.faqOrganisation = FAQOrganisation[event.lang];
+    this.langChangeSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.faqGeneral = FAQGeneral[event.lang];
+      this.faqMaterial = FAQMaterial[event.lang];
+      this.faqOrganisation = FAQOrganisation[event.lang];
 
-            this.setTitle();
-        });
-    }
+      this.setTitle();
+    });
+  }
 
-    ngOnDestroy(): void {
-        this.langChangeSubscription.unsubscribe();
-    }
+  ngOnDestroy(): void {
+    this.langChangeSubscription.unsubscribe();
+  }
 
-    setTitle(): void {
-        this.translate.get('titles.faq').subscribe((title: string) => {
-            this.titleSvc.setTitle(`${title} ${environment.title}`);
-        });
-    }
+  setTitle(): void {
+    this.translate.get('titles.faq').subscribe((title: string) => {
+      this.titleSvc.setTitle(`${title} ${environment.title}`);
+    });
+  }
 }

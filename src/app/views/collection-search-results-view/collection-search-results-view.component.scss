@@ -9,6 +9,6 @@
 }
 
 .results-count {
-  @include font-size(14);
+  @include resize(14);
   font-weight: 500;
 }

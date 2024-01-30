@@ -3,24 +3,24 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ExtendedDetailsComponent } from './extended-details.component';
 
 describe('ExtendedDetailsComponent', () => {
-    let component: ExtendedDetailsComponent;
-    let fixture: ComponentFixture<ExtendedDetailsComponent>;
+  let component: ExtendedDetailsComponent;
+  let fixture: ComponentFixture<ExtendedDetailsComponent>;
 
-    beforeEach(
-        waitForAsync(() => {
-            TestBed.configureTestingModule({
-                declarations: [ExtendedDetailsComponent],
-            }).compileComponents();
-        }),
-    );
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ExtendedDetailsComponent],
+      }).compileComponents();
+    }),
+  );
 
-    beforeEach(() => {
-        fixture = TestBed.createComponent(ExtendedDetailsComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ExtendedDetailsComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

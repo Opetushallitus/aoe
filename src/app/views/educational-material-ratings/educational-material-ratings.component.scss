@@ -4,18 +4,18 @@ $border-color: #e0e0e0;
 
 h2 {
   color: #373737;
-  @include font-size(20);
+  @include resize(20);
 }
 
 .number-rating {
   h3 {
-    @include font-size(16);
+    @include resize(16);
     font-weight: 400;
   }
 
   .value {
     color: #1d891f;
-    @include font-size(30);
+    @include resize(30);
     font-weight: 500;
 
     &.count {
@@ -36,19 +36,19 @@ h2 {
 
   .date {
     color: #000000;
-    @include font-size(16);
+    @include resize(16);
     font-weight: 700;
   }
 
   .author {
     color: #000000;
-    @include font-size(16);
+    @include resize(16);
     font-weight: 400;
   }
 
   h3 {
     color: #000000;
-    @include font-size(16);
+    @include resize(16);
     font-weight: 400;
   }
 

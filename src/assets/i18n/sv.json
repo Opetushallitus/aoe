@@ -224,9 +224,11 @@
       "cancel": "Annullera",
       "close": "Stäng",
       "delete": "Ta bort",
+      "discard": "Ignorera ogiltiga filer",
       "next": "Nästa",
       "previous": "Föregående",
       "required": "Obligatorisk uppgift",
+      "retry": "Försök igen",
       "pattern": {
         "url": "Sätt prefix http:// eller https://",
         "numeric": "Endast nummer är tillåtna"
@@ -241,7 +243,10 @@
         "tooltip": "Med knappen Språkversioner kan du om du så vill lägga till en översättning till finska, svenska eller engelska för namnet och för beskrivningen, så att de användare som använder tjänsten på de här språken kan få en helhetsbild av hurdant ditt material är."
       },
       "replaceFile": "Byta filen",
-      "replaceLink": "Byta länken"
+      "replaceLink": "Byta länken",
+      "uploadActive": "Uppladdning av material pågår",
+      "uploadError": "Vissa uppladdningar avbröts eller misslyckades",
+      "uploadEncrypted": "Lösenordsskyddade eller krypterade filer är inte tillåtna"
     },
     "errors": {
       "common": {
@@ -285,7 +290,7 @@
           }
         },
         "file": {
-          "title": ". Fil",
+          "title": ". material",
           "tooltip": "Ladda här upp de filer som ditt läromaterial består av. Du kan också länka till ditt läromaterial om det ligger på en plats där det är öppet och tillgängligt på lång sikt för vem som helst. Den första filen är den som öppnas först vid en förhandsvisning.",
           "or": "eller",
           "inputs": {
