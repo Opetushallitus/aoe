@@ -19,3 +19,6 @@ coverage/
 dev.ts
 uploads/
 webdata/
+
+# SQL Scripts
+docker/**/*.sql

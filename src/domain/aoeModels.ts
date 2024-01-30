@@ -245,6 +245,68 @@ const MaterialDisplayName = <MaterialDisplayNameType>sequelize.define(
   commonSettings as ModelOptions,
 );
 
+const Record = <RecordType>sequelize.define(
+  'record',
+  {
+    id: {
+      field: 'id',
+      type: DataTypes.BIGINT,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    filePath: {
+      field: 'filepath',
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    originalFileName: {
+      field: 'originalfilename',
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    fileSize: {
+      field: 'filesize',
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    mimeType: {
+      field: 'mimetype',
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    format: {
+      field: 'format',
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    materialId: {
+      field: 'materialid',
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: Material, // Can be the table name 'material' or the Sequelize model Material
+        key: 'id',
+      },
+    },
+    fileKey: {
+      field: 'filekey',
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    fileBucket: {
+      field: 'filebucket',
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    pdfKey: {
+      field: 'pdfkey',
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+  } as ModelAttributes<IRecord, unknown>,
+  commonSettings as ModelOptions,
+);
+
 const TemporaryRecord = <TemporaryRecordType>sequelize.define(
   'temporaryrecord',
   {
@@ -321,4 +383,4 @@ MaterialDisplayName.belongsTo(Material, {
   foreignKey: 'materialId',
 });
 
-export { EducationalMaterial, Material, MaterialDisplayName, TemporaryRecord };
+export { EducationalMaterial, Material, MaterialDisplayName, Record, TemporaryRecord };

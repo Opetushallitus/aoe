@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { ErrorHandler } from '../helpers/errorHandler';
-import { winstonLogger } from '../util/winstonLogger';
 import { db } from '../resources/pg-connect';
+import { winstonLogger } from '../util/winstonLogger';
 
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction): void => {
   if (req.isAuthenticated()) return next();
@@ -86,32 +86,19 @@ export async function hasAccessToPublicatication(req: Request, res: Response, ne
 }
 
 export const hasAccessToMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  let id;
-  if (req.params.materialId) {
-    id = req.params.materialId;
-  } else if (req.params.fileid) {
-    id = req.params.fileid;
-  } else {
-    res.status(400).end();
-    return;
-  }
-  const query: string = `
+  const materialid = req.params.materialid || req.params.materialId;
+  const query = `
     SELECT em.usersusername
     FROM educationalmaterial em
     JOIN material m ON m.educationalmaterialid = em.id
     WHERE m.id = $1
   `;
-  const result = await db.oneOrNone(query, [id]);
-  if (!result.usersusername) {
-    res.sendStatus(401).end();
-    return;
-  }
-  if (req.session.passport.user.uid === result.usersusername) {
+  const resp = await db.oneOrNone(query, [materialid]);
+  if (req.session.passport.user.uid === resp.usersusername) {
     next();
     return;
   }
   res.sendStatus(401).end();
-  return;
 };
 
 export const hasAccessToAttachmentFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -120,7 +107,7 @@ export const hasAccessToAttachmentFile = async (req: Request, res: Response, nex
     SELECT em.usersusername
     FROM educationalmaterial em
     INNER JOIN material m ON m.educationalmaterialid = em.id
-    WHERE material.id = (
+    WHERE m.id = (
       SELECT a.materialid
       FROM attachment a
       WHERE a.id = $1

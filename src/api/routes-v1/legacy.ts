@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import collection from '../../collection/collection';
 import {
   changeMaterialUser,
@@ -12,16 +12,16 @@ import {
   getMetadataExtension,
   getUsersMetadataExtension,
 } from '../../metadataExtension/metadataExtension';
-import db from '../../queries/apiQueries';
-import fh from '../../queries/fileHandling';
+import db, { setMaterialObsoleted } from '../../queries/apiQueries';
+import fileHandling from '../../queries/fileHandling';
 import { getMaterialMetaData } from '../../queries/oaipmh';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
 import rating from '../../rating/rating';
-import ah, { hasAccessToAOE } from '../../services/authService';
+import authService, { hasAccessToAOE } from '../../services/authService';
 import { verifyEmailToken } from '../../services/mailService';
 import { aoeRoutes, isAllasEnabled } from '../../services/routeEnablerService';
 import { updateUserSettings } from '../../users/userSettings';
-import { requestErrorHandler, requestValidator } from '../../util';
+import { requestErrorHandler } from '../../util';
 import {
   addCollectionValidationRules,
   createCollectionValidationRules,
@@ -36,47 +36,23 @@ export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAOE, getAoeUsers);
   router.post('/changeUser', hasAccessToAOE, changeMaterialUser);
 
+  // TODO: Unused endpoint?
+  router.get('/material', db.getMaterial);
   router.post(
     '/material/attachment/:materialId',
     isAllasEnabled,
-    ah.checkAuthenticated,
-    ah.hasAccessToMaterial,
-    fh.uploadAttachmentToMaterial,
+    authService.checkAuthenticated,
+    authService.hasAccessToMaterial,
+    fileHandling.uploadAttachmentToMaterial,
   );
-
-  // TODO: Unused endpoint?
-  router.get('/material', db.getMaterial);
-
-  router.delete(
-    '/material/attachment/:attachmentid',
-    ah.checkAuthenticated,
-    ah.hasAccessToAttachmentFile,
-    db.deleteAttachment,
-  );
-
-  // Keep the order
-  // Single file upload
-  router.post(
-    '/material/file/:edumaterialid',
-    isAllasEnabled,
-    requestValidator.fileUploadRules(),
-    requestErrorHandler,
-    ah.checkAuthenticated,
-    ah.hasAccessToPublicatication,
-    fh.uploadFileToMaterial,
-  );
-  router.post('/material/file', isAllasEnabled, ah.checkAuthenticated, fh.uploadMaterial);
-
-  router.delete('/material/file/:materialId/:fileid', ah.checkAuthenticated, ah.hasAccessToMaterial, db.deleteRecord);
-
+  router.post('/material/file', isAllasEnabled, authService.checkAuthenticated, fileHandling.uploadMaterial);
   router.get('/messages/info', aoeRoutes);
-
   router.get('/metadata/:id', getMetadataExtension);
   router.put(
     '/metadata/:id',
     metadataExtensionValidationRules(),
     requestErrorHandler,
-    ah.checkAuthenticated,
+    authService.checkAuthenticated,
     addMetadataExtension,
   );
   router.get('/names/:id', hasAccessToAOE, getMaterialNames);
@@ -88,28 +64,28 @@ export default (router: Router): void => {
   router.delete('/removeMaterial/:id', hasAccessToAOE, removeEducationalMaterial);
 
   router.get('/thumbnail/:id', downloadEmThumbnail);
-  router.put('/updateSettings', ah.checkAuthenticated, updateUserSettings);
-  router.get('/user', ah.checkAuthenticated, db.getUser);
-  router.put('/user', ah.checkAuthenticated, db.updateUser);
-  router.get('/userdata', ah.checkAuthenticated, ah.getUserData);
-  router.post('/userinfo', ah.userInfo);
-  router.get('/usermaterial', ah.checkAuthenticated, db.getUserMaterial);
-  router.get('/usersMetadata/:id', ah.checkAuthenticated, getUsersMetadataExtension);
-  router.put('/termsOfUsage', ah.checkAuthenticated, db.updateTermsOfUsage);
+  router.put('/updateSettings', authService.checkAuthenticated, updateUserSettings);
+  router.get('/user', authService.checkAuthenticated, db.getUser);
+  router.put('/user', authService.checkAuthenticated, db.updateUser);
+  router.get('/userdata', authService.checkAuthenticated, authService.getUserData);
+  router.post('/userinfo', authService.userInfo);
+  router.get('/usermaterial', authService.checkAuthenticated, db.getUserMaterial);
+  router.get('/usersMetadata/:id', authService.checkAuthenticated, getUsersMetadataExtension);
+  router.put('/termsOfUsage', authService.checkAuthenticated, db.updateTermsOfUsage);
   router.get('/verify', verifyEmailToken);
 
   // Collection request endpoints
   router.post(
     '/collection/addMaterial',
-    ah.checkAuthenticated,
-    ah.hasAccessToCollection,
+    authService.checkAuthenticated,
+    authService.hasAccessToCollection,
     addCollectionValidationRules(),
     requestErrorHandler,
     collection.addEducationalMaterialToCollection,
   );
   router.post(
     '/collection/create',
-    ah.checkAuthenticated,
+    authService.checkAuthenticated,
     createCollectionValidationRules(),
     requestErrorHandler,
     collection.createCollection,
@@ -117,8 +93,8 @@ export default (router: Router): void => {
   router.get('/collection/getCollection/:collectionId', collection.getCollection);
   router.post(
     '/collection/removeMaterial',
-    ah.checkAuthenticated,
-    ah.hasAccessToCollection,
+    authService.checkAuthenticated,
+    authService.hasAccessToCollection,
     removeCollectionValidationRules(),
     requestErrorHandler,
     collection.removeEducationalMaterialFromCollection,
@@ -126,24 +102,24 @@ export default (router: Router): void => {
   router.get('/collection/recentCollection', collection.getRecentCollection);
   router.put(
     '/collection/update',
-    ah.checkAuthenticated,
-    ah.hasAccessToCollection,
+    authService.checkAuthenticated,
+    authService.hasAccessToCollection,
     updateCollectionValidationRules(),
     requestErrorHandler,
     collection.updateCollection,
   );
-  router.get('/collection/userCollection', ah.checkAuthenticated, collection.getUserCollections);
+  router.get('/collection/userCollection', authService.checkAuthenticated, collection.getUserCollections);
   router.get('/collection/thumbnail/:id', downloadCollectionThumbnail);
 
   // Rating request endpoints
   router.post(
     '/rating',
-    ah.checkAuthenticated,
+    authService.checkAuthenticated,
     ratingValidationRules(),
     requestErrorHandler,
     validateRatingUser,
     rating.addRating,
   );
-  router.get('/rating/:materialId', ah.checkAuthenticated, rating.getUserRating);
+  router.get('/rating/:materialId', authService.checkAuthenticated, rating.getUserRating);
   router.get('/ratings/:materialId', rating.getRating);
 };

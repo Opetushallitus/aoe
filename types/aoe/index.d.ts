@@ -6,7 +6,8 @@ import { BuildOptions, Model } from 'sequelize';
  */
 declare global {
   // EducationalMaterial
-  interface EducationalMaterial extends Model, IEducationalMaterial {
+  interface EducationalMaterial extends Model {
+    // Removed extension IEducationalMaterial
     id: string;
     createdAt: Date;
     publishedAt?: Date;
@@ -72,6 +73,23 @@ declare global {
   }
   type MaterialDisplayNameType = typeof Model & {
     new (values?: Record<string, unknown>, options?: BuildOptions): MaterialDisplayName;
+  };
+
+  // Record
+  interface IRecord extends Model {
+    id: string;
+    filePath?: string;
+    originalFileName: string;
+    fileSize: number;
+    mimeType: string;
+    format?: string;
+    materialId: string;
+    fileKey?: string;
+    fileBucket?: string;
+    pdfKey?: string;
+  }
+  type RecordType = typeof Model & {
+    new (values?: Record<string, unknown>, options?: BuildOptions): IRecord;
   };
 
   // TemporaryRecord

@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import * as pgLib from 'pg-promise';
-import { db, pgp } from '../resources/pg-connect';
-import { removeInvalidXMLCharacters } from '../util/invalidXMLCharValidator';
-import { winstonLogger } from '../util/winstonLogger';
 import { EducationalMaterialMetadata } from '../controllers/educationalMaterial';
 import { hasDownloadableFiles } from '../elasticSearch/esQueries';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { isOfficeMimeType } from '../helpers/officeToPdfConverter';
+import { db, pgp } from '../resources/pg-connect';
 import { hasAccesstoPublication } from '../services/authService';
 import { aoeThumbnailDownloadUrl } from '../services/urlService';
+import { removeInvalidXMLCharacters } from '../util/invalidXMLCharValidator';
+import { winstonLogger } from '../util/winstonLogger';
 import { updateViewCounter } from './analyticsQueries';
 
 const fh = require('./fileHandling');
@@ -98,7 +98,7 @@ export const getEducationalMaterialMetadata = async (
     ? parseInt(res.locals.id as string, 10)
     : parseInt(req.params.edumaterialid as string, 10);
 
-  db.tx({ mode }, async (t: any) => {
+  db.tx({ mode }, async (t: any): Promise<any> => {
     const queries: any = [];
     let query;
     query =
@@ -576,55 +576,76 @@ export async function setEducationalMaterialObsoleted(req: Request, res: Respons
   }
 }
 
-export async function deleteRecord(req: Request, res: Response, next: NextFunction) {
+/**
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @param {e.NextFunction} next
+ * @return {Promise<void>}
+ */
+export const setMaterialObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    let query;
-    let data;
-    await db.tx({ mode }, async (t: any) => {
+    await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
-      query = "update material SET obsoleted = '1' WHERE id = $1 returning educationalmaterialid;";
-      data = await db.one(query, [req.params.fileid]);
-      queries.push(data);
-      query = "update attachment SET obsoleted = '1' WHERE materialid = $1;";
-      queries.push(await db.none(query, [req.params.fileid]));
-      query = 'update educationalmaterial set updatedat = now() where id = $1';
-      queries.push(await db.none(query, [data.educationalmaterialid]));
+      let query: string;
+      query = `
+        UPDATE material
+        SET obsoleted = '1'
+        WHERE id = $1
+        RETURNING educationalmaterialid
+      `;
+      queries.push(await db.one(query, [req.params.materialid]));
+      query = `
+        UPDATE attachment
+        SET obsoleted = '1'
+        WHERE materialid = $1
+      `;
+      queries.push(await db.none(query, [req.params.materialid]));
+      query = `
+        UPDATE educationalmaterial
+        SET updatedat = NOW()
+        WHERE id = $1
+      `;
+      queries.push(await db.none(query, [req.params.edumaterialid]));
       return t.batch(queries);
     });
-    res.status(200).json({ status: 'deleted' });
-    elasticSearch.updateEsDocument().catch((err: Error) => {
-      winstonLogger.error(err);
+    res.status(200).json({ obsoleted: req.params.materialid });
+    elasticSearch.updateEsDocument().catch((err: Error): void => {
+      winstonLogger.error('Search index update failed: %o', err);
     });
   } catch (err) {
-    next(new ErrorHandler(500, 'Issue deleting record: ' + err));
+    next(new ErrorHandler(500, `Setting the material as obsoleted failed: ${err}`));
   }
-}
+};
 
-export async function deleteAttachment(req: Request, res: Response, next: NextFunction) {
+export const setAttachmentObsoleted = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     let query;
     let data;
-    await db.tx({ mode }, async (t: any) => {
+    await db.tx({ mode }, async (t: any): Promise<any> => {
       const queries: any = [];
-      query = "update attachment SET obsoleted = '1' WHERE id = $1;";
+      query = `
+        UPDATE attachment
+        SET obsoleted = '1'
+        WHERE id = $1
+      `;
       data = await db.any(query, [req.params.attachmentid]);
       queries.push(data);
-      query =
-        'update educationalmaterial set updatedat = now() where id = ' +
-        '(select educationalmaterialid from material where id = (select materialid from attachment where id = $1));';
-      winstonLogger.debug('Query in deleteAttachment(): ' + query);
-      queries.push(await db.none(query, [req.params.attachmentid]));
+      query = `
+        UPDATE educationalmaterial
+        SET updatedat = now()
+        WHERE id = $1
+      `;
+      queries.push(await db.none(query, [req.params.edumaterialid]));
       return t.batch(queries);
     });
     res.status(200).json({ status: 'deleted' });
     elasticSearch.updateEsDocument().catch((err: Error) => {
-      winstonLogger.error('Es update error: ' + err);
+      winstonLogger.error('Search index update failed after setting an attachment file obsoleted: %o', err);
     });
   } catch (err) {
-    next(new ErrorHandler(500, 'Issue deleting attachment' + err));
-    // res.sendStatus(500);
+    next(new ErrorHandler(500, `Setting an attachment file obsoleted failed: ${err}`));
   }
-}
+};
 
 export async function setLanguage(obj: any) {
   try {
@@ -773,7 +794,12 @@ export async function insertEducationalMaterialName(materialname: NameObject, id
   return queries;
 }
 
-export async function updateMaterial(metadata: EducationalMaterialMetadata, emid: string) {
+/**
+ * @param {EducationalMaterialMetadata} metadata
+ * @param {string} emid
+ * @return {Promise<any>}
+ */
+export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid: string): Promise<any> => {
   return await db
     .tx(async (t: any) => {
       let query;
@@ -793,15 +819,15 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       }
 
       // material
-      const dnow = Date.now() / 1000.0;
-      query =
-        'UPDATE educationalmaterial ' +
-        'SET (expires, UpdatedAt, timeRequired, agerangeMin, agerangeMax, licensecode, ' +
-        'suitsAllEarlyChildhoodSubjects, suitsAllPrePrimarySubjects, suitsAllBasicStudySubjects, ' +
-        'suitsAllUpperSecondarySubjects, suitsAllVocationalDegrees, suitsAllSelfMotivatedSubjects, ' +
-        'suitsAllBranches, suitsAllUpperSecondarySubjectsNew) = ' +
-        '($1, to_timestamp($2), $3, $4, $5, $7, $8, $9, $10, $11, $12, $13, $14, $15) ' +
-        'WHERE id=$6';
+      const dnow: number = Date.now() / 1000.0;
+      query = `
+        UPDATE educationalmaterial
+        SET (expires, UpdatedAt, timeRequired, agerangeMin, agerangeMax, licensecode, suitsAllEarlyChildhoodSubjects,
+          suitsAllPrePrimarySubjects, suitsAllBasicStudySubjects, suitsAllUpperSecondarySubjects,
+          suitsAllVocationalDegrees, suitsAllSelfMotivatedSubjects, suitsAllBranches, suitsAllUpperSecondarySubjectsNew) =
+          ($1, to_timestamp($2), $3, $4, $5, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+        WHERE id = $6
+      `;
       queries.push(
         await t.any(query, [
           metadata.expires,
@@ -851,7 +877,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
         }
         for (const element of audienceArr) {
           query =
-            'INSERT INTO educationalaudience (educationalrole, educationalmaterialid, educationalrolekey) VALUES ($1,$2,$3) ON CONFLICT (educationalrolekey,educationalmaterialid) DO ' +
+            'INSERT INTO educationalaudience (educationalrole, educationalmaterialid, educationalrolekey) VALUES ($1,$2,$3) ON CONFLICT (educationalrolekey, educationalmaterialid) DO ' +
             'UPDATE SET educationalrole = $1;';
           queries.push(await t.any(query, [element.value, emid, element.key]));
         }
@@ -1103,7 +1129,7 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       // File details
       params = [];
       const fileDetailArr = metadata.fileDetails;
-      if (fileDetailArr == undefined) {
+      if (fileDetailArr === undefined) {
         // query = "DELETE FROM materialdisplayname where materialid = $1;";
         // response  = await t.any(query, [emid]);
         // queries.push(response);
@@ -1271,12 +1297,15 @@ export async function updateMaterial(metadata: EducationalMaterialMetadata, emid
       throw err;
       // next(new ErrorHandler(400, "Issue updating material"));
     });
-}
+};
 
 export const updateEduMaterialVersionURN = async (id: string, publishedat: string, urn: string): Promise<void> => {
   try {
-    const query =
-      'UPDATE educationalmaterialversion ' + 'SET urn = $3 ' + 'WHERE educationalmaterialid = $1 AND publishedat = $2';
+    const query: string = `
+      UPDATE educationalmaterialversion
+      SET urn = $3
+      WHERE educationalmaterialid = $1 AND publishedat = $2
+    `;
     await db.none(query, [id, publishedat, urn]);
   } catch (error) {
     winstonLogger.error('Update for educational material version failed in updateEduMaterialVersionURN(): ' + error);
@@ -1600,8 +1629,8 @@ export default {
   getUserMaterial,
   getRecentMaterial,
   setEducationalMaterialObsoleted,
-  deleteRecord,
-  deleteAttachment,
+  setMaterialObsoleted,
+  setAttachmentObsoleted,
   setLanguage,
   insertDataToDescription,
   insertEducationalMaterialName,

@@ -3,7 +3,7 @@ import session from 'express-session';
 import apiRoot from './api/routes-root';
 import apiV1 from './api/routes-v1';
 import apiV2 from './api/routes-v2';
-import express, { Router } from 'express';
+import express, { ErrorRequestHandler, NextFunction, Request, Response, Router } from 'express';
 import compression from 'compression';
 import lusca from 'lusca';
 import path from 'path';
@@ -38,23 +38,21 @@ apiV2(apiRouterV2);
 // Process X-Forwarded-* headers behind a proxy server at localhost (127.0.0.1)
 app.set('trust proxy', '127.0.0.1');
 
-/**
- * CORS Configuration
- */
-const corsOptions = {
-  allowedHeaders: ['Accept', 'Authorization', 'Content-Type', 'Origin', 'Range', 'X-Requested-With'],
-  credentials: true,
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  optionsSuccessStatus: 204,
-  origin: [
-    'https://demo.aoe.fi',
-    'https://aoe.fi',
-    'https://86.50.27.30:80',
-    'http://localhost:4200',
-    'https://localhost:4200',
-  ],
-};
-app.use(cors(corsOptions));
+// CORS and Referer configurations for the development environments.
+if (['development', 'localhost'].includes(process.env.NODE_ENV as string)) {
+  app.all('/*', (req: Request, res: Response, next: NextFunction): void => {
+    res.header('Referrer-Policy', 'no-referrer');
+    next();
+  });
+  const corsOptions = {
+    allowedHeaders: ['Accept', 'Authorization', 'Content-Type', 'Origin', 'Range', 'X-Requested-With'],
+    credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    optionsSuccessStatus: 204,
+    origin: true,
+  };
+  app.use(cors(corsOptions));
+}
 
 app.use(compression());
 app.use(flash());
@@ -105,13 +103,9 @@ app.use(
   createProxyMiddleware({
     target: config.SERVER_CONFIG_OPTIONS.oaipmhAnalyticsURL,
     logLevel: 'debug',
-    logProvider: () => {
-      return winstonLogger;
-    },
+    logProvider: () => winstonLogger,
     changeOrigin: true,
-    pathRewrite: (path: string) => {
-      return path.replace('/v2', '');
-    },
+    pathRewrite: (path: string) => path.replace('/v2', ''),
   }),
 );
 
@@ -123,7 +117,7 @@ app.use('/api/v1/', apiRouterV1);
 app.use('/api/v2/', apiRouterV2);
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection);
-app.use((err, req, res) => {
+app.use((err, req: Response, res: NextFunction): void => {
   handleError(err, res);
 });
 
@@ -134,12 +128,12 @@ app.set('view engine', 'pug');
 app.set('port', 3000);
 
 // Synchronize database with Sequelize models.
-const dbInit = async () => {
+const dbInit = async (): Promise<void> => {
   await sequelize.sync({
     logging: false,
   });
 };
-dbInit().catch((error) => {
+dbInit().catch((error): void => {
   winstonLogger.error('Synchronizing database with Sequelize models failed: %o', error);
   process.exit(1);
 });
