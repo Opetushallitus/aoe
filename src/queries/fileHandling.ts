@@ -1,5 +1,6 @@
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import ADMzip from 'adm-zip';
+import { EntryData } from 'archiver';
 import AWS, { S3 } from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
@@ -9,9 +10,7 @@ import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer';
 import path from 'path';
 import pdfParser from 'pdf-parse';
 import { ColumnSet } from 'pg-promise';
-import S3Zip, { ArchiveOptions } from 's3-zip';
-import { EntryData } from 'archiver';
-import s3Zip from 's3-zip';
+import s3Zip, { ArchiveOptions } from 's3-zip';
 import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
 import config from '../config';
@@ -1396,91 +1395,64 @@ export const downloadFromStorage = async (
 };
 
 /**
- * Download all files related to an educational material as a bundled zip file.
- *
+ * Download all files related to an educational material as a bundled ZIP file.
  * @param req  Request<any>
  * @param res  Response<any>
  * @param next NextFunction
  */
-export async function downloadMaterialFile(req: Request, res: Response, next: NextFunction): Promise<void> {
-  winstonLogger.debug(
-    'downloadMaterialFile(): edumaterialid=' + req.params.edumaterialid + ', publishedat?=' + req.params.publishedat,
-  );
-
-  // Queries to resolve files of the latest educational material requested
-  const queryLatestPublished =
-    'SELECT MAX(publishedat) AS max FROM versioncomposition WHERE educationalmaterialid = $1';
-  const queryVersionFilesIds =
-    'SELECT record.filekey, record.originalfilename ' +
-    'FROM versioncomposition ' +
-    'RIGHT JOIN material ON material.id = versioncomposition.materialid ' +
-    'RIGHT JOIN record ON record.materialid = material.id ' +
-    'WHERE material.educationalmaterialid = $1 AND obsoleted = 0 AND publishedat = $2 ' +
-    'UNION ' +
-    'SELECT attachment.filekey, attachment.originalfilename ' +
-    'FROM attachmentversioncomposition AS v ' +
-    'INNER JOIN attachment ON v.attachmentid = attachment.id ' +
-    'WHERE v.versioneducationalmaterialid = $1 AND attachment.obsoleted = 0 AND v.versionpublishedat = $2';
-
-  try {
-    const versionFiles: {
-      filekey: string;
-      originalfilename: string;
-    }[] = await db.task(async (t: any) => {
-      let publishedAt = req.params.publishedat;
-      if (!publishedAt) {
-        const latestPublished: { max: string } = await t.oneOrNone(queryLatestPublished, req.params.edumaterialid);
-        publishedAt = latestPublished.max;
-      }
-      return await db.any(queryVersionFilesIds, [req.params.edumaterialid, publishedAt]);
-    });
-    if (versionFiles.length < 1) {
-      next(
-        new ErrorHandler(
-          404,
-          'No material found for educationalmaterialid=' +
-            req.params.edumaterialid +
-            ', publishedat?=' +
-            req.params.publishedat,
-        ),
-      );
-    } else {
-      const fileKeys: string[] = [];
-      const fileNames: EntryData[] = [];
-      for (const file of versionFiles) {
-        fileKeys.push(file.filekey);
-        fileNames.push({
-          name: file.originalfilename as string,
-        });
-      }
-      // res.header('Content-Type', 'application/zip');
-      res.header('Content-Disposition', 'attachment; filename=materials.zip');
-
-      // Download files from the object storage and zip the bundle, send the zipped file as a response
-      await downloadAndZipFromStorage(req, res, next, fileKeys, fileNames);
-
-      // Try to update download counter
-      const educationalMaterialId: number = parseInt(req.params.edumaterialid, 10);
-      if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
-        try {
-          await updateDownloadCounter(educationalMaterialId.toString());
-        } catch (error) {
-          winstonLogger.error('Updating download counter failed: ' + error);
-        }
-      }
+export const downloadMaterialFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  // Queries to resolve files of the latest educational material version requested.
+  const queryLatestPublished: string = `
+    SELECT MAX(publishedat) AS max
+    FROM versioncomposition
+    WHERE educationalmaterialid = $1
+  `;
+  const queryVersionFilesIds: string = `
+    SELECT record.filekey, record.originalfilename
+    FROM versioncomposition vc
+    RIGHT JOIN material m ON m.id = vc.materialid
+    RIGHT JOIN record r ON r.materialid = m.id
+    WHERE m.educationalmaterialid = $1 AND vc.obsoleted = 0 AND vc.publishedat = $2
+    UNION
+    SELECT a.filekey, a.originalfilename
+    FROM attachmentversioncomposition avc
+    INNER JOIN attachment a ON v.attachmentid = a.id
+    WHERE avc.versioneducationalmaterialid = $1 AND avc.versionpublishedat = $2 AND a.obsoleted = 0
+  `;
+  const versionFiles: {
+    filekey: string;
+    originalfilename: string;
+  }[] = await db.task(async (t: any): Promise<any[]> => {
+    let publishedAt: string = req.params.publishedat;
+    if (!publishedAt) {
+      const latestPublished: { max: string } = await t.oneOrNone(queryLatestPublished, req.params.edumaterialid);
+      publishedAt = latestPublished.max;
     }
-  } catch (error) {
-    next(
-      new ErrorHandler(
-        400,
-        'File download failed for educationalmaterialid=' +
-          req.params.edumaterialid +
-          ', publishedat?=' +
-          req.params.publishedat,
-      ),
-    );
+    return await db.any(queryVersionFilesIds, [req.params.edumaterialid, publishedAt]);
+  });
+  const fileKeys: string[] = [];
+  const fileNames: EntryData[] = [];
+  for (const versionFile of versionFiles) {
+    fileKeys.push(versionFile.filekey);
+    fileNames.push({
+      name: versionFile.originalfilename as string,
+    });
   }
-}
+  res.header('Content-Disposition', 'attachment; filename=materials.zip');
+  // Downstream files from the object storage and zip the bundle.
+  await downloadAndZipFromStorage(req, res, next, fileKeys, fileNames).catch((err): void => {
+    throw err;
+  });
+  // Update the download counter.
+  const educationalMaterialId: number = parseInt(req.params.edumaterialid, 10);
+  if (!req.isAuthenticated() || !(await hasAccesstoPublication(educationalMaterialId, req))) {
+    try {
+      await updateDownloadCounter(educationalMaterialId.toString());
+    } catch (err) {
+      winstonLogger.error('Updating download counter failed: %o', err);
+    }
+  }
+};
 
 /**
  * Stream and combine files from the object storage to a compressed zip file.
@@ -1491,59 +1463,43 @@ export async function downloadMaterialFile(req: Request, res: Response, next: Ne
  * @param keys  string[] Array of object storage keys
  * @param files string[] Array of file names
  */
-export async function downloadAndZipFromStorage(
+export const downloadAndZipFromStorage = (
   req: Request,
   res: Response,
   next: NextFunction,
   keys: string[],
   files: EntryData[],
-): Promise<void> {
-  return new Promise(async (resolve) => {
+): Promise<void> => {
+  return new Promise((resolve, reject): void => {
+    const s3: S3Client = new S3Client({
+      credentials: {
+        accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+        secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+      },
+      endpoint: process.env.CLOUD_STORAGE_API,
+      region: process.env.CLOUD_STORAGE_REGION,
+    } as S3ClientConfig);
+    const bucket = process.env.CLOUD_STORAGE_BUCKET;
     try {
-      // ServiceConfigurationOptions (fields: endpoint, lib: aws-sdk/lib/service) extends
-      // ConfigurationOptions (fields: all others, lib: aws-sdk)
-      // const config: ServiceConfigurationOptions = {
-      //   credentials: {
-      //     accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-      //     secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-      //   },
-      //   endpoint: process.env.CLOUD_STORAGE_API,
-      //   region: process.env.CLOUD_STORAGE_REGION,
-      // };
-      // AWS.config.update(config);
-      const s3: S3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-        },
-        endpoint: process.env.CLOUD_STORAGE_API,
-        region: process.env.CLOUD_STORAGE_REGION,
-      } as S3ClientConfig);
-      const bucketName = process.env.CLOUD_STORAGE_BUCKET;
-      try {
-        s3Zip
-          .archive(
-            { s3, bucket: bucketName } as ArchiveOptions,
-            undefined as string | undefined,
-            keys as string[],
-            files as EntryData[],
-          )
-          .pipe(res)
-          .on('finish', async (): Promise<void> => {
-            winstonLogger.debug('Completed the s3Zip stream');
-            resolve();
-          })
-          .on('error', (err: Error): void => {
-            next(new ErrorHandler(500, err.message || 'Error in download'));
-          });
-      } catch (err) {
-        next(new ErrorHandler(500, 'Failed to download file from storage'));
-      }
+      s3Zip
+        .archive(
+          { s3, bucket } as ArchiveOptions,
+          undefined as string | undefined,
+          keys as string[],
+          files as EntryData[],
+        )
+        .pipe(res)
+        .on('finish', (): void => {
+          resolve();
+        })
+        .on('error', (err: Error): void => {
+          reject(err);
+        });
     } catch (err) {
-      next(new ErrorHandler(500, 'Failed to download file'));
+      reject(err);
     }
   });
-}
+};
 
 export async function unZipAndExtract(zipFolder: any): Promise<any> {
   const searchRecursive = function (dir, pattern) {

@@ -41,13 +41,13 @@ export default (router: Router): void => {
   router.get(
     '/material/:edumaterialid([0-9]{1,6})/:publishedat?',
     (req: Request, res: Response, next: NextFunction) => {
-      getEducationalMaterialMetadata(req, res, next, false).catch(() => {
+      getEducationalMaterialMetadata(req, res, next, false).catch((): void => {
         winstonLogger.error('Metadata request failed for a single file download.');
       });
     },
     (req: Request, res: Response) => {
       if (['view', 'edit'].includes(req.query.interaction as string)) {
-        runMessageQueueThread(req, res).then((result) => {
+        runMessageQueueThread(req, res).then((result): void => {
           if (result) winstonLogger.debug('THREAD: Message queue publishing completed for %o', result);
         });
       }
@@ -58,7 +58,15 @@ export default (router: Router): void => {
   // Download all files related to an educational material and stream as a single zip file from the cloud object storage.
   // :publishedat format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - regex path validation in API v2.0.
   // :edumaterialid defined as a number between 1 to 6 digits to prevent similar endpoints collision.
-  router.get('/material/file/:edumaterialid([0-9]{1,6})/:publishedat?', downloadMaterialFile);
+  router.get(
+    '/material/file/:edumaterialid([0-9]{1,6})/:publishedat?',
+    (req: Request, res: Response, next: NextFunction): void => {
+      downloadMaterialFile(req, res, next).catch((err): void => {
+        winstonLogger.error('Downstream from the cloud storage failed.');
+        next(err);
+      });
+    },
+  );
 
   // Save a link type material to an educational material.
   router.post('/material/link/:edumaterialid', checkAuthenticated, hasAccessToPublicatication, addLinkToMaterial);
