@@ -20,8 +20,8 @@ services:
     env_file:
       - /environment/aoe-web-backend/.env
     environment:
-      PG_USER: '${POSTGRES_USER_2}'
-      PG_PASS: '${POSTGRES_PASSWORD_2}'
+      PG_USER: '${POSTGRES_USER_SECONDARY}'
+      PG_PASS: '${POSTGRES_PASSWORD_SECONDARY}'
     user: 'root:5606'
     networks:
       - network-web-backend
