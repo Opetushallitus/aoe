@@ -1412,7 +1412,7 @@ export const downloadMaterialFile = async (req: Request, res: Response, next: Ne
     FROM versioncomposition vc
     RIGHT JOIN material m ON m.id = vc.materialid
     RIGHT JOIN record r ON r.materialid = m.id
-    WHERE m.educationalmaterialid = $1 AND vc.obsoleted = 0 AND vc.publishedat = $2
+    WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0 AND vc.publishedat = $2
     UNION
     SELECT a.filekey, a.originalfilename
     FROM attachmentversioncomposition avc
