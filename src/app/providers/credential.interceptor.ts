@@ -7,20 +7,20 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class CredentialInterceptor implements HttpInterceptor {
-    constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (environment.production === false) {
-            if (
-                (req.url.includes('userdata') || this.authService.hasUserData()) &&
-                req.url.includes(environment.backendUrl)
-            ) {
-                req = req.clone({
-                    withCredentials: true,
-                });
-            }
-        }
-
-        return next.handle(req);
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (environment.production === false) {
+      if (
+        (req.url.includes('userdata') || this.authService.hasUserData()) &&
+        req.url.includes(environment.backendUrl)
+      ) {
+        req = req.clone({
+          withCredentials: true,
+        });
+      }
     }
+
+    return next.handle(req);
+  }
 }

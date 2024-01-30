@@ -224,9 +224,11 @@
       "cancel": "Cancel",
       "close": "Close",
       "delete": "Delete",
+      "discard": "Discard invalid files",
       "next": "Next",
       "previous": "Previous",
       "required": "Required",
+      "retry": "Try again",
       "pattern": {
         "url": "Please, provide http:// or https:// prefix",
         "numeric": "Only numbers are allowed"
@@ -241,7 +243,10 @@
         "tooltip": "With the Language Versions key you can add a Finnish, Swedish or English translation for the name and description of your resource. This will help users with these languages get a better understanding of your resource."
       },
       "replaceFile": "Replace file",
-      "replaceLink": "Replace link"
+      "replaceLink": "Replace link",
+      "uploadActive": "Material upload in progress",
+      "uploadError": "Some uploads were interrupted or failed",
+      "uploadEncrypted": "Password protected or encrypted files are not allowed"
     },
     "errors": {
       "common": {
@@ -285,7 +290,7 @@
           }
         },
         "file": {
-          "title": ". file",
+          "title": ". material",
           "tooltip": "Download the files that comprise your learning resource. You can also link your learning resource if it is freely available with an open license and long life span. The first file will be the first to show on the preview.",
           "or": "or",
           "inputs": {

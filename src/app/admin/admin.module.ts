@@ -24,27 +24,27 @@ import { AdminGuard } from '../guards';
 import { AuthGuard } from '../guards';
 
 @NgModule({
-    declarations: [
-        AdminComponent,
-        RemoveMaterialComponent,
-        ChangeMaterialOwnerComponent,
-        DashboardComponent,
-        ManageMaterialsComponent,
-        NotificationComponent,
-        ManageServiceComponent,
-        AnalyticsViewComponent,
-        LineChartComponent,
-    ],
-    imports: [
-        CommonModule,
-        AdminRoutingModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        BsDatepickerModule,
-        NgxEchartsModule.forRoot({
-            echarts: () => import('echarts'),
-        }),
-    ],
-    providers: [AuthGuard, AdminGuard],
+  declarations: [
+    AdminComponent,
+    RemoveMaterialComponent,
+    ChangeMaterialOwnerComponent,
+    DashboardComponent,
+    ManageMaterialsComponent,
+    NotificationComponent,
+    ManageServiceComponent,
+    AnalyticsViewComponent,
+    LineChartComponent,
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    BsDatepickerModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
+  ],
+  providers: [AuthGuard, AdminGuard],
 })
 export class AdminModule {}

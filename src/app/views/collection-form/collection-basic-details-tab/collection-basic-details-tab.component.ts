@@ -21,245 +21,243 @@ import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { UploadMessage } from '@models/upload-message';
 
 @Component({
-    selector: 'app-collection-basic-details-tab',
-    templateUrl: './collection-basic-details-tab.component.html',
-    styleUrls: ['./collection-basic-details-tab.component.scss'],
+  selector: 'app-collection-basic-details-tab',
+  templateUrl: './collection-basic-details-tab.component.html',
+  styleUrls: ['./collection-basic-details-tab.component.scss'],
 })
 export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
-    @Input() collection: CollectionForm;
-    @Input() collectionId: string;
-    @Input() tabId: number;
-    @Output() abortForm = new EventEmitter();
-    form: FormGroup;
-    lang = this.translate.currentLang;
-    submitted = false;
-    keywordSubscription: Subscription;
-    keywords: KeyValue<string, string>[];
-    addCustomItem = addCustomItem;
-    educationalRoleSubscription: Subscription;
-    educationalRoles: EducationalRole[];
-    educationalUseSubscription: Subscription;
-    educationalUses: EducationalUse[];
-    languageSubscription: Subscription;
-    languages: Language[];
-    accessibilityFeatureSubscription: Subscription;
-    accessibilityFeatures: AccessibilityFeature[];
-    accessibilityHazardSubscription: Subscription;
-    accessibilityHazards: AccessibilityHazard[];
-    thumbnailModalRef: BsModalRef;
-    uploadResponse: UploadMessage = { status: '', message: 0 };
-    imageChangedEvent: any = '';
-    croppedImage: string;
-    thumbnailSrc: string;
+  @Input() collection: CollectionForm;
+  @Input() collectionId: string;
+  @Input() tabId: number;
+  @Output() abortForm = new EventEmitter();
+  form: FormGroup;
+  lang = this.translate.currentLang;
+  submitted = false;
+  keywordSubscription: Subscription;
+  keywords: KeyValue<string, string>[];
+  addCustomItem = addCustomItem;
+  educationalRoleSubscription: Subscription;
+  educationalRoles: EducationalRole[];
+  educationalUseSubscription: Subscription;
+  educationalUses: EducationalUse[];
+  languageSubscription: Subscription;
+  languages: Language[];
+  accessibilityFeatureSubscription: Subscription;
+  accessibilityFeatures: AccessibilityFeature[];
+  accessibilityHazardSubscription: Subscription;
+  accessibilityHazards: AccessibilityHazard[];
+  thumbnailModalRef: BsModalRef;
+  uploadResponse: UploadMessage = { status: '', message: 0 };
+  imageChangedEvent: any = '';
+  croppedImage: string;
+  thumbnailSrc: string;
 
-    constructor(
-        private fb: FormBuilder,
-        private translate: TranslateService,
-        private router: Router,
-        private titleSvc: Title,
-        private koodistoService: KoodistoService,
-        private modalSvc: BsModalService,
-        private collectionSvc: CollectionService,
-    ) {}
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private router: Router,
+    private titleSvc: Title,
+    private koodistoService: KoodistoService,
+    private modalSvc: BsModalService,
+    private collectionSvc: CollectionService,
+  ) {}
 
-    ngOnInit(): void {
-        this.setTitle();
+  ngOnInit(): void {
+    this.setTitle();
 
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.lang = event.lang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
 
-            this.setTitle();
+      this.setTitle();
 
-            this.koodistoService.updateKeywords();
-            this.koodistoService.updateEducationalRoles();
-            this.koodistoService.updateEducationalUses();
-            this.koodistoService.updateLanguages();
-            this.koodistoService.updateAccessibilityFeatures();
-            this.koodistoService.updateAccessibilityHazards();
-        });
+      this.koodistoService.updateKeywords();
+      this.koodistoService.updateEducationalRoles();
+      this.koodistoService.updateEducationalUses();
+      this.koodistoService.updateLanguages();
+      this.koodistoService.updateAccessibilityFeatures();
+      this.koodistoService.updateAccessibilityHazards();
+    });
 
-        this.form = this.fb.group({
-            name: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
-            description: this.fb.control(null, [
-                Validators.maxLength(validatorParams.description.maxLength),
-                descriptionValidator(),
-            ]),
-            keywords: this.fb.control(null),
-            educationalRoles: this.fb.control(null),
-            educationalUses: this.fb.control(null),
-            languages: this.fb.control(null),
-            accessibilityFeatures: this.fb.control(null),
-            accessibilityHazards: this.fb.control(null),
-        });
+    this.form = this.fb.group({
+      name: this.fb.control(null, [Validators.maxLength(validatorParams.name.maxLength), textInputValidator()]),
+      description: this.fb.control(null, [
+        Validators.maxLength(validatorParams.description.maxLength),
+        descriptionValidator(),
+      ]),
+      keywords: this.fb.control(null),
+      educationalRoles: this.fb.control(null),
+      educationalUses: this.fb.control(null),
+      languages: this.fb.control(null),
+      accessibilityFeatures: this.fb.control(null),
+      accessibilityHazards: this.fb.control(null),
+    });
 
-        if (sessionStorage.getItem(environment.collection) === null) {
-            this.form.patchValue(this.collection);
-        } else {
-            this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.collection)));
-        }
-
-        this.thumbnailSrc = this.collection.thumbnail;
-
-        // keywords
-        this.keywordSubscription = this.koodistoService.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
-            this.keywords = keywords;
-        });
-        this.koodistoService.updateKeywords();
-
-        // educational roles
-        this.educationalRoleSubscription = this.koodistoService.educationalRoles$.subscribe(
-            (roles: EducationalRole[]) => {
-                this.educationalRoles = roles;
-            },
-        );
-        this.koodistoService.updateEducationalRoles();
-
-        // educational uses
-        this.educationalUseSubscription = this.koodistoService.educationalUses$.subscribe((uses: EducationalUse[]) => {
-            this.educationalUses = uses;
-        });
-        this.koodistoService.updateEducationalUses();
-
-        // languages
-        this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
-            this.languages = languages;
-        });
-        this.koodistoService.updateLanguages();
-
-        // accessibility features
-        this.accessibilityFeatureSubscription = this.koodistoService.accessibilityFeatures$.subscribe(
-            (features: AccessibilityFeature[]) => {
-                this.accessibilityFeatures = features;
-            },
-        );
-        this.koodistoService.updateAccessibilityFeatures();
-
-        // accessibility hazards
-        this.accessibilityHazardSubscription = this.koodistoService.accessibilityHazards$.subscribe(
-            (hazards: AccessibilityHazard[]) => {
-                this.accessibilityHazards = hazards;
-            },
-        );
-        this.koodistoService.updateAccessibilityHazards();
+    if (sessionStorage.getItem(environment.collection) === null) {
+      this.form.patchValue(this.collection);
+    } else {
+      this.form.patchValue(JSON.parse(sessionStorage.getItem(environment.collection)));
     }
 
-    ngOnDestroy(): void {
-        if (this.submitted === false && this.form.dirty && this.form.valid) {
-            this.saveCollection();
-        }
+    this.thumbnailSrc = this.collection.thumbnail;
 
-        this.keywordSubscription.unsubscribe();
-        this.educationalRoleSubscription.unsubscribe();
-        this.educationalUseSubscription.unsubscribe();
-        this.languageSubscription.unsubscribe();
-        this.accessibilityFeatureSubscription.unsubscribe();
-        this.accessibilityHazardSubscription.unsubscribe();
+    // keywords
+    this.keywordSubscription = this.koodistoService.keywords$.subscribe((keywords: KeyValue<string, string>[]) => {
+      this.keywords = keywords;
+    });
+    this.koodistoService.updateKeywords();
+
+    // educational roles
+    this.educationalRoleSubscription = this.koodistoService.educationalRoles$.subscribe((roles: EducationalRole[]) => {
+      this.educationalRoles = roles;
+    });
+    this.koodistoService.updateEducationalRoles();
+
+    // educational uses
+    this.educationalUseSubscription = this.koodistoService.educationalUses$.subscribe((uses: EducationalUse[]) => {
+      this.educationalUses = uses;
+    });
+    this.koodistoService.updateEducationalUses();
+
+    // languages
+    this.languageSubscription = this.koodistoService.languages$.subscribe((languages: Language[]) => {
+      this.languages = languages;
+    });
+    this.koodistoService.updateLanguages();
+
+    // accessibility features
+    this.accessibilityFeatureSubscription = this.koodistoService.accessibilityFeatures$.subscribe(
+      (features: AccessibilityFeature[]) => {
+        this.accessibilityFeatures = features;
+      },
+    );
+    this.koodistoService.updateAccessibilityFeatures();
+
+    // accessibility hazards
+    this.accessibilityHazardSubscription = this.koodistoService.accessibilityHazards$.subscribe(
+      (hazards: AccessibilityHazard[]) => {
+        this.accessibilityHazards = hazards;
+      },
+    );
+    this.koodistoService.updateAccessibilityHazards();
+  }
+
+  ngOnDestroy(): void {
+    if (this.submitted === false && this.form.dirty && this.form.valid) {
+      this.saveCollection();
     }
 
-    /**
-     * Updates page title.
-     */
-    setTitle(): void {
-        this.translate.get('titles.collection').subscribe((translations: any) => {
-            this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
-        });
-    }
+    this.keywordSubscription.unsubscribe();
+    this.educationalRoleSubscription.unsubscribe();
+    this.educationalUseSubscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
+    this.accessibilityFeatureSubscription.unsubscribe();
+    this.accessibilityHazardSubscription.unsubscribe();
+  }
 
-    get nameCtrl(): FormControl {
-        return this.form.get('name') as FormControl;
-    }
+  /**
+   * Updates page title.
+   */
+  setTitle(): void {
+    this.translate.get('titles.collection').subscribe((translations: any) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
+    });
+  }
 
-    get descriptionCtrl(): FormControl {
-        return this.form.get('description') as FormControl;
-    }
+  get nameCtrl(): FormControl {
+    return this.form.get('name') as FormControl;
+  }
 
-    /**
-     * Shows modal for uploading thumbnail.
-     * @param {TemplateRef<any>} template
-     */
-    openThumbnailModal(template: TemplateRef<any>): void {
-        this.thumbnailModalRef = this.modalSvc.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
-    }
+  get descriptionCtrl(): FormControl {
+    return this.form.get('description') as FormControl;
+  }
 
-    imageChange(event: Event): void {
-        this.imageChangedEvent = event;
-    }
+  /**
+   * Shows modal for uploading thumbnail.
+   * @param {TemplateRef<any>} template
+   */
+  openThumbnailModal(template: TemplateRef<any>): void {
+    this.thumbnailModalRef = this.modalSvc.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
+  }
 
-    /**
-     * Updates croppedImage.
-     * @param {ImageCroppedEvent} event
-     */
-    imageCropped(event: ImageCroppedEvent): void {
-        this.croppedImage = event.base64;
-    }
+  imageChange(event: Event): void {
+    this.imageChangedEvent = event;
+  }
 
-    /**
-     * Uploads thumbnail to backend.
-     */
-    uploadImage(): void {
-        if (this.croppedImage) {
-            this.collectionSvc.uploadImage(this.croppedImage, this.collectionId).subscribe(
-                (res: UploadMessage) => {
-                    this.uploadResponse = res;
-                },
-                (err) => console.error(err),
-                () => {
-                    const changedCollection: CollectionForm =
-                        sessionStorage.getItem(environment.collection) !== null
-                            ? JSON.parse(sessionStorage.getItem(environment.collection))
-                            : this.collection;
+  /**
+   * Updates croppedImage.
+   * @param {ImageCroppedEvent} event
+   */
+  imageCropped(event: ImageCroppedEvent): void {
+    this.croppedImage = event.base64;
+  }
 
-                    changedCollection.thumbnail = this.croppedImage;
-
-                    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
-
-                    this.thumbnailSrc = this.croppedImage;
-                    this.thumbnailModalRef.hide();
-                },
-            );
-        }
-    }
-
-    /**
-     * Runs on submit. Redirects user to the next tab if form is valid.
-     */
-    onSubmit(): void {
-        this.submitted = true;
-
-        if (this.form.valid) {
-            if (this.form.dirty) {
-                this.saveCollection();
-            }
-
-            this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId + 1]);
-        }
-    }
-
-    /**
-     * Saves collection to session storage.
-     */
-    saveCollection(): void {
-        const changedCollection: CollectionForm =
+  /**
+   * Uploads thumbnail to backend.
+   */
+  uploadImage(): void {
+    if (this.croppedImage) {
+      this.collectionSvc.uploadImage(this.croppedImage, this.collectionId).subscribe(
+        (res: UploadMessage) => {
+          this.uploadResponse = res;
+        },
+        (err) => console.error(err),
+        () => {
+          const changedCollection: CollectionForm =
             sessionStorage.getItem(environment.collection) !== null
-                ? JSON.parse(sessionStorage.getItem(environment.collection))
-                : this.collection;
+              ? JSON.parse(sessionStorage.getItem(environment.collection))
+              : this.collection;
 
-        changedCollection.name = this.form.get('name').value;
-        changedCollection.description = this.form.get('description').value;
-        changedCollection.keywords = this.form.get('keywords').value;
-        changedCollection.educationalRoles = this.form.get('educationalRoles').value;
-        changedCollection.educationalUses = this.form.get('educationalUses').value;
-        changedCollection.languages = this.form.get('languages').value;
-        changedCollection.accessibilityFeatures = this.form.get('accessibilityFeatures').value;
-        changedCollection.accessibilityHazards = this.form.get('accessibilityHazards').value;
+          changedCollection.thumbnail = this.croppedImage;
 
-        sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
+          sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
+
+          this.thumbnailSrc = this.croppedImage;
+          this.thumbnailModalRef.hide();
+        },
+      );
     }
+  }
 
-    /**
-     * Emits EventEmitter indicating user wants to abort.
-     */
-    emitAbort(): void {
-        this.abortForm.emit();
+  /**
+   * Runs on submit. Redirects user to the next tab if form is valid.
+   */
+  onSubmit(): void {
+    this.submitted = true;
+
+    if (this.form.valid) {
+      if (this.form.dirty) {
+        this.saveCollection();
+      }
+
+      void this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId + 1]);
     }
+  }
+
+  /**
+   * Saves collection to session storage.
+   */
+  saveCollection(): void {
+    const changedCollection: CollectionForm =
+      sessionStorage.getItem(environment.collection) !== null
+        ? JSON.parse(sessionStorage.getItem(environment.collection))
+        : this.collection;
+
+    changedCollection.name = this.form.get('name').value;
+    changedCollection.description = this.form.get('description').value;
+    changedCollection.keywords = this.form.get('keywords').value;
+    changedCollection.educationalRoles = this.form.get('educationalRoles').value;
+    changedCollection.educationalUses = this.form.get('educationalUses').value;
+    changedCollection.languages = this.form.get('languages').value;
+    changedCollection.accessibilityFeatures = this.form.get('accessibilityFeatures').value;
+    changedCollection.accessibilityHazards = this.form.get('accessibilityHazards').value;
+
+    sessionStorage.setItem(environment.collection, JSON.stringify(changedCollection));
+  }
+
+  /**
+   * Emits EventEmitter indicating user wants to abort.
+   */
+  emitAbort(): void {
+    this.abortForm.emit();
+  }
 }

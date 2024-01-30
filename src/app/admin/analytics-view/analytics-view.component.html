@@ -1,159 +1,159 @@
 <h1>Oppimateriaalien katselu-, muokkaus-, lataus- ja hakumäärät</h1>
 <form [formGroup]="userActivityForm" (ngSubmit)="onSubmitUserActivity()">
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="activity">Activity</label>
-            <ng-select
-                [items]="activityOptions"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                bindLabel="name"
-                bindValue="name"
-                labelForId="activity"
-                id="activity"
-                appendTo="body"
-                formControlName="activity"></ng-select>
-            <ng-container *ngIf="activityCtrl.invalid && submitted">
-                <div *ngIf="activityCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="activity">Activity</label>
+      <ng-select
+        [items]="activityOptions"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="name"
+        bindValue="name"
+        labelForId="activity"
+        id="activity"
+        appendTo="body"
+        formControlName="activity"></ng-select>
+      <ng-container *ngIf="activityCtrl.invalid && submitted">
+        <div *ngIf="activityCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
+      </ng-container>
     </div>
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="interval">Interval</label>
-            <ng-select
-                [items]="intervals"
-                bindLabel="name"
-                bindValue="name"
-                labelForId="interval"
-                id="interval"
-                appendTo="body"
-                formControlName="interval"></ng-select>
-            <ng-container *ngIf="intervalCtrl.invalid && submitted">
-                <div *ngIf="intervalCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="interval">Interval</label>
+      <ng-select
+        [items]="intervals"
+        bindLabel="name"
+        bindValue="name"
+        labelForId="interval"
+        id="interval"
+        appendTo="body"
+        formControlName="interval"></ng-select>
+      <ng-container *ngIf="intervalCtrl.invalid && submitted">
+        <div *ngIf="intervalCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="startDate">Start Date</label>
-            <input
-                type="text"
-                class="form-control"
-                id="startDate"
-                formControlName="startDate"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-            <ng-container *ngIf="startDateCtrl.invalid && submitted">
-                <div *ngIf="startDateCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="endDate">End Date</label>
-            <input
-                type="text"
-                class="form-control"
-                id="endDate"
-                formControlName="endDate"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-            <ng-container *ngIf="endDateCtrl.invalid && submitted">
-                <div *ngIf="endDateCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
+      </ng-container>
     </div>
-
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="organizations">Organizations</label>
-            <ng-select
-                [items]="(koodistoService.organizations$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [virtualScroll]="true"
-                bindLabel="value"
-                groupBy="children"
-                id="organizations"
-                labelForId="organizations"
-                formControlName="organizations">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
-
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">
-                    {{ item.value }}
-                    <small *ngIf="item.parent">
-                        <br />
-                        {{ item.parent }}
-                    </small>
-                </ng-template>
-            </ng-select>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="startDate">Start Date</label>
+      <input
+        type="text"
+        class="form-control"
+        id="startDate"
+        formControlName="startDate"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+      <ng-container *ngIf="startDateCtrl.invalid && submitted">
+        <div *ngIf="startDateCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
-
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="educationalLevels">Educational Levels</label>
-
-            <ng-select
-                [items]="(koodistoService.educationalLevels$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                bindLabel="value"
-                groupBy="children"
-                id="educationalLevels"
-                labelForId="educationalLevels"
-                formControlName="educationalLevels">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
-
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-            </ng-select>
+      </ng-container>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="endDate">End Date</label>
+      <input
+        type="text"
+        class="form-control"
+        id="endDate"
+        formControlName="endDate"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+      <ng-container *ngIf="endDateCtrl.invalid && submitted">
+        <div *ngIf="endDateCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
+      </ng-container>
+    </div>
+  </div>
 
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="educationalSubjects">Educational Subjects</label>
-            <ng-select
-                [items]="(koodistoService.subjectFilters$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [selectableGroup]="true"
-                [selectableGroupAsModel]="false"
-                bindLabel="value"
-                groupBy="children"
-                id="educationalSubjects"
-                labelForId="educationalSubjects"
-                formControlName="educationalSubjects">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="organizations">Organizations</label>
+      <ng-select
+        [items]="(koodistoService.organizations$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [virtualScroll]="true"
+        bindLabel="value"
+        groupBy="children"
+        id="organizations"
+        labelForId="organizations"
+        formControlName="organizations">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
 
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">
-                    {{ item.value }}
-                    <small *ngIf="item.parent">
-                        <br />
-                        {{ item.parent }}
-                    </small>
-                </ng-template>
-            </ng-select>
-        </div>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent">
+            <br />
+            {{ item.parent }}
+          </small>
+        </ng-template>
+      </ng-select>
     </div>
 
-    <button type="submit" class="btn btn-blue">Hae tiedot</button>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="educationalLevels">Educational Levels</label>
+
+      <ng-select
+        [items]="(koodistoService.educationalLevels$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="educationalLevels"
+        labelForId="educationalLevels"
+        formControlName="educationalLevels">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+      </ng-select>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="educationalSubjects">Educational Subjects</label>
+      <ng-select
+        [items]="(koodistoService.subjectFilters$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="educationalSubjects"
+        labelForId="educationalSubjects"
+        formControlName="educationalSubjects">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent">
+            <br />
+            {{ item.parent }}
+          </small>
+        </ng-template>
+      </ng-select>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-blue">Hae tiedot</button>
 </form>
 <br />
 <app-line-chart [options]="userActivityChart"></app-line-chart>
@@ -161,148 +161,148 @@
 
 <h1>Oppimateriaalien julkaisujen kokonaismäärät</h1>
 <form [formGroup]="publishedMaterialsForm">
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="publishedStartDate">Start Date</label>
-            <input
-                type="text"
-                class="form-control"
-                id="publishedStartDate"
-                formControlName="publishedStartDate"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publishedStartDate">Start Date</label>
+      <input
+        type="text"
+        class="form-control"
+        id="publishedStartDate"
+        formControlName="publishedStartDate"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publishedEndDate">End Date</label>
+      <input
+        type="text"
+        class="form-control"
+        id="publishedEndDate"
+        formControlName="publishedEndDate"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="category">Select Category</label>
+      <ng-select
+        [items]="categories"
+        bindLabel="name"
+        bindValue="name"
+        labelForId="category"
+        id="category"
+        appendTo="body"
+        (change)="categoryChange($event?.value)"
+        formControlName="category"></ng-select>
+      <ng-container *ngIf="publishedCategoryCtrl.invalid && publishedSubmitted">
+        <div *ngIf="publishedCategoryCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="publishedEndDate">End Date</label>
-            <input
-                type="text"
-                class="form-control"
-                id="publishedEndDate"
-                formControlName="publishedEndDate"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-        </div>
+      </ng-container>
     </div>
 
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="category">Select Category</label>
-            <ng-select
-                [items]="categories"
-                bindLabel="name"
-                bindValue="name"
-                labelForId="category"
-                id="category"
-                appendTo="body"
-                (change)="categoryChange($event?.value)"
-                formControlName="category"></ng-select>
-            <ng-container *ngIf="publishedCategoryCtrl.invalid && publishedSubmitted">
-                <div *ngIf="publishedCategoryCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
+    <div *ngIf="category === 'educationalLevels'" class="form-group col-sm-6 col-md-4">
+      <label for="publishedEducationalLevels">Educational Levels</label>
+      <ng-select
+        [items]="(koodistoService.educationalLevels$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="publishedEducationalLevels"
+        labelForId="publishedEducationalLevels"
+        formControlName="publishedEducationalLevels">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+      </ng-select>
+      <ng-container
+        *ngIf="(!publishedEducationalLevelsCtrl.value || publishedEducationalLevelsCtrl.value.length === 0) && publishedSubmitted">
+        <div>
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
-
-        <div *ngIf="category === 'educationalLevels'" class="form-group col-sm-6 col-md-4">
-            <label for="publishedEducationalLevels">Educational Levels</label>
-            <ng-select
-                [items]="(koodistoService.educationalLevels$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                bindLabel="value"
-                groupBy="children"
-                id="publishedEducationalLevels"
-                labelForId="publishedEducationalLevels"
-                formControlName="publishedEducationalLevels">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
-
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-            </ng-select>
-            <ng-container
-                *ngIf="(!publishedEducationalLevelsCtrl.value || publishedEducationalLevelsCtrl.value.length === 0) && publishedSubmitted">
-                <div>
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
-
-        <div *ngIf="category === 'educationalSubjects'" class="form-group col-sm-6 col-md-4">
-            <label for="publishedEducationalSubjects">Educational Subjects</label>
-            <ng-select
-                [items]="(koodistoService.subjectFilters$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [selectableGroup]="true"
-                [selectableGroupAsModel]="false"
-                bindLabel="value"
-                groupBy="children"
-                id="publishedEducationalSubjects"
-                labelForId="publishedEducationalSubjects"
-                formControlName="publishedEducationalSubjects">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
-
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">
-                    {{ item.value }}
-                    <small *ngIf="item.parent">
-                        <br />
-                        {{ item.parent }}
-                    </small>
-                </ng-template>
-            </ng-select>
-            <ng-container
-                *ngIf="(!publishedEducationalSubjectsCtrl.value || publishedEducationalSubjectsCtrl.value.length === 0) && publishedSubmitted">
-                <div>
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
-
-        <div *ngIf="category === 'organizations'" class="form-group col-sm-6 col-md-4">
-            <label for="publishedOrganizations">Organizations</label>
-            <ng-select
-                [items]="(koodistoService.organizations$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                [virtualScroll]="true"
-                bindLabel="value"
-                groupBy="children"
-                id="publishedOrganizations"
-                labelForId="publishedOrganizations"
-                formControlName="publishedOrganizations">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
-
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">
-                    {{ item.value }}
-                    <small *ngIf="item.parent">
-                        <br />
-                        {{ item.parent }}
-                    </small>
-                </ng-template>
-            </ng-select>
-            <ng-container
-                *ngIf="(!publishedOrganizationsCtrl.value || publishedOrganizationsCtrl.value.length === 0) && publishedSubmitted">
-                <div>
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
+      </ng-container>
     </div>
-    <button type="button" (click)="onSubmitPublishedMaterials()" class="btn btn-blue">Hae tiedot</button>
+
+    <div *ngIf="category === 'educationalSubjects'" class="form-group col-sm-6 col-md-4">
+      <label for="publishedEducationalSubjects">Educational Subjects</label>
+      <ng-select
+        [items]="(koodistoService.subjectFilters$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [selectableGroup]="true"
+        [selectableGroupAsModel]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="publishedEducationalSubjects"
+        labelForId="publishedEducationalSubjects"
+        formControlName="publishedEducationalSubjects">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent">
+            <br />
+            {{ item.parent }}
+          </small>
+        </ng-template>
+      </ng-select>
+      <ng-container
+        *ngIf="(!publishedEducationalSubjectsCtrl.value || publishedEducationalSubjectsCtrl.value.length === 0) && publishedSubmitted">
+        <div>
+          <small class="text-danger">Pakollinen tieto</small>
+        </div>
+      </ng-container>
+    </div>
+
+    <div *ngIf="category === 'organizations'" class="form-group col-sm-6 col-md-4">
+      <label for="publishedOrganizations">Organizations</label>
+      <ng-select
+        [items]="(koodistoService.organizations$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        [virtualScroll]="true"
+        bindLabel="value"
+        groupBy="children"
+        id="publishedOrganizations"
+        labelForId="publishedOrganizations"
+        formControlName="publishedOrganizations">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
+
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.value }}
+          <small *ngIf="item.parent">
+            <br />
+            {{ item.parent }}
+          </small>
+        </ng-template>
+      </ng-select>
+      <ng-container
+        *ngIf="(!publishedOrganizationsCtrl.value || publishedOrganizationsCtrl.value.length === 0) && publishedSubmitted">
+        <div>
+          <small class="text-danger">Pakollinen tieto</small>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <button type="button" (click)="onSubmitPublishedMaterials()" class="btn btn-blue">Hae tiedot</button>
 </form>
 <br />
 <app-line-chart [options]="materialTotalsChart"></app-line-chart>
@@ -310,52 +310,52 @@
 <br />
 <h1>Vanhentuneiden oppimateriaalien määrät</h1>
 <form [id]="expiredMaterialsForm" [formGroup]="expiredMaterialsForm">
-    <div class="form-row">
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="expiredEducationalLevels">Educational Levels</label>
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="expiredEducationalLevels">Educational Levels</label>
 
-            <ng-select
-                [items]="(koodistoService.educationalLevels$ | async)"
-                [multiple]="true"
-                [closeOnSelect]="false"
-                bindLabel="value"
-                groupBy="children"
-                id="expiredEducationalLevels"
-                labelForId="expiredEducationalLevels"
-                formControlName="educationalLevels">
-                <ng-template ng-multi-label-tmp let-items="items">
-                    <div class="ng-value">
-                        <span class="ng-value-label">{{ items.length }} valintaa</span>
-                    </div>
-                </ng-template>
+      <ng-select
+        [items]="(koodistoService.educationalLevels$ | async)"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        groupBy="children"
+        id="expiredEducationalLevels"
+        labelForId="expiredEducationalLevels"
+        formControlName="educationalLevels">
+        <ng-template ng-multi-label-tmp let-items="items">
+          <div class="ng-value">
+            <span class="ng-value-label">{{ items.length }} valintaa</span>
+          </div>
+        </ng-template>
 
-                <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-                <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-            </ng-select>
-            <ng-container *ngIf="expiredEducationalLevelsCtrl.invalid && expiredSubmitted">
-                <div *ngIf="expiredEducationalLevelsCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
+        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+      </ng-select>
+      <ng-container *ngIf="expiredEducationalLevelsCtrl.invalid && expiredSubmitted">
+        <div *ngIf="expiredEducationalLevelsCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
         </div>
-        <div class="form-group col-sm-6 col-md-4">
-            <label for="expiredBefore">Expired Before</label>
-
-            <input
-                type="text"
-                class="form-control"
-                id="expiredBefore"
-                formControlName="expiredBefore"
-                bsDatepicker
-                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-            <ng-container *ngIf="expiredBeforeCtrl.invalid && expiredSubmitted">
-                <div *ngIf="expiredBeforeCtrl.errors.required">
-                    <small class="text-danger">Pakollinen tieto</small>
-                </div>
-            </ng-container>
-        </div>
+      </ng-container>
     </div>
-    <button type="button" (click)="onSubmitExpiredMaterials()" class="btn btn-blue">Hae tiedot</button>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="expiredBefore">Expired Before</label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="expiredBefore"
+        formControlName="expiredBefore"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+      <ng-container *ngIf="expiredBeforeCtrl.invalid && expiredSubmitted">
+        <div *ngIf="expiredBeforeCtrl.errors.required">
+          <small class="text-danger">Pakollinen tieto</small>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <button type="button" (click)="onSubmitExpiredMaterials()" class="btn btn-blue">Hae tiedot</button>
 </form>
 <br />
 <app-line-chart [options]="expiredMaterialsChart"></app-line-chart>

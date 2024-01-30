@@ -3,7 +3,7 @@
 $border-color: #e0e0e0;
 
 h2 {
-  @include font-size(22);
+  @include resize(22);
   font-weight: 400;
 }
 
@@ -18,7 +18,7 @@ h2 {
 }
 
 #toggle-version-history {
-  @include font-size(16);
+  @include resize(16);
   padding: 0 0.25rem;
 }
 
@@ -34,14 +34,14 @@ h2 {
 
 .list-files {
   h2 {
-    @include font-size(16);
+    @include resize(16);
     font-weight: 400;
   }
 }
 
 .ratings {
   border-bottom: 1px solid $border-color;
-  @include font-size(14);
+  @include resize(14);
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
 
@@ -51,7 +51,7 @@ h2 {
 
   h3 {
     color: #373737;
-    @include font-size(18);
+    @include resize(18);
   }
 }
 

@@ -1,59 +1,14 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# compiled output
+# Build
 /dist
-/dist-server
-/tmp
-/out-tsc
 
-# dependencies
+# Dependencies
 /node_modules
 
-# IDEs and editors
-/.idea
-/src/.idea/*
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# Docker
+docker/
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
-
-# System Files
-.DS_Store
-Thumbs.db
-
-# Documentation
-/documentation/*
-
-/docker
-.browserslistrc
-.dockerignore
-.editorconfig
-.gitignore
-*.json
-*.yml
-*.conf.js
-*.md
-
+# IDEs
+.idea/
+.vscode/

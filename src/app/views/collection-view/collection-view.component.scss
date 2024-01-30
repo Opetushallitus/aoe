@@ -7,14 +7,14 @@
   h2,
   .h2 {
     &.title {
-      @include font-size(21);
+      @include resize(21);
     }
   }
 
   h3,
   .h3 {
     &.title {
-      @include font-size(18);
+      @include resize(18);
 
       a {
         color: #373737;
@@ -41,7 +41,7 @@
     padding: 0.5rem;
 
     h3 {
-      @include font-size(16);
+      @include resize(16);
       font-weight: 400;
     }
 

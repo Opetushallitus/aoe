@@ -13,480 +13,479 @@ import { ignoredSubjects } from '@constants/ignored-subjects';
 import { MaterialService } from '@services/material.service';
 
 @Component({
-    selector: 'app-tabs-edit-preview',
-    templateUrl: './edit-preview.component.html',
-    styleUrls: ['./edit-preview.component.scss'],
+  selector: 'app-tabs-edit-preview',
+  templateUrl: './edit-preview.component.html',
+  styleUrls: ['./edit-preview.component.scss'],
 })
 export class EditPreviewComponent implements OnInit {
-    @Input() material: EducationalMaterialForm;
-    @Input() materialId: number;
-    @Input() tabId: number;
-    form: FormGroup;
-    lang: string;
-    submitted = false;
-    canDeactivate = false;
-    previewMaterial: EducationalMaterialForm;
-    @Output() abortEdit = new EventEmitter();
-    typicalAgeRange: string;
+  @Input() tabId: number;
+  form: FormGroup;
+  lang: string;
+  submitted = false;
+  canDeactivate = false;
+  previewMaterial: EducationalMaterialForm;
+  @Output() abortEdit = new EventEmitter();
+  typicalAgeRange: string;
 
-    constructor(
-        private fb: FormBuilder,
-        private translate: TranslateService,
-        private materialSvc: MaterialService,
-        private router: Router,
-        private titleSvc: Title,
-    ) {}
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService,
+    private materialService: MaterialService,
+    private router: Router,
+    private titleSvc: Title,
+  ) {}
 
-    ngOnInit(): void {
-        this.setTitle();
+  ngOnInit(): void {
+    this.setTitle();
 
-        this.form = this.fb.group({
-            hasName: this.fb.control(false, [Validators.requiredTrue]),
-            hasMaterial: this.fb.control(false, [Validators.requiredTrue]),
-            hasAuthor: this.fb.control(false, [Validators.requiredTrue]),
-            hasKeywords: this.fb.control(false, [Validators.requiredTrue]),
-            hasLearningResourceTypes: this.fb.control(false, [Validators.requiredTrue]),
-            hasEducationalLevels: this.fb.control(false, [Validators.requiredTrue]),
-            shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
-            hasBasicEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
-            hasBasicEduContents: this.fb.control(false, [Validators.requiredTrue]),
-            shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
-            hasUpperSecondaryEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
-            hasUpperSecondaryEduContents: this.fb.control(false, [Validators.requiredTrue]),
-            hasLicense: this.fb.control(false, [Validators.requiredTrue]),
-            confirm: this.fb.control(false, [Validators.requiredTrue]),
-        });
-
-        this.lang = this.translate.currentLang;
-
-        this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-            this.lang = event.lang;
-
-            this.setTitle();
-        });
-
-        this.previewMaterial = JSON.parse(sessionStorage.getItem(environment.editMaterial)) ?? this.material;
-
-        if (this.previewMaterial?.name?.fi || this.previewMaterial?.name?.sv || this.previewMaterial?.name?.en) {
-            this.form.get('hasName').setValue(true);
-        }
-
-        this.form.get('hasMaterial').setValue(this.previewMaterial?.fileDetails?.length > 0);
-        this.form.get('hasAuthor').setValue(this.previewMaterial?.authors?.length > 0);
-        this.form.get('hasKeywords').setValue(this.previewMaterial?.keywords?.length > 0);
-        this.form.get('hasLearningResourceTypes').setValue(this.previewMaterial?.learningResourceTypes?.length > 0);
-        this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
-        this.form.get('hasLicense').setValue(this.previewMaterial?.license?.length > 0);
-
-        if (
-            this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ||
-            this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax
-        ) {
-            this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${
-                this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''
-            }`;
-        }
-
-        if (this.previewMaterial.basicStudySubjects?.length > 0) {
-            this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
-            this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
-
-            const ignoredSubjectsList = this.previewMaterial.basicStudySubjects.filter(
-                (subject: AlignmentObjectExtended) => ignoredSubjects.includes(subject.key.toString()),
-            );
-
-            this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
-        }
-
-        if (this.shouldHaveBasicEduObjectivesAndContents === false) {
-            this.form.get('hasBasicEduObjectives').setValidators(null);
-            this.form.get('hasBasicEduObjectives').updateValueAndValidity();
-            this.form.get('hasBasicEduContents').setValidators(null);
-            this.form.get('hasBasicEduContents').updateValueAndValidity();
-        }
-
-        if (
-            this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 &&
-            this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0
-        ) {
-            this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
-            this.form
-                .get('hasUpperSecondaryEduObjectives')
-                .setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
-            this.form
-                .get('hasUpperSecondaryEduContents')
-                .setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
-        }
-
-        if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
-            this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
-            this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
-            this.form.get('hasUpperSecondaryEduContents').setValidators(null);
-            this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
-        }
+    this.form = this.fb.group({
+      hasName: this.fb.control(false, [Validators.requiredTrue]),
+      hasMaterial: this.fb.control(false, [Validators.requiredTrue]),
+      hasAuthor: this.fb.control(false, [Validators.requiredTrue]),
+      hasKeywords: this.fb.control(false, [Validators.requiredTrue]),
+      hasLearningResourceTypes: this.fb.control(false, [Validators.requiredTrue]),
+      hasEducationalLevels: this.fb.control(false, [Validators.requiredTrue]),
+      shouldHaveBasicEduObjectivesAndContents: this.fb.control(false),
+      hasBasicEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasBasicEduContents: this.fb.control(false, [Validators.requiredTrue]),
+      shouldHaveUppSecondaryEduObjectivesAndContents: this.fb.control(false),
+      hasUpperSecondaryEduObjectives: this.fb.control(false, [Validators.requiredTrue]),
+      hasUpperSecondaryEduContents: this.fb.control(false, [Validators.requiredTrue]),
+      hasLicense: this.fb.control(false, [Validators.requiredTrue]),
+      confirm: this.fb.control(false, [Validators.requiredTrue]),
+    });
+    this.lang = this.translate.currentLang;
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.lang = event.lang;
+      this.setTitle();
+    });
+    this.previewMaterial = this.materialService.getEducationalMaterialEditForm();
+    if (this.previewMaterial?.name?.fi || this.previewMaterial?.name?.sv || this.previewMaterial?.name?.en) {
+      this.form.get('hasName').setValue(true);
+    }
+    this.form.get('hasMaterial').setValue(this.previewMaterial?.fileDetails?.length > 0);
+    this.form.get('hasAuthor').setValue(this.previewMaterial?.authors?.length > 0);
+    this.form.get('hasKeywords').setValue(this.previewMaterial?.keywords?.length > 0);
+    this.form.get('hasLearningResourceTypes').setValue(this.previewMaterial?.learningResourceTypes?.length > 0);
+    this.form.get('hasEducationalLevels').setValue(this.previewMaterial?.educationalLevels?.length > 0);
+    this.form.get('hasLicense').setValue(this.previewMaterial?.license?.length > 0);
+    if (
+      this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ||
+      this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax
+    ) {
+      this.typicalAgeRange = `${this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMin ?? ''} - ${
+        this.previewMaterial?.typicalAgeRange?.typicalAgeRangeMax ?? ''
+      }`;
+    }
+    if (this.previewMaterial.basicStudySubjects?.length > 0) {
+      this.form.get('hasBasicEduObjectives').setValue(this.previewMaterial.basicStudyObjectives?.length > 0);
+      this.form.get('hasBasicEduContents').setValue(this.previewMaterial.basicStudyContents?.length > 0);
+      const ignoredSubjectsList = this.previewMaterial.basicStudySubjects.filter((subject: AlignmentObjectExtended) =>
+        ignoredSubjects.includes(subject.key.toString()),
+      );
+      this.form.get('shouldHaveBasicEduObjectivesAndContents').setValue(ignoredSubjectsList.length <= 0);
     }
 
-    setTitle(): void {
-        this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-            this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
-        });
+    if (this.shouldHaveBasicEduObjectivesAndContents === false) {
+      this.form.get('hasBasicEduObjectives').setValidators(null);
+      this.form.get('hasBasicEduObjectives').updateValueAndValidity();
+      this.form.get('hasBasicEduContents').setValidators(null);
+      this.form.get('hasBasicEduContents').updateValueAndValidity();
     }
 
-    /**
-     * Moves item in array.
-     * @param {CdkDragDrop<any>} event
-     */
-    drop(event: CdkDragDrop<any>): void {
-        moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
+    if (
+      this.previewMaterial.upperSecondarySchoolSubjectsNew?.length > 0 &&
+      this.previewMaterial.upperSecondarySchoolModulesNew?.length > 0
+    ) {
+      this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').setValue(true);
+      this.form
+        .get('hasUpperSecondaryEduObjectives')
+        .setValue(this.previewMaterial.upperSecondarySchoolObjectivesNew?.length > 0);
+      this.form
+        .get('hasUpperSecondaryEduContents')
+        .setValue(this.previewMaterial.upperSecondarySchoolContentsNew?.length > 0);
     }
 
-    get hasName(): boolean {
-        return this.form.get('hasName').value;
+    if (this.shouldHaveUppSecondaryEduObjectivesAndContents === false) {
+      this.form.get('hasUpperSecondaryEduObjectives').setValidators(null);
+      this.form.get('hasUpperSecondaryEduObjectives').updateValueAndValidity();
+      this.form.get('hasUpperSecondaryEduContents').setValidators(null);
+      this.form.get('hasUpperSecondaryEduContents').updateValueAndValidity();
     }
+  }
 
-    get hasMaterial(): boolean {
-        return this.form.get('hasMaterial').value;
-    }
+  setTitle(): void {
+    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
+      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
+    });
+  }
 
-    get hasAuthor(): boolean {
-        return this.form.get('hasAuthor').value;
-    }
+  /**
+   * Moves item in array.
+   * @param {CdkDragDrop<any>} event
+   */
+  drop(event: CdkDragDrop<any>): void {
+    moveItemInArray(this.previewMaterial.fileDetails, event.previousIndex, event.currentIndex);
+  }
 
-    get hasKeywords(): boolean {
-        return this.form.get('hasKeywords').value;
-    }
+  get hasName(): boolean {
+    return this.form.get('hasName').value;
+  }
 
-    get hasLearningResourceTypes(): boolean {
-        return this.form.get('hasLearningResourceTypes').value;
-    }
+  get hasMaterial(): boolean {
+    return this.form.get('hasMaterial').value;
+  }
 
-    get hasEducationalLevels(): boolean {
-        return this.form.get('hasEducationalLevels').value;
-    }
+  get hasAuthor(): boolean {
+    return this.form.get('hasAuthor').value;
+  }
 
-    get shouldHaveBasicEduObjectivesAndContents(): boolean {
-        return this.form.get('shouldHaveBasicEduObjectivesAndContents').value;
-    }
+  get hasKeywords(): boolean {
+    return this.form.get('hasKeywords').value;
+  }
 
-    get hasBasicEduObjectives(): boolean {
-        return this.form.get('hasBasicEduObjectives').value;
-    }
+  get hasLearningResourceTypes(): boolean {
+    return this.form.get('hasLearningResourceTypes').value;
+  }
 
-    get hasBasicEduContents(): boolean {
-        return this.form.get('hasBasicEduContents').value;
-    }
+  get hasEducationalLevels(): boolean {
+    return this.form.get('hasEducationalLevels').value;
+  }
 
-    get shouldHaveUppSecondaryEduObjectivesAndContents(): boolean {
-        return this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').value;
-    }
+  get shouldHaveBasicEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveBasicEduObjectivesAndContents').value;
+  }
 
-    get hasUpperSecondaryEduObjectives(): boolean {
-        return this.form.get('hasUpperSecondaryEduObjectives').value;
-    }
+  get hasBasicEduObjectives(): boolean {
+    return this.form.get('hasBasicEduObjectives').value;
+  }
 
-    get hasUpperSecondaryEduContents(): boolean {
-        return this.form.get('hasUpperSecondaryEduContents').value;
-    }
+  get hasBasicEduContents(): boolean {
+    return this.form.get('hasBasicEduContents').value;
+  }
 
-    get hasLicense(): boolean {
-        return this.form.get('hasLicense').value;
-    }
+  get shouldHaveUppSecondaryEduObjectivesAndContents(): boolean {
+    return this.form.get('shouldHaveUppSecondaryEduObjectivesAndContents').value;
+  }
 
-    /**
-     * Runs on submit. If form is valid and dirty, changed material is saved on sessionStorage.
-     * If form is valid, redirects user to the next tab.
-     */
-    onSubmit(): void {
-        this.submitted = true;
+  get hasUpperSecondaryEduObjectives(): boolean {
+    return this.form.get('hasUpperSecondaryEduObjectives').value;
+  }
 
-        if (this.form.valid) {
-            this.canDeactivate = true;
+  get hasUpperSecondaryEduContents(): boolean {
+    return this.form.get('hasUpperSecondaryEduContents').value;
+  }
 
-            let alignmentObjects: AlignmentObjectExtended[] = [];
+  get hasLicense(): boolean {
+    return this.form.get('hasLicense').value;
+  }
 
-            // early childhood education
-            this.previewMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
-                subject.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
+  /**
+   * Runs on submit. If form is valid and dirty, changed material is saved on sessionStorage.
+   * If form is valid, redirects user to the next tab.
+   */
+  onSubmit(): void {
+    this.submitted = true;
 
-                alignmentObjects.push(subject);
-            });
-            delete this.previewMaterial.earlyChildhoodEducationSubjects;
+    if (this.form.valid) {
+      this.canDeactivate = true;
 
-            this.previewMaterial.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
+      let alignmentObjects: AlignmentObjectExtended[] = [];
 
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.earlyChildhoodEducationObjectives;
-            delete this.previewMaterial.earlyChildhoodEducationFramework;
+      // early childhood education
+      this.previewMaterial.earlyChildhoodEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
 
-            // pre-primary education
-            this.previewMaterial.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
-                subject.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.earlyChildhoodEducationSubjects;
 
-                alignmentObjects.push(subject);
-            });
-            delete this.previewMaterial.prePrimaryEducationSubjects;
+      this.previewMaterial.earlyChildhoodEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.earlyChildhoodEducationFramework;
 
-            this.previewMaterial.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.earlyChildhoodEducationObjectives;
+      delete this.previewMaterial.earlyChildhoodEducationFramework;
 
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.prePrimaryEducationObjectives;
-            delete this.previewMaterial.prePrimaryEducationFramework;
+      // pre-primary education
+      this.previewMaterial.prePrimaryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
 
-            // basic education
-            this.previewMaterial.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
-                subject.educationalFramework = this.previewMaterial.basicStudyFramework;
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.prePrimaryEducationSubjects;
 
-                alignmentObjects.push(subject);
-            });
-            delete this.previewMaterial.basicStudySubjects;
+      this.previewMaterial.prePrimaryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.prePrimaryEducationFramework;
 
-            this.previewMaterial.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.basicStudyFramework;
-                delete objective.parent;
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.prePrimaryEducationObjectives;
+      delete this.previewMaterial.prePrimaryEducationFramework;
 
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.basicStudyObjectives;
+      // basic education
+      this.previewMaterial.basicStudySubjects.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.basicStudyFramework;
 
-            this.previewMaterial.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
-                content.educationalFramework = this.previewMaterial.basicStudyFramework;
-                delete content.parent;
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.basicStudySubjects;
 
-                alignmentObjects.push(content);
-            });
-            delete this.previewMaterial.basicStudyContents;
-            delete this.previewMaterial.basicStudyFramework;
+      this.previewMaterial.basicStudyObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.basicStudyFramework;
+        delete objective.parent;
 
-            // upper secondary school
-            this.previewMaterial.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
-                subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.basicStudyObjectives;
 
-                alignmentObjects.push(subject);
-            });
-            delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
+      this.previewMaterial.basicStudyContents.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = this.previewMaterial.basicStudyFramework;
+        delete content.parent;
 
-            this.previewMaterial.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
-                course.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
-                delete course.parent;
+        alignmentObjects.push(content);
+      });
+      delete this.previewMaterial.basicStudyContents;
+      delete this.previewMaterial.basicStudyFramework;
 
-                alignmentObjects.push(course);
-            });
-            delete this.previewMaterial.upperSecondarySchoolCoursesOld;
+      // upper secondary school
+      this.previewMaterial.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
 
-            this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
 
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.upperSecondarySchoolObjectives;
-            delete this.previewMaterial.upperSecondarySchoolFramework;
+      this.previewMaterial.upperSecondarySchoolCoursesOld.forEach((course: AlignmentObjectExtended) => {
+        course.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+        delete course.parent;
 
-            //old code -->
-            /*
+        alignmentObjects.push(course);
+      });
+      delete this.previewMaterial.upperSecondarySchoolCoursesOld;
+
+      this.previewMaterial.upperSecondarySchoolObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.upperSecondarySchoolFramework;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.upperSecondarySchoolObjectives;
+      delete this.previewMaterial.upperSecondarySchoolFramework;
+
+      //old code -->
+      /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsOld);
       delete this.previewMaterial.upperSecondarySchoolSubjectsOld;
       */
 
-            this.previewMaterial.upperSecondarySchoolSubjectsNew.forEach((subject: AlignmentObjectExtended) => {
-                subject.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+      this.previewMaterial.upperSecondarySchoolSubjectsNew.forEach((subject: AlignmentObjectExtended) => {
+        subject.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
 
-                alignmentObjects.push(subject);
-            });
-            delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
 
-            this.previewMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
-                delete module.parent;
+      this.previewMaterial.upperSecondarySchoolModulesNew.forEach((module: AlignmentObjectExtended) => {
+        delete module.parent;
 
-                alignmentObjects.push(module);
-            });
-            delete this.previewMaterial.upperSecondarySchoolModulesNew;
+        alignmentObjects.push(module);
+      });
+      delete this.previewMaterial.upperSecondarySchoolModulesNew;
 
-            this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
-                delete objective.parent;
+      this.previewMaterial.upperSecondarySchoolObjectivesNew.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+        delete objective.parent;
 
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.upperSecondarySchoolObjectivesNew;
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.upperSecondarySchoolObjectivesNew;
 
-            this.previewMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
-                content.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
-                delete content.parent;
+      this.previewMaterial.upperSecondarySchoolContentsNew.forEach((content: AlignmentObjectExtended) => {
+        content.educationalFramework = this.previewMaterial.newUpperSecondarySchoolFramework;
+        delete content.parent;
 
-                alignmentObjects.push(content);
-            });
-            delete this.previewMaterial.upperSecondarySchoolContentsNew;
-            delete this.previewMaterial.newUpperSecondarySchoolFramework;
+        alignmentObjects.push(content);
+      });
+      delete this.previewMaterial.upperSecondarySchoolContentsNew;
+      delete this.previewMaterial.newUpperSecondarySchoolFramework;
 
-            //new framework old code
-            /*
+      //new framework old code
+      /*
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.upperSecondarySchoolSubjectsNew);
       delete this.previewMaterial.upperSecondarySchoolSubjectsNew;
       */
 
-            // vocational education
-            this.previewMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
-                degree.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+      // vocational education
+      this.previewMaterial.vocationalDegrees.forEach((degree: AlignmentObjectExtended) => {
+        degree.educationalFramework = this.previewMaterial.vocationalEducationFramework;
 
-                alignmentObjects.push(degree);
+        alignmentObjects.push(degree);
+      });
+      delete this.previewMaterial.vocationalDegrees;
+
+      this.previewMaterial.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
+        unit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+        delete unit.parent;
+
+        alignmentObjects.push(unit);
+      });
+      delete this.previewMaterial.vocationalUnits;
+
+      this.previewMaterial.vocationalCommonUnits.forEach((commonUnit: AlignmentObjectExtended) => {
+        commonUnit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+        delete commonUnit.parent;
+
+        alignmentObjects.push(commonUnit);
+      });
+      delete this.previewMaterial.vocationalCommonUnits;
+
+      this.previewMaterial.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
+        requirement.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+
+        alignmentObjects.push(requirement);
+      });
+      delete this.previewMaterial.vocationalRequirements;
+
+      this.previewMaterial.furtherVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
+        qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+
+        alignmentObjects.push(qualification);
+      });
+      delete this.previewMaterial.furtherVocationalQualifications;
+
+      this.previewMaterial.specialistVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
+        qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
+
+        alignmentObjects.push(qualification);
+      });
+      delete this.previewMaterial.specialistVocationalQualifications;
+      delete this.previewMaterial.vocationalEducationFramework;
+
+      // self-motivated competence development
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationSubjects);
+      delete this.previewMaterial.selfMotivatedEducationSubjects;
+
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationObjectives);
+      delete this.previewMaterial.selfMotivatedEducationObjectives;
+
+      // higher education
+      this.previewMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
+        branch.educationalFramework = this.previewMaterial.higherEducationFramework;
+
+        alignmentObjects.push(branch);
+      });
+      delete this.previewMaterial.branchesOfScience;
+
+      this.previewMaterial.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
+        objective.educationalFramework = this.previewMaterial.higherEducationFramework;
+
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.scienceBranchObjectives;
+      delete this.previewMaterial.higherEducationFramework;
+
+      // prerequisites
+      alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites);
+      delete this.previewMaterial.prerequisites;
+
+      // versioning
+      let isVersioned = this.previewMaterial.isVersioned;
+
+      if (!this.previewMaterial.versions.length) {
+        isVersioned = true;
+      }
+
+      // materials
+      const materials: Material[] = [];
+
+      // attachmentDetails
+      const attachmentDetails: AttachmentDetail[] = [];
+
+      // fileDetails
+      const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
+        const subtitles: string[] = [];
+
+        file.subtitles.forEach((subtitle) => {
+          attachmentDetails.push({
+            id: subtitle.id,
+            kind: subtitle.kind,
+            default: subtitle.default,
+            lang: subtitle.srclang,
+            label: subtitle.label,
+          });
+
+          subtitles.push(subtitle.id);
+        });
+
+        materials.push({
+          materialId: file.id,
+          priority: idx,
+          attachments: subtitles,
+        });
+
+        delete file.file;
+        delete file.priority;
+        delete file.subtitles;
+
+        return file;
+      });
+      delete this.previewMaterial.fileDetails;
+      delete this.previewMaterial.videoFiles;
+
+      // thumbnail
+      delete this.previewMaterial.thumbnail;
+
+      // references
+      const isBasedOn = {
+        externals: this.previewMaterial.externals,
+      };
+      delete this.previewMaterial.externals;
+
+      const updatedMaterial: EducationalMaterialPut = Object.assign(
+        {},
+        this.previewMaterial,
+        { isVersioned },
+        { materials },
+        { fileDetails },
+        { attachmentDetails },
+        { alignmentObjects },
+        { isBasedOn },
+      );
+
+      this.materialService
+        .updateEducationalMaterialMetadata(this.materialService.getEducationalMaterialID(), updatedMaterial)
+        .subscribe({
+          error: (err) => console.error(err),
+          complete: () => {
+            this.router.navigate(['/materiaali', this.materialService.getEducationalMaterialID()]).then(() => {
+              this.materialService.clearEducationalMaterialEditForm();
+              this.materialService.clearEducationalMaterialID();
+              this.materialService.clearUploadedFiles();
+              this.materialService.clearUploadResponses();
             });
-            delete this.previewMaterial.vocationalDegrees;
-
-            this.previewMaterial.vocationalUnits.forEach((unit: AlignmentObjectExtended) => {
-                unit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
-                delete unit.parent;
-
-                alignmentObjects.push(unit);
-            });
-            delete this.previewMaterial.vocationalUnits;
-
-            this.previewMaterial.vocationalCommonUnits.forEach((commonUnit: AlignmentObjectExtended) => {
-                commonUnit.educationalFramework = this.previewMaterial.vocationalEducationFramework;
-                delete commonUnit.parent;
-
-                alignmentObjects.push(commonUnit);
-            });
-            delete this.previewMaterial.vocationalCommonUnits;
-
-            this.previewMaterial.vocationalRequirements.forEach((requirement: AlignmentObjectExtended) => {
-                requirement.educationalFramework = this.previewMaterial.vocationalEducationFramework;
-
-                alignmentObjects.push(requirement);
-            });
-            delete this.previewMaterial.vocationalRequirements;
-
-            this.previewMaterial.furtherVocationalQualifications.forEach((qualification: AlignmentObjectExtended) => {
-                qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
-
-                alignmentObjects.push(qualification);
-            });
-            delete this.previewMaterial.furtherVocationalQualifications;
-
-            this.previewMaterial.specialistVocationalQualifications.forEach(
-                (qualification: AlignmentObjectExtended) => {
-                    qualification.educationalFramework = this.previewMaterial.vocationalEducationFramework;
-
-                    alignmentObjects.push(qualification);
-                },
-            );
-            delete this.previewMaterial.specialistVocationalQualifications;
-            delete this.previewMaterial.vocationalEducationFramework;
-
-            // self-motivated competence development
-            alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationSubjects);
-            delete this.previewMaterial.selfMotivatedEducationSubjects;
-
-            alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationObjectives);
-            delete this.previewMaterial.selfMotivatedEducationObjectives;
-
-            // higher education
-            this.previewMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {
-                branch.educationalFramework = this.previewMaterial.higherEducationFramework;
-
-                alignmentObjects.push(branch);
-            });
-            delete this.previewMaterial.branchesOfScience;
-
-            this.previewMaterial.scienceBranchObjectives.forEach((objective: AlignmentObjectExtended) => {
-                objective.educationalFramework = this.previewMaterial.higherEducationFramework;
-
-                alignmentObjects.push(objective);
-            });
-            delete this.previewMaterial.scienceBranchObjectives;
-            delete this.previewMaterial.higherEducationFramework;
-
-            // prerequisites
-            alignmentObjects = alignmentObjects.concat(this.previewMaterial.prerequisites);
-            delete this.previewMaterial.prerequisites;
-
-            // versioning
-            let isVersioned = this.previewMaterial.isVersioned;
-
-            if (!this.previewMaterial.versions.length) {
-                isVersioned = true;
-            }
-
-            // materials
-            const materials: Material[] = [];
-
-            // attachmentDetails
-            const attachmentDetails: AttachmentDetail[] = [];
-
-            // fileDetails
-            const fileDetails = this.previewMaterial.fileDetails.map((file, idx: number) => {
-                const subtitles: string[] = [];
-
-                file.subtitles.forEach((subtitle) => {
-                    attachmentDetails.push({
-                        id: subtitle.id,
-                        kind: subtitle.kind,
-                        default: subtitle.default,
-                        lang: subtitle.srclang,
-                        label: subtitle.label,
-                    });
-
-                    subtitles.push(subtitle.id);
-                });
-
-                materials.push({
-                    materialId: file.id,
-                    priority: idx,
-                    attachments: subtitles,
-                });
-
-                delete file.file;
-                delete file.priority;
-                delete file.subtitles;
-
-                return file;
-            });
-            delete this.previewMaterial.fileDetails;
-            delete this.previewMaterial.videoFiles;
-
-            // thumbnail
-            delete this.previewMaterial.thumbnail;
-
-            // references
-            const isBasedOn = {
-                externals: this.previewMaterial.externals,
-            };
-            delete this.previewMaterial.externals;
-
-            const updatedMaterial: EducationalMaterialPut = Object.assign(
-                {},
-                this.previewMaterial,
-                { isVersioned },
-                { materials },
-                { fileDetails },
-                { attachmentDetails },
-                { alignmentObjects },
-                { isBasedOn },
-            );
-
-            this.materialSvc.postMeta(this.materialId, updatedMaterial).subscribe(
-                () => this.router.navigate(['/materiaali', this.materialId]),
-                (err) => console.error(err),
-            );
-        } else {
-            this.router.navigate(['/materiaali', this.materialId]);
-        }
+          },
+        });
+    } else {
+      void this.router.navigate(['/materiaali', this.materialService.getEducationalMaterialID()]);
     }
+  }
 
-    /**
-     * Emits EventEmitter indicating user wants to abort.
-     */
-    abort(): void {
-        this.abortEdit.emit();
-    }
+  /**
+   * Emits EventEmitter indicating user wants to abort.
+   */
+  abort(): void {
+    this.abortEdit.emit();
+  }
 
-    /**
-     * Redirects user to previous tab.
-     */
-    previous(): void {
-        this.router.navigate(['/muokkaa-oppimateriaalia', this.materialId, this.tabId - 1]);
-    }
+  /**
+   * Redirects user to previous tab.
+   */
+  previous(): void {
+    void this.router.navigate([
+      '/muokkaa-oppimateriaalia',
+      this.materialService.getEducationalMaterialID(),
+      this.tabId - 1,
+    ]);
+  }
 }

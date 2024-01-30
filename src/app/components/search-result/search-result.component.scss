@@ -8,6 +8,6 @@
 
 h1 {
   color: #373737;
-  @include font-size(20);
+  @include resize(20);
   margin-bottom: 1.5rem;
 }

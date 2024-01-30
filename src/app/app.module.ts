@@ -1,17 +1,14 @@
 import { BrowserModule, HammerModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
-
-const APP_CONTAINERS = [DefaultLayoutComponent];
-
 // Import routing module
 import { AppRoutingModule } from './app.routing';
 
@@ -35,7 +32,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 // shared
-import { SharedModule, HttpLoaderFactory } from './shared/shared.module';
+import { HttpLoaderFactory, SharedModule } from './shared/shared.module';
 
 // components
 import { EducationalMaterialPreviewComponent } from '@components/educational-material-preview/educational-material-preview.component';
@@ -65,171 +62,180 @@ import { PreviewRowComponent } from '@components/preview-row/preview-row.compone
 import { FocusRemoverDirective } from './directives';
 
 // guards
-import { UnsavedChangesGuard } from './guards';
-import { AdminGuard } from './guards';
-import { DisableFormsGuard } from './guards';
+import { AdminGuard, DisableFormsGuard, UnsavedChangesGuard } from './guards';
 
 // pipes
 import { CleanFilenamePipe } from './pipes';
 
 // providers
-import { CredentialInterceptor } from './providers';
+import { CredentialInterceptor, WindowRef } from './providers';
 
 // views
-import { P404Component } from './views';
-import { HelpViewComponent } from './views';
-import { TermsOfUseViewComponent } from './views';
-import { PrivacyPolicyViewComponent } from './views';
-import { AccessibilityPolicyViewComponent } from './views';
-import { EducationalMaterialViewComponent } from './views';
-import { AcceptanceViewComponent } from './views';
-import { EducationalResourceFormComponent } from './views';
-import { FilesComponent } from './views/educational-resource-form/tabs';
-import { BasicDetailsComponent } from './views/educational-resource-form/tabs';
-import { EducationalDetailsComponent } from './views/educational-resource-form/tabs';
-import { ExtendedDetailsComponent } from './views/educational-resource-form/tabs';
-import { BasedOnDetailsComponent } from './views/educational-resource-form/tabs';
-import { LicenseComponent } from './views/educational-resource-form/tabs';
-import { UserMaterialsViewComponent } from './views';
-import { MainViewComponent } from './views';
-import { PreviewComponent } from './views/educational-resource-form/tabs';
-import { LogoutViewComponent } from './views';
-import { SearchResultsViewComponent } from './views';
-import { EducationalMaterialEditFormComponent } from './views';
-import { EditFilesComponent } from './views/educational-material-edit-form/tabs';
-import { EditBasicDetailsComponent } from './views/educational-material-edit-form/tabs';
-import { EditEducationalDetailsComponent } from './views/educational-material-edit-form/tabs';
-import { EditExtendedDetailsComponent } from './views/educational-material-edit-form/tabs';
-import { EditLicenseComponent } from './views/educational-material-edit-form/tabs';
-import { EditBasedOnDetailsComponent } from './views/educational-material-edit-form/tabs';
-import { EditPreviewComponent } from './views/educational-material-edit-form/tabs';
-import { EducationalMaterialRatingsComponent } from './views';
-import { CollectionViewComponent } from './views';
-import { CollectionFormComponent } from './views';
-import { CollectionBasicDetailsTabComponent } from './views/collection-form';
-import { CollectionEducationalDetailsTabComponent } from './views/collection-form';
-import { CollectionMaterialsTabComponent } from './views/collection-form';
-import { CollectionPreviewTabComponent } from './views/collection-form';
-import { CollectionsViewComponent } from './views';
-import { CollectionSearchResultsViewComponent } from './views';
-import { UserDetailsViewComponent } from './views';
-import { AccessibilityViewComponent } from './views';
+import {
+  AcceptanceViewComponent,
+  AccessibilityPolicyViewComponent,
+  AccessibilityViewComponent,
+  CollectionFormComponent,
+  CollectionSearchResultsViewComponent,
+  CollectionsViewComponent,
+  CollectionViewComponent,
+  EducationalMaterialEditFormComponent,
+  EducationalMaterialRatingsComponent,
+  EducationalMaterialViewComponent,
+  EducationalResourceFormComponent,
+  HelpViewComponent,
+  LogoutViewComponent,
+  MainViewComponent,
+  P404Component,
+  PrivacyPolicyViewComponent,
+  SearchResultsViewComponent,
+  TermsOfUseViewComponent,
+  UserDetailsViewComponent,
+  UserMaterialsViewComponent,
+} from './views';
+import {
+  BasedOnDetailsComponent,
+  BasicDetailsComponent,
+  EducationalDetailsComponent,
+  ExtendedDetailsComponent,
+  FilesComponent,
+  LicenseComponent,
+  PreviewComponent,
+} from './views/educational-resource-form/tabs';
+import {
+  EditBasedOnDetailsComponent,
+  EditBasicDetailsComponent,
+  EditEducationalDetailsComponent,
+  EditExtendedDetailsComponent,
+  EditFilesComponent,
+  EditLicenseComponent,
+  EditPreviewComponent,
+} from './views/educational-material-edit-form/tabs';
+import {
+  CollectionBasicDetailsTabComponent,
+  CollectionEducationalDetailsTabComponent,
+  CollectionMaterialsTabComponent,
+  CollectionPreviewTabComponent,
+} from './views/collection-form';
+
+const APP_CONTAINERS = [DefaultLayoutComponent];
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        BsDropdownModule.forRoot(),
-        ModalModule.forRoot(),
-        SharedModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient],
-            },
-        }),
-        AccordionModule.forRoot(),
-        NgSelectModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TooltipModule.forRoot(),
-        CollapseModule.forRoot(),
-        BsDatepickerModule.forRoot(),
-        ProgressbarModule.forRoot(),
-        ImageCropperModule,
-        DragDropModule,
-        ClipboardModule,
-        ToastrModule.forRoot(),
-        HammerModule,
-        PdfJsViewerModule,
-        NgxPaginationModule,
-    ],
-    declarations: [
-        AppComponent,
-        ...APP_CONTAINERS,
-        P404Component,
-        MainViewComponent,
-        HelpViewComponent,
-        TermsOfUseViewComponent,
-        PrivacyPolicyViewComponent,
-        AccessibilityPolicyViewComponent,
-        EducationalMaterialCardComponent,
-        EducationalMaterialViewComponent,
-        EducationalMaterialPreviewComponent,
-        VideoPreviewComponent,
-        AudioPreviewComponent,
-        PdfPreviewComponent,
-        HtmlPreviewComponent,
-        OfficePreviewComponent,
-        ImagePreviewComponent,
-        EducationalResourceFormComponent,
-        FilesComponent,
-        BasicDetailsComponent,
-        EducationalDetailsComponent,
-        ExtendedDetailsComponent,
-        BasedOnDetailsComponent,
-        LicenseComponent,
-        AcceptanceViewComponent,
-        NavLoginComponent,
-        PrivacyPolicyComponent,
-        TermsOfUseComponent,
-        UserMaterialsViewComponent,
-        PreviewComponent,
-        CookieNoticeComponent,
-        LogoutViewComponent,
-        SearchComponent,
-        SearchResultsViewComponent,
-        SearchResultComponent,
-        EducationalMaterialEditFormComponent,
-        EditFilesComponent,
-        EditBasicDetailsComponent,
-        EditEducationalDetailsComponent,
-        EditExtendedDetailsComponent,
-        EditLicenseComponent,
-        EditBasedOnDetailsComponent,
-        EditPreviewComponent,
-        EducationalMaterialRatingsComponent,
-        EducationalMaterialRatingModalComponent,
-        AddToCollectionModalComponent,
-        CollectionViewComponent,
-        CleanFilenamePipe,
-        CollectionFormComponent,
-        CollectionBasicDetailsTabComponent,
-        CollectionEducationalDetailsTabComponent,
-        CollectionMaterialsTabComponent,
-        CollectionPreviewTabComponent,
-        TaglistComponent,
-        CollectionsViewComponent,
-        CollectionCardComponent,
-        CollectionSearchResultsViewComponent,
-        CollectionSearchResultComponent,
-        FocusRemoverDirective,
-        UserDetailsViewComponent,
-        SocialMetadataModalComponent,
-        ArchivedMaterialComponent,
-        AccessibilityViewComponent,
-        PreviewRowComponent,
-    ],
-    providers: [
-        {
-            provide: LocationStrategy,
-            useClass: HashLocationStrategy,
-        },
-        CookieService,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CredentialInterceptor,
-            multi: true,
-        },
-        Title,
-        UnsavedChangesGuard,
-        DeviceDetectorService,
-        AdminGuard,
-        DisableFormsGuard,
-    ],
-    bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    SharedModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+    AccordionModule.forRoot(),
+    NgSelectModule,
+    FormsModule,
+    ReactiveFormsModule,
+    TooltipModule.forRoot(),
+    CollapseModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ProgressbarModule.forRoot(),
+    ImageCropperModule,
+    DragDropModule,
+    ClipboardModule,
+    ToastrModule.forRoot(),
+    HammerModule,
+    PdfJsViewerModule,
+    NgxPaginationModule,
+  ],
+  declarations: [
+    AppComponent,
+    ...APP_CONTAINERS,
+    P404Component,
+    MainViewComponent,
+    HelpViewComponent,
+    TermsOfUseViewComponent,
+    PrivacyPolicyViewComponent,
+    AccessibilityPolicyViewComponent,
+    EducationalMaterialCardComponent,
+    EducationalMaterialViewComponent,
+    EducationalMaterialPreviewComponent,
+    VideoPreviewComponent,
+    AudioPreviewComponent,
+    PdfPreviewComponent,
+    HtmlPreviewComponent,
+    OfficePreviewComponent,
+    ImagePreviewComponent,
+    EducationalResourceFormComponent,
+    FilesComponent,
+    BasicDetailsComponent,
+    EducationalDetailsComponent,
+    ExtendedDetailsComponent,
+    BasedOnDetailsComponent,
+    LicenseComponent,
+    AcceptanceViewComponent,
+    NavLoginComponent,
+    PrivacyPolicyComponent,
+    TermsOfUseComponent,
+    UserMaterialsViewComponent,
+    PreviewComponent,
+    CookieNoticeComponent,
+    LogoutViewComponent,
+    SearchComponent,
+    SearchResultsViewComponent,
+    SearchResultComponent,
+    EducationalMaterialEditFormComponent,
+    EditFilesComponent,
+    EditBasicDetailsComponent,
+    EditEducationalDetailsComponent,
+    EditExtendedDetailsComponent,
+    EditLicenseComponent,
+    EditBasedOnDetailsComponent,
+    EditPreviewComponent,
+    EducationalMaterialRatingsComponent,
+    EducationalMaterialRatingModalComponent,
+    AddToCollectionModalComponent,
+    CollectionViewComponent,
+    CleanFilenamePipe,
+    CollectionFormComponent,
+    CollectionBasicDetailsTabComponent,
+    CollectionEducationalDetailsTabComponent,
+    CollectionMaterialsTabComponent,
+    CollectionPreviewTabComponent,
+    TaglistComponent,
+    CollectionsViewComponent,
+    CollectionCardComponent,
+    CollectionSearchResultsViewComponent,
+    CollectionSearchResultComponent,
+    FocusRemoverDirective,
+    UserDetailsViewComponent,
+    SocialMetadataModalComponent,
+    ArchivedMaterialComponent,
+    AccessibilityViewComponent,
+    PreviewRowComponent,
+  ],
+  providers: [
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy,
+    },
+    CookieService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CredentialInterceptor,
+      multi: true,
+    },
+    Title,
+    UnsavedChangesGuard,
+    DeviceDetectorService,
+    AdminGuard,
+    DisableFormsGuard,
+    WindowRef,
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

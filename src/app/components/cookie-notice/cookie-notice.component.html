@@ -1,130 +1,118 @@
 <div class="fixed-bottom cookie-notice border-top border-info">
-    <div class="container">
-        <div class="row align-items-center text-center text-md-left">
-            <div class="col-md mb-3 mb-md-0">
-                <ng-container [ngSwitch]="lang">
-                    <ng-container *ngSwitchDefault>
-                        <p>
-                            Avointen oppimateriaalien kirjasto käyttää vain välttämättömiä evästeitä palvelun käytön
-                            mahdollistamiseksi. Käyttämämme evästeet ovat istuntokohtaisia tai ne vanhenevat viimeistään
-                            24 tuntia käytön jälkeen.
-                        </p>
-                    </ng-container>
+  <div class="container">
+    <div class="row align-items-center text-center text-md-left">
+      <div class="col-md mb-3 mb-md-0">
+        <ng-container [ngSwitch]="lang">
+          <ng-container *ngSwitchDefault>
+            <p>
+              Avointen oppimateriaalien kirjasto käyttää vain välttämättömiä evästeitä palvelun käytön
+              mahdollistamiseksi. Käyttämämme evästeet ovat istuntokohtaisia tai ne vanhenevat viimeistään 24 tuntia
+              käytön jälkeen.
+            </p>
+          </ng-container>
 
-                    <ng-container *ngSwitchCase="'en'">
-                        <p>
-                            The Library of Open Educational Resources uses only necessary cookies to make it possible
-                            for you to use the service. We use session cookies and cookies that expire 24 hours after
-                            using aoe.fi.
-                        </p>
-                    </ng-container>
+          <ng-container *ngSwitchCase="'en'">
+            <p>
+              The Library of Open Educational Resources uses only necessary cookies to make it possible for you to use
+              the service. We use session cookies and cookies that expire 24 hours after using aoe.fi.
+            </p>
+          </ng-container>
 
-                    <ng-container *ngSwitchCase="'sv'">
-                        <p>
-                            Biblioteket för öppna lärresurser använder nödvändiga cookies för att tjänsten fungerar
-                            smidigt. Använt cookies är session cookies eller dom föråldras efter 24 timmar.
-                        </p>
-                    </ng-container>
-                </ng-container>
-            </div>
+          <ng-container *ngSwitchCase="'sv'">
+            <p>
+              Biblioteket för öppna lärresurser använder nödvändiga cookies för att tjänsten fungerar smidigt. Använt
+              cookies är session cookies eller dom föråldras efter 24 timmar.
+            </p>
+          </ng-container>
+        </ng-container>
+      </div>
 
-            <div class="col-md-auto">
-                <button type="button" class="btn btn-outline-primary" (click)="cookie.show()">
-                    {{ "cookies.cookieSettings" | translate }}
-                </button>
-                <button type="button" class="btn btn-blue" (click)="onSubmit()">
-                    {{ "cookies.close" | translate }}
-                </button>
-            </div>
-        </div>
+      <div class="col-md-auto">
+        <button type="button" class="btn btn-outline-primary" (click)="cookie.show()">
+          {{ "cookies.cookieSettings" | translate }}
+        </button>
+        <button type="button" class="btn btn-blue" (click)="onSubmit()">{{ "cookies.close" | translate }}</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <div bsModal #cookie="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cookie-notice-title">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left" id="cookie-notice-title">{{ "cookies.title" | translate }}</h4>
-                <button
-                    type="button"
-                    class="close pull-right"
-                    [attr.aria-label]="'forms.common.close' | translate"
-                    (click)="cookie.hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left" id="cookie-notice-title">{{ "cookies.title" | translate }}</h4>
+        <button
+          type="button"
+          class="close pull-right"
+          [attr.aria-label]="'forms.common.close' | translate"
+          (click)="cookie.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
-            <div class="modal-body">
-                <ng-container [ngSwitch]="lang">
-                    <ng-container *ngSwitchDefault>
-                        <p>
-                            Kun vierailet verkkosivustollamme, evästeet tallentavat tiedon vierailustasi. Eväste
-                            (cookie) on pieni tekstitiedosto, jonka selain tallentaa kävijän laitteelle. Evästeitä on
-                            kahta eri päätyyppiä, istuntoevästeitä ja pysyviä evästeitä. Istuntoevästeet poistuvat
-                            laitteeltasi heti, kun suljet selaimen. Pysyvät evästeet säilyvät tallennettuina, kunnes ne
-                            erikseen poistetaan tai ne vanhentuvat.
-                        </p>
-                        <p>
-                            Avointen oppimateriaalien kirjasto käyttää istuntoevästeitä ja lyhytikäisiä pysyviä
-                            evästeitä turvallisen sisäänkirjautumisen takaamiseen. Palvelun pysyvät evästeet vanhentuvat
-                            24 tunnissa.
-                        </p>
-                        <p>
-                            Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä
-                            evästetietoja käytetään siten, ettei palvelun käyttäjän yksityisyydensuojaa loukata.
-                            Evästetunnistusta ei käytetä sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin.
-                            Evästeitä ei käytetä kävijän päätelaitteen tietojen tarkasteluun tai kopiointiin. Evästeitä
-                            ei luovuteta kolmansille osapuolille.
-                        </p>
-                    </ng-container>
+      <div class="modal-body">
+        <ng-container [ngSwitch]="lang">
+          <ng-container *ngSwitchDefault>
+            <p>
+              Kun vierailet verkkosivustollamme, evästeet tallentavat tiedon vierailustasi. Eväste (cookie) on pieni
+              tekstitiedosto, jonka selain tallentaa kävijän laitteelle. Evästeitä on kahta eri päätyyppiä,
+              istuntoevästeitä ja pysyviä evästeitä. Istuntoevästeet poistuvat laitteeltasi heti, kun suljet selaimen.
+              Pysyvät evästeet säilyvät tallennettuina, kunnes ne erikseen poistetaan tai ne vanhentuvat.
+            </p>
+            <p>
+              Avointen oppimateriaalien kirjasto käyttää istuntoevästeitä ja lyhytikäisiä pysyviä evästeitä turvallisen
+              sisäänkirjautumisen takaamiseen. Palvelun pysyvät evästeet vanhentuvat 24 tunnissa.
+            </p>
+            <p>
+              Lain sähköisen viestinnän palveluista (917/2014) mukaisesti tällä sivustolla käytettäviä evästetietoja
+              käytetään siten, ettei palvelun käyttäjän yksityisyydensuojaa loukata. Evästetunnistusta ei käytetä
+              sivuston kävijän yhdistämiseksi henkilö- tai yhteystietoihin. Evästeitä ei käytetä kävijän päätelaitteen
+              tietojen tarkasteluun tai kopiointiin. Evästeitä ei luovuteta kolmansille osapuolille.
+            </p>
+          </ng-container>
 
-                    <ng-container *ngSwitchCase="'en'">
-                        <p>
-                            When you visit our website, cookies record that you visited. A cookie is a small text file
-                            that the browser stores on the visitor’s device. There are two main types of cookies,
-                            session cookies and permanent cookies. Session cookies are removed from your device as soon
-                            as you close the browser. Permanent cookies remain stored until they are specifically
-                            removed or they expire.
-                        </p>
-                        <p>
-                            The Library of Open Educational Resources uses session cookies and short-lived cookies to
-                            provide secure login. All permanent cookies expire after 24 hours.
-                        </p>
-                        <p>
-                            In accordance with the Information Society Code (917/2014), cookie data used on this site is
-                            used in such a way that the user’s protection of privacy is not violated. Cookie
-                            identification is not used to link site visitors to personal data or contact details.
-                            Cookies are not used for reviewing or copying data on a visitor’s terminal device. Cookies
-                            are not transferred to third parties.
-                        </p>
-                    </ng-container>
+          <ng-container *ngSwitchCase="'en'">
+            <p>
+              When you visit our website, cookies record that you visited. A cookie is a small text file that the
+              browser stores on the visitor’s device. There are two main types of cookies, session cookies and permanent
+              cookies. Session cookies are removed from your device as soon as you close the browser. Permanent cookies
+              remain stored until they are specifically removed or they expire.
+            </p>
+            <p>
+              The Library of Open Educational Resources uses session cookies and short-lived cookies to provide secure
+              login. All permanent cookies expire after 24 hours.
+            </p>
+            <p>
+              In accordance with the Information Society Code (917/2014), cookie data used on this site is used in such
+              a way that the user’s protection of privacy is not violated. Cookie identification is not used to link
+              site visitors to personal data or contact details. Cookies are not used for reviewing or copying data on a
+              visitor’s terminal device. Cookies are not transferred to third parties.
+            </p>
+          </ng-container>
 
-                    <ng-container *ngSwitchCase="'sv'">
-                        <p>
-                            När du besöker vår webbplats lagrar cookies informationen om ditt besök. En cookie är en
-                            liten textfil, som webbläsaren lagrar i besökarens apparat. Det finns två huvudtyper av
-                            cookies, sessionscookies och beständiga cookies. Sessionscookies raderas från din apparat
-                            genast när du stänger webbläsaren. Beständiga cookies lagras tills de raderas separat eller
-                            föråldras.
-                        </p>
-                        <p>
-                            Biblioteket för öppna lärresurser använder session cookies och beständiga cookies för att
-                            försäkra dig ett säkert inloggning. Alla beständiga cookies åldras efter 24 timmar.
-                        </p>
-                        <p>
-                            Cookieinformationen på den här webbplatsen används i enlighet med lagen om tjänster inom
-                            elektronisk kommunikation (917/2014) på så att användarens integritet inte kränks. Cookies
-                            utnyttjas inte för att sammankoppla den som besöker webbplatsen med person- eller
-                            kontaktuppgifter. Cookies används inte för att granska eller kopiera information i
-                            besökarens apparat. Cookies förmedlas inte vidare till tredje parter.
-                        </p>
-                    </ng-container>
-                </ng-container>
+          <ng-container *ngSwitchCase="'sv'">
+            <p>
+              När du besöker vår webbplats lagrar cookies informationen om ditt besök. En cookie är en liten textfil,
+              som webbläsaren lagrar i besökarens apparat. Det finns två huvudtyper av cookies, sessionscookies och
+              beständiga cookies. Sessionscookies raderas från din apparat genast när du stänger webbläsaren. Beständiga
+              cookies lagras tills de raderas separat eller föråldras.
+            </p>
+            <p>
+              Biblioteket för öppna lärresurser använder session cookies och beständiga cookies för att försäkra dig ett
+              säkert inloggning. Alla beständiga cookies åldras efter 24 timmar.
+            </p>
+            <p>
+              Cookieinformationen på den här webbplatsen används i enlighet med lagen om tjänster inom elektronisk
+              kommunikation (917/2014) på så att användarens integritet inte kränks. Cookies utnyttjas inte för att
+              sammankoppla den som besöker webbplatsen med person- eller kontaktuppgifter. Cookies används inte för att
+              granska eller kopiera information i besökarens apparat. Cookies förmedlas inte vidare till tredje parter.
+            </p>
+          </ng-container>
+        </ng-container>
 
-                <button type="submit" class="btn btn-blue" (click)="cookie.hide()">
-                    {{ "cookies.close" | translate }}
-                </button>
-            </div>
-        </div>
+        <button type="submit" class="btn btn-blue" (click)="cookie.hide()">{{ "cookies.close" | translate }}</button>
+      </div>
     </div>
+  </div>
 </div>

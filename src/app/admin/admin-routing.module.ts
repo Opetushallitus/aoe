@@ -13,63 +13,63 @@ import { NotificationComponent } from './notification/notification.component';
 import { AnalyticsViewComponent } from './analytics-view/analytics-view.component';
 
 const routes: Routes = [
-    {
-        path: '',
-        redirectTo: 'etusivu',
-        pathMatch: 'full',
-    },
-    {
-        path: '',
-        component: AdminComponent,
-        children: [
-            {
-                path: 'etusivu',
-                component: DashboardComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'hallinnoi-materiaaleja',
-                component: ManageMaterialsComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'hallinnoi-palvelua',
-                component: ManageServiceComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'analytiikka',
-                component: AnalyticsViewComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'arkistoi-materiaali',
-                component: RemoveMaterialComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'vaihda-omistaja',
-                component: ChangeMaterialOwnerComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-            {
-                path: 'huoltoilmoitus',
-                component: NotificationComponent,
-                canActivate: [AuthGuard, AdminGuard],
-                runGuardsAndResolvers: 'always',
-            },
-        ],
-    },
+  {
+    path: '',
+    redirectTo: 'etusivu',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'etusivu',
+        component: DashboardComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'hallinnoi-materiaaleja',
+        component: ManageMaterialsComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'hallinnoi-palvelua',
+        component: ManageServiceComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'analytiikka',
+        component: AnalyticsViewComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'arkistoi-materiaali',
+        component: RemoveMaterialComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'vaihda-omistaja',
+        component: ChangeMaterialOwnerComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+      {
+        path: 'huoltoilmoitus',
+        component: NotificationComponent,
+        canActivate: [AuthGuard, AdminGuard],
+        runGuardsAndResolvers: 'always',
+      },
+    ],
+  },
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class AdminRoutingModule {}

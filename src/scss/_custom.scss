@@ -1,24 +1,171 @@
+@import "bootstrap-variables";
+@import "mixins";
+@import "variables";
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
 // Custom styles
 $form-border-color: #dedede;
 $input-label-color: #464646;
 $navbar-bg-hover: #1d661f;
-
-$footer-bg-color: #616161;
-
+$footer-bg-color: #666666;
 $media-body-color: #696868;
-
 $btn-light: #eaeaea;
 $btn-light-hover: darken($btn-light, 15%);
 $btn-dark: #9a937d;
 $btn-dark-hover: darken($btn-dark, 15%);
-
 $panel-body-color: #6d6d6d;
-
 $comment-odd-bg-color: #f2f2f2;
 
 body {
-  font-size: 16px;
+  @include resize(14px);
+  font-family: $font-family-roboto;
+  font-weight: 200;
   overflow-y: scroll;
+
+  -webkit-font-smoothing: subpixel-antialiased;
+
+  .aoe-header-latest-materials {
+    margin-bottom: 1.5rem;
+  }
+
+  .aoe-select-search-sort {
+    @include resize(12px);
+    border-radius: 3px;
+    height: 2.5rem;
+    padding-left: 1rem;
+
+    &:focus {
+      border: 0 !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  }
+
+  .btn {
+    @include resize(14px);
+    font-family: $font-family-roboto;
+    font-weight: 300;
+  }
+
+  .collection-material {
+    h3 {
+      a {
+        @include resize(17px);
+        color: $primary-theme-color !important;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .question {
+    font-weight: 400;
+  }
+
+  .search-result {
+    h1 {
+      @include resize(17px);
+      font-family: $font-family-roboto;
+      font-weight: 300;
+    }
+  }
+
+  .invalid-feedback {
+    margin-top: 0;
+  }
+
+  .notify-below-position {
+    background-color: #FFF;
+    position: absolute;
+    bottom: -22px;
+    left: 5px;
+  }
+
+  .notify-below-position-semi {
+    background-color: #FFF;
+    position: absolute;
+    bottom: -30px;
+    left: 5px;
+  }
+
+  .notify-below-position-thick {
+    background-color: #FFF;
+    position: absolute;
+    top: 75px;
+    left: 7px;
+  }
+
+  .notify-below-extra-space {
+    padding-bottom: 1rem !important;
+  }
+
+  .aoe-based-on-details {
+    margin-bottom: 3rem;
+  }
+
+  input.form-control {
+    height: calc(1.5em + 1rem - 1px) !important;
+
+    &.aoe-search-field {
+      @include resize(14px);
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+
+  .form-group {
+    display: block;
+    padding-bottom: 0 !important;
+    // margin-bottom: .8rem !important;
+  }
+
+  .form-row {
+    // margin: 10px 0 0 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+    // padding-bottom: 10px;
+  }
+
+  .tab-educational-details {
+    min-height: 320px !important;
+  }
+
+  .tab-extended-details {
+    border-color: #000;
+
+    .typical-age-range {
+      margin: 0;
+
+      .typical-age-range-row {
+        white-space: nowrap !important;
+      }
+    }
+  }
+
+  input:focus {
+    box-shadow: none !important;
+    border: 1px solid #e4e7ea !important;
+    // outline: none !important;
+  }
+
+  // Remove inner double borders on focus in select element.
+  .ng-select {
+    input:focus {
+      // border: 1px solid #e4e7ea !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  }
+}
+
+// Hide native button and texts from input['file'] elements.
+input[type='file'] {
+  opacity: 0 !important;
 }
 
 .ng-select .ng-select-container .ng-value-container .ng-input > input:focus,
@@ -31,27 +178,27 @@ body {
   opacity: 1;
   box-shadow: 0 0 2px 2px transparent, inset 0 0 0 1px #fff, inset 0 0 0 2px #000, 0 0 0 1px #fff, 0 0 0 2px #000;
   border: none;
+  //width: 100%; Mobile banner dropdown will crash with this.
+}
+
+.form-group {
+  padding-bottom: .8rem;
 }
 
 .font-weight-medium {
   font-weight: 500;
 }
 
-.font-navbar {
-  @include font-size(15);
-  font-weight: 500;
-}
-
 .base-heading-style {
   font-weight: 400;
-  @include font-size(24);
+  @include resize(24px);
 }
 
 // Forms
 label {
   &:not(.custom-file-label):not(.custom-control-label) {
     color: $input-label-color;
-    @include font-size(12);
+    @include resize(12px);
   }
 }
 
@@ -59,12 +206,6 @@ label {
 .was-validated .form-control:invalid {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
 }
-
-/*.custom-checkbox {
-  label {
-    @include font-size(12);
-  }
-}*/
 
 .custom-control-input {
   &:checked ~ .custom-control-label {
@@ -82,11 +223,11 @@ label {
 }
 
 .form-control {
-  @include font-size(16);
+  @include resize(16px);
 }
 
 .form-control-plaintext {
-  height: $input-height;
+  // height: $input-height;
 }
 
 // Search form
@@ -105,60 +246,72 @@ label {
 // Hint text
 .hint-text-select {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  @include font-size(16);
+  @include resize(16px);
 }
 
 .hint-text::-webkit-input-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  @include font-size(16);
+  @include resize(16px);
 }
 
 .hint-text::-moz-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  @include font-size(16);
+  @include resize(16px);
 }
 
 .hint-text:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  @include font-size(16);
+  @include resize(16px);
 }
 
 .hint-text:-moz-placeholder {
   color: rgba(0, 0, 0, 0.3799999952316284);
-  @include font-size(16);
+  @include resize(16px);
 }
 
 // Typography
 h1 {
   color: $primary-theme-color;
-  @include font-size(20);
-  margin-bottom: 1rem;
+  @include resize(30px);
+  font-family: $font-family-nunito;
+  font-weight: 500;
+  margin-bottom: .8rem;
+  text-shadow: 0 0 3px #FFF;
 }
 
 h2 {
   color: $primary-theme-color;
-  @include font-size(24);
-  margin-bottom: 24px;
+  @include resize(24px);
+  font-family: $font-family-nunito;
+  font-weight: 400;
+  margin-bottom: .8rem;
 }
 
 // Navigation
 #main-navigation {
+  box-shadow: 0 1px 4px 0 #bfbfbf;
+  letter-spacing: 0.5px;
   padding: 0 1rem;
 
   .navbar-brand {
     color: $white;
+    margin-top: -0.1em;
 
     img {
-      max-height: 40px;
+      max-height: 45px;
     }
   }
 
   .nav-link {
+    @include resize(13px);
     border: 0;
     color: $white;
-    @include font-size(15);
-    font-weight: 500;
+    font-family: $font-family-nunito;
+    font-weight: 400;
     padding: 1.5rem 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    // text-overflow: ellipsis;
 
     &.active,
     &:active,
@@ -168,15 +321,24 @@ h2 {
   }
 
   .nav-languages {
+    min-width: 10%;
+    white-space: nowrap;
+
     .nav-link {
+      @include resize(12px);
       border-radius: 0;
-      padding: 0.25rem 0.5rem;
+      padding: 0.5em;
+      position: relative;
+      width: 33%;
+      min-width: 33%;
+      display: inline-block;
+      text-align: center;
     }
   }
 }
 
 .nav-multistep-form {
-  @include font-size(18);
+  @include resize(18px);
 
   .nav-link {
     color: $gray;
@@ -189,7 +351,7 @@ h2 {
   }
 
   .nav-separator {
-    @include font-size(24);
+    @include resize(24px);
     font-weight: 700;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -203,20 +365,25 @@ h2 {
 // Footer
 .app-footer {
   background-color: $footer-bg-color;
+  // box-shadow: inset 0 10px 15px -10px rgba(0, 0, 0, 0.2), inset 0 -10px 10px -10px rgba(0, 0, 0, 0.2); // rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.2);
   color: #fff;
   display: block;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
+  font-weight: 300;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
 
   h2 {
     color: $white;
-    @include font-size(30);
+    @include resize(24px);
+    font-weight: 300;
     margin-bottom: 1rem;
   }
 
   a {
     color: $white;
     text-decoration: underline;
+    text-underline-offset: 2px;
 
     &:hover {
       text-decoration: none;
@@ -234,8 +401,8 @@ h2 {
 }
 
 .logos {
-  padding-bottom: 0.75rem;
-  padding-top: 0.75rem;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
 
   img {
     margin-bottom: 0.75rem;
@@ -246,19 +413,20 @@ h2 {
   span {
     color: #373737;
     display: block;
-    @include font-size(12);
+    @include resize(12px);
   }
 }
 
 // Tags
 .tags {
   .btn {
-    @include font-size(14);
+    @include resize(13px);
     font-weight: 400;
     margin-bottom: 0.25rem;
     margin-right: 0.25rem;
     padding: 0.25rem 0.5rem;
     text-align: left;
+    vertical-align: middle;
   }
 
   .btn-light {
@@ -352,54 +520,28 @@ h2 {
   color: $white;
 }
 
-// Oppimateriaali card
-.card-educational-material {
+// Style for the collection and educational material card.
+.card-collection {
   background-color: #f5f5f5;
+  border-radius: 0;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
   padding: 1rem 1rem 0.5rem;
 
-  &.unpublished {
-    h3 {
-      color: $body-color;
-      @include font-size(16);
-      word-break: break-word;
-    }
-  }
-
   .header {
-    border-bottom: 2px solid;
+    border-bottom: 1px solid;
     border-color: $body-bg;
     color: $media-body-color;
     display: block;
     padding-bottom: 0.25rem;
+    text-decoration: none !important;
 
     &:hover {
-      color: rgba($media-body-color, 0.75);
-      text-decoration: none;
-
-      h3 {
-        color: rgba($body-color, 0.75);
-      }
-    }
-
-    h3 {
-      color: $body-color;
-      @include font-size(16);
-      margin-top: 0;
-      word-break: break-word;
-    }
-
-    p {
-      @include font-size(14);
-    }
-
-    .authors {
-      @include font-size(14);
-      margin-bottom: 0;
+      text-decoration: none !important;
     }
   }
 
   .tags {
-    border-bottom: 2px solid;
+    border-bottom: 1px solid;
     border-color: $body-bg;
     padding-top: 0.25rem;
 
@@ -408,20 +550,103 @@ h2 {
     }
   }
 
+  h3 {
+    @include resize(12px);
+    color: #262626;
+    font-family: $font-family-roboto;
+    font-weight: 400;
+    line-height: 1.2em;
+    margin-top: 0;
+    overflow-wrap: break-word;
+  }
+
+  p {
+    @include resize(13px);
+    color: #4d4d4d;
+    overflow-wrap: break-word;
+  }
+
+  .authors {
+    @include resize(14px);
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+}
+
+.card-educational-material {
+  background-color: #f5f5f5;
+  border-radius: 0;
+  box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px;
+  display: block;
+  padding: 1rem 1rem 0.5rem;
+
+  a:hover {
+    text-decoration: none !important;
+  }
+
+  h3 {
+    @include resize(13px);
+    color: #333;
+    word-break: break-word;
+    font-family: $font-family-roboto;
+    font-weight: 500;
+    line-height: 1.3em;
+    margin-top: 0;
+    overflow-wrap: break-word;
+  }
+
+  &.unpublished {
+    h3 {
+      @include resize(13px);
+      color: #333;
+      font-weight: 500;
+      word-break: break-word;
+    }
+  }
+
+  .header {
+    border-bottom: 1px solid;
+    border-color: $body-bg;
+    color: $media-body-color;
+    display: block;
+    padding-bottom: 0.25rem;
+
+    p {
+      @include resize(12px);
+      color: #4d4d4d;
+      line-height: 1.3em;
+      overflow-wrap: break-word;
+    }
+
+    .authors {
+      @include resize(12px);
+      font-weight: 400;
+      margin-bottom: 0;
+    }
+  }
+
+  .tags {
+    border-bottom: 1px solid;
+    border-color: $body-bg;
+    display: block;
+    overflow: hidden;
+    padding-top: 0.25rem;
+    white-space: normal;
+
+    .btn {
+      @include resize(12px);
+      border-radius: 0;
+      display: inline-block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: auto;
+    }
+  }
+
   .details {
     padding-top: 0.5rem;
-
-    //.comments {
-    //  //background-image: url(assets/img/icons/ic_comments.svg);
-    //  background-size: cover;
-    //  background-repeat: no-repeat;
-    //  color: $white;
-    //  font-weight: 700;
-    //  height: 28px;
-    //  margin-right: .5rem;
-    //  text-align: center;
-    //  width: 28px;
-    //}
 
     .rating {
       margin-right: 1rem;
@@ -434,71 +659,27 @@ h2 {
     }
 
     .license {
-      @include font-size(14);
-      font-weight: 700;
+      @include resize(13px);
       vertical-align: middle;
     }
 
     .type {
-      @include font-size(15);
+      @include resize(13px);
     }
+  }
+
+  + .btn {
+    box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px !important;
   }
 }
 
-// Kokoelma card
-.card-collection {
-  background-color: #f5f5f5;
-  padding: 1rem 1rem;
-
-  .header {
-    border-bottom: 2px solid;
-    border-color: $body-bg;
-    color: $media-body-color;
-    display: block;
-    padding-bottom: 0.25rem;
-
-    &:hover {
-      color: rgba($media-body-color, 0.75);
-      text-decoration: none;
-
-      h3 {
-        color: rgba($body-color, 0.75);
-      }
-    }
-  }
-
-  .tags {
-    border-bottom: 2px solid;
-    border-color: $body-bg;
-    padding-top: 0.25rem;
-
-    .btn {
-      border-radius: 0;
-    }
-  }
-
-  a {
-    color: $body-color;
-  }
-
-  h3 {
-    color: $body-color;
-    @include font-size(16);
-    margin-top: 0;
-    word-break: break-word;
-  }
-
-  p {
-    @include font-size(14);
-  }
-
-  .authors {
-    @include font-size(14);
-    margin-bottom: 0;
+app-educational-material-card {
+  + .btn {
+    box-shadow: rgba(9, 30, 66, 0.25) 0 4px 8px -2px, rgba(9, 30, 66, 0.04) 0px 0px 0px 1px !important;
   }
 }
 
-.bg-light {
+.bg-light, {
   .card-educational-material,
   .card-collection {
     background-color: $white;
@@ -517,7 +698,7 @@ h2 {
 .material-view {
   h3,
   .h3 {
-    @include font-size(14);
+    @include resize(12px);
   }
 }
 
@@ -567,8 +748,9 @@ h2 {
     margin-bottom: 1rem;
 
     .authors {
-      color: $primary-theme-color;
-      font-weight: 700;
+      @include resize(15px);
+      font-family: $font-family-roboto;
+      color: #23282c;
       margin-bottom: 0;
     }
 
@@ -636,14 +818,14 @@ h2 {
     background-color: $primary-theme-color;
     color: $white;
     display: block;
-    @include font-size(18);
+    @include resize(28px);
     font-weight: 400;
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
   }
 
   h3 {
-    @include font-size(14);
+    @include resize(12px);
     font-weight: 700;
   }
 
@@ -663,7 +845,7 @@ h2 {
     border: 1px solid $border-color;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
-    @include font-size(14);
+    @include resize(14px);
     margin-bottom: 1rem;
     padding: 0.75rem 1rem;
 
@@ -678,7 +860,7 @@ h2 {
     }
 
     h4 {
-      @include font-size(14);
+      @include resize(14px);
       font-weight: 700;
     }
 
@@ -747,7 +929,8 @@ h2 {
 }
 
 .search-box {
-  background-color: #4f9d51;
+  background-color: $primary-theme-color; // #4f9d51;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
   padding: 1rem;
 }
 
@@ -787,7 +970,18 @@ h2 {
 
 // Tabs
 .material-form-tabs {
-  @include font-size(18);
+  @include resize(14px);
+  font-family: $font-family-roboto;
+  font-weight: 300;
+
+  &.navigation-disabled {
+    a {
+      cursor: not-allowed;
+      opacity: 0.5;
+      pointer-events: none;
+      text-decoration: none;
+    }
+  }
 
   a {
     color: $gray;
@@ -822,7 +1016,7 @@ h2 {
 
       .nav-link {
         color: $gray;
-        @include font-size(18);
+        @include resize(16px);
         padding: 0;
 
         &.active {
@@ -907,6 +1101,7 @@ h2 {
   background-color: $white;
   cursor: move;
 }
+
 .cdk-drag-preview {
   box-sizing: border-box;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
@@ -914,13 +1109,16 @@ h2 {
   justify-content: space-between;
   padding: 0.5rem;
 }
+
 .cdk-drag-placeholder {
   opacity: 0;
 }
+
 .cdk-drop-list-dragging .cdk-drag {
   padding: 1rem;
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
 .cdk-drag-animating {
   transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
 }
@@ -929,8 +1127,6 @@ h2 {
   width: 20px;
 }
 
-// Media queries
-
 // CoreUI overrides
 @include media-breakpoint-down(md) {
   .app-body {
@@ -938,12 +1134,19 @@ h2 {
   }
 }
 
-@include media-breakpoint-up(md) {
-  h1 {
-    @include font-size(32);
-    margin-bottom: 2rem;
-  }
+@include media-breakpoint-down(lg) {
+  #main-navigation {
+    .navbar-brand {
+      margin-top: -0.2em;
 
+      img {
+        max-height: 40px;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
   .search-box {
     margin-top: -4rem;
     padding: 2rem 3rem 1rem;
@@ -955,3 +1158,34 @@ h2 {
     margin-bottom: 3rem;
   }
 }
+
+@media (max-width: 991.98px) {
+  h1 {
+    text-shadow: 1px 1px 1px #FFF,
+    -1px 1px 1px #FFF,
+    -1px -1px 1px #FFF,
+    1px -1px 1px #FFF;
+  }
+
+  .navbar-expand-lg > .container, .navbar-expand-lg > .container-fluid {
+    padding-right: 0;
+    padding-left: 0;
+    min-height: 65px;
+
+    .navbar-brand {
+      line-height: 65px;
+      min-height: 65px;
+
+      .img-fluid {
+        max-height: 40px;
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    h1 {
+      margin-bottom: -0.1rem;
+    }
+  }
+}
+

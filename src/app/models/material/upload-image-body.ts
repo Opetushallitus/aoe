@@ -1,3 +1,3 @@
 export interface UploadImageBody {
-    base64image: string;
+  base64image: string;
 }

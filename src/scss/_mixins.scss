@@ -1,7 +1,35 @@
 @use 'sass:math';
 
-// Convert pixels to rem (with px fallback)
-@mixin font-size($size: 16) {
-  font-size: $size + px;
-  font-size: math.div($size, 16) + rem;
+$phone: 320px;
+$tablet: 500px;
+$laptop: 1200px;
+$desktop: 1400px;
+$large-display: 1920px;
+
+@mixin resize($size) {
+  $result: $size;
+  @media only screen and (max-width: $large-display) {
+    $result: $size * 1.2;
+    font-size: $result;
+  }
+
+  @media only screen and (max-width: $desktop) {
+    $result: $size * 1.1;
+    font-size: $result;
+  }
+
+  @media only screen and (max-width: $laptop) {
+    $result: $size * 1;
+    font-size: $result;
+  }
+
+  @media only screen and (max-width: $tablet) {
+    $result: $size * 1.1;
+    font-size: $result;
+  }
+
+  @media only screen and (max-width: $phone) {
+    $result: $size * 1.4;
+    font-size: $result;
+  }
 }

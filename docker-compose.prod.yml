@@ -3,7 +3,7 @@ services:
   aoe-web-frontend:
     build:
       context: .
-      dockerfile: ./docker/Dockerfile.prod
+      dockerfile: ./docker/prod.Dockerfile
     image: aoe-web-frontend-prod:latest
     container_name: aoe-web-frontend-prod
     restart: unless-stopped

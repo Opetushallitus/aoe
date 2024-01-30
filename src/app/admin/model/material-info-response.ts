@@ -1,14 +1,14 @@
 export interface MaterialInfoResponse {
-    name: MaterialInfoName[];
-    owner: MaterialInfoOwner;
+  name: MaterialInfoName[];
+  owner: MaterialInfoOwner;
 }
 
 export interface MaterialInfoName {
-    materialname: string;
-    language: string;
+  materialname: string;
+  language: string;
 }
 
 export interface MaterialInfoOwner {
-    firstname: string;
-    lastname: string;
+  firstname: string;
+  lastname: string;
 }
