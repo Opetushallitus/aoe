@@ -1,3 +1,4 @@
+import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
 import ADMzip from 'adm-zip';
 import AWS, { S3 } from 'aws-sdk';
 import { ManagedUpload } from 'aws-sdk/lib/s3/managed_upload';
@@ -8,6 +9,8 @@ import multer, { DiskStorageOptions, Multer, StorageEngine } from 'multer';
 import path from 'path';
 import pdfParser from 'pdf-parse';
 import { ColumnSet } from 'pg-promise';
+import S3Zip, { ArchiveOptions } from 's3-zip';
+import { EntryData } from 'archiver';
 import s3Zip from 's3-zip';
 import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
@@ -1443,10 +1446,12 @@ export async function downloadMaterialFile(req: Request, res: Response, next: Ne
       );
     } else {
       const fileKeys: string[] = [];
-      const fileNames: string[] = [];
+      const fileNames: EntryData[] = [];
       for (const file of versionFiles) {
         fileKeys.push(file.filekey);
-        fileNames.push(file.originalfilename);
+        fileNames.push({
+          name: file.originalfilename as string,
+        });
       }
       // res.header('Content-Type', 'application/zip');
       res.header('Content-Disposition', 'attachment; filename=materials.zip');
@@ -1491,34 +1496,45 @@ export async function downloadAndZipFromStorage(
   res: Response,
   next: NextFunction,
   keys: string[],
-  files: string[],
+  files: EntryData[],
 ): Promise<void> {
   return new Promise(async (resolve) => {
     try {
       // ServiceConfigurationOptions (fields: endpoint, lib: aws-sdk/lib/service) extends
       // ConfigurationOptions (fields: all others, lib: aws-sdk)
-      const config: ServiceConfigurationOptions = {
+      // const config: ServiceConfigurationOptions = {
+      //   credentials: {
+      //     accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+      //     secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+      //   },
+      //   endpoint: process.env.CLOUD_STORAGE_API,
+      //   region: process.env.CLOUD_STORAGE_REGION,
+      // };
+      // AWS.config.update(config);
+      const s3: S3Client = new S3Client({
         credentials: {
           accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
           secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
         },
         endpoint: process.env.CLOUD_STORAGE_API,
         region: process.env.CLOUD_STORAGE_REGION,
-      };
-      AWS.config.update(config);
-      const s3 = new AWS.S3();
+      } as S3ClientConfig);
       const bucketName = process.env.CLOUD_STORAGE_BUCKET;
-      winstonLogger.debug('Starting s3Zip stream');
       try {
         s3Zip
-          .archive({ s3: s3, bucket: bucketName }, '', keys, files)
+          .archive(
+            { s3, bucket: bucketName } as ArchiveOptions,
+            undefined as string | undefined,
+            keys as string[],
+            files as EntryData[],
+          )
           .pipe(res)
-          .on('finish', async () => {
+          .on('finish', async (): Promise<void> => {
             winstonLogger.debug('Completed the s3Zip stream');
             resolve();
           })
-          .on('error', (e) => {
-            next(new ErrorHandler(500, e.message || 'Error in download'));
+          .on('error', (err: Error): void => {
+            next(new ErrorHandler(500, err.message || 'Error in download'));
           });
       } catch (err) {
         next(new ErrorHandler(500, 'Failed to download file from storage'));
