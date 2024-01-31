@@ -76,8 +76,8 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       this.materialVersionDate = params.get('versionDate');
 
       this.downloadUrl = this.materialVersionDate
-        ? `${environment.backendUrl}/material/file/${this.materialId}/${this.materialVersionDate}`
-        : `${environment.backendUrl}/material/file/${this.materialId}`;
+        ? `${environment.backendUrlV2}/material/file/${this.materialId}/all/${this.materialVersionDate}`
+        : `${environment.backendUrlV2}/material/file/${this.materialId}/all`;
 
       this.materialIsLoading = true;
       this.materialSvc.updateMaterial(this.materialId, this.materialVersionDate);

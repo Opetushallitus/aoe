@@ -24,7 +24,7 @@
           <div class="btn-group mb-3" role="tablist" aria-labelledby="selectLanguageTitle">
             <button
               type="button"
-              class="btn btn-gray"
+              class="btn btn-gray lang-selector-button"
               *ngFor="let materialLang of materialLanguages"
               [ngClass]="materialLang === selectedLanguage ? 'active' : ''"
               [attr.aria-selected]="materialLang === selectedLanguage"
