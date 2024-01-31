@@ -1400,7 +1400,11 @@ export const downloadFromStorage = async (
  * @param res  Response<any>
  * @param next NextFunction
  */
-export const downloadMaterialFile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const downloadAllMaterialsCompressed = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
   // Queries to resolve files of the latest educational material version requested.
   const queryLatestPublished: string = `
     SELECT MAX(publishedat) AS max
@@ -1576,7 +1580,7 @@ export default {
   downloadFile,
   unZipAndExtract,
   downloadFileFromStorage,
-  downloadMaterialFile,
+  downloadAllMaterialsCompressed,
   checkTemporaryRecordQueue,
   uploadBase64FileToStorage,
   uploadAttachmentToMaterial,

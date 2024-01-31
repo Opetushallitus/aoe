@@ -1,10 +1,14 @@
-import { Router } from 'express';
-import { setAttachmentObsoleted, setMaterialObsoleted } from '../../queries/apiQueries';
-import fileHandling, { downloadFile, downloadPreviewFile } from '../../queries/fileHandling';
+import { NextFunction, Request, Response, Router } from 'express';
+import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '../../queries/apiQueries';
+import fileHandling, {
+  downloadAllMaterialsCompressed,
+  downloadFile,
+  downloadPreviewFile,
+} from '../../queries/fileHandling';
 import { downloadEmThumbnail, uploadbase64Image } from '../../queries/thumbnailHandler';
 import authService, { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
 import { isAllasEnabled } from '../../services/routeEnablerService';
-import { requestErrorHandler, requestValidator } from '../../util';
+import { requestErrorHandler, requestValidator, winstonLogger } from '../../util';
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational materials.
@@ -31,7 +35,7 @@ export default (router: Router): void => {
   // SET MATERIAL OBSOLETED
   // Materials set obsoleted are not available for the users.
   router.delete(
-    '/material/:edumaterialid([0-9]{1,6})/obsolete/:materialid([0-9]{1,6})',
+    `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:materialid([0-9]{1,6})`,
     authService.checkAuthenticated,
     authService.hasAccessToMaterial,
     setMaterialObsoleted,
@@ -40,22 +44,44 @@ export default (router: Router): void => {
   // SET ATTACHMENT OBSOLETED
   // Attachments set obsoleted are not available for the users.
   router.delete(
-    '/material/:edumaterialid([0-9]{1,6})/obsolete/:attachmentid([0-9]{1,6})/attachment',
+    `${moduleRoot}/:edumaterialid([0-9]{1,6})/obsolete/:attachmentid([0-9]{1,6})/attachment`,
     authService.checkAuthenticated,
     authService.hasAccessToAttachmentFile,
     setAttachmentObsoleted,
   );
 
+  // DOWNLOAD ALL FILES AS a COMPRESSED ZIP FILE.
+  // :edumaterialid format: number between 1 to 6 digits - ID of an educational material.
+  // :publishedat format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - optional version specifier.
+  router.get(
+    `${moduleRoot}/file/:edumaterialid([0-9]{1,6})/all/:publishedat([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z)?`,
+    (req: Request, res: Response, next: NextFunction): void => {
+      downloadAllMaterialsCompressed(req, res, next).catch((err): void => {
+        winstonLogger.error('Downstream from the cloud storage failed.');
+        next(err);
+      });
+    },
+  );
+
   // SINGLE FILE UPLOAD TO THE EDUCATIONAL MATERIAL
   // Upload a single file (material) to an existing educational material and stream to the cloud storage.
   router.post(
-    '/material/file/:edumaterialid([0-9]{1,6})/upload',
+    `${moduleRoot}/file/:edumaterialid([0-9]{1,6})/upload`,
     isAllasEnabled,
     requestValidator.fileUploadRules(),
     requestErrorHandler,
     authService.checkAuthenticated,
     authService.hasAccessToPublicatication,
     fileHandling.uploadFileToMaterial,
+  );
+
+  // SAVE A LINK MATERIAL TO THE EDUCATIONAL MATERIAL
+  // :edumaterialid format: number between 1 to 6 digits - ID of an educational material.
+  router.post(
+    `${moduleRoot}/link/:edumaterialid([0-9]{1,6})`,
+    checkAuthenticated,
+    hasAccessToPublicatication,
+    addLinkToMaterial,
   );
 
   // THUMBNAIL UPLOAD TO CLOUD STORAGE

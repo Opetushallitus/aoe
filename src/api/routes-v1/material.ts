@@ -1,11 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { updateEducationalMaterialMetadata } from '../../controllers/educationalMaterial';
-import {
-  addLinkToMaterial,
-  getEducationalMaterialMetadata,
-  setEducationalMaterialObsoleted,
-} from '../../queries/apiQueries';
-import { downloadMaterialFile } from '../../queries/fileHandling';
+import { getEducationalMaterialMetadata, setEducationalMaterialObsoleted } from '../../queries/apiQueries';
 import { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
 import { runMessageQueueThread } from '../../services/threadService';
 import { winstonLogger } from '../../util/winstonLogger';
@@ -54,20 +49,4 @@ export default (router: Router): void => {
       res.end();
     },
   );
-
-  // Download all files related to an educational material and stream as a single zip file from the cloud object storage.
-  // :publishedat format: 'YYYY-MM-DDTHH:mm:ss.SSSZ' (ISODate) - regex path validation in API v2.0.
-  // :edumaterialid defined as a number between 1 to 6 digits to prevent similar endpoints collision.
-  router.get(
-    '/material/file/:edumaterialid([0-9]{1,6})/:publishedat?',
-    (req: Request, res: Response, next: NextFunction): void => {
-      downloadMaterialFile(req, res, next).catch((err): void => {
-        winstonLogger.error('Downstream from the cloud storage failed.');
-        next(err);
-      });
-    },
-  );
-
-  // Save a link type material to an educational material.
-  router.post('/material/link/:edumaterialid', checkAuthenticated, hasAccessToPublicatication, addLinkToMaterial);
 };
