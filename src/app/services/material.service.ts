@@ -143,7 +143,7 @@ export class MaterialService {
    */
   postLinks(data: { link: string; displayName: string; language: string; priority: number }): Observable<any> {
     return this.http
-      .post<any>(`${environment.backendUrl}/material/link/${this.educationalMaterialID$$.getValue()}`, data, {
+      .post<any>(`${environment.backendUrlV2}/material/link/${this.educationalMaterialID$$.getValue()}`, data, {
         headers: new HttpHeaders({ Accept: 'application/json' }),
       })
       .pipe(
@@ -1264,9 +1264,9 @@ export class MaterialService {
       );
   }
 
-  postLink(payload: LinkPost, materialId: number): Observable<LinkPostResponse> {
+  postLink(payload: LinkPost, educationalMaterialID: number): Observable<LinkPostResponse> {
     return this.http
-      .post<LinkPostResponse>(`${environment.backendUrl}/material/link/${materialId}`, payload, {
+      .post<LinkPostResponse>(`${environment.backendUrlV2}/material/link/${educationalMaterialID}`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
