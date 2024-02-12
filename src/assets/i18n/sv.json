@@ -18,9 +18,9 @@
     "login": {
       "userDetails": "Mina uppgifter"
     },
-    "termsOfUse": "Användarvilko",
+    "termsOfUse": "Användarvilkor",
     "privacyPolicy": "Dataskyddsbeskrivnig",
-    "accessibilityPolicy": "Accessibility Policy",
+    "accessibilityPolicy": "Tillgänglighetsutlåtande",
     "langSelector": {
       "label": "Välj språk"
     }

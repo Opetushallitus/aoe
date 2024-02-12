@@ -14,9 +14,9 @@ import { environment } from '../../../environments/environment';
 })
 export class HelpViewComponent implements OnInit, OnDestroy {
   private langChangeSubscription: Subscription;
-  public faqGeneral;
-  public faqMaterial;
-  public faqOrganisation;
+  faqGeneral: { question: string; answer: string[] }[];
+  faqMaterial: { question: string; answer: string[] }[];
+  faqOrganisation: { question: string; answer: string[] }[];
   isOpen = false;
 
   constructor(private translate: TranslateService, private titleSvc: Title) {}
