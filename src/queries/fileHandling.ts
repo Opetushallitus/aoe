@@ -1035,11 +1035,11 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
 
 /**
  * Upload a file from the local file system to the cloud object storage.
- *
- * @param filePath   string Path and file name in local file system
- * @param fileName
- * @param bucketName string Target bucket in object storage system
- * @param materialMeta
+ * @param {string} filePath
+ * @param {string} fileName
+ * @param {string} bucketName
+ * @param {Material} materialMeta
+ * @return {Promise<ManagedUpload.SendData>}
  */
 export const uploadFileToStorage = (
   filePath: string,

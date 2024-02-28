@@ -5,6 +5,7 @@ root = true
 charset = utf-8
 indent_style = space
 insert_final_newline = true
+max_line_length = 120
 trim_trailing_whitespace = true
 
 [*.{ts,js}]
@@ -13,10 +14,11 @@ ij_typescript_enforce_trailing_comma = keep
 
 [*.json]
 indent_size = 2
+ij_typescript_enforce_trailing_comma = remove
 
 [*.{yml,yaml}]
 indent_size = 2
 
 [*.md]
-max_line_length = 120
+max_line_length = off
 trim_trailing_whitespace = false
