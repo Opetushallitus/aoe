@@ -1,3 +1,5 @@
+import winstonLogger from '@util/winstonLogger';
+
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Check that mandatory environment variables are available and report missing ones on exit.
@@ -21,6 +23,11 @@ process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
+
+if (missingEnvs.length > 0) {
+  winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
+  process.exit(1);
+}
 
 export default {
   // General application start up configurations.

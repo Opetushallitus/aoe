@@ -1,7 +1,7 @@
-import ah from '../services/authService';
+import ah from '@services/authService';
 import connectRedis from 'connect-redis';
 import config from '@/config';
-import { CookieOptions, Express, NextFunction, Request, Response } from 'express';
+import { CookieOptions, Express, Request, Response } from 'express';
 import session, { Cookie } from 'express-session';
 import openidClient, { custom, HttpOptions } from 'openid-client';
 import passport from 'passport';
@@ -32,7 +32,7 @@ Issuer.discover(process.env.PROXY_URI)
     });
     passport.use(
       'oidc',
-      new Strategy({ client }, (tokenset: any, userinfo: Record<string, unknown>, done: any) => {
+      new Strategy({ client }, (_tokenset: any, userinfo: Record<string, unknown>, done: any) => {
         ah.insertUserToDatabase(userinfo)
           .then(() => {
             const nameparsed = userinfo.given_name + ' ' + userinfo.family_name;

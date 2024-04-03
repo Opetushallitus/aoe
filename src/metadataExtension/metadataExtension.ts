@@ -1,8 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-// import { IUserRequest} from "./../definitions"
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { insertMetadataExtension, metadataExtension, usersMetadataExtension } from '@query/metadataExtensionQueries';
 import winstonLogger from '@util/winstonLogger';
+import { NextFunction, Request, Response } from 'express';
 
 export class MetadataExtension {
   'keywords': Array<{ key: string; value: string }>;
