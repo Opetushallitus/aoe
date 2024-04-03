@@ -1,10 +1,10 @@
 // handling and validating xlsx file
 import { Request, Response } from 'express';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 const csv = require('fast-csv');
 const xlsx = require('xlsx');
-const apiQ = require('./../queries/apiQueries');
+const apiQ = require('@/src/query/apiQueries');
 const mapper = require('./dataMapping');
 const multer = require('multer');
 
@@ -51,6 +51,7 @@ async function createPropertyNameList(obj: any, str: string) {
   });
   return list;
 }
+
 async function validate(data: any) {
   const licensekoodisto = [{ type: 'cc' }, { type: 'cc-ra' }, { type: 'cc-dd' }, { type: 'mit' }];
   const o: any = {};

@@ -1,9 +1,9 @@
-import config from '../../config';
-import { parentPort, workerData } from 'worker_threads';
-import { winstonLogger } from '../../util/winstonLogger';
-import { kafkaProducer } from '../../resources/kafka-client';
-import { TypeMaterialActivity } from '../dto/IMessageMaterialActivity';
+import config from '@/config';
+import { TypeMaterialActivity } from '@aoe/services/workers/workerActivity';
+import { kafkaProducer } from '@resource/clientKafka';
+import winstonLogger from '@util/winstonLogger';
 import moment from 'moment';
+import { parentPort, workerData } from 'worker_threads';
 // import { createHash } from 'crypto';
 
 const message: TypeMaterialActivity = {

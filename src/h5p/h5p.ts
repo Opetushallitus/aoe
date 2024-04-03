@@ -2,12 +2,12 @@ import * as H5P from 'h5p-nodejs-library';
 import path = require('path');
 import { lookup as mimeLookup } from 'mime-types';
 import { Request, Response, NextFunction } from 'express';
-import { readStreamFromStorage } from '../queries/fileHandling';
+import { readStreamFromStorage } from '@query/fileHandling';
 import { ErrorHandler } from '../helpers/errorHandler';
 import fs from 'fs';
-import { ContentId, IUser } from "h5p-nodejs-library";
-import { IContentMetadata, ILibraryInstallResult } from "h5p-nodejs-library/build/src/types";
-import { winstonLogger } from '../util/winstonLogger';
+import { ContentId, IUser } from 'h5p-nodejs-library';
+import { IContentMetadata, ILibraryInstallResult } from 'h5p-nodejs-library/build/src/types';
+import winstonLogger from '@util/winstonLogger';
 
 const config = new H5P.H5PConfig();
 
@@ -98,11 +98,11 @@ export const startH5Pplayer = async (contentid: string): Promise<any> => {
       //     type: "local"
       // };
       const params: { Bucket: string; Key: string } = {
-        "Bucket": process.env.CLOUD_STORAGE_BUCKET as string,
-        "Key": contentid as string
+        'Bucket': process.env.CLOUD_STORAGE_BUCKET as string,
+        'Key': contentid as string
       };
       const stream = await readStreamFromStorage(params);
-      const filepath = process.env.HTML_FOLDER + "/" + contentid;
+      const filepath = process.env.HTML_FOLDER + '/' + contentid;
       let page;
 
       // Error event handler for streaming
@@ -119,7 +119,7 @@ export const startH5Pplayer = async (contentid: string): Promise<any> => {
       });
 
       stream.pipe(fs.createWriteStream(filepath));
-      stream.on('end', async function () {
+      stream.on('end', async function() {
         try {
           // winstonLogger.debug("We finished the zipstream!");
           // const data = await fs.readFileSync(filepath);

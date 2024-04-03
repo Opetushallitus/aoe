@@ -1,7 +1,7 @@
+import { uploadbase64Image } from '@query/thumbnailHandler';
+import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
+import { isAllasEnabled } from '@services/routeEnablerService';
 import { Router } from 'express';
-import { isAllasEnabled } from '../../services/routeEnablerService';
-import { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
-import { uploadbase64Image } from '../../queries/thumbnailHandler';
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.

@@ -1,5 +1,5 @@
 import redis, { RedisClient } from 'redis';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 const redisHost: string = process.env.REDIS_HOST || '';
 const redisPort: number = Number(process.env.REDIS_PORT) || 0;
@@ -8,7 +8,7 @@ const redisPass: string = process.env.REDIS_PASS || '';
 /**
  * Redis Client with Custom Properties
  */
-const redisClient: RedisClient = redis.createClient({
+const clientRedis: RedisClient = redis.createClient({
   host: redisHost,
   port: redisPort,
   password: redisPass,
@@ -18,17 +18,17 @@ const redisClient: RedisClient = redis.createClient({
 /**
  * Redis Connection Event Handlers
  */
-redisClient.on('connection', () => {
+clientRedis.on('connection', () => {
   winstonLogger.debug('REDIS [redis://' + redisHost + ':' + redisPort + '] Connecting...');
 });
-redisClient.on('ready', () => {
+clientRedis.on('ready', () => {
   winstonLogger.debug('REDIS [redis://' + redisHost + ':' + redisPort + '] Connection is operable');
 });
-redisClient.on('reconnecting', () => {
+clientRedis.on('reconnecting', () => {
   winstonLogger.debug('REDIS [redis://' + redisHost + ':' + redisPort + '] Reconnecting...');
 });
-redisClient.on('error', (error: Error) => {
+clientRedis.on('error', (error: Error) => {
   winstonLogger.error('REDIS [redis://' + redisHost + ':' + redisPort + '] Error: ' + error);
 });
 
-export default redisClient;
+export default clientRedis;

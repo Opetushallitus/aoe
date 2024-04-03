@@ -1,14 +1,14 @@
+import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { isOfficeMimeType } from '@/helpers/officeToPdfConverter';
+import { db, pgp } from '@resource/clientPostgres';
+import { hasDownloadableFiles } from '@search/esQueries';
+import { hasAccesstoPublication } from '@services/authService';
+import { aoeThumbnailDownloadUrl } from '@services/urlService';
+import { removeInvalidXMLCharacters } from '@util/invalidXMLCharValidator';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import * as pgLib from 'pg-promise';
-import { EducationalMaterialMetadata } from '../controllers/educationalMaterial';
-import { hasDownloadableFiles } from '../elasticSearch/esQueries';
-import { ErrorHandler } from '../helpers/errorHandler';
-import { isOfficeMimeType } from '../helpers/officeToPdfConverter';
-import { db, pgp } from '../resources/pg-connect';
-import { hasAccesstoPublication } from '../services/authService';
-import { aoeThumbnailDownloadUrl } from '../services/urlService';
-import { removeInvalidXMLCharacters } from '../util/invalidXMLCharValidator';
-import { winstonLogger } from '../util/winstonLogger';
 import { updateViewCounter } from './analyticsQueries';
 
 const fh = require('./fileHandling');
@@ -1301,7 +1301,7 @@ export const updateMaterial = async (metadata: EducationalMaterialMetadata, emid
 
 export const updateEduMaterialVersionURN = async (id: string, publishedat: string, urn: string): Promise<void> => {
   try {
-    const query: string = `
+    const query = `
       UPDATE educationalmaterialversion
       SET urn = $3
       WHERE educationalmaterialid = $1 AND publishedat = $2
@@ -1635,7 +1635,7 @@ export default {
   insertDataToDescription,
   insertEducationalMaterialName,
   updateMaterial,
-  insertUrn: updateEduMaterialVersionURN,
+  updateEduMaterialVersionURN,
   createUser,
   updateUser,
   updateTermsOfUsage,

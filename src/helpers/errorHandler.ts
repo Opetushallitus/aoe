@@ -1,4 +1,4 @@
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 export class ErrorHandler extends Error {
   statusCode: number;

@@ -1,16 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from './../helpers/errorHandler';
+import { ErrorHandler } from '@/helpers/errorHandler';
 import {
   collectionQuery,
-  userCollections,
-  insertCollection,
   deleteEducationalMaterialFromCollection,
-  insertEducationalMaterialToCollection,
+  insertCollection,
   insertCollectionMetadata,
+  insertEducationalMaterialToCollection,
   recentCollectionQuery,
-} from './../queries/collectionQueries';
-import { updateEsCollectionIndex } from './../elasticSearch/es';
-import { winstonLogger } from '../util/winstonLogger';
+  userCollections,
+} from '@query/collectionQueries';
+import { updateEsCollectionIndex } from '@search/es';
+import winstonLogger from '@util/winstonLogger';
+import { NextFunction, Request, Response } from 'express';
 
 export class Collection {
   public collectionId?: string;

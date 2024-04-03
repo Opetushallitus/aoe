@@ -1,17 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 // import { IUserRequest} from "./../definitions"
-import { ErrorHandler } from '../helpers/errorHandler';
-import {
-  insertMetadataExtension,
-  metadataExtension,
-  usersMetadataExtension,
-} from '../queries/metadataExtensionQueries';
-import { winstonLogger } from '../util/winstonLogger';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { insertMetadataExtension, metadataExtension, usersMetadataExtension } from '@query/metadataExtensionQueries';
+import winstonLogger from '@util/winstonLogger';
+
 export class MetadataExtension {
   'keywords': Array<{ key: string; value: string }>;
   'accessibilityFeatures': Array<{ value: string; key: string }>;
   'accessibilityHazards': Array<{ value: string; key: string }>;
   'educationalLevels': Array<{ value: string; key: string }>;
+
   constructor(data?: MetadataExtension) {
     this.keywords = data.keywords;
     this.accessibilityFeatures = data.accessibilityFeatures;

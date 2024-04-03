@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from '../helpers/errorHandler';
-import { updateMaterial, updateEduMaterialVersionURN } from '../queries/apiQueries';
-import { updateEsDocument } from '../elasticSearch/es';
-import { getEduMaterialVersionURL } from '../services/urlService';
-import { pidResolutionService } from '../services';
-import { winstonLogger } from '../util/winstonLogger';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { updateEduMaterialVersionURN, updateMaterial } from '@query/apiQueries';
+import { updateEsDocument } from '@search/es';
+import pidResolutionService from '@services/pidResolutionService';
+import { getEduMaterialVersionURL } from '@services/urlService';
+import winstonLogger from '@util/winstonLogger';
+import { NextFunction, Request, Response } from 'express';
 
 export interface EducationalMaterialMetadata {
   name: {

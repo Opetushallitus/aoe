@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from '../helpers/errorHandler';
-import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '../queries/ratingQueries';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { insertRating, insertRatingAverage, getRatings, getUserRatings } from '@query/ratingQueries';
 import { RatingInformation } from './interface/rating-information.interface';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 /**
  * Save rating information for the educational material and recount rating averages.

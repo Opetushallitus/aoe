@@ -1,27 +1,21 @@
-import { Router } from 'express';
-import collection from '../../collection/collection';
-import {
-  changeMaterialUser,
-  getAoeUsers,
-  getMaterialNames,
-  removeEducationalMaterial,
-} from '../../controllers/material';
-import { downloadPdfFromAllas } from '../../helpers/officeToPdfConverter';
+import collection from '@/collection/collection';
+import { changeMaterialUser, getAoeUsers, getMaterialNames, removeEducationalMaterial } from '@/controllers/material';
+import { downloadPdfFromAllas } from '@/helpers/officeToPdfConverter';
 import {
   addMetadataExtension,
   getMetadataExtension,
   getUsersMetadataExtension,
-} from '../../metadataExtension/metadataExtension';
-import db from '../../queries/apiQueries';
-import fileHandling from '../../queries/fileHandling';
-import { getMaterialMetaData } from '../../queries/oaipmh';
-import { downloadCollectionThumbnail, downloadEmThumbnail } from '../../queries/thumbnailHandler';
-import rating from '../../rating/rating';
-import authService, { hasAccessToAOE } from '../../services/authService';
-import { verifyEmailToken } from '../../services/mailService';
-import { aoeRoutes, isAllasEnabled } from '../../services/routeEnablerService';
-import { updateUserSettings } from '../../users/userSettings';
-import { requestErrorHandler } from '../../util';
+} from '@/metadataExtension/metadataExtension';
+import rating from '@/rating/rating';
+import { updateUserSettings } from '@/users/userSettings';
+import db from '@query/apiQueries';
+import fileHandling from '@query/fileHandling';
+import { getMaterialMetaData } from '@query/oaipmh';
+import { downloadCollectionThumbnail, downloadEmThumbnail } from '@query/thumbnailHandler';
+import authService, { hasAccessToAOE } from '@services/authService';
+import { verifyEmailToken } from '@services/mailService';
+import { aoeRoutes, isAllasEnabled } from '@services/routeEnablerService';
+import requestErrorHandler from '@util/requestErrorHandler';
 import {
   addCollectionValidationRules,
   createCollectionValidationRules,
@@ -30,7 +24,8 @@ import {
   removeCollectionValidationRules,
   updateCollectionValidationRules,
   validateRatingUser,
-} from '../../util/requestValidator';
+} from '@util/requestValidator';
+import { Router } from 'express';
 
 export default (router: Router): void => {
   router.get('/aoeUsers', hasAccessToAOE, getAoeUsers);

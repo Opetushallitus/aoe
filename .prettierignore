@@ -3,6 +3,7 @@ dist/
 docker/
 excel/
 h5p/
-src/elasticSearch/
+node_modules/
+src/search/
 src/h5p/
 sql/

@@ -1,9 +1,8 @@
-import { Sequelize, DataTypes } from 'sequelize';
-import { ModelAttributes, ModelOptions } from 'sequelize';
-import { rdbms } from '../resources';
-import { winstonLogger } from '../util';
+import clientPostgres from '@resource/clientPostgres';
+import winstonLogger from '@util/winstonLogger';
+import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize';
 
-export const sequelize = new Sequelize(rdbms.pgURL, {
+export const sequelize = new Sequelize(clientPostgres.pgURL, {
   dialect: 'postgres',
   logging: (sql: string) => {
     winstonLogger.debug(sql);

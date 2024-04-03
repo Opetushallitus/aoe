@@ -8,7 +8,7 @@ import errorHandler from 'errorhandler';
 import fs from 'fs';
 import https from 'https';
 import { Server, Socket } from 'net';
-import { winstonLogger } from './util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 app.use(errorHandler());
 

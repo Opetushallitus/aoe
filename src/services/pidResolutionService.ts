@@ -1,9 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { updateEduMaterialVersionURN } from '../queries/apiQueries';
-import { getEdumaterialVersionsWithoutURN } from '../queries/pidQueries';
+import { updateEduMaterialVersionURN } from '@query/apiQueries';
+import { getEdumaterialVersionsWithoutURN } from '@query/pidQueries';
 import { getEduMaterialVersionURL } from './urlService';
-import { winstonLogger } from '../util/winstonLogger';
-import { IRegisterPID } from './dto/IRegisterPID';
+import winstonLogger from '@util/winstonLogger';
+import { IRegisterPID } from '@aoe/services/pidResolutionService';
+import config from '@/config';
 
 /**
  * Request for PID registration using URN type.
@@ -18,10 +19,10 @@ export const registerPID = async (url: string): Promise<any> => {
     };
     const requestHeaders: Record<string, string> = {
       'Content-Type': 'application/json',
-      apikey: process.env.PID_KEY as string,
+      apikey: config.SERVER_CONFIG_OPTIONS.pidApiKey,
     };
     const response: Record<string, unknown> = await axios.post(
-      process.env.PID_SERVICE_URL as string,
+      config.SERVER_CONFIG_OPTIONS.pidServiceURL,
       pidRegistrationParams as IRegisterPID,
       { headers: requestHeaders } as AxiosRequestConfig,
     );

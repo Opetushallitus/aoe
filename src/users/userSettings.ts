@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { sendVerificationEmail } from './../services/mailService';
-import { ErrorHandler } from './../helpers/errorHandler';
-import { winstonLogger } from '../util/winstonLogger';
-import { db } from '../resources/pg-connect';
+import { sendVerificationEmail } from '@services/mailService';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import winstonLogger from '@util/winstonLogger';
+import { db } from '@resource/clientPostgres';
 
 export interface UserSettings {
   notifications: {
