@@ -22,8 +22,6 @@ process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS || missingEnvs.push('KAFKA_BROKER
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
 process.env.POSTGRESQL_HOST || missingEnvs.push('POSTGRESQL_HOST');
 process.env.POSTGRESQL_PORT || missingEnvs.push('POSTGRESQL_PORT');
-process.env.POSTGRESQL_USER || missingEnvs.push('POSTGRESQL_USER');
-process.env.POSTGRESQL_PASS || missingEnvs.push('POSTGRESQL_PASS');
 process.env.POSTGRESQL_DATA || missingEnvs.push('POSTGRESQL_DATA');
 process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
@@ -31,6 +29,14 @@ process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
+
+if (process.env.NODE_ENV === 'production') {
+  process.env.POSTGRESQL_USER_SECONDARY || missingEnvs.push('POSTGRESQL_USER_SECONDARY');
+  process.env.POSTGRESQL_PASSWORD_SECONDARY || missingEnvs.push('POSTGRESQL_USER_SECONDARY');
+} else {
+  process.env.POSTGRESQL_USER || missingEnvs.push('POSTGRESQL_USER');
+  process.env.POSTGRESQL_PASSWORD || missingEnvs.push('POSTGRESQL_USER');
+}
 
 if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
@@ -74,8 +80,12 @@ export default {
   POSTGRESQL_OPTIONS: {
     host: process.env.POSTGRESQL_HOST as string,
     port: process.env.POSTGRESQL_PORT as string,
-    user: process.env.POSTGRESQL_USER as string,
-    pass: process.env.POSTGRESQL_PASS as string,
+    user: (process.env.NODE_ENV === 'production'
+      ? process.env.POSTGRESQL_USER_SECONDARY
+      : process.env.POSTGRESQL_USER) as string,
+    pass: (process.env.NODE_ENV === 'production'
+      ? process.env.POSTGRESQL_PASSWORD_SECONDARY
+      : process.env.POSTGRESQL_PASSWORD) as string,
     data: process.env.POSTGRESQL_DATA as string,
   } as const,
 
