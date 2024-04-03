@@ -12,7 +12,7 @@ import * as pgLib from 'pg-promise';
 import { updateViewCounter } from './analyticsQueries';
 
 const fh = require('./fileHandling');
-const elasticSearch = require('./../elasticSearch/es');
+const elasticSearch = require('./../search/es');
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {

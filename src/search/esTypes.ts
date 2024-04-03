@@ -9,19 +9,19 @@ export interface MultiMatchSeachBody {
 }
 
 export const expiresFilterObject = {
-  "bool": {
-    "should": [
+  'bool': {
+    'should': [
       {
-        "range": {
-          "expires": {
-            "gte": "now"
+        'range': {
+          'expires': {
+            'gte': 'now'
           }
         }
       }, {
-        "bool": {
-          "must_not": {
-            "exists": {
-              "field": "expires"
+        'bool': {
+          'must_not': {
+            'exists': {
+              'field': 'expires'
             }
           }
         }
@@ -247,10 +247,10 @@ export interface AoeRequestFilter {
   languages: Array<string>;
   organizations: Array<string>;
   teaches: Array<string>;
-  educationalUses: Array<string>;
-  accessibilityFeatures: Array<string>;
-  accessibilityHazards: Array<string>;
-  licenses: Array<string>;
+  educationalUses?: Array<string>;
+  accessibilityFeatures?: Array<string>;
+  accessibilityHazards?: Array<string>;
+  licenses?: Array<string>;
 }
 
 export interface AoeBody<T> {
