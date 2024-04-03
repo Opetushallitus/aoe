@@ -2,7 +2,7 @@ import clientPostgres from '@resource/clientPostgres';
 import winstonLogger from '@util/winstonLogger';
 import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize';
 
-export const sequelize = new Sequelize(clientPostgres.pgURL, {
+export const sequelize: Sequelize = new Sequelize(clientPostgres.pgURL, {
   dialect: 'postgres',
   logging: (sql: string) => {
     winstonLogger.debug(sql);

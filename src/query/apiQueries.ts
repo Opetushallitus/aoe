@@ -2,6 +2,7 @@ import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial';
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter';
 import { db, pgp } from '@resource/clientPostgres';
+import elasticSearch from '@search/es';
 import { hasDownloadableFiles } from '@search/esQueries';
 import { hasAccesstoPublication } from '@services/authService';
 import { aoeThumbnailDownloadUrl } from '@services/urlService';
@@ -10,9 +11,7 @@ import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import * as pgLib from 'pg-promise';
 import { updateViewCounter } from './analyticsQueries';
-
-const fh = require('./fileHandling');
-const elasticSearch = require('./../search/es');
+import fh from './fileHandling';
 
 export async function addLinkToMaterial(req: Request, res: Response, next: NextFunction) {
   try {

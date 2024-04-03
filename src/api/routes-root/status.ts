@@ -1,4 +1,4 @@
-import { Router, Response, Request } from 'express';
+import { Request, Response, Router } from 'express';
 
 /**
  * API root status page

@@ -377,6 +377,6 @@ async function createAlignmentObjectObject(indata: any) {
   return obj;
 }
 
-module.exports = {
+export default {
   createMaterialObject: createMaterialObject,
 };

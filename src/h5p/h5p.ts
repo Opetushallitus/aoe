@@ -3,13 +3,13 @@ import path = require('path');
 import { lookup as mimeLookup } from 'mime-types';
 import { Request, Response, NextFunction } from 'express';
 import { readStreamFromStorage } from '@query/fileHandling';
-import { ErrorHandler } from '../helpers/errorHandler';
+import { ErrorHandler } from '@/helpers/errorHandler';
 import fs from 'fs';
-import { ContentId, IUser } from 'h5p-nodejs-library';
+import { ContentId, H5PConfig, IUser } from 'h5p-nodejs-library';
 import { IContentMetadata, ILibraryInstallResult } from 'h5p-nodejs-library/build/src/types';
 import winstonLogger from '@util/winstonLogger';
 
-const config = new H5P.H5PConfig();
+const config: H5PConfig = new H5PConfig();
 
 config.baseUrl = process.env.H5P_BASE_URL || '/h5p';
 
