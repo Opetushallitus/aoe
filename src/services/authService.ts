@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 
 export const checkAuthenticated = (req: Request, res: Response, next: NextFunction): void => {

@@ -1,5 +1,5 @@
 import config from '@/config';
-import httpsClient from '@resource/clientHTTPS';
+import httpsClient from '@resource/httpsClient';
 import winstonLogger from '@util/winstonLogger';
 
 /**

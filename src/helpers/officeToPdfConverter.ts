@@ -1,7 +1,7 @@
 import config from '@/config';
 import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling';
-import { s3 } from '@resource/clientAWS';
-import { db } from '@resource/clientPostgres';
+import { s3 } from '@resource/awsClient';
+import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import fs, { WriteStream } from 'fs';

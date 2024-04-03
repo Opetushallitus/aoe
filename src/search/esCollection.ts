@@ -1,5 +1,5 @@
 import elasticsearch, { ApiResponse, Client, ClientOptions } from '@elastic/elasticsearch';
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { createMatchAllObject } from './esQueries';

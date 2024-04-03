@@ -1,4 +1,4 @@
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import { aoeFileDownloadUrl, aoePdfDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { Request, Response } from 'express';
