@@ -2,7 +2,7 @@ import { ErrorHandler } from '@/helpers/errorHandler';
 import { ISearchIndexMap } from '@aoe/search/es';
 import elasticsearch, { Client, ClientOptions } from '@elastic/elasticsearch';
 import { getPopularityQuery } from '@query/analyticsQueries';
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import { aoeThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';

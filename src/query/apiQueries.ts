@@ -1,7 +1,7 @@
 import { EducationalMaterialMetadata } from '@/controllers/educationalMaterial';
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { isOfficeMimeType } from '@/helpers/officeToPdfConverter';
-import { db, pgp } from '@resource/clientPostgres';
+import { db, pgp } from '@resource/postgresClient';
 import elasticSearch from '@search/es';
 import { hasDownloadableFiles } from '@search/esQueries';
 import { hasAccesstoPublication } from '@services/authService';

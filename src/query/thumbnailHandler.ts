@@ -1,6 +1,6 @@
 import config from '@/config';
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import mime from 'mime';

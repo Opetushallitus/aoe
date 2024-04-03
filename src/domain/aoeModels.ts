@@ -1,4 +1,4 @@
-import clientPostgres from '@resource/clientPostgres';
+import clientPostgres from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 import { DataTypes, ModelAttributes, ModelOptions, Sequelize } from 'sequelize';
 

@@ -1,5 +1,5 @@
 import winstonLogger from '@util/winstonLogger';
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 
 export const getEdumaterialVersionsWithoutURN = async (limit: number): Promise<any> => {
   try {

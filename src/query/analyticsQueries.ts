@@ -1,4 +1,4 @@
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 
 export const updateViewCounter = async (id: string): Promise<void> => {
   // View counter disabled in development mode.
