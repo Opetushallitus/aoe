@@ -41,7 +41,6 @@ export const db: IDatabase<IClient, IClient> = pgp(PG_URL_FULL);
 db.connect()
   .then((obj: IConnected<any, IClient>) => {
     winstonLogger.debug('PG [%s] Connection is operable', PG_URL_HOST);
-    pgp.end();
     obj.done();
   })
   .catch((err: Error) => {
