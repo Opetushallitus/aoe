@@ -34,11 +34,11 @@ process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
 
 if (process.env.TEST_RUN === 'true') {
-  process.env.POSTGRES_USER || missingEnvs.push('POSTGRES_USER');
-  process.env.POSTGRES_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD');
+  process.env.PG_USER || missingEnvs.push('POSTGRES_USER');
+  process.env.PG_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD');
 } else {
-  process.env.POSTGRES_USER_SECONDARY || missingEnvs.push('POSTGRES_USER_SECONDARY');
-  process.env.POSTGRES_PASSWORD_SECONDARY || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
+  process.env.PG_USER || missingEnvs.push('POSTGRES_USER_SECONDARY');
+  process.env.PG_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
 }
 
 if (missingEnvs.length > 0) {
@@ -86,10 +86,8 @@ export default {
   POSTGRESQL_OPTIONS: {
     host: process.env.POSTGRESQL_HOST as string,
     port: process.env.POSTGRESQL_PORT as string,
-    user: (process.env.TEST_RUN === 'true' ? process.env.POSTGRES_USER : process.env.POSTGRES_USER_SECONDARY) as string,
-    pass: (process.env.TEST_RUN === 'true'
-      ? process.env.POSTGRES_PASSWORD
-      : process.env.POSTGRES_PASSWORD_SECONDARY) as string,
+    user: process.env.PG_USER as string,
+    pass: process.env.PG_PASSWORD as string,
     data: process.env.POSTGRESQL_DATA as string,
   } as const,
 
