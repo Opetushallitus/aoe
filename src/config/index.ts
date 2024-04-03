@@ -86,12 +86,10 @@ export default {
   POSTGRESQL_OPTIONS: {
     host: process.env.POSTGRESQL_HOST as string,
     port: process.env.POSTGRESQL_PORT as string,
-    user: (process.env.NODE_ENV === 'production'
-      ? process.env.POSTGRES_USER_SECONDARY
-      : process.env.POSTGRES_USER) as string,
-    pass: (process.env.NODE_ENV === 'production'
-      ? process.env.POSTGRES_PASSWORD_SECONDARY
-      : process.env.POSTGRES_PASSWORD) as string,
+    user: (process.env.TEST_RUN === 'true' ? process.env.POSTGRES_USER : process.env.POSTGRES_USER_SECONDARY) as string,
+    pass: (process.env.TEST_RUN === 'true'
+      ? process.env.POSTGRES_PASSWORD
+      : process.env.POSTGRES_PASSWORD_SECONDARY) as string,
     data: process.env.POSTGRESQL_DATA as string,
   } as const,
 
