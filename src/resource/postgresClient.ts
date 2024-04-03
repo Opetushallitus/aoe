@@ -19,7 +19,7 @@ const initOptions: IInitOptions = {
   error: (err: Error, e: IEventContext<IClient>) => {
     if (e.cn) {
       winstonLogger.error('PG [%s] initialization error: %o', PG_URL_HOST, e.cn);
-      winstonLogger.error('ERROR: %o', err);
+      winstonLogger.error('PG error: %o', err);
     }
   },
   promiseLib: promise,
