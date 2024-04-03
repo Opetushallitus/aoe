@@ -34,11 +34,11 @@ process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
 
 if (process.env.TEST_RUN === 'true') {
-  process.env.POSTGRESQL_USER || missingEnvs.push('POSTGRESQL_USER');
-  process.env.POSTGRESQL_PASSWORD || missingEnvs.push('POSTGRESQL_USER');
+  process.env.POSTGRES_USER || missingEnvs.push('POSTGRES_USER');
+  process.env.POSTGRES_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD');
 } else {
-  process.env.POSTGRESQL_USER_SECONDARY || missingEnvs.push('POSTGRESQL_USER_SECONDARY');
-  process.env.POSTGRESQL_PASSWORD_SECONDARY || missingEnvs.push('POSTGRESQL_USER_SECONDARY');
+  process.env.POSTGRES_USER_SECONDARY || missingEnvs.push('POSTGRES_USER_SECONDARY');
+  process.env.POSTGRES_PASSWORD_SECONDARY || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
 }
 
 if (missingEnvs.length > 0) {
