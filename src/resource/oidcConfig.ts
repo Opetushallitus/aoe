@@ -5,7 +5,7 @@ import { CookieOptions, Express, Request, Response } from 'express';
 import session, { Cookie } from 'express-session';
 import openidClient, { custom, HttpOptions } from 'openid-client';
 import passport from 'passport';
-import clientRedis from './clientRedis';
+import clientRedis from './redisClient';
 import { isLoginEnabled } from '@services/routeEnablerService';
 import winstonLogger from '@util/winstonLogger';
 // import uuid from 'uuid/v4';

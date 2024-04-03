@@ -1,5 +1,5 @@
 import { Collection } from '@/collection/collection';
-import { db, pgp } from '@resource/clientPostgres';
+import { db, pgp } from '@resource/postgresClient';
 import { aoeCollectionThumbnailDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 

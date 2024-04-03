@@ -1,7 +1,7 @@
 import apiRoot from '@api/routes-root';
 import apiV1 from '@api/routes-v1';
 import apiV2 from '@api/routes-v2';
-import oidc from '@resource/configOIDC';
+import oidc from '@resource/oidcConfig';
 import { checkAuthenticated } from '@services/authService';
 import aoeScheduler from '@util/aoeScheduler';
 import morganLogger from '@util/morganLogger';

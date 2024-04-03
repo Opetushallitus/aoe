@@ -4,8 +4,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Check that mandatory environment variables are available and report missing ones on exit.
 const missingEnvs: string[] = [];
-process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED');
+process.env.NODE_ENV || missingEnvs.push('NODE_ENV');
+process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN');
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL');
+process.env.TEST_RUN || missingEnvs.push('TEST_RUN');
+process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED');
 process.env.CLOUD_STORAGE_ACCESS_KEY || missingEnvs.push('CLOUD_STORAGE_ACCESS_KEY');
 process.env.CLOUD_STORAGE_ACCESS_SECRET || missingEnvs.push('CLOUD_STORAGE_ACCESS_SECRET');
 process.env.CLOUD_STORAGE_API || missingEnvs.push('CLOUD_STORAGE_API');
@@ -20,9 +23,23 @@ process.env.KAFKA_BROKER_SERVERS || missingEnvs.push('KAFKA_BROKER_SERVERS');
 process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY || missingEnvs.push('KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY');
 process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS || missingEnvs.push('KAFKA_BROKER_TOPIC_SEARCH_REQUESTS');
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
+process.env.POSTGRESQL_HOST || missingEnvs.push('POSTGRESQL_HOST');
+process.env.POSTGRESQL_PORT || missingEnvs.push('POSTGRESQL_PORT');
+process.env.POSTGRESQL_DATA || missingEnvs.push('POSTGRESQL_DATA');
+process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
+process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
+process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
+
+if (process.env.TEST_RUN === 'true') {
+  process.env.PG_USER || missingEnvs.push('POSTGRES_USER');
+  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD');
+} else {
+  process.env.PG_USER || missingEnvs.push('POSTGRES_USER_SECONDARY');
+  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
+}
 
 if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
@@ -34,6 +51,9 @@ export default {
   APPLICATION_CONFIG: {
     isCloudStorageEnabled: (process.env.CLOUD_STORAGE_ENABLED === '1') as boolean,
     logLevel: process.env.LOG_LEVEL as string,
+    nodeEnv: process.env.NODE_ENV as string,
+    portListen: parseInt(process.env.PORT_LISTEN as string, 10) as number,
+    testRun: ((process.env.TEST_RUN as string).toLowerCase() === 'true') as boolean,
   } as const,
 
   // Cloud storage configurations.
@@ -60,6 +80,22 @@ export default {
     topicMaterialActivity: process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY as string,
     topicSearchRequests: process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS as string,
     clientId: process.env.KAFKA_CLIENT_ID as string,
+  } as const,
+
+  // Configuration for PostgreSQL database connections.
+  POSTGRESQL_OPTIONS: {
+    host: process.env.POSTGRESQL_HOST as string,
+    port: process.env.POSTGRESQL_PORT as string,
+    user: process.env.PG_USER as string,
+    pass: process.env.PG_PASS as string,
+    data: process.env.POSTGRESQL_DATA as string,
+  } as const,
+
+  // Configuration for Redis database connetions.
+  REDIS_OPTIONS: {
+    host: process.env.REDIS_HOST as string,
+    port: parseInt(process.env.REDIS_PORT as string, 10) as number,
+    pass: process.env.REDIS_PASS as string,
   } as const,
 
   // AOE server and service component general purpose configurations.

@@ -4,7 +4,7 @@ import Mail from 'nodemailer/lib/mailer';
 import { createTransport, Transporter } from 'nodemailer';
 import winstonLogger from '@util/winstonLogger';
 
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 
 /**
  * Initialize Nodemailer Transporter

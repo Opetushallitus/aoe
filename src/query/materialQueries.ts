@@ -1,4 +1,4 @@
-import { db } from '@resource/clientPostgres';
+import { db } from '@resource/postgresClient';
 import winstonLogger from '@util/winstonLogger';
 
 export async function updateEducationalMaterial(emid: string) {

@@ -9,7 +9,7 @@ import {
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '@/helpers/officeToPdfConverter';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
-import { db, pgp } from '@resource/clientPostgres';
+import { db, pgp } from '@resource/postgresClient';
 import { hasAccesstoPublication } from '@services/authService';
 import { requestRedirected } from '@services/streamingService';
 import winstonLogger from '@util/winstonLogger';
