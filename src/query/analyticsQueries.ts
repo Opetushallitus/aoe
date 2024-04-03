@@ -1,4 +1,4 @@
-import { db } from '../resources/pg-connect';
+import { db } from '@resource/clientPostgres';
 
 export const updateViewCounter = async (id: string): Promise<void> => {
   // View counter disabled in development mode.
@@ -36,6 +36,7 @@ export const getPopularityQuery =
   'from educationalmaterial where id = $1) as a, ' +
   '(select (SELECT EXTRACT(DAY FROM (select sum(now() - publishedat) from educationalmaterial where id = $1))) as b))' +
   'as c;';
+
 export async function getPopularity(id: string): Promise<any> {
   try {
     const response = await db.task(async (t: any) => {

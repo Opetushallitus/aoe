@@ -1,8 +1,8 @@
 // <reference path="es.ts" />
+import { ErrorHandler } from '@/helpers/errorHandler';
 import { ApiResponse, Client } from '@elastic/elasticsearch';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
-import { ErrorHandler } from '../helpers/errorHandler';
-import { winstonLogger } from '../util/winstonLogger';
 import {
   AoeBody,
   AoeRequestFilter,
@@ -15,9 +15,8 @@ import {
   Source
 } from './esTypes';
 
-const index = process.env.ES_INDEX;
-
-const client = new Client({ node: process.env.ES_NODE });
+const index: string = process.env.ES_INDEX;
+const client: Client = new Client({ node: process.env.ES_NODE });
 
 export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Source>>) {
   try {
@@ -28,7 +27,7 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
     if (hits) {
       const source = hits.map(hit => hit._source);
       if (source) {
-        const result = source.map(obj => {
+        resp.results = source.map(obj => {
             const rObj: AoeResult = {};
             rObj.id = obj.id,
               rObj.createdAt = obj.createdat,
@@ -67,7 +66,7 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
               rObj.languages = (obj.materials) ? Array.from(new Set(obj.materials.map(material => (material.language)))) : undefined,
               rObj.educationalSubjects = (obj.alignmentobject) ? obj.alignmentobject
                 .filter(object => {
-                  return object.alignmenttype === "educationalSubject";
+                  return object.alignmenttype === 'educationalSubject';
                 })
                 .map(object => ({
                   key: object.objectkey,
@@ -76,7 +75,7 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
                 })) : undefined,
               rObj.teaches = (obj.alignmentobject) ? obj.alignmentobject
                 .filter(object => {
-                  return object.alignmenttype === "teaches";
+                  return object.alignmenttype === 'teaches';
                 })
                 .map(object => ({ key: object.objectkey, value: object.targetname })) : undefined,
               rObj.hasDownloadableFiles = (obj.materials) ? hasDownloadableFiles(obj.materials) : false,
@@ -97,7 +96,6 @@ export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Sou
             return rObj;
           }
         );
-        resp.results = result;
       }
     }
     return resp;
@@ -136,30 +134,30 @@ export const elasticSearchQuery = async (req: Request, res: Response, next: Next
       size = req.body.size;
     }
     const fields = [
-      "accessibilityfeature.value",
-      "accessibilityhazard.value",
-      "alignmentobject.targetname",
-      "alignmentobject.educationalframework",
-      "author.authorname",
-      "author.organization",
-      "educationalaudience.educationalrole",
-      "educationallevel.value",
-      "educationaluse.value",
-      "inlanguage.inlanguage",
-      "isbasedon.author",
-      "isbasedon.materialname",
-      "keyword.value",
-      "learningresourcetype.value",
-      "license.value.keyword",
-      "license.key",
-      "materialdescription.description",
-      "materialname.materialname",
-      "materials.materialdisplayname.displayname",
-      "materials.link",
-      "materials.originalfilename",
-      "owner.firstname",
-      "owner.lastname",
-      "publisher.name"
+      'accessibilityfeature.value',
+      'accessibilityhazard.value',
+      'alignmentobject.targetname',
+      'alignmentobject.educationalframework',
+      'author.authorname',
+      'author.organization',
+      'educationalaudience.educationalrole',
+      'educationallevel.value',
+      'educationaluse.value',
+      'inlanguage.inlanguage',
+      'isbasedon.author',
+      'isbasedon.materialname',
+      'keyword.value',
+      'learningresourcetype.value',
+      'license.value.keyword',
+      'license.key',
+      'materialdescription.description',
+      'materialname.materialname',
+      'materials.materialdisplayname.displayname',
+      'materials.link',
+      'materials.originalfilename',
+      'owner.firstname',
+      'owner.lastname',
+      'publisher.name'
     ];
     const mustList = [];
     if (req.body.keywords) {
@@ -174,10 +172,10 @@ export const elasticSearchQuery = async (req: Request, res: Response, next: Next
     }
 
     const body: MultiMatchSeachBody = {
-      "query": {
-        "bool": {
-          "must": mustList,
-          "filter": expiresFilterObject
+      'query': {
+        'bool': {
+          'must': mustList,
+          'filter': expiresFilterObject
         }
       }
     };
@@ -185,31 +183,31 @@ export const elasticSearchQuery = async (req: Request, res: Response, next: Next
     if (req.body.sort) {
       const sort = [];
       // allways sort using popularity if sort exists in body
-      if (req.body.sort.popularity === "asc") {
+      if (req.body.sort.popularity === 'asc') {
         sort.push({
-          "popularity": "asc"
+          'popularity': 'asc'
         });
-      } else if (req.body.sort.updatedAt === "asc") {
+      } else if (req.body.sort.updatedAt === 'asc') {
         sort.push({
-          "updatedat": { "order": "asc" }
+          'updatedat': { 'order': 'asc' }
         });
-      } else if (req.body.sort.updatedAt === "desc") {
+      } else if (req.body.sort.updatedAt === 'desc') {
         sort.push({
-          "updatedat": { "order": "desc" }
+          'updatedat': { 'order': 'desc' }
         });
       } else {
         sort.push({
-          "popularity": "desc"
+          'popularity': 'desc'
         });
       }
       body.sort = sort;
     }
 
     const query = {
-      "index": index,
-      "from": from,
-      "size": size,
-      "body": body
+      'index': index,
+      'from': from,
+      'size': size,
+      'body': body
     };
 
     winstonLogger.info('Elasticsearch query: ' + JSON.stringify(query));
@@ -226,46 +224,46 @@ export function filterMapper(filters: AoeRequestFilter) {
   try {
     const filter = [];
     if (filters.educationalLevels) {
-      createShouldObject(filter, "educationallevel.educationallevelkey.keyword", filters.educationalLevels);
+      createShouldObject(filter, 'educationallevel.educationallevelkey.keyword', filters.educationalLevels);
     }
     if (filters.learningResourceTypes) {
-      createShouldObject(filter, "learningresourcetype.learningresourcetypekey.keyword", filters.learningResourceTypes);
+      createShouldObject(filter, 'learningresourcetype.learningresourcetypekey.keyword', filters.learningResourceTypes);
     }
     if (filters.educationalSubjects) {
-      createShouldObject(filter, "alignmentobject.objectkey.keyword", filters.educationalSubjects, "educationalSubject");
+      createShouldObject(filter, 'alignmentobject.objectkey.keyword', filters.educationalSubjects, 'educationalSubject');
     }
     if (filters.educationalRoles) {
-      createShouldObject(filter, "educationalaudience.educationalrolekey.keyword", filters.educationalRoles);
+      createShouldObject(filter, 'educationalaudience.educationalrolekey.keyword', filters.educationalRoles);
     }
     if (filters.authors) {
-      createShouldObject(filter, "author.authorname.keyword", filters.authors);
+      createShouldObject(filter, 'author.authorname.keyword', filters.authors);
     }
     if (filters.alignmentTypes) {
-      createShouldObject(filter, "alignmentobject.alignmenttype.keyword", filters.alignmentTypes);
+      createShouldObject(filter, 'alignmentobject.alignmenttype.keyword', filters.alignmentTypes);
     }
     if (filters.keywords) {
-      createShouldObject(filter, "keyword.keywordkey.keyword", filters.keywords);
+      createShouldObject(filter, 'keyword.keywordkey.keyword', filters.keywords);
     }
     if (filters.languages) {
-      createShouldObject(filter, "materials.language.keyword", filters.languages);
+      createShouldObject(filter, 'materials.language.keyword', filters.languages);
     }
     if (filters.organizations) {
-      createShouldObject(filter, "author.organizationkey.keyword", filters.organizations);
+      createShouldObject(filter, 'author.organizationkey.keyword', filters.organizations);
     }
     if (filters.teaches) {
-      createShouldObject(filter, "alignmentobject.objectkey.keyword", filters.teaches, "teaches");
+      createShouldObject(filter, 'alignmentobject.objectkey.keyword', filters.teaches, 'teaches');
     }
     if (filters.educationalUses) {
-      createShouldObject(filter, "educationaluse.educationalusekey.keyword", filters.educationalUses);
+      createShouldObject(filter, 'educationaluse.educationalusekey.keyword', filters.educationalUses);
     }
     if (filters.accessibilityFeatures) {
-      createShouldObject(filter, "accessibilityfeature.accessibilityfeaturekey.keyword", filters.accessibilityFeatures);
+      createShouldObject(filter, 'accessibilityfeature.accessibilityfeaturekey.keyword', filters.accessibilityFeatures);
     }
     if (filters.accessibilityHazards) {
-      createShouldObject(filter, "accessibilityhazard.accessibilityhazardkey.keyword", filters.accessibilityHazards);
+      createShouldObject(filter, 'accessibilityhazard.accessibilityhazardkey.keyword', filters.accessibilityHazards);
     }
     if (filters.licenses) {
-      createShouldObject(filter, "license.key.keyword", filters.licenses);
+      createShouldObject(filter, 'license.key.keyword', filters.licenses);
     }
     return filter;
   } catch (err) {
@@ -274,15 +272,15 @@ export function filterMapper(filters: AoeRequestFilter) {
 }
 
 export function createMatchAllObject() {
-  return { "match_all": {} };
+  return { 'match_all': {} };
 }
 
 export function createMultiMatchObject(keywords: string, fields: string[]) {
   return {
-    "multi_match": {
-      "query": keywords,
-      "fields": fields,
-      "fuzziness": "AUTO"
+    'multi_match': {
+      'query': keywords,
+      'fields': fields,
+      'fuzziness': 'AUTO'
     }
   };
 }
@@ -306,17 +304,17 @@ export function createShouldObject(filter: Array<any>, key: string, valueList: A
         mustMatchObjectList.push(createMustMatchObject(key, alignmentObjectType));
       });
       if (mustMatchObjectList.length > 0) {
-        filter.push({ "bool": { "should": mustMatchObjectList } });
+        filter.push({ 'bool': { 'should': mustMatchObjectList } });
       }
     } else {
       const shouldFilter: FilterTerm[] = [];
       valueList.map(term => {
         const obj = {};
         obj[key] = term;
-        shouldFilter.push({ "term": obj });
+        shouldFilter.push({ 'term': obj });
       });
       if (shouldFilter.length > 0) {
-        filter.push({ "bool": { "should": shouldFilter } });
+        filter.push({ 'bool': { 'should': shouldFilter } });
       }
     }
   } catch (err) {
@@ -326,22 +324,21 @@ export function createShouldObject(filter: Array<any>, key: string, valueList: A
 
 export function createMustMatchObject(key: string, type: string) {
   try {
-    const mustObj = {
-      "bool": {
-        "must": [{
-          "match": {
-            "alignmentobject.alignmenttype.keyword": type
+    return {
+      'bool': {
+        'must': [{
+          'match': {
+            'alignmentobject.alignmenttype.keyword': type
           }
         },
           {
-            "match": {
-              "alignmentobject.objectkey.keyword": key
+            'match': {
+              'alignmentobject.objectkey.keyword': key
             }
           }
         ]
       }
     };
-    return mustObj;
   } catch (err) {
     throw new Error(err);
   }
@@ -349,7 +346,7 @@ export function createMustMatchObject(key: string, type: string) {
 
 export async function deleteDocument(index: string, id: string) {
   try {
-    const query = { "index": index, "id": id };
+    const query = { 'index': index, 'id': id };
     await client.delete(query);
   } catch (error) {
     winstonLogger.error(error);

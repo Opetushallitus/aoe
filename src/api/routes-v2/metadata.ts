@@ -1,4 +1,4 @@
-import { getEducationalMaterialMetadata } from '../../queries/apiQueries';
+import { getEducationalMaterialMetadata } from '@query/apiQueries';
 import { Router } from 'express';
 
 /**

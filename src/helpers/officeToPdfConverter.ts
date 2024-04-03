@@ -3,11 +3,11 @@ import fs, { WriteStream } from 'fs';
 import fsPromise from 'fs/promises';
 import libre from 'libreoffice-convert';
 import stream from 'stream';
-import config from '../config';
-import { downloadFromStorage, uploadFileToStorage } from '../queries/fileHandling';
-import { s3 } from '../resources/aws-sdk-clients';
-import { db } from '../resources/pg-connect';
-import { winstonLogger } from '../util/winstonLogger';
+import config from '@/config';
+import { downloadFromStorage, uploadFileToStorage } from '@query/fileHandling';
+import { s3 } from '@resource/clientAWS';
+import { db } from '@resource/clientPostgres';
+import winstonLogger from '@util/winstonLogger';
 import { ErrorHandler } from './errorHandler';
 
 const officeMimeTypes = [
@@ -243,7 +243,7 @@ export const getOfficeFiles = async (): Promise<any> => {
  */
 export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
-    const folderpath: string = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
+    const folderpath = `${config.MEDIA_FILE_PROCESS.htmlFolder}/${key}`;
     const filename: string = key.substring(0, key.lastIndexOf('.')) + '.pdf';
     const stream: stream = s3
       .getObject({
@@ -281,7 +281,7 @@ export const downstreamAndConvertOfficeFileToPDF = (key: string): Promise<string
  */
 export const updatePdfKey = async (key: string, id: string): Promise<void> => {
   await db.tx(async (t: any): Promise<void> => {
-    const query: string = `
+    const query = `
       UPDATE record SET pdfkey = $1
       WHERE id = $2
     `;

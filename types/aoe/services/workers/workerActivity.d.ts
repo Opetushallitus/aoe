@@ -1,3 +1,8 @@
+interface IMessageBase {
+  sessionId: string;
+  timestamp: string;
+}
+
 interface IActivityMetadata {
   eduMaterialId: string;
   interaction: string;

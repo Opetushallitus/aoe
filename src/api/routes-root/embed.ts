@@ -1,8 +1,8 @@
+import { downloadPdfFromAllas } from '@/helpers/officeToPdfConverter';
+import { getEducationalMaterialMetadata } from '@query/apiQueries';
+import { downloadPreviewFile } from '@query/fileHandling';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response, Router } from 'express';
-import { downloadPreviewFile } from '../../queries/fileHandling';
-import { getEducationalMaterialMetadata } from '../../queries/apiQueries';
-import { downloadPdfFromAllas } from '../../helpers/officeToPdfConverter';
-import { winstonLogger } from '../../util/winstonLogger';
 
 /**
  * Open root level API for embedded materials.

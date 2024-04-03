@@ -1,14 +1,12 @@
+import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '@query/apiQueries';
+import fileHandling, { downloadAllMaterialsCompressed, downloadFile, downloadPreviewFile } from '@query/fileHandling';
+import { downloadEmThumbnail, uploadbase64Image } from '@query/thumbnailHandler';
+import authService, { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
+import { isAllasEnabled } from '@services/routeEnablerService';
+import requestErrorHandler from '@util/requestErrorHandler';
+import requestValidator from '@util/requestValidator';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response, Router } from 'express';
-import { addLinkToMaterial, setAttachmentObsoleted, setMaterialObsoleted } from '../../queries/apiQueries';
-import fileHandling, {
-  downloadAllMaterialsCompressed,
-  downloadFile,
-  downloadPreviewFile,
-} from '../../queries/fileHandling';
-import { downloadEmThumbnail, uploadbase64Image } from '../../queries/thumbnailHandler';
-import authService, { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
-import { isAllasEnabled } from '../../services/routeEnablerService';
-import { requestErrorHandler, requestValidator, winstonLogger } from '../../util';
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational materials.

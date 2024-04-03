@@ -1,9 +1,9 @@
+import { updateEducationalMaterialMetadata } from '@/controllers/educationalMaterial';
+import { getEducationalMaterialMetadata, setEducationalMaterialObsoleted } from '@query/apiQueries';
+import { checkAuthenticated, hasAccessToPublicatication } from '@services/authService';
+import { runMessageQueueThread } from '@services/threadService';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response, Router } from 'express';
-import { updateEducationalMaterialMetadata } from '../../controllers/educationalMaterial';
-import { getEducationalMaterialMetadata, setEducationalMaterialObsoleted } from '../../queries/apiQueries';
-import { checkAuthenticated, hasAccessToPublicatication } from '../../services/authService';
-import { runMessageQueueThread } from '../../services/threadService';
-import { winstonLogger } from '../../util/winstonLogger';
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.

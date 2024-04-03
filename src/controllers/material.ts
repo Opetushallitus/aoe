@@ -1,20 +1,20 @@
-import { Request, Response, NextFunction } from 'express';
-import { ErrorHandler } from './../helpers/errorHandler';
+import { ErrorHandler } from '@/helpers/errorHandler';
 import {
-  updateEducationalMaterial,
-  getUsers,
   changeEducationalMaterialUser,
-  getOwnerName,
   getMaterialName,
-} from './../queries/materialQueries';
-import { deleteDocument } from './../elasticSearch/esQueries';
-import { winstonLogger } from '../util/winstonLogger';
+  getOwnerName,
+  getUsers,
+  updateEducationalMaterial,
+} from '@query/materialQueries';
+import { deleteDocument } from '@search/esQueries';
+import winstonLogger from '@util/winstonLogger';
+import { NextFunction, Request, Response } from 'express';
+
 /**
- *
  * @param req
  * @param res
  * @param next
- * change educational material to obsoluted
+ * Change educational material to obsoluted
  */
 export async function removeEducationalMaterial(req: Request, res: Response, next: NextFunction) {
   try {
@@ -36,6 +36,7 @@ export async function removeEducationalMaterial(req: Request, res: Response, nex
     next(new ErrorHandler(500, 'Issue removing material' + error));
   }
 }
+
 /**
  *
  * @param req
@@ -52,6 +53,7 @@ export async function getAoeUsers(req: Request, res: Response, next: NextFunctio
     next(new ErrorHandler(500, 'Issue getting users'));
   }
 }
+
 /**
  *
  * @param req

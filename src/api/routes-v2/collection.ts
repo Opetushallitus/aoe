@@ -1,6 +1,6 @@
+import { uploadbase64Image } from '@query/thumbnailHandler';
+import { checkAuthenticated, hasAccessToCollectionParams } from '@services/authService';
 import { Router } from 'express';
-import { checkAuthenticated, hasAccessToCollectionParams } from '../../services/authService';
-import { uploadbase64Image } from '../../queries/thumbnailHandler';
 
 /**
  * API version 2.0 for requesting files and metadata related to stored educational material.

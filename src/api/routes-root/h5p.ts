@@ -1,5 +1,5 @@
+import { getH5PContent, play } from '@/h5p/h5p';
 import { Router } from 'express';
-import { getH5PContent, play } from '../../h5p/h5p';
 
 /**
  * Root level Open API for H5P interactive web materials.

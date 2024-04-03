@@ -1,10 +1,10 @@
 import { scheduleJob } from 'node-schedule';
-import { updateEsDocument } from '../elasticSearch/es';
-import { rmDir } from '../helpers/fileRemover';
-import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '../helpers/officeToPdfConverter';
-import { pidResolutionService } from '../services';
-import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '../services/mailService';
-import { winstonLogger } from './winstonLogger';
+import { updateEsDocument } from '@search/es';
+import { rmDir } from '@/helpers/fileRemover';
+import { scheduledConvertAndUpstreamOfficeFilesToCloudStorage } from '@/helpers/officeToPdfConverter';
+import pidResolutionService from '@services/pidResolutionService';
+import { sendExpirationMail, sendRatingNotificationMail, sendSystemNotification } from '@services/mailService';
+import winstonLogger from '@util/winstonLogger';
 
 // 1:00 AM (UTC): scheduled directory cleaning tasks.
 export const startScheduledCleaning = (): void => {

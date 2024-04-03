@@ -1,31 +1,32 @@
-import { getPopularityQuery } from '../queries/analyticsQueries';
-import { aoeThumbnailDownloadUrl } from '../services/urlService';
-import { collectionDataToEs, collectionFromEs, getCollectionDataToEs, getCollectionDataToUpdate } from './esCollection';
-import { ErrorHandler } from '../helpers/errorHandler';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { ISearchIndexMap } from '@aoe/search/es';
+import elasticsearch, { Client, ClientOptions } from '@elastic/elasticsearch';
+import { getPopularityQuery } from '@query/analyticsQueries';
+import { db } from '@resource/clientPostgres';
+import { aoeThumbnailDownloadUrl } from '@services/urlService';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
-import { AoeBody, AoeCollectionResult } from './esTypes';
-import { winstonLogger } from '../util/winstonLogger';
-import { db } from '../resources/pg-connect';
+import fs from 'fs';
 import * as pgLib from 'pg-promise';
+import { collectionDataToEs, collectionFromEs, getCollectionDataToEs, getCollectionDataToUpdate } from './esCollection';
+import { AoeBody, AoeCollectionResult } from './esTypes';
 
-const elasticsearch = require("@elastic/elasticsearch");
-const fs = require("fs");
-const index = process.env.ES_INDEX;
+const index: string = process.env.ES_INDEX;
 
 /**
  * Elastisearch client configuration
  */
-const client = new elasticsearch.Client({
+const client: Client = new elasticsearch.Client({
   node: process.env.ES_NODE,
-  log: "trace",
+  log: 'trace',
   keepAlive: true
-});
+} as ClientOptions);
 
 // values for index last update time
 export namespace Es {
-  export const ESupdated = { value: new Date() };
-  export const ESCounterUpdated = { value: new Date() };
-  export const CollectionEsUpdated = { value: new Date() };
+  export const ESupdated: { value: Date } = { value: new Date() };
+  export const ESCounterUpdated: { value: Date } = { value: new Date() };
+  export const CollectionEsUpdated: { value: Date } = { value: new Date() };
 }
 
 // Create a reusable transaction mode (serializable + read-only + deferrable):
@@ -39,7 +40,7 @@ export const createEsIndex = async (): Promise<any> => {
   client.ping({
     // ping usually has a 3000ms timeout
     // requestTimeout: 1000
-  }, async function (error: any) {
+  }, async function(error: any) {
     if (error) {
       winstonLogger.error('Elasticsearch cluster is down: ' + error);
     } else {
@@ -82,12 +83,11 @@ export const deleteIndex = async (index: string): Promise<boolean> => {
 };
 
 /**
- *
  * @param index
- * create a new index
+ * Create a new index
  */
-export async function createIndex(index: string) {
-  const b = client.indices.create({
+export const createIndex = async (index: string): Promise<any> => {
+  return client.indices.create({
     index: index
   }).then((data: any) => {
     return data.body;
@@ -95,8 +95,7 @@ export async function createIndex(index: string) {
     winstonLogger.error(error);
     return false;
   });
-  return b;
-}
+};
 
 /**
  * Verify that specific search engine index exists.
@@ -114,103 +113,98 @@ export const indexExists = async (index: string): Promise<boolean> => {
 };
 
 /**
- *
  * @param index
  * @param fileLocation
  * add mapping to index
  */
-export async function addMapping(index: string, fileLocation) {
+export const addMapping = async (index: string, fileLocation: string): Promise<{ status: string }> => {
   return new Promise(async (resolve, reject) => {
-    const rawdata = fs.readFileSync(fileLocation);
-    const data = JSON.parse(rawdata);
+    const rawdata: Buffer = fs.readFileSync(fileLocation);
+    const searchIndexMap: ISearchIndexMap = JSON.parse(rawdata.toString());
     client.indices.putMapping({
       index: index,
       // body: aoemapping
-      body: data.mappings
-    }, (err: any, resp: any) => {
+      body: searchIndexMap.mappings,
+    }, (err: any, _resp: any) => {
       if (err) {
         reject(new Error(err));
       } else {
         // winstonLogger.debug("ES mapping created: ", index, resp.body);
-        resolve({ "status": "success" });
+        resolve({ 'status': 'success' });
       }
     });
   });
-}
+};
 
 /**
- *
  * @param offset
  * @param limit
  * insert metadata
  */
 export async function metadataToEs(offset: number, limit: number) {
   return new Promise(async (resolve, reject) => {
-    const countquery = "select count(*) from educationalmaterial";
     db.tx({ mode }, async (t: any) => {
       const params: any = [];
       params.push(offset * limit);
       params.push(limit);
-      let query = "select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches" +
-        " from educationalmaterial as em where em.obsoleted = 0 and em.publishedat IS NOT NULL order by em.id asc OFFSET $1 LIMIT $2;";
+      let query = 'select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches' +
+                  ' from educationalmaterial as em where em.obsoleted = 0 and em.publishedat IS NOT NULL order by em.id asc OFFSET $1 LIMIT $2;';
       return t.map(query, params, async (q: any) => {
         const m: any = [];
-        t.map("select m.id, m.materiallanguagekey as language, link, version.priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted " +
-          "from (select materialid, publishedat, priority from versioncomposition where publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)) as version " +
-          "left join material m on m.id = version.materialid left join record r on m.id = r.materialid where m.educationalmaterialid = $1", [q.id], (q2: any) => {
-          t.any("select * from materialdisplayname where materialid = $1;", q2.id)
+        t.map('select m.id, m.materiallanguagekey as language, link, version.priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted ' +
+              'from (select materialid, publishedat, priority from versioncomposition where publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)) as version ' +
+              'left join material m on m.id = version.materialid left join record r on m.id = r.materialid where m.educationalmaterialid = $1', [q.id], (q2: any) => {
+          t.any('select * from materialdisplayname where materialid = $1;', q2.id)
             .then((data: any) => {
               q2.materialdisplayname = data;
               m.push(q2);
             });
           q.materials = m;
         });
-        query = "select * from materialname where educationalmaterialid = $1;";
-        const materialName = await t.any(query, q.id);
-        q.materialname = materialName;
-        query = "select * from materialdescription where educationalmaterialid = $1;";
-        const materialDescription = await t.any(query, q.id);
-        q.materialdescription = materialDescription;
+        query = 'select * from materialname where educationalmaterialid = $1;';
+        q.materialname = await t.any(query, q.id);
+        query = 'select * from materialdescription where educationalmaterialid = $1;';
+        q.materialdescription = await t.any(query, q.id);
 
-        query = "select * from educationalaudience where educationalmaterialid = $1;";
+        query = 'select * from educationalaudience where educationalmaterialid = $1;';
         let response = await t.any(query, [q.id]);
         q.educationalaudience = response;
 
-        query = "select * from learningresourcetype where educationalmaterialid = $1;";
+        query = 'select * from learningresourcetype where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.learningresourcetype = response;
 
-        query = "select * from accessibilityfeature where educationalmaterialid = $1;";
+        query = 'select * from accessibilityfeature where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.accessibilityfeature = response;
 
-        query = "select * from accessibilityhazard where educationalmaterialid = $1;";
+        query = 'select * from accessibilityhazard where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.accessibilityhazard = response;
 
-        query = "select * from keyword where educationalmaterialid = $1;";
+        query = 'select * from keyword where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.keyword = response;
 
-        query = "select * from educationallevel where educationalmaterialid = $1;";
+        query = 'select * from educationallevel where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.educationallevel = response;
 
-        query = "select * from educationaluse where educationalmaterialid = $1;";
+        query = 'select * from educationaluse where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.educationaluse = response;
 
-        query = "select * from publisher where educationalmaterialid = $1;";
+        query = 'select * from publisher where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.publisher = response;
 
-        query = "select * from author where educationalmaterialid = $1;";
+        query = 'select * from author where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.author = response;
 
-        query = "select * from isbasedon where educationalmaterialid = $1;";
+        query = 'select * from isbasedon where educationalmaterialid = $1;';
         response = await t.map(query, [q.id], (q2: any) => {
-          t.any("select * from isbasedonauthor where isbasedonid = $1;", q2.id)
+          t.any('select * from isbasedonauthor where isbasedonid = $1;', q2.id)
             .then((data: any) => {
               q2.author = data;
             });
@@ -218,28 +212,27 @@ export async function metadataToEs(offset: number, limit: number) {
         });
         q.isbasedon = response;
 
-        query = "select * from alignmentobject where educationalmaterialid = $1;";
+        query = 'select * from alignmentobject where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.alignmentobject = response;
 
-        query = "SELECT users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1;";
+        query = 'SELECT users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1;';
         response = await t.any(query, [q.id]);
         q.owner = response;
 
-        query = "select * from educationalaudience where educationalmaterialid = $1;";
+        query = 'select * from educationalaudience where educationalmaterialid = $1;';
         response = await t.any(query, [q.id]);
         q.educationalaudience = response;
 
-        query = "select * from thumbnail where educationalmaterialid = $1 and obsoleted = 0 limit 1;";
+        query = 'select * from thumbnail where educationalmaterialid = $1 and obsoleted = 0 limit 1;';
         response = await t.oneOrNone(query, [q.id]);
         if (response) {
           response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
         }
         q.thumbnail = response;
 
-        query = "select licensecode as key, license as value from educationalmaterial as m left join licensecode as l on m.licensecode = l.code WHERE m.id = $1;";
-        const responseObj = await t.oneOrNone(query, [q.id]);
-        q.license = responseObj;
+        query = 'select licensecode as key, license as value from educationalmaterial as m left join licensecode as l on m.licensecode = l.code WHERE m.id = $1;';
+        q.license = await t.oneOrNone(query, [q.id]);
         response = await t.oneOrNone(getPopularityQuery, [q.id]);
         if (response) {
           q.popularity = response.popularity;
@@ -295,7 +288,7 @@ export async function metadataToEs(offset: number, limit: number) {
 /**
  * Update search engine index after recent changes in information resources.
  * TODO: Complexity of the function must be refactored.
- * @param updateCounters? boolean
+ * @param updateCounters
  */
 export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
   return new Promise(async (resolve, reject) => {
@@ -304,88 +297,86 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       let query = '';
       if (updateCounters) {
         params.push(Es.ESCounterUpdated.value);
-        query = "SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, " +
-          "em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, " +
-          "em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, " +
-          "em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, " +
-          "em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches " +
-          "FROM educationalmaterial AS em " +
-          "WHERE counterupdatedat > $1 AND em.publishedat IS NOT NULL";
+        query = 'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
+                'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
+                'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
+                'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
+                'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
+                'FROM educationalmaterial AS em ' +
+                'WHERE counterupdatedat > $1 AND em.publishedat IS NOT NULL';
       } else {
         params.push(Es.ESupdated.value);
-        query = "SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, " +
-          "em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, " +
-          "em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, " +
-          "em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, " +
-          "em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches " +
-          "FROM educationalmaterial AS em " +
-          "WHERE updatedat > $1 AND em.publishedat IS NOT NULL";
+        query = 'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
+                'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
+                'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
+                'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
+                'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
+                'FROM educationalmaterial AS em ' +
+                'WHERE updatedat > $1 AND em.publishedat IS NOT NULL';
       }
       return t.map(query, params, async (q: any) => { // #2 async start
         const m: any = [];
-        t.map("SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, " +
-          "originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted " +
-          "FROM (select materialid, publishedat, priority " +
-          "FROM versioncomposition " +
-          "WHERE publishedat = " +
-          "(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version " +
-          "LEFT JOIN material m ON m.id = version.materialid " +
-          "LEFT JOIN record r ON m.id = r.materialid " +
-          "WHERE m.educationalmaterialid = $1", [q.id], (q2: any) => {
-            t.any("select * from materialdisplayname where materialid = $1;", q2.id).then((data: any) => {
+        t.map('SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
+              'originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted ' +
+              'FROM (select materialid, publishedat, priority ' +
+              'FROM versioncomposition ' +
+              'WHERE publishedat = ' +
+              '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
+              'LEFT JOIN material m ON m.id = version.materialid ' +
+              'LEFT JOIN record r ON m.id = r.materialid ' +
+              'WHERE m.educationalmaterialid = $1', [q.id], (q2: any) => {
+            t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
               q2.materialdisplayname = data;
               m.push(q2);
             });
             q.materials = m;
           }
         );
-        query = "SELECT * FROM materialname WHERE educationalmaterialid = $1";
-        const materialName = await t.any(query, q.id);
-        q.materialname = materialName;
+        query = 'SELECT * FROM materialname WHERE educationalmaterialid = $1';
+        q.materialname = await t.any(query, q.id);
 
-        query = "SELECT * FROM materialdescription WHERE educationalmaterialid = $1";
-        const materialDescription = await t.any(query, q.id);
-        q.materialdescription = materialDescription;
+        query = 'SELECT * FROM materialdescription WHERE educationalmaterialid = $1';
+        q.materialdescription = await t.any(query, q.id);
 
-        query = "SELECT * FROM educationalaudience WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
         let response = await t.any(query, [q.id]);
         q.educationalaudience = response;
 
-        query = "SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.learningresourcetype = response;
 
-        query = "SELECT * FROM accessibilityfeature WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM accessibilityfeature WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.accessibilityfeature = response;
 
-        query = "SELECT * FROM accessibilityhazard WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM accessibilityhazard WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.accessibilityhazard = response;
 
-        query = "SELECT * FROM keyword WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM keyword WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.keyword = response;
 
-        query = "SELECT * FROM educationallevel WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM educationallevel WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.educationallevel = response;
 
-        query = "SELECT * FROM educationaluse WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM educationaluse WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.educationaluse = response;
 
-        query = "SELECT * FROM publisher WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM publisher WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.publisher = response;
 
-        query = "SELECT * FROM author WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM author WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.author = response;
 
-        query = "SELECT * FROM isbasedon WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1';
         response = await t.map(query, [q.id], (q2: any) => {
-          t.any("SELECT * FROM isbasedonauthor WHERE isbasedonid = $1", q2.id)
+          t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id)
             .then((data: any) => {
               q2.author = data;
             });
@@ -399,34 +390,33 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
         // response = await t.any(query, [q.id]);
         // q.inlanguage = response;
 
-        query = "SELECT * FROM alignmentobject WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.alignmentobject = response;
 
-        query = "SELECT users.firstname, users.lastname " +
-          "FROM educationalmaterial " +
-          "INNER JOIN users ON educationalmaterial.usersusername = users.username " +
-          "WHERE educationalmaterial.id = $1";
+        query = 'SELECT users.firstname, users.lastname ' +
+                'FROM educationalmaterial ' +
+                'INNER JOIN users ON educationalmaterial.usersusername = users.username ' +
+                'WHERE educationalmaterial.id = $1';
         response = await t.any(query, [q.id]);
         q.owner = response;
 
-        query = "SELECT * FROM educationalaudience WHERE educationalmaterialid = $1";
+        query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
         q.educationalaudience = response;
 
-        query = "SELECT * FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0 LIMIT 1";
+        query = 'SELECT * FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0 LIMIT 1';
         response = await t.oneOrNone(query, [q.id]);
         if (response) {
           response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
         }
         q.thumbnail = response;
 
-        query = "SELECT licensecode AS key, license AS value " +
-          "FROM educationalmaterial AS m " +
-          "LEFT JOIN licensecode AS l ON m.licensecode = l.code " +
-          "WHERE m.id = $1";
-        const responseObj = await t.oneOrNone(query, [q.id]);
-        q.license = responseObj;
+        query = 'SELECT licensecode AS key, license AS value ' +
+                'FROM educationalmaterial AS m ' +
+                'LEFT JOIN licensecode AS l ON m.licensecode = l.code ' +
+                'WHERE m.id = $1';
+        q.license = await t.oneOrNone(query, [q.id]);
 
         response = await t.oneOrNone(getPopularityQuery, [q.id]);
         if (response) {
@@ -472,13 +462,13 @@ export async function createEsCollectionIndex() {
     const result: boolean = await indexExists(collectionIndex);
     // winstonLogger.debug("COLLECTION INDEX RESULT: " + result);
     if (result) {
-      const deleteResult = await deleteIndex(collectionIndex);
+      await deleteIndex(collectionIndex);
       // winstonLogger.debug("COLLECTION DELETE INDEX RESULT: " + JSON.stringify(deleteResult));
     }
     const createIndexResult = await createIndex(collectionIndex);
     // winstonLogger.debug("createIndexResult: " + JSON.stringify(createIndexResult));
     if (createIndexResult) {
-      const mappingResult = await addMapping(collectionIndex, process.env.ES_COLLECTION_MAPPING_FILE);
+      await addMapping(collectionIndex, process.env.ES_COLLECTION_MAPPING_FILE);
       // winstonLogger.debug("mappingResult: " + JSON.stringify(mappingResult));
       let i = 0;
       let dataToEs;
@@ -491,7 +481,7 @@ export async function createEsCollectionIndex() {
       Es.CollectionEsUpdated.value = new Date();
     }
   } catch (err) {
-    winstonLogger.debug("Error creating collection index");
+    winstonLogger.debug('Error creating collection index');
     winstonLogger.error(err);
   }
 }
@@ -501,9 +491,9 @@ export async function getCollectionEsData(req: Request, res: Response, next: Nex
     const responseBody: AoeBody<AoeCollectionResult> = await collectionFromEs(req.body);
     res.status(200).json(responseBody);
   } catch (err) {
-    winstonLogger.debug("elasticSearchQuery error");
+    winstonLogger.debug('elasticSearchQuery error');
     winstonLogger.error(err);
-    next(new ErrorHandler(500, "There was an issue prosessing your request"));
+    next(new ErrorHandler(500, 'There was an issue prosessing your request'));
   }
 }
 

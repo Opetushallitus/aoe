@@ -1,4 +1,4 @@
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 async function createMaterialObject(indata: any) {
   let obj: any = {};
@@ -75,6 +75,7 @@ async function createEducationalMaterialObject(indata: any) {
   obj[key].push(materialData);
   return obj;
 }
+
 function createMaterialNameObject(indata: any) {
   const obj: any = {};
   const key = 'MaterialName';

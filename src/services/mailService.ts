@@ -2,9 +2,9 @@ import { Request, Response, NextFunction } from 'express';
 import { sign, verify } from 'jsonwebtoken';
 import Mail from 'nodemailer/lib/mailer';
 import { createTransport, Transporter } from 'nodemailer';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
-import { db } from '../resources/pg-connect';
+import { db } from '@resource/clientPostgres';
 
 /**
  * Initialize Nodemailer Transporter
@@ -111,6 +111,7 @@ export async function sendRatingNotificationMail() {
     winstonLogger.debug('Error in sendRatingNotificationMail(): %o', error);
   }
 }
+
 export async function getExpiredMaterials() {
   const query =
     "select distinct email from educationalmaterial join users on educationalmaterial.usersusername = username where expires < NOW() + INTERVAL '2 days' and expires >= NOW() + INTERVAL '1 days';";
@@ -181,13 +182,13 @@ export async function verifyEmailToken(req: Request, res: Response, next: NextFu
 async function verificationEmailText(url) {
   const verificationEmailText = `<p>Hei</p>
 <p>olet syöttänyt sähköpostisi Avointen oppimateriaalien kirjaston Omat tiedot -sivulle.</p>
-<p><a href=${url}>Vahvista sähköpostiosoitteesi ilmoitusten vastaanottamiseksi klikkaamalla linkkiä</a></p>
+<p><a href='${url}'>Vahvista sähköpostiosoitteesi ilmoitusten vastaanottamiseksi klikkaamalla linkkiä</a></p>
 <p></p>
 <p>you have submitted your email at the My Account page at the Library of Open Educational Resources.</p>
-<p><a href=${url}>To receive notifications please verify your email by clicking here</a></p>
+<p><a href='${url}'>To receive notifications please verify your email by clicking here</a></p>
 <p></p>
 <p>du har angett din e-postadress på sidan Mitt konto i Biblioteket för öppna lärresurser.</p>
-<p><a href=${url}>Bekräfta din e-postadress för att få meddelanden genom att klicka på länken</a></p>
+<p><a href='${url}'>Bekräfta din e-postadress för att få meddelanden genom att klicka på länken</a></p>
 <p></p>
 <p>Jos linkki ei avaudu, kopioi se tästä:</p>
 ${url}

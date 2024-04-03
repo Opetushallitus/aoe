@@ -1,10 +1,10 @@
-import config from '../../config';
-import { parentPort, workerData } from 'worker_threads';
-import { winstonLogger } from '../../util/winstonLogger';
-import { kafkaProducer } from '../../resources/kafka-client';
-import { TypeSearchRequest } from '../dto/IMessageSearchRequest';
-// import { createHash } from 'crypto';
+import config from '@/config';
+import { TypeSearchRequest } from '@aoe/services/workers/workerSearch';
+import { kafkaProducer } from '@resource/clientKafka';
+import winstonLogger from '@util/winstonLogger';
 import moment from 'moment';
+import { parentPort, workerData } from 'worker_threads';
+// import { createHash } from 'crypto';
 
 const message: TypeSearchRequest = {
   // sessionId: createHash('md5').update(workerData.headers['cookie']).digest('hex') as string,

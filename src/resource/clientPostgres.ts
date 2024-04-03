@@ -3,7 +3,7 @@ import moment from 'moment';
 import pgPromise from 'pg-promise';
 import { IClient } from 'pg-promise/typescript/pg-subset';
 import { IConnected, IDatabase, IEventContext, IInitOptions, IMain } from 'pg-promise';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 const PG_HOST: string = process.env.PG_HOST || '';
 const PG_PORT: string = process.env.PG_PORT || '';
