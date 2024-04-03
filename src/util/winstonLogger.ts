@@ -1,4 +1,4 @@
-import winston, { format, Logform } from 'winston';
+import winston, { format, Logform, Logger } from 'winston';
 import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 
 // Custom logging levels
@@ -20,7 +20,7 @@ const consoleOptions: ConsoleTransportOptions = {
 };
 
 // Configuration for logging format and transports
-export const winstonLogger = winston.createLogger({
+const winstonLogger: Logger = winston.createLogger({
   exitOnError: false,
   format: format.combine(
     format.splat(), // Use also printf format with argument specifiers %d %s %o etc.

@@ -1,5 +1,5 @@
-import { winstonLogger } from '../util/winstonLogger';
-import { db } from '../resources/pg-connect';
+import winstonLogger from '@util/winstonLogger';
+import { db } from '@resource/clientPostgres';
 
 export async function updateEducationalMaterial(emid: string) {
   try {

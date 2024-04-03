@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { aoeFileDownloadUrl, aoePdfDownloadUrl, aoeThumbnailDownloadUrl } from './../services/urlService';
-import { winstonLogger } from '../util/winstonLogger';
-import { db } from '../resources/pg-connect';
+import winstonLogger from '@util/winstonLogger';
+import { db } from '@resource/clientPostgres';
 
 export async function getMaterialMetaData(req: Request, res: Response): Promise<any> {
   try {

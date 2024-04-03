@@ -1,8 +1,8 @@
+import { getEducationalMaterialMetadata } from '@query/apiQueries';
+import { downloadFile, downloadPreviewFile } from '@query/fileHandling';
+import { runMessageQueueThread } from '@services/threadService';
+import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response, Router } from 'express';
-import { downloadFile, downloadPreviewFile } from '../../queries/fileHandling';
-import { runMessageQueueThread } from '../../services/threadService';
-import { winstonLogger } from '../../util/winstonLogger';
-import { getEducationalMaterialMetadata } from '../../queries/apiQueries';
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.

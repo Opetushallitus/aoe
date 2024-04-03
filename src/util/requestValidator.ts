@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { body, header, validationResult } from 'express-validator';
-import { winstonLogger } from './winstonLogger';
-import { db } from '../resources/pg-connect';
+import winstonLogger from '@util/winstonLogger';
+import { db } from '@resource/clientPostgres';
 
 export const fileUploadRules = (): any[] => {
   return [

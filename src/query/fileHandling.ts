@@ -24,10 +24,10 @@ import {
 } from '../domain/aoeModels';
 import { ErrorHandler } from '../helpers/errorHandler';
 import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
-import { db, pgp } from '../resources/pg-connect';
+import { db, pgp } from '@resource/clientPostgres';
 import { hasAccesstoPublication } from '../services/authService';
 import { requestRedirected } from '../services/streamingService';
-import { winstonLogger } from '../util/winstonLogger';
+import winstonLogger from '@util/winstonLogger';
 
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
@@ -582,7 +582,7 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
 }
 
 export const insertDataToEducationalMaterialTable = async (req: Request, t: any): Promise<any> => {
-  const query: string = `
+  const query = `
     INSERT INTO educationalmaterial (usersusername)
     VALUES ($1)
     RETURNING id
@@ -1021,7 +1021,7 @@ export const insertDataToRecordTable = async (
  * @return {Promise<void>}
  */
 export const deleteDataFromTempRecordTable = async (filename: any, materialId: any): Promise<void> => {
-  const query: string = `
+  const query = `
     DELETE FROM temporaryrecord
     WHERE filename = $1 AND materialid = $2
   `;
@@ -1035,11 +1035,11 @@ export async function deleteDataToTempAttachmentTable(filename: any, materialId:
 
 /**
  * Upload a file from the local file system to the cloud object storage.
- *
- * @param filePath   string Path and file name in local file system
- * @param fileName
- * @param bucketName string Target bucket in object storage system
- * @param materialMeta
+ * @param {string} filePath
+ * @param {string} fileName
+ * @param {string} bucketName
+ * @param {Material} materialMeta
+ * @return {Promise<ManagedUpload.SendData>}
  */
 export const uploadFileToStorage = (
   filePath: string,
@@ -1406,12 +1406,12 @@ export const downloadAllMaterialsCompressed = async (
   next: NextFunction,
 ): Promise<void> => {
   // Queries to resolve files of the latest educational material version requested.
-  const queryLatestPublished: string = `
+  const queryLatestPublished = `
     SELECT MAX(publishedat) AS max
     FROM versioncomposition
     WHERE educationalmaterialid = $1
   `;
-  const queryVersionFilesIds: string = `
+  const queryVersionFilesIds = `
     SELECT r.filekey, r.originalfilename
     FROM versioncomposition vc
     RIGHT JOIN material m ON m.id = vc.materialid

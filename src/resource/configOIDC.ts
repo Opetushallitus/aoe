@@ -1,13 +1,13 @@
 import ah from '../services/authService';
 import connectRedis from 'connect-redis';
-import config from '../config';
+import config from '@/config';
 import { CookieOptions, Express, NextFunction, Request, Response } from 'express';
 import session, { Cookie } from 'express-session';
 import openidClient, { custom, HttpOptions } from 'openid-client';
 import passport from 'passport';
-import redisClient from './redis-client';
-import { isLoginEnabled } from '../services/routeEnablerService';
-import { winstonLogger } from '../util/winstonLogger';
+import clientRedis from './clientRedis';
+import { isLoginEnabled } from '@services/routeEnablerService';
+import winstonLogger from '@util/winstonLogger';
 // import uuid from 'uuid/v4';
 
 const Issuer = openidClient.Issuer;
@@ -136,7 +136,7 @@ export const sessionInit = (app: Express): void => {
       //     winstonLogger.debug('UUID: %s', id);
       //     return id; // use UUIDs for session IDs
       // },
-      store: new RedisStore({ client: redisClient }), // disableTTL: true
+      store: new RedisStore({ client: clientRedis }), // disableTTL: true
       resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
       rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
       saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,

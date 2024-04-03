@@ -1,7 +1,7 @@
-import { Collection } from './../collection/collection';
+import { Collection } from '@/collection/collection';
 import { aoeThumbnailDownloadUrl, aoeCollectionThumbnailDownloadUrl } from './../services/urlService';
-import { winstonLogger } from '../util/winstonLogger';
-import { db, pgp } from '../resources/pg-connect';
+import winstonLogger from '@util/winstonLogger';
+import { db, pgp } from '@resource/clientPostgres';
 
 /**
  *
@@ -31,6 +31,7 @@ export async function insertCollection(username: string, collection: Collection)
     throw new Error(err);
   }
 }
+
 /**
  *
  * @param collection
@@ -50,6 +51,7 @@ export async function insertEducationalMaterialToCollection(collection: Collecti
     throw new Error(err);
   }
 }
+
 /**
  *
  * @param collection
@@ -66,6 +68,7 @@ export async function deleteEducationalMaterialFromCollection(collection: Collec
     throw new Error(err);
   }
 }
+
 /**
  *
  * @param username
@@ -96,6 +99,7 @@ export async function userCollections(username: string) {
     throw new Error(err);
   }
 }
+
 /**
  *
  * @param collectionId
@@ -229,6 +233,7 @@ export async function collectionQuery(collectionId: string, username?: string) {
     throw new Error(err);
   }
 }
+
 /**
  *
  * @param collection
@@ -383,6 +388,7 @@ export async function insertCollectionMetadata(collection: Collection) {
     throw new Error(err);
   }
 }
+
 export async function recentCollectionQuery() {
   try {
     const data = await db.task(async (t: any) => {

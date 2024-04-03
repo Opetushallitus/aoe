@@ -1,5 +1,5 @@
+import { elasticSearchQuery } from '@search/esQueries';
 import { Router } from 'express';
-import { elasticSearchQuery } from '../../elasticSearch/esQueries';
 
 /**
  * API version 1.0 for requesting files and metadata related to stored educational material.

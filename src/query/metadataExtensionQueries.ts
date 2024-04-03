@@ -1,6 +1,6 @@
 import { MetadataExtension } from './../metadataExtension/metadataExtension';
-import { winstonLogger } from '../util/winstonLogger';
-import { db } from '../resources/pg-connect';
+import winstonLogger from '@util/winstonLogger';
+import { db } from '@resource/clientPostgres';
 
 export async function insertMetadataExtension(id: string, username: string, metadata: MetadataExtension) {
   try {
