@@ -31,7 +31,7 @@
     "start": "npm run serve",
     "build": "npm run build-ts && npm run lint",
     "build-ts": "npx tsc && tsc-alias",
-    "lint": "eslint src/**/*.ts",
+    "lint": "npx eslint src/**/*.{json,ts} test/**/*.{json,ts}",
     "serve": "node dist/server.js",
     "watch-node": "nodemon",
     "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\"",
