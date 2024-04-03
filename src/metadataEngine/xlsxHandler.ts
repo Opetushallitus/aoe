@@ -1,12 +1,10 @@
 // handling and validating xlsx file
-import { Request, Response } from 'express';
+import apiQ from '@query/apiQueries';
 import winstonLogger from '@util/winstonLogger';
-
-const csv = require('fast-csv');
-const xlsx = require('xlsx');
-const apiQ = require('@/src/query/apiQueries');
-const mapper = require('./dataMapping');
-const multer = require('multer');
+import { Request, Response } from 'express';
+import multer from 'multer';
+import xlsx, { ParsingOptions } from 'xlsx';
+import mapper from './dataMapping';
 
 const fileFilter = (req: any, file: any, cb: any) => {
   if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
@@ -212,7 +210,7 @@ async function uploadXlsx(req: Request, res: Response) {
             if ((<any>req).file === undefined) {
               return res.status(400).send('Xlsx file expected. Max file size: ' + maxFileSize / 1024 / 1024 + 'MB');
             }
-            const options = { type: 'string' };
+            const options: ParsingOptions = { type: 'string' };
             const wb = xlsx.readFile((<any>req).file.path, options);
             const sheetNameList = wb.SheetNames;
             const data = xlsx.utils.sheet_to_json(wb.Sheets['metadata']);

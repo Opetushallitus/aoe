@@ -1,4 +1,18 @@
+import {
+  EducationalMaterial,
+  Material,
+  MaterialDisplayName,
+  Record,
+  sequelize,
+  TemporaryRecord,
+} from '@/domain/aoeModels';
+import { ErrorHandler } from '@/helpers/errorHandler';
+import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '@/helpers/officeToPdfConverter';
 import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+import { db, pgp } from '@resource/clientPostgres';
+import { hasAccesstoPublication } from '@services/authService';
+import { requestRedirected } from '@services/streamingService';
+import winstonLogger from '@util/winstonLogger';
 import ADMzip from 'adm-zip';
 import { EntryData } from 'archiver';
 import AWS, { S3 } from 'aws-sdk';
@@ -13,22 +27,7 @@ import { ColumnSet } from 'pg-promise';
 import s3Zip, { ArchiveOptions } from 's3-zip';
 import { Error, Transaction } from 'sequelize';
 import stream, { PassThrough } from 'stream';
-import config from '../config';
-import {
-  EducationalMaterial,
-  Material,
-  MaterialDisplayName,
-  Record,
-  sequelize,
-  TemporaryRecord,
-} from '../domain/aoeModels';
-import { ErrorHandler } from '../helpers/errorHandler';
-import { downstreamAndConvertOfficeFileToPDF, isOfficeMimeType, updatePdfKey } from '../helpers/officeToPdfConverter';
-import { db, pgp } from '@resource/clientPostgres';
-import { hasAccesstoPublication } from '../services/authService';
-import { requestRedirected } from '../services/streamingService';
-import winstonLogger from '@util/winstonLogger';
-
+import config from '@/config';
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
 import MulterFile = Express.Multer.File;

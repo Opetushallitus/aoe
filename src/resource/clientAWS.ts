@@ -1,6 +1,6 @@
 import AWS, { S3 } from 'aws-sdk';
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
-import config from '../config';
+import config from '@/config';
 
 /**
  * AWS S3 cloud storage configuration.
