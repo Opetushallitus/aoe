@@ -2,9 +2,8 @@
 // const server = require('./../src/server');
 // const app = require('./../src/app');
 
-
 // describe("POST /xlsx", function () {
-//     it("First file", function (done) {   
+//     it("First file", function (done) {
 //         this.timeout(10000);
 //         request(app)
 //             .post("/uploadXlsx")
@@ -14,18 +13,17 @@
 //             .expect(500, done);
 //     });
 // });
-describe('First test', function() {
-    it('test1', function()  {
-        let result = 'aa';
-        expect(result).toBe('aa');
-    });
-    // it('test2', function() {
-    //     let result = 'aa';
-    //     // expect(result).to.equal('a');
-    //     expect(result).toBe('a');
-    // });
+describe('First test', function () {
+  it('test1', function () {
+    let result = 'aa';
+    expect(result).toBe('aa');
+  });
+  // it('test2', function() {
+  //     let result = 'aa';
+  //     // expect(result).to.equal('a');
+  //     expect(result).toBe('a');
+  // });
 });
-
 
 //     });
 // }
