@@ -35,10 +35,10 @@ process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
 
 if (process.env.TEST_RUN === 'true') {
   process.env.PG_USER || missingEnvs.push('POSTGRES_USER');
-  process.env.PG_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD');
+  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD');
 } else {
   process.env.PG_USER || missingEnvs.push('POSTGRES_USER_SECONDARY');
-  process.env.PG_PASSWORD || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
+  process.env.PG_PASS || missingEnvs.push('POSTGRES_PASSWORD_SECONDARY');
 }
 
 if (missingEnvs.length > 0) {
@@ -87,7 +87,7 @@ export default {
     host: process.env.POSTGRESQL_HOST as string,
     port: process.env.POSTGRESQL_PORT as string,
     user: process.env.PG_USER as string,
-    pass: process.env.PG_PASSWORD as string,
+    pass: process.env.PG_PASS as string,
     data: process.env.POSTGRESQL_DATA as string,
   } as const,
 
