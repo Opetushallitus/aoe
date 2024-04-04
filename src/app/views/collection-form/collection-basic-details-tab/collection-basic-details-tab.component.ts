@@ -51,15 +51,16 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
   imageChangedEvent: any = '';
   croppedImage: string;
   thumbnailSrc: string;
+  serviceName: string;
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
     private koodistoService: KoodistoService,
-    private modalSvc: BsModalService,
-    private collectionSvc: CollectionService,
+    private modalService: BsModalService,
+    private collectionService: CollectionService,
   ) {}
 
   ngOnInit(): void {
@@ -158,9 +159,14 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    * Updates page title.
    */
   setTitle(): void {
-    this.translate.get('titles.collection').subscribe((translations: any) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.collection.main', 'titles.collection.basic'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(
+          `${translations['titles.collection.main']}: ${translations['titles.collection.basic']} - ${this.serviceName}`,
+        );
+      });
   }
 
   get nameCtrl(): FormControl {
@@ -176,7 +182,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    * @param {TemplateRef<any>} template
    */
   openThumbnailModal(template: TemplateRef<any>): void {
-    this.thumbnailModalRef = this.modalSvc.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
+    this.thumbnailModalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-dialog-centered' }));
   }
 
   imageChange(event: Event): void {
@@ -196,7 +202,7 @@ export class CollectionBasicDetailsTabComponent implements OnInit, OnDestroy {
    */
   uploadImage(): void {
     if (this.croppedImage) {
-      this.collectionSvc.uploadImage(this.croppedImage, this.collectionId).subscribe(
+      this.collectionService.uploadImage(this.croppedImage, this.collectionId).subscribe(
         (res: UploadMessage) => {
           this.uploadResponse = res;
         },

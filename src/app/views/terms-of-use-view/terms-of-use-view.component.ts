@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-terms-of-use-view',
   templateUrl: './terms-of-use-view.component.html',
 })
 export class TermsOfUseViewComponent implements OnInit {
-  constructor(private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private translate: TranslateService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -19,8 +18,10 @@ export class TermsOfUseViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.termsOfUse').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.termsOfUse'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.termsOfUse']} - ${translations['common.serviceName']}`);
+      });
   }
 }

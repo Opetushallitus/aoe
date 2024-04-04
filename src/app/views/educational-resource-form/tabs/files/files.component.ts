@@ -13,7 +13,6 @@ import { AuthService } from '@services/auth.service';
 import { UploadMessage } from '@models/upload-message';
 import { Language } from '@models/koodisto/language';
 import { UploadedFile } from '@models/uploaded-file';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { SubtitleKind } from '@models/material/subtitle';
 import { mimeTypes } from '@constants/mimetypes';
 import { validatorParams } from '@constants/validator-params';
@@ -127,12 +126,19 @@ export class FilesComponent implements OnInit, OnDestroy {
   }
 
   setLabels(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs): void => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
-    });
     this.translate
-      .get(['forms.common.uploadActive', 'forms.common.uploadError', 'forms.common.uploadEncrypted'])
-      .subscribe((translations): void => {
+      .get([
+        'forms.common.uploadActive',
+        'forms.common.uploadError',
+        'forms.common.uploadEncrypted',
+        'titles.addMaterial.main',
+        'titles.addMaterial.files',
+        'common.serviceName',
+      ])
+      .subscribe((translations: { [key: string]: string }): void => {
+        this.titleSvc.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.files']} - ${translations['common.serviceName']}`,
+        );
         this.uploadActiveText = translations['forms.common.uploadActive'];
         this.uploadErrorText = translations['forms.common.uploadError'];
         this.uploadEncryptedText = translations['forms.common.uploadEncrypted'];

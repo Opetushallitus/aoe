@@ -12,7 +12,6 @@ import { MaterialService } from '@services/material.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
 import { Subtitle } from '@models/subtitle';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { ignored2019Subjects, ignoredSubjects } from '@constants/ignored-subjects';
 
@@ -78,7 +77,7 @@ export class PreviewComponent implements OnInit, OnDestroy {
     private router: Router,
     private materialService: MaterialService,
     private translate: TranslateService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -304,9 +303,13 @@ export class PreviewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.preview'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.preview']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   drop(event: CdkDragDrop<UploadedFile[]>): void {

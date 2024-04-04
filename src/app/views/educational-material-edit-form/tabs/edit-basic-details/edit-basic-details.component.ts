@@ -7,14 +7,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
 import { UploadMessage } from '@models/upload-message';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Author } from '@models/material/author';
 import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
@@ -61,7 +59,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
     private koodistoSvc: KoodistoService,
     private router: Router,
     private materialSvc: MaterialService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -163,9 +161,13 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.basic'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.basic']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   /**

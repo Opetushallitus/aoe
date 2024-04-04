@@ -4,11 +4,9 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../../../environments/environment';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AttachmentDetail, EducationalMaterialPut, Material } from '@models/educational-material-put';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { ignoredSubjects } from '@constants/ignored-subjects';
 import { MaterialService } from '@services/material.service';
 
@@ -32,7 +30,7 @@ export class EditPreviewComponent implements OnInit {
     private translate: TranslateService,
     private materialService: MaterialService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -115,9 +113,13 @@ export class EditPreviewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.preview'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.preview']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   /**

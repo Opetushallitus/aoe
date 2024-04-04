@@ -5,8 +5,9 @@ import { Observable, Subscription } from 'rxjs';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Toast } from '@models/translations/toast';
+import { KoodistoService } from '@services/koodisto.service';
 import {
   EditBasedOnDetailsComponent,
   EditBasicDetailsComponent,
@@ -38,6 +39,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   subscriptionTranslateAbort: Subscription;
   subscriptionTranslatePermission: Subscription;
   subscriptionUpdateUploadedFiles: Subscription;
+  subscriptionLanguageChange: Subscription;
 
   @ViewChild(EditFilesComponent) filesTab: EditFilesComponent;
   @ViewChild(EditBasicDetailsComponent) basicTab: EditBasicDetailsComponent;
@@ -48,15 +50,17 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
   @ViewChild(EditPreviewComponent) previewTab: EditPreviewComponent;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    private koodistoService: KoodistoService,
     private materialService: MaterialService,
     private modalService: BsModalService,
+    private route: ActivatedRoute,
+    private router: Router,
     private translate: TranslateService,
     private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
+    this.koodistoService.updateLicenses().subscribe();
     const educationalMaterialID: string = this.route.snapshot.paramMap.get('materialId');
     this.educationalMaterialID = +educationalMaterialID;
     this.materialService.setEducationalMaterialID(educationalMaterialID);
@@ -96,6 +100,9 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
         void this.router.navigate(['/muokkaa-oppimateriaalia', educationalMaterialID, 1]);
       }
     });
+    this.subscriptionLanguageChange = this.translate.onLangChange.subscribe((event: LangChangeEvent): void => {
+      this.koodistoService.updateLicenses(event.lang).subscribe();
+    });
   }
 
   ngOnDestroy(): void {
@@ -105,6 +112,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.subscriptionTranslateAbort.unsubscribe();
     this.subscriptionTranslatePermission.unsubscribe();
     this.subscriptionUpdateUploadedFiles.unsubscribe();
+    this.subscriptionLanguageChange.unsubscribe();
   }
 
   /**

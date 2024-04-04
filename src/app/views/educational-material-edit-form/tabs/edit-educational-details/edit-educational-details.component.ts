@@ -4,7 +4,6 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import {
   addEarlyChildhoodEducationObjective,
   addEarlyChildhoodEducationSubject,
@@ -23,7 +22,6 @@ import { validatorParams } from '@constants/validator-params';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { EducationalLevel } from '@models/koodisto/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { MaterialService } from '@services/material.service';
 
 @Component({
@@ -102,7 +100,7 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private koodistoService: KoodistoService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -376,9 +374,13 @@ export class EditEducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.education'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.education']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get educationalLevelsCtrl(): FormControl {

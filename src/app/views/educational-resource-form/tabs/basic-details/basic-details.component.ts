@@ -16,7 +16,6 @@ import { UploadMessage } from '@models/upload-message';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Author } from '@models/material/author';
 import { validatorParams } from '@constants/validator-params';
 
@@ -61,8 +60,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private fb: FormBuilder,
     private router: Router,
-    private materialSvc: MaterialService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -194,9 +192,13 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.basic} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.basic'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.basic']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   fileChangeEvent(event: Event): void {
@@ -277,7 +279,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
   uploadImage(): void {
     if (this.croppedImage.base64) {
       // note: throws TypeError if material upload to backend hasn't been initialized
-      this.materialSvc.uploadImage(this.croppedImage.base64).subscribe(
+      this.materialService.uploadImage(this.croppedImage.base64).subscribe(
         (res: UploadMessage) => {
           this.uploadResponse = res;
           this.thumbnailSrc = this.croppedImage.base64;

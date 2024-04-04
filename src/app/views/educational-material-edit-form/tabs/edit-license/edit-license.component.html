@@ -52,35 +52,37 @@
 
   <h3>{{ "forms.educationalResource.license.subtitle" | translate }}</h3>
 
-  <div class="form-group" *ngFor="let license of licenses; let i = index">
-    <div class="custom-control custom-radio">
-      <input
-        type="radio"
-        [id]="license.key"
-        formControlName="license"
-        [value]="license.key"
-        class="custom-control-input" />
+  <ng-container *ngIf="(licenses$ | async) as licenses">
+    <div class="form-group" *ngFor="let license of licenses; let i = index">
+      <div class="custom-control custom-radio">
+        <input
+          type="radio"
+          [id]="license.key"
+          formControlName="license"
+          [value]="license.key"
+          class="custom-control-input" />
 
-      <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
+        <label class="custom-control-label" [for]="license.key">{{ license.value }}</label>
 
-      <button
-        type="button"
-        class="btn btn-sm btn-gray ml-2"
-        (click)="license.isCollapsed = !license.isCollapsed"
-        [attr.aria-expanded]="!license.isCollapsed"
-        [attr.aria-controls]="'collapseBasic' + i">
-        {{ "forms.educationalResource.license.showDetails" | translate }}
-      </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-gray ml-2"
+          (click)="license.isCollapsed = !license.isCollapsed"
+          [attr.aria-expanded]="!license.isCollapsed"
+          [attr.aria-controls]="'collapseBasic' + i">
+          {{ "forms.educationalResource.license.showDetails" | translate }}
+        </button>
+      </div>
+
+      <div [id]="'collapseBasic' + i" [collapse]="license.isCollapsed" [isAnimated]="true">
+        <p>{{ license.description }}</p>
+
+        <a [href]="license.link" target="_blank" rel="noopener nofollow">
+          {{ "forms.educationalResource.license.readMore" | translate }}
+        </a>
+      </div>
     </div>
-
-    <div [id]="'collapseBasic' + i" [collapse]="license.isCollapsed" [isAnimated]="true">
-      <p>{{ license.description }}</p>
-
-      <a [href]="license.link" target="_blank" rel="noopener nofollow">
-        {{ "forms.educationalResource.license.readMore" | translate }}
-      </a>
-    </div>
-  </div>
+  </ng-container>
 
   <div class="row">
     <div class="col">

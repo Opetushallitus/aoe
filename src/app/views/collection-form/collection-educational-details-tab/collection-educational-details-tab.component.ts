@@ -35,6 +35,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   @Input() tabId: number;
   @Output() abortForm = new EventEmitter();
   form: FormGroup;
+  serviceName: string;
   submitted = false;
   educationalLevelSubscription: Subscription;
   educationalLevels: EducationalLevel[];
@@ -93,8 +94,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     private fb: FormBuilder,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
-    private koodistoSvc: KoodistoService,
+    private titleService: Title,
+    private koodistoService: KoodistoService,
   ) {}
 
   ngOnInit(): void {
@@ -103,12 +104,12 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.translate.onLangChange.subscribe((_event: LangChangeEvent) => {
       this.setTitle();
 
-      this.koodistoSvc.updateEducationalLevels();
-      this.koodistoSvc.updateBasicStudySubjects();
-      this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
-      this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
-      this.koodistoSvc.updateVocationalDegrees();
-      this.koodistoSvc.updateScienceBranches();
+      this.koodistoService.updateEducationalLevels();
+      this.koodistoService.updateBasicStudySubjects();
+      this.koodistoService.updateUpperSecondarySchoolSubjectsOld();
+      this.koodistoService.updateUpperSecondarySchoolSubjectsNew();
+      this.koodistoService.updateVocationalDegrees();
+      this.koodistoService.updateScienceBranches();
     });
 
     this.form = this.fb.group({
@@ -174,48 +175,50 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // educational levels
-    this.educationalLevelSubscription = this.koodistoSvc.educationalLevels$.subscribe((levels: EducationalLevel[]) => {
-      this.educationalLevels = levels;
-    });
-    this.koodistoSvc.updateEducationalLevels();
+    this.educationalLevelSubscription = this.koodistoService.educationalLevels$.subscribe(
+      (levels: EducationalLevel[]) => {
+        this.educationalLevels = levels;
+      },
+    );
+    this.koodistoService.updateEducationalLevels();
 
     if (this.educationalLevelsCtrl.value.length > 0) {
       this.educationalLevelsChange(this.educationalLevelsCtrl.value);
     }
 
     // basic study subjects
-    this.basicStudySubjectSubscription = this.koodistoSvc.basicStudySubjects$.subscribe(
+    this.basicStudySubjectSubscription = this.koodistoService.basicStudySubjects$.subscribe(
       (subjects: AlignmentObjectExtended[]) => {
         this.basicStudySubjects = subjects;
       },
     );
-    this.koodistoSvc.updateBasicStudySubjects();
+    this.koodistoService.updateBasicStudySubjects();
 
     if (this.basicStudySubjectsCtrl.value.length > 0) {
       this.basicStudySubjectsChange(this.basicStudySubjectsCtrl.value);
     }
 
     // basic study objectives
-    this.basicStudyObjectiveSubscription = this.koodistoSvc.basicStudyObjectives$.subscribe(
+    this.basicStudyObjectiveSubscription = this.koodistoService.basicStudyObjectives$.subscribe(
       (objectives: AlignmentObjectExtended[]) => {
         this.basicStudyObjectives = objectives;
       },
     );
 
     // basic study contents
-    this.basicStudyContentSubscription = this.koodistoSvc.basicStudyContents$.subscribe(
+    this.basicStudyContentSubscription = this.koodistoService.basicStudyContents$.subscribe(
       (contents: AlignmentObjectExtended[]) => {
         this.basicStudyContents = contents;
       },
     );
 
     // upper secondary school subjects (old)
-    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsOld$.subscribe(
+    this.upperSecondarySchoolSubjectOldSubscription = this.koodistoService.upperSecondarySchoolSubjectsOld$.subscribe(
       (subjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjectsOld = subjects;
       },
     );
-    this.koodistoSvc.updateUpperSecondarySchoolSubjectsOld();
+    this.koodistoService.updateUpperSecondarySchoolSubjectsOld();
 
     if (
       this.upperSecondarySchoolSubjectsOldCtrl.value?.length > 0 ||
@@ -228,19 +231,19 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.upperSecondarySchoolSubjectsOldChange(this.upperSecondarySchoolSubjectsOldCtrl.value);
     }
 
-    this.upperSecondarySchoolCourseOldSubscription = this.koodistoSvc.upperSecondarySchoolCoursesOld$.subscribe(
+    this.upperSecondarySchoolCourseOldSubscription = this.koodistoService.upperSecondarySchoolCoursesOld$.subscribe(
       (courses: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolCoursesOld = courses;
       },
     );
 
     // upper secondary school subjects (new)
-    this.upperSecondarySchoolSubjectNewSubscription = this.koodistoSvc.upperSecondarySchoolSubjectsNew$.subscribe(
+    this.upperSecondarySchoolSubjectNewSubscription = this.koodistoService.upperSecondarySchoolSubjectsNew$.subscribe(
       (subjects: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolSubjectsNew = subjects;
       },
     );
-    this.koodistoSvc.updateUpperSecondarySchoolSubjectsNew();
+    this.koodistoService.updateUpperSecondarySchoolSubjectsNew();
 
     if (this.upperSecondarySchoolSubjectsNewCtrl.value.length > 0) {
       this.newUpperSecondarySchoolSelected.setValue(true);
@@ -248,7 +251,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // upper secondary school modules (new)
-    this.upperSecondarySchoolModuleNewSubscription = this.koodistoSvc.upperSecondarySchoolModulesNew$.subscribe(
+    this.upperSecondarySchoolModuleNewSubscription = this.koodistoService.upperSecondarySchoolModulesNew$.subscribe(
       (modules: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolModulesNew = modules;
       },
@@ -259,33 +262,32 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // upper secondary school objectives (new)
-    this.upperSecondarySchoolObjectiveNewSubscription = this.koodistoSvc.upperSecondarySchoolObjectivesNew$.subscribe(
-      (objectives: AlignmentObjectExtended[]) => {
+    this.upperSecondarySchoolObjectiveNewSubscription =
+      this.koodistoService.upperSecondarySchoolObjectivesNew$.subscribe((objectives: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolObjectivesNew = objectives;
-      },
-    );
+      });
 
     // upper secondary school contents (new)
-    this.upperSecondarySchoolContentNewSubscription = this.koodistoSvc.upperSecondarySchoolContentsNew$.subscribe(
+    this.upperSecondarySchoolContentNewSubscription = this.koodistoService.upperSecondarySchoolContentsNew$.subscribe(
       (contents: AlignmentObjectExtended[]) => {
         this.upperSecondarySchoolContentsNew = contents;
       },
     );
 
     // vocational degrees
-    this.vocationalDegreeSubscription = this.koodistoSvc.vocationalDegrees$.subscribe(
+    this.vocationalDegreeSubscription = this.koodistoService.vocationalDegrees$.subscribe(
       (degrees: AlignmentObjectExtended[]) => {
         this.vocationalDegrees = degrees;
       },
     );
-    this.koodistoSvc.updateVocationalDegrees();
+    this.koodistoService.updateVocationalDegrees();
 
     if (this.vocationalDegreesCtrl.value?.length > 0) {
       this.vocationalDegreesChange(this.vocationalDegreesCtrl.value);
     }
 
     // vocational units
-    this.vocationalUnitSubscription = this.koodistoSvc.vocationalUnits$.subscribe(
+    this.vocationalUnitSubscription = this.koodistoService.vocationalUnits$.subscribe(
       (units: AlignmentObjectExtended[]) => {
         this.vocationalUnits = units;
       },
@@ -296,27 +298,27 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     }
 
     // vocational common units
-    this.subjectOfCommonUnitSubscription = this.koodistoSvc.vocationalCommonUnits$.subscribe(
+    this.subjectOfCommonUnitSubscription = this.koodistoService.vocationalCommonUnits$.subscribe(
       (units: AlignmentObjectExtended[]) => {
         this.subjectOfCommonUnit = units;
       },
     );
-    this.koodistoSvc.updateVocationalCommonUnits();
+    this.koodistoService.updateVocationalCommonUnits();
 
     // vocational requirements
-    this.vocationalRequirementSubscription = this.koodistoSvc.vocationalRequirements$.subscribe(
+    this.vocationalRequirementSubscription = this.koodistoService.vocationalRequirements$.subscribe(
       (requirements: AlignmentObjectExtended[]) => {
         this.vocationalRequirements = requirements;
       },
     );
 
     // science branches
-    this.scienceBranchSubscription = this.koodistoSvc.scienceBranches$.subscribe(
+    this.scienceBranchSubscription = this.koodistoService.scienceBranches$.subscribe(
       (branches: AlignmentObjectExtended[]) => {
         this.scienceBranches = branches;
       },
     );
-    this.koodistoSvc.updateScienceBranches();
+    this.koodistoService.updateScienceBranches();
   }
 
   ngOnDestroy(): void {
@@ -345,9 +347,14 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
    * Updates page title.
    */
   setTitle(): void {
-    this.translate.get('titles.collection').subscribe((translations: any) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.educational} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.collection.main', 'titles.collection.educational'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(
+          `${translations['titles.collection.main']}: ${translations['titles.collection.educational']} - ${this.serviceName}`,
+        );
+      });
   }
 
   /** @getters */
@@ -469,8 +476,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasBasicStudySubjects) {
       const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
 
-      this.koodistoSvc.updateBasicStudyObjectives(ids);
-      this.koodistoSvc.updateBasicStudyContents(ids);
+      this.koodistoService.updateBasicStudyObjectives(ids);
+      this.koodistoService.updateBasicStudyContents(ids);
     }
   }
 
@@ -485,7 +492,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasUpperSecondarySchoolSubjectsOld) {
       const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
 
-      this.koodistoSvc.updateUpperSecondarySchoolCoursesOld(ids);
+      this.koodistoService.updateUpperSecondarySchoolCoursesOld(ids);
     }
   }
 
@@ -500,7 +507,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasUpperSecondarySchoolSubjectsNew) {
       const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
 
-      this.koodistoSvc.updateUpperSecondarySchoolModulesNew(ids);
+      this.koodistoService.updateUpperSecondarySchoolModulesNew(ids);
     }
   }
 
@@ -515,8 +522,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasUpperSecondarySchoolModulesNew) {
       const ids = value.map((subject: AlignmentObjectExtended) => subject.key).join(',');
 
-      this.koodistoSvc.updateUpperSecondarySchoolObjectivesNew(ids);
-      this.koodistoSvc.updateUpperSecondarySchoolContentsNew(ids);
+      this.koodistoService.updateUpperSecondarySchoolObjectivesNew(ids);
+      this.koodistoService.updateUpperSecondarySchoolContentsNew(ids);
     }
   }
 
@@ -531,7 +538,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasVocationalDegrees) {
       const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
 
-      this.koodistoSvc.updateVocationalUnits(ids);
+      this.koodistoService.updateVocationalUnits(ids);
     }
   }
 
@@ -546,7 +553,7 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     if (this.hasVocationalUnits) {
       const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
 
-      this.koodistoSvc.updateVocationalRequirements(ids);
+      this.koodistoService.updateVocationalRequirements(ids);
     }
   }
 

@@ -14,8 +14,9 @@ import { CollectionSearchResults } from '@models/search/collection-search-result
 export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   resultSubscription: Subscription;
   results: CollectionSearchResults;
+  serviceName: string;
 
-  constructor(private searchSvc: SearchService, private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private searchSvc: SearchService, private translate: TranslateService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -35,8 +36,11 @@ export class CollectionSearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.searchResults'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(`${translations['titles.searchResults']} - ${this.serviceName}`);
+      });
   }
 }

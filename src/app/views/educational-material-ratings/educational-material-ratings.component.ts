@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { RatingsService } from '@services/ratings.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-educational-material-ratings',
@@ -22,7 +21,7 @@ export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private ratingsSvc: RatingsService,
     private translate: TranslateService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +45,10 @@ export class EducationalMaterialRatingsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.reviews').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.reviews'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.reviews']} - ${translations['common.serviceName']}`);
+      });
   }
 }

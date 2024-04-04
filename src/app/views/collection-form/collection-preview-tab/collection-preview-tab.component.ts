@@ -29,13 +29,14 @@ export class CollectionPreviewTabComponent implements OnInit {
   canDeactivate = false;
   previewCollection: CollectionForm;
   materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
+  serviceName: string;
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
-    private collectionSvc: CollectionService,
+    private titleService: Title,
+    private collectionService: CollectionService,
   ) {}
 
   ngOnInit(): void {
@@ -78,9 +79,14 @@ export class CollectionPreviewTabComponent implements OnInit {
    * Updates page title.
    */
   setTitle(): void {
-    this.translate.get('titles.collection').subscribe((translations: any) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.preview} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.collection.main', 'titles.collection.preview'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(
+          `${translations['titles.collection.main']}: ${translations['titles.collection.preview']} - ${this.serviceName}`,
+        );
+      });
   }
 
   get hasName(): boolean {
@@ -329,7 +335,7 @@ export class CollectionPreviewTabComponent implements OnInit {
         this.previewCollection,
       );
 
-      this.collectionSvc
+      this.collectionService
         .updateCollectionDetails(updatedCollection)
         .subscribe(() => this.router.navigate(['/kokoelma', this.collectionId]));
     }

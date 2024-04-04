@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-logout-view',
@@ -9,8 +8,9 @@ import { environment } from '../../../environments/environment';
 })
 export class LogoutViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
+  serviceName: string;
 
-  constructor(private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private translate: TranslateService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -23,8 +23,8 @@ export class LogoutViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.logout').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
+    this.translate.get(['common.serviceName', 'titles.logout']).subscribe((translations: { [key: string]: string }) => {
+      this.titleService.setTitle(`${translations['titles.logout']} - ${translations['common.serviceName']}`);
     });
   }
 }

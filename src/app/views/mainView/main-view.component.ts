@@ -3,7 +3,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MaterialService } from '@services/material.service';
 import { EducationalMaterialCard } from '@models/educational-material-card';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { KoodistoService } from '@services/koodisto.service';
 
 @Component({
@@ -12,12 +11,13 @@ import { KoodistoService } from '@services/koodisto.service';
 export class MainViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   recentMaterials: EducationalMaterialCard[];
+  serviceName: string;
 
   constructor(
     private koodistoService: KoodistoService,
     private translate: TranslateService,
     private materialService: MaterialService,
-    private title: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -39,8 +39,8 @@ export class MainViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.home').subscribe((title: string) => {
-      this.title.setTitle(`${title} ${environment.title}`);
+    this.translate.get(['common.serviceName', 'titles.home']).subscribe((translations: { [key: string]: string }) => {
+      this.titleService.setTitle(`${translations['titles.home']} - ${translations['common.serviceName']}`);
     });
   }
 }

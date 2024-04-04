@@ -17,7 +17,7 @@
   }
 
   .badge {
-    @include resize(16px);
+    @include resize(12px);
     font-weight: 400;
   }
 }

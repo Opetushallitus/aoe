@@ -11,7 +11,6 @@ import { KoodistoService } from '@services/koodisto.service';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { MaterialService } from '@services/material.service';
 
 @Component({
@@ -40,7 +39,7 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private koodistoSvc: KoodistoService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -110,9 +109,13 @@ export class EditExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.extended'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.extended']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get typicalAgeRangeMinCtrl(): FormControl {

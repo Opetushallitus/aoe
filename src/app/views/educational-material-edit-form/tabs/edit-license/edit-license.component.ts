@@ -1,14 +1,12 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { EducationalMaterialForm } from '@models/educational-material-form';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { License } from '@models/koodisto/license';
 import { KoodistoService } from '@services/koodisto.service';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { MaterialService } from '@services/material.service';
 
 @Component({
@@ -24,16 +22,16 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   submitted: boolean = false;
   licenseSubscription: Subscription;
-  licenses: License[];
+  licenses$: Observable<License[]> = this.koodistoService.licenses$;
   @Output() abortEdit: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private fb: FormBuilder,
-    private translate: TranslateService,
-    private koodistoSvc: KoodistoService,
+    private koodistoService: KoodistoService,
     private materialService: MaterialService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +46,7 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
 
       this.setTitle();
 
-      this.koodistoSvc.updateLicenses();
+      this.koodistoService.updateLicenses();
     });
 
     if (!this.materialService.getEducationalMaterialID()) {
@@ -56,25 +54,22 @@ export class EditLicenseComponent implements OnInit, OnDestroy {
     } else {
       this.form.patchValue({ id: this.materialService.getEducationalMaterialID() });
     }
-
-    // licenses
-    this.licenseSubscription = this.koodistoSvc.licenses$.subscribe((licenses: License[]) => {
-      this.licenses = licenses;
-    });
-    this.koodistoSvc.updateLicenses();
   }
 
   ngOnDestroy(): void {
     if (this.submitted === false && this.form.dirty && this.form.valid) {
       this.saveData();
     }
-    this.licenseSubscription.unsubscribe();
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.license} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.license'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.license']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get licenseCtrl(): FormControl {

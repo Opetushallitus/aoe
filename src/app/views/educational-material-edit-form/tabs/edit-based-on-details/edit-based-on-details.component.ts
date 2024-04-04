@@ -3,11 +3,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../../../environments/environment';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '@constants/validator-params';
 import { EducationalMaterialForm } from '@models/educational-material-form';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { ExternalReference } from '@models/material/external-reference';
 import { MaterialService } from '@services/material.service';
 
@@ -29,7 +27,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
     private materialService: MaterialService,
     private router: Router,
     private translate: TranslateService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -60,9 +58,13 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.references'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.references']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get externalsArray(): FormArray {

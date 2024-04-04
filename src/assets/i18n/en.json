@@ -3,7 +3,8 @@
     "goBack": "Back",
     "login": "Log in",
     "logout": "Log out",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "serviceName": "Library of Open Educational Resources (aoe.fi)"
   },
   "navigation": {
     "home": "Home",
