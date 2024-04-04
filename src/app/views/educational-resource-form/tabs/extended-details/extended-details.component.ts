@@ -11,7 +11,6 @@ import { KoodistoService } from '@services/koodisto.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { validatorParams } from '@constants/validator-params';
 import { MaterialService } from '@services/material.service';
@@ -47,7 +46,7 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     private koodistoProxySvc: KoodistoService,
     private materialService: MaterialService,
     private translate: TranslateService,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -158,9 +157,13 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.extended} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.extended'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.extended']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get accessibilityFeaturesCtrl(): FormControl {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { AccessibilityPolicy } from '../../mocks/accessibility-policy.mock';
 
 @Component({
@@ -12,7 +11,7 @@ export class AccessibilityPolicyViewComponent implements OnInit {
   lang: string = this.translate.currentLang;
   accessibilityPolicy: { heading: string; content: string[] }[];
 
-  constructor(private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private translate: TranslateService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -27,8 +26,10 @@ export class AccessibilityPolicyViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.accessibility').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.accessibility'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.accessibility']} - ${translations['common.serviceName']}`);
+      });
   }
 }

@@ -6,7 +6,6 @@ import { FAQGeneral } from '../../mocks/faq.general.mock';
 import { FAQMaterial } from '../../mocks/faq.material.mock';
 import { FAQOrganisation } from '../../mocks/faq.organisation.mock';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-help-view',
@@ -18,8 +17,9 @@ export class HelpViewComponent implements OnInit, OnDestroy {
   faqMaterial: { question: string; answer: string[] }[];
   faqOrganisation: { question: string; answer: string[] }[];
   isOpen = false;
+  serviceName: string;
 
-  constructor(private translate: TranslateService, private titleSvc: Title) {}
+  constructor(private translate: TranslateService, private titleService: Title) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -42,8 +42,8 @@ export class HelpViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.faq').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
+    this.translate.get(['common.serviceName', 'titles.faq']).subscribe((translations: { [key: string]: string }) => {
+      this.titleService.setTitle(`${translations['titles.faq']} - ${translations['common.serviceName']}`);
     });
   }
 }

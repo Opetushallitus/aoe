@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { CollectionCard } from '@models/collections/collection-card';
@@ -16,12 +15,13 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
   lang: string = this.translate.currentLang;
   recentCollectionSubscription: Subscription;
   recentCollections: CollectionCard[];
+  serviceName: string;
 
   constructor(
-    private koodistoSvc: KoodistoService,
+    private koodistoService: KoodistoService,
     private translate: TranslateService,
-    private titleSvc: Title,
-    private collectionSvc: CollectionService,
+    private titleService: Title,
+    private collectionService: CollectionService,
   ) {}
 
   ngOnInit(): void {
@@ -30,16 +30,16 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       // Update available service languages and save them to the state management (languages$).
       // For the direct URL navigation, update available languages once for each routed parent component.
-      this.koodistoSvc.updateLanguages();
+      this.koodistoService.updateLanguages();
       this.lang = event.lang;
       this.setTitle();
     });
-    this.recentCollectionSubscription = this.collectionSvc.recentCollections$.subscribe(
+    this.recentCollectionSubscription = this.collectionService.recentCollections$.subscribe(
       (collections: CollectionCard[]) => {
         this.recentCollections = collections;
       },
     );
-    this.collectionSvc.updateRecentCollections();
+    this.collectionService.updateRecentCollections();
   }
 
   ngOnDestroy(): void {
@@ -47,8 +47,11 @@ export class CollectionsViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.collections').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.collections'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(`${translations['titles.collections']} - ${this.serviceName}`);
+      });
   }
 }

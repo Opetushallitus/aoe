@@ -6,7 +6,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Material } from '@models/material';
 import { MaterialService } from '@services/material.service';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { Collection } from '@models/collections/collection';
 import { Language } from '@models/koodisto/language';
 import { KoodistoService } from '@services/koodisto.service';
@@ -33,14 +32,15 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   detailsExpanded = false;
   materialDetails = new Map();
   headingLevels = new Map();
+  serviceName: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
-    private collectionSvc: CollectionService,
-    private materialSvc: MaterialService,
-    private titleSvc: Title,
+    private collectionService: CollectionService,
+    private materialService: MaterialService,
+    private titleService: Title,
     private koodistoService: KoodistoService,
   ) {}
 
@@ -48,7 +48,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.collectionId = params.get('collectionId');
       this.collectionIsLoading = true;
-      this.collectionSvc.updateCollection(this.collectionId);
+      this.collectionService.updateCollection(this.collectionId);
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -63,7 +63,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.collectionSubscription = this.collectionSvc.collection$.subscribe((collection: Collection) => {
+    this.collectionSubscription = this.collectionService.collection$.subscribe((collection: Collection) => {
       this.collection = collection;
 
       if (JSON.stringify(collection) === '{}') {
@@ -85,7 +85,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
         // set loading true
         this.materialsLoading.set(collectionMaterial.id, true);
 
-        this.materialSvc.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
+        this.materialService.getCollectionMaterials(collectionMaterial.id).subscribe((materials: Material[]) => {
           // set collection materials
           this.collectionMaterials.set(collectionMaterial.id, materials);
 
@@ -120,7 +120,7 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
 
       this.collectionIsLoading = false;
     });
-    this.collectionSvc.updateCollection(this.collectionId);
+    this.collectionService.updateCollection(this.collectionId);
   }
 
   ngOnDestroy(): void {
@@ -129,7 +129,10 @@ export class CollectionViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.titleSvc.setTitle(`${this.collection.name} ${environment.title}`);
+    this.translate.get(['common.serviceName']).subscribe((translations: { [key: string]: string }) => {
+      this.serviceName = translations['common.serviceName'];
+      this.titleService.setTitle(`${this.collection.name} - ${this.serviceName}`);
+    });
   }
 
   /**

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
 import { UserSettings } from '@models/users/user-settings';
@@ -20,7 +19,7 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
   userDataSubscription: Subscription;
   constructor(
     private translate: TranslateService,
-    private titleSvc: Title,
+    private titleService: Title,
     private fb: FormBuilder,
     public authService: AuthService,
   ) {}
@@ -57,9 +56,11 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.userDetails').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.userDetails'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.userDetails']} - ${translations['common.serviceName']}`);
+      });
   }
 
   get emailCtrl(): FormControl {

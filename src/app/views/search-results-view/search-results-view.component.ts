@@ -74,21 +74,22 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   showAllLicenses = true;
   usedFilters: UsedFilter[] = [];
   sortOptions = sortOptions;
+  serviceName: string;
 
   constructor(
-    private searchSvc: SearchService,
+    private searchService: SearchService,
     private fb: FormBuilder,
     private koodistoService: KoodistoService,
     private translate: TranslateService,
-    private titleSvc: Title,
-    private deviceSvc: DeviceDetectorService,
+    private titleService: Title,
+    private deviceService: DeviceDetectorService,
     private toastr: ToastrService,
   ) {}
 
   ngOnInit(): void {
     this.setTitle();
 
-    if (this.deviceSvc.isMobile()) {
+    if (this.deviceService.isMobile()) {
       this.isCollapsedFilters = true;
     }
     this.translate.onLangChange.subscribe(() => {
@@ -131,14 +132,14 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     this.keywordsCtrl.setValue(searchParams?.keywords);
 
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
-    this.searchSvc.updateSearchResults(searchParams);
+    this.searchService.updateSearchResults(searchParams);
 
-    this.resultSubscription = this.searchSvc.searchResults$.subscribe((results: SearchResults) => {
+    this.resultSubscription = this.searchService.searchResults$.subscribe((results: SearchResults) => {
       this.results = results;
       this.loading = false;
 
       if (results.hits > 0) {
-        this.searchSvc.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
+        this.searchService.updateSearchFilters(JSON.parse(sessionStorage.getItem(environment.searchParams)));
 
         this.pages = Math.ceil(this.results.hits / this.resultsPerPage);
         this.setTitle();
@@ -198,7 +199,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     );
     this.koodistoService.updateLearningResourceTypes();
 
-    this.searchFilterSubscription = this.searchSvc.searchFilters$.subscribe((filters: SearchFilters) => {
+    this.searchFilterSubscription = this.searchService.searchFilters$.subscribe((filters: SearchFilters) => {
       this.searchFilters = filters;
 
       this.setAvailableFilters(filters);
@@ -230,9 +231,13 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.searchResults').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${this.page}/${this.pages} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.searchResults'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.searchResults']} ${this.page}/${this.pages} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get keywordsCtrl(): FormControl {
@@ -561,7 +566,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       searchParams.size = this.resultsPerPage;
       delete searchParams.timestamp;
 
-      this.searchSvc.updateSearchResults(searchParams);
+      this.searchService.updateSearchResults(searchParams);
 
       this.setTitle();
     }
@@ -884,7 +889,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
       this.usedFilters = usedFilters;
       sessionStorage.setItem(environment.usedFilters, JSON.stringify(usedFilters));
 
-      this.searchSvc.updateSearchResults(searchParams);
+      this.searchService.updateSearchResults(searchParams);
 
       this.page = 1;
     } else {
@@ -905,7 +910,7 @@ export class SearchResultsViewComponent implements OnInit, OnDestroy {
     });
 
     this.usedFilters = JSON.parse(sessionStorage.getItem(environment.usedFilters));
-    this.searchSvc.updateSearchResults(searchParams);
+    this.searchService.updateSearchResults(searchParams);
     this.page = 1;
   }
 }

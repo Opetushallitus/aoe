@@ -8,7 +8,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { UserCollection } from '@models/collections/user-collection';
 import { CollectionService } from '@services/collection.service';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-user-materials-view',
@@ -25,13 +24,13 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   privateCollections: UserCollection[];
   publicCollectionSubscription: Subscription;
   publicCollections: UserCollection[];
+  serviceName: string;
 
   constructor(
-    private authService: AuthService,
-    private materialSvc: MaterialService,
+    private materialService: MaterialService,
     private translate: TranslateService,
-    private collectionSvc: CollectionService,
-    private titleSvc: Title,
+    private collectionService: CollectionService,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -43,33 +42,33 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
       this.setTitle();
     });
 
-    this.publishedMaterialSubscription = this.materialSvc.publishedUserMaterials$$.subscribe(
+    this.publishedMaterialSubscription = this.materialService.publishedUserMaterials$$.subscribe(
       (materials: EducationalMaterialCard[]) => {
         this.publishedMaterials = materials;
       },
     );
 
-    this.unpublishedMaterialSubscription = this.materialSvc.unpublishedUserMaterials$$.subscribe(
+    this.unpublishedMaterialSubscription = this.materialService.unpublishedUserMaterials$$.subscribe(
       (materials: EducationalMaterialCard[]) => {
         this.unpublishedMaterials = materials;
       },
     );
 
-    this.materialSvc.updateUserMaterialList();
+    this.materialService.updateUserMaterialList();
 
-    this.privateCollectionSubscription = this.collectionSvc.privateUserCollections$.subscribe(
+    this.privateCollectionSubscription = this.collectionService.privateUserCollections$.subscribe(
       (collections: UserCollection[]) => {
         this.privateCollections = collections;
       },
     );
 
-    this.publicCollectionSubscription = this.collectionSvc.publicUserCollections$.subscribe(
+    this.publicCollectionSubscription = this.collectionService.publicUserCollections$.subscribe(
       (collections: UserCollection[]) => {
         this.publicCollections = collections;
       },
     );
 
-    this.collectionSvc.updateUserCollections();
+    this.collectionService.updateUserCollections();
   }
 
   ngOnDestroy(): void {
@@ -80,9 +79,11 @@ export class UserMaterialsViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.userMaterials').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.userMaterials'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.userMaterials']} - ${translations['common.serviceName']}`);
+      });
   }
 
   expireAlertType(date: Date): string {

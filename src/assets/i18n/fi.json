@@ -3,7 +3,8 @@
     "goBack": "Takaisin",
     "login": "Kirjaudu sisään",
     "logout": "Kirjaudu ulos",
-    "welcome": "Tervetuloa"
+    "welcome": "Tervetuloa",
+    "serviceName": "Avointen oppimateriaalien kirjasto (aoe.fi)"
   },
   "navigation": {
     "home": "Etusivu",

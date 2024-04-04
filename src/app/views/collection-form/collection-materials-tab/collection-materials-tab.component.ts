@@ -33,13 +33,14 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
   materials: Map<string, CollectionFormMaterial> = new Map<string, CollectionFormMaterial>();
   removedFromCollectionToast: Toast;
   removedMaterials: string[] = [];
+  serviceName: string;
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
-    private collectionSvc: CollectionService,
+    private titleService: Title,
+    private collectionService: CollectionService,
     private toastr: ToastrService,
   ) {}
 
@@ -83,9 +84,14 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
    * Updates page title.
    */
   setTitle(): void {
-    this.translate.get('titles.collection').subscribe((translations: any) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.materials} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.collection.main', 'titles.collection.materials'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.serviceName = translations['common.serviceName'];
+        this.titleService.setTitle(
+          `${translations['titles.collection.main']}: ${translations['titles.collection.materials']} - ${this.serviceName}`,
+        );
+      });
   }
 
   /** @getters */
@@ -193,7 +199,7 @@ export class CollectionMaterialsTabComponent implements OnInit, OnDestroy {
       emId: [materialId],
     };
 
-    this.collectionSvc.removeFromCollection(payload).subscribe(() => {
+    this.collectionService.removeFromCollection(payload).subscribe(() => {
       this.toastr.success(this.removedFromCollectionToast.message, this.removedFromCollectionToast.title);
     });
 

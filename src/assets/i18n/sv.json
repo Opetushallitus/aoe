@@ -3,7 +3,8 @@
     "goBack": "Tillbaka",
     "login": "Logga in",
     "logout": "Logga ut",
-    "welcome": "Välkommen"
+    "welcome": "Välkommen",
+    "serviceName": "Biblioteket för öppna lärresurser (aoe.fi)"
   },
   "navigation": {
     "home": "Framsida",

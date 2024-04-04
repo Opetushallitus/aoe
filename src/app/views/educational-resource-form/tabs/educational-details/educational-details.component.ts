@@ -21,7 +21,6 @@ import {
 import { KoodistoService } from '@services/koodisto.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { EducationalLevel } from '@models/koodisto/educational-level';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { educationalLevelKeys } from '@constants/educational-level-keys';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { validatorParams } from '@constants/validator-params';
@@ -107,7 +106,7 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
     private materialService: MaterialService,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -580,9 +579,13 @@ export class EducationalDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.education} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.education'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.education']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get educationalLevelsCtrl(): FormControl {

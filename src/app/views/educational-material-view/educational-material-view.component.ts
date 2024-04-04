@@ -57,15 +57,16 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   previewMaterialDomain: string;
   licenses: License[];
   licenseSubscription: Subscription;
+  serviceName: string;
 
   constructor(
     private route: ActivatedRoute,
-    private materialSvc: MaterialService,
+    private materialService: MaterialService,
     private translate: TranslateService,
-    private modalSvc: BsModalService,
+    private modalService: BsModalService,
     public authService: AuthService,
-    private titleSvc: Title,
-    private socialMetadataSvc: SocialMetadataService,
+    private titleService: Title,
+    private socialMetadataService: SocialMetadataService,
     private koodistoService: KoodistoService,
   ) {}
 
@@ -80,7 +81,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
         : `${environment.backendUrlV2}/material/file/${this.materialId}/all`;
 
       this.materialIsLoading = true;
-      this.materialSvc.updateMaterial(this.materialId, this.materialVersionDate);
+      this.materialService.updateMaterial(this.materialId, this.materialVersionDate);
     });
 
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -103,68 +104,72 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
     });
     this.koodistoService.updateLanguages();
 
-    this.educationalMaterialSubscription = this.materialSvc.material$$.subscribe((material: EducationalMaterial) => {
-      this.educationalMaterial = material;
-      this.materialIsLoading = false;
+    this.educationalMaterialSubscription = this.materialService.material$$.subscribe(
+      (material: EducationalMaterial) => {
+        this.educationalMaterial = material;
+        this.materialIsLoading = false;
 
-      if (JSON.stringify(material) === '{}') {
-        this.materialIsArchived = true;
-      } else {
-        this.materialIsArchived = false;
+        if (JSON.stringify(material) === '{}') {
+          this.materialIsArchived = true;
+        } else {
+          this.materialIsArchived = false;
 
-        // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
-        // eslint-disable-next-line max-len
-        this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" allow="fullscreen" width="720" height="360"></iframe>`;
+          // this.downloadUrl = `${environment.backendUrl}/material/file/${this.materialId}`;
+          // eslint-disable-next-line max-len
+          this.embedCode = `<iframe src="${environment.frontendUrl}/#/embed/${this.materialId}/${this.lang}" allow="fullscreen" width="720" height="360"></iframe>`;
 
-        this.updateMaterialName();
-        this.updateDescription();
+          this.updateMaterialName();
+          this.updateDescription();
 
-        // set materials
-        this.materials = material.materials;
+          // set materials
+          this.materials = material.materials;
 
-        // set material languages
-        const materialLanguages: string[] = [];
+          // set material languages
+          const materialLanguages: string[] = [];
 
-        this.materials.forEach((m: Material) => {
-          materialLanguages.push(m.language.toLowerCase());
+          this.materials.forEach((m: Material) => {
+            materialLanguages.push(m.language.toLowerCase());
 
-          m.subtitles.forEach((subtitle: Subtitle) => {
-            materialLanguages.push(subtitle.srclang.toLowerCase());
+            m.subtitles.forEach((subtitle: Subtitle) => {
+              materialLanguages.push(subtitle.srclang.toLowerCase());
+            });
           });
-        });
 
-        this.materialLanguages = [...new Set(materialLanguages)];
+          this.materialLanguages = [...new Set(materialLanguages)];
 
-        // set default language (1. UI lang, 2. FI, 3. first language in array)
-        this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
-          ? this.materialLanguages.find((lang: string) => lang === this.lang)
-          : this.materialLanguages.find((lang: string) => lang === 'fi')
-          ? this.materialLanguages.find((lang: string) => lang === 'fi')
-          : this.materialLanguages[0];
+          // set default language (1. UI lang, 2. FI, 3. first language in array)
+          this.selectedLanguage = this.materialLanguages.find((lang: string) => lang === this.lang)
+            ? this.materialLanguages.find((lang: string) => lang === this.lang)
+            : this.materialLanguages.find((lang: string) => lang === 'fi')
+            ? this.materialLanguages.find((lang: string) => lang === 'fi')
+            : this.materialLanguages[0];
 
-        // set preview material
-        this.setPreviewMaterial(
-          this.materials.find((m: Material) => {
-            if (
-              m.language === this.selectedLanguage ||
-              m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
-            ) {
-              return m;
-            }
-          }),
-        );
+          // set preview material
+          this.setPreviewMaterial(
+            this.materials.find((m: Material) => {
+              if (
+                m.language === this.selectedLanguage ||
+                m.subtitles.find((subtitle: Subtitle) => subtitle.srclang === this.selectedLanguage)
+              ) {
+                return m;
+              }
+            }),
+          );
 
-        // if material expired
-        if (material.expires) {
-          this.expired = new Date(material.expires) < new Date();
+          // if material expired
+          if (material.expires) {
+            this.expired = new Date(material.expires) < new Date();
+          }
         }
-      }
-    });
+      },
+    );
 
-    this.socialMetadataSubscription = this.socialMetadataSvc.socialMetadata$.subscribe((metadata: SocialMetadata) => {
-      this.socialMetadata = metadata;
-    });
-    this.socialMetadataSvc.updateSocialMetadata(this.materialId);
+    this.socialMetadataSubscription = this.socialMetadataService.socialMetadata$.subscribe(
+      (metadata: SocialMetadata) => {
+        this.socialMetadata = metadata;
+      },
+    );
+    this.socialMetadataService.updateSocialMetadata(this.materialId);
 
     this.licenseSubscription = this.koodistoService.licenses$.subscribe((licenses: License[]) => {
       this.licenses = licenses;
@@ -180,10 +185,13 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
+    this.translate.get('common.serviceName').subscribe((tabServiceName: string) => {
+      this.serviceName = tabServiceName;
+    });
     if (this.materialVersionDate) {
-      this.titleSvc.setTitle(`${this.materialName} (${this.materialVersionDate}) ${environment.title}`);
+      this.titleService.setTitle(`${this.materialName} (${this.materialVersionDate}) - ${this.serviceName}`);
     } else {
-      this.titleSvc.setTitle(`${this.materialName} ${environment.title}`);
+      this.titleService.setTitle(`${this.materialName} - ${this.serviceName}`);
     }
   }
 
@@ -243,7 +251,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       materialId: this.materialId,
     };
 
-    this.reviewModalRef = this.modalSvc.show(EducationalMaterialRatingModalComponent, { initialState });
+    this.reviewModalRef = this.modalService.show(EducationalMaterialRatingModalComponent, { initialState });
   }
 
   openCollectionModal(): void {
@@ -251,7 +259,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       materialId: this.materialId,
     };
 
-    this.collectionModalRef = this.modalSvc.show(AddToCollectionModalComponent, { initialState });
+    this.collectionModalRef = this.modalService.show(AddToCollectionModalComponent, { initialState });
   }
 
   openSocialMetadataModal(): void {
@@ -259,7 +267,7 @@ export class EducationalMaterialViewComponent implements OnInit, OnDestroy {
       materialId: this.materialId,
     };
 
-    this.socialMetadataModalRef = this.modalSvc.show(SocialMetadataModalComponent, { initialState });
+    this.socialMetadataModalRef = this.modalService.show(SocialMetadataModalComponent, { initialState });
   }
 
   getLicense(key: string): License {

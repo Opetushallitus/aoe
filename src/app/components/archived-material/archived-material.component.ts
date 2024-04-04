@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../environments/environment';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
@@ -13,7 +12,7 @@ export class ArchivedMaterialComponent implements OnInit {
   @Input() materialId: string;
   lang: string;
 
-  constructor(private translate: TranslateService, private titleSvc: Title, private route: ActivatedRoute) {}
+  constructor(private translate: TranslateService, private titleService: Title, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.setTitle();
@@ -30,8 +29,10 @@ export class ArchivedMaterialComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.archived').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.archived'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.archived']} - ${translations['common.serviceName']}`);
+      });
   }
 }

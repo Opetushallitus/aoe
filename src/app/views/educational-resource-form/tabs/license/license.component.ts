@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../../../environments/environment';
 import { KoodistoService } from '@services/koodisto.service';
 import { License } from '@models/koodisto/license';
 import { Title } from '@angular/platform-browser';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { MaterialService } from '@services/material.service';
 
 @Component({
@@ -30,7 +29,7 @@ export class LicenseComponent implements OnInit, OnDestroy {
     private materialService: MaterialService,
     private translate: TranslateService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -59,9 +58,13 @@ export class LicenseComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.license} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.license'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.license']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get license(): FormControl {

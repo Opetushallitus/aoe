@@ -5,7 +5,6 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { environment } from '../../../../../environments/environment';
 import { textInputRe, textInputValidator, validateFilename } from '../../../../shared/shared.module';
 import { MaterialService } from '@services/material.service';
 import { KoodistoService } from '@services/koodisto.service';
@@ -15,7 +14,6 @@ import { Language } from '@models/koodisto/language';
 import { UploadMessage } from '@models/upload-message';
 import { LinkPost } from '@models/link-post';
 import { LinkPostResponse } from '@models/link-post-response';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { Subtitle, SubtitleKind } from '@models/material/subtitle';
 import { AttachmentPostResponse } from '@models/attachment-post-response';
 import { mimeTypes } from '@constants/mimetypes';
@@ -56,7 +54,7 @@ export class EditFilesComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private modalService: BsModalService,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
     private authService: AuthService,
   ) {}
 
@@ -111,9 +109,13 @@ export class EditFilesComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.editMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.files} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.editMaterial.main', 'titles.editMaterial.files'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.editMaterial.main']}: ${translations['titles.editMaterial.files']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   get nameCtrl(): FormControl {

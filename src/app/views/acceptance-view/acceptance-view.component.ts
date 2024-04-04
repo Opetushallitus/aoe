@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '@services/auth.service';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-acceptance-view',
@@ -16,7 +15,7 @@ export class AcceptanceViewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private titleSvc: Title,
+    private titleService: Title,
     private translate: TranslateService,
   ) {}
 
@@ -33,9 +32,11 @@ export class AcceptanceViewComponent implements OnInit {
   }
 
   setTitle(): void {
-    this.translate.get('titles.acceptance').subscribe((title: string) => {
-      this.titleSvc.setTitle(`${title} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.acceptance'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(`${translations['titles.acceptance']} - ${translations['common.serviceName']}`);
+      });
   }
 
   public onSubmit(): void {

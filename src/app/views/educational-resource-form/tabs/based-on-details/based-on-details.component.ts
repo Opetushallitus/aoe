@@ -7,7 +7,6 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { environment } from '../../../../../environments/environment';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '@constants/validator-params';
-import { TitlesMaterialFormTabs } from '@models/translations/titles';
 import { ExternalReference } from '@models/material/external-reference';
 import { MaterialService } from '@services/material.service';
 
@@ -29,7 +28,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private fb: FormBuilder,
     private router: Router,
-    private titleSvc: Title,
+    private titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +64,13 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   }
 
   setTitle(): void {
-    this.translate.get('titles.addMaterial').subscribe((translations: TitlesMaterialFormTabs) => {
-      this.titleSvc.setTitle(`${translations.main}: ${translations.references} ${environment.title}`);
-    });
+    this.translate
+      .get(['common.serviceName', 'titles.addMaterial.main', 'titles.addMaterial.references'])
+      .subscribe((translations: { [key: string]: string }) => {
+        this.titleService.setTitle(
+          `${translations['titles.addMaterial.main']}: ${translations['titles.addMaterial.references']} - ${translations['common.serviceName']}`,
+        );
+      });
   }
 
   /*get internals(): FormArray {
