@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class MigrationServiceImpl implements MigrationService {
-
     private Environment env;
 
     @Value("#{'${metadata.lrmi.learning-resource.types}'.split(',')}")
