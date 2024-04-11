@@ -11,7 +11,7 @@
 # AOE Data Services
 
 ## OAI-PMH Provider
-- Module: provider-rest
+- Module: oaipmh-provider
 - Running on ports: 8001 (prod), 8002 (test)
 - Java version: OpenJDK 17
 - Spring Boot version: 2.2.4.RELEASE

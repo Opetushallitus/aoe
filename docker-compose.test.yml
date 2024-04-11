@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  test-oaipmh-provider:
+    build:
+      context: ./oaipmh-provider
+      dockerfile: Dockerfile
+    image: test-oaipmh-provider:latest
+    container_name: test-oaipmh-provider
+    restart: unless-stopped
+    ports:
+      - '8002:8002'
+    environment:
+      SPRING_PROFILES_ACTIVE: 'test'
+    networks:
+      - network-test-oaipmh-provider
+
+networks:
+  network-test-oaipmh-provider:
+    driver: bridge
