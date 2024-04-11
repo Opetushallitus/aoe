@@ -1,14 +1,14 @@
-version: "3.9"
+version: '3.9'
 services:
   oaipmh-provider:
     build:
-      context: ./oaipmh-provider
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./oaipmh-provider/Dockerfile
     image: oaipmh-provider:latest
     container_name: oaipmh-provider
     restart: always
     ports:
-      - "8001:8001"
+      - '8001:8001'
     env_file:
       - /environment/aoe-data-services/prod/.env
     logging:
@@ -16,10 +16,10 @@ services:
         max-size: '10m'
         max-file: '3'
     environment:
-      SPRING_PROFILES_ACTIVE: "prod"
+      SPRING_PROFILES_ACTIVE: 'prod'
     networks:
-      - network-provider-prod
+      - network-oaipmh-provider
 
 networks:
-  network-provider-prod:
+  network-oaipmh-provider:
     driver: bridge
