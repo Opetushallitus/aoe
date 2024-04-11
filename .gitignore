@@ -31,4 +31,4 @@ build/
 .vscode/
 
 ### Development Utils ###
-/provider-rest/src/main/java/fi/csc/provider/utils/
+/oaipmh-provider/src/main/java/fi/csc/provider/utils/

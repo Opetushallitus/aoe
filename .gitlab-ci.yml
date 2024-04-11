@@ -14,16 +14,11 @@ stages:
   - deploy
   - cleanup
 
-before_script:
-  - docker version
-  - docker-compose version
-
 build_dev:
   stage: build
   script:
     - echo "DEMO build"
-    # - docker-compose -f docker-compose.demo.yml down
-    - docker-compose -f docker-compose.demo.yml build
+    - docker-compose -f docker-compose.test.yml build
   only:
     - dev
   tags:
@@ -33,7 +28,7 @@ deploy_dev:
   stage: deploy
   script:
     - echo "DEMO deploy"
-    - docker-compose -f docker-compose.demo.yml up -d
+    - docker-compose -f docker-compose.test.yml up -d
   only:
     - dev
   tags:
@@ -43,7 +38,6 @@ build_prod:
   stage: build
   script:
     - echo "PROD build"
-    # - docker-compose -f docker-compose.prod.yml down
     - docker-compose -f docker-compose.prod.yml build
   only:
     - main
@@ -70,3 +64,4 @@ cleanup:
     - main
   tags:
     - oaipmh
+  when: manual

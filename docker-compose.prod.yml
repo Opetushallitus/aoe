@@ -1,11 +1,11 @@
 version: "3.9"
 services:
-  provider-rest-prod:
+  oaipmh-provider:
     build:
-      context: ./provider-rest
-      dockerfile: Dockerfile.prod
-    image: provider-rest-prod:latest
-    container_name: provider-rest-prod
+      context: ./oaipmh-provider
+      dockerfile: Dockerfile
+    image: oaipmh-provider:latest
+    container_name: oaipmh-provider
     restart: always
     ports:
       - "8001:8001"
