@@ -10,8 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class CorsConfiguration implements WebMvcConfigurer {
-
-    // @Value("${access.control.allow.origin}")
     private String[] origins = new String[]{"*"};
 
     @Override

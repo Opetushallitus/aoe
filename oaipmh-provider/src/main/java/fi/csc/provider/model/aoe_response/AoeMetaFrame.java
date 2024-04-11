@@ -2,7 +2,6 @@ package fi.csc.provider.model.aoe_response;
 
 @SuppressWarnings("unused")
 public class AoeMetaFrame<T> {
-
     private String dateMin;
     private String dateMax;
     private Integer materialPerPage;

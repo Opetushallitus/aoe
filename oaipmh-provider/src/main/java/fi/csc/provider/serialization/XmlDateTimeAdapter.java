@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 public class XmlDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
-
     private final DateTimeFormatter CUSTOM_DATETIME = DateTimeFormatter
             .ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'")
             .withZone(ZoneId.of("UTC"));
