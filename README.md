@@ -14,8 +14,9 @@
 - Module: oaipmh-provider
 - Running on ports: 8001 (prod), 8002 (test)
 - Java version: OpenJDK 17
-- Spring Boot version: 2.2.4.RELEASE
-- Built on Docker image: maven:3.8.4-openjdk-17-slim
+- Spring Boot version: 3.2.4
+- Build with Docker image: maven:3.8.5-openjdk-17-slim
+- Run with Docker image: openjdk:17-slim
 
 ### Description
 Integration service for metadata harvesting from external systems.
@@ -23,12 +24,12 @@ Service interface implements [OAI-PMH protocol](https://www.openarchives.org/OAI
 
 ### Management
 
-#### Build and run test instance
+#### Build and run the test instance
 ```
-$ sudo docker-compose -f docker-compose.demo.yml build
-$ sudo docker-compose -f docker-compose.demo.yml up
+$ sudo docker-compose -f docker-compose.test.yml build
+$ sudo docker-compose -f docker-compose.test.yml up
 ```
-#### Build and run prod instance
+#### Build and run the production instance
 ```
 $ sudo docker-compose -f docker-compose.prod.yml build
 $ sudo docker-compose -f docker-compose.prod.yml up
