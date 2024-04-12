@@ -64,4 +64,3 @@ cleanup:
     - main
   tags:
     - oaipmh
-  when: manual
