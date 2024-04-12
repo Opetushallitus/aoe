@@ -6,16 +6,20 @@ import fi.csc.provider.model.xml_lrmi.sublevel_1st.sublevel_2nd.GeneralType;
 import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
+    "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
+@Getter
+@Setter
 @SuppressWarnings("unused")
 @XmlSeeAlso({Material.class, Person.class, Organization.class, GeneralType.class, EducationalAlignment.class})
 @XmlAccessorType(XmlAccessType.NONE)
-/* @XmlType(propOrder = {"identifier", "title", "creator", "date", "description", "subject", "format", "rights",
-    "publisher", "type", "createdat", "updatedat", "publishedat", "archivedat", "typicalAgeRange", "materials"}) */
 @XmlRootElement(name = "oai_dc:dc")
 public class LrmiMetadata {
 
@@ -92,15 +96,11 @@ public class LrmiMetadata {
     @XmlElement(name = "lrmi_fi:timeRequired")
     private String timeRequired;
 
-    // @XmlElementWrapper(name = "lrmi_fi:author") // nillable = false, required = false
-    // @XmlElement(name = "lrmi_fi:person")
-    // private List<Author> author;
     @XmlElementWrapper(name = "lrmi_fi:author")
     @XmlAnyElement
     private List<JAXBElement<?>> authors;
 
     // Descriptive keywords of an educational material (dc:keyword)
-    // @XmlElementWrapper(name = "lrmi_fi:about")
     @XmlElement(name = "lrmi_fi:about")
     private List<About> abouts;
 
@@ -150,228 +150,4 @@ public class LrmiMetadata {
     //         this.author = null;
     //     }
     // }
-
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getIdentifierURN() {
-        return identifierURN;
-    }
-
-    public void setIdentifierURN(String identifierURN) {
-        this.identifierURN = identifierURN;
-    }
-
-    public List<LangValue> getTitle() {
-        return title;
-    }
-
-    public void setTitle(List<LangValue> title) {
-        this.title = title;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public List<LangValue> getDescription() {
-        return description;
-    }
-
-    public void setDescription(List<LangValue> description) {
-        this.description = description;
-    }
-
-    public Thumbnail getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(Thumbnail thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public String[] getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String[] keyword) {
-        this.keyword = keyword;
-    }
-
-    public String getRights() {
-        return rights;
-    }
-
-    public void setRights(String rights) {
-        this.rights = rights;
-    }
-
-    public List<String> getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(List<String> publisher) {
-        this.publisher = publisher;
-    }
-
-    public List<String> getType() {
-        return type;
-    }
-
-    public void setType(List<String> type) {
-        this.type = type;
-    }
-
-    public LocalDateTime getValid() {
-        return valid;
-    }
-
-    public void setValid(LocalDateTime valid) {
-        this.valid = valid;
-    }
-
-    public LocalDateTime getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(LocalDateTime dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public LocalDateTime getDateModified() {
-        return dateModified;
-    }
-
-    public void setDateModified(LocalDateTime dateModified) {
-        this.dateModified = dateModified;
-    }
-
-    public LocalDateTime getArchivedAt() {
-        return archivedAt;
-    }
-
-    public void setArchivedAt(LocalDateTime archivedAt) {
-        this.archivedAt = archivedAt;
-    }
-
-    public String getTimeRequired() {
-        return timeRequired;
-    }
-
-    public void setTimeRequired(String timeRequired) {
-        this.timeRequired = timeRequired;
-    }
-
-    public List<JAXBElement<?>> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<JAXBElement<?>> authors) {
-        this.authors = authors;
-    }
-
-    public List<About> getAbouts() {
-        return abouts;
-    }
-
-    public void setAbouts(List<About> abouts) {
-        this.abouts = abouts;
-    }
-
-    public List<Material> getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(List<Material> material) {
-        this.material = material;
-    }
-
-    public Integer getAgerangemin() {
-        return agerangemin;
-    }
-
-    public void setAgerangemin(Integer agerangemin) {
-        this.agerangemin = agerangemin;
-    }
-
-    public Integer getAgerangemax() {
-        return agerangemax;
-    }
-
-    public void setAgerangemax(Integer agerangemax) {
-        this.agerangemax = agerangemax;
-    }
-
-    public List<EducationalAudience> getEducationalAudience() {
-        return educationalAudience;
-    }
-
-    public void setEducationalAudience(List<EducationalAudience> educationalAudience) {
-        this.educationalAudience = educationalAudience;
-    }
-
-    public List<IsBasedOn> getIsBasedOn() {
-        return isBasedOn;
-    }
-
-    public void setIsBasedOn(List<IsBasedOn> isBasedOn) {
-        this.isBasedOn = isBasedOn;
-    }
-
-    public String[] getAccessibilityFeature() {
-        return accessibilityFeature;
-    }
-
-    public void setAccessibilityFeature(String[] accessibilityFeature) {
-        this.accessibilityFeature = accessibilityFeature;
-    }
-
-    public String[] getAccessibilityHazard() {
-        return accessibilityHazard;
-    }
-
-    public void setAccessibilityHazard(String[] accessibilityHazard) {
-        this.accessibilityHazard = accessibilityHazard;
-    }
-
-    public Set<String> getInLanguage() {
-        return inLanguage;
-    }
-
-    public void setInLanguage(Set<String> inLanguage) {
-        this.inLanguage = inLanguage;
-    }
-
-    public List<JAXBElement<?>> getLearningResources() {
-        return learningResources;
-    }
-
-    public void setLearningResources(List<JAXBElement<?>> learningResources) {
-        this.learningResources = learningResources;
-    }
-
-    public List<AlignmentObject> getAlignmentObject() {
-        return alignmentObject;
-    }
-
-    public void setAlignmentObject(List<AlignmentObject> alignmentObject) {
-        this.alignmentObject = alignmentObject;
-    }
 }
