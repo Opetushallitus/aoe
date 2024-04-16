@@ -40,12 +40,10 @@ export default (options: RequestOptions): Promise<any> => {
     });
     request
       .on('error', (error: Error) => {
-        request.abort();
         winstonLogger.error('Request handling failed in HTTPS client: ' + error);
         reject(error);
       })
       .on('timeout', () => {
-        request.abort();
         winstonLogger.debug('Request timeout in HTTPS client: %s ms', options.timeout);
       })
       .end();

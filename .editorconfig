@@ -18,6 +18,7 @@ ij_typescript_enforce_trailing_comma = remove
 
 [*.{yml,yaml}]
 indent_size = 2
+ij_typescript_enforce_trailing_comma = remove
 
 [*.md]
 max_line_length = off

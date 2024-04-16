@@ -1,8 +1,8 @@
 import app from '@/app';
 import server from '@/server';
 import { describe, expect, test } from '@jest/globals';
-import { pgp } from '../../../src/resource/postgresClient';
-import clientRedis from '../../../src/resource/redisClient';
+import { pgp } from '@resource/postgresClient';
+import clientRedis from '@resource/redisClient';
 import request, { Response } from 'supertest';
 
 describe('API endpoint tests for status.ts (root)', (): void => {
