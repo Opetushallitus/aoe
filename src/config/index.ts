@@ -30,6 +30,11 @@ process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
+process.env.STREAM_ENABLED || missingEnvs.push('STREAM_ENABLED');
+process.env.STREAM_FILESIZE_MIN || missingEnvs.push('STREAM_FILESIZE_MIN');
+process.env.STREAM_REDIRECT_URI || missingEnvs.push('STREAM_REDIRECT_URI');
+process.env.STREAM_STATUS_HOST || missingEnvs.push('STREAM_STATUS_HOST');
+process.env.STREAM_STATUS_PATH || missingEnvs.push('STREAM_STATUS_PATH');
 process.env.PID_API_KEY || missingEnvs.push('PID_API_KEY');
 process.env.PID_SERVICE_URL || missingEnvs.push('PID_SERVICE_URL');
 
@@ -129,6 +134,9 @@ export default {
     mimeTypeArr: ['audio/mp4', 'audio/mpeg', 'audio/x-m4a', 'video/mp4'] as string[],
     minFileSize: parseInt(process.env.STREAM_FILESIZE_MIN, 10) as number,
     redirectUri: process.env.STREAM_REDIRECT_URI as string,
+    statusHost: process.env.STREAM_STATUS_HOST as string,
+    statusPath: process.env.STREAM_STATUS_PATH as string,
+    streamEnabled: (process.env.STREAM_ENABLED === '1') as boolean,
   } as const,
 
   // Streaming service status request to verify a media file streaming capability.

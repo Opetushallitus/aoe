@@ -12,36 +12,36 @@ stages:
   - deploy
   - cleanup
 
-build_demo:
+build_test:
   stage: build
   script:
-    - echo "DEMO build"
+    - echo "TEST build"
     - docker login -u $AOE_DOCKER_USER -p $AOE_DOCKER_PASS $AOE_DOCKER_REGISTRY
     - docker compose -f docker-compose.prod.yml build
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
-deploy_demo:
+deploy_test:
   stage: deploy
   script:
-    - echo "DEMO deploy"
+    - echo "TEST deploy"
     - docker compose -f docker-compose.prod.yml up -d
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
-cleanup_demo:
+cleanup_test:
   stage: cleanup
   script:
-    - echo "PROD system clean up"
+    - echo "TEST system clean up"
     - docker system prune -a -f --volumes
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
 build_prod:
   stage: build
