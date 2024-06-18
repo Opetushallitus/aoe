@@ -1166,7 +1166,6 @@ export const downloadPreviewFile = async (req: Request, res: Response, next: Nex
 };
 
 /**
- *
  * @param req
  * @param res
  * @param next
@@ -1217,9 +1216,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
 /**
  * Get file details from the database before proceeding to the file download from the cloud object storage.
  * In case of video streaming request can be redirected to the streaming service when all criteria are fulfilled.
- *
  * TODO: Function chain and related leagcy code should be refactored and simplified in both directions.
- *
  * @param req   express.Request
  * @param res   express.Response
  * @param next  express.NextFunction
@@ -1231,29 +1228,27 @@ export const downloadFileFromStorage = async (
   next: NextFunction,
   isZip?: boolean,
 ): Promise<any> => {
-  winstonLogger.debug('downloadFileFromStorage(): req.params.filename=' + req.params.filename + ', isZip=' + isZip);
-
+  winstonLogger.debug('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
   // TODO: Remove req.params.key refrence from apiQueries.ts:286 (and below :774 and :801)
   const fileName: string = (req.params.filename as string) || (req.params.key as string);
-  return new Promise(async (resolve) => {
+  return new Promise(async (resolve): Promise<void> => {
     try {
-      const query =
-        'SELECT originalfilename, filesize, mimetype ' +
-        'FROM record ' +
-        'RIGHT JOIN material AS m ON m.id = materialid ' +
-        'WHERE m.obsoleted = 0 AND filekey = $1 ' +
-        'UNION ' +
-        'SELECT originalfilename, filesize, mimetype ' +
-        'FROM attachment ' +
-        'WHERE filekey = $1 AND obsoleted = 0';
-
+      const query: string = `
+        SELECT originalfilename, filesize, mimetype
+        FROM record
+        RIGHT JOIN material AS m ON m.id = materialid
+        WHERE m.obsoleted = 0 AND filekey = $1
+        UNION
+        SELECT originalfilename, filesize, mimetype
+        FROM attachment
+        WHERE filekey = $1 AND obsoleted = 0
+      `;
       const fileDetails: {
         originalfilename: string;
         filesize: number;
         mimetype: string;
       } = await db.oneOrNone(query, [fileName]);
       // { originalfilename: 'oceanwaves1280x720.mp4', filesize: 2000000, mimetype: 'video/mp4' };
-
       if (!fileDetails) {
         next(new ErrorHandler(404, 'Requested file ' + fileName + ' not found.'));
       } else {
@@ -1267,7 +1262,7 @@ export const downloadFileFromStorage = async (
           res.status(302);
           return resolve(undefined);
         }
-        const params = {
+        const params: { Bucket: string; Key: string } = {
           Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
           Key: (req.params.filename as string) || (req.params.key as string),
         };
@@ -1281,7 +1276,6 @@ export const downloadFileFromStorage = async (
 };
 
 /**
- *
  * @param params
  * readstream from allas. params object: bucket name and allas filekey
  */
@@ -1307,7 +1301,6 @@ export async function readStreamFromStorage(params: { Bucket: string; Key: strin
  * Download an original or compressed (zip) file from the cloud object storage.
  * In case of a download error try to download from the local backup directory.
  * TODO: Refactoring in progress for the function chain and related legacy code.
- *
  * @param req          express.Request
  * @param res          express.Response
  * @param next         express.NextFunction
