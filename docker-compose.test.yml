@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: ./oaipmh-provider/Dockerfile
     image: test-oaipmh-provider:latest
-    container_name: oaipmh-provider
+    container_name: test-oaipmh-provider
     restart: unless-stopped
     ports:
       - '8002:8002'
