@@ -3,9 +3,9 @@ services:
     build:
       context: .
       dockerfile: ./oaipmh-provider/Dockerfile
-    image: oaipmh-provider:latest
+    image: prod-oaipmh-provider:latest
     container_name: prod-oaipmh-provider
-    restart: always
+    restart: unless-stopped
     ports:
       - '8001:8001'
     env_file:
@@ -17,8 +17,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: 'prod'
     networks:
-      - network-oaipmh-provider
+      - network-prod-oaipmh-provider
 
 networks:
-  network-oaipmh-provider:
+  network-prod-oaipmh-provider:
     driver: bridge
