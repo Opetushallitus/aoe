@@ -6,6 +6,8 @@ import fi.csc.provider.model.aoe_request.MetadataRequest;
 import fi.csc.provider.model.aoe_response.AoeMetaFrame;
 import fi.csc.provider.model.aoe_response.AoeMetadata;
 import fi.csc.provider.service.RequestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @Service
 public class RequestServiceImpl implements RequestService {
+    private static final Logger LOG = LoggerFactory.getLogger(RequestServiceImpl.class.getSimpleName());
     private Environment env;
     private RestTemplate restTemplate;
 
