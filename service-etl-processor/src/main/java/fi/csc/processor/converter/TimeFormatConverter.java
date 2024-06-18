@@ -13,7 +13,7 @@ import static java.time.LocalDateTime.ofInstant;
 
 /**
  * JSR-310 Date and Time Conversions.
- * More in https://jcp.org/aboutJava/communityprocess/pfd/jsr310/JSR-310-guide.html
+ * More in <a href="https://jcp.org/aboutJava/communityprocess/pfd/jsr310/JSR-310-guide.html">JSR-310</a>
  */
 public abstract class TimeFormatConverter {
 

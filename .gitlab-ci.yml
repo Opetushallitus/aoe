@@ -2,21 +2,12 @@ variables:
   DOCKER_HOST: unix:///var/run/docker.sock
   DOCKER_DRIVER: overlay2
 
-image:
-  name: docker/compose:1.29.2
-
-services:
-  - name: docker:dind
-    alias: docker
+image: docker:24.0.6
 
 stages:
   - build
   - deploy
   - cleanup
-
-before_script:
-  - docker version
-  - docker-compose version
 
 build_analytics:
   stage: build
@@ -27,7 +18,7 @@ build_analytics:
   only:
     - main
   tags:
-    - oaipmh
+    - prod-oaipmh
 
 deploy_analytics:
   stage: deploy
@@ -37,15 +28,14 @@ deploy_analytics:
   only:
     - main
   tags:
-    - oaipmh
+    - prod-oaipmh
 
 cleanup_analytics:
   stage: cleanup
   script:
     - echo "Cleaning up the system"
-    - docker system prune -a --volumes -f
+    - docker system prune -a -f --volumes
   only:
     - main
   tags:
-    - oaipmh
-  when: manual
+    - prod-oaipmh

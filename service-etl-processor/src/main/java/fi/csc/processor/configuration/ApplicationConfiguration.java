@@ -15,7 +15,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Import({ RDBConfiguration.class, JPAConfigurationPrimary.class, JPAConfigurationSecondary.class })
 public class ApplicationConfiguration {
 
-    @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
     }
