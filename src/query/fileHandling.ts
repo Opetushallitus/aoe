@@ -1233,7 +1233,7 @@ export const downloadFileFromStorage = async (
   const fileName: string = (req.params.filename as string) || (req.params.key as string);
   return new Promise(async (resolve): Promise<void> => {
     try {
-      const query: string = `
+      const query = `
         SELECT originalfilename, filesize, mimetype
         FROM record
         RIGHT JOIN material AS m ON m.id = materialid
