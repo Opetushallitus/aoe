@@ -2,57 +2,52 @@ variables:
   DOCKER_HOST: unix:///var/run/docker.sock
   DOCKER_DRIVER: overlay2
 
-image:
-  name: docker/compose:1.29.2
-
-services:
-  - name: docker:dind
-    alias: docker
+image: docker:24.0.6
 
 stages:
   - build
   - deploy
   - cleanup
 
-build_dev:
+build_test:
   stage: build
   script:
-    - echo "DEMO build"
-    - docker-compose -f docker-compose.test.yml build
+    - echo "TEST build"
+    - docker compose -f docker-compose.test.yml build
   only:
-    - dev
+    - test
   tags:
-    - oaipmh
+    - prod-oaipmh
 
-deploy_dev:
+deploy_test:
   stage: deploy
   script:
-    - echo "DEMO deploy"
-    - docker-compose -f docker-compose.test.yml up -d
+    - echo "TEST deploy"
+    - docker compose -f docker-compose.test.yml up -d
   only:
-    - dev
+    - test
   tags:
-    - oaipmh
+    - prod-oaipmh
 
 build_prod:
   stage: build
   script:
     - echo "PROD build"
-    - docker-compose -f docker-compose.prod.yml build
+    - docker compose -f docker-compose.prod.yml build
   only:
     - main
   tags:
-    - oaipmh
+    - prod-oaipmh
 
 deploy_prod:
   stage: deploy
   script:
     - echo "PROD deploy"
-    - docker-compose -f docker-compose.prod.yml up -d
+    - docker compose -f docker-compose.prod.yml up -d
   only:
     - main
   tags:
-    - oaipmh
+    - prod-oaipmh
 
 cleanup:
   stage: cleanup
@@ -63,4 +58,4 @@ cleanup:
     - dev
     - main
   tags:
-    - oaipmh
+    - prod-oaipmh

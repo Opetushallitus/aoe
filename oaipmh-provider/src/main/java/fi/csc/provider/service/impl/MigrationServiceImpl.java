@@ -47,7 +47,6 @@ public class MigrationServiceImpl implements MigrationService {
     @Override
     public LrmiMetadata migrateAoeToLrmi(AoeMetadata amd) {
         LrmiMetadata lrmi = new LrmiMetadata();
-        setDublinCoreData(amd, lrmi);
         setLrmiData(amd, lrmi);
         return lrmi;
     }
@@ -59,7 +58,7 @@ public class MigrationServiceImpl implements MigrationService {
      * @param amd  Source data from AOE service.
      * @param lrmi Target LRMI data model.
      */
-    private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) {
+    private void setDublinCoreData(AoeMetadata amd, LrmiMetadata lrmi) throws Exception {
 
         // ID set temporarily to be moved to the header block after the metadata migration.
         // lrmi.setIdentifier("oai:aoe.fi:" + amd.getId());
