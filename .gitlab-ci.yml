@@ -55,7 +55,7 @@ cleanup:
     - echo "Cleaning up the system"
     - docker system prune -a -f --volumes
   only:
-    - dev
+    - test
     - main
   tags:
     - prod-oaipmh
