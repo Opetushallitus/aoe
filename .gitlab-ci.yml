@@ -12,8 +12,7 @@ stages:
 build_analytics:
   stage: build
   script:
-    - echo "DEMO build"
-    - docker-compose -f docker-compose.prod.yml down
+    - echo "PROD build"
     - docker-compose -f docker-compose.prod.yml build
   only:
     - main
@@ -23,7 +22,7 @@ build_analytics:
 deploy_analytics:
   stage: deploy
   script:
-    - echo "DEMO deploy"
+    - echo "PROD deploy"
     - docker-compose -f docker-compose.prod.yml up -d
   only:
     - main
@@ -33,7 +32,7 @@ deploy_analytics:
 cleanup_analytics:
   stage: cleanup
   script:
-    - echo "Cleaning up the system"
+    - echo "PROD system clean up"
     - docker system prune -a -f --volumes
   only:
     - main
