@@ -8,8 +8,14 @@ $large-display: 1920px;
 
 @mixin resize($size) {
   $result: $size;
+  
+  @media only screen and (min-width: 1921px) {
+    $result: $size * 1.2;
+    font-size: $result;
+  }
+
   @media only screen and (max-width: $large-display) {
-    $result: $size * 1.1;
+    $result: $size * 1.2;
     font-size: $result;
   }
 
@@ -29,7 +35,7 @@ $large-display: 1920px;
   }
 
   @media only screen and (max-width: $phone) {
-    $result: $size * 1.2;
+    $result: $size * 1.3;
     font-size: $result;
   }
 }
