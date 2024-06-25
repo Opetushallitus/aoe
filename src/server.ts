@@ -21,11 +21,11 @@ if (process.env.NODE_ENV === 'localhost') {
   };
   server = https
     .createServer(options, app)
-    .listen(parseInt(process.env.PORT as string, 10) || 3000, '127.0.0.1', () => {
+    .listen(parseInt(process.env.PORT_LISTEN as string, 10) || 3000, '127.0.0.1', () => {
       winstonLogger.info('App is running at https://localhost:%d in %s mode', app.get('port'), app.get('env'));
     });
 } else {
-  server = app.listen(parseInt(process.env.PORT as string, 10) || 3000, '0.0.0.0', () => {
+  server = app.listen(parseInt(process.env.PORT_LISTEN as string, 10) || 3000, '0.0.0.0', () => {
     winstonLogger.info('App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
   });
 }

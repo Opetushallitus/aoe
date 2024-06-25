@@ -19,7 +19,7 @@ const initOptions: IInitOptions = {
   error: (err: Error, e: IEventContext<IClient>) => {
     if (e.cn) {
       winstonLogger.error('PG [%s] initialization error: %o', PG_URL_HOST, e.cn);
-      winstonLogger.error('ERROR: %o', err);
+      winstonLogger.error('PG error: %o', err);
     }
   },
   promiseLib: promise,
@@ -41,7 +41,6 @@ export const db: IDatabase<IClient, IClient> = pgp(PG_URL_FULL);
 db.connect()
   .then((obj: IConnected<any, IClient>) => {
     winstonLogger.debug('PG [%s] Connection is operable', PG_URL_HOST);
-    pgp.end();
     obj.done();
   })
   .catch((err: Error) => {
