@@ -4,7 +4,6 @@ export interface Attachment {
   originalfilename: string;
   filesize: number;
   mimetype: string;
-  format: string;
   filekey: string;
   filebucket: string;
   defaultfile: boolean;
