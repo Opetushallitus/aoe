@@ -16,9 +16,9 @@ build_demo:
     - echo "DEMO build"
     - docker compose -f docker-compose.demo.yml build
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
 deploy_demo:
   stage: deploy
@@ -26,9 +26,9 @@ deploy_demo:
     - echo "DEMO deploy"
     - docker compose -f docker-compose.demo.yml up -d
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
 cleanup_demo:
   stage: cleanup
@@ -36,9 +36,9 @@ cleanup_demo:
     - echo "DEMO system clean up"
     - docker system prune -a -f --volumes
   only:
-    - dev
+    - test
   tags:
-    - demo
+    - test-apps
 
 build_prod:
   stage: build
