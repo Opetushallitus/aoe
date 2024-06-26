@@ -174,7 +174,7 @@ export const getEducationalMaterialMetadata = async (
     if (!isPublished) {
       query =
         'SELECT m.id, m.materiallanguagekey AS language, link, filepath, originalfilename, filesize, ' +
-        'mimetype, format, filekey, filebucket, pdfkey FROM material AS m ' +
+        'mimetype, filekey, filebucket, pdfkey FROM material AS m ' +
         'LEFT JOIN record AS r ON m.id = r.materialid ' +
         'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0';
       response = await t.any(query, [eduMaterialId]);
@@ -182,7 +182,7 @@ export const getEducationalMaterialMetadata = async (
       if (req.params.publishedat) {
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-          'originalfilename, filesize, mimetype, format, filekey, filebucket, version.publishedat, pdfkey ' +
+          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey ' +
           'FROM (SELECT materialid, publishedat, priority FROM versioncomposition ' +
           'WHERE publishedat = $2) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
@@ -193,7 +193,7 @@ export const getEducationalMaterialMetadata = async (
       } else {
         query =
           'SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-          'originalfilename, filesize, mimetype, format, filekey, filebucket, version.publishedat, pdfkey ' +
+          'originalfilename, filesize, mimetype, filekey, filebucket, version.publishedat, pdfkey ' +
           'FROM (SELECT materialid, publishedat, priority FROM versioncomposition WHERE publishedat = ' +
           '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
           'LEFT JOIN material AS m ON m.id = version.materialid ' +
@@ -222,7 +222,7 @@ export const getEducationalMaterialMetadata = async (
     // get all attachments from attachment table if not published else get from version table
     if (!isPublished) {
       query =
-        'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket, ' +
+        'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, filekey, filebucket, ' +
         'defaultfile, kind, label, srclang, materialid FROM material ' +
         'INNER JOIN attachment ON material.id = attachment.materialid ' +
         'WHERE material.educationalmaterialid = $1 AND material.obsoleted = 0 AND attachment.obsoleted = 0';
@@ -234,14 +234,14 @@ export const getEducationalMaterialMetadata = async (
         // inner join attachment on material.id = attachment.materialid
         // where material.educationalmaterialid = $1 and material.obsoleted = 0 and attachment.obsoleted = 0;";
         query =
-          'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey, ' +
+          'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, filekey, ' +
           'filebucket, defaultfile, kind, label, srclang, materialid FROM attachmentversioncomposition AS v ' +
           'INNER JOIN attachment ON v.attachmentid = attachment.id ' +
           'WHERE versioneducationalmaterialid = $1 AND attachment.obsoleted = 0 AND versionpublishedat = $2';
         response = await t.any(query, [eduMaterialId, req.params.publishedat]);
       } else {
         query =
-          'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, format, filekey, ' +
+          'SELECT attachment.id, filepath, originalfilename, filesize, mimetype, filekey, ' +
           'filebucket, defaultfile, kind, label, srclang, materialid FROM attachmentversioncomposition AS v ' +
           'INNER JOIN attachment ON v.attachmentid = attachment.id ' +
           'WHERE versioneducationalmaterialid = $1 AND attachment.obsoleted = 0 AND versionpublishedat = ' +

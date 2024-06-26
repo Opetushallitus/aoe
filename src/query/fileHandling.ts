@@ -287,9 +287,6 @@ export const uploadFileToLocalDisk = (
   return new Promise((resolve, reject): void => {
     try {
       upload.single('file')(req, res, (err: any): void => {
-        req.on('close', () => {
-          throw new ErrorHandler(500, 'MULTER: ' + err);
-        });
         if (err) {
           if (err.code === 'LIMIT_FILE_SIZE') {
             throw new ErrorHandler(413, 'MULTER: ' + err.message);
@@ -521,8 +518,8 @@ export const checkTemporaryRecordQueue = async (): Promise<void> => {
       const file: MulterFile = {
         fieldname: null,
         originalname: record.originalfilename,
-        encoding: record.format,
-        mimetype: record.mimet,
+        encoding: '',
+        mimetype: record.mimetype,
         size: record.filesize,
         stream: null,
         destination: null,
@@ -566,7 +563,6 @@ export async function checkTemporaryAttachmentQueue(): Promise<any> {
         path: element.filepath,
         size: element.filesize,
         mimetype: element.mimetype,
-        encoding: element.format,
         filename: element.filename,
       };
       try {
@@ -616,7 +612,6 @@ export const upsertMaterialFileToTempRecords = async (
       originalFileName: file.originalname || temporaryRecord.originalFileName,
       fileSize: file.size || temporaryRecord.fileSize,
       mimeType: file.mimetype || temporaryRecord.mimeType,
-      format: file.encoding || temporaryRecord.format,
       fileName: file.filename || temporaryRecord.fileName,
       materialId: materialId || temporaryRecord.materialId,
     },
@@ -636,19 +631,11 @@ export const upsertMaterialFileToTempRecords = async (
  */
 export const insertDataToTempRecordTable = async (t: any, file: MulterFile, materialId: any): Promise<any> => {
   const query = `
-    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, format, materialid)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    INSERT INTO temporaryrecord (filename, filepath, originalfilename, filesize, mimetype, materialid)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING id
   `;
-  return await t.any(query, [
-    file.filename,
-    file.path,
-    file.originalname,
-    file.size,
-    file.mimetype,
-    file.encoding,
-    materialId,
-  ]);
+  return await t.any(query, [file.filename, file.path, file.originalname, file.size, file.mimetype, materialId]);
 };
 
 /**
@@ -831,8 +818,8 @@ export const insertDataToAttachmentTable = async (
       queries.push(
         await db.one(
           `
-          INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, format, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+          INSERT INTO attachment (filePath, originalfilename, filesize, mimetype, fileKey, fileBucket, materialid, defaultfile, kind, label, srclang)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
           RETURNING id
         `,
           [
@@ -840,7 +827,6 @@ export const insertDataToAttachmentTable = async (
             files.originalname,
             files.size,
             files.mimetype,
-            files.encoding,
             fileKey,
             fileBucket,
             materialID,
@@ -881,9 +867,9 @@ export async function updateAttachment(
 
 export async function insertDataToTempAttachmentTable(files: any, metadata: any, attachmentId: string): Promise<any> {
   const query =
-    'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, format, ' +
+    'INSERT INTO temporaryattachment (filename, filepath, originalfilename, filesize, mimetype, ' +
     'defaultfile, kind, label, srclang, attachmentid) ' +
-    'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id';
+    'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id';
   winstonLogger.debug(query);
   return await db.any(query, [
     files.filename,
@@ -891,7 +877,6 @@ export async function insertDataToTempAttachmentTable(files: any, metadata: any,
     files.originalname,
     files.size,
     files.mimetype,
-    files.encoding,
     metadata.default,
     metadata.kind,
     metadata.label,
@@ -939,7 +924,6 @@ export const upsertRecord = async (
       originalFileName: file.originalname,
       fileSize: file.size,
       mimeType: file.mimetype,
-      format: file.encoding, // Deprecated header Content-Transfer-Encoding - See: RFC 7578, Section 4.7
       materialId: materialID,
       fileKey: cloudKey,
       fileBucket: cloudBucket,
@@ -983,7 +967,7 @@ export const insertDataToRecordTable = async (
       `;
       await t.none(query, [materialID]);
       let columnSet: ColumnSet = new pgp.helpers.ColumnSet(
-        ['filepath', 'originalfilename', 'filesize', 'mimetype', 'format', 'materialid', 'filekey', 'filebucket'],
+        ['filepath', 'originalfilename', 'filesize', 'mimetype', 'materialid', 'filekey', 'filebucket'],
         { table: 'record' },
       );
       const values = {
@@ -991,7 +975,6 @@ export const insertDataToRecordTable = async (
         originalfilename: file.originalname,
         filesize: file.size,
         mimetype: file.mimetype,
-        format: file.encoding, // Deprecated header Content-Transfer-Encoding - See: RFC 7578, Section 4.7
         materialid: materialID,
         filekey: cloudKey,
         filebucket: cloudBucket,

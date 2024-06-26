@@ -1,62 +1,77 @@
+import { AlignmentObject, MetadataResponse } from '@aoe/util/metadataModifier';
 import { db } from '@resource/postgresClient';
 import { aoeFileDownloadUrl, aoePdfDownloadUrl, aoeThumbnailDownloadUrl } from '@services/urlService';
+import { modifyEducationalSubjectAndObjectiveURL } from '@util/metadataModifer';
 import winstonLogger from '@util/winstonLogger';
 import { Request, Response } from 'express';
 
-export async function getMaterialMetaData(req: Request, res: Response): Promise<any> {
+/**
+ * API function to fetch the metadata of educational materials as batch requests.
+ * Used by the external service module OAI-PMH Provider for metadata harvesting.
+ * @param {e.Request} req
+ * @param {e.Response} res
+ * @return {Promise<void>}
+ */
+export const getMaterialMetaData = async (req: Request, res: Response): Promise<void> => {
+  if (!req.body.dateMin || !req.body.dateMax || req.body.materialPerPage < 1 || req.body.pageNumber < 0) {
+    res
+      .status(400)
+      .json({ message: 'Mandatory field dateMin, dateMax, materialPerPage or pageNumber is missing' })
+      .end();
+    return;
+  }
+  // Query to count the total amount of published educational materials with a time range requirement.
+  // Notice that a published material has an 'updatedat' value, otherwise it is an unpublished draft.
+  const countQueryWithTimeRange = `
+    SELECT count(*)
+    FROM educationalmaterial em
+    WHERE em.updatedat >= timestamp $1 AND em.updatedat < timestamp $2 AND em.publishedat IS NOT NULL
+  `;
+  // Query to fetch a batch from the database with the provided requirements.
+  const batchQueryWithTimeRange = `
+    SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin,
+      em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires,
+      em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects,
+      em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects,
+      em.suitsallbranches
+    FROM educationalmaterial em
+    WHERE em.updatedat >= timestamp $1 AND em.updatedat < timestamp $2 AND em.publishedat IS NOT NULL
+    ORDER BY em.id ASC
+    OFFSET $3
+    LIMIT $4
+  `;
+  const joinQueryWithLatestVersionMaterials = `
+    SELECT m.id, m.materiallanguagekey AS language, m.link, version.priority, r.originalfilename, r.filesize,
+      r.mimetype, r.filekey, r.filebucket, m.obsoleted, r.pdfkey
+    FROM (
+      SELECT vc.materialid, vc.publishedat, vc.priority FROM versioncomposition vc
+      WHERE publishedat = (
+        SELECT MAX(publishedat)
+        FROM versioncomposition
+        WHERE educationalmaterialid = $1
+      )
+    ) AS version
+    LEFT JOIN material m ON version.materialid = m.id
+    LEFT JOIN record r ON m.id = r.materialid
+    WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0
+  `;
+  const dateMin = req.body.dateMin;
+  const dateMax = req.body.dateMax;
+  const materialPerPage = req.body.materialPerPage;
+  const pageNumber = req.body.pageNumber;
   try {
-    const min = req.body.min;
-    let query2 = 'select count(*) from educationalmaterial where publishedat is not null'; // removed: "where ... and obsoleted = 0"
-    const params: any = [];
-    if (
-      req.body.dateMin !== undefined &&
-      req.body.dateMax !== undefined &&
-      req.body.materialPerPage !== undefined &&
-      req.body.pageNumber !== undefined
-    ) {
-      params.push(req.body.dateMin);
-      params.push(req.body.dateMax);
-      query2 =
-        'select count(*) from educationalmaterial where updatedat >= timestamp $1 and updatedat < timestamp $2 and publishedat is not null'; // removed: "where ... and obsoleted = 0"
-    }
-    const documentcount = await db.oneOrNone(query2, params);
-    let pagecount = 0;
-    if (req.body.materialPerPage) {
-      pagecount = Math.ceil(documentcount.count / req.body.materialPerPage);
-    }
-    // db.task(buildTree)
-    db.task(async (t: any) => {
-      const params: any = [];
-      let query =
-        'select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches' +
-        ' from educationalmaterial as em where em.publishedat is not null order by em.id asc;'; // removed: "where ... and em.obsoleted = 0"
-      if (
-        req.body.dateMin !== undefined &&
-        req.body.dateMax !== undefined &&
-        req.body.materialPerPage !== undefined &&
-        req.body.pageNumber !== undefined
-      ) {
-        params.push(req.body.dateMin);
-        params.push(req.body.dateMax);
-        params.push(req.body.pageNumber * req.body.materialPerPage);
-        params.push(req.body.materialPerPage);
-        query =
-          'select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.licensecode, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches' +
-          ' from educationalmaterial as em where em.updatedat >= timestamp $1 and em.updatedat < timestamp $2 and em.publishedat is not null order by em.id asc OFFSET $3 LIMIT $4;'; // removed: "where ... and obsoleted = 0"
-      }
+    const { completeListSize } = await db.oneOrNone(countQueryWithTimeRange, [dateMin, dateMax]);
+    const pageTotal: number = Math.ceil(completeListSize / materialPerPage);
+
+    db.task(async (t: any): Promise<any> => {
       return t
-        .map(query, params, async (q: any) => {
-          const m: any = [];
-          await Promise.all(
-            await t.map(
-              'SELECT m.id, m.materiallanguagekey AS language, m.link, version.priority, originalfilename, filesize, mimetype, format, filekey, filebucket, m.obsoleted, pdfkey ' +
-                'FROM (SELECT materialid, publishedat, priority FROM versioncomposition ' +
-                'WHERE publishedat = (select MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
-                'LEFT JOIN material AS m ON version.materialid = m.id ' +
-                'LEFT JOIN record AS r ON m.id = r.materialid ' +
-                'WHERE m.educationalmaterialid = $1 AND m.obsoleted = 0',
-              [q.id],
-              async (q2: any) => {
+        .map(
+          batchQueryWithTimeRange,
+          [dateMin, dateMax, pageNumber * materialPerPage, materialPerPage],
+          async (q: any): Promise<any> => {
+            const m: any = [];
+            await Promise.all(
+              await t.map(joinQueryWithLatestVersionMaterials, [q.id], async (q2: any): Promise<void> => {
                 q2.filepath = await aoeFileDownloadUrl(q2.filekey);
                 q2.pdfpath = await aoePdfDownloadUrl(q2.pdfkey);
                 t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
@@ -64,123 +79,113 @@ export async function getMaterialMetaData(req: Request, res: Response): Promise<
                   m.push(q2);
                 });
                 q.materials = m;
-              },
-            ),
-          );
-          query = 'select * from materialname where educationalmaterialid = $1;';
-          const materialName = await t.any(query, q.id);
-          q.materialname = materialName;
+              }),
+            );
+            let query: string;
+            let response: any;
+            query = 'SELECT * FROM materialname WHERE educationalmaterialid = $1';
+            q.materialname = await t.any(query, q.id);
 
-          query = 'select * from materialdescription where educationalmaterialid = $1;';
-          const materialDescription = await t.any(query, q.id);
-          q.materialdescription = materialDescription;
+            query = 'SELECT * FROM materialdescription WHERE educationalmaterialid = $1';
+            q.materialdescription = await t.any(query, q.id);
 
-          query = 'select * from educationalaudience where educationalmaterialid = $1;';
-          let response = await t.any(query, [q.id]);
-          q.educationalaudience = response;
+            query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
+            q.educationalaudience = await t.any(query, [q.id]);
 
-          query = 'select * from learningresourcetype where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.learningresourcetype = response;
+            query = 'SELECT * FROM learningresourcetype WHERE educationalmaterialid = $1';
+            q.learningresourcetype = await t.any(query, [q.id]);
 
-          query = 'select * from accessibilityfeature where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.accessibilityfeature = response;
+            query = 'SELECT * FROM accessibilityfeature WHERE educationalmaterialid = $1';
+            q.accessibilityfeature = await t.any(query, [q.id]);
 
-          query = 'select * from accessibilityhazard where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.accessibilityhazard = response;
+            query = 'SELECT * FROM accessibilityhazard WHERE educationalmaterialid = $1';
+            q.accessibilityhazard = await t.any(query, [q.id]);
 
-          query = 'select * from keyword where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.keyword = response;
+            query = 'SELECT * FROM keyword WHERE educationalmaterialid = $1';
+            q.keyword = await t.any(query, [q.id]);
 
-          query = 'select * from educationallevel where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.educationallevel = response;
+            query = 'SELECT * FROM educationallevel WHERE educationalmaterialid = $1';
+            q.educationallevel = await t.any(query, [q.id]);
 
-          query = 'select * from educationaluse where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.educationaluse = response;
+            query = 'SELECT * FROM educationaluse WHERE educationalmaterialid = $1';
+            q.educationaluse = await t.any(query, [q.id]);
 
-          query = 'select * from publisher where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.publisher = response;
+            query = 'SELECT * FROM publisher WHERE educationalmaterialid = $1';
+            q.publisher = await t.any(query, [q.id]);
 
-          query = 'select * from author where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.author = response;
+            query = 'SELECT * FROM author WHERE educationalmaterialid = $1';
+            q.author = await t.any(query, [q.id]);
 
-          query = 'select * from isbasedon where educationalmaterialid = $1;';
-          // response = await t.any(query, [q.id]);
-          response = await t.map(query, [q.id], (q2: any) => {
-            t.any('select * from isbasedonauthor where isbasedonid = $1;', q2.id).then((data: any) => {
-              q2.author = data;
+            query = 'SELECT * FROM isbasedon WHERE educationalmaterialid = $1';
+            q.isbasedon = await t.map(query, [q.id], (q2: any) => {
+              t.any('SELECT * FROM isbasedonauthor WHERE isbasedonid = $1', q2.id).then((data: any): void => {
+                q2.author = data;
+              });
+              return q2;
             });
-            return q2;
-          });
-          q.isbasedon = response;
 
-          query = 'select * from inlanguage where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.inlanguage = response;
+            query = 'SELECT * FROM inlanguage WHERE educationalmaterialid = $1';
+            q.inlanguage = await t.any(query, [q.id]);
 
-          query = 'select * from alignmentobject where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.alignmentobject = response;
+            query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
+            response = await t.any(query, [q.id]);
+            // TODO: Modify the target URLs before passing alignment objects to the response.
+            if (response) {
+              response.forEach((alignmentObject: AlignmentObject): void => {
+                alignmentObject.targeturl && modifyEducationalSubjectAndObjectiveURL(alignmentObject);
+              });
+            }
+            q.alignmentobject = response;
 
-          query =
-            'SELECT users.firstname, users.lastname FROM educationalmaterial INNER JOIN users ON educationalmaterial.usersusername = users.username WHERE educationalmaterial.id = $1;';
-          response = await t.any(query, [q.id]);
-          q.owner = response;
+            query = `
+              SELECT u.firstname, u.lastname
+              FROM educationalmaterial em
+              INNER JOIN users u ON em.usersusername = u.username
+              WHERE em.id = $1
+            `;
+            q.owner = await t.any(query, [q.id]);
 
-          query = 'select * from educationalaudience where educationalmaterialid = $1;';
-          response = await t.any(query, [q.id]);
-          q.educationalaudience = response;
+            query = 'SELECT * FROM educationalaudience WHERE educationalmaterialid = $1';
+            q.educationalaudience = await t.any(query, [q.id]);
 
-          query = 'Select filekey, mimetype from thumbnail where educationalmaterialid = $1 and obsoleted = 0;';
-          response = await db.oneOrNone(query, [q.id]);
-          if (response) {
-            response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
-            q.thumbnail = response;
-          }
-
-          // Temporary query to attach URN for the OAI-PMH metadata response.
-          // TODO: Remove after the function is refactored.
-          query = `
-                    SELECT urn FROM educationalmaterialversion
-                    WHERE educationalmaterialid = $1 AND publishedat =
-                        (SELECT MAX(publishedat) FROM educationalmaterialversion WHERE educationalmaterialid = $1)
-                    `;
-          response = await db.oneOrNone(query, [q.id]);
-          q.urn = response?.urn || null;
-
-          return q;
-        })
+            query = 'SELECT filekey, mimetype FROM thumbnail WHERE educationalmaterialid = $1 AND obsoleted = 0';
+            response = await db.oneOrNone(query, [q.id]);
+            if (response) {
+              response.filepath = await aoeThumbnailDownloadUrl(response.filekey);
+              q.thumbnail = response;
+            }
+            // Query to attach URN for the OAI-PMH metadata response.
+            query = `
+              SELECT urn FROM educationalmaterialversion
+              WHERE educationalmaterialid = $1 AND publishedat =
+                (SELECT MAX(publishedat) FROM educationalmaterialversion WHERE educationalmaterialid = $1)
+            `;
+            response = await db.oneOrNone(query, [q.id]);
+            q.urn = response?.urn || null;
+            return q;
+          },
+        )
         .then(t.batch)
-        .catch((error: any) => {
-          winstonLogger.error(error);
-          return error;
+        .catch((err: any): void => {
+          winstonLogger.error('Fetching a metadata batch failed at OAI-PMH API endpoint: %o', err);
+          throw err;
         });
     })
-      .then((data: any) => {
-        const obj = {
-          dateMin: req.body.dateMin,
-          dateMax: req.body.dateMax,
-          materialPerPage: req.body.materialPerPage,
-          pageNumber: req.body.pageNumber,
-          pageTotal: pagecount,
-          completeListSize: documentcount.count,
+      .then((data: Record<string, unknown>[]): void => {
+        res.status(200).json({
+          dateMin,
+          dateMax,
+          materialPerPage,
+          pageNumber,
+          pageTotal,
+          completeListSize,
           content: data,
-        };
-        res.status(200).json(obj);
+        } as MetadataResponse);
       })
-      .catch((error: any) => {
-        winstonLogger.error(error);
-        res.sendStatus(500);
+      .catch((err: any): void => {
+        throw err;
       });
   } catch (err) {
-    winstonLogger.error(err);
-    res.sendStatus(500);
+    res.status(500).json({ error: err }).end();
   }
-}
+};

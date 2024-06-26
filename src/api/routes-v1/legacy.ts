@@ -10,7 +10,6 @@ import rating from '@/rating/rating';
 import { updateUserSettings } from '@/users/userSettings';
 import db from '@query/apiQueries';
 import fileHandling from '@query/fileHandling';
-import { getMaterialMetaData } from '@query/oaipmh';
 import { downloadCollectionThumbnail, downloadEmThumbnail } from '@query/thumbnailHandler';
 import authService, { hasAccessToAOE } from '@services/authService';
 import { verifyEmailToken } from '@services/mailService';
@@ -51,7 +50,6 @@ export default (router: Router): void => {
     addMetadataExtension,
   );
   router.get('/names/:id', hasAccessToAOE, getMaterialNames);
-  router.post('/oaipmh/metadata', getMaterialMetaData);
   router.get('/pdf/content/:key', downloadPdfFromAllas);
   router.get('/recentmaterial', db.getRecentMaterial);
 

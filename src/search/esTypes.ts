@@ -136,7 +136,6 @@ export interface Source {
     originalfilename: string;
     filesize: number;
     mimetype: string;
-    format: string;
     filekey: string;
     filebucket: string;
     obsoleted: number;

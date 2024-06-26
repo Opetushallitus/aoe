@@ -151,7 +151,7 @@ export async function metadataToEs(offset: number, limit: number) {
                   ' from educationalmaterial as em where em.obsoleted = 0 and em.publishedat IS NOT NULL order by em.id asc OFFSET $1 LIMIT $2;';
       return t.map(query, params, async (q: any) => {
         const m: any = [];
-        t.map('select m.id, m.materiallanguagekey as language, link, version.priority, filepath, originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted ' +
+        t.map('select m.id, m.materiallanguagekey as language, link, version.priority, filepath, originalfilename, filesize, mimetype, filekey, filebucket, obsoleted ' +
               'from (select materialid, publishedat, priority from versioncomposition where publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)) as version ' +
               'left join material m on m.id = version.materialid left join record r on m.id = r.materialid where m.educationalmaterialid = $1', [q.id], (q2: any) => {
           t.any('select * from materialdisplayname where materialid = $1;', q2.id)
@@ -317,7 +317,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       return t.map(query, params, async (q: any) => { // #2 async start
         const m: any = [];
         t.map('SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-              'originalfilename, filesize, mimetype, format, filekey, filebucket, obsoleted ' +
+              'originalfilename, filesize, mimetype, filekey, filebucket, obsoleted ' +
               'FROM (select materialid, publishedat, priority ' +
               'FROM versioncomposition ' +
               'WHERE publishedat = ' +

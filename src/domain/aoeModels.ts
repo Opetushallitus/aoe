@@ -273,11 +273,6 @@ const Record = <RecordType>sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    format: {
-      field: 'format',
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
     materialId: {
       field: 'materialid',
       type: DataTypes.BIGINT,
@@ -332,11 +327,6 @@ const TemporaryRecord = <TemporaryRecordType>sequelize.define(
     },
     mimeType: {
       field: 'mimetype',
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    format: {
-      field: 'format',
       type: DataTypes.TEXT,
       allowNull: false,
     },
