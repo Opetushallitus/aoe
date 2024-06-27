@@ -26,7 +26,7 @@ import pdfParser from 'pdf-parse';
 import { ColumnSet } from 'pg-promise';
 import s3Zip, { ArchiveOptions } from 's3-zip';
 import { Error, Transaction } from 'sequelize';
-import stream, { PassThrough } from 'stream';
+import stream, { PassThrough, Readable } from 'stream';
 import config from '@/config';
 import { updateDownloadCounter } from './analyticsQueries';
 import { insertEducationalMaterialName } from './apiQueries';
@@ -1211,8 +1211,6 @@ export const downloadFileFromStorage = async (
   next: NextFunction,
   isZip?: boolean,
 ): Promise<any> => {
-  winstonLogger.debug('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
-  // TODO: Remove req.params.key refrence from apiQueries.ts:286 (and below :774 and :801)
   const fileName: string = (req.params.filename as string) || (req.params.key as string);
   return new Promise(async (resolve): Promise<void> => {
     try {
@@ -1243,7 +1241,8 @@ export const downloadFileFromStorage = async (
         ) {
           res.setHeader('Location', config.STREAM_REDIRECT_CRITERIA.redirectUri + fileName);
           res.status(302);
-          return resolve(undefined);
+          resolve(undefined);
+          return;
         }
         const params: { Bucket: string; Key: string } = {
           Bucket: process.env.CLOUD_STORAGE_BUCKET as string,
@@ -1253,6 +1252,7 @@ export const downloadFileFromStorage = async (
         resolve(resp);
       }
     } catch (err) {
+      winstonLogger.error('downloadFileFromStorage(): req.params.filename=%s, isZip=%s', req.params.filename, isZip);
       next(new ErrorHandler(500, 'Downloading a single file failed in downloadFileFromStorage()'));
     }
   });
@@ -1283,7 +1283,6 @@ export async function readStreamFromStorage(params: { Bucket: string; Key: strin
 /**
  * Download an original or compressed (zip) file from the cloud object storage.
  * In case of a download error try to download from the local backup directory.
- * TODO: Refactoring in progress for the function chain and related legacy code.
  * @param req          express.Request
  * @param res          express.Response
  * @param next         express.NextFunction
@@ -1299,7 +1298,6 @@ export const downloadFromStorage = async (
   origFilename: string,
   isZip?: boolean,
 ): Promise<any> => {
-  // TODO: Move to global variables
   const configAWS: ServiceConfigurationOptions = {
     credentials: {
       accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
@@ -1310,65 +1308,35 @@ export const downloadFromStorage = async (
   };
   AWS.config.update(configAWS);
   const s3: S3 = new AWS.S3();
-  const key = s3params.Key;
+  const key: string = s3params.Key;
 
-  return new Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject): Promise<any> => {
     try {
-      const fileStream = s3.getObject(s3params).createReadStream();
+      const fileStream: Readable = s3.getObject(s3params).createReadStream();
       if (isZip) {
-        // replaced: isZip === true
-        const folderpath: string = process.env.HTML_FOLDER + '/' + origFilename;
+        const folderpath = `${process.env.HTML_FOLDER}/${origFilename}`;
         const zipStream: WriteStream = fileStream
-          .on('error', (error: Error) => {
-            winstonLogger.error('Error in zip file download in downloadFromStorage(): ' + error);
-            reject();
-            // const path: string = process.env.BACK_UP_PATH + key;
-            // const backupfs: ReadStream = fs.createReadStream(path);
-            // const backupws: WriteStream = backupfs
-            //     .on('error', (error: Error) => {
-            //         next(new ErrorHandler(500, 'downloadFromStorage() - Error in ' +
-            //             'backup file stream: ' + error));
-            //     })
-            //     .pipe(fs.createWriteStream(folderpath));
-            // backupws.once('finish', async () => {
-            //     resolve(await unZipAndExtract(folderpath));
-            // });
-          })
-          .once('end', () => {
-            // winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
+          .on('error', (err: Error): void => {
+            throw err;
           })
           .pipe(fs.createWriteStream(folderpath));
-        zipStream.once('finish', async () => {
+        zipStream.once('finish', async (): Promise<any> => {
           resolve(await unZipAndExtract(folderpath));
         });
       } else {
         res.attachment(origFilename || key);
-        // res.header('Content-Disposition', contentDisposition(origFilename));
         fileStream
-          .on('error', (error: Error) => {
-            winstonLogger.error('downloadFromStorage() - Error in single file download stream: ' + error);
-            reject();
-            // const backupfs = await readStreamFromBackup(key);
-            // let path = process.env.BACK_UP_PATH + key;
-            // if (s3params.Bucket == process.env.THUMBNAIL_BUCKET_NAME) { // In case of a thumbnail
-            //     path = process.env.THUMBNAIL_BACK_UP_PATH + key;
-            // }
-            // const backupfs = fs.createReadStream(path);
-            // backupfs
-            //     .on('error', (error: Error) => {
-            //         next(new ErrorHandler(500, 'downloadFromStorage() - Error in ' +
-            //             'backup file stream: ' + error));
-            //     })
-            //     .pipe(res);
+          .on('error', (err: Error): void => {
+            throw err;
           })
-          .once('end', () => {
-            // winstonLogger.debug('Download of %s completed in downloadFromStorage()', key);
+          .once('end', (): void => {
             resolve(null);
           })
           .pipe(res);
       }
-    } catch (error) {
-      next(new ErrorHandler(500, 'Error in downloadFromStorage():' + error));
+    } catch (err: unknown) {
+      reject();
+      next(new ErrorHandler(500, `Download of [${origFilename}] failed in downloadFromStorage(): ${err}`));
     }
   });
 };
