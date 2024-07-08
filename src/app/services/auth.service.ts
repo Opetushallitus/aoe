@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { UserData } from '@models/userdata';
-import { CookieService } from 'ngx-cookie-service';
 import { UserSettings } from '@models/users/user-settings';
 import { UpdateUserSettingsResponse } from '@models/users/update-user-settings-response';
 import { Router } from '@angular/router';
@@ -22,7 +21,6 @@ export class AuthService {
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
-    private cookieSvc: CookieService,
     private router: Router,
     private alertSvc: AlertService,
   ) {}
