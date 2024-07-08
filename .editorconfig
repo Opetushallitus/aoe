@@ -15,3 +15,7 @@ max_line_length = off
 
 [*.{js,ts}]
 ij_typescript_enforce_trailing_comma = keep
+
+[*.json]
+indent_size = 2
+ij_typescript_enforce_trailing_comma = remove

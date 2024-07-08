@@ -74,6 +74,20 @@ body {
     }
   }
 
+  .alert-danger {
+    .service-notification a {
+      color: #813838;
+      text-decoration: underline;
+    }
+  }
+
+  .alert-warning {
+    .service-notification a {
+      color: #856404;
+      text-decoration: underline;
+    }
+  }
+
   .invalid-feedback {
     margin-top: 0;
   }

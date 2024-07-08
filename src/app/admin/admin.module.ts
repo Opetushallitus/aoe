@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AdminRoutingModule } from './admin-routing.module';
 
@@ -20,12 +21,13 @@ import { ManageServiceComponent } from './manage-service-view/manage-service.com
 import { AnalyticsViewComponent } from './analytics-view/analytics-view.component';
 import { LineChartComponent } from './charts/line-chart/line-chart.component';
 // guards
-import { AdminGuard } from '../guards';
-import { AuthGuard } from '../guards';
+import { AdminGuard, AuthGuard } from '../guards';
+import { CustomDatePipe } from '@admin/pipes/custom-date.pipe';
 
 @NgModule({
   declarations: [
     AdminComponent,
+    CustomDatePipe,
     RemoveMaterialComponent,
     ChangeMaterialOwnerComponent,
     DashboardComponent,
@@ -36,11 +38,12 @@ import { AuthGuard } from '../guards';
     LineChartComponent,
   ],
   imports: [
-    CommonModule,
     AdminRoutingModule,
-    ReactiveFormsModule,
-    NgSelectModule,
     BsDatepickerModule,
+    CommonModule,
+    FormsModule,
+    NgSelectModule,
+    ReactiveFormsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

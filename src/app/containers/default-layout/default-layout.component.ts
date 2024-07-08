@@ -3,11 +3,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { setLanguage } from '../../shared/shared.module';
 import { AuthService } from '@services/auth.service';
 import { CookieService } from '@services/cookie.service';
-import { interval } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { AlertService } from '@services/alert.service';
 import { AlertsResponse } from '@models/alerts/alerts-response';
-import { NotificationService, Message } from './maintenance-notification.service';
+import { ServiceNotification } from '@models/service-notification';
+import { NotificationService } from '@services/notification.service';
 
 /**
  * @ignore
@@ -15,11 +16,12 @@ import { NotificationService, Message } from './maintenance-notification.service
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
+  styleUrls: ['./default-layout.component.scss'],
 })
 export class DefaultLayoutComponent implements OnInit {
   languages = new Map();
   alerts: AlertsResponse;
-  maintenanceMessage: string;
+  serviceNotifications$: Observable<ServiceNotification[]> = this.notificationService.notifications$;
 
   // Check if the site has been embedded and needs to be blocked due to suspicious activity.
   // window !== window.top : true => The site is in a frame.
@@ -72,14 +74,13 @@ export class DefaultLayoutComponent implements OnInit {
   };
 
   showNotice = true;
-  showMaintenanceAlert = false;
 
   constructor(
     public translate: TranslateService,
     public authService: AuthService,
     private cookieSvc: CookieService,
     private alertSvc: AlertService,
-    private notificationSvc: NotificationService,
+    private notificationService: NotificationService,
   ) {
     this.showNotice = !this.cookieSvc.isCookiePolicyAccepted();
 
@@ -100,12 +101,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.notificationSvc.getNotification().subscribe((message: Message) => {
-      this.maintenanceMessage = message.notification;
-      if (this.maintenanceMessage && this.maintenanceMessage != 'null') {
-        this.showMaintenanceAlert = true;
-      }
-    });
+    this.notificationService.getActiveNotifications();
 
     interval(5 * 60 * 1000) // minutes x seconds x milliseconds
       .pipe(
