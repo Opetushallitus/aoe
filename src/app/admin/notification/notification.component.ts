@@ -17,7 +17,6 @@ import { ToastrService } from 'ngx-toastr';
 export class NotificationComponent implements OnInit {
   form: FormGroup;
   isChecked: boolean = false;
-  isInstructionVisible: boolean = false;
   minDate: Date;
   tableColumnHeaders: string[] = ['ID', 'Tyyppi', 'Tiedote', 'Alkaa', 'Päättyy', 'Toiminnot'];
   notifications$: Observable<Notification[]> = this.notificationService.notifications$;
