@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 import { UserData } from '@models/userdata';
 import { CookieService } from 'ngx-cookie-service';
 import { UserSettings } from '@models/users/user-settings';

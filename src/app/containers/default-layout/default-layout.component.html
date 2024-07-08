@@ -71,15 +71,17 @@
   </alert>
 </div>
 
-<div *ngIf="showMaintenanceAlert && !embedded" class="alert alert-warning mb-0" role="alert">
-  <div class="container">{{ maintenanceMessage }}</div>
-</div>
-
-<!--<div class="alert alert-danger mb-0" role="alert">
-  <div class="container">
-    Palvelussamme on ongelma tiettyjen oppimateriaalien esikatselussa ja lataamisessa. Uusien oppimateriaalien tallentaminen on estetty ongelman selvittämisen ajaksi. Korjaamme ongelman mahdollisimman pian.
+<!-- Service Notifications -->
+<ng-container *ngIf="!embedded">
+  <div
+    *ngFor="let notification of serviceNotifications$ | async"
+    class="alert alert-{{ notification.type === 'ERROR' ? 'danger' : 'warning' }} mb-0"
+    role="alert">
+    <div class="container">
+      <span class="service-notification" [innerHTML]="notification.text"></span>
+    </div>
   </div>
-</div>-->
+</ng-container>
 
 <div *ngIf="!embedded" class="app-body">
   <!-- Main content -->

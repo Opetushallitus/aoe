@@ -1,6 +1,6 @@
 {
   "name": "aoe-web-frontend",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Client Application for the Library of Open Educational Resources",
   "author": "CSC - IT Center for Science Ltd.",
   "contributors": [
@@ -51,6 +51,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "bootstrap": "^4.6.0",
     "core-js": "^2.6.12",
+    "dompurify": "^3.1.5",
     "echarts": "^5.4.0",
     "eslint": "^7.32.0",
     "font-awesome": "^4.7.0",
@@ -83,6 +84,7 @@
     "@angular/compiler-cli": "^14.2.12",
     "@angular/language-service": "^14.3.0",
     "@compodoc/compodoc": "^1.1.14",
+    "@types/dompurify": "^3.0.5",
     "@types/jasmine": "~4.3.5",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^12.20.55",

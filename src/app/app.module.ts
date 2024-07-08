@@ -14,7 +14,9 @@ import { AppRoutingModule } from './app.routing';
 
 // Import 3rd party components
 import { AccordionModule } from 'ngx-bootstrap/accordion';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerModule, BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { fiLocale } from 'ngx-bootstrap/locale';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -119,6 +121,7 @@ import {
 } from './views/collection-form';
 
 const APP_CONTAINERS = [DefaultLayoutComponent];
+defineLocale('fi', fiLocale);
 
 @NgModule({
   imports: [
@@ -238,4 +241,8 @@ const APP_CONTAINERS = [DefaultLayoutComponent];
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private localeService: BsLocaleService) {
+    this.localeService.use('fi');
+  }
+}

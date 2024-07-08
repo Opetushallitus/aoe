@@ -1,21 +1,115 @@
-<h1>Tee huoltokatkoilmoitus</h1>
-
-<div>
-  <input class="form-control" type="text" #input />
-  <p *ngIf="wrongFormat" style="color: red">{{ wrongFormat }}</p>
-  <div>
-    <button class="btn btn-blue" (click)="saveMessage()">Tallenna uusi ilmoitus</button>
-  </div>
-</div>
-
+<h1 class="custom-h1" xmlns="http://www.w3.org/1999/html">Tiedotteet</h1>
+<section>
+  <p>
+    Tiedote on käyttöliittymässä näkyvä banneri, jossa käyttäjille voidaan ilmoittaa ajankohtaisista asioista ja
+    palvelun teknisistä häiriöistä. Määritä lomakkeella vähintään tiedotteen tyyppi ja teksti ennen tallennusta.
+    Tiedotteeseen voi tarvittaessa lisätä linkin HTML-muodossa
+    <span class="prelike">&lt;a href="https://aoe.fi"&gt;AOE&lt;/a&gt;</span>
+    . Huomioi tiedotteiden suunnittelussa samanaikaisesti näkyvien tiedotteiden määrä ja sisältö. Tallennettu tiedote
+    näkyy käyttäjille heti tai annetun alkamispäivän alusta. Aktiivinen tiedote näkyy käyttäjille kunnes se poistetaan
+    tai annetun päättymispäivän loppuun asti. Valitse huoltokatkoille ja muille säännöllisille tapahtumille tyypiksi
+    yleinen tiedote.
+  </p>
+</section>
 <br />
-
-<h4>Nykyinen ilmoitus:</h4>
-<div *ngIf="currentNotification; else elseBlock">
-  <p>{{ currentNotification }}</p>
-  <p>Lisätty: {{ notificationUpdatedTime | date: "d.M.yyyy HH:mm" }}</p>
-  <button class="btn btn-danger" (click)="deleteNotification()">Poista ilmoitus</button>
-</div>
-<ng-template #elseBlock>
-  <p>[Ei ilmoitusta]</p>
-</ng-template>
+<section>
+  <h2>Tiedotteen tallennus</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Notification Type Select -->
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        <label for="notificationType">Tiedotteen tyyppi *</label>
+        <ng-select
+          [items]="notificationOptions"
+          bindLabel="description"
+          bindValue="key"
+          labelForId="notificationType"
+          id="notificationType"
+          appendTo="body"
+          formControlName="notificationType"></ng-select>
+        <ng-container *ngIf="notificationType?.invalid && (notificationType.dirty || notificationType.touched)">
+          <div *ngIf="notificationType.errors?.required">
+            <small class="text-danger">Valitse tiedotteen tyyppi</small>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="showSince">Tiedote alkaa</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="showSince"
+          formControlName="showSince"
+          bsDatepicker
+          readonly
+          [minDate]="minDate"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+      </div>
+      <div class="form-group col-sm-4">
+        <label for="showUntil">Tiedote päättyy</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="showUntil"
+          formControlName="showUntil"
+          bsDatepicker
+          readonly
+          [minDate]="minDate"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+      </div>
+    </div>
+    <!-- Notification Text Input -->
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <label for="notification">Tiedotteen teksti *</label>
+        <input id="notification" formControlName="notification" class="form-control" />
+        <ng-container *ngIf="notification?.invalid && (notification.dirty || notification.touched)">
+          <div *ngIf="notification.errors?.required || notification.errors?.minLength">
+            <small class="text-danger">Kirjoita tiedotteen teksti</small>
+          </div>
+          <div *ngIf="notification.errors?.maxlength">
+            <small class="text-danger">Tiedotteen maksimipituus on 500 merkkiä</small>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-10 col-md-8">
+        <button type="submit" [disabled]="form.invalid" class="btn btn-blue">Tallenna</button>
+        &nbsp;&nbsp;
+        <button (click)="onReset($event)" class="btn btn-cancel">Tyhjennä</button>
+      </div>
+    </div>
+  </form>
+</section>
+<br />
+<section>
+  <h2>Aktiiviset tiedotteet</h2>
+  <input type="checkbox" [(ngModel)]="isChecked" (change)="onCheckboxChange()" />
+  <label>&nbsp;&nbsp;Näytä tulevat tiedotteet</label>
+  <ng-container *ngIf="(notifications$ | async) as notifications">
+    <table class="table table-sm">
+      <thead>
+        <tr class="table-primary">
+          <th *ngFor="let header of tableColumnHeaders" scope="col">{{ header }}</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="notifications.length > 0">
+        <tr *ngFor="let notification of notifications">
+          <td>{{ notification.id }}</td>
+          <td>
+            <span class="badge badge-pill badge-{{ notification.type === 'ERROR' ? 'danger' : 'success' }}">
+              {{ notification.type === 'ERROR' ? 'ERR' : notification.type }}
+            </span>
+          </td>
+          <td [innerHTML]="notification.text"></td>
+          <td>{{ notification.showSince | customDate }}</td>
+          <td>{{ notification.showUntil | customDate }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="onDelete(notification.id)">Poista</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
+</section>
