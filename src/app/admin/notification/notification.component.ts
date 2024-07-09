@@ -30,9 +30,8 @@ export class NotificationComponent implements OnInit {
       showUntil: [''],
     });
     DOMPurify.addHook('afterSanitizeAttributes', (element: Element): void => {
-      if (element.tagName === 'A' && !element.hasAttribute('target')) {
-        element.setAttribute('target', '_blank');
-      }
+      if (element.tagName === 'A' && !element.hasAttribute('target')) element.setAttribute('target', '_blank');
+      if (element.tagName === 'A' && !element.hasAttribute('rel')) element.setAttribute('rel', 'noopener noreferrer');
     });
   }
 
@@ -98,7 +97,7 @@ export class NotificationComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       const sanitizedNotification: string = DOMPurify.sanitize(this.form.get('notification')?.value, {
-        ALLOWED_ATTR: ['href', 'target'],
+        ALLOWED_ATTR: ['href', 'rel', 'target'],
         ALLOWED_TAGS: ['a', 'b', 'i'],
       });
       console.log(sanitizedNotification);
