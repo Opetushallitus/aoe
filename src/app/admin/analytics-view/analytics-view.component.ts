@@ -71,6 +71,9 @@ export class AnalyticsViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.koodistoService.updateOrganizations();
+    this.koodistoService.updateEducationalLevels();
+    this.koodistoService.updateSubjectFilters();
     this.userActivityForm = this.formBuilder.group({
       activity: this.formBuilder.control(null, [Validators.required]),
       interval: this.formBuilder.control(Intervals.DAY, [Validators.required]),
@@ -97,48 +100,63 @@ export class AnalyticsViewComponent implements OnInit {
       publishedEducationalSubjects: this.formBuilder.control(null),
     });
   }
+
   get activityCtrl(): FormControl {
     return this.userActivityForm.get('activity') as FormControl;
   }
+
   get intervalCtrl(): FormControl {
     return this.userActivityForm.get('interval') as FormControl;
   }
+
   get startDateCtrl(): FormControl {
     return this.userActivityForm.get('startDate') as FormControl;
   }
+
   get endDateCtrl(): FormControl {
     return this.userActivityForm.get('endDate') as FormControl;
   }
+
   get organizationsCtrl(): FormControl {
     return this.userActivityForm.get('organizations') as FormControl;
   }
+
   get educationalLevelsCtrl(): FormControl {
     return this.userActivityForm.get('educationalLevels') as FormControl;
   }
+
   get educationalSubjectsCtrl(): FormControl {
     return this.userActivityForm.get('educationalSubjects') as FormControl;
   }
+
   get expiredEducationalLevelsCtrl(): FormControl {
     return this.expiredMaterialsForm.get('educationalLevels') as FormControl;
   }
+
   get expiredBeforeCtrl(): FormControl {
     return this.expiredMaterialsForm.get('expiredBefore') as FormControl;
   }
+
   get publishedCategoryCtrl(): FormControl {
     return this.publishedMaterialsForm.get('category') as FormControl;
   }
+
   get publishedStartDateCtrl(): FormControl {
     return this.publishedMaterialsForm.get('publishedStartDate') as FormControl;
   }
+
   get publishedEndDateCtrl(): FormControl {
     return this.publishedMaterialsForm.get('publishedEndDate') as FormControl;
   }
+
   get publishedOrganizationsCtrl(): FormControl {
     return this.publishedMaterialsForm.get('publishedOrganizations') as FormControl;
   }
+
   get publishedEducationalLevelsCtrl(): FormControl {
     return this.publishedMaterialsForm.get('publishedEducationalLevels') as FormControl;
   }
+
   get publishedEducationalSubjectsCtrl(): FormControl {
     return this.publishedMaterialsForm.get('publishedEducationalSubjects') as FormControl;
   }
