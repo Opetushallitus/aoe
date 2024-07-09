@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { UserData } from '@models/userdata';
 import { UserSettings } from '@models/users/user-settings';
@@ -32,7 +32,6 @@ export class AuthService {
    */
   private handleError(error: HttpErrorResponse) {
     console.error(error);
-
     return throwError('Something bad happened; please try again later.');
   }
 
@@ -49,26 +48,20 @@ export class AuthService {
    * Request up-to-date user's information and update the state of userData$.
    * @returns {void}
    */
-  updateUserData(): void {
-    this.http
+  updateUserData(): Observable<UserData> {
+    return this.http
       .get<UserData>(`${environment.backendUrl}/userdata`, {
         headers: new HttpHeaders({
           Accept: 'application/json',
         }),
       })
-      .subscribe(
-        (userData: UserData) => {
+      .pipe(
+        map((userData: UserData) => userData),
+        tap((userData: UserData): void => {
           this.userDataBehaviorSubject$$.next(userData);
-          // const expires = new Date();
-          // expires.setTime(expires.getTime() + environment.sessionMaxAge);
-          // this.cookieSvc.set(environment.userdataKey, JSON.stringify(userData), expires);
-        },
-        (error) => {
-          // Remove user's information if the session is not valid anymore.
-          if (error.status === 401 && this.userDataBehaviorSubject$$.getValue()) {
-            this.removeUserData().then();
-          }
-        },
+          sessionStorage.setItem('userData', JSON.stringify(userData));
+        }),
+        catchError((err) => of(err)),
       );
   }
 
@@ -78,7 +71,6 @@ export class AuthService {
    */
   getUserData(): UserData {
     return this.userDataBehaviorSubject$$.getValue();
-    // return this.hasUserdata() ? JSON.parse(this.cookieSvc.get(environment.userdataKey)) : null;
   }
 
   /**
@@ -86,8 +78,7 @@ export class AuthService {
    * @returns {boolean}
    */
   hasUserData(): boolean {
-    return !!this.userDataBehaviorSubject$$.getValue();
-    // return this.cookieSvc.check(environment.userdataKey);
+    return this.userDataBehaviorSubject$$.getValue() !== null;
   }
 
   /**
@@ -95,10 +86,7 @@ export class AuthService {
    */
   async removeUserData(): Promise<void> {
     this.userDataBehaviorSubject$$.next(null);
-    // this.cookieSvc.delete(environment.userdataKey);
-    return;
-    // remove session id
-    // this.cookieSvc.delete('connect.sid');
+    sessionStorage.removeItem('userData');
   }
 
   /**
@@ -109,8 +97,8 @@ export class AuthService {
     this.http.put<any>(`${environment.backendUrl}/termsofusage`, null).subscribe(
       () => this.removeUserData(),
       (err) => console.error(err),
-      () => {
-        this.updateUserData();
+      (): void => {
+        this.updateUserData().subscribe();
         void this.router.navigate(['/etusivu']);
       },
     );
@@ -130,7 +118,7 @@ export class AuthService {
           }),
         },
       )
-      .subscribe(async () => {
+      .subscribe(async (): Promise<void> => {
         await this.removeUserData();
         void this.router.navigate(['/logout']);
       });
@@ -153,7 +141,6 @@ export class AuthService {
 
   hasEmail(): boolean {
     return !!this.userDataBehaviorSubject$$.getValue()?.email;
-    // return !!this.userData$?.email;
   }
 
   hasVerifiedEmail(): boolean {

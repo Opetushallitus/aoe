@@ -9,18 +9,18 @@ import { HttpResponse } from '@angular/common/http';
   providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  constructor(private router: Router, private adminSvc: AdminService) {}
+  constructor(private router: Router, private adminService: AdminService) {}
 
   canActivate(
     _route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.adminSvc.getAdminStatus().pipe(
-      map((response: HttpResponse<string>) => {
+    return this.adminService.getAdminStatus().pipe(
+      map((response: HttpResponse<string>): UrlTree | boolean => {
         if (response.status !== 200) {
-          return this.router.parseUrl('/404');
+          void this.router.parseUrl('/404');
+          return false;
         }
-
         return true;
       }),
     );

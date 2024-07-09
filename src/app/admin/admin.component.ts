@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { KoodistoService } from './services/koodisto.service';
+import { AuthService } from '@services/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,12 +11,10 @@ import { KoodistoService } from './services/koodisto.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AdminComponent implements OnInit {
-  constructor(private titleSvc: Title, public koodistoService: KoodistoService) {}
+  constructor(private authService: AuthService, private titleSvc: Title, public koodistoService: KoodistoService) {}
 
   ngOnInit(): void {
+    this.authService.updateUserData().subscribe();
     this.titleSvc.setTitle(`Bryssel ${environment.title}`);
-    this.koodistoService.updateOrganizations();
-    this.koodistoService.updateEducationalLevels();
-    this.koodistoService.updateSubjectFilters();
   }
 }

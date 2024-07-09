@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-
 import { AuthService } from '@services/auth.service';
 
 @Injectable({
@@ -11,7 +10,9 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   /**
-   * Checks if user is logged in.
+   * Checks if authenticated user exists.
+   * AuthGuard is executed before navigating to the target URL.
+   * The user information is verified from the session storage if not available in service state.
    * @param {ActivatedRouteSnapshot} _next
    * @param {RouterStateSnapshot} _state
    * @returns {Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree}
@@ -20,10 +21,10 @@ export class AuthGuard implements CanActivate {
     _next: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.authService.hasUserData()) {
-      return this.router.parseUrl('/etusivu');
-    } else {
+    if (this.authService.hasUserData() || sessionStorage.getItem('userData')) {
       return true;
     }
+    void this.router.navigate(['/etusivu']);
+    return false;
   }
 }

@@ -64,7 +64,7 @@ export class AppComponent implements OnDestroy, OnInit {
       const url: string = this.router.url;
 
       if (!this.userData && !url.includes('/embed/')) {
-        this.authService.updateUserData();
+        this.authService.updateUserData().subscribe();
       }
     });
   }

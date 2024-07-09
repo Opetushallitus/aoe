@@ -17,6 +17,7 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
   form: FormGroup;
   userData: UserData;
   userDataSubscription: Subscription;
+
   constructor(
     private translate: TranslateService,
     private titleService: Title,
@@ -81,7 +82,7 @@ export class UserDetailsViewComponent implements OnDestroy, OnInit {
         () => {
           this.form.markAsPristine();
           this.authService.removeUserData().then();
-          this.authService.updateUserData();
+          this.authService.updateUserData().subscribe();
         },
         (err) => console.error(err),
       );
