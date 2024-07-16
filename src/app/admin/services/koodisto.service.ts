@@ -23,9 +23,9 @@ export class KoodistoService {
   private organizationsBehaviorSubject = new BehaviorSubject<KeyValue<string, string>[]>(null);
   private subjectFiltersBehaviorSubject = new BehaviorSubject<SubjectFilter[]>(null);
 
-  public educationalLevels$ = this.educationalLevelsBehaviorSubject.asObservable();
-  public organizations$ = this.organizationsBehaviorSubject.asObservable();
-  public subjectFilters$ = this.subjectFiltersBehaviorSubject.asObservable();
+  public educationalLevels$: Observable<EducationalLevel[]> = this.educationalLevelsBehaviorSubject.asObservable();
+  public organizations$: Observable<KeyValue<string, string>[]> = this.organizationsBehaviorSubject.asObservable();
+  public subjectFilters$: Observable<SubjectFilter[]> = this.subjectFiltersBehaviorSubject.asObservable();
 
   constructor(private http: HttpClient, private translate: TranslateService) {
     this.lang = this.translate.currentLang;

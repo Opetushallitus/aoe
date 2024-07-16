@@ -12,7 +12,7 @@ export const environment = {
   backendUrl: 'https://localhost:3000/api/v1', // 'https://demo.aoe.fi/api/v1', // demo
   backendUrlV2: 'https://localhost:3000/api/v2', // 'https://demo.aoe.fi/api/v2',
   embedBackendUrl: 'https://localhost:3000', // 'https://lessons.demo.aoe.fi/embed', // demo
-  statisticsBackendUrl: 'https://demo.aoe.fi/stat/api/v2/statistics/prod',
+  statisticsBackendUrl: 'https://demo.aoe.fi/stat/api/statistics/prod',
   // backendUrl: 'https://aoe.fi/api', // prod
   frontendUrl: 'http://localhost:4200',
   newERLSKey: 'aoe.new-educational-resource',

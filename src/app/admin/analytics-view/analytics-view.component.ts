@@ -26,6 +26,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StatisticsService } from '../services/statistics.service';
 import { KoodistoService } from '../services/koodisto.service';
 import { Categories, Activities, Intervals } from '../model/enumeration/Categories';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-analytics-view',
@@ -33,6 +34,9 @@ import { Categories, Activities, Intervals } from '../model/enumeration/Categori
   styleUrls: ['./analytics-view.component.scss'],
 })
 export class AnalyticsViewComponent implements OnInit {
+  educationalLevels$: Observable<EducationalLevel[]> = this.koodistoService.educationalLevels$;
+  organizations$: Observable<KeyValue<string, string>[]> = this.koodistoService.organizations$;
+  subjectFilter$: Observable<SubjectFilter[]> = this.koodistoService.subjectFilters$;
   userActivityForm: FormGroup;
   expiredMaterialsForm: FormGroup;
   publishedMaterialsForm: FormGroup;
