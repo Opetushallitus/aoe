@@ -1,32 +1,33 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  EChartsOption,
-  TooltipComponentOption,
-  ToolboxComponentOption,
   DataZoomComponentOption,
-  YAXisComponentOption,
-  LegendComponentOption,
+  EChartsOption,
   GridComponentOption,
+  LegendComponentOption,
+  ToolboxComponentOption,
+  TooltipComponentOption,
+  YAXisComponentOption,
 } from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { KeyValue } from '@angular/common';
 import {
-  StatisticsTimespanPost,
-  StatisticsPortionsPost,
-  StatisticsIntervalResponse,
-  StatisticsPortionsResponse,
-  EducationalLevel,
-  SubjectFilter,
-  PortionResponse,
-  IntervalResponse,
-  EChartData,
   ActivityData,
+  EChartData,
+  EducationalLevel,
+  IntervalResponse,
+  PortionResponse,
+  StatisticsIntervalResponse,
+  StatisticsPortionsPost,
+  StatisticsPortionsResponse,
+  StatisticsTimespanPost,
+  SubjectFilter,
 } from '../model';
 import { ToastrService } from 'ngx-toastr';
 import { StatisticsService } from '../services/statistics.service';
 import { KoodistoService } from '../services/koodisto.service';
-import { Categories, Activities, Intervals } from '../model/enumeration/Categories';
+import { ActivityType, CategoryType, IntervalType } from '../model/enumeration/CategoryType';
 import { Observable } from 'rxjs';
+import { ActivityOptions, Interval } from '@admin/model/statistics-select-options';
 
 @Component({
   selector: 'app-analytics-view',
@@ -37,8 +38,10 @@ export class AnalyticsViewComponent implements OnInit {
   educationalLevels$: Observable<EducationalLevel[]> = this.koodistoService.educationalLevels$;
   organizations$: Observable<KeyValue<string, string>[]> = this.koodistoService.organizations$;
   subjectFilter$: Observable<SubjectFilter[]> = this.koodistoService.subjectFilters$;
-  userActivityForm: FormGroup;
+
+  activityForm: FormGroup;
   expiredMaterialsForm: FormGroup;
+  today: Date;
   publishedMaterialsForm: FormGroup;
   submitted: boolean;
   publishedSubmitted: boolean;
@@ -50,87 +53,104 @@ export class AnalyticsViewComponent implements OnInit {
   userActivityChart: EChartsOption;
   expiredMaterialsChart: EChartsOption;
   materialTotalsChart: EChartsOption;
-  activityOptions = [
-    { name: Activities.VIEW },
-    { name: Activities.EDIT },
-    { name: Activities.DOWNLOAD },
-    { name: Activities.SEARCH },
+  activityOptions: ActivityOptions[] = [
+    { key: ActivityType.EDIT, value: 'edit', label: { fi: 'Muokkaus', sv: '', en: '' } },
+    { key: ActivityType.DOWNLOAD, value: 'download', label: { fi: 'Lataus', sv: '', en: '' } },
+    { key: ActivityType.SEARCH, value: 'search', label: { fi: 'Haku', sv: '', en: '' } },
+    { key: ActivityType.VIEW, value: 'view', label: { fi: 'Katselu', sv: '', en: '' } },
   ];
-  intervals = [{ name: Intervals.DAY }, { name: Intervals.WEEK }, { name: Intervals.MONTH }];
-  selectedInterval: Intervals;
+  intervals: Interval[] = [
+    { key: IntervalType.DAY, value: 'day', label: { fi: 'Päivä', sv: '', en: '' } },
+    { key: IntervalType.WEEK, value: 'week', label: { fi: 'Viikko', sv: '', en: '' } },
+    { key: IntervalType.MONTH, value: 'month', label: { fi: 'Kuukausi', sv: '', en: '' } },
+  ];
   categories = [
-    { name: 'Educational Levels', value: Categories.EDUCATIONAL_LEVEL },
-    { name: 'Educational Subjects', value: Categories.EDUCATIONAL_SUBJECT },
-    { name: 'Organizations', value: Categories.ORGANIZATION },
+    { name: 'Educational Levels', value: CategoryType.EDUCATIONAL_LEVEL },
+    { name: 'Educational Subjects', value: CategoryType.EDUCATIONAL_SUBJECT },
+    { name: 'Organizations', value: CategoryType.ORGANIZATION },
   ];
-  category: Categories = Categories.EDUCATIONAL_LEVEL;
+  category: CategoryType = CategoryType.EDUCATIONAL_LEVEL;
   publishedcategory: 'educationallevel' | 'educationalsubject' | 'organization' = 'educationallevel';
   chartData: { name: string; value: number[] }[] = [];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     public koodistoService: KoodistoService,
     private statisticsService: StatisticsService,
     private toastr: ToastrService,
-  ) {}
+  ) {
+    this.today = new Date();
+  }
 
   ngOnInit(): void {
     this.koodistoService.updateOrganizations();
     this.koodistoService.updateEducationalLevels();
     this.koodistoService.updateSubjectFilters();
-    this.userActivityForm = this.formBuilder.group({
-      activity: this.formBuilder.control(null, [Validators.required]),
-      interval: this.formBuilder.control(Intervals.DAY, [Validators.required]),
-      startDate: this.formBuilder.control(new Date(new Date().setFullYear(new Date().getFullYear() - 1)), [
-        Validators.required,
-      ]),
-      endDate: this.formBuilder.control(new Date(), [Validators.required]),
-      organizations: this.formBuilder.control(null),
-      educationalLevels: this.formBuilder.control(null),
-      educationalSubjects: this.formBuilder.control(null),
+    this.activityForm = this.fb.group({
+      activity: [null, [Validators.required]],
+      interval: [null, [Validators.required]],
+      dateSince: [this.getDateYearAgo(this.today), [Validators.required]],
+      dateUntil: [this.today, [Validators.required]],
+      organizations: [null],
+      educationalLevels: [null],
+      educationalSubjects: [null],
     });
-    this.expiredMaterialsForm = this.formBuilder.group({
-      expiredBefore: this.formBuilder.control(new Date(), [Validators.required]),
-      organizations: this.formBuilder.control(null),
-      educationalLevels: this.formBuilder.control(null, [Validators.required]),
-      educationalSubjects: this.formBuilder.control(null),
+    this.expiredMaterialsForm = this.fb.group({
+      expiredBefore: this.fb.control(new Date(), [Validators.required]),
+      organizations: this.fb.control(null),
+      educationalLevels: this.fb.control(null, [Validators.required]),
+      educationalSubjects: this.fb.control(null),
     });
-    this.publishedMaterialsForm = this.formBuilder.group({
-      category: this.formBuilder.control(this.categories[0].name, [Validators.required]),
-      publishedStartDate: this.formBuilder.control(new Date(new Date().setFullYear(new Date().getFullYear() - 1))),
-      publishedEndDate: this.formBuilder.control(new Date()),
-      publishedOrganizations: this.formBuilder.control(null),
-      publishedEducationalLevels: this.formBuilder.control(null),
-      publishedEducationalSubjects: this.formBuilder.control(null),
+    this.publishedMaterialsForm = this.fb.group({
+      category: this.fb.control(this.categories[0].name, [Validators.required]),
+      publishedStartDate: this.fb.control(new Date(new Date().setFullYear(new Date().getFullYear() - 1))),
+      publishedEndDate: this.fb.control(new Date()),
+      publishedOrganizations: this.fb.control(null),
+      publishedEducationalLevels: this.fb.control(null),
+      publishedEducationalSubjects: this.fb.control(null),
     });
+  }
+
+  getDatestamp(date: Date): string {
+    const dateCopy: Date = new Date(date);
+    const year: number = dateCopy.getFullYear();
+    const month: string = ('0' + (dateCopy.getMonth() + 1)).slice(-2);
+    const day: string = ('0' + dateCopy.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  }
+
+  getDateYearAgo(date: Date): Date {
+    const dateCopy: Date = new Date(date);
+    dateCopy.setFullYear(dateCopy.getFullYear() - 1);
+    return dateCopy;
   }
 
   get activityCtrl(): FormControl {
-    return this.userActivityForm.get('activity') as FormControl;
+    return this.activityForm.get('activity') as FormControl;
   }
 
   get intervalCtrl(): FormControl {
-    return this.userActivityForm.get('interval') as FormControl;
+    return this.activityForm.get('interval') as FormControl;
   }
 
-  get startDateCtrl(): FormControl {
-    return this.userActivityForm.get('startDate') as FormControl;
+  get dateSinceCtrl(): FormControl {
+    return this.activityForm.get('dateSince') as FormControl;
   }
 
-  get endDateCtrl(): FormControl {
-    return this.userActivityForm.get('endDate') as FormControl;
+  get dateUntilCtrl(): FormControl {
+    return this.activityForm.get('dateUntil') as FormControl;
   }
 
   get organizationsCtrl(): FormControl {
-    return this.userActivityForm.get('organizations') as FormControl;
+    return this.activityForm.get('organizations') as FormControl;
   }
 
   get educationalLevelsCtrl(): FormControl {
-    return this.userActivityForm.get('educationalLevels') as FormControl;
+    return this.activityForm.get('educationalLevels') as FormControl;
   }
 
   get educationalSubjectsCtrl(): FormControl {
-    return this.userActivityForm.get('educationalSubjects') as FormControl;
+    return this.activityForm.get('educationalSubjects') as FormControl;
   }
 
   get expiredEducationalLevelsCtrl(): FormControl {
@@ -165,11 +185,20 @@ export class AnalyticsViewComponent implements OnInit {
     return this.publishedMaterialsForm.get('publishedEducationalSubjects') as FormControl;
   }
 
+  onReset(event: Event): void {
+    event.preventDefault();
+    this.activityForm.reset({
+      dateSince: this.getDateYearAgo(this.today),
+      dateUntil: this.today,
+    });
+    (event.target as HTMLElement).blur();
+  }
+
   /**
    * Changes selected category in Published materials form.
-   * @param {Categories} selectedCategory User selected category from dropdown
+   * @param {CategoryType} selectedCategory User selected category from dropdown
    */
-  categoryChange(selectedCategory: Categories): void {
+  categoryChange(selectedCategory: CategoryType): void {
     this.category = selectedCategory ? selectedCategory : this.category;
   }
 
@@ -180,26 +209,25 @@ export class AnalyticsViewComponent implements OnInit {
     this.publishedSubmitted = true;
     let fieldValue: string[] = [];
     const startDateString: string = this.publishedStartDateCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.publishedStartDateCtrl.value), Intervals.DAY)
+      ? this.statisticsService.dateToString(new Date(this.publishedStartDateCtrl.value), 'day')
       : null;
     const endDateString: string = this.publishedEndDateCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), Intervals.DAY)
+      ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), 'day')
       : null;
-
     switch (this.category) {
-      case Categories.EDUCATIONAL_LEVEL:
+      case CategoryType.EDUCATIONAL_LEVEL:
         fieldValue = this.publishedEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         );
         this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
         this.publishedMaterialsForm.get('publishedOrganizations').reset();
         break;
-      case Categories.EDUCATIONAL_SUBJECT:
+      case CategoryType.EDUCATIONAL_SUBJECT:
         fieldValue = this.publishedEducationalSubjectsCtrl.value?.map((subject: SubjectFilter) => subject.key);
         this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
         this.publishedMaterialsForm.get('publishedOrganizations').reset();
         break;
-      case Categories.ORGANIZATION:
+      case CategoryType.ORGANIZATION:
         fieldValue = this.publishedOrganizationsCtrl.value?.map(
           (organization: KeyValue<string, string>) => organization.key,
         );
@@ -212,7 +240,6 @@ export class AnalyticsViewComponent implements OnInit {
         this.publishedMaterialsForm.get('publishedOrganizations').reset();
         break;
     }
-
     if (
       this.publishedMaterialsForm.valid &&
       (this.publishedEducationalLevelsCtrl.value?.length ||
@@ -224,16 +251,14 @@ export class AnalyticsViewComponent implements OnInit {
         until: endDateString as string, //YYYY-MM-DD | null
         [this.category]: fieldValue as string[],
       };
-
       this.publishedcategory =
-        this.category === Categories.EDUCATIONAL_LEVEL
+        this.category === CategoryType.EDUCATIONAL_LEVEL
           ? 'educationallevel'
-          : this.category === Categories.EDUCATIONAL_SUBJECT
+          : this.category === CategoryType.EDUCATIONAL_SUBJECT
           ? 'educationalsubject'
-          : this.category === Categories.ORGANIZATION
+          : this.category === CategoryType.ORGANIZATION
           ? 'organization'
           : this.publishedcategory;
-
       this.getCategoryNames()
         .then((categoryItems: { key: string; value: string }[]) => {
           this.getPublishedMaterials(payload, this.publishedcategory, categoryItems).then(
@@ -260,7 +285,7 @@ export class AnalyticsViewComponent implements OnInit {
     let categoryItems: { key: string; value: string }[] = [];
     return new Promise((resolve, reject) => {
       switch (this.category) {
-        case Categories.EDUCATIONAL_LEVEL:
+        case CategoryType.EDUCATIONAL_LEVEL:
           categoryItems = this.publishedEducationalLevelsCtrl.value?.map(
             (educationalLevel: { key: string; value: string }) => ({
               key: educationalLevel.key,
@@ -268,12 +293,12 @@ export class AnalyticsViewComponent implements OnInit {
             }),
           );
           return resolve(categoryItems);
-        case Categories.EDUCATIONAL_SUBJECT:
+        case CategoryType.EDUCATIONAL_SUBJECT:
           categoryItems = this.publishedEducationalSubjectsCtrl.value?.map(
             (subjects: { key: string; value: string }) => ({ key: subjects.key, value: subjects.value }),
           );
           return resolve(categoryItems);
-        case Categories.ORGANIZATION:
+        case CategoryType.ORGANIZATION:
           categoryItems = this.publishedOrganizationsCtrl.value?.map(
             (organization: { key: string; value: string }) => ({
               key: organization.key,
@@ -331,7 +356,7 @@ export class AnalyticsViewComponent implements OnInit {
   onSubmitExpiredMaterials(): void {
     this.expiredSubmitted = true;
     const expiredBeforeDate: Date = new Date(this.expiredBeforeCtrl.value);
-    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, Intervals.DAY);
+    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, 'day');
 
     if (this.expiredMaterialsForm.valid) {
       const payload: StatisticsPortionsPost = {
@@ -342,14 +367,12 @@ export class AnalyticsViewComponent implements OnInit {
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         ) as string[],
       };
-
       const educationalLevelNames: [{ key: string; value: string }] = this.expiredEducationalLevelsCtrl.value?.map(
         (educationalLevel: EducationalLevel) => ({
           key: educationalLevel.key,
           value: educationalLevel.value,
         }),
       );
-
       this.getExpiredMaterials(payload, educationalLevelNames).then(
         (response: { portionNames: string[]; total: number[] }) => {
           this.expiredMaterialsChart = this.setOptions(
@@ -375,10 +398,10 @@ export class AnalyticsViewComponent implements OnInit {
     educationalLevelNames: { key: string; value: string }[],
   ): Promise<{ portionNames: string[]; total: number[] }> {
     const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] };
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject): void => {
       this.statisticsService.getExpiredMaterials(payload).subscribe(
         (response: StatisticsPortionsResponse) => {
-          values.portionNames = response.values.map((level: PortionResponse) => {
+          values.portionNames = response.values.map((level: PortionResponse): string => {
             for (let i = 0; i < educationalLevelNames.length; i++) {
               if (level.key == educationalLevelNames[i].key) {
                 return educationalLevelNames[i].value;
@@ -389,11 +412,11 @@ export class AnalyticsViewComponent implements OnInit {
           values.total = response.values.map((value: PortionResponse) => value.value) as number[];
           resolve(values);
         },
-        (err) => {
+        (err): void => {
           this.toastr.error(err);
           reject(err);
         },
-        () => {
+        (): void => {
           this.expiredSubmitted = false;
         },
       );
@@ -405,23 +428,19 @@ export class AnalyticsViewComponent implements OnInit {
    */
   onSubmitUserActivity(): void {
     this.submitted = true;
-    this.selectedInterval = this.intervalCtrl.value as Intervals;
-    this.startDateString = this.statisticsService.dateToString(this.startDateCtrl.value, Intervals.DAY);
-    this.endDateString = this.statisticsService.dateToString(this.endDateCtrl.value, Intervals.DAY);
 
-    if (this.userActivityForm.valid) {
+    if (this.activityForm.valid) {
       this.chartData = [];
-      const startDate = new Date(this.startDateCtrl.value.getTime());
       this.datesArray = [] as string[];
       this.datesArray = this.statisticsService.createArrayOfDates(
-        startDate as Date,
-        this.endDateCtrl.value as Date,
-        this.selectedInterval,
+        this.dateSinceCtrl.value as Date,
+        this.dateUntilCtrl.value as Date,
+        this.intervalCtrl.value as string,
       ) as string[];
 
       Promise.all([this.getViewingData(), this.getSearchData(), this.getDownloadData(), this.getEditData()]).then(
-        (response: EChartData[]) => {
-          this.chartData = response.filter((n) => n);
+        (response: EChartData[]): void => {
+          this.chartData = response.filter((n: EChartData) => n);
           this.userActivityChart = this.setOptions(this.chartData, this.datesArray, 'line') as EChartsOption;
         },
       );
@@ -435,24 +454,22 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of viewed materials.
    */
   async getViewingData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(Activities.VIEW)) {
-      try {
-        const payload: StatisticsTimespanPost = this.createPayload(
-          this.startDateString,
-          this.endDateString,
-          'view',
-          'metadata',
-        );
-        const viewingData: ActivityData = await this.getUserActivity(
-          payload,
-          this.selectedInterval,
-          'materialactivity',
-        );
-        const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
-        return { name: 'Katselumäärät', value: sortedData };
-      } catch (error) {
-        throw Error(error);
-      }
+    try {
+      const payload: StatisticsTimespanPost = this.createPayload(
+        this.getDatestamp(this.dateSinceCtrl.value),
+        this.getDatestamp(this.dateUntilCtrl.value),
+        this.activityCtrl.value,
+        'metadata',
+      );
+      const viewingData: ActivityData = await this.getUserActivity(
+        payload,
+        this.intervalCtrl.value,
+        'materialactivity',
+      );
+      const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
+      return { name: 'Katselumäärät', value: sortedData };
+    } catch (error) {
+      throw Error(error);
     }
   }
 
@@ -461,7 +478,7 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of downloaded materials.
    */
   async getDownloadData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(Activities.DOWNLOAD)) {
+    if (this.activityCtrl.value.includes(ActivityType.DOWNLOAD)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
           this.startDateString,
@@ -472,7 +489,7 @@ export class AnalyticsViewComponent implements OnInit {
 
         const downloadData: ActivityData = await this.getUserActivity(
           payload,
-          this.selectedInterval,
+          this.intervalCtrl.value,
           'materialactivity',
         );
         const sortedData: number[] = this.sortValueArrays(downloadData.dates, downloadData.total);
@@ -488,7 +505,7 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of edited materials.
    */
   async getEditData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(Activities.EDIT)) {
+    if (this.activityCtrl.value.includes(ActivityType.EDIT)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
           this.startDateString,
@@ -496,8 +513,7 @@ export class AnalyticsViewComponent implements OnInit {
           'edit',
           'metadata',
         );
-
-        const editData: ActivityData = await this.getUserActivity(payload, this.selectedInterval, 'materialactivity');
+        const editData: ActivityData = await this.getUserActivity(payload, this.intervalCtrl.value, 'materialactivity');
         const sortedData: number[] = this.sortValueArrays(editData.dates, editData.total);
         return { name: 'Muokkausmäärät', value: sortedData };
       } catch (error) {
@@ -511,7 +527,7 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of search requests.
    */
   async getSearchData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(Activities.SEARCH)) {
+    if (this.activityCtrl.value.includes(ActivityType.SEARCH)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
           this.startDateString,
@@ -519,8 +535,7 @@ export class AnalyticsViewComponent implements OnInit {
           null,
           'filters',
         );
-
-        const searchData: ActivityData = await this.getUserActivity(payload, this.selectedInterval, 'searchrequests');
+        const searchData: ActivityData = await this.getUserActivity(payload, this.intervalCtrl.value, 'searchrequests');
         const sortedData: number[] = this.sortValueArrays(searchData.dates, searchData.total);
         return { name: 'Hakumäärät', value: sortedData };
       } catch (error) {
@@ -531,21 +546,21 @@ export class AnalyticsViewComponent implements OnInit {
 
   /**
    * Creates a payload for activity requests.
-   * @param {string} startDateString Start date for statistics 'YYYY-MM-DD'.
-   * @param {string} endDateString End date for statistics 'YYYY-MM-DD'.
+   * @param {string} dateSince Start date for statistics 'YYYY-MM-DD'.
+   * @param {string} dateUntil End date for statistics 'YYYY-MM-DD'.
    * @param {'view' | 'load' | 'edit' | null} interaction Which activity statistics are requested, null for search requests.
    * @param {'metadata' | 'filters'} filter Extra classifications for request.
    * @returns {StatisticsTimespanPost} A body for requests.
    */
   createPayload(
-    startDateString: string,
-    endDateString: string,
+    dateSince: string,
+    dateUntil: string,
     interaction: 'view' | 'load' | 'edit' | null,
     filter: 'metadata' | 'filters',
   ): StatisticsTimespanPost {
     return {
-      since: startDateString, //'YYYY-MM-DD'
-      until: endDateString, //'YYYY-MM-DD'
+      since: dateSince, // 'YYYY-MM-DD'
+      until: dateUntil, // 'YYYY-MM-DD'
       interaction: interaction,
       [filter]: {
         organizations: this.organizationsCtrl.value?.map(
@@ -564,34 +579,34 @@ export class AnalyticsViewComponent implements OnInit {
   /**
    * Makes a request with given params and maps response depending on selected interval.
    * @param {StatisticsTimespanPost} payload Request body.
-   * @param {Intervals} interval For request url: day | week | month.
+   * @param {IntervalType} interval For request url: day | week | month.
    * @param {string} activity For request url: materialactivity | searchrequests.
    * @returns { ActivityData } An array of dates and an array with total activity for each date.
    */
-  getUserActivity(payload: StatisticsTimespanPost, interval: Intervals, activity: string): Promise<ActivityData> {
+  getUserActivity(payload: StatisticsTimespanPost, interval: string, activity: string): Promise<ActivityData> {
     const values: ActivityData = { dates: [], total: [] };
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject): void => {
       this.statisticsService.getIntervalTotals(payload, interval, activity).subscribe(
-        (response: StatisticsIntervalResponse) => {
+        (response: StatisticsIntervalResponse): void => {
           switch (interval) {
-            case Intervals.DAY:
+            case 'day':
               values.dates = response.values.map(
-                (value: IntervalResponse) =>
+                (value: IntervalResponse): string =>
                   value.year + '-' + String(value.month).padStart(2, '0') + '-' + String(value.day).padStart(2, '0'),
               ) as string[];
               values.total = response.values.map((value: IntervalResponse) => value.dayTotal) as number[];
               resolve(values);
               break;
-            case Intervals.WEEK:
+            case 'week':
               values.dates = response.values.map(
-                (value: IntervalResponse) => value.year + '-' + String(value.week).padStart(2, '0'),
+                (value: IntervalResponse): string => value.year + '-' + String(value.week).padStart(2, '0'),
               ) as string[];
               values.total = response.values.map((value: IntervalResponse) => value.weekTotal) as number[];
               resolve(values);
               break;
-            case Intervals.MONTH:
+            case 'month':
               values.dates = response.values.map(
-                (value: IntervalResponse) => value.year + '-' + String(value.month).padStart(2, '0'),
+                (value: IntervalResponse): string => value.year + '-' + String(value.month).padStart(2, '0'),
               ) as string[];
               values.total = response.values.map((value: IntervalResponse) => value.monthTotal) as number[];
               resolve(values);
@@ -600,11 +615,11 @@ export class AnalyticsViewComponent implements OnInit {
               reject();
           }
         },
-        (err) => {
+        (err): void => {
           this.toastr.error(err);
           reject();
         },
-        () => {
+        (): void => {
           this.submitted = false;
         },
       );

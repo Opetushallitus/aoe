@@ -4,10 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import {
-  StatisticsPortionsResponse,
   StatisticsIntervalResponse,
-  StatisticsTimespanPost,
   StatisticsPortionsPost,
+  StatisticsPortionsResponse,
+  StatisticsTimespanPost,
 } from '../model';
 
 @Injectable({
@@ -38,16 +38,12 @@ export class StatisticsService {
     activity: string,
   ): Observable<StatisticsIntervalResponse> {
     return this.http
-      .post<StatisticsIntervalResponse>(
-        `${environment.statisticsBackendUrl}/` + activity + `/` + interval + `/total`,
-        payload,
-        {
-          headers: new HttpHeaders({
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          }),
-        },
-      )
+      .post<StatisticsIntervalResponse>(`${environment.statisticsBackendUrl}/${activity}/${interval}/total`, payload, {
+        headers: new HttpHeaders({
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        }),
+      })
       .pipe(catchError(this.handleError));
   }
 
@@ -106,12 +102,11 @@ export class StatisticsService {
 
   //creates an array of dates that can be used for xAxis
   createArrayOfDates(startDate: Date, endDate: Date, selectedInterval: string): string[] {
-    const dateToBeAdded: Date = startDate;
+    const dateToBeAdded: Date = new Date(startDate); // Create a copy to avoid changing the referenced form value.
     const datesArray: string[] = [];
-    //create an array with all dates between selected timespan
     switch (selectedInterval) {
       case 'day':
-        //years, months and days of selected timespan e.g. 2022-12-24
+        // YYYY-MM-DD
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'day');
           datesArray.push(formattedDate);
@@ -119,7 +114,7 @@ export class StatisticsService {
         }
         break;
       case 'week':
-        //years and week numbers of selected timespan e.g. 2022-52
+        // YYYY-ww
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'week');
           if (datesArray.indexOf(formattedDate) == -1) {
@@ -129,7 +124,7 @@ export class StatisticsService {
         }
         break;
       case 'month':
-        //years and months of selected interval e.g. 2022-12
+        // YYYY-MM
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'month');
           if (datesArray.indexOf(formattedDate) == -1) {

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Notification } from '@admin/model';
 import { NotificationService } from '@admin/services/notification.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationOption, NotificationType } from '@admin/model/enumeration/NotificationType';
 import { HttpErrorResponse } from '@angular/common/http';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -35,20 +35,20 @@ export class NotificationComponent implements OnInit {
     });
   }
 
-  get notification() {
-    return this.form.get('notification');
+  get notification(): FormControl {
+    return this.form.get('notification') as FormControl;
   }
 
-  get notificationType() {
-    return this.form.get('notificationType');
+  get notificationType(): FormControl {
+    return this.form.get('notificationType') as FormControl;
   }
 
-  get showSince() {
-    return this.form.get('showSince');
+  get showSince(): FormControl {
+    return this.form.get('showSince') as FormControl;
   }
 
-  get showUntil() {
-    return this.form.get('showUntil');
+  get showUntil(): FormControl {
+    return this.form.get('showUntil') as FormControl;
   }
 
   get notificationOptions(): NotificationOption[] {
