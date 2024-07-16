@@ -119,7 +119,7 @@
     <div class="form-group col-sm-6 col-md-4">
       <label for="educationalSubjects">Educational Subjects</label>
       <ng-select
-        [items]="(educationalLevels$ | async)"
+        [items]="(subjectFilter$ | async)"
         [multiple]="true"
         [closeOnSelect]="false"
         [selectableGroup]="true"
