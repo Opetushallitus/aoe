@@ -1,76 +1,83 @@
-<h1>Oppimateriaalien katselu-, muokkaus-, lataus- ja hakumäärät</h1>
-<form [formGroup]="userActivityForm" (ngSubmit)="onSubmitUserActivity()">
+<h2>Oppimateriaalien käyttömäärät</h2>
+<form [formGroup]="activityForm" (ngSubmit)="onSubmitUserActivity()">
   <div class="form-row">
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="activity">Activity</label>
+    <div class="form-group col-sm-4">
+      <!-- Activity Type Select -->
+      <label for="activity">Toiminto *</label>
       <ng-select
         [items]="activityOptions"
         [multiple]="true"
         [closeOnSelect]="false"
-        bindLabel="name"
-        bindValue="name"
+        bindLabel="label.fi"
+        bindValue="value"
         labelForId="activity"
         id="activity"
         appendTo="body"
         formControlName="activity"></ng-select>
-      <ng-container *ngIf="activityCtrl.invalid && submitted">
-        <div *ngIf="activityCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+      <ng-container *ngIf="activityCtrl?.invalid && (activityCtrl.dirty || activityCtrl.touched)">
+        <div *ngIf="activityCtrl.errors?.required">
+          <small class="text-danger">Valitse tarkasteltava toiminto</small>
         </div>
       </ng-container>
     </div>
   </div>
   <div class="form-row">
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="interval">Interval</label>
+    <div class="form-group col-sm-4">
+      <!-- Interval Type Select -->
+      <label for="interval">Jaksotus *</label>
       <ng-select
         [items]="intervals"
-        bindLabel="name"
-        bindValue="name"
+        bindLabel="label.fi"
+        bindValue="value"
         labelForId="interval"
         id="interval"
         appendTo="body"
         formControlName="interval"></ng-select>
-      <ng-container *ngIf="intervalCtrl.invalid && submitted">
-        <div *ngIf="intervalCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+      <ng-container *ngIf="intervalCtrl?.invalid && (intervalCtrl.dirty || intervalCtrl.touched)">
+        <div *ngIf="intervalCtrl.errors?.required">
+          <small class="text-danger">Valitse jaksotuksen pituus</small>
         </div>
       </ng-container>
     </div>
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="startDate">Start Date</label>
+    <div class="form-group col-sm-4">
+      <!-- Date Since Picker -->
+      <label for="dateSince">Tarkastelu alkaa *</label>
       <input
         type="text"
-        class="form-control"
-        id="startDate"
-        formControlName="startDate"
+        class="form-control custom-readonly"
+        id="dateSince"
+        formControlName="dateSince"
         bsDatepicker
-        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-      <ng-container *ngIf="startDateCtrl.invalid && submitted">
-        <div *ngIf="startDateCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+        [maxDate]="dateUntilCtrl.value"
+        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+      <ng-container *ngIf="dateSinceCtrl?.invalid && (dateSinceCtrl.dirty || dateSinceCtrl.touched)">
+        <div *ngIf="dateSinceCtrl.errors?.required">
+          <small class="text-danger">Valitse tarkastelun alkamispäivä</small>
         </div>
       </ng-container>
     </div>
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="endDate">End Date</label>
+    <div class="form-group col-sm-4">
+      <!-- Date Until Picker -->
+      <label for="dateUntil">Tarkastelu päättyy *</label>
       <input
         type="text"
         class="form-control"
-        id="endDate"
-        formControlName="endDate"
+        id="dateUntil"
+        formControlName="dateUntil"
         bsDatepicker
-        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-      <ng-container *ngIf="endDateCtrl.invalid && submitted">
-        <div *ngIf="endDateCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+        [minDate]="dateSinceCtrl.value"
+        [maxDate]="today"
+        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+      <ng-container *ngIf="dateUntilCtrl?.invalid && (dateUntilCtrl.dirty || dateUntilCtrl.touched)">
+        <div *ngIf="dateUntilCtrl.errors?.required">
+          <small class="text-danger">Valitse tarkastelun päättymispäivä</small>
         </div>
       </ng-container>
     </div>
   </div>
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="organizations">Organizations</label>
+      <label for="organizations">Organisaatiot</label>
       <ng-select
         [items]="(koodistoService.organizations$ | async)"
         [multiple]="true"
@@ -97,7 +104,7 @@
       </ng-select>
     </div>
     <div class="form-group col-sm-6 col-md-4">
-      <label for="educationalLevels">Educational Levels</label>
+      <label for="educationalLevels">Opetusasteet</label>
       <ng-select
         [items]="(educationalLevels$ | async)"
         [multiple]="true"
@@ -117,7 +124,7 @@
       </ng-select>
     </div>
     <div class="form-group col-sm-6 col-md-4">
-      <label for="educationalSubjects">Educational Subjects</label>
+      <label for="educationalSubjects">Oppiaineet</label>
       <ng-select
         [items]="(subjectFilter$ | async)"
         [multiple]="true"
@@ -145,16 +152,18 @@
       </ng-select>
     </div>
   </div>
-  <button type="submit" class="btn btn-blue">Hae tiedot</button>
+  <button type="submit" [disabled]="activityForm.invalid" class="btn btn-blue">Hae tiedot</button>
+  &nbsp;&nbsp;
+  <button (click)="onReset($event)" class="btn btn-cancel">Tyhjennä</button>
 </form>
 <br />
 <app-line-chart [options]="userActivityChart"></app-line-chart>
 <br />
-<h1>Oppimateriaalien julkaisujen kokonaismäärät</h1>
+<h2>Oppimateriaalien julkaisumäärät</h2>
 <form [formGroup]="publishedMaterialsForm">
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="publishedStartDate">Start Date</label>
+      <label for="publishedStartDate">Tarkastelu alkaa</label>
       <input
         type="text"
         class="form-control"
@@ -164,7 +173,7 @@
         [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
     </div>
     <div class="form-group col-sm-6 col-md-4">
-      <label for="publishedEndDate">End Date</label>
+      <label for="publishedEndDate">Tarkastelu päättyy</label>
       <input
         type="text"
         class="form-control"
@@ -176,7 +185,7 @@
   </div>
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="category">Select Category</label>
+      <label for="category">Valitse luokitus</label>
       <ng-select
         [items]="categories"
         bindLabel="name"
@@ -193,7 +202,7 @@
       </ng-container>
     </div>
     <div *ngIf="category === 'educationalLevels'" class="form-group col-sm-6 col-md-4">
-      <label for="publishedEducationalLevels">Educational Levels</label>
+      <label for="publishedEducationalLevels">Opetusasteet</label>
       <ng-select
         [items]="(educationalLevels$ | async)"
         [multiple]="true"
@@ -219,7 +228,7 @@
       </ng-container>
     </div>
     <div *ngIf="category === 'educationalSubjects'" class="form-group col-sm-6 col-md-4">
-      <label for="publishedEducationalSubjects">Educational Subjects</label>
+      <label for="publishedEducationalSubjects">Oppiaineet</label>
       <ng-select
         [items]="(subjectFilter$ | async)"
         [multiple]="true"
@@ -253,7 +262,7 @@
       </ng-container>
     </div>
     <div *ngIf="category === 'organizations'" class="form-group col-sm-6 col-md-4">
-      <label for="publishedOrganizations">Organizations</label>
+      <label for="publishedOrganizations">Organisaatio</label>
       <ng-select
         [items]="(organizations$ | async)"
         [multiple]="true"
@@ -291,11 +300,11 @@
 <br />
 <app-line-chart [options]="materialTotalsChart"></app-line-chart>
 <br />
-<h1>Vanhentuneiden oppimateriaalien määrät</h1>
+<h2>Vanhentuneiden oppimateriaalien määrät</h2>
 <form [id]="expiredMaterialsForm" [formGroup]="expiredMaterialsForm">
   <div class="form-row">
     <div class="form-group col-sm-6 col-md-4">
-      <label for="expiredEducationalLevels">Educational Levels</label>
+      <label for="expiredEducationalLevels">Opetusasteet</label>
       <ng-select
         [items]="(educationalLevels$ | async)"
         [multiple]="true"
@@ -320,7 +329,7 @@
       </ng-container>
     </div>
     <div class="form-group col-sm-6 col-md-4">
-      <label for="expiredBefore">Expired Before</label>
+      <label for="expiredBefore">Vanhentunut ennen</label>
       <input
         type="text"
         class="form-control"
