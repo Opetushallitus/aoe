@@ -426,8 +426,9 @@ export class AnalyticsViewComponent implements OnInit {
   /**
    * Checks form validity, creates an array of dates and calls activity functions to get chart data.
    */
-  onSubmitUserActivity(): void {
+  onSubmitUserActivity(activitySubmit: HTMLButtonElement): void {
     this.submitted = true;
+    activitySubmit.blur();
 
     if (this.activityForm.valid) {
       this.chartData = [];
