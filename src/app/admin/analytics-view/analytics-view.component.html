@@ -1,5 +1,5 @@
 <h2>Oppimateriaalien käyttömäärät</h2>
-<form [formGroup]="activityForm" (ngSubmit)="onSubmitUserActivity()">
+<form [formGroup]="activityForm" (ngSubmit)="onSubmitUserActivity(activitySubmit)">
   <div class="form-row">
     <div class="form-group col-sm-4">
       <!-- Activity Type Select -->
@@ -48,6 +48,7 @@
         id="dateSince"
         formControlName="dateSince"
         bsDatepicker
+        readonly
         [maxDate]="dateUntilCtrl.value"
         [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
       <ng-container *ngIf="dateSinceCtrl?.invalid && (dateSinceCtrl.dirty || dateSinceCtrl.touched)">
@@ -61,10 +62,11 @@
       <label for="dateUntil">Tarkastelu päättyy *</label>
       <input
         type="text"
-        class="form-control"
+        class="form-control custom-readonly"
         id="dateUntil"
         formControlName="dateUntil"
         bsDatepicker
+        readonly
         [minDate]="dateSinceCtrl.value"
         [maxDate]="today"
         [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
@@ -152,7 +154,7 @@
       </ng-select>
     </div>
   </div>
-  <button type="submit" [disabled]="activityForm.invalid" class="btn btn-blue">Hae tiedot</button>
+  <button type="submit" [disabled]="activityForm.invalid" class="btn btn-blue" #activitySubmit>Hae tiedot</button>
   &nbsp;&nbsp;
   <button (click)="onReset($event)" class="btn btn-cancel">Tyhjennä</button>
 </form>
