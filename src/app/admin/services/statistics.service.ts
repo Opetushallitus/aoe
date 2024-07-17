@@ -81,9 +81,9 @@ export class StatisticsService {
       .pipe(catchError(this.handleError));
   }
 
-  dateToString(date: Date, interval: string): string {
+  dateToString(date: Date, interval: IntervalEnum): string {
     switch (interval) {
-      case 'day':
+      case IntervalEnum.DAY:
         return (
           date.getFullYear() +
           '-' +
@@ -91,12 +91,12 @@ export class StatisticsService {
           '-' +
           String(date.getDate()).padStart(2, '0')
         );
-      case 'week':
+      case IntervalEnum.WEEK:
         const oneJan: Date = new Date(date.getFullYear(), 0, 1);
         const numberOfDays: number = Math.floor((date.getTime() - oneJan.getTime()) / (24 * 60 * 60 * 1000));
         const result: number = Math.ceil((date.getDay() + 1 + numberOfDays) / 7);
         return date.getFullYear() + '-' + String(result).padStart(2, '0');
-      case 'month':
+      case IntervalEnum.MONTH:
         return date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0');
     }
   }
@@ -109,7 +109,7 @@ export class StatisticsService {
       case IntervalEnum.DAY:
         // YYYY-MM-DD
         while (dateToBeAdded < endDate) {
-          const formattedDate: string = this.dateToString(dateToBeAdded, 'day');
+          const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.DAY);
           datesArray.push(formattedDate);
           dateToBeAdded.setDate(dateToBeAdded.getDate() + 1);
         }
@@ -117,7 +117,7 @@ export class StatisticsService {
       case IntervalEnum.WEEK:
         // YYYY-ww
         while (dateToBeAdded < endDate) {
-          const formattedDate: string = this.dateToString(dateToBeAdded, 'week');
+          const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.WEEK);
           if (datesArray.indexOf(formattedDate) == -1) {
             datesArray.push(formattedDate);
           }
@@ -127,7 +127,7 @@ export class StatisticsService {
       case IntervalEnum.MONTH:
         // YYYY-MM
         while (dateToBeAdded < endDate) {
-          const formattedDate: string = this.dateToString(dateToBeAdded, 'month');
+          const formattedDate: string = this.dateToString(dateToBeAdded, IntervalEnum.MONTH);
           if (datesArray.indexOf(formattedDate) == -1) {
             datesArray.push(formattedDate);
           }
