@@ -9,6 +9,7 @@ import {
   StatisticsPortionsResponse,
   StatisticsTimespanPost,
 } from '../model';
+import { IntervalEnum } from '@admin/model/enumeration/AnalyticsEnums';
 
 @Injectable({
   providedIn: 'root',
@@ -101,11 +102,11 @@ export class StatisticsService {
   }
 
   //creates an array of dates that can be used for xAxis
-  createArrayOfDates(startDate: Date, endDate: Date, selectedInterval: string): string[] {
+  createArrayOfDates(startDate: Date, endDate: Date, selectedInterval: IntervalEnum): string[] {
     const dateToBeAdded: Date = new Date(startDate); // Create a copy to avoid changing the referenced form value.
     const datesArray: string[] = [];
     switch (selectedInterval) {
-      case 'day':
+      case IntervalEnum.DAY:
         // YYYY-MM-DD
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'day');
@@ -113,7 +114,7 @@ export class StatisticsService {
           dateToBeAdded.setDate(dateToBeAdded.getDate() + 1);
         }
         break;
-      case 'week':
+      case IntervalEnum.WEEK:
         // YYYY-ww
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'week');
@@ -123,7 +124,7 @@ export class StatisticsService {
           dateToBeAdded.setDate(dateToBeAdded.getDate() + 1);
         }
         break;
-      case 'month':
+      case IntervalEnum.MONTH:
         // YYYY-MM
         while (dateToBeAdded < endDate) {
           const formattedDate: string = this.dateToString(dateToBeAdded, 'month');

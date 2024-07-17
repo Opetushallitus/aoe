@@ -1,31 +1,38 @@
 import { Injectable } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { EducationalLevel, SubjectFilter } from '../model';
+import { EducationalLevel, EducationalSubject } from '../model';
 import { environment } from '../../../environments/environment';
+import { Organization } from '@admin/model/organization';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KoodistoService {
-  apiUri = environment.koodistoUrl;
+  apiUri: string = environment.koodistoUrl;
   lang: string;
-  httpOptions = {
+  httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({
       Accept: 'application/json',
       'Content-Type': 'application/json',
     }),
   };
-  private educationalLevelsBehaviorSubject = new BehaviorSubject<EducationalLevel[]>(null);
-  private organizationsBehaviorSubject = new BehaviorSubject<KeyValue<string, string>[]>(null);
-  private subjectFiltersBehaviorSubject = new BehaviorSubject<SubjectFilter[]>(null);
+  private educationalLevelsBehaviorSubject: BehaviorSubject<EducationalLevel[]> = new BehaviorSubject<
+    EducationalLevel[]
+  >(null);
+  private educationalSubjectsBehaviorSubject: BehaviorSubject<EducationalSubject[]> = new BehaviorSubject<
+    EducationalSubject[]
+  >(null);
+  private organizationsBehaviorSubject: BehaviorSubject<Organization[]> = new BehaviorSubject<Organization[]>(null);
 
   public educationalLevels$: Observable<EducationalLevel[]> = this.educationalLevelsBehaviorSubject.asObservable();
-  public organizations$: Observable<KeyValue<string, string>[]> = this.organizationsBehaviorSubject.asObservable();
-  public subjectFilters$: Observable<SubjectFilter[]> = this.subjectFiltersBehaviorSubject.asObservable();
+  public educationalSubjects$: Observable<EducationalSubject[]> =
+    this.educationalSubjectsBehaviorSubject.asObservable();
+  public organizations$: Observable<Organization[]> = this.organizationsBehaviorSubject.asObservable();
 
   constructor(private http: HttpClient, private translate: TranslateService) {
     this.lang = this.translate.currentLang;
@@ -36,54 +43,45 @@ export class KoodistoService {
       case 404:
         subject$.next([]);
         break;
-
       default:
         console.error(error);
         return throwError('Something bad happened; please try again later.');
     }
   };
 
-  /**
-   * Updates educational levels.
-   */
-  updateEducationalLevels(): void {
-    const lang = this.translate.currentLang;
-
-    this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).subscribe(
-      (educationalLevels: EducationalLevel[]) => {
-        this.educationalLevelsBehaviorSubject.next(educationalLevels);
-      },
-      (error: HttpErrorResponse) => this.handleError(error, this.educationalLevelsBehaviorSubject),
+  updateEducationalLevels(): Observable<EducationalLevel[]> {
+    const lang: string = this.translate.currentLang;
+    return this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).pipe(
+      map((educationalLevels: EducationalLevel[]) =>
+        educationalLevels.filter((educationalLevel: EducationalLevel): boolean => educationalLevel !== null),
+      ),
+      tap((educationalLevels: EducationalLevel[]) => this.educationalLevelsBehaviorSubject.next(educationalLevels)),
+      catchError((err: any) => of(err)),
     );
   }
 
-  /**
-   * Updates organizations.
-   */
-  updateOrganizations(): void {
-    const lang = this.translate.currentLang;
+  updateEducationalSubjects(): Observable<EducationalSubject[]> {
+    const lang: string = this.translate.currentLang;
+    return this.http
+      .get<EducationalSubject[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
+      .pipe(
+        map((educationalSubjects: EducationalSubject[]) =>
+          educationalSubjects.filter((educationalSubject: EducationalSubject): boolean => educationalSubject !== null),
+        ),
+        tap((educationalSubjects: EducationalSubject[]) =>
+          this.educationalSubjectsBehaviorSubject.next(educationalSubjects),
+        ),
+        catchError((err: any) => of(err)),
+      );
+  }
 
+  updateOrganizations(): void {
+    const lang: string = this.translate.currentLang;
     this.http.get<KeyValue<string, string>[]>(`${this.apiUri}/organisaatiot/${lang}`, this.httpOptions).subscribe(
-      (organizations: KeyValue<string, string>[]) => {
+      (organizations: Organization[]): void => {
         this.organizationsBehaviorSubject.next(organizations);
       },
       (error: HttpErrorResponse) => this.handleError(error, this.organizationsBehaviorSubject),
     );
-  }
-
-  /**
-   * Updates educational subject filters.
-   */
-  updateSubjectFilters(): void {
-    const lang = this.translate.currentLang;
-
-    this.http
-      .get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
-      .subscribe(
-        (filters: SubjectFilter[]) => {
-          this.subjectFiltersBehaviorSubject.next(filters);
-        },
-        (error: HttpErrorResponse) => this.handleError(error, this.subjectFiltersBehaviorSubject),
-      );
   }
 }

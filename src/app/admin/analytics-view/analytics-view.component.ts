@@ -14,20 +14,21 @@ import {
   ActivityData,
   EChartData,
   EducationalLevel,
+  EducationalSubject,
   IntervalResponse,
   PortionResponse,
   StatisticsIntervalResponse,
   StatisticsPortionsPost,
   StatisticsPortionsResponse,
   StatisticsTimespanPost,
-  SubjectFilter,
 } from '../model';
 import { ToastrService } from 'ngx-toastr';
 import { StatisticsService } from '../services/statistics.service';
 import { KoodistoService } from '../services/koodisto.service';
-import { ActivityType, CategoryType, IntervalType } from '../model/enumeration/CategoryType';
+import { ActivityEnum, CategoryEnum, IntervalEnum } from '../model/enumeration/AnalyticsEnums';
 import { Observable } from 'rxjs';
-import { ActivityOptions, Interval } from '@admin/model/statistics-select-options';
+import { OptionActivity, OptionCategory, OptionInterval } from '@admin/model/statistics-select-options';
+import { Organization } from '@admin/model/organization';
 
 @Component({
   selector: 'app-analytics-view',
@@ -36,42 +37,42 @@ import { ActivityOptions, Interval } from '@admin/model/statistics-select-option
 })
 export class AnalyticsViewComponent implements OnInit {
   educationalLevels$: Observable<EducationalLevel[]> = this.koodistoService.educationalLevels$;
-  organizations$: Observable<KeyValue<string, string>[]> = this.koodistoService.organizations$;
-  subjectFilter$: Observable<SubjectFilter[]> = this.koodistoService.subjectFilters$;
+  organizations$: Observable<Organization[]> = this.koodistoService.organizations$;
+  educationalSubjects$: Observable<EducationalSubject[]> = this.koodistoService.educationalSubjects$;
 
-  activityForm: FormGroup;
-  expiredMaterialsForm: FormGroup;
-  today: Date;
-  publishedMaterialsForm: FormGroup;
-  submitted: boolean;
-  publishedSubmitted: boolean;
-  expiredSubmitted: boolean;
-  startDateString: string;
-  endDateString: string;
-  datesArray: string[] = [];
-  echart: EChartsOption;
-  userActivityChart: EChartsOption;
-  expiredMaterialsChart: EChartsOption;
-  materialTotalsChart: EChartsOption;
-  activityOptions: ActivityOptions[] = [
-    { key: ActivityType.EDIT, value: 'edit', label: { fi: 'Muokkaus', sv: '', en: '' } },
-    { key: ActivityType.DOWNLOAD, value: 'download', label: { fi: 'Lataus', sv: '', en: '' } },
-    { key: ActivityType.SEARCH, value: 'search', label: { fi: 'Haku', sv: '', en: '' } },
-    { key: ActivityType.VIEW, value: 'view', label: { fi: 'Katselu', sv: '', en: '' } },
-  ];
-  intervals: Interval[] = [
-    { key: IntervalType.DAY, value: 'day', label: { fi: 'Päivä', sv: '', en: '' } },
-    { key: IntervalType.WEEK, value: 'week', label: { fi: 'Viikko', sv: '', en: '' } },
-    { key: IntervalType.MONTH, value: 'month', label: { fi: 'Kuukausi', sv: '', en: '' } },
-  ];
-  categories = [
-    { name: 'Educational Levels', value: CategoryType.EDUCATIONAL_LEVEL },
-    { name: 'Educational Subjects', value: CategoryType.EDUCATIONAL_SUBJECT },
-    { name: 'Organizations', value: CategoryType.ORGANIZATION },
-  ];
-  category: CategoryType = CategoryType.EDUCATIONAL_LEVEL;
-  publishedcategory: 'educationallevel' | 'educationalsubject' | 'organization' = 'educationallevel';
+  eChartsOption: EChartsOption;
+  eChartsOptionActivity: EChartsOption;
+  eChartsOptionExpired: EChartsOption;
+  eChartsOptionPublished: EChartsOption;
+
+  formGroupUsage: FormGroup;
+  formGroupExpired: FormGroup;
+  formGroupPublished: FormGroup;
+
+  category: CategoryEnum = CategoryEnum.EDUCATIONAL_LEVEL;
+  categoryPublished: 'educationallevel' | 'educationalsubject' | 'organization' = 'educationallevel';
   chartData: { name: string; value: number[] }[] = [];
+  dateArray: string[] = [];
+  dateSinceString: string;
+  dateUntilString: string;
+  today: Date;
+
+  selectOptionActivity: OptionActivity[] = [
+    { key: 0, value: ActivityEnum.SEARCH, label: { fi: 'Haku', sv: '', en: '' } },
+    { key: 1, value: ActivityEnum.VIEW, label: { fi: 'Katselu', sv: '', en: '' } },
+    { key: 2, value: ActivityEnum.DOWNLOAD, label: { fi: 'Lataus', sv: '', en: '' } },
+    { key: 3, value: ActivityEnum.EDIT, label: { fi: 'Muokkaus', sv: '', en: '' } },
+  ];
+  selectOptionCategory: OptionCategory[] = [
+    { key: 0, value: CategoryEnum.EDUCATIONAL_LEVEL, label: { fi: 'Opetusasteet', sv: '', en: '' } },
+    { key: 1, value: CategoryEnum.EDUCATIONAL_SUBJECT, label: { fi: 'Oppiaineet', sv: '', en: '' } },
+    { key: 2, value: CategoryEnum.ORGANIZATION, label: { fi: 'Organisaatiot', sv: '', en: '' } },
+  ];
+  selectOptionInterval: OptionInterval[] = [
+    { key: 0, value: IntervalEnum.DAY, label: { fi: 'Päivä', sv: '', en: '' } },
+    { key: 1, value: IntervalEnum.WEEK, label: { fi: 'Viikko', sv: '', en: '' } },
+    { key: 2, value: IntervalEnum.MONTH, label: { fi: 'Kuukausi', sv: '', en: '' } },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -84,9 +85,9 @@ export class AnalyticsViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.koodistoService.updateOrganizations();
-    this.koodistoService.updateEducationalLevels();
-    this.koodistoService.updateSubjectFilters();
-    this.activityForm = this.fb.group({
+    this.koodistoService.updateEducationalLevels().subscribe();
+    this.koodistoService.updateEducationalSubjects().subscribe();
+    this.formGroupUsage = this.fb.group({
       activity: [null, [Validators.required]],
       interval: [null, [Validators.required]],
       dateSince: [this.getDateYearAgo(this.today), [Validators.required]],
@@ -95,21 +96,109 @@ export class AnalyticsViewComponent implements OnInit {
       educationalLevels: [null],
       educationalSubjects: [null],
     });
-    this.expiredMaterialsForm = this.fb.group({
-      expiredBefore: this.fb.control(new Date(), [Validators.required]),
-      organizations: this.fb.control(null),
-      educationalLevels: this.fb.control(null, [Validators.required]),
-      educationalSubjects: this.fb.control(null),
+    this.formGroupPublished = this.fb.group({
+      dateSince: [this.getDateYearAgo(this.today)],
+      dateUntil: [this.today],
+      category: [null, [Validators.required]],
     });
-    this.publishedMaterialsForm = this.fb.group({
-      category: this.fb.control(this.categories[0].name, [Validators.required]),
-      publishedStartDate: this.fb.control(new Date(new Date().setFullYear(new Date().getFullYear() - 1))),
-      publishedEndDate: this.fb.control(new Date()),
-      publishedOrganizations: this.fb.control(null),
-      publishedEducationalLevels: this.fb.control(null),
-      publishedEducationalSubjects: this.fb.control(null),
+    this.formGroupPublished
+      .get('category')
+      .valueChanges.subscribe((value: CategoryEnum) => this.updateFormFields(value));
+    this.formGroupExpired = this.fb.group({
+      expiredBefore: [this.today, [Validators.required]],
+      organizations: [null],
+      educationalLevels: [null],
+      educationalSubjects: [null],
     });
   }
+
+  updateFormFields(category: CategoryEnum): void {
+    switch (category) {
+      case CategoryEnum.EDUCATIONAL_LEVEL:
+        this.formGroupPublished.addControl('educationalLevels', this.fb.control(null, Validators.required));
+        this.formGroupPublished.removeControl('educationalSubjects');
+        this.formGroupPublished.removeControl('organizations');
+        break;
+      case CategoryEnum.EDUCATIONAL_SUBJECT:
+        this.formGroupPublished.addControl('educationalSubjects', this.fb.control(null, Validators.required));
+        this.formGroupPublished.removeControl('educationalLevels');
+        this.formGroupPublished.removeControl('organizations');
+        break;
+      case CategoryEnum.ORGANIZATION:
+        this.formGroupPublished.addControl('organizations', this.fb.control(null, Validators.required));
+        this.formGroupPublished.removeControl('educationalLevels');
+        this.formGroupPublished.removeControl('educationalSubjects');
+        break;
+    }
+  }
+
+  // Form Usage Getters for FormControls.
+
+  get formUsageActivityCtrl(): FormControl {
+    return this.formGroupUsage.get('activity') as FormControl;
+  }
+
+  get formUsageIntervalCtrl(): FormControl {
+    return this.formGroupUsage.get('interval') as FormControl;
+  }
+
+  get formUsageDateSinceCtrl(): FormControl {
+    return this.formGroupUsage.get('dateSince') as FormControl;
+  }
+
+  get formUsageDateUntilCtrl(): FormControl {
+    return this.formGroupUsage.get('dateUntil') as FormControl;
+  }
+
+  get formUsageOrganizationsCtrl(): FormControl {
+    return this.formGroupUsage.get('organizations') as FormControl;
+  }
+
+  get formUsageEducationalLevelsCtrl(): FormControl {
+    return this.formGroupUsage.get('educationalLevels') as FormControl;
+  }
+
+  get formUsageEducationalSubjectsCtrl(): FormControl {
+    return this.formGroupUsage.get('educationalSubjects') as FormControl;
+  }
+
+  // Form Published Getters for FormControls.
+
+  get formPublishedDateSinceCtrl(): FormControl {
+    return this.formGroupPublished.get('dateSince') as FormControl;
+  }
+
+  get formPublishedDateUntilCtrl(): FormControl {
+    return this.formGroupPublished.get('dateUntil') as FormControl;
+  }
+
+  get formPublishedCategoryCtrl(): FormControl {
+    return this.formGroupPublished.get('category') as FormControl;
+  }
+
+  get formPublishedOrganizationsCtrl(): FormControl {
+    return this.formGroupPublished.get('organizations') as FormControl;
+  }
+
+  get formPublishedEducationalLevelsCtrl(): FormControl {
+    return this.formGroupPublished.get('educationalLevels') as FormControl;
+  }
+
+  get formPublishedEducationalSubjectsCtrl(): FormControl {
+    return this.formGroupPublished.get('educationalSubjects') as FormControl;
+  }
+
+  // Form Expired Getters for FormControls.
+
+  get formExpiredBeforeCtrl(): FormControl {
+    return this.formGroupExpired.get('expiredBefore') as FormControl;
+  }
+
+  get formExpiredEducationalLevelsCtrl(): FormControl {
+    return this.formGroupExpired.get('educationalLevels') as FormControl;
+  }
+
+  // Utility Functions.
 
   getDatestamp(date: Date): string {
     const dateCopy: Date = new Date(date);
@@ -125,145 +214,90 @@ export class AnalyticsViewComponent implements OnInit {
     return dateCopy;
   }
 
-  get activityCtrl(): FormControl {
-    return this.activityForm.get('activity') as FormControl;
-  }
-
-  get intervalCtrl(): FormControl {
-    return this.activityForm.get('interval') as FormControl;
-  }
-
-  get dateSinceCtrl(): FormControl {
-    return this.activityForm.get('dateSince') as FormControl;
-  }
-
-  get dateUntilCtrl(): FormControl {
-    return this.activityForm.get('dateUntil') as FormControl;
-  }
-
-  get organizationsCtrl(): FormControl {
-    return this.activityForm.get('organizations') as FormControl;
-  }
-
-  get educationalLevelsCtrl(): FormControl {
-    return this.activityForm.get('educationalLevels') as FormControl;
-  }
-
-  get educationalSubjectsCtrl(): FormControl {
-    return this.activityForm.get('educationalSubjects') as FormControl;
-  }
-
-  get expiredEducationalLevelsCtrl(): FormControl {
-    return this.expiredMaterialsForm.get('educationalLevels') as FormControl;
-  }
-
-  get expiredBeforeCtrl(): FormControl {
-    return this.expiredMaterialsForm.get('expiredBefore') as FormControl;
-  }
-
-  get publishedCategoryCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('category') as FormControl;
-  }
-
-  get publishedStartDateCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('publishedStartDate') as FormControl;
-  }
-
-  get publishedEndDateCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('publishedEndDate') as FormControl;
-  }
-
-  get publishedOrganizationsCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('publishedOrganizations') as FormControl;
-  }
-
-  get publishedEducationalLevelsCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('publishedEducationalLevels') as FormControl;
-  }
-
-  get publishedEducationalSubjectsCtrl(): FormControl {
-    return this.publishedMaterialsForm.get('publishedEducationalSubjects') as FormControl;
-  }
-
-  onReset(event: Event): void {
+  resetFormActivity(event: Event): void {
     event.preventDefault();
-    this.activityForm.reset({
+    this.formGroupUsage.reset({
       dateSince: this.getDateYearAgo(this.today),
       dateUntil: this.today,
     });
     (event.target as HTMLElement).blur();
   }
 
-  /**
-   * Changes selected category in Published materials form.
-   * @param {CategoryType} selectedCategory User selected category from dropdown
-   */
-  categoryChange(selectedCategory: CategoryType): void {
+  resetFormPublished(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      (event.target as HTMLElement).blur();
+    }
+    this.formGroupPublished.reset({
+      dateSince: this.getDateYearAgo(this.today),
+      dateUntil: this.today,
+    });
+  }
+
+  categoryChange(selectedCategory: CategoryEnum): void {
     this.category = selectedCategory ? selectedCategory : this.category;
   }
 
-  /**
-   * Submits published material form, gets values from form elements and checks validity.
-   */
-  onSubmitPublishedMaterials(): void {
-    this.publishedSubmitted = true;
+  submitFormPublished(buttonElement: HTMLButtonElement): void {
+    buttonElement.blur();
+
     let fieldValue: string[] = [];
-    const startDateString: string = this.publishedStartDateCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.publishedStartDateCtrl.value), 'day')
+    const startDateString: string = this.formPublishedDateSinceCtrl.value
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateSinceCtrl.value), 'day')
       : null;
-    const endDateString: string = this.publishedEndDateCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.publishedEndDateCtrl.value), 'day')
+    const endDateString: string = this.formPublishedDateUntilCtrl.value
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateUntilCtrl.value), 'day')
       : null;
-    switch (this.category) {
-      case CategoryType.EDUCATIONAL_LEVEL:
-        fieldValue = this.publishedEducationalLevelsCtrl.value?.map(
+    switch (this.formPublishedCategoryCtrl.value) {
+      case CategoryEnum.EDUCATIONAL_LEVEL:
+        fieldValue = this.formPublishedEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         );
-        this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
-        this.publishedMaterialsForm.get('publishedOrganizations').reset();
+        this.formGroupPublished.get('publishedEducationalSubjects').reset();
+        this.formGroupPublished.get('publishedOrganizations').reset();
         break;
-      case CategoryType.EDUCATIONAL_SUBJECT:
-        fieldValue = this.publishedEducationalSubjectsCtrl.value?.map((subject: SubjectFilter) => subject.key);
-        this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
-        this.publishedMaterialsForm.get('publishedOrganizations').reset();
+      case CategoryEnum.EDUCATIONAL_SUBJECT:
+        fieldValue = this.formPublishedEducationalSubjectsCtrl.value?.map((subject: EducationalSubject) => subject.key);
+        this.formGroupPublished.get('publishedEducationalLevels').reset();
+        this.formGroupPublished.get('publishedOrganizations').reset();
         break;
-      case CategoryType.ORGANIZATION:
-        fieldValue = this.publishedOrganizationsCtrl.value?.map(
+      case CategoryEnum.ORGANIZATION:
+        fieldValue = this.formPublishedOrganizationsCtrl.value?.map(
           (organization: KeyValue<string, string>) => organization.key,
         );
-        this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
-        this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
+        this.formGroupPublished.get('publishedEducationalLevels').reset();
+        this.formGroupPublished.get('publishedEducationalSubjects').reset();
         break;
       default:
-        this.publishedMaterialsForm.get('publishedEducationalLevels').reset();
-        this.publishedMaterialsForm.get('publishedEducationalSubjects').reset();
-        this.publishedMaterialsForm.get('publishedOrganizations').reset();
+        this.formGroupPublished.get('publishedEducationalLevels').reset();
+        this.formGroupPublished.get('publishedEducationalSubjects').reset();
+        this.formGroupPublished.get('publishedOrganizations').reset();
         break;
     }
     if (
-      this.publishedMaterialsForm.valid &&
-      (this.publishedEducationalLevelsCtrl.value?.length ||
-        this.publishedEducationalSubjectsCtrl.value?.length ||
-        this.publishedOrganizationsCtrl.value?.length)
+      this.formGroupPublished.valid &&
+      (this.formPublishedEducationalLevelsCtrl.value?.length ||
+        this.formPublishedEducationalSubjectsCtrl.value?.length ||
+        this.formPublishedOrganizationsCtrl.value?.length)
     ) {
       const payload: StatisticsPortionsPost = {
-        since: startDateString as string, //YYYY-MM-DD | null
-        until: endDateString as string, //YYYY-MM-DD | null
+        since: startDateString as string, // YYYY-MM-DD | null
+        until: endDateString as string, // YYYY-MM-DD | null
         [this.category]: fieldValue as string[],
       };
-      this.publishedcategory =
-        this.category === CategoryType.EDUCATIONAL_LEVEL
+      this.categoryPublished =
+        this.category === CategoryEnum.EDUCATIONAL_LEVEL
           ? 'educationallevel'
-          : this.category === CategoryType.EDUCATIONAL_SUBJECT
+          : this.category === CategoryEnum.EDUCATIONAL_SUBJECT
           ? 'educationalsubject'
-          : this.category === CategoryType.ORGANIZATION
+          : this.category === CategoryEnum.ORGANIZATION
           ? 'organization'
-          : this.publishedcategory;
+          : this.categoryPublished;
       this.getCategoryNames()
-        .then((categoryItems: { key: string; value: string }[]) => {
-          this.getPublishedMaterials(payload, this.publishedcategory, categoryItems).then(
-            (response: { portionNames: string[]; total: number[] }) => {
-              this.materialTotalsChart = this.setOptions(
+        .then((categoryItems: { key: string; value: string }[]): void => {
+          this.getPublishedMaterials(payload, this.categoryPublished, categoryItems).then(
+            (response: { portionNames: string[]; total: number[] }): void => {
+              this.eChartsOptionPublished = this.setOptions(
                 [{ name: 'Julkaisujen kokonaismäärä', value: response.total }],
                 response.portionNames,
                 'bar',
@@ -283,24 +317,27 @@ export class AnalyticsViewComponent implements OnInit {
    */
   getCategoryNames(): Promise<{ key: string; value: string }[]> {
     let categoryItems: { key: string; value: string }[] = [];
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject): void => {
       switch (this.category) {
-        case CategoryType.EDUCATIONAL_LEVEL:
-          categoryItems = this.publishedEducationalLevelsCtrl.value?.map(
-            (educationalLevel: { key: string; value: string }) => ({
+        case CategoryEnum.EDUCATIONAL_LEVEL:
+          categoryItems = this.formPublishedEducationalLevelsCtrl.value?.map(
+            (educationalLevel: { key: string; value: string }): { key: string; value: string } => ({
               key: educationalLevel.key,
               value: educationalLevel.value,
             }),
           );
           return resolve(categoryItems);
-        case CategoryType.EDUCATIONAL_SUBJECT:
-          categoryItems = this.publishedEducationalSubjectsCtrl.value?.map(
-            (subjects: { key: string; value: string }) => ({ key: subjects.key, value: subjects.value }),
+        case CategoryEnum.EDUCATIONAL_SUBJECT:
+          categoryItems = this.formPublishedEducationalSubjectsCtrl.value?.map(
+            (subjects: { key: string; value: string }): { key: string; value: string } => ({
+              key: subjects.key,
+              value: subjects.value,
+            }),
           );
           return resolve(categoryItems);
-        case CategoryType.ORGANIZATION:
-          categoryItems = this.publishedOrganizationsCtrl.value?.map(
-            (organization: { key: string; value: string }) => ({
+        case CategoryEnum.ORGANIZATION:
+          categoryItems = this.formPublishedOrganizationsCtrl.value?.map(
+            (organization: { key: string; value: string }): { key: string; value: string } => ({
               key: organization.key,
               value: organization.value,
             }),
@@ -325,10 +362,10 @@ export class AnalyticsViewComponent implements OnInit {
     categoryItems: { key: string; value: string }[],
   ): Promise<{ portionNames: string[]; total: number[] }> {
     const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] };
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject): void => {
       this.statisticsService.getPublishedMaterials(payload, category).subscribe(
-        (response: StatisticsPortionsResponse) => {
-          values.portionNames = response.values.map((item: PortionResponse) => {
+        (response: StatisticsPortionsResponse): void => {
+          values.portionNames = response.values.map((item: PortionResponse): string => {
             for (let i = 0; i < categoryItems.length; i++) {
               if (item.key == categoryItems[i].key) {
                 return categoryItems[i].value;
@@ -339,12 +376,9 @@ export class AnalyticsViewComponent implements OnInit {
           values.total = response.values.map((item: PortionResponse) => item.value) as number[];
           resolve(values);
         },
-        (err) => {
+        (err): void => {
           this.toastr.error(err);
           reject(err);
-        },
-        () => {
-          this.publishedSubmitted = false;
         },
       );
     });
@@ -353,37 +387,34 @@ export class AnalyticsViewComponent implements OnInit {
   /**
    * Gets form elements' values, checks validity, creates a payload for request.
    */
-  onSubmitExpiredMaterials(): void {
-    this.expiredSubmitted = true;
-    const expiredBeforeDate: Date = new Date(this.expiredBeforeCtrl.value);
+  submitFormExpired(): void {
+    const expiredBeforeDate: Date = new Date(this.formExpiredBeforeCtrl.value);
     const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, 'day');
 
-    if (this.expiredMaterialsForm.valid) {
+    if (this.formGroupExpired.valid) {
       const payload: StatisticsPortionsPost = {
         since: null as string, // 'YYYY-MM-DD'
         until: null as string, // 'YYYY-MM-DD'
         expiredBefore: expiredBeforeString as string,
-        educationalLevels: this.expiredEducationalLevelsCtrl.value?.map(
+        educationalLevels: this.formExpiredEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         ) as string[],
       };
-      const educationalLevelNames: [{ key: string; value: string }] = this.expiredEducationalLevelsCtrl.value?.map(
-        (educationalLevel: EducationalLevel) => ({
+      const educationalLevelNames: [{ key: string; value: string }] = this.formExpiredEducationalLevelsCtrl.value?.map(
+        (educationalLevel: EducationalLevel): { key: string; value: string } => ({
           key: educationalLevel.key,
           value: educationalLevel.value,
         }),
       );
       this.getExpiredMaterials(payload, educationalLevelNames).then(
         (response: { portionNames: string[]; total: number[] }) => {
-          this.expiredMaterialsChart = this.setOptions(
+          this.eChartsOptionExpired = this.setOptions(
             [{ name: 'Vanhentuneet', value: response.total }],
             response.portionNames,
             'bar',
           ) as EChartsOption;
         },
       );
-    } else {
-      this.toastr.error('Form not valid');
     }
   }
 
@@ -416,37 +447,28 @@ export class AnalyticsViewComponent implements OnInit {
           this.toastr.error(err);
           reject(err);
         },
-        (): void => {
-          this.expiredSubmitted = false;
-        },
       );
     });
   }
 
-  /**
-   * Checks form validity, creates an array of dates and calls activity functions to get chart data.
-   */
-  onSubmitUserActivity(activitySubmit: HTMLButtonElement): void {
-    this.submitted = true;
-    activitySubmit.blur();
+  submitFormActivity(buttonElement: HTMLButtonElement): void {
+    buttonElement.blur();
 
-    if (this.activityForm.valid) {
+    if (this.formGroupUsage.valid) {
       this.chartData = [];
-      this.datesArray = [] as string[];
-      this.datesArray = this.statisticsService.createArrayOfDates(
-        this.dateSinceCtrl.value as Date,
-        this.dateUntilCtrl.value as Date,
-        this.intervalCtrl.value as string,
+      this.dateArray = [] as string[];
+      this.dateArray = this.statisticsService.createArrayOfDates(
+        this.formUsageDateSinceCtrl.value as Date,
+        this.formUsageDateUntilCtrl.value as Date,
+        this.formUsageIntervalCtrl.value as IntervalEnum,
       ) as string[];
 
       Promise.all([this.getViewingData(), this.getSearchData(), this.getDownloadData(), this.getEditData()]).then(
         (response: EChartData[]): void => {
           this.chartData = response.filter((n: EChartData) => n);
-          this.userActivityChart = this.setOptions(this.chartData, this.datesArray, 'line') as EChartsOption;
+          this.eChartsOptionActivity = this.setOptions(this.chartData, this.dateArray, 'line') as EChartsOption;
         },
       );
-    } else {
-      this.toastr.error('Form not valid');
     }
   }
 
@@ -457,14 +479,14 @@ export class AnalyticsViewComponent implements OnInit {
   async getViewingData(): Promise<EChartData> {
     try {
       const payload: StatisticsTimespanPost = this.createPayload(
-        this.getDatestamp(this.dateSinceCtrl.value),
-        this.getDatestamp(this.dateUntilCtrl.value),
-        this.activityCtrl.value,
+        this.getDatestamp(this.formUsageDateSinceCtrl.value),
+        this.getDatestamp(this.formUsageDateUntilCtrl.value),
+        this.formUsageActivityCtrl.value,
         'metadata',
       );
       const viewingData: ActivityData = await this.getUserActivity(
         payload,
-        this.intervalCtrl.value,
+        this.formUsageIntervalCtrl.value,
         'materialactivity',
       );
       const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
@@ -479,18 +501,17 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of downloaded materials.
    */
   async getDownloadData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(ActivityType.DOWNLOAD)) {
+    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.DOWNLOAD)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.startDateString,
-          this.endDateString,
+          this.dateUntilString,
+          this.dateSinceString,
           'load',
           'metadata',
         );
-
         const downloadData: ActivityData = await this.getUserActivity(
           payload,
-          this.intervalCtrl.value,
+          this.formUsageIntervalCtrl.value,
           'materialactivity',
         );
         const sortedData: number[] = this.sortValueArrays(downloadData.dates, downloadData.total);
@@ -506,15 +527,19 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of edited materials.
    */
   async getEditData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(ActivityType.EDIT)) {
+    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.EDIT)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.startDateString,
-          this.endDateString,
+          this.dateUntilString,
+          this.dateSinceString,
           'edit',
           'metadata',
         );
-        const editData: ActivityData = await this.getUserActivity(payload, this.intervalCtrl.value, 'materialactivity');
+        const editData: ActivityData = await this.getUserActivity(
+          payload,
+          this.formUsageIntervalCtrl.value,
+          'materialactivity',
+        );
         const sortedData: number[] = this.sortValueArrays(editData.dates, editData.total);
         return { name: 'Muokkausmäärät', value: sortedData };
       } catch (error) {
@@ -528,15 +553,19 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of search requests.
    */
   async getSearchData(): Promise<EChartData> {
-    if (this.activityCtrl.value.includes(ActivityType.SEARCH)) {
+    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.SEARCH)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.startDateString,
-          this.endDateString,
+          this.dateUntilString,
+          this.dateSinceString,
           null,
           'filters',
         );
-        const searchData: ActivityData = await this.getUserActivity(payload, this.intervalCtrl.value, 'searchrequests');
+        const searchData: ActivityData = await this.getUserActivity(
+          payload,
+          this.formUsageIntervalCtrl.value,
+          'searchrequests',
+        );
         const sortedData: number[] = this.sortValueArrays(searchData.dates, searchData.total);
         return { name: 'Hakumäärät', value: sortedData };
       } catch (error) {
@@ -564,14 +593,14 @@ export class AnalyticsViewComponent implements OnInit {
       until: dateUntil, // 'YYYY-MM-DD'
       interaction: interaction,
       [filter]: {
-        organizations: this.organizationsCtrl.value?.map(
+        organizations: this.formUsageOrganizationsCtrl.value?.map(
           (organization: KeyValue<string, string>) => organization.key,
         ) as string[],
-        educationalLevels: this.educationalLevelsCtrl.value?.map(
+        educationalLevels: this.formUsageEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         ) as string[],
-        educationalSubjects: this.educationalSubjectsCtrl.value?.map(
-          (subject: SubjectFilter) => subject.key,
+        educationalSubjects: this.formUsageEducationalSubjectsCtrl.value?.map(
+          (subject: EducationalSubject) => subject.key,
         ) as string[],
       },
     } as StatisticsTimespanPost;
@@ -580,7 +609,7 @@ export class AnalyticsViewComponent implements OnInit {
   /**
    * Makes a request with given params and maps response depending on selected interval.
    * @param {StatisticsTimespanPost} payload Request body.
-   * @param {IntervalType} interval For request url: day | week | month.
+   * @param {IntervalEnum} interval For request url: day | week | month.
    * @param {string} activity For request url: materialactivity | searchrequests.
    * @returns { ActivityData } An array of dates and an array with total activity for each date.
    */
@@ -620,9 +649,6 @@ export class AnalyticsViewComponent implements OnInit {
           this.toastr.error(err);
           reject();
         },
-        (): void => {
-          this.submitted = false;
-        },
       );
     });
   }
@@ -635,9 +661,9 @@ export class AnalyticsViewComponent implements OnInit {
    */
   sortValueArrays(dates: string[], total: number[]): number[] {
     const valueField: number[] = [];
-    for (let i = 0; i < this.datesArray.length; i++) {
+    for (let i = 0; i < this.dateArray.length; i++) {
       for (let n = 0; n < dates.length; n++) {
-        if (this.datesArray[i] == dates[n]) {
+        if (this.dateArray[i] == dates[n]) {
           valueField.splice(i, 1, total[n]);
           break;
         }
@@ -664,8 +690,7 @@ export class AnalyticsViewComponent implements OnInit {
         type: chartType,
       });
     });
-
-    return (this.echart = {
+    return (this.eChartsOption = {
       tooltip: {
         trigger: 'axis',
         axisPointer: {

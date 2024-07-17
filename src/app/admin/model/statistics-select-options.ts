@@ -1,8 +1,8 @@
-import { ActivityType, IntervalType } from '@admin/model/enumeration/CategoryType';
+import { ActivityEnum, CategoryEnum, IntervalEnum } from '@admin/model/enumeration/AnalyticsEnums';
 
-export interface ActivityOptions {
-  key: ActivityType;
-  value: 'edit' | 'download' | 'search' | 'view';
+export interface OptionActivity {
+  key: number;
+  value: ActivityEnum;
   label: {
     fi: string;
     sv: string;
@@ -10,9 +10,19 @@ export interface ActivityOptions {
   };
 }
 
-export interface Interval {
-  key: IntervalType;
-  value: 'day' | 'week' | 'month';
+export interface OptionCategory {
+  key: number;
+  value: CategoryEnum;
+  label: {
+    fi: string;
+    sv: string;
+    en: string;
+  };
+}
+
+export interface OptionInterval {
+  key: number;
+  value: IntervalEnum;
   label: {
     fi: string;
     sv: string;
