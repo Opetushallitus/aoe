@@ -50,7 +50,8 @@ export class KoodistoService {
   };
 
   updateEducationalLevels(): Observable<EducationalLevel[]> {
-    const lang: string = this.translate.currentLang;
+    // const lang: string = this.translate.currentLang;
+    const lang = 'fi';
     return this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).pipe(
       map((educationalLevels: EducationalLevel[]) =>
         educationalLevels.filter((educationalLevel: EducationalLevel): boolean => educationalLevel !== null),
@@ -61,7 +62,8 @@ export class KoodistoService {
   }
 
   updateEducationalSubjects(): Observable<EducationalSubject[]> {
-    const lang: string = this.translate.currentLang;
+    // const lang: string = this.translate.currentLang;
+    const lang = 'fi';
     return this.http
       .get<EducationalSubject[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
       .pipe(

@@ -240,46 +240,29 @@ export class AnalyticsViewComponent implements OnInit {
 
   submitFormPublished(buttonElement: HTMLButtonElement): void {
     buttonElement.blur();
-
     let fieldValue: string[] = [];
     const startDateString: string = this.formPublishedDateSinceCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.formPublishedDateSinceCtrl.value), 'day')
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateSinceCtrl.value), IntervalEnum.DAY)
       : null;
     const endDateString: string = this.formPublishedDateUntilCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.formPublishedDateUntilCtrl.value), 'day')
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateUntilCtrl.value), IntervalEnum.DAY)
       : null;
     switch (this.formPublishedCategoryCtrl.value) {
       case CategoryEnum.EDUCATIONAL_LEVEL:
         fieldValue = this.formPublishedEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
         );
-        this.formGroupPublished.get('publishedEducationalSubjects').reset();
-        this.formGroupPublished.get('publishedOrganizations').reset();
         break;
       case CategoryEnum.EDUCATIONAL_SUBJECT:
-        fieldValue = this.formPublishedEducationalSubjectsCtrl.value?.map((subject: EducationalSubject) => subject.key);
-        this.formGroupPublished.get('publishedEducationalLevels').reset();
-        this.formGroupPublished.get('publishedOrganizations').reset();
+        fieldValue = this.formPublishedEducationalSubjectsCtrl.value?.map(
+          (educationalSubject: EducationalSubject) => educationalSubject.key,
+        );
         break;
       case CategoryEnum.ORGANIZATION:
-        fieldValue = this.formPublishedOrganizationsCtrl.value?.map(
-          (organization: KeyValue<string, string>) => organization.key,
-        );
-        this.formGroupPublished.get('publishedEducationalLevels').reset();
-        this.formGroupPublished.get('publishedEducationalSubjects').reset();
-        break;
-      default:
-        this.formGroupPublished.get('publishedEducationalLevels').reset();
-        this.formGroupPublished.get('publishedEducationalSubjects').reset();
-        this.formGroupPublished.get('publishedOrganizations').reset();
+        fieldValue = this.formPublishedOrganizationsCtrl.value?.map((organization: Organization) => organization.key);
         break;
     }
-    if (
-      this.formGroupPublished.valid &&
-      (this.formPublishedEducationalLevelsCtrl.value?.length ||
-        this.formPublishedEducationalSubjectsCtrl.value?.length ||
-        this.formPublishedOrganizationsCtrl.value?.length)
-    ) {
+    if (this.formGroupPublished.valid) {
       const payload: StatisticsPortionsPost = {
         since: startDateString as string, // YYYY-MM-DD | null
         until: endDateString as string, // YYYY-MM-DD | null
@@ -389,7 +372,7 @@ export class AnalyticsViewComponent implements OnInit {
    */
   submitFormExpired(): void {
     const expiredBeforeDate: Date = new Date(this.formExpiredBeforeCtrl.value);
-    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, 'day');
+    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, IntervalEnum.DAY);
 
     if (this.formGroupExpired.valid) {
       const payload: StatisticsPortionsPost = {
