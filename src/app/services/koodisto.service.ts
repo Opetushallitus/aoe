@@ -16,6 +16,7 @@ import { License } from '@models/koodisto/license';
 import { environment } from '../../environments/environment';
 import { SubjectFilter } from '@models/koodisto/subject-filter';
 import { catchError, map } from 'rxjs/operators';
+import { EducationalSubject } from '@models/koodisto/educational-subject';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +55,7 @@ export class KoodistoService {
   public accessibilityHazards$ = new Subject<AccessibilityHazard[]>();
   public keywords$ = new Subject<KeyValue<string, string>[]>();
   public organizations$ = new Subject<KeyValue<string, string>[]>();
-  public subjectFilters$ = new Subject<SubjectFilter[]>();
+  public educationalSubject$ = new Subject<SubjectFilter[]>();
 
   private languagesBehaviorSubject: BehaviorSubject<Language[]> = new BehaviorSubject<Language[]>([]);
   private licenses$$: BehaviorSubject<License[]> = new BehaviorSubject<License[]>(null);
@@ -491,16 +492,18 @@ export class KoodistoService {
   /**
    * Updates educational subject filters.
    */
-  updateSubjectFilters(): void {
-    const lang = this.translate.currentLang;
-
+  updateEducationalSubjects(): void {
+    const lang: string = this.translate.currentLang;
     this.http
       .get<SubjectFilter[]>(`${this.apiUri}/filters-oppiaineet-tieteenalat-tutkinnot/${lang}`, this.httpOptions)
       .subscribe(
-        (filters: SubjectFilter[]) => {
-          this.subjectFilters$.next(filters);
+        (educationalSubjects: EducationalSubject[]): void => {
+          const educationalSubjectsWithoutNulls: EducationalSubject[] = educationalSubjects.filter(
+            (educationalSubject: EducationalSubject): boolean => educationalSubject !== null,
+          );
+          this.educationalSubject$.next(educationalSubjectsWithoutNulls);
         },
-        (error: HttpErrorResponse) => this.handleError(error, this.subjectFilters$),
+        (error: HttpErrorResponse) => this.handleError(error, this.educationalSubject$),
       );
   }
 }

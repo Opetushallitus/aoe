@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.translate.onLangChange.subscribe(() => {
       this.koodistoProxySvc.updateEducationalLevels();
-      this.koodistoProxySvc.updateSubjectFilters();
+      this.koodistoProxySvc.updateEducationalSubjects();
       this.koodistoProxySvc.updateLearningResourceTypes();
     });
 
@@ -63,12 +63,12 @@ export class SearchComponent implements OnInit, OnDestroy {
     );
     this.koodistoProxySvc.updateEducationalLevels();
 
-    this.educationalSubjectSubscription = this.koodistoProxySvc.subjectFilters$.subscribe(
+    this.educationalSubjectSubscription = this.koodistoProxySvc.educationalSubject$.subscribe(
       (filters: SubjectFilter[]) => {
         this.educationalSubjects = filters;
       },
     );
-    this.koodistoProxySvc.updateSubjectFilters();
+    this.koodistoProxySvc.updateEducationalSubjects();
 
     this.learningResourceTypeSubscription = this.koodistoProxySvc.learningResourceTypes$.subscribe(
       (types: LearningResourceType[]) => {
@@ -112,7 +112,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         educationLevelKeys.includes(subject.key),
       );
     } else {
-      this.koodistoProxySvc.updateSubjectFilters();
+      this.koodistoProxySvc.updateEducationalSubjects();
     }
   }
 
