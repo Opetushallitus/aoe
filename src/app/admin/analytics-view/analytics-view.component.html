@@ -167,6 +167,7 @@
 <br />
 <app-line-chart [options]="eChartsOptionActivity"></app-line-chart>
 <br />
+<br />
 <h2>Oppimateriaalien julkaisumäärät</h2>
 <form [formGroup]="formGroupPublished" (ngSubmit)="submitFormPublished(publishedSubmit)">
   <div class="form-row">
@@ -339,6 +340,7 @@
 <br />
 <app-line-chart [options]="eChartsOptionPublished"></app-line-chart>
 <br />
+<br />
 <h2>Vanhentuneiden oppimateriaalien määrät</h2>
 <form [id]="formGroupExpired" [formGroup]="formGroupExpired" (ngSubmit)="submitFormExpired(expiredSubmit)">
   <div class="form-row">
@@ -394,4 +396,5 @@
 </form>
 <br />
 <app-line-chart [options]="eChartsOptionExpired"></app-line-chart>
+<br />
 <br />
