@@ -9,7 +9,6 @@ import {
   YAXisComponentOption,
 } from 'echarts';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { KeyValue } from '@angular/common';
 import {
   ActivityData,
   EChartData,
@@ -51,14 +50,12 @@ export class AnalyticsViewComponent implements OnInit {
 
   chartData: { name: string; value: number[] }[] = [];
   dateArray: string[] = [];
-  dateSinceString: string;
-  dateUntilString: string;
   today: Date;
 
   selectOptionActivity: OptionActivity[] = [
     { key: 0, value: ActivityEnum.SEARCH, label: { fi: 'Haku', sv: '', en: '' } },
     { key: 1, value: ActivityEnum.VIEW, label: { fi: 'Katselu', sv: '', en: '' } },
-    { key: 2, value: ActivityEnum.DOWNLOAD, label: { fi: 'Lataus', sv: '', en: '' } },
+    { key: 2, value: ActivityEnum.LOAD, label: { fi: 'Lataus', sv: '', en: '' } },
     { key: 3, value: ActivityEnum.EDIT, label: { fi: 'Muokkaus', sv: '', en: '' } },
   ];
   selectOptionCategory: OptionCategory[] = [
@@ -451,12 +448,12 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of downloaded materials.
    */
   async getDownloadData(): Promise<EChartData> {
-    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.DOWNLOAD)) {
+    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.LOAD)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.dateUntilString,
-          this.dateSinceString,
-          'load',
+          this.getDatestamp(this.formUsageDateSinceCtrl.value),
+          this.getDatestamp(this.formUsageDateUntilCtrl.value),
+          ActivityEnum.LOAD,
           'metadata',
         );
         const downloadData: ActivityData = await this.getUserActivity(
@@ -480,9 +477,9 @@ export class AnalyticsViewComponent implements OnInit {
     if (this.formUsageActivityCtrl.value.includes(ActivityEnum.EDIT)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.dateUntilString,
-          this.dateSinceString,
-          'edit',
+          this.getDatestamp(this.formUsageDateSinceCtrl.value),
+          this.getDatestamp(this.formUsageDateUntilCtrl.value),
+          ActivityEnum.EDIT,
           'metadata',
         );
         const editData: ActivityData = await this.getUserActivity(
@@ -506,8 +503,8 @@ export class AnalyticsViewComponent implements OnInit {
     if (this.formUsageActivityCtrl.value.includes(ActivityEnum.SEARCH)) {
       try {
         const payload: StatisticsTimespanPost = this.createPayload(
-          this.dateUntilString,
-          this.dateSinceString,
+          this.getDatestamp(this.formUsageDateSinceCtrl.value),
+          this.getDatestamp(this.formUsageDateUntilCtrl.value),
           null,
           'filters',
         );
@@ -524,27 +521,19 @@ export class AnalyticsViewComponent implements OnInit {
     }
   }
 
-  /**
-   * Creates a payload for activity requests.
-   * @param {string} dateSince Start date for statistics 'YYYY-MM-DD'.
-   * @param {string} dateUntil End date for statistics 'YYYY-MM-DD'.
-   * @param {'view' | 'load' | 'edit' | null} interaction Which activity statistics are requested, null for search requests.
-   * @param {'metadata' | 'filters'} filter Extra classifications for request.
-   * @returns {StatisticsTimespanPost} A body for requests.
-   */
   createPayload(
     dateSince: string,
     dateUntil: string,
-    interaction: 'view' | 'load' | 'edit' | null,
+    activity: ActivityEnum | null,
     filter: 'metadata' | 'filters',
   ): StatisticsTimespanPost {
     return {
       since: dateSince, // 'YYYY-MM-DD'
       until: dateUntil, // 'YYYY-MM-DD'
-      interaction: interaction,
+      interaction: activity,
       [filter]: {
         organizations: this.formUsageOrganizationsCtrl.value?.map(
-          (organization: KeyValue<string, string>) => organization.key,
+          (organization: Organization) => organization.key,
         ) as string[],
         educationalLevels: this.formUsageEducationalLevelsCtrl.value?.map(
           (educationalLevel: EducationalLevel) => educationalLevel.key,
