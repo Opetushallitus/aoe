@@ -11,402 +11,417 @@
   </p>
 </section>
 <br />
-<h2>Oppimateriaalien käyttömäärät</h2>
-<form [formGroup]="formGroupUsage" (ngSubmit)="submitFormActivity(activitySubmit)">
-  <div class="form-row">
-    <div class="form-group col-sm-4">
-      <!-- Activity Type Select -->
-      <label for="form-usage-select-activity">Käyttötapa *</label>
-      <ng-select
-        [items]="selectOptionActivity"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="label.fi"
-        bindValue="value"
-        id="form-usage-select-activity"
-        labelForId="form-usage-select-activity"
-        formControlName="activity"></ng-select>
-      <ng-container
-        *ngIf="formUsageActivityCtrl?.invalid && (formUsageActivityCtrl.dirty || formUsageActivityCtrl.touched)">
-        <div *ngIf="formUsageActivityCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkasteltava käyttötapa</small>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-sm-4">
-      <!-- Interval Type Select -->
-      <label for="form-usage-select-interval">Aikajanan tarkkuus *</label>
-      <ng-select
-        [items]="selectOptionInterval"
-        bindLabel="label.fi"
-        bindValue="value"
-        id="form-usage-select-interval"
-        labelForId="form-usage-select-interval"
-        formControlName="interval"></ng-select>
-      <ng-container
-        *ngIf="formUsageIntervalCtrl?.invalid && (formUsageIntervalCtrl.dirty || formUsageIntervalCtrl.touched)">
-        <div *ngIf="formUsageIntervalCtrl.errors?.required">
-          <small class="text-danger">Valitse aikajanan tarkkuus</small>
-        </div>
-      </ng-container>
-    </div>
-    <div class="form-group col-sm-4">
-      <!-- Date Since Picker -->
-      <label for="form-usage-select-date-since">Tarkastelu alkaa *</label>
-      <input
-        type="text"
-        class="form-control custom-readonly"
-        id="form-usage-select-date-since"
-        formControlName="dateSince"
-        bsDatepicker
-        readonly
-        [maxDate]="formUsageDateUntilCtrl.value"
-        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
-      <ng-container
-        *ngIf="formUsageDateSinceCtrl?.invalid && (formUsageDateSinceCtrl.dirty || formUsageDateSinceCtrl.touched)">
-        <div *ngIf="formUsageDateSinceCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkastelun alkamispäivä</small>
-        </div>
-      </ng-container>
-    </div>
-    <div class="form-group col-sm-4">
-      <!-- Date Until Picker -->
-      <label for="form-usage-select-date-until">Tarkastelu päättyy *</label>
-      <input
-        type="text"
-        class="form-control custom-readonly"
-        id="form-usage-select-date-until"
-        formControlName="dateUntil"
-        bsDatepicker
-        readonly
-        [minDate]="formUsageDateSinceCtrl.value"
-        [maxDate]="today"
-        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
-      <ng-container
-        *ngIf="formUsageDateUntilCtrl?.invalid && (formUsageDateUntilCtrl.dirty || formUsageDateUntilCtrl.touched)">
-        <div *ngIf="formUsageDateUntilCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkastelun päättymispäivä</small>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-  <div class="form-row">
-    <div *ngIf="organizations$ | async as organizations" class="form-group col-sm-4">
-      <!-- Organizations Select -->
-      <label for="form-usage-select-organizations">Organisaatiot</label>
-      <ng-select
-        [items]="organizations"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        [virtualScroll]="true"
-        bindLabel="value"
-        groupBy="children"
-        id="form-usage-select-organizations"
-        labelForId="form-usage-select-organizations"
-        formControlName="organizations">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+<section>
+  <h2>Oppimateriaalien käyttömäärät</h2>
+  <form [formGroup]="formGroupUsage" (ngSubmit)="submitFormActivity(activitySubmit)">
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        <!-- Activity Type Select -->
+        <label for="form-usage-select-activity">Käyttötapa *</label>
+        <ng-select
+          [items]="selectOptionActivity"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="label.fi"
+          bindValue="value"
+          id="form-usage-select-activity"
+          labelForId="form-usage-select-activity"
+          formControlName="activity"></ng-select>
+        <ng-container
+          *ngIf="formUsageActivityCtrl?.invalid && (formUsageActivityCtrl.dirty || formUsageActivityCtrl.touched)">
+          <div *ngIf="formUsageActivityCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkasteltava käyttötapa</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-          <small *ngIf="item.parent">
-            <br />
-            {{ item.parent }}
-          </small>
-        </ng-template>
-      </ng-select>
+        </ng-container>
+      </div>
     </div>
-    <div *ngIf="educationalLevels$ | async as educationalLevels" class="form-group col-sm-4">
-      <!-- Educational Levels Select -->
-      <label for="form-usage-select-educational-levels">Opetusasteet</label>
-      <ng-select
-        [items]="educationalLevels"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="value"
-        groupBy="children"
-        id="form-usage-select-educational-levels"
-        labelForId="form-usage-select-educational-levels"
-        formControlName="educationalLevels">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        <!-- Interval Type Select -->
+        <label for="form-usage-select-interval">Aikajanan tarkkuus *</label>
+        <ng-select
+          [items]="selectOptionInterval"
+          bindLabel="label.fi"
+          bindValue="value"
+          id="form-usage-select-interval"
+          labelForId="form-usage-select-interval"
+          formControlName="interval"></ng-select>
+        <ng-container
+          *ngIf="formUsageIntervalCtrl?.invalid && (formUsageIntervalCtrl.dirty || formUsageIntervalCtrl.touched)">
+          <div *ngIf="formUsageIntervalCtrl.errors?.required">
+            <small class="text-danger">Valitse aikajanan tarkkuus</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-      </ng-select>
-    </div>
-    <div *ngIf="educationalSubjects$ | async as educationalSubjects" class="form-group col-sm-4">
-      <!-- Educational Subjects Select -->
-      <label for="form-usage-select-educational-subjects">Oppiaineet</label>
-      <ng-select
-        [items]="educationalSubjects"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        [selectableGroup]="true"
-        [selectableGroupAsModel]="false"
-        bindLabel="value"
-        groupBy="children"
-        id="form-usage-select-educational-subjects"
-        labelForId="form-usage-select-educational-subjects"
-        formControlName="educationalSubjects">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+        </ng-container>
+      </div>
+      <div class="form-group col-sm-4">
+        <!-- Date Since Picker -->
+        <label for="form-usage-select-date-since">Tarkastelu alkaa *</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="form-usage-select-date-since"
+          formControlName="dateSince"
+          bsDatepicker
+          readonly
+          [maxDate]="formUsageDateUntilCtrl.value"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+        <ng-container
+          *ngIf="formUsageDateSinceCtrl?.invalid && (formUsageDateSinceCtrl.dirty || formUsageDateSinceCtrl.touched)">
+          <div *ngIf="formUsageDateSinceCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkastelun alkamispäivä</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-          <small *ngIf="item.parent">
-            <br />
-            {{ item.parent }}
-          </small>
-        </ng-template>
-      </ng-select>
-    </div>
-  </div>
-  <button type="submit" [disabled]="formGroupUsage.invalid" class="btn btn-blue" #activitySubmit>Hae tiedot</button>
-  &nbsp;&nbsp;
-  <button (click)="resetFormActivity($event)" class="btn btn-cancel">Tyhjennä</button>
-</form>
-<br />
-<app-line-chart [options]="eChartsOptionActivity"></app-line-chart>
-<br />
-<br />
-<h2>Oppimateriaalien julkaisumäärät</h2>
-<form [formGroup]="formGroupPublished" (ngSubmit)="submitFormPublished(publishedSubmit)">
-  <div class="form-row">
-    <div class="form-group col-sm-4">
-      <!-- Date Since Picker -->
-      <label for="form-published-select-date-since">Tarkastelu alkaa *</label>
-      <input
-        type="text"
-        class="form-control custom-readonly"
-        id="form-published-select-date-since"
-        formControlName="dateSince"
-        bsDatepicker
-        readonly
-        [maxDate]="formPublishedDateUntilCtrl.value"
-        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
-      <ng-container
-        *ngIf="formPublishedDateSinceCtrl?.invalid && (formPublishedDateSinceCtrl.dirty || formPublishedDateSinceCtrl.touched)">
-        <div *ngIf="formPublishedDateSinceCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkastelun alkamispäivä</small>
-        </div>
-      </ng-container>
-    </div>
-    <div class="form-group col-sm-4">
-      <!-- Date Until Picker -->
-      <label for="form-published-select-date-until">Tarkastelu päättyy *</label>
-      <input
-        type="text"
-        class="form-control custom-readonly"
-        id="form-published-select-date-until"
-        formControlName="dateUntil"
-        bsDatepicker
-        readonly
-        [minDate]="formPublishedDateSinceCtrl.value"
-        [maxDate]="today"
-        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
-      <ng-container
-        *ngIf="formPublishedDateUntilCtrl?.invalid && (formPublishedDateUntilCtrl.dirty || formPublishedDateUntilCtrl.touched)">
-        <div *ngIf="formPublishedDateUntilCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkastelun päättymispäivä</small>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group col-sm-4">
-      <!-- Category Select -->
-      <label for="form-published-select-category">Valitse luokitus *</label>
-      <ng-select
-        [items]="selectOptionCategory"
-        bindLabel="label.fi"
-        bindValue="value"
-        labelForId="form-published-select-category"
-        id="form-published-select-category"
-        formControlName="category"></ng-select>
-      <ng-container
-        *ngIf="formPublishedCategoryCtrl?.invalid && (formPublishedCategoryCtrl.dirty || formPublishedCategoryCtrl.touched)">
-        <div *ngIf="formPublishedCategoryCtrl.errors?.required">
-          <small class="text-danger">Valitse julkaisujen hakuluokitus</small>
-        </div>
-      </ng-container>
-    </div>
-    <div
-      *ngIf="formPublishedCategoryCtrl.value === 'educationalLevels' && educationalLevels$ | async as educationalLevels"
-      class="form-group col-sm-4">
-      <!-- Educational Levels Select -->
-      <label for="form-published-select-educational-levels">Opetusasteet *</label>
-      <ng-select
-        [items]="educationalLevels"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="value"
-        groupBy="children"
-        id="form-published-select-educational-levels"
-        labelForId="form-published-select-educational-levels"
-        formControlName="educationalLevels">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+        </ng-container>
+      </div>
+      <div class="form-group col-sm-4">
+        <!-- Date Until Picker -->
+        <label for="form-usage-select-date-until">Tarkastelu päättyy *</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="form-usage-select-date-until"
+          formControlName="dateUntil"
+          bsDatepicker
+          readonly
+          [minDate]="formUsageDateSinceCtrl.value"
+          [maxDate]="today"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+        <ng-container
+          *ngIf="formUsageDateUntilCtrl?.invalid && (formUsageDateUntilCtrl.dirty || formUsageDateUntilCtrl.touched)">
+          <div *ngIf="formUsageDateUntilCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkastelun päättymispäivä</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-      </ng-select>
-      <ng-container
-        *ngIf="formPublishedEducationalLevelsCtrl?.invalid && (formPublishedEducationalLevelsCtrl.dirty || formPublishedEducationalLevelsCtrl.touched)">
-        <div *ngIf="formPublishedEducationalLevelsCtrl.errors?.required">
-          <small class="text-danger">Valitse yksi tai useampi opetusaste</small>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
-    <div
-      *ngIf="formPublishedCategoryCtrl.value === 'educationalSubjects' && educationalSubjects$ | async as educationalSubjects"
-      class="form-group col-sm-4">
-      <!-- Educational Levels Select -->
-      <label for="form-published-select-educational-subjects">Oppiaineet *</label>
-      <ng-select
-        [items]="educationalSubjects"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        [selectableGroup]="true"
-        [selectableGroupAsModel]="false"
-        bindLabel="value"
-        groupBy="children"
-        id="form-published-select-educational-subjects"
-        labelForId="form-published-select-educational-subjects"
-        formControlName="educationalSubjects">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+    <div class="form-row">
+      <div *ngIf="organizations$ | async as organizations" class="form-group col-sm-4">
+        <!-- Organizations Select -->
+        <label for="form-usage-select-organizations">Organisaatiot</label>
+        <ng-select
+          [items]="organizations"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [virtualScroll]="true"
+          bindLabel="value"
+          groupBy="children"
+          id="form-usage-select-organizations"
+          labelForId="form-usage-select-organizations"
+          formControlName="organizations">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.value }}
+            <small *ngIf="item.parent">
+              <br />
+              {{ item.parent }}
+            </small>
+          </ng-template>
+        </ng-select>
+      </div>
+      <div *ngIf="educationalLevels$ | async as educationalLevels" class="form-group col-sm-4">
+        <!-- Educational Levels Select -->
+        <label for="form-usage-select-educational-levels">Opetusasteet</label>
+        <ng-select
+          [items]="educationalLevels"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="value"
+          groupBy="children"
+          id="form-usage-select-educational-levels"
+          labelForId="form-usage-select-educational-levels"
+          formControlName="educationalLevels">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+        </ng-select>
+      </div>
+      <div *ngIf="educationalSubjects$ | async as educationalSubjects" class="form-group col-sm-4">
+        <!-- Educational Subjects Select -->
+        <label for="form-usage-select-educational-subjects">Oppiaineet</label>
+        <ng-select
+          [items]="educationalSubjects"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [selectableGroup]="true"
+          [selectableGroupAsModel]="false"
+          bindLabel="value"
+          groupBy="children"
+          id="form-usage-select-educational-subjects"
+          labelForId="form-usage-select-educational-subjects"
+          formControlName="educationalSubjects">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.value }}
+            <small *ngIf="item.parent">
+              <br />
+              {{ item.parent }}
+            </small>
+          </ng-template>
+        </ng-select>
+      </div>
+    </div>
+    <button type="submit" [disabled]="formGroupUsage.invalid" class="btn btn-blue" #activitySubmit>Hae tiedot</button>
+    &nbsp;&nbsp;
+    <button (click)="resetFormActivity($event)" class="btn btn-cancel">Tyhjennä</button>
+  </form>
+  <br />
+  <app-line-chart [options]="eChartsOptionActivity"></app-line-chart>
+  <br />
+</section>
+<br />
+<section>
+  <h2>Oppimateriaalien julkaisumäärät</h2>
+  <form [formGroup]="formGroupPublished" (ngSubmit)="submitFormPublished(publishedSubmit)">
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        <!-- Date Since Picker -->
+        <label for="form-published-select-date-since">Tarkastelu alkaa *</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="form-published-select-date-since"
+          formControlName="dateSince"
+          bsDatepicker
+          readonly
+          [maxDate]="formPublishedDateUntilCtrl.value"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+        <ng-container
+          *ngIf="formPublishedDateSinceCtrl?.invalid && (formPublishedDateSinceCtrl.dirty || formPublishedDateSinceCtrl.touched)">
+          <div *ngIf="formPublishedDateSinceCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkastelun alkamispäivä</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-          <small *ngIf="item.parent">
-            <br />
-            {{ item.parent }}
-          </small>
-        </ng-template>
-      </ng-select>
-      <ng-container
-        *ngIf="formPublishedEducationalSubjectsCtrl?.invalid && (formPublishedEducationalSubjectsCtrl.dirty || formPublishedEducationalSubjectsCtrl.touched)">
-        <div *ngIf="formPublishedEducationalSubjectsCtrl.errors?.required">
-          <small class="text-danger">Valitse yksi tai useampi oppiaine</small>
-        </div>
-      </ng-container>
-    </div>
-    <div
-      *ngIf="formPublishedCategoryCtrl.value === 'organizations' && organizations$ | async as organizations"
-      class="form-group col-sm-4">
-      <label for="form-published-select-organizations">Organisaatiot *</label>
-      <ng-select
-        [items]="organizations"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        [virtualScroll]="true"
-        bindLabel="value"
-        groupBy="children"
-        id="form-published-select-organizations"
-        labelForId="form-published-select-organizations"
-        formControlName="organizations">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+        </ng-container>
+      </div>
+      <div class="form-group col-sm-4">
+        <!-- Date Until Picker -->
+        <label for="form-published-select-date-until">Tarkastelu päättyy *</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="form-published-select-date-until"
+          formControlName="dateUntil"
+          bsDatepicker
+          readonly
+          [minDate]="formPublishedDateSinceCtrl.value"
+          [maxDate]="today"
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+        <ng-container
+          *ngIf="formPublishedDateUntilCtrl?.invalid && (formPublishedDateUntilCtrl.dirty || formPublishedDateUntilCtrl.touched)">
+          <div *ngIf="formPublishedDateUntilCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkastelun päättymispäivä</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">
-          {{ item.value }}
-          <small *ngIf="item.parent">
-            <br />
-            {{ item.parent }}
-          </small>
-        </ng-template>
-      </ng-select>
-      <ng-container
-        *ngIf="formPublishedOrganizationsCtrl?.invalid && (formPublishedOrganizationsCtrl.dirty || formPublishedOrganizationsCtrl.touched)">
-        <div *ngIf="formPublishedOrganizationsCtrl.errors?.required">
-          <small class="text-danger">Valitse yksi tai useampi organisaatio</small>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <button type="submit" [disabled]="formGroupPublished.invalid" class="btn btn-blue" #publishedSubmit>
-    Hae tiedot
-  </button>
-  &nbsp;&nbsp;
-  <button (click)="resetFormPublished($event)" class="btn btn-cancel">Tyhjennä</button>
-</form>
-<br />
-<app-line-chart [options]="eChartsOptionPublished"></app-line-chart>
-<br />
-<br />
-<h2>Vanhentuneiden oppimateriaalien määrät</h2>
-<form [id]="formGroupExpired" [formGroup]="formGroupExpired" (ngSubmit)="submitFormExpired(expiredSubmit)">
-  <div class="form-row">
-    <div *ngIf="educationalLevels$ | async as educationalLevels" class="form-group col-sm-6 col-md-4">
-      <!-- Educational Levels Select -->
-      <label for="form-expired-select-ducational-levels">Opetusasteet *</label>
-      <ng-select
-        [items]="educationalLevels"
-        [multiple]="true"
-        [closeOnSelect]="false"
-        bindLabel="value"
-        groupBy="children"
-        id="form-expired-select-ducational-levels"
-        labelForId="form-expired-select-ducational-levels"
-        formControlName="educationalLevels">
-        <ng-template ng-multi-label-tmp let-items="items">
-          <div class="ng-value">
-            <span class="ng-value-label">{{ items.length }} valintaa</span>
+    <div class="form-row">
+      <div class="form-group col-sm-4">
+        <!-- Category Select -->
+        <label for="form-published-select-category">Valitse luokitus *</label>
+        <ng-select
+          [items]="selectOptionCategory"
+          bindLabel="label.fi"
+          bindValue="value"
+          labelForId="form-published-select-category"
+          id="form-published-select-category"
+          formControlName="category"></ng-select>
+        <ng-container
+          *ngIf="formPublishedCategoryCtrl?.invalid && (formPublishedCategoryCtrl.dirty || formPublishedCategoryCtrl.touched)">
+          <div *ngIf="formPublishedCategoryCtrl.errors?.required">
+            <small class="text-danger">Valitse julkaisujen luokitus</small>
           </div>
-        </ng-template>
-        <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
-        <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
-      </ng-select>
-      <ng-container
-        *ngIf="formExpiredEducationalLevelsCtrl?.invalid && (formExpiredEducationalLevelsCtrl.dirty || formExpiredEducationalLevelsCtrl.touched)">
-        <div *ngIf="formExpiredEducationalLevelsCtrl.errors?.required">
-          <small class="text-danger">Valitse yksi tai useampi opetusaste</small>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
+      <div *ngIf="!formPublishedCategoryCtrl.value" class="form-group col-sm-4">
+        <label for="form-published-select-disabled">&nbsp;</label>
+        <ng-select
+          class="custom-disabled"
+          id="form-published-select-disabled"
+          labelForId="form-published-select-disabled"
+          readonly
+          disabled></ng-select>
+      </div>
+      <div
+        *ngIf="formPublishedCategoryCtrl.value === 'educationalLevels' && educationalLevels$ | async as educationalLevels"
+        class="form-group col-sm-4">
+        <!-- Educational Levels Select -->
+        <label for="form-published-select-educational-levels">Opetusasteet *</label>
+        <ng-select
+          [items]="educationalLevels"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="value"
+          groupBy="children"
+          id="form-published-select-educational-levels"
+          labelForId="form-published-select-educational-levels"
+          formControlName="educationalLevels">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+        </ng-select>
+        <ng-container
+          *ngIf="formPublishedEducationalLevelsCtrl?.invalid && (formPublishedEducationalLevelsCtrl.dirty || formPublishedEducationalLevelsCtrl.touched)">
+          <div *ngIf="formPublishedEducationalLevelsCtrl.errors?.required">
+            <small class="text-danger">Valitse yksi tai useampi opetusaste</small>
+          </div>
+        </ng-container>
+      </div>
+      <div
+        *ngIf="formPublishedCategoryCtrl.value === 'educationalSubjects' && educationalSubjects$ | async as educationalSubjects"
+        class="form-group col-sm-4">
+        <!-- Educational Levels Select -->
+        <label for="form-published-select-educational-subjects">Oppiaineet *</label>
+        <ng-select
+          [items]="educationalSubjects"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [selectableGroup]="true"
+          [selectableGroupAsModel]="false"
+          bindLabel="value"
+          groupBy="children"
+          id="form-published-select-educational-subjects"
+          labelForId="form-published-select-educational-subjects"
+          formControlName="educationalSubjects">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.value }}
+            <small *ngIf="item.parent">
+              <br />
+              {{ item.parent }}
+            </small>
+          </ng-template>
+        </ng-select>
+        <ng-container
+          *ngIf="formPublishedEducationalSubjectsCtrl?.invalid && (formPublishedEducationalSubjectsCtrl.dirty || formPublishedEducationalSubjectsCtrl.touched)">
+          <div *ngIf="formPublishedEducationalSubjectsCtrl.errors?.required">
+            <small class="text-danger">Valitse yksi tai useampi oppiaine</small>
+          </div>
+        </ng-container>
+      </div>
+      <div
+        *ngIf="formPublishedCategoryCtrl.value === 'organizations' && organizations$ | async as organizations"
+        class="form-group col-sm-4">
+        <label for="form-published-select-organizations">Organisaatiot *</label>
+        <ng-select
+          [items]="organizations"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          [virtualScroll]="true"
+          bindLabel="value"
+          groupBy="children"
+          id="form-published-select-organizations"
+          labelForId="form-published-select-organizations"
+          formControlName="organizations">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">
+            {{ item.value }}
+            <small *ngIf="item.parent">
+              <br />
+              {{ item.parent }}
+            </small>
+          </ng-template>
+        </ng-select>
+        <ng-container
+          *ngIf="formPublishedOrganizationsCtrl?.invalid && (formPublishedOrganizationsCtrl.dirty || formPublishedOrganizationsCtrl.touched)">
+          <div *ngIf="formPublishedOrganizationsCtrl.errors?.required">
+            <small class="text-danger">Valitse yksi tai useampi organisaatio</small>
+          </div>
+        </ng-container>
+      </div>
     </div>
-    <div class="form-group col-sm-6 col-md-4">
-      <!-- Date Expired Before Picker -->
-      <label for="form-expired-select-date-expired-before">Vanhenee ennen *</label>
-      <input
-        type="text"
-        class="form-control custom-readonly"
-        id="form-expired-select-date-expired-before"
-        formControlName="expiredBefore"
-        bsDatepicker
-        readonly
-        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
-      <ng-container
-        *ngIf="formExpiredBeforeCtrl?.invalid && (formExpiredBeforeCtrl.dirty || formExpiredBeforeCtrl.touched)">
-        <div *ngIf="formExpiredBeforeCtrl.errors?.required">
-          <small class="text-danger">Valitse tarkasteltava vanhenemispäivä</small>
-        </div>
-      </ng-container>
+    <button type="submit" [disabled]="formGroupPublished.invalid" class="btn btn-blue" #publishedSubmit>
+      Hae tiedot
+    </button>
+    &nbsp;&nbsp;
+    <button (click)="resetFormPublished($event)" class="btn btn-cancel">Tyhjennä</button>
+  </form>
+  <br />
+  <app-line-chart [options]="eChartsOptionPublished"></app-line-chart>
+  <br />
+</section>
+<br />
+<section>
+  <h2>Vanhentuneiden oppimateriaalien määrät</h2>
+  <form [id]="formGroupExpired" [formGroup]="formGroupExpired" (ngSubmit)="submitFormExpired(expiredSubmit)">
+    <div class="form-row">
+      <div *ngIf="educationalLevels$ | async as educationalLevels" class="form-group col-sm-6 col-md-4">
+        <!-- Educational Levels Select -->
+        <label for="form-expired-select-ducational-levels">Opetusasteet *</label>
+        <ng-select
+          [items]="educationalLevels"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="value"
+          groupBy="children"
+          id="form-expired-select-ducational-levels"
+          labelForId="form-expired-select-ducational-levels"
+          formControlName="educationalLevels">
+          <ng-template ng-multi-label-tmp let-items="items">
+            <div class="ng-value">
+              <span class="ng-value-label">{{ items.length }} valintaa</span>
+            </div>
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
+          <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
+        </ng-select>
+        <ng-container
+          *ngIf="formExpiredEducationalLevelsCtrl?.invalid && (formExpiredEducationalLevelsCtrl.dirty || formExpiredEducationalLevelsCtrl.touched)">
+          <div *ngIf="formExpiredEducationalLevelsCtrl.errors?.required">
+            <small class="text-danger">Valitse yksi tai useampi opetusaste</small>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group col-sm-6 col-md-4">
+        <!-- Date Expired Before Picker -->
+        <label for="form-expired-select-date-expired-before">Vanhenee ennen *</label>
+        <input
+          type="text"
+          class="form-control custom-readonly"
+          id="form-expired-select-date-expired-before"
+          formControlName="expiredBefore"
+          bsDatepicker
+          readonly
+          [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+        <ng-container
+          *ngIf="formExpiredBeforeCtrl?.invalid && (formExpiredBeforeCtrl.dirty || formExpiredBeforeCtrl.touched)">
+          <div *ngIf="formExpiredBeforeCtrl.errors?.required">
+            <small class="text-danger">Valitse tarkasteltava vanhenemispäivä</small>
+          </div>
+        </ng-container>
+      </div>
     </div>
-  </div>
-  <button type="submit" [disabled]="formGroupExpired.invalid" class="btn btn-blue" #expiredSubmit>Hae tiedot</button>
-  &nbsp;&nbsp;
-  <button (click)="resetFormExpired($event)" class="btn btn-cancel">Tyhjennä</button>
-</form>
-<br />
-<app-line-chart [options]="eChartsOptionExpired"></app-line-chart>
-<br />
+    <button type="submit" [disabled]="formGroupExpired.invalid" class="btn btn-blue" #expiredSubmit>Hae tiedot</button>
+    &nbsp;&nbsp;
+    <button (click)="resetFormExpired($event)" class="btn btn-cancel">Tyhjennä</button>
+  </form>
+  <br />
+  <app-line-chart [options]="eChartsOptionExpired"></app-line-chart>
+  <br />
+</section>
 <br />
