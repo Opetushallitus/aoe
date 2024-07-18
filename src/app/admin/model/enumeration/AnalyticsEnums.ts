@@ -6,7 +6,7 @@ export enum CategoryEnum {
 
 export enum ActivityEnum {
   EDIT = 'edit',
-  DOWNLOAD = 'download',
+  LOAD = 'load',
   SEARCH = 'search',
   VIEW = 'view',
 }
