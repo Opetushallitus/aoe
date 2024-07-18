@@ -49,8 +49,6 @@ export class AnalyticsViewComponent implements OnInit {
   formGroupExpired: FormGroup;
   formGroupPublished: FormGroup;
 
-  category: CategoryEnum = CategoryEnum.EDUCATIONAL_LEVEL;
-  categoryPublished: 'educationallevel' | 'educationalsubject' | 'organization' = 'educationallevel';
   chartData: { name: string; value: number[] }[] = [];
   dateArray: string[] = [];
   dateSinceString: string;
@@ -105,10 +103,8 @@ export class AnalyticsViewComponent implements OnInit {
       .get('category')
       .valueChanges.subscribe((value: CategoryEnum) => this.updateFormFields(value));
     this.formGroupExpired = this.fb.group({
+      educationalLevels: [null, [Validators.required]],
       expiredBefore: [this.today, [Validators.required]],
-      organizations: [null],
-      educationalLevels: [null],
-      educationalSubjects: [null],
     });
   }
 
@@ -215,12 +211,24 @@ export class AnalyticsViewComponent implements OnInit {
   }
 
   resetFormActivity(event: Event): void {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+      (event.target as HTMLElement).blur();
+    }
     this.formGroupUsage.reset({
       dateSince: this.getDateYearAgo(this.today),
       dateUntil: this.today,
     });
-    (event.target as HTMLElement).blur();
+  }
+
+  resetFormExpired(event?: Event): void {
+    if (event) {
+      event.preventDefault();
+      (event.target as HTMLElement).blur();
+    }
+    this.formGroupExpired.reset({
+      expiredBefore: this.today,
+    });
   }
 
   resetFormPublished(event?: Event): void {
@@ -234,114 +242,27 @@ export class AnalyticsViewComponent implements OnInit {
     });
   }
 
-  categoryChange(selectedCategory: CategoryEnum): void {
-    this.category = selectedCategory ? selectedCategory : this.category;
-  }
-
-  submitFormPublished(buttonElement: HTMLButtonElement): void {
-    buttonElement.blur();
-    let fieldValue: string[] = [];
-    const startDateString: string = this.formPublishedDateSinceCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.formPublishedDateSinceCtrl.value), IntervalEnum.DAY)
-      : null;
-    const endDateString: string = this.formPublishedDateUntilCtrl.value
-      ? this.statisticsService.dateToString(new Date(this.formPublishedDateUntilCtrl.value), IntervalEnum.DAY)
-      : null;
-    switch (this.formPublishedCategoryCtrl.value) {
-      case CategoryEnum.EDUCATIONAL_LEVEL:
-        fieldValue = this.formPublishedEducationalLevelsCtrl.value?.map(
-          (educationalLevel: EducationalLevel) => educationalLevel.key,
-        );
-        break;
-      case CategoryEnum.EDUCATIONAL_SUBJECT:
-        fieldValue = this.formPublishedEducationalSubjectsCtrl.value?.map(
-          (educationalSubject: EducationalSubject) => educationalSubject.key,
-        );
-        break;
-      case CategoryEnum.ORGANIZATION:
-        fieldValue = this.formPublishedOrganizationsCtrl.value?.map((organization: Organization) => organization.key);
-        break;
-    }
-    if (this.formGroupPublished.valid) {
-      const payload: StatisticsPortionsPost = {
-        since: startDateString as string, // YYYY-MM-DD | null
-        until: endDateString as string, // YYYY-MM-DD | null
-        [this.category]: fieldValue as string[],
-      };
-      this.categoryPublished =
-        this.category === CategoryEnum.EDUCATIONAL_LEVEL
-          ? 'educationallevel'
-          : this.category === CategoryEnum.EDUCATIONAL_SUBJECT
-          ? 'educationalsubject'
-          : this.category === CategoryEnum.ORGANIZATION
-          ? 'organization'
-          : this.categoryPublished;
-      this.getCategoryNames()
-        .then((categoryItems: { key: string; value: string }[]): void => {
-          this.getPublishedMaterials(payload, this.categoryPublished, categoryItems).then(
-            (response: { portionNames: string[]; total: number[] }): void => {
-              this.eChartsOptionPublished = this.setOptions(
-                [{ name: 'Julkaisujen kokonaismäärä', value: response.total }],
-                response.portionNames,
-                'bar',
-              );
-            },
-          );
-        })
-        .catch((error) => console.error(error));
-    } else {
-      this.toastr.error('Form not valid');
-    }
-  }
-
-  /**
-   * Maps category items selected in form.
-   * @returns {{ key: string; value: string }[]} An array of selected categories with keys and values.
-   */
-  getCategoryNames(): Promise<{ key: string; value: string }[]> {
-    let categoryItems: { key: string; value: string }[] = [];
-    return new Promise((resolve, reject): void => {
-      switch (this.category) {
+  getSelectedClassifications(): Promise<{ key: string; value: string }[]> {
+    return new Promise((resolve): void => {
+      switch (this.formPublishedCategoryCtrl.value) {
         case CategoryEnum.EDUCATIONAL_LEVEL:
-          categoryItems = this.formPublishedEducationalLevelsCtrl.value?.map(
-            (educationalLevel: { key: string; value: string }): { key: string; value: string } => ({
-              key: educationalLevel.key,
-              value: educationalLevel.value,
-            }),
-          );
-          return resolve(categoryItems);
+          resolve(this.formPublishedEducationalLevelsCtrl.value);
+          break;
         case CategoryEnum.EDUCATIONAL_SUBJECT:
-          categoryItems = this.formPublishedEducationalSubjectsCtrl.value?.map(
-            (subjects: { key: string; value: string }): { key: string; value: string } => ({
-              key: subjects.key,
-              value: subjects.value,
-            }),
-          );
-          return resolve(categoryItems);
+          resolve(this.formPublishedEducationalSubjectsCtrl.value);
+          break;
         case CategoryEnum.ORGANIZATION:
-          categoryItems = this.formPublishedOrganizationsCtrl.value?.map(
-            (organization: { key: string; value: string }): { key: string; value: string } => ({
-              key: organization.key,
-              value: organization.value,
-            }),
-          );
-          return resolve(categoryItems);
+          resolve(this.formPublishedOrganizationsCtrl.value);
+          break;
         default:
-          reject(new Error('Unknown category'));
+          resolve([]);
       }
     });
   }
 
-  /**
-   * Make a request of published materials with given payload and category.
-   * @param {StatisticsPortionsPost} payload Request body.
-   * @param { 'educationallevel' | 'educationalsubject' | 'organization' } category Category for request URL.
-   * @param {{ key: string; value: string }[]} categoryItems An array of selected categories with keys and values.
-   * @returns { portionNames: string[]; total: number[] } Names of categories and their values as arrays.
-   */
   getPublishedMaterials(
     payload: StatisticsPortionsPost,
-    category: 'educationallevel' | 'educationalsubject' | 'organization',
+    category: CategoryEnum,
     categoryItems: { key: string; value: string }[],
   ): Promise<{ portionNames: string[]; total: number[] }> {
     const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] };
@@ -368,40 +289,6 @@ export class AnalyticsViewComponent implements OnInit {
   }
 
   /**
-   * Gets form elements' values, checks validity, creates a payload for request.
-   */
-  submitFormExpired(): void {
-    const expiredBeforeDate: Date = new Date(this.formExpiredBeforeCtrl.value);
-    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, IntervalEnum.DAY);
-
-    if (this.formGroupExpired.valid) {
-      const payload: StatisticsPortionsPost = {
-        since: null as string, // 'YYYY-MM-DD'
-        until: null as string, // 'YYYY-MM-DD'
-        expiredBefore: expiredBeforeString as string,
-        educationalLevels: this.formExpiredEducationalLevelsCtrl.value?.map(
-          (educationalLevel: EducationalLevel) => educationalLevel.key,
-        ) as string[],
-      };
-      const educationalLevelNames: [{ key: string; value: string }] = this.formExpiredEducationalLevelsCtrl.value?.map(
-        (educationalLevel: EducationalLevel): { key: string; value: string } => ({
-          key: educationalLevel.key,
-          value: educationalLevel.value,
-        }),
-      );
-      this.getExpiredMaterials(payload, educationalLevelNames).then(
-        (response: { portionNames: string[]; total: number[] }) => {
-          this.eChartsOptionExpired = this.setOptions(
-            [{ name: 'Vanhentuneet', value: response.total }],
-            response.portionNames,
-            'bar',
-          ) as EChartsOption;
-        },
-      );
-    }
-  }
-
-  /**
    * Make a request for expired materials with given payload.
    * @param {StatisticsPortionsPost} payload Request body.
    * @param {{ key: string; value: string }[]} educationalLevelNames Selected educational levels.
@@ -414,7 +301,7 @@ export class AnalyticsViewComponent implements OnInit {
     const values: { portionNames: string[]; total: number[] } = { portionNames: [], total: [] };
     return new Promise((resolve, reject): void => {
       this.statisticsService.getExpiredMaterials(payload).subscribe(
-        (response: StatisticsPortionsResponse) => {
+        (response: StatisticsPortionsResponse): void => {
           values.portionNames = response.values.map((level: PortionResponse): string => {
             for (let i = 0; i < educationalLevelNames.length; i++) {
               if (level.key == educationalLevelNames[i].key) {
@@ -452,6 +339,86 @@ export class AnalyticsViewComponent implements OnInit {
           this.eChartsOptionActivity = this.setOptions(this.chartData, this.dateArray, 'line') as EChartsOption;
         },
       );
+    }
+  }
+
+  submitFormExpired(buttonElement: HTMLButtonElement): void {
+    buttonElement.blur();
+    const expiredBeforeDate: Date = new Date(this.formExpiredBeforeCtrl.value);
+    const expiredBeforeString: string = this.statisticsService.dateToString(expiredBeforeDate, IntervalEnum.DAY);
+
+    if (this.formGroupExpired.valid) {
+      const payload: StatisticsPortionsPost = {
+        since: null as string, // 'YYYY-MM-DD'
+        until: null as string, // 'YYYY-MM-DD'
+        expiredBefore: expiredBeforeString as string,
+        educationalLevels: this.formExpiredEducationalLevelsCtrl.value?.map(
+          (educationalLevel: EducationalLevel) => educationalLevel.key,
+        ) as string[],
+      };
+      const educationalLevelNames: [{ key: string; value: string }] = this.formExpiredEducationalLevelsCtrl.value?.map(
+        (educationalLevel: EducationalLevel): { key: string; value: string } => ({
+          key: educationalLevel.key,
+          value: educationalLevel.value,
+        }),
+      );
+      this.getExpiredMaterials(payload, educationalLevelNames).then(
+        (response: { portionNames: string[]; total: number[] }): void => {
+          this.eChartsOptionExpired = this.setOptions(
+            [{ name: 'Vanhentuneet', value: response.total }],
+            response.portionNames,
+            'bar',
+          ) as EChartsOption;
+        },
+      );
+    }
+  }
+
+  submitFormPublished(buttonElement: HTMLButtonElement): void {
+    buttonElement.blur();
+    let fieldValue: string[] = [];
+    const startDateString: string = this.formPublishedDateSinceCtrl.value
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateSinceCtrl.value), IntervalEnum.DAY)
+      : null;
+    const endDateString: string = this.formPublishedDateUntilCtrl.value
+      ? this.statisticsService.dateToString(new Date(this.formPublishedDateUntilCtrl.value), IntervalEnum.DAY)
+      : null;
+    switch (this.formPublishedCategoryCtrl.value) {
+      case CategoryEnum.EDUCATIONAL_LEVEL:
+        fieldValue = this.formPublishedEducationalLevelsCtrl.value?.map(
+          (educationalLevel: EducationalLevel) => educationalLevel.key,
+        );
+        break;
+      case CategoryEnum.EDUCATIONAL_SUBJECT:
+        fieldValue = this.formPublishedEducationalSubjectsCtrl.value?.map(
+          (educationalSubject: EducationalSubject) => educationalSubject.key,
+        );
+        break;
+      case CategoryEnum.ORGANIZATION:
+        fieldValue = this.formPublishedOrganizationsCtrl.value?.map((organization: Organization) => organization.key);
+        break;
+    }
+    if (this.formGroupPublished.valid) {
+      const payload: StatisticsPortionsPost = {
+        since: startDateString as string, // YYYY-MM-DD | null
+        until: endDateString as string, // YYYY-MM-DD | null
+        [this.formPublishedCategoryCtrl.value]: fieldValue as string[],
+      };
+      this.getSelectedClassifications()
+        .then((categoryItems: { key: string; value: string }[]): void => {
+          this.getPublishedMaterials(payload, this.formPublishedCategoryCtrl.value, categoryItems).then(
+            (response: { portionNames: string[]; total: number[] }): void => {
+              this.eChartsOptionPublished = this.setOptions(
+                [{ name: 'Julkaisujen kokonaismäärä', value: response.total }],
+                response.portionNames,
+                'bar',
+              );
+            },
+          );
+        })
+        .catch((error) => console.error(error));
+    } else {
+      this.toastr.error('Form not valid');
     }
   }
 
