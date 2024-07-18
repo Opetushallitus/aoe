@@ -71,6 +71,7 @@ body {
       @include resize(17px);
       font-family: $font-family-roboto;
       font-weight: 300;
+      margin-left: -0.15rem;
     }
   }
 
@@ -290,6 +291,7 @@ h1 {
   font-family: $font-family-nunito;
   font-weight: 500;
   margin-bottom: .8rem;
+  margin-left: -0.15rem;
   text-shadow: 0 0 3px #FFF;
 }
 
@@ -299,6 +301,7 @@ h2 {
   font-family: $font-family-nunito;
   font-weight: 400;
   margin-bottom: .8rem;
+  margin-left: -0.15rem;
 }
 
 // Navigation
@@ -392,6 +395,7 @@ h2 {
     @include resize(24px);
     font-weight: 300;
     margin-bottom: 1rem;
+    margin-left: -0.15rem;
   }
 
   a {
@@ -731,6 +735,7 @@ app-educational-material-card {
   h2 {
     color: $black;
     margin-bottom: 0.5rem;
+    margin-left: -0.15rem;
   }
 
   .license {
@@ -836,6 +841,7 @@ app-educational-material-card {
     font-weight: 400;
     margin-bottom: 1rem;
     padding: 0.5rem 1rem;
+    margin-left: -0.15rem;
   }
 
   h3 {
@@ -1170,6 +1176,7 @@ app-educational-material-card {
 @include media-breakpoint-up(lg) {
   h1 {
     margin-bottom: 3rem;
+    margin-left: -0.15rem;
   }
 }
 
@@ -1179,6 +1186,7 @@ app-educational-material-card {
     -1px 1px 1px #FFF,
     -1px -1px 1px #FFF,
     1px -1px 1px #FFF;
+    margin-left: -0.15rem;
   }
 
   .navbar-expand-lg > .container, .navbar-expand-lg > .container-fluid {
@@ -1199,6 +1207,7 @@ app-educational-material-card {
   @media (max-width: 1200px) {
     h1 {
       margin-bottom: -0.1rem;
+      margin-left: -0.15rem;
     }
   }
 }

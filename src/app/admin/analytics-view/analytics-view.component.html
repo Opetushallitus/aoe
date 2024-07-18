@@ -220,12 +220,11 @@
         bindValue="value"
         labelForId="form-published-select-category"
         id="form-published-select-category"
-        (change)="categoryChange($event?.value)"
         formControlName="category"></ng-select>
       <ng-container
         *ngIf="formPublishedCategoryCtrl?.invalid && (formPublishedCategoryCtrl.dirty || formPublishedCategoryCtrl.touched)">
         <div *ngIf="formPublishedCategoryCtrl.errors?.required">
-          <small class="text-danger">Valitse luokitus</small>
+          <small class="text-danger">Valitse julkaisujen hakuluokitus</small>
         </div>
       </ng-container>
     </div>
@@ -341,18 +340,19 @@
 <app-line-chart [options]="eChartsOptionPublished"></app-line-chart>
 <br />
 <h2>Vanhentuneiden oppimateriaalien määrät</h2>
-<form [id]="formGroupExpired" [formGroup]="formGroupExpired">
+<form [id]="formGroupExpired" [formGroup]="formGroupExpired" (ngSubmit)="submitFormExpired(expiredSubmit)">
   <div class="form-row">
     <div *ngIf="educationalLevels$ | async as educationalLevels" class="form-group col-sm-6 col-md-4">
-      <label for="expiredEducationalLevels">Opetusasteet</label>
+      <!-- Educational Levels Select -->
+      <label for="form-expired-select-ducational-levels">Opetusasteet *</label>
       <ng-select
         [items]="educationalLevels"
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="value"
         groupBy="children"
-        id="expiredEducationalLevels"
-        labelForId="expiredEducationalLevels"
+        id="form-expired-select-ducational-levels"
+        labelForId="form-expired-select-ducational-levels"
         formControlName="educationalLevels">
         <ng-template ng-multi-label-tmp let-items="items">
           <div class="ng-value">
@@ -362,29 +362,35 @@
         <ng-template ng-optgroup-tmp let-item="item">{{ item.value }}</ng-template>
         <ng-template ng-option-tmp let-item="item">{{ item.value }}</ng-template>
       </ng-select>
-      <ng-container *ngIf="formExpiredEducationalLevelsCtrl.invalid">
-        <div *ngIf="formExpiredEducationalLevelsCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+      <ng-container
+        *ngIf="formExpiredEducationalLevelsCtrl?.invalid && (formExpiredEducationalLevelsCtrl.dirty || formExpiredEducationalLevelsCtrl.touched)">
+        <div *ngIf="formExpiredEducationalLevelsCtrl.errors?.required">
+          <small class="text-danger">Valitse yksi tai useampi opetusaste</small>
         </div>
       </ng-container>
     </div>
     <div class="form-group col-sm-6 col-md-4">
-      <label for="expiredBefore">Vanhentunut ennen</label>
+      <!-- Date Expired Before Picker -->
+      <label for="form-expired-select-date-expired-before">Vanhenee ennen *</label>
       <input
         type="text"
-        class="form-control"
-        id="expiredBefore"
+        class="form-control custom-readonly"
+        id="form-expired-select-date-expired-before"
         formControlName="expiredBefore"
         bsDatepicker
-        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
-      <ng-container *ngIf="formExpiredBeforeCtrl.invalid">
-        <div *ngIf="formExpiredBeforeCtrl.errors.required">
-          <small class="text-danger">Pakollinen tieto</small>
+        readonly
+        [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
+      <ng-container
+        *ngIf="formExpiredBeforeCtrl?.invalid && (formExpiredBeforeCtrl.dirty || formExpiredBeforeCtrl.touched)">
+        <div *ngIf="formExpiredBeforeCtrl.errors?.required">
+          <small class="text-danger">Valitse tarkasteltava vanhenemispäivä</small>
         </div>
       </ng-container>
     </div>
   </div>
-  <button type="button" (click)="submitFormExpired()" class="btn btn-blue">Hae tiedot</button>
+  <button type="submit" [disabled]="formGroupExpired.invalid" class="btn btn-blue" #expiredSubmit>Hae tiedot</button>
+  &nbsp;&nbsp;
+  <button (click)="resetFormExpired($event)" class="btn btn-cancel">Tyhjennä</button>
 </form>
 <br />
 <app-line-chart [options]="eChartsOptionExpired"></app-line-chart>

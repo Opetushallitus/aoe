@@ -9,7 +9,7 @@ import {
   StatisticsPortionsResponse,
   StatisticsTimespanPost,
 } from '../model';
-import { IntervalEnum } from '@admin/model/enumeration/AnalyticsEnums';
+import { CategoryEnum, IntervalEnum } from '@admin/model/enumeration/AnalyticsEnums';
 
 @Injectable({
   providedIn: 'root',
@@ -64,15 +64,13 @@ export class StatisticsService {
       .pipe(catchError(this.handleError));
   }
 
-  /**
-   * Gets all materials.
-   * @param {StatisticsPortionsPost} payload
-   * @param {string} subject
-   * @returns {Observable<StatisticsPortionsResponse>}
-   */
-  getPublishedMaterials(payload: StatisticsPortionsPost, subject: string): Observable<StatisticsPortionsResponse> {
+  getPublishedMaterials(
+    payload: StatisticsPortionsPost,
+    categoryEnum: CategoryEnum,
+  ): Observable<StatisticsPortionsResponse> {
+    const category: string = categoryEnum.slice(0, -1).toLowerCase(); // Cut out the last plural character 's'.
     return this.http
-      .post<StatisticsPortionsResponse>(`${environment.statisticsBackendUrl}/` + subject + `/all`, payload, {
+      .post<StatisticsPortionsResponse>(`${environment.statisticsBackendUrl}/${category}/all`, payload, {
         headers: new HttpHeaders({
           Accept: 'application/json',
           'Content-Type': 'application/json',
