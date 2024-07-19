@@ -8,6 +8,18 @@
     päättymispäivä on oletuksena kuluva päivä, joten tulokset näytetään aina valittua päättymispäivää edeltävään päivään
     asti. Erityisten ja uusien tietotarpeiden osalta voit olla yhteydessä AOE-palvelun tekniseen asiantuntijatiimiin.
   </p>
+  <p *ngIf="isAdditionalInstructionVisible">
+    Oppimateriaalien käyttömääriä voidaan rajata tarkemmin luokituksilla: organisaatiot, opetusasteet ja oppiaineet.
+    Yhden luokituksen (valikon) arvot ovat keskenään ehdollisia, eli oppimateriaali valitaan mukaan tarkasteluun, jos
+    yksikin valituista arvoista löytyy oppimateriaalin metatiedoista. Eri luokitukset ovat keskenään ehdottomia, eli
+    oppimateriaalin metatiedoissa on oltava vähintään yksi arvo jokaisesta luokituksesta, jos niitä on annettu
+    hakuehdoiksi.
+  </p>
+  <small>
+    <a href="#" (click)="toggleAdditionalInstruction($event)">
+      {{ isAdditionalInstructionVisible ? 'Sulje' : 'Avaa' }} lisäohje
+    </a>
+  </small>
 </section>
 <br />
 <section>
