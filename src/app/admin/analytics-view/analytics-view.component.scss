@@ -1,3 +1,9 @@
+@import 'variables';
+
+.custom-caret {
+  color: $blue;
+}
+
 .custom-dimmer {
   color: lighten(#464646, 60%) !important;
 }
