@@ -50,6 +50,7 @@ export class AnalyticsViewComponent implements OnInit {
 
   chartData: { name: string; value: number[] }[] = [];
   dateArray: string[] = [];
+  isAdditionalInstructionVisible: boolean = false;
   today: Date;
 
   selectOptionActivity: OptionActivity[] = [
@@ -207,6 +208,14 @@ export class AnalyticsViewComponent implements OnInit {
     return dateCopy;
   }
 
+  toggleAdditionalInstruction(event: Event): void {
+    if (event) {
+      event.preventDefault();
+      (event.target as HTMLElement).blur();
+    }
+    this.isAdditionalInstructionVisible = !this.isAdditionalInstructionVisible;
+  }
+
   resetFormActivity(event: Event): void {
     if (event) {
       event.preventDefault();
@@ -285,12 +294,6 @@ export class AnalyticsViewComponent implements OnInit {
     });
   }
 
-  /**
-   * Make a request for expired materials with given payload.
-   * @param {StatisticsPortionsPost} payload Request body.
-   * @param {{ key: string; value: string }[]} educationalLevelNames Selected educational levels.
-   * @returns { portionNames: string[]; total: number[] } An object with educational level names and total values.
-   */
   getExpiredMaterials(
     payload: StatisticsPortionsPost,
     educationalLevelNames: { key: string; value: string }[],
