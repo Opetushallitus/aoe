@@ -19,7 +19,7 @@ Main tools are Angular, Bootstrap 4 and SASS
 
 ``` bash
 # clone the repo
-$ git clone https://github.com/CSCfi/aoe-frontend.git
+$ git clone https://github.com/CSCfi/aoe-web-frontend.git
 
 # go into app's directory
 $ cd aoe-frontend
@@ -67,8 +67,7 @@ On save: true
 Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
 
 ```
-avoimet-oppimateriaalit/
-├── e2e/
+aoe-web-frontend/
 ├── src/
 │   ├── app/
 │   ├── assets/
@@ -77,7 +76,7 @@ avoimet-oppimateriaalit/
 │   ├── scss/
 │   ├── index.html
 │   └── ...
-├── .angular-cli.json
+├── angular.json
 ├── ...
 ├── package.json
 └── ...

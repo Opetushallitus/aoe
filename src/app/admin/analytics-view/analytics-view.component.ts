@@ -318,7 +318,7 @@ export class AnalyticsViewComponent implements OnInit {
     });
   }
 
-  submitFormActivity(buttonElement: HTMLButtonElement): void {
+  submitFormUsage(buttonElement: HTMLButtonElement): void {
     buttonElement.blur();
 
     if (this.formGroupUsage.valid) {
@@ -424,22 +424,24 @@ export class AnalyticsViewComponent implements OnInit {
    * @returns { EChartData } Total of viewed materials.
    */
   async getViewingData(): Promise<EChartData> {
-    try {
-      const payload: StatisticsTimespanPost = this.createPayload(
-        this.getDatestamp(this.formUsageDateSinceCtrl.value),
-        this.getDatestamp(this.formUsageDateUntilCtrl.value),
-        this.formUsageActivityCtrl.value,
-        'metadata',
-      );
-      const viewingData: ActivityData = await this.getUserActivity(
-        payload,
-        this.formUsageIntervalCtrl.value,
-        'materialactivity',
-      );
-      const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
-      return { name: 'Katselumäärät', value: sortedData };
-    } catch (error) {
-      throw Error(error);
+    if (this.formUsageActivityCtrl.value.includes(ActivityEnum.VIEW)) {
+      try {
+        const payload: StatisticsTimespanPost = this.createPayload(
+          this.getDatestamp(this.formUsageDateSinceCtrl.value),
+          this.getDatestamp(this.formUsageDateUntilCtrl.value),
+          this.formUsageActivityCtrl.value,
+          'metadata',
+        );
+        const viewingData: ActivityData = await this.getUserActivity(
+          payload,
+          this.formUsageIntervalCtrl.value,
+          'materialactivity',
+        );
+        const sortedData: number[] = this.sortValueArrays(viewingData.dates, viewingData.total);
+        return { name: 'Katselumäärät', value: sortedData };
+      } catch (error) {
+        throw Error(error);
+      }
     }
   }
 
