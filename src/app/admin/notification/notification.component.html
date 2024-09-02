@@ -17,17 +17,16 @@
 <section>
   <h2>Tiedotteen tallennus</h2>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Notification Type Select -->
     <div class="form-row">
+      <!-- Notification Type Select -->
       <div class="form-group col-sm-4">
         <label for="notificationType">Tiedotteen tyyppi *</label>
         <ng-select
-          [items]="notificationOptions"
+          [items]="selectOptionNotificationType"
           bindLabel="description"
           bindValue="key"
-          labelForId="notificationType"
           id="notificationType"
-          appendTo="body"
+          labelForId="notificationType"
           formControlName="notificationType"></ng-select>
         <ng-container *ngIf="notificationType?.invalid && (notificationType.dirty || notificationType.touched)">
           <div *ngIf="notificationType.errors?.required">
@@ -35,6 +34,7 @@
           </div>
         </ng-container>
       </div>
+      <!-- Date Since Picker -->
       <div class="form-group col-sm-4">
         <label for="showSince">Tiedote alkaa</label>
         <input
@@ -47,6 +47,7 @@
           [minDate]="minDate"
           [bsConfig]="{ dateInputFormat: 'D.M.YYYY', selectFromOtherMonth: true }" />
       </div>
+      <!-- Date Until Picker -->
       <div class="form-group col-sm-4">
         <label for="showUntil">Tiedote päättyy</label>
         <input

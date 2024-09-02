@@ -1,10 +1,10 @@
 export interface NotificationOption {
   key: number;
-  value: 'INFO' | 'ERROR';
+  value: NotificationType;
   description: string;
 }
 
 export enum NotificationType {
-  INFO,
-  ERROR,
+  INFO = 0,
+  ERROR = 1,
 }

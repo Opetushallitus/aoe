@@ -19,6 +19,19 @@ export class NotificationComponent implements OnInit {
   isChecked: boolean = false;
   minDate: Date;
   tableColumnHeaders: string[] = ['ID', 'Tyyppi', 'Tiedote', 'Alkaa', 'Päättyy', 'Toiminnot'];
+  selectOptionNotificationType: NotificationOption[] = [
+    {
+      key: 0,
+      value: NotificationType.INFO,
+      description: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille',
+    },
+    {
+      key: 1,
+      value: NotificationType.ERROR,
+      description: 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
+    },
+  ];
+
   notifications$: Observable<Notification[]> = this.notificationService.notifications$;
 
   constructor(private fb: FormBuilder, private notificationService: NotificationService, private toast: ToastrService) {
@@ -49,21 +62,6 @@ export class NotificationComponent implements OnInit {
 
   get showUntil(): FormControl {
     return this.form.get('showUntil') as FormControl;
-  }
-
-  get notificationOptions(): NotificationOption[] {
-    return [
-      {
-        key: 0,
-        value: 'INFO',
-        description: 'Yleinen tiedote tai ohjeistus palvelun käyttäjille',
-      },
-      {
-        key: 1,
-        value: 'ERROR',
-        description: 'Tekninen häiriö tai käyttöä rajoittava tapahtuma',
-      },
-    ];
   }
 
   ngOnInit(): void {
@@ -100,7 +98,6 @@ export class NotificationComponent implements OnInit {
         ALLOWED_ATTR: ['href', 'rel', 'target'],
         ALLOWED_TAGS: ['a', 'b', 'i'],
       });
-      console.log(sanitizedNotification);
       const encodedNotification: string = encodeURIComponent(sanitizedNotification);
       const selectedOrdinal: number = this.form.get('notificationType')?.value;
       const showSince: Date = this.showSince.value;
