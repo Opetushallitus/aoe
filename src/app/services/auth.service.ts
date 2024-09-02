@@ -22,7 +22,7 @@ export class AuthService {
     @Inject(DOCUMENT) private document: Document,
     private http: HttpClient,
     private router: Router,
-    private alertSvc: AlertService,
+    private alertService: AlertService,
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class AuthService {
    * Redirects user to login page.
    */
   login(): void {
-    if (!this.alertSvc.disableLogin()) {
+    if (!this.alertService.disableLogin()) {
       this.document.location.href = `${environment.loginUrl}/login`;
     }
   }

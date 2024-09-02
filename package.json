@@ -1,7 +1,7 @@
 {
   "name": "aoe-web-frontend",
-  "version": "6.2.21",
-  "description": "Client Application for the Library of Open Educational Resources",
+  "version": "6.2.22",
+  "description": "Client SPA for the Library of Open Educational Resources",
   "author": "CSC - IT Center for Science Ltd.",
   "contributors": [
     {
