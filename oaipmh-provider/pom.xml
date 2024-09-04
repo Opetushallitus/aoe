@@ -6,7 +6,7 @@
     <parent>
         <groupId>fi.csc</groupId>
         <artifactId>aoe-data-services</artifactId>
-        <version>1.2.0</version>
+        <version>1.1.2</version>
     </parent>
     <artifactId>oaipmh-provider</artifactId>
     <name>OAI-PMH Provider</name>
@@ -72,6 +72,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>oaipmh-provider</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
