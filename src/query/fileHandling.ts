@@ -1311,7 +1311,7 @@ export const downloadFromStorage = (
 ): Promise<any> => {
   const s3: S3 = new AWS.S3();
   const key: string = paramsS3.Key;
-  return new Promise(async (resolve, reject): Promise<any> => {
+  return new Promise((resolve, reject): void => {
     try {
       const fileStream: Readable = s3.getObject(paramsS3).createReadStream();
       if (isZip) {
@@ -1480,7 +1480,7 @@ export const downloadAndZipFromStorage = (
   });
 };
 
-export async function unZipAndExtract(zipFolder: any): Promise<any> {
+export async function unZipAndExtract(zipFolder: string): Promise<boolean | string> {
   const searchRecursive = function (dir, pattern) {
     // This is where we store pattern matches of all files inside the directory
     let results = [];
