@@ -8,7 +8,7 @@ import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
@@ -167,7 +167,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
           this.removeAuthor(0);
         }
 
-        this.savedData.authors.forEach((author) => {
+        this.savedData.authors.forEach((author: Author) => {
           if (author.author) {
             this.authors.push(this.createAuthor(author));
           } else {
@@ -274,6 +274,7 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
   removeAuthor(i: number): void {
     this.authors.removeAt(i);
+    this.form.markAsDirty();
   }
 
   uploadImage(): void {
@@ -322,17 +323,6 @@ export class BasicDetailsComponent implements OnInit, OnDestroy {
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
-  }
-
-  resetForm(): void {
-    // reset form values
-    this.form.reset();
-
-    // clear data from session storage
-    sessionStorage.removeItem(environment.newERLSKey);
-    this.materialService.clearEducationalMaterialID();
-
-    void this.router.navigateByUrl('/');
   }
 
   previousTab(): void {
