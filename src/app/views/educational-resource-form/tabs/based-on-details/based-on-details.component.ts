@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { textInputValidator } from '../../../../shared/shared.module';
 import { validatorParams } from '@constants/validator-params';
 import { ExternalReference } from '@models/material/external-reference';
@@ -118,6 +118,7 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
   removeExternal(i: number): void {
     this.externals.removeAt(i);
+    this.form.markAsDirty();
   }
 
   validateExternals(): void {
@@ -156,18 +157,6 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
-  }
-
-  // @todo: some kind of confirmation
-  resetForm(): void {
-    // reset submit status
-    this.submitted = false;
-    // reset form values
-    this.form.reset();
-    // clear data from session storage
-    sessionStorage.removeItem(environment.newERLSKey);
-    this.materialService.clearEducationalMaterialID();
-    void this.router.navigateByUrl('/');
   }
 
   previousTab(): void {

@@ -305,6 +305,7 @@ export class EditBasicDetailsComponent implements OnInit, OnDestroy {
    */
   removeAuthor(i: number): void {
     this.authorsArray.removeAt(i);
+    this.form.markAsDirty();
   }
 
   /**

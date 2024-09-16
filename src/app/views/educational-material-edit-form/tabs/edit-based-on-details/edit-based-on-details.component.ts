@@ -113,6 +113,7 @@ export class EditBasedOnDetailsComponent implements OnInit, OnDestroy {
    */
   removeExternal(i: number): void {
     this.externalsArray.removeAt(i);
+    this.form.markAsDirty();
   }
 
   /**
