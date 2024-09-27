@@ -1308,7 +1308,7 @@ export const downloadFromStorage = (
   paramsS3: { Bucket: string; Key: string },
   origFilename: string,
   isZip?: boolean,
-): Promise<any> => {
+): Promise<string | boolean> => {
   const s3: S3 = new AWS.S3();
   const key: string = paramsS3.Key;
   return new Promise((resolve, reject): void => {
@@ -1318,15 +1318,9 @@ export const downloadFromStorage = (
       const writeStream: WriteStream = fs
         .createWriteStream(folderpath)
         // Wait for 'finish' event for writable stream.
-        .once('finish', async (): Promise<any> => {
+        .once('finish', async (): Promise<void> => {
           const response: string | boolean = await unZipAndExtract(folderpath);
-          if (response) {
-            resolve(response);
-            return;
-          } else {
-            reject(false);
-            return;
-          }
+          resolve(response);
         });
       if (isZip) {
         fileStream
