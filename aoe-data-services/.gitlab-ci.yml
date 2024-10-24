@@ -1,0 +1,61 @@
+variables:
+  DOCKER_HOST: unix:///var/run/docker.sock
+  DOCKER_DRIVER: overlay2
+
+image: docker:24.0.6
+
+stages:
+  - build
+  - deploy
+  - cleanup
+
+build_test:
+  stage: build
+  script:
+    - echo "TEST build"
+    - docker compose -f docker-compose.test.yml build
+  only:
+    - test
+  tags:
+    - prod-oaipmh
+
+deploy_test:
+  stage: deploy
+  script:
+    - echo "TEST deploy"
+    - docker compose -f docker-compose.test.yml up -d
+  only:
+    - test
+  tags:
+    - prod-oaipmh
+
+build_prod:
+  stage: build
+  script:
+    - echo "PROD build"
+    - docker compose -f docker-compose.prod.yml build
+  only:
+    - main
+  tags:
+    - prod-oaipmh
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "PROD deploy"
+    - docker compose -f docker-compose.prod.yml up -d
+  only:
+    - main
+  tags:
+    - prod-oaipmh
+
+cleanup:
+  stage: cleanup
+  script:
+    - echo "Cleaning up the system"
+    - docker system prune -a -f --volumes
+  only:
+    - test
+    - main
+  tags:
+    - prod-oaipmh
