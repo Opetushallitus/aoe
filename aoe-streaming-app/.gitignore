@@ -1,0 +1,8 @@
+dist
+logs
+node_modules
+output
+
+.env
+.idea
+.vscode
