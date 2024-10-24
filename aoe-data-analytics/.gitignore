@@ -1,0 +1,17 @@
+### Build Directory
+target/
+
+### Environment Variables
+.env
+
+### Markup files
+HELP.md
+
+### IDE: IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### IDE: VS Code
+.vscode/

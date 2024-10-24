@@ -1,0 +1,74 @@
+{
+  "properties": [
+    {
+      "name": "mongodb.primary.host",
+      "type": "java.lang.String",
+      "description": "MongoDB production host."
+    },
+    {
+      "name": "mongodb.primary.port",
+      "type": "java.lang.String",
+      "description": "MongoDB production port."
+    },
+    {
+      "name": "mongodb.primary.database",
+      "type": "java.lang.String",
+      "description": "MongoDB production database."
+    },
+    {
+      "name": "mongodb.primary.username",
+      "type": "java.lang.String",
+      "description": "MongoDB production username."
+    },
+    {
+      "name": "mongodb.primary.password",
+      "type": "java.lang.String",
+      "description": "MongoDB production password."
+    },
+    {
+      "name": "mongodb.secondary.host",
+      "type": "java.lang.String",
+      "description": "MongoDB test host."
+    },
+    {
+      "name": "mongodb.secondary.port",
+      "type": "java.lang.String",
+      "description": "MongoDB test port."
+    },
+    {
+      "name": "mongodb.secondary.database",
+      "type": "java.lang.String",
+      "description": "MongoDB test database."
+    },
+    {
+      "name": "mongodb.secondary.username",
+      "type": "java.lang.String",
+      "description": "MongoDB test username."
+    },
+    {
+      "name": "mongodb.secondary.password",
+      "type": "java.lang.String",
+      "description": "MongoDB test password."
+    },
+    {
+      "name": "kafka.group-id.prod-material-activity",
+      "type": "java.lang.String",
+      "description": "Kafka client production group ID."
+    },
+    {
+      "name": "kafka.group-id.prod-search-requests",
+      "type": "java.lang.String",
+      "description": "Kafka client production group ID."
+    },
+    {
+      "name": "kafka.topic.prod-material-activity",
+      "type": "java.lang.String",
+      "description": "Kafka production topic."
+    },
+    {
+      "name": "kafka.topic.prod-search-requests",
+      "type": "java.lang.String",
+      "description": "Kafka production topic."
+    }
+  ]
+}
