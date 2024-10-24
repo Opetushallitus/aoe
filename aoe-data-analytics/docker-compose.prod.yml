@@ -1,0 +1,27 @@
+services:
+  aoe-etl-processor:
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    build:
+      context: .
+      dockerfile: ./service-etl-processor/Dockerfile
+    image: aoe-etl-processor:latest
+    container_name: aoe-etl-processor
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    env_file:
+      - /environment/aoe-data-analytics/.env
+#    environment:
+#      SPRING_DATASOURCE_SECONDARY_USERNAME: '${PG_ROLE_REPORTER_SECONDARY}'
+#      SPRING_DATASOURCE_SECONDARY_PASSWORD: '${PG_ROLE_PASSWORD_REPORTER_SECONDARY}'
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - apache-kafka_network-kafka
+
+networks:
+  apache-kafka_network-kafka:
+    external: true
