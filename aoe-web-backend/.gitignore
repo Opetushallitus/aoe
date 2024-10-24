@@ -1,0 +1,24 @@
+# Build
+dist/
+
+# Dependency Libraries
+node_modules/
+
+# Environment Variables
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Test Coverage
+coverage/
+
+# Development Helpers
+dev.ts
+uploads/
+webdata/
+
+# SQL Scripts
+docker/**/*.sql
