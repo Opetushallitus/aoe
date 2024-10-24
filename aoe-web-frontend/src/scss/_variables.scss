@@ -1,0 +1,80 @@
+// Bootstrap variables override
+
+$primary-theme-color: #1d891f; // #2a7e2b; // #1d891f;
+$secondary-theme-color: #1d7d1f;
+$blue: #1f79bf;
+$blue-hover: darken($blue, 15%);
+$light: #e9e9e9;
+$gray: #757575;
+$dark: #2f353a;
+
+$theme-colors: (
+  primary: $primary-theme-color,
+  secondary: $secondary-theme-color,
+  blue: $blue,
+  light: $light,
+  gray: $gray,
+  dark: $dark,
+);
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(
+    (
+      0: 0,
+      1: (
+        $spacer * 0.25,
+      ),
+      2: (
+        $spacer * 0.5,
+      ),
+      3: $spacer,
+      4: (
+        $spacer * 1.5,
+      ),
+      5: (
+        $spacer * 3,
+      ),
+      6: (
+        $spacer * 4,
+      ),
+      7: (
+        $spacer * 5,
+      ),
+    ),
+    $spacers
+);
+
+$body-bg: #fff;
+
+$font-family-roboto: 'Roboto', sans-serif;
+$font-family-nunito: 'Nunito', sans-serif;
+
+// Forms
+$input-btn-padding-y: 0.5rem;
+$input-btn-padding-x: 0.75rem;
+$input-padding-y: 0.5rem;
+$input-padding-x: 0.5rem;
+$input-color: #373737;
+//AAA-level
+$input-placeholder-color: #4F5863;
+//AA-level
+//$input-placeholder-color: #6B7785;
+
+$custom-file-text: (
+  en: 'Browse',
+  fi: 'Valitse',
+  sv: 'Välja',
+);
+
+// Buttons
+$btn-font-weight: 700;
+
+// Components
+$border-radius: 0.125rem;
+$border-color: #e0e0e0;
+
+// Links
+$link-color: $blue;
+$link-notification-color: #856404;
+$link-hover-color: $blue-hover;

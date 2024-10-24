@@ -1,0 +1,116 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <a routerLink="../" class="d-inline-block mb-4">&lsaquo; {{ "common.goBack" | translate }}</a>
+
+    <h1>{{ "demo.educationalMaterial.reviews.title" | translate }}</h1>
+
+    <ng-container *ngIf="ratings">
+      <h2>{{ ratings.name[lang] }}</h2>
+
+      <ng-container *ngIf="ratings?.ratings?.length > 0; else noRatings">
+        <div class="averages">
+          <div class="row">
+            <div class="col-auto number-rating">
+              <h3>{{ "demo.educationalMaterial.reviews.review.ratingContent" | translate }}</h3>
+
+              <span class="value" *ngIf="ratings.averages.content; else noAvgContent">
+                {{ ratings.averages.content }}
+                <span class="text-muted">/ 5</span>
+              </span>
+
+              <ng-template #noAvgContent>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
+            </div>
+
+            <div class="col-auto number-rating">
+              <h3>{{ "demo.educationalMaterial.reviews.review.ratingVisual" | translate }}</h3>
+
+              <span class="value" *ngIf="ratings.averages.visual; else noAvgVisual">
+                {{ ratings.averages.visual }}
+                <span class="text-muted">/ 5</span>
+              </span>
+
+              <ng-template #noAvgVisual>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
+            </div>
+
+            <div class="col-auto number-rating">
+              <h3>{{ "demo.educationalMaterial.reviews.review.reviews" | translate }}</h3>
+
+              <span class="value count">{{ ratings.ratingsCount }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rating" *ngFor="let rating of ratings.ratings">
+          <div class="row justify-content-between mb-4">
+            <div class="col-auto">
+              <time [attr.datetime]="rating.updatedAt | date: 'yyyy-MM-dd HH:mm'" class="date">
+                {{ rating.updatedAt | date: "d.M.yyyy HH:mm" }}
+              </time>
+            </div>
+
+            <div class="col-auto">
+              <span class="author">{{ rating.firstName }} {{ rating.lastName }}</span>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-auto number-rating">
+              <h3>{{ "demo.educationalMaterial.reviews.review.ratingContent" | translate }}</h3>
+
+              <span class="value" *ngIf="rating.ratingContent; else noContent">{{ rating.ratingContent }}</span>
+
+              <ng-template #noContent>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
+            </div>
+
+            <div class="col-auto number-rating">
+              <h3>{{ "demo.educationalMaterial.reviews.review.ratingVisual" | translate }}</h3>
+
+              <span class="value" *ngIf="rating.ratingVisual; else noVisual">{{ rating.ratingVisual }}</span>
+
+              <ng-template #noVisual>
+                <span class="value text-muted">&ndash;</span>
+              </ng-template>
+            </div>
+          </div>
+
+          <ng-container>
+            <h3>{{ "demo.educationalMaterial.reviews.review.feedbackPositive" | translate }}</h3>
+            <p *ngIf="rating.feedbackPositive; else noPositive">{{ rating.feedbackPositive }}</p>
+
+            <ng-template #noPositive>
+              <p>&ndash;</p>
+            </ng-template>
+          </ng-container>
+
+          <ng-container>
+            <h3>{{ "demo.educationalMaterial.reviews.review.feedbackSuggest" | translate }}</h3>
+            <p *ngIf="rating.feedbackSuggest; else noSuggest">{{ rating.feedbackSuggest }}</p>
+
+            <ng-template #noSuggest>
+              <p>&ndash;</p>
+            </ng-template>
+          </ng-container>
+
+          <ng-container>
+            <h3>{{ "demo.educationalMaterial.reviews.review.feedbackPurpose" | translate }}</h3>
+            <p *ngIf="rating.feedbackPurpose; else noPurpose">{{ rating.feedbackPurpose }}</p>
+
+            <ng-template #noPurpose>
+              <p>&ndash;</p>
+            </ng-template>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <ng-template #noRatings>
+        <p>{{ "demo.educationalMaterial.reviews.noRatings" | translate }}</p>
+      </ng-template>
+    </ng-container>
+  </div>
+</div>

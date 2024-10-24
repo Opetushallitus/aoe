@@ -1,0 +1,24 @@
+<article>
+  <ng-container [ngSwitch]="lang">
+    <ng-container *ngSwitchDefault>
+      <h1>Käyttöehdot</h1>
+      <p>Voimassa 28.11.2019 alkaen, päivitetty 1.1.2024</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'en'">
+      <h1>Terms of use</h1>
+      <p>Valid from 28 November 2019 onwards, updated on 1 January 2024</p>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'sv'">
+      <h1>Användningsvillkor</h1>
+      <p>I kraft från och med 28.11.2019, uppdaterade 1.1.2024</p>
+    </ng-container>
+  </ng-container>
+  <ng-container>
+    <div *ngFor="let item of termsOfUse">
+      <h2>{{ item.heading }}</h2>
+      <p *ngFor="let paragraph of item.content" [innerHTML]="paragraph"></p>
+    </div>
+  </ng-container>
+</article>

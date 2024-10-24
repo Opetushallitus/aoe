@@ -1,0 +1,34 @@
+.badge {
+  font-size: 12px !important;
+  min-width: 40px !important;
+}
+
+.custom-h1 {
+  margin-bottom: 1rem;
+}
+
+.custom-readonly {
+  background-color: white !important;
+  color: inherit;
+  cursor: pointer;
+}
+
+.period {
+  &::after {
+    content: '.'
+  }
+}
+
+.prelike {
+  background-color: honeydew;
+  display: inline-block;
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+tr {
+  td {
+    vertical-align: middle !important;
+  }
+}

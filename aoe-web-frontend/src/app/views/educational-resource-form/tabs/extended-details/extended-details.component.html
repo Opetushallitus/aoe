@@ -1,0 +1,253 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="tab-extended-details">
+  <div class="form-row">
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="accessibilityFeatures">
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.features.label" | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.features.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="accessibilityFeatures"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        id="accessibilityFeatures"
+        labelForId="accessibilityFeatures"
+        formControlName="accessibilityFeatures"></ng-select>
+      <label class="notify-below-position-semi">
+        <a href="{{ accessibilityLink }}" rel="noopener" target="_blank">
+          {{ "accessibility.linkToMoreInformation" | translate }}
+        </a>
+      </label>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="accessibilityHazards">
+        {{ "forms.educationalResource.extendedDetails.accessibility.inputs.hazards.label" | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.accessibility.inputs.hazards.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="accessibilityHazards"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="value"
+        id="accessibilityHazards"
+        labelForId="accessibilityHazards"
+        formControlName="accessibilityHazards"></ng-select>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label class="group-label">
+        {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }}
+      </label>
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.typicalAgeRange.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+      <div class="row typical-age-range-row" formGroupName="typicalAgeRange">
+        <div class="col">
+          <label for="typicalAgeRangeMin" class="sr-only">
+            {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (min)
+          </label>
+          <input
+            type="text"
+            id="typicalAgeRangeMin"
+            class="form-control"
+            formControlName="typicalAgeRangeMin"
+            inputmode="numeric"
+            [ngClass]="{
+              'is-invalid':
+                typicalAgeRangeMinCtrl.invalid &&
+                (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+            }" />
+          <div
+            *ngIf="
+              typicalAgeRangeMinCtrl.invalid &&
+              (typicalAgeRangeMinCtrl.dirty || typicalAgeRangeMinCtrl.touched || submitted)
+            "
+            class="invalid-feedback">
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
+            <div *ngIf="typicalAgeRangeMinCtrl.errors.maxlength">
+              {{ "forms.errors.common.maxLength" | translate: { maxLength:
+              typicalAgeRangeMinCtrl.errors?.['maxlength']['requiredLength'] } }}
+            </div>
+          </div>
+        </div>
+        <span>&lowbar;</span>
+        <div class="col">
+          <label for="typicalAgeRangeMax" class="sr-only">
+            {{ "forms.educationalResource.extendedDetails.typicalAgeRange.label" | translate }} (max)
+          </label>
+          <input
+            type="text"
+            id="typicalAgeRangeMax"
+            class="form-control"
+            formControlName="typicalAgeRangeMax"
+            inputmode="numeric"
+            [ngClass]="{
+              'is-invalid':
+                typicalAgeRangeMaxCtrl.invalid &&
+                (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+            }" />
+
+          <div
+            *ngIf="
+              typicalAgeRangeMaxCtrl.invalid &&
+              (typicalAgeRangeMaxCtrl.dirty || typicalAgeRangeMaxCtrl.touched || submitted)
+            "
+            class="invalid-feedback">
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.min">{{ "forms.common.min" | translate }} 0</div>
+
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.pattern">{{ "forms.common.pattern.numeric" | translate }}</div>
+
+            <div *ngIf="typicalAgeRangeMaxCtrl.errors.maxlength">
+              {{ "forms.errors.common.maxLength" | translate: { maxLength:
+              typicalAgeRangeMaxCtrl.errors?.['maxlength']['requiredLength'] } }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/typical age range-->
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="timeRequired">{{ "forms.educationalResource.extendedDetails.timeRequired.label" | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.timeRequired.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="timeRequired"
+        formControlName="timeRequired"
+        [ngClass]="{
+          'is-invalid': timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)
+        }" />
+
+      <div
+        *ngIf="timeRequiredCtrl.invalid && (timeRequiredCtrl.dirty || timeRequiredCtrl.touched || submitted)"
+        class="invalid-feedback">
+        <div *ngIf="timeRequiredCtrl.errors.invalidCharacters">
+          {{ "forms.errors.textInput.characters" | translate }}
+        </div>
+
+        <div *ngIf="timeRequiredCtrl.errors.maxlength">
+          {{ "forms.errors.common.maxLength" | translate: { maxLength: timeRequiredCtrl.errors.maxlength.requiredLength
+          } }}
+        </div>
+      </div>
+
+      <small id="timeRequired-help" class="form-text text-muted">
+        {{ "forms.helpTexts.timeRequired" | translate }}
+      </small>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="publisher">{{ "forms.educationalResource.extendedDetails.publisher.label" | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.publisher.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addCustomItem"
+        bindLabel="value"
+        id="publisher"
+        labelForId="publisher"
+        formControlName="publisher"
+        aria-describedby="publisher-help"></ng-select>
+
+      <small id="publisher-help" class="form-text text-muted">{{ "forms.helpTexts.multipleItems" | translate }}</small>
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="expires">{{ "forms.educationalResource.extendedDetails.expires.label" | translate }}</label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.expires.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <input
+        type="text"
+        class="form-control"
+        id="expires"
+        formControlName="expires"
+        bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }" />
+    </div>
+
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="prerequisites">
+        {{ "forms.educationalResource.extendedDetails.prerequisites.label" | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="'forms.educationalResource.extendedDetails.prerequisites.tooltip' | translate">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="[]"
+        [multiple]="true"
+        [addTag]="addPrerequisites"
+        bindLabel="targetName"
+        id="prerequisites"
+        labelForId="prerequisites"
+        formControlName="prerequisites"
+        aria-describedby="prerequisites-help"></ng-select>
+
+      <small id="prerequisites-help" class="form-text text-muted">
+        {{ "forms.helpTexts.multipleItems" | translate }}
+      </small>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <button type="button" class="btn btn-gray" (click)="previousTab()">
+        {{ "forms.common.previous" | translate }}
+      </button>
+    </div>
+
+    <div class="col-auto">
+      <button type="reset" class="btn btn-cancel" (click)="abort()">{{ "forms.common.abort" | translate }}</button>
+    </div>
+
+    <div class="col-auto">
+      <button type="submit" class="btn btn-blue" [disabled]="form.invalid">
+        {{ "forms.common.next" | translate }}
+      </button>
+    </div>
+  </div>
+</form>
