@@ -1,0 +1,68 @@
+@import 'mixins';
+
+$border-color: #e0e0e0;
+
+h2 {
+  @include resize(22);
+  font-weight: 400;
+}
+
+.version-history {
+  vertical-align: inherit;
+}
+
+.dropdown-menu {
+  height: auto;
+  max-height: 250px;
+  overflow-x: hidden;
+}
+
+#toggle-version-history {
+  @include resize(16);
+  padding: 0 0.25rem;
+}
+
+.lang-selector-button {
+  font-family: Consolas, monospace, Courier;
+}
+
+.metadata {
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+
+  .metadata-group {
+    margin-bottom: 1rem;
+  }
+}
+
+.list-files {
+  h2 {
+    @include resize(16);
+    font-weight: 400;
+  }
+}
+
+.ratings {
+  border-bottom: 1px solid $border-color;
+  @include resize(14);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+
+  h2 {
+    color: #373737;
+  }
+
+  h3 {
+    color: #373737;
+    @include resize(18);
+  }
+}
+
+.references {
+  .reference {
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+}

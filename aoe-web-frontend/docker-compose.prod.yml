@@ -1,0 +1,19 @@
+services:
+  aoe-web-frontend:
+    build:
+      context: .
+      dockerfile: ./docker/prod.Dockerfile
+    image: aoe-web-frontend-prod:latest
+    container_name: aoe-web-frontend-prod
+    restart: unless-stopped
+    ports:
+      - "8282:80"
+    volumes:
+      - /webdata:/usr/share/nginx/html/webdata
+    user: "root:5606"
+    networks:
+      - network-frontend-prod
+
+networks:
+  network-frontend-prod:
+    driver: bridge

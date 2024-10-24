@@ -1,0 +1,32 @@
+<div class="py-4 px-0">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <article>
+          <ng-container [ngSwitch]="lang">
+            <ng-container *ngSwitchDefault>
+              <h1>Saavutettavuusseloste</h1>
+              <p>Päivitetty 1.1.2024</p>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'en'">
+              <h1>Accessibility statement</h1>
+              <p>Updated on 1 January 2024</p>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'sv'">
+              <h1>Tillgänglighetsutlåtande</h1>
+              <p>Uppdaterat 1.1.2024</p>
+            </ng-container>
+          </ng-container>
+          <ng-container>
+            <div *ngFor="let item of accessibilityPolicy">
+              <h2>{{ item.heading }}</h2>
+              <p *ngFor="let paragraph of item.content" [innerHTML]="paragraph"></p>
+            </div>
+          </ng-container>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
