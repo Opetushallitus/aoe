@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  aoe-web-backend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        AOE_DOCKER_REGISTRY: "${AOE_DOCKER_REGISTRY}"
+    image: aoe-web-backend:latest
+    container_name: aoe-web-backend
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    volumes:
+      - /data/thumbnail/:/app/thumbnail:rw
+      - /data/uploads/:/app/uploads:rw
+      - /webdata/:/webdata:rw
+      - /databackup/aoe/:/databackup/aoe/
+      - /databackup/aoethumbnail/:/databackup/aoethumbnail
+    env_file:
+      - "${ENV_FILE:-/environment/aoe-web-backend/.env}"
+    environment:
+      PG_USER: ${POSTGRES_USER_SECONDARY}
+      PG_PASS: ${POSTGRES_PASSWORD_SECONDARY}
+    user: root:5606
+    networks:
+      - network-web-backend
+
+networks:
+  network-web-backend:
+    driver: bridge

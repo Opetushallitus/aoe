@@ -1,0 +1,73 @@
+version: "3.9"
+services:
+  aoe-web-backend:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        AOE_DOCKER_REGISTRY: aoe-docker-local.artifactory.ci.csc.fi
+    image: aoe-web-backend:latest
+    container_name: aoe-web-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - aoe-postgres
+      - aoe-redis-session
+    volumes:
+      - uploads:/app/uploads
+      - webdata:/webdata
+    #      - data/thumbnail:/app/thumbnail
+    #      - data/uploads:/app/uploads
+    #      - data/webdata:/webdata
+    #      - data/databackup/aoe/:/databackup/aoe/
+    #      - data/databackup/aoethumbnail:/databackup/aoethumbnail
+    environment:
+      - NODE_ENV=localhost
+    env_file:
+      - "${ENV_FILE:-.env}"
+    networks:
+      - network-development
+
+  aoe-postgres:
+    build:
+      context: .
+      dockerfile: ./docker/aoe-postgres/Dockerfile
+    image: postgres:12-alpine
+    container_name: aoe-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=aoe
+      - POSTGRES_PASSWORD=aoe_secret
+      - POSTGRES_USER=aoe_admin
+    volumes:
+      - ./docker/aoe-postgres/init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+      - ./docker/aoe-postgres/aoe-db-dump.sql:/docker-entrypoint-initdb.d/aoe-db-dump.sql
+    networks:
+      - network-development
+
+  aoe-redis-session:
+    build:
+      context: .
+      dockerfile: ./docker/aoe-redis-session/Dockerfile
+    image: redis-session:6.2.4-alpine
+    privileged: true
+    command: sh -c "./init.sh"
+    container_name: aoe-redis-session
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    networks:
+      - network-development
+
+volumes:
+  uploads:
+  webdata:
+
+networks:
+  network-development:
+    name: network-development
