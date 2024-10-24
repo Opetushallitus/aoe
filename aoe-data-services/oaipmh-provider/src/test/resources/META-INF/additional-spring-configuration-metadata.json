@@ -1,0 +1,74 @@
+{
+    "properties": [
+        {
+            "name": "aoe.identify.repository-name",
+            "type": "java.lang.String",
+            "description": "Organization and metadata service name."
+        },
+        {
+            "name": "aoe.identify.base-url",
+            "type": "java.lang.String",
+            "description": "Base URL for harvesting requests."
+        },
+        {
+            "name": "aoe.identify.protocol-version",
+            "type": "java.lang.String",
+            "description": "OAI-PMH protocol version."
+        },
+        {
+            "name": "aoe.identify.admin-email",
+            "type": "java.lang.String",
+            "description": "Administrative contact email."
+        },
+        {
+            "name": "aoe.identify.earliest-datestamp",
+            "type": "java.lang.String",
+            "description": "Earliest record timestamp."
+        },
+        {
+            "name": "aoe.identify.deleted-record",
+            "type": "java.lang.String",
+            "description": "Deleted record visibility policy."
+        },
+        {
+            "name": "aoe.identify.granularity",
+            "type": "java.lang.String",
+            "description": "Timestamp accuracy."
+        },
+        {
+            "name": "aoe.identify.compression",
+            "type": "java.lang.String",
+            "description": "Compression method."
+        },
+        {
+            "name": "aoe.oai-identifier.scheme",
+            "type": "java.lang.String",
+            "description": "Document scheme standard."
+        },
+        {
+            "name": "aoe.oai-identifier.repository-identifier",
+            "type": "java.lang.String",
+            "description": "Service root domain."
+        },
+        {
+            "name": "aoe.oai-identifier.delimeter",
+            "type": "java.lang.String",
+            "description": "Delimeter character used."
+        },
+        {
+            "name": "aoe.oai-identifier.sample-identifier",
+            "type": "java.lang.String",
+            "description": "Sample metadata identity."
+        },
+        {
+            "name": "aoe.request.per-page",
+            "type": "java.lang.Integer",
+            "description": "AOE metadata per page."
+        },
+        {
+            "name": "aoe.request.url",
+            "type": "java.lang.String",
+            "description": "AOE metadata URL."
+        }
+    ]
+}
