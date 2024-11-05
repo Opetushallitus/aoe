@@ -4,9 +4,6 @@ dist/
 # Dependency Libraries
 node_modules/
 
-# Environment Variables
-.env
-
 # IDEs
 .idea/
 .vscode/
