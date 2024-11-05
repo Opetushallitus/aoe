@@ -13,7 +13,7 @@ export class CredentialInterceptor implements HttpInterceptor {
     if (environment.production === false) {
       if (
         (req.url.includes('userdata') || this.authService.hasUserData()) &&
-        req.url.includes(environment.backendUrl)
+        (req.url.includes(environment.backendUrl) || req.url.includes(environment.backendUrlV2))
       ) {
         req = req.clone({
           withCredentials: true,

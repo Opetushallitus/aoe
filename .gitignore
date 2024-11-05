@@ -1,0 +1,4 @@
+.idea
+
+# exclude container mounted folders
+/docker/dev
