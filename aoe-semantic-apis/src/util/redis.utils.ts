@@ -28,9 +28,9 @@ import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
 import { setTuvaOppiaineetTavoitteet } from '../controllers/tuva';
 
 export const client = redis.createClient({
-  host: config.REDIS_OPTIONS.host,
-  port: config.REDIS_OPTIONS.port,
-  password: config.REDIS_OPTIONS.pass,
+  url: `redis://${config.REDIS_OPTIONS.username}:${encodeURIComponent(config.REDIS_OPTIONS.pass)}@${
+    config.REDIS_OPTIONS.host
+  }:${config.REDIS_OPTIONS.port}`,
 });
 export const getAsync = promisify(client.get).bind(client);
 export const setAsync = promisify(client.set).bind(client);
