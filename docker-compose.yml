@@ -228,14 +228,14 @@ services:
     container_name: redis-reference
     image: redis:6.2.4-alpine
     privileged: true
-    command: [ "redis-server", "--requirepass", "dev_password" ]
+    command: ["redis-server", "--requirepass", "dev_password", "--user", "devuser", "on", ">devuser_password", "~*", "+@all", "--user", "default", "off", "nopass", "nocommands"]
     restart: unless-stopped
     environment:
       REDIS_REPLICATION_MODE: master
     volumes:
       - ./docker/dev/redis_data:/data
     healthcheck:
-      test: ["CMD-SHELL", "redis-cli -a dev_password ping | grep PONG"]
+      test: ["CMD-SHELL", "redis-cli -u redis://devuser:devuser_password@localhost:6379 ping | grep PONG"]
       interval: 30s
       timeout: 10s
       retries: 5
