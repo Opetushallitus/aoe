@@ -6,49 +6,16 @@ source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/common-f
 
 # shellcheck source=./deploy-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/deploy-functions.sh"
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/build-functions.sh"
 
 
 function main {
-  require_command docker
+  local aoe_service_name="aoe-semantic-apis"
+  local service_image_tag="AOE_SEMANTIC_APIS_TAG"
 
   cd "$repo"
 
-  local tags_to_push=()
-
-  start_gh_actions_group "Building $github_image_tag"
-
-  AOE_SEMANTIC_API_TAG="$github_image_tag"
-  # if !running_on_gh_actions; then
-  #   AOE_SEMANTIC_API_TAG=ludos-server:local
-  # fi
-
-  export AOE_SEMANTIC_API_TAG
-  docker compose build ludos-server
-  tags_to_push+=("$github_image_tag")
-
-  end_gh_actions_group
-
-  if [ -n "${GITHUB_REF_NAME:-}" ]; then
-    # Github refs often have slashes, which are not allowed in tag names
-    # https://github.com/opencontainers/distribution-spec/blob/main/spec.md#pulling-manifests
-    readonly clean_ref_name="${GITHUB_REF_NAME//[!a-zA-Z0-9._-]/-}"
-    readonly ref_tag="$github_registry:$clean_ref_name"
-    info "Tagging as $ref_tag"
-    docker tag "$github_image_tag" "$ref_tag"
-    tags_to_push+=("$ref_tag")
-  fi
-
-  if running_on_gh_actions; then
-    start_gh_actions_group "Pushing tags"
-    for tag in "${tags_to_push[@]}"
-    do
-      info "docker push $tag"
-      docker push "$tag"
-    done
-    end_gh_actions_group
-  else
-    info "Not pushing tags when running locally"
-  fi
+  buildService "$aoe_service_name" "$service_image_tag"
 }
 
 main
