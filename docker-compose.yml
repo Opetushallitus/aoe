@@ -39,7 +39,7 @@ services:
     build:
       context: aoe-web-backend
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_WEB_BACKEND_IMAGE-aoe-web-backend:latest}
+    image: ${AOE_WEB_BACKEND_TAG-aoe-web-backend:latest}
     container_name: aoe-web-backend
     healthcheck:
       test: [ "CMD", "wget", "--spider", "-q", "http://aoe-web-backend:3000" ]
@@ -71,7 +71,7 @@ services:
     build:
       context: aoe-data-analytics
       dockerfile: ./service-etl-processor/Dockerfile
-    image: ${AOE_DATA_ANALYTICS_IMAGE-aoe-data-analytics:latest}
+    image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
     container_name: aoe-data-analytics
     restart: unless-stopped
     depends_on:
@@ -102,7 +102,7 @@ services:
     build:
       context: aoe-data-services
       dockerfile: ./oaipmh-provider/Dockerfile
-    image: ${AOE_DATA_SERVICES_IMAGE-aoe-data-services:latest}
+    image: ${AOE_DATA_SERVICES_TAG-aoe-data-services:latest}
     container_name: aoe-data-services
     restart: unless-stopped
     depends_on:
