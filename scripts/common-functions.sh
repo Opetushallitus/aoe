@@ -52,20 +52,17 @@ function require_dev_aws_session {
 
 function configure_aws_credentials {
   if [[ "${CI:-}" = "true" ]]; then
-    export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-    export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-    export AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
-
-    aws sts get-caller-identity || {
-      fatal "Could not check that AWS credentials are working. Please log in with SSO: \"aws --profile oph-ludos-dev sso login\""
+    export AWS_REGION=${AWS_REGION:-"eu-west-1"}
+    ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text) || {
+        fatal "Could not check that AWS credentials are working."
     }
-  else
-    require_dev_aws_session
-    export AWS_PROFILE="oph-ludos-dev"
-    info "Using AWS profile $AWS_PROFILE"
+
+    export REGISTRY="$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
   fi
-  export AWS_REGION="eu-west-1"
+
   export AWS_DEFAULT_REGION="$AWS_REGION"
+  echo "Constructed registry: $REGISTRY"
+
 }
 
 function use_correct_node_version {
