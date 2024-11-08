@@ -39,6 +39,8 @@ jobs:
         run: ./deploy-scripts/01-build.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_TAG: ga-${{ github.run_number }}
+
 
   push_image:
     name: 02-push-image.sh
@@ -60,3 +62,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
+          image-tag: ga-${{ github.run_number }}
+
