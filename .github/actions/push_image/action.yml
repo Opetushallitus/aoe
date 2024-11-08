@@ -10,6 +10,10 @@ inputs:
   aws-arn:
     description: aws util arn
     required: true
+  image-tag:
+    description: image tag for container image
+    required: true
+
 
 
 runs:
@@ -32,4 +36,6 @@ runs:
     - name: 02-push-image.sh
       working-directory: ./
       shell: bash
+      env:
+        IMAGE_TAG: ${{ inputs.image-tag }}
       run: ./deploy-scripts/02-push-image.sh

@@ -14,24 +14,24 @@ function buildService {
 
   local service=$1
   local compose_tag=$2
-  local tag_name
+  local tag_value
 
-  local image_tag="$github_registry${service}:${revision}"
+  local img_tag="$github_registry${service}:${IMAGE_TAG}"
 
   local tags_to_push=()
 
-  start_gh_actions_group "Building service $service with tag $image_tag"
+  start_gh_actions_group "Building service $service with tag $img_tag"
 
   if ! running_on_gh_actions; then
-    tag_name="${service}:latest"
+    tag_value="${service}:latest"
   else
-    tag_name="$image_tag"
+    tag_value="$img_tag"
   fi
 
-  eval "${compose_tag}='${tag_name}'"
+  eval "${compose_tag}='${tag_value}'"
   export "${compose_tag}"
   docker compose build "$service"
-  tags_to_push+=("$image_tag")
+  tags_to_push+=("$img_tag")
 
   end_gh_actions_group
 
@@ -41,7 +41,7 @@ function buildService {
     readonly clean_ref_name="${GITHUB_REF_NAME//[!a-zA-Z0-9._-]/-}"
     readonly ref_tag="$github_registry${service}:$clean_ref_name"
     info "Tagging as $ref_tag"
-    docker tag "$image_tag" "$ref_tag"
+    docker tag "$img_tag" "$ref_tag"
     tags_to_push+=("$ref_tag")
   fi
 
