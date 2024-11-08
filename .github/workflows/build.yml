@@ -6,9 +6,10 @@ on:
     paths:
       - '.github/workflows/build.yml'
       - 'aoe-semantic-apis/**'
+      - 'aoe-streaming-app/**'
+
 #      - 'aoe-data-analytics/**'
 #      - 'aoe-data-services/**'
-#      - 'aoe-streaming-app/**'
 #      - 'aoe-web-backend/**'
 
 defaults:

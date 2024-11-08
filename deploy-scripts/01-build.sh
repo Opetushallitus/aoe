@@ -7,3 +7,6 @@ readonly CURRENT_DIR
 
 # Run semantic-api buildscript
 "${CURRENT_DIR}/../aoe-semantic-apis/deploy-scripts/01-build.sh"
+
+# Run streaming app buildscript
+"${CURRENT_DIR}/../aoe-streaming-app/deploy-scripts/01-build.sh"
