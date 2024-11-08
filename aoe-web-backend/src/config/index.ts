@@ -122,6 +122,7 @@ export default {
   REDIS_OPTIONS: {
     host: process.env.REDIS_HOST as string,
     port: parseInt(process.env.REDIS_PORT as string, 10) as number,
+    username: process.env.REDIS_USERNAME as string,
     pass: process.env.REDIS_PASS as string,
   } as const,
 
