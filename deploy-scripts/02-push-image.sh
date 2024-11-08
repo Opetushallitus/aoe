@@ -6,4 +6,4 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 readonly CURRENT_DIR
 
 # Run semantic-api buildscript
-"${CURRENT_DIR}/../aoe-semantic-apis/deploy-scripts/01-build.sh"
+"${CURRENT_DIR}/../aoe-semantic-apis/deploy-scripts/02-push-image.sh"

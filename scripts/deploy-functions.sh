@@ -10,13 +10,7 @@ readonly DEPLOY_FUNCTIONS_SOURCED="true"
 # shellcheck source=./common-functions.sh
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
 
-readonly service_name="aoe"
-
-readonly ecr_registry="505953557276.dkr.ecr.eu-west-1.amazonaws.com/${service_name}"
-readonly ecr_image_tag="${ecr_registry}:${revision}"
-
-readonly github_registry="ghcr.io/opetushallitus/${service_name}"
-readonly github_image_tag="${github_registry}:${revision}"
+readonly github_registry="ghcr.io/opetushallitus/"
 
 readonly deploy_dist_dir="$repo/deploy-scripts/dist/"
 mkdir -p "$deploy_dist_dir"
@@ -27,10 +21,31 @@ function image_exists_locally {
 }
 
 function require_built_image {
-  if image_exists_locally "${github_image_tag}"; then
-    info "${github_image_tag} already exists locally"
+  local tag="$1"
+  if image_exists_locally "${tag}"; then
+    info "${tag} already exists locally"
   else
-    info "Pulling ${github_image_tag} because it does not exist locally"
-    docker pull "${github_image_tag}"
+    info "Pulling ${tag} because it does not exist locally"
+    docker pull "${tag}"
+  fi
+}
+
+function upload_image_to_ecr {
+  local github_image_tag="$1"
+  local ecr_image_tag="$2"
+
+  start_gh_actions_group "Uploading image to util account"
+
+  require_built_image "$github_image_tag"
+  docker tag "${github_image_tag}" "${ecr_image_tag}"
+  docker push "${ecr_image_tag}"
+
+  end_gh_actions_group
+}
+
+
+function get_ecr_login_credentials() {
+  if [[ "${CI:-}" = "true" ]]; then
+    aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$REGISTRY"
   fi
 }

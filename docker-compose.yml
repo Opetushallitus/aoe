@@ -114,7 +114,7 @@ services:
     build:
       context: aoe-semantic-apis
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_SEMANTIC_APIS_IMAGE-aoe-semantic-apis:latest}
+    image: ${AOE_SEMANTIC_APIS_TAG-aoe-semantic-apis:latest}
     container_name: aoe-semantic-apis
     restart: unless-stopped
     depends_on:
