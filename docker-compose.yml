@@ -89,7 +89,7 @@ services:
     build:
       context: aoe-streaming-app
       dockerfile: ./docker/Dockerfile
-    image: ${AOE_STREAMING_APP_IMAGE-aoe-streaming-app:latest}
+    image: ${AOE_STREAMING_APP_TAG-aoe-streaming-app:latest}
     container_name: aoe-streaming-app
     restart: unless-stopped
 

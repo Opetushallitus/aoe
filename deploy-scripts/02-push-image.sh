@@ -7,3 +7,5 @@ readonly CURRENT_DIR
 
 # Run semantic-api buildscript
 "${CURRENT_DIR}/../aoe-semantic-apis/deploy-scripts/02-push-image.sh"
+
+"${CURRENT_DIR}/../aoe-streaming-app/deploy-scripts/02-push-image.sh"
