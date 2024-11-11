@@ -24,7 +24,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: 01-build.sh
     steps:
       - uses: actions/checkout@v4
 
@@ -41,11 +41,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IMAGE_TAG: ga-${{ github.run_number }}
 
+  lint:
+    name: 02-lint.sh
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4.2.1
+      - name: Run 02-lint.sh
+        run: ./deploy-scripts/02-lint.sh
 
   push_image:
-    name: 02-push-image.sh
+    name: 03-push-image.sh
     if: github.ref == 'refs/heads/feat/build-semantic-api' || github.event_name == 'workflow_dispatch'
-    needs: [ build ]
+    needs: [ lint, build ]
     permissions:
       packages: write
       id-token: write

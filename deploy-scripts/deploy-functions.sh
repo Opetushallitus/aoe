@@ -8,7 +8,7 @@ fi
 readonly DEPLOY_FUNCTIONS_SOURCED="true"
 
 # shellcheck source=./common-functions.sh
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/common-functions.sh"
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../scripts/common-functions.sh"
 
 readonly github_registry="ghcr.io/opetushallitus/"
 

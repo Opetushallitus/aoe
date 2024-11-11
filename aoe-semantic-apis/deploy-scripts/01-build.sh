@@ -5,7 +5,7 @@ set -o errexit -o nounset -o pipefail
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/common-functions.sh"
 
 # shellcheck source=./deploy-functions.sh
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/deploy-functions.sh"
+source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../deploy-scripts/deploy-functions.sh"
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/build-functions.sh"
 
 
