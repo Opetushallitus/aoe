@@ -33,9 +33,9 @@ runs:
         role-session-name: aoe-runner-ecr-push
         aws-region: eu-west-1
 
-    - name: 02-push-image.sh
+    - name: 03-push-image.sh
       working-directory: ./
       shell: bash
       env:
         IMAGE_TAG: ${{ inputs.image-tag }}
-      run: ./deploy-scripts/02-push-image.sh
+      run: ./deploy-scripts/03-push-image.sh
