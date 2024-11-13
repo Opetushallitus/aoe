@@ -7,6 +7,10 @@ services:
         aliases:
           - demo.aoe.fi
 
+  postgres:
+    volumes: !override
+      - ./docker/init-scripts/aoe-init.sql:/docker-entrypoint-initdb.d/init.sql
+
   playwright:
     build:
       context: ./playwright

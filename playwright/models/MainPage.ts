@@ -69,6 +69,10 @@ export class MainPage {
         await expect(this.page.locator('a[href="#/omat-oppimateriaalit"]')).toBeVisible();
     }
 
+    async moveToOwnEducationalMaterialsView() {
+        await this.page.locator('a[href="#/omat-oppimateriaalit"]').click()
+    }
+
     async logout() {
         await this.page.locator('#user-details-dropdown i.fa-user-circle-o').click();
         await this.page.locator('.dropdown-menu .dropdown-item', { hasText: 'Kirjaudu ulos' }).click();

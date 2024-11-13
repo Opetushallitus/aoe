@@ -1,13 +1,14 @@
 import {defineConfig} from '@playwright/test';
 
 export default defineConfig({
+    workers: 1,
     testDir: './',
     use: {
         baseURL: process.env.BASE_URL || 'https://demo.aoe.fi',
         locale: 'fi-FI',
         ignoreHTTPSErrors: true,
-        trace: "retain-on-failure",
-        video: "retain-on-failure"
+        trace: "on",
+        video: "on"
     },
 
     reporter: [
@@ -32,9 +33,9 @@ export default defineConfig({
         //         browserName: 'firefox'
         //     },
         // },
-        {
-            name: 'webkit',
-            use: {browserName: 'webkit'},
-        },
+        // {
+        //     name: 'webkit',
+        //     use: {browserName: 'webkit'},
+        // },
     ],
 });

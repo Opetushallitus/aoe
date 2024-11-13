@@ -12,7 +12,8 @@ compose="$compose -f ./docker-compose.local-dev.yml"
 compose="$compose -f ./docker-compose-playwright.yml"
 
 function clean {
-  $compose down
+    echo 'not stopping containers'
+#  $compose down
 }
 
 function main {
@@ -26,6 +27,7 @@ function main {
   end_gh_actions_group
 
   start_gh_actions_group "Start services"
+  $compose up --no-build --wait aoe-oidc-server
   $compose up --no-build --wait aoe-web-frontend aoe-semantic-apis aoe-streaming-app aoe-data-analytics
   end_gh_actions_group
 
