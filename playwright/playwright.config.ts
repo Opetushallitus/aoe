@@ -1,12 +1,15 @@
-import { defineConfig } from '@playwright/test';
+import {defineConfig} from '@playwright/test';
 
 export default defineConfig({
     testDir: './',
     use: {
         baseURL: process.env.BASE_URL || 'https://demo.aoe.fi',
         locale: 'fi-FI',
-
+        ignoreHTTPSErrors: true,
+        trace: "retain-on-failure",
+        video: "retain-on-failure"
     },
+
     reporter: [
         ['list'],
         [
@@ -21,15 +24,17 @@ export default defineConfig({
     projects: [
         {
             name: 'chromium',
-            use: { browserName: 'chromium' },
+            use: {browserName: 'chromium'},
         },
-        {
-            name: 'firefox',
-            use: { browserName: 'firefox' },
-        },
+        // {
+        //     name: 'firefox',
+        //     use: {
+        //         browserName: 'firefox'
+        //     },
+        // },
         {
             name: 'webkit',
-            use: { browserName: 'webkit' },
+            use: {browserName: 'webkit'},
         },
     ],
 });

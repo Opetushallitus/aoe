@@ -14,7 +14,7 @@ services:
     user: "root:5606"
     depends_on:
       aoe-web-backend:
-        condition: service_started
+        condition: service_healthy
 
   nginx:
     image: nginx:latest
@@ -116,6 +116,11 @@ services:
       dockerfile: ./docker/Dockerfile
     image: ${AOE_SEMANTIC_APIS_IMAGE-aoe-semantic-apis:latest}
     container_name: aoe-semantic-apis
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "-q", "http://aoe-semantic-apis:3002/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
     depends_on:
       redis:

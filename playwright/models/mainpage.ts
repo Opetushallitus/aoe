@@ -1,15 +1,16 @@
-import {test, expect, Page} from '@playwright/test';
+import {expect, Page} from '@playwright/test';
 
 export class Mainpage {
     constructor(private readonly page: Page) {
+        this.page = page;
     }
 
     async goto() {
-        await this.page.goto('/')
+        await this.page.goto('/');
     }
 
     async expectToHaveTitle(title: string) {
-       await expect(this.page).toHaveTitle(title);
+        await expect(this.page).toHaveTitle(title);
     }
 
 
@@ -32,7 +33,7 @@ export class Mainpage {
     }
 
     async expectToHaveSearchThingy(searchTerm: string, amountOfMatches: number) {
-        const options = this.page.locator('div[role="option"]', { hasText: searchTerm });
+        const options = this.page.locator('div[role="option"]', {hasText: searchTerm});
         const count = await options.count()
         expect(count).toBe(amountOfMatches)
     }

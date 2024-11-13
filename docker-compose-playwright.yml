@@ -1,0 +1,23 @@
+name: aoe-playwright
+services:
+
+  nginx:
+    networks:
+      default:
+        aliases:
+          - demo.aoe.fi
+
+  playwright:
+    build:
+      context: ./playwright
+      dockerfile: Dockerfile.playwright
+    image: playwright-tests
+    working_dir: /app
+    depends_on:
+      - aoe-web-frontend
+    entrypoint: [ "sh", "-c", "npm ci && npx playwright test" ]
+    environment:
+      - BASE_URL=https://demo.aoe.fi
+    volumes:
+      - ./playwright:/app
+      - ./playwright/playwright-results:/app/playwright-results
