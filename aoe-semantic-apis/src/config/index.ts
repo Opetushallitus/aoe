@@ -13,7 +13,7 @@ process.env.EXTERNAL_API_SUOMI_KOODISTOT || missingEnvs.push('EXTERNAL_API_SUOMI
 process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
-process.env.REDIT_USE_TLS || missingEnvs.push('REDIS_USE_TLS');
+process.env.REDIS_USE_TLS || missingEnvs.push('REDIS_USE_TLS');
 
 if (missingEnvs.length > 0) {
   winstonLogger.error('All required environment variables are not available: %s', missingEnvs);
@@ -44,6 +44,6 @@ export default {
     pass: process.env.REDIS_PASS as string,
     username: process.env.REDIS_USERNAME as string,
     port: (parseInt(process.env.REDIS_PORT as string, 10) as number) || 6379,
-    protocol: process.env.REDIT_USE_TLS != "true" : "redis" : "rediss"
+    protocol: process.env.REDIS_USE_TLS != 'true' ? 'redis' : 'rediss',
   },
 } as any;

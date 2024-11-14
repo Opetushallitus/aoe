@@ -26,7 +26,8 @@ client.on('error', (error: any) => {
   winstonLogger.error(error);
 });
 
-client.on('connect', async () => {
+client.on('ready', async () => {
+  winstonLogger.info('Pushing data to REDIS');
   await updateRedis();
 });
 
