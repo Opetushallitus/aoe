@@ -38,7 +38,7 @@ cron.schedule('0 0 3 * * 0', async () => {
 });
 
 // Prefixed routes
-app.use('/api/v1', router);
+app.use('/ref/api/v1', router);
 app.use('/', healthRouter);
 
 // Default error handler.
