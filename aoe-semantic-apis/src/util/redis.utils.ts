@@ -28,7 +28,7 @@ import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
 import { setTuvaOppiaineetTavoitteet } from '../controllers/tuva';
 
 export const client = redis.createClient({
-  url: `redis://${config.REDIS_OPTIONS.username}:${encodeURIComponent(config.REDIS_OPTIONS.pass)}@${
+  url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(config.REDIS_OPTIONS.pass)}@${
     config.REDIS_OPTIONS.host
   }:${config.REDIS_OPTIONS.port}`,
 });
