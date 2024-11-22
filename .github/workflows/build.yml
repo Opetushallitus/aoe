@@ -1,0 +1,14 @@
+name: Build
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output
+        run: echo "===============> Would now start building AOE"
