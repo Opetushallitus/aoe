@@ -7,15 +7,26 @@ const redisHost: string = config.REDIS_OPTIONS.host;
 const redisPort: number = config.REDIS_OPTIONS.port;
 
 const redisClient = createClient({
-  url: `redis://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
+  url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
     config.REDIS_OPTIONS.pass,
-  )}@${redisHost}:${redisPort}`,
+  )}@${config.REDIS_OPTIONS.host}:${config.REDIS_OPTIONS.port}`,
 } as RedisClientOptions)
   .on('ready', () => {
-    winstonLogger.debug('REDIS [redis://%s:%d] Connection is operable', redisHost, redisPort);
+    winstonLogger.info(
+      'REDIS [%s://%s:%d] Connection is operable',
+      config.REDIS_OPTIONS.protocol,
+      config.REDIS_OPTIONS.host,
+      config.REDIS_OPTIONS.port,
+    );
   })
   .on('error', (err: Error): void => {
-    winstonLogger.error('REDIS [redis://%s:%d] Error: %o', redisHost, redisPort, err);
+    winstonLogger.error(
+      'REDIS [%s://%s:%d] Error: %o',
+      config.REDIS_OPTIONS.protocol,
+      config.REDIS_OPTIONS.host,
+      config.REDIS_OPTIONS.port,
+      err,
+    );
   });
 
 const redisInit = async (): Promise<void> => {

@@ -40,6 +40,7 @@ process.env.POSTGRESQL_DATA || missingEnvs.push('POSTGRESQL_DATA');
 process.env.REDIS_HOST || missingEnvs.push('REDIS_HOST');
 process.env.REDIS_PORT || missingEnvs.push('REDIS_PORT');
 process.env.REDIS_PASS || missingEnvs.push('REDIS_PASS');
+process.env.REDIS_USE_TLS || missingEnvs.push('REDIS_USE_TLS');
 process.env.SERVER_CONFIG_OAIPMH_ANALYTICS_URL || missingEnvs.push('SERVER_CONFIG_OAIPMH_ANALYTICS_URL');
 process.env.STREAM_ENABLED || missingEnvs.push('STREAM_ENABLED');
 process.env.STREAM_FILESIZE_MIN || missingEnvs.push('STREAM_FILESIZE_MIN');
@@ -124,6 +125,7 @@ export default {
     port: parseInt(process.env.REDIS_PORT as string, 10) as number,
     username: process.env.REDIS_USERNAME as string,
     pass: process.env.REDIS_PASS as string,
+    protocol: process.env.REDIS_USE_TLS != 'true' ? 'redis' : 'rediss',
   } as const,
 
   // AOE server and service component general purpose configurations.
