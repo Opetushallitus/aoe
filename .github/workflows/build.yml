@@ -4,10 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     branches:
-      - aws-migration
-  push:
-    branches:
-      - aws-migration
+      - '**'
 
 defaults:
   run:
@@ -49,7 +46,7 @@ jobs:
 
   push_image:
     name: 03-push-image.sh
-    if: github.ref == 'refs/heads/aws-migration' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch'
     needs: [ lint, build ]
     permissions:
       packages: write
