@@ -61,9 +61,8 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.koodistoService.updateLicenses().subscribe();
-    const educationalMaterialID: string = this.route.snapshot.paramMap.get('materialId');
-    this.educationalMaterialID = +educationalMaterialID;
-    this.materialService.setEducationalMaterialID(educationalMaterialID);
+    this.educationalMaterialID = +this.route.snapshot.paramMap.get('materialId');
+    this.materialService.setEducationalMaterialID(this.educationalMaterialID.toString());
     this.subscriptionUpdateUploadedFiles = this.materialService
       .updateUploadedFiles(this.educationalMaterialID)
       .subscribe({
@@ -97,7 +96,7 @@ export class EducationalMaterialEditFormComponent implements OnInit, OnDestroy {
     this.subscriptionRoute = this.route.paramMap.subscribe((params: Params): void => {
       this.tabId = +params.get('tabId');
       if (!this.tabId) {
-        void this.router.navigate(['/muokkaa-oppimateriaalia', educationalMaterialID, 1]);
+        void this.router.navigate(['/muokkaa-oppimateriaalia', this.educationalMaterialID, 1]);
       }
     });
     this.subscriptionLanguageChange = this.translate.onLangChange.subscribe((event: LangChangeEvent): void => {

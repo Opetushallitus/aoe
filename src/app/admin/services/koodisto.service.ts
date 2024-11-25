@@ -4,10 +4,10 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { EducationalLevel, EducationalSubject } from '../model';
-import { environment } from '../../../environments/environment';
+import { EducationalLevel, EducationalSubject, EducationalLevelChild } from '@admin/model';
+import { environment } from '@environments/environment';
 import { Organization } from '@admin/model/organization';
-import { catchError, filter, map, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,18 +21,21 @@ export class KoodistoService {
       'Content-Type': 'application/json',
     }),
   };
-  private educationalLevelsBehaviorSubject: BehaviorSubject<EducationalLevel[]> = new BehaviorSubject<
-    EducationalLevel[]
+  private educationalLevelsBehaviorSubject: BehaviorSubject<EducationalLevel[] | null> = new BehaviorSubject<
+    EducationalLevel[] | null
   >(null);
-  private educationalSubjectsBehaviorSubject: BehaviorSubject<EducationalSubject[]> = new BehaviorSubject<
-    EducationalSubject[]
+  private educationalSubjectsBehaviorSubject: BehaviorSubject<EducationalSubject[] | null> = new BehaviorSubject<
+    EducationalSubject[] | null
   >(null);
-  private organizationsBehaviorSubject: BehaviorSubject<Organization[]> = new BehaviorSubject<Organization[]>(null);
+  private organizationsBehaviorSubject: BehaviorSubject<Organization[] | null> = new BehaviorSubject<
+    Organization[] | null
+  >(null);
 
-  public educationalLevels$: Observable<EducationalLevel[]> = this.educationalLevelsBehaviorSubject.asObservable();
-  public educationalSubjects$: Observable<EducationalSubject[]> =
+  public educationalLevels$: Observable<EducationalLevel[] | null> =
+    this.educationalLevelsBehaviorSubject.asObservable();
+  public educationalSubjects$: Observable<EducationalSubject[] | null> =
     this.educationalSubjectsBehaviorSubject.asObservable();
-  public organizations$: Observable<Organization[]> = this.organizationsBehaviorSubject.asObservable();
+  public organizations$: Observable<Organization[] | null> = this.organizationsBehaviorSubject.asObservable();
 
   constructor(private http: HttpClient, private translate: TranslateService) {
     this.lang = this.translate.currentLang;
@@ -42,7 +45,7 @@ export class KoodistoService {
     switch (error.status) {
       case 404:
         subject$.next([]);
-        break;
+        return throwError('Resource not found; please try again later.');
       default:
         console.error(error);
         return throwError('Something bad happened; please try again later.');
@@ -56,7 +59,17 @@ export class KoodistoService {
       map((educationalLevels: EducationalLevel[]) =>
         educationalLevels.filter((educationalLevel: EducationalLevel): boolean => educationalLevel !== null),
       ),
-      tap((educationalLevels: EducationalLevel[]) => this.educationalLevelsBehaviorSubject.next(educationalLevels)),
+      tap((educationalLevels: EducationalLevel[]) =>
+        this.educationalLevelsBehaviorSubject.next(
+          educationalLevels.map((level: EducationalLevel) => ({
+            ...level,
+            children: level.children.map((child: EducationalLevelChild) => ({
+              ...child,
+              disabled: false,
+            })),
+          })),
+        ),
+      ),
       catchError((err: any) => of(err)),
     );
   }

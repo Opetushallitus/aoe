@@ -355,6 +355,20 @@
       [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate"
       [item]="previewMaterial.basicStudyFramework"></app-preview-row>
 
+    <!-- preparatory education -->
+
+    <app-preview-row
+      *ngIf="previewMaterial?.preparatoryEducationSubjects?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label' | translate"
+      [items]="previewMaterial.preparatoryEducationSubjects"
+      property="targetName"></app-preview-row>
+
+    <app-preview-row
+      *ngIf="previewMaterial?.preparatoryEducationObjectives?.length > 0"
+      [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label' | translate"
+      [items]="previewMaterial.preparatoryEducationObjectives"
+      property="targetName"></app-preview-row>
+
     <!-- upper secondary education -->
 
     <app-preview-row

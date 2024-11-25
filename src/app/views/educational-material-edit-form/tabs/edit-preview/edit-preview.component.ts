@@ -17,6 +17,7 @@ import { MaterialService } from '@services/material.service';
 })
 export class EditPreviewComponent implements OnInit {
   @Input() tabId: number;
+  @Input() materialId: number;
   form: FormGroup;
   lang: string;
   submitted = false;
@@ -370,6 +371,17 @@ export class EditPreviewComponent implements OnInit {
 
       alignmentObjects = alignmentObjects.concat(this.previewMaterial.selfMotivatedEducationObjectives);
       delete this.previewMaterial.selfMotivatedEducationObjectives;
+
+      //preparatory education
+      this.previewMaterial.preparatoryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push(subject);
+      });
+      delete this.previewMaterial.preparatoryEducationSubjects;
+
+      this.previewMaterial.preparatoryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push(objective);
+      });
+      delete this.previewMaterial.preparatoryEducationObjectives;
 
       // higher education
       this.previewMaterial.branchesOfScience.forEach((branch: AlignmentObjectExtended) => {

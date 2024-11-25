@@ -1,23 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
-import {
-  catchError,
-  concatMap,
-  delay,
-  map,
-  mergeMap,
-  retryWhen,
-  take,
-  takeLast,
-  tap,
-  timeout,
-  toArray,
-} from 'rxjs/operators';
-import { BehaviorSubject, EMPTY, from, NEVER, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, concatMap, delay, map, mergeMap, retryWhen, take, takeLast, tap, toArray } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, from, Observable, of, Subject, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
-import { environment } from '../../environments/environment';
-import { deduplicate, getUniqueFrameworks } from '../shared/shared.module';
+import { environment } from '@environments/environment';
+import { deduplicate, getUniqueFrameworks } from '@shared/shared.module';
 import { EducationalMaterial } from '@models/educational-material';
 import { UploadMessage } from '@models/upload-message';
 import { EducationalMaterialCard } from '@models/educational-material-card';
@@ -39,19 +27,19 @@ import { koodistoSources } from '@constants/koodisto-sources';
 export class MaterialService {
   private educationalMaterialEditForm$$: BehaviorSubject<EducationalMaterialForm | null> =
     new BehaviorSubject<EducationalMaterialForm | null>(null);
-  private educationalMaterialID$$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
-  private uploadedFiles$$: BehaviorSubject<UploadedFile[]> = new BehaviorSubject<UploadedFile[]>(null);
+  private educationalMaterialID$$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private uploadedFiles$$: BehaviorSubject<UploadedFile[] | null> = new BehaviorSubject<UploadedFile[] | null>(null);
   private uploadResponses$$: BehaviorSubject<UploadMessage[]> = new BehaviorSubject<UploadMessage[]>([]);
 
   public lang: string = this.translate.currentLang;
   public material$$: Subject<EducationalMaterial> = new Subject<EducationalMaterial>();
-  public uploadedFiles$: Observable<UploadedFile[]> = this.uploadedFiles$$.asObservable();
+  public uploadedFiles$: Observable<UploadedFile[] | null> = this.uploadedFiles$$.asObservable();
   public uploadResponses$: Observable<UploadMessage[]> = this.uploadResponses$$.asObservable();
   public educationalMaterialEditForm$: Observable<EducationalMaterialForm | null> =
     this.educationalMaterialEditForm$$.asObservable();
   public educationalMaterialID$: Observable<number> = this.educationalMaterialID$$
     .asObservable()
-    .pipe(map((id: string) => +id));
+    .pipe(map((id: string | null) => (id !== null ? +id : 0)));
   public publishedUserMaterials$$: Subject<EducationalMaterialCard[]> = new Subject<EducationalMaterialCard[]>();
   public unpublishedUserMaterials$$: Subject<EducationalMaterialCard[]> = new Subject<EducationalMaterialCard[]>();
 
@@ -85,7 +73,7 @@ export class MaterialService {
     this.educationalMaterialEditForm$$.next(educationalMaterialForm);
   }
 
-  getEducationalMaterialID(): string {
+  getEducationalMaterialID(): string | null {
     return this.educationalMaterialID$$.getValue();
   }
 
@@ -93,7 +81,7 @@ export class MaterialService {
     this.educationalMaterialID$$.next(id);
   }
 
-  getUploadedFiles(): UploadedFile[] {
+  getUploadedFiles(): UploadedFile[] | null {
     return this.uploadedFiles$$.getValue();
   }
 
@@ -454,6 +442,14 @@ export class MaterialService {
                 alignmentObject.source === koodistoSources.basicStudyContents,
             ),
             suitsAllBasicStudySubjects: material.suitsAllBasicStudySubjects,
+            preparatoryEducationSubjects: alignmentObjects.filter(
+              (alignmentObject: AlignmentObjectExtended): boolean =>
+                alignmentObject.source === koodistoSources.preparatoryEducationSubjects,
+            ),
+            preparatoryEducationObjectives: alignmentObjects.filter(
+              (alignmentObject: AlignmentObjectExtended): boolean =>
+                alignmentObject.source === koodistoSources.preparatoryEducationObjectives,
+            ),
             upperSecondarySchoolSubjectsOld: upperSecondarySchoolSubjectsOld,
             upperSecondarySchoolFrameworks: getUniqueFrameworks(upperSecondarySchoolSubjectsOld),
             upperSecondarySchoolCoursesOld: alignmentObjects.filter(
@@ -676,7 +672,7 @@ export class MaterialService {
    * @param educationalMaterialID
    * @returns {Observable<UploadMessage>} Upload message
    */
-  uploadImage(base64Image: string, educationalMaterialID?: number | string): Observable<UploadMessage> {
+  uploadImage(base64Image: string, educationalMaterialID?: number | string | null): Observable<UploadMessage> {
     const body: UploadImageBody = { base64image: base64Image };
     educationalMaterialID = educationalMaterialID ?? this.educationalMaterialID$$.getValue() ?? null;
     if (educationalMaterialID) {
@@ -693,8 +689,12 @@ export class MaterialService {
           map((event: HttpEvent<any>) => {
             switch (event.type) {
               case HttpEventType.UploadProgress:
-                const progress = Math.round((100 * event.loaded) / event.total);
-                return { status: 'progress', message: progress };
+                if (event.total) {
+                  const progress = Math.round((100 * event.loaded) / event.total);
+                  return { status: 'progress', message: progress };
+                } else {
+                  return { status: 'progress', message: 'Calculating...' };
+                }
               case HttpEventType.Response:
                 return { status: 'completed', message: event.body };
               default:
@@ -1009,6 +1009,25 @@ export class MaterialService {
                 basicStudySubjects.length > 0 && basicStudySubjects[0].educationalFramework
                   ? basicStudySubjects[0].educationalFramework
                   : null,
+              preparatoryEducationSubjects: educationalMaterial.educationalAlignment
+                .filter((alignment) => alignment.source === koodistoSources.preparatoryEducationSubjects)
+                .map((alignment) => ({
+                  key: alignment.objectkey,
+                  source: alignment.source,
+                  alignmentType: alignment.alignmenttype,
+                  targetName: alignment.targetname,
+                  targetUrl: alignment.targeturl,
+                })),
+              preparatoryEducationObjectives: educationalMaterial.educationalAlignment
+                .filter((alignment) => alignment.source === koodistoSources.preparatoryEducationObjectives)
+                .map((alignment) => ({
+                  key: alignment.objectkey,
+                  source: alignment.source,
+                  alignmentType: alignment.alignmenttype,
+                  educationalFramework: alignment.educationalframework,
+                  targetName: alignment.targetname,
+                  targetUrl: alignment.targeturl,
+                })),
               upperSecondarySchoolSubjectsOld: upperSecondarySubjectsOld,
               upperSecondarySchoolCoursesOld: upperSecondaryCoursesOld,
               suitsAllUpperSecondarySubjects: educationalMaterial.suitsAllUpperSecondarySubjects,
@@ -1242,11 +1261,12 @@ export class MaterialService {
         map((event: HttpEvent<any>) => {
           switch (event.type) {
             case HttpEventType.UploadProgress:
-              const progress = Math.round((100 * event.loaded) / event.total);
-              return {
-                status: 'progress',
-                message: progress,
-              };
+              if (event.total) {
+                const progress = Math.round((100 * event.loaded) / event.total);
+                return { status: 'progress', message: progress };
+              } else {
+                return { status: 'progress', message: 'Calculating...' };
+              }
             case HttpEventType.Response:
               return {
                 status: 'completed',

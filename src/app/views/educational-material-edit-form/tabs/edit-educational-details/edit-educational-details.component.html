@@ -396,6 +396,63 @@
   </ng-container>
   <!--/basic education-->
 
+  <!--preparatory education-->
+  <ng-container *ngIf="hasPreparatoryEducation">
+    <div class="form-group">
+      <h3>{{ "forms.educationalResource.educationalDetails.preparatoryEducation.title" | translate }}</h3>
+
+      <label for="preparatoryEducationSubjects">
+        {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label" | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.tooltip' | translate
+        ">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="preparatorySubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        id="preparatoryEducationSubjects"
+        labelForId="preparatoryEducationSubjects"
+        formControlName="preparatoryEducationSubjects"
+        (change)="preparatoryEducationSubjectsChange($event)"></ng-select>
+    </div>
+    <ng-container *ngIf="hasPreparatoryEducationSubjects">
+      <div class="form-group">
+        <label for="preparatoryEducationObjectives">
+          {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label" | translate }}
+        </label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="
+          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.tooltip' | translate
+        ">
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
+
+        <ng-select
+          [items]="preparatoryObjectives"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="preparatoryEducationObjectives"
+          labelForId="preparatoryEducationObjectives"
+          formControlName="preparatoryEducationObjectives"></ng-select>
+      </div>
+    </ng-container>
+  </ng-container>
+  <!--/preparatory education-->
+
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>{{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title" | translate }}</h3>
 
@@ -452,6 +509,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="upperSecondarySchoolSubjectsOld"
           groupBy="parent"
           labelForId="upperSecondarySchoolSubjectsOld"
           formControlName="upperSecondarySchoolSubjectsOld"
@@ -474,6 +532,7 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="targetName"
+            id="upperSecondarySchoolCoursesOld"
             groupBy="parent"
             labelForId="upperSecondarySchoolCoursesOld"
             formControlName="upperSecondarySchoolCoursesOld"></ng-select>
@@ -707,6 +766,7 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
+        id="furtherVocationalQualifications"
         labelForId="furtherVocationalQualifications"
         formControlName="furtherVocationalQualifications"
         (change)="vocationalDegreesChange()"></ng-select>
@@ -724,6 +784,7 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
+        id="specialistVocationalQualifications"
         labelForId="specialistVocationalQualifications"
         formControlName="specialistVocationalQualifications"
         (change)="vocationalDegreesChange()"></ng-select>
@@ -800,6 +861,7 @@
           [closeOnSelect]="false"
           [addTag]="addVocationalEducationObjective"
           bindLabel="targetName"
+          id="vocationalRequirements"
           groupBy="parent"
           labelForId="vocationalRequirements"
           formControlName="vocationalRequirements"></ng-select>

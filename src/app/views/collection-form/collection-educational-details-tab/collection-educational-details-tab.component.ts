@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environments/environment';
 import {
   addEarlyChildhoodEducationSubject,
   addEarlyChildhoodEducationObjective,
@@ -45,6 +45,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContentSubscription: Subscription;
   basicStudyContents: AlignmentObjectExtended[];
+  preparatoryEducationSubjectsSubscription: Subscription;
+  preparatoryEducationSubjects: AlignmentObjectExtended[];
+  preparatoryEducationObjectivesSubscription: Subscription;
+  preparatoryEducationObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectOldSubscription: Subscription;
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
   upperSecondarySchoolCourseOldSubscription: Subscription;
@@ -71,6 +75,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
   hasPrePrimaryEducation = false;
   hasBasicStudies = false;
   hasBasicStudySubjects = false;
+  hasPreparatoryEducation = false;
+  hasPreparatoryEducationSubjects = false;
   hasUpperSecondarySchool = false;
   hasUpperSecondarySchoolSubjectsOld = false;
   hasUpperSecondarySchoolSubjectsNew = false;
@@ -133,6 +139,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
         Validators.maxLength(validatorParams.educationalFramework.maxLength),
         textInputValidator(),
       ]),
+      preparatoryEducationSubjects: this.fb.control(null),
+      preparatoryEducationObjectives: this.fb.control(null),
       currentUpperSecondarySchoolSelected: this.fb.control(false),
       newUpperSecondarySchoolSelected: this.fb.control(false),
       upperSecondarySchoolSubjectsOld: this.fb.control(null),
@@ -209,6 +217,25 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
     this.basicStudyContentSubscription = this.koodistoService.basicStudyContents$.subscribe(
       (contents: AlignmentObjectExtended[]) => {
         this.basicStudyContents = contents;
+      },
+    );
+
+    // preparatory subjects
+    this.preparatoryEducationSubjectsSubscription = this.koodistoService.preparatorySubjects$.subscribe(
+      (subjects: AlignmentObjectExtended[]) => {
+        this.preparatoryEducationSubjects = subjects;
+      },
+    );
+    this.koodistoService.updatePreparatorySubjects();
+
+    if (this.preparatoryEducationSubjectsCtrl.value.length > 0) {
+      this.preparatoryEducationSubjectsChange(this.preparatoryEducationSubjectsCtrl.value);
+    }
+
+    // preparatory objectives
+    this.preparatoryEducationObjectivesSubscription = this.koodistoService.preparatoryObjectives$.subscribe(
+      (objectives: AlignmentObjectExtended[]) => {
+        this.preparatoryEducationObjectives = objectives;
       },
     );
 
@@ -328,6 +355,8 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
     this.educationalLevelSubscription.unsubscribe();
     this.basicStudySubjectSubscription.unsubscribe();
+    this.preparatoryEducationSubjectsSubscription.unsubscribe();
+    this.preparatoryEducationObjectivesSubscription.unsubscribe();
     this.basicStudyObjectiveSubscription.unsubscribe();
     this.basicStudyContentSubscription.unsubscribe();
     this.upperSecondarySchoolSubjectOldSubscription.unsubscribe();
@@ -376,6 +405,10 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
   get basicStudyFrameworkCtrl(): FormControl {
     return this.form.get('basicStudyFramework') as FormControl;
+  }
+
+  get preparatoryEducationSubjectsCtrl(): FormControl {
+    return this.form.get('preparatoryEducationSubjects') as FormControl;
   }
 
   get currentUpperSecondarySchoolSelected(): FormControl {
@@ -452,6 +485,9 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.hasBasicStudySubjects = false;
     }
 
+    this.hasPreparatoryEducation =
+      value.filter((e: any) => educationalLevelKeys.preparatoryEducation.includes(e.key)).length > 0;
+
     this.hasUpperSecondarySchool =
       value.filter((level: EducationalLevel) => educationalLevelKeys.upperSecondary.includes(level.key)).length > 0;
 
@@ -478,6 +514,15 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
 
       this.koodistoService.updateBasicStudyObjectives(ids);
       this.koodistoService.updateBasicStudyContents(ids);
+    }
+  }
+
+  preparatoryEducationSubjectsChange(value: AlignmentObjectExtended[]): void {
+    this.hasPreparatoryEducationSubjects = value.length > 0;
+
+    if (this.hasPreparatoryEducationSubjects) {
+      const ids = value.map((degree: AlignmentObjectExtended) => degree.key).join(',');
+      this.koodistoService.updatePreparatoryObjectives(ids);
     }
   }
 
@@ -593,6 +638,11 @@ export class CollectionEducationalDetailsTabComponent implements OnInit, OnDestr
       this.form.get('basicStudyObjectives').setValue([]);
       this.form.get('basicStudyContents').setValue([]);
       this.basicStudyFrameworkCtrl.setValue(null);
+    }
+
+    if (!this.hasPreparatoryEducation) {
+      this.preparatoryEducationSubjectsCtrl.setValue([]);
+      this.form.get('preparatoryEducationObjectives').setValue([]);
     }
 
     if (!this.hasBasicStudySubjects) {
