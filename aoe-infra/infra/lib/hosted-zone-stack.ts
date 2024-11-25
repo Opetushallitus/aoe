@@ -27,5 +27,5 @@ export class HostedZoneStack extends cdk.Stack {
       vpc: props.vpc
     });
     
-    }
+  }
 }
