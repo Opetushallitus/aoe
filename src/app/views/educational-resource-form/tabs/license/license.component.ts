@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '@environments/environment';
 import { KoodistoService } from '@services/koodisto.service';
 import { License } from '@models/koodisto/license';
 import { Title } from '@angular/platform-browser';
-import { MaterialService } from '@services/material.service';
 
 @Component({
   selector: 'app-tabs-license',
@@ -26,7 +25,6 @@ export class LicenseComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private koodistoService: KoodistoService,
-    private materialService: MaterialService,
     private translate: TranslateService,
     private router: Router,
     private titleService: Title,
@@ -86,17 +84,6 @@ export class LicenseComponent implements OnInit, OnDestroy {
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
-  }
-
-  resetForm(): void {
-    // reset submit status
-    this.submitted = false;
-    // reset form values
-    this.form.reset();
-    // clear data from session storage
-    sessionStorage.removeItem(environment.newERLSKey);
-    this.materialService.clearEducationalMaterialID();
-    void this.router.navigateByUrl('/');
   }
 
   previousTab(): void {

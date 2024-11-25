@@ -8,12 +8,12 @@ import { Language } from '@models/koodisto/language';
 import { LearningResourceType } from '@models/koodisto/learning-resource-type';
 import { EducationalRole } from '@models/koodisto/educational-role';
 import { EducationalUse } from '@models/koodisto/educational-use';
-import { EducationalLevel } from '@models/koodisto/educational-level';
+import { EducationalLevel, EducationalLevelChild } from '@models/koodisto/educational-level';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { License } from '@models/koodisto/license';
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 import { SubjectFilter } from '@models/koodisto/subject-filter';
 import { catchError, map } from 'rxjs/operators';
 import { EducationalSubject } from '@models/koodisto/educational-subject';
@@ -34,10 +34,12 @@ export class KoodistoService {
   public educationalRoles$ = new Subject<EducationalRole[]>();
   public educationalUses$ = new Subject<EducationalUse[]>();
   public educationalLevels$ = new Subject<EducationalLevel[]>();
+  public educationalLevelsEnabled$ = new Subject<EducationalLevel[]>();
   public basicStudySubjects$ = new Subject<AlignmentObjectExtended[]>();
   public basicStudyObjectives$ = new Subject<AlignmentObjectExtended[]>();
   public basicStudyContents$ = new Subject<AlignmentObjectExtended[]>();
-  public upperSecondarySchoolSubjects$ = new Subject<AlignmentObjectExtended[]>();
+  public preparatorySubjects$ = new Subject<AlignmentObjectExtended[]>();
+  public preparatoryObjectives$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjectsOld$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolCoursesOld$ = new Subject<AlignmentObjectExtended[]>();
   public upperSecondarySchoolSubjectsNew$ = new Subject<AlignmentObjectExtended[]>();
@@ -58,10 +60,10 @@ export class KoodistoService {
   public educationalSubject$ = new Subject<SubjectFilter[]>();
 
   private languagesBehaviorSubject: BehaviorSubject<Language[]> = new BehaviorSubject<Language[]>([]);
-  private licenses$$: BehaviorSubject<License[]> = new BehaviorSubject<License[]>(null);
+  private licenses$$: BehaviorSubject<License[] | null> = new BehaviorSubject<License[] | null>(null);
 
   public languages$: Observable<Language[]> = this.languagesBehaviorSubject.asObservable();
-  public licenses$: Observable<License[]> = this.licenses$$.asObservable();
+  public licenses$: Observable<License[] | null> = this.licenses$$.asObservable();
 
   constructor(private http: HttpClient, private translate: TranslateService) {
     this.lang = this.translate.currentLang;
@@ -71,7 +73,7 @@ export class KoodistoService {
     switch (error.status) {
       case 404:
         subject$.next([]);
-        break;
+        return throwError('Resource not found; please try again later.');
       default:
         console.error(error);
         return throwError('Something bad happened; please try again later.');
@@ -142,6 +144,15 @@ export class KoodistoService {
     this.http.get<EducationalLevel[]>(`${this.apiUri}/koulutusasteet/${lang}`, this.httpOptions).subscribe(
       (educationalLevels: EducationalLevel[]) => {
         this.educationalLevels$.next(educationalLevels);
+        this.educationalLevelsEnabled$.next(
+          educationalLevels.map((level: EducationalLevel) => ({
+            ...level,
+            children: level.children.map((child: EducationalLevelChild) => ({
+              ...child,
+              disabled: false,
+            })),
+          })),
+        );
       },
       (error: HttpErrorResponse) => this.handleError(error, this.educationalLevels$),
     );
@@ -192,17 +203,33 @@ export class KoodistoService {
   }
 
   /**
-   * Updates upper secondary school subjects.
+   * Updates preparatory education subjects.
    */
-  updateUpperSecondarySchoolSubjects(): void {
+  updatePreparatorySubjects(): void {
+    const lang = this.translate.currentLang;
+    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/tuva-oppiaineet/${lang}`, this.httpOptions).subscribe(
+      (preparatorySubjects: AlignmentObjectExtended[]) => {
+        this.preparatorySubjects$.next(preparatorySubjects);
+      },
+      (error: HttpErrorResponse) => this.handleError(error, this.preparatorySubjects$),
+    );
+  }
+
+  /**
+   * Updates preparatory education objectives.
+   * @param {string} ids
+   */
+  updatePreparatoryObjectives(ids: string): void {
     const lang = this.translate.currentLang;
 
-    this.http.get<AlignmentObjectExtended[]>(`${this.apiUri}/lukionkurssit/${lang}`, this.httpOptions).subscribe(
-      (upperSecondarySchoolSubjects: AlignmentObjectExtended[]) => {
-        this.upperSecondarySchoolSubjects$.next(upperSecondarySchoolSubjects);
-      },
-      (error: HttpErrorResponse) => this.handleError(error, this.upperSecondarySchoolSubjects$),
-    );
+    this.http
+      .get<AlignmentObjectExtended[]>(`${this.apiUri}/tuva-tavoitteet/${ids}/${lang}`, this.httpOptions)
+      .subscribe(
+        (preparatoryObjectives: AlignmentObjectExtended[]) => {
+          this.preparatoryObjectives$.next(preparatoryObjectives);
+        },
+        (error: HttpErrorResponse) => this.handleError(error, this.preparatoryObjectives$),
+      );
   }
 
   /**

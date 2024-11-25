@@ -129,6 +129,8 @@
       "basicStudyFrameworks": "Läroplans- eller examensgrunderna för grundläggande utbildning",
       "basicStudyObjectives": "Mål för grundläggande utbildning",
       "basicStudyContents": "Innehållsområden för grundläggande utbildning",
+      "preparatoryEducationSubjects": "Ämne för utbildning som handleder för examensutbildning (Hux)",
+      "preparatoryEducationObjectives": "Mål för utbildning som handleder för examensutbildning (Hux)",
       "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolFrameworks": "Läroplans- eller examensgrunderna för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
@@ -145,8 +147,8 @@
       "furtherVocationalQualifications": "Yrkesexamen",
       "specialistVocationalQualifications": "Specialyrkesexamen",
       "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
-      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
-      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
       "branchesOfScience": "Verenskapsgren för högskoleutbildning",
       "higherEducationFrameworks": "Läroplans- eller examensgrunderna för högskoleutbildning",
       "scienceBranchObjectives": "Mål för högskoleutbildning",
@@ -477,6 +479,19 @@
             }
           }
         },
+        "preparatoryEducation": {
+          "title": "Utbildning som handleder för examensutbildning (Hux)",
+          "inputs": {
+            "subjects": {
+              "label": "Ämne för utbildning som handleder för examensutbildning (Hux)",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            },
+            "objectives": {
+              "label": "Mål för utbildning som handleder för examensutbildning (Hux)",
+              "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
+            }
+          }
+        },
         "upperSecondarySchoolEducation": {
           "title": "Gymnasieutbildning",
           "selection": {
@@ -550,14 +565,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+          "title": "Självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
           "inputs": {
             "subjects": {
-              "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+              "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             },
             "objectives": {
-              "label": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+              "label": "Mål för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
               "tooltip": "Ämne, vetenskapsdel eller examen för vars studier eller undervisning som läromaterialet är avsett för. Du kan välja ut flera ämnen."
             }
           }
@@ -737,9 +752,10 @@
           "early": "Småbarnspedagogik",
           "prePrimary": "Förskoleundervisning",
           "basic": "Grundläggande utbildning",
+          "preparatory": "Utbildning som handleder för examensutbildning (Hux)",
           "upperSecondary": "Gymnasieutbildning",
           "vocational": "Yrkesutbildning",
-          "selfMotivated": "Självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+          "selfMotivated": "Självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
           "higher": "Högskoleutbildning"
         },
         "educationalLevels": {
@@ -784,6 +800,14 @@
         },
         "basicStudyFramework": {
           "label": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+          "placeholder": ""
+        },
+        "preparatoryEducationSubjects": {
+          "label": "Ämne för utbildning som handleder för examensutbildning (Hux)",
+          "placeholder": ""
+        },
+        "preparatoryEducationObjectives": {
+          "label": "Mål för utbildning som handleder för examensutbildning (Hux)",
           "placeholder": ""
         },
         "upperSecondarySchoolSelection": {
@@ -843,11 +867,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+          "label": "Ämne för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+          "label": "Mål för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1093,6 +1117,8 @@
       "basicStudyObjectives": "Mål för grundläggande utbildning",
       "basicStudyContents": "Innehållsområden och mångsidiga kompetensområden för grundläggande utbildning",
       "basicStudyFramework": "Läroplans- eller examensgrunderna för grundläggande utbildning",
+      "preparatoryEducationSubjects": "Ämne för utbildning som handleder för examensutbildning (Hux)",
+      "preparatoryEducationObjectives": "Mål för utbildning som handleder för examensutbildning (Hux)",
       "upperSecondarySchoolSubjects": "Ämne för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolCourses": "Kurs för gymnasieutbildning (LOPS2015)",
       "upperSecondarySchoolObjectives": "Mål för gymnasieutbildning",
@@ -1106,8 +1132,8 @@
       "vocationalCommonUnits": "Gemensam examensdelar för yrkesutbildning",
       "vocationalEducationObjectives": "Krav på yrkesskicklighet för yrkesutbildning",
       "vocationalEducationFramework": "Läroplans- eller examensgrunderna för yrkesutbildning",
-      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
-      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning och fritt bildningsarbete",
+      "selfMotivatedEducationSubjects": "Ämne för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
+      "selfMotivatedEducationObjectives": "Mål för självständig utveckling av kompetens, integrationsutbildning, fritt bildningsarbete och grundläggande konstundervisning",
       "scienceBranches": "Verenskapsgren för högskoleutbildning",
       "scienceBranchObjectives": "Mål för högskoleutbildning",
       "higherEducationFramework": "Läroplans- eller examensgrunderna för högskoleutbildning"

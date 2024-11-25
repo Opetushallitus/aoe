@@ -5,15 +5,14 @@ import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
-import { environment } from '../../../../../environments/environment';
-import { addCustomItem, addPrerequisites, textInputValidator } from '../../../../shared/shared.module';
+import { environment } from '@environments/environment';
+import { addCustomItem, addPrerequisites, textInputValidator } from '@shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { AccessibilityFeature } from '@models/koodisto/accessibility-feature';
 import { AccessibilityHazard } from '@models/koodisto/accessibility-hazard';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { validatorParams } from '@constants/validator-params';
-import { MaterialService } from '@services/material.service';
 
 @Component({
   selector: 'app-tabs-extended-details',
@@ -44,7 +43,6 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private koodistoProxySvc: KoodistoService,
-    private materialService: MaterialService,
     private translate: TranslateService,
     private titleService: Title,
   ) {}
@@ -237,15 +235,6 @@ export class ExtendedDetailsComponent implements OnInit, OnDestroy {
 
     // save data to session storage
     sessionStorage.setItem(environment.newERLSKey, JSON.stringify(data));
-  }
-
-  resetForm(): void {
-    // reset form values
-    this.form.reset();
-    // clear data from session storage
-    sessionStorage.removeItem(environment.newERLSKey);
-    this.materialService.clearEducationalMaterialID();
-    void this.router.navigateByUrl('/');
   }
 
   previousTab(): void {

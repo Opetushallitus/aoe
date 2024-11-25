@@ -6,6 +6,8 @@ export const koodistoSources = {
   basicStudySubjects: 'basicStudySubjects',
   basicStudyObjectives: 'basicStudyObjectives',
   basicStudyContents: 'basicStudyContents',
+  preparatoryEducationSubjects: 'preparatoryEducationSubjects',
+  preparatoryEducationObjectives: 'preparatoryEducationObjectives',
   upperSecondarySubjects: 'upperSecondarySchoolSubjects',
   upperSecondaryObjectives: 'upperSecondarySchoolObjectives',
   upperSecondarySubjectsOld: 'upperSecondarySchoolSubjectsOld',

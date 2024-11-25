@@ -9,6 +9,7 @@
       [multiple]="true"
       [closeOnSelect]="false"
       bindLabel="value"
+      id="educationalLevels"
       groupBy="children"
       labelForId="educationalLevels"
       formControlName="educationalLevels"
@@ -32,6 +33,7 @@
         [multiple]="true"
         [addTag]="addEarlyChildhoodEducationSubject"
         bindLabel="targetName"
+        id="earlyChildhoodEducationSubjects"
         labelForId="earlyChildhoodEducationSubjects"
         formControlName="earlyChildhoodEducationSubjects"></ng-select>
     </div>
@@ -47,6 +49,7 @@
         [multiple]="true"
         [addTag]="addEarlyChildhoodEducationObjective"
         bindLabel="targetName"
+        id="earlyChildhoodEducationObjectives"
         labelForId="earlyChildhoodEducationObjectives"
         formControlName="earlyChildhoodEducationObjectives"></ng-select>
     </div>
@@ -101,6 +104,7 @@
         [multiple]="true"
         [addTag]="addPrePrimaryEducationSubject"
         bindLabel="targetName"
+        id="prePrimaryEducationSubjects"
         labelForId="prePrimaryEducationSubjects"
         formControlName="prePrimaryEducationSubjects"></ng-select>
     </div>
@@ -116,6 +120,7 @@
         [multiple]="true"
         [addTag]="addPrePrimaryEducationObjective"
         bindLabel="targetName"
+        id="prePrimaryEducationObjectives"
         labelForId="prePrimaryEducationObjectives"
         formControlName="prePrimaryEducationObjectives"></ng-select>
     </div>
@@ -169,6 +174,7 @@
         [closeOnSelect]="false"
         bindLabel="targetName"
         groupBy="children"
+        id="basicStudySubjects"
         labelForId="basicStudySubjects"
         formControlName="basicStudySubjects"
         (change)="basicStudySubjectsChange($event)">
@@ -189,6 +195,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="basicStudyObjectives"
           groupBy="parent"
           labelForId="basicStudyObjectives"
           formControlName="basicStudyObjectives">
@@ -208,6 +215,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="basicStudyContents"
           groupBy="parent"
           labelForId="basicStudyContents"
           formControlName="basicStudyContents">
@@ -253,6 +261,46 @@
     </ng-container>
   </ng-container>
   <!--basicStudies-->
+
+  <!-- preparatory education -->
+  <ng-container *ngIf="hasPreparatoryEducation">
+    <h3>{{ "forms.collection.educational.headings.preparatory" | translate }}</h3>
+
+    <div class="form-group">
+      <label for="preparatoryEducationSubjects">
+        {{ "forms.collection.educational.preparatoryEducationSubjects.label" | translate }}
+      </label>
+
+      <ng-select
+        [items]="preparatoryEducationSubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        id="preparatoryEducationSubjects"
+        labelForId="preparatoryEducationSubjects"
+        formControlName="preparatoryEducationSubjects"
+        (change)="preparatoryEducationSubjectsChange($event)"></ng-select>
+    </div>
+
+    <ng-container *ngIf="hasPreparatoryEducationSubjects">
+      <div class="form-group">
+        <label for="preparatoryEducationObjectives">
+          {{ "forms.collection.educational.preparatoryEducationObjectives.label" | translate }}
+        </label>
+
+        <ng-select
+          [items]="preparatoryEducationObjectives"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="preparatoryEducationObjectives"
+          labelForId="preparatoryEducationObjectives"
+          formControlName="preparatoryEducationObjectives"></ng-select>
+      </div>
+    </ng-container>
+  </ng-container>
+  <!--/preparatory education-->
 
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>{{ "forms.collection.educational.headings.upperSecondary" | translate }}</h3>
@@ -310,6 +358,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="upperSecondarySchoolSubjectsOld"
           groupBy="parent"
           labelForId="upperSecondarySchoolSubjectsOld"
           formControlName="upperSecondarySchoolSubjectsOld"
@@ -332,6 +381,7 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="targetName"
+            id="upperSecondarySchoolCoursesOld"
             groupBy="parent"
             labelForId="upperSecondarySchoolCoursesOld"
             formControlName="upperSecondarySchoolCoursesOld"></ng-select>
@@ -349,6 +399,7 @@
           [multiple]="true"
           [addTag]="addUpperSecondarySchoolObjective"
           bindLabel="targetName"
+          id="upperSecondarySchoolObjectives"
           labelForId="upperSecondarySchoolObjectives"
           formControlName="upperSecondarySchoolObjectives"></ng-select>
       </div>
@@ -403,6 +454,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="upperSecondarySchoolSubjectsNew"
           groupBy="parent"
           labelForId="upperSecondarySchoolSubjectsNew"
           formControlName="upperSecondarySchoolSubjectsNew"
@@ -423,6 +475,7 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="targetName"
+            id="upperSecondarySchoolModulesNew"
             groupBy="parent"
             labelForId="upperSecondarySchoolModulesNew"
             formControlName="upperSecondarySchoolModulesNew"
@@ -440,6 +493,7 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="targetName"
+            id="upperSecondarySchoolObjectivesNew"
             groupBy="parent"
             labelForId="upperSecondarySchoolObjectivesNew"
             formControlName="upperSecondarySchoolObjectivesNew"></ng-select>
@@ -456,6 +510,7 @@
             [multiple]="true"
             [closeOnSelect]="false"
             bindLabel="targetName"
+            id="upperSecondarySchoolContentsNew"
             groupBy="parent"
             labelForId="upperSecondarySchoolContentsNew"
             formControlName="upperSecondarySchoolContentsNew"></ng-select>
@@ -477,6 +532,7 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
+        id="vocationalDegrees"
         labelForId="vocationalDegrees"
         formControlName="vocationalDegrees"
         (change)="vocationalDegreesChange($event)"></ng-select>
@@ -493,6 +549,7 @@
         [multiple]="true"
         [closeOnSelect]="false"
         bindLabel="targetName"
+        id="vocationalCommonUnits"
         groupBy="children"
         labelForId="vocationalCommonUnits"
         formControlName="subjectOfCommonUnit">
@@ -510,6 +567,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           bindLabel="targetName"
+          id="vocationalUnits"
           groupBy="parent"
           labelForId="vocationalUnits"
           formControlName="vocationalUnits"
@@ -528,6 +586,7 @@
           [closeOnSelect]="false"
           [addTag]="addVocationalEducationObjective"
           bindLabel="targetName"
+          id="vocationalRequirements"
           groupBy="parent"
           labelForId="vocationalRequirements"
           formControlName="vocationalRequirements"></ng-select>
@@ -584,6 +643,7 @@
         [multiple]="true"
         [addTag]="addSelfMotivatedEducationSubject"
         bindLabel="targetName"
+        id="selfMotivatedEducationSubjects"
         labelForId="selfMotivatedEducationSubjects"
         formControlName="selfMotivatedEducationSubjects"></ng-select>
     </div>
@@ -599,6 +659,7 @@
         [multiple]="true"
         [addTag]="addSelfMotivatedEducationObjective"
         bindLabel="targetName"
+        id="selfMotivatedEducationObjectives"
         labelForId="selfMotivatedEducationObjectives"
         formControlName="selfMotivatedEducationObjectives"></ng-select>
     </div>
@@ -619,6 +680,7 @@
         [selectableGroup]="true"
         [selectableGroupAsModel]="false"
         bindLabel="targetName"
+        id="scienceBranches"
         groupBy="children"
         labelForId="scienceBranches"
         formControlName="scienceBranches">
@@ -638,6 +700,7 @@
         [multiple]="true"
         [addTag]="addScienceBranchObjectives"
         bindLabel="targetName"
+        id="scienceBranchObjectives"
         labelForId="scienceBranchObjectives"
         formControlName="scienceBranchObjectives"></ng-select>
     </div>
