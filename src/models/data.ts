@@ -12,6 +12,7 @@ export interface EducationLevel {
 export interface Children {
   key: string;
   value: string;
+  disabled?: boolean;
 }
 
 export interface License {
