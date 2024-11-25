@@ -8,6 +8,8 @@ export interface AlignmentObjects {
   basicStudySubjects: AlignmentObjectExtended[];
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
+  preparatoryEducationSubjects: AlignmentObjectExtended[];
+  preparatoryEducationObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
   upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];

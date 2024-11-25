@@ -9,7 +9,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 import { environment } from '@environments/environment';
-import { addCustomItem, descriptionValidator, textInputValidator } from '../../../../shared/shared.module';
+import { addCustomItem, descriptionValidator, textInputValidator } from '@shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
 import { MaterialService } from '@services/material.service';
 import { UploadMessage } from '@models/upload-message';

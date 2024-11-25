@@ -129,6 +129,8 @@
       "basicStudyFrameworks": "Perusopetuksen opetussuunnitelma",
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet",
+      "preparatoryEducationSubjects": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineet",
+      "preparatoryEducationObjectives": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineiden tavoitteet",
       "upperSecondarySchoolSubjects": "Lukion oppiaineet (LOPS2015)",
       "upperSecondarySchoolFrameworks": "Lukion opetussuunnitelman tai tutkinnon perusteet (LOPS2015)",
       "upperSecondarySchoolCourses": "Lukion kurssit (LOPS2015)",
@@ -145,8 +147,8 @@
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "furtherVocationalQualifications": "Ammattitutkinnot",
       "specialistVocationalQualifications": "Erikoisammattitutkinnot",
-      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
-      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineiden tavoitteet",
       "branchesOfScience": "Korkeakoulutuksen tieteenalat",
       "higherEducationFrameworks": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet",
       "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
@@ -477,6 +479,19 @@
             }
           }
         },
+        "preparatoryEducation": {
+          "title": "Tutkintokoulutukseen valmentava koulutus (TUVA)",
+          "inputs": {
+            "subjects": {
+              "label": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            },
+            "objectives": {
+              "label": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineiden tavoitteet",
+              "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
+            }
+          }
+        },
         "upperSecondarySchoolEducation": {
           "title": "Lukiokoulutus",
           "selection": {
@@ -550,14 +565,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus ja vapaa sivistystyö",
+          "title": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus, vapaa sivistystyö ja taiteen perusopetus",
           "inputs": {
             "subjects": {
-              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
+              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             },
             "objectives": {
-              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
+              "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineiden tavoitteet",
               "tooltip": "Oppiaine, tieteenala tai tutkinto jonka opiskeluun tai opettamiseen oppimateriaali on tarkoitettu. Voit valita useamman oppiaineen."
             }
           }
@@ -737,9 +752,10 @@
           "early": "Varhaiskasvatus",
           "prePrimary": "Esiopetus",
           "basic": "Perusopetus",
+          "preparatory": "Tutkintokoulutukseen valmentava koulutus (TUVA)",
           "upperSecondary": "Lukiokoulutus",
           "vocational": "Ammatillinen koulutus",
-          "selfMotivated": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus ja vapaa sivistystyö",
+          "selfMotivated": "Omaehtoisen osaamisen kehittäminen, kotoutumiskoulutus, vapaa sivistystyö ja taiteen perusopetus",
           "higher": "Korkeakoulutus"
         },
         "educationalLevels": {
@@ -784,6 +800,14 @@
         },
         "basicStudyFramework": {
           "label": "Perusopetuksen opetussuunnitelma",
+          "placeholder": ""
+        },
+        "preparatoryEducationSubjects": {
+          "label": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineet",
+          "placeholder": ""
+        },
+        "preparatoryEducationObjectives": {
+          "label": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "upperSecondarySchoolSelection": {
@@ -843,11 +867,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
+          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineet",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
+          "label": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineiden tavoitteet",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1093,6 +1117,8 @@
       "basicStudyObjectives": "Perusopetuksen oppiaineiden tavoitteet",
       "basicStudyContents": "Perusopetuksen oppiaineiden sisältöalueet ja laaja-alaisen osaamisen alueet",
       "basicStudyFramework": "Perusopetuksen opetussuunnitelma",
+      "preparatoryEducationSubjects": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineet",
+      "preparatoryEducationObjectives": "Tutkintokoulutukseen valmentavan koulutuksen (TUVA) oppiaineiden tavoitteet",
       "upperSecondarySchoolSubjects": "Lukion oppiaineet (LOPS2015)",
       "upperSecondarySchoolCourses": "Lukion kurssit (LOPS2015)",
       "upperSecondarySchoolObjectives": "Lukion kurssien tavoitteet",
@@ -1106,8 +1132,8 @@
       "vocationalCommonUnits": "Ammatillisen koulutuksen yhteiset tutkinnon osat",
       "vocationalEducationObjectives": "Ammatillisen koulutuksen tutkintojen ammattitaitovaatimukset",
       "vocationalEducationFramework": "Ammatillisen koulutuksen opetussuunnitelman tai tutkinnon perusteet",
-      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineet",
-      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen ja vapaan sivistystyön oppiaineiden tavoitteet",
+      "selfMotivatedEducationSubjects": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineet",
+      "selfMotivatedEducationObjectives": "Omaehtoisen osaamisen kehittämisen, kotoutumiskoulutuksen, vapaan sivistystyön ja taiteen peruopetuksen oppiaineiden tavoitteet",
       "scienceBranches": "Korkeakoulutuksen tieteenalat",
       "scienceBranchObjectives": "Korkeakoulutuksen tieteenalojen tavoitteet",
       "higherEducationFramework": "Korkeakoulutuksen opetussuunnitelman tai tutkinnon perusteet"

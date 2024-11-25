@@ -97,6 +97,7 @@
                       <img
                         src="assets/img/icons/learning-resource-types/{{ type.learningresourcetypekey }}.svg"
                         class="img-icon"
+                        [alt]=""
                         aria-hidden="true" />
                       {{ type.value }}
                     </li>
@@ -565,6 +566,29 @@
                       <!--basicStudyContents-->
                     </div>
 
+                    <!-- preparatory education -->
+                    <div *ngIf="educationalMaterial.preparatoryEducationSubjects.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-preparatoryEducationSubjects"
+                        [tags]="educationalMaterial.preparatoryEducationSubjects"
+                        [title]="'demo.educationalMaterial.preparatoryEducationSubjects' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="preparatoryEducationSubjects"></app-taglist>
+                      <!--preparatoryEducationSubjects-->
+                    </div>
+                    <div *ngIf="educationalMaterial.preparatoryEducationObjectives?.length > 0" class="metadata-group">
+                      <app-taglist
+                        elementId="material-preparatoryEducationObjectives"
+                        [tags]="educationalMaterial.preparatoryEducationObjectives"
+                        [title]="'demo.educationalMaterial.preparatoryEducationObjectives' | translate"
+                        property="targetName"
+                        searchProperty="key"
+                        filterType="teaches"></app-taglist>
+                      <!--preparatoryEducationObjectives-->
+                    </div>
+                    <!--/preparatory education-->
+
                     <!-- upper secondary education -->
                     <div
                       *ngIf="
@@ -631,15 +655,15 @@
                       <!--upperSecondarySchoolSubjectsNew-->
                     </div>
 
-                    <div
+                    <!-- <div
                       *ngIf="educationalMaterial.upperSecondarySchoolFrameworksNew?.length > 0"
                       class="metadata-group">
                       <app-taglist
                         elementId="material-upperSecondarySchoolFrameworksNew"
                         [tags]="educationalMaterial.upperSecondarySchoolFrameworksNew"
                         [title]="'demo.educationalMaterial.upperSecondarySchoolFrameworksNew' | translate"></app-taglist>
-                      <!--upperSecondarySchoolFrameworksNew-->
-                    </div>
+                      
+                    </div> -->
 
                     <div *ngIf="educationalMaterial.upperSecondarySchoolModulesNew?.length > 0" class="metadata-group">
                       <app-taglist

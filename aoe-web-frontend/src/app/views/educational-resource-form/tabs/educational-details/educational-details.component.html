@@ -385,44 +385,65 @@
     </div>
   </ng-container>
 
+  <ng-container *ngIf="hasPreparatoryEducation">
+    <div class="form-group">
+      <h3>{{ "forms.educationalResource.educationalDetails.preparatoryEducation.title" | translate }}</h3>
+
+      <label for="preparatoryEducationSubjects">
+        {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label" | translate }}
+      </label>
+
+      <button
+        type="button"
+        class="btn btn-link"
+        [tooltip]="
+          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.tooltip' | translate
+        ">
+        <img src="assets/img/icons/ic_help.svg" alt="" />
+      </button>
+
+      <ng-select
+        [items]="preparatorySubjects"
+        [multiple]="true"
+        [closeOnSelect]="false"
+        bindLabel="targetName"
+        id="preparatoryEducationSubjects"
+        labelForId="preparatoryEducationSubjects"
+        formControlName="preparatoryEducationSubjects"
+        (change)="preparatoryEducationSubjectsChange($event)"></ng-select>
+    </div>
+
+    <ng-container *ngIf="hasPreparatoryEducationSubjects">
+      <div class="form-group">
+        <label for="preparatoryEducationObjectives">
+          {{ "forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label" | translate }}
+        </label>
+
+        <button
+          type="button"
+          class="btn btn-link"
+          [tooltip]="
+          'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.tooltip' | translate
+        ">
+          <img src="assets/img/icons/ic_help.svg" alt="" />
+        </button>
+
+        <ng-select
+          [items]="preparatoryObjectives"
+          [multiple]="true"
+          [closeOnSelect]="false"
+          bindLabel="targetName"
+          groupBy="parent"
+          id="preparatoryEducationObjectives"
+          labelForId="preparatoryEducationObjectives"
+          formControlName="preparatoryEducationObjectives"></ng-select>
+      </div>
+    </ng-container>
+  </ng-container>
+
   <ng-container *ngIf="hasUpperSecondarySchool">
     <h3>{{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.title" | translate }}</h3>
 
-    <!--
-    <div class="form-group">
-      
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="currentUpperSecondarySchoolSelected"
-          formControlName="currentUpperSecondarySchoolSelected"
-          disabled
-        />
-
-        <label class="custom-control-label" for="currentUpperSecondarySchoolSelected">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current' | translate
-        }}</label>
-      </div>
-    
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="newUpperSecondarySchoolSelected"
-          formControlName="newUpperSecondarySchoolSelected"
-          checked="true"
-          disabled
-        />
-
-        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate
-        }}</label>
-      </div>
-    </div>
-    -->
-
-    <!--new framework always selected so this is useless-->
     <ng-container *ngIf="currentUpperSecondarySchoolSelected.value === true">
       <h4>
         {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.current" | translate }}
@@ -507,81 +528,9 @@
           labelForId="upperSecondarySchoolObjectives"
           formControlName="upperSecondarySchoolObjectives"></ng-select>
       </div>
-
-      <!--
-      <div class="form-group">
-        <label for="upperSecondarySchoolFramework">
-          {{
-            "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.label"
-              | translate
-          }}
-        </label>
-
-        <button
-          type="button"
-          class="btn btn-link"
-          [tooltip]="
-            'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.framework.tooltip'
-              | translate
-          "
-        >
-          <img src="assets/img/icons/ic_help.svg" alt="" />
-        </button>
-
-        <input
-          type="text"
-          class="form-control"
-          id="upperSecondarySchoolFramework"
-          formControlName="upperSecondarySchoolFramework"
-          [ngClass]="{
-            'is-invalid':
-              upperSecondarySchoolFramework.invalid &&
-              (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted)
-          }"
-        />
-
-        <div
-          *ngIf="
-            upperSecondarySchoolFramework.invalid &&
-            (upperSecondarySchoolFramework.dirty || upperSecondarySchoolFramework.touched || submitted)
-          "
-          class="invalid-feedback"
-        >
-          <div *ngIf="upperSecondarySchoolFramework.errors.invalidCharacters">
-            {{ "forms.errors.textInput.characters" | translate }}
-          </div>
-
-          <div *ngIf="upperSecondarySchoolFramework.errors.maxlength">
-            {{
-              "forms.errors.common.maxLength"
-                | translate: { maxLength: upperSecondarySchoolFramework.errors.maxlength.requiredLength }
-            }}
-          </div>
-        </div>
-      </div> -->
     </ng-container>
 
     <ng-container *ngIf="newUpperSecondarySchoolSelected.value === true">
-      <!--
-      <h4>
-        {{ 'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate }}
-      </h4>
-      
-      <div class="custom-control custom-checkbox">
-        <input
-          type="checkbox"
-          class="custom-control-input"
-          id="newUpperSecondarySchoolSelected"
-          formControlName="newUpperSecondarySchoolSelected"
-          disabled
-        />
-
-        <label class="custom-control-label" for="newUpperSecondarySchoolSelected">{{
-          'forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.selection.new' | translate
-        }}</label>
-      </div>
-      -->
-
       <div class="form-group">
         <label for="upperSecondarySchoolSubjectsNew">
           {{ "forms.educationalResource.educationalDetails.upperSecondarySchoolEducation.inputs.new.subjects.label" |
@@ -1093,7 +1042,7 @@
     </div>
   </ng-container>
 
-  <div class="row">
+  <div class="row form-buttons">
     <div class="col">
       <button type="button" class="btn btn-gray" (click)="previousTab()">
         {{ "forms.common.previous" | translate }}

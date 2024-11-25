@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@environments/environment';
 import {
   UpdateCollectionPut,
   UpdateCollectionPutHeading,
@@ -193,6 +193,20 @@ export class CollectionPreviewTabComponent implements OnInit {
       delete this.previewCollection.basicStudyContents;
       delete this.previewCollection.basicStudyFramework;
 
+      //preparatory education
+      this.previewCollection.preparatoryEducationSubjects.forEach((subject: AlignmentObjectExtended) => {
+        alignmentObjects.push({
+          ...subject,
+        });
+      });
+
+      this.previewCollection.preparatoryEducationObjectives.forEach((objective: AlignmentObjectExtended) => {
+        alignmentObjects.push({ ...objective });
+      });
+
+      delete this.previewCollection.preparatoryEducationSubjects;
+      delete this.previewCollection.preparatoryEducationObjectives;
+
       // upper secondary school
       this.previewCollection.upperSecondarySchoolSubjectsOld.forEach((subject: AlignmentObjectExtended) => {
         alignmentObjects.push({
@@ -352,6 +366,6 @@ export class CollectionPreviewTabComponent implements OnInit {
    * Redirects user to previous tab.
    */
   previous(): void {
-    this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId - 1]);
+    this.router.navigate(['/kokoelma', this.collectionId, 'muokkaa', this.tabId - 1]).then();
   }
 }

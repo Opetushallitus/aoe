@@ -247,6 +247,28 @@
       </ng-container>
       <!--basicStudyFramework-->
 
+      <ng-container *ngIf="previewCollection.preparatoryEducationSubjects?.length > 0">
+        <dt class="col-sm-3">{{ "forms.collection.educational.preparatoryEducationSubjects.label" | translate }}</dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let subject of previewCollection.preparatoryEducationSubjects; let isLast = last">
+            {{ subject.targetName }}{{ isLast ? "" : ", " }}
+          </ng-container>
+        </dd>
+      </ng-container>
+      <!--preparatoryEducationSubjects-->
+
+      <ng-container *ngIf="previewCollection.preparatoryEducationObjectives?.length > 0">
+        <dt class="col-sm-3">{{ "forms.collection.educational.preparatoryEducationObjectives.label" | translate }}</dt>
+
+        <dd class="col-sm-9">
+          <ng-container *ngFor="let objective of previewCollection.preparatoryEducationObjectives; let isLast = last">
+            {{ objective.targetName }}{{ isLast ? "" : ", " }}
+          </ng-container>
+        </dd>
+      </ng-container>
+      <!--preparatoryEducationObjectives-->
+
       <ng-container *ngIf="previewCollection.upperSecondarySchoolSubjectsOld?.length > 0">
         <dt class="col-sm-3">{{ "forms.collection.educational.upperSecondarySchoolSubjects.label" | translate }}</dt>
 

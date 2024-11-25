@@ -129,6 +129,8 @@
       "basicStudyFrameworks": "Educational framework of basic education",
       "basicStudyObjectives": "Learning object of basic education",
       "basicStudyContents": "Educational content of basic education",
+      "preparatoryEducationSubjects": "Subjects for preparatory education for an upper secondary qualification (TUVA)",
+      "preparatoryEducationObjectives": "Objectives for preparatory education for an upper secondary qualification (TUVA)",
       "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
       "upperSecondarySchoolFrameworks": "Educational framework of upper secondary school (LOPS2015)",
       "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
@@ -145,8 +147,8 @@
       "vocationalEducationObjectives": "Learning object of vocational education",
       "furtherVocationalQualifications": "Further vocational qualification",
       "specialistVocationalQualifications": "Specialist vocational qualification",
-      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training and liberal adult education",
-      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training and liberal adult education",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
       "branchesOfScience": "Educational subject of higher education",
       "higherEducationFrameworks": "Educational framework of higher education",
       "scienceBranchObjectives": "Learning object of higher education",
@@ -477,6 +479,19 @@
             }
           }
         },
+        "preparatoryEducation": {
+          "title": "Preparatory education for an upper secondary qualification (TUVA)",
+          "inputs": {
+            "subjects": {
+              "label": "Subjects for preparatory education for an upper secondary qualification (TUVA)",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            },
+            "objectives": {
+              "label": "Objectives for preparatory education for an upper secondary qualification (TUVA)",
+              "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
+            }
+          }
+        },
         "upperSecondarySchoolEducation": {
           "title": "Upper secondary school",
           "selection": {
@@ -550,14 +565,14 @@
           }
         },
         "selfMotivatedEducation": {
-          "title": "Self-motivated competence development, integration training and liberal adult education",
+          "title": "Self-motivated competence development, integration training, liberal adult education and basic education in the arts",
           "inputs": {
             "subjects": {
-              "label": "Educational subject of self-motivated competence development, integration training and liberal adult education",
+              "label": "Educational subject of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             },
             "objectives": {
-              "label": "Learning object of self-motivated competence development, integration training and liberal adult education",
+              "label": "Learning object of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
               "tooltip": "Educational subject of the resource. You can choose multiple Subjects."
             }
           }
@@ -737,9 +752,10 @@
           "early": "Early childhood education",
           "prePrimary": "Pre-primary education",
           "basic": "Basic education",
+          "preparatory": "Preparatory education for an upper secondary qualification (TUVA)",
           "upperSecondary": "Upper secondary school",
           "vocational": "Vocational education",
-          "selfMotivated": "Self-motivated competence development, integration training and liberal adult education",
+          "selfMotivated": "Self-motivated competence development, integration training, liberal adult education and basic education in the arts",
           "higher": "Higher education"
         },
         "educationalLevels": {
@@ -784,6 +800,14 @@
         },
         "basicStudyFramework": {
           "label": "Educational framework of basic education",
+          "placeholder": ""
+        },
+        "preparatoryEducationSubjects": {
+          "label": "Subjects for preparatory education for an upper secondary qualification (TUVA)",
+          "placeholder": ""
+        },
+        "preparatoryEducationObjectives": {
+          "label": "Objectives for preparatory education for an upper secondary qualification (TUVA)",
           "placeholder": ""
         },
         "upperSecondarySchoolSelection": {
@@ -843,11 +867,11 @@
           "placeholder": ""
         },
         "selfMotivatedEducationSubjects": {
-          "label": "Educational subject of self-motivated competence development, integration training and liberal adult education",
+          "label": "Educational subject of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
           "placeholder": ""
         },
         "selfMotivatedEducationObjectives": {
-          "label": "Learning object of self-motivated competence development, integration training and liberal adult education",
+          "label": "Learning object of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
           "placeholder": ""
         },
         "scienceBranches": {
@@ -1093,6 +1117,8 @@
       "basicStudyObjectives": "Learning object of basic education",
       "basicStudyContents": "Educational content and transversal competence of basic education",
       "basicStudyFramework": "Educational framework of basic education",
+      "preparatoryEducationSubjects": "Subjects for preparatory education for an upper secondary qualification (TUVA)",
+      "preparatoryEducationObjectives": "Objectives for preparatory education for an upper secondary qualification (TUVA)",
       "upperSecondarySchoolSubjects": "Educational subjects of upper secondary school (LOPS2015)",
       "upperSecondarySchoolCourses": "Educational subject of upper secondary school (LOPS2015)",
       "upperSecondarySchoolObjectives": "Learning object of upper secondary school",
@@ -1106,8 +1132,8 @@
       "vocationalCommonUnits": "Common units of vocational education",
       "vocationalEducationObjectives": "Learning object of vocational education",
       "vocationalEducationFramework": "Educational framework of vocational education",
-      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training and liberal adult education",
-      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training and liberal adult education",
+      "selfMotivatedEducationSubjects": "Educational subject of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
+      "selfMotivatedEducationObjectives": "Learning object of self-motivated competence development, integration training, liberal adult education and basic education in the arts",
       "scienceBranches": "Educational subject of higher education",
       "scienceBranchObjectives": "Learning object of higher education",
       "higherEducationFramework": "Educational framework of higher education"

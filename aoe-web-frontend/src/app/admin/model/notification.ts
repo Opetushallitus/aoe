@@ -1,4 +1,3 @@
-import { NotificationType } from '@admin/model/enumeration/NotificationType';
 import { SafeHtml } from '@angular/platform-browser';
 
 export interface Notification {

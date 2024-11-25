@@ -6,8 +6,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 
-import { environment } from '../../../../../environments/environment';
-import { getUniqueFrameworks } from '../../../../shared/shared.module';
+import { environment } from '@environments/environment';
+import { getUniqueFrameworks } from '@shared/shared.module';
 import { MaterialService } from '@services/material.service';
 import { AlignmentObjectExtended } from '@models/alignment-object-extended';
 import { UploadedFile } from '@models/uploaded-file';
@@ -40,6 +40,8 @@ export class PreviewComponent implements OnInit, OnDestroy {
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
   basicStudyFramework: string[];
+  preparatoryEducationSubjects: AlignmentObjectExtended[];
+  preparatoryEducationObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjects: AlignmentObjectExtended[];
   upperSecondarySchoolObjectives: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
@@ -154,6 +156,16 @@ export class PreviewComponent implements OnInit, OnDestroy {
     );
 
     this.basicStudyFramework = getUniqueFrameworks(this.basicStudySubjects);
+
+    this.preparatoryEducationSubjects = this.savedData?.alignmentObjects?.filter(
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.preparatoryEducationSubjects,
+    );
+
+    this.preparatoryEducationObjectives = this.savedData?.alignmentObjects?.filter(
+      (alignmentObject: AlignmentObjectExtended) =>
+        alignmentObject.source === koodistoSources.preparatoryEducationObjectives,
+    );
 
     this.upperSecondarySchoolSubjects = this.savedData?.alignmentObjects?.filter(
       (alignmentObject: AlignmentObjectExtended) => alignmentObject.source === koodistoSources.upperSecondarySubjects,
@@ -431,14 +443,6 @@ export class PreviewComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  // resetForm(): void {
-  //   this.form.reset();
-  //   sessionStorage.removeItem(environment.newERLSKey);
-  //   this.materialService.clearEducationalMaterialID();
-  //   this.materialService.clearUploadedFiles();
-  //   void this.router.navigateByUrl('/');
-  // }
 
   previousTab(): void {
     void this.router.navigate(['/lisaa-oppimateriaali', 6]);
