@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SearchParams } from '@models/search/search-params';
-import { environment } from '../../../environments/environment';
+import { environment } from '@environments/environment';
 import { Router } from '@angular/router';
 import { UsedFilter } from '@models/search/used-filter';
 

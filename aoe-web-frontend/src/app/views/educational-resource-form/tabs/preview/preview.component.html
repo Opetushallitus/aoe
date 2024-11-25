@@ -288,6 +288,20 @@
     [title]="'forms.educationalResource.educationalDetails.basicEducation.inputs.framework.label' | translate"
     [items]="basicStudyFramework"></app-preview-row>
 
+  <!-- preparatory education -->
+
+  <app-preview-row
+    *ngIf="preparatoryEducationSubjects?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.subjects.label' | translate"
+    [items]="preparatoryEducationSubjects"
+    property="targetName"></app-preview-row>
+
+  <app-preview-row
+    *ngIf="preparatoryEducationObjectives?.length > 0"
+    [title]="'forms.educationalResource.educationalDetails.preparatoryEducation.inputs.objectives.label' | translate"
+    [items]="preparatoryEducationObjectives"
+    property="targetName"></app-preview-row>
+
   <!-- upper secondary education -->
 
   <app-preview-row

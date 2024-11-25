@@ -262,6 +262,27 @@
               <!--basicStudyFramework-->
               <!--/basic education-->
 
+              <!-- preparatory education -->
+              <app-taglist
+                *ngIf="collection.preparatoryEducationSubjects?.length > 0"
+                elementId="collection-preparatoryEducationSubjects"
+                [tags]="collection.preparatoryEducationSubjects"
+                [title]="'collections.meta.preparatoryEducationSubjects' | translate"
+                property="targetName"
+                searchProperty="key"
+                filterType="educationalSubjects"></app-taglist>
+
+              <app-taglist
+                *ngIf="collection.preparatoryEducationObjectives?.length > 0"
+                elementId="collection-preparatoryEducationObjectives"
+                [tags]="collection.preparatoryEducationObjectives"
+                [title]="'collections.meta.preparatoryEducationObjectives' | translate"
+                property="targetName"
+                searchProperty="key"
+                filterType="teaches"></app-taglist>
+              <!--preparatoryEducationObjectives-->
+              <!--/preparatory education-->
+
               <!--upper secondary education-->
               <app-taglist
                 *ngIf="collection.upperSecondarySchoolSubjectsOld?.length > 0"

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 import { koodistoSources } from '@constants/koodisto-sources';
 import { CreateCollectionPost } from '@models/collections/create-collection-post';
 import { CreateCollectionResponse } from '@models/collections/create-collection-response';
@@ -188,6 +188,8 @@ export class CollectionService {
           basicStudyObjectives: alignmentObjects.basicStudyObjectives,
           basicStudyContents: alignmentObjects.basicStudyContents,
           basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
+          preparatoryEducationSubjects: alignmentObjects.preparatoryEducationSubjects,
+          preparatoryEducationObjectives: alignmentObjects.preparatoryEducationObjectives,
           upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
           upperSecondarySchoolCoursesOld: alignmentObjects.upperSecondarySchoolCoursesOld,
           upperSecondarySchoolObjectives: alignmentObjects.upperSecondarySchoolObjectives,
@@ -298,6 +300,8 @@ export class CollectionService {
           basicStudyObjectives: alignmentObjects.basicStudyObjectives,
           basicStudyContents: alignmentObjects.basicStudyContents,
           basicStudyFramework: alignmentObjects.basicStudySubjects[0]?.educationalFramework,
+          preparatoryEducationSubjects: alignmentObjects.preparatoryEducationSubjects,
+          preparatoryEducationObjectives: alignmentObjects.preparatoryEducationObjectives,
           currentUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsOld.length > 0,
           newUpperSecondarySchoolSelected: alignmentObjects.upperSecondarySchoolSubjectsNew.length > 0,
           upperSecondarySchoolSubjectsOld: alignmentObjects.upperSecondarySchoolSubjectsOld,
@@ -359,8 +363,12 @@ export class CollectionService {
         map((event: HttpEvent<any>) => {
           switch (event.type) {
             case HttpEventType.UploadProgress:
-              const progress = Math.round((100 * event.loaded) / event.total);
-              return { status: 'progress', message: progress };
+              if (event.total) {
+                const progress = Math.round((100 * event.loaded) / event.total);
+                return { status: 'progress', message: progress };
+              } else {
+                return { status: 'progress', message: 'Calculating...' };
+              }
 
             case HttpEventType.Response:
               return { status: 'completed', message: event.body };
@@ -401,11 +409,11 @@ export class CollectionService {
 
   /**
    * Extracts different alignment objects from object array.
-   * @param alignmentObjects
+   * @param {any} alignmentObjects
    * @returns {AlignmentObjects} Alignment objects
    * @private
    */
-  private extractAlignmentObjects(alignmentObjects): AlignmentObjects {
+  private extractAlignmentObjects(alignmentObjects: any): AlignmentObjects {
     const earlyChildhoodEducationSubjects: AlignmentObjectExtended[] = [];
     const earlyChildhoodEducationObjectives: AlignmentObjectExtended[] = [];
     const prePrimaryEducationSubjects: AlignmentObjectExtended[] = [];
@@ -413,6 +421,8 @@ export class CollectionService {
     const basicStudySubjects: AlignmentObjectExtended[] = [];
     const basicStudyObjectives: AlignmentObjectExtended[] = [];
     const basicStudyContents: AlignmentObjectExtended[] = [];
+    const preparatoryEducationSubjects: AlignmentObjectExtended[] = [];
+    const preparatoryEducationObjectives: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolCoursesOld: AlignmentObjectExtended[] = [];
     const upperSecondarySchoolObjectives: AlignmentObjectExtended[] = [];
@@ -431,7 +441,7 @@ export class CollectionService {
 
     alignmentObjects
       .map(
-        (aObject): AlignmentObjectExtended => ({
+        (aObject: any): AlignmentObjectExtended => ({
           alignmentType: aObject.alignmenttype,
           educationalFramework: aObject.educationalframework,
           key: aObject.objectkey,
@@ -468,6 +478,14 @@ export class CollectionService {
 
           case koodistoSources.basicStudyContents:
             basicStudyContents.push(aObject);
+            break;
+
+          case koodistoSources.preparatoryEducationSubjects:
+            preparatoryEducationSubjects.push(aObject);
+            break;
+
+          case koodistoSources.preparatoryEducationObjectives:
+            preparatoryEducationObjectives.push(aObject);
             break;
 
           case koodistoSources.upperSecondarySubjectsOld:
@@ -548,6 +566,8 @@ export class CollectionService {
       basicStudySubjects,
       basicStudyObjectives,
       basicStudyContents,
+      preparatoryEducationSubjects,
+      preparatoryEducationObjectives,
       upperSecondarySchoolSubjectsOld,
       upperSecondarySchoolCoursesOld,
       upperSecondarySchoolObjectives,

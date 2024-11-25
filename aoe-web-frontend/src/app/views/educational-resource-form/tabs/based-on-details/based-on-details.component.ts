@@ -5,10 +5,9 @@ import { Title } from '@angular/platform-browser';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 
 import { environment } from '@environments/environment';
-import { textInputValidator } from '../../../../shared/shared.module';
+import { textInputValidator } from '@shared/shared.module';
 import { validatorParams } from '@constants/validator-params';
 import { ExternalReference } from '@models/material/external-reference';
-import { MaterialService } from '@services/material.service';
 
 @Component({
   selector: 'app-tabs-based-on-details',
@@ -24,7 +23,6 @@ export class BasedOnDetailsComponent implements OnInit, OnDestroy {
   submitted = false;
 
   constructor(
-    private materialService: MaterialService,
     private translate: TranslateService,
     private fb: FormBuilder,
     private router: Router,

@@ -4,10 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { textInputValidator } from './../../shared/shared.module';
+import { environment } from '@environments/environment';
+import { textInputValidator } from '@shared/shared.module';
 import { KoodistoService } from '@services/koodisto.service';
-import { SearchService } from '@services/search.service';
 import { SubjectFilter } from '@models/koodisto/subject-filter';
 import { SearchParams } from '@models/search/search-params';
 import { EducationalLevel } from '@models/koodisto/educational-level';
@@ -22,17 +21,16 @@ import { validatorParams } from '@constants/validator-params';
   styleUrls: ['./search.component.scss'],
 })
 export class SearchComponent implements OnInit, OnDestroy {
-  searchForm: FormGroup;
-  educationalLevelSubscription: Subscription;
-  educationalLevels: EducationalLevel[];
-  educationalSubjectSubscription: Subscription;
-  educationalSubjects: SubjectFilter[];
-  learningResourceTypeSubscription: Subscription;
-  learningResourceTypes: LearningResourceType[];
+  searchForm: FormGroup = new FormGroup({});
+  educationalLevelSubscription = new Subscription();
+  educationalLevels: EducationalLevel[] = [];
+  educationalSubjectSubscription = new Subscription();
+  educationalSubjects: SubjectFilter[] = [];
+  learningResourceTypeSubscription = new Subscription();
+  learningResourceTypes: LearningResourceType[] = [];
   resultsPerPage = 15;
 
   constructor(
-    private searchSvc: SearchService,
     private fb: FormBuilder,
     private router: Router,
     private koodistoProxySvc: KoodistoService,
@@ -56,7 +54,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       }),
     });
 
-    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevels$.subscribe(
+    this.educationalLevelSubscription = this.koodistoProxySvc.educationalLevelsEnabled$.subscribe(
       (levels: EducationalLevel[]) => {
         this.educationalLevels = levels;
       },
@@ -106,7 +104,9 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   educationLevelChange(): void {
     if (this.educationalLevelsCtrl.value.length > 0) {
-      const educationLevelKeys = this.educationalLevelsCtrl.value?.map((level) => level.key);
+      const educationLevelKeys = this.educationalLevelsCtrl.value?.map(
+        (level: Record<string, string | number>) => level.key,
+      );
 
       this.educationalSubjects = this.educationalSubjects.filter((subject: SubjectFilter) =>
         educationLevelKeys.includes(subject.key),
@@ -119,7 +119,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   setUsedFilters(): void {
     const usedFilters: UsedFilter[] = [];
 
-    this.educationalLevelsCtrl.value?.forEach((level) => {
+    this.educationalLevelsCtrl.value?.forEach((level: Record<string | number, string>) => {
       usedFilters.push({
         key: level.key,
         value: level.value,
@@ -127,7 +127,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.educationalSubjectsCtrl.value?.forEach((subject) => {
+    this.educationalSubjectsCtrl.value?.forEach((subject: Record<string | number, string>) => {
       usedFilters.push({
         key: subject.key.toString(),
         value: subject.value,
@@ -135,7 +135,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
     });
 
-    this.learningResourceTypesCtrl.value?.forEach((type) => {
+    this.learningResourceTypesCtrl.value?.forEach((type: Record<string | number, string>) => {
       usedFilters.push({
         key: type.key,
         value: type.value,
@@ -170,10 +170,13 @@ export class SearchComponent implements OnInit, OnDestroy {
       };
 
       searchParams.keywords = this.keywordsCtrl.value;
-      searchParams.filters.educationalLevels = this.educationalLevelsCtrl.value?.map((level) => level.key) ?? [];
+      searchParams.filters.educationalLevels =
+        this.educationalLevelsCtrl.value?.map((level: Record<string | number, string>) => level.key) ?? [];
       searchParams.filters.educationalSubjects =
-        this.educationalSubjectsCtrl.value?.map((subject) => subject.key.toString()) ?? [];
-      searchParams.filters.learningResourceTypes = this.learningResourceTypesCtrl.value?.map((type) => type.key) ?? [];
+        this.educationalSubjectsCtrl.value?.map((subject: Record<string | number, string>) => subject.key.toString()) ??
+        [];
+      searchParams.filters.learningResourceTypes =
+        this.learningResourceTypesCtrl.value?.map((type: Record<string | number, string>) => type.key) ?? [];
       searchParams.sort = sortOptions.relevance.value;
       searchParams.from = 0;
       searchParams.size = this.resultsPerPage;

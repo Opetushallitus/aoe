@@ -72,6 +72,8 @@ export interface EducationalMaterial {
   basicStudyObjectives: AlignmentObjectExtended[];
   basicStudyContents: AlignmentObjectExtended[];
   suitsAllBasicStudySubjects: boolean;
+  preparatoryEducationSubjects?: AlignmentObjectExtended[];
+  preparatoryEducationObjectives?: AlignmentObjectExtended[];
   upperSecondarySchoolSubjectsOld: AlignmentObjectExtended[];
   upperSecondarySchoolFrameworks: string[];
   upperSecondarySchoolCoursesOld: AlignmentObjectExtended[];
