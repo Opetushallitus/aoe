@@ -2,9 +2,6 @@ variables:
   DOCKER_HOST: unix:///var/run/docker.sock
   DOCKER_DRIVER: overlay2
 
-image:
-  name: docker/compose:1.29.2
-
 services:
   - name: docker:dind
     alias: docker
@@ -18,44 +15,42 @@ before_script:
   - docker version
   - docker-compose version
 
-build_demo:
+build_test:
   stage: build
   script:
     - echo 'DEMO build'
-    - docker-compose -f docker-compose.prod.yml down
-    - docker-compose -f docker-compose.prod.yml build
+    - docker compose -f docker-compose.prod.yml build
   only:
     - dev
   tags:
-    - demo
+    - test-apps
 
-deploy_demo:
+deploy_test:
   stage: deploy
   script:
     - echo 'DEMO deploy'
-    - docker-compose -f docker-compose.prod.yml up -d
+    - docker compose -f docker-compose.prod.yml up -d
   only:
     - dev
   tags:
-    - demo
+    - test-apps
 
-cleanup_demo:
+cleanup_test:
   stage: cleanup
   script:
     - echo 'DEMO system clean up'
-    - docker system prune -a -f
+    - docker system prune -a -f --volumes
   only:
     - dev
   tags:
-    - demo
+    - test-apps
   when: manual
 
 build_prod:
   stage: build
   script:
     - echo 'DEMO build'
-    - docker-compose -f docker-compose.prod.yml down
-    - docker-compose -f docker-compose.prod.yml build
+    - docker compose -f docker-compose.prod.yml build
   only:
     - main
   tags:
@@ -65,7 +60,7 @@ deploy_prod:
   stage: deploy
   script:
     - echo 'DEMO deploy'
-    - docker-compose -f docker-compose.prod.yml up -d
+    - docker compose -f docker-compose.prod.yml up -d
   only:
     - main
   tags:
@@ -75,7 +70,7 @@ cleanup_prod:
   stage: cleanup
   script:
     - echo 'DEMO system clean up'
-    - docker system prune -a -f
+    - docker system prune -a -f --volumes
   only:
     - main
   tags:
