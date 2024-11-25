@@ -1,7 +1,59 @@
 { 
     "aws": {
         "vpc_cidr": "10.5.64.0/18",
-        "availability_zones": 2
+        "availability_zones": 2,
+        "domain": "qa.aoe.fi"
+    },
+    "services": {
+        "semantic_apis": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-25",
+            "allow_ecs_exec": true,
+            "env_vars": {
+                "LOG_LEVEL": "debug",
+                "PORT_LISTEN": "8080",
+                "REDIS_HOST": "semantic-apis-cdb80h.serverless.euw1.cache.amazonaws.com",
+                "REDIS_PORT": "6379",
+                "REDIS_USERNAME": "app",
+                "REDIS_EXPIRE_TIME": "86400",
+                "REDIS_USE_TLS": "true",
+                "EXTERNAL_API_CALLERID_OID": "1.2.246.562.10.2013112012294919827487",
+                "EXTERNAL_API_CALLERID_SERVICE": "aoe",
+                "EXTERNAL_API_OPINTOPOLKU_KOODISTOT": "https://virkailija.opintopolku.fi/koodisto-service/rest/json",
+                "EXTERNAL_API_FINTO_ASIASANAT": "http://api.finto.fi/rest/v1",
+                "EXTERNAL_API_SUOMI_KOODISTOT": "https://koodistot.suomi.fi/codelist-api/api/v1/coderegistries",
+                "EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT": "https://virkailija.opintopolku.fi/organisaatio-service/rest",
+                "EXTERNAL_API_OPINTOPOLKU_EPERUSTEET": "https://virkailija.opintopolku.fi/eperusteet-service/api"
+              }
+        }
+    },
+    "aurora_databases": {
+        "data-analytics": {
+            "version": "15.4",
+            "min_size_acu": 0.5,
+            "max_size_acu": 1,
+            "performance_insights": false,
+            "domain_names": ["data-analytics"]
+          },
+          "web-backend": {
+            "version": "15.4",
+            "min_size_acu": 0.5,
+            "max_size_acu": 1,
+            "performance_insights": false,
+            "domain_names": ["web-backend"]
+          }
+    },
+    
+    "redis_serverless": {
+        "semantic_apis": {
+            "major_version": "7",
+            "storage_min": 1,
+            "storage_max": 5,
+            "min_ecpu_per_second": 1000,
+            "max_ecpu_per_second": 40000
+          }
     }
-
 }

@@ -23,6 +23,7 @@ import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs';
 import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
 import {OpenSearchServerlessStack} from "../lib/opensearch-stack";
+import { HostedZoneStack } from '../lib/hosted-zone-stack'
 
 const app = new cdk.App();
 
@@ -63,6 +64,8 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     environment: environmentName
   })
 
+
+
   const Secrets = new SecretManagerStack(app, 'SecretManagerStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-secrets`,
@@ -74,6 +77,13 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     stackName: `${environmentName}-vpc`,
     vpc_cidr: environmentConfig.aws.vpc_cidr,
     availability_zones: environmentConfig.aws.availability_zones
+  })
+
+  const HostedZones = new HostedZoneStack(app, 'HostedZoneStack', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-hosted-zone`,
+    domain: environmentConfig.aws.domain,
+    vpc: Network.vpc
   })
 
   const SubnetGroups = new SubnetGroupsStack(app, 'SubnetGroupsStack', {
@@ -98,7 +108,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     environment: environmentName
   })
 
-/* 
+/*
   const TestAuroraStack = new AuroraDatabaseStack(app, 'TestAuroraStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-test-aurora`,
@@ -203,21 +213,6 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     minimumCount: environmentConfig.services.semantic_apis.min_count,
     maximumCount: environmentConfig.services.semantic_apis.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    // env_vars: {
-    //   LOG_LEVEL: "debug",
-    //   PORT_LISTEN: "8080",
-    //   REDIS_HOST: "asdasd",
-    //   REDIS_PORT: "6379",
-    //   REDIS_USERNAME: "app",
-    //   REDIS_EXPIRE_TIME: "86400",
-    //   EXTERNAL_API_CALLERID_OID: "1.2.246.562.10.2013112012294919827487",
-    //   EXTERNAL_API_CALLERID_SERVICE: "aoe",
-    //   EXTERNAL_API_OPINTOPOLKU_KOODISTOT: "https://virkailija.opintopolku.fi/koodisto-service/rest/json",
-    //   EXTERNAL_API_FINTO_ASIASANAT: "http://api.finto.fi/rest/v1",
-    //   EXTERNAL_API_SUOMI_KOODISTOT: "https://koodistot.suomi.fi/codelist-api/api/v1/coderegistries",
-    //   EXTERNAL_API_OPINTOPOLKU_ORGANISAATIOT: "https://virkailija.opintopolku.fi/organisaatio-service/rest",
-    //   EXTERNAL_API_OPINTOPOLKU_EPERUSTEET: "https://virkailija.opintopolku.fi/eperusteet-service/api"
-    // },
     env_vars: environmentConfig.services.semantic_apis.env_vars,
     parameter_store_secrets: [ 
     ],
