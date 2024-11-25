@@ -1,7 +1,8 @@
 { 
     "aws": {
         "vpc_cidr": "10.5.0.0/18",
-        "availability_zones": 2
+        "availability_zones": 2,
+        "domain": "dev.aoe.fi"
     },
     "services": {
         "semantic_apis": {
@@ -30,14 +31,22 @@
         }
     },
     "aurora_databases": {
-        "testi": {
+        "data-analytics": {
             "version": "15.4",
             "min_size_acu": 0.5,
             "max_size_acu": 1,
             "performance_insights": false,
-            "domain_names": ["testi"]
+            "domain_names": ["data-analytics"]
+          },
+          "web-backend": {
+            "version": "15.4",
+            "min_size_acu": 0.5,
+            "max_size_acu": 1,
+            "performance_insights": false,
+            "domain_names": ["web-backend"]
           }
     },
+    
     "redis_serverless": {
         "semantic_apis": {
             "major_version": "7",
