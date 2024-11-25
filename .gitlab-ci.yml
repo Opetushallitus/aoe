@@ -2,18 +2,10 @@ variables:
   DOCKER_HOST: unix:///var/run/docker.sock
   DOCKER_DRIVER: overlay2
 
-services:
-  - name: docker:dind
-    alias: docker
-
 stages:
   - build
   - deploy
   - cleanup
-
-before_script:
-  - docker version
-  - docker-compose version
 
 build_test:
   stage: build
