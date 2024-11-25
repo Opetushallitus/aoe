@@ -22,6 +22,7 @@ import { SubnetGroupsStack } from '../lib/subnet-groups'
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs';
 import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
+import {OpenSearchServerlessStack} from "../lib/opensearch-stack";
 
 const app = new cdk.App();
 
@@ -114,6 +115,16 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     kmsKey: Kms.rdsKmsKey,
   })
 */
+
+  const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-open-search`,
+    collectionName: "aoecollection",
+    description: "Collection for aoe",
+    securityGroupIds: [SecurityGroups.openSearchSecurityGroup.securityGroupId],
+    vpc: Network.vpc,
+    kmsKey: Kms.openSearchKmsKey,
+  });
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
     env: { region: "eu-west-1" },
