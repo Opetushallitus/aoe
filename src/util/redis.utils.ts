@@ -25,6 +25,7 @@ import {
   setAmmattikoulunYTOaineet,
 } from '../controllers/ammattikoulu';
 import { setLukionVanhatOppiaineetKurssit } from '../controllers/vanha-lukio';
+import { setTuvaOppiaineetTavoitteet } from '../controllers/tuva';
 
 export const client = redis.createClient({
   host: config.REDIS_OPTIONS.host,
@@ -101,6 +102,12 @@ export async function updateRedis(): Promise<void> {
   await setLukionVanhatOppiaineetKurssit().catch((err) =>
     winstonLogger.error(
       'Setting upper secondary school subjects and courses failed in setLukionVanhatOppiaineetKurssit(): %o',
+      err,
+    ),
+  );
+  await setTuvaOppiaineetTavoitteet().catch((err) =>
+    winstonLogger.error(
+      'Setting preparatory education subjects and objectives failed in setTuvaOppiaineetTavoitteet(): %o',
       err,
     ),
   );

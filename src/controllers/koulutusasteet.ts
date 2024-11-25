@@ -5,6 +5,7 @@ import { sortByValue } from '../util/data.utils';
 import { winstonLogger } from '../util';
 import config from '../config';
 import { NextFunction, Request, Response } from 'express';
+import { disabledEducationalLevels } from '../constants/metadata-exceptions.json';
 
 const endpoint = 'edtech/codeschemes/Koulutusaste';
 const rediskey = 'koulutusasteet';
@@ -57,32 +58,38 @@ export async function setKoulutusasteet(): Promise<void> {
     childrenFi.push({
       key: row.key,
       value: row.value.fi || row.value.sv || row.value.en,
+      disabled: disabledEducationalLevels.includes(row.key),
     });
 
     childrenEn.push({
       key: row.key,
       value: row.value.en || row.value.fi || row.value.sv,
+      disabled: disabledEducationalLevels.includes(row.key),
     });
 
     childrenSv.push({
       key: row.key,
       value: row.value.sv || row.value.fi || row.value.en,
+      disabled: disabledEducationalLevels.includes(row.key),
     });
 
     childrenArray.forEach((child: any) => {
       childrenFi.push({
         key: child.key,
         value: child.value?.fi || child.value?.sv || child.value?.en,
+        disabled: disabledEducationalLevels.includes(child.key),
       });
 
       childrenEn.push({
         key: child.key,
         value: child.value?.en || child.value?.fi || child.value?.sv,
+        disabled: disabledEducationalLevels.includes(child.key),
       });
 
       childrenSv.push({
         key: child.key,
         value: child.value?.sv || child.value?.fi || child.value?.en,
+        disabled: disabledEducationalLevels.includes(child.key),
       });
     });
 

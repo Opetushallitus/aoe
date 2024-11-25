@@ -31,6 +31,7 @@ import {
 } from './controllers/ammattikoulu';
 import { getOppiaineetTieteenalatTutkinnot } from './controllers/filters';
 import { getLukionVanhatKurssit, getLukionVanhatOppiaineet } from './controllers/vanha-lukio';
+import { getTuvaOppiaineet, getTuvaTavoitteet } from './controllers/tuva';
 
 const router: Router = Router();
 
@@ -270,6 +271,25 @@ const router: Router = Router();
 /**
  * @typedef SpecialistVocationalQualification
  * @property {integer} key
+ * @property {string} source
+ * @property {string} alignmentType
+ * @property {string} targetName
+ * @property {string} targetUrl
+ */
+
+/**
+ * @typedef PreparatoryEducationSubject
+ * @property {integer} key
+ * @property {string} source
+ * @property {string} alignmentType
+ * @property {string} targetName
+ * @property {string} targetUrl
+ */
+
+/**
+ * @typedef PreparatoryEducationObjective
+ * @property {integer} key
+ * @property {string} parent
  * @property {string} source
  * @property {string} alignmentType
  * @property {string} targetName
@@ -720,5 +740,28 @@ router.get('/ammattikoulu-erikoisammattitutkinnot/:lang', getAmmattikoulunErikoi
  * @param {string} lang.path.required - ISO 639-1 language code
  */
 router.get('/filters-oppiaineet-tieteenalat-tutkinnot/:lang', getOppiaineetTieteenalatTutkinnot);
+
+/**
+ * Returns all preparatory education subjects for an upper secondary qualification from redis database by given language.
+ * @group Tuva
+ * @route GET /tuva-oppiaineet/{lang}
+ * @param {string} lang.path.required - ISO 639-1 language code
+ * @returns {Array.<PreparatoryEducationSubject>} 200 - An array of preparatory education subjects
+ * @returns {Error.model} 404 - Not found
+ * @returns {Error.model} 500 - Something went wrong
+ */
+router.get('/tuva-oppiaineet/:lang', getTuvaOppiaineet);
+
+/**
+ * Returns all preparatory education objectives for an upper secondary qualification from redis database by given language.
+ * @group Tuva
+ * @route GET /tuva-tavoitteet/{ids}/{lang}
+ * @param {string} ids.path.required - List of preparatory education subject ids, separated by comma
+ * @param {string} lang.path.required - ISO 639-1 language code
+ * @returns {Array.<PreparatoryEducationObjective>} 200 - An array of preparatory education objectives
+ * @returns {Error.model} 404 - Not found
+ * @returns {Error.model} 500 - Something went wrong
+ */
+router.get('/tuva-tavoitteet/:ids/:lang', getTuvaTavoitteet);
 
 export default router;
