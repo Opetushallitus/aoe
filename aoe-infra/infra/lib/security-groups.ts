@@ -21,6 +21,8 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly testAuroraSecurityGroup: ec2.SecurityGroup;
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup;
   public readonly bastionSecurityGroup: ec2.SecurityGroup;
+  public readonly openSearchSecurityGroup: ec2.SecurityGroup;
+
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
@@ -51,7 +53,17 @@ export class SecurityGroupStack extends cdk.Stack {
       allowAllOutbound: true,
     });
 
+    this.openSearchSecurityGroup = new ec2.SecurityGroup(this, 'openSearchSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true
+    })
+
 // Security Group rules
+
+    this.openSearchSecurityGroup.addIngressRule(
+        this.bastionSecurityGroup,
+        ec2.Port.tcp(443)
+    )
 
     this.semanticApisRedisSecurityGroup.addIngressRule(
       this.semanticApisServiceSecurityGroup,
