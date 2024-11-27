@@ -31,22 +31,21 @@
         }
     },
     "aurora_databases": {
-        "data-analytics": {
-            "version": "15.4",
+        "data_analytics": {
+            "version": "16.4",
             "min_size_acu": 0.5,
             "max_size_acu": 1,
             "performance_insights": false,
             "domain_names": ["data-analytics"]
           },
-          "web-backend": {
-            "version": "15.4",
+          "web_backend": {
+            "version": "16.4",
             "min_size_acu": 0.5,
             "max_size_acu": 1,
             "performance_insights": false,
             "domain_names": ["web-backend"]
           }
     },
-    
     "redis_serverless": {
         "semantic_apis": {
             "major_version": "7",
