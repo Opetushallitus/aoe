@@ -50,8 +50,6 @@ First, add a new Security Group and Security Group rules to the `security-groups
 
 ## Adding a new database
 
-If this is the first database in the environment, create `/auroradbs/common/master-user-username` in the Secret Manager and encrypt it using Secret Manager KMS - key (created in the `kms-stack.ts`)
-
 Then, 
 - add a new Security Group and Security Group rules to the `security-groups.ts`, 
 - add a new secret in the `secrets-manager-stack.ts`
