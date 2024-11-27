@@ -8,13 +8,25 @@ If you wish to run the CDK - commands from your local machine, install the globa
 
 ## AWS vault
 
-When deploying to the target environment from your local machine, use `aws-vault exec <target-aws-profile>` and then proceed with cdk - commands.
+When deploying to the target environment from your local machine, use `aws-vault exec <target-aws-profile>` and then proceed with cdk - commands. AWS vault targets the destination account explicitly.
+
+Alternatively, you can use aws cli v2:
+
+`aws sso login --sso-session oph-org-sso` where `oph-org-sso` profile must match the profile configured in your `~/.aws/config`
+
+With aws sso login spell above, you must define `--profile <target-account-aws-profile>`
+
+Example: `npx cdk deploy -c environment=dev DataAnalyticsAuroraStack --profile aoe-dev`
 
 
-## Useful commands
+## cdk command examples for deploying the project stacks
 
 * `npx cdk deploy -c environment=<dev/qa/prod/utility> --all`  deploy all stacks to the target environment
 * `npx cdk destroy -c environment=<dev/qa/prod/utility> --all`  destroy all stacks to the target environment (note: you need to empty S3 - buckets etc. manually)
+* `npx npx cdk deploy -c environment=dev WebBackendAuroraStack` deploy only WebBackendAuroraStack (and any change in it's dependencies)
+* `npx npx cdk destroy -c environment=dev WebBackendAuroraStack` destroy only WebBackendAuroraStack (and any change in it's dependencies)
+
+## Generic cdk commands
 * `npx cdk diff`    compare deployed stack with current state
 * `npx npm run build`   compile typescript to js
 * `npx npm run watch`   watch for changes and compile
