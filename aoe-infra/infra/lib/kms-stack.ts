@@ -16,10 +16,16 @@ export class KmsStack extends Stack {
     readonly ebsKmsKey: Key;
     readonly parameterStoreKey: Key;
     readonly secretsManagerKey: Key;
+    readonly openSearchKmsKey: Key;
     constructor(scope: Construct, id: string, props: KmsStackProps) {
         super(scope, id, props);
 
-// Change removal policies to something sensible when stacks are more mature
+        // Change removal policies to something sensible when stacks are more mature
+
+        this.openSearchKmsKey = new Key(this, 'openSearchKmsKey', {
+            alias: `alias/${props.environment}-opensearch-aoe-key`,
+            removalPolicy: RemovalPolicy.DESTROY,
+        });
 
         this.rdsKmsKey = new Key(this, 'rdsKmsKey', {
             alias: `alias/${props.environment}-rds-aoe-key`,
@@ -43,7 +49,7 @@ export class KmsStack extends Stack {
 
         this.cloudwatchLogsKmsKey.grantEncryptDecrypt(
             new aws_iam.ServicePrincipal(`logs.${this.region}.amazonaws.com`)
-          );
+        );
 
         this.ebsKmsKey = new Key(this, 'ebsKmsKey', {
             alias: `alias/${props.environment}-ebs-aoe-key`,
