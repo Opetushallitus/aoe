@@ -7,6 +7,7 @@ import * as qa from '../environments/qa.json';
 import * as prod from '../environments/prod.json';
 import { VpcStack } from '../lib/vpc-stack';
 import { SecurityGroupStack } from '../lib/security-groups'
+import { AuroraCommonStack } from '../lib/aurora-serverless-common'
 import { AuroraDatabaseStack } from '../lib/aurora-serverless-database';
 import { AlbStack } from '../lib/alb-stack';
 import { CloudfrontStack } from '../lib/cloudfront-stack';
@@ -17,12 +18,11 @@ import { FrontendBucketStack } from '../lib/front-end-bucket-stack';
 import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack';
 import { EcrStack } from '../lib/ecr-stack';
 import { UtilityStack } from '../lib/utility-stack';
-import {  ElasticacheServerlessStack } from '../lib/redis-stack';
-import { SubnetGroupsStack } from '../lib/subnet-groups'
+import { ElasticacheServerlessStack } from '../lib/redis-stack';
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs';
 import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
-import {OpenSearchServerlessStack} from "../lib/opensearch-stack";
+import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
 
 const app = new cdk.App();
@@ -31,24 +31,19 @@ const app = new cdk.App();
 const environmentName: string = app.node.tryGetContext("environment");
 const utilityAccountId: string = app.node.tryGetContext("UTILITY_ACCOUNT_ID")
 let environmentConfig: any;
-if (environmentName == 'utility') 
-{
+if (environmentName == 'utility') {
   environmentConfig = utility;
-} 
-else if (environmentName == 'dev') 
-{
+}
+else if (environmentName == 'dev') {
   environmentConfig = dev;
-} 
-else if (environmentName == 'qa') 
-{
+}
+else if (environmentName == 'qa') {
   environmentConfig = qa;
-} 
-else if (environmentName == 'prod') 
-{
+}
+else if (environmentName == 'prod') {
   environmentConfig = prod;
-} 
-else 
-{
+}
+else {
   console.error("You must define a valid environment name in CDK context! Valid environment names are dev, qa, prod and utility");
   process.exit(1);
 }
@@ -57,14 +52,12 @@ else
 // dev, qa & prod account resources..
 if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'prod') {
 
-// Remember to update KMS key removal policy
+  // Remember to update KMS key removal policy
   const Kms = new KmsStack(app, 'KmsStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-kms`,
     environment: environmentName
   })
-
-
 
   const Secrets = new SecretManagerStack(app, 'SecretManagerStack', {
     env: { region: "eu-west-1" },
@@ -86,13 +79,6 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     vpc: Network.vpc
   })
 
-  const SubnetGroups = new SubnetGroupsStack(app, 'SubnetGroupsStack', {
-    env: { region: "eu-west-1" },
-    stackName: `${environmentName}-subnet-groups`,
-    environment: environmentName,
-    vpc: Network.vpc
-  })
-
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-security-groups`,
@@ -108,23 +94,29 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     environment: environmentName
   })
 
-/*
-  const TestAuroraStack = new AuroraDatabaseStack(app, 'TestAuroraStack', {
+  const AuroraCommons = new AuroraCommonStack(app, 'AuroraCommonStack', {
     env: { region: "eu-west-1" },
-    stackName: `${environmentName}-test-aurora`,
-    auroraVersion: "11.1",
-    environment: environmentName,
-    clusterName: "test-aurora",
+    stackName: `${environmentName}-aurora-common`,
     vpc: Network.vpc,
-    securityGroup: SecurityGroups.testAuroraSecurityGroup,
-    performanceInsights: environmentConfig.aws.performance_insights,
-    minSizeAcu: environmentConfig.aws.min_acu,
-    maxSizeAcu: environmentConfig.aws.max_acu,
-    domainNames: environmentConfig.aws.domain_names,
-    route53HostedZone: environmentConfig.aws.route53_hosted_zone,
-    kmsKey: Kms.rdsKmsKey,
   })
-*/
+
+  const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-web-backend-aurora`,
+    auroraVersion: environmentConfig.aurora_databases.web_backend.version,
+    environment: environmentName,
+    clusterName: "web-backend",
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.webBackendAuroraSecurityGroup,
+    performanceInsights: environmentConfig.aurora_databases.web_backend.performance_insights,
+    minSizeAcu: environmentConfig.aurora_databases.web_backend.min_acu,
+    maxSizeAcu: environmentConfig.aurora_databases.web_backend.max_acu,
+    domainNames: environmentConfig.aurora_databases.web_backend.domain_names,
+    route53HostedZone: HostedZones.privateHostedZone,
+    kmsKey: Kms.rdsKmsKey,
+    auroraDbPassword: Secrets.webBackendAuroraPassword,
+    subnetGroup: AuroraCommons.auroraSubnetGroup,
+  })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
     env: { region: "eu-west-1" },
@@ -141,7 +133,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     stackName: `${environmentName}-semantic-apis-redis`,
     elasticacheName: "semantic-apis",
     consumingServiceName: "semantic-apis",
-    secret: Secrets.semanticApisPassword, 
+    secret: Secrets.semanticApisPassword,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId,
     redisKmsKeyId: Kms.redisKmsKey.keyId,
@@ -164,17 +156,17 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   // Remember to add correct domain
   const Cloudfront = new CloudfrontStack(app, 'CloudFrontStack', {
     env: { region: "eu-west-1" },
-//    crossRegionReferences: true,
+    //    crossRegionReferences: true,
     stackName: `${environmentName}-cloudfront`,
-//    environment: environmentName,
+    //    environment: environmentName,
     alb: Alb.alb,
-// domain: environmentConfig.aws.domain,
+    // domain: environmentConfig.aws.domain,
   })
 
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
     env: { region: "eu-west-1" },
-//  crossRegionReferences: true,
+    //  crossRegionReferences: true,
     stackName: `${environmentName}-frontend-bucket`,
     environment: environmentName,
     cloudFrontDistribution: Cloudfront.distribution,
@@ -214,11 +206,11 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     maximumCount: environmentConfig.services.semantic_apis.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: environmentConfig.services.semantic_apis.env_vars,
-    parameter_store_secrets: [ 
+    parameter_store_secrets: [
     ],
-    secrets_manager_secrets: [ 
+    secrets_manager_secrets: [
       "REDIS_PASS",
-     ],
+    ],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
@@ -228,13 +220,12 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 100,
-//    domain: environmentConfig.aws.domain,
+    //    domain: environmentConfig.aws.domain,
   })
 
-// utility account resources.. 
-} 
-else if (environmentName == 'utility') 
-{
+  // utility account resources.. 
+}
+else if (environmentName == 'utility') {
 
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: { region: "eu-west-1" },
