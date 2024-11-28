@@ -30,6 +30,12 @@
               }
         }
     },
+    "open_search": {
+        "standbyReplicas": "DISABLED",
+        "collectionName": "aoecollection",
+        "collectionDescription": "Collection for aoe"
+    },
+
     "aurora_databases": {
         "data_analytics": {
             "version": "16.4",

@@ -30,7 +30,15 @@ export class BastionStack extends Stack {
           'ssm:GetDeployablePatchSnapshotForInstance',
           'ssm:GetDocument',
           'ssm:UpdateInstanceAssociationStatus',
-          'ssm:PutInventory'
+          'ssm:PutInventory',
+          'aoss:DescribeCollectionItems',
+          'aoss:ListCollections',
+          'aoss:CreateIndex',
+          'aoss:DeleteIndex',
+          'aoss:UpdateIndex',
+          'aoss:DescribeIndex',
+          'aoss:ReadDocument',
+          'aoss:WriteDocument'
         ],
         resources: ['*']
       })
