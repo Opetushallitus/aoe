@@ -1,7 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as ops from 'aws-cdk-lib/aws-opensearchserverless';
-import { Key } from "aws-cdk-lib/aws-kms";
+import {Key} from "aws-cdk-lib/aws-kms";
 
 interface OpenSearchServerlessStackProps extends cdk.StackProps {
     collectionName: string;
@@ -9,6 +9,7 @@ interface OpenSearchServerlessStackProps extends cdk.StackProps {
     vpc: ec2.IVpc;
     securityGroupIds: string[];
     kmsKey: Key;
+    standbyReplicas: 'DISABLED' | 'ENABLED'
 }
 
 export class OpenSearchServerlessStack extends cdk.Stack {
@@ -17,7 +18,7 @@ export class OpenSearchServerlessStack extends cdk.Stack {
         super(scope, id, props);
 
         const vpce = new ops.CfnVpcEndpoint(this, 'VpcEndPoint,', {
-            name: 'AOEOpenSearchEndpoint',
+            name: 'aoe-opensearch-endpoint',
             subnetIds: props.vpc.isolatedSubnets.map(x => x.subnetId),
             vpcId: props.vpc.vpcId,
             securityGroupIds: props.securityGroupIds,
@@ -27,7 +28,7 @@ export class OpenSearchServerlessStack extends cdk.Stack {
             name: props.collectionName,
             description: props.description,
             type: 'SEARCH',
-            standbyReplicas: 'DISABLED'
+            standbyReplicas: props.standbyReplicas
         });
 
         const encryptionPolicy = new ops.CfnSecurityPolicy(this, 'EncryptionPolicy', {
@@ -37,30 +38,28 @@ export class OpenSearchServerlessStack extends cdk.Stack {
                 Rules: [
                     {
                         ResourceType: 'collection',
-                        Resource: [collection.attrArn],
-                        AWSOwnedKey: false,
-                        KmsKeyArn: props.kmsKey.keyArn,
+                        Resource: [`collection/${props.collectionName}`],
                     },
                 ],
+                AWSOwnedKey:false,
+                KmsARN: props.kmsKey.keyArn,
+
             }),
         });
 
         const networkPolicy = new ops.CfnSecurityPolicy(this, 'NetworkPolicy', {
             name: 'aoe-serverless-network-policy',
             type: 'network',
-            policy: JSON.stringify({
+            policy: JSON.stringify([{
                 Rules: [
                     {
                         ResourceType: 'collection',
-                        Resource: [collection.attrArn],
-                        Description: 'Allow access from VPC only',
-                        SourceVPCEs: [
-                            `vpce-${props.vpc.vpcId}`,
-                        ],
+                        Resource: [`collection/${props.collectionName}`],
                     },
                 ],
-                "AllowFromPublic": false
-            }),
+                SourceVPCEs: [vpce.ref],
+
+            }]),
         });
 
         const dataAccessPolicy = new ops.CfnAccessPolicy(this, 'DataAccessPolicy', {
@@ -68,17 +67,15 @@ export class OpenSearchServerlessStack extends cdk.Stack {
             description: `Data access policy for: ${props.collectionName}`,
             type: "data",
 
-            policy: JSON.stringify({
-                Principal: [],
+            policy: JSON.stringify([{
+                Principal: [`arn:aws:iam::${this.account}:root`],
                 Rules: [
 
                     {
                         ResourceType: 'collection',
-                        Resource: [collection.attrArn],
-                        "Permission": [
-                            "aoss:CreateCollectionItems",
-                            "aoss:UpdateCollectionItems",
-                            "aoss:DescribeCollectionItems"
+                        Resource: [`collection/${props.collectionName}`],
+                        Permission: [
+                            "aoss:*"
                         ]
                     },
                     {
@@ -91,14 +88,14 @@ export class OpenSearchServerlessStack extends cdk.Stack {
                         ]
                     }
                 ]
-            })
+            }])
 
         })
 
 
         collection.addDependency(encryptionPolicy);
         collection.addDependency(networkPolicy);
-        // collection.addDependency(dataAccessPolicy);
+        collection.addDependency(dataAccessPolicy);
 
         new cdk.CfnOutput(this, 'CollectionArn', {
             value: collection.attrArn,
