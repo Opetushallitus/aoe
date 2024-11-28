@@ -121,11 +121,12 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-open-search`,
-    collectionName: "aoecollection",
-    description: "Collection for aoe",
+    collectionName: environmentConfig.open_search.collectionName,
+    description: environmentConfig.open_search.collectionDescription,
     securityGroupIds: [SecurityGroups.openSearchSecurityGroup.securityGroupId],
     vpc: Network.vpc,
     kmsKey: Kms.openSearchKmsKey,
+    standbyReplicas: environmentConfig.open_search.standbyReplicas
   });
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
