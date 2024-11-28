@@ -12,22 +12,24 @@ service / database, Security Groups and  SG rules must first be defined here)
 */
 
 interface SecurityGroupStackProps extends StackProps {
-    vpc: ec2.IVpc
+  vpc: ec2.IVpc
 }
 
 export class SecurityGroupStack extends cdk.Stack {
   public readonly semanticApisServiceSecurityGroup: ec2.SecurityGroup;
   public readonly albSecurityGroup: ec2.SecurityGroup;
-  public readonly testAuroraSecurityGroup: ec2.SecurityGroup;
+  public readonly webBackendAuroraSecurityGroup: ec2.SecurityGroup;
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup;
   public readonly bastionSecurityGroup: ec2.SecurityGroup;
   public readonly openSearchSecurityGroup: ec2.SecurityGroup;
+  public readonly dataAnalyticsServiceSecurityGroup: ec2.SecurityGroup;
+  public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup;
 
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
 
-// Security Groups
+    // Security Groups
     this.bastionSecurityGroup = new ec2.SecurityGroup(this, 'BastionSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
@@ -38,12 +40,22 @@ export class SecurityGroupStack extends cdk.Stack {
       allowAllOutbound: true,
     });
 
+    this.dataAnalyticsServiceSecurityGroup = new ec2.SecurityGroup(this, 'DataAnalyticsServiceSecurityGroupSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    });
+
+    this.webBackendsServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendServiceSecurityGroupSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    });
+
     this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(this, 'SemanticApisServiceSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
     });
 
-    this.testAuroraSecurityGroup = new ec2.SecurityGroup(this, 'AuroraTestSecurityGroup', {
+    this.webBackendAuroraSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendAuroraSecurityGroupSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
     });
@@ -58,11 +70,11 @@ export class SecurityGroupStack extends cdk.Stack {
       allowAllOutbound: true
     })
 
-// Security Group rules
+    // Security Group rules
 
     this.openSearchSecurityGroup.addIngressRule(
-        this.bastionSecurityGroup,
-        ec2.Port.tcp(443)
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(443)
     )
 
     this.semanticApisRedisSecurityGroup.addIngressRule(
@@ -86,11 +98,20 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Peer.anyIpv4(),
       ec2.Port.tcp(80)
     );
-    
-// Output all security group IDs so that they can be consumed from ECS service/RDS stacks
-  new CfnOutput(this, 'albSecurityGroupId', { value: this.albSecurityGroup.securityGroupId });
-  new CfnOutput(this, 'semanticApisServiceSecurityGroup', { value: this.semanticApisServiceSecurityGroup.securityGroupId });
-  new CfnOutput(this, 'testAuroraSecurityGroup2Id', { value: this.testAuroraSecurityGroup.securityGroupId });
+
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(5432)
+    );
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(5432)
+    );
+
+    // Output all security group IDs so that they can be consumed from ECS service/RDS stacks
+    //  new CfnOutput(this, 'albSecurityGroupId', { value: this.albSecurityGroup.securityGroupId });
+    //  new CfnOutput(this, 'semanticApisServiceSecurityGroup', { value: this.semanticApisServiceSecurityGroup.securityGroupId });
+    //  new CfnOutput(this, 'testAuroraSecurityGroup2Id', { value: this.testAuroraSecurityGroup.securityGroupId });
   }
 
 }

@@ -50,4 +50,11 @@ First, add a new Security Group and Security Group rules to the `security-groups
 
 ## Adding a new database
 
-First, add a new Security Group and Security Group rules to the `security-groups.ts`, add the service/environment specific database configuration into `environments/<environment>.json` then create a new stack instance of `rds-database.ts` in the `/bin/infra.ts`
+Then, 
+- add a new Security Group and Security Group rules to the `security-groups.ts`, 
+- add a new secret in the `secrets-manager-stack.ts`
+- add the service/environment specific database configuration into `environments/<environment>.json` 
+- create a new stack instance of `aurora-serverless-database.ts` in the `/bin/infra.ts`
+
+Aurora stack creation only creates database master user with a password stored in the AWS Secrets Manager (`/auroradbs/<DBNAME>/master-user-password`). Application user must be created (and granted) separately.
+
