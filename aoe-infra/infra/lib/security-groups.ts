@@ -25,6 +25,8 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly dataAnalyticsServiceSecurityGroup: ec2.SecurityGroup;
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup;
 
+  public readonly streamingServiceSecurityGroup: ec2.SecurityGroup;
+
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
@@ -46,6 +48,11 @@ export class SecurityGroupStack extends cdk.Stack {
     });
 
     this.webBackendsServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendServiceSecurityGroupSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    });
+
+    this.streamingServiceSecurityGroup = new ec2.SecurityGroup(this, 'StreamingServiceSecurityGroupSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
     });
@@ -81,18 +88,32 @@ export class SecurityGroupStack extends cdk.Stack {
       this.semanticApisServiceSecurityGroup,
       ec2.Port.tcp(6379)
     );
+
     this.semanticApisRedisSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(6379)
     );
+
     this.semanticApisServiceSecurityGroup.addIngressRule(
       this.albSecurityGroup,
       ec2.Port.tcp(8080)
     );
+
     this.semanticApisServiceSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(8080)
     );
+
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+        this.albSecurityGroup,
+        ec2.Port.tcp(8080)
+    )
+
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+        this.bastionSecurityGroup,
+        ec2.Port.tcp(8080)
+    )
+
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
@@ -103,6 +124,7 @@ export class SecurityGroupStack extends cdk.Stack {
       this.webBackendsServiceSecurityGroup,
       ec2.Port.tcp(5432)
     );
+
     this.webBackendAuroraSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(5432)

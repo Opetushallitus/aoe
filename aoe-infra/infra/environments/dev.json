@@ -5,6 +5,22 @@
         "domain": "dev.aoe.fi"
     },
     "services": {
+        "streaming": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-30",
+            "allow_ecs_exec": true,
+            "env_vars": {
+                "LOG_LEVEL": "error",
+                "PORT": "8080",
+                "NODE_ENV": "production",
+                "STORAGE_BUCKET": "aoe-dev",
+                "STORAGE_REGION": "eu-west-1",
+                "STORAGE_MAX_RANGE": "10000000"
+            }
+        },
         "semantic_apis": {
             "cpu_limit": "512",
             "memory_limit": "1024",
@@ -51,6 +67,11 @@
             "performance_insights": false,
             "domain_names": ["web-backend"]
           }
+    },
+    "S3": {
+        "aoeBucketName": "aoe",
+        "aoePdfBucketName": "aoepdf",
+        "aoeThumbnailBucketName": "aoethumbnail"
     },
     "redis_serverless": {
         "semantic_apis": {

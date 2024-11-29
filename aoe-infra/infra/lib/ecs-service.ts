@@ -6,10 +6,10 @@ import { ICluster, ContainerImage, AwsLogDriver, Secret, FargatePlatformVersion,
 import { IVpc, ISecurityGroup } from "aws-cdk-lib/aws-ec2"
 import { ApplicationListenerRule, ApplicationProtocol, ApplicationTargetGroup, IApplicationListener, IApplicationLoadBalancer, ListenerCondition, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2"
 import { Repository } from "aws-cdk-lib/aws-ecr"
-import { StringParameter } from "aws-cdk-lib/aws-ssm"
 import { AdjustmentType } from "aws-cdk-lib/aws-autoscaling"
 import * as ssm from "aws-cdk-lib/aws-ssm"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
+import * as iam from "aws-cdk-lib/aws-iam";
 
 
 interface EcsServiceStackProps extends StackProps {
@@ -38,6 +38,9 @@ interface EcsServiceStackProps extends StackProps {
   healthCheckInterval: number
   healthCheckTimeout: number
   securityGroup: ISecurityGroup
+  secrets?: secretsmanager.Secret[]
+  iAmPolicyStatement?: iam.PolicyStatement
+
 }
 
 export class EcsServiceStack extends Stack {
@@ -116,6 +119,12 @@ export class EcsServiceStack extends Stack {
          [secretName]: Secret.fromSecretsManager(secret, "secretkey"),
         });
        }, {}),
+      // Additional secrets passed directly via props.secrets
+      ...(props.secrets || []).reduce((secretsAcc, secret) => {
+        return Object.assign(secretsAcc, {
+          [secret.secretName]: Secret.fromSecretsManager(secret, "secretkey"),
+        });
+      }, {})
       };
 
 
@@ -147,6 +156,11 @@ export class EcsServiceStack extends Stack {
         operatingSystemFamily: OperatingSystemFamily.LINUX
       },
     })
+
+    if (props.iAmPolicyStatement) {
+      taskDefinition.taskRole.addToPrincipalPolicy(props.iAmPolicyStatement)
+    }
+
     taskDefinition.addContainer(`${props.serviceName}`, {
       image: ContainerImage.fromEcrRepository(
         ImageRepository,

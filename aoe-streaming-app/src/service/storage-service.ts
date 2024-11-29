@@ -6,10 +6,10 @@ import { winstonLogger } from '../util';
 
 // Cloud object storage configuration
 const configAWS: ServiceConfigurationOptions = {
-  credentials: {
-    accessKeyId: process.env.STORAGE_KEY as string,
-    secretAccessKey: process.env.STORAGE_SECRET as string,
-  },
+  // credentials: {
+  //   accessKeyId: process.env.STORAGE_KEY as string,
+  //   secretAccessKey: process.env.STORAGE_SECRET as string,
+  // },
   endpoint: process.env.STORAGE_URL as string,
   region: process.env.STORAGE_REGION as string,
 };
