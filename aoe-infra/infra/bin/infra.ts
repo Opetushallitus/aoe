@@ -259,14 +259,10 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
       "PROXY_URI", // OIDC
       "PID_SERVICE_URL", // PID
       "CLIENT_ID", // OIDC
-
     ],
     secrets_manager_secrets: [
-      "REDIS_PASS",
       "PG_PASS", // postgre password
       "SESSION_SECRET", // Redis session secret
-      "CLOUD_STORAGE_ACCESS_KEY", // S3
-      "CLOUD_STORAGE_ACCESS_SECRET", // S3
       "CLIENT_SECRET", // OIDC
       "JWT_SECRET", // email
       "PID_API_KEY" // PID Service
@@ -279,7 +275,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 100,
+    albPriority: 102,
     iAmPolicyStatement: new iam.PolicyStatement({
       actions: [
         'aoss:CreateIndex',
