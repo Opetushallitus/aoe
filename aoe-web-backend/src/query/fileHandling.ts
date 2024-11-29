@@ -36,11 +36,6 @@ import StreamZip from 'node-stream-zip';
 
 // AWS and S3 configurations.
 const configAWS: ServiceConfigurationOptions = {
-  credentials: {
-    accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-    secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-  },
-  endpoint: process.env.CLOUD_STORAGE_API,
   region: process.env.CLOUD_STORAGE_REGION,
 };
 AWS.config.update(configAWS);
@@ -1030,11 +1025,6 @@ export const uploadFileToStorage = (
   materialMeta?: Material,
 ): Promise<SendData> => {
   const config: ServiceConfigurationOptions = {
-    credentials: {
-      accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-      secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-    },
-    endpoint: process.env.CLOUD_STORAGE_API,
     region: process.env.CLOUD_STORAGE_REGION,
   };
   AWS.config.update(config);
@@ -1086,11 +1076,6 @@ export async function uploadBase64FileToStorage(
   return new Promise(async (resolve, reject) => {
     try {
       const config: ServiceConfigurationOptions = {
-        credentials: {
-          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-        },
-        endpoint: process.env.CLOUD_STORAGE_API,
         region: process.env.CLOUD_STORAGE_REGION,
       };
       AWS.config.update(config);
@@ -1454,11 +1439,6 @@ export const downloadAndZipFromStorage = (
 ): Promise<void> => {
   return new Promise((resolve, reject): void => {
     const s3: S3Client = new S3Client({
-      credentials: {
-        accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
-        secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
-      },
-      endpoint: process.env.CLOUD_STORAGE_API,
       region: process.env.CLOUD_STORAGE_REGION,
     } as S3ClientConfig);
     const bucket = process.env.CLOUD_STORAGE_BUCKET;
