@@ -209,8 +209,8 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
 
   const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
     env: { region: "eu-west-1" },
-    stackName: `${environmentName}-streaming-service`,
-    serviceName: 'streaming-service',
+    stackName: `${environmentName}-streaming-app-service`,
+    serviceName: 'streaming-app',
     environment: environmentName,
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
