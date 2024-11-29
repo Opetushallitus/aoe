@@ -40,7 +40,6 @@ interface EcsServiceStackProps extends StackProps {
   securityGroup: ISecurityGroup
   secrets?: secretsmanager.Secret[]
   iAmPolicyStatement?: iam.PolicyStatement
-
 }
 
 export class EcsServiceStack extends Stack {

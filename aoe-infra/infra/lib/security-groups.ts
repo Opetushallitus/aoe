@@ -24,9 +24,7 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly openSearchSecurityGroup: ec2.SecurityGroup;
   public readonly dataAnalyticsServiceSecurityGroup: ec2.SecurityGroup;
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup;
-
   public readonly streamingServiceSecurityGroup: ec2.SecurityGroup;
-
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);

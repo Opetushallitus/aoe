@@ -24,8 +24,8 @@ import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
 import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
-import {S3Stack} from "../lib/s3Stack";
-import {PolicyStatement} from "aws-cdk-lib/aws-iam";
+import { S3Stack } from "../lib/s3Stack";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 const app = new cdk.App();
 

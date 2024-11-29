@@ -3,8 +3,7 @@ import { RemovalPolicy } from 'aws-cdk-lib/core'
 import * as s3 from 'aws-cdk-lib/aws-s3'
 import { BucketAccessControl, ObjectOwnership } from 'aws-cdk-lib/aws-s3'
 import { Construct } from 'constructs'
-import {StackProps} from "aws-cdk-lib";
-import * as iam from "aws-cdk-lib/aws-iam";
+import { StackProps } from "aws-cdk-lib";
 
 
 interface S3StackProps extends StackProps {
@@ -27,7 +26,7 @@ export class S3Stack extends cdk.Stack {
         this.aoeThumbnailBucket = this.newBucket(props.aoeThumbnailBucketName, props)
     }
 
-    newBucket(bucketName: string, props : S3StackProps): s3.Bucket {
+    newBucket(bucketName: string, props: S3StackProps): s3.Bucket {
         return new s3.Bucket(this, `${bucketName}Bucket`, {
             bucketName: `${bucketName}-${props.environment}`,
             accessControl: BucketAccessControl.PRIVATE,
