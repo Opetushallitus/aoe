@@ -233,7 +233,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 100,
+    albPriority: 101,
     iAmPolicyStatement: s3PolicyStatement,
   })
 

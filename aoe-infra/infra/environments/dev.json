@@ -10,7 +10,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-30",
+            "image_tag": "ga-47",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "error",
