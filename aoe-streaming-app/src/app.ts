@@ -37,7 +37,7 @@ app.use(morganHttpLogger);
 
 // Connected API versions and custom middlewares
 app.use('/', apiRouterRoot);
-app.use('/api/v1', postHttpProcessor, apiRouterV1);
+app.use('/stream/api/v1', postHttpProcessor, apiRouterV1);
 app.use('/favicon.ico', express.static('./views/favicon.ico'));
 
 // Default error handler

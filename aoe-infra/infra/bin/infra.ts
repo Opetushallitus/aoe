@@ -24,6 +24,8 @@ import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
 import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
+import { S3Stack } from "../lib/s3Stack";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 
 const app = new cdk.App();
 
@@ -173,6 +175,14 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     cloudFrontDistribution: Cloudfront.distribution,
   })
 
+  const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
+    env: { region: "eu-west-1" },
+    environment: environmentName,
+    aoeBucketName: environmentConfig.S3.aoeBucketName,
+    aoePdfBucketName: environmentConfig.S3.aoePdfBucketName,
+    aoeThumbnailBucketName: environmentConfig.S3.aoeThumbnailBucketName
+  })
+
 
   const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
     env: { region: "eu-west-1" },
@@ -190,6 +200,43 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     vpc: Network.vpc,
     logGroupKmsKey: Kms.cloudwatchLogsKmsKey
   })
+
+  const buckets = s3BucketStack.allBuckets()
+  const s3PolicyStatement = new PolicyStatement({
+    actions: ['s3:ListBucket', 's3:PutObject', 's3:GetObject', 's3:DeleteObject'],
+    resources: buckets.flatMap((bucket) => [bucket.bucketArn, `${bucket.bucketArn}/*`])
+  })
+
+  const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-streaming-app-service`,
+    serviceName: 'streaming-app',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.streamingServiceSecurityGroup,
+    imageTag: environmentConfig.services.streaming.image_tag,
+    allowEcsExec: environmentConfig.services.streaming.allow_ecs_exec,
+    taskCpu: environmentConfig.services.streaming.cpu_limit,
+    taskMemory: environmentConfig.services.streaming.memory_limit,
+    minimumCount: environmentConfig.services.streaming.min_count,
+    maximumCount: environmentConfig.services.streaming.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.streaming.env_vars,
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: ["/stream/api/v1*"],
+    healthCheckPath: "/",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 101,
+    iAmPolicyStatement: s3PolicyStatement,
+  })
+
 
   const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
     env: { region: "eu-west-1" },
