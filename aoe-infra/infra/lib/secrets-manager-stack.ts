@@ -48,7 +48,7 @@ export class SecretManagerStack extends cdk.Stack {
             },
         });
 
-        this.webBackendAuroraUserPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
+        this.webBackendAuroraUserPassword = new secretsmanager.Secret(this, 'WebBackendAuroraUserPassword', {
             secretName: '/service/web-backend/PG_PASS',
             generateSecretString: {
                 secretStringTemplate: JSON.stringify({ username: "aoeuser", }),

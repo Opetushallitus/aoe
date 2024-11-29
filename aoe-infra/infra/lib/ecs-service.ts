@@ -1,5 +1,5 @@
 import * as _ from "lodash"
-import { Stack, StackProps, Duration, Fn, CfnOutput, SecretValue, RemovalPolicy } from "aws-cdk-lib"
+import { Stack, StackProps, Duration, CfnOutput, RemovalPolicy } from "aws-cdk-lib"
 import { Construct } from "constructs"
 import { LogGroup } from "aws-cdk-lib/aws-logs"
 import { ICluster, ContainerImage, AwsLogDriver, Secret, FargatePlatformVersion, CpuArchitecture, OperatingSystemFamily, UlimitName, FargateService, TaskDefinition, Compatibility } from "aws-cdk-lib/aws-ecs"
@@ -10,6 +10,7 @@ import { AdjustmentType } from "aws-cdk-lib/aws-autoscaling"
 import * as ssm from "aws-cdk-lib/aws-ssm"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as iam from "aws-cdk-lib/aws-iam";
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
 
 
 interface EcsServiceStackProps extends StackProps {
@@ -39,7 +40,7 @@ interface EcsServiceStackProps extends StackProps {
   healthCheckTimeout: number
   securityGroup: ISecurityGroup
   secrets?: secretsmanager.Secret[]
-  iAmPolicyStatement?: iam.PolicyStatement
+  iAmPolicyStatements?: iam.PolicyStatement[]
 }
 
 export class EcsServiceStack extends Stack {
@@ -60,6 +61,10 @@ export class EcsServiceStack extends Stack {
 
   //  const utilityAccountId = SecretValue.ssmSecure('/aoe/utility_account_id').unsafeUnwrap()
 
+    const namespace = new servicediscovery.PrivateDnsNamespace(this, 'Namespace', {
+      name: 'aoe.local',
+      vpc: props.vpc,
+    });
 
     const ImageRepository = Repository.fromRepositoryAttributes(
       this,
@@ -156,8 +161,10 @@ export class EcsServiceStack extends Stack {
       },
     })
 
-    if (props.iAmPolicyStatement) {
-      taskDefinition.taskRole.addToPrincipalPolicy(props.iAmPolicyStatement)
+    if (props.iAmPolicyStatements && Array.isArray(props.iAmPolicyStatements)) {
+      props.iAmPolicyStatements.forEach(statement => {
+        taskDefinition.taskRole.addToPrincipalPolicy(statement);
+      });
     }
 
     taskDefinition.addContainer(`${props.serviceName}`, {
@@ -192,7 +199,13 @@ export class EcsServiceStack extends Stack {
         healthCheckGracePeriod: Duration.seconds(props.healthCheckGracePeriod),
         enableExecuteCommand: props.allowEcsExec? true: false,
         circuitBreaker: { rollback: true },
-        securityGroups: [props.securityGroup]
+        securityGroups: [props.securityGroup],
+        cloudMapOptions: {
+          name: props.serviceName,
+          cloudMapNamespace: namespace,
+          dnsRecordType: servicediscovery.DnsRecordType.A,
+          dnsTtl: Duration.seconds(15),
+        },
       }
     )
 
@@ -234,5 +247,9 @@ export class EcsServiceStack extends Stack {
       adjustmentType: AdjustmentType.CHANGE_IN_CAPACITY,
       cooldown: Duration.minutes(3),
     })
+
+    new CfnOutput(this, 'ServiceDiscoveryName', {
+      value: `${props.serviceName}.${namespace.namespaceName}`,
+    });
   }
 }
