@@ -26,6 +26,7 @@ import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
 import { S3Stack } from "../lib/s3Stack";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 const app = new cdk.App();
 
@@ -237,6 +238,62 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     iAmPolicyStatement: s3PolicyStatement,
   })
 
+
+  const WebBackendService = new EcsServiceStack(app, 'WebBackendService', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-web-backend-service`,
+    serviceName: 'web-backend',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.webBackendServiceSecurityGroup,
+    imageTag: environmentConfig.services.web_backend.image_tag,
+    allowEcsExec: environmentConfig.services.web_backend.allow_ecs_exec,
+    taskCpu: environmentConfig.services.web_backend.cpu_limit,
+    taskMemory: environmentConfig.services.web_backend.memory_limit,
+    minimumCount: environmentConfig.services.web_backend.min_count,
+    maximumCount: environmentConfig.services.web_backend.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.web_backend.env_vars,
+    parameter_store_secrets: [
+      "PROXY_URI", // OIDC
+      "PID_SERVICE_URL", // PID
+      "CLIENT_ID", // OIDC
+
+    ],
+    secrets_manager_secrets: [
+      "REDIS_PASS",
+      "PG_PASS", // postgre password
+      "SESSION_SECRET", // Redis session secret
+      "CLOUD_STORAGE_ACCESS_KEY", // S3
+      "CLOUD_STORAGE_ACCESS_SECRET", // S3
+      "CLIENT_SECRET", // OIDC
+      "JWT_SECRET", // email
+      "PID_API_KEY" // PID Service
+    ],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: ["/api/v1*", "/api/v2*", "/h5p/*", "/embed/*"],
+    healthCheckPath: "/",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 100,
+    iAmPolicyStatement: new iam.PolicyStatement({
+      actions: [
+        'aoss:CreateIndex',
+        'aoss:DeleteIndex',
+        'aoss:UpdateIndex',
+        'aoss:DescribeIndex',
+        'aoss:ReadDocument',
+        'aoss:WriteDocument'
+      ],
+      resources: [OpenSearch.collectionArn]
+    }),
+    secrets: [Secrets.semanticApisPassword]
+
+  })
 
   const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
     env: { region: "eu-west-1" },

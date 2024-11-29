@@ -17,6 +17,7 @@ interface SecurityGroupStackProps extends StackProps {
 
 export class SecurityGroupStack extends cdk.Stack {
   public readonly semanticApisServiceSecurityGroup: ec2.SecurityGroup;
+  public readonly webBackendServiceSecurityGroup: ec2.SecurityGroup;
   public readonly albSecurityGroup: ec2.SecurityGroup;
   public readonly webBackendAuroraSecurityGroup: ec2.SecurityGroup;
   public readonly semanticApisRedisSecurityGroup: ec2.SecurityGroup;
@@ -56,6 +57,11 @@ export class SecurityGroupStack extends cdk.Stack {
     });
 
     this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(this, 'SemanticApisServiceSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    });
+
+    this.webBackendServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebBackendServiceSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
     });
@@ -112,6 +118,18 @@ export class SecurityGroupStack extends cdk.Stack {
         ec2.Port.tcp(8080)
     )
 
+
+    this.webBackendServiceSecurityGroup.addIngressRule(
+        this.albSecurityGroup,
+        ec2.Port.tcp(8080)
+    );
+
+    this.webBackendServiceSecurityGroup.addIngressRule(
+        this.bastionSecurityGroup,
+        ec2.Port.tcp(8080)
+    );
+
+
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
@@ -126,6 +144,11 @@ export class SecurityGroupStack extends cdk.Stack {
     this.webBackendAuroraSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(5432)
+    );
+
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+        this.webBackendServiceSecurityGroup,
+        ec2.Port.tcp(5432)
     );
 
     // Output all security group IDs so that they can be consumed from ECS service/RDS stacks

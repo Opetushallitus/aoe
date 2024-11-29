@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { IKey } from "aws-cdk-lib/aws-kms";
+import {SecretValue} from "aws-cdk-lib";
 
 interface SecretManagerStackProps extends cdk.StackProps {
     kmsKey: IKey;
@@ -12,6 +13,8 @@ interface SecretManagerStackProps extends cdk.StackProps {
 export class SecretManagerStack extends cdk.Stack {
     public readonly semanticApisPassword: secretsmanager.Secret;
     public readonly webBackendAuroraPassword: secretsmanager.Secret;
+    public readonly webBackendAuroraUserPassword: secretsmanager.Secret;
+    public readonly webBackendPassportSessionSecret: secretsmanager.Secret
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
         super(scope, id, props);
 
@@ -24,6 +27,17 @@ export class SecretManagerStack extends cdk.Stack {
                 excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
             },
         });
+
+        this.webBackendPassportSessionSecret = new secretsmanager.Secret(this, 'PassportSessionSecret', {
+            secretName: '/service/web-backend/SESSION_SECRET',
+            generateSecretString: {
+                secretStringTemplate: JSON.stringify({}),
+                passwordLength: 32,
+                generateStringKey: 'secretkey',
+                excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+            },
+        });
+
         this.webBackendAuroraPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
             secretName: '/auroradbs/web-backend/master-user-password',
             generateSecretString: {
@@ -33,6 +47,17 @@ export class SecretManagerStack extends cdk.Stack {
                 excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
             },
         });
+
+        this.webBackendAuroraUserPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
+            secretName: '/service/web-backend/PG_PASS',
+            generateSecretString: {
+                secretStringTemplate: JSON.stringify({ username: "aoeuser", }),
+                generateStringKey: 'password',
+                passwordLength: 24,
+                excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+            },
+        });
+
     }
 }
 
