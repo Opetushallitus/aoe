@@ -235,7 +235,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 101,
-    iAmPolicyStatement: s3PolicyStatement,
+    iAmPolicyStatements: [s3PolicyStatement],
   })
 
 
@@ -276,7 +276,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 102,
-    iAmPolicyStatement: new iam.PolicyStatement({
+    iAmPolicyStatements: [new iam.PolicyStatement({
       actions: [
         'aoss:CreateIndex',
         'aoss:DeleteIndex',
@@ -286,7 +286,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
         'aoss:WriteDocument'
       ],
       resources: [OpenSearch.collectionArn]
-    }),
+    }), s3PolicyStatement],
     secrets: [Secrets.semanticApisPassword]
 
   })

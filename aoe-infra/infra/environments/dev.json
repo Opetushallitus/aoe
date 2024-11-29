@@ -45,7 +45,6 @@
                 "SESSION_OPTION_ROLLING": "false",
                 "SESSION_OPTION_SAVE_UNINITIALIZED": "false",
 
-                "CLOUD_STORAGE_API": "https://XXXXX",
                 "CLOUD_STORAGE_REGION": "eu-west-1",
                 "CLOUD_STORAGE_BUCKET": "aoe",
                 "CLOUD_STORAGE_BUCKET_PDF": "aoepdf",
@@ -111,7 +110,7 @@
                 "STREAM_ENABLED": "0",
                 "STREAM_FILESIZE_MIN": "100000",
                 "STREAM_REDIRECT_URI": "https://stream.dev.aoe.fi/api/v1/material/",
-                "STREAM_STATUS_HOST": "stream.dev.aoe.fi",
+                "STREAM_STATUS_HOST": "streaming-app.aoe.local",
                 "STREAM_STATUS_PATH": "/api/v1/material/"
 
         }
