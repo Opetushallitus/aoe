@@ -1,3 +1,3 @@
 export interface ISearchIndexMap {
-  mappings: unknown;
+  mappings: Record<string, any>;
 }
