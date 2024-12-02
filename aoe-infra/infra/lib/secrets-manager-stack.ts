@@ -13,7 +13,6 @@ interface SecretManagerStackProps extends cdk.StackProps {
 export class SecretManagerStack extends cdk.Stack {
     public readonly semanticApisPassword: secretsmanager.Secret;
     public readonly webBackendAuroraPassword: secretsmanager.Secret;
-    public readonly webBackendAuroraUserPassword: secretsmanager.Secret;
     public readonly webBackendPassportSessionSecret: secretsmanager.Secret
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
         super(scope, id, props);
@@ -42,16 +41,6 @@ export class SecretManagerStack extends cdk.Stack {
             secretName: '/auroradbs/web-backend/master-user-password',
             generateSecretString: {
                 secretStringTemplate: JSON.stringify({ username: "aoemaster", }),
-                generateStringKey: 'password',
-                passwordLength: 24,
-                excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
-            },
-        });
-
-        this.webBackendAuroraUserPassword = new secretsmanager.Secret(this, 'WebBackendAuroraUserPassword', {
-            secretName: '/service/web-backend/PG_PASS',
-            generateSecretString: {
-                secretStringTemplate: JSON.stringify({ username: "aoeuser", }),
                 generateStringKey: 'password',
                 passwordLength: 24,
                 excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'

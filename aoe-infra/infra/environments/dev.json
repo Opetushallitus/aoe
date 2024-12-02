@@ -5,14 +5,33 @@
         "domain": "dev.aoe.fi"
     },
     "services": {
+        "data_services": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-47",
+            "allow_ecs_exec": true,
+            "env_vars": {
+                "SPRING_PROFILES_ACTIVE": "prod",
+                "SERVER_PORT": "8080",
+                "AOE_OAIIDENTIFIER_REPOSITORYIDENTIFIER": "dev.aoe.fi",
+                "AOE_REQUEST_PERPAGE": "20",
+                "AOE_REQUEST_URL": "http://web-backend.dev.aoe.local:8080/api/v1/oaipmh/metadata"
+            }
+        },
         "web_backend": {
             "cpu_limit": "512",
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-30",
+            "image_tag": "ga-59",
             "allow_ecs_exec": true,
             "env_vars": {
+
+                "PROXY_URI":  "http://localhost",
+                "PID_SERVICE_URL": "http://localhost",
+                "CLIENT_ID":  "temp",
                 "NODE_ENV": "production",
                 "LOG_LEVEL": "error",
                 "PORT_LISTEN": "8080",
@@ -22,12 +41,11 @@
                 "HTTP_OPTIONS_RETRY": "2",
                 "HTTP_OPTIONS_CLOCK_TOLERANCE":"5",
 
-                "POSTGRESQL_HOST": "xxx",
+                "POSTGRESQL_HOST": "dev-web-backend-aurora-devwebbackendwriter4c162db7-zjabck717tnp.clykem0ww4fy.eu-west-1.rds.amazonaws.com",
                 "POSTGRESQL_PORT": "5432",
                 "POSTGRESQL_DATA": "aoe",
-                "PG_USER": "XXX",
-                "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "http://aoe-data-analytics:8080",
-
+                "PG_USER": "aoe_admin",
+                "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "https://dev.aoe.fi:8080/oaipmh",
                 "KAFKA_EXCLUDED_AGENT_IDENTIFIERS": "oersi",
                 "KAFKA_BROKER_SERVERS": "xxxx:9092,xxxx:9094,xxxx:9096",
                 "KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY": "material_activity",
@@ -46,9 +64,9 @@
                 "SESSION_OPTION_SAVE_UNINITIALIZED": "false",
 
                 "CLOUD_STORAGE_REGION": "eu-west-1",
-                "CLOUD_STORAGE_BUCKET": "aoe",
-                "CLOUD_STORAGE_BUCKET_PDF": "aoepdf",
-                "CLOUD_STORAGE_BUCKET_THUMBNAIL": "aoethumbnail",
+                "CLOUD_STORAGE_BUCKET": "aoe-dev",
+                "CLOUD_STORAGE_BUCKET_PDF": "aoepdf-dev",
+                "CLOUD_STORAGE_BUCKET_THUMBNAIL": "aoethumbnail-dev",
 
                 "THUMBNAIL_END_POINT": "/app/thumbnail/",
                 "FILE_SIZE_LIMIT": "10737418240",
@@ -91,7 +109,7 @@
                 "REDIS_HOST": "semantic-apis-cdb80h.serverless.euw1.cache.amazonaws.com",
                 "REDIS_PORT": "6379",
                 "REDIS_USERNAME": "app",
-
+                "REDIS_USE_TLS": "true",
                 "BASE_URL": "https://dev.aoe.fi/api/v1/",
                 "EMAIL_FROM": "oppimateriaalivaranto@aoe.fi",
                 "TRANSPORT_AUTH_USER": "oppimateriaalivaranto@aoe.fi",
@@ -110,7 +128,7 @@
                 "STREAM_ENABLED": "0",
                 "STREAM_FILESIZE_MIN": "100000",
                 "STREAM_REDIRECT_URI": "https://stream.dev.aoe.fi/api/v1/material/",
-                "STREAM_STATUS_HOST": "streaming-app.aoe.local",
+                "STREAM_STATUS_HOST": "streaming-app.dev.aoe.local:8080",
                 "STREAM_STATUS_PATH": "/api/v1/material/"
 
         }
