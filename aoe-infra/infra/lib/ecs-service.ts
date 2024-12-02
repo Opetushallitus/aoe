@@ -11,6 +11,7 @@ import * as ssm from "aws-cdk-lib/aws-ssm"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import { PrivateDnsNamespace } from "aws-cdk-lib/aws-servicediscovery";
 
 
 interface EcsServiceStackProps extends StackProps {
@@ -39,8 +40,9 @@ interface EcsServiceStackProps extends StackProps {
   healthCheckInterval: number
   healthCheckTimeout: number
   securityGroup: ISecurityGroup
-  secrets?: secretsmanager.Secret[]
+  secrets?: string[]
   iAmPolicyStatements?: iam.PolicyStatement[]
+  privateDnsNamespace: PrivateDnsNamespace
 }
 
 export class EcsServiceStack extends Stack {
@@ -60,11 +62,6 @@ export class EcsServiceStack extends Stack {
     //   })
 
   //  const utilityAccountId = SecretValue.ssmSecure('/aoe/utility_account_id').unsafeUnwrap()
-
-    const namespace = new servicediscovery.PrivateDnsNamespace(this, 'Namespace', {
-      name: 'aoe.local',
-      vpc: props.vpc,
-    });
 
     const ImageRepository = Repository.fromRepositoryAttributes(
       this,
@@ -123,11 +120,25 @@ export class EcsServiceStack extends Stack {
          [secretName]: Secret.fromSecretsManager(secret, "secretkey"),
         });
        }, {}),
-      // Additional secrets passed directly via props.secrets
-      ...(props.secrets || []).reduce((secretsAcc, secret) => {
-        return Object.assign(secretsAcc, {
-          [secret.secretName]: Secret.fromSecretsManager(secret, "secretkey"),
-        });
+      ...(props.secrets || []).reduce((secretsAcc, secretName) => {
+
+        const secret = secretsmanager.Secret.fromSecretNameV2(
+            this,
+            `${_.upperFirst(_.camelCase(secretName))}Secret`,
+            secretName
+        );
+
+        const secretNameParts = secretName.split('/');
+        const extractedSecretName = secretNameParts.pop()
+
+        if(extractedSecretName) {
+          return Object.assign(secretsAcc, {
+            [extractedSecretName]: Secret.fromSecretsManager(secret, "secretkey"),
+          });
+        }
+
+        return secretsAcc
+
       }, {})
       };
 
@@ -202,7 +213,7 @@ export class EcsServiceStack extends Stack {
         securityGroups: [props.securityGroup],
         cloudMapOptions: {
           name: props.serviceName,
-          cloudMapNamespace: namespace,
+          cloudMapNamespace: props.privateDnsNamespace,
           dnsRecordType: servicediscovery.DnsRecordType.A,
           dnsTtl: Duration.seconds(15),
         },
@@ -249,7 +260,7 @@ export class EcsServiceStack extends Stack {
     })
 
     new CfnOutput(this, 'ServiceDiscoveryName', {
-      value: `${props.serviceName}.${namespace.namespaceName}`,
+      value: `${props.serviceName}.${props.privateDnsNamespace.namespaceName}`,
     });
   }
 }

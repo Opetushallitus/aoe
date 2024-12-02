@@ -27,6 +27,7 @@ import { HostedZoneStack } from '../lib/hosted-zone-stack'
 import { S3Stack } from "../lib/s3Stack";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import * as iam from "aws-cdk-lib/aws-iam";
+import { NamespaceStack } from "../lib/NamespaceStack"
 
 const app = new cdk.App();
 
@@ -184,6 +185,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     aoeThumbnailBucketName: environmentConfig.S3.aoeThumbnailBucketName
   })
 
+  const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
+      env: { region: "eu-west-1" }
+  })
 
   const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
     env: { region: "eu-west-1" },
@@ -236,17 +240,48 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckTimeout: 2,
     albPriority: 101,
     iAmPolicyStatements: [s3PolicyStatement],
+    privateDnsNamespace: namespace.privateDnsNamespace
   })
 
+  const DataServices = new EcsServiceStack(app, 'DataServicesEcsService', {
+    env: {region: "eu-west-1"},
+    stackName: `${environmentName}-data-services`,
+    serviceName: 'data-services',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.dataServicesSecurityGroup,
+    imageTag: environmentConfig.services.data_services.image_tag,
+    allowEcsExec: environmentConfig.services.data_services.allow_ecs_exec,
+    taskCpu: environmentConfig.services.data_services.cpu_limit,
+    taskMemory: environmentConfig.services.data_services.memory_limit,
+    minimumCount: environmentConfig.services.data_services.min_count,
+    maximumCount: environmentConfig.services.data_services.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.data_services.env_vars,
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: [ "/rest/oaipmh*" ],
+    healthCheckPath: "/rest/health",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 103,
+    privateDnsNamespace: namespace.privateDnsNamespace
 
-  const WebBackendService = new EcsServiceStack(app, 'WebBackendService', {
+  })
+
+  const WebBackendService = new EcsServiceStack(app, 'WebBackendEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
     environment: environmentName,
     cluster: FargateCluster.fargateCluster,
     vpc: Network.vpc,
-    securityGroup: SecurityGroups.webBackendServiceSecurityGroup,
+    securityGroup: SecurityGroups.webBackendsServiceSecurityGroup,
     imageTag: environmentConfig.services.web_backend.image_tag,
     allowEcsExec: environmentConfig.services.web_backend.allow_ecs_exec,
     taskCpu: environmentConfig.services.web_backend.cpu_limit,
@@ -256,9 +291,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: environmentConfig.services.web_backend.env_vars,
     parameter_store_secrets: [
-      "PROXY_URI", // OIDC
-      "PID_SERVICE_URL", // PID
-      "CLIENT_ID", // OIDC
+      // "PROXY_URI", // OIDC
+      // "PID_SERVICE_URL", // PID
+      // "CLIENT_ID", // OIDC
     ],
     secrets_manager_secrets: [
       "PG_PASS", // postgre password
@@ -278,16 +313,12 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     albPriority: 102,
     iAmPolicyStatements: [new iam.PolicyStatement({
       actions: [
-        'aoss:CreateIndex',
-        'aoss:DeleteIndex',
-        'aoss:UpdateIndex',
-        'aoss:DescribeIndex',
-        'aoss:ReadDocument',
-        'aoss:WriteDocument'
+        'aoss:*'
       ],
       resources: [OpenSearch.collectionArn]
     }), s3PolicyStatement],
-    secrets: [Secrets.semanticApisPassword]
+    secrets: ['/service/semantic-apis/REDIS_PASS'],
+    privateDnsNamespace: namespace.privateDnsNamespace
 
   })
 
@@ -321,10 +352,12 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 100,
-    //    domain: environmentConfig.aws.domain,
+    privateDnsNamespace: namespace.privateDnsNamespace
+
+      //    domain: environmentConfig.aws.domain,
   })
 
-  // utility account resources.. 
+  // utility account resources..
 }
 else if (environmentName == 'utility') {
 
