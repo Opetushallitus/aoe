@@ -8,21 +8,21 @@ import * as path from 'path';
 
 interface FrontendStaticContentDeploymentStackProps extends StackProps {
     //    domain: string
-        environment: string,
-        cloudFrontDistribution: cloudfront.Distribution,
-        bucket: s3.Bucket,
-    }
-    
+    environment: string,
+    cloudFrontDistribution: cloudfront.Distribution,
+    bucket: s3.Bucket,
+}
+
 export class FrontendStaticContentDeploymentStack extends Stack {
     constructor(scope: Construct, id: string, props: FrontendStaticContentDeploymentStackProps) {
-    super(scope, id, props);
+        super(scope, id, props);
 
-    new s3deploy.BucketDeployment(this, 'XXXXXX', {
-        sources: [s3deploy.Source.asset(path.join(__dirname, '../frontend/dist'))],
-        destinationBucket: props.bucket,
-        destinationKeyPrefix: 'static',
-        distribution: props.cloudFrontDistribution,
-        distributionPaths: ['/static/*'],
-    });
+        new s3deploy.BucketDeployment(this, 'XXXXXX', {
+            sources: [s3deploy.Source.asset(path.join(__dirname, '../aoe-web/frontend/dist'))],
+            destinationBucket: props.bucket,
+            destinationKeyPrefix: 'static',
+            distribution: props.cloudFrontDistribution,
+            distributionPaths: ['/static/*'],
+        });
     }
 } 
