@@ -28,7 +28,6 @@
             "image_tag": "ga-59",
             "allow_ecs_exec": true,
             "env_vars": {
-
                 "PROXY_URI":  "http://localhost",
                 "PID_SERVICE_URL": "http://localhost",
                 "CLIENT_ID":  "temp",
@@ -130,7 +129,6 @@
                 "STREAM_REDIRECT_URI": "https://stream.dev.aoe.fi/api/v1/material/",
                 "STREAM_STATUS_HOST": "streaming-app.dev.aoe.local:8080",
                 "STREAM_STATUS_PATH": "/api/v1/material/"
-
         }
         },
         "streaming": {

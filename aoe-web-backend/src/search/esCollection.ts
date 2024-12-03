@@ -61,8 +61,6 @@ export async function collectionFromEs(obj: any) {
       'body': body
     };
 
-
-
     const result: ApiResponse<SearchResponse<AoeCollectionResult>> = await client.search<SearchResponse<AoeCollectionResult>>(query);
     return await aoeCollectionResponseMapper(result);
   } catch (error) {
