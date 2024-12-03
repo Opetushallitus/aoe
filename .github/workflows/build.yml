@@ -40,6 +40,13 @@ jobs:
           IMAGE_TAG: ga-${{ github.run_number }}
           TRUST_STORE_PASSWORD: ${{ secrets.TRUST_STORE_PASSWORD }}
 
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-frontend
+          path: |
+            aoe-web-frontend/dist
+
   lint:
     name: 02-lint.sh
     runs-on: ubuntu-24.04
