@@ -5,4 +5,4 @@ mount /dev/nvme1n1 /data
 chmod 770 /data
 yum update
 yum install -y htop python3-pip python3-wheel jq bash tmux nohup
-amazon-linux-extras install redis6
+amazon-linux-extras install redis6 postgresql16

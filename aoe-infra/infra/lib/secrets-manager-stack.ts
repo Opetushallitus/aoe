@@ -59,7 +59,7 @@ export class SecretManagerStack extends cdk.Stack {
         this.webBackendAuroraPassword = new secretsmanager.Secret(this, 'WebBackendAuroraPassword', {
             secretName: '/auroradbs/web-backend/master-user-password',
             generateSecretString: {
-                secretStringTemplate: JSON.stringify({ username: "aoemaster", }),
+                secretStringTemplate: JSON.stringify({ username: "aoe_db_admin", }),
                 generateStringKey: 'password',
                 passwordLength: 24,
                 excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
