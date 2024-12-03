@@ -71,6 +71,8 @@ services:
     build:
       context: aoe-data-analytics
       dockerfile: ./service-etl-processor/Dockerfile
+      secrets:
+        - trust_store_password
     image: ${AOE_DATA_ANALYTICS_TAG-aoe-data-analytics:latest}
     container_name: aoe-data-analytics
     restart: unless-stopped
@@ -372,3 +374,7 @@ services:
         }
 volumes:
   postgres_data:
+
+secrets:
+  trust_store_password:
+    environment: TRUST_STORE_PASSWORD
