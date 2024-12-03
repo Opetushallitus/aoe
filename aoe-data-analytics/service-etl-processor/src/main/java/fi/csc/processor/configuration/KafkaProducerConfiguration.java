@@ -7,6 +7,7 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
@@ -19,7 +20,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-// @ConditionalOnProperty(value = "kafka.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "kafka.enabled", matchIfMissing = true)
 @Configuration
 public class KafkaProducerConfiguration {
 
@@ -32,18 +33,11 @@ public class KafkaProducerConfiguration {
     @Value(value = "${kafka.topic.prod-search-requests}")
     private String topicSearchRequestsPrimary;
 
-    @Value(value = "${kafka.topic.material-activity}")
-    private String topicMaterialActivitySecondary;
-
-    @Value(value = "${kafka.topic.search-requests}")
-    private String topicSearchRequestsSecondary;
-
     @Bean
     public ProducerFactory<String, MaterialActivity> producerFactoryMaterialActivity() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        // configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(config);
     }
@@ -58,7 +52,6 @@ public class KafkaProducerConfiguration {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        // configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return new DefaultKafkaProducerFactory<>(config);
     }
@@ -91,19 +84,4 @@ public class KafkaProducerConfiguration {
             .build();
     }
 
-    @Bean
-    public NewTopic topicMaterialActivitySecondary() {
-        return TopicBuilder.name(topicMaterialActivitySecondary)
-            .partitions(2)
-            .replicas(2)
-            .build();
-    }
-
-    @Bean
-    public NewTopic topicSearchRequestsSecondary() {
-        return TopicBuilder.name(topicSearchRequestsSecondary)
-            .partitions(2)
-            .replicas(2)
-            .build();
-    }
 }

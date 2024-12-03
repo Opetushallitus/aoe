@@ -24,11 +24,6 @@ public class KafkaProducer {
     @Value(value = "${kafka.topic.prod-search-requests}")
     private String topicSearchRequestsPrimary;
 
-    @Value(value = "${kafka.topic.material-activity}")
-    private String topicMaterialActivitySecondary;
-
-    @Value(value = "${kafka.topic.search-requests}")
-    private String topicSearchRequestsSecondary;
 
     @Autowired
     private KafkaProducer(
@@ -76,41 +71,4 @@ public class KafkaProducer {
         });
     }
 
-    public void sendMaterialActivitySecondary(MaterialActivity materialActivity) {
-        LOG.info(String.format("Producing message -> %s", materialActivity));
-
-        ListenableFuture<SendResult<String, MaterialActivity>> future = this.kafkaTemplateMaterialActivity.send(topicMaterialActivitySecondary, materialActivity);
-
-        future.addCallback(new ListenableFutureCallback<>() {
-
-            @Override
-            public void onSuccess(SendResult<String, MaterialActivity> result) {
-                LOG.info(String.format("Sent message with offset=%s", result.getRecordMetadata().offset()));
-            }
-
-            @Override
-            public void onFailure(Throwable ex) {
-                LOG.error(String.format("Unable to send message \"%s\" due to : ", ex.getMessage()));
-            }
-        });
-    }
-
-    public void sendSearchRequestsSecondary(SearchRequest searchRequest) {
-        LOG.info(String.format("Producing message -> %s", searchRequest));
-
-        ListenableFuture<SendResult<String, SearchRequest>> future = this.kafkaTemplateSearchRequests.send(topicSearchRequestsSecondary, searchRequest);
-
-        future.addCallback(new ListenableFutureCallback<>() {
-
-            @Override
-            public void onSuccess(SendResult<String, SearchRequest> result) {
-                LOG.info(String.format("Sent message with offset=%s", result.getRecordMetadata().offset()));
-            }
-
-            @Override
-            public void onFailure(Throwable ex) {
-                LOG.error(String.format("Unable to send message \"%s\" due to : ", ex.getMessage()));
-            }
-        });
-    }
 }
