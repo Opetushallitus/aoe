@@ -138,7 +138,6 @@ export const addMapping = async (index: string, fileLocation: string): Promise<{
     const rawdata: Buffer = fs.readFileSync(fileLocation);
     const searchIndexMap: ISearchIndexMap = JSON.parse(rawdata.toString());
 
-
     client.indices.putMapping({
       index: index,
       body: searchIndexMap.mappings,

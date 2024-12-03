@@ -279,7 +279,6 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckTimeout: 2,
     albPriority: 103,
     privateDnsNamespace: namespace.privateDnsNamespace
-
   })
 
   const aossPolicyStatement = new iam.PolicyStatement({
@@ -398,11 +397,8 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckTimeout: 2,
     albPriority: 100,
     privateDnsNamespace: namespace.privateDnsNamespace
-
-      //    domain: environmentConfig.aws.domain,
   })
 
-  // utility account resources..
 }
 else if (environmentName == 'utility') {
 
