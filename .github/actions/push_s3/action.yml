@@ -1,0 +1,32 @@
+name: Push S3
+description: Upload built static frontend data to s3
+inputs:
+  source-dir:
+    description: Source directory to upload
+    required: true
+  aws-region:
+    description: AWS region
+    required: true
+  aws-s3-bucket:
+    description: AWS S3 bucket
+    required: true
+  aws-access-key-id:
+    description: AWS access key id
+    required: true
+  aws-secret-access-key:
+    description: AWS access key secret
+    required: true
+
+runs:
+  runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@master
+  - uses: jakejarvis/s3-sync-action@master
+    with:
+      args: --follow-symlinks --delete --exclude '.git*/*'
+    env:
+      SOURCE_DIR: ${{ input.source-dir }}
+      AWS_REGION: ${{ input.aws-region }}
+      AWS_S3_BUCKET: ${{ input.aws-s3-bucket }}
+      AWS_ACCESS_KEY_ID: ${{ input.aws-access-key-id }}
+      AWS_SECRET_ACCESS_KEY: ${{ input.aws-secret-access-key }}
