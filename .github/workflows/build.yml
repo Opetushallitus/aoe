@@ -36,6 +36,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IMAGE_TAG: ga-${{ github.run_number }}
 
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-frontend
+          path: |
+            aoe-web-frontend/dist
+
   lint:
     name: 02-lint.sh
     runs-on: ubuntu-24.04
