@@ -13,7 +13,7 @@ interface OpenSearchServerlessStackProps extends cdk.StackProps {
 }
 
 export class OpenSearchServerlessStack extends cdk.Stack {
-
+    readonly collectionArn: string
     constructor(scope: cdk.App, id: string, props: OpenSearchServerlessStackProps) {
         super(scope, id, props);
 
@@ -55,7 +55,7 @@ export class OpenSearchServerlessStack extends cdk.Stack {
                     {
                         ResourceType: 'collection',
                         Resource: [`collection/${props.collectionName}`],
-                    },
+                    }
                 ],
                 SourceVPCEs: [vpce.ref],
 
@@ -96,6 +96,8 @@ export class OpenSearchServerlessStack extends cdk.Stack {
         collection.addDependency(encryptionPolicy);
         collection.addDependency(networkPolicy);
         collection.addDependency(dataAccessPolicy);
+
+        this.collectionArn = collection.attrArn
 
         new cdk.CfnOutput(this, 'CollectionArn', {
             value: collection.attrArn,

@@ -1,15 +1,29 @@
-import elasticsearch, { ApiResponse, Client, ClientOptions } from '@elastic/elasticsearch';
 import { db } from '@resource/postgresClient';
 import { aoeCollectionThumbnailDownloadUrl } from '@services/urlService';
 import winstonLogger from '@util/winstonLogger';
 import { createMatchAllObject } from './esQueries';
 import { AoeBody, AoeCollectionResult, MultiMatchSeachBody, SearchResponse } from './esTypes';
+import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
+import AWS from "aws-sdk";
+import { Client, ApiResponse } from "@opensearch-project/opensearch";
 
-const client: Client = new elasticsearch.Client({
-  node: process.env.ES_NODE,
-  log: 'trace',
-  keepAlive: true
-} as ClientOptions);
+const client = new Client({
+  ...AwsSigv4Signer({
+    region: 'eu-west-1',
+    service: 'aoss',
+    getCredentials: () =>
+      new Promise((resolve, reject) => {
+        AWS.config.getCredentials((err, credentials) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(credentials);
+          }
+        });
+      }),
+  }),
+  node: process.env.ES_NODE
+});
 
 /**
  * create es collection query
@@ -46,7 +60,8 @@ export async function collectionFromEs(obj: any) {
       'size': size,
       'body': body
     };
-    const result: ApiResponse<SearchResponse<AoeCollectionResult>> = await client.search(query);
+
+    const result: ApiResponse<SearchResponse<AoeCollectionResult>> = await client.search<SearchResponse<AoeCollectionResult>>(query);
     return await aoeCollectionResponseMapper(result);
   } catch (error) {
     throw new Error(error);

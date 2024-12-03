@@ -1,6 +1,5 @@
 // <reference path="es.ts" />
 import { ErrorHandler } from '@/helpers/errorHandler';
-import { ApiResponse, Client } from '@elastic/elasticsearch';
 import winstonLogger from '@util/winstonLogger';
 import { NextFunction, Request, Response } from 'express';
 import {
@@ -14,10 +13,29 @@ import {
   SearchResponse,
   Source
 } from './esTypes';
+import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
+import AWS from "aws-sdk";
+import { ApiResponse, Client } from "@opensearch-project/opensearch";
 
 const index: string = process.env.ES_INDEX;
-const client: Client = new Client({ node: process.env.ES_NODE });
 
+const client = new Client({
+  ...AwsSigv4Signer({
+    region: 'eu-west-1',
+    service: 'aoss',
+    getCredentials: () =>
+      new Promise((resolve, reject) => {
+        AWS.config.getCredentials((err, credentials) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(credentials);
+          }
+        });
+      }),
+  }),
+  node: process.env.ES_NODE
+});
 export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Source>>) {
   try {
     const resp: AoeBody<AoeResult> = {
@@ -209,7 +227,7 @@ export const elasticSearchQuery = async (req: Request, res: Response, next: Next
       'size': size,
       'body': body
     };
-    const result: ApiResponse<SearchResponse<Source>> = await client.search(query);
+    const result: ApiResponse<SearchResponse<Source>> = await client.search<SearchResponse<Source>>(query);
     const responseBody: AoeBody<AoeResult> = await aoeResponseMapper(result);
     res.status(200).json(responseBody);
   } catch (error) {

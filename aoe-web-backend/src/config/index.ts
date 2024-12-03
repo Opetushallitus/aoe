@@ -9,9 +9,6 @@ process.env.PORT_LISTEN || missingEnvs.push('PORT_LISTEN');
 process.env.LOG_LEVEL || missingEnvs.push('LOG_LEVEL');
 process.env.TEST_RUN || missingEnvs.push('TEST_RUN');
 process.env.CLOUD_STORAGE_ENABLED || missingEnvs.push('CLOUD_STORAGE_ENABLED');
-process.env.CLOUD_STORAGE_ACCESS_KEY || missingEnvs.push('CLOUD_STORAGE_ACCESS_KEY');
-process.env.CLOUD_STORAGE_ACCESS_SECRET || missingEnvs.push('CLOUD_STORAGE_ACCESS_SECRET');
-process.env.CLOUD_STORAGE_API || missingEnvs.push('CLOUD_STORAGE_API');
 process.env.CLOUD_STORAGE_REGION || missingEnvs.push('CLOUD_STORAGE_REGION');
 process.env.CLOUD_STORAGE_BUCKET || missingEnvs.push('CLOUD_STORAGE_BUCKET');
 process.env.CLOUD_STORAGE_BUCKET_PDF || missingEnvs.push('CLOUD_STORAGE_BUCKET_PDF');
@@ -75,9 +72,6 @@ export default {
 
   // Cloud storage configurations.
   CLOUD_STORAGE_CONFIG: {
-    accessKey: process.env.CLOUD_STORAGE_ACCESS_KEY as string,
-    accessSecret: process.env.CLOUD_STORAGE_ACCESS_SECRET as string,
-    apiURL: process.env.CLOUD_STORAGE_API as string,
     region: process.env.CLOUD_STORAGE_REGION as string,
     bucket: process.env.CLOUD_STORAGE_BUCKET as string,
     bucketPDF: process.env.CLOUD_STORAGE_BUCKET_PDF as string,
