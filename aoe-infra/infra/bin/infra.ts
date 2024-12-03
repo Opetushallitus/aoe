@@ -28,6 +28,7 @@ import { S3Stack } from "../lib/s3Stack";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { NamespaceStack } from "../lib/NamespaceStack"
+import { EfsStack } from "../lib/efs-stack";
 
 const app = new cdk.App();
 
@@ -212,6 +213,13 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     resources: buckets.flatMap((bucket) => [bucket.bucketArn, `${bucket.bucketArn}/*`])
   })
 
+  const efs = new EfsStack(app, 'AOEefsStack', {
+    env: { region: 'eu-west-1' },
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.efsSecurityGroup,
+    accessPointPath: '/data'
+  })
+
   const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-streaming-app-service`,
@@ -274,6 +282,32 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
 
   })
 
+  const aossPolicyStatement = new iam.PolicyStatement({
+    actions: [
+      'aoss:CreateIndex',
+      'aoss:DeleteIndex',
+      'aoss:UpdateIndex',
+      'aoss:DescribeIndex',
+      'aoss:ReadDocument',
+      'aoss:WriteDocument',
+      'aoss:DescribeCollectionItems',
+      'aoss:UpdateCollectionItems',
+      'aoss:DeleteCollectionItems',
+      'aoss:CreateCollectionItems',
+      'aoss:APIAccessAll'
+    ],
+    resources: [OpenSearch.collectionArn]
+  });
+  const efsPolicyStatement = new iam.PolicyStatement({
+    actions: [
+      'elasticfilesystem:DescribeFileSystems',
+      'elasticfilesystem:ClientWrite',
+      'elasticfilesystem:ClientMount',
+      'elasticfilesystem:DescribeMountTargets'
+    ],
+    resources: [efs.fileSystem.fileSystemArn]
+  });
+
   const WebBackendService = new EcsServiceStack(app, 'WebBackendEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-web-backend-service`,
@@ -290,17 +324,14 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     maximumCount: environmentConfig.services.web_backend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: environmentConfig.services.web_backend.env_vars,
-    parameter_store_secrets: [
-      // "PROXY_URI", // OIDC
-      // "PID_SERVICE_URL", // PID
-      // "CLIENT_ID", // OIDC
-    ],
+    parameter_store_secrets: [],
     secrets_manager_secrets: [
-      "PG_PASS", // postgre password
-      "SESSION_SECRET", // Redis session secret
-      "CLIENT_SECRET", // OIDC
-      "JWT_SECRET", // email
-      "PID_API_KEY" // PID Service
+      Secrets.secrets.REDIS_PASS,
+      Secrets.secrets.PG_PASS,
+      Secrets.secrets.SESSION_SECRET,
+      Secrets.secrets.CLIENT_SECRET,
+      Secrets.secrets.JWT_SECRET,
+      Secrets.secrets.PID_API_KEY,
     ],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
@@ -311,14 +342,28 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 102,
-    iAmPolicyStatements: [new iam.PolicyStatement({
-      actions: [
-        'aoss:*'
-      ],
-      resources: [OpenSearch.collectionArn]
-    }), s3PolicyStatement],
-    secrets: ['/service/semantic-apis/REDIS_PASS'],
-    privateDnsNamespace: namespace.privateDnsNamespace
+    iAmPolicyStatements: [ aossPolicyStatement, s3PolicyStatement,
+      efsPolicyStatement
+    ],
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    efs: {
+      volume: {
+        name: "data",
+        efsVolumeConfiguration: {
+          fileSystemId: efs.fileSystemId,
+          transitEncryption: 'ENABLED',
+          authorizationConfig:{
+            accessPointId: efs.accessPoint.accessPointId,
+            iam: 'ENABLED'
+          }
+        }
+      },
+      mountPoint: {
+        sourceVolume: 'data',
+        containerPath: '/mnt/data',
+        readOnly: false,
+      }
+    }
 
   })
 
@@ -341,7 +386,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     parameter_store_secrets: [
     ],
     secrets_manager_secrets: [
-      "REDIS_PASS",
+      Secrets.secrets.REDIS_PASS,
     ],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,

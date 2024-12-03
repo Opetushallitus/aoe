@@ -26,11 +26,17 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly streamingServiceSecurityGroup: ec2.SecurityGroup;
   public readonly dataServicesSecurityGroup: ec2.SecurityGroup
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup;
-
+  public readonly efsSecurityGroup: ec2.SecurityGroup;
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
 
     // Security Groups
+
+    this.efsSecurityGroup = new ec2.SecurityGroup(this, 'EfsSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    })
+
     this.bastionSecurityGroup = new ec2.SecurityGroup(this, 'BastionSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
@@ -82,6 +88,11 @@ export class SecurityGroupStack extends cdk.Stack {
     })
 
     // Security Group rules
+
+    this.efsSecurityGroup.addIngressRule(
+        this.webBackendsServiceSecurityGroup,
+        ec2.Port.tcp(2049)
+    )
 
     this.openSearchSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,

@@ -2,18 +2,37 @@ import * as cdk from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
 import { IKey } from "aws-cdk-lib/aws-kms";
-import {SecretValue} from "aws-cdk-lib";
 
 interface SecretManagerStackProps extends cdk.StackProps {
     kmsKey: IKey;
 }
 
-// Stack for secrets generated on the fly (mostly resources that don't support Parameter Store)
 
+export type SecretEntry = {
+    secretKey: string;
+    envVarName: string;
+    path: string;
+};
+
+export type Secrets = {
+    [key: string]: SecretEntry;
+};
+
+// Stack for secrets generated on the fly (mostly resources that don't support Parameter Store)
 export class SecretManagerStack extends cdk.Stack {
     public readonly semanticApisPassword: secretsmanager.Secret;
     public readonly webBackendAuroraPassword: secretsmanager.Secret;
     public readonly webBackendPassportSessionSecret: secretsmanager.Secret
+
+    public readonly secrets: Secrets = {
+        REDIS_PASS: { envVarName: 'REDIS_PASS', path: '/service/semantic-apis/REDIS_PASS', secretKey: 'secretkey' },
+        PG_PASS: { envVarName: 'PG_PASS', path: '/service/web-backend/PG_PASS', secretKey: 'secretkey' },
+        SESSION_SECRET: { envVarName: 'SESSION_SECRET', path: '/service/web-backend/SESSION_SECRET', secretKey: 'secretkey' },
+        CLIENT_SECRET: { envVarName: 'CLIENT_SECRET', path: '/service/web-backend/CLIENT_SECRET', secretKey: 'secretkey' },
+        JWT_SECRET: { envVarName: 'JWT_SECRET', path: '/service/web-backend/JWT_SECRET', secretKey: 'secretkey' },
+        PID_API_KEY: { envVarName: 'PID_API_KEY', path: '/service/web-backend/PID_API_KEY', secretKey: 'secretkey' },
+    }
+
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
         super(scope, id, props);
 
