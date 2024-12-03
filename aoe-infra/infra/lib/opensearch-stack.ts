@@ -55,11 +55,7 @@ export class OpenSearchServerlessStack extends cdk.Stack {
                     {
                         ResourceType: 'collection',
                         Resource: [`collection/${props.collectionName}`],
-                    },
-                    {
-                        ResourceType: 'dashboard',
-                        Resource: [`collection/${props.collectionName}`],
-                    },
+                    }
                 ],
                 SourceVPCEs: [vpce.ref],
 
