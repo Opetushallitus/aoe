@@ -7,11 +7,6 @@ import config from '@/config';
  * @type {{endpoint: string, credentials: {accessKeyId: string, secretAccessKey: string}, region: string}}
  */
 const configS3: ServiceConfigurationOptions = {
-  credentials: {
-    accessKeyId: config.CLOUD_STORAGE_CONFIG.accessKey,
-    secretAccessKey: config.CLOUD_STORAGE_CONFIG.accessSecret,
-  },
-  endpoint: config.CLOUD_STORAGE_CONFIG.apiURL,
   region: config.CLOUD_STORAGE_CONFIG.region,
 };
 AWS.config.update(configS3);

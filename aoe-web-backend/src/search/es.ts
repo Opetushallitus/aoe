@@ -1,6 +1,5 @@
 import { ErrorHandler } from '@/helpers/errorHandler';
 import { ISearchIndexMap } from '@aoe/search/es';
-import elasticsearch, { Client, ClientOptions } from '@elastic/elasticsearch';
 import { getPopularityQuery } from '@query/analyticsQueries';
 import { db } from '@resource/postgresClient';
 import { aoeThumbnailDownloadUrl } from '@services/urlService';
@@ -10,17 +9,34 @@ import fs from 'fs';
 import * as pgLib from 'pg-promise';
 import { collectionDataToEs, collectionFromEs, getCollectionDataToEs, getCollectionDataToUpdate } from './esCollection';
 import { AoeBody, AoeCollectionResult } from './esTypes';
+import { Client } from '@opensearch-project/opensearch';
+import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
+import AWS from "aws-sdk";
 
 const index: string = process.env.ES_INDEX;
 
 /**
  * Elastisearch client configuration
  */
-const client: Client = new elasticsearch.Client({
-  node: process.env.ES_NODE,
-  log: 'trace',
-  keepAlive: true
-} as ClientOptions);
+
+const client = new Client({
+  ...AwsSigv4Signer({
+    region: 'eu-west-1',
+    service: 'aoss',
+    getCredentials: () =>
+      new Promise((resolve, reject) => {
+        AWS.config.getCredentials((err, credentials) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(credentials);
+          }
+        });
+      }),
+  }),
+  node: process.env.ES_NODE
+});
+
 
 // values for index last update time
 export namespace Es {
@@ -42,7 +58,7 @@ export const createEsIndex = async (): Promise<any> => {
     // requestTimeout: 1000
   }, async function(error: any) {
     if (error) {
-      winstonLogger.error('Elasticsearch cluster is down: ' + error);
+      winstonLogger.error('OpenSearch connection is down: ' + error);
     } else {
       // Delete existing index before recreation.
       const indexFound: boolean = await indexExists(index);
@@ -121,15 +137,14 @@ export const addMapping = async (index: string, fileLocation: string): Promise<{
   return new Promise(async (resolve, reject) => {
     const rawdata: Buffer = fs.readFileSync(fileLocation);
     const searchIndexMap: ISearchIndexMap = JSON.parse(rawdata.toString());
+
     client.indices.putMapping({
       index: index,
-      // body: aoemapping
       body: searchIndexMap.mappings,
     }, (err: any, _resp: any) => {
       if (err) {
         reject(new Error(err));
       } else {
-        // winstonLogger.debug("ES mapping created: ", index, resp.body);
         resolve({ 'status': 'success' });
       }
     });
@@ -148,12 +163,12 @@ export async function metadataToEs(offset: number, limit: number) {
       params.push(offset * limit);
       params.push(limit);
       let query = 'select em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches' +
-                  ' from educationalmaterial as em where em.obsoleted = 0 and em.publishedat IS NOT NULL order by em.id asc OFFSET $1 LIMIT $2;';
+        ' from educationalmaterial as em where em.obsoleted = 0 and em.publishedat IS NOT NULL order by em.id asc OFFSET $1 LIMIT $2;';
       return t.map(query, params, async (q: any) => {
         const m: any = [];
         t.map('select m.id, m.materiallanguagekey as language, link, version.priority, filepath, originalfilename, filesize, mimetype, filekey, filebucket, obsoleted ' +
-              'from (select materialid, publishedat, priority from versioncomposition where publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)) as version ' +
-              'left join material m on m.id = version.materialid left join record r on m.id = r.materialid where m.educationalmaterialid = $1', [q.id], (q2: any) => {
+          'from (select materialid, publishedat, priority from versioncomposition where publishedat = (select max(publishedat) from versioncomposition where educationalmaterialid = $1)) as version ' +
+          'left join material m on m.id = version.materialid left join record r on m.id = r.materialid where m.educationalmaterialid = $1', [q.id], (q2: any) => {
           t.any('select * from materialdisplayname where materialid = $1;', q2.id)
             .then((data: any) => {
               q2.materialdisplayname = data;
@@ -298,33 +313,33 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       if (updateCounters) {
         params.push(Es.ESCounterUpdated.value);
         query = 'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
-                'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
-                'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
-                'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
-                'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
-                'FROM educationalmaterial AS em ' +
-                'WHERE counterupdatedat > $1 AND em.publishedat IS NOT NULL';
+          'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
+          'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
+          'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
+          'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
+          'FROM educationalmaterial AS em ' +
+          'WHERE counterupdatedat > $1 AND em.publishedat IS NOT NULL';
       } else {
         params.push(Es.ESupdated.value);
         query = 'SELECT em.id, em.createdat, em.publishedat, em.updatedat, em.archivedat, em.timerequired, ' +
-                'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
-                'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
-                'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
-                'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
-                'FROM educationalmaterial AS em ' +
-                'WHERE updatedat > $1 AND em.publishedat IS NOT NULL';
+          'em.agerangemin, em.agerangemax, em.obsoleted, em.originalpublishedat, em.expires, ' +
+          'em.suitsallearlychildhoodsubjects, em.suitsallpreprimarysubjects, em.suitsallbasicstudysubjects, ' +
+          'em.suitsalluppersecondarysubjects, em.suitsalluppersecondarysubjectsnew, ' +
+          'em.suitsallvocationaldegrees, em.suitsallselfmotivatedsubjects, em.suitsallbranches ' +
+          'FROM educationalmaterial AS em ' +
+          'WHERE updatedat > $1 AND em.publishedat IS NOT NULL';
       }
       return t.map(query, params, async (q: any) => { // #2 async start
         const m: any = [];
         t.map('SELECT m.id, m.materiallanguagekey AS language, link, version.priority, filepath, ' +
-              'originalfilename, filesize, mimetype, filekey, filebucket, obsoleted ' +
-              'FROM (select materialid, publishedat, priority ' +
-              'FROM versioncomposition ' +
-              'WHERE publishedat = ' +
-              '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
-              'LEFT JOIN material m ON m.id = version.materialid ' +
-              'LEFT JOIN record r ON m.id = r.materialid ' +
-              'WHERE m.educationalmaterialid = $1', [q.id], (q2: any) => {
+          'originalfilename, filesize, mimetype, filekey, filebucket, obsoleted ' +
+          'FROM (select materialid, publishedat, priority ' +
+          'FROM versioncomposition ' +
+          'WHERE publishedat = ' +
+          '(SELECT MAX(publishedat) FROM versioncomposition WHERE educationalmaterialid = $1)) AS version ' +
+          'LEFT JOIN material m ON m.id = version.materialid ' +
+          'LEFT JOIN record r ON m.id = r.materialid ' +
+          'WHERE m.educationalmaterialid = $1', [q.id], (q2: any) => {
             t.any('select * from materialdisplayname where materialid = $1;', q2.id).then((data: any) => {
               q2.materialdisplayname = data;
               m.push(q2);
@@ -395,9 +410,9 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
         q.alignmentobject = response;
 
         query = 'SELECT users.firstname, users.lastname ' +
-                'FROM educationalmaterial ' +
-                'INNER JOIN users ON educationalmaterial.usersusername = users.username ' +
-                'WHERE educationalmaterial.id = $1';
+          'FROM educationalmaterial ' +
+          'INNER JOIN users ON educationalmaterial.usersusername = users.username ' +
+          'WHERE educationalmaterial.id = $1';
         response = await t.any(query, [q.id]);
         q.owner = response;
 
@@ -413,9 +428,9 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
         q.thumbnail = response;
 
         query = 'SELECT licensecode AS key, license AS value ' +
-                'FROM educationalmaterial AS m ' +
-                'LEFT JOIN licensecode AS l ON m.licensecode = l.code ' +
-                'WHERE m.id = $1';
+          'FROM educationalmaterial AS m ' +
+          'LEFT JOIN licensecode AS l ON m.licensecode = l.code ' +
+          'WHERE m.id = $1';
         q.license = await t.oneOrNone(query, [q.id]);
 
         response = await t.oneOrNone(getPopularityQuery, [q.id]);

@@ -26,6 +26,9 @@ import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
 import { S3Stack } from "../lib/s3Stack";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import * as iam from "aws-cdk-lib/aws-iam";
+import { NamespaceStack } from "../lib/NamespaceStack"
+import { EfsStack } from "../lib/efs-stack";
 
 const app = new cdk.App();
 
@@ -183,6 +186,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     aoeThumbnailBucketName: environmentConfig.S3.aoeThumbnailBucketName
   })
 
+  const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
+      env: { region: "eu-west-1" }
+  })
 
   const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
     env: { region: "eu-west-1" },
@@ -205,6 +211,13 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   const s3PolicyStatement = new PolicyStatement({
     actions: ['s3:ListBucket', 's3:PutObject', 's3:GetObject', 's3:DeleteObject'],
     resources: buckets.flatMap((bucket) => [bucket.bucketArn, `${bucket.bucketArn}/*`])
+  })
+
+  const efs = new EfsStack(app, 'AOEefsStack', {
+    env: { region: 'eu-west-1' },
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.efsSecurityGroup,
+    accessPointPath: '/data'
   })
 
   const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
@@ -234,9 +247,124 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 101,
-    iAmPolicyStatement: s3PolicyStatement,
+    iAmPolicyStatements: [s3PolicyStatement],
+    privateDnsNamespace: namespace.privateDnsNamespace
   })
 
+  const DataServices = new EcsServiceStack(app, 'DataServicesEcsService', {
+    env: {region: "eu-west-1"},
+    stackName: `${environmentName}-data-services`,
+    serviceName: 'data-services',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.dataServicesSecurityGroup,
+    imageTag: environmentConfig.services.data_services.image_tag,
+    allowEcsExec: environmentConfig.services.data_services.allow_ecs_exec,
+    taskCpu: environmentConfig.services.data_services.cpu_limit,
+    taskMemory: environmentConfig.services.data_services.memory_limit,
+    minimumCount: environmentConfig.services.data_services.min_count,
+    maximumCount: environmentConfig.services.data_services.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.data_services.env_vars,
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: [ "/rest/oaipmh*" ],
+    healthCheckPath: "/rest/health",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 103,
+    privateDnsNamespace: namespace.privateDnsNamespace
+  })
+
+  const aossPolicyStatement = new iam.PolicyStatement({
+    actions: [
+      'aoss:CreateIndex',
+      'aoss:DeleteIndex',
+      'aoss:UpdateIndex',
+      'aoss:DescribeIndex',
+      'aoss:ReadDocument',
+      'aoss:WriteDocument',
+      'aoss:DescribeCollectionItems',
+      'aoss:UpdateCollectionItems',
+      'aoss:DeleteCollectionItems',
+      'aoss:CreateCollectionItems',
+      'aoss:APIAccessAll'
+    ],
+    resources: [OpenSearch.collectionArn]
+  });
+  const efsPolicyStatement = new iam.PolicyStatement({
+    actions: [
+      'elasticfilesystem:DescribeFileSystems',
+      'elasticfilesystem:ClientWrite',
+      'elasticfilesystem:ClientMount',
+      'elasticfilesystem:DescribeMountTargets'
+    ],
+    resources: [efs.fileSystem.fileSystemArn]
+  });
+
+  const WebBackendService = new EcsServiceStack(app, 'WebBackendEcsService', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-web-backend-service`,
+    serviceName: 'web-backend',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.webBackendsServiceSecurityGroup,
+    imageTag: environmentConfig.services.web_backend.image_tag,
+    allowEcsExec: environmentConfig.services.web_backend.allow_ecs_exec,
+    taskCpu: environmentConfig.services.web_backend.cpu_limit,
+    taskMemory: environmentConfig.services.web_backend.memory_limit,
+    minimumCount: environmentConfig.services.web_backend.min_count,
+    maximumCount: environmentConfig.services.web_backend.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.web_backend.env_vars,
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [
+      Secrets.secrets.REDIS_PASS,
+      Secrets.secrets.PG_PASS,
+      Secrets.secrets.SESSION_SECRET,
+      Secrets.secrets.CLIENT_SECRET,
+      Secrets.secrets.JWT_SECRET,
+      Secrets.secrets.PID_API_KEY,
+    ],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: ["/api/v1*", "/api/v2*", "/h5p/*", "/embed/*"],
+    healthCheckPath: "/",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 102,
+    iAmPolicyStatements: [ aossPolicyStatement, s3PolicyStatement,
+      efsPolicyStatement
+    ],
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    efs: {
+      volume: {
+        name: "data",
+        efsVolumeConfiguration: {
+          fileSystemId: efs.fileSystemId,
+          transitEncryption: 'ENABLED',
+          authorizationConfig:{
+            accessPointId: efs.accessPoint.accessPointId,
+            iam: 'ENABLED'
+          }
+        }
+      },
+      mountPoint: {
+        sourceVolume: 'data',
+        containerPath: '/mnt/data',
+        readOnly: false,
+      }
+    }
+
+  })
 
   const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
     env: { region: "eu-west-1" },
@@ -257,7 +385,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     parameter_store_secrets: [
     ],
     secrets_manager_secrets: [
-      "REDIS_PASS",
+      Secrets.secrets.REDIS_PASS,
     ],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
@@ -268,10 +396,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 100,
-    //    domain: environmentConfig.aws.domain,
+    privateDnsNamespace: namespace.privateDnsNamespace
   })
 
-  // utility account resources.. 
 }
 else if (environmentName == 'utility') {
 

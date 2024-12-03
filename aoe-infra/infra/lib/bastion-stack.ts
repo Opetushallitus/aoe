@@ -38,7 +38,7 @@ export class BastionStack extends Stack {
           'aoss:UpdateIndex',
           'aoss:DescribeIndex',
           'aoss:ReadDocument',
-          'aoss:WriteDocument'
+          'aoss:WriteDocument',
         ],
         resources: ['*']
       })
