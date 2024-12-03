@@ -1,7 +1,6 @@
 package fi.csc.processor.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.request.EducationalLevelTotalRequest;
 import fi.csc.processor.model.statistics.StatisticsMeta;
 import fi.csc.processor.service.StatisticsService;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,8 +52,7 @@ class StatisticsControllerTest {
             .webAppContextSetup(webApplicationContext)
             .build();
         Mockito.when(statisticsService.getEducationalLevelDistribution(
-            any(EducationalLevelTotalRequest.class),
-            any(TargetEnv.class))).thenReturn(new StatisticsMeta<>());
+            any(EducationalLevelTotalRequest.class))).thenReturn(new StatisticsMeta<>());
     }
 
     @Test

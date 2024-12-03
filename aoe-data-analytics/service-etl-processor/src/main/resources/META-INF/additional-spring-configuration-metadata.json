@@ -26,31 +26,6 @@
       "description": "MongoDB production password."
     },
     {
-      "name": "mongodb.secondary.host",
-      "type": "java.lang.String",
-      "description": "MongoDB test host."
-    },
-    {
-      "name": "mongodb.secondary.port",
-      "type": "java.lang.String",
-      "description": "MongoDB test port."
-    },
-    {
-      "name": "mongodb.secondary.database",
-      "type": "java.lang.String",
-      "description": "MongoDB test database."
-    },
-    {
-      "name": "mongodb.secondary.username",
-      "type": "java.lang.String",
-      "description": "MongoDB test username."
-    },
-    {
-      "name": "mongodb.secondary.password",
-      "type": "java.lang.String",
-      "description": "MongoDB test password."
-    },
-    {
       "name": "kafka.group-id.prod-material-activity",
       "type": "java.lang.String",
       "description": "Kafka client production group ID."

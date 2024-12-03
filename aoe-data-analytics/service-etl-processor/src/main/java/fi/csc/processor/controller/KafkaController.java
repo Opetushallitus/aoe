@@ -44,21 +44,4 @@ public class KafkaController {
         });
     }
 
-    @PostMapping(path = "/test/materialactivity", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopicSecondary(
-        @RequestBody MaterialActivity materialActivity) {
-        return async(() -> {
-            this.kafkaProducer.sendMaterialActivitySecondary(materialActivity);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        });
-    }
-
-    @PostMapping(path = "/test/searchrequests", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public CompletableFuture<ResponseEntity<Void>> sendMessageToKafkaTopicSecondary(
-        @RequestBody SearchRequest searchRequest) {
-        return async(() -> {
-            this.kafkaProducer.sendSearchRequestsSecondary(searchRequest);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        });
-    }
 }

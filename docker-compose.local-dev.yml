@@ -35,6 +35,7 @@ services:
     command: sh -c "yarn serve"
 
   aoe-data-analytics:
+    entrypoint: ["java", "-Xms512m", "-Xmx512m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "service-etl-processor.jar"]
     ports:
       - 8080:8080
     env_file:
