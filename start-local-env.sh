@@ -94,7 +94,7 @@ function rename_infra_panes_to_match_the_script_they_run {
   tmux select-pane -t 0.2 -T mongo
   tmux select-pane -t 0.3 -T postgres
   tmux select-pane -t 0.4 -T oidc
-  tmux select-pane -t 0.5 -T elasticsearch
+  tmux select-pane -t 0.5 -T opensearch
 }
 
 function rename_infra2_panes_to_match_the_script_they_run_window_2 {
@@ -115,7 +115,7 @@ function rename_services_panes_to_match_the_script_they_run_window_3 {
 
 init
 
-$compose create --build -- aoe-web-frontend aoe-web-backend aoe-data-analytics aoe-semantic-apis aoe-data-services aoe-streaming-app aoe-oidc-server localstack redis mongo postgres zookeeper kafka kafka2 elasticsearch nginx
+$compose create --build -- aoe-web-frontend aoe-web-backend aoe-data-analytics aoe-semantic-apis aoe-data-services aoe-streaming-app aoe-oidc-server localstack redis mongo postgres zookeeper kafka kafka2 opensearch nginx
 
 session="aoe"
 
@@ -164,7 +164,7 @@ tmux send-keys "$up_cmd aoe-oidc-server" C-m
 
 # Pane 5: elasticsearch
 tmux select-pane -t 5
-tmux send-keys "$up_cmd elasticsearch" C-m
+tmux send-keys "$up_cmd opensearch" C-m
 
 rename_infra_panes_to_match_the_script_they_run
 
