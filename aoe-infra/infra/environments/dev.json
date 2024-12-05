@@ -5,6 +5,49 @@
         "domain": "dev.aoe.fi"
     },
     "services": {
+        "data_analytics": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-88",
+            "allow_ecs_exec": true,
+            "env_vars": {
+                "LOGGING_LEVEL_FI_CSC": "ERROR",
+                "LOGGING_LEVEL_ORG_APACHE_KAFKA": "ERROR",
+                "LOGGING_LEVEL_ORG_SPRINGFRAMEWORK": "ERROR",
+                "SERVER_PORT": "8080",
+                "SERVER_SERVLET_CONTEXTPATH": "/analytics/api",
+                "SPRING_PROFILES_ACTIVE": "prod",
+                "SPRING_AUTOCONFIGURATION_EXCLUDE": "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
+
+                "SPRING_DATASOURCE_PRIMARY_URL": "jdbc:postgresql://dev-web-backend-aurora-devwebbackendwriter4c162db7-zjabck717tnp.clykem0ww4fy.eu-west-1.rds.amazonaws.com:5432/aoe",
+                "SPRING_DATASOURCE_PRIMARY_USERNAME": "reporter",
+                "SPRING_DATASOURCE_PRIMARY_INITIALIZATIONMODE": "never",
+                "SPRING_DATASOURCE_PRIMARY_DRIVERCLASSNAME": "org.postgresql.Driver",
+
+                "MONGODB_PRIMARY_ENABLE_SSL": "true",
+                "MONGODB_PRIMARY_HOST": "aoedocumentdb624326a2-4ass18z7c2f2.cluster-clykem0ww4fy.eu-west-1.docdb.amazonaws.com",
+                "MONGODB_PRIMARY_PORT": "27017",
+                "MONGODB_PRIMARY_DATABASE": "analytics",
+                "MONGODB_PRIMARY_USERNAME": "aoeOwner",
+
+                "KAFKA_ENABLED": "false",
+                "SPRING_KAFKA_CONSUMER_AUTO_STARTUP": "false",
+                "SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS": "kafka-1:19092,kafka-2:19092,kafka-3:19092",
+                "SPRING_KAFKA_CONSUMER_AUTOOFFSETRESET": "latest",
+                "SPRING_KAFKA_CONSUMER_ENABLEAUTOCOMMIT": "true",
+                "SPRING_KAFKA_PRODUCER_BATCH_SIZE": "10",
+                "SPRING_KAFKA_PRODUCER_CLIENTID": "aoe-kafka-client",
+                "SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS": "kafka-1:19092,kafka-2:19092,kafka-3:19092",
+
+                "KAFKA_GROUPID_PRODMATERIALACTIVITY": "group-prod-material-activity",
+                "KAFKA_GROUPID_PRODSEARCHREQUESTS": "group-prod-search-requests",
+
+                "KAFKA_TOPIC_PRODMATERIALACTIVITY": "prod_material_activity",
+                "KAFKA_TOPIC_PRODSEARCHREQUESTS": "prod_search_requests"
+            }
+        },
         "data_services": {
             "cpu_limit": "512",
             "memory_limit": "1024",
