@@ -23,6 +23,7 @@ export class SecretManagerStack extends cdk.Stack {
     public readonly semanticApisPassword: secretsmanager.Secret;
     public readonly webBackendAuroraPassword: secretsmanager.Secret;
     public readonly webBackendPassportSessionSecret: secretsmanager.Secret
+    public readonly documentDbPassword: secretsmanager.Secret;
 
     public readonly secrets: Secrets = {
         REDIS_PASS: { envVarName: 'REDIS_PASS', path: '/service/semantic-apis/REDIS_PASS', secretKey: 'secretkey' },
@@ -31,6 +32,9 @@ export class SecretManagerStack extends cdk.Stack {
         CLIENT_SECRET: { envVarName: 'CLIENT_SECRET', path: '/service/web-backend/CLIENT_SECRET', secretKey: 'secretkey' },
         JWT_SECRET: { envVarName: 'JWT_SECRET', path: '/service/web-backend/JWT_SECRET', secretKey: 'secretkey' },
         PID_API_KEY: { envVarName: 'PID_API_KEY', path: '/service/web-backend/PID_API_KEY', secretKey: 'secretkey' },
+        ANALYTICS_PG_PASS: {envVarName: 'SPRING_DATASOURCE_PRIMARY_PASSWORD', path: '/auroradbs/web-backend/dev/reporter', secretKey: 'password' },
+        ANALYTICS_DOCDB_PASSWORD: {envVarName: 'MONGODB_PRIMARY_PASSWORD', path: '/service/data-analytics/DOCDB_PASS', secretKey: 'secretkey' },
+        ANALYTICS_TRUST_STORE_PASSWORD: {envVarName: 'TRUST_STORE_PASS', path: '/service/data-analytics/TRUST_STORE_PASS', secretKey: 'secretkey' },
     }
 
     constructor(scope: Construct, id: string, props: SecretManagerStackProps) {
@@ -63,6 +67,14 @@ export class SecretManagerStack extends cdk.Stack {
                 generateStringKey: 'password',
                 passwordLength: 24,
                 excludeCharacters: '@%*()_+=`~{}|[]\\:";\'?,./'
+            },
+        });
+
+        this.documentDbPassword = new secretsmanager.Secret(this, 'DocumentDbSecret', {
+            generateSecretString: {
+                secretStringTemplate: JSON.stringify({ username: 'docdbuser' }),
+                generateStringKey: 'password',
+                excludeCharacters: '/@" ',
             },
         });
 
