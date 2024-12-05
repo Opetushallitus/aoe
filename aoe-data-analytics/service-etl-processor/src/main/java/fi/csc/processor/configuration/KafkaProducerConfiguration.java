@@ -2,6 +2,7 @@ package fi.csc.processor.configuration;
 
 import fi.csc.processor.model.request.MaterialActivity;
 import fi.csc.processor.model.request.SearchRequest;
+import fi.csc.processor.utils.KafkaConfigUtil;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -33,12 +34,26 @@ public class KafkaProducerConfiguration {
     @Value(value = "${kafka.topic.prod-search-requests}")
     private String topicSearchRequestsPrimary;
 
+    @Value(value = "${kafka.sasl.enable}")
+    private boolean saslEnabled;
+
+    @Value(value = "${trust.store.pass}")
+    private String trustStorePassword;
+
+    @Value("${trust.store.location}")
+    private String trustStoreLocation;
+
     @Bean
     public ProducerFactory<String, MaterialActivity> producerFactoryMaterialActivity() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        if (saslEnabled) {
+            config.putAll(KafkaConfigUtil.saslConfig(trustStorePassword, trustStoreLocation));
+        }
+
         return new DefaultKafkaProducerFactory<>(config);
     }
 
@@ -53,6 +68,11 @@ public class KafkaProducerConfiguration {
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        if (saslEnabled) {
+            config.putAll(KafkaConfigUtil.saslConfig(trustStorePassword, trustStoreLocation));
+        }
+
         return new DefaultKafkaProducerFactory<>(config);
     }
 
@@ -65,6 +85,15 @@ public class KafkaProducerConfiguration {
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+
+        if (saslEnabled) {
+            configs.putAll(KafkaConfigUtil.saslConfig(trustStorePassword, trustStoreLocation));
+        }
+
+        return createKafkaAdmin(configs);
+    }
+
+    private KafkaAdmin createKafkaAdmin(Map<String, Object> configs) {
         return new KafkaAdmin(configs);
     }
 
