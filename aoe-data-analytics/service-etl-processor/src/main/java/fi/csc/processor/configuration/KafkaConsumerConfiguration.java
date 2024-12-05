@@ -2,6 +2,7 @@ package fi.csc.processor.configuration;
 
 import fi.csc.processor.model.request.MaterialActivity;
 import fi.csc.processor.model.request.SearchRequest;
+import fi.csc.processor.utils.KafkaConfigUtil;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.CooperativeStickyAssignor;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -20,7 +21,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@ConditionalOnProperty(value = "kafka.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "aoe.kafka.enabled", matchIfMissing = true)
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfiguration {
@@ -34,6 +35,12 @@ public class KafkaConsumerConfiguration {
     @Value(value = "${kafka.group-id.prod-search-requests}")
     private String groupSearchRequestsPrimary;
 
+    @Value(value = "${aoe.kafka.sasl.enable}")
+    private boolean saslEnabled;
+
+    @Value(value = "${trust.store.pass}")
+    private String trustStorePassword;
+
     @Bean
     public ConsumerFactory<String, MaterialActivity> consumerFactoryMaterialActivityPrimary() {
         Map<String, Object> config = new HashMap<>();
@@ -42,8 +49,15 @@ public class KafkaConsumerConfiguration {
         config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        if (saslEnabled) {
+            config.putAll(KafkaConfigUtil.saslConfig(trustStorePassword));
+        }
+
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(MaterialActivity.class));
     }
+
+
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, MaterialActivity> kafkaListenerMaterialActivityPrimary() {
@@ -60,6 +74,11 @@ public class KafkaConsumerConfiguration {
         config.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
+        if (saslEnabled) {
+            config.putAll(KafkaConfigUtil.saslConfig(trustStorePassword));
+        }
+
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(SearchRequest.class));
     }
 

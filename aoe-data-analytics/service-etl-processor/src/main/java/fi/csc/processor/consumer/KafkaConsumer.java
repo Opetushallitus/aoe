@@ -22,7 +22,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 @Service
-@ConditionalOnProperty(value = "kafka.enabled", matchIfMissing = true)
+@ConditionalOnProperty(value = "aoe.kafka.enabled", matchIfMissing = true)
 public class KafkaConsumer implements ConsumerSeekAware {
     private final Logger LOG = LoggerFactory.getLogger(KafkaConsumer.class.getSimpleName());
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -41,7 +41,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.prod-material-activity}",
         groupId = "${kafka.group-id.prod-material-activity}",
         containerFactory = "kafkaListenerMaterialActivityPrimary",
-        autoStartup = "${spring.kafka.consumer.auto.startup}",
+        autoStartup = "${aoe.kafka.consumer.auto.startup}",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consumeMaterialActivityPrimary(
         @Payload MaterialActivity materialActivity, // byte[] payload
@@ -60,7 +60,7 @@ public class KafkaConsumer implements ConsumerSeekAware {
         topics = "${kafka.topic.prod-search-requests}",
         groupId = "${kafka.group-id.prod-search-requests}",
         containerFactory = "kafkaListenerSearchRequestsPrimary",
-        autoStartup = "${spring.kafka.consumer.auto.startup}",
+        autoStartup = "${aoe.kafka.consumer.auto.startup}",
         properties = {"enable.auto.commit:false", "auto.offset.reset:latest"})
     public void consumeSearchRequestsPrimary(
         @Payload SearchRequest searchRequest, // byte[] payload
