@@ -61,10 +61,10 @@ services:
     ports:
       - 5432:5432
 
-  elasticsearch:
+  opensearch:
     ports:
       - 9200:9200
-      - 9300:9300
+      - 9600:9600
 
   mongo:
     ports:

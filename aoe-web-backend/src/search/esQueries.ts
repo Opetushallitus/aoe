@@ -18,24 +18,32 @@ import AWS from "aws-sdk";
 import { ApiResponse, Client } from "@opensearch-project/opensearch";
 
 const index: string = process.env.ES_INDEX;
+const isProd = process.env.NODE_ENV == 'production';
 
-const client = new Client({
-  ...AwsSigv4Signer({
-    region: 'eu-west-1',
-    service: 'aoss',
-    getCredentials: () =>
-      new Promise((resolve, reject) => {
-        AWS.config.getCredentials((err, credentials) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(credentials);
-          }
-        });
+const client = new Client(
+  isProd
+    ? {
+      ...AwsSigv4Signer({
+        region: process.env.AWS_REGION || 'eu-west-1',
+        service: 'aoss',
+        getCredentials: () =>
+          new Promise((resolve, reject) => {
+            AWS.config.getCredentials((err, credentials) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(credentials);
+              }
+            });
+          }),
       }),
-  }),
-  node: process.env.ES_NODE
-});
+      node: process.env.ES_NODE,
+    }
+    : {
+      node: process.env.ES_NODE,
+    }
+);
+
 export async function aoeResponseMapper(response: ApiResponse<SearchResponse<Source>>) {
   try {
     const resp: AoeBody<AoeResult> = {
