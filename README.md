@@ -36,13 +36,14 @@ Lokaali AOE käyttää mock OIDC palvelua, jota vasten AOE tekee autentikaation.
 - `aoe-semantic-apis/.env`
 - `aoe-data-services/.env`
 
-2) Lisää sertifikaatti `docker/nginx/nginx-selfsigned.crt` oman koneesi luotettuihin serfikaatteihin, selaimat sallivat itse allekirjoitetun varmenteen käytön. 
-
-3) Lisää oman koneesi host tiedostoon seuraavat rivit
+2) Lisää oman koneesi host tiedostoon seuraavat rivit
 - 127.0.0.1       aoe-oidc-server
 - 127.0.0.1       demo.aoe.fi
 
-4) Aja projektin juuressa `./start-local-env.sh`
-- Selaimella AOE web sovellukseen pääsee url:lla https://demo.aoe.fi/
+3) Aja projektin juuressa `./start-local-env.sh`
+- Skipti luo itseallekirjoitetun varmenteen hakemistoon `docker/dev/nginx/nginx-selfsigned.crt`
+- Lisää varmenne `docker/dev/nginx/nginx-selfsigned.crt` oman koneesi luotettuihin varmenteisiin, selaimat sallivat itseallekirjoitetun varmenteen käytön.
+
+4. Selaimella AOE web sovellukseen pääsee url:lla https://demo.aoe.fi/
 
 
