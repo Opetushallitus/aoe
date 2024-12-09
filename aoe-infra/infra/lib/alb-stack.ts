@@ -8,6 +8,8 @@ import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as log from 'aws-cdk-lib/aws-logs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as globalaccelerator from 'aws-cdk-lib/aws-globalaccelerator';
+import * as ga_endpoints from 'aws-cdk-lib/aws-globalaccelerator-endpoints';
 import { Construct } from 'constructs';
 
 interface AlbStackProps extends cdk.StackProps {
@@ -22,7 +24,7 @@ export class AlbStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props: AlbStackProps) {
       super(scope, id, props);
 
-    // New internet-facing application load balancer, import vpc from the VpcStack
+// New internet-facing application load balancer, import vpc from the VpcStack
     this.alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
     vpc: props.vpc,
     vpcSubnets: {
@@ -74,6 +76,28 @@ export class AlbStack extends cdk.Stack {
 
     this.albListener.addTargetGroups('dummyTargetGroup', {
       targetGroups: [albDefaultTargetGroup]
+    });
+
+    // Create a Global Accelerator for ALB static IP so it can be  
+    // used for whitelisting in external outbound traffic filtering
+    const accelerator = new globalaccelerator.Accelerator(this, 'Accelerator');
+
+    // Create a GA Listener
+    const gaListener = accelerator.addListener('Listener', {
+      portRanges: [
+        { fromPort: 80 },
+        { fromPort: 443 },
+      ],
+    });
+
+    // Creata GA 
+    gaListener.addEndpointGroup('AlbGroup', {
+      endpoints: [
+        new ga_endpoints.ApplicationLoadBalancerEndpoint(this.alb, {
+          weight: 128,
+          preserveClientIp: true,
+        }),
+      ],
     });
 
   }
