@@ -9,6 +9,43 @@ AOE_DATA_ANALYTICS_ENV="$(dirname "$0")/aoe-data-analytics/.env"
 AOE_SEMANTIC_APIS_ENV="$(dirname "$0")/aoe-semantic-apis/.env"
 AOE_DATA_SERVICES_ENV="$(dirname "$0")/aoe-data-services/.env"
 
+generate_cert() {
+  CERT_NAME="nginx-selfsigned"
+  CERT_DIR="$(dirname "$0")/docker/dev"
+  KEY_FILE="${CERT_DIR}/${CERT_NAME}.key"
+  CSR_FILE="${CERT_DIR}/${CERT_NAME}.csr"
+  CERT_FILE="${CERT_DIR}/${CERT_NAME}.crt"
+  CONFIG_FILE="$(dirname "$0")/docker/nginx/san.cnf"
+  DAYS_VALID=365
+
+  if [ -f "$CERT_FILE" ]; then
+        echo "Certificate already exists at $CERT_FILE. Skipping creation."
+        return 0
+  fi
+
+  # Generate OpenSSL configuration file with SAN
+  echo "OpenSSL configuration file created at ${CONFIG_FILE}"
+
+  # Generate private key
+  echo "Generating private key..."
+  openssl genrsa -out "${KEY_FILE}" 2048
+
+  # Generate CSR with SAN
+  echo "Generating CSR with SAN..."
+  openssl req -new -key "${KEY_FILE}" -out "${CSR_FILE}" -config "${CONFIG_FILE}"
+
+  # Generate self-signed certificate with SAN
+  echo "Generating self-signed certificate with SAN..."
+  openssl x509 -req -in "${CSR_FILE}" -signkey "${KEY_FILE}" -out "${CERT_FILE}" -days "${DAYS_VALID}" -extensions req_ext -extfile "${CONFIG_FILE}"
+
+  echo "Certificate and key generated:"
+  echo "Private Key: ${KEY_FILE}"
+  echo "Certificate Signing Request: ${CSR_FILE}"
+  echo "Certificate: ${CERT_FILE}"
+}
+
+generate_cert
+
 check_env_files() {
    missing_files=()
    # Check each variable and add to missing_files if the file is missing
