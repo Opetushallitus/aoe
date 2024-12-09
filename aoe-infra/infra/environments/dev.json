@@ -5,6 +5,52 @@
         "domain": "dev.aoe.fi"
     },
     "services": {
+        "data_analytics": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-97",
+            "allow_ecs_exec": true,
+            "env_vars": {
+                "LOGGING_LEVEL_FI_CSC": "ERROR",
+                "LOGGING_LEVEL_ORG_APACHE_KAFKA": "ERROR",
+                "LOGGING_LEVEL_ORG_SPRINGFRAMEWORK": "ERROR",
+                "SERVER_PORT": "8080",
+                "SERVER_SERVLET_CONTEXTPATH": "/analytics/api",
+                "SPRING_PROFILES_ACTIVE": "prod",
+                "SPRING_AUTOCONFIGURATION_EXCLUDE": "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
+
+                "SPRING_DATASOURCE_PRIMARY_URL": "jdbc:postgresql://dev-web-backend-aurora-devwebbackendwriter4c162db7-zjabck717tnp.clykem0ww4fy.eu-west-1.rds.amazonaws.com:5432/aoe",
+                "SPRING_DATASOURCE_PRIMARY_USERNAME": "reporter",
+                "SPRING_DATASOURCE_PRIMARY_INITIALIZATIONMODE": "never",
+                "SPRING_DATASOURCE_PRIMARY_DRIVERCLASSNAME": "org.postgresql.Driver",
+
+                "MONGODB_PRIMARY_ENABLE_SSL": "true",
+                "MONGODB_PRIMARY_HOST": "aoedocumentdb624326a2-4ass18z7c2f2.cluster-clykem0ww4fy.eu-west-1.docdb.amazonaws.com",
+                "MONGODB_PRIMARY_PORT": "27017",
+                "MONGODB_PRIMARY_DATABASE": "analytics",
+                "MONGODB_PRIMARY_USERNAME": "aoeOwner",
+
+                "KAFKA_ENABLED": "true",
+                "KAFKA_SASL_ENABLE": "true",
+                "TRUST_STORE_LOCATION": "/certs/rds-truststore.jks",
+
+                "SPRING_KAFKA_CONSUMER_AUTO_STARTUP": "true",
+                "SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
+                "SPRING_KAFKA_CONSUMER_AUTOOFFSETRESET": "latest",
+                "SPRING_KAFKA_CONSUMER_ENABLEAUTOCOMMIT": "true",
+                "SPRING_KAFKA_PRODUCER_BATCH_SIZE": "10",
+                "SPRING_KAFKA_PRODUCER_CLIENTID": "aoe-kafka-client",
+                "SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
+
+                "KAFKA_GROUPID_PRODMATERIALACTIVITY": "group-prod-material-activity",
+                "KAFKA_GROUPID_PRODSEARCHREQUESTS": "group-prod-search-requests",
+
+                "KAFKA_TOPIC_PRODMATERIALACTIVITY": "prod_material_activity",
+                "KAFKA_TOPIC_PRODSEARCHREQUESTS": "prod_search_requests"
+            }
+        },
         "data_services": {
             "cpu_limit": "512",
             "memory_limit": "1024",
@@ -25,7 +71,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-59",
+            "image_tag": "ga-98",
             "allow_ecs_exec": true,
             "env_vars": {
                 "PROXY_URI":  "http://localhost",
@@ -46,10 +92,11 @@
                 "PG_USER": "aoe_admin",
                 "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "https://dev.aoe.fi:8080/oaipmh",
                 "KAFKA_EXCLUDED_AGENT_IDENTIFIERS": "oersi",
-                "KAFKA_BROKER_SERVERS": "xxxx:9092,xxxx:9094,xxxx:9096",
-                "KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY": "material_activity",
-                "KAFKA_BROKER_TOPIC_SEARCH_REQUESTS": "search_requests",
+                "KAFKA_BROKER_SERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
+                "KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY": "prod_material_activity",
+                "KAFKA_BROKER_TOPIC_SEARCH_REQUESTS": "prod_search_requests",
                 "KAFKA_CLIENT_ID": "aoe-web-backend",
+                "KAFKA_CLIENT_REGION": "eu-west-1",
 
                 "SESSION_COOKIE_DOMAIN":".dev.aoe.fi",
                 "SESSION_COOKIE_HTTP_ONLY": "true",
@@ -118,7 +165,7 @@
                 "VERIFY_EMAIL_REDIRECT_URL": "/",
 
                 "CLOUD_STORAGE_ENABLED": "1",
-                "KAFKA_ENABLED": "0",
+                "KAFKA_ENABLED": "1",
                 "LOGIN_ENABLED": "0",
 
                 "PID_SERVICE_RUN_SCHEDULED": "0",
@@ -171,6 +218,13 @@
                 "EXTERNAL_API_OPINTOPOLKU_EPERUSTEET": "https://virkailija.opintopolku.fi/eperusteet-service/api"
               }
         }
+    },
+    "msk": {
+        "clusterName": "AOEKafkaCluster",
+        "instanceType": "kafka.t3.small",
+        "numberOfBrokerNodes": 2,
+        "version": "3.6.0",
+        "volumeSize": 100
     },
     "open_search": {
         "standbyReplicas": "DISABLED",

@@ -6,6 +6,9 @@ on:
     branches:
       - '**'
 
+env:
+  DOCKER_BUILDKIT: '1'
+
 defaults:
   run:
     shell: bash
@@ -35,6 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           IMAGE_TAG: ga-${{ github.run_number }}
+          TRUST_STORE_PASSWORD: ${{ secrets.TRUST_STORE_PASSWORD }}
 
   lint:
     name: 02-lint.sh

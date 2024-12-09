@@ -17,13 +17,25 @@ export class KmsStack extends Stack {
     readonly parameterStoreKey: Key;
     readonly secretsManagerKey: Key;
     readonly openSearchKmsKey: Key;
+    readonly documentDbKmsKey: Key;
+    readonly mskKmsKey: Key;
+
     constructor(scope: Construct, id: string, props: KmsStackProps) {
         super(scope, id, props);
 
         // Change removal policies to something sensible when stacks are more mature
+        this.mskKmsKey = new Key(this, 'mskKmsKey', {
+            alias: `alias/${props.environment}-msk-aoe-key`,
+            removalPolicy: RemovalPolicy.DESTROY,
+        });
 
         this.openSearchKmsKey = new Key(this, 'openSearchKmsKey', {
             alias: `alias/${props.environment}-opensearch-aoe-key`,
+            removalPolicy: RemovalPolicy.DESTROY,
+        });
+
+        this.documentDbKmsKey = new Key(this, 'documentDbKmsKey', {
+            alias: `alias/${props.environment}-documentdb-aoe-key`,
             removalPolicy: RemovalPolicy.DESTROY,
         });
 

@@ -13,29 +13,35 @@ import { Client } from '@opensearch-project/opensearch';
 import { AwsSigv4Signer } from "@opensearch-project/opensearch/aws";
 import AWS from "aws-sdk";
 
-const index: string = process.env.ES_INDEX;
-
 /**
  * Elastisearch client configuration
  */
+const index: string = process.env.ES_INDEX;
+const isProd = process.env.NODE_ENV == 'production';
 
-const client = new Client({
-  ...AwsSigv4Signer({
-    region: 'eu-west-1',
-    service: 'aoss',
-    getCredentials: () =>
-      new Promise((resolve, reject) => {
-        AWS.config.getCredentials((err, credentials) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(credentials);
-          }
-        });
+const client = new Client(
+  isProd
+    ? {
+      ...AwsSigv4Signer({
+        region: process.env.AWS_REGION || 'eu-west-1',
+        service: 'aoss',
+        getCredentials: () =>
+          new Promise((resolve, reject) => {
+            AWS.config.getCredentials((err, credentials) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(credentials);
+              }
+            });
+          }),
       }),
-  }),
-  node: process.env.ES_NODE
-});
+      node: process.env.ES_NODE,
+    }
+    : {
+      node: process.env.ES_NODE,
+    }
+);
 
 
 // values for index last update time
