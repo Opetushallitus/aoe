@@ -28,6 +28,7 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly webBackendsServiceSecurityGroup: ec2.SecurityGroup;
   public readonly efsSecurityGroup: ec2.SecurityGroup;
   public readonly documentDbSecurityGroup: ec2.SecurityGroup;
+  public readonly mskSecurityGroup: ec2.SecurityGroup;
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
@@ -36,6 +37,12 @@ export class SecurityGroupStack extends cdk.Stack {
     this.documentDbSecurityGroup = new ec2.SecurityGroup(this, 'DocumentDbSecurityGroup', {
       vpc: props.vpc,
       description: 'Allow access to DocumentDB cluster',
+      allowAllOutbound: true,
+    });
+
+    this.mskSecurityGroup = new ec2.SecurityGroup(this, 'MskSecurityGroup', {
+      vpc: props.vpc,
+      description: 'Allow access to MSK kafka',
       allowAllOutbound: true,
     });
 
@@ -95,6 +102,21 @@ export class SecurityGroupStack extends cdk.Stack {
     })
 
     // Security Group rules
+    this.mskSecurityGroup.addIngressRule(
+      this.dataAnalyticsServiceSecurityGroup,
+      ec2.Port.tcp(9098)
+    )
+
+    this.mskSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(9098)
+    )
+
+    this.mskSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(9098)
+    );
+
     this.documentDbSecurityGroup.addIngressRule(
       this.dataAnalyticsServiceSecurityGroup,
       ec2.Port.tcp(27017)
