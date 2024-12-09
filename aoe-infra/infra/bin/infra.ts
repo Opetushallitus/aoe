@@ -29,6 +29,8 @@ import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import * as iam from "aws-cdk-lib/aws-iam";
 import { NamespaceStack } from "../lib/NamespaceStack"
 import { EfsStack } from "../lib/efs-stack";
+import { DocumentdbStack } from "../lib/documentdb-stack";
+import { MskStack } from "../lib/msk-stack";
 
 const app = new cdk.App();
 
@@ -220,6 +222,97 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     accessPointPath: '/data'
   })
 
+  const docDb = new DocumentdbStack(app, 'AOEDocumentDB', {
+    instances: 1,
+    env: { region: 'eu-west-1' },
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.documentDbSecurityGroup,
+    engineVersion: '4.0.0',
+    user: Secrets.documentDbPassword,
+    kmsKey: Kms.documentDbKmsKey
+  })
+
+  const mskKafka = new MskStack(app, 'AOEMskKafka', {
+    env: { region: 'eu-west-1' },
+    clusterName: environmentConfig.msk.clusterName,
+    instanceType: environmentConfig.msk.instanceType,
+    kmsKey: Kms.mskKmsKey,
+    numberOfBrokerNodes: environmentConfig.msk.numberOfBrokerNodes,
+    securityGroup: SecurityGroups.mskSecurityGroup,
+    version: environmentConfig.msk.version,
+    volumeSize: environmentConfig.msk.volumeSize,
+    vpc: Network.vpc
+  })
+
+  const kafkaClusterIamPolicy = new iam.PolicyStatement({
+    actions: [
+      'kafka-cluster:Connect',
+      'kafka-cluster:DescribeCluster',
+      'kafka-cluster:GetBootstrapBrokers',
+      'kafka-cluster:ListTopics',
+      'kafka-cluster:AlterCluster'
+    ],
+    resources: [ mskKafka.kafkaCluster.attrArn ],
+  });
+
+  const kafkaTopicIamPolicy = new iam.PolicyStatement({
+    actions: [
+      "kafka-cluster:*Topic*",
+      "kafka-cluster:WriteData",
+      "kafka-cluster:ReadData"
+    ],
+    resources: [
+      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_material_activity`,
+      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_search_requests`
+    ],
+  });
+
+  const kafkaGroupIamPolicy = new iam.PolicyStatement({
+    actions: [
+      'kafka-cluster:AlterGroup',
+      'kafka-cluster:DescribeGroup',
+    ],
+    resources: [
+      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-material-activity`,
+      `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-search-requests`
+    ],
+  })
+
+  const DataAnalyticsService = new EcsServiceStack(app, 'DataAnalyticsEcsService', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-data-analytics-service`,
+    serviceName: 'data-analytics',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.dataAnalyticsServiceSecurityGroup,
+    imageTag: environmentConfig.services.data_analytics.image_tag,
+    allowEcsExec: environmentConfig.services.data_analytics.allow_ecs_exec,
+    taskCpu: environmentConfig.services.data_analytics.cpu_limit,
+    taskMemory: environmentConfig.services.data_analytics.memory_limit,
+    minimumCount: environmentConfig.services.data_analytics.min_count,
+    maximumCount: environmentConfig.services.data_analytics.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: environmentConfig.services.data_analytics.env_vars,
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [
+      Secrets.secrets.ANALYTICS_PG_PASS,
+      Secrets.secrets.ANALYTICS_DOCDB_PASSWORD,
+      Secrets.secrets.ANALYTICS_TRUST_STORE_PASSWORD
+    ],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: ["/analytics/api/*"],
+    healthCheckPath: "/analytics/api/status",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 104,
+    privateDnsNamespace: namespace.privateDnsNamespace,
+    iAmPolicyStatements: [ kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
+  })
+
   const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-streaming-app-service`,
@@ -297,6 +390,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     ],
     resources: [OpenSearch.collectionArn]
   });
+
   const efsPolicyStatement = new iam.PolicyStatement({
     actions: [
       'elasticfilesystem:DescribeFileSystems',
@@ -342,7 +436,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckTimeout: 2,
     albPriority: 102,
     iAmPolicyStatements: [ aossPolicyStatement, s3PolicyStatement,
-      efsPolicyStatement
+      efsPolicyStatement, kafkaClusterIamPolicy, kafkaTopicIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     efs: {

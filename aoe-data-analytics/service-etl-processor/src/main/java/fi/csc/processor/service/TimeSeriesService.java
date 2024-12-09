@@ -1,7 +1,6 @@
 package fi.csc.processor.service;
 
 import fi.csc.processor.enumeration.Interval;
-import fi.csc.processor.enumeration.TargetEnv;
 import fi.csc.processor.model.request.IntervalTotalRequest;
 import fi.csc.processor.model.statistics.IntervalTotal;
 import fi.csc.processor.model.statistics.StatisticsMeta;
@@ -23,14 +22,10 @@ import java.util.List;
 public class TimeSeriesService {
     private static final Logger LOG = LoggerFactory.getLogger(TimeSeriesService.class.getSimpleName());
     private final MongoTemplate mongoPrimaryTemplate;
-    private final MongoTemplate mongoSecondaryTemplate;
 
     @Autowired
-    TimeSeriesService(
-        @Qualifier("primaryMongoTemplate") MongoTemplate mongoPrimaryTemplate,
-        @Qualifier("secondaryMongoTemplate") MongoTemplate mongoSecondaryTemplate) {
+    TimeSeriesService(@Qualifier("primaryMongoTemplate") MongoTemplate mongoPrimaryTemplate) {
         this.mongoPrimaryTemplate = mongoPrimaryTemplate;
-        this.mongoSecondaryTemplate = mongoSecondaryTemplate;
     }
 
     /**
@@ -54,13 +49,9 @@ public class TimeSeriesService {
     public StatisticsMeta<IntervalTotal> getTotalByInterval(
         Interval interval,
         IntervalTotalRequest intervalTotalRequest,
-        Class<?> targetCollection,
-        TargetEnv targetEnv) {
-        MongoTemplate mongoTemplate = switch (targetEnv) {
-            case PROD -> this.mongoPrimaryTemplate;
-            case TEST -> this.mongoSecondaryTemplate;
-        };
-        AggregationResults<IntervalTotal> result = mongoTemplate.aggregate(
+        Class<?> targetCollection
+      ) {
+        AggregationResults<IntervalTotal> result = this.mongoPrimaryTemplate.aggregate(
             buildAggregationConfiguration(interval, intervalTotalRequest),
             targetCollection,
             IntervalTotal.class);

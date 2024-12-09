@@ -29,6 +29,7 @@ process.env.KAFKA_BROKER_SERVERS || missingEnvs.push('KAFKA_BROKER_SERVERS');
 process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY || missingEnvs.push('KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY');
 process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS || missingEnvs.push('KAFKA_BROKER_TOPIC_SEARCH_REQUESTS');
 process.env.KAFKA_CLIENT_ID || missingEnvs.push('KAFKA_CLIENT_ID');
+process.env.KAFKA_CLIENT_REGION || missingEnvs.push('KAFKA_CLIENT_REGION');
 process.env.CONVERSION_TO_PDF_API || missingEnvs.push('CONVERSION_TO_PDF_API');
 process.env.CONVERSION_TO_PDF_ENABLED || missingEnvs.push('CONVERSION_TO_PDF_ENABLED');
 process.env.POSTGRESQL_HOST || missingEnvs.push('POSTGRESQL_HOST');
@@ -102,6 +103,7 @@ export default {
     topicMaterialActivity: process.env.KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY as string,
     topicSearchRequests: process.env.KAFKA_BROKER_TOPIC_SEARCH_REQUESTS as string,
     clientId: process.env.KAFKA_CLIENT_ID as string,
+    region: process.env.KAFKA_CLIENT_REGION as string,
   } as const,
 
   // Configuration for PostgreSQL database connections.
