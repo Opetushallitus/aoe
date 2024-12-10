@@ -153,7 +153,7 @@ export async function collectionDataToEs(index: string, data: any) {
       const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
       // winstonLogger.debug("THIS IS BODY:");
       // winstonLogger.debug(JSON.stringify(body));
-      const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+      const { body: bulkResponse } = await client.bulk({ refresh: false, body });
       if (bulkResponse.errors) {
         const erroredDocuments = [];
         // The items array has the same order of the dataset we just indexed.
