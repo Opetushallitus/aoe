@@ -272,7 +272,7 @@ export async function metadataToEs(offset: number, limit: number) {
           const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
           // winstonLogger.debug("THIS IS BODY:");
           // winstonLogger.debug(JSON.stringify(body));
-          const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+          const { body: bulkResponse } = await client.bulk({ refresh: false, body });
           if (bulkResponse.errors) {
             const erroredDocuments = [];
             // The items array has the same order of the dataset we just indexed.
@@ -454,7 +454,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
       .then(async (data: any) => { // #1 then start
           if (data.length > 0) {
             const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
-            const { body: bulkResponse } = await client.bulk({ refresh: true, body });
+            const { body: bulkResponse } = await client.bulk({ refresh: false, body });
             if (bulkResponse.errors) {
               winstonLogger.error('Bulk response error: %o', bulkResponse.errors);
             } else {
