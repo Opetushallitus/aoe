@@ -39,6 +39,7 @@ export class BastionStack extends Stack {
           'aoss:DescribeIndex',
           'aoss:ReadDocument',
           'aoss:WriteDocument',
+          'kafka:GetBootstrapBrokers',
         ],
         resources: ['*']
       })
@@ -69,7 +70,6 @@ export class BastionStack extends Stack {
 
       const userDataScript = readFileSync('./scripts/bastion_userdata.sh', 'utf8');
 
-//      bastionHost.instance.addUserData('yum install -y mariadb105 mongodb-mongosh-shared-openssl3 mongodb-database-tools postgresql15 redis7 htop python3-pip python3-wheel jq bash tmux nohup');
       bastionHost.instance.addUserData(userDataScript);
       bastionHost.role.addToPrincipalPolicy(allowSessionManager)
       bastionHost.role.addToPrincipalPolicy(allowKmsDecrypt(props.kmsKey.keyArn))
