@@ -1,28 +1,26 @@
-import { Stack, StackProps, Fn, Duration, SecretValue } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { AuroraPostgresEngineVersion, DatabaseCluster, DatabaseClusterEngine, ClusterInstance, DBClusterStorageType, SubnetGroup, ParameterGroup, CaCertificate } from 'aws-cdk-lib/aws-rds';
-import { HostedZone, CnameRecord, IHostedZone } from 'aws-cdk-lib/aws-route53'
-import { IVpc, ISecurityGroup, SubnetType } from 'aws-cdk-lib/aws-ec2';
+import { AuroraPostgresEngineVersion, DatabaseCluster, DatabaseClusterEngine, ClusterInstance, DBClusterStorageType, SubnetGroup, ParameterGroup, CaCertificate, Endpoint } from 'aws-cdk-lib/aws-rds';
+import { IVpc, ISecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 
 interface AuroraDatabaseProps extends StackProps {
   environment: string;
   auroraVersion: string;
-  route53HostedZone: IHostedZone;
   clusterName: string;
   minSizeAcu: number;
   maxSizeAcu: number;
   performanceInsights: boolean;
-  domainNames: string[];
   vpc: IVpc,
   securityGroup: ISecurityGroup,
   kmsKey: Key,
   auroraDbPassword: Secret;
   subnetGroup: SubnetGroup;
-};
+}
 
 export class AuroraDatabaseStack extends Stack {
+  public readonly endPoint: Endpoint;
   constructor(scope: Construct, id: string, props: AuroraDatabaseProps) {
     super(scope, id, props);
 
@@ -45,8 +43,6 @@ export class AuroraDatabaseStack extends Stack {
         'max_connections': '500'
       }
     })
-
-    //    const aurora_master_username = Secret.fromSecretPartialArn(this, 'aurora_master_username', `arn:aws:secretsmanager:${props.env?.region}:${props.env?.account}:secret:/auroradbs/common/master-user-username`)
 
     const auroraCluster = new DatabaseCluster(this, `${props.environment}-${props.clusterName}`, {
       vpc: props.vpc,
@@ -78,13 +74,7 @@ export class AuroraDatabaseStack extends Stack {
         password: props.auroraDbPassword.secretValueFromJson('password')
       }
     })
-    for (let i in props.domainNames) {
-      new CnameRecord(this, `${props.environment}-cname-${props.domainNames[i].replace('.', '-')}`, {
-        domainName: auroraCluster.clusterEndpoint.hostname,
-        zone: props.route53HostedZone,
-        recordName: `${props.domainNames[i]}.auroradb.${props.route53HostedZone.zoneName}`,
-        ttl: Duration.minutes(1)
-      })
-    }
+
+    this.endPoint = auroraCluster.clusterEndpoint
   }
 }
