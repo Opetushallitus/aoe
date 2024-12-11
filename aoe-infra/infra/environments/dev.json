@@ -10,7 +10,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-97",
+            "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOGGING_LEVEL_FI_CSC": "ERROR",
@@ -21,14 +21,11 @@
                 "SPRING_PROFILES_ACTIVE": "prod",
                 "SPRING_AUTOCONFIGURATION_EXCLUDE": "org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration",
 
-                "SPRING_DATASOURCE_PRIMARY_URL": "jdbc:postgresql://dev-web-backend-aurora-devwebbackendwriter4c162db7-zjabck717tnp.clykem0ww4fy.eu-west-1.rds.amazonaws.com:5432/aoe",
                 "SPRING_DATASOURCE_PRIMARY_USERNAME": "reporter",
                 "SPRING_DATASOURCE_PRIMARY_INITIALIZATIONMODE": "never",
                 "SPRING_DATASOURCE_PRIMARY_DRIVERCLASSNAME": "org.postgresql.Driver",
 
                 "MONGODB_PRIMARY_ENABLE_SSL": "true",
-                "MONGODB_PRIMARY_HOST": "aoedocumentdb624326a2-4ass18z7c2f2.cluster-clykem0ww4fy.eu-west-1.docdb.amazonaws.com",
-                "MONGODB_PRIMARY_PORT": "27017",
                 "MONGODB_PRIMARY_DATABASE": "analytics",
                 "MONGODB_PRIMARY_USERNAME": "aoeOwner",
 
@@ -37,12 +34,10 @@
                 "TRUST_STORE_LOCATION": "/certs/rds-truststore.jks",
 
                 "SPRING_KAFKA_CONSUMER_AUTO_STARTUP": "true",
-                "SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
                 "SPRING_KAFKA_CONSUMER_AUTOOFFSETRESET": "latest",
                 "SPRING_KAFKA_CONSUMER_ENABLEAUTOCOMMIT": "true",
                 "SPRING_KAFKA_PRODUCER_BATCH_SIZE": "10",
                 "SPRING_KAFKA_PRODUCER_CLIENTID": "aoe-kafka-client",
-                "SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
 
                 "KAFKA_GROUPID_PRODMATERIALACTIVITY": "group-prod-material-activity",
                 "KAFKA_GROUPID_PRODSEARCHREQUESTS": "group-prod-search-requests",
@@ -56,7 +51,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-47",
+            "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
                 "SPRING_PROFILES_ACTIVE": "prod",
@@ -71,7 +66,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-98",
+            "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
                 "PROXY_URI":  "http://localhost",
@@ -86,13 +81,10 @@
                 "HTTP_OPTIONS_RETRY": "2",
                 "HTTP_OPTIONS_CLOCK_TOLERANCE":"5",
 
-                "POSTGRESQL_HOST": "dev-web-backend-aurora-devwebbackendwriter4c162db7-zjabck717tnp.clykem0ww4fy.eu-west-1.rds.amazonaws.com",
-                "POSTGRESQL_PORT": "5432",
                 "POSTGRESQL_DATA": "aoe",
                 "PG_USER": "aoe_admin",
                 "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "https://dev.aoe.fi:8080/oaipmh",
                 "KAFKA_EXCLUDED_AGENT_IDENTIFIERS": "oersi",
-                "KAFKA_BROKER_SERVERS": "b-2.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098,b-1.aoekafkacluster.ofj9dw.c2.kafka.eu-west-1.amazonaws.com:9098",
                 "KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY": "prod_material_activity",
                 "KAFKA_BROKER_TOPIC_SEARCH_REQUESTS": "prod_search_requests",
                 "KAFKA_CLIENT_ID": "aoe-web-backend",
@@ -123,7 +115,6 @@
                 "FAILURE_REDIRECT_URI": "/api/login",
 
                 "CREATE_ES_INDEX": "1",
-                "ES_NODE": "https://q424y19mb1m0b1alqi09.eu-west-1.aoss.amazonaws.com",
                 "ES_INDEX": "aoe",
                 "ES_MAPPING_FILE": "/app/aoemapping.json",
                 "ES_COLLECTION_INDEX": "aoecollection",
@@ -152,8 +143,6 @@
                 "THUMBNAIL_DOWNLOAD_URL": "https://dev.aoe.fi/api/v1/thumbnail/",
                 "COLLECTION_THUMBNAIL_DOWNLOAD_URL": "https://dev.aoe.fi/api/v1/collection/thumbnail/",
 
-                "REDIS_HOST": "semantic-apis-cdb80h.serverless.euw1.cache.amazonaws.com",
-                "REDIS_PORT": "6379",
                 "REDIS_USERNAME": "app",
                 "REDIS_USE_TLS": "true",
                 "BASE_URL": "https://dev.aoe.fi/api/v1/",
@@ -183,7 +172,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-47",
+            "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "error",
@@ -199,13 +188,11 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-25",
+            "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "debug",
                 "PORT_LISTEN": "8080",
-                "REDIS_HOST": "semantic-apis-cdb80h.serverless.euw1.cache.amazonaws.com",
-                "REDIS_PORT": "6379",
                 "REDIS_USERNAME": "app",
                 "REDIS_EXPIRE_TIME": "86400",
                 "REDIS_USE_TLS": "true",
@@ -237,16 +224,17 @@
             "version": "16.4",
             "min_size_acu": 0.5,
             "max_size_acu": 1,
-            "performance_insights": false,
-            "domain_names": ["data-analytics"]
+            "performance_insights": false
           },
           "web_backend": {
             "version": "16.4",
             "min_size_acu": 0.5,
             "max_size_acu": 1,
-            "performance_insights": false,
-            "domain_names": ["web-backend"]
+            "performance_insights": false
           }
+    },
+    "document_db": {
+        "engineVersion": "4.0.0"
     },
     "S3": {
         "aoeBucketName": "aoe",

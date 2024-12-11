@@ -118,8 +118,6 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     performanceInsights: environmentConfig.aurora_databases.web_backend.performance_insights,
     minSizeAcu: environmentConfig.aurora_databases.web_backend.min_acu,
     maxSizeAcu: environmentConfig.aurora_databases.web_backend.max_acu,
-    domainNames: environmentConfig.aurora_databases.web_backend.domain_names,
-    route53HostedZone: HostedZones.privateHostedZone,
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
     subnetGroup: AuroraCommons.auroraSubnetGroup,
@@ -133,7 +131,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     securityGroupIds: [SecurityGroups.openSearchSecurityGroup.securityGroupId],
     vpc: Network.vpc,
     kmsKey: Kms.openSearchKmsKey,
-    standbyReplicas: environmentConfig.open_search.standbyReplicas
+    standbyReplicas: environmentConfig.open_search.standbyReplicas,
   });
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
@@ -227,7 +225,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     env: { region: 'eu-west-1' },
     vpc: Network.vpc,
     securityGroup: SecurityGroups.documentDbSecurityGroup,
-    engineVersion: '4.0.0',
+    engineVersion: environmentConfig.document_db.engineVersion,
     user: Secrets.documentDbPassword,
     kmsKey: Kms.documentDbKmsKey
   })
@@ -293,7 +291,16 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     minimumCount: environmentConfig.services.data_analytics.min_count,
     maximumCount: environmentConfig.services.data_analytics.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: environmentConfig.services.data_analytics.env_vars,
+    env_vars: {
+      ...environmentConfig.services.data_analytics.env_vars,
+      ...{
+        "MONGODB_PRIMARY_HOST": docDb.clusterEndpoint.hostname,
+        "MONGODB_PRIMARY_PORT": docDb.clusterEndpoint.port,
+        "SPRING_DATASOURCE_PRIMARY_URL": `jdbc:postgresql://${WebBackendAurora.endPoint.hostname}:${WebBackendAurora.endPoint.port}/aoe`,
+        "SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS": mskKafka.bootstrapBrokers,
+        "SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS": mskKafka.bootstrapBrokers
+      }
+    },
     parameter_store_secrets: [],
     secrets_manager_secrets: [
       Secrets.secrets.ANALYTICS_PG_PASS,
@@ -416,7 +423,17 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     minimumCount: environmentConfig.services.web_backend.min_count,
     maximumCount: environmentConfig.services.web_backend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: environmentConfig.services.web_backend.env_vars,
+    env_vars: {
+      ...environmentConfig.services.web_backend.env_vars,
+      ...{
+        "REDIS_HOST": SemanticApisRedis.endpointAddress,
+        "REDIS_PORT": SemanticApisRedis.endpointPort,
+        "ES_NODE": OpenSearch.collectionEndpoint,
+        "POSTGRESQL_HOST": WebBackendAurora.endPoint.hostname,
+        "POSTGRESQL_PORT": WebBackendAurora.endPoint.port,
+        "KAFKA_BROKER_SERVERS": mskKafka.bootstrapBrokers
+      }
+    },
     parameter_store_secrets: [],
     secrets_manager_secrets: [
       Secrets.secrets.REDIS_PASS,
@@ -457,7 +474,6 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
         readOnly: false,
       }
     }
-
   })
 
   const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
@@ -475,7 +491,10 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     minimumCount: environmentConfig.services.semantic_apis.min_count,
     maximumCount: environmentConfig.services.semantic_apis.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: environmentConfig.services.semantic_apis.env_vars,
+    env_vars: {
+      ...environmentConfig.services.semantic_apis.env_vars,
+      ...{"REDIS_HOST": SemanticApisRedis.endpointAddress}, "REDIS_PORT": SemanticApisRedis.endpointPort
+    },
     parameter_store_secrets: [
     ],
     secrets_manager_secrets: [
