@@ -78,27 +78,27 @@ export class AlbStack extends cdk.Stack {
       targetGroups: [albDefaultTargetGroup]
     });
 
-    // Create a Global Accelerator for ALB static IP so it can be  
-    // used for whitelisting in external outbound traffic filtering
-    const accelerator = new globalaccelerator.Accelerator(this, 'Accelerator');
+    // // Create a Global Accelerator for ALB static IP so it can be  
+    // // used for whitelisting in external outbound traffic filtering
+    // const accelerator = new globalaccelerator.Accelerator(this, 'Accelerator');
 
-    // Create a GA Listener
-    const gaListener = accelerator.addListener('Listener', {
-      portRanges: [
-        { fromPort: 80 },
-        { fromPort: 443 },
-      ],
-    });
+    // // Create a GA Listener
+    // const gaListener = accelerator.addListener('Listener', {
+    //   portRanges: [
+    //     { fromPort: 80 },
+    //     { fromPort: 443 },
+    //   ],
+    // });
 
-    // Creata GA 
-    gaListener.addEndpointGroup('AlbGroup', {
-      endpoints: [
-        new ga_endpoints.ApplicationLoadBalancerEndpoint(this.alb, {
-          weight: 128,
-          preserveClientIp: true,
-        }),
-      ],
-    });
+    // // Create a GA endpoint group
+    // gaListener.addEndpointGroup('AlbGroup', {
+    //   endpoints: [
+    //     new ga_endpoints.ApplicationLoadBalancerEndpoint(this.alb, {
+    //       weight: 128,
+    //       preserveClientIp: true,
+    //     }),
+    //   ],
+    // });
 
   }
 }
