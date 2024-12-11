@@ -76,4 +76,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
           image-tag: ga-${{ github.run_number }}
+      - name: Push S3
+        uses: ./.github/actions/push_s3
+        with:
+          source-dir: ./aoe-frontend/dist/
+          aws-region: eu-west-1
+          aws-s3-bucket: aoe-static-content-dev/aoe-frontend/ga-${{ github.run_number }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
