@@ -1,3 +1,4 @@
+ARG FRONTEND_CONFIGURATION
 FROM node:14.21.3-bullseye as front-builder
 WORKDIR /app
 ADD ./ /app/

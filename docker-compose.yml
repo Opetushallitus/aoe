@@ -6,7 +6,7 @@ services:
     build:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
-      environment:
+      args:
         FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-dev}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
