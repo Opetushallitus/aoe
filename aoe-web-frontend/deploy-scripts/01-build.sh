@@ -1,22 +1,12 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 
-# shellcheck source=../scripts/common-functions.sh
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/common-functions.sh"
-
-# shellcheck source=./deploy-functions.sh
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../deploy-scripts/deploy-functions.sh"
-source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../../scripts/build-functions.sh"
+build_command="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/build-configuration.sh"
 
 function main {
-  local aoe_service_name="aoe-web-frontend"
-  local service_image_tag="AOE_WEB_FRONTEND_TAG"
-
-  cd "$repo"
-
-  FRONTEND_CONFIGURATION=dev buildService "$aoe_service_name-dev" "$service_image_tag"
-  FRONTEND_CONFIGURATION=qa buildService "$aoe_service_name-qa" "$service_image_tag"
-  FRONTEND_CONFIGURATION=prod buildService "$aoe_service_name-prod" "$service_image_tag"
+  ${build_command} dev
+  ${build_command} qa
+  ${build_command} prod
 }
 
 main
