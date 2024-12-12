@@ -5,7 +5,9 @@ services:
   aoe-web-frontend:
     build:
       context: aoe-web-frontend
-      dockerfile: ./docker/demo.Dockerfile
+      dockerfile: ./docker/Dockerfile
+      environment:
+        ENVIRONMENT: ${FRONTEND_ENVIRONMENT:-dev}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
