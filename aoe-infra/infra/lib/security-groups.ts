@@ -72,6 +72,11 @@ export class SecurityGroupStack extends cdk.Stack {
       allowAllOutbound: true,
     });
 
+    this.webFrontendServiceSecurityGroup = new ec2.SecurityGroup(this, 'WebFrontendServiceSecurityGroupSecurityGroup', {
+      vpc: props.vpc,
+      allowAllOutbound: true,
+    });
+
     this.semanticApisServiceSecurityGroup = new ec2.SecurityGroup(this, 'SemanticApisServiceSecurityGroup', {
       vpc: props.vpc,
       allowAllOutbound: true,
