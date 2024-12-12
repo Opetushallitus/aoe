@@ -191,7 +191,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
-      env: { region: "eu-west-1" }
+    env: { region: "eu-west-1" }
   })
 
   const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
@@ -254,7 +254,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
       'kafka-cluster:ListTopics',
       'kafka-cluster:AlterCluster'
     ],
-    resources: [ mskKafka.kafkaCluster.attrArn ],
+    resources: [mskKafka.kafkaCluster.attrArn],
   });
 
   const kafkaTopicIamPolicy = new iam.PolicyStatement({
@@ -321,7 +321,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckTimeout: 2,
     albPriority: 104,
     privateDnsNamespace: namespace.privateDnsNamespace,
-    iAmPolicyStatements: [ kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
+    iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
   })
 
   const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
@@ -356,7 +356,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   })
 
   const DataServices = new EcsServiceStack(app, 'DataServicesEcsService', {
-    env: {region: "eu-west-1"},
+    env: { region: "eu-west-1" },
     stackName: `${environmentName}-data-services`,
     serviceName: 'data-services',
     environment: environmentName,
@@ -376,7 +376,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: [ "/rest/oaipmh*" ],
+    listenerPathPatterns: ["/rest/oaipmh*"],
     healthCheckPath: "/rest/health",
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
@@ -456,7 +456,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 102,
-    iAmPolicyStatements: [ aossPolicyStatement, s3PolicyStatement,
+    iAmPolicyStatements: [aossPolicyStatement, s3PolicyStatement,
       efsPolicyStatement, kafkaClusterIamPolicy, kafkaTopicIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
@@ -466,7 +466,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
         efsVolumeConfiguration: {
           fileSystemId: efs.fileSystemId,
           transitEncryption: 'ENABLED',
-          authorizationConfig:{
+          authorizationConfig: {
             accessPointId: efs.accessPoint.accessPointId,
             iam: 'ENABLED'
           }
@@ -497,7 +497,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
       ...environmentConfig.services.semantic_apis.env_vars,
-      ...{"REDIS_HOST": SemanticApisRedis.endpointAddress}, "REDIS_PORT": SemanticApisRedis.endpointPort
+      ...{ "REDIS_HOST": SemanticApisRedis.endpointAddress }, "REDIS_PORT": SemanticApisRedis.endpointPort
     },
     parameter_store_secrets: [
     ],
