@@ -18,7 +18,7 @@ function main {
       echo "Building for configuration ${configuration}"
       ;;
     *)
-      echo "FRONTEND_CONFIGURATION not set to correct value (got $configuration)"
+      echo "Configuration parameter is not correct (got configuration=$configuration)"
       exit 1
       ;;
   esac
