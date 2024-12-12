@@ -17,20 +17,21 @@ import { EcsServiceStack } from '../lib/ecs-service';
 import { FrontendBucketStack } from '../lib/front-end-bucket-stack';
 import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack';
 import { EcrStack } from '../lib/ecr-stack';
-import { UtilityStack } from '../lib/utility-stack';
 import { ElasticacheServerlessStack } from '../lib/redis-stack';
 import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs';
 import { BastionStack } from '../lib/bastion-stack';
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
 import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
-import { S3Stack } from "../lib/s3Stack";
+import { S3Stack } from "../lib/S3Stack";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import * as iam from "aws-cdk-lib/aws-iam";
-import { NamespaceStack } from "../lib/NamespaceStack"
+import { NamespaceStack } from "../lib/namespaceStack"
 import { EfsStack } from "../lib/efs-stack";
 import { DocumentdbStack } from "../lib/documentdb-stack";
 import { MskStack } from "../lib/msk-stack";
+import { GithubActionsStack } from "../lib/githubActionsStack";
+import { UtilityStack } from "../lib/utility-stack";
 
 const app = new cdk.App();
 
@@ -55,9 +56,12 @@ else {
   process.exit(1);
 }
 
-
 // dev, qa & prod account resources..
 if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'prod') {
+
+  const githubActionsStack = new GithubActionsStack(app, 'GithubActionsStack', {
+    environment: environmentName
+  })
 
   // Remember to update KMS key removal policy
   const Kms = new KmsStack(app, 'KmsStack', {
@@ -519,6 +523,7 @@ else if (environmentName == 'utility') {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-utility`,
   })
+
   const FrontendEcr = new EcrStack(app, 'FrontendEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-web-frontend-ecr',
