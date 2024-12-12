@@ -511,7 +511,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 102,
-    iAmPolicyStatements: [aossPolicyStatement],
+    iAmPolicyStatements: [],
     privateDnsNamespace: namespace.privateDnsNamespace,
   })
 
