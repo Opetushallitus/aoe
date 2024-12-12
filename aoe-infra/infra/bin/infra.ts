@@ -480,6 +480,41 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     }
   })
 
+  const WebFrontendService = new EcsServiceStack(app, 'WebFrontendEcsService', {
+    env: { region: "eu-west-1" },
+    stackName: `${environmentName}-web-frontend-service`,
+    serviceName: 'web-frontend',
+    environment: environmentName,
+    cluster: FargateCluster.fargateCluster,
+    vpc: Network.vpc,
+    securityGroup: SecurityGroups.webFrontendServiceSecurityGroup,
+    imageTag: environmentConfig.services.web_frontend.image_tag,
+    allowEcsExec: environmentConfig.services.web_frontend.allow_ecs_exec,
+    taskCpu: environmentConfig.services.web_frontend.cpu_limit,
+    taskMemory: environmentConfig.services.web_frontend.memory_limit,
+    minimumCount: environmentConfig.services.web_frontend.min_count,
+    maximumCount: environmentConfig.services.web_frontend.max_count,
+    cpuArchitecture: CpuArchitecture.X86_64,
+    env_vars: {
+      ...environmentConfig.services.web_frontend.env_vars
+    },
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [
+      Secrets.secrets.JWT_SECRET,
+    ],
+    utilityAccountId: utilityAccountId,
+    alb: Alb.alb,
+    listener: Alb.albListener,
+    listenerPathPatterns: ["/static/*"],
+    healthCheckPath: "/",
+    healthCheckGracePeriod: 180,
+    healthCheckInterval: 5,
+    healthCheckTimeout: 2,
+    albPriority: 102,
+    iAmPolicyStatements: [aossPolicyStatement],
+    privateDnsNamespace: namespace.privateDnsNamespace,
+  })
+
   const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-semantic-apis-service`,

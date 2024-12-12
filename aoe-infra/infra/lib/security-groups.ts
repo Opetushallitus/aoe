@@ -29,6 +29,7 @@ export class SecurityGroupStack extends cdk.Stack {
   public readonly efsSecurityGroup: ec2.SecurityGroup;
   public readonly documentDbSecurityGroup: ec2.SecurityGroup;
   public readonly mskSecurityGroup: ec2.SecurityGroup;
+  public readonly webFrontendServiceSecurityGroup: ec2.SecurityGroup;
 
   constructor(scope: Construct, id: string, props: SecurityGroupStackProps) {
     super(scope, id, props);
@@ -229,6 +230,26 @@ export class SecurityGroupStack extends cdk.Stack {
     );
 
     this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(5432)
+    );
+
+    // TODO: verify backend ports
+    this.webBackendsServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
+    // TODO: verify backend ports
+    this.webBackendsServiceSecurityGroup.addIngressRule(
+      this.webFrontendServiceSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
+    this.webFrontendServiceSecurityGroup.addIngressRule(
+      this.albSecurityGroup,
+      ec2.Port.tcp(80)
+    )
+
+    this.dataAnalyticsAuroraSecurityGroup.addIngressRule(
       this.dataAnalyticsServiceSecurityGroup,
       ec2.Port.tcp(5432)
     );
