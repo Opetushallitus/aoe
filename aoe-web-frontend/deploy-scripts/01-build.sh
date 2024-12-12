@@ -14,9 +14,9 @@ function main {
 
   cd "$repo"
 
-  FRONTEND_ENVIRONMENT=dev buildService "$aoe_service_name-dev" "$service_image_tag"
-  FRONTEND_ENVIRONMENT=qa buildService "$aoe_service_name-qa" "$service_image_tag"
-  FRONTEND_ENVIRONMENT=prod buildService "$aoe_service_name-prod" "$service_image_tag"
+  FRONTEND_CONFIGURATION=dev buildService "$aoe_service_name-dev" "$service_image_tag"
+  FRONTEND_CONFIGURATION=qa buildService "$aoe_service_name-qa" "$service_image_tag"
+  FRONTEND_CONFIGURATION=prod buildService "$aoe_service_name-prod" "$service_image_tag"
 }
 
 main
