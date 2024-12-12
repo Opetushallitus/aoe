@@ -11,11 +11,15 @@ function main() {
   setup
 
   local aoe_service_name="aoe-web-frontend"
-  local github_image_tag="$github_registry${aoe_service_name}:${IMAGE_TAG}"
+  local github_image_tag_dev="$github_registry${aoe_service_name}-dev:${IMAGE_TAG}"
+  local github_image_tag_qa="$github_registry${aoe_service_name}-qa:${IMAGE_TAG}"
+  local github_image_tag_prod="$github_registry${aoe_service_name}-prod:${IMAGE_TAG}"
 
   local ecr_registry="${REGISTRY}/$aoe_service_name"
   local ecr_image_tag="${ecr_registry}:${IMAGE_TAG}"
-  upload_image_to_ecr "$github_image_tag" "$ecr_image_tag"
+  upload_image_to_ecr "$github_image_tag_dev" "$ecr_image_tag-dev"
+  upload_image_to_ecr "$github_image_tag_qa" "$ecr_image_tag-qa"
+  upload_image_to_ecr "$github_image_tag_prod" "$ecr_image_tag-prod"
 }
 
 function setup() {
