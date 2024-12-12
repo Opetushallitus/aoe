@@ -18,6 +18,27 @@ services:
       aoe-web-backend:
         condition: service_started
 
+  # Alias for build system
+  aoe-web-frontend-dev:
+    extends: aoe-web-frontend
+    environment:
+      FRONTEND_CONFIGURATION: dev
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-qa:
+    extends: aoe-web-frontend
+    environment:
+      FRONTEND_CONFIGURATION: qa
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-prod:
+    extends: aoe-web-frontend
+    environment:
+      FRONTEND_CONFIGURATION: prod
+    profiles: ["build-only"]
+
   nginx:
     image: nginx:latest
     hostname: nginx
