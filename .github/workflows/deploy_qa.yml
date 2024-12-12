@@ -1,0 +1,15 @@
+name: Deploy QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to deploy
+        required: true
+
+jobs:
+  deploy_qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output
+        run: echo "===============> Would now start deploying AOE to QA"
