@@ -24,7 +24,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-configuration": "ng build --configuration $FRONTEND_CONFIGURATION",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

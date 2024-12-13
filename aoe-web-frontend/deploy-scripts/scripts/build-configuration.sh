@@ -28,6 +28,6 @@ function main {
   buildService "$aoe_service_name-${configuration}" "$service_image_tag"
 }
 
-main $1
+main "$1"
 
 
