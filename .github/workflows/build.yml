@@ -50,7 +50,7 @@ jobs:
 
   push_image:
     name: 03-push-image.sh
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event.pull_request.draft == false
     needs: [ lint, build ]
     permissions:
       packages: write
