@@ -499,9 +499,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
       ...environmentConfig.services.web_frontend.env_vars
     },
     parameter_store_secrets: [],
-    secrets_manager_secrets: [
-      Secrets.secrets.JWT_SECRET,
-    ],
+    secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
