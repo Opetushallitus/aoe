@@ -7,7 +7,7 @@ services:
       context: aoe-web-frontend
       dockerfile: ./docker/Dockerfile
       args:
-        FRONTEND_CONFIGURATION: demo
+        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-demo}
     image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
