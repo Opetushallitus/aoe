@@ -61,6 +61,14 @@
                 "AOE_REQUEST_URL": "http://web-backend.dev.aoe.local:8080/api/v1/oaipmh/metadata"
             }
         },
+        "web_frontend": {
+            "cpu_limit": "512",
+            "memory_limit": "1024",
+            "min_count": 1,
+            "max_count": 1,
+            "image_tag": "ga-172-dev",
+            "allow_ecs_exec": true
+        },
         "web_backend": {
             "cpu_limit": "512",
             "memory_limit": "1024",
@@ -165,7 +173,7 @@
                 "STREAM_REDIRECT_URI": "https://stream.dev.aoe.fi/api/v1/material/",
                 "STREAM_STATUS_HOST": "streaming-app.dev.aoe.local:8080",
                 "STREAM_STATUS_PATH": "/api/v1/material/"
-        }
+            }
         },
         "streaming": {
             "cpu_limit": "512",
