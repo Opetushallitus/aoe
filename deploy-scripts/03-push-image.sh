@@ -14,6 +14,9 @@ readonly CURRENT_DIR
 # Run web backend push image script
 "${CURRENT_DIR}/../aoe-web-backend/deploy-scripts/02-push-image.sh"
 
+# Run web frontend push image script
+"${CURRENT_DIR}/../aoe-web-frontend/deploy-scripts/02-push-image.sh"
+
 # Run data analytics push image script
 "${CURRENT_DIR}/../aoe-data-analytics/deploy-scripts/02-push-image.sh"
 
