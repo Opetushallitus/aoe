@@ -18,7 +18,7 @@ export class FrontendStaticContentDeploymentStack extends Stack {
         super(scope, id, props);
 
         new s3deploy.BucketDeployment(this, 'XXXXXX', {
-            sources: [s3deploy.Source.asset(path.join(__dirname, '../aoe-web/frontend/dist'))],
+            sources: [s3deploy.Source.asset(path.join(__dirname, '../frontend/dist'))],
             destinationBucket: props.bucket,
             destinationKeyPrefix: 'static',
             distribution: props.cloudFrontDistribution,

@@ -1,14 +1,12 @@
-import * as cdk from 'aws-cdk-lib/core'
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as origins from 'aws-cdk-lib/aws-cloudfront-origins';
-import { Stack, StackProps } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import { BucketAccessControl, ObjectOwnership } from 'aws-cdk-lib/aws-s3'
-import { RemovalPolicy } from 'aws-cdk-lib/core'
 
 
 interface FrontendBucketStackProps extends StackProps {
+    //    domain: string
     environment: string,
     cloudFrontDistribution: cloudfront.Distribution,
 }
@@ -22,17 +20,8 @@ export class FrontendBucketStack extends Stack {
         this.bucket = new s3.Bucket(this, 'FrontEndBucket', {
             bucketName: `aoe-static-content-${props.environment}`,
             enforceSSL: true,
-            accessControl: BucketAccessControl.PRIVATE,
-            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-            versioned: true, // Required for taking backups
-            objectOwnership: ObjectOwnership.BUCKET_OWNER_PREFERRED, // Required for restoring backups
-            lifecycleRules: [
-                {
-                    id: 'ExpireOldVersions',
-                    noncurrentVersionExpiration: cdk.Duration.days(30), // Retain old versions for 30 days
-                }
-            ],
-            removalPolicy: RemovalPolicy.RETAIN
+            // encryption: s3.BucketEncryption.KMS,
+            // encryptionKey: props.s3KmsKey,
         });
 
         // CloudFront OAI, Origin & behaviour
@@ -43,4 +32,4 @@ export class FrontendBucketStack extends Stack {
             viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS
         });
     }
-} 
+}
