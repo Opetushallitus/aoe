@@ -239,19 +239,19 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(5432)
     );
 
-    // TODO: verify backend ports
     this.webBackendsServiceSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(8080)
     )
-    // TODO: verify backend ports
-    this.webBackendsServiceSecurityGroup.addIngressRule(
-      this.webFrontendServiceSecurityGroup,
-      ec2.Port.tcp(8080)
-    )
+
     this.webFrontendServiceSecurityGroup.addIngressRule(
       this.albSecurityGroup,
-      ec2.Port.tcp(80)
+      ec2.Port.tcp(8080)
+    )
+
+    this.webFrontendServiceSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(8080)
     )
 
     this.webBackendAuroraSecurityGroup.addIngressRule(
