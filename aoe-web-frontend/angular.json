@@ -44,7 +44,7 @@
             "namedChunks": true
           },
           "configurations": {
-            "production": {
+            "prod": {
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -137,11 +137,17 @@
             "browserTarget": "ng:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "ng:build:production"
+            "prod": {
+              "browserTarget": "ng:build:prod"
             },
             "demo": {
               "browserTarget": "ng:build:demo"
+            },
+            "qa": {
+              "browserTarget": "ng:build:qa"
+            },
+            "dev": {
+              "browserTarget": "ng:build:dev"
             }
           }
         },
