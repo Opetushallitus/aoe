@@ -161,6 +161,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
+    domain: environmentConfig.aws.domain,
   })
 
   // Remember to add correct domain
@@ -170,7 +171,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     stackName: `${environmentName}-cloudfront`,
     //    environment: environmentName,
     alb: Alb.alb,
-    // domain: environmentConfig.aws.domain,
+    domain: environmentConfig.aws.domain,
+    publicHostedZone: HostedZones.publicHostedZone,
+    certificate: Alb.certificate,
   })
 
 
