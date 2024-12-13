@@ -69,4 +69,3 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           aws-arn: ${{ secrets.AWS_AOE_UTILITY_ROLE_ARN }}
           image-tag: ga-${{ github.run_number }}
-

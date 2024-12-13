@@ -5,8 +5,10 @@ services:
   aoe-web-frontend:
     build:
       context: aoe-web-frontend
-      dockerfile: ./docker/demo.Dockerfile
-    image: aoe-web-frontend:latest
+      dockerfile: ./docker/Dockerfile
+      args:
+        FRONTEND_CONFIGURATION: ${FRONTEND_CONFIGURATION:-demo}
+    image: ${AOE_WEB_FRONTEND_TAG-aoe-web-frontend:latest}
     container_name: aoe-web-frontend
     restart: unless-stopped
     volumes:
@@ -15,6 +17,30 @@ services:
     depends_on:
       aoe-web-backend:
         condition: service_started
+
+  # Alias for build system
+  aoe-web-frontend-dev:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: dev
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-qa:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: qa
+    profiles: ["build-only"]
+
+  # Alias for build system
+  aoe-web-frontend-prod:
+    extends: aoe-web-frontend
+    build:
+      args:
+        FRONTEND_CONFIGURATION: prod
+    profiles: ["build-only"]
 
   nginx:
     image: nginx:latest
