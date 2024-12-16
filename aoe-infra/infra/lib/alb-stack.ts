@@ -16,7 +16,7 @@ interface AlbStackProps extends cdk.StackProps {
     vpc: ec2.IVpc,
     securityGroupId: string,
     domain: string
-//    domain: string
+    publicHostedZone: route53.IHostedZone
 }
 
 export class AlbStack extends cdk.Stack {
@@ -45,9 +45,18 @@ export class AlbStack extends cdk.Stack {
 // Use this when an actual domain is available for ACM certs
 //    new alb listener
     this.certificate = new acm.Certificate(this, 'Certificate', {
-      domainName: props.domain,
-      validation: acm.CertificateValidation.fromDns(),
-      });
+      domainName: `${props.domain}`,
+      validation: acm.CertificateValidation.fromDns(props.publicHostedZone),
+      subjectAlternativeNames: [`alb.${props.domain}`],
+    });
+
+
+    // route53 alias record for cloudfront
+    new route53.ARecord(this, 'AliasRecord', {
+      zone: props.publicHostedZone,
+      recordName: `alb.${props.domain}`,
+      target: route53.RecordTarget.fromAlias(new targets.LoadBalancerTarget(this.alb)),
+    });
 
     this.albListener = this.alb.addListener('alb-listener', {
       port: 443,
