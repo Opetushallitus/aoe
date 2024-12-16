@@ -39,17 +39,21 @@ const app = new cdk.App();
 // Load up configuration for the environment
 const environmentName: string = app.node.tryGetContext("environment");
 const utilityAccountId: string = app.node.tryGetContext("UTILITY_ACCOUNT_ID")
+
+// Allow any in this case, since we don't want to explicitely type json data
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 let environmentConfig: any;
-if (environmentName == 'utility') {
+
+if (environmentName === 'utility') {
   environmentConfig = utility;
 }
-else if (environmentName == 'dev') {
+else if (environmentName === 'dev') {
   environmentConfig = dev;
 }
-else if (environmentName == 'qa') {
+else if (environmentName === 'qa') {
   environmentConfig = qa;
 }
-else if (environmentName == 'prod') {
+else if (environmentName === 'prod') {
   environmentConfig = prod;
 }
 else {
@@ -58,9 +62,9 @@ else {
 }
 
 // dev, qa & prod account resources..
-if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'prod') {
+if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
 
-  const githubActionsStack = new GithubActionsStack(app, 'GithubActionsStack', {
+  new GithubActionsStack(app, 'GithubActionsStack', {
     environment: environmentName
   })
 
@@ -84,7 +88,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     availability_zones: environmentConfig.aws.availability_zones
   })
 
-  const HostedZones = new HostedZoneStack(app, 'HostedZoneStack', {
+  new HostedZoneStack(app, 'HostedZoneStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-hosted-zone`,
     domain: environmentConfig.aws.domain,
@@ -97,7 +101,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     vpc: Network.vpc,
   })
 
-  const BastionHost = new BastionStack(app, 'BastionStack', {
+  new BastionStack(app, 'BastionStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-bastion`,
     vpc: Network.vpc,
@@ -203,7 +207,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     env: { region: "eu-west-1" }
   })
 
-  const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
+  new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
     env: { region: "eu-west-1" },
     crossRegionReferences: true,
     stackName: `${environmentName}-frontend-deployment`,
@@ -289,7 +293,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     ],
   })
 
-  const DataAnalyticsService = new EcsServiceStack(app, 'DataAnalyticsEcsService', {
+  new EcsServiceStack(app, 'DataAnalyticsEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-data-analytics-service`,
     serviceName: 'data-analytics',
@@ -333,7 +337,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
   })
 
-  const StreamingAppService = new EcsServiceStack(app, 'StreamingEcsService', {
+  new EcsServiceStack(app, 'StreamingEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-streaming-app-service`,
     serviceName: 'streaming-app',
@@ -364,7 +368,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     privateDnsNamespace: namespace.privateDnsNamespace
   })
 
-  const DataServices = new EcsServiceStack(app, 'DataServicesEcsService', {
+  new EcsServiceStack(app, 'DataServicesEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-data-services`,
     serviceName: 'data-services',
@@ -421,7 +425,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     resources: [efs.fileSystem.fileSystemArn]
   });
 
-  const WebBackendService = new EcsServiceStack(app, 'WebBackendEcsService', {
+  new EcsServiceStack(app, 'WebBackendEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
@@ -495,7 +499,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     }
   })
 
-  const WebFrontendService = new EcsServiceStack(app, 'WebFrontendEcsService', {
+  new EcsServiceStack(app, 'WebFrontendEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-web-frontend-service`,
     serviceName: 'web-frontend',
@@ -526,7 +530,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     privateDnsNamespace: namespace.privateDnsNamespace,
   })
 
-  const SemanticApisService = new EcsServiceStack(app, 'SemanticApisEcsService', {
+  new EcsServiceStack(app, 'SemanticApisEcsService', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-semantic-apis-service`,
     serviceName: 'semantic-apis',
@@ -563,44 +567,44 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   })
 
 }
-else if (environmentName == 'utility') {
+else if (environmentName === 'utility') {
 
   const Utility = new UtilityStack(app, 'UtilityStack', {
     env: { region: "eu-west-1" },
     stackName: `${environmentName}-utility`,
   })
 
-  const FrontendEcr = new EcrStack(app, 'FrontendEcrStack', {
+  new EcrStack(app, 'FrontendEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-web-frontend-ecr',
     serviceName: 'aoe-web-frontend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  const BackendEcr = new EcrStack(app, 'BackendEcrStack', {
+  new EcrStack(app, 'BackendEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-web-backend-ecr',
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  const SemanticApisEcr = new EcrStack(app, 'SemanticApisEcrStack', {
+  new EcrStack(app, 'SemanticApisEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-semantic-apis-ecr',
     serviceName: 'aoe-semantic-apis',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  const StreamingAppEcr = new EcrStack(app, 'StreamingAppEcrStack', {
+  new EcrStack(app, 'StreamingAppEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-streaming-app-ecr',
     serviceName: 'aoe-streaming-app',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  const DataServicesEcr = new EcrStack(app, 'DataServicesEcrStack', {
+  new EcrStack(app, 'DataServicesEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-data-services-ecr',
     serviceName: 'aoe-data-services',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
-  const DataAnalyticsEcr = new EcrStack(app, 'DataAnalyticsEcrStack', {
+  new EcrStack(app, 'DataAnalyticsEcrStack', {
     env: { region: "eu-west-1" },
     stackName: 'aoe-data-analytics-ecr',
     serviceName: 'aoe-data-analytics',

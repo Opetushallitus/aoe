@@ -1,6 +1,6 @@
-import { Stack, StackProps, RemovalPolicy } from 'aws-cdk-lib';
-import { IVpc, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { IKey, Key } from 'aws-cdk-lib/aws-kms';
+import { Stack, StackProps } from 'aws-cdk-lib';
+import { IVpc } from 'aws-cdk-lib/aws-ec2';
+import { Key } from 'aws-cdk-lib/aws-kms';
 import { Cluster, ExecuteCommandLogging, ICluster } from 'aws-cdk-lib/aws-ecs';
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
@@ -22,7 +22,7 @@ export class FargateClusterStack extends Stack {
     // });
 
     // add a new log group
-    const EcsExecLogGroup = new LogGroup(this, "EcsExecLogGroup", {
+    new LogGroup(this, "EcsExecLogGroup", {
       logGroupName: `${props.environment}-ecs-exec-audit`,
       encryptionKey: props.logGroupKmsKey,
     });
