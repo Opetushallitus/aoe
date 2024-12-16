@@ -19,6 +19,8 @@ import { SecretEntry } from "./secrets-manager-stack";
 
 interface EcsServiceStackProps extends StackProps {
   environment: string
+  // Allow any in this case, since we don't want to explicitely type json data
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   env_vars: any
   cluster: ICluster
   vpc: IVpc
@@ -62,7 +64,7 @@ export class EcsServiceStack extends Stack {
     })
 
 
-    const ServiceLogGroup = new LogGroup( this, "LogGroup", {
+    const ServiceLogGroup = new LogGroup(this, "LogGroup", {
       logGroupName: `/service/${props.serviceName}`,
       removalPolicy: RemovalPolicy.DESTROY,
     })
@@ -101,7 +103,7 @@ export class EcsServiceStack extends Stack {
       memoryMiB: props.taskMemory,
       compatibility: Compatibility.FARGATE,
       runtimePlatform: {
-        cpuArchitecture:props.cpuArchitecture,
+        cpuArchitecture: props.cpuArchitecture,
         operatingSystemFamily: OperatingSystemFamily.LINUX
       }
     })
@@ -149,7 +151,7 @@ export class EcsServiceStack extends Stack {
         taskDefinition,
         platformVersion: FargatePlatformVersion.LATEST,
         healthCheckGracePeriod: Duration.seconds(props.healthCheckGracePeriod),
-        enableExecuteCommand: props.allowEcsExec? true: false,
+        enableExecuteCommand: props.allowEcsExec,
         circuitBreaker: { rollback: true },
         securityGroups: [props.securityGroup],
         cloudMapOptions: {
@@ -167,7 +169,7 @@ export class EcsServiceStack extends Stack {
       conditions: [
         ListenerCondition.pathPatterns(props.listenerPathPatterns)
       ],
-      targetGroups: [ new ApplicationTargetGroup(this, `${props.serviceName}TargetGroup`, {
+      targetGroups: [new ApplicationTargetGroup(this, `${props.serviceName}TargetGroup`, {
         targets: [ecsService],
         vpc: props.vpc,
         healthCheck: {
