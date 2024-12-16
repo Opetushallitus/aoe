@@ -319,7 +319,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 104,
+    albPriority: 140,
     privateDnsNamespace: namespace.privateDnsNamespace,
     iAmPolicyStatements: [kafkaClusterIamPolicy, kafkaTopicIamPolicy, kafkaGroupIamPolicy]
   })
@@ -350,7 +350,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 101,
+    albPriority: 110,
     iAmPolicyStatements: [s3PolicyStatement],
     privateDnsNamespace: namespace.privateDnsNamespace
   })
@@ -381,7 +381,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 103,
+    albPriority: 130,
     privateDnsNamespace: namespace.privateDnsNamespace
   })
 
@@ -455,7 +455,7 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 102,
+    albPriority: 120,
     iAmPolicyStatements: [aossPolicyStatement, s3PolicyStatement,
       efsPolicyStatement, kafkaClusterIamPolicy, kafkaTopicIamPolicy
     ],
@@ -495,20 +495,18 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     minimumCount: environmentConfig.services.web_frontend.min_count,
     maximumCount: environmentConfig.services.web_frontend.max_count,
     cpuArchitecture: CpuArchitecture.X86_64,
-    env_vars: {
-      ...environmentConfig.services.web_frontend.env_vars
-    },
+    env_vars: {},
     parameter_store_secrets: [],
     secrets_manager_secrets: [],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/static/*"],
-    healthCheckPath: "/",
+    listenerPathPatterns: ["/*"],
+    healthCheckPath: "/health",
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
-    albPriority: 102,
+    albPriority: 49000,
     iAmPolicyStatements: [],
     privateDnsNamespace: namespace.privateDnsNamespace,
   })
