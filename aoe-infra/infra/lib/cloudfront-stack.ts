@@ -24,22 +24,28 @@ export class CloudfrontStack extends Stack {
   constructor(scope: Construct, id: string, props: CloudfrontStackProps) {
     super(scope, id, props);
 
-// route53 alias record for cloudfront
+
+    // Cloudfront Distribution
+    this.distribution = new cloudfront.Distribution(this, 'Distribution', {
+      domainNames: [props.domain],
+      certificate: props.certificate,
+      defaultBehavior: {
+        origin: new origins.LoadBalancerV2Origin(props.alb, {
+          protocolPolicy: cloudfront.OriginProtocolPolicy.HTTPS_ONLY
+        }),
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+        allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
+        cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
+        originRequestPolicy: cloudfront.OriginRequestPolicy.ALL_VIEWER,
+      },
+    })
+
+    // route53 alias record for cloudfront
     new route53.ARecord(this, 'AliasRecord', {
       zone: props.publicHostedZone,
       recordName: props.domain,
       target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(this.distribution)),
       });
-
-
-    this.distribution = new cloudfront.Distribution(this, 'Distribution', {
-      domainNames: [props.domain],
-      certificate: props.certificate,
-      defaultBehavior: {
-        origin: new origins.LoadBalancerV2Origin(props.alb),
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
-      },
-    })
 
 
     // this.distribution.addBehavior('/static/*', s3origin, { viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS});
