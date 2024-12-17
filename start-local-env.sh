@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 source "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/scripts/common-functions.sh"
+FETCH_SECRETS_SCRIPT="$(dirname "$0")/scripts/fetch_secrets.sh"
 
 
 AOE_WEB_BACKEND_ENV="$(dirname "$0")/aoe-web-backend/.env"
@@ -61,14 +62,26 @@ check_env_files() {
    # Print results and exit if any files are missing
    if [ ${#missing_files[@]} -ne 0 ]; then
      echo "Missing or non-existent environment files: ${missing_files[*]}"
-     exit 1  # Exit with a non-zero status to indicate failure
+     return 1  # Exit with a non-zero status to indicate failure
    else
      echo "All required environment files exist."
+     return 0
    fi
 }
 
 
-check_env_files
+if ! check_env_files; then
+    echo "Secrets not found, logging in to AWS SSO.."
+    require_dev_aws_session
+
+    echo "running fetch-secrets.sh..."
+    bash "$FETCH_SECRETS_SCRIPT"
+
+    if ! check_env_files; then
+        echo "Failed to fetch secrets. Please check the fetch_secrets.sh script and your AWS credentials."
+        exit 1
+    fi
+fi
 
 export TRUST_STORE_PASSWORD=myPassword
 

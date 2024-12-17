@@ -5,3 +5,6 @@ output
 
 .idea
 .vscode
+
+# env file
+.env
