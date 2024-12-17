@@ -44,9 +44,9 @@ function maybe_build_aws_cli {
 function require_dev_aws_session {
   info "Verifying that AWS session has not expired"
   ## SSO Login does not work in container
-  aws sts get-caller-identity --profile=oph-ludos-dev 1>/dev/null || {
+  aws sts get-caller-identity --profile=aoe-dev 1>/dev/null || {
     info "Session is expired"
-    aws --profile oph-ludos-dev sso login
+    aws --profile aoe-dev sso login
   }
 }
 

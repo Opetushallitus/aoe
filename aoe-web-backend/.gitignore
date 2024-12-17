@@ -1,6 +1,9 @@
 # Build
 dist/
 
+# env file
+.env
+
 # Dependency Libraries
 node_modules/
 
