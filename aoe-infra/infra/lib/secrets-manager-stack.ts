@@ -26,6 +26,8 @@ export class SecretManagerStack extends cdk.Stack {
     public readonly documentDbPassword: secretsmanager.Secret;
 
     public readonly secrets: Secrets = {
+        CLIENT_ID: {envVarName: 'CLIENT_ID', path: '/service/web-backend/CLIENT_ID', secretKey: 'secretkey'},
+        PROXY_URI: {envVarName: 'PROXY_URI', path: '/service/web-backend/PROXY_URI', secretKey: 'secretkey'},
         REDIS_PASS: { envVarName: 'REDIS_PASS', path: '/service/semantic-apis/REDIS_PASS', secretKey: 'secretkey' },
         PG_PASS: { envVarName: 'PG_PASS', path: '/service/web-backend/PG_PASS', secretKey: 'secretkey' },
         SESSION_SECRET: { envVarName: 'SESSION_SECRET', path: '/service/web-backend/SESSION_SECRET', secretKey: 'secretkey' },
