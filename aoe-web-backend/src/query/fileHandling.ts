@@ -34,9 +34,20 @@ import MulterFile = Express.Multer.File;
 import SendData = ManagedUpload.SendData;
 import StreamZip from 'node-stream-zip';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // AWS and S3 configurations.
 const configAWS: ServiceConfigurationOptions = {
   region: process.env.CLOUD_STORAGE_REGION,
+  ...(!isProd
+    ? {
+        endpoint: process.env.CLOUD_STORAGE_API,
+        credentials: {
+          accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+          secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+        },
+      }
+    : {}),
 };
 AWS.config.update(configAWS);
 
@@ -1026,6 +1037,15 @@ export const uploadFileToStorage = (
 ): Promise<SendData> => {
   const config: ServiceConfigurationOptions = {
     region: process.env.CLOUD_STORAGE_REGION,
+    ...(!isProd
+      ? {
+          endpoint: process.env.CLOUD_STORAGE_API,
+          credentials: {
+            accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+            secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+          },
+        }
+      : {}),
   };
   AWS.config.update(config);
   const s3: S3 = new AWS.S3();
@@ -1077,6 +1097,15 @@ export async function uploadBase64FileToStorage(
     try {
       const config: ServiceConfigurationOptions = {
         region: process.env.CLOUD_STORAGE_REGION,
+        ...(!isProd
+          ? {
+              endpoint: process.env.CLOUD_STORAGE_API,
+              credentials: {
+                accessKeyId: process.env.CLOUD_STORAGE_ACCESS_KEY,
+                secretAccessKey: process.env.CLOUD_STORAGE_ACCESS_SECRET,
+              },
+            }
+          : {}),
       };
       AWS.config.update(config);
       const s3 = new AWS.S3();
