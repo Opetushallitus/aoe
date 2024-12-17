@@ -4,9 +4,20 @@ import { ServiceConfigurationOptions } from 'aws-sdk/lib/service';
 import { Request, Response } from 'express';
 import { winstonLogger } from '../util';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 // Cloud object storage configuration
 const configAWS: ServiceConfigurationOptions = {
   region: process.env.STORAGE_REGION as string,
+  ...(!isProd
+    ? {
+        endpoint: process.env.STORAGE_URL as string,
+        credentials: {
+          accessKeyId: process.env.STORAGE_KEY as string,
+          secretAccessKey: process.env.STORAGE_SECRET as string,
+        },
+      }
+    : {}),
 };
 const configS3: ClientConfiguration = {
   httpOptions: {
