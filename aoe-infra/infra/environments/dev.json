@@ -77,9 +77,7 @@
             "image_tag": "ga-105",
             "allow_ecs_exec": true,
             "env_vars": {
-                "PROXY_URI":  "http://localhost",
                 "PID_SERVICE_URL": "http://localhost",
-                "CLIENT_ID":  "temp",
                 "NODE_ENV": "production",
                 "LOG_LEVEL": "error",
                 "PORT_LISTEN": "8080",
@@ -98,7 +96,7 @@
                 "KAFKA_CLIENT_ID": "aoe-web-backend",
                 "KAFKA_CLIENT_REGION": "eu-west-1",
 
-                "SESSION_COOKIE_DOMAIN":".dev.aoe.fi",
+                "SESSION_COOKIE_DOMAIN":".aoe.fi",
                 "SESSION_COOKIE_HTTP_ONLY": "true",
                 "SESSION_COOKIE_MAX_AGE": "86400000",
                 "SESSION_COOKIE_PATH": "/api",
@@ -163,7 +161,7 @@
 
                 "CLOUD_STORAGE_ENABLED": "1",
                 "KAFKA_ENABLED": "1",
-                "LOGIN_ENABLED": "0",
+                "LOGIN_ENABLED": "1",
 
                 "PID_SERVICE_RUN_SCHEDULED": "0",
                 "PID_SERVICE_ENABLED": "0",
