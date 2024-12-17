@@ -10,6 +10,7 @@ import { SecurityGroupStack } from '../lib/security-groups'
 import { AuroraCommonStack } from '../lib/aurora-serverless-common'
 import { AuroraDatabaseStack } from '../lib/aurora-serverless-database';
 import { AlbStack } from '../lib/alb-stack';
+import { CloudFrontCertificateStack } from '../lib/cloudfront-certificate-stack'
 import { CloudfrontStack } from '../lib/cloudfront-stack';
 import { KmsStack } from '../lib/kms-stack';
 import { FargateClusterStack } from '../lib/fargate-cluster-stack';
@@ -161,22 +162,30 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
+    domain: environmentConfig.aws.domain,
+    publicHostedZone: HostedZones.publicHostedZone,
   })
 
-  // Remember to add correct domain
+  const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {
+    env: { region: "us-east-1" },
+    stackName: `${environmentName}-cloudfront-certificate`,
+    domain: environmentConfig.aws.domain,
+    hostedZone: HostedZones.publicHostedZone,
+    crossRegionReferences: true,
+  })
+
   const Cloudfront = new CloudfrontStack(app, 'CloudFrontStack', {
     env: { region: "eu-west-1" },
-    //    crossRegionReferences: true,
     stackName: `${environmentName}-cloudfront`,
-    //    environment: environmentName,
     alb: Alb.alb,
-    // domain: environmentConfig.aws.domain,
+    domain: environmentConfig.aws.domain,
+    publicHostedZone: HostedZones.publicHostedZone,
+    certificate: CloudfrontCertificate.certificate,
+    crossRegionReferences: true,
   })
-
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
     env: { region: "eu-west-1" },
-    //  crossRegionReferences: true,
     stackName: `${environmentName}-frontend-bucket`,
     environment: environmentName,
     cloudFrontDistribution: Cloudfront.distribution,

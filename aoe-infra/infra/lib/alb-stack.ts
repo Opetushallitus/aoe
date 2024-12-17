@@ -8,21 +8,25 @@ import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as log from 'aws-cdk-lib/aws-logs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as globalaccelerator from 'aws-cdk-lib/aws-globalaccelerator';
+import * as ga_endpoints from 'aws-cdk-lib/aws-globalaccelerator-endpoints';
 import { Construct } from 'constructs';
 
 interface AlbStackProps extends cdk.StackProps {
     vpc: ec2.IVpc,
     securityGroupId: string,
-//    domain: string
+    domain: string
+    publicHostedZone: route53.IHostedZone
 }
 
 export class AlbStack extends cdk.Stack {
     readonly alb: elbv2.ApplicationLoadBalancer;
     readonly albListener: elbv2.ApplicationListener;
+    readonly certificate: acm.ICertificate;
     constructor(scope: Construct, id: string, props: AlbStackProps) {
       super(scope, id, props);
 
-    // New internet-facing application load balancer, import vpc from the VpcStack
+// New internet-facing application load balancer, import vpc from the VpcStack
     this.alb = new elbv2.ApplicationLoadBalancer(this, 'alb', {
     vpc: props.vpc,
     vpcSubnets: {
@@ -38,16 +42,30 @@ export class AlbStack extends cdk.Stack {
         { mutable: false }
       )
     });
-/* Use this when an actual domain is available for ACM certs
-    // new alb listener
-    this.albListener = this.alb.addListener('alb-listener', {
-    port: 443,
-    protocol: elbv2.ApplicationProtocol.HTTPS,
-    open: false,
-//    certificates: [certificate],
-    sslPolicy: elbv2.SslPolicy.TLS12,
+// Use this when an actual domain is available for ACM certs
+//    new alb listener
+    this.certificate = new acm.Certificate(this, 'Certificate', {
+      domainName: `${props.domain}`,
+      validation: acm.CertificateValidation.fromDns(props.publicHostedZone),
+      subjectAlternativeNames: [`alb.${props.domain}`],
     });
-*/
+
+
+    // route53 alias record for cloudfront
+    new route53.ARecord(this, 'AliasRecord', {
+      zone: props.publicHostedZone,
+      recordName: `alb.${props.domain}`,
+      target: route53.RecordTarget.fromAlias(new targets.LoadBalancerTarget(this.alb)),
+    });
+
+    this.albListener = this.alb.addListener('alb-listener', {
+      port: 443,
+      protocol: elbv2.ApplicationProtocol.HTTPS,
+      open: false,
+      certificates: [this.certificate],
+      sslPolicy: elbv2.SslPolicy.TLS12,
+    });
+
 
     // create ALB default target group
     const albDefaultTargetGroup = new elbv2.ApplicationTargetGroup(this, 'alb-target-group', {
@@ -63,13 +81,6 @@ export class AlbStack extends cdk.Stack {
           timeout: cdk.Duration.seconds(5),
           unhealthyThresholdCount: 2
         },
-      });
-
-    // new alb listener (ditch this when an actual domain is available)
-    this.albListener = this.alb.addListener('alb-listener', {
-      port: 80,
-      protocol: elbv2.ApplicationProtocol.HTTP,
-      open: false,
       });
 
     this.albListener.addTargetGroups('dummyTargetGroup', {
