@@ -200,7 +200,8 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
-    env: { region: "eu-west-1" }
+    env: { region: "eu-west-1" },
+    environment: environmentName
   })
 
   const FrontEndBucketDeployment = new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
