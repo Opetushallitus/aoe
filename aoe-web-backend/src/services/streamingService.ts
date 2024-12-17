@@ -27,7 +27,7 @@ export const requestRedirected = async (
  * @return {Promise<boolean>} Streaming service operable: true | false
  */
 export const streamingStatusCheck = (fileStorageId: string): Promise<boolean> => {
-  return httpsClient({
+  return httpsClient(config.STREAM_STATUS_REQUEST.httpsEnabled, {
     headers: {
       'Cache-Control': 'no-cache',
     },
