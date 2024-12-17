@@ -1,17 +1,19 @@
 import { IncomingMessage, RequestOptions } from 'http';
 import https from 'https';
+import http from 'http';
+
 import winstonLogger from '@util/winstonLogger';
 
 /**
  * HTTP(S) client to execute internal request to other service components.
- * Current implementation is for secured HTTPS requests only.
  * Request options specified and provided as an argument.
  *
+ * @param httpsConnection use https or http
  * @param options http.RequestOptions
  */
-export default (options: RequestOptions): Promise<any> => {
+export default (httpsConnection: boolean, options: RequestOptions): Promise<any> => {
   return new Promise((resolve, reject) => {
-    let request = https.request(options, (response: IncomingMessage) => {
+    let request = (httpsConnection ? https : http).request(options, (response: IncomingMessage) => {
       let output = '';
       response
         .setEncoding('utf8')
