@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import multer from 'multer';
 import xlsx, { ParsingOptions } from 'xlsx';
 import mapper from './dataMapping';
+import config from '@/config';
 
 const fileFilter = (req: any, file: any, cb: any) => {
   if (file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
@@ -16,7 +17,7 @@ const fileFilter = (req: any, file: any, cb: any) => {
 
 const storage = multer.diskStorage({
   destination: function (req: any, file: any, cb: any) {
-    cb(undefined, 'uploads/');
+    cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
   filename: function (req: any, file: any, cb: any) {
     const datetimestamp = Date.now();

@@ -463,10 +463,9 @@ if (environmentName == 'dev' || environmentName == 'qa' || environmentName == 'p
     listener: Alb.albListener,
     listenerPathPatterns: [
       "/api/*",
-      "/api/v1*",
-      "/api/v2*",
       "/h5p/*",
-      "/embed/*"],
+      "/embed/*",
+      "/content/*"],
     healthCheckPath: "/",
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
