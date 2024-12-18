@@ -6,7 +6,7 @@ export const environment = {
   loginUrl: 'https://dev.aoe.fi/api',
   backendUrl: 'https://dev.aoe.fi/api/v1',
   backendUrlV2: 'https://dev.aoe.fi/api/v2',
-  embedBackendUrl: 'https://lessons.dev.aoe.fi/embed',
+  embedBackendUrl: 'https://dev.aoe.fi/embed',
   statisticsBackendUrl: 'https://dev.aoe.fi/api/v2/statistics/test',
   frontendUrl: 'https://dev.aoe.fi',
   newERLSKey: 'aoe.new-educational-resource',
