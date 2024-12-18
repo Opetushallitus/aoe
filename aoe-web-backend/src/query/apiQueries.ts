@@ -357,7 +357,8 @@ export const getEducationalMaterialMetadata = async (
              * mimetype = text/html + result
              */
             jsonObj.materials[i]['mimetype'] = 'text/html';
-            jsonObj.materials[i]['filepath'] = process.env.HTML_BASE_URL + result;
+            jsonObj.materials[i]['filepath'] =
+              process.env.HTML_BASE_URL + result.replace(config.MEDIA_FILE_PROCESS.htmlFolder, '/content');
             // winstonLogger.debug("The jsonObj: " + JSON.stringify(jsonObj));
           } else if (result != false) {
             /**
