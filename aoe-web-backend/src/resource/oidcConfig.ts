@@ -1,13 +1,10 @@
-import config from '@/config';
 import ah from '@services/authService';
 import { isLoginEnabled } from '@services/routeEnablerService';
 import winstonLogger from '@util/winstonLogger';
-import connectRedis, { RedisStore } from 'connect-redis';
 import { CookieOptions, Express, Request, Response } from 'express';
-import session, { Cookie, SessionOptions } from 'express-session';
+import { Cookie } from 'express-session';
 import openidClient, { Client, custom, HttpOptions } from 'openid-client';
 import passport from 'passport';
-import clientRedis from './redisClient';
 
 const Issuer = openidClient.Issuer;
 const Strategy = openidClient.Strategy;
@@ -15,12 +12,6 @@ const Strategy = openidClient.Strategy;
 /**
  * Configuration for OpenID Connect Authorization Management
  */
-passport.serializeUser((user: Express.User, done): void => {
-  done(undefined, user);
-});
-passport.deserializeUser((userinfo: Record<string, unknown>, done): void => {
-  done(undefined, { user: userinfo.id });
-});
 Issuer.discover(process.env.PROXY_URI)
   .then((oidcIssuer: InstanceType<typeof Issuer>): void => {
     const client: Client = new oidcIssuer.Client({
@@ -43,6 +34,13 @@ Issuer.discover(process.env.PROXY_URI)
           });
       }),
     );
+
+    passport.serializeUser((user: Express.User, done): void => {
+      done(undefined, user);
+    });
+    passport.deserializeUser((userinfo: Record<string, unknown>, done): void => {
+      done(undefined, { user: userinfo.id });
+    });
   })
   .catch((error: any): void => {
     winstonLogger.error(error);
@@ -57,9 +55,6 @@ export const authInit = (app: Express): void => {
     timeout: Number(process.env.HTTP_OPTIONS_TIMEOUT) || 5000,
     retry: Number(process.env.HTTP_OPTIONS_RETRY) || 2,
   } as HttpOptions);
-
-  app.use(passport.initialize());
-  app.use(passport.session());
 
   // Login endpoint for the client application.
   app.get(
@@ -104,26 +99,6 @@ export const authInit = (app: Express): void => {
   );
 };
 
-/**
- * Initialize session and cookie management with Redis storage.
- * @param app Express
- */
-export const sessionInit = (app: Express): void => {
-  const RedisStore: RedisStore = connectRedis(session);
-  app.use(
-    session({
-      store: new RedisStore({ client: clientRedis }), // disableTTL: true
-      resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
-      rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
-      saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
-      secret: config.SESSION_CONFIG_OPTIONS.secret as string,
-      proxy: config.SESSION_CONFIG_OPTIONS.proxy,
-      cookie: config.SESSION_COOKIE_OPTIONS,
-    } as SessionOptions),
-  );
-};
-
 export default {
   authInit,
-  sessionInit,
 };

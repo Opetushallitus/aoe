@@ -15,13 +15,38 @@ import compression from 'compression';
 import flash from 'connect-flash';
 import cors, { CorsOptions } from 'cors';
 import express, { Express, NextFunction, Request, Response, Router } from 'express';
-import session, { SessionOptions } from 'express-session';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import lusca from 'lusca';
-import memorystore from 'memorystore';
+import passport from 'passport';
+import connectRedis from 'connect-redis';
+import session, { SessionOptions } from 'express-session';
+import clientRedis from '@resource/redisClient';
 
 const app: Express = express();
-const MemoryStore = memorystore(session);
+
+const RedisStore = connectRedis(session);
+
+app.use(
+  session({
+    store: new RedisStore({ client: clientRedis, logErrors: true }),
+    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
+    rolling: config.SESSION_CONFIG_OPTIONS.rolling as boolean,
+    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
+    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
+    proxy: config.SESSION_CONFIG_OPTIONS.proxy,
+    cookie: {
+      domain: config.SESSION_COOKIE_OPTIONS.domain,
+      httpOnly: config.SESSION_COOKIE_OPTIONS.httpOnly,
+      maxAge: config.SESSION_COOKIE_OPTIONS.maxAge,
+      sameSite: config.SESSION_COOKIE_OPTIONS.sameSite,
+      path: config.SESSION_COOKIE_OPTIONS.path,
+      secure: config.SESSION_COOKIE_OPTIONS.secure,
+    },
+  } as SessionOptions),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.disable('x-powered-by');
 
@@ -61,16 +86,7 @@ app.use(compression());
 app.use(flash());
 app.use(morganLogger);
 
-// Initialize session management and OIDC authorization
-app.use(
-  session({
-    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
-    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
-    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
-    store: new MemoryStore({ checkPeriod: 86400000 }), // Prune expired entries every 24h
-  } as SessionOptions),
-);
-oidc.sessionInit(app);
+// Initialize OIDC authorization
 oidc.authInit(app);
 
 // Initialize H5P editor
