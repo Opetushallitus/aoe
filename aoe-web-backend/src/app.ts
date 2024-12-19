@@ -71,14 +71,6 @@ if (process.env.NODE_ENV === 'localhost') {
 }
 
 // Initialize session management and OIDC authorization
-app.use(
-  session({
-    resave: config.SESSION_CONFIG_OPTIONS.resave as boolean,
-    saveUninitialized: config.SESSION_CONFIG_OPTIONS.saveUninitialized as boolean,
-    secret: config.SESSION_CONFIG_OPTIONS.secret as string,
-    store: new MemoryStore({ checkPeriod: 86400000 }), // Prune expired entries every 24h
-  } as SessionOptions),
-);
 oidc.sessionInit(app);
 oidc.authInit(app);
 
