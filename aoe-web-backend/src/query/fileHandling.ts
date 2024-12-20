@@ -55,7 +55,7 @@ AWS.config.update(configAWS);
 const storage: StorageEngine = multer.diskStorage({
   // notice you are calling the multer.diskStorage() method here, not multer()
   destination: (req: Request, file: any, cb: any) => {
-    cb(undefined, `./${config.MEDIA_FILE_PROCESS.localFolder}/`);
+    cb(undefined, `${config.MEDIA_FILE_PROCESS.localFolder}/`);
   },
   filename: (req: Request, file: any, cb: any) => {
     const ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
@@ -115,15 +115,11 @@ export const uploadAttachmentToMaterial = async (req: Request, res: Response, ne
           res.status(200).json({ id: attachmentId });
           try {
             if (typeof file !== 'undefined') {
-              const obj: any = await uploadFileToStorage(
-                './' + file.path,
-                file.filename,
-                process.env.CLOUD_STORAGE_BUCKET,
-              );
+              const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
               // await insertDataToAttachmentTable(file, req.params.materialId, obj.Key, obj.Bucket, obj.Location, metadata);
               await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
               await deleteDataToTempAttachmentTable(file.filename, result[0].id);
-              fs.unlink('./' + file.path, (err: any) => {
+              fs.unlink(file.path, (err: any) => {
                 if (err) {
                   winstonLogger.error(err);
                 }
@@ -220,7 +216,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                   if (typeof file !== 'undefined') {
                     winstonLogger.debug(materialid);
                     const obj: any = await uploadFileToStorage(
-                      './' + file.path,
+                      file.path,
                       file.filename,
                       process.env.CLOUD_STORAGE_BUCKET,
                     );
@@ -243,7 +239,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                       winstonLogger.error(e);
                     }
                     await deleteDataFromTempRecordTable(file.filename, materialid);
-                    fs.unlink('./' + file.path, (err: any) => {
+                    fs.unlink(file.path, (err: any) => {
                       if (err) {
                         winstonLogger.error(err);
                       }
@@ -258,7 +254,7 @@ export const uploadMaterial = async (req: Request, res: Response, next: NextFunc
                 if (!res.headersSent) {
                   next(new ErrorHandler(500, 'Error in upload: ' + err));
                 }
-                fs.unlink('./' + file.path, (err: any) => {
+                fs.unlink(file.path, (err: any) => {
                   if (err) {
                     winstonLogger.debug('Error in uploadMaterial(): ' + err);
                   } else {
@@ -306,7 +302,7 @@ export const uploadFileToLocalDisk = (
         });
       });
     } catch (err) {
-      fs.unlink(`./${req.file.path}`, (err) => {
+      fs.unlink(req.file.path, (err) => {
         if (err) winstonLogger.error('File removal after the interrupted upload failed: %o', err);
       });
       reject(err);
@@ -341,7 +337,7 @@ export const detectEncyptedPDF = (filePath: string): Promise<boolean> => {
 };
 
 export const deleteFileFromLocalDiskStorage = (file: MulterFile) => {
-  fs.unlink(`./${file.path}`, (err: any): void => {
+  fs.unlink(file.path, (err: any): void => {
     if (err) winstonLogger.error('Unlink removal for the uploaded file failed: %o', err);
   });
 };
@@ -364,13 +360,13 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
       throw err;
     });
   // winstonLogger.debug('FILEPATH: %s', file.filename);
-  if (!fs.existsSync(`uploads/${file.filename}`)) {
+  if (!fs.existsSync(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`)) {
     res.status(500).json({ message: 'aborted' });
     return;
   }
   // Detect and reject encrypted PDFs.
   if (file.mimetype === 'application/pdf') {
-    const isEncrypted: boolean = await detectEncyptedPDF(`uploads/${file.filename}`);
+    const isEncrypted: boolean = await detectEncyptedPDF(`${config.MEDIA_FILE_PROCESS.localFolder}/${file.filename}`);
     if (isEncrypted) {
       res.status(415).json({ rejected: 'Encrypted PDF files not allowed' }).end();
       deleteFileFromLocalDiskStorage(file);
@@ -418,7 +414,7 @@ export const uploadFileToMaterial = async (req: Request, res: Response, next: Ne
 
   try {
     const fileS3: SendData = await uploadFileToStorage(
-      `./${file.path}`,
+      file.path,
       file.filename,
       config.CLOUD_STORAGE_CONFIG.bucket,
       material,
@@ -473,10 +469,10 @@ export const fileToStorage = async (
   file: MulterFile,
   materialid: string,
 ): Promise<{ key: string; recordid: string }> => {
-  const obj: any = await uploadFileToStorage(`./${file.path}`, file.filename, process.env.CLOUD_STORAGE_BUCKET);
+  const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   const recordid = await insertDataToRecordTable(file, materialid, obj.Key, obj.Bucket, obj.Location);
   await deleteDataFromTempRecordTable(file.filename, materialid);
-  fs.unlink(`./${file.path}`, (err: any) => {
+  fs.unlink(file.path, (err: any) => {
     if (err) winstonLogger.error(err);
   });
   return { key: obj.Key, recordid: recordid };
@@ -496,11 +492,11 @@ export async function attachmentFileToStorage(
   materialid: string,
   attachmentId: string,
 ): Promise<any> {
-  const obj: any = await uploadFileToStorage('./' + file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
+  const obj: any = await uploadFileToStorage(file.path, file.filename, process.env.CLOUD_STORAGE_BUCKET);
   // await insertDataToAttachmentTable(file, materialid, obj.Key, obj.Bucket, obj.Location, metadata);
   await updateAttachment(obj.Key, obj.Bucket, obj.Location, attachmentId);
   await deleteDataToTempAttachmentTable(file.filename, materialid);
-  fs.unlink('./' + file.path, (err: any) => {
+  fs.unlink(file.path, (err: any) => {
     if (err) {
       winstonLogger.error(err);
     }
