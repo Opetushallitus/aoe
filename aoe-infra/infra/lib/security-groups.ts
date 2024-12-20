@@ -138,6 +138,11 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(2049)
     )
 
+    this.efsSecurityGroup.addIngressRule(
+      this.bastionSecurityGroup,
+      ec2.Port.tcp(2049)
+    )
+
     this.openSearchSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,
       ec2.Port.tcp(443)
@@ -223,6 +228,11 @@ export class SecurityGroupStack extends cdk.Stack {
       ec2.Port.tcp(8080)
     )
 
+    this.dataAnalyticsServiceSecurityGroup.addIngressRule(
+      this.webBackendsServiceSecurityGroup,
+      ec2.Port.tcp(8080)
+    )
+
     // allow port 80 to alb albSecuritygroup from Internet
     this.albSecurityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
@@ -233,6 +243,11 @@ export class SecurityGroupStack extends cdk.Stack {
       this.webBackendsServiceSecurityGroup,
       ec2.Port.tcp(5432)
     );
+
+    this.webBackendAuroraSecurityGroup.addIngressRule(
+      this.dataAnalyticsServiceSecurityGroup,
+      ec2.Port.tcp(5432)
+    )
 
     this.webBackendAuroraSecurityGroup.addIngressRule(
       this.bastionSecurityGroup,

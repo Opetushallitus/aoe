@@ -163,6 +163,7 @@ export default {
   STREAM_STATUS_REQUEST: {
     host: process.env.STREAM_STATUS_HOST as string,
     path: process.env.STREAM_STATUS_PATH as string,
+    port: process.env.STREAM_STATUS_PORT as string,
     httpsEnabled: (process.env.STREAM_STATUS_HOST_HTTPS_ENABLED === '1') as boolean,
   } as const,
 } as const;

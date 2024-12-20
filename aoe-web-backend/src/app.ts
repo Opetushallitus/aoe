@@ -97,7 +97,7 @@ app.use(
     logLevel: 'debug',
     logProvider: () => winstonLogger,
     changeOrigin: true,
-    pathRewrite: (path: string) => path.replace('/v2', ''),
+    pathRewrite: (path: string) => path.replace('api/v2', 'analytics/api'),
   }),
 );
 
@@ -107,11 +107,11 @@ app.use('/favicon.ico', express.static('./views/favicon.ico'));
 app.use('/', apiRouterRoot);
 app.use('/api/v1/', apiRouterV1);
 app.use('/api/v2/', apiRouterV2);
-app.use('/h5p/content', express.static('/webdata/h5p/content'));
-app.use('/h5p/core', express.static('/webdata/h5p/core'));
-app.use('/h5p/editor', express.static('/webdata/h5p/editor'));
-app.use('/h5p/libraries', express.static('/webdata/h5p/libraries'));
-
+app.use('/h5p/content', express.static(config.MEDIA_FILE_PROCESS.h5pPathContent));
+app.use('/h5p/core', express.static(config.MEDIA_FILE_PROCESS.h5pPathCore));
+app.use('/h5p/editor', express.static(config.MEDIA_FILE_PROCESS.h5pPathEditor));
+app.use('/h5p/libraries', express.static(config.MEDIA_FILE_PROCESS.h5pPathLibraries));
+app.use('/content/', express.static(config.MEDIA_FILE_PROCESS.htmlFolder));
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection);
 app.use((err, req: Response, res: NextFunction): void => {

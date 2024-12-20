@@ -10,7 +10,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-105",
+            "image_tag": "ga-199",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOGGING_LEVEL_FI_CSC": "ERROR",
@@ -51,7 +51,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-105",
+            "image_tag": "ga-199",
             "allow_ecs_exec": true,
             "env_vars": {
                 "SPRING_PROFILES_ACTIVE": "prod",
@@ -66,7 +66,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-172-dev",
+            "image_tag": "ga-199-dev",
             "allow_ecs_exec": true
         },
         "web_backend": {
@@ -74,7 +74,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-105",
+            "image_tag": "ga-199",
             "allow_ecs_exec": true,
             "env_vars": {
                 "PID_SERVICE_URL": "http://localhost",
@@ -89,7 +89,7 @@
 
                 "POSTGRESQL_DATA": "aoe",
                 "PG_USER": "aoe_admin",
-                "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "https://dev.aoe.fi:8080/oaipmh",
+                "SERVER_CONFIG_OAIPMH_ANALYTICS_URL": "http://data-analytics.dev.aoe.local:8080",
                 "KAFKA_EXCLUDED_AGENT_IDENTIFIERS": "oersi",
                 "KAFKA_BROKER_TOPIC_MATERIAL_ACTIVITY": "prod_material_activity",
                 "KAFKA_BROKER_TOPIC_SEARCH_REQUESTS": "prod_search_requests",
@@ -128,7 +128,7 @@
                 "ES_SIZE_DEFAULT": "1000",
                 "ES_FROM_DEFAULT": "0",
 
-                "HTML_BASE_URL": "https://lessons.dev.aoe.fi",
+                "HTML_BASE_URL": "https://dev.aoe.fi",
                 "HTML_FOLDER": "/mnt/data/webdata/htmlfolder",
 
                 "H5P_JSON_CONFIGURATION": "dist/services/config/h5p.json",
@@ -137,7 +137,7 @@
                 "H5P_PATH_CONTENT": "/mnt/data/webdata/h5p/content",
                 "H5P_PATH_CORE": "/mnt/data/webdata/h5p/core",
                 "H5P_PATH_EDITOR": "/mnt/data/webdata/h5p/editor",
-                "H5P_PLAY_API": "https://lessons.dev.aoe.fi/h5p/play/",
+                "H5P_PLAY_API": "https://dev.aoe.fi/h5p/play/",
                 "H5P_USER_EMAIL": "oppimateriaalivaranto@aoe.fi",
 
                 "MATERIAL_FILE_UPLOAD_FOLDER": "/mnt/data/uploads",
@@ -166,11 +166,12 @@
                 "PID_SERVICE_RUN_SCHEDULED": "0",
                 "PID_SERVICE_ENABLED": "0",
 
-                "STREAM_ENABLED": "0",
+                "STREAM_ENABLED": "1",
                 "STREAM_FILESIZE_MIN": "100000",
-                "STREAM_REDIRECT_URI": "https://stream.dev.aoe.fi/api/v1/material/",
-                "STREAM_STATUS_HOST": "streaming-app.dev.aoe.local:8080",
-                "STREAM_STATUS_PATH": "/api/v1/material/",
+                "STREAM_REDIRECT_URI": "https://dev.aoe.fi/stream/api/v1/material/",
+                "STREAM_STATUS_HOST": "streaming-app.dev.aoe.local",
+                "STREAM_STATUS_PORT": "8080",
+                "STREAM_STATUS_PATH": "/stream/api/v1/material/",
                 "STREAM_STATUS_HOST_HTTPS_ENABLED": "0"
             }
         },
@@ -179,7 +180,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-105",
+            "image_tag": "ga-199",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "error",
@@ -195,7 +196,7 @@
             "memory_limit": "1024",
             "min_count": 1,
             "max_count": 1,
-            "image_tag": "ga-105",
+            "image_tag": "ga-199",
             "allow_ecs_exec": true,
             "env_vars": {
                 "LOG_LEVEL": "debug",
