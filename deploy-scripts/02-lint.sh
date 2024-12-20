@@ -16,7 +16,7 @@ function main {
     runLint "aoe-web-frontend"
     runLint "aoe-web-backend"
     runLint "aoe-streaming-app"
-    runLint "aoe-infra/infra"
+    runLint "aoe-infra"
 }
 
 function runLint {
