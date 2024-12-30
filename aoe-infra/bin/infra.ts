@@ -1,108 +1,105 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import * as cdk from 'aws-cdk-lib';
-import * as utility from '../environments/utility.json';
-import * as dev from '../environments/dev.json';
-import * as qa from '../environments/qa.json';
-import * as prod from '../environments/prod.json';
-import { VpcStack } from '../lib/vpc-stack';
+import 'source-map-support/register'
+import * as cdk from 'aws-cdk-lib'
+import * as utility from '../environments/utility.json'
+import * as dev from '../environments/dev.json'
+import * as qa from '../environments/qa.json'
+import * as prod from '../environments/prod.json'
+import { VpcStack } from '../lib/vpc-stack'
 import { SecurityGroupStack } from '../lib/security-groups'
 import { AuroraCommonStack } from '../lib/aurora-serverless-common'
-import { AuroraDatabaseStack } from '../lib/aurora-serverless-database';
-import { AlbStack } from '../lib/alb-stack';
+import { AuroraDatabaseStack } from '../lib/aurora-serverless-database'
+import { AlbStack } from '../lib/alb-stack'
 import { CloudFrontCertificateStack } from '../lib/cloudfront-certificate-stack'
-import { CloudfrontStack } from '../lib/cloudfront-stack';
-import { KmsStack } from '../lib/kms-stack';
-import { FargateClusterStack } from '../lib/fargate-cluster-stack';
-import { EcsServiceStack } from '../lib/ecs-service';
-import { FrontendBucketStack } from '../lib/front-end-bucket-stack';
-import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack';
-import { EcrStack } from '../lib/ecr-stack';
-import { ElasticacheServerlessStack } from '../lib/redis-stack';
-import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs';
-import { BastionStack } from '../lib/bastion-stack';
+import { CloudfrontStack } from '../lib/cloudfront-stack'
+import { KmsStack } from '../lib/kms-stack'
+import { FargateClusterStack } from '../lib/fargate-cluster-stack'
+import { EcsServiceStack } from '../lib/ecs-service'
+import { FrontendBucketStack } from '../lib/front-end-bucket-stack'
+import { FrontendStaticContentDeploymentStack } from '../lib/front-end-content-deployment-stack'
+import { EcrStack } from '../lib/ecr-stack'
+import { ElasticacheServerlessStack } from '../lib/redis-stack'
+import { CpuArchitecture } from 'aws-cdk-lib/aws-ecs'
+import { BastionStack } from '../lib/bastion-stack'
 import { SecretManagerStack } from '../lib/secrets-manager-stack'
-import { OpenSearchServerlessStack } from "../lib/opensearch-stack";
+import { OpenSearchServerlessStack } from '../lib/opensearch-stack'
 import { HostedZoneStack } from '../lib/hosted-zone-stack'
-import { S3Stack } from "../lib/S3Stack";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { NamespaceStack } from "../lib/namespaceStack"
-import { EfsStack } from "../lib/efs-stack";
-import { DocumentdbStack } from "../lib/documentdb-stack";
-import { MskStack } from "../lib/msk-stack";
-import { GithubActionsStack } from "../lib/githubActionsStack";
-import { UtilityStack } from "../lib/utility-stack";
+import { S3Stack } from '../lib/S3Stack'
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
+import * as iam from 'aws-cdk-lib/aws-iam'
+import { NamespaceStack } from '../lib/namespaceStack'
+import { EfsStack } from '../lib/efs-stack'
+import { DocumentdbStack } from '../lib/documentdb-stack'
+import { MskStack } from '../lib/msk-stack'
+import { GithubActionsStack } from '../lib/githubActionsStack'
+import { UtilityStack } from '../lib/utility-stack'
 
-const app = new cdk.App();
+const app = new cdk.App()
 
 // Load up configuration for the environment
-const environmentName: string = app.node.tryGetContext("environment");
-const utilityAccountId: string = app.node.tryGetContext("UTILITY_ACCOUNT_ID")
+const environmentName: string = app.node.tryGetContext('environment')
+const utilityAccountId: string = app.node.tryGetContext('UTILITY_ACCOUNT_ID')
 
 // Allow any in this case, since we don't want to explicitely type json data
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-let environmentConfig: any;
+let environmentConfig: any
 
 if (environmentName === 'utility') {
-  environmentConfig = utility;
-}
-else if (environmentName === 'dev') {
-  environmentConfig = dev;
-}
-else if (environmentName === 'qa') {
-  environmentConfig = qa;
-}
-else if (environmentName === 'prod') {
-  environmentConfig = prod;
-}
-else {
-  console.error("You must define a valid environment name in CDK context! Valid environment names are dev, qa, prod and utility");
-  process.exit(1);
+  environmentConfig = utility
+} else if (environmentName === 'dev') {
+  environmentConfig = dev
+} else if (environmentName === 'qa') {
+  environmentConfig = qa
+} else if (environmentName === 'prod') {
+  environmentConfig = prod
+} else {
+  console.error(
+    'You must define a valid environment name in CDK context! Valid environment names are dev, qa, prod and utility'
+  )
+  process.exit(1)
 }
 
 // dev, qa & prod account resources..
 if (environmentName === 'dev' || environmentName === 'qa' || environmentName === 'prod') {
-
   new GithubActionsStack(app, 'GithubActionsStack', {
     environment: environmentName
   })
 
   // Remember to update KMS key removal policy
   const Kms = new KmsStack(app, 'KmsStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-kms`,
     environment: environmentName
   })
 
   const Secrets = new SecretManagerStack(app, 'SecretManagerStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-secrets`,
-    kmsKey: Kms.secretsManagerKey,
+    kmsKey: Kms.secretsManagerKey
   })
 
   const Network = new VpcStack(app, 'VpcStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-vpc`,
     vpc_cidr: environmentConfig.aws.vpc_cidr,
     availability_zones: environmentConfig.aws.availability_zones
   })
 
-  new HostedZoneStack(app, 'HostedZoneStack', {
-    env: { region: "eu-west-1" },
+  const HostedZones = new HostedZoneStack(app, 'HostedZoneStack', {
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-hosted-zone`,
     domain: environmentConfig.aws.domain,
     vpc: Network.vpc
   })
 
   const SecurityGroups = new SecurityGroupStack(app, 'SecurityGroupStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-security-groups`,
-    vpc: Network.vpc,
+    vpc: Network.vpc
   })
 
   new BastionStack(app, 'BastionStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-bastion`,
     vpc: Network.vpc,
     securityGroup: SecurityGroups.bastionSecurityGroup,
@@ -111,17 +108,17 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const AuroraCommons = new AuroraCommonStack(app, 'AuroraCommonStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-aurora-common`,
-    vpc: Network.vpc,
+    vpc: Network.vpc
   })
 
   const WebBackendAurora = new AuroraDatabaseStack(app, 'WebBackendAuroraStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-web-backend-aurora`,
     auroraVersion: environmentConfig.aurora_databases.web_backend.version,
     environment: environmentName,
-    clusterName: "web-backend",
+    clusterName: 'web-backend',
     vpc: Network.vpc,
     securityGroup: SecurityGroups.webBackendAuroraSecurityGroup,
     performanceInsights: environmentConfig.aurora_databases.web_backend.performance_insights,
@@ -129,25 +126,25 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     maxSizeAcu: environmentConfig.aurora_databases.web_backend.max_acu,
     kmsKey: Kms.rdsKmsKey,
     auroraDbPassword: Secrets.webBackendAuroraPassword,
-    subnetGroup: AuroraCommons.auroraSubnetGroup,
+    subnetGroup: AuroraCommons.auroraSubnetGroup
   })
 
   const OpenSearch = new OpenSearchServerlessStack(app, 'AOEOpenSearch', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-open-search`,
     collectionName: environmentConfig.open_search.collectionName,
     description: environmentConfig.open_search.collectionDescription,
     securityGroupIds: [SecurityGroups.openSearchSecurityGroup.securityGroupId],
     vpc: Network.vpc,
     kmsKey: Kms.openSearchKmsKey,
-    standbyReplicas: environmentConfig.open_search.standbyReplicas,
-  });
+    standbyReplicas: environmentConfig.open_search.standbyReplicas
+  })
 
   const SemanticApisRedis = new ElasticacheServerlessStack(app, 'SemanticApisRedis', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-semantic-apis-redis`,
-    elasticacheName: "semantic-apis",
-    consumingServiceName: "semantic-apis",
+    elasticacheName: 'semantic-apis',
+    consumingServiceName: 'semantic-apis',
     secret: Secrets.semanticApisPassword,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.semanticApisRedisSecurityGroup.securityGroupId,
@@ -161,42 +158,42 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const Alb = new AlbStack(app, 'AlbStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     crossRegionReferences: true,
     stackName: `${environmentName}-alb`,
     vpc: Network.vpc,
     securityGroupId: SecurityGroups.albSecurityGroup.securityGroupId,
     domain: environmentConfig.aws.domain,
-    publicHostedZone: HostedZones.publicHostedZone,
+    publicHostedZone: HostedZones.publicHostedZone
   })
 
   const CloudfrontCertificate = new CloudFrontCertificateStack(app, 'CloudFrontCertificateStack', {
-    env: { region: "us-east-1" },
+    env: { region: 'us-east-1' },
     stackName: `${environmentName}-cloudfront-certificate`,
     domain: environmentConfig.aws.domain,
     hostedZone: HostedZones.publicHostedZone,
-    crossRegionReferences: true,
+    crossRegionReferences: true
   })
 
   const Cloudfront = new CloudfrontStack(app, 'CloudFrontStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-cloudfront`,
     alb: Alb.alb,
     domain: environmentConfig.aws.domain,
     publicHostedZone: HostedZones.publicHostedZone,
     certificate: CloudfrontCertificate.certificate,
-    crossRegionReferences: true,
+    crossRegionReferences: true
   })
 
   const FrontEndBucket = new FrontendBucketStack(app, 'FrontEndBucketStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-frontend-bucket`,
     environment: environmentName,
-    cloudFrontDistribution: Cloudfront.distribution,
+    cloudFrontDistribution: Cloudfront.distribution
   })
 
   const s3BucketStack = new S3Stack(app, 'S3BucketStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     environment: environmentName,
     aoeBucketName: environmentConfig.S3.aoeBucketName,
     aoePdfBucketName: environmentConfig.S3.aoePdfBucketName,
@@ -204,21 +201,21 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   const namespace = new NamespaceStack(app, 'NameSpaceStack', Network.vpc, {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     environment: environmentName
   })
 
   new FrontendStaticContentDeploymentStack(app, 'FrontEndContentDeploymentStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     crossRegionReferences: true,
     stackName: `${environmentName}-frontend-deployment`,
     environment: environmentName,
     bucket: FrontEndBucket.bucket,
-    cloudFrontDistribution: Cloudfront.distribution,
+    cloudFrontDistribution: Cloudfront.distribution
   })
 
   const FargateCluster = new FargateClusterStack(app, 'FargateClusterStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-fargate-cluster`,
     environment: environmentName,
     vpc: Network.vpc,
@@ -268,34 +265,27 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       'kafka-cluster:ListTopics',
       'kafka-cluster:AlterCluster'
     ],
-    resources: [mskKafka.kafkaCluster.attrArn],
-  });
+    resources: [mskKafka.kafkaCluster.attrArn]
+  })
 
   const kafkaTopicIamPolicy = new iam.PolicyStatement({
-    actions: [
-      "kafka-cluster:*Topic*",
-      "kafka-cluster:WriteData",
-      "kafka-cluster:ReadData"
-    ],
+    actions: ['kafka-cluster:*Topic*', 'kafka-cluster:WriteData', 'kafka-cluster:ReadData'],
     resources: [
       `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_material_activity`,
       `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:topic/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/prod_search_requests`
-    ],
-  });
+    ]
+  })
 
   const kafkaGroupIamPolicy = new iam.PolicyStatement({
-    actions: [
-      'kafka-cluster:AlterGroup',
-      'kafka-cluster:DescribeGroup',
-    ],
+    actions: ['kafka-cluster:AlterGroup', 'kafka-cluster:DescribeGroup'],
     resources: [
       `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-material-activity`,
       `arn:aws:kafka:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:group/${mskKafka.kafkaCluster.clusterName}/${cdk.Fn.select(2, cdk.Fn.split('/', mskKafka.kafkaCluster.attrArn))}/group-prod-search-requests`
-    ],
+    ]
   })
 
   new EcsServiceStack(app, 'DataAnalyticsEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-data-analytics-service`,
     serviceName: 'data-analytics',
     environment: environmentName,
@@ -312,11 +302,11 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env_vars: {
       ...environmentConfig.services.data_analytics.env_vars,
       ...{
-        "MONGODB_PRIMARY_HOST": docDb.clusterEndpoint.hostname,
-        "MONGODB_PRIMARY_PORT": docDb.clusterEndpoint.port,
-        "SPRING_DATASOURCE_PRIMARY_URL": `jdbc:postgresql://${WebBackendAurora.endPoint.hostname}:${WebBackendAurora.endPoint.port}/aoe`,
-        "SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS": mskKafka.bootstrapBrokers,
-        "SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS": mskKafka.bootstrapBrokers
+        MONGODB_PRIMARY_HOST: docDb.clusterEndpoint.hostname,
+        MONGODB_PRIMARY_PORT: docDb.clusterEndpoint.port,
+        SPRING_DATASOURCE_PRIMARY_URL: `jdbc:postgresql://${WebBackendAurora.endPoint.hostname}:${WebBackendAurora.endPoint.port}/aoe`,
+        SPRING_KAFKA_CONSUMER_BOOTSTRAPSERVERS: mskKafka.bootstrapBrokers,
+        SPRING_KAFKA_PRODUCER_BOOTSTRAPSERVERS: mskKafka.bootstrapBrokers
       }
     },
     parameter_store_secrets: [],
@@ -328,8 +318,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/analytics/api/*"],
-    healthCheckPath: "/analytics/api/status",
+    listenerPathPatterns: ['/analytics/api/*'],
+    healthCheckPath: '/analytics/api/status',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
@@ -339,7 +329,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   new EcsServiceStack(app, 'StreamingEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-streaming-app-service`,
     serviceName: 'streaming-app',
     environment: environmentName,
@@ -359,8 +349,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/stream/api/v1*"],
-    healthCheckPath: "/",
+    listenerPathPatterns: ['/stream/api/v1*'],
+    healthCheckPath: '/',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
@@ -370,7 +360,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
   })
 
   new EcsServiceStack(app, 'DataServicesEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-data-services`,
     serviceName: 'data-services',
     environment: environmentName,
@@ -390,8 +380,8 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/rest/oaipmh*"],
-    healthCheckPath: "/rest/health",
+    listenerPathPatterns: ['/rest/oaipmh*'],
+    healthCheckPath: '/rest/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
@@ -414,7 +404,7 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       'aoss:APIAccessAll'
     ],
     resources: [OpenSearch.collectionArn]
-  });
+  })
 
   const efsPolicyStatement = new iam.PolicyStatement({
     actions: [
@@ -424,10 +414,10 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       'elasticfilesystem:DescribeMountTargets'
     ],
     resources: [efs.fileSystem.fileSystemArn]
-  });
+  })
 
   new EcsServiceStack(app, 'WebBackendEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-web-backend-service`,
     serviceName: 'web-backend',
     environment: environmentName,
@@ -444,12 +434,12 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     env_vars: {
       ...environmentConfig.services.web_backend.env_vars,
       ...{
-        "REDIS_HOST": SemanticApisRedis.endpointAddress,
-        "REDIS_PORT": SemanticApisRedis.endpointPort,
-        "ES_NODE": OpenSearch.collectionEndpoint,
-        "POSTGRESQL_HOST": WebBackendAurora.endPoint.hostname,
-        "POSTGRESQL_PORT": WebBackendAurora.endPoint.port,
-        "KAFKA_BROKER_SERVERS": mskKafka.bootstrapBrokers
+        REDIS_HOST: SemanticApisRedis.endpointAddress,
+        REDIS_PORT: SemanticApisRedis.endpointPort,
+        ES_NODE: OpenSearch.collectionEndpoint,
+        POSTGRESQL_HOST: WebBackendAurora.endPoint.hostname,
+        POSTGRESQL_PORT: WebBackendAurora.endPoint.port,
+        KAFKA_BROKER_SERVERS: mskKafka.bootstrapBrokers
       }
     },
     parameter_store_secrets: [],
@@ -466,23 +456,23 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: [
-      "/api/*",
-      "/h5p/*",
-      "/embed/*",
-      "/content/*"],
-    healthCheckPath: "/",
+    listenerPathPatterns: ['/api/*', '/h5p/*', '/embed/*', '/content/*'],
+    healthCheckPath: '/',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 120,
-    iAmPolicyStatements: [aossPolicyStatement, s3PolicyStatement,
-      efsPolicyStatement, kafkaClusterIamPolicy, kafkaTopicIamPolicy
+    iAmPolicyStatements: [
+      aossPolicyStatement,
+      s3PolicyStatement,
+      efsPolicyStatement,
+      kafkaClusterIamPolicy,
+      kafkaTopicIamPolicy
     ],
     privateDnsNamespace: namespace.privateDnsNamespace,
     efs: {
       volume: {
-        name: "data",
+        name: 'data',
         efsVolumeConfiguration: {
           fileSystemId: efs.fileSystemId,
           transitEncryption: 'ENABLED',
@@ -495,13 +485,13 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
       mountPoint: {
         sourceVolume: 'data',
         containerPath: '/mnt/data',
-        readOnly: false,
+        readOnly: false
       }
     }
   })
 
   new EcsServiceStack(app, 'WebFrontendEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-web-frontend-service`,
     serviceName: 'web-frontend',
     environment: environmentName,
@@ -521,18 +511,18 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/*"],
-    healthCheckPath: "/health",
+    listenerPathPatterns: ['/*'],
+    healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 49000,
     iAmPolicyStatements: [],
-    privateDnsNamespace: namespace.privateDnsNamespace,
+    privateDnsNamespace: namespace.privateDnsNamespace
   })
 
   new EcsServiceStack(app, 'SemanticApisEcsService', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: `${environmentName}-semantic-apis-service`,
     serviceName: 'semantic-apis',
     environment: environmentName,
@@ -548,65 +538,60 @@ if (environmentName === 'dev' || environmentName === 'qa' || environmentName ===
     cpuArchitecture: CpuArchitecture.X86_64,
     env_vars: {
       ...environmentConfig.services.semantic_apis.env_vars,
-      ...{ "REDIS_HOST": SemanticApisRedis.endpointAddress }, "REDIS_PORT": SemanticApisRedis.endpointPort
+      ...{ REDIS_HOST: SemanticApisRedis.endpointAddress },
+      REDIS_PORT: SemanticApisRedis.endpointPort
     },
-    parameter_store_secrets: [
-    ],
-    secrets_manager_secrets: [
-      Secrets.secrets.REDIS_PASS,
-    ],
+    parameter_store_secrets: [],
+    secrets_manager_secrets: [Secrets.secrets.REDIS_PASS],
     utilityAccountId: utilityAccountId,
     alb: Alb.alb,
     listener: Alb.albListener,
-    listenerPathPatterns: ["/ref/api/v1*"],
-    healthCheckPath: "/health",
+    listenerPathPatterns: ['/ref/api/v1*'],
+    healthCheckPath: '/health',
     healthCheckGracePeriod: 180,
     healthCheckInterval: 5,
     healthCheckTimeout: 2,
     albPriority: 100,
     privateDnsNamespace: namespace.privateDnsNamespace
   })
-
-}
-else if (environmentName === 'utility') {
-
+} else if (environmentName === 'utility') {
   const Utility = new UtilityStack(app, 'UtilityStack', {
-    env: { region: "eu-west-1" },
-    stackName: `${environmentName}-utility`,
+    env: { region: 'eu-west-1' },
+    stackName: `${environmentName}-utility`
   })
 
   new EcrStack(app, 'FrontendEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-web-frontend-ecr',
     serviceName: 'aoe-web-frontend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'BackendEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-web-backend-ecr',
     serviceName: 'aoe-web-backend',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'SemanticApisEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-semantic-apis-ecr',
     serviceName: 'aoe-semantic-apis',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'StreamingAppEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-streaming-app-ecr',
     serviceName: 'aoe-streaming-app',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'DataServicesEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-data-services-ecr',
     serviceName: 'aoe-data-services',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
   })
   new EcrStack(app, 'DataAnalyticsEcrStack', {
-    env: { region: "eu-west-1" },
+    env: { region: 'eu-west-1' },
     stackName: 'aoe-data-analytics-ecr',
     serviceName: 'aoe-data-analytics',
     githubActionsDeploymentRole: Utility.githubActionsDeploymentRole
