@@ -82,7 +82,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
         })
         .on('httpHeaders', (status: number, headers: { [p: string]: string }) => {
           // Forward headers to the response
-          // res.set(headers);
           res.set({
             'Content-Length': headers['content-length'],
             'Content-Range': headers['content-range'],
@@ -118,8 +117,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             res.status(error.statusCode || 500);
             reject(error);
           }
-          // getRequest.abort();
-          // stream.end();
         })
         .once('end', () => {
           winstonLogger.debug(
@@ -128,8 +125,6 @@ export const getObjectAsStream = async (req: Request, res: Response): Promise<vo
             fileName,
           );
           resolve();
-          // getRequest.abort();
-          // stream.end();
         })
         .pipe(res);
     } catch (error) {
