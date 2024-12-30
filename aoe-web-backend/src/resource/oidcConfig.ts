@@ -56,7 +56,6 @@ export const authInit = (app: Express): void => {
   custom.setHttpOptionsDefaults({
     timeout: Number(process.env.HTTP_OPTIONS_TIMEOUT) || 5000,
     retry: Number(process.env.HTTP_OPTIONS_RETRY) || 2,
-    // clock_tolerance: Number(process.env.HTTP_OPTIONS_CLOCK_TOLERANCE) || 5,
   } as HttpOptions);
 
   app.use(passport.initialize());
@@ -89,10 +88,8 @@ export const authInit = (app: Express): void => {
     req.logout((done) => done());
     req.session.destroy((error): void => {
       winstonLogger.debug('Logout request /logout | session termination errors: %o', error);
-      // res.setHeader('Cache-Control', 'no-store');
       res.clearCookie('connect.sid', deleteCookie);
       res.status(200).json({ message: 'logged out' });
-      // res.redirect(['https://', config.SESSION_COOKIE_OPTIONS.domain, '/#/logout'].join(''));
     });
   });
 

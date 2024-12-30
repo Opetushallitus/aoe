@@ -36,16 +36,11 @@ public class RestConfiguration implements WebMvcConfigurer {
         objectMapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
         objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         objectMapper.enable(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT);
-        // ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.xml().build();
-        // objectMapper.enable(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER);
-        // objectMapper.enable(JsonGenerator.Feature.ESCAPE_NON_ASCII);
-        // objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
-        // objectMapper.registerModule(new JsonldModule());
         return objectMapper;
     }
 
     @Bean
-    @Profile({"prod", "test"})
+    @Profile({"prod"})
     public RestTemplate restTemplate() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         final SSLContext sslcontext = SSLContexts.custom()
             .loadTrustMaterial(null, new TrustAllStrategy())

@@ -66,7 +66,6 @@ export const downloadAndRenderH5P = async (req: Request, res: Response): Promise
   const options: { onlyInstallLibraries?: boolean } = {
     onlyInstallLibraries: false,
   };
-  let page: string | any;
   try {
     await directoryDownloadFromStorage(paramsS3, targetPath);
     const buffer: Buffer = await promises.readFile(targetPath);

@@ -60,8 +60,7 @@ const mode = new pgLib.txMode.TransactionMode({
 
 export const createEsIndex = async (): Promise<any> => {
   client.ping({
-    // ping usually has a 3000ms timeout
-    // requestTimeout: 1000
+
   }, async function(error: any) {
     if (error) {
       winstonLogger.error('OpenSearch connection is down: ' + error);
@@ -267,11 +266,9 @@ export async function metadataToEs(offset: number, limit: number) {
         });
     })
       .then(async (data: any) => {
-        // winstonLogger.debug("inserting data to elastic material number: " + (offset * limit + 1));
         if (data.length > 0) {
           const body = data.flatMap(doc => [{ index: { _index: index, _id: doc.id } }, doc]);
-          // winstonLogger.debug("THIS IS BODY:");
-          // winstonLogger.debug(JSON.stringify(body));
+
           const { body: bulkResponse } = await client.bulk({ refresh: false, body });
           if (bulkResponse.errors) {
             const erroredDocuments = [];
@@ -404,12 +401,7 @@ export const updateEsDocument = (updateCounters?: boolean): Promise<any> => {
           return q2;
         });
 
-        // response = await t.any(query, [q.id]);
         q.isbasedon = response;
-
-        // query = "select * from inlanguage where educationalmaterialid = $1;";
-        // response = await t.any(query, [q.id]);
-        // q.inlanguage = response;
 
         query = 'SELECT * FROM alignmentobject WHERE educationalmaterialid = $1';
         response = await t.any(query, [q.id]);
@@ -481,16 +473,12 @@ export async function createEsCollectionIndex() {
   try {
     const collectionIndex = process.env.ES_COLLECTION_INDEX;
     const result: boolean = await indexExists(collectionIndex);
-    // winstonLogger.debug("COLLECTION INDEX RESULT: " + result);
     if (result) {
       await deleteIndex(collectionIndex);
-      // winstonLogger.debug("COLLECTION DELETE INDEX RESULT: " + JSON.stringify(deleteResult));
     }
     const createIndexResult = await createIndex(collectionIndex);
-    // winstonLogger.debug("createIndexResult: " + JSON.stringify(createIndexResult));
     if (createIndexResult) {
       await addMapping(collectionIndex, process.env.ES_COLLECTION_MAPPING_FILE);
-      // winstonLogger.debug("mappingResult: " + JSON.stringify(mappingResult));
       let i = 0;
       let dataToEs;
       do {
