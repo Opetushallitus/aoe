@@ -68,7 +68,6 @@ declare global {
     // Reference Information
     materialDisplayNames?: MaterialDisplayName[];
     temporaryRecords?: TemporaryRecord[];
-    // records: Record[];
   }
 
   type MaterialType = typeof Model & {
