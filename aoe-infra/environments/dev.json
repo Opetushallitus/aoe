@@ -199,7 +199,8 @@
             "image_tag": "ga-205",
             "allow_ecs_exec": true,
             "env_vars": {
-                "LOG_LEVEL": "debug",
+                "NODE_ENV": "production",
+                "LOG_LEVEL": "error",
                 "PORT_LISTEN": "8080",
                 "REDIS_USERNAME": "app",
                 "REDIS_EXPIRE_TIME": "86400",
