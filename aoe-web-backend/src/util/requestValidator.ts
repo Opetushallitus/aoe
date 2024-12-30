@@ -16,7 +16,6 @@ export const addCollectionValidationRules = (): ValidationChain[] => {
     body('emId', 'emId expected').exists(),
     body('emId', 'Array emId expected').isArray(),
     body('emId.*').isInt(),
-    // body("emId").custom(arr => arr.every((e) => { return Number.isInteger(parseInt(e)); })),
   ];
 };
 

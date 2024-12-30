@@ -3,9 +3,6 @@ import { RedisClientOptions } from '@redis/client';
 import winstonLogger from '@util/winstonLogger';
 import { createClient } from 'redis';
 
-const redisHost: string = config.REDIS_OPTIONS.host;
-const redisPort: number = config.REDIS_OPTIONS.port;
-
 const redisClient = createClient({
   url: `${config.REDIS_OPTIONS.protocol}://${config.REDIS_OPTIONS.username}:${encodeURIComponent(
     config.REDIS_OPTIONS.pass,
