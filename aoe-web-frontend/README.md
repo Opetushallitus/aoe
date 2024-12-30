@@ -1,13 +1,4 @@
-# [AOE - Library of Open Educational Resources](https://github.com/CSCfi/aoe)
-
-## Service Component Links to GitHub Repositories
-
-- [aoe-data-analytics](https://github.com/CSCfi/aoe-data-analytics)
-- [aoe-data-services](https://github.com/CSCfi/aoe-data-services)
-- [aoe-semantic-apis](https://github.com/CSCfi/aoe-semantic-apis)
-- [aoe-streaming-app](https://github.com/CSCfi/aoe-streaming-app)
-- [aoe-web-backend](https://github.com/CSCfi/aoe-web-backend)
-- aoe-web-frontend
+# AOE Web frontend
 
 Project is based on [CoreUI Angular 2+ Admin template.](https://github.com/coreui/coreui-free-angular-admin-template)
 
@@ -15,15 +6,7 @@ Main tools are Angular, Bootstrap 4 and SASS
 
 ## Installation
 
-### Clone repo
-
 ``` bash
-# clone the repo
-$ git clone https://github.com/CSCfi/aoe-web-frontend.git
-
-# go into app's directory
-$ cd aoe-frontend
-
 # install app's dependencies
 $ npm install
 ```
